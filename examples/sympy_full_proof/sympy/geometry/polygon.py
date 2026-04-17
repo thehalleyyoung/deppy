@@ -45,14 +45,20 @@ x, y, T = [Dummy('polygon_dummy', real=True) for i in range(3)]
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Polygon(*args), correctly constructs a Polygon instance) over {Any | isinstance(o, Point) and isinstance(o, Polygon) and isinstance(other, GeometryEntity)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, GeometrySet)                  ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Polygon : {Any | isinstance(o, Point) and isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 5.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 304fbfe6a50251ed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon","kind":"class","src_hash":"6f7ad41614e7d6f0","in":{"base":"Any","pred":"isinstance(o, Point) and isinstance(o, Polygon) and isinstance(other, GeometryEntity)"},"out":{"base":"Any"},"spec":{"lhs":"Polygon(*args)","rhs":"correctly constructs a Polygon instance","over":{"base":"Any","pred":"isinstance(o, Point) and isinstance(o, Polygon) and isinstance(other, GeometryEntity)"},"name":"Polygon_class_invariant"},"guarantee":"correctly constructs a Polygon instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"304fbfe6a50251ed"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon","kind":"class","src_hash":"6f7ad41614e7d6f0","in":{"base":"Any","pred":"isinstance(o, Point) and isinstance(o, Polygon) and isinstance(other, GeometryEntity)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, GeometrySet)"},"spec":{"lhs":"Polygon(*args)","rhs":"correctly constructs a Polygon instance","over":{"base":"Any","pred":"isinstance(o, Point) and isinstance(o, Polygon) and isinstance(other, GeometryEntity)"},"name":"Polygon_class_invariant"},"guarantee":"isinstance(self, GeometrySet)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"304fbfe6a50251ed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, GeometrySet)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":5.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function Polygon not found in source"]}}
 class Polygon(GeometrySet):
     """A two-dimensional polygon.
 
@@ -148,16 +154,22 @@ class Polygon(GeometrySet):
     __slots__ = ()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, n), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 898d950c4ac9be9e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.__new__","kind":"method","src_hash":"0737ef91188d88d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"898d950c4ac9be9e"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.__new__","kind":"method","src_hash":"0737ef91188d88d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, n)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"898d950c4ac9be9e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, n = 0, **kwargs):
         if n:
             args = list(args)
@@ -203,16 +215,22 @@ class Polygon(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(area(), returns the area attribute) over Any          ║
+# ║ Path(area(), simplify(area) / 2) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  simplify(area) / 2                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ area : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0982a19e99f9664b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.area","kind":"property","src_hash":"b0147817a76792aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"area()","rhs":"returns the area attribute","over":{"base":"Any"},"name":"area_correct"},"guarantee":"returns the area attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0982a19e99f9664b"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.area","kind":"property","src_hash":"b0147817a76792aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"area()","rhs":"simplify(area) / 2","over":{"base":"Any"},"name":"area_correct"},"guarantee":"returns simplify(area) / 2","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0982a19e99f9664b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"simplify(area) / 2","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def area(self):
         """
         The area of the polygon.
@@ -263,16 +281,23 @@ class Polygon(GeometrySet):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_clockwise(a, ), return true/false for cw/ccw orientation) over Any ║
+# ║ Path(_is_clockwise(a, b, c), <unspecified:_is_clockwise>) over {Any | not (res is None)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _is_clockwise : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (res is None)                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _is_clockwise : {Any | not (res is None)} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6013885ade209c5b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon._is_clockwise","kind":"staticmethod","src_hash":"6d07a3b6b8d0e4c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_clockwise(a, )","rhs":"return true/false for cw/ccw orientation","over":{"base":"Any"},"name":"_is_clockwise_correct"},"guarantee":"return true/false for cw/ccw orientation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.Polygon._is_clockwise_correct","statement":"Path(_is_clockwise(x), return true/false for cw/ccw orientation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6013885ade209c5b"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon._is_clockwise","kind":"staticmethod","src_hash":"6d07a3b6b8d0e4c4","in":{"base":"Any","pred":"not (res is None)"},"out":{"base":"Any"},"spec":{"lhs":"_is_clockwise(a, b, c)","rhs":"<unspecified:_is_clockwise>","over":{"base":"Any","pred":"not (res is None)"},"name":"_is_clockwise_correct"},"guarantee":"return true/false for cw/ccw orientation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.Polygon._is_clockwise_correct","statement":"Path(_is_clockwise(x), return true/false for cw/ccw orientation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6013885ade209c5b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (res is None)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _is_clockwise(a, b, c):
         """Return True/False for cw/ccw orientation.
 
@@ -296,16 +321,22 @@ class Polygon(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(angles(), returns the angles attribute) over Any      ║
+# ║ Path(angles(), <unspecified:angles>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ angles : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 16658213dca075fa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.angles","kind":"property","src_hash":"3761ddb608d40e5e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"angles()","rhs":"returns the angles attribute","over":{"base":"Any"},"name":"angles_correct"},"guarantee":"returns the angles attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"16658213dca075fa"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.angles","kind":"property","src_hash":"3761ddb608d40e5e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"angles()","rhs":"<unspecified:angles>","over":{"base":"Any"},"name":"angles_correct"},"guarantee":"returns the angles attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"16658213dca075fa","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._is_clockwise","self.vertices"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def angles(self):
         """The internal angle at each vertex.
 
@@ -359,31 +390,43 @@ class Polygon(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ambient_dimension(), returns the ambient_dimension attribute) over Any ║
+# ║ Path(ambient_dimension(), self.vertices[0].ambient_dimension) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.vertices[0].ambient_dimension             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ambient_dimension : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ff972296f15e6f55           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.ambient_dimension","kind":"property","src_hash":"6cba631598386a6e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ambient_dimension()","rhs":"returns the ambient_dimension attribute","over":{"base":"Any"},"name":"ambient_dimension_correct"},"guarantee":"returns the ambient_dimension attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ff972296f15e6f55"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.ambient_dimension","kind":"property","src_hash":"6cba631598386a6e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ambient_dimension()","rhs":"self.vertices[0].ambient_dimension","over":{"base":"Any"},"name":"ambient_dimension_correct"},"guarantee":"returns self.vertices[0].ambient_dimension","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ff972296f15e6f55","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.vertices[0].ambient_dimension","pure":false,"effects":{"effect_type":"reads_state","reads":["self.vertices"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ambient_dimension(self):
         return self.vertices[0].ambient_dimension
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(perimeter(), returns the perimeter attribute) over Any ║
+# ║ Path(perimeter(), simplify(p)) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  simplify(p)                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ perimeter : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1b85296293fb6e34           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.perimeter","kind":"property","src_hash":"fad5198e5c8dbdab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"perimeter()","rhs":"returns the perimeter attribute","over":{"base":"Any"},"name":"perimeter_correct"},"guarantee":"returns the perimeter attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1b85296293fb6e34"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.perimeter","kind":"property","src_hash":"fad5198e5c8dbdab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"perimeter()","rhs":"simplify(p)","over":{"base":"Any"},"name":"perimeter_correct"},"guarantee":"returns simplify(p)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1b85296293fb6e34","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"simplify(p)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.vertices"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def perimeter(self):
         """The perimeter of the polygon.
 
@@ -414,16 +457,22 @@ class Polygon(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(vertices(), returns the vertices attribute) over Any  ║
+# ║ Path(vertices(), list(self.args)) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  list(self.args)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ vertices : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8d74f8c030980a60           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.vertices","kind":"property","src_hash":"a294b2bb6d2de8b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vertices()","rhs":"returns the vertices attribute","over":{"base":"Any"},"name":"vertices_correct"},"guarantee":"returns the vertices attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8d74f8c030980a60"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.vertices","kind":"property","src_hash":"a294b2bb6d2de8b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vertices()","rhs":"list(self.args)","over":{"base":"Any"},"name":"vertices_correct"},"guarantee":"returns list(self.args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8d74f8c030980a60","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"list(self.args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def vertices(self):
         """The vertices of the polygon.
 
@@ -461,16 +510,22 @@ class Polygon(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(centroid(), returns the centroid attribute) over Any  ║
+# ║ Path(centroid(), Point(simplify(A * cx), simplify(A * cy))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Point(simplify(A * cx), simplify(A * cy))      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ centroid : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 67120371439137a6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.centroid","kind":"property","src_hash":"1cd7d556e709218a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"centroid()","rhs":"returns the centroid attribute","over":{"base":"Any"},"name":"centroid_correct"},"guarantee":"returns the centroid attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"67120371439137a6"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.centroid","kind":"property","src_hash":"1cd7d556e709218a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"centroid()","rhs":"Point(simplify(A * cx), simplify(A * cy))","over":{"base":"Any"},"name":"centroid_correct"},"guarantee":"returns Point(simplify(A * cx), simplify(A * cy))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"67120371439137a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Point(simplify(A * cx), simplify(A * cy))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.area","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def centroid(self):
         """The centroid of the polygon.
 
@@ -507,16 +562,22 @@ class Polygon(GeometrySet):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(second_moment_of_area(poi), returns the second moment and product moment of area of a two dimensional polygon) over Any ║
+# ║ Path(second_moment_of_area(point), <unspecified:second_moment_of_area>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ second_moment_of_area : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd1b6137ab99fa5a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.second_moment_of_area","kind":"method","src_hash":"3d2c3c5928710b8b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"second_moment_of_area(poi)","rhs":"returns the second moment and product moment of area of a two dimensional polygon","over":{"base":"Any"},"name":"second_moment_of_area_correct"},"guarantee":"returns the second moment and product moment of area of a two dimensional polygon","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.Polygon.second_moment_of_area_correct","statement":"Path(second_moment_of_area(x), returns the second moment and product moment of area of a two dimensional polygon)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd1b6137ab99fa5a"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.second_moment_of_area","kind":"method","src_hash":"3d2c3c5928710b8b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"second_moment_of_area(point)","rhs":"<unspecified:second_moment_of_area>","over":{"base":"Any"},"name":"second_moment_of_area_correct"},"guarantee":"returns the second moment and product moment of area of a two dimensional polygon","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.Polygon.second_moment_of_area_correct","statement":"Path(second_moment_of_area(x), returns the second moment and product moment of area of a two dimensional polygon)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd1b6137ab99fa5a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.area","self.centroid","self.vertices"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def second_moment_of_area(self, point=None):
         """Returns the second moment and product moment of area of a two dimensional polygon.
 
@@ -581,16 +642,22 @@ class Polygon(GeometrySet):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(first_moment_of_area(poi), returns the first moment of area of a two-dimensional polygon with respect to a certain point of interest) over Any ║
+# ║ Path(first_moment_of_area(point), (Q_x, Q_y)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (Q_x, Q_y)                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ first_moment_of_area : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1983fd7cdaeece2e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24af7d3dbb26b42c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.first_moment_of_area","kind":"method","src_hash":"12d9fe3a202de874","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"first_moment_of_area(poi)","rhs":"returns the first moment of area of a two-dimensional polygon with respect to a certain point of interest","over":{"base":"Any"},"name":"first_moment_of_area_correct"},"guarantee":"returns the first moment of area of a two-dimensional polygon with respect to a certain point of interest","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.Polygon.first_moment_of_area_correct","statement":"Path(first_moment_of_area(x), returns the first moment of area of a two-dimensional polygon with respect to a certain point of interest)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1983fd7cdaeece2e"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.first_moment_of_area","kind":"method","src_hash":"12d9fe3a202de874","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"first_moment_of_area(point)","rhs":"(Q_x, Q_y)","over":{"base":"Any"},"name":"first_moment_of_area_correct"},"guarantee":"returns (Q_x, Q_y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.Polygon.first_moment_of_area_correct","statement":"Path(first_moment_of_area(x), returns (Q_x, Q_y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24af7d3dbb26b42c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(Q_x, Q_y)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.centroid","self.cut_section"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def first_moment_of_area(self, point=None):
         """
         Returns the first moment of area of a two-dimensional polygon with
@@ -661,16 +728,22 @@ class Polygon(GeometrySet):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(polar_second_moment_of_area(), returns the polar modulus of a two-dimensional polygon) over Any ║
+# ║ Path(polar_second_moment_of_area(), second_moment[0] + second_moment[1]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  second_moment[0] + second_moment[1]            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ polar_second_moment_of_area : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d87b7c421e5ac08  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af849705fb5e51fe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.polar_second_moment_of_area","kind":"method","src_hash":"706a663b5b630f47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"polar_second_moment_of_area()","rhs":"returns the polar modulus of a two-dimensional polygon","over":{"base":"Any"},"name":"polar_second_moment_of_area_correct"},"guarantee":"returns the polar modulus of a two-dimensional polygon","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.Polygon.polar_second_moment_of_area_correct","statement":"Path(polar_second_moment_of_area(x), returns the polar modulus of a two-dimensional polygon)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d87b7c421e5ac08"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.polar_second_moment_of_area","kind":"method","src_hash":"706a663b5b630f47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"polar_second_moment_of_area()","rhs":"second_moment[0] + second_moment[1]","over":{"base":"Any"},"name":"polar_second_moment_of_area_correct"},"guarantee":"returns second_moment[0] + second_moment[1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.Polygon.polar_second_moment_of_area_correct","statement":"Path(polar_second_moment_of_area(x), returns second_moment[0] + second_moment[1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af849705fb5e51fe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"second_moment[0] + second_moment[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.second_moment_of_area"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def polar_second_moment_of_area(self):
         """Returns the polar modulus of a two-dimensional polygon
 
@@ -703,16 +776,24 @@ class Polygon(GeometrySet):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(section_modulus(poi), returns a tuple with the section modulus of a two-dimensional polygon) over Any ║
+# ║ Path(section_modulus(point), (S_x, S_y)) over {Any | hasattr(point, 'y') and hasattr(point, 'x')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ section_modulus : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(point, 'y')                            ║
+# ║   requires: hasattr(point, 'x')                            ║
+# ║   returns:  (S_x, S_y)                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ section_modulus : {Any | hasattr(point, 'y') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f090873917ebed2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 12f826e1745c5c4f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.section_modulus","kind":"method","src_hash":"e8b0618cfbb1fa32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"section_modulus(poi)","rhs":"returns a tuple with the section modulus of a two-dimensional polygon","over":{"base":"Any"},"name":"section_modulus_correct"},"guarantee":"returns a tuple with the section modulus of a two-dimensional polygon","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.Polygon.section_modulus_correct","statement":"Path(section_modulus(x), returns a tuple with the section modulus of a two-dimensional polygon)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f090873917ebed2"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.section_modulus","kind":"method","src_hash":"e8b0618cfbb1fa32","in":{"base":"Any","pred":"hasattr(point, 'y') and hasattr(point, 'x')"},"out":{"base":"Any"},"spec":{"lhs":"section_modulus(point)","rhs":"(S_x, S_y)","over":{"base":"Any","pred":"hasattr(point, 'y') and hasattr(point, 'x')"},"name":"section_modulus_correct"},"guarantee":"returns (S_x, S_y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.Polygon.section_modulus_correct","statement":"Path(section_modulus(x), returns (S_x, S_y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12f826e1745c5c4f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(point, 'y')","hasattr(point, 'x')"],"returns_expr":"(S_x, S_y)","pure":false,"effects":{"effect_type":"reads_state","reads":["point.x","point.y","self.bounds","self.centroid","self.second_moment_of_area"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def section_modulus(self, point=None):
         """Returns a tuple with the section modulus of a two-dimensional
         polygon.
@@ -775,16 +856,22 @@ class Polygon(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sides(), returns the sides attribute) over Any        ║
+# ║ Path(sides(), <unspecified:sides>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sides : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ec18e34dcca73119           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.sides","kind":"property","src_hash":"ed3cd12f93503115","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sides()","rhs":"returns the sides attribute","over":{"base":"Any"},"name":"sides_correct"},"guarantee":"returns the sides attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ec18e34dcca73119"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.sides","kind":"property","src_hash":"ed3cd12f93503115","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sides()","rhs":"<unspecified:sides>","over":{"base":"Any"},"name":"sides_correct"},"guarantee":"returns the sides attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ec18e34dcca73119","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def sides(self):
         """The directed line segments that form the sides of the polygon.
 
@@ -819,16 +906,22 @@ class Polygon(GeometrySet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bounds(), returns the bounds attribute) over Any      ║
+# ║ Path(bounds(), (min(xs), min(ys), max(xs), max(ys))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (min(xs), min(ys), max(xs), max(ys))           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bounds : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 05fa424d3a442ab1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.bounds","kind":"property","src_hash":"f5d15e5a602006e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bounds()","rhs":"returns the bounds attribute","over":{"base":"Any"},"name":"bounds_correct"},"guarantee":"returns the bounds attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"05fa424d3a442ab1"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.bounds","kind":"property","src_hash":"f5d15e5a602006e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bounds()","rhs":"(min(xs), min(ys), max(xs), max(ys))","over":{"base":"Any"},"name":"bounds_correct"},"guarantee":"returns (min(xs), min(ys), max(xs), max(ys))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"05fa424d3a442ab1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(min(xs), min(ys), max(xs), max(ys))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.vertices"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def bounds(self):
         """Return a tuple (xmin, ymin, xmax, ymax) representing the bounding
         rectangle for the geometric figure.
@@ -841,16 +934,22 @@ class Polygon(GeometrySet):
         return (min(xs), min(ys), max(xs), max(ys))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_convex(), is the polygon convex?) over Any         ║
+# ║ Path(is_convex(), <unspecified:is_convex>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_convex : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9dddc9c310c18b1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.is_convex","kind":"method","src_hash":"ae199447109194b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_convex()","rhs":"is the polygon convex?","over":{"base":"Any"},"name":"is_convex_correct"},"guarantee":"is the polygon convex?","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.Polygon.is_convex_correct","statement":"Path(is_convex(x), is the polygon convex?)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9dddc9c310c18b1"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.is_convex","kind":"method","src_hash":"ae199447109194b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_convex()","rhs":"<unspecified:is_convex>","over":{"base":"Any"},"name":"is_convex_correct"},"guarantee":"is the polygon convex?","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.Polygon.is_convex_correct","statement":"Path(is_convex(x), is the polygon convex?)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9dddc9c310c18b1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._is_clockwise","self.sides","self.vertices"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_convex(self):
         """Is the polygon convex?
 
@@ -898,16 +997,22 @@ class Polygon(GeometrySet):
         return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(encloses_point(p), return true if p is enclosed by (is inside of) self) over Any ║
+# ║ Path(encloses_point(p), <unspecified:encloses_point>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ encloses_point : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c7f1a9e1475a34d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.encloses_point","kind":"method","src_hash":"6313ac2050402a54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"encloses_point(p)","rhs":"return true if p is enclosed by (is inside of) self","over":{"base":"Any"},"name":"encloses_point_correct"},"guarantee":"return true if p is enclosed by (is inside of) self","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.Polygon.encloses_point_correct","statement":"Path(encloses_point(x), return true if p is enclosed by (is inside of) self)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c7f1a9e1475a34d"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.encloses_point","kind":"method","src_hash":"6313ac2050402a54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"encloses_point(p)","rhs":"<unspecified:encloses_point>","over":{"base":"Any"},"name":"encloses_point_correct"},"guarantee":"return true if p is enclosed by (is inside of) self","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.Polygon.encloses_point_correct","statement":"Path(encloses_point(x), return true if p is enclosed by (is inside of) self)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c7f1a9e1475a34d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def encloses_point(self, p):
         """
         Return True if p is enclosed by (is inside of) self.
@@ -996,16 +1101,24 @@ class Polygon(GeometrySet):
         return hit_odd
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(arbitrary_point(par), a parameterized point on the polygon) over Any ║
+# ║ Path(arbitrary_point(parameter), Piecewise(*sides)) over {Any | not (t.name in (f.name for f in self.free_symbols))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ arbitrary_point : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (t.name in (f.name for f in self.free...   ║
+# ║   ensures:  len(sides) == old_len_sides + 1                ║
+# ║   returns:  Piecewise(*sides)                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ arbitrary_point : {Any | not (t.name in (f.name for f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f589f0999877c22f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 606449308d0498cf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.arbitrary_point","kind":"method","src_hash":"b061e18c044d4e8f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"arbitrary_point(par)","rhs":"a parameterized point on the polygon","over":{"base":"Any"},"name":"arbitrary_point_correct"},"guarantee":"a parameterized point on the polygon","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.Polygon.arbitrary_point_correct","statement":"Path(arbitrary_point(x), a parameterized point on the polygon)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f589f0999877c22f"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.arbitrary_point","kind":"method","src_hash":"b061e18c044d4e8f","in":{"base":"Any","pred":"not (t.name in (f.name for f in self.free_symbols))"},"out":{"base":"Any","pred":"result satisfies: result == (Piecewise(*sides))"},"spec":{"lhs":"arbitrary_point(parameter)","rhs":"Piecewise(*sides)","over":{"base":"Any","pred":"not (t.name in (f.name for f in self.free_symbols))"},"name":"arbitrary_point_correct"},"guarantee":"returns Piecewise(*sides); len(sides) == old_len_sides + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.Polygon.arbitrary_point_correct","statement":"Path(arbitrary_point(x), returns Piecewise(*sides); len(sides) == old_len_sides + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"606449308d0498cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (t.name in (f.name for f in self.free_symbols))"],"ensures":["len(sides) == old_len_sides + 1"],"returns_expr":"Piecewise(*sides)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.free_symbols","self.perimeter","self.sides"],"calls_mutating":["sides.append"],"raises":["ValueError"]},"state_contract":{"modifies":["sides.*"],"old_bindings":{"old_len_sides":"len(sides)"},"post_ensures":["len(sides) == old_len_sides + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def arbitrary_point(self, parameter='t'):
         """A parameterized point on the polygon.
 
@@ -1066,16 +1179,25 @@ class Polygon(GeometrySet):
         return Piecewise(*sides)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parameter_value(oth), parameter_value produces the expected output) over Any ║
+# ║ Path(parameter_value(other, t), {t: value}) over {Any | isinstance(other, Point) and not (other.free_symbols) and hasattr(other, 'free_symbols')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ parameter_value : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(other, Point)                       ║
+# ║   requires: not (other.free_symbols)                       ║
+# ║   requires: hasattr(other, 'free_symbols')                 ║
+# ║   returns:  {t: value}                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ parameter_value : {Any | isinstance(other, Point) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b3b18bf788b0f2d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e788e49bc2ab5f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.parameter_value","kind":"method","src_hash":"4cbae0981356946b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parameter_value(oth)","rhs":"parameter_value produces the expected output","over":{"base":"Any"},"name":"parameter_value_correct"},"guarantee":"parameter_value produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.Polygon.parameter_value_correct","statement":"Path(parameter_value(x), parameter_value produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b3b18bf788b0f2d"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.parameter_value","kind":"method","src_hash":"4cbae0981356946b","in":{"base":"Any","pred":"isinstance(other, Point) and not (other.free_symbols) and hasattr(other, 'free_symbols')"},"out":{"base":"Any"},"spec":{"lhs":"parameter_value(other, t)","rhs":"{t: value}","over":{"base":"Any","pred":"isinstance(other, Point) and not (other.free_symbols) and hasattr(other, 'free_symbols')"},"name":"parameter_value_correct"},"guarantee":"returns {t: value}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.Polygon.parameter_value_correct","statement":"Path(parameter_value(x), returns {t: value})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e788e49bc2ab5f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(other, Point)","not (other.free_symbols)","hasattr(other, 'free_symbols')"],"returns_expr":"{t: value}","pure":false,"effects":{"effect_type":"reads_state","reads":["other.free_symbols","self.ambient_dimension","self.arbitrary_point"],"raises":["NotImplementedError","ValueError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def parameter_value(self, other, t):
         if not isinstance(other,GeometryEntity):
             other = Point(other, dim=self.ambient_dimension)
@@ -1098,16 +1220,22 @@ class Polygon(GeometrySet):
         raise ValueError("Given point is not on %s" % func_name(self))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(plot_interval(par), the plot interval for the default geometric plot of the polygon) over Any ║
+# ║ Path(plot_interval(parameter), [t, 0, 1]) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [t, 0, 1]                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ plot_interval : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 11a984ad9f68f842  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83b53d6403f330a4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.plot_interval","kind":"method","src_hash":"2a71bc94f6227804","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_interval(par)","rhs":"the plot interval for the default geometric plot of the polygon","over":{"base":"Any"},"name":"plot_interval_correct"},"guarantee":"the plot interval for the default geometric plot of the polygon","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.Polygon.plot_interval_correct","statement":"Path(plot_interval(x), the plot interval for the default geometric plot of the polygon)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11a984ad9f68f842"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.plot_interval","kind":"method","src_hash":"2a71bc94f6227804","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_interval(parameter)","rhs":"[t, 0, 1]","over":{"base":"Any"},"name":"plot_interval_correct"},"guarantee":"returns [t, 0, 1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.Polygon.plot_interval_correct","statement":"Path(plot_interval(x), returns [t, 0, 1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83b53d6403f330a4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[t, 0, 1]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def plot_interval(self, parameter='t'):
         """The plot interval for the default geometric plot of the polygon.
 
@@ -1136,16 +1264,26 @@ class Polygon(GeometrySet):
         return [t, 0, 1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(intersection(o), id) over Any                         ║
+# ║ Path(intersection(o), id) over {Any | hasattr(o, 'sides')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ intersection : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(o, 'sides')                            ║
+# ║   ensures:  result == (list(ordered(segments + points...   ║
+# ║   ensures:  result == list(ordered(segments + points)...   ║
+# ║   fiber[case_0]: points and segments => list(ordered(...   ║
+# ║   fiber[case_1]: not (points and segments) => list(or...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ intersection : {Any | hasattr(o, 'sides')} → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 0ffa939f72484470   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.intersection","kind":"method","src_hash":"e669c92cb61ee47a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"intersection(o)","rhs":"the intersection of polygon and geometry entity","over":{"base":"Any"},"name":"intersection_correct","kind":"composition"},"guarantee":"the intersection of polygon and geometry entity","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"ordered","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ffa939f72484470"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.intersection","kind":"method","src_hash":"e669c92cb61ee47a","in":{"base":"Any","pred":"hasattr(o, 'sides')"},"out":{"base":"Any","pred":"result satisfies: result == (list(ordered(segments + points)) if points and segments else list(ordered(intersection_result))) and result == list(ordered(segments + points)) or result == list(ordered(intersection_result))"},"spec":{"lhs":"intersection(o)","rhs":"result == (list(ordered(segments + points)) if points and segments else list(ordered(intersection_result))) and result == list(ordered(segments + points)) or result == list(ordered(intersection_result))","over":{"base":"Any","pred":"hasattr(o, 'sides')"},"name":"intersection_correct","kind":"composition"},"guarantee":"result == (list(ordered(segments + points)) if points and segments else list(ordered(intersection_result))); result == list(ordered(segments + points)) or result == list(ordered(intersection_result)); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"ordered","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ffa939f72484470","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(o, 'sides')"],"ensures":["result == (list(ordered(segments + points)) if points and segments else list(ordered(intersection_result)))","result == list(ordered(segments + points)) or result == list(ordered(intersection_result))"],"fibers":[{"name":"case_0","guard":"points and segments","ensures":["result == list(ordered(segments + points))"],"decidability":"library","returns_expr":"list(ordered(segments + points))"},{"name":"case_1","guard":"not (points and segments)","ensures":["result == list(ordered(intersection_result))"],"decidability":"library","returns_expr":"list(ordered(intersection_result))"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def intersection(self, o):
         """The intersection of polygon and geometry entity.
 
@@ -1204,16 +1342,27 @@ class Polygon(GeometrySet):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cut_section(lin), returns a tuple of two polygon segments that lie above and below the intersecting line respectively) over Any ║
+# ║ Path(cut_section(line), (upper_polygon, lower_polygon)) over {Any | intersection_points and hasattr(line, 'equation')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ cut_section : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: intersection_points                            ║
+# ║   requires: hasattr(line, 'equation')                      ║
+# ║   ensures:  len(lower_vertices) == old_len_lower_vert...   ║
+# ║   ensures:  len(points) == old_len_points + 1              ║
+# ║   ensures:  len(upper_vertices) == old_len_upper_vert...   ║
+# ║   returns:  (upper_polygon, lower_polygon)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ cut_section : {Any | intersection_points and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a714ea6363d028d2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fd061d4f4a40c91c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.cut_section","kind":"method","src_hash":"50a7c44a2a2582cc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cut_section(lin)","rhs":"returns a tuple of two polygon segments that lie above and below the intersecting line respectively","over":{"base":"Any"},"name":"cut_section_correct"},"guarantee":"returns a tuple of two polygon segments that lie above and below the intersecting line respectively","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.Polygon.cut_section_correct","statement":"Path(cut_section(x), returns a tuple of two polygon segments that lie above and below the intersecting line respectively)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a714ea6363d028d2"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.cut_section","kind":"method","src_hash":"50a7c44a2a2582cc","in":{"base":"Any","pred":"intersection_points and hasattr(line, 'equation')"},"out":{"base":"Any","pred":"result satisfies: result == ((upper_polygon, lower_polygon))"},"spec":{"lhs":"cut_section(line)","rhs":"(upper_polygon, lower_polygon)","over":{"base":"Any","pred":"intersection_points and hasattr(line, 'equation')"},"name":"cut_section_correct"},"guarantee":"returns (upper_polygon, lower_polygon); len(lower_vertices) == old_len_lower_vertices + 1; len(points) == old_len_points + 1; len(upper_vertices) == old_len_upper_vertices + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.Polygon.cut_section_correct","statement":"Path(cut_section(x), returns (upper_polygon, lower_polygon); len(lower_vertices) == old_len_lower_vertices + 1; len(points) == old_len_points + 1; len(upper_vertices) == old_len_upper_vertices + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd061d4f4a40c91c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["intersection_points","hasattr(line, 'equation')"],"ensures":["len(lower_vertices) == old_len_lower_vertices + 1","len(points) == old_len_points + 1","len(upper_vertices) == old_len_upper_vertices + 1"],"returns_expr":"(upper_polygon, lower_polygon)","pure":false,"effects":{"effect_type":"reads_state","reads":["line.equation","self.intersection","self.vertices"],"calls_mutating":["lower_vertices.append","points.append","upper_vertices.append"],"raises":["ValueError"]},"state_contract":{"modifies":["lower_vertices.*","points.*","upper_vertices.*"],"old_bindings":{"old_len_lower_vertices":"len(lower_vertices)","old_len_points":"len(points)","old_len_upper_vertices":"len(upper_vertices)"},"post_ensures":["len(lower_vertices) == old_len_lower_vertices + 1","len(points) == old_len_points + 1","len(upper_vertices) == old_len_upper_vertices + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cut_section(self, line):
         """
         Returns a tuple of two polygon segments that lie above and below
@@ -1321,16 +1470,26 @@ class Polygon(GeometrySet):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(distance(o), returns the shortest distance between self and o) over Any ║
+# ║ Path(distance(o), result == (dist if isinstance(o, Point) else self._do_poly_distance(o)) and result == dist or result == self._do_poly_distance(o)) over {Any | hasattr(o, 'is_convex')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ distance : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(o, 'is_convex')                        ║
+# ║   ensures:  result == (dist if isinstance(o, Point) e...   ║
+# ║   ensures:  result == dist or result == self._do_poly...   ║
+# ║   fiber[Point]: isinstance(o, Point) => dist               ║
+# ║   fiber[Polygon]: isinstance(o, Polygon) and self.is_...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ distance : {Any | hasattr(o, 'is_convex')} → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8bbb39f4c92569ea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f48f1961225aedaa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.distance","kind":"method","src_hash":"493264ba695c86f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"distance(o)","rhs":"returns the shortest distance between self and o","over":{"base":"Any"},"name":"distance_correct"},"guarantee":"returns the shortest distance between self and o","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.Polygon.distance_correct","statement":"Path(distance(x), returns the shortest distance between self and o)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8bbb39f4c92569ea"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.distance","kind":"method","src_hash":"493264ba695c86f4","in":{"base":"Any","pred":"hasattr(o, 'is_convex')"},"out":{"base":"Any","pred":"result satisfies: result == (dist if isinstance(o, Point) else self._do_poly_distance(o)) and result == dist or result == self._do_poly_distance(o)"},"spec":{"lhs":"distance(o)","rhs":"result == (dist if isinstance(o, Point) else self._do_poly_distance(o)) and result == dist or result == self._do_poly_distance(o)","over":{"base":"Any","pred":"hasattr(o, 'is_convex')"},"name":"distance_correct"},"guarantee":"result == (dist if isinstance(o, Point) else self._do_poly_distance(o)); result == dist or result == self._do_poly_distance(o); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.Polygon.distance_correct","statement":"Path(distance(x), result == (dist if isinstance(o, Point) else self._do_poly_distance(o)); result == dist or result == self._do_poly_distance(o); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f48f1961225aedaa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(o, 'is_convex')"],"ensures":["result == (dist if isinstance(o, Point) else self._do_poly_distance(o))","result == dist or result == self._do_poly_distance(o)"],"fibers":[{"name":"Point","guard":"isinstance(o, Point)","ensures":["result == dist"],"decidability":"structural","returns_expr":"dist"},{"name":"Polygon","guard":"isinstance(o, Polygon) and self.is_convex() and o.is_convex()","ensures":["result == self._do_poly_distance(o)"],"decidability":"structural","returns_expr":"self._do_poly_distance(o)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["o.is_convex","self._do_poly_distance","self.is_convex","self.sides"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def distance(self, o):
         """
         Returns the shortest distance between self and o.
@@ -1361,16 +1520,25 @@ class Polygon(GeometrySet):
         raise NotImplementedError()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_do_poly_distance(e2), calculates the least distance between the exteriors of two convex polygons e1 and e2) over Any ║
+# ║ Path(_do_poly_distance(e2), <unspecified:_do_poly_distance>) over {Any | hasattr(e2, 'centroid') and hasattr(e2, 'vertices') and hasattr(e2, 'sides')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _do_poly_distance : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e2, 'centroid')                        ║
+# ║   requires: hasattr(e2, 'vertices')                        ║
+# ║   requires: hasattr(e2, 'sides')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _do_poly_distance : {Any | hasattr(e2, 'centroid') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e1607be3859f15f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon._do_poly_distance","kind":"method","src_hash":"48682b033a475d3c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_do_poly_distance(e2)","rhs":"calculates the least distance between the exteriors of two convex polygons e1 and e2","over":{"base":"Any"},"name":"_do_poly_distance_correct"},"guarantee":"calculates the least distance between the exteriors of two convex polygons e1 and e2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.Polygon._do_poly_distance_correct","statement":"Path(_do_poly_distance(x), calculates the least distance between the exteriors of two convex polygons e1 and e2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e1607be3859f15f"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon._do_poly_distance","kind":"method","src_hash":"48682b033a475d3c","in":{"base":"Any","pred":"hasattr(e2, 'centroid') and hasattr(e2, 'vertices') and hasattr(e2, 'sides')"},"out":{"base":"Any"},"spec":{"lhs":"_do_poly_distance(e2)","rhs":"<unspecified:_do_poly_distance>","over":{"base":"Any","pred":"hasattr(e2, 'centroid') and hasattr(e2, 'vertices') and hasattr(e2, 'sides')"},"name":"_do_poly_distance_correct"},"guarantee":"calculates the least distance between the exteriors of two convex polygons e1 and e2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.Polygon._do_poly_distance_correct","statement":"Path(_do_poly_distance(x), calculates the least distance between the exteriors of two convex polygons e1 and e2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e1607be3859f15f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e2, 'centroid')","hasattr(e2, 'vertices')","hasattr(e2, 'sides')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e2.centroid","e2.sides","e2.vertices"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _do_poly_distance(self, e2):
         """
         Calculates the least distance between the exteriors of two
@@ -1572,16 +1740,22 @@ class Polygon(GeometrySet):
         return min_dist
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_svg(sca), returns svg path element for the polygon) over Any ║
+# ║ Path(_svg(scale_factor, fill_color), '<path fill-rule="evenodd" fill="{2}" stroke="#555555" stroke-width="{0}" opacity="0.6" d="{1}" />'.format(2.0 * scale_factor, path, fill_color)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '<path fill-rule="evenodd" fill="{2}" str...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _svg : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b329b272dc262fb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d6e48642b83d70c1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon._svg","kind":"method","src_hash":"c2d2d7c73a4f61b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_svg(sca)","rhs":"returns svg path element for the polygon","over":{"base":"Any"},"name":"_svg_correct"},"guarantee":"returns svg path element for the polygon","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.Polygon._svg_correct","statement":"Path(_svg(x), returns svg path element for the polygon)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b329b272dc262fb"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon._svg","kind":"method","src_hash":"c2d2d7c73a4f61b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_svg(scale_factor, fill_color)","rhs":"'<path fill-rule=\"evenodd\" fill=\"{2}\" stroke=\"#555555\" stroke-width=\"{0}\" opacity=\"0.6\" d=\"{1}\" />'.format(2.0 * scale_factor, path, fill_color)","over":{"base":"Any"},"name":"_svg_correct"},"guarantee":"returns '<path fill-rule=\"evenodd\" fill=\"{2}\" stroke=\"#555555\" stroke-width=\"{0}\" opacity=\"0.6\" d=\"{1}\" />'.format(2.0 * scale_factor, path, fill_color)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.Polygon._svg_correct","statement":"Path(_svg(x), returns '<path fill-rule=\"evenodd\" fill=\"{2}\" stroke=\"#555555\" stroke-width=\"{0}\" opacity=\"0.6\" d=\"{1}\" />'.format(2.0 * scale_factor, path, fill_color))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6e48642b83d70c1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'<path fill-rule=\"evenodd\" fill=\"{2}\" stroke=\"#555555\" stroke-width=\"{0}\" opacity=\"0.6\" d=\"{1}\" />'.format(2.0 * scale_factor, path, fill_color)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.vertices"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _svg(self, scale_factor=1., fill_color="#66cc99"):
         """Returns SVG path element for the Polygon.
 
@@ -1602,16 +1776,22 @@ class Polygon(GeometrySet):
             ).format(2. * scale_factor, path, fill_color)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_hashable_content(), internal helper behaves correctly) over Any ║
+# ║ Path(_hashable_content(), <unspecified:_hashable_content>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _hashable_content : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e165d657a525393  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon._hashable_content","kind":"method","src_hash":"8868596ebdc8a9a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_hashable_content()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_hashable_content_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.Polygon._hashable_content_correct","statement":"Path(_hashable_content(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e165d657a525393"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon._hashable_content","kind":"method","src_hash":"8868596ebdc8a9a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_hashable_content()","rhs":"<unspecified:_hashable_content>","over":{"base":"Any"},"name":"_hashable_content_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.Polygon._hashable_content_correct","statement":"Path(_hashable_content(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e165d657a525393","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _hashable_content(self):
 
         D = {}
@@ -1634,16 +1814,24 @@ class Polygon(GeometrySet):
         return tuple(canonical_args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__contains__(o), correctly tests membership) over Any ║
+# ║ Path(__contains__(o), <unspecified:__contains__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[Polygon]: isinstance(o, Polygon) => self == o      ║
+# ║   fiber[Segment]: isinstance(o, Segment) => any((o in...   ║
+# ║   fiber[Point]: isinstance(o, Point)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __contains__ : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fe5736178ceb5ed2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.__contains__","kind":"method","src_hash":"ea68305d4a0f14db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(o)","rhs":"correctly tests membership","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fe5736178ceb5ed2"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.__contains__","kind":"method","src_hash":"ea68305d4a0f14db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(o)","rhs":"<unspecified:__contains__>","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fe5736178ceb5ed2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"Polygon","guard":"isinstance(o, Polygon)","ensures":["result == self == o"],"decidability":"structural","returns_expr":"self == o"},{"name":"Segment","guard":"isinstance(o, Segment)","ensures":["result == any((o in s for s in self.sides))"],"decidability":"structural","returns_expr":"any((o in s for s in self.sides))"},{"name":"Point","guard":"isinstance(o, Point)","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.sides","self.vertices"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __contains__(self, o):
         """
         Return True if o is contained within the boundary lines of self.altitudes
@@ -1697,16 +1885,24 @@ class Polygon(GeometrySet):
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bisectors(p, ), returns angle bisectors of a polygon) over Any ║
+# ║ Path(bisectors(p, prec), <unspecified:bisectors>) over {Any | hasattr(p, 'args') and hasattr(p, 'angles')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ bisectors : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p, 'args')                             ║
+# ║   requires: hasattr(p, 'angles')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ bisectors : {Any | hasattr(p, 'args') and hasattr(p, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca6df90b526d58ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.bisectors","kind":"method","src_hash":"81536708cf388470","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bisectors(p, )","rhs":"returns angle bisectors of a polygon","over":{"base":"Any"},"name":"bisectors_correct"},"guarantee":"returns angle bisectors of a polygon","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.Polygon.bisectors_correct","statement":"Path(bisectors(x), returns angle bisectors of a polygon)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca6df90b526d58ac"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Polygon.bisectors","kind":"method","src_hash":"81536708cf388470","in":{"base":"Any","pred":"hasattr(p, 'args') and hasattr(p, 'angles')"},"out":{"base":"Any"},"spec":{"lhs":"bisectors(p, prec)","rhs":"<unspecified:bisectors>","over":{"base":"Any","pred":"hasattr(p, 'args') and hasattr(p, 'angles')"},"name":"bisectors_correct"},"guarantee":"returns angle bisectors of a polygon","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.Polygon.bisectors_correct","statement":"Path(bisectors(x), returns angle bisectors of a polygon)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca6df90b526d58ac","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p, 'args')","hasattr(p, 'angles')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def bisectors(p, prec=None):
         """Returns angle bisectors of a polygon. If prec is given
         then approximate the point defining the ray to that precision.
@@ -1745,14 +1941,20 @@ class Polygon(GeometrySet):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(RegularPolygon(*args), correctly constructs a RegularPolygon instance) over {Any | isinstance(r, Expr) and isinstance(o, Polygon) and isinstance(o, RegularPolygon)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Polygon)                      ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ RegularPolygon : {Any | isinstance(r, Expr) and isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ef2f68352bc2744  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon","kind":"class","src_hash":"d9648ccd7b888be0","in":{"base":"Any","pred":"isinstance(r, Expr) and isinstance(o, Polygon) and isinstance(o, RegularPolygon)"},"out":{"base":"Any"},"spec":{"lhs":"RegularPolygon(*args)","rhs":"correctly constructs a RegularPolygon instance","over":{"base":"Any","pred":"isinstance(r, Expr) and isinstance(o, Polygon) and isinstance(o, RegularPolygon)"},"name":"RegularPolygon_class_invariant"},"guarantee":"correctly constructs a RegularPolygon instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ef2f68352bc2744"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon","kind":"class","src_hash":"d9648ccd7b888be0","in":{"base":"Any","pred":"isinstance(r, Expr) and isinstance(o, Polygon) and isinstance(o, RegularPolygon)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Polygon)"},"spec":{"lhs":"RegularPolygon(*args)","rhs":"correctly constructs a RegularPolygon instance","over":{"base":"Any","pred":"isinstance(r, Expr) and isinstance(o, Polygon) and isinstance(o, RegularPolygon)"},"name":"RegularPolygon_class_invariant"},"guarantee":"isinstance(self, Polygon)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ef2f68352bc2744","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Polygon)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function RegularPolygon not found in source"]}}
 class RegularPolygon(Polygon):
     """
     A regular polygon.
@@ -1818,16 +2020,25 @@ class RegularPolygon(Polygon):
     __slots__ = ('_n', '_center', '_radius', '_rot')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(c, ), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(c, r, n), <unspecified:__new__>) over {Any | isinstance(r, Expr) and hasattr(n, 'is_Number') and hasattr(rot, 'is_number')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(r, Expr)                            ║
+# ║   requires: hasattr(n, 'is_Number')                        ║
+# ║   requires: hasattr(rot, 'is_number')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | isinstance(r, Expr) and hasattr(n, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6f89780b95751ec9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.__new__","kind":"method","src_hash":"a477ffb0457edb44","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(c, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6f89780b95751ec9"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.__new__","kind":"method","src_hash":"a477ffb0457edb44","in":{"base":"Any","pred":"isinstance(r, Expr) and hasattr(n, 'is_Number') and hasattr(rot, 'is_number')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(c, r, n)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"isinstance(r, Expr) and hasattr(n, 'is_Number') and hasattr(rot, 'is_number')"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6f89780b95751ec9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(r, Expr)","hasattr(n, 'is_Number')","hasattr(rot, 'is_number')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["n.is_Number","rot.is_number"],"raises":["GeometryError"]},"state_contract":{"exceptional_post":{"GeometryError":["isinstance(raised, GeometryError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(self, c, r, n, rot=0, **kwargs):
         r, n, rot = map(sympify, (r, n, rot))
         c = Point(c, dim=2, **kwargs)
@@ -1846,16 +2057,22 @@ class RegularPolygon(Polygon):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_evalf(prec, **options), self.func(c, r, n, a)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(c, r, n, a)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab45a12570b9c69d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 19f95fb6e4b6edbd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon._eval_evalf","kind":"method","src_hash":"3e67cbea3fa98d89","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.RegularPolygon._eval_evalf_correct","statement":"Path(_eval_evalf(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab45a12570b9c69d"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon._eval_evalf","kind":"method","src_hash":"3e67cbea3fa98d89","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(prec, **options)","rhs":"self.func(c, r, n, a)","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"returns self.func(c, r, n, a)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.RegularPolygon._eval_evalf_correct","statement":"Path(_eval_evalf(x), returns self.func(c, r, n, a))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19f95fb6e4b6edbd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(c, r, n, a)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec=15, **options):
         c, r, n, a = self.args
         dps = prec_to_dps(prec)
@@ -1864,16 +2081,22 @@ class RegularPolygon(Polygon):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(args(), returns the args attribute) over Any          ║
+# ║ Path(args(), (self._center, self._radius, self._n, self._rot)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self._center, self._radius, self._n, sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ args : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | faa42a0d7563edfb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.args","kind":"property","src_hash":"55dd727d74aab4ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"args()","rhs":"returns the args attribute","over":{"base":"Any"},"name":"args_correct"},"guarantee":"returns the args attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"faa42a0d7563edfb"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.args","kind":"property","src_hash":"55dd727d74aab4ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"args()","rhs":"(self._center, self._radius, self._n, self._rot)","over":{"base":"Any"},"name":"args_correct"},"guarantee":"returns (self._center, self._radius, self._n, self._rot)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"faa42a0d7563edfb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self._center, self._radius, self._n, self._rot)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._center","self._n","self._radius","self._rot"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def args(self):
         """
         Returns the center point, the radius,
@@ -1890,45 +2113,63 @@ class RegularPolygon(Polygon):
         return self._center, self._radius, self._n, self._rot
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), 'RegularPolygon(%s, %s, %s, %s)' % tuple(self.args)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'RegularPolygon(%s, %s, %s, %s)' % tuple(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f70ee4ecbd3bb218           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.__str__","kind":"method","src_hash":"bb77ecf1106b1b39","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f70ee4ecbd3bb218"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.__str__","kind":"method","src_hash":"bb77ecf1106b1b39","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'RegularPolygon(%s, %s, %s, %s)' % tuple(self.args)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns 'RegularPolygon(%s, %s, %s, %s)' % tuple(self.args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f70ee4ecbd3bb218","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'RegularPolygon(%s, %s, %s, %s)' % tuple(self.args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return 'RegularPolygon(%s, %s, %s, %s)' % tuple(self.args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), 'RegularPolygon(%s, %s, %s, %s)' % tuple(self.args)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'RegularPolygon(%s, %s, %s, %s)' % tuple(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 93e28928af865b6d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.__repr__","kind":"method","src_hash":"cd8369fb3fb1e62d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"93e28928af865b6d"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.__repr__","kind":"method","src_hash":"cd8369fb3fb1e62d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'RegularPolygon(%s, %s, %s, %s)' % tuple(self.args)","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns 'RegularPolygon(%s, %s, %s, %s)' % tuple(self.args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"93e28928af865b6d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'RegularPolygon(%s, %s, %s, %s)' % tuple(self.args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return 'RegularPolygon(%s, %s, %s, %s)' % tuple(self.args)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(area(), returns the area attribute) over Any          ║
+# ║ Path(area(), sign(r) * n * self.length ** 2 / (4 * tan(pi / n))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sign(r) * n * self.length ** 2 / (4 * tan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ area : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f3930f4eb1b2355e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.area","kind":"property","src_hash":"02cd6a6e2920fc62","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"area()","rhs":"returns the area attribute","over":{"base":"Any"},"name":"area_correct"},"guarantee":"returns the area attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f3930f4eb1b2355e"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.area","kind":"property","src_hash":"02cd6a6e2920fc62","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"area()","rhs":"sign(r) * n * self.length ** 2 / (4 * tan(pi / n))","over":{"base":"Any"},"name":"area_correct"},"guarantee":"returns sign(r) * n * self.length ** 2 / (4 * tan(pi / n))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f3930f4eb1b2355e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sign(r) * n * self.length ** 2 / (4 * tan(pi / n))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.length"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def area(self):
         """Returns the area.
 
@@ -1947,16 +2188,22 @@ class RegularPolygon(Polygon):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(length(), returns the length attribute) over Any      ║
+# ║ Path(length(), self.radius * 2 * sin(pi / self._n)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.radius * 2 * sin(pi / self._n)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ length : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2eaf5fa09c565758           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.length","kind":"property","src_hash":"d47cb6d4abc0a26d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"returns the length attribute","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns the length attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2eaf5fa09c565758"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.length","kind":"property","src_hash":"d47cb6d4abc0a26d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"self.radius * 2 * sin(pi / self._n)","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns self.radius * 2 * sin(pi / self._n)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2eaf5fa09c565758","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.radius * 2 * sin(pi / self._n)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._n","self.radius"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def length(self):
         """Returns the length of the sides.
 
@@ -1980,16 +2227,22 @@ class RegularPolygon(Polygon):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(center(), returns the center attribute) over Any      ║
+# ║ Path(center(), self._center) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._center                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ center : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 46ad64dc4d085856           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.center","kind":"property","src_hash":"afbe017058d436a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"center()","rhs":"returns the center attribute","over":{"base":"Any"},"name":"center_correct"},"guarantee":"returns the center attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"46ad64dc4d085856"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.center","kind":"property","src_hash":"afbe017058d436a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"center()","rhs":"self._center","over":{"base":"Any"},"name":"center_correct"},"guarantee":"returns self._center","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"46ad64dc4d085856","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._center","pure":false,"effects":{"effect_type":"reads_state","reads":["self._center"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def center(self):
         """The center of the RegularPolygon
 
@@ -2019,16 +2272,22 @@ class RegularPolygon(Polygon):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(circumcenter(), returns the circumcenter attribute) over Any ║
+# ║ Path(circumcenter(), self.center) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.center                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ circumcenter : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a64795bff8090d59           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.circumcenter","kind":"property","src_hash":"51da7b6e8a45fc22","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"circumcenter()","rhs":"returns the circumcenter attribute","over":{"base":"Any"},"name":"circumcenter_correct"},"guarantee":"returns the circumcenter attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a64795bff8090d59"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.circumcenter","kind":"property","src_hash":"51da7b6e8a45fc22","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"circumcenter()","rhs":"self.center","over":{"base":"Any"},"name":"circumcenter_correct"},"guarantee":"returns self.center","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a64795bff8090d59","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.center","pure":false,"effects":{"effect_type":"reads_state","reads":["self.center"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def circumcenter(self):
         """
         Alias for center.
@@ -2045,16 +2304,22 @@ class RegularPolygon(Polygon):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(radius(), returns the radius attribute) over Any      ║
+# ║ Path(radius(), self._radius) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._radius                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ radius : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b897444ab7fcc682           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.radius","kind":"property","src_hash":"b692d0aea85a7945","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"radius()","rhs":"returns the radius attribute","over":{"base":"Any"},"name":"radius_correct"},"guarantee":"returns the radius attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b897444ab7fcc682"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.radius","kind":"property","src_hash":"b692d0aea85a7945","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"radius()","rhs":"self._radius","over":{"base":"Any"},"name":"radius_correct"},"guarantee":"returns self._radius","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b897444ab7fcc682","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._radius","pure":false,"effects":{"effect_type":"reads_state","reads":["self._radius"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def radius(self):
         """Radius of the RegularPolygon
 
@@ -2085,16 +2350,22 @@ class RegularPolygon(Polygon):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(circumradius(), returns the circumradius attribute) over Any ║
+# ║ Path(circumradius(), self.radius) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.radius                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ circumradius : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1bf165febc425848           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.circumradius","kind":"property","src_hash":"b53fff9e3adefe03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"circumradius()","rhs":"returns the circumradius attribute","over":{"base":"Any"},"name":"circumradius_correct"},"guarantee":"returns the circumradius attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1bf165febc425848"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.circumradius","kind":"property","src_hash":"b53fff9e3adefe03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"circumradius()","rhs":"self.radius","over":{"base":"Any"},"name":"circumradius_correct"},"guarantee":"returns self.radius","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1bf165febc425848","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.radius","pure":false,"effects":{"effect_type":"reads_state","reads":["self.radius"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def circumradius(self):
         """
         Alias for radius.
@@ -2113,16 +2384,22 @@ class RegularPolygon(Polygon):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rotation(), returns the rotation attribute) over Any  ║
+# ║ Path(rotation(), self._rot) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._rot                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rotation : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7d33c1a3b5248809           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.rotation","kind":"property","src_hash":"fd06ab225112de27","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rotation()","rhs":"returns the rotation attribute","over":{"base":"Any"},"name":"rotation_correct"},"guarantee":"returns the rotation attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7d33c1a3b5248809"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.rotation","kind":"property","src_hash":"fd06ab225112de27","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rotation()","rhs":"self._rot","over":{"base":"Any"},"name":"rotation_correct"},"guarantee":"returns self._rot","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7d33c1a3b5248809","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._rot","pure":false,"effects":{"effect_type":"reads_state","reads":["self._rot"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rotation(self):
         """CCW angle by which the RegularPolygon is rotated
 
@@ -2152,16 +2429,22 @@ class RegularPolygon(Polygon):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(apothem(), returns the apothem attribute) over Any    ║
+# ║ Path(apothem(), self.radius * cos(S.Pi / self._n)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.radius * cos(S.Pi / self._n)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ apothem : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b60f6a4a3a275dff           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.apothem","kind":"property","src_hash":"6b83d96314cf05f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apothem()","rhs":"returns the apothem attribute","over":{"base":"Any"},"name":"apothem_correct"},"guarantee":"returns the apothem attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b60f6a4a3a275dff"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.apothem","kind":"property","src_hash":"6b83d96314cf05f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apothem()","rhs":"self.radius * cos(S.Pi / self._n)","over":{"base":"Any"},"name":"apothem_correct"},"guarantee":"returns self.radius * cos(S.Pi / self._n)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b60f6a4a3a275dff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.radius * cos(S.Pi / self._n)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._n","self.radius"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def apothem(self):
         """The inradius of the RegularPolygon.
 
@@ -2192,16 +2475,22 @@ class RegularPolygon(Polygon):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inradius(), returns the inradius attribute) over Any  ║
+# ║ Path(inradius(), self.apothem) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.apothem                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ inradius : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9f650c1044b585f1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.inradius","kind":"property","src_hash":"8f926c9600a65138","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inradius()","rhs":"returns the inradius attribute","over":{"base":"Any"},"name":"inradius_correct"},"guarantee":"returns the inradius attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9f650c1044b585f1"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.inradius","kind":"property","src_hash":"8f926c9600a65138","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inradius()","rhs":"self.apothem","over":{"base":"Any"},"name":"inradius_correct"},"guarantee":"returns self.apothem","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9f650c1044b585f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.apothem","pure":false,"effects":{"effect_type":"reads_state","reads":["self.apothem"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def inradius(self):
         """
         Alias for apothem.
@@ -2220,16 +2509,22 @@ class RegularPolygon(Polygon):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(interior_angle(), returns the interior_angle attribute) over Any ║
+# ║ Path(interior_angle(), (self._n - 2) * S.Pi / self._n) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self._n - 2) * S.Pi / self._n                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ interior_angle : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d3cb0e8f34fc3c31           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.interior_angle","kind":"property","src_hash":"43b19cf7f49b1f12","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"interior_angle()","rhs":"returns the interior_angle attribute","over":{"base":"Any"},"name":"interior_angle_correct"},"guarantee":"returns the interior_angle attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d3cb0e8f34fc3c31"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.interior_angle","kind":"property","src_hash":"43b19cf7f49b1f12","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"interior_angle()","rhs":"(self._n - 2) * S.Pi / self._n","over":{"base":"Any"},"name":"interior_angle_correct"},"guarantee":"returns (self._n - 2) * S.Pi / self._n","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d3cb0e8f34fc3c31","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self._n - 2) * S.Pi / self._n","pure":false,"effects":{"effect_type":"reads_state","reads":["self._n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def interior_angle(self):
         """Measure of the interior angles.
 
@@ -2256,16 +2551,22 @@ class RegularPolygon(Polygon):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(exterior_angle(), returns the exterior_angle attribute) over Any ║
+# ║ Path(exterior_angle(), 2 * S.Pi / self._n) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  2 * S.Pi / self._n                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ exterior_angle : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 84f19d93f0541eb9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.exterior_angle","kind":"property","src_hash":"84d33887f08a9c5f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exterior_angle()","rhs":"returns the exterior_angle attribute","over":{"base":"Any"},"name":"exterior_angle_correct"},"guarantee":"returns the exterior_angle attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"84f19d93f0541eb9"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.exterior_angle","kind":"property","src_hash":"84d33887f08a9c5f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exterior_angle()","rhs":"2 * S.Pi / self._n","over":{"base":"Any"},"name":"exterior_angle_correct"},"guarantee":"returns 2 * S.Pi / self._n","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"84f19d93f0541eb9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"2 * S.Pi / self._n","pure":false,"effects":{"effect_type":"reads_state","reads":["self._n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def exterior_angle(self):
         """Measure of the exterior angles.
 
@@ -2292,16 +2593,22 @@ class RegularPolygon(Polygon):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(circumcircle(), returns the circumcircle attribute) over Any ║
+# ║ Path(circumcircle(), Circle(self.center, self.radius)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Circle(self.center, self.radius)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ circumcircle : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6242e7fb4cd673f3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.circumcircle","kind":"property","src_hash":"5e297e9436b81b73","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"circumcircle()","rhs":"returns the circumcircle attribute","over":{"base":"Any"},"name":"circumcircle_correct"},"guarantee":"returns the circumcircle attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6242e7fb4cd673f3"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.circumcircle","kind":"property","src_hash":"5e297e9436b81b73","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"circumcircle()","rhs":"Circle(self.center, self.radius)","over":{"base":"Any"},"name":"circumcircle_correct"},"guarantee":"returns Circle(self.center, self.radius)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6242e7fb4cd673f3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Circle(self.center, self.radius)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.center","self.radius"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def circumcircle(self):
         """The circumcircle of the RegularPolygon.
 
@@ -2328,16 +2635,22 @@ class RegularPolygon(Polygon):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(incircle(), returns the incircle attribute) over Any  ║
+# ║ Path(incircle(), Circle(self.center, self.apothem)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Circle(self.center, self.apothem)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ incircle : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 89387cb0a218747b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.incircle","kind":"property","src_hash":"de71845a57bd0223","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"incircle()","rhs":"returns the incircle attribute","over":{"base":"Any"},"name":"incircle_correct"},"guarantee":"returns the incircle attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"89387cb0a218747b"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.incircle","kind":"property","src_hash":"de71845a57bd0223","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"incircle()","rhs":"Circle(self.center, self.apothem)","over":{"base":"Any"},"name":"incircle_correct"},"guarantee":"returns Circle(self.center, self.apothem)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"89387cb0a218747b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Circle(self.center, self.apothem)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.apothem","self.center"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def incircle(self):
         """The incircle of the RegularPolygon.
 
@@ -2364,16 +2677,22 @@ class RegularPolygon(Polygon):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(angles(), returns the angles attribute) over Any      ║
+# ║ Path(angles(), <unspecified:angles>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ angles : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7676b2c01e3ba82e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.angles","kind":"property","src_hash":"e0c3f3e4f6138a3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"angles()","rhs":"returns the angles attribute","over":{"base":"Any"},"name":"angles_correct"},"guarantee":"returns the angles attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7676b2c01e3ba82e"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.angles","kind":"property","src_hash":"e0c3f3e4f6138a3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"angles()","rhs":"<unspecified:angles>","over":{"base":"Any"},"name":"angles_correct"},"guarantee":"returns the angles attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7676b2c01e3ba82e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.interior_angle","self.vertices"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def angles(self):
         """
         Returns a dictionary with keys, the vertices of the Polygon,
@@ -2396,16 +2715,26 @@ class RegularPolygon(Polygon):
         return ret
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(encloses_point(p), return true if p is enclosed by (is inside of) self) over Any ║
+# ║ Path(encloses_point(p), result == (False if d >= self.radius else True if d < self.inradius else Polygon.encloses_point(self, p)) and result == False or result == True or result == Polygon.encloses_point(self, p)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ encloses_point : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (False if d >= self.radius else...   ║
+# ║   ensures:  result == False or result == True or resu...   ║
+# ║   fiber[case_0]: d >= self.radius => False                 ║
+# ║   fiber[case_1]: d < self.inradius => True                 ║
+# ║   fiber[case_2]: not (d >= self.radius) and not (d < ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ encloses_point : Any → {Any | result satisfies: resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ae74da9018773db  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae96eaf28decd950  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.encloses_point","kind":"method","src_hash":"f6f82720033d1f6e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"encloses_point(p)","rhs":"return true if p is enclosed by (is inside of) self","over":{"base":"Any"},"name":"encloses_point_correct"},"guarantee":"return true if p is enclosed by (is inside of) self","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.RegularPolygon.encloses_point_correct","statement":"Path(encloses_point(x), return true if p is enclosed by (is inside of) self)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ae74da9018773db"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.encloses_point","kind":"method","src_hash":"f6f82720033d1f6e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (False if d >= self.radius else True if d < self.inradius else Polygon.encloses_point(self, p)) and result == False or result == True or result == Polygon.encloses_point(self, p)"},"spec":{"lhs":"encloses_point(p)","rhs":"result == (False if d >= self.radius else True if d < self.inradius else Polygon.encloses_point(self, p)) and result == False or result == True or result == Polygon.encloses_point(self, p)","over":{"base":"Any"},"name":"encloses_point_correct"},"guarantee":"result == (False if d >= self.radius else True if d < self.inradius else Polygon.encloses_point(self, p)); result == False or result == True or result == Polygon.encloses_point(self, p); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.RegularPolygon.encloses_point_correct","statement":"Path(encloses_point(x), result == (False if d >= self.radius else True if d < self.inradius else Polygon.encloses_point(self, p)); result == False or result == True or result == Polygon.encloses_point(self, p); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae96eaf28decd950","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (False if d >= self.radius else True if d < self.inradius else Polygon.encloses_point(self, p))","result == False or result == True or result == Polygon.encloses_point(self, p)"],"fibers":[{"name":"case_0","guard":"d >= self.radius","ensures":["result == False"],"decidability":"z3","returns_expr":"False"},{"name":"case_1","guard":"d < self.inradius","ensures":["result == True"],"decidability":"z3","returns_expr":"True"},{"name":"case_2","guard":"not (d >= self.radius) and not (d < self.inradius)","ensures":["result == Polygon.encloses_point(self, p)"],"decidability":"z3","returns_expr":"Polygon.encloses_point(self, p)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.center","self.inradius","self.radius"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def encloses_point(self, p):
         """
         Return True if p is enclosed by (is inside of) self.
@@ -2465,16 +2794,22 @@ class RegularPolygon(Polygon):
             return Polygon.encloses_point(self, p)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(spin(ang), increment *in place* the virtual polygon's rotation by ccw angle) over Any ║
+# ║ Path(spin(angle), <unspecified:spin>) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ spin : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7848774cb889398a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.spin","kind":"method","src_hash":"5e9fb4389cc9a916","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"spin(ang)","rhs":"increment *in place* the virtual polygon's rotation by ccw angle","over":{"base":"Any"},"name":"spin_correct"},"guarantee":"increment *in place* the virtual polygon's rotation by ccw angle","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.RegularPolygon.spin_correct","statement":"Path(spin(x), increment *in place* the virtual polygon's rotation by ccw angle)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7848774cb889398a"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.spin","kind":"method","src_hash":"5e9fb4389cc9a916","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"spin(angle)","rhs":"<unspecified:spin>","over":{"base":"Any"},"name":"spin_correct"},"guarantee":"increment *in place* the virtual polygon's rotation by ccw angle","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.RegularPolygon.spin_correct","statement":"Path(spin(x), increment *in place* the virtual polygon's rotation by ccw angle)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7848774cb889398a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._rot"]},"state_contract":{"modifies":["self._rot"],"old_bindings":{"old_self__rot":"self._rot"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def spin(self, angle):
         """Increment *in place* the virtual Polygon's rotation by ccw angle.
 
@@ -2498,16 +2833,22 @@ class RegularPolygon(Polygon):
         self._rot += angle
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rotate(ang), override geometryentity.rotate to first rotate the regularpolygon about its center) over Any ║
+# ║ Path(rotate(angle, pt), GeometryEntity.rotate(r, angle, pt)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  GeometryEntity.rotate(r, angle, pt)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rotate : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e83dd5884f9579e0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 159eb6ee0ae1d9e8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.rotate","kind":"method","src_hash":"ac8922f73477b390","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rotate(ang)","rhs":"override geometryentity.rotate to first rotate the regularpolygon about its center","over":{"base":"Any"},"name":"rotate_correct"},"guarantee":"override geometryentity.rotate to first rotate the regularpolygon about its center","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.RegularPolygon.rotate_correct","statement":"Path(rotate(x), override geometryentity.rotate to first rotate the regularpolygon about its center)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e83dd5884f9579e0"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.rotate","kind":"method","src_hash":"ac8922f73477b390","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rotate(angle, pt)","rhs":"GeometryEntity.rotate(r, angle, pt)","over":{"base":"Any"},"name":"rotate_correct"},"guarantee":"returns GeometryEntity.rotate(r, angle, pt)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.RegularPolygon.rotate_correct","statement":"Path(rotate(x), returns GeometryEntity.rotate(r, angle, pt))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"159eb6ee0ae1d9e8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"GeometryEntity.rotate(r, angle, pt)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rotate(self, angle, pt=None):
         """Override GeometryEntity.rotate to first rotate the RegularPolygon
         about its center.
@@ -2532,16 +2873,23 @@ class RegularPolygon(Polygon):
         return GeometryEntity.rotate(r, angle, pt)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(scale(x, ), id) over Any                              ║
+# ║ Path(scale(x, y, pt), id) over {Any | hasattr(pt, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ scale : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(pt, 'args')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ scale : {Any | hasattr(pt, 'args')} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | dc4d99799b1d232a   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.scale","kind":"method","src_hash":"bcb526b4369e0e93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scale(x, )","rhs":"override geometryentity.scale since it is the radius that must be scaled (if x == y) or else a new polygon must be returned","over":{"base":"Any"},"name":"scale_correct","kind":"composition"},"guarantee":"override geometryentity.scale since it is the radius that must be scaled (if x == y) or else a new polygon must be returned","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"translate","by":"library_axiom"},{"fn":"scale","by":"library_axiom"},{"fn":"translate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc4d99799b1d232a"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.scale","kind":"method","src_hash":"bcb526b4369e0e93","in":{"base":"Any","pred":"hasattr(pt, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"scale(x, y, pt)","rhs":"<unspecified:scale>","over":{"base":"Any","pred":"hasattr(pt, 'args')"},"name":"scale_correct","kind":"composition"},"guarantee":"override geometryentity.scale since it is the radius that must be scaled (if x == y) or else a new polygon must be returned","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"translate","by":"library_axiom"},{"fn":"scale","by":"library_axiom"},{"fn":"translate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc4d99799b1d232a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(pt, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["pt.args","self.args","self.func","self.translate","self.vertices"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def scale(self, x=1, y=1, pt=None):
         """Override GeometryEntity.scale since it is the radius that must be
         scaled (if x == y) or else a new Polygon must be returned.
@@ -2569,16 +2917,22 @@ class RegularPolygon(Polygon):
         return self.func(c, r, n, rot)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reflect(lin), override geometryentity.reflect since this is not made of only points) over Any ║
+# ║ Path(reflect(line), self.func(cc, -r, n, rot)) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(cc, -r, n, rot)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ reflect : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 842ec943c2a3fb5c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a05a2d6cec2fb0e5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.reflect","kind":"method","src_hash":"e8340472d43e0af7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reflect(lin)","rhs":"override geometryentity.reflect since this is not made of only points","over":{"base":"Any"},"name":"reflect_correct"},"guarantee":"override geometryentity.reflect since this is not made of only points","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.RegularPolygon.reflect_correct","statement":"Path(reflect(x), override geometryentity.reflect since this is not made of only points)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"842ec943c2a3fb5c"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.reflect","kind":"method","src_hash":"e8340472d43e0af7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reflect(line)","rhs":"self.func(cc, -r, n, rot)","over":{"base":"Any"},"name":"reflect_correct"},"guarantee":"returns self.func(cc, -r, n, rot)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.RegularPolygon.reflect_correct","statement":"Path(reflect(x), returns self.func(cc, -r, n, rot))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a05a2d6cec2fb0e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(cc, -r, n, rot)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func","self.vertices"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reflect(self, line):
         """Override GeometryEntity.reflect since this is not made of only
         points.
@@ -2609,16 +2963,22 @@ class RegularPolygon(Polygon):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(vertices(), returns the vertices attribute) over Any  ║
+# ║ Path(vertices(), [Point(c.x + r * cos(k * v + rot), c.y + r * sin(k * v + rot)) for k in range(self._n)]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [Point(c.x + r * cos(k * v + rot), c.y + ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ vertices : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 09d8aae2fce6f2bb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.vertices","kind":"property","src_hash":"e4f6f1cedb40039a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vertices()","rhs":"returns the vertices attribute","over":{"base":"Any"},"name":"vertices_correct"},"guarantee":"returns the vertices attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"09d8aae2fce6f2bb"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.vertices","kind":"property","src_hash":"e4f6f1cedb40039a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vertices()","rhs":"[Point(c.x + r * cos(k * v + rot), c.y + r * sin(k * v + rot)) for k in range(self._n)]","over":{"base":"Any"},"name":"vertices_correct"},"guarantee":"returns [Point(c.x + r * cos(k * v + rot), c.y + r * sin(k * v + rot)) for k in range(self._n)]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"09d8aae2fce6f2bb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[Point(c.x + r * cos(k * v + rot), c.y + r * sin(k * v + rot)) for k in range(self._n)]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._center","self._n","self._radius","self._rot"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def vertices(self):
         """The vertices of the RegularPolygon.
 
@@ -2651,16 +3011,26 @@ class RegularPolygon(Polygon):
                 for k in range(self._n)]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(o), correctly determines equality) over Any    ║
+# ║ Path(__eq__(o), result == (False if not isinstance(o, Polygon) else Polygon.__eq__(o, self)) and result == False or result == Polygon.__eq__(o, self)) over {Any | hasattr(o, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(o, 'args')                             ║
+# ║   ensures:  result == (False if not isinstance(o, Pol...   ║
+# ║   ensures:  result == False or result == Polygon.__eq...   ║
+# ║   fiber[Polygon]: not isinstance(o, Polygon) => False      ║
+# ║   fiber[RegularPolygon]: not isinstance(o, RegularPol...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(o, 'args')} → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5d0e78fc3c93b8fc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.__eq__","kind":"method","src_hash":"aeaf2c5e6f5e4f71","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(o)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5d0e78fc3c93b8fc"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.__eq__","kind":"method","src_hash":"aeaf2c5e6f5e4f71","in":{"base":"Any","pred":"hasattr(o, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == (False if not isinstance(o, Polygon) else Polygon.__eq__(o, self)) and result == False or result == Polygon.__eq__(o, self)"},"spec":{"lhs":"__eq__(o)","rhs":"result == (False if not isinstance(o, Polygon) else Polygon.__eq__(o, self)) and result == False or result == Polygon.__eq__(o, self)","over":{"base":"Any","pred":"hasattr(o, 'args')"},"name":"__eq___correct"},"guarantee":"result == (False if not isinstance(o, Polygon) else Polygon.__eq__(o, self)); result == False or result == Polygon.__eq__(o, self); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5d0e78fc3c93b8fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(o, 'args')"],"ensures":["result == (False if not isinstance(o, Polygon) else Polygon.__eq__(o, self))","result == False or result == Polygon.__eq__(o, self)"],"fibers":[{"name":"Polygon","guard":"not isinstance(o, Polygon)","ensures":["result == False"],"decidability":"structural","returns_expr":"False"},{"name":"RegularPolygon","guard":"not isinstance(o, RegularPolygon)","ensures":["result == Polygon.__eq__(o, self)"],"decidability":"structural","returns_expr":"Polygon.__eq__(o, self)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["o.args","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, o):
         if not isinstance(o, Polygon):
             return False
@@ -2669,16 +3039,22 @@ class RegularPolygon(Polygon):
         return self.args == o.args
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), super().__hash__()) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  super().__hash__()                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5dced76d20ea8d1f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.__hash__","kind":"method","src_hash":"9b68e66048eb71e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5dced76d20ea8d1f"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.RegularPolygon.__hash__","kind":"method","src_hash":"9b68e66048eb71e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"super().__hash__()","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns super().__hash__()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5dced76d20ea8d1f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"super().__hash__()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         return super().__hash__()
 
@@ -2686,14 +3062,20 @@ class RegularPolygon(Polygon):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Triangle(*args), correctly constructs a Triangle instance) over {Any | isinstance(t2, Polygon)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Triangle : {Any | isinstance(t2, Polygon)} → Any           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Polygon)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Triangle : {Any | isinstance(t2, Polygon)} → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58fc3c9cd6e7e5bb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle","kind":"class","src_hash":"7b25e0539d08382b","in":{"base":"Any","pred":"isinstance(t2, Polygon)"},"out":{"base":"Any"},"spec":{"lhs":"Triangle(*args)","rhs":"correctly constructs a Triangle instance","over":{"base":"Any","pred":"isinstance(t2, Polygon)"},"name":"Triangle_class_invariant"},"guarantee":"correctly constructs a Triangle instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58fc3c9cd6e7e5bb"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle","kind":"class","src_hash":"7b25e0539d08382b","in":{"base":"Any","pred":"isinstance(t2, Polygon)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Polygon)"},"spec":{"lhs":"Triangle(*args)","rhs":"correctly constructs a Triangle instance","over":{"base":"Any","pred":"isinstance(t2, Polygon)"},"name":"Triangle_class_invariant"},"guarantee":"isinstance(self, Polygon)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58fc3c9cd6e7e5bb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Polygon)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function Triangle not found in source"]}}
 class Triangle(Polygon):
     """
     A polygon with three vertices and three sides.
@@ -2753,16 +3135,24 @@ class Triangle(Polygon):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, **kwargs), len(nodup) == old_len_nodup + 1 and len(nodup) == old_len_nodup - 1) over {Any | len(nodup) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(nodup) > 0                                 ║
+# ║   ensures:  len(nodup) == old_len_nodup + 1                ║
+# ║   ensures:  len(nodup) == old_len_nodup - 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | len(nodup) > 0} → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d3ba8d90ae06c5a1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.__new__","kind":"method","src_hash":"bb9431af053862e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d3ba8d90ae06c5a1"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.__new__","kind":"method","src_hash":"bb9431af053862e3","in":{"base":"Any","pred":"len(nodup) > 0"},"out":{"base":"Any","pred":"result satisfies: len(nodup) == old_len_nodup + 1 and len(nodup) == old_len_nodup - 1"},"spec":{"lhs":"__new__(cls, *args, **kwargs)","rhs":"len(nodup) == old_len_nodup + 1 and len(nodup) == old_len_nodup - 1","over":{"base":"Any","pred":"len(nodup) > 0"},"name":"__new___correct"},"guarantee":"len(nodup) == old_len_nodup + 1; len(nodup) == old_len_nodup - 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d3ba8d90ae06c5a1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(nodup) > 0"],"ensures":["len(nodup) == old_len_nodup + 1","len(nodup) == old_len_nodup - 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["nodup.append","nodup.pop"],"raises":["GeometryError"]},"state_contract":{"modifies":["nodup.*"],"old_bindings":{"old_len_nodup":"len(nodup)"},"pre_requires":["len(nodup) > 0"],"post_ensures":["len(nodup) == old_len_nodup + 1","len(nodup) == old_len_nodup - 1"],"exceptional_post":{"GeometryError":["isinstance(raised, GeometryError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, **kwargs):
         if len(args) != 3:
             if 'sss' in kwargs:
@@ -2807,16 +3197,22 @@ class Triangle(Polygon):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(vertices(), returns the vertices attribute) over Any  ║
+# ║ Path(vertices(), self.args) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ vertices : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 30d46f59ff34bf72           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.vertices","kind":"property","src_hash":"560cfda6e6a18a6b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vertices()","rhs":"returns the vertices attribute","over":{"base":"Any"},"name":"vertices_correct"},"guarantee":"returns the vertices attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"30d46f59ff34bf72"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.vertices","kind":"property","src_hash":"560cfda6e6a18a6b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vertices()","rhs":"self.args","over":{"base":"Any"},"name":"vertices_correct"},"guarantee":"returns self.args","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"30d46f59ff34bf72","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def vertices(self):
         """The triangle's vertices
 
@@ -2843,16 +3239,24 @@ class Triangle(Polygon):
         return self.args
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_similar(t1,), is another triangle similar to this one) over Any ║
+# ║ Path(is_similar(t1, t2), <unspecified:is_similar>) over {Any | hasattr(t1, 'sides') and hasattr(t2, 'sides')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_similar : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(t1, 'sides')                           ║
+# ║   requires: hasattr(t2, 'sides')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_similar : {Any | hasattr(t1, 'sides') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aea071ec88526367  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.is_similar","kind":"method","src_hash":"e2cb21883608e78a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_similar(t1,)","rhs":"is another triangle similar to this one","over":{"base":"Any"},"name":"is_similar_correct"},"guarantee":"is another triangle similar to this one","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.Triangle.is_similar_correct","statement":"Path(is_similar(x), is another triangle similar to this one)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aea071ec88526367"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.is_similar","kind":"method","src_hash":"e2cb21883608e78a","in":{"base":"Any","pred":"hasattr(t1, 'sides') and hasattr(t2, 'sides')"},"out":{"base":"Any"},"spec":{"lhs":"is_similar(t1, t2)","rhs":"<unspecified:is_similar>","over":{"base":"Any","pred":"hasattr(t1, 'sides') and hasattr(t2, 'sides')"},"name":"is_similar_correct"},"guarantee":"is another triangle similar to this one","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.Triangle.is_similar_correct","statement":"Path(is_similar(x), is another triangle similar to this one)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aea071ec88526367","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(t1, 'sides')","hasattr(t2, 'sides')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["t1.sides","t2.sides"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_similar(t1, t2):
         """Is another triangle similar to this one.
 
@@ -2908,16 +3312,22 @@ class Triangle(Polygon):
             _are_similar(s1_3, s1_2, s1_1, *s2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_equilateral(), are all the sides the same length?) over Any ║
+# ║ Path(is_equilateral(), not has_variety((s.length for s in self.sides))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not has_variety((s.length for s in self.s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_equilateral : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 29d2ef2e7c6403ab           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.is_equilateral","kind":"method","src_hash":"7b546f79b23b384a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_equilateral()","rhs":"are all the sides the same length?","over":{"base":"Any"},"name":"is_equilateral_correct"},"guarantee":"are all the sides the same length?","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"29d2ef2e7c6403ab"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.is_equilateral","kind":"method","src_hash":"7b546f79b23b384a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_equilateral()","rhs":"not has_variety((s.length for s in self.sides))","over":{"base":"Any"},"name":"is_equilateral_correct"},"guarantee":"returns not has_variety((s.length for s in self.sides))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"29d2ef2e7c6403ab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not has_variety((s.length for s in self.sides))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sides"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_equilateral(self):
         """Are all the sides the same length?
 
@@ -2949,16 +3359,22 @@ class Triangle(Polygon):
         return not has_variety(s.length for s in self.sides)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_isosceles(), are two or more of the sides the same length?) over Any ║
+# ║ Path(is_isosceles(), has_dups((s.length for s in self.sides))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  has_dups((s.length for s in self.sides))       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_isosceles : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0f14dfcd96adfd31           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.is_isosceles","kind":"method","src_hash":"cc89a2a0f9b371d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_isosceles()","rhs":"are two or more of the sides the same length?","over":{"base":"Any"},"name":"is_isosceles_correct"},"guarantee":"are two or more of the sides the same length?","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0f14dfcd96adfd31"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.is_isosceles","kind":"method","src_hash":"cc89a2a0f9b371d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_isosceles()","rhs":"has_dups((s.length for s in self.sides))","over":{"base":"Any"},"name":"is_isosceles_correct"},"guarantee":"returns has_dups((s.length for s in self.sides))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0f14dfcd96adfd31","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"has_dups((s.length for s in self.sides))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sides"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_isosceles(self):
         """Are two or more of the sides the same length?
 
@@ -2984,16 +3400,22 @@ class Triangle(Polygon):
         return has_dups(s.length for s in self.sides)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_scalene(), are all the sides of the triangle of different lengths?) over Any ║
+# ║ Path(is_scalene(), not has_dups((s.length for s in self.sides))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not has_dups((s.length for s in self.sides))   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_scalene : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a44ab64b4f93b015           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.is_scalene","kind":"method","src_hash":"a45be85f2cdf34b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_scalene()","rhs":"are all the sides of the triangle of different lengths?","over":{"base":"Any"},"name":"is_scalene_correct"},"guarantee":"are all the sides of the triangle of different lengths?","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a44ab64b4f93b015"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.is_scalene","kind":"method","src_hash":"a45be85f2cdf34b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_scalene()","rhs":"not has_dups((s.length for s in self.sides))","over":{"base":"Any"},"name":"is_scalene_correct"},"guarantee":"returns not has_dups((s.length for s in self.sides))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a44ab64b4f93b015","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not has_dups((s.length for s in self.sides))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sides"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_scalene(self):
         """Are all the sides of the triangle of different lengths?
 
@@ -3019,16 +3441,22 @@ class Triangle(Polygon):
         return not has_dups(s.length for s in self.sides)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_right(), is the triangle right-angled) over Any    ║
+# ║ Path(is_right(), Segment.is_perpendicular(s[0], s[1]) or Segment.is_perpendicular(s[1], s[2]) or Segment.is_perpendicular(s[0], s[2])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Segment.is_perpendicular(s[0], s[1]) or S...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_right : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac2849450b5a096e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8da6dd5fb7362184  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.is_right","kind":"method","src_hash":"7bdd61a5c8450eb3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_right()","rhs":"is the triangle right-angled","over":{"base":"Any"},"name":"is_right_correct"},"guarantee":"is the triangle right-angled","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.Triangle.is_right_correct","statement":"Path(is_right(x), is the triangle right-angled)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac2849450b5a096e"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.is_right","kind":"method","src_hash":"7bdd61a5c8450eb3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_right()","rhs":"Segment.is_perpendicular(s[0], s[1]) or Segment.is_perpendicular(s[1], s[2]) or Segment.is_perpendicular(s[0], s[2])","over":{"base":"Any"},"name":"is_right_correct"},"guarantee":"returns Segment.is_perpendicular(s[0], s[1]) or Segment.is_perpendicular(s[1], s[2]) or Segment.is_perpendicular(s[0], s[2])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.Triangle.is_right_correct","statement":"Path(is_right(x), returns Segment.is_perpendicular(s[0], s[1]) or Segment.is_perpendicular(s[1], s[2]) or Segment.is_perpendicular(s[0], s[2]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8da6dd5fb7362184","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Segment.is_perpendicular(s[0], s[1]) or Segment.is_perpendicular(s[1], s[2]) or Segment.is_perpendicular(s[0], s[2])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sides"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_right(self):
         """Is the triangle right-angled.
 
@@ -3059,16 +3487,22 @@ class Triangle(Polygon):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(altitudes(), returns the altitudes attribute) over Any ║
+# ║ Path(altitudes(), {v[0]: s[1].perpendicular_segment(v[0]), v[1]: s[2].perpendicular_segment(v[1]), v[2]: s[0].perpendicular_segment(v[2])}) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  {v[0]: s[1].perpendicular_segment(v[0]), ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ altitudes : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 726ea8c500d3678f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.altitudes","kind":"property","src_hash":"ac52d697efcc6fb4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"altitudes()","rhs":"returns the altitudes attribute","over":{"base":"Any"},"name":"altitudes_correct"},"guarantee":"returns the altitudes attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"726ea8c500d3678f"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.altitudes","kind":"property","src_hash":"ac52d697efcc6fb4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"altitudes()","rhs":"{v[0]: s[1].perpendicular_segment(v[0]), v[1]: s[2].perpendicular_segment(v[1]), v[2]: s[0].perpendicular_segment(v[2])}","over":{"base":"Any"},"name":"altitudes_correct"},"guarantee":"returns {v[0]: s[1].perpendicular_segment(v[0]), v[1]: s[2].perpendicular_segment(v[1]), v[2]: s[0].perpendicular_segment(v[2])}","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"726ea8c500d3678f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"{v[0]: s[1].perpendicular_segment(v[0]), v[1]: s[2].perpendicular_segment(v[1]), v[2]: s[0].perpendicular_segment(v[2])}","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sides","self.vertices"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def altitudes(self):
         """The altitudes of the triangle.
 
@@ -3106,16 +3540,22 @@ class Triangle(Polygon):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(orthocenter(), returns the orthocenter attribute) over Any ║
+# ║ Path(orthocenter(), Line(a[v[0]]).intersection(Line(a[v[1]]))[0]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Line(a[v[0]]).intersection(Line(a[v[1]]))[0]   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ orthocenter : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 85b9b26aae4e9923           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.orthocenter","kind":"property","src_hash":"c769fdef3570a68c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"orthocenter()","rhs":"returns the orthocenter attribute","over":{"base":"Any"},"name":"orthocenter_correct"},"guarantee":"returns the orthocenter attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"85b9b26aae4e9923"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.orthocenter","kind":"property","src_hash":"c769fdef3570a68c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"orthocenter()","rhs":"Line(a[v[0]]).intersection(Line(a[v[1]]))[0]","over":{"base":"Any"},"name":"orthocenter_correct"},"guarantee":"returns Line(a[v[0]]).intersection(Line(a[v[1]]))[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"85b9b26aae4e9923","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Line(a[v[0]]).intersection(Line(a[v[1]]))[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.altitudes","self.vertices"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def orthocenter(self):
         """The orthocenter of the triangle.
 
@@ -3148,16 +3588,22 @@ class Triangle(Polygon):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(circumcenter(), returns the circumcenter attribute) over Any ║
+# ║ Path(circumcenter(), a.intersection(b)[0]) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  a.intersection(b)[0]                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ circumcenter : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3a4369f44ed7f46d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.circumcenter","kind":"property","src_hash":"061a556c438458f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"circumcenter()","rhs":"returns the circumcenter attribute","over":{"base":"Any"},"name":"circumcenter_correct"},"guarantee":"returns the circumcenter attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3a4369f44ed7f46d"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.circumcenter","kind":"property","src_hash":"061a556c438458f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"circumcenter()","rhs":"a.intersection(b)[0]","over":{"base":"Any"},"name":"circumcenter_correct"},"guarantee":"returns a.intersection(b)[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3a4369f44ed7f46d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"a.intersection(b)[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sides"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def circumcenter(self):
         """The circumcenter of the triangle
 
@@ -3187,16 +3633,22 @@ class Triangle(Polygon):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(circumradius(), returns the circumradius attribute) over Any ║
+# ║ Path(circumradius(), Point.distance(self.circumcenter, self.vertices[0])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Point.distance(self.circumcenter, self.ve...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ circumradius : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 37ffc7ba716d10db           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.circumradius","kind":"property","src_hash":"ae9490133e108596","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"circumradius()","rhs":"returns the circumradius attribute","over":{"base":"Any"},"name":"circumradius_correct"},"guarantee":"returns the circumradius attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"37ffc7ba716d10db"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.circumradius","kind":"property","src_hash":"ae9490133e108596","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"circumradius()","rhs":"Point.distance(self.circumcenter, self.vertices[0])","over":{"base":"Any"},"name":"circumradius_correct"},"guarantee":"returns Point.distance(self.circumcenter, self.vertices[0])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"37ffc7ba716d10db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Point.distance(self.circumcenter, self.vertices[0])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.circumcenter","self.vertices"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def circumradius(self):
         """The radius of the circumcircle of the triangle.
 
@@ -3225,16 +3677,22 @@ class Triangle(Polygon):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(circumcircle(), returns the circumcircle attribute) over Any ║
+# ║ Path(circumcircle(), Circle(self.circumcenter, self.circumradius)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Circle(self.circumcenter, self.circumradius)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ circumcircle : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9edd59fd43fc04b3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.circumcircle","kind":"property","src_hash":"786493946012b4d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"circumcircle()","rhs":"returns the circumcircle attribute","over":{"base":"Any"},"name":"circumcircle_correct"},"guarantee":"returns the circumcircle attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9edd59fd43fc04b3"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.circumcircle","kind":"property","src_hash":"786493946012b4d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"circumcircle()","rhs":"Circle(self.circumcenter, self.circumradius)","over":{"base":"Any"},"name":"circumcircle_correct"},"guarantee":"returns Circle(self.circumcenter, self.circumradius)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9edd59fd43fc04b3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Circle(self.circumcenter, self.circumradius)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.circumcenter","self.circumradius"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def circumcircle(self):
         """The circle which passes through the three vertices of the triangle.
 
@@ -3261,16 +3719,22 @@ class Triangle(Polygon):
         return Circle(self.circumcenter, self.circumradius)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bisectors(), the angle bisectors of the triangle) over Any ║
+# ║ Path(bisectors(), {v[0]: l1, v[1]: l2, v[2]: l3}) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  {v[0]: l1, v[1]: l2, v[2]: l3}                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bisectors : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 762f542c6ed65ed3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5745fbbdbeee654a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.bisectors","kind":"method","src_hash":"38d8d93bd2b4ad82","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bisectors()","rhs":"the angle bisectors of the triangle","over":{"base":"Any"},"name":"bisectors_correct"},"guarantee":"the angle bisectors of the triangle","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.Triangle.bisectors_correct","statement":"Path(bisectors(x), the angle bisectors of the triangle)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"762f542c6ed65ed3"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.bisectors","kind":"method","src_hash":"38d8d93bd2b4ad82","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bisectors()","rhs":"{v[0]: l1, v[1]: l2, v[2]: l3}","over":{"base":"Any"},"name":"bisectors_correct"},"guarantee":"returns {v[0]: l1, v[1]: l2, v[2]: l3}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon.Triangle.bisectors_correct","statement":"Path(bisectors(x), returns {v[0]: l1, v[1]: l2, v[2]: l3})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5745fbbdbeee654a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"{v[0]: l1, v[1]: l2, v[2]: l3}","pure":false,"effects":{"effect_type":"reads_state","reads":["self.incenter","self.sides","self.vertices"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def bisectors(self):
         """The angle bisectors of the triangle.
 
@@ -3313,16 +3777,22 @@ class Triangle(Polygon):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(incenter(), returns the incenter attribute) over Any  ║
+# ║ Path(incenter(), Point(x, y)) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Point(x, y)                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ incenter : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3e0cd9eaf571a6d5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.incenter","kind":"property","src_hash":"07a0749b529a35a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"incenter()","rhs":"returns the incenter attribute","over":{"base":"Any"},"name":"incenter_correct"},"guarantee":"returns the incenter attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e0cd9eaf571a6d5"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.incenter","kind":"property","src_hash":"07a0749b529a35a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"incenter()","rhs":"Point(x, y)","over":{"base":"Any"},"name":"incenter_correct"},"guarantee":"returns Point(x, y)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e0cd9eaf571a6d5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Point(x, y)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sides","self.vertices"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def incenter(self):
         """The center of the incircle.
 
@@ -3359,16 +3829,22 @@ class Triangle(Polygon):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inradius(), returns the inradius attribute) over Any  ║
+# ║ Path(inradius(), simplify(2 * self.area / self.perimeter)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  simplify(2 * self.area / self.perimeter)       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ inradius : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2410fd6c56c92c33           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.inradius","kind":"property","src_hash":"8ac7d62188dbfea5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inradius()","rhs":"returns the inradius attribute","over":{"base":"Any"},"name":"inradius_correct"},"guarantee":"returns the inradius attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2410fd6c56c92c33"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.inradius","kind":"property","src_hash":"8ac7d62188dbfea5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inradius()","rhs":"simplify(2 * self.area / self.perimeter)","over":{"base":"Any"},"name":"inradius_correct"},"guarantee":"returns simplify(2 * self.area / self.perimeter)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2410fd6c56c92c33","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"simplify(2 * self.area / self.perimeter)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.area","self.perimeter"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def inradius(self):
         """The radius of the incircle.
 
@@ -3396,16 +3872,22 @@ class Triangle(Polygon):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(incircle(), returns the incircle attribute) over Any  ║
+# ║ Path(incircle(), Circle(self.incenter, self.inradius)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Circle(self.incenter, self.inradius)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ incircle : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 74a9cc0184d7dace           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.incircle","kind":"property","src_hash":"092ce395c5ec2406","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"incircle()","rhs":"returns the incircle attribute","over":{"base":"Any"},"name":"incircle_correct"},"guarantee":"returns the incircle attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"74a9cc0184d7dace"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.incircle","kind":"property","src_hash":"092ce395c5ec2406","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"incircle()","rhs":"Circle(self.incenter, self.inradius)","over":{"base":"Any"},"name":"incircle_correct"},"guarantee":"returns Circle(self.incenter, self.inradius)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"74a9cc0184d7dace","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Circle(self.incenter, self.inradius)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.incenter","self.inradius"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def incircle(self):
         """The incircle of the triangle.
 
@@ -3436,16 +3918,22 @@ class Triangle(Polygon):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(exradii(), returns the exradii attribute) over Any    ║
+# ║ Path(exradii(), <unspecified:exradii>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ exradii : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 03bc52439b0305da           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.exradii","kind":"property","src_hash":"c26389d759c835a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exradii()","rhs":"returns the exradii attribute","over":{"base":"Any"},"name":"exradii_correct"},"guarantee":"returns the exradii attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"03bc52439b0305da"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.exradii","kind":"property","src_hash":"c26389d759c835a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exradii()","rhs":"<unspecified:exradii>","over":{"base":"Any"},"name":"exradii_correct"},"guarantee":"returns the exradii attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"03bc52439b0305da","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.area","self.sides"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def exradii(self):
         """The radius of excircles of a triangle.
 
@@ -3497,16 +3985,22 @@ class Triangle(Polygon):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(excenters(), returns the excenters attribute) over Any ║
+# ║ Path(excenters(), <unspecified:excenters>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ excenters : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 51cb1ff58b847de0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.excenters","kind":"property","src_hash":"c349893595b13904","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"excenters()","rhs":"returns the excenters attribute","over":{"base":"Any"},"name":"excenters_correct"},"guarantee":"returns the excenters attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"51cb1ff58b847de0"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.excenters","kind":"property","src_hash":"c349893595b13904","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"excenters()","rhs":"<unspecified:excenters>","over":{"base":"Any"},"name":"excenters_correct"},"guarantee":"returns the excenters attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"51cb1ff58b847de0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sides","self.vertices"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def excenters(self):
         """Excenters of the triangle.
 
@@ -3571,16 +4065,22 @@ class Triangle(Polygon):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(medians(), returns the medians attribute) over Any    ║
+# ║ Path(medians(), {v[0]: Segment(v[0], s[1].midpoint), v[1]: Segment(v[1], s[2].midpoint), v[2]: Segment(v[2], s[0].midpoint)}) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  {v[0]: Segment(v[0], s[1].midpoint), v[1]...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ medians : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e3362a0f7453740d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.medians","kind":"property","src_hash":"e1bf5340f9e80c14","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"medians()","rhs":"returns the medians attribute","over":{"base":"Any"},"name":"medians_correct"},"guarantee":"returns the medians attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e3362a0f7453740d"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.medians","kind":"property","src_hash":"e1bf5340f9e80c14","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"medians()","rhs":"{v[0]: Segment(v[0], s[1].midpoint), v[1]: Segment(v[1], s[2].midpoint), v[2]: Segment(v[2], s[0].midpoint)}","over":{"base":"Any"},"name":"medians_correct"},"guarantee":"returns {v[0]: Segment(v[0], s[1].midpoint), v[1]: Segment(v[1], s[2].midpoint), v[2]: Segment(v[2], s[0].midpoint)}","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e3362a0f7453740d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"{v[0]: Segment(v[0], s[1].midpoint), v[1]: Segment(v[1], s[2].midpoint), v[2]: Segment(v[2], s[0].midpoint)}","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sides","self.vertices"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def medians(self):
         """The medians of the triangle.
 
@@ -3618,16 +4118,22 @@ class Triangle(Polygon):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(medial(), returns the medial attribute) over Any      ║
+# ║ Path(medial(), Triangle(s[0].midpoint, s[1].midpoint, s[2].midpoint)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Triangle(s[0].midpoint, s[1].midpoint, s[...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ medial : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 79217632a1c89b4c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.medial","kind":"property","src_hash":"213d979b77a7c7aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"medial()","rhs":"returns the medial attribute","over":{"base":"Any"},"name":"medial_correct"},"guarantee":"returns the medial attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"79217632a1c89b4c"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.medial","kind":"property","src_hash":"213d979b77a7c7aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"medial()","rhs":"Triangle(s[0].midpoint, s[1].midpoint, s[2].midpoint)","over":{"base":"Any"},"name":"medial_correct"},"guarantee":"returns Triangle(s[0].midpoint, s[1].midpoint, s[2].midpoint)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"79217632a1c89b4c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Triangle(s[0].midpoint, s[1].midpoint, s[2].midpoint)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sides"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def medial(self):
         """The medial triangle of the triangle.
 
@@ -3658,16 +4164,22 @@ class Triangle(Polygon):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nine_point_circle(), returns the nine_point_circle attribute) over Any ║
+# ║ Path(nine_point_circle(), Circle(*self.medial.vertices)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Circle(*self.medial.vertices)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ nine_point_circle : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1138d12c87f643a6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.nine_point_circle","kind":"property","src_hash":"038b0588c1563ae7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nine_point_circle()","rhs":"returns the nine_point_circle attribute","over":{"base":"Any"},"name":"nine_point_circle_correct"},"guarantee":"returns the nine_point_circle attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1138d12c87f643a6"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.nine_point_circle","kind":"property","src_hash":"038b0588c1563ae7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nine_point_circle()","rhs":"Circle(*self.medial.vertices)","over":{"base":"Any"},"name":"nine_point_circle_correct"},"guarantee":"returns Circle(*self.medial.vertices)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1138d12c87f643a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Circle(*self.medial.vertices)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.medial"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def nine_point_circle(self):
         """The nine-point circle of the triangle.
 
@@ -3701,16 +4213,22 @@ class Triangle(Polygon):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eulerline(), returns the eulerline attribute) over Any ║
+# ║ Path(eulerline(), <unspecified:eulerline>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eulerline : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bf15371670fb11c9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.eulerline","kind":"property","src_hash":"4fdcf7ffbe484c18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eulerline()","rhs":"returns the eulerline attribute","over":{"base":"Any"},"name":"eulerline_correct"},"guarantee":"returns the eulerline attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bf15371670fb11c9"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.Triangle.eulerline","kind":"property","src_hash":"4fdcf7ffbe484c18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eulerline()","rhs":"<unspecified:eulerline>","over":{"base":"Any"},"name":"eulerline_correct"},"guarantee":"returns the eulerline attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bf15371670fb11c9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.circumcenter","self.is_equilateral","self.orthocenter"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eulerline(self):
         """The Euler line of the triangle.
 
@@ -3737,64 +4255,88 @@ class Triangle(Polygon):
         return Line(self.orthocenter, self.circumcenter)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rad(d), return the radian value for the given degrees (pi = 180 degrees)) over Any ║
+# ║ Path(rad(d), d * pi / 180) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  d * pi / 180                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rad : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cc0e8d3f34f0b10e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.rad","kind":"function","src_hash":"1fe7b52fb053f6f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rad(d)","rhs":"return the radian value for the given degrees (pi = 180 degrees)","over":{"base":"Any"},"name":"rad_correct"},"guarantee":"return the radian value for the given degrees (pi = 180 degrees)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc0e8d3f34f0b10e"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.rad","kind":"function","src_hash":"1fe7b52fb053f6f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rad(d)","rhs":"d * pi / 180","over":{"base":"Any"},"name":"rad_correct"},"guarantee":"returns d * pi / 180","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc0e8d3f34f0b10e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"d * pi / 180","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def rad(d):
     """Return the radian value for the given degrees (pi = 180 degrees)."""
     return d*pi/180
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(deg(r), return the degree value for the given radians (pi = 180 degrees)) over Any ║
+# ║ Path(deg(r), r / pi * 180) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  r / pi * 180                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ deg : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 07c7d85b596a1b2f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.deg","kind":"function","src_hash":"e4e2add569ca3110","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"deg(r)","rhs":"return the degree value for the given radians (pi = 180 degrees)","over":{"base":"Any"},"name":"deg_correct"},"guarantee":"return the degree value for the given radians (pi = 180 degrees)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"07c7d85b596a1b2f"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon.deg","kind":"function","src_hash":"e4e2add569ca3110","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"deg(r)","rhs":"r / pi * 180","over":{"base":"Any"},"name":"deg_correct"},"guarantee":"returns r / pi * 180","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"07c7d85b596a1b2f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"r / pi * 180","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def deg(r):
     """Return the degree value for the given radians (pi = 180 degrees)."""
     return r/pi*180
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_slope(d), internal helper behaves correctly) over Any ║
+# ║ Path(_slope(d), <unspecified:_slope>) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _slope : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e7edff5bafc3d1ec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon._slope","kind":"function","src_hash":"1221055fb890302e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_slope(d)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_slope_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon._slope_correct","statement":"Path(_slope(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7edff5bafc3d1ec"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon._slope","kind":"function","src_hash":"1221055fb890302e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_slope(d)","rhs":"<unspecified:_slope>","over":{"base":"Any"},"name":"_slope_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon._slope_correct","statement":"Path(_slope(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7edff5bafc3d1ec","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _slope(d):
     rv = tan(rad(d))
     return rv
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_asa(d1,), return triangle having side with length l on the x-axis) over Any ║
+# ║ Path(_asa(d1, l, d2), Triangle((0, 0), (l, 0), xy)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Triangle((0, 0), (l, 0), xy)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _asa : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aed8b60a9936b26d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1115a5cb6c3f27c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon._asa","kind":"function","src_hash":"8d29a705706b6c47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_asa(d1,)","rhs":"return triangle having side with length l on the x-axis","over":{"base":"Any"},"name":"_asa_correct"},"guarantee":"return triangle having side with length l on the x-axis","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon._asa_correct","statement":"Path(_asa(x), return triangle having side with length l on the x-axis)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aed8b60a9936b26d"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon._asa","kind":"function","src_hash":"8d29a705706b6c47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_asa(d1, l, d2)","rhs":"Triangle((0, 0), (l, 0), xy)","over":{"base":"Any"},"name":"_asa_correct"},"guarantee":"returns Triangle((0, 0), (l, 0), xy)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon._asa_correct","statement":"Path(_asa(x), returns Triangle((0, 0), (l, 0), xy))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1115a5cb6c3f27c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Triangle((0, 0), (l, 0), xy)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _asa(d1, l, d2):
     """Return triangle having side with length l on the x-axis."""
     xy = Line((0, 0), slope=_slope(d1)).intersection(
@@ -3803,16 +4345,22 @@ def _asa(d1, l, d2):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sss(l1,), return triangle having side of length l1 on the x-axis) over Any ║
+# ║ Path(_sss(l1, l2, l3), <unspecified:_sss>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sss : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3471ab182ce7771  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon._sss","kind":"function","src_hash":"576859336c5c0d31","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sss(l1,)","rhs":"return triangle having side of length l1 on the x-axis","over":{"base":"Any"},"name":"_sss_correct"},"guarantee":"return triangle having side of length l1 on the x-axis","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon._sss_correct","statement":"Path(_sss(x), return triangle having side of length l1 on the x-axis)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3471ab182ce7771"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon._sss","kind":"function","src_hash":"576859336c5c0d31","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sss(l1, l2, l3)","rhs":"<unspecified:_sss>","over":{"base":"Any"},"name":"_sss_correct"},"guarantee":"return triangle having side of length l1 on the x-axis","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon._sss_correct","statement":"Path(_sss(x), return triangle having side of length l1 on the x-axis)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3471ab182ce7771","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _sss(l1, l2, l3):
     """Return triangle having side of length l1 on the x-axis."""
     c1 = Circle((0, 0), l3)
@@ -3825,16 +4373,22 @@ def _sss(l1, l2, l3):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sas(l1,), return triangle having side with length l2 on the x-axis) over Any ║
+# ║ Path(_sas(l1, d, l2), Triangle(p1, p2, p3)) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Triangle(p1, p2, p3)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sas : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81f765a13c76ae84  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3620af7d4beb093e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon._sas","kind":"function","src_hash":"23a5a4450c68c758","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sas(l1,)","rhs":"return triangle having side with length l2 on the x-axis","over":{"base":"Any"},"name":"_sas_correct"},"guarantee":"return triangle having side with length l2 on the x-axis","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon._sas_correct","statement":"Path(_sas(x), return triangle having side with length l2 on the x-axis)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81f765a13c76ae84"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.polygon._sas","kind":"function","src_hash":"23a5a4450c68c758","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sas(l1, d, l2)","rhs":"Triangle(p1, p2, p3)","over":{"base":"Any"},"name":"_sas_correct"},"guarantee":"returns Triangle(p1, p2, p3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.polygon._sas_correct","statement":"Path(_sas(x), returns Triangle(p1, p2, p3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3620af7d4beb093e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Triangle(p1, p2, p3)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _sas(l1, d, l2):
     """Return triangle having side with length l2 on the x-axis."""
     p1 = Point(0, 0)

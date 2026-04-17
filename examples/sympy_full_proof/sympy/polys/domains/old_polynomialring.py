@@ -35,14 +35,21 @@ from sympy.utilities.iterables import iterable
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a PolynomialRingBase instance) preserved by PolynomialRingBase(*args) over {Any | isinstance(other, PolynomialRingBase)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Ring)                         ║
+# ║   ensures:  isinstance(self, CompositeDomain)              ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ PolynomialRingBase : {Any | isinstance(other, Polynom...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5e3a2fa836d7e03  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase","kind":"class","src_hash":"3af669fc46f60955","in":{"base":"Any","pred":"isinstance(other, PolynomialRingBase)"},"out":{"base":"Any"},"spec":{"lhs":"PolynomialRingBase(*args)","rhs":"correctly constructs a PolynomialRingBase instance","over":{"base":"Any","pred":"isinstance(other, PolynomialRingBase)"},"name":"PolynomialRingBase_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a PolynomialRingBase instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'ngens') and hasattr(self, 'zero') and hasattr(self, 'one') and hasattr(self, 'domain') and hasattr(self, 'dom') and hasattr(self, 'symbols') and hasattr(self, 'gens') and hasattr(self, 'order')","kind":"class","induction":"structural on ngens, zero, one, domain"}],"methods_preserving":["__init__","set_domain","new","_ground_new","_from_dict","__str__","__hash__","__eq__","get_field","poly_ring","frac_field","revert","gcdex","gcd","lcm","factorial","_vector_to_sdm","_sdm_to_dics","_sdm_to_vector","free_module"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5e3a2fa836d7e03"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase","kind":"class","src_hash":"3af669fc46f60955","in":{"base":"Any","pred":"isinstance(other, PolynomialRingBase)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Ring) and isinstance(self, CompositeDomain)"},"spec":{"lhs":"PolynomialRingBase(*args)","rhs":"correctly constructs a PolynomialRingBase instance","over":{"base":"Any","pred":"isinstance(other, PolynomialRingBase)"},"name":"PolynomialRingBase_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Ring); isinstance(self, CompositeDomain); preserves 8 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'ngens') and hasattr(self, 'zero') and hasattr(self, 'one') and hasattr(self, 'domain') and hasattr(self, 'dom') and hasattr(self, 'symbols') and hasattr(self, 'gens') and hasattr(self, 'order')","kind":"class","induction":"structural on ngens, zero, one, domain"}],"methods_preserving":["__init__","set_domain","new","_ground_new","_from_dict","__str__","__hash__","__eq__","get_field","poly_ring","frac_field","revert","gcdex","gcd","lcm","factorial","_vector_to_sdm","_sdm_to_dics","_sdm_to_vector","free_module"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5e3a2fa836d7e03","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Ring)","isinstance(self, CompositeDomain)"],"invariants":["hasattr(self, 'ngens')","hasattr(self, 'zero')","hasattr(self, 'one')","hasattr(self, 'domain')","hasattr(self, 'dom')","hasattr(self, 'symbols')","hasattr(self, 'gens')","hasattr(self, 'order')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function PolynomialRingBase not found in source"]}}
 class PolynomialRingBase(Ring, CompositeDomain):
     """
     Base class for generalized polynomial rings.
@@ -59,16 +66,24 @@ class PolynomialRingBase(Ring, CompositeDomain):
     default_order = "grevlex"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(dom), initializes the instance correctly) over Any ║
+# ║ Path(__init__(dom, *gens, **opts), self.domain == dom and self.dom == dom) over {Any | gens} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: gens                                           ║
+# ║   ensures:  self.domain == dom                             ║
+# ║   ensures:  self.dom == dom                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | gens} → {Any | result satisfies: se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fef5e4614f62e901           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.__init__","kind":"method","src_hash":"2d252282dbc1cc48","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(dom)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fef5e4614f62e901"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.__init__","kind":"method","src_hash":"2d252282dbc1cc48","in":{"base":"Any","pred":"gens"},"out":{"base":"Any","pred":"result satisfies: self.domain == dom and self.dom == dom"},"spec":{"lhs":"__init__(dom, *gens, **opts)","rhs":"self.domain == dom and self.dom == dom","over":{"base":"Any","pred":"gens"},"name":"__init___correct"},"guarantee":"self.domain == dom; self.dom == dom","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fef5e4614f62e901","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["gens"],"ensures":["self.domain == dom","self.dom == dom"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.default_order","self.dtype"],"writes":["self.dom","self.domain","self.gens","self.ngens","self.one","self.order","self.symbols","self.zero"],"raises":["GeneratorsNeeded"]},"state_contract":{"modifies":["self.dom","self.domain","self.gens","self.ngens","self.one","self.order","self.symbols","self.zero"],"old_bindings":{"old_self_dom":"self.dom","old_self_domain":"self.domain","old_self_gens":"self.gens","old_self_ngens":"self.ngens","old_self_one":"self.one","old_self_order":"self.order","old_self_symbols":"self.symbols","old_self_zero":"self.zero"},"exceptional_post":{"GeneratorsNeeded":["isinstance(raised, GeneratorsNeeded)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, dom, *gens, **opts):
         if not gens:
             raise GeneratorsNeeded("generators not specified")
@@ -85,73 +100,103 @@ class PolynomialRingBase(Ring, CompositeDomain):
         self.order = opts.get('order', monomial_key(self.default_order))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set_domain(dom), return a new polynomial ring with given domain) over Any ║
+# ║ Path(set_domain(dom), self.__class__(dom, *self.gens, order=self.order)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__class__(dom, *self.gens, order=sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set_domain : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 673e99caddca9b45           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.set_domain","kind":"method","src_hash":"01b83e8f53c66186","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_domain(dom)","rhs":"return a new polynomial ring with given domain","over":{"base":"Any"},"name":"set_domain_correct"},"guarantee":"return a new polynomial ring with given domain","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"673e99caddca9b45"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.set_domain","kind":"method","src_hash":"01b83e8f53c66186","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_domain(dom)","rhs":"self.__class__(dom, *self.gens, order=self.order)","over":{"base":"Any"},"name":"set_domain_correct"},"guarantee":"returns self.__class__(dom, *self.gens, order=self.order)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"673e99caddca9b45","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__class__(dom, *self.gens, order=self.order)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.gens","self.order"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set_domain(self, dom):
         """Return a new polynomial ring with given domain. """
         return self.__class__(dom, *self.gens, order=self.order)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(new(ele), new produces the expected output) over Any  ║
+# ║ Path(new(element), self.dtype(element, self.dom, len(self.gens) - 1)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.dtype(element, self.dom, len(self.ge...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ new : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1e70f6286bda5472           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.new","kind":"method","src_hash":"6df2df77491ba1d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"new(ele)","rhs":"new produces the expected output","over":{"base":"Any"},"name":"new_correct"},"guarantee":"new produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1e70f6286bda5472"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.new","kind":"method","src_hash":"6df2df77491ba1d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"new(element)","rhs":"self.dtype(element, self.dom, len(self.gens) - 1)","over":{"base":"Any"},"name":"new_correct"},"guarantee":"returns self.dtype(element, self.dom, len(self.gens) - 1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1e70f6286bda5472","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.dtype(element, self.dom, len(self.gens) - 1)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dom","self.dtype","self.gens"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def new(self, element):
         return self.dtype(element, self.dom, len(self.gens) - 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_ground_new(ele), internal helper behaves correctly) over Any ║
+# ║ Path(_ground_new(element), self.one.ground_new(element)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.one.ground_new(element)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ground_new : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ad53ea99618adcd0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase._ground_new","kind":"method","src_hash":"7e7ad8edc4c8f2ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_ground_new(ele)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_ground_new_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ad53ea99618adcd0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase._ground_new","kind":"method","src_hash":"7e7ad8edc4c8f2ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_ground_new(element)","rhs":"self.one.ground_new(element)","over":{"base":"Any"},"name":"_ground_new_correct"},"guarantee":"returns self.one.ground_new(element)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ad53ea99618adcd0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.one.ground_new(element)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.one"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _ground_new(self, element):
         return self.one.ground_new(element)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_from_dict(ele), internal helper behaves correctly) over Any ║
+# ║ Path(_from_dict(element), DMP.from_dict(element, len(self.gens) - 1, self.dom)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  DMP.from_dict(element, len(self.gens) - 1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _from_dict : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f9d4fb284c16cb13           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase._from_dict","kind":"method","src_hash":"258d1ea254f66785","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_from_dict(ele)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_from_dict_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f9d4fb284c16cb13"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase._from_dict","kind":"method","src_hash":"258d1ea254f66785","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_from_dict(element)","rhs":"DMP.from_dict(element, len(self.gens) - 1, self.dom)","over":{"base":"Any"},"name":"_from_dict_correct"},"guarantee":"returns DMP.from_dict(element, len(self.gens) - 1, self.dom)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f9d4fb284c16cb13","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"DMP.from_dict(element, len(self.gens) - 1, self.dom)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dom","self.gens"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _from_dict(self, element):
         return DMP.from_dict(element, len(self.gens) - 1, self.dom)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), str(self.dom) + '[' + ','.join(map(str, self.gens)) + orderstr + ']') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  str(self.dom) + '[' + ','.join(map(str, s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9f4d2fab1444172b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.__str__","kind":"method","src_hash":"b1e93115b17fb2db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9f4d2fab1444172b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.__str__","kind":"method","src_hash":"b1e93115b17fb2db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"str(self.dom) + '[' + ','.join(map(str, self.gens)) + orderstr + ']'","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns str(self.dom) + '[' + ','.join(map(str, self.gens)) + orderstr + ']'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9f4d2fab1444172b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"str(self.dom) + '[' + ','.join(map(str, self.gens)) + orderstr + ']'","pure":false,"effects":{"effect_type":"reads_state","reads":["self.default_order","self.dom","self.gens","self.order"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         s_order = str(self.order)
         orderstr = (
@@ -159,31 +204,46 @@ class PolynomialRingBase(Ring, CompositeDomain):
         return str(self.dom) + '[' + ','.join(map(str, self.gens)) + orderstr + ']'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), hash((self.__class__.__name__, self.dtype, self.dom, self.gens, self.order))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hash((self.__class__.__name__, self.dtype...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 31bb63156dbb67f3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.__hash__","kind":"method","src_hash":"f253df98a3054682","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"31bb63156dbb67f3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.__hash__","kind":"method","src_hash":"f253df98a3054682","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"hash((self.__class__.__name__, self.dtype, self.dom, self.gens, self.order))","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns hash((self.__class__.__name__, self.dtype, self.dom, self.gens, self.order))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"31bb63156dbb67f3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hash((self.__class__.__name__, self.dtype, self.dom, self.gens, self.order))","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.dom","self.dtype","self.gens","self.order"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         return hash((self.__class__.__name__, self.dtype, self.dom,
                      self.gens, self.order))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), isinstance(other, PolynomialRingBase) and self.dtype == other.dtype and (self.dom == other.dom) and (self.gens == other.gens) and (self.order == other.order)) over {Any | hasattr(other, 'dtype') and hasattr(other, 'dom') and hasattr(other, 'gens') and hasattr(other, 'order')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'dtype')                        ║
+# ║   requires: hasattr(other, 'dom')                          ║
+# ║   requires: hasattr(other, 'gens')                         ║
+# ║   returns:  isinstance(other, PolynomialRingBase) and...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'dtype') and hasattr(o...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3d968b82d5c0f071           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.__eq__","kind":"method","src_hash":"d307950368d5d6c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3d968b82d5c0f071"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.__eq__","kind":"method","src_hash":"d307950368d5d6c6","in":{"base":"Any","pred":"hasattr(other, 'dtype') and hasattr(other, 'dom') and hasattr(other, 'gens') and hasattr(other, 'order')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"isinstance(other, PolynomialRingBase) and self.dtype == other.dtype and (self.dom == other.dom) and (self.gens == other.gens) and (self.order == other.order)","over":{"base":"Any","pred":"hasattr(other, 'dtype') and hasattr(other, 'dom') and hasattr(other, 'gens') and hasattr(other, 'order')"},"name":"__eq___correct"},"guarantee":"returns isinstance(other, PolynomialRingBase) and self.dtype == other.dtype and (self.dom == other.dom) and (self.gens == other.gens) and (self.order == other.order)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3d968b82d5c0f071","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'dtype')","hasattr(other, 'dom')","hasattr(other, 'gens')","hasattr(other, 'order')"],"returns_expr":"isinstance(other, PolynomialRingBase) and self.dtype == other.dtype and (self.dom == other.dom) and (self.gens == other.gens) and (self.order == other.order)","pure":false,"effects":{"effect_type":"reads_state","reads":["other.dom","other.dtype","other.gens","other.order","self.dom","self.dtype","self.gens","self.order"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         """Returns ``True`` if two domains are equivalent. """
         return isinstance(other, PolynomialRingBase) and \
@@ -191,137 +251,211 @@ class PolynomialRingBase(Ring, CompositeDomain):
             self.gens == other.gens and self.order == other.order
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_ZZ(K1,), convert a python ``int`` object to ``dtype``) over Any ║
+# ║ Path(from_ZZ(K1, a, K0), K1._ground_new(K1.dom.convert(a, K0))) over {Any | hasattr(K1, '_ground_new') and hasattr(K1, 'dom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_ZZ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, '_ground_new')                     ║
+# ║   requires: hasattr(K1, 'dom')                             ║
+# ║   returns:  K1._ground_new(K1.dom.convert(a, K0))          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_ZZ : {Any | hasattr(K1, '_ground_new') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a98bb5235591a3d2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.from_ZZ","kind":"method","src_hash":"b874679b78db5796","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ(K1,)","rhs":"convert a python ``int`` object to ``dtype``","over":{"base":"Any"},"name":"from_ZZ_correct"},"guarantee":"convert a python ``int`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a98bb5235591a3d2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.from_ZZ","kind":"method","src_hash":"b874679b78db5796","in":{"base":"Any","pred":"hasattr(K1, '_ground_new') and hasattr(K1, 'dom')"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ(K1, a, K0)","rhs":"K1._ground_new(K1.dom.convert(a, K0))","over":{"base":"Any","pred":"hasattr(K1, '_ground_new') and hasattr(K1, 'dom')"},"name":"from_ZZ_correct"},"guarantee":"returns K1._ground_new(K1.dom.convert(a, K0))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a98bb5235591a3d2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, '_ground_new')","hasattr(K1, 'dom')"],"returns_expr":"K1._ground_new(K1.dom.convert(a, K0))","pure":false,"effects":{"effect_type":"reads_state","reads":["K1._ground_new","K1.dom"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_ZZ(K1, a, K0):
         """Convert a Python ``int`` object to ``dtype``. """
         return K1._ground_new(K1.dom.convert(a, K0))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_ZZ_python(K1,), convert a python ``int`` object to ``dtype``) over Any ║
+# ║ Path(from_ZZ_python(K1, a, K0), K1._ground_new(K1.dom.convert(a, K0))) over {Any | hasattr(K1, '_ground_new') and hasattr(K1, 'dom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_ZZ_python : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, '_ground_new')                     ║
+# ║   requires: hasattr(K1, 'dom')                             ║
+# ║   returns:  K1._ground_new(K1.dom.convert(a, K0))          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_ZZ_python : {Any | hasattr(K1, '_ground_new') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5da48bfca9552846           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.from_ZZ_python","kind":"method","src_hash":"ee90ebb0a5e9b143","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ_python(K1,)","rhs":"convert a python ``int`` object to ``dtype``","over":{"base":"Any"},"name":"from_ZZ_python_correct"},"guarantee":"convert a python ``int`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5da48bfca9552846"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.from_ZZ_python","kind":"method","src_hash":"ee90ebb0a5e9b143","in":{"base":"Any","pred":"hasattr(K1, '_ground_new') and hasattr(K1, 'dom')"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ_python(K1, a, K0)","rhs":"K1._ground_new(K1.dom.convert(a, K0))","over":{"base":"Any","pred":"hasattr(K1, '_ground_new') and hasattr(K1, 'dom')"},"name":"from_ZZ_python_correct"},"guarantee":"returns K1._ground_new(K1.dom.convert(a, K0))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5da48bfca9552846","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, '_ground_new')","hasattr(K1, 'dom')"],"returns_expr":"K1._ground_new(K1.dom.convert(a, K0))","pure":false,"effects":{"effect_type":"reads_state","reads":["K1._ground_new","K1.dom"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_ZZ_python(K1, a, K0):
         """Convert a Python ``int`` object to ``dtype``. """
         return K1._ground_new(K1.dom.convert(a, K0))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_QQ(K1,), convert a python ``fraction`` object to ``dtype``) over Any ║
+# ║ Path(from_QQ(K1, a, K0), K1._ground_new(K1.dom.convert(a, K0))) over {Any | hasattr(K1, '_ground_new') and hasattr(K1, 'dom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_QQ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, '_ground_new')                     ║
+# ║   requires: hasattr(K1, 'dom')                             ║
+# ║   returns:  K1._ground_new(K1.dom.convert(a, K0))          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_QQ : {Any | hasattr(K1, '_ground_new') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 34d5df4471dd5906           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.from_QQ","kind":"method","src_hash":"4746e1804e50f900","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ(K1,)","rhs":"convert a python ``fraction`` object to ``dtype``","over":{"base":"Any"},"name":"from_QQ_correct"},"guarantee":"convert a python ``fraction`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"34d5df4471dd5906"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.from_QQ","kind":"method","src_hash":"4746e1804e50f900","in":{"base":"Any","pred":"hasattr(K1, '_ground_new') and hasattr(K1, 'dom')"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ(K1, a, K0)","rhs":"K1._ground_new(K1.dom.convert(a, K0))","over":{"base":"Any","pred":"hasattr(K1, '_ground_new') and hasattr(K1, 'dom')"},"name":"from_QQ_correct"},"guarantee":"returns K1._ground_new(K1.dom.convert(a, K0))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"34d5df4471dd5906","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, '_ground_new')","hasattr(K1, 'dom')"],"returns_expr":"K1._ground_new(K1.dom.convert(a, K0))","pure":false,"effects":{"effect_type":"reads_state","reads":["K1._ground_new","K1.dom"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_QQ(K1, a, K0):
         """Convert a Python ``Fraction`` object to ``dtype``. """
         return K1._ground_new(K1.dom.convert(a, K0))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_QQ_python(K1,), convert a python ``fraction`` object to ``dtype``) over Any ║
+# ║ Path(from_QQ_python(K1, a, K0), K1._ground_new(K1.dom.convert(a, K0))) over {Any | hasattr(K1, '_ground_new') and hasattr(K1, 'dom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_QQ_python : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, '_ground_new')                     ║
+# ║   requires: hasattr(K1, 'dom')                             ║
+# ║   returns:  K1._ground_new(K1.dom.convert(a, K0))          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_QQ_python : {Any | hasattr(K1, '_ground_new') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c2a6a04352aa6c1a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.from_QQ_python","kind":"method","src_hash":"b77a9fe8876ea28e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ_python(K1,)","rhs":"convert a python ``fraction`` object to ``dtype``","over":{"base":"Any"},"name":"from_QQ_python_correct"},"guarantee":"convert a python ``fraction`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c2a6a04352aa6c1a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.from_QQ_python","kind":"method","src_hash":"b77a9fe8876ea28e","in":{"base":"Any","pred":"hasattr(K1, '_ground_new') and hasattr(K1, 'dom')"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ_python(K1, a, K0)","rhs":"K1._ground_new(K1.dom.convert(a, K0))","over":{"base":"Any","pred":"hasattr(K1, '_ground_new') and hasattr(K1, 'dom')"},"name":"from_QQ_python_correct"},"guarantee":"returns K1._ground_new(K1.dom.convert(a, K0))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c2a6a04352aa6c1a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, '_ground_new')","hasattr(K1, 'dom')"],"returns_expr":"K1._ground_new(K1.dom.convert(a, K0))","pure":false,"effects":{"effect_type":"reads_state","reads":["K1._ground_new","K1.dom"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_QQ_python(K1, a, K0):
         """Convert a Python ``Fraction`` object to ``dtype``. """
         return K1._ground_new(K1.dom.convert(a, K0))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_ZZ_gmpy(K1,), convert a gmpy ``mpz`` object to ``dtype``) over Any ║
+# ║ Path(from_ZZ_gmpy(K1, a, K0), K1._ground_new(K1.dom.convert(a, K0))) over {Any | hasattr(K1, '_ground_new') and hasattr(K1, 'dom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_ZZ_gmpy : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, '_ground_new')                     ║
+# ║   requires: hasattr(K1, 'dom')                             ║
+# ║   returns:  K1._ground_new(K1.dom.convert(a, K0))          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_ZZ_gmpy : {Any | hasattr(K1, '_ground_new') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7bb869056681a650           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.from_ZZ_gmpy","kind":"method","src_hash":"3d16d1ee37967900","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ_gmpy(K1,)","rhs":"convert a gmpy ``mpz`` object to ``dtype``","over":{"base":"Any"},"name":"from_ZZ_gmpy_correct"},"guarantee":"convert a gmpy ``mpz`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7bb869056681a650"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.from_ZZ_gmpy","kind":"method","src_hash":"3d16d1ee37967900","in":{"base":"Any","pred":"hasattr(K1, '_ground_new') and hasattr(K1, 'dom')"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ_gmpy(K1, a, K0)","rhs":"K1._ground_new(K1.dom.convert(a, K0))","over":{"base":"Any","pred":"hasattr(K1, '_ground_new') and hasattr(K1, 'dom')"},"name":"from_ZZ_gmpy_correct"},"guarantee":"returns K1._ground_new(K1.dom.convert(a, K0))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7bb869056681a650","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, '_ground_new')","hasattr(K1, 'dom')"],"returns_expr":"K1._ground_new(K1.dom.convert(a, K0))","pure":false,"effects":{"effect_type":"reads_state","reads":["K1._ground_new","K1.dom"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_ZZ_gmpy(K1, a, K0):
         """Convert a GMPY ``mpz`` object to ``dtype``. """
         return K1._ground_new(K1.dom.convert(a, K0))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_QQ_gmpy(K1,), convert a gmpy ``mpq`` object to ``dtype``) over Any ║
+# ║ Path(from_QQ_gmpy(K1, a, K0), K1._ground_new(K1.dom.convert(a, K0))) over {Any | hasattr(K1, '_ground_new') and hasattr(K1, 'dom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_QQ_gmpy : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, '_ground_new')                     ║
+# ║   requires: hasattr(K1, 'dom')                             ║
+# ║   returns:  K1._ground_new(K1.dom.convert(a, K0))          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_QQ_gmpy : {Any | hasattr(K1, '_ground_new') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a59d76aa830f58a7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.from_QQ_gmpy","kind":"method","src_hash":"109387e855685352","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ_gmpy(K1,)","rhs":"convert a gmpy ``mpq`` object to ``dtype``","over":{"base":"Any"},"name":"from_QQ_gmpy_correct"},"guarantee":"convert a gmpy ``mpq`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a59d76aa830f58a7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.from_QQ_gmpy","kind":"method","src_hash":"109387e855685352","in":{"base":"Any","pred":"hasattr(K1, '_ground_new') and hasattr(K1, 'dom')"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ_gmpy(K1, a, K0)","rhs":"K1._ground_new(K1.dom.convert(a, K0))","over":{"base":"Any","pred":"hasattr(K1, '_ground_new') and hasattr(K1, 'dom')"},"name":"from_QQ_gmpy_correct"},"guarantee":"returns K1._ground_new(K1.dom.convert(a, K0))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a59d76aa830f58a7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, '_ground_new')","hasattr(K1, 'dom')"],"returns_expr":"K1._ground_new(K1.dom.convert(a, K0))","pure":false,"effects":{"effect_type":"reads_state","reads":["K1._ground_new","K1.dom"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_QQ_gmpy(K1, a, K0):
         """Convert a GMPY ``mpq`` object to ``dtype``. """
         return K1._ground_new(K1.dom.convert(a, K0))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_RealField(K1,), convert a mpmath ``mpf`` object to ``dtype``) over Any ║
+# ║ Path(from_RealField(K1, a, K0), K1._ground_new(K1.dom.convert(a, K0))) over {Any | hasattr(K1, '_ground_new') and hasattr(K1, 'dom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_RealField : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, '_ground_new')                     ║
+# ║   requires: hasattr(K1, 'dom')                             ║
+# ║   returns:  K1._ground_new(K1.dom.convert(a, K0))          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_RealField : {Any | hasattr(K1, '_ground_new') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e6659aeaf1cb51a4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.from_RealField","kind":"method","src_hash":"60e773b16c2e9978","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_RealField(K1,)","rhs":"convert a mpmath ``mpf`` object to ``dtype``","over":{"base":"Any"},"name":"from_RealField_correct"},"guarantee":"convert a mpmath ``mpf`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e6659aeaf1cb51a4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.from_RealField","kind":"method","src_hash":"60e773b16c2e9978","in":{"base":"Any","pred":"hasattr(K1, '_ground_new') and hasattr(K1, 'dom')"},"out":{"base":"Any"},"spec":{"lhs":"from_RealField(K1, a, K0)","rhs":"K1._ground_new(K1.dom.convert(a, K0))","over":{"base":"Any","pred":"hasattr(K1, '_ground_new') and hasattr(K1, 'dom')"},"name":"from_RealField_correct"},"guarantee":"returns K1._ground_new(K1.dom.convert(a, K0))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e6659aeaf1cb51a4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, '_ground_new')","hasattr(K1, 'dom')"],"returns_expr":"K1._ground_new(K1.dom.convert(a, K0))","pure":false,"effects":{"effect_type":"reads_state","reads":["K1._ground_new","K1.dom"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_RealField(K1, a, K0):
         """Convert a mpmath ``mpf`` object to ``dtype``. """
         return K1._ground_new(K1.dom.convert(a, K0))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_AlgebraicField(K1,), convert a ``anp`` object to ``dtype``) over Any ║
+# ║ Path(from_AlgebraicField(K1, a, K0), K1._ground_new(a)) over {Any | hasattr(K1, 'dom') and hasattr(K1, '_ground_new')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_AlgebraicField : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, 'dom')                             ║
+# ║   requires: hasattr(K1, '_ground_new')                     ║
+# ║   returns:  K1._ground_new(a)                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_AlgebraicField : {Any | hasattr(K1, 'dom') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3ce81ca583b0a81  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0ef49198e1ff6e8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.from_AlgebraicField","kind":"method","src_hash":"a03ae1484686a183","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_AlgebraicField(K1,)","rhs":"convert a ``anp`` object to ``dtype``","over":{"base":"Any"},"name":"from_AlgebraicField_correct"},"guarantee":"convert a ``anp`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.from_AlgebraicField_correct","statement":"Path(from_AlgebraicField(x), convert a ``anp`` object to ``dtype``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3ce81ca583b0a81"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.from_AlgebraicField","kind":"method","src_hash":"a03ae1484686a183","in":{"base":"Any","pred":"hasattr(K1, 'dom') and hasattr(K1, '_ground_new')"},"out":{"base":"Any"},"spec":{"lhs":"from_AlgebraicField(K1, a, K0)","rhs":"K1._ground_new(a)","over":{"base":"Any","pred":"hasattr(K1, 'dom') and hasattr(K1, '_ground_new')"},"name":"from_AlgebraicField_correct"},"guarantee":"returns K1._ground_new(a)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.from_AlgebraicField_correct","statement":"Path(from_AlgebraicField(x), returns K1._ground_new(a))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0ef49198e1ff6e8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, 'dom')","hasattr(K1, '_ground_new')"],"returns_expr":"K1._ground_new(a)","pure":false,"effects":{"effect_type":"reads_state","reads":["K1._ground_new","K1.dom"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_AlgebraicField(K1, a, K0):
         """Convert a ``ANP`` object to ``dtype``. """
         if K1.dom == K0:
             return K1._ground_new(a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_PolynomialRing(K1,), id) over Any                ║
+# ║ Path(from_PolynomialRing(K1, a, K0), id) over {Any | hasattr(K1, 'gens') and hasattr(K0, 'symbols') and hasattr(K1, 'dom') and hasattr(K0, 'dom') and hasattr(K1, '_from_dict') and hasattr(a, 'to_dict') and hasattr(a, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_PolynomialRing : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, 'gens')                            ║
+# ║   requires: hasattr(K0, 'symbols')                         ║
+# ║   requires: hasattr(K1, 'dom')                             ║
+# ║   fiber[case_0]: K1.gens == K0.symbols                     ║
+# ║   fiber[case_1]: not (K1.gens == K0.symbols) => K1._f...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_PolynomialRing : {Any | hasattr(K1, 'gens') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | fe9269be76bb1ea7   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.from_PolynomialRing","kind":"method","src_hash":"e6a0eaf9ec7125ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_PolynomialRing(K1,)","rhs":"convert a ``polyelement`` object to ``dtype``","over":{"base":"Any"},"name":"from_PolynomialRing_correct","kind":"composition"},"guarantee":"convert a ``polyelement`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"K1","by":"library_axiom"},{"fn":"dict","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe9269be76bb1ea7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.from_PolynomialRing","kind":"method","src_hash":"e6a0eaf9ec7125ec","in":{"base":"Any","pred":"hasattr(K1, 'gens') and hasattr(K0, 'symbols') and hasattr(K1, 'dom') and hasattr(K0, 'dom') and hasattr(K1, '_from_dict') and hasattr(a, 'to_dict') and hasattr(a, 'items')"},"out":{"base":"Any"},"spec":{"lhs":"from_PolynomialRing(K1, a, K0)","rhs":"<unspecified:from_PolynomialRing>","over":{"base":"Any","pred":"hasattr(K1, 'gens') and hasattr(K0, 'symbols') and hasattr(K1, 'dom') and hasattr(K0, 'dom') and hasattr(K1, '_from_dict') and hasattr(a, 'to_dict') and hasattr(a, 'items')"},"name":"from_PolynomialRing_correct","kind":"composition"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"K1","by":"library_axiom"},{"fn":"dict","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe9269be76bb1ea7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, 'gens')","hasattr(K0, 'symbols')","hasattr(K1, 'dom')","hasattr(K0, 'dom')","hasattr(K1, '_from_dict')","hasattr(a, 'to_dict')","hasattr(a, 'items')"],"fibers":[{"name":"case_0","guard":"K1.gens == K0.symbols","ensures":[],"decidability":"z3"},{"name":"case_1","guard":"not (K1.gens == K0.symbols)","ensures":["result == K1._from_dict(dict(zip(monoms, coeffs)))"],"decidability":"z3","returns_expr":"K1._from_dict(dict(zip(monoms, coeffs)))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["K0.dom","K0.symbols","K1._from_dict","K1.dom","K1.gens","a.items","a.to_dict"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_PolynomialRing(K1, a, K0):
         """Convert a ``PolyElement`` object to ``dtype``. """
         if K1.gens == K0.symbols:
@@ -339,16 +473,28 @@ class PolynomialRingBase(Ring, CompositeDomain):
             return K1._from_dict(dict(zip(monoms, coeffs)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_GlobalPolynomialRing(K1,), id) over Any          ║
+# ║ Path(from_GlobalPolynomialRing(K1, a, K0), id) over {Any | hasattr(K1, 'gens') and hasattr(K0, 'gens') and hasattr(K1, 'dom') and hasattr(K0, 'dom') and hasattr(a, 'convert') and hasattr(a, 'to_list') and hasattr(a, 'to_dict')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_GlobalPolynomialRing : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, 'gens')                            ║
+# ║   requires: hasattr(K0, 'gens')                            ║
+# ║   requires: hasattr(K1, 'dom')                             ║
+# ║   ensures:  result == (K1(a.to_list()) if K1.gens == ...   ║
+# ║   ensures:  result == K1(a.to_list()) or result == K1...   ║
+# ║   fiber[case_0]: K1.gens == K0.gens => K1(a.to_list())     ║
+# ║   fiber[case_1]: not (K1.gens == K0.gens) => K1(dict(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_GlobalPolynomialRing : {Any | hasattr(K1, 'gens'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 304adaa7bcc2bd24   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.from_GlobalPolynomialRing","kind":"method","src_hash":"ac1b83bb5c6e7160","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_GlobalPolynomialRing(K1,)","rhs":"convert a ``dmp`` object to ``dtype``","over":{"base":"Any"},"name":"from_GlobalPolynomialRing_correct","kind":"composition"},"guarantee":"convert a ``dmp`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"K1","by":"library_axiom"},{"fn":"to_list","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"304adaa7bcc2bd24"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.from_GlobalPolynomialRing","kind":"method","src_hash":"ac1b83bb5c6e7160","in":{"base":"Any","pred":"hasattr(K1, 'gens') and hasattr(K0, 'gens') and hasattr(K1, 'dom') and hasattr(K0, 'dom') and hasattr(a, 'convert') and hasattr(a, 'to_list') and hasattr(a, 'to_dict')"},"out":{"base":"Any","pred":"result satisfies: result == (K1(a.to_list()) if K1.gens == K0.gens else K1(dict(zip(monoms, coeffs)))) and result == K1(a.to_list()) or result == K1(dict(zip(monoms, coeffs)))"},"spec":{"lhs":"from_GlobalPolynomialRing(K1, a, K0)","rhs":"result == (K1(a.to_list()) if K1.gens == K0.gens else K1(dict(zip(monoms, coeffs)))) and result == K1(a.to_list()) or result == K1(dict(zip(monoms, coeffs)))","over":{"base":"Any","pred":"hasattr(K1, 'gens') and hasattr(K0, 'gens') and hasattr(K1, 'dom') and hasattr(K0, 'dom') and hasattr(a, 'convert') and hasattr(a, 'to_list') and hasattr(a, 'to_dict')"},"name":"from_GlobalPolynomialRing_correct","kind":"composition"},"guarantee":"result == (K1(a.to_list()) if K1.gens == K0.gens else K1(dict(zip(monoms, coeffs)))); result == K1(a.to_list()) or result == K1(dict(zip(monoms, coeffs))); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"K1","by":"library_axiom"},{"fn":"to_list","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"304adaa7bcc2bd24","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, 'gens')","hasattr(K0, 'gens')","hasattr(K1, 'dom')","hasattr(K0, 'dom')","hasattr(a, 'convert')","hasattr(a, 'to_list')","hasattr(a, 'to_dict')"],"ensures":["result == (K1(a.to_list()) if K1.gens == K0.gens else K1(dict(zip(monoms, coeffs))))","result == K1(a.to_list()) or result == K1(dict(zip(monoms, coeffs)))"],"fibers":[{"name":"case_0","guard":"K1.gens == K0.gens","ensures":["result == K1(a.to_list())"],"decidability":"z3","returns_expr":"K1(a.to_list())"},{"name":"case_1","guard":"not (K1.gens == K0.gens)","ensures":["result == K1(dict(zip(monoms, coeffs)))"],"decidability":"z3","returns_expr":"K1(dict(zip(monoms, coeffs)))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["K0.dom","K0.gens","K1.dom","K1.gens","a.convert","a.to_dict","a.to_list"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_GlobalPolynomialRing(K1, a, K0):
         """Convert a ``DMP`` object to ``dtype``. """
         if K1.gens == K0.gens:
@@ -364,61 +510,85 @@ class PolynomialRingBase(Ring, CompositeDomain):
             return K1(dict(zip(monoms, coeffs)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_field(), returns a field associated with ``self``) over Any ║
+# ║ Path(get_field(), FractionField(self.dom, *self.gens)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  FractionField(self.dom, *self.gens)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_field : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c2f4ea8099c8ca15           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.get_field","kind":"method","src_hash":"0e1bc91722d550ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_field()","rhs":"returns a field associated with ``self``","over":{"base":"Any"},"name":"get_field_correct"},"guarantee":"returns a field associated with ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c2f4ea8099c8ca15"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.get_field","kind":"method","src_hash":"0e1bc91722d550ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_field()","rhs":"FractionField(self.dom, *self.gens)","over":{"base":"Any"},"name":"get_field_correct"},"guarantee":"returns FractionField(self.dom, *self.gens)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c2f4ea8099c8ca15","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"FractionField(self.dom, *self.gens)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dom","self.gens"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_field(self):
         """Returns a field associated with ``self``. """
         return FractionField(self.dom, *self.gens)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(poly_ring(*ge), returns a polynomial ring, i.e) over Any ║
+# ║ Path(poly_ring(*gens), <unspecified:poly_ring>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ poly_ring : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f6abccac5b3a2c5e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.poly_ring","kind":"method","src_hash":"3e1dc55e23598713","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"poly_ring(*ge)","rhs":"returns a polynomial ring, i.e","over":{"base":"Any"},"name":"poly_ring_correct"},"guarantee":"returns a polynomial ring, i.e","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f6abccac5b3a2c5e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.poly_ring","kind":"method","src_hash":"3e1dc55e23598713","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"poly_ring(*gens)","rhs":"<unspecified:poly_ring>","over":{"base":"Any"},"name":"poly_ring_correct"},"guarantee":"returns a polynomial ring, i.e","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f6abccac5b3a2c5e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def poly_ring(self, *gens):
         """Returns a polynomial ring, i.e. ``K[X]``. """
         raise NotImplementedError('nested domains not allowed')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(frac_field(*ge), returns a fraction field, i.e) over Any ║
+# ║ Path(frac_field(*gens), <unspecified:frac_field>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ frac_field : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d9a728b1664768df           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.frac_field","kind":"method","src_hash":"adfd06c46b1e615b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"frac_field(*ge)","rhs":"returns a fraction field, i.e","over":{"base":"Any"},"name":"frac_field_correct"},"guarantee":"returns a fraction field, i.e","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d9a728b1664768df"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.frac_field","kind":"method","src_hash":"adfd06c46b1e615b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"frac_field(*gens)","rhs":"<unspecified:frac_field>","over":{"base":"Any"},"name":"frac_field_correct"},"guarantee":"returns a fraction field, i.e","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d9a728b1664768df","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def frac_field(self, *gens):
         """Returns a fraction field, i.e. ``K(X)``. """
         raise NotImplementedError('nested domains not allowed')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(revert(a), revert produces the expected output) over Any ║
+# ║ Path(revert(a), self.exquo(self.one, a)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.exquo(self.one, a)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ revert : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ee04c23332f3cc3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 682143d8ceb49a17  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.revert","kind":"method","src_hash":"2117d515af635d71","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"revert(a)","rhs":"revert produces the expected output","over":{"base":"Any"},"name":"revert_correct"},"guarantee":"revert produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.revert_correct","statement":"Path(revert(x), revert produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ee04c23332f3cc3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.revert","kind":"method","src_hash":"2117d515af635d71","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"revert(a)","rhs":"self.exquo(self.one, a)","over":{"base":"Any"},"name":"revert_correct"},"guarantee":"returns self.exquo(self.one, a)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.revert_correct","statement":"Path(revert(x), returns self.exquo(self.one, a))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"682143d8ceb49a17","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.exquo(self.one, a)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.exquo","self.one"],"raises":["NotReversible"]},"state_contract":{"exceptional_post":{"NotReversible":["isinstance(raised, NotReversible)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def revert(self, a):
         try:
             return self.exquo(self.one, a)
@@ -426,76 +596,109 @@ class PolynomialRingBase(Ring, CompositeDomain):
             raise NotReversible('%s is not a unit' % a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gcdex(a, ), extended gcd of ``a`` and ``b``) over Any ║
+# ║ Path(gcdex(a, b), a.gcdex(b)) over {Any | hasattr(a, 'gcdex')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gcdex : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'gcdex')                            ║
+# ║   returns:  a.gcdex(b)                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gcdex : {Any | hasattr(a, 'gcdex')} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 266d59226179bd3b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.gcdex","kind":"method","src_hash":"e5b761cd637a63ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gcdex(a, )","rhs":"extended gcd of ``a`` and ``b``","over":{"base":"Any"},"name":"gcdex_correct"},"guarantee":"extended gcd of ``a`` and ``b``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"266d59226179bd3b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.gcdex","kind":"method","src_hash":"e5b761cd637a63ce","in":{"base":"Any","pred":"hasattr(a, 'gcdex')"},"out":{"base":"Any"},"spec":{"lhs":"gcdex(a, b)","rhs":"a.gcdex(b)","over":{"base":"Any","pred":"hasattr(a, 'gcdex')"},"name":"gcdex_correct"},"guarantee":"returns a.gcdex(b)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"266d59226179bd3b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'gcdex')"],"returns_expr":"a.gcdex(b)","pure":false,"effects":{"effect_type":"reads_state","reads":["a.gcdex"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gcdex(self, a, b):
         """Extended GCD of ``a`` and ``b``. """
         return a.gcdex(b)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gcd(a, ), returns gcd of ``a`` and ``b``) over Any    ║
+# ║ Path(gcd(a, b), a.gcd(b)) over {Any | hasattr(a, 'gcd')}   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gcd : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'gcd')                              ║
+# ║   returns:  a.gcd(b)                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gcd : {Any | hasattr(a, 'gcd')} → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d55b5c865b3d18d6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.gcd","kind":"method","src_hash":"dbd8f3d6511fed47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gcd(a, )","rhs":"returns gcd of ``a`` and ``b``","over":{"base":"Any"},"name":"gcd_correct"},"guarantee":"returns gcd of ``a`` and ``b``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d55b5c865b3d18d6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.gcd","kind":"method","src_hash":"dbd8f3d6511fed47","in":{"base":"Any","pred":"hasattr(a, 'gcd')"},"out":{"base":"Any"},"spec":{"lhs":"gcd(a, b)","rhs":"a.gcd(b)","over":{"base":"Any","pred":"hasattr(a, 'gcd')"},"name":"gcd_correct"},"guarantee":"returns a.gcd(b)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d55b5c865b3d18d6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'gcd')"],"returns_expr":"a.gcd(b)","pure":false,"effects":{"effect_type":"reads_state","reads":["a.gcd"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gcd(self, a, b):
         """Returns GCD of ``a`` and ``b``. """
         return a.gcd(b)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lcm(a, ), returns lcm of ``a`` and ``b``) over Any    ║
+# ║ Path(lcm(a, b), a.lcm(b)) over {Any | hasattr(a, 'lcm')}   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ lcm : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'lcm')                              ║
+# ║   returns:  a.lcm(b)                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ lcm : {Any | hasattr(a, 'lcm')} → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5cdc8efb969b3596           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.lcm","kind":"method","src_hash":"d7380052093c735c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lcm(a, )","rhs":"returns lcm of ``a`` and ``b``","over":{"base":"Any"},"name":"lcm_correct"},"guarantee":"returns lcm of ``a`` and ``b``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5cdc8efb969b3596"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.lcm","kind":"method","src_hash":"d7380052093c735c","in":{"base":"Any","pred":"hasattr(a, 'lcm')"},"out":{"base":"Any"},"spec":{"lhs":"lcm(a, b)","rhs":"a.lcm(b)","over":{"base":"Any","pred":"hasattr(a, 'lcm')"},"name":"lcm_correct"},"guarantee":"returns a.lcm(b)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5cdc8efb969b3596","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'lcm')"],"returns_expr":"a.lcm(b)","pure":false,"effects":{"effect_type":"reads_state","reads":["a.lcm"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lcm(self, a, b):
         """Returns LCM of ``a`` and ``b``. """
         return a.lcm(b)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(factorial(a), returns factorial of ``a``) over Any    ║
+# ║ Path(factorial(a), self.dtype(self.dom.factorial(a))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.dtype(self.dom.factorial(a))              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ factorial : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4b8721859ffa9d3c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.factorial","kind":"method","src_hash":"314a653dbb1900de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"factorial(a)","rhs":"returns factorial of ``a``","over":{"base":"Any"},"name":"factorial_correct"},"guarantee":"returns factorial of ``a``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4b8721859ffa9d3c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.factorial","kind":"method","src_hash":"314a653dbb1900de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"factorial(a)","rhs":"self.dtype(self.dom.factorial(a))","over":{"base":"Any"},"name":"factorial_correct"},"guarantee":"returns self.dtype(self.dom.factorial(a))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4b8721859ffa9d3c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.dtype(self.dom.factorial(a))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dom","self.dtype"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def factorial(self, a):
         """Returns factorial of ``a``. """
         return self.dtype(self.dom.factorial(a))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_vector_to_sdm(v, ), for internal use by the modules class) over Any ║
+# ║ Path(_vector_to_sdm(v, order), <unspecified:_vector_to_sdm>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _vector_to_sdm : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dee8c5264da89161           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase._vector_to_sdm","kind":"method","src_hash":"dcb853507cd2d4f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_vector_to_sdm(v, )","rhs":"for internal use by the modules class","over":{"base":"Any"},"name":"_vector_to_sdm_correct"},"guarantee":"for internal use by the modules class","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dee8c5264da89161"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase._vector_to_sdm","kind":"method","src_hash":"dcb853507cd2d4f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_vector_to_sdm(v, order)","rhs":"<unspecified:_vector_to_sdm>","over":{"base":"Any"},"name":"_vector_to_sdm_correct"},"guarantee":"for internal use by the modules class","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dee8c5264da89161","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _vector_to_sdm(self, v, order):
         """
         For internal use by the modules class.
@@ -506,16 +709,22 @@ class PolynomialRingBase(Ring, CompositeDomain):
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sdm_to_dics(s, ), helper for _sdm_to_vector) over Any ║
+# ║ Path(_sdm_to_dics(s, n), <unspecified:_sdm_to_dics>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sdm_to_dics : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e91dd1abea43e3d1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase._sdm_to_dics","kind":"method","src_hash":"e99c4a9d16934344","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sdm_to_dics(s, )","rhs":"helper for _sdm_to_vector","over":{"base":"Any"},"name":"_sdm_to_dics_correct"},"guarantee":"helper for _sdm_to_vector","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.old_polynomialring.PolynomialRingBase._sdm_to_dics_correct","statement":"Path(_sdm_to_dics(x), helper for _sdm_to_vector)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e91dd1abea43e3d1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase._sdm_to_dics","kind":"method","src_hash":"e99c4a9d16934344","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sdm_to_dics(s, n)","rhs":"<unspecified:_sdm_to_dics>","over":{"base":"Any"},"name":"_sdm_to_dics_correct"},"guarantee":"helper for _sdm_to_vector","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.old_polynomialring.PolynomialRingBase._sdm_to_dics_correct","statement":"Path(_sdm_to_dics(x), helper for _sdm_to_vector)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e91dd1abea43e3d1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sdm_to_dics(self, s, n):
         """Helper for _sdm_to_vector."""
         from sympy.polys.distributedmodules import sdm_to_dict
@@ -526,16 +735,22 @@ class PolynomialRingBase(Ring, CompositeDomain):
         return res
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sdm_to_vector(s, ), for internal use by the modules class) over Any ║
+# ║ Path(_sdm_to_vector(s, n), [self(x) for x in dics]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [self(x) for x in dics]                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sdm_to_vector : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 628171d096318d03  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 320ef147274508f9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase._sdm_to_vector","kind":"method","src_hash":"c70d930a71b65668","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sdm_to_vector(s, )","rhs":"for internal use by the modules class","over":{"base":"Any"},"name":"_sdm_to_vector_correct"},"guarantee":"for internal use by the modules class","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.old_polynomialring.PolynomialRingBase._sdm_to_vector_correct","statement":"Path(_sdm_to_vector(x), for internal use by the modules class)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"628171d096318d03"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase._sdm_to_vector","kind":"method","src_hash":"c70d930a71b65668","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sdm_to_vector(s, n)","rhs":"[self(x) for x in dics]","over":{"base":"Any"},"name":"_sdm_to_vector_correct"},"guarantee":"returns [self(x) for x in dics]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.old_polynomialring.PolynomialRingBase._sdm_to_vector_correct","statement":"Path(_sdm_to_vector(x), returns [self(x) for x in dics])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"320ef147274508f9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[self(x) for x in dics]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._sdm_to_dics"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sdm_to_vector(self, s, n):
         """
         For internal use by the modules class.
@@ -557,16 +772,22 @@ class PolynomialRingBase(Ring, CompositeDomain):
         return [self(x) for x in dics]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(free_module(ran), generate a free module of rank ``rank`` over ``self``) over Any ║
+# ║ Path(free_module(rank), FreeModulePolyRing(self, rank)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  FreeModulePolyRing(self, rank)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ free_module : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 96b3c7287f73ba74           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.free_module","kind":"method","src_hash":"25f5c5c642c9f075","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_module(ran)","rhs":"generate a free module of rank ``rank`` over ``self``","over":{"base":"Any"},"name":"free_module_correct"},"guarantee":"generate a free module of rank ``rank`` over ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"96b3c7287f73ba74"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRingBase.free_module","kind":"method","src_hash":"25f5c5c642c9f075","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_module(rank)","rhs":"FreeModulePolyRing(self, rank)","over":{"base":"Any"},"name":"free_module_correct"},"guarantee":"returns FreeModulePolyRing(self, rank)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"96b3c7287f73ba74","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"FreeModulePolyRing(self, rank)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def free_module(self, rank):
         """
         Generate a free module of rank ``rank`` over ``self``.
@@ -583,16 +804,22 @@ class PolynomialRingBase(Ring, CompositeDomain):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_vector_to_sdm_helper(v, ), helper method for common code in global and local poly rings) over Any ║
+# ║ Path(_vector_to_sdm_helper(v, order), sdm_from_dict(d, order)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sdm_from_dict(d, order)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _vector_to_sdm_helper : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e8f4782029efa0b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b75c16f29f99f3e5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring._vector_to_sdm_helper","kind":"function","src_hash":"45dfb18c76118b38","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_vector_to_sdm_helper(v, )","rhs":"helper method for common code in global and local poly rings","over":{"base":"Any"},"name":"_vector_to_sdm_helper_correct"},"guarantee":"helper method for common code in global and local poly rings","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.old_polynomialring._vector_to_sdm_helper_correct","statement":"Path(_vector_to_sdm_helper(x), helper method for common code in global and local poly rings)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e8f4782029efa0b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring._vector_to_sdm_helper","kind":"function","src_hash":"45dfb18c76118b38","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_vector_to_sdm_helper(v, order)","rhs":"sdm_from_dict(d, order)","over":{"base":"Any"},"name":"_vector_to_sdm_helper_correct"},"guarantee":"returns sdm_from_dict(d, order)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.old_polynomialring._vector_to_sdm_helper_correct","statement":"Path(_vector_to_sdm_helper(x), returns sdm_from_dict(d, order))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b75c16f29f99f3e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sdm_from_dict(d, order)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _vector_to_sdm_helper(v, order):
     """Helper method for common code in Global and Local poly rings."""
     from sympy.polys.distributedmodules import sdm_from_dict
@@ -607,14 +834,20 @@ def _vector_to_sdm_helper(v, order):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(GlobalPolynomialRing(*args), correctly constructs a GlobalPolynomialRing instance) over {Any | isinstance(element, dict)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, PolynomialRingBase)           ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ GlobalPolynomialRing : {Any | isinstance(element, dic...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a942b22294b7cf9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.GlobalPolynomialRing","kind":"class","src_hash":"7ab83b593f9232b6","in":{"base":"Any","pred":"isinstance(element, dict)"},"out":{"base":"Any"},"spec":{"lhs":"GlobalPolynomialRing(*args)","rhs":"correctly constructs a GlobalPolynomialRing instance","over":{"base":"Any","pred":"isinstance(element, dict)"},"name":"GlobalPolynomialRing_class_invariant"},"guarantee":"correctly constructs a GlobalPolynomialRing instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a942b22294b7cf9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.GlobalPolynomialRing","kind":"class","src_hash":"7ab83b593f9232b6","in":{"base":"Any","pred":"isinstance(element, dict)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, PolynomialRingBase)"},"spec":{"lhs":"GlobalPolynomialRing(*args)","rhs":"correctly constructs a GlobalPolynomialRing instance","over":{"base":"Any","pred":"isinstance(element, dict)"},"name":"GlobalPolynomialRing_class_invariant"},"guarantee":"isinstance(self, PolynomialRingBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a942b22294b7cf9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, PolynomialRingBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function GlobalPolynomialRing not found in source"]}}
 class GlobalPolynomialRing(PolynomialRingBase):
     """A true polynomial ring, with objects DMP. """
 
@@ -622,16 +855,26 @@ class GlobalPolynomialRing(PolynomialRingBase):
     dtype = DMP
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(new(ele), id) over Any                                ║
+# ║ Path(new(element), id) over Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ new : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (DMP.from_dict(element, len(sel...   ║
+# ║   ensures:  result == DMP.from_dict(element, len(self...   ║
+# ║   fiber[dict]: isinstance(element, dict) => DMP.from_...   ║
+# ║   fiber[case_1]: element in self.dom => self._ground_...   ║
+# ║   fiber[dict]: not (isinstance(element, dict)) and no...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ new : Any → {Any | result satisfies: result == (DMP.f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 26873d1990d7b74c   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.GlobalPolynomialRing.new","kind":"method","src_hash":"af9f715aa98123d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"new(ele)","rhs":"new produces the expected output","over":{"base":"Any"},"name":"new_correct","kind":"composition"},"guarantee":"new produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dict","by":"library_axiom"},{"fn":"len","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26873d1990d7b74c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.GlobalPolynomialRing.new","kind":"method","src_hash":"af9f715aa98123d8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (DMP.from_dict(element, len(self.gens) - 1, self.dom) if isinstance(element, dict) else self._ground_new(self.dom.convert(element)) if element in self.dom else self.dtype(element, self.dom, len(self.gens) - 1)) and result == DMP.from_dict(element, len(self.gens) - 1, self.dom) or result == self._ground_new(self.dom.convert(element)) or result == self.dtype(element, self.dom, len(self.gens) - 1)"},"spec":{"lhs":"new(element)","rhs":"result == (DMP.from_dict(element, len(self.gens) - 1, self.dom) if isinstance(element, dict) else self._ground_new(self.dom.convert(element)) if element in self.dom else self.dtype(element, self.dom, len(self.gens) - 1)) and result == DMP.from_dict(element, len(self.gens) - 1, self.dom) or result == self._ground_new(self.dom.convert(element)) or result == self.dtype(element, self.dom, len(self.gens) - 1)","over":{"base":"Any"},"name":"new_correct","kind":"composition"},"guarantee":"result == (DMP.from_dict(element, len(self.gens) - 1, self.dom) if isinstance(element, dict) else self._ground_new(self.dom.convert(element)) if element in self.dom else self.dtype(element, self.dom, len(self.gens) - 1)); result == DMP.from_dict(element, len(self.gens) - 1, self.dom) or result == self._ground_new(self.dom.convert(element)) or result == self.dtype(element, self.dom, len(self.gens) - 1); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dict","by":"library_axiom"},{"fn":"len","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26873d1990d7b74c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (DMP.from_dict(element, len(self.gens) - 1, self.dom) if isinstance(element, dict) else self._ground_new(self.dom.convert(element)) if element in self.dom else self.dtype(element, self.dom, len(self.gens) - 1))","result == DMP.from_dict(element, len(self.gens) - 1, self.dom) or result == self._ground_new(self.dom.convert(element)) or result == self.dtype(element, self.dom, len(self.gens) - 1)"],"fibers":[{"name":"dict","guard":"isinstance(element, dict)","ensures":["result == DMP.from_dict(element, len(self.gens) - 1, self.dom)"],"decidability":"structural","returns_expr":"DMP.from_dict(element, len(self.gens) - 1, self.dom)"},{"name":"case_1","guard":"element in self.dom","ensures":["result == self._ground_new(self.dom.convert(element))"],"decidability":"library","returns_expr":"self._ground_new(self.dom.convert(element))"},{"name":"dict","guard":"not (isinstance(element, dict)) and not (element in self.dom)","ensures":["result == self.dtype(element, self.dom, len(self.gens) - 1)"],"decidability":"structural","returns_expr":"self.dtype(element, self.dom, len(self.gens) - 1)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._ground_new","self.dom","self.dtype","self.gens"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def new(self, element):
         if isinstance(element, dict):
             return DMP.from_dict(element, len(self.gens) - 1, self.dom)
@@ -641,16 +884,25 @@ class GlobalPolynomialRing(PolynomialRingBase):
             return self.dtype(element, self.dom, len(self.gens) - 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_FractionField(K1,), id) over Any                 ║
+# ║ Path(from_FractionField(K1, a, K0), id) over {Any | hasattr(a, 'denom') and hasattr(K1, 'from_GlobalPolynomialRing') and hasattr(a, 'numer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_FractionField : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'denom')                            ║
+# ║   requires: hasattr(K1, 'from_GlobalPolynomialRing')       ║
+# ║   requires: hasattr(a, 'numer')                            ║
+# ║   returns:  K1.from_GlobalPolynomialRing(a.numer(), K0)    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_FractionField : {Any | hasattr(a, 'denom') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 1785fd3b38304e40   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.GlobalPolynomialRing.from_FractionField","kind":"method","src_hash":"5bf6178eb613a96c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_FractionField(K1,)","rhs":"convert a ``dmf`` object to ``dmp``","over":{"base":"Any"},"name":"from_FractionField_correct","kind":"composition"},"guarantee":"convert a ``dmf`` object to ``dmp``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_GlobalPolynomialRing","by":"library_axiom"},{"fn":"numer","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1785fd3b38304e40"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.GlobalPolynomialRing.from_FractionField","kind":"method","src_hash":"5bf6178eb613a96c","in":{"base":"Any","pred":"hasattr(a, 'denom') and hasattr(K1, 'from_GlobalPolynomialRing') and hasattr(a, 'numer')"},"out":{"base":"Any"},"spec":{"lhs":"from_FractionField(K1, a, K0)","rhs":"K1.from_GlobalPolynomialRing(a.numer(), K0)","over":{"base":"Any","pred":"hasattr(a, 'denom') and hasattr(K1, 'from_GlobalPolynomialRing') and hasattr(a, 'numer')"},"name":"from_FractionField_correct","kind":"composition"},"guarantee":"returns K1.from_GlobalPolynomialRing(a.numer(), K0)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_GlobalPolynomialRing","by":"library_axiom"},{"fn":"numer","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1785fd3b38304e40","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'denom')","hasattr(K1, 'from_GlobalPolynomialRing')","hasattr(a, 'numer')"],"returns_expr":"K1.from_GlobalPolynomialRing(a.numer(), K0)","pure":false,"effects":{"effect_type":"reads_state","reads":["K1.from_GlobalPolynomialRing","a.denom","a.numer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_FractionField(K1, a, K0):
         """
         Convert a ``DMF`` object to ``DMP``.
@@ -677,31 +929,44 @@ class GlobalPolynomialRing(PolynomialRingBase):
             return K1.from_GlobalPolynomialRing(a.numer(), K0)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_sympy(a), convert ``a`` to a sympy object) over Any ║
+# ║ Path(to_sympy(a), basic_from_dict(a.to_sympy_dict(), *self.gens)) over {Any | hasattr(a, 'to_sympy_dict')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ to_sympy : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'to_sympy_dict')                    ║
+# ║   returns:  basic_from_dict(a.to_sympy_dict(), *self....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ to_sympy : {Any | hasattr(a, 'to_sympy_dict')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e6c6405d9254b351           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.GlobalPolynomialRing.to_sympy","kind":"method","src_hash":"ba720d0a2e5e96f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_sympy(a)","rhs":"convert ``a`` to a sympy object","over":{"base":"Any"},"name":"to_sympy_correct"},"guarantee":"convert ``a`` to a sympy object","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e6c6405d9254b351"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.GlobalPolynomialRing.to_sympy","kind":"method","src_hash":"ba720d0a2e5e96f2","in":{"base":"Any","pred":"hasattr(a, 'to_sympy_dict')"},"out":{"base":"Any"},"spec":{"lhs":"to_sympy(a)","rhs":"basic_from_dict(a.to_sympy_dict(), *self.gens)","over":{"base":"Any","pred":"hasattr(a, 'to_sympy_dict')"},"name":"to_sympy_correct"},"guarantee":"returns basic_from_dict(a.to_sympy_dict(), *self.gens)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e6c6405d9254b351","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'to_sympy_dict')"],"returns_expr":"basic_from_dict(a.to_sympy_dict(), *self.gens)","pure":false,"effects":{"effect_type":"reads_state","reads":["a.to_sympy_dict","self.gens"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_sympy(self, a):
         """Convert ``a`` to a SymPy object. """
         return basic_from_dict(a.to_sympy_dict(), *self.gens)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_sympy(a), convert sympy's expression to ``dtype``) over Any ║
+# ║ Path(from_sympy(a), DMP.from_dict(rep, self.ngens - 1, self.dom)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  DMP.from_dict(rep, self.ngens - 1, self.dom)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_sympy : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a28247551981f24  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83c7947f1a6cdffc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.GlobalPolynomialRing.from_sympy","kind":"method","src_hash":"156e8be54f622e64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_sympy(a)","rhs":"convert sympy's expression to ``dtype``","over":{"base":"Any"},"name":"from_sympy_correct"},"guarantee":"convert sympy's expression to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.old_polynomialring.GlobalPolynomialRing.from_sympy_correct","statement":"Path(from_sympy(x), convert sympy's expression to ``dtype``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a28247551981f24"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.GlobalPolynomialRing.from_sympy","kind":"method","src_hash":"156e8be54f622e64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_sympy(a)","rhs":"DMP.from_dict(rep, self.ngens - 1, self.dom)","over":{"base":"Any"},"name":"from_sympy_correct"},"guarantee":"returns DMP.from_dict(rep, self.ngens - 1, self.dom)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.old_polynomialring.GlobalPolynomialRing.from_sympy_correct","statement":"Path(from_sympy(x), returns DMP.from_dict(rep, self.ngens - 1, self.dom))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83c7947f1a6cdffc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"DMP.from_dict(rep, self.ngens - 1, self.dom)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dom","self.gens","self.ngens"],"raises":["CoercionFailed"],"catches":["PolynomialError"]},"state_contract":{"exceptional_post":{"CoercionFailed":["isinstance(raised, CoercionFailed)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_sympy(self, a):
         """Convert SymPy's expression to ``dtype``. """
         try:
@@ -715,76 +980,110 @@ class GlobalPolynomialRing(PolynomialRingBase):
         return DMP.from_dict(rep, self.ngens - 1, self.dom)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_positive(a), returns true if ``lc(a)`` is positive) over Any ║
+# ║ Path(is_positive(a), self.dom.is_positive(a.LC())) over {Any | hasattr(a, 'LC')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_positive : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'LC')                               ║
+# ║   returns:  self.dom.is_positive(a.LC())                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_positive : {Any | hasattr(a, 'LC')} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 028075c502a8a0bc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.GlobalPolynomialRing.is_positive","kind":"method","src_hash":"a681d1058dbb899e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_positive(a)","rhs":"returns true if ``lc(a)`` is positive","over":{"base":"Any"},"name":"is_positive_correct"},"guarantee":"returns true if ``lc(a)`` is positive","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"028075c502a8a0bc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.GlobalPolynomialRing.is_positive","kind":"method","src_hash":"a681d1058dbb899e","in":{"base":"Any","pred":"hasattr(a, 'LC')"},"out":{"base":"Any"},"spec":{"lhs":"is_positive(a)","rhs":"self.dom.is_positive(a.LC())","over":{"base":"Any","pred":"hasattr(a, 'LC')"},"name":"is_positive_correct"},"guarantee":"returns self.dom.is_positive(a.LC())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"028075c502a8a0bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'LC')"],"returns_expr":"self.dom.is_positive(a.LC())","pure":false,"effects":{"effect_type":"reads_state","reads":["a.LC","self.dom"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_positive(self, a):
         """Returns True if ``LC(a)`` is positive. """
         return self.dom.is_positive(a.LC())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_negative(a), returns true if ``lc(a)`` is negative) over Any ║
+# ║ Path(is_negative(a), self.dom.is_negative(a.LC())) over {Any | hasattr(a, 'LC')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_negative : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'LC')                               ║
+# ║   returns:  self.dom.is_negative(a.LC())                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_negative : {Any | hasattr(a, 'LC')} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 34847dfe01404498           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.GlobalPolynomialRing.is_negative","kind":"method","src_hash":"6714e10428674dc2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_negative(a)","rhs":"returns true if ``lc(a)`` is negative","over":{"base":"Any"},"name":"is_negative_correct"},"guarantee":"returns true if ``lc(a)`` is negative","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"34847dfe01404498"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.GlobalPolynomialRing.is_negative","kind":"method","src_hash":"6714e10428674dc2","in":{"base":"Any","pred":"hasattr(a, 'LC')"},"out":{"base":"Any"},"spec":{"lhs":"is_negative(a)","rhs":"self.dom.is_negative(a.LC())","over":{"base":"Any","pred":"hasattr(a, 'LC')"},"name":"is_negative_correct"},"guarantee":"returns self.dom.is_negative(a.LC())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"34847dfe01404498","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'LC')"],"returns_expr":"self.dom.is_negative(a.LC())","pure":false,"effects":{"effect_type":"reads_state","reads":["a.LC","self.dom"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_negative(self, a):
         """Returns True if ``LC(a)`` is negative. """
         return self.dom.is_negative(a.LC())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_nonpositive(a), returns true if ``lc(a)`` is non-positive) over Any ║
+# ║ Path(is_nonpositive(a), self.dom.is_nonpositive(a.LC())) over {Any | hasattr(a, 'LC')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_nonpositive : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'LC')                               ║
+# ║   returns:  self.dom.is_nonpositive(a.LC())                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_nonpositive : {Any | hasattr(a, 'LC')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8ed81fe339e3db49           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.GlobalPolynomialRing.is_nonpositive","kind":"method","src_hash":"55a4f8fe081d5ad1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_nonpositive(a)","rhs":"returns true if ``lc(a)`` is non-positive","over":{"base":"Any"},"name":"is_nonpositive_correct"},"guarantee":"returns true if ``lc(a)`` is non-positive","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ed81fe339e3db49"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.GlobalPolynomialRing.is_nonpositive","kind":"method","src_hash":"55a4f8fe081d5ad1","in":{"base":"Any","pred":"hasattr(a, 'LC')"},"out":{"base":"Any"},"spec":{"lhs":"is_nonpositive(a)","rhs":"self.dom.is_nonpositive(a.LC())","over":{"base":"Any","pred":"hasattr(a, 'LC')"},"name":"is_nonpositive_correct"},"guarantee":"returns self.dom.is_nonpositive(a.LC())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ed81fe339e3db49","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'LC')"],"returns_expr":"self.dom.is_nonpositive(a.LC())","pure":false,"effects":{"effect_type":"reads_state","reads":["a.LC","self.dom"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_nonpositive(self, a):
         """Returns True if ``LC(a)`` is non-positive. """
         return self.dom.is_nonpositive(a.LC())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_nonnegative(a), returns true if ``lc(a)`` is non-negative) over Any ║
+# ║ Path(is_nonnegative(a), self.dom.is_nonnegative(a.LC())) over {Any | hasattr(a, 'LC')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_nonnegative : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'LC')                               ║
+# ║   returns:  self.dom.is_nonnegative(a.LC())                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_nonnegative : {Any | hasattr(a, 'LC')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 47b1918ca520858c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.GlobalPolynomialRing.is_nonnegative","kind":"method","src_hash":"a66ec20a91acf8f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_nonnegative(a)","rhs":"returns true if ``lc(a)`` is non-negative","over":{"base":"Any"},"name":"is_nonnegative_correct"},"guarantee":"returns true if ``lc(a)`` is non-negative","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"47b1918ca520858c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.GlobalPolynomialRing.is_nonnegative","kind":"method","src_hash":"a66ec20a91acf8f6","in":{"base":"Any","pred":"hasattr(a, 'LC')"},"out":{"base":"Any"},"spec":{"lhs":"is_nonnegative(a)","rhs":"self.dom.is_nonnegative(a.LC())","over":{"base":"Any","pred":"hasattr(a, 'LC')"},"name":"is_nonnegative_correct"},"guarantee":"returns self.dom.is_nonnegative(a.LC())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"47b1918ca520858c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'LC')"],"returns_expr":"self.dom.is_nonnegative(a.LC())","pure":false,"effects":{"effect_type":"reads_state","reads":["a.LC","self.dom"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_nonnegative(self, a):
         """Returns True if ``LC(a)`` is non-negative. """
         return self.dom.is_nonnegative(a.LC())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_vector_to_sdm(v, ), examples ========) over Any      ║
+# ║ Path(_vector_to_sdm(v, order), _vector_to_sdm_helper(v, order)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _vector_to_sdm_helper(v, order)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _vector_to_sdm : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e1d7b7ba9841d5f8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.GlobalPolynomialRing._vector_to_sdm","kind":"method","src_hash":"795c683f427c7ff6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_vector_to_sdm(v, )","rhs":"examples ========","over":{"base":"Any"},"name":"_vector_to_sdm_correct"},"guarantee":"examples ========","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e1d7b7ba9841d5f8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.GlobalPolynomialRing._vector_to_sdm","kind":"method","src_hash":"795c683f427c7ff6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_vector_to_sdm(v, order)","rhs":"_vector_to_sdm_helper(v, order)","over":{"base":"Any"},"name":"_vector_to_sdm_correct"},"guarantee":"returns _vector_to_sdm_helper(v, order)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e1d7b7ba9841d5f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_vector_to_sdm_helper(v, order)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _vector_to_sdm(self, v, order):
         """
         Examples
@@ -804,30 +1103,42 @@ class GlobalPolynomialRing(PolynomialRingBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(GeneralizedPolynomialRing(*args), correctly constructs a GeneralizedPolynomialRing instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ GeneralizedPolynomialRing : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, PolynomialRingBase)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ GeneralizedPolynomialRing : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4aa871d71c696ff6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.GeneralizedPolynomialRing","kind":"class","src_hash":"6781589511f12651","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"GeneralizedPolynomialRing(*args)","rhs":"correctly constructs a GeneralizedPolynomialRing instance","over":{"base":"Any"},"name":"GeneralizedPolynomialRing_class_invariant"},"guarantee":"correctly constructs a GeneralizedPolynomialRing instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4aa871d71c696ff6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.GeneralizedPolynomialRing","kind":"class","src_hash":"6781589511f12651","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, PolynomialRingBase)"},"spec":{"lhs":"GeneralizedPolynomialRing(*args)","rhs":"correctly constructs a GeneralizedPolynomialRing instance","over":{"base":"Any"},"name":"GeneralizedPolynomialRing_class_invariant"},"guarantee":"isinstance(self, PolynomialRingBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4aa871d71c696ff6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, PolynomialRingBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function GeneralizedPolynomialRing not found in source"]}}
 class GeneralizedPolynomialRing(PolynomialRingBase):
     """A generalized polynomial ring, with objects DMF. """
 
     dtype = DMF
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(new(a), construct an element of ``self`` domain from ``a``) over Any ║
+# ║ Path(new(a), <unspecified:new>) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ new : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d69332eb0799d194  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.GeneralizedPolynomialRing.new","kind":"method","src_hash":"14d1d7f45f2c35d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"new(a)","rhs":"construct an element of ``self`` domain from ``a``","over":{"base":"Any"},"name":"new_correct"},"guarantee":"construct an element of ``self`` domain from ``a``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.old_polynomialring.GeneralizedPolynomialRing.new_correct","statement":"Path(new(x), construct an element of ``self`` domain from ``a``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d69332eb0799d194"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.GeneralizedPolynomialRing.new","kind":"method","src_hash":"14d1d7f45f2c35d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"new(a)","rhs":"<unspecified:new>","over":{"base":"Any"},"name":"new_correct"},"guarantee":"construct an element of ``self`` domain from ``a``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.old_polynomialring.GeneralizedPolynomialRing.new_correct","statement":"Path(new(x), construct an element of ``self`` domain from ``a``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d69332eb0799d194","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dom","self.dtype","self.gens","self.order"],"raises":["CoercionFailed"]},"state_contract":{"exceptional_post":{"CoercionFailed":["isinstance(raised, CoercionFailed)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def new(self, a):
         """Construct an element of ``self`` domain from ``a``. """
         res = self.dtype(a, self.dom, len(self.gens) - 1)
@@ -840,16 +1151,23 @@ class GeneralizedPolynomialRing(PolynomialRingBase):
         return res
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__contains__(a), correctly tests membership) over Any ║
+# ║ Path(__contains__(a), <unspecified:__contains__>) over {Any | hasattr(a, 'denom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __contains__ : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(a, 'denom')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __contains__ : {Any | hasattr(a, 'denom')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | df185cc3211ce4bd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.GeneralizedPolynomialRing.__contains__","kind":"method","src_hash":"1f682342cd503092","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(a)","rhs":"correctly tests membership","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df185cc3211ce4bd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.GeneralizedPolynomialRing.__contains__","kind":"method","src_hash":"1f682342cd503092","in":{"base":"Any","pred":"hasattr(a, 'denom')"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(a)","rhs":"<unspecified:__contains__>","over":{"base":"Any","pred":"hasattr(a, 'denom')"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df185cc3211ce4bd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(a, 'denom')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.denom","self.convert","self.gens","self.order"],"catches":["CoercionFailed"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __contains__(self, a):
         try:
             a = self.convert(a)
@@ -858,32 +1176,47 @@ class GeneralizedPolynomialRing(PolynomialRingBase):
         return a.denom().terms(order=self.order)[0][0] == (0,)*len(self.gens)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_sympy(a), id) over Any                             ║
+# ║ Path(to_sympy(a), id) over {Any | hasattr(a, 'numer') and hasattr(a, 'denom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ to_sympy : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'numer')                            ║
+# ║   requires: hasattr(a, 'denom')                            ║
+# ║   returns:  basic_from_dict(a.numer().to_sympy_dict()...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ to_sympy : {Any | hasattr(a, 'numer') and hasattr(a, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 3f453e5de4e32bc4   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.GeneralizedPolynomialRing.to_sympy","kind":"method","src_hash":"ed2ff422b5943afb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_sympy(a)","rhs":"convert ``a`` to a sympy object","over":{"base":"Any"},"name":"to_sympy_correct","kind":"composition"},"guarantee":"convert ``a`` to a sympy object","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"basic_from_dict","by":"library_axiom"},{"fn":"numer","by":"library_axiom"},{"fn":"to_sympy_dict","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f453e5de4e32bc4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.GeneralizedPolynomialRing.to_sympy","kind":"method","src_hash":"ed2ff422b5943afb","in":{"base":"Any","pred":"hasattr(a, 'numer') and hasattr(a, 'denom')"},"out":{"base":"Any"},"spec":{"lhs":"to_sympy(a)","rhs":"basic_from_dict(a.numer().to_sympy_dict(), *self.gens) / basic_from_dict(a.denom().to_sympy_dict(), *self.gens)","over":{"base":"Any","pred":"hasattr(a, 'numer') and hasattr(a, 'denom')"},"name":"to_sympy_correct","kind":"composition"},"guarantee":"returns basic_from_dict(a.numer().to_sympy_dict(), *self.gens) / basic_from_dict(a.denom().to_sympy_dict(), *self.gens)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"basic_from_dict","by":"library_axiom"},{"fn":"numer","by":"library_axiom"},{"fn":"to_sympy_dict","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f453e5de4e32bc4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'numer')","hasattr(a, 'denom')"],"returns_expr":"basic_from_dict(a.numer().to_sympy_dict(), *self.gens) / basic_from_dict(a.denom().to_sympy_dict(), *self.gens)","pure":false,"effects":{"effect_type":"reads_state","reads":["a.denom","a.numer","self.gens"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_sympy(self, a):
         """Convert ``a`` to a SymPy object. """
         return (basic_from_dict(a.numer().to_sympy_dict(), *self.gens) /
                 basic_from_dict(a.denom().to_sympy_dict(), *self.gens))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_sympy(a), id) over Any                           ║
+# ║ Path(from_sympy(a), id) over {Any | hasattr(a, 'as_numer_denom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_sympy : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'as_numer_denom')                   ║
+# ║   returns:  self((num, den)).cancel()                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_sympy : {Any | hasattr(a, 'as_numer_denom')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 28bb5b7a0585ea82   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.GeneralizedPolynomialRing.from_sympy","kind":"method","src_hash":"88c8f23a6e952593","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_sympy(a)","rhs":"convert sympy's expression to ``dtype``","over":{"base":"Any"},"name":"from_sympy_correct","kind":"composition"},"guarantee":"convert sympy's expression to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"self","by":"library_axiom"},{"fn":"cancel","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28bb5b7a0585ea82"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.GeneralizedPolynomialRing.from_sympy","kind":"method","src_hash":"88c8f23a6e952593","in":{"base":"Any","pred":"hasattr(a, 'as_numer_denom')"},"out":{"base":"Any"},"spec":{"lhs":"from_sympy(a)","rhs":"self((num, den)).cancel()","over":{"base":"Any","pred":"hasattr(a, 'as_numer_denom')"},"name":"from_sympy_correct","kind":"composition"},"guarantee":"returns self((num, den)).cancel()","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"self","by":"library_axiom"},{"fn":"cancel","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28bb5b7a0585ea82","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'as_numer_denom')"],"returns_expr":"self((num, den)).cancel()","pure":false,"effects":{"effect_type":"reads_state","reads":["a.as_numer_denom","self.dom","self.gens"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_sympy(self, a):
         """Convert SymPy's expression to ``dtype``. """
         p, q = a.as_numer_denom()
@@ -900,16 +1233,22 @@ class GeneralizedPolynomialRing(PolynomialRingBase):
         return self((num, den)).cancel()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(exquo(a, ), exact quotient of ``a`` and ``b``) over Any ║
+# ║ Path(exquo(a, b), <unspecified:exquo>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ exquo : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9214832712892357  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.GeneralizedPolynomialRing.exquo","kind":"method","src_hash":"3a8f3267aecffcc9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exquo(a, )","rhs":"exact quotient of ``a`` and ``b``","over":{"base":"Any"},"name":"exquo_correct"},"guarantee":"exact quotient of ``a`` and ``b``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.old_polynomialring.GeneralizedPolynomialRing.exquo_correct","statement":"Path(exquo(x), exact quotient of ``a`` and ``b``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9214832712892357"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.GeneralizedPolynomialRing.exquo","kind":"method","src_hash":"3a8f3267aecffcc9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exquo(a, b)","rhs":"<unspecified:exquo>","over":{"base":"Any"},"name":"exquo_correct"},"guarantee":"exact quotient of ``a`` and ``b``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.old_polynomialring.GeneralizedPolynomialRing.exquo_correct","statement":"Path(exquo(x), exact quotient of ``a`` and ``b``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9214832712892357","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.new"],"raises":["ExactQuotientFailed"],"catches":["CoercionFailed"]},"state_contract":{"exceptional_post":{"ExactQuotientFailed":["isinstance(raised, ExactQuotientFailed)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def exquo(self, a, b):
         """Exact quotient of ``a`` and ``b``. """
         # Elements are DMF that will always divide (except 0). The result is
@@ -924,31 +1263,44 @@ class GeneralizedPolynomialRing(PolynomialRingBase):
         return r
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_FractionField(K1,), from_FractionField produces the expected output) over Any ║
+# ║ Path(from_FractionField(K1, a, K0), K1((dmf.num, dmf.den))) over {Any | hasattr(K1, 'get_field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_FractionField : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, 'get_field')                       ║
+# ║   returns:  K1((dmf.num, dmf.den))                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_FractionField : {Any | hasattr(K1, 'get_field')}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9d0508659e38fc2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 627f305df069ed95  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.GeneralizedPolynomialRing.from_FractionField","kind":"method","src_hash":"6f0d4d06f85cdc6c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_FractionField(K1,)","rhs":"from_FractionField produces the expected output","over":{"base":"Any"},"name":"from_FractionField_correct"},"guarantee":"from_FractionField produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.old_polynomialring.GeneralizedPolynomialRing.from_FractionField_correct","statement":"Path(from_FractionField(x), from_FractionField produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9d0508659e38fc2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.GeneralizedPolynomialRing.from_FractionField","kind":"method","src_hash":"6f0d4d06f85cdc6c","in":{"base":"Any","pred":"hasattr(K1, 'get_field')"},"out":{"base":"Any"},"spec":{"lhs":"from_FractionField(K1, a, K0)","rhs":"K1((dmf.num, dmf.den))","over":{"base":"Any","pred":"hasattr(K1, 'get_field')"},"name":"from_FractionField_correct"},"guarantee":"returns K1((dmf.num, dmf.den))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.old_polynomialring.GeneralizedPolynomialRing.from_FractionField_correct","statement":"Path(from_FractionField(x), returns K1((dmf.num, dmf.den)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"627f305df069ed95","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, 'get_field')"],"returns_expr":"K1((dmf.num, dmf.den))","pure":false,"effects":{"effect_type":"reads_state","reads":["K1.get_field"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_FractionField(K1, a, K0):
         dmf = K1.get_field().from_FractionField(a, K0)
         return K1((dmf.num, dmf.den))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_vector_to_sdm(v, ), id) over Any                     ║
+# ║ Path(_vector_to_sdm(v, order), id) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _vector_to_sdm_helper([x.numer() * u / x....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _vector_to_sdm : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f7d4d72abeba5b1e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.GeneralizedPolynomialRing._vector_to_sdm","kind":"method","src_hash":"adda470994566dde","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_vector_to_sdm(v, )","rhs":"turn an iterable into a sparse distributed module","over":{"base":"Any"},"name":"_vector_to_sdm_correct","kind":"composition"},"guarantee":"turn an iterable into a sparse distributed module","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_vector_to_sdm_helper","by":"library_axiom"},{"fn":"numer","by":"library_axiom"},{"fn":"denom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7d4d72abeba5b1e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.GeneralizedPolynomialRing._vector_to_sdm","kind":"method","src_hash":"adda470994566dde","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_vector_to_sdm(v, order)","rhs":"_vector_to_sdm_helper([x.numer() * u / x.denom() for x in v], order)","over":{"base":"Any"},"name":"_vector_to_sdm_correct","kind":"composition"},"guarantee":"returns _vector_to_sdm_helper([x.numer() * u / x.denom() for x in v], order)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_vector_to_sdm_helper","by":"library_axiom"},{"fn":"numer","by":"library_axiom"},{"fn":"denom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7d4d72abeba5b1e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_vector_to_sdm_helper([x.numer() * u / x.denom() for x in v], order)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.one"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _vector_to_sdm(self, v, order):
         """
         Turn an iterable into a sparse distributed module.
@@ -977,16 +1329,22 @@ class GeneralizedPolynomialRing(PolynomialRingBase):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(PolynomialRing(dom), create a generalized multivariate polynomial ring) over Any ║
+# ║ Path(PolynomialRing(dom, *gens, **opts), <unspecified:PolynomialRing>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ PolynomialRing : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13ef9302c9345c00  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRing","kind":"function","src_hash":"fd3acecbfd069d37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PolynomialRing(dom)","rhs":"create a generalized multivariate polynomial ring","over":{"base":"Any"},"name":"PolynomialRing_correct"},"guarantee":"create a generalized multivariate polynomial ring","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.old_polynomialring.PolynomialRing_correct","statement":"Path(PolynomialRing(x), create a generalized multivariate polynomial ring)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13ef9302c9345c00"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.old_polynomialring.PolynomialRing","kind":"function","src_hash":"fd3acecbfd069d37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PolynomialRing(dom, *gens, **opts)","rhs":"<unspecified:PolynomialRing>","over":{"base":"Any"},"name":"PolynomialRing_correct"},"guarantee":"create a generalized multivariate polynomial ring","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.old_polynomialring.PolynomialRing_correct","statement":"Path(PolynomialRing(x), create a generalized multivariate polynomial ring)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13ef9302c9345c00","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['dom'], spec=['dom', '*gens', '**opts']"]}}
 def PolynomialRing(dom, *gens, **opts):
     r"""
     Create a generalized multivariate polynomial ring.

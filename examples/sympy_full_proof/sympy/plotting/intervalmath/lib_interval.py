@@ -23,7 +23,15 @@ from sympy.external import import_module
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Abs(x), Abs produces the expected output) over {Any | isinstance(x, (int, float)) and isinstance(x, interval)} ║
+# ║ Path(Abs(x), <unspecified:Abs>) over {Any | isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'start') and hasattr(x, 'end') and hasattr(x, 'is_valid')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(x, 'start')                            ║
+# ║   requires: hasattr(x, 'end')                              ║
+# ║   requires: hasattr(x, 'is_valid')                         ║
+# ║   fiber[case_0]: isinstance(x, (int, float)) => inter...   ║
+# ║   fiber[interval]: isinstance(x, interval)                 ║
+# ║   fiber[interval]: not (isinstance(x, (int, float))) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Abs : {Any | isinstance(x, (int, float)) and isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -36,9 +44,12 @@ from sympy.external import import_module
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | dc59f5d2...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.Abs","kind":"function","src_hash":"6b6d09bffb21988c","in":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval)"},"out":{"base":"Any"},"spec":{"lhs":"Abs(x)","rhs":"Abs produces the expected output","over":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval)"},"name":"Abs_correct"},"guarantee":"Abs produces the expected output","fibers":[{"name":"(int","pred":"isinstance(x, (int, float))","path":{"lhs":"Abs(x)","rhs":"Abs produces the expected output","over":{"base":"(int","pred":"isinstance(x, (int, float))"},"name":"Abs_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.Abs_(int_correct","statement":"Abs satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"interval","pred":"isinstance(x, interval)","path":{"lhs":"Abs(x)","rhs":"Abs produces the expected output","over":{"base":"interval","pred":"isinstance(x, interval)"},"name":"Abs_interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.Abs_interval_correct","statement":"Abs satisfies spec on interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"dc59f5d26cbcea8d"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.Abs","kind":"function","src_hash":"6b6d09bffb21988c","in":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'start') and hasattr(x, 'end') and hasattr(x, 'is_valid')"},"out":{"base":"Any"},"spec":{"lhs":"Abs(x)","rhs":"<unspecified:Abs>","over":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'start') and hasattr(x, 'end') and hasattr(x, 'is_valid')"},"name":"Abs_correct"},"guarantee":"3-fiber decomposition","fibers":[{"name":"(int","pred":"isinstance(x, (int, float))","path":{"lhs":"Abs(x)","rhs":"3-fiber decomposition","over":{"base":"(int","pred":"isinstance(x, (int, float))"},"name":"Abs_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.Abs_(int_correct","statement":"Abs satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"interval","pred":"isinstance(x, interval)","path":{"lhs":"Abs(x)","rhs":"3-fiber decomposition","over":{"base":"interval","pred":"isinstance(x, interval)"},"name":"Abs_interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.Abs_interval_correct","statement":"Abs satisfies spec on interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"dc59f5d26cbcea8d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(x, 'start')","hasattr(x, 'end')","hasattr(x, 'is_valid')"],"fibers":[{"name":"case_0","guard":"isinstance(x, (int, float))","ensures":["result == interval(abs(x))"],"decidability":"structural","returns_expr":"interval(abs(x))"},{"name":"interval","guard":"isinstance(x, interval)","ensures":[],"decidability":"structural"},{"name":"interval","guard":"not (isinstance(x, (int, float))) and not (isinstance(x, interval))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["x.end","x.is_valid","x.start"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'x.start < 0 and x.end > 0', 'isinstance(x, interval)', 'isinstance(x, (int, float))'}, fibers={'(int', 'interval'})"]}}
 def Abs(x):
     if isinstance(x, (int, float)):
         return interval(abs(x))
@@ -54,7 +65,15 @@ def Abs(x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(exp(x), evaluates the exponential of an interval) over {Any | isinstance(x, (int, float)) and isinstance(x, interval)} ║
+# ║ Path(exp(x), <unspecified:exp>) over {Any | isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'start') and hasattr(x, 'end') and hasattr(x, 'is_valid')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(x, 'start')                            ║
+# ║   requires: hasattr(x, 'end')                              ║
+# ║   requires: hasattr(x, 'is_valid')                         ║
+# ║   fiber[case_0]: isinstance(x, (int, float)) => inter...   ║
+# ║   fiber[interval]: isinstance(x, interval) => interva...   ║
+# ║   fiber[interval]: not (isinstance(x, (int, float))) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ exp : {Any | isinstance(x, (int, float)) and isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -67,9 +86,12 @@ def Abs(x):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 319089d7...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.exp","kind":"function","src_hash":"18ac44be6484700c","in":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval)"},"out":{"base":"Any"},"spec":{"lhs":"exp(x)","rhs":"evaluates the exponential of an interval","over":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval)"},"name":"exp_correct"},"guarantee":"evaluates the exponential of an interval","fibers":[{"name":"(int","pred":"isinstance(x, (int, float))","path":{"lhs":"exp(x)","rhs":"evaluates the exponential of an interval","over":{"base":"(int","pred":"isinstance(x, (int, float))"},"name":"exp_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.exp_(int_correct","statement":"exp satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"interval","pred":"isinstance(x, interval)","path":{"lhs":"exp(x)","rhs":"evaluates the exponential of an interval","over":{"base":"interval","pred":"isinstance(x, interval)"},"name":"exp_interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.exp_interval_correct","statement":"exp satisfies spec on interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"319089d7d2e08dad"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.exp","kind":"function","src_hash":"18ac44be6484700c","in":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'start') and hasattr(x, 'end') and hasattr(x, 'is_valid')"},"out":{"base":"Any"},"spec":{"lhs":"exp(x)","rhs":"<unspecified:exp>","over":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'start') and hasattr(x, 'end') and hasattr(x, 'is_valid')"},"name":"exp_correct"},"guarantee":"3-fiber decomposition","fibers":[{"name":"(int","pred":"isinstance(x, (int, float))","path":{"lhs":"exp(x)","rhs":"3-fiber decomposition","over":{"base":"(int","pred":"isinstance(x, (int, float))"},"name":"exp_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.exp_(int_correct","statement":"exp satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"interval","pred":"isinstance(x, interval)","path":{"lhs":"exp(x)","rhs":"3-fiber decomposition","over":{"base":"interval","pred":"isinstance(x, interval)"},"name":"exp_interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.exp_interval_correct","statement":"exp satisfies spec on interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"319089d7d2e08dad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(x, 'start')","hasattr(x, 'end')","hasattr(x, 'is_valid')"],"fibers":[{"name":"case_0","guard":"isinstance(x, (int, float))","ensures":["result == interval(np.exp(x), np.exp(x))"],"decidability":"structural","returns_expr":"interval(np.exp(x), np.exp(x))"},{"name":"interval","guard":"isinstance(x, interval)","ensures":["result == interval(np.exp(x.start), np.exp(x.end), is_valid=x.is_valid)"],"decidability":"structural","returns_expr":"interval(np.exp(x.start), np.exp(x.end), is_valid=x.is_valid)"},{"name":"interval","guard":"not (isinstance(x, (int, float))) and not (isinstance(x, interval))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["x.end","x.is_valid","x.start"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(x, interval)', 'isinstance(x, (int, float))'}, fibers={'(int', 'interval'})"]}}
 def exp(x):
     """evaluates the exponential of an interval"""
     np = import_module('numpy')
@@ -83,7 +105,15 @@ def exp(x):
 
 #Monotonic
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(log(x), evaluates the natural logarithm of an interval) over {Any | isinstance(x, (int, float)) and isinstance(x, interval)} ║
+# ║ Path(log(x), <unspecified:log>) over {Any | isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'is_valid') and hasattr(x, 'end') and hasattr(x, 'start')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(x, 'is_valid')                         ║
+# ║   requires: hasattr(x, 'end')                              ║
+# ║   requires: hasattr(x, 'start')                            ║
+# ║   fiber[case_0]: isinstance(x, (int, float))               ║
+# ║   fiber[interval]: isinstance(x, interval) => interva...   ║
+# ║   fiber[interval]: not (isinstance(x, (int, float))) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ log : {Any | isinstance(x, (int, float)) and isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -96,9 +126,12 @@ def exp(x):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | c5d20178...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.log","kind":"function","src_hash":"f539f305e8d8d0af","in":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval)"},"out":{"base":"Any"},"spec":{"lhs":"log(x)","rhs":"evaluates the natural logarithm of an interval","over":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval)"},"name":"log_correct"},"guarantee":"evaluates the natural logarithm of an interval","fibers":[{"name":"(int","pred":"isinstance(x, (int, float))","path":{"lhs":"log(x)","rhs":"evaluates the natural logarithm of an interval","over":{"base":"(int","pred":"isinstance(x, (int, float))"},"name":"log_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.log_(int_correct","statement":"log satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"interval","pred":"isinstance(x, interval)","path":{"lhs":"log(x)","rhs":"evaluates the natural logarithm of an interval","over":{"base":"interval","pred":"isinstance(x, interval)"},"name":"log_interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.log_interval_correct","statement":"log satisfies spec on interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c5d20178b05e43d0"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.log","kind":"function","src_hash":"f539f305e8d8d0af","in":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'is_valid') and hasattr(x, 'end') and hasattr(x, 'start')"},"out":{"base":"Any"},"spec":{"lhs":"log(x)","rhs":"<unspecified:log>","over":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'is_valid') and hasattr(x, 'end') and hasattr(x, 'start')"},"name":"log_correct"},"guarantee":"3-fiber decomposition","fibers":[{"name":"(int","pred":"isinstance(x, (int, float))","path":{"lhs":"log(x)","rhs":"3-fiber decomposition","over":{"base":"(int","pred":"isinstance(x, (int, float))"},"name":"log_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.log_(int_correct","statement":"log satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"interval","pred":"isinstance(x, interval)","path":{"lhs":"log(x)","rhs":"3-fiber decomposition","over":{"base":"interval","pred":"isinstance(x, interval)"},"name":"log_interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.log_interval_correct","statement":"log satisfies spec on interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c5d20178b05e43d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(x, 'is_valid')","hasattr(x, 'end')","hasattr(x, 'start')"],"fibers":[{"name":"case_0","guard":"isinstance(x, (int, float))","ensures":[],"decidability":"structural"},{"name":"interval","guard":"isinstance(x, interval)","ensures":["result == interval(np.log(x.start), np.log(x.end))"],"decidability":"structural","returns_expr":"interval(np.log(x.start), np.log(x.end))"},{"name":"interval","guard":"not (isinstance(x, (int, float))) and not (isinstance(x, interval))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["x.end","x.is_valid","x.start"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'x.end <= 0', 'isinstance(x, interval)', 'isinstance(x, (int, float))', 'x <= 0', 'x.start <= 0'}, fibers={'(int', 'interval'})"]}}
 def log(x):
     """evaluates the natural logarithm of an interval"""
     np = import_module('numpy')
@@ -122,7 +155,15 @@ def log(x):
 
 #Monotonic
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(log10(x), evaluates the logarithm to the base 10 of an interval) over {Any | isinstance(x, (int, float)) and isinstance(x, interval)} ║
+# ║ Path(log10(x), <unspecified:log10>) over {Any | isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'is_valid') and hasattr(x, 'end') and hasattr(x, 'start')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(x, 'is_valid')                         ║
+# ║   requires: hasattr(x, 'end')                              ║
+# ║   requires: hasattr(x, 'start')                            ║
+# ║   fiber[case_0]: isinstance(x, (int, float))               ║
+# ║   fiber[interval]: isinstance(x, interval) => interva...   ║
+# ║   fiber[interval]: not (isinstance(x, (int, float))) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ log10 : {Any | isinstance(x, (int, float)) and isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -135,9 +176,12 @@ def log(x):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 830e0cba...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.log10","kind":"function","src_hash":"b4e1e905f1d845d9","in":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval)"},"out":{"base":"Any"},"spec":{"lhs":"log10(x)","rhs":"evaluates the logarithm to the base 10 of an interval","over":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval)"},"name":"log10_correct"},"guarantee":"evaluates the logarithm to the base 10 of an interval","fibers":[{"name":"(int","pred":"isinstance(x, (int, float))","path":{"lhs":"log10(x)","rhs":"evaluates the logarithm to the base 10 of an interval","over":{"base":"(int","pred":"isinstance(x, (int, float))"},"name":"log10_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.log10_(int_correct","statement":"log10 satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"interval","pred":"isinstance(x, interval)","path":{"lhs":"log10(x)","rhs":"evaluates the logarithm to the base 10 of an interval","over":{"base":"interval","pred":"isinstance(x, interval)"},"name":"log10_interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.log10_interval_correct","statement":"log10 satisfies spec on interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"830e0cba19d0c449"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.log10","kind":"function","src_hash":"b4e1e905f1d845d9","in":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'is_valid') and hasattr(x, 'end') and hasattr(x, 'start')"},"out":{"base":"Any"},"spec":{"lhs":"log10(x)","rhs":"<unspecified:log10>","over":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'is_valid') and hasattr(x, 'end') and hasattr(x, 'start')"},"name":"log10_correct"},"guarantee":"3-fiber decomposition","fibers":[{"name":"(int","pred":"isinstance(x, (int, float))","path":{"lhs":"log10(x)","rhs":"3-fiber decomposition","over":{"base":"(int","pred":"isinstance(x, (int, float))"},"name":"log10_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.log10_(int_correct","statement":"log10 satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"interval","pred":"isinstance(x, interval)","path":{"lhs":"log10(x)","rhs":"3-fiber decomposition","over":{"base":"interval","pred":"isinstance(x, interval)"},"name":"log10_interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.log10_interval_correct","statement":"log10 satisfies spec on interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"830e0cba19d0c449","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(x, 'is_valid')","hasattr(x, 'end')","hasattr(x, 'start')"],"fibers":[{"name":"case_0","guard":"isinstance(x, (int, float))","ensures":[],"decidability":"structural"},{"name":"interval","guard":"isinstance(x, interval)","ensures":["result == interval(np.log10(x.start), np.log10(x.end))"],"decidability":"structural","returns_expr":"interval(np.log10(x.start), np.log10(x.end))"},{"name":"interval","guard":"not (isinstance(x, (int, float))) and not (isinstance(x, interval))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["x.end","x.is_valid","x.start"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'x.end <= 0', 'isinstance(x, interval)', 'isinstance(x, (int, float))', 'x <= 0', 'x.start <= 0'}, fibers={'(int', 'interval'})"]}}
 def log10(x):
     """evaluates the logarithm to the base 10 of an interval"""
     np = import_module('numpy')
@@ -160,7 +204,15 @@ def log10(x):
 
 #Monotonic
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(atan(x), evaluates the tan inverse of an interval) over {Any | isinstance(x, (int, float)) and isinstance(x, interval)} ║
+# ║ Path(atan(x), <unspecified:atan>) over {Any | isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'start') and hasattr(x, 'end') and hasattr(x, 'is_valid')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(x, 'start')                            ║
+# ║   requires: hasattr(x, 'end')                              ║
+# ║   requires: hasattr(x, 'is_valid')                         ║
+# ║   fiber[case_0]: isinstance(x, (int, float)) => inter...   ║
+# ║   fiber[interval]: isinstance(x, interval) => interva...   ║
+# ║   fiber[interval]: not (isinstance(x, (int, float))) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ atan : {Any | isinstance(x, (int, float)) and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -173,9 +225,12 @@ def log10(x):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | abb7b95b...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.atan","kind":"function","src_hash":"fce8852f5e9e9823","in":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval)"},"out":{"base":"Any"},"spec":{"lhs":"atan(x)","rhs":"evaluates the tan inverse of an interval","over":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval)"},"name":"atan_correct"},"guarantee":"evaluates the tan inverse of an interval","fibers":[{"name":"(int","pred":"isinstance(x, (int, float))","path":{"lhs":"atan(x)","rhs":"evaluates the tan inverse of an interval","over":{"base":"(int","pred":"isinstance(x, (int, float))"},"name":"atan_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.atan_(int_correct","statement":"atan satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"interval","pred":"isinstance(x, interval)","path":{"lhs":"atan(x)","rhs":"evaluates the tan inverse of an interval","over":{"base":"interval","pred":"isinstance(x, interval)"},"name":"atan_interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.atan_interval_correct","statement":"atan satisfies spec on interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"abb7b95b76359004"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.atan","kind":"function","src_hash":"fce8852f5e9e9823","in":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'start') and hasattr(x, 'end') and hasattr(x, 'is_valid')"},"out":{"base":"Any"},"spec":{"lhs":"atan(x)","rhs":"<unspecified:atan>","over":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'start') and hasattr(x, 'end') and hasattr(x, 'is_valid')"},"name":"atan_correct"},"guarantee":"3-fiber decomposition","fibers":[{"name":"(int","pred":"isinstance(x, (int, float))","path":{"lhs":"atan(x)","rhs":"3-fiber decomposition","over":{"base":"(int","pred":"isinstance(x, (int, float))"},"name":"atan_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.atan_(int_correct","statement":"atan satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"interval","pred":"isinstance(x, interval)","path":{"lhs":"atan(x)","rhs":"3-fiber decomposition","over":{"base":"interval","pred":"isinstance(x, interval)"},"name":"atan_interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.atan_interval_correct","statement":"atan satisfies spec on interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"abb7b95b76359004","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(x, 'start')","hasattr(x, 'end')","hasattr(x, 'is_valid')"],"fibers":[{"name":"case_0","guard":"isinstance(x, (int, float))","ensures":["result == interval(np.arctan(x))"],"decidability":"structural","returns_expr":"interval(np.arctan(x))"},{"name":"interval","guard":"isinstance(x, interval)","ensures":["result == interval(start, end, is_valid=x.is_valid)"],"decidability":"structural","returns_expr":"interval(start, end, is_valid=x.is_valid)"},{"name":"interval","guard":"not (isinstance(x, (int, float))) and not (isinstance(x, interval))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["x.end","x.is_valid","x.start"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(x, interval)', 'isinstance(x, (int, float))'}, fibers={'(int', 'interval'})"]}}
 def atan(x):
     """evaluates the tan inverse of an interval"""
     np = import_module('numpy')
@@ -191,7 +246,15 @@ def atan(x):
 
 #periodic
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sin(x), evaluates the sine of an interval) over {Any | isinstance(x, (int, float)) and isinstance(x, interval)} ║
+# ║ Path(sin(x), <unspecified:sin>) over {Any | isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'is_valid') and hasattr(x, 'start') and hasattr(x, 'end')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(x, 'is_valid')                         ║
+# ║   requires: hasattr(x, 'start')                            ║
+# ║   requires: hasattr(x, 'end')                              ║
+# ║   fiber[case_0]: isinstance(x, (int, float)) => inter...   ║
+# ║   fiber[interval]: isinstance(x, interval)                 ║
+# ║   fiber[interval]: not (isinstance(x, (int, float))) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sin : {Any | isinstance(x, (int, float)) and isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -204,9 +267,12 @@ def atan(x):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 7ea280c3...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.sin","kind":"function","src_hash":"1ab718fda98672a5","in":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval)"},"out":{"base":"Any"},"spec":{"lhs":"sin(x)","rhs":"evaluates the sine of an interval","over":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval)"},"name":"sin_correct"},"guarantee":"evaluates the sine of an interval","fibers":[{"name":"(int","pred":"isinstance(x, (int, float))","path":{"lhs":"sin(x)","rhs":"evaluates the sine of an interval","over":{"base":"(int","pred":"isinstance(x, (int, float))"},"name":"sin_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.sin_(int_correct","statement":"sin satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"interval","pred":"isinstance(x, interval)","path":{"lhs":"sin(x)","rhs":"evaluates the sine of an interval","over":{"base":"interval","pred":"isinstance(x, interval)"},"name":"sin_interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.sin_interval_correct","statement":"sin satisfies spec on interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7ea280c3b2290663"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.sin","kind":"function","src_hash":"1ab718fda98672a5","in":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'is_valid') and hasattr(x, 'start') and hasattr(x, 'end')"},"out":{"base":"Any"},"spec":{"lhs":"sin(x)","rhs":"<unspecified:sin>","over":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'is_valid') and hasattr(x, 'start') and hasattr(x, 'end')"},"name":"sin_correct"},"guarantee":"3-fiber decomposition","fibers":[{"name":"(int","pred":"isinstance(x, (int, float))","path":{"lhs":"sin(x)","rhs":"3-fiber decomposition","over":{"base":"(int","pred":"isinstance(x, (int, float))"},"name":"sin_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.sin_(int_correct","statement":"sin satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"interval","pred":"isinstance(x, interval)","path":{"lhs":"sin(x)","rhs":"3-fiber decomposition","over":{"base":"interval","pred":"isinstance(x, interval)"},"name":"sin_interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.sin_interval_correct","statement":"sin satisfies spec on interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7ea280c3b2290663","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(x, 'is_valid')","hasattr(x, 'start')","hasattr(x, 'end')"],"fibers":[{"name":"case_0","guard":"isinstance(x, (int, float))","ensures":["result == interval(np.sin(x))"],"decidability":"structural","returns_expr":"interval(np.sin(x))"},{"name":"interval","guard":"isinstance(x, interval)","ensures":[],"decidability":"structural"},{"name":"interval","guard":"not (isinstance(x, (int, float))) and not (isinstance(x, interval))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["x.end","x.is_valid","x.start"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'(na - 3) // 4 != (nb - 3) // 4', '(na - 1) // 4 != (nb - 1) // 4', 'isinstance(x, interval)', 'isinstance(x, (int, float))', 'na == nb', 'nb - na > 4'}, fibers={'(int', 'interval'})"]}}
 def sin(x):
     """evaluates the sine of an interval"""
     np = import_module('numpy')
@@ -237,7 +303,15 @@ def sin(x):
 
 #periodic
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cos(x), evaluates the cos of an interval) over {Any | isinstance(x, (int, float)) and isinstance(x, interval)} ║
+# ║ Path(cos(x), <unspecified:cos>) over {Any | isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'start') and hasattr(x, 'end') and hasattr(x, 'is_valid')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(x, 'start')                            ║
+# ║   requires: hasattr(x, 'end')                              ║
+# ║   requires: hasattr(x, 'is_valid')                         ║
+# ║   fiber[case_0]: isinstance(x, (int, float)) => inter...   ║
+# ║   fiber[interval]: isinstance(x, interval)                 ║
+# ║   fiber[interval]: not (isinstance(x, (int, float))) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cos : {Any | isinstance(x, (int, float)) and isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -250,9 +324,12 @@ def sin(x):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 2ace4ba2...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.cos","kind":"function","src_hash":"66ffc2cc72b1573e","in":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval)"},"out":{"base":"Any"},"spec":{"lhs":"cos(x)","rhs":"evaluates the cos of an interval","over":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval)"},"name":"cos_correct"},"guarantee":"evaluates the cos of an interval","fibers":[{"name":"(int","pred":"isinstance(x, (int, float))","path":{"lhs":"cos(x)","rhs":"evaluates the cos of an interval","over":{"base":"(int","pred":"isinstance(x, (int, float))"},"name":"cos_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.cos_(int_correct","statement":"cos satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"interval","pred":"isinstance(x, interval)","path":{"lhs":"cos(x)","rhs":"evaluates the cos of an interval","over":{"base":"interval","pred":"isinstance(x, interval)"},"name":"cos_interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.cos_interval_correct","statement":"cos satisfies spec on interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"2ace4ba294848144"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.cos","kind":"function","src_hash":"66ffc2cc72b1573e","in":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'start') and hasattr(x, 'end') and hasattr(x, 'is_valid')"},"out":{"base":"Any"},"spec":{"lhs":"cos(x)","rhs":"<unspecified:cos>","over":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'start') and hasattr(x, 'end') and hasattr(x, 'is_valid')"},"name":"cos_correct"},"guarantee":"3-fiber decomposition","fibers":[{"name":"(int","pred":"isinstance(x, (int, float))","path":{"lhs":"cos(x)","rhs":"3-fiber decomposition","over":{"base":"(int","pred":"isinstance(x, (int, float))"},"name":"cos_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.cos_(int_correct","statement":"cos satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"interval","pred":"isinstance(x, interval)","path":{"lhs":"cos(x)","rhs":"3-fiber decomposition","over":{"base":"interval","pred":"isinstance(x, interval)"},"name":"cos_interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.cos_interval_correct","statement":"cos satisfies spec on interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"2ace4ba294848144","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(x, 'start')","hasattr(x, 'end')","hasattr(x, 'is_valid')"],"fibers":[{"name":"case_0","guard":"isinstance(x, (int, float))","ensures":["result == interval(np.sin(x))"],"decidability":"structural","returns_expr":"interval(np.sin(x))"},{"name":"interval","guard":"isinstance(x, interval)","ensures":[],"decidability":"structural"},{"name":"interval","guard":"not (isinstance(x, (int, float))) and not (isinstance(x, interval))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["x.end","x.is_valid","x.start"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'(na - 2) // 4 != (nb - 2) // 4', 'isinstance(x, interval)', 'isinstance(x, (int, float))', 'na == nb', 'nb - na > 4', 'na // 4 != nb // 4'}, fibers={'(int', 'interval'})"]}}
 def cos(x):
     """Evaluates the cos of an interval"""
     np = import_module('numpy')
@@ -284,16 +361,22 @@ def cos(x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tan(x), evaluates the tan of an interval) over Any    ║
+# ║ Path(tan(x), sin(x) / cos(x)) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sin(x) / cos(x)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ tan : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6844d51410e3ce47           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.tan","kind":"function","src_hash":"a4613af0a121ab25","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tan(x)","rhs":"evaluates the tan of an interval","over":{"base":"Any"},"name":"tan_correct"},"guarantee":"evaluates the tan of an interval","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6844d51410e3ce47"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.tan","kind":"function","src_hash":"a4613af0a121ab25","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tan(x)","rhs":"sin(x) / cos(x)","over":{"base":"Any"},"name":"tan_correct"},"guarantee":"returns sin(x) / cos(x)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6844d51410e3ce47","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sin(x) / cos(x)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def tan(x):
     """Evaluates the tan of an interval"""
     return sin(x) / cos(x)
@@ -301,7 +384,13 @@ def tan(x):
 
 #Monotonic
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sqrt(x), evaluates the square root of an interval) over {Any | isinstance(x, (int, float)) and isinstance(x, interval)} ║
+# ║ Path(sqrt(x), <unspecified:sqrt>) over {Any | isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'end') and hasattr(x, 'start') and hasattr(x, 'is_valid')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(x, 'end')                              ║
+# ║   requires: hasattr(x, 'start')                            ║
+# ║   requires: hasattr(x, 'is_valid')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sqrt : {Any | isinstance(x, (int, float)) and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -314,9 +403,12 @@ def tan(x):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 71903834...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.sqrt","kind":"function","src_hash":"3f536a33d5f5340d","in":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval)"},"out":{"base":"Any"},"spec":{"lhs":"sqrt(x)","rhs":"evaluates the square root of an interval","over":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval)"},"name":"sqrt_correct"},"guarantee":"evaluates the square root of an interval","fibers":[{"name":"(int","pred":"isinstance(x, (int, float))","path":{"lhs":"sqrt(x)","rhs":"evaluates the square root of an interval","over":{"base":"(int","pred":"isinstance(x, (int, float))"},"name":"sqrt_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.sqrt_(int_correct","statement":"sqrt satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"interval","pred":"isinstance(x, interval)","path":{"lhs":"sqrt(x)","rhs":"evaluates the square root of an interval","over":{"base":"interval","pred":"isinstance(x, interval)"},"name":"sqrt_interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.sqrt_interval_correct","statement":"sqrt satisfies spec on interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7190383454516605"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.sqrt","kind":"function","src_hash":"3f536a33d5f5340d","in":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'end') and hasattr(x, 'start') and hasattr(x, 'is_valid')"},"out":{"base":"Any"},"spec":{"lhs":"sqrt(x)","rhs":"<unspecified:sqrt>","over":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'end') and hasattr(x, 'start') and hasattr(x, 'is_valid')"},"name":"sqrt_correct"},"guarantee":"evaluates the square root of an interval","fibers":[{"name":"(int","pred":"isinstance(x, (int, float))","path":{"lhs":"sqrt(x)","rhs":"evaluates the square root of an interval","over":{"base":"(int","pred":"isinstance(x, (int, float))"},"name":"sqrt_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.sqrt_(int_correct","statement":"sqrt satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"interval","pred":"isinstance(x, interval)","path":{"lhs":"sqrt(x)","rhs":"evaluates the square root of an interval","over":{"base":"interval","pred":"isinstance(x, interval)"},"name":"sqrt_interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.sqrt_interval_correct","statement":"sqrt satisfies spec on interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7190383454516605","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(x, 'end')","hasattr(x, 'start')","hasattr(x, 'is_valid')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["x.end","x.is_valid","x.start"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'x.start < 0', 'isinstance(x, interval)', 'isinstance(x, (int, float))', 'x > 0', 'x.end < 0'}, fibers={'(int', 'interval'})"]}}
 def sqrt(x):
     """Evaluates the square root of an interval"""
     np = import_module('numpy')
@@ -340,7 +432,13 @@ def sqrt(x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(imin(*ar), evaluates the minimum of a list of intervals) over {Any | isinstance(arg, (int, float, interval)) and isinstance(a, (int, float))} ║
+# ║ Path(imin(*args), result == (NotImplementedError if not all((isinstance(arg, (int, float, interval)) for arg in args)) else interval(min(start_array), min(end_array))) and result == NotImplementedError or result == interval(min(start_array), min(end_array))) over {Any | isinstance(arg, (int, float, interval)) and isinstance(a, (int, float))} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (NotImplementedError if not all...   ║
+# ║   ensures:  result == NotImplementedError or result =...   ║
+# ║   fiber[case_0]: not all((isinstance(arg, (int, float...   ║
+# ║   fiber[case_1]: not (not all((isinstance(arg, (int, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ imin : {Any | isinstance(arg, (int, float, interval))...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -353,9 +451,12 @@ def sqrt(x):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 27731797...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.imin","kind":"function","src_hash":"711275c843315301","in":{"base":"Any","pred":"isinstance(arg, (int, float, interval)) and isinstance(a, (int, float))"},"out":{"base":"Any"},"spec":{"lhs":"imin(*ar)","rhs":"evaluates the minimum of a list of intervals","over":{"base":"Any","pred":"isinstance(arg, (int, float, interval)) and isinstance(a, (int, float))"},"name":"imin_correct"},"guarantee":"evaluates the minimum of a list of intervals","fibers":[{"name":"(int","pred":"isinstance(arg, (int, float, interval))","path":{"lhs":"imin(x)","rhs":"evaluates the minimum of a list of intervals","over":{"base":"(int","pred":"isinstance(arg, (int, float, interval))"},"name":"imin_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.imin_(int_correct","statement":"imin satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"(int","pred":"isinstance(a, (int, float))","path":{"lhs":"imin(x)","rhs":"evaluates the minimum of a list of intervals","over":{"base":"(int","pred":"isinstance(a, (int, float))"},"name":"imin_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.imin_(int_correct","statement":"imin satisfies spec on (int inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"27731797b2b6ba4d"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.imin","kind":"function","src_hash":"711275c843315301","in":{"base":"Any","pred":"isinstance(arg, (int, float, interval)) and isinstance(a, (int, float))"},"out":{"base":"Any","pred":"result satisfies: result == (NotImplementedError if not all((isinstance(arg, (int, float, interval)) for arg in args)) else interval(min(start_array), min(end_array))) and result == NotImplementedError or result == interval(min(start_array), min(end_array))"},"spec":{"lhs":"imin(*args)","rhs":"result == (NotImplementedError if not all((isinstance(arg, (int, float, interval)) for arg in args)) else interval(min(start_array), min(end_array))) and result == NotImplementedError or result == interval(min(start_array), min(end_array))","over":{"base":"Any","pred":"isinstance(arg, (int, float, interval)) and isinstance(a, (int, float))"},"name":"imin_correct"},"guarantee":"result == (NotImplementedError if not all((isinstance(arg, (int, float, interval)) for arg in args)) else interval(min(start_array), min(end_array))); result == NotImplementedError or result == interval(min(start_array), min(end_array)); 2-fiber decomposition","fibers":[{"name":"(int","pred":"isinstance(arg, (int, float, interval))","path":{"lhs":"imin(x)","rhs":"result == (NotImplementedError if not all((isinstance(arg, (int, float, interval)) for arg in args)) else interval(min(start_array), min(end_array))); result == NotImplementedError or result == interval(min(start_array), min(end_array)); 2-fiber decomposition","over":{"base":"(int","pred":"isinstance(arg, (int, float, interval))"},"name":"imin_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.imin_(int_correct","statement":"imin satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"(int","pred":"isinstance(a, (int, float))","path":{"lhs":"imin(x)","rhs":"result == (NotImplementedError if not all((isinstance(arg, (int, float, interval)) for arg in args)) else interval(min(start_array), min(end_array))); result == NotImplementedError or result == interval(min(start_array), min(end_array)); 2-fiber decomposition","over":{"base":"(int","pred":"isinstance(a, (int, float))"},"name":"imin_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.imin_(int_correct","statement":"imin satisfies spec on (int inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"27731797b2b6ba4d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (NotImplementedError if not all((isinstance(arg, (int, float, interval)) for arg in args)) else interval(min(start_array), min(end_array)))","result == NotImplementedError or result == interval(min(start_array), min(end_array))"],"fibers":[{"name":"case_0","guard":"not all((isinstance(arg, (int, float, interval)) for arg in args))","ensures":["result == NotImplementedError"],"decidability":"structural","returns_expr":"NotImplementedError"},{"name":"case_1","guard":"not (not all((isinstance(arg, (int, float, interval)) for arg in args)))","ensures":["result == interval(min(start_array), min(end_array))"],"decidability":"structural","returns_expr":"interval(min(start_array), min(end_array))"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args']","Poor branch-fiber coverage: 0% (branches={'not all((isinstance(arg, (int, float, interval)) for arg in args))', 'len(new_args) == 0'}, fibers={'(int'})"]}}
 def imin(*args):
     """Evaluates the minimum of a list of intervals"""
     np = import_module('numpy')
@@ -378,7 +479,13 @@ def imin(*args):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(imax(*ar), evaluates the maximum of a list of intervals) over {Any | isinstance(arg, (int, float, interval)) and isinstance(a, (int, float))} ║
+# ║ Path(imax(*args), result == (NotImplementedError if not all((isinstance(arg, (int, float, interval)) for arg in args)) else interval(max(start_array), max(end_array))) and result == NotImplementedError or result == interval(max(start_array), max(end_array))) over {Any | isinstance(arg, (int, float, interval)) and isinstance(a, (int, float))} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (NotImplementedError if not all...   ║
+# ║   ensures:  result == NotImplementedError or result =...   ║
+# ║   fiber[case_0]: not all((isinstance(arg, (int, float...   ║
+# ║   fiber[case_1]: not (not all((isinstance(arg, (int, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ imax : {Any | isinstance(arg, (int, float, interval))...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -391,9 +498,12 @@ def imin(*args):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 0119857f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.imax","kind":"function","src_hash":"31f4a8992e8c2db5","in":{"base":"Any","pred":"isinstance(arg, (int, float, interval)) and isinstance(a, (int, float))"},"out":{"base":"Any"},"spec":{"lhs":"imax(*ar)","rhs":"evaluates the maximum of a list of intervals","over":{"base":"Any","pred":"isinstance(arg, (int, float, interval)) and isinstance(a, (int, float))"},"name":"imax_correct"},"guarantee":"evaluates the maximum of a list of intervals","fibers":[{"name":"(int","pred":"isinstance(arg, (int, float, interval))","path":{"lhs":"imax(x)","rhs":"evaluates the maximum of a list of intervals","over":{"base":"(int","pred":"isinstance(arg, (int, float, interval))"},"name":"imax_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.imax_(int_correct","statement":"imax satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"(int","pred":"isinstance(a, (int, float))","path":{"lhs":"imax(x)","rhs":"evaluates the maximum of a list of intervals","over":{"base":"(int","pred":"isinstance(a, (int, float))"},"name":"imax_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.imax_(int_correct","statement":"imax satisfies spec on (int inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0119857f64c5074a"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.imax","kind":"function","src_hash":"31f4a8992e8c2db5","in":{"base":"Any","pred":"isinstance(arg, (int, float, interval)) and isinstance(a, (int, float))"},"out":{"base":"Any","pred":"result satisfies: result == (NotImplementedError if not all((isinstance(arg, (int, float, interval)) for arg in args)) else interval(max(start_array), max(end_array))) and result == NotImplementedError or result == interval(max(start_array), max(end_array))"},"spec":{"lhs":"imax(*args)","rhs":"result == (NotImplementedError if not all((isinstance(arg, (int, float, interval)) for arg in args)) else interval(max(start_array), max(end_array))) and result == NotImplementedError or result == interval(max(start_array), max(end_array))","over":{"base":"Any","pred":"isinstance(arg, (int, float, interval)) and isinstance(a, (int, float))"},"name":"imax_correct"},"guarantee":"result == (NotImplementedError if not all((isinstance(arg, (int, float, interval)) for arg in args)) else interval(max(start_array), max(end_array))); result == NotImplementedError or result == interval(max(start_array), max(end_array)); 2-fiber decomposition","fibers":[{"name":"(int","pred":"isinstance(arg, (int, float, interval))","path":{"lhs":"imax(x)","rhs":"result == (NotImplementedError if not all((isinstance(arg, (int, float, interval)) for arg in args)) else interval(max(start_array), max(end_array))); result == NotImplementedError or result == interval(max(start_array), max(end_array)); 2-fiber decomposition","over":{"base":"(int","pred":"isinstance(arg, (int, float, interval))"},"name":"imax_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.imax_(int_correct","statement":"imax satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"(int","pred":"isinstance(a, (int, float))","path":{"lhs":"imax(x)","rhs":"result == (NotImplementedError if not all((isinstance(arg, (int, float, interval)) for arg in args)) else interval(max(start_array), max(end_array))); result == NotImplementedError or result == interval(max(start_array), max(end_array)); 2-fiber decomposition","over":{"base":"(int","pred":"isinstance(a, (int, float))"},"name":"imax_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.imax_(int_correct","statement":"imax satisfies spec on (int inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0119857f64c5074a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (NotImplementedError if not all((isinstance(arg, (int, float, interval)) for arg in args)) else interval(max(start_array), max(end_array)))","result == NotImplementedError or result == interval(max(start_array), max(end_array))"],"fibers":[{"name":"case_0","guard":"not all((isinstance(arg, (int, float, interval)) for arg in args))","ensures":["result == NotImplementedError"],"decidability":"structural","returns_expr":"NotImplementedError"},{"name":"case_1","guard":"not (not all((isinstance(arg, (int, float, interval)) for arg in args)))","ensures":["result == interval(max(start_array), max(end_array))"],"decidability":"structural","returns_expr":"interval(max(start_array), max(end_array))"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args']","Poor branch-fiber coverage: 0% (branches={'not all((isinstance(arg, (int, float, interval)) for arg in args))', 'len(new_args) == 0'}, fibers={'(int'})"]}}
 def imax(*args):
     """Evaluates the maximum of a list of intervals"""
     np = import_module('numpy')
@@ -418,7 +528,15 @@ def imax(*args):
 
 #Monotonic
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sinh(x), evaluates the hyperbolic sine of an interval) over {Any | isinstance(x, (int, float)) and isinstance(x, interval)} ║
+# ║ Path(sinh(x), <unspecified:sinh>) over {Any | isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'start') and hasattr(x, 'end') and hasattr(x, 'is_valid')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(x, 'start')                            ║
+# ║   requires: hasattr(x, 'end')                              ║
+# ║   requires: hasattr(x, 'is_valid')                         ║
+# ║   fiber[case_0]: isinstance(x, (int, float)) => inter...   ║
+# ║   fiber[interval]: isinstance(x, interval) => interva...   ║
+# ║   fiber[interval]: not (isinstance(x, (int, float))) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sinh : {Any | isinstance(x, (int, float)) and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -431,9 +549,12 @@ def imax(*args):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 5e5c95c6...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.sinh","kind":"function","src_hash":"789ca4d114c3e854","in":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval)"},"out":{"base":"Any"},"spec":{"lhs":"sinh(x)","rhs":"evaluates the hyperbolic sine of an interval","over":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval)"},"name":"sinh_correct"},"guarantee":"evaluates the hyperbolic sine of an interval","fibers":[{"name":"(int","pred":"isinstance(x, (int, float))","path":{"lhs":"sinh(x)","rhs":"evaluates the hyperbolic sine of an interval","over":{"base":"(int","pred":"isinstance(x, (int, float))"},"name":"sinh_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.sinh_(int_correct","statement":"sinh satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"interval","pred":"isinstance(x, interval)","path":{"lhs":"sinh(x)","rhs":"evaluates the hyperbolic sine of an interval","over":{"base":"interval","pred":"isinstance(x, interval)"},"name":"sinh_interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.sinh_interval_correct","statement":"sinh satisfies spec on interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5e5c95c60395ea84"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.sinh","kind":"function","src_hash":"789ca4d114c3e854","in":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'start') and hasattr(x, 'end') and hasattr(x, 'is_valid')"},"out":{"base":"Any"},"spec":{"lhs":"sinh(x)","rhs":"<unspecified:sinh>","over":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'start') and hasattr(x, 'end') and hasattr(x, 'is_valid')"},"name":"sinh_correct"},"guarantee":"3-fiber decomposition","fibers":[{"name":"(int","pred":"isinstance(x, (int, float))","path":{"lhs":"sinh(x)","rhs":"3-fiber decomposition","over":{"base":"(int","pred":"isinstance(x, (int, float))"},"name":"sinh_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.sinh_(int_correct","statement":"sinh satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"interval","pred":"isinstance(x, interval)","path":{"lhs":"sinh(x)","rhs":"3-fiber decomposition","over":{"base":"interval","pred":"isinstance(x, interval)"},"name":"sinh_interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.sinh_interval_correct","statement":"sinh satisfies spec on interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5e5c95c60395ea84","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(x, 'start')","hasattr(x, 'end')","hasattr(x, 'is_valid')"],"fibers":[{"name":"case_0","guard":"isinstance(x, (int, float))","ensures":["result == interval(np.sinh(x), np.sinh(x))"],"decidability":"structural","returns_expr":"interval(np.sinh(x), np.sinh(x))"},{"name":"interval","guard":"isinstance(x, interval)","ensures":["result == interval(np.sinh(x.start), np.sinh(x.end), is_valid=x.is_valid)"],"decidability":"structural","returns_expr":"interval(np.sinh(x.start), np.sinh(x.end), is_valid=x.is_valid)"},{"name":"interval","guard":"not (isinstance(x, (int, float))) and not (isinstance(x, interval))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["x.end","x.is_valid","x.start"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(x, interval)', 'isinstance(x, (int, float))'}, fibers={'(int', 'interval'})"]}}
 def sinh(x):
     """Evaluates the hyperbolic sine of an interval"""
     np = import_module('numpy')
@@ -446,7 +567,15 @@ def sinh(x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cosh(x), evaluates the hyperbolic cos of an interval) over {Any | isinstance(x, (int, float)) and isinstance(x, interval)} ║
+# ║ Path(cosh(x), <unspecified:cosh>) over {Any | isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'start') and hasattr(x, 'end') and hasattr(x, 'is_valid')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(x, 'start')                            ║
+# ║   requires: hasattr(x, 'end')                              ║
+# ║   requires: hasattr(x, 'is_valid')                         ║
+# ║   fiber[case_0]: isinstance(x, (int, float)) => inter...   ║
+# ║   fiber[interval]: isinstance(x, interval)                 ║
+# ║   fiber[interval]: not (isinstance(x, (int, float))) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cosh : {Any | isinstance(x, (int, float)) and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -459,9 +588,12 @@ def sinh(x):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | a5936de7...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.cosh","kind":"function","src_hash":"9104129ec2c32c80","in":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval)"},"out":{"base":"Any"},"spec":{"lhs":"cosh(x)","rhs":"evaluates the hyperbolic cos of an interval","over":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval)"},"name":"cosh_correct"},"guarantee":"evaluates the hyperbolic cos of an interval","fibers":[{"name":"(int","pred":"isinstance(x, (int, float))","path":{"lhs":"cosh(x)","rhs":"evaluates the hyperbolic cos of an interval","over":{"base":"(int","pred":"isinstance(x, (int, float))"},"name":"cosh_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.cosh_(int_correct","statement":"cosh satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"interval","pred":"isinstance(x, interval)","path":{"lhs":"cosh(x)","rhs":"evaluates the hyperbolic cos of an interval","over":{"base":"interval","pred":"isinstance(x, interval)"},"name":"cosh_interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.cosh_interval_correct","statement":"cosh satisfies spec on interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a5936de74735cafa"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.cosh","kind":"function","src_hash":"9104129ec2c32c80","in":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'start') and hasattr(x, 'end') and hasattr(x, 'is_valid')"},"out":{"base":"Any"},"spec":{"lhs":"cosh(x)","rhs":"<unspecified:cosh>","over":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'start') and hasattr(x, 'end') and hasattr(x, 'is_valid')"},"name":"cosh_correct"},"guarantee":"3-fiber decomposition","fibers":[{"name":"(int","pred":"isinstance(x, (int, float))","path":{"lhs":"cosh(x)","rhs":"3-fiber decomposition","over":{"base":"(int","pred":"isinstance(x, (int, float))"},"name":"cosh_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.cosh_(int_correct","statement":"cosh satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"interval","pred":"isinstance(x, interval)","path":{"lhs":"cosh(x)","rhs":"3-fiber decomposition","over":{"base":"interval","pred":"isinstance(x, interval)"},"name":"cosh_interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.cosh_interval_correct","statement":"cosh satisfies spec on interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a5936de74735cafa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(x, 'start')","hasattr(x, 'end')","hasattr(x, 'is_valid')"],"fibers":[{"name":"case_0","guard":"isinstance(x, (int, float))","ensures":["result == interval(np.cosh(x), np.cosh(x))"],"decidability":"structural","returns_expr":"interval(np.cosh(x), np.cosh(x))"},{"name":"interval","guard":"isinstance(x, interval)","ensures":[],"decidability":"structural"},{"name":"interval","guard":"not (isinstance(x, (int, float))) and not (isinstance(x, interval))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["x.end","x.is_valid","x.start"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'x.start < 0 and x.end > 0', 'isinstance(x, interval)', 'isinstance(x, (int, float))'}, fibers={'(int', 'interval'})"]}}
 def cosh(x):
     """Evaluates the hyperbolic cos of an interval"""
     np = import_module('numpy')
@@ -483,7 +615,15 @@ def cosh(x):
 
 #Monotonic
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tanh(x), evaluates the hyperbolic tan of an interval) over {Any | isinstance(x, (int, float)) and isinstance(x, interval)} ║
+# ║ Path(tanh(x), <unspecified:tanh>) over {Any | isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'start') and hasattr(x, 'end') and hasattr(x, 'is_valid')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(x, 'start')                            ║
+# ║   requires: hasattr(x, 'end')                              ║
+# ║   requires: hasattr(x, 'is_valid')                         ║
+# ║   fiber[case_0]: isinstance(x, (int, float)) => inter...   ║
+# ║   fiber[interval]: isinstance(x, interval) => interva...   ║
+# ║   fiber[interval]: not (isinstance(x, (int, float))) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ tanh : {Any | isinstance(x, (int, float)) and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -496,9 +636,12 @@ def cosh(x):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | e88c0c65...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.tanh","kind":"function","src_hash":"efdb7a743ca9754c","in":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval)"},"out":{"base":"Any"},"spec":{"lhs":"tanh(x)","rhs":"evaluates the hyperbolic tan of an interval","over":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval)"},"name":"tanh_correct"},"guarantee":"evaluates the hyperbolic tan of an interval","fibers":[{"name":"(int","pred":"isinstance(x, (int, float))","path":{"lhs":"tanh(x)","rhs":"evaluates the hyperbolic tan of an interval","over":{"base":"(int","pred":"isinstance(x, (int, float))"},"name":"tanh_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.tanh_(int_correct","statement":"tanh satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"interval","pred":"isinstance(x, interval)","path":{"lhs":"tanh(x)","rhs":"evaluates the hyperbolic tan of an interval","over":{"base":"interval","pred":"isinstance(x, interval)"},"name":"tanh_interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.tanh_interval_correct","statement":"tanh satisfies spec on interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e88c0c653671de15"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.tanh","kind":"function","src_hash":"efdb7a743ca9754c","in":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'start') and hasattr(x, 'end') and hasattr(x, 'is_valid')"},"out":{"base":"Any"},"spec":{"lhs":"tanh(x)","rhs":"<unspecified:tanh>","over":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'start') and hasattr(x, 'end') and hasattr(x, 'is_valid')"},"name":"tanh_correct"},"guarantee":"3-fiber decomposition","fibers":[{"name":"(int","pred":"isinstance(x, (int, float))","path":{"lhs":"tanh(x)","rhs":"3-fiber decomposition","over":{"base":"(int","pred":"isinstance(x, (int, float))"},"name":"tanh_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.tanh_(int_correct","statement":"tanh satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"interval","pred":"isinstance(x, interval)","path":{"lhs":"tanh(x)","rhs":"3-fiber decomposition","over":{"base":"interval","pred":"isinstance(x, interval)"},"name":"tanh_interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.tanh_interval_correct","statement":"tanh satisfies spec on interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e88c0c653671de15","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(x, 'start')","hasattr(x, 'end')","hasattr(x, 'is_valid')"],"fibers":[{"name":"case_0","guard":"isinstance(x, (int, float))","ensures":["result == interval(np.tanh(x), np.tanh(x))"],"decidability":"structural","returns_expr":"interval(np.tanh(x), np.tanh(x))"},{"name":"interval","guard":"isinstance(x, interval)","ensures":["result == interval(np.tanh(x.start), np.tanh(x.end), is_valid=x.is_valid)"],"decidability":"structural","returns_expr":"interval(np.tanh(x.start), np.tanh(x.end), is_valid=x.is_valid)"},{"name":"interval","guard":"not (isinstance(x, (int, float))) and not (isinstance(x, interval))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["x.end","x.is_valid","x.start"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(x, interval)', 'isinstance(x, (int, float))'}, fibers={'(int', 'interval'})"]}}
 def tanh(x):
     """Evaluates the hyperbolic tan of an interval"""
     np = import_module('numpy')
@@ -511,7 +654,13 @@ def tanh(x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(asin(x), evaluates the inverse sine of an interval) over {Any | isinstance(x, (int, float)) and isinstance(x, interval)} ║
+# ║ Path(asin(x), <unspecified:asin>) over {Any | isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'is_valid') and hasattr(x, 'start') and hasattr(x, 'end')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(x, 'is_valid')                         ║
+# ║   requires: hasattr(x, 'start')                            ║
+# ║   requires: hasattr(x, 'end')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ asin : {Any | isinstance(x, (int, float)) and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -524,9 +673,12 @@ def tanh(x):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 124017ef...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.asin","kind":"function","src_hash":"7309552c6bb46c70","in":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval)"},"out":{"base":"Any"},"spec":{"lhs":"asin(x)","rhs":"evaluates the inverse sine of an interval","over":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval)"},"name":"asin_correct"},"guarantee":"evaluates the inverse sine of an interval","fibers":[{"name":"(int","pred":"isinstance(x, (int, float))","path":{"lhs":"asin(x)","rhs":"evaluates the inverse sine of an interval","over":{"base":"(int","pred":"isinstance(x, (int, float))"},"name":"asin_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.asin_(int_correct","statement":"asin satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"interval","pred":"isinstance(x, interval)","path":{"lhs":"asin(x)","rhs":"evaluates the inverse sine of an interval","over":{"base":"interval","pred":"isinstance(x, interval)"},"name":"asin_interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.asin_interval_correct","statement":"asin satisfies spec on interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"124017efd417a710"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.asin","kind":"function","src_hash":"7309552c6bb46c70","in":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'is_valid') and hasattr(x, 'start') and hasattr(x, 'end')"},"out":{"base":"Any"},"spec":{"lhs":"asin(x)","rhs":"<unspecified:asin>","over":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'is_valid') and hasattr(x, 'start') and hasattr(x, 'end')"},"name":"asin_correct"},"guarantee":"evaluates the inverse sine of an interval","fibers":[{"name":"(int","pred":"isinstance(x, (int, float))","path":{"lhs":"asin(x)","rhs":"evaluates the inverse sine of an interval","over":{"base":"(int","pred":"isinstance(x, (int, float))"},"name":"asin_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.asin_(int_correct","statement":"asin satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"interval","pred":"isinstance(x, interval)","path":{"lhs":"asin(x)","rhs":"evaluates the inverse sine of an interval","over":{"base":"interval","pred":"isinstance(x, interval)"},"name":"asin_interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.asin_interval_correct","statement":"asin satisfies spec on interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"124017efd417a710","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(x, 'is_valid')","hasattr(x, 'start')","hasattr(x, 'end')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["x.end","x.is_valid","x.start"]}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'x.is_valid is False or x.start > 1 or x.end < -1', 'x.start < -1 or x.end > 1', 'isinstance(x, interval)', 'isinstance(x, (int, float))', 'abs(x) > 1'}, fibers={'(int', 'interval'})"]}}
 def asin(x):
     """Evaluates the inverse sine of an interval"""
     np = import_module('numpy')
@@ -550,7 +702,13 @@ def asin(x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(acos(x), evaluates the inverse cos of an interval) over {Any | isinstance(x, (int, float)) and isinstance(x, interval)} ║
+# ║ Path(acos(x), <unspecified:acos>) over {Any | isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'is_valid') and hasattr(x, 'start') and hasattr(x, 'end')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(x, 'is_valid')                         ║
+# ║   requires: hasattr(x, 'start')                            ║
+# ║   requires: hasattr(x, 'end')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ acos : {Any | isinstance(x, (int, float)) and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -563,9 +721,12 @@ def asin(x):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 7a47ca1b...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.acos","kind":"function","src_hash":"61b1b49752ae1f01","in":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval)"},"out":{"base":"Any"},"spec":{"lhs":"acos(x)","rhs":"evaluates the inverse cos of an interval","over":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval)"},"name":"acos_correct"},"guarantee":"evaluates the inverse cos of an interval","fibers":[{"name":"(int","pred":"isinstance(x, (int, float))","path":{"lhs":"acos(x)","rhs":"evaluates the inverse cos of an interval","over":{"base":"(int","pred":"isinstance(x, (int, float))"},"name":"acos_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.acos_(int_correct","statement":"acos satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"interval","pred":"isinstance(x, interval)","path":{"lhs":"acos(x)","rhs":"evaluates the inverse cos of an interval","over":{"base":"interval","pred":"isinstance(x, interval)"},"name":"acos_interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.acos_interval_correct","statement":"acos satisfies spec on interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7a47ca1b3f8c3023"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.acos","kind":"function","src_hash":"61b1b49752ae1f01","in":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'is_valid') and hasattr(x, 'start') and hasattr(x, 'end')"},"out":{"base":"Any"},"spec":{"lhs":"acos(x)","rhs":"<unspecified:acos>","over":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'is_valid') and hasattr(x, 'start') and hasattr(x, 'end')"},"name":"acos_correct"},"guarantee":"evaluates the inverse cos of an interval","fibers":[{"name":"(int","pred":"isinstance(x, (int, float))","path":{"lhs":"acos(x)","rhs":"evaluates the inverse cos of an interval","over":{"base":"(int","pred":"isinstance(x, (int, float))"},"name":"acos_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.acos_(int_correct","statement":"acos satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"interval","pred":"isinstance(x, interval)","path":{"lhs":"acos(x)","rhs":"evaluates the inverse cos of an interval","over":{"base":"interval","pred":"isinstance(x, interval)"},"name":"acos_interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.acos_interval_correct","statement":"acos satisfies spec on interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7a47ca1b3f8c3023","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(x, 'is_valid')","hasattr(x, 'start')","hasattr(x, 'end')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["x.end","x.is_valid","x.start"]}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'x.is_valid is False or x.start > 1 or x.end < -1', 'x.start < -1 or x.end > 1', 'isinstance(x, interval)', 'isinstance(x, (int, float))', 'abs(x) > 1'}, fibers={'(int', 'interval'})"]}}
 def acos(x):
     """Evaluates the inverse cos of an interval"""
     np = import_module('numpy')
@@ -589,7 +750,15 @@ def acos(x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ceil(x), evaluates the ceiling of an interval) over {Any | isinstance(x, (int, float)) and isinstance(x, interval)} ║
+# ║ Path(ceil(x), <unspecified:ceil>) over {Any | isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'is_valid') and hasattr(x, 'start') and hasattr(x, 'end')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(x, 'is_valid')                         ║
+# ║   requires: hasattr(x, 'start')                            ║
+# ║   requires: hasattr(x, 'end')                              ║
+# ║   fiber[case_0]: isinstance(x, (int, float)) => inter...   ║
+# ║   fiber[interval]: isinstance(x, interval)                 ║
+# ║   fiber[interval]: not (isinstance(x, (int, float))) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ceil : {Any | isinstance(x, (int, float)) and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -602,9 +771,12 @@ def acos(x):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 307f474e...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.ceil","kind":"function","src_hash":"bbae5e5f44ace24b","in":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval)"},"out":{"base":"Any"},"spec":{"lhs":"ceil(x)","rhs":"evaluates the ceiling of an interval","over":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval)"},"name":"ceil_correct"},"guarantee":"evaluates the ceiling of an interval","fibers":[{"name":"(int","pred":"isinstance(x, (int, float))","path":{"lhs":"ceil(x)","rhs":"evaluates the ceiling of an interval","over":{"base":"(int","pred":"isinstance(x, (int, float))"},"name":"ceil_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.ceil_(int_correct","statement":"ceil satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"interval","pred":"isinstance(x, interval)","path":{"lhs":"ceil(x)","rhs":"evaluates the ceiling of an interval","over":{"base":"interval","pred":"isinstance(x, interval)"},"name":"ceil_interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.ceil_interval_correct","statement":"ceil satisfies spec on interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"307f474e485efcbe"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.ceil","kind":"function","src_hash":"bbae5e5f44ace24b","in":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'is_valid') and hasattr(x, 'start') and hasattr(x, 'end')"},"out":{"base":"Any"},"spec":{"lhs":"ceil(x)","rhs":"<unspecified:ceil>","over":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'is_valid') and hasattr(x, 'start') and hasattr(x, 'end')"},"name":"ceil_correct"},"guarantee":"3-fiber decomposition","fibers":[{"name":"(int","pred":"isinstance(x, (int, float))","path":{"lhs":"ceil(x)","rhs":"3-fiber decomposition","over":{"base":"(int","pred":"isinstance(x, (int, float))"},"name":"ceil_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.ceil_(int_correct","statement":"ceil satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"interval","pred":"isinstance(x, interval)","path":{"lhs":"ceil(x)","rhs":"3-fiber decomposition","over":{"base":"interval","pred":"isinstance(x, interval)"},"name":"ceil_interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.ceil_interval_correct","statement":"ceil satisfies spec on interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"307f474e485efcbe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(x, 'is_valid')","hasattr(x, 'start')","hasattr(x, 'end')"],"fibers":[{"name":"case_0","guard":"isinstance(x, (int, float))","ensures":["result == interval(np.ceil(x))"],"decidability":"structural","returns_expr":"interval(np.ceil(x))"},{"name":"interval","guard":"isinstance(x, interval)","ensures":[],"decidability":"structural"},{"name":"interval","guard":"not (isinstance(x, (int, float))) and not (isinstance(x, interval))","ensures":["result == NotImplementedError"],"decidability":"structural","returns_expr":"NotImplementedError"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["x.end","x.is_valid","x.start"]}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(x, (int, float))', 'isinstance(x, interval)', 'start == end'}, fibers={'(int', 'interval'})"]}}
 def ceil(x):
     """Evaluates the ceiling of an interval"""
     np = import_module('numpy')
@@ -627,7 +799,15 @@ def ceil(x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(floor(x), evaluates the floor of an interval) over {Any | isinstance(x, (int, float)) and isinstance(x, interval)} ║
+# ║ Path(floor(x), <unspecified:floor>) over {Any | isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'is_valid') and hasattr(x, 'start') and hasattr(x, 'end')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(x, 'is_valid')                         ║
+# ║   requires: hasattr(x, 'start')                            ║
+# ║   requires: hasattr(x, 'end')                              ║
+# ║   fiber[case_0]: isinstance(x, (int, float)) => inter...   ║
+# ║   fiber[interval]: isinstance(x, interval)                 ║
+# ║   fiber[interval]: not (isinstance(x, (int, float))) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ floor : {Any | isinstance(x, (int, float)) and isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -640,9 +820,12 @@ def ceil(x):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 858a2fe7...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.floor","kind":"function","src_hash":"906f0eb19e92e377","in":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval)"},"out":{"base":"Any"},"spec":{"lhs":"floor(x)","rhs":"evaluates the floor of an interval","over":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval)"},"name":"floor_correct"},"guarantee":"evaluates the floor of an interval","fibers":[{"name":"(int","pred":"isinstance(x, (int, float))","path":{"lhs":"floor(x)","rhs":"evaluates the floor of an interval","over":{"base":"(int","pred":"isinstance(x, (int, float))"},"name":"floor_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.floor_(int_correct","statement":"floor satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"interval","pred":"isinstance(x, interval)","path":{"lhs":"floor(x)","rhs":"evaluates the floor of an interval","over":{"base":"interval","pred":"isinstance(x, interval)"},"name":"floor_interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.floor_interval_correct","statement":"floor satisfies spec on interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"858a2fe72a91ec81"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.floor","kind":"function","src_hash":"906f0eb19e92e377","in":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'is_valid') and hasattr(x, 'start') and hasattr(x, 'end')"},"out":{"base":"Any"},"spec":{"lhs":"floor(x)","rhs":"<unspecified:floor>","over":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'is_valid') and hasattr(x, 'start') and hasattr(x, 'end')"},"name":"floor_correct"},"guarantee":"3-fiber decomposition","fibers":[{"name":"(int","pred":"isinstance(x, (int, float))","path":{"lhs":"floor(x)","rhs":"3-fiber decomposition","over":{"base":"(int","pred":"isinstance(x, (int, float))"},"name":"floor_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.floor_(int_correct","statement":"floor satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"interval","pred":"isinstance(x, interval)","path":{"lhs":"floor(x)","rhs":"3-fiber decomposition","over":{"base":"interval","pred":"isinstance(x, interval)"},"name":"floor_interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.floor_interval_correct","statement":"floor satisfies spec on interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"858a2fe72a91ec81","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(x, 'is_valid')","hasattr(x, 'start')","hasattr(x, 'end')"],"fibers":[{"name":"case_0","guard":"isinstance(x, (int, float))","ensures":["result == interval(np.floor(x))"],"decidability":"structural","returns_expr":"interval(np.floor(x))"},{"name":"interval","guard":"isinstance(x, interval)","ensures":[],"decidability":"structural"},{"name":"interval","guard":"not (isinstance(x, (int, float))) and not (isinstance(x, interval))","ensures":["result == NotImplementedError"],"decidability":"structural","returns_expr":"NotImplementedError"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["x.end","x.is_valid","x.start"]}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(x, (int, float))', 'isinstance(x, interval)', 'start == end'}, fibers={'(int', 'interval'})"]}}
 def floor(x):
     """Evaluates the floor of an interval"""
     np = import_module('numpy')
@@ -665,7 +848,15 @@ def floor(x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(acosh(x), evaluates the inverse hyperbolic cosine of an interval) over {Any | isinstance(x, (int, float)) and isinstance(x, interval)} ║
+# ║ Path(acosh(x), <unspecified:acosh>) over {Any | isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'end') and hasattr(x, 'start') and hasattr(x, 'is_valid')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(x, 'end')                              ║
+# ║   requires: hasattr(x, 'start')                            ║
+# ║   requires: hasattr(x, 'is_valid')                         ║
+# ║   fiber[case_0]: isinstance(x, (int, float))               ║
+# ║   fiber[interval]: isinstance(x, interval)                 ║
+# ║   fiber[interval]: not (isinstance(x, (int, float))) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ acosh : {Any | isinstance(x, (int, float)) and isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -678,9 +869,12 @@ def floor(x):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | fc14e590...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.acosh","kind":"function","src_hash":"8755bcb2272ce97b","in":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval)"},"out":{"base":"Any"},"spec":{"lhs":"acosh(x)","rhs":"evaluates the inverse hyperbolic cosine of an interval","over":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval)"},"name":"acosh_correct"},"guarantee":"evaluates the inverse hyperbolic cosine of an interval","fibers":[{"name":"(int","pred":"isinstance(x, (int, float))","path":{"lhs":"acosh(x)","rhs":"evaluates the inverse hyperbolic cosine of an interval","over":{"base":"(int","pred":"isinstance(x, (int, float))"},"name":"acosh_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.acosh_(int_correct","statement":"acosh satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"interval","pred":"isinstance(x, interval)","path":{"lhs":"acosh(x)","rhs":"evaluates the inverse hyperbolic cosine of an interval","over":{"base":"interval","pred":"isinstance(x, interval)"},"name":"acosh_interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.acosh_interval_correct","statement":"acosh satisfies spec on interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"fc14e590ba00ed40"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.acosh","kind":"function","src_hash":"8755bcb2272ce97b","in":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'end') and hasattr(x, 'start') and hasattr(x, 'is_valid')"},"out":{"base":"Any"},"spec":{"lhs":"acosh(x)","rhs":"<unspecified:acosh>","over":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'end') and hasattr(x, 'start') and hasattr(x, 'is_valid')"},"name":"acosh_correct"},"guarantee":"3-fiber decomposition","fibers":[{"name":"(int","pred":"isinstance(x, (int, float))","path":{"lhs":"acosh(x)","rhs":"3-fiber decomposition","over":{"base":"(int","pred":"isinstance(x, (int, float))"},"name":"acosh_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.acosh_(int_correct","statement":"acosh satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"interval","pred":"isinstance(x, interval)","path":{"lhs":"acosh(x)","rhs":"3-fiber decomposition","over":{"base":"interval","pred":"isinstance(x, interval)"},"name":"acosh_interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.acosh_interval_correct","statement":"acosh satisfies spec on interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"fc14e590ba00ed40","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(x, 'end')","hasattr(x, 'start')","hasattr(x, 'is_valid')"],"fibers":[{"name":"case_0","guard":"isinstance(x, (int, float))","ensures":[],"decidability":"structural"},{"name":"interval","guard":"isinstance(x, interval)","ensures":[],"decidability":"structural"},{"name":"interval","guard":"not (isinstance(x, (int, float))) and not (isinstance(x, interval))","ensures":["result == NotImplementedError"],"decidability":"structural","returns_expr":"NotImplementedError"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["x.end","x.is_valid","x.start"]}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'x.start < 1', 'isinstance(x, interval)', 'isinstance(x, (int, float))', 'x.end < 1', 'x < 1'}, fibers={'(int', 'interval'})"]}}
 def acosh(x):
     """Evaluates the inverse hyperbolic cosine of an interval"""
     np = import_module('numpy')
@@ -707,7 +901,17 @@ def acosh(x):
 
 #Monotonic
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(asinh(x), evaluates the inverse hyperbolic sine of an interval) over {Any | isinstance(x, (int, float)) and isinstance(x, interval)} ║
+# ║ Path(asinh(x), result == (interval(np.arcsinh(x)) if isinstance(x, (int, float)) else interval(start, end, is_valid=x.is_valid) if isinstance(x, interval) else NotImplementedError) and result == interval(np.arcsinh(x)) or result == interval(start, end, is_valid=x.is_valid) or result == NotImplementedError) over {Any | isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'start') and hasattr(x, 'end') and hasattr(x, 'is_valid')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(x, 'start')                            ║
+# ║   requires: hasattr(x, 'end')                              ║
+# ║   requires: hasattr(x, 'is_valid')                         ║
+# ║   ensures:  result == (interval(np.arcsinh(x)) if isi...   ║
+# ║   ensures:  result == interval(np.arcsinh(x)) or resu...   ║
+# ║   fiber[case_0]: isinstance(x, (int, float)) => inter...   ║
+# ║   fiber[interval]: isinstance(x, interval) => interva...   ║
+# ║   fiber[interval]: not (isinstance(x, (int, float))) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ asinh : {Any | isinstance(x, (int, float)) and isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -720,9 +924,12 @@ def acosh(x):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 70e1dd75...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.asinh","kind":"function","src_hash":"9d7d19ce88bebee5","in":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval)"},"out":{"base":"Any"},"spec":{"lhs":"asinh(x)","rhs":"evaluates the inverse hyperbolic sine of an interval","over":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval)"},"name":"asinh_correct"},"guarantee":"evaluates the inverse hyperbolic sine of an interval","fibers":[{"name":"(int","pred":"isinstance(x, (int, float))","path":{"lhs":"asinh(x)","rhs":"evaluates the inverse hyperbolic sine of an interval","over":{"base":"(int","pred":"isinstance(x, (int, float))"},"name":"asinh_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.asinh_(int_correct","statement":"asinh satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"interval","pred":"isinstance(x, interval)","path":{"lhs":"asinh(x)","rhs":"evaluates the inverse hyperbolic sine of an interval","over":{"base":"interval","pred":"isinstance(x, interval)"},"name":"asinh_interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.asinh_interval_correct","statement":"asinh satisfies spec on interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"70e1dd7594e29b7c"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.asinh","kind":"function","src_hash":"9d7d19ce88bebee5","in":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'start') and hasattr(x, 'end') and hasattr(x, 'is_valid')"},"out":{"base":"Any","pred":"result satisfies: result == (interval(np.arcsinh(x)) if isinstance(x, (int, float)) else interval(start, end, is_valid=x.is_valid) if isinstance(x, interval) else NotImplementedError) and result == interval(np.arcsinh(x)) or result == interval(start, end, is_valid=x.is_valid) or result == NotImplementedError"},"spec":{"lhs":"asinh(x)","rhs":"result == (interval(np.arcsinh(x)) if isinstance(x, (int, float)) else interval(start, end, is_valid=x.is_valid) if isinstance(x, interval) else NotImplementedError) and result == interval(np.arcsinh(x)) or result == interval(start, end, is_valid=x.is_valid) or result == NotImplementedError","over":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'start') and hasattr(x, 'end') and hasattr(x, 'is_valid')"},"name":"asinh_correct"},"guarantee":"result == (interval(np.arcsinh(x)) if isinstance(x, (int, float)) else interval(start, end, is_valid=x.is_valid) if isinstance(x, interval) else NotImplementedError); result == interval(np.arcsinh(x)) or result == interval(start, end, is_valid=x.is_valid) or result == NotImplementedError; 3-fiber decomposition","fibers":[{"name":"(int","pred":"isinstance(x, (int, float))","path":{"lhs":"asinh(x)","rhs":"result == (interval(np.arcsinh(x)) if isinstance(x, (int, float)) else interval(start, end, is_valid=x.is_valid) if isinstance(x, interval) else NotImplementedError); result == interval(np.arcsinh(x)) or result == interval(start, end, is_valid=x.is_valid) or result == NotImplementedError; 3-fiber decomposition","over":{"base":"(int","pred":"isinstance(x, (int, float))"},"name":"asinh_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.asinh_(int_correct","statement":"asinh satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"interval","pred":"isinstance(x, interval)","path":{"lhs":"asinh(x)","rhs":"result == (interval(np.arcsinh(x)) if isinstance(x, (int, float)) else interval(start, end, is_valid=x.is_valid) if isinstance(x, interval) else NotImplementedError); result == interval(np.arcsinh(x)) or result == interval(start, end, is_valid=x.is_valid) or result == NotImplementedError; 3-fiber decomposition","over":{"base":"interval","pred":"isinstance(x, interval)"},"name":"asinh_interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.asinh_interval_correct","statement":"asinh satisfies spec on interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"70e1dd7594e29b7c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(x, 'start')","hasattr(x, 'end')","hasattr(x, 'is_valid')"],"ensures":["result == (interval(np.arcsinh(x)) if isinstance(x, (int, float)) else interval(start, end, is_valid=x.is_valid) if isinstance(x, interval) else NotImplementedError)","result == interval(np.arcsinh(x)) or result == interval(start, end, is_valid=x.is_valid) or result == NotImplementedError"],"fibers":[{"name":"case_0","guard":"isinstance(x, (int, float))","ensures":["result == interval(np.arcsinh(x))"],"decidability":"structural","returns_expr":"interval(np.arcsinh(x))"},{"name":"interval","guard":"isinstance(x, interval)","ensures":["result == interval(start, end, is_valid=x.is_valid)"],"decidability":"structural","returns_expr":"interval(start, end, is_valid=x.is_valid)"},{"name":"interval","guard":"not (isinstance(x, (int, float))) and not (isinstance(x, interval))","ensures":["result == NotImplementedError"],"decidability":"structural","returns_expr":"NotImplementedError"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["x.end","x.is_valid","x.start"]}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(x, interval)', 'isinstance(x, (int, float))'}, fibers={'(int', 'interval'})"]}}
 def asinh(x):
     """Evaluates the inverse hyperbolic sine of an interval"""
     np = import_module('numpy')
@@ -737,7 +944,15 @@ def asinh(x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(atanh(x), evaluates the inverse hyperbolic tangent of an interval) over {Any | isinstance(x, (int, float)) and isinstance(x, interval)} ║
+# ║ Path(atanh(x), <unspecified:atanh>) over {Any | isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'is_valid') and hasattr(x, 'start') and hasattr(x, 'end')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(x, 'is_valid')                         ║
+# ║   requires: hasattr(x, 'start')                            ║
+# ║   requires: hasattr(x, 'end')                              ║
+# ║   fiber[case_0]: isinstance(x, (int, float))               ║
+# ║   fiber[interval]: isinstance(x, interval)                 ║
+# ║   fiber[interval]: not (isinstance(x, (int, float))) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ atanh : {Any | isinstance(x, (int, float)) and isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -750,9 +965,12 @@ def asinh(x):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 6e32d59f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.atanh","kind":"function","src_hash":"a8891863c99e758e","in":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval)"},"out":{"base":"Any"},"spec":{"lhs":"atanh(x)","rhs":"evaluates the inverse hyperbolic tangent of an interval","over":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval)"},"name":"atanh_correct"},"guarantee":"evaluates the inverse hyperbolic tangent of an interval","fibers":[{"name":"(int","pred":"isinstance(x, (int, float))","path":{"lhs":"atanh(x)","rhs":"evaluates the inverse hyperbolic tangent of an interval","over":{"base":"(int","pred":"isinstance(x, (int, float))"},"name":"atanh_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.atanh_(int_correct","statement":"atanh satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"interval","pred":"isinstance(x, interval)","path":{"lhs":"atanh(x)","rhs":"evaluates the inverse hyperbolic tangent of an interval","over":{"base":"interval","pred":"isinstance(x, interval)"},"name":"atanh_interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.atanh_interval_correct","statement":"atanh satisfies spec on interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6e32d59f74583e51"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.atanh","kind":"function","src_hash":"a8891863c99e758e","in":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'is_valid') and hasattr(x, 'start') and hasattr(x, 'end')"},"out":{"base":"Any"},"spec":{"lhs":"atanh(x)","rhs":"<unspecified:atanh>","over":{"base":"Any","pred":"isinstance(x, (int, float)) and isinstance(x, interval) and hasattr(x, 'is_valid') and hasattr(x, 'start') and hasattr(x, 'end')"},"name":"atanh_correct"},"guarantee":"3-fiber decomposition","fibers":[{"name":"(int","pred":"isinstance(x, (int, float))","path":{"lhs":"atanh(x)","rhs":"3-fiber decomposition","over":{"base":"(int","pred":"isinstance(x, (int, float))"},"name":"atanh_(int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.atanh_(int_correct","statement":"atanh satisfies spec on (int inputs"},"trust":"LIBRARY"},{"name":"interval","pred":"isinstance(x, interval)","path":{"lhs":"atanh(x)","rhs":"3-fiber decomposition","over":{"base":"interval","pred":"isinstance(x, interval)"},"name":"atanh_interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.atanh_interval_correct","statement":"atanh satisfies spec on interval inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6e32d59f74583e51","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(x, 'is_valid')","hasattr(x, 'start')","hasattr(x, 'end')"],"fibers":[{"name":"case_0","guard":"isinstance(x, (int, float))","ensures":[],"decidability":"structural"},{"name":"interval","guard":"isinstance(x, interval)","ensures":[],"decidability":"structural"},{"name":"interval","guard":"not (isinstance(x, (int, float))) and not (isinstance(x, interval))","ensures":["result == NotImplementedError"],"decidability":"structural","returns_expr":"NotImplementedError"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["x.end","x.is_valid","x.start"]}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'x.start <= -1 or x.end >= 1', 'abs(x) >= 1', 'x.is_valid is False or x.start >= 1 or x.end <= -1', 'isinstance(x, interval)', 'isinstance(x, (int, float))'}, fibers={'(int', 'interval'})"]}}
 def atanh(x):
     """Evaluates the inverse hyperbolic tangent of an interval"""
     np = import_module('numpy')
@@ -780,16 +998,22 @@ def atanh(x):
 #Three valued logic for interval plotting.
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(And(*ar), defines the three valued ``and`` behaviour for a 2-tuple of three valued logic values) over Any ║
+# ║ Path(And(*args), <unspecified:And>) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ And : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 686740ae1b33f1ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.And","kind":"function","src_hash":"cc13ca21e47a9420","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"And(*ar)","rhs":"defines the three valued ``and`` behaviour for a 2-tuple of three valued logic values","over":{"base":"Any"},"name":"And_correct"},"guarantee":"defines the three valued ``and`` behaviour for a 2-tuple of three valued logic values","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.And_correct","statement":"Path(And(x), defines the three valued ``and`` behaviour for a 2-tuple of three valued logic values)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"686740ae1b33f1ac"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.And","kind":"function","src_hash":"cc13ca21e47a9420","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"And(*args)","rhs":"<unspecified:And>","over":{"base":"Any"},"name":"And_correct"},"guarantee":"defines the three valued ``and`` behaviour for a 2-tuple of three valued logic values","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.And_correct","statement":"Path(And(x), defines the three valued ``and`` behaviour for a 2-tuple of three valued logic values)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"686740ae1b33f1ac","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args']"]}}
 def And(*args):
     """Defines the three valued ``And`` behaviour for a 2-tuple of
      three valued logic values"""
@@ -811,16 +1035,22 @@ def And(*args):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Or(*ar), defines the three valued ``or`` behaviour for a 2-tuple of three valued logic values) over Any ║
+# ║ Path(Or(*args), <unspecified:Or>) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Or : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 48114bab72e40e02  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.Or","kind":"function","src_hash":"b6f1ccaf780d8909","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Or(*ar)","rhs":"defines the three valued ``or`` behaviour for a 2-tuple of three valued logic values","over":{"base":"Any"},"name":"Or_correct"},"guarantee":"defines the three valued ``or`` behaviour for a 2-tuple of three valued logic values","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.Or_correct","statement":"Path(Or(x), defines the three valued ``or`` behaviour for a 2-tuple of three valued logic values)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"48114bab72e40e02"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.lib_interval.Or","kind":"function","src_hash":"b6f1ccaf780d8909","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Or(*args)","rhs":"<unspecified:Or>","over":{"base":"Any"},"name":"Or_correct"},"guarantee":"defines the three valued ``or`` behaviour for a 2-tuple of three valued logic values","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.lib_interval.Or_correct","statement":"Path(Or(x), defines the three valued ``or`` behaviour for a 2-tuple of three valued logic values)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"48114bab72e40e02","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args']"]}}
 def Or(*args):
     """Defines the three valued ``Or`` behaviour for a 2-tuple of
      three valued logic values"""

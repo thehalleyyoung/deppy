@@ -22,32 +22,45 @@ from sympy.core.symbol import Symbol
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_truediv(), test_truediv produces the expected output) over Any ║
+# ║ Path(test_truediv(), Rational(1) / 2 != 0) over {Any | 1 / 2 != 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_truediv : Any → {Any | 1 / 2 != 0 and Rational(1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: 1 / 2 != 0                                     ║
+# ║   ensures:  Rational(1) / 2 != 0                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_truediv : {Any | 1 / 2 != 0} → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54c90f2a55ebaafc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 760633b664bb52e5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_truediv.test_truediv","kind":"function","src_hash":"0431ff07308cfd1d","in":{"base":"Any"},"out":{"base":"Any","pred":"1 / 2 != 0 and Rational(1) / 2 != 0"},"spec":{"lhs":"test_truediv()","rhs":"test_truediv produces the expected output","over":{"base":"Any"},"name":"test_truediv_correct"},"guarantee":"test_truediv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_truediv.test_truediv_correct","statement":"Path(test_truediv(x), test_truediv produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54c90f2a55ebaafc"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_truediv.test_truediv","kind":"function","src_hash":"0431ff07308cfd1d","in":{"base":"Any","pred":"1 / 2 != 0"},"out":{"base":"Any","pred":"result satisfies: Rational(1) / 2 != 0"},"spec":{"lhs":"test_truediv()","rhs":"Rational(1) / 2 != 0","over":{"base":"Any","pred":"1 / 2 != 0"},"name":"test_truediv_correct"},"guarantee":"Rational(1) / 2 != 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_truediv.test_truediv_correct","statement":"Path(test_truediv(x), Rational(1) / 2 != 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"760633b664bb52e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["1 / 2 != 0"],"ensures":["Rational(1) / 2 != 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_truediv():
     assert 1/2 != 0
     assert Rational(1)/2 != 0
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dotest(s), dotest produces the expected output) over Any ║
+# ║ Path(dotest(s), True) over Any                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dotest : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8a9a69491bf3723  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d44509351a5eea9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_truediv.dotest","kind":"function","src_hash":"106036bc62529a82","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dotest(s)","rhs":"dotest produces the expected output","over":{"base":"Any"},"name":"dotest_correct"},"guarantee":"dotest produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_truediv.dotest_correct","statement":"Path(dotest(x), dotest produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8a9a69491bf3723"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_truediv.dotest","kind":"function","src_hash":"106036bc62529a82","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dotest(s)","rhs":"True","over":{"base":"Any"},"name":"dotest_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_truediv.dotest_correct","statement":"Path(dotest(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d44509351a5eea9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dotest(s):
     x = Symbol("x")
     y = Symbol("y")
@@ -67,16 +80,22 @@ def dotest(s):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_basic(), test_basic produces the expected output) over Any ║
+# ║ Path(test_basic(), dotest(s)) over Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_basic : Any → {Any | dotest(s)}                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dotest(s)                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_basic : Any → {Any | result satisfies: dotest(s)}     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ecdbff5a75eb3dd2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 971ff8550d355ced  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_truediv.test_basic","kind":"function","src_hash":"5c28d934736085c3","in":{"base":"Any"},"out":{"base":"Any","pred":"dotest(s)"},"spec":{"lhs":"test_basic()","rhs":"test_basic produces the expected output","over":{"base":"Any"},"name":"test_basic_correct"},"guarantee":"test_basic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_truediv.test_basic_correct","statement":"Path(test_basic(x), test_basic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ecdbff5a75eb3dd2"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_truediv.test_basic","kind":"function","src_hash":"5c28d934736085c3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dotest(s)"},"spec":{"lhs":"test_basic()","rhs":"dotest(s)","over":{"base":"Any"},"name":"test_basic_correct"},"guarantee":"dotest(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_truediv.test_basic_correct","statement":"Path(test_basic(x), dotest(s))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"971ff8550d355ced","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dotest(s)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_basic():
     def s(a, b):
         x = a
@@ -92,16 +111,22 @@ def test_basic():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ibasic(), test_ibasic produces the expected output) over Any ║
+# ║ Path(test_ibasic(), dotest(s)) over Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ibasic : Any → {Any | dotest(s)}                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dotest(s)                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ibasic : Any → {Any | result satisfies: dotest(s)}    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e78d0d8c13d9f22  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d6da7690014442da  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_truediv.test_ibasic","kind":"function","src_hash":"7424b5f133b618ff","in":{"base":"Any"},"out":{"base":"Any","pred":"dotest(s)"},"spec":{"lhs":"test_ibasic()","rhs":"test_ibasic produces the expected output","over":{"base":"Any"},"name":"test_ibasic_correct"},"guarantee":"test_ibasic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_truediv.test_ibasic_correct","statement":"Path(test_ibasic(x), test_ibasic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e78d0d8c13d9f22"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_truediv.test_ibasic","kind":"function","src_hash":"7424b5f133b618ff","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dotest(s)"},"spec":{"lhs":"test_ibasic()","rhs":"dotest(s)","over":{"base":"Any"},"name":"test_ibasic_correct"},"guarantee":"dotest(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_truediv.test_ibasic_correct","statement":"Path(test_ibasic(x), dotest(s))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6da7690014442da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dotest(s)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_ibasic():
     def s(a, b):
         x = a

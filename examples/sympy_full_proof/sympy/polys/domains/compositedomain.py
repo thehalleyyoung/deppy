@@ -27,14 +27,20 @@ from sympy.utilities import public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a CompositeDomain instance) preserved by CompositeDomain(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CompositeDomain : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Domain)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CompositeDomain : Any → {Any | result satisfies: isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fba86114ef7142d4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.compositedomain.CompositeDomain","kind":"class","src_hash":"fb65ff3b96e7419b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CompositeDomain(*args)","rhs":"correctly constructs a CompositeDomain instance","over":{"base":"Any"},"name":"CompositeDomain_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a CompositeDomain instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_Exact","pred":"self.is_Exact","kind":"class"}],"methods_preserving":["inject","drop","set_domain","is_Exact","get_exact","has_CharacteristicZero","characteristic"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fba86114ef7142d4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.compositedomain.CompositeDomain","kind":"class","src_hash":"fb65ff3b96e7419b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Domain)"},"spec":{"lhs":"CompositeDomain(*args)","rhs":"correctly constructs a CompositeDomain instance","over":{"base":"Any"},"name":"CompositeDomain_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Domain)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_Exact","pred":"self.is_Exact","kind":"class"}],"methods_preserving":["inject","drop","set_domain","is_Exact","get_exact","has_CharacteristicZero","characteristic"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fba86114ef7142d4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Domain)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function CompositeDomain not found in source"]}}
 class CompositeDomain(Domain):
     """Base class for composite domains, e.g. ZZ[x], ZZ(X). """
 
@@ -43,16 +49,23 @@ class CompositeDomain(Domain):
     gens, ngens, symbols, domain = [None]*4
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inject(*sy), inject generators into this domain) over Any ║
+# ║ Path(inject(*symbols), <unspecified:inject>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: not set(self.symbols) & set(symbols)...   ║
+# ║   fiber[case_1]: not (not set(self.symbols) & set(sym...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ inject : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f79e69bd948cd5c6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec9675fb1f85db46  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.compositedomain.CompositeDomain.inject","kind":"method","src_hash":"a0c1f9da8f2cd681","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inject(*sy)","rhs":"inject generators into this domain","over":{"base":"Any"},"name":"inject_correct"},"guarantee":"inject generators into this domain","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.compositedomain.CompositeDomain.inject_correct","statement":"Path(inject(x), inject generators into this domain)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f79e69bd948cd5c6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.compositedomain.CompositeDomain.inject","kind":"method","src_hash":"a0c1f9da8f2cd681","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inject(*symbols)","rhs":"<unspecified:inject>","over":{"base":"Any"},"name":"inject_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.compositedomain.CompositeDomain.inject_correct","statement":"Path(inject(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec9675fb1f85db46","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"not set(self.symbols) & set(symbols)","ensures":["result == self.__class__(self.domain, self.symbols + symbols, self.order)"],"decidability":"library","returns_expr":"self.__class__(self.domain, self.symbols + symbols, self.order)"},{"name":"case_1","guard":"not (not set(self.symbols) & set(symbols))","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.domain","self.order","self.symbols"],"raises":["GeneratorsError"]},"state_contract":{"exceptional_post":{"GeneratorsError":["isinstance(raised, GeneratorsError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def inject(self, *symbols):
         """Inject generators into this domain.  """
         if not (set(self.symbols) & set(symbols)):
@@ -61,16 +74,25 @@ class CompositeDomain(Domain):
             raise GeneratorsError("common generators in %s and %s" % (self.symbols, symbols))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(drop(*sy), drop generators from this domain) over Any ║
+# ║ Path(drop(*symbols), result == (domain if not newsyms else self.__class__(domain, newsyms, self.order)) and result == domain or result == self.__class__(domain, newsyms, self.order)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ drop : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (domain if not newsyms else sel...   ║
+# ║   ensures:  result == domain or result == self.__clas...   ║
+# ║   fiber[case_0]: not newsyms => domain                     ║
+# ║   fiber[case_1]: not (not newsyms) => self.__class__(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ drop : Any → {Any | result satisfies: result == (doma...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dfc092fec8cd8c86  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 936e865f2c6768a4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.compositedomain.CompositeDomain.drop","kind":"method","src_hash":"77dd1f7fe43b1ff1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"drop(*sy)","rhs":"drop generators from this domain","over":{"base":"Any"},"name":"drop_correct"},"guarantee":"drop generators from this domain","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.compositedomain.CompositeDomain.drop_correct","statement":"Path(drop(x), drop generators from this domain)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfc092fec8cd8c86"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.compositedomain.CompositeDomain.drop","kind":"method","src_hash":"77dd1f7fe43b1ff1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (domain if not newsyms else self.__class__(domain, newsyms, self.order)) and result == domain or result == self.__class__(domain, newsyms, self.order)"},"spec":{"lhs":"drop(*symbols)","rhs":"result == (domain if not newsyms else self.__class__(domain, newsyms, self.order)) and result == domain or result == self.__class__(domain, newsyms, self.order)","over":{"base":"Any"},"name":"drop_correct"},"guarantee":"result == (domain if not newsyms else self.__class__(domain, newsyms, self.order)); result == domain or result == self.__class__(domain, newsyms, self.order); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.compositedomain.CompositeDomain.drop_correct","statement":"Path(drop(x), result == (domain if not newsyms else self.__class__(domain, newsyms, self.order)); result == domain or result == self.__class__(domain, newsyms, self.order); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"936e865f2c6768a4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (domain if not newsyms else self.__class__(domain, newsyms, self.order))","result == domain or result == self.__class__(domain, newsyms, self.order)"],"fibers":[{"name":"case_0","guard":"not newsyms","ensures":["result == domain"],"decidability":"library","returns_expr":"domain"},{"name":"case_1","guard":"not (not newsyms)","ensures":["result == self.__class__(domain, newsyms, self.order)"],"decidability":"library","returns_expr":"self.__class__(domain, newsyms, self.order)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.domain","self.order","self.symbols"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def drop(self, *symbols):
         """Drop generators from this domain. """
         symset = set(symbols)
@@ -82,76 +104,106 @@ class CompositeDomain(Domain):
             return self.__class__(domain, newsyms, self.order)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set_domain(dom), set the ground domain of this domain) over Any ║
+# ║ Path(set_domain(domain), self.__class__(domain, self.symbols, self.order)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__class__(domain, self.symbols, self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set_domain : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fcdf449fbd360719           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.compositedomain.CompositeDomain.set_domain","kind":"method","src_hash":"1ef2d107fe80594a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_domain(dom)","rhs":"set the ground domain of this domain","over":{"base":"Any"},"name":"set_domain_correct"},"guarantee":"set the ground domain of this domain","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fcdf449fbd360719"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.compositedomain.CompositeDomain.set_domain","kind":"method","src_hash":"1ef2d107fe80594a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_domain(domain)","rhs":"self.__class__(domain, self.symbols, self.order)","over":{"base":"Any"},"name":"set_domain_correct"},"guarantee":"returns self.__class__(domain, self.symbols, self.order)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fcdf449fbd360719","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__class__(domain, self.symbols, self.order)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.order","self.symbols"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set_domain(self, domain):
         """Set the ground domain of this domain. """
         return self.__class__(domain, self.symbols, self.order)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_Exact(), returns the is_Exact attribute) over Any  ║
+# ║ Path(is_Exact(), self.domain.is_Exact) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.domain.is_Exact                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_Exact : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b7d5030f3f6be263           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.compositedomain.CompositeDomain.is_Exact","kind":"property","src_hash":"37d8d0c54879695f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_Exact()","rhs":"returns the is_Exact attribute","over":{"base":"Any"},"name":"is_Exact_correct"},"guarantee":"returns the is_Exact attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b7d5030f3f6be263"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.compositedomain.CompositeDomain.is_Exact","kind":"property","src_hash":"37d8d0c54879695f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_Exact()","rhs":"self.domain.is_Exact","over":{"base":"Any"},"name":"is_Exact_correct"},"guarantee":"returns self.domain.is_Exact","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b7d5030f3f6be263","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.domain.is_Exact","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_Exact(self):
         """Returns ``True`` if this domain is exact. """
         return self.domain.is_Exact
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_exact(), returns an exact version of this domain) over Any ║
+# ║ Path(get_exact(), self.set_domain(self.domain.get_exact())) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.set_domain(self.domain.get_exact())       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_exact : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cc40187c466d6659           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.compositedomain.CompositeDomain.get_exact","kind":"method","src_hash":"c86caddf3c75cc57","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_exact()","rhs":"returns an exact version of this domain","over":{"base":"Any"},"name":"get_exact_correct"},"guarantee":"returns an exact version of this domain","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc40187c466d6659"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.compositedomain.CompositeDomain.get_exact","kind":"method","src_hash":"c86caddf3c75cc57","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_exact()","rhs":"self.set_domain(self.domain.get_exact())","over":{"base":"Any"},"name":"get_exact_correct"},"guarantee":"returns self.set_domain(self.domain.get_exact())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc40187c466d6659","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.set_domain(self.domain.get_exact())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.set_domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_exact(self):
         """Returns an exact version of this domain. """
         return self.set_domain(self.domain.get_exact())
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(has_CharacteristicZero(), returns the has_CharacteristicZero attribute) over Any ║
+# ║ Path(has_CharacteristicZero(), self.domain.has_CharacteristicZero) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.domain.has_CharacteristicZero             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ has_CharacteristicZero : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dc5b72027be8d33b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.compositedomain.CompositeDomain.has_CharacteristicZero","kind":"property","src_hash":"accb1ef650106948","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"has_CharacteristicZero()","rhs":"returns the has_CharacteristicZero attribute","over":{"base":"Any"},"name":"has_CharacteristicZero_correct"},"guarantee":"returns the has_CharacteristicZero attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dc5b72027be8d33b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.compositedomain.CompositeDomain.has_CharacteristicZero","kind":"property","src_hash":"accb1ef650106948","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"has_CharacteristicZero()","rhs":"self.domain.has_CharacteristicZero","over":{"base":"Any"},"name":"has_CharacteristicZero_correct"},"guarantee":"returns self.domain.has_CharacteristicZero","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dc5b72027be8d33b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.domain.has_CharacteristicZero","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def has_CharacteristicZero(self):
         return self.domain.has_CharacteristicZero
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(characteristic(), characteristic produces the expected output) over Any ║
+# ║ Path(characteristic(), self.domain.characteristic()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.domain.characteristic()                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ characteristic : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d22336136e50e450           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.compositedomain.CompositeDomain.characteristic","kind":"method","src_hash":"8350696ef5e03b45","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"characteristic()","rhs":"characteristic produces the expected output","over":{"base":"Any"},"name":"characteristic_correct"},"guarantee":"characteristic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d22336136e50e450"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.compositedomain.CompositeDomain.characteristic","kind":"method","src_hash":"8350696ef5e03b45","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"characteristic()","rhs":"self.domain.characteristic()","over":{"base":"Any"},"name":"characteristic_correct"},"guarantee":"returns self.domain.characteristic()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d22336136e50e450","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.domain.characteristic()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def characteristic(self):
         return self.domain.characteristic()

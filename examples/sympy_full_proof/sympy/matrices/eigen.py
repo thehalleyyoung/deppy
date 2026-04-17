@@ -48,16 +48,24 @@ __doctest_requires__ = {
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eigenvals_eigenvects_mpmath(M), internal helper behaves correctly) over Any ║
+# ║ Path(_eigenvals_eigenvects_mpmath(M), (E, ER)) over {Any | hasattr(M, 'atoms') and hasattr(M, 'evalf')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eigenvals_eigenvects_mpmath : Any → Any                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'atoms')                            ║
+# ║   requires: hasattr(M, 'evalf')                            ║
+# ║   returns:  (E, ER)                                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eigenvals_eigenvects_mpmath : {Any | hasattr(M, 'ato...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08c07cab6333058f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 23333ce046cb1776  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._eigenvals_eigenvects_mpmath","kind":"function","src_hash":"46969e22e9c043bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eigenvals_eigenvects_mpmath(M)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eigenvals_eigenvects_mpmath_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._eigenvals_eigenvects_mpmath_correct","statement":"Path(_eigenvals_eigenvects_mpmath(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08c07cab6333058f"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._eigenvals_eigenvects_mpmath","kind":"function","src_hash":"46969e22e9c043bf","in":{"base":"Any","pred":"hasattr(M, 'atoms') and hasattr(M, 'evalf')"},"out":{"base":"Any"},"spec":{"lhs":"_eigenvals_eigenvects_mpmath(M)","rhs":"(E, ER)","over":{"base":"Any","pred":"hasattr(M, 'atoms') and hasattr(M, 'evalf')"},"name":"_eigenvals_eigenvects_mpmath_correct"},"guarantee":"returns (E, ER)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._eigenvals_eigenvects_mpmath_correct","statement":"Path(_eigenvals_eigenvects_mpmath(x), returns (E, ER))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23333ce046cb1776","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'atoms')","hasattr(M, 'evalf')"],"returns_expr":"(E, ER)","pure":false,"effects":{"effect_type":"reads_state","reads":["M.atoms","M.evalf"],"raises":["PrecisionExhausted"]},"state_contract":{"exceptional_post":{"PrecisionExhausted":["isinstance(raised, PrecisionExhausted)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _eigenvals_eigenvects_mpmath(M):
     norm2 = lambda v: mp.sqrt(sum(i**2 for i in v))
 
@@ -85,16 +93,22 @@ def _eigenvals_eigenvects_mpmath(M):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eigenvals_mpmath(M, ), compute eigenvalues using mpmath) over Any ║
+# ║ Path(_eigenvals_mpmath(M, multiple), <unspecified:_eigenvals_mpmath>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eigenvals_mpmath : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16b8fb8d37ec557b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._eigenvals_mpmath","kind":"function","src_hash":"7eed8d96f380559e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eigenvals_mpmath(M, )","rhs":"compute eigenvalues using mpmath","over":{"base":"Any"},"name":"_eigenvals_mpmath_correct"},"guarantee":"compute eigenvalues using mpmath","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._eigenvals_mpmath_correct","statement":"Path(_eigenvals_mpmath(x), compute eigenvalues using mpmath)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16b8fb8d37ec557b"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._eigenvals_mpmath","kind":"function","src_hash":"7eed8d96f380559e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eigenvals_mpmath(M, multiple)","rhs":"<unspecified:_eigenvals_mpmath>","over":{"base":"Any"},"name":"_eigenvals_mpmath_correct"},"guarantee":"compute eigenvalues using mpmath","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._eigenvals_mpmath_correct","statement":"Path(_eigenvals_mpmath(x), compute eigenvalues using mpmath)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16b8fb8d37ec557b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _eigenvals_mpmath(M, multiple=False):
     """Compute eigenvalues using mpmath"""
     E, _ = _eigenvals_eigenvects_mpmath(M)
@@ -105,16 +119,23 @@ def _eigenvals_mpmath(M, multiple=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eigenvects_mpmath(M), internal helper behaves correctly) over Any ║
+# ║ Path(_eigenvects_mpmath(M), <unspecified:_eigenvects_mpmath>) over {Any | hasattr(M, 'rows')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eigenvects_mpmath : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(M, 'rows')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eigenvects_mpmath : {Any | hasattr(M, 'rows')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eff9b73e8faded74  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._eigenvects_mpmath","kind":"function","src_hash":"7514d34459883e6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eigenvects_mpmath(M)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eigenvects_mpmath_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._eigenvects_mpmath_correct","statement":"Path(_eigenvects_mpmath(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eff9b73e8faded74"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._eigenvects_mpmath","kind":"function","src_hash":"7514d34459883e6d","in":{"base":"Any","pred":"hasattr(M, 'rows')"},"out":{"base":"Any"},"spec":{"lhs":"_eigenvects_mpmath(M)","rhs":"<unspecified:_eigenvects_mpmath>","over":{"base":"Any","pred":"hasattr(M, 'rows')"},"name":"_eigenvects_mpmath_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._eigenvects_mpmath_correct","statement":"Path(_eigenvects_mpmath(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eff9b73e8faded74","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(M, 'rows')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _eigenvects_mpmath(M):
     E, ER = _eigenvals_eigenvects_mpmath(M)
     result = []
@@ -128,16 +149,25 @@ def _eigenvects_mpmath(M):
 
 # This function is a candidate for caching if it gets implemented for matrices.
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eigenvals(M, ), compute eigenvalues of the matrix) over Any ║
+# ║ Path(_eigenvals(M, error_when_incomplete, simplify), <unspecified:_eigenvals>) over {Any | M.is_square and hasattr(M, 'is_square') and hasattr(M, '_rep') and hasattr(M, 'applyfunc') and hasattr(M, 'has')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eigenvals : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: M.is_square                                    ║
+# ║   requires: hasattr(M, 'is_square')                        ║
+# ║   requires: hasattr(M, '_rep')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eigenvals : {Any | M.is_square and hasattr(M, 'is_sq...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b23c17069cfe4f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._eigenvals","kind":"function","src_hash":"46c6bd50f434922c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eigenvals(M, )","rhs":"compute eigenvalues of the matrix","over":{"base":"Any"},"name":"_eigenvals_correct"},"guarantee":"compute eigenvalues of the matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._eigenvals_correct","statement":"Path(_eigenvals(x), compute eigenvalues of the matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b23c17069cfe4f1"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._eigenvals","kind":"function","src_hash":"46c6bd50f434922c","in":{"base":"Any","pred":"M.is_square and hasattr(M, 'is_square') and hasattr(M, '_rep') and hasattr(M, 'applyfunc') and hasattr(M, 'has')"},"out":{"base":"Any"},"spec":{"lhs":"_eigenvals(M, error_when_incomplete, simplify)","rhs":"<unspecified:_eigenvals>","over":{"base":"Any","pred":"M.is_square and hasattr(M, 'is_square') and hasattr(M, '_rep') and hasattr(M, 'applyfunc') and hasattr(M, 'has')"},"name":"_eigenvals_correct"},"guarantee":"compute eigenvalues of the matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._eigenvals_correct","statement":"Path(_eigenvals(x), compute eigenvalues of the matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b23c17069cfe4f1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["M.is_square","hasattr(M, 'is_square')","hasattr(M, '_rep')","hasattr(M, 'applyfunc')","hasattr(M, 'has')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M._rep","M.applyfunc","M.has","M.is_square"],"raises":["NonSquareMatrixError"]},"state_contract":{"exceptional_post":{"NonSquareMatrixError":["isinstance(raised, NonSquareMatrixError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['M', 'error_when_incomplete'], spec=['M', 'error_when_incomplete', 'simplify', 'multiple', 'rational', '**flags']"]}}
 def _eigenvals(
     M, error_when_incomplete=True, *, simplify=False, multiple=False,
     rational=False, **flags):
@@ -257,7 +287,12 @@ eigenvals_error_message = \
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eigenvals_list(M, ), internal helper behaves correctly) over {Any | isinstance(simplify, FunctionType)} ║
+# ║ Path(_eigenvals_list(M, error_when_incomplete, simplify), len(all_eigs) == old_len_all_eigs + 1) over {Any | isinstance(simplify, FunctionType) and hasattr(M, 'strongly_connected_components') and hasattr(M, '_rep')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'strongly_connected_components')    ║
+# ║   requires: hasattr(M, '_rep')                             ║
+# ║   ensures:  len(all_eigs) == old_len_all_eigs + 1          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eigenvals_list : {Any | isinstance(simplify, Functio...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -269,9 +304,12 @@ eigenvals_error_message = \
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 03d5b254...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._eigenvals_list","kind":"function","src_hash":"04aa81c032dc53bd","in":{"base":"Any","pred":"isinstance(simplify, FunctionType)"},"out":{"base":"Any"},"spec":{"lhs":"_eigenvals_list(M, )","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(simplify, FunctionType)"},"name":"_eigenvals_list_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"FunctionType","pred":"isinstance(simplify, FunctionType)","path":{"lhs":"_eigenvals_list(x)","rhs":"internal helper behaves correctly","over":{"base":"FunctionType","pred":"isinstance(simplify, FunctionType)"},"name":"_eigenvals_list_FunctionType_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._eigenvals_list_FunctionType_correct","statement":"_eigenvals_list satisfies spec on FunctionType inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"03d5b25489baac27"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._eigenvals_list","kind":"function","src_hash":"04aa81c032dc53bd","in":{"base":"Any","pred":"isinstance(simplify, FunctionType) and hasattr(M, 'strongly_connected_components') and hasattr(M, '_rep')"},"out":{"base":"Any","pred":"result satisfies: len(all_eigs) == old_len_all_eigs + 1"},"spec":{"lhs":"_eigenvals_list(M, error_when_incomplete, simplify)","rhs":"len(all_eigs) == old_len_all_eigs + 1","over":{"base":"Any","pred":"isinstance(simplify, FunctionType) and hasattr(M, 'strongly_connected_components') and hasattr(M, '_rep')"},"name":"_eigenvals_list_correct"},"guarantee":"len(all_eigs) == old_len_all_eigs + 1","fibers":[{"name":"FunctionType","pred":"isinstance(simplify, FunctionType)","path":{"lhs":"_eigenvals_list(x)","rhs":"len(all_eigs) == old_len_all_eigs + 1","over":{"base":"FunctionType","pred":"isinstance(simplify, FunctionType)"},"name":"_eigenvals_list_FunctionType_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._eigenvals_list_FunctionType_correct","statement":"_eigenvals_list satisfies spec on FunctionType inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"03d5b25489baac27","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'strongly_connected_components')","hasattr(M, '_rep')"],"ensures":["len(all_eigs) == old_len_all_eigs + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M._rep","M.strongly_connected_components"],"calls_mutating":["all_eigs.append"],"raises":["MatrixError"],"catches":["NotImplementedError"]},"state_contract":{"modifies":["all_eigs.*"],"old_bindings":{"old_len_all_eigs":"len(all_eigs)"},"post_ensures":["len(all_eigs) == old_len_all_eigs + 1"],"exceptional_post":{"MatrixError":["isinstance(raised, MatrixError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['M', 'error_when_incomplete', 'simplify'], spec=['M', 'error_when_incomplete', 'simplify', '**flags']","Poor branch-fiber coverage: 0% (branches={'not isinstance(simplify, FunctionType)', 'is_dom and len(b) == 1', 'len(eigs) != block.rows', 'isinstance(simplify, FunctionType)'}, fibers={'FunctionType'})"]}}
 def _eigenvals_list(
     M, error_when_incomplete=True, simplify=False, **flags):
     iblocks = M.strongly_connected_components()
@@ -314,7 +352,12 @@ def _eigenvals_list(
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eigenvals_dict(M, ), internal helper behaves correctly) over {Any | isinstance(simplify, FunctionType)} ║
+# ║ Path(_eigenvals_dict(M, error_when_incomplete, simplify), <unspecified:_eigenvals_dict>) over {Any | isinstance(simplify, FunctionType) and hasattr(M, 'strongly_connected_components') and hasattr(M, '_rep')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(M, 'strongly_connected_components')    ║
+# ║   requires: hasattr(M, '_rep')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eigenvals_dict : {Any | isinstance(simplify, Functio...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -326,9 +369,12 @@ def _eigenvals_list(
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 5eb326ea...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._eigenvals_dict","kind":"function","src_hash":"67b46a012a1a1a9a","in":{"base":"Any","pred":"isinstance(simplify, FunctionType)"},"out":{"base":"Any"},"spec":{"lhs":"_eigenvals_dict(M, )","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(simplify, FunctionType)"},"name":"_eigenvals_dict_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"FunctionType","pred":"isinstance(simplify, FunctionType)","path":{"lhs":"_eigenvals_dict(x)","rhs":"internal helper behaves correctly","over":{"base":"FunctionType","pred":"isinstance(simplify, FunctionType)"},"name":"_eigenvals_dict_FunctionType_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._eigenvals_dict_FunctionType_correct","statement":"_eigenvals_dict satisfies spec on FunctionType inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5eb326ea36d6e6c4"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._eigenvals_dict","kind":"function","src_hash":"67b46a012a1a1a9a","in":{"base":"Any","pred":"isinstance(simplify, FunctionType) and hasattr(M, 'strongly_connected_components') and hasattr(M, '_rep')"},"out":{"base":"Any"},"spec":{"lhs":"_eigenvals_dict(M, error_when_incomplete, simplify)","rhs":"<unspecified:_eigenvals_dict>","over":{"base":"Any","pred":"isinstance(simplify, FunctionType) and hasattr(M, 'strongly_connected_components') and hasattr(M, '_rep')"},"name":"_eigenvals_dict_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"FunctionType","pred":"isinstance(simplify, FunctionType)","path":{"lhs":"_eigenvals_dict(x)","rhs":"internal helper behaves correctly","over":{"base":"FunctionType","pred":"isinstance(simplify, FunctionType)"},"name":"_eigenvals_dict_FunctionType_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._eigenvals_dict_FunctionType_correct","statement":"_eigenvals_dict satisfies spec on FunctionType inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5eb326ea36d6e6c4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(M, 'strongly_connected_components')","hasattr(M, '_rep')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M._rep","M.strongly_connected_components"],"raises":["MatrixError"],"catches":["NotImplementedError"]},"state_contract":{"exceptional_post":{"MatrixError":["isinstance(raised, MatrixError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['M', 'error_when_incomplete', 'simplify'], spec=['M', 'error_when_incomplete', 'simplify', '**flags']","Poor branch-fiber coverage: 0% (branches={'not isinstance(simplify, FunctionType)', 'is_dom and len(b) == 1', 'sum(eigs.values()) != block.rows', 'isinstance(simplify, FunctionType)'}, fibers={'FunctionType'})"]}}
 def _eigenvals_dict(
     M, error_when_incomplete=True, simplify=False, **flags):
     iblocks = M.strongly_connected_components()
@@ -375,16 +421,25 @@ def _eigenvals_dict(
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eigenspace(M, ), get a basis for the eigenspace for a particular eigenvalue) over Any ║
+# ║ Path(_eigenspace(M, eigenval, iszerofunc), <unspecified:_eigenspace>) over {Any | not (len(ret) == 0) and hasattr(M, 'eye') and hasattr(M, 'rows')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eigenspace : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (len(ret) == 0)                            ║
+# ║   requires: hasattr(M, 'eye')                              ║
+# ║   requires: hasattr(M, 'rows')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eigenspace : {Any | not (len(ret) == 0) and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cdfa9a14d8539e68  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._eigenspace","kind":"function","src_hash":"aea0c5c3c1c5f157","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eigenspace(M, )","rhs":"get a basis for the eigenspace for a particular eigenvalue","over":{"base":"Any"},"name":"_eigenspace_correct"},"guarantee":"get a basis for the eigenspace for a particular eigenvalue","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._eigenspace_correct","statement":"Path(_eigenspace(x), get a basis for the eigenspace for a particular eigenvalue)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cdfa9a14d8539e68"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._eigenspace","kind":"function","src_hash":"aea0c5c3c1c5f157","in":{"base":"Any","pred":"not (len(ret) == 0) and hasattr(M, 'eye') and hasattr(M, 'rows')"},"out":{"base":"Any"},"spec":{"lhs":"_eigenspace(M, eigenval, iszerofunc)","rhs":"<unspecified:_eigenspace>","over":{"base":"Any","pred":"not (len(ret) == 0) and hasattr(M, 'eye') and hasattr(M, 'rows')"},"name":"_eigenspace_correct"},"guarantee":"get a basis for the eigenspace for a particular eigenvalue","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._eigenspace_correct","statement":"Path(_eigenspace(x), get a basis for the eigenspace for a particular eigenvalue)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cdfa9a14d8539e68","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (len(ret) == 0)","hasattr(M, 'eye')","hasattr(M, 'rows')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.eye","M.rows"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _eigenspace(M, eigenval, iszerofunc=_iszero, simplify=False):
     """Get a basis for the eigenspace for a particular eigenvalue"""
     m   = M - M.eye(M.rows) * eigenval
@@ -401,16 +456,22 @@ def _eigenspace(M, eigenval, iszerofunc=_iszero, simplify=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eigenvects_DOM(M, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eigenvects_DOM(M, **kwargs), <unspecified:_eigenvects_DOM>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eigenvects_DOM : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b69010a677a8b932  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._eigenvects_DOM","kind":"function","src_hash":"0c5534ca396bd84b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eigenvects_DOM(M, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eigenvects_DOM_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._eigenvects_DOM_correct","statement":"Path(_eigenvects_DOM(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b69010a677a8b932"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._eigenvects_DOM","kind":"function","src_hash":"0c5534ca396bd84b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eigenvects_DOM(M, **kwargs)","rhs":"<unspecified:_eigenvects_DOM>","over":{"base":"Any"},"name":"_eigenvects_DOM_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._eigenvects_DOM_correct","statement":"Path(_eigenvects_DOM(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b69010a677a8b932","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","M.__class__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['M'], spec=['M', '**kwargs']"]}}
 def _eigenvects_DOM(M, **kwargs):
     DOM = DomainMatrix.from_Matrix(M, field=True, extension=True)
     DOM = DOM.to_dense()
@@ -426,16 +487,23 @@ def _eigenvects_DOM(M, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eigenvects_sympy(M, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eigenvects_sympy(M, iszerofunc, simplify), len(ret) == old_len_ret + 1) over {Any | hasattr(M, 'eigenvals')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eigenvects_sympy : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'eigenvals')                        ║
+# ║   ensures:  len(ret) == old_len_ret + 1                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eigenvects_sympy : {Any | hasattr(M, 'eigenvals')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52b901d13d59754b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d5a37fc7c3642785  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._eigenvects_sympy","kind":"function","src_hash":"a234664409bebb5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eigenvects_sympy(M, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eigenvects_sympy_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._eigenvects_sympy_correct","statement":"Path(_eigenvects_sympy(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52b901d13d59754b"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._eigenvects_sympy","kind":"function","src_hash":"a234664409bebb5d","in":{"base":"Any","pred":"hasattr(M, 'eigenvals')"},"out":{"base":"Any","pred":"result satisfies: len(ret) == old_len_ret + 1"},"spec":{"lhs":"_eigenvects_sympy(M, iszerofunc, simplify)","rhs":"len(ret) == old_len_ret + 1","over":{"base":"Any","pred":"hasattr(M, 'eigenvals')"},"name":"_eigenvects_sympy_correct"},"guarantee":"len(ret) == old_len_ret + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._eigenvects_sympy_correct","statement":"Path(_eigenvects_sympy(x), len(ret) == old_len_ret + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5a37fc7c3642785","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'eigenvals')"],"ensures":["len(ret) == old_len_ret + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.eigenvals"],"calls_mutating":["ret.append"],"raises":["MatrixError"]},"state_contract":{"modifies":["ret.*"],"old_bindings":{"old_len_ret":"len(ret)"},"post_ensures":["len(ret) == old_len_ret + 1"],"exceptional_post":{"MatrixError":["isinstance(raised, MatrixError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['M', 'iszerofunc', 'simplify'], spec=['M', 'iszerofunc', 'simplify', '**flags']"]}}
 def _eigenvects_sympy(M, iszerofunc, simplify=True, **flags):
     eigenvals = M.eigenvals(rational=False, **flags)
 
@@ -456,7 +524,12 @@ def _eigenvects_sympy(M, iszerofunc, simplify=True, **flags):
 
 # This functions is a candidate for caching if it gets implemented for matrices.
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eigenvects(M, ), compute eigenvectors of the matrix) over {Any | isinstance(simplify, FunctionType)} ║
+# ║ Path(_eigenvects(M, error_when_incomplete, iszerofunc), <unspecified:_eigenvects>) over {Any | isinstance(simplify, FunctionType) and hasattr(M, 'has') and hasattr(M, 'applyfunc')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(M, 'has')                              ║
+# ║   requires: hasattr(M, 'applyfunc')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eigenvects : {Any | isinstance(simplify, FunctionTyp...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -468,9 +541,12 @@ def _eigenvects_sympy(M, iszerofunc, simplify=True, **flags):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | decd6255...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._eigenvects","kind":"function","src_hash":"bffaff07de1ebac7","in":{"base":"Any","pred":"isinstance(simplify, FunctionType)"},"out":{"base":"Any"},"spec":{"lhs":"_eigenvects(M, )","rhs":"compute eigenvectors of the matrix","over":{"base":"Any","pred":"isinstance(simplify, FunctionType)"},"name":"_eigenvects_correct"},"guarantee":"compute eigenvectors of the matrix","fibers":[{"name":"FunctionType","pred":"isinstance(simplify, FunctionType)","path":{"lhs":"_eigenvects(x)","rhs":"compute eigenvectors of the matrix","over":{"base":"FunctionType","pred":"isinstance(simplify, FunctionType)"},"name":"_eigenvects_FunctionType_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._eigenvects_FunctionType_correct","statement":"_eigenvects satisfies spec on FunctionType inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"decd6255758cdd83"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._eigenvects","kind":"function","src_hash":"bffaff07de1ebac7","in":{"base":"Any","pred":"isinstance(simplify, FunctionType) and hasattr(M, 'has') and hasattr(M, 'applyfunc')"},"out":{"base":"Any"},"spec":{"lhs":"_eigenvects(M, error_when_incomplete, iszerofunc)","rhs":"<unspecified:_eigenvects>","over":{"base":"Any","pred":"isinstance(simplify, FunctionType) and hasattr(M, 'has') and hasattr(M, 'applyfunc')"},"name":"_eigenvects_correct"},"guarantee":"compute eigenvectors of the matrix","fibers":[{"name":"FunctionType","pred":"isinstance(simplify, FunctionType)","path":{"lhs":"_eigenvects(x)","rhs":"compute eigenvectors of the matrix","over":{"base":"FunctionType","pred":"isinstance(simplify, FunctionType)"},"name":"_eigenvects_FunctionType_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._eigenvects_FunctionType_correct","statement":"_eigenvects satisfies spec on FunctionType inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"decd6255758cdd83","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(M, 'has')","hasattr(M, 'applyfunc')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['M', 'error_when_incomplete', 'iszerofunc'], spec=['M', 'error_when_incomplete', 'iszerofunc', 'chop', '**flags']","Poor branch-fiber coverage: 0% (branches={'not isinstance(simplify, FunctionType)', 'ret is None'}, fibers={'FunctionType'})"]}}
 def _eigenvects(M, error_when_incomplete=True, iszerofunc=_iszero, *, chop=False, **flags):
     """Compute eigenvectors of the matrix.
 
@@ -583,16 +659,24 @@ def _eigenvects(M, error_when_incomplete=True, iszerofunc=_iszero, *, chop=False
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_diagonalizable_with_eigen(M, ), see _is_diagonalizable) over Any ║
+# ║ Path(_is_diagonalizable_with_eigen(M, reals_only), <unspecified:_is_diagonalizable_with_eigen>) over {Any | hasattr(M, 'is_square') and hasattr(M, 'eigenvects')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _is_diagonalizable_with_eigen : Any → Any                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(M, 'is_square')                        ║
+# ║   requires: hasattr(M, 'eigenvects')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _is_diagonalizable_with_eigen : {Any | hasattr(M, 'is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8f44566b33e5d94  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._is_diagonalizable_with_eigen","kind":"function","src_hash":"4ac10dc70867373c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_diagonalizable_with_eigen(M, )","rhs":"see _is_diagonalizable","over":{"base":"Any"},"name":"_is_diagonalizable_with_eigen_correct"},"guarantee":"see _is_diagonalizable","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._is_diagonalizable_with_eigen_correct","statement":"Path(_is_diagonalizable_with_eigen(x), see _is_diagonalizable)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8f44566b33e5d94"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._is_diagonalizable_with_eigen","kind":"function","src_hash":"4ac10dc70867373c","in":{"base":"Any","pred":"hasattr(M, 'is_square') and hasattr(M, 'eigenvects')"},"out":{"base":"Any"},"spec":{"lhs":"_is_diagonalizable_with_eigen(M, reals_only)","rhs":"<unspecified:_is_diagonalizable_with_eigen>","over":{"base":"Any","pred":"hasattr(M, 'is_square') and hasattr(M, 'eigenvects')"},"name":"_is_diagonalizable_with_eigen_correct"},"guarantee":"see _is_diagonalizable","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._is_diagonalizable_with_eigen_correct","statement":"Path(_is_diagonalizable_with_eigen(x), see _is_diagonalizable)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8f44566b33e5d94","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(M, 'is_square')","hasattr(M, 'eigenvects')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.eigenvects","M.is_square"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _is_diagonalizable_with_eigen(M, reals_only=False):
     """See _is_diagonalizable. This function returns the bool along with the
     eigenvectors to avoid calculating them again in functions like
@@ -613,16 +697,25 @@ def _is_diagonalizable_with_eigen(M, reals_only=False):
     return True, eigenvecs
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_diagonalizable(M, ), returns ``true`` if a matrix is diagonalizable) over Any ║
+# ║ Path(_is_diagonalizable(M, reals_only, **kwargs), <unspecified:_is_diagonalizable>) over {Any | hasattr(M, 'is_square') and hasattr(M, 'is_hermitian') and hasattr(M, 'is_symmetric')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _is_diagonalizable : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(M, 'is_square')                        ║
+# ║   requires: hasattr(M, 'is_hermitian')                     ║
+# ║   requires: hasattr(M, 'is_symmetric')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _is_diagonalizable : {Any | hasattr(M, 'is_square') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7acd1846e36f5ebd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._is_diagonalizable","kind":"function","src_hash":"cc90f3f23d4320d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_diagonalizable(M, )","rhs":"returns ``true`` if a matrix is diagonalizable","over":{"base":"Any"},"name":"_is_diagonalizable_correct"},"guarantee":"returns ``true`` if a matrix is diagonalizable","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._is_diagonalizable_correct","statement":"Path(_is_diagonalizable(x), returns ``true`` if a matrix is diagonalizable)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7acd1846e36f5ebd"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._is_diagonalizable","kind":"function","src_hash":"cc90f3f23d4320d1","in":{"base":"Any","pred":"hasattr(M, 'is_square') and hasattr(M, 'is_hermitian') and hasattr(M, 'is_symmetric')"},"out":{"base":"Any"},"spec":{"lhs":"_is_diagonalizable(M, reals_only, **kwargs)","rhs":"<unspecified:_is_diagonalizable>","over":{"base":"Any","pred":"hasattr(M, 'is_square') and hasattr(M, 'is_hermitian') and hasattr(M, 'is_symmetric')"},"name":"_is_diagonalizable_correct"},"guarantee":"returns ``true`` if a matrix is diagonalizable","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._is_diagonalizable_correct","statement":"Path(_is_diagonalizable(x), returns ``true`` if a matrix is diagonalizable)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7acd1846e36f5ebd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(M, 'is_square')","hasattr(M, 'is_hermitian')","hasattr(M, 'is_symmetric')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.is_hermitian","M.is_square","M.is_symmetric"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['M', 'reals_only'], spec=['M', 'reals_only', '**kwargs']"]}}
 def _is_diagonalizable(M, reals_only=False, **kwargs):
     """Returns ``True`` if a matrix is diagonalizable.
 
@@ -681,16 +774,25 @@ def _is_diagonalizable(M, reals_only=False, **kwargs):
 
 #G&VL, Matrix Computations, Algo 5.4.2
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_householder_vector(x), internal helper behaves correctly) over Any ║
+# ║ Path(_householder_vector(x), (v, bet)) over {Any | x.cols == 1 and hasattr(x, 'copy') and hasattr(x, 'norm') and hasattr(x, 'cols')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _householder_vector : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: x.cols == 1                                    ║
+# ║   requires: hasattr(x, 'copy')                             ║
+# ║   requires: hasattr(x, 'norm')                             ║
+# ║   returns:  (v, bet)                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _householder_vector : {Any | x.cols == 1 and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a4dd1e2a24578cf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 34092c86dac215a5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._householder_vector","kind":"function","src_hash":"3530073cb08d058b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_householder_vector(x)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_householder_vector_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._householder_vector_correct","statement":"Path(_householder_vector(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a4dd1e2a24578cf"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._householder_vector","kind":"function","src_hash":"3530073cb08d058b","in":{"base":"Any","pred":"x.cols == 1 and hasattr(x, 'copy') and hasattr(x, 'norm') and hasattr(x, 'cols')"},"out":{"base":"Any"},"spec":{"lhs":"_householder_vector(x)","rhs":"(v, bet)","over":{"base":"Any","pred":"x.cols == 1 and hasattr(x, 'copy') and hasattr(x, 'norm') and hasattr(x, 'cols')"},"name":"_householder_vector_correct"},"guarantee":"returns (v, bet)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._householder_vector_correct","statement":"Path(_householder_vector(x), returns (v, bet))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34092c86dac215a5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["x.cols == 1","hasattr(x, 'copy')","hasattr(x, 'norm')","hasattr(x, 'cols')"],"returns_expr":"(v, bet)","pure":false,"effects":{"effect_type":"reads_state","reads":["x.cols","x.copy","x.norm"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _householder_vector(x):
     if not x.cols == 1:
         raise ValueError("Input must be a column matrix")
@@ -715,16 +817,25 @@ def _householder_vector(x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_bidiagonal_decmp_hholder(M), internal helper behaves correctly) over Any ║
+# ║ Path(_bidiagonal_decmp_hholder(M), (U, A, V)) over {Any | hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'as_mutable')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _bidiagonal_decmp_hholder : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'rows')                             ║
+# ║   requires: hasattr(M, 'cols')                             ║
+# ║   requires: hasattr(M, 'as_mutable')                       ║
+# ║   returns:  (U, A, V)                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _bidiagonal_decmp_hholder : {Any | hasattr(M, 'rows')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca9345eb0a44d449  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b67fb6da1943004e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._bidiagonal_decmp_hholder","kind":"function","src_hash":"8c2b8115df7ee6ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_bidiagonal_decmp_hholder(M)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_bidiagonal_decmp_hholder_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._bidiagonal_decmp_hholder_correct","statement":"Path(_bidiagonal_decmp_hholder(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca9345eb0a44d449"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._bidiagonal_decmp_hholder","kind":"function","src_hash":"8c2b8115df7ee6ff","in":{"base":"Any","pred":"hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'as_mutable')"},"out":{"base":"Any"},"spec":{"lhs":"_bidiagonal_decmp_hholder(M)","rhs":"(U, A, V)","over":{"base":"Any","pred":"hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'as_mutable')"},"name":"_bidiagonal_decmp_hholder_correct"},"guarantee":"returns (U, A, V)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._bidiagonal_decmp_hholder_correct","statement":"Path(_bidiagonal_decmp_hholder(x), returns (U, A, V))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b67fb6da1943004e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'rows')","hasattr(M, 'cols')","hasattr(M, 'as_mutable')"],"returns_expr":"(U, A, V)","pure":false,"effects":{"effect_type":"reads_state","reads":["M.as_mutable","M.cols","M.rows"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def _bidiagonal_decmp_hholder(M):
     m = M.rows
     n = M.cols
@@ -748,16 +859,25 @@ def _bidiagonal_decmp_hholder(M):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_bidiag_hholder(M), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_bidiag_hholder(M), <unspecified:_eval_bidiag_hholder>) over {Any | hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'as_mutable')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_bidiag_hholder : Any → Any                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(M, 'rows')                             ║
+# ║   requires: hasattr(M, 'cols')                             ║
+# ║   requires: hasattr(M, 'as_mutable')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_bidiag_hholder : {Any | hasattr(M, 'rows') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c70877cacd1f79d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._eval_bidiag_hholder","kind":"function","src_hash":"8dea725693e68a80","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_bidiag_hholder(M)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_bidiag_hholder_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._eval_bidiag_hholder_correct","statement":"Path(_eval_bidiag_hholder(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c70877cacd1f79d"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._eval_bidiag_hholder","kind":"function","src_hash":"8dea725693e68a80","in":{"base":"Any","pred":"hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'as_mutable')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_bidiag_hholder(M)","rhs":"<unspecified:_eval_bidiag_hholder>","over":{"base":"Any","pred":"hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'as_mutable')"},"name":"_eval_bidiag_hholder_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._eval_bidiag_hholder_correct","statement":"Path(_eval_bidiag_hholder(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c70877cacd1f79d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(M, 'rows')","hasattr(M, 'cols')","hasattr(M, 'as_mutable')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.as_mutable","M.cols","M.rows"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _eval_bidiag_hholder(M):
     m = M.rows
     n = M.cols
@@ -774,7 +894,12 @@ def _eval_bidiag_hholder(M):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_bidiagonal_decomposition(M, ), returns $(u,b,v.h)$ for) over {Any | isinstance(upper, bool)} ║
+# ║ Path(_bidiagonal_decomposition(M, upper), <unspecified:_bidiagonal_decomposition>) over {Any | isinstance(upper, bool) and isinstance(upper, bool) and hasattr(M, 'H')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(upper, bool)                        ║
+# ║   requires: hasattr(M, 'H')                                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _bidiagonal_decomposition : {Any | isinstance(upper, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -786,9 +911,12 @@ def _eval_bidiag_hholder(M):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | eedaedbf...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._bidiagonal_decomposition","kind":"function","src_hash":"2a307f98511f4a0a","in":{"base":"Any","pred":"isinstance(upper, bool)"},"out":{"base":"Any"},"spec":{"lhs":"_bidiagonal_decomposition(M, )","rhs":"returns $(u,b,v.h)$ for","over":{"base":"Any","pred":"isinstance(upper, bool)"},"name":"_bidiagonal_decomposition_correct"},"guarantee":"returns $(u,b,v.h)$ for","fibers":[{"name":"bool","pred":"isinstance(upper, bool)","path":{"lhs":"_bidiagonal_decomposition(x)","rhs":"returns $(u,b,v.h)$ for","over":{"base":"bool","pred":"isinstance(upper, bool)"},"name":"_bidiagonal_decomposition_bool_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._bidiagonal_decomposition_bool_correct","statement":"_bidiagonal_decomposition satisfies spec on bool inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"eedaedbf63fdcdf7"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._bidiagonal_decomposition","kind":"function","src_hash":"2a307f98511f4a0a","in":{"base":"Any","pred":"isinstance(upper, bool) and isinstance(upper, bool) and hasattr(M, 'H')"},"out":{"base":"Any"},"spec":{"lhs":"_bidiagonal_decomposition(M, upper)","rhs":"<unspecified:_bidiagonal_decomposition>","over":{"base":"Any","pred":"isinstance(upper, bool) and isinstance(upper, bool) and hasattr(M, 'H')"},"name":"_bidiagonal_decomposition_correct"},"guarantee":"returns $(u,b,v.h)$ for","fibers":[{"name":"bool","pred":"isinstance(upper, bool)","path":{"lhs":"_bidiagonal_decomposition(x)","rhs":"returns $(u,b,v.h)$ for","over":{"base":"bool","pred":"isinstance(upper, bool)"},"name":"_bidiagonal_decomposition_bool_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._bidiagonal_decomposition_bool_correct","statement":"_bidiagonal_decomposition satisfies spec on bool inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"eedaedbf63fdcdf7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(upper, bool)","hasattr(M, 'H')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.H"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(upper, bool)'}, fibers={'bool'})"]}}
 def _bidiagonal_decomposition(M, upper=True):
     """
     Returns $(U,B,V.H)$ for
@@ -824,9 +952,14 @@ def _bidiagonal_decomposition(M, upper=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_bidiagonalize(M, ), returns $b$, the bidiagonalized form of the input matrix) over {Any | isinstance(upper, bool)} ║
+# ║ Path(_bidiagonalize(M, upper), <unspecified:_bidiagonalize>) over {Any | isinstance(upper, bool) and isinstance(upper, bool) and hasattr(M, 'H')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _bidiagonalize : {Any | isinstance(upper, bool)} → Any     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(upper, bool)                        ║
+# ║   requires: hasattr(M, 'H')                                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _bidiagonalize : {Any | isinstance(upper, bool) and i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   bool: {isinstance(upper, bool)} → library_axiom          ║
@@ -836,9 +969,12 @@ def _bidiagonal_decomposition(M, upper=True):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 888fa846...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._bidiagonalize","kind":"function","src_hash":"db46068913756315","in":{"base":"Any","pred":"isinstance(upper, bool)"},"out":{"base":"Any"},"spec":{"lhs":"_bidiagonalize(M, )","rhs":"returns $b$, the bidiagonalized form of the input matrix","over":{"base":"Any","pred":"isinstance(upper, bool)"},"name":"_bidiagonalize_correct"},"guarantee":"returns $b$, the bidiagonalized form of the input matrix","fibers":[{"name":"bool","pred":"isinstance(upper, bool)","path":{"lhs":"_bidiagonalize(x)","rhs":"returns $b$, the bidiagonalized form of the input matrix","over":{"base":"bool","pred":"isinstance(upper, bool)"},"name":"_bidiagonalize_bool_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._bidiagonalize_bool_correct","statement":"_bidiagonalize satisfies spec on bool inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"888fa84663a81a37"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._bidiagonalize","kind":"function","src_hash":"db46068913756315","in":{"base":"Any","pred":"isinstance(upper, bool) and isinstance(upper, bool) and hasattr(M, 'H')"},"out":{"base":"Any"},"spec":{"lhs":"_bidiagonalize(M, upper)","rhs":"<unspecified:_bidiagonalize>","over":{"base":"Any","pred":"isinstance(upper, bool) and isinstance(upper, bool) and hasattr(M, 'H')"},"name":"_bidiagonalize_correct"},"guarantee":"returns $b$, the bidiagonalized form of the input matrix","fibers":[{"name":"bool","pred":"isinstance(upper, bool)","path":{"lhs":"_bidiagonalize(x)","rhs":"returns $b$, the bidiagonalized form of the input matrix","over":{"base":"bool","pred":"isinstance(upper, bool)"},"name":"_bidiagonalize_bool_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._bidiagonalize_bool_correct","statement":"_bidiagonalize satisfies spec on bool inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"888fa84663a81a37","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(upper, bool)","hasattr(M, 'H')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.H"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(upper, bool)'}, fibers={'bool'})"]}}
 def _bidiagonalize(M, upper=True):
     """
     Returns $B$, the Bidiagonalized form of the input matrix.
@@ -868,16 +1004,25 @@ def _bidiagonalize(M, upper=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_diagonalize(M, ), id) over Any                       ║
+# ║ Path(_diagonalize(M, reals_only, sort), id) over {Any | M.is_square and is_diagonalizable and hasattr(M, 'is_square') and hasattr(M, 'hstack') and hasattr(M, 'diag')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _diagonalize : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: M.is_square                                    ║
+# ║   requires: is_diagonalizable                              ║
+# ║   requires: hasattr(M, 'is_square')                        ║
+# ║   returns:  (M.hstack(*p_cols), M.diag(*diag))             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _diagonalize : {Any | M.is_square and is_diagonalizab...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a5834f67208f3b5a   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._diagonalize","kind":"function","src_hash":"5fce4346f21ee413","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_diagonalize(M, )","rhs":"return (p, d), where d is diagonal and","over":{"base":"Any"},"name":"_diagonalize_correct","kind":"composition"},"guarantee":"return (p, d), where d is diagonal and","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"hstack","by":"library_axiom"},{"fn":"diag","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a5834f67208f3b5a"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._diagonalize","kind":"function","src_hash":"5fce4346f21ee413","in":{"base":"Any","pred":"M.is_square and is_diagonalizable and hasattr(M, 'is_square') and hasattr(M, 'hstack') and hasattr(M, 'diag')"},"out":{"base":"Any"},"spec":{"lhs":"_diagonalize(M, reals_only, sort)","rhs":"(M.hstack(*p_cols), M.diag(*diag))","over":{"base":"Any","pred":"M.is_square and is_diagonalizable and hasattr(M, 'is_square') and hasattr(M, 'hstack') and hasattr(M, 'diag')"},"name":"_diagonalize_correct","kind":"composition"},"guarantee":"returns (M.hstack(*p_cols), M.diag(*diag))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"hstack","by":"library_axiom"},{"fn":"diag","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a5834f67208f3b5a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["M.is_square","is_diagonalizable","hasattr(M, 'is_square')","hasattr(M, 'hstack')","hasattr(M, 'diag')"],"returns_expr":"(M.hstack(*p_cols), M.diag(*diag))","pure":false,"effects":{"effect_type":"reads_state","reads":["M.diag","M.hstack","M.is_square"],"raises":["MatrixError","NonSquareMatrixError"]},"state_contract":{"exceptional_post":{"MatrixError":["isinstance(raised, MatrixError)"],"NonSquareMatrixError":["isinstance(raised, NonSquareMatrixError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _diagonalize(M, reals_only=False, sort=False, normalize=False):
     """
     Return (P, D), where D is diagonal and
@@ -955,16 +1100,24 @@ def _diagonalize(M, reals_only=False, sort=False, normalize=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_fuzzy_positive_definite(M), internal helper behaves correctly) over Any ║
+# ║ Path(_fuzzy_positive_definite(M), <unspecified:_fuzzy_positive_definite>) over {Any | hasattr(M, '_has_positive_diagonals') and hasattr(M, 'is_strongly_diagonally_dominant')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _fuzzy_positive_definite : Any → Any                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(M, '_has_positive_diagonals')          ║
+# ║   requires: hasattr(M, 'is_strongly_diagonally_domina...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _fuzzy_positive_definite : {Any | hasattr(M, '_has_po...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8aff0205037ac011  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._fuzzy_positive_definite","kind":"function","src_hash":"df88785da52af381","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_fuzzy_positive_definite(M)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_fuzzy_positive_definite_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._fuzzy_positive_definite_correct","statement":"Path(_fuzzy_positive_definite(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8aff0205037ac011"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._fuzzy_positive_definite","kind":"function","src_hash":"df88785da52af381","in":{"base":"Any","pred":"hasattr(M, '_has_positive_diagonals') and hasattr(M, 'is_strongly_diagonally_dominant')"},"out":{"base":"Any"},"spec":{"lhs":"_fuzzy_positive_definite(M)","rhs":"<unspecified:_fuzzy_positive_definite>","over":{"base":"Any","pred":"hasattr(M, '_has_positive_diagonals') and hasattr(M, 'is_strongly_diagonally_dominant')"},"name":"_fuzzy_positive_definite_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._fuzzy_positive_definite_correct","statement":"Path(_fuzzy_positive_definite(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8aff0205037ac011","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(M, '_has_positive_diagonals')","hasattr(M, 'is_strongly_diagonally_dominant')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M._has_positive_diagonals","M.is_strongly_diagonally_dominant"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _fuzzy_positive_definite(M):
     positive_diagonals = M._has_positive_diagonals()
     if positive_diagonals is False:
@@ -977,16 +1130,24 @@ def _fuzzy_positive_definite(M):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_fuzzy_positive_semidefinite(M), internal helper behaves correctly) over Any ║
+# ║ Path(_fuzzy_positive_semidefinite(M), <unspecified:_fuzzy_positive_semidefinite>) over {Any | hasattr(M, '_has_nonnegative_diagonals') and hasattr(M, 'is_weakly_diagonally_dominant')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _fuzzy_positive_semidefinite : Any → Any                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(M, '_has_nonnegative_diagonals')       ║
+# ║   requires: hasattr(M, 'is_weakly_diagonally_dominant')    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _fuzzy_positive_semidefinite : {Any | hasattr(M, '_ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af29740e0f06e725  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._fuzzy_positive_semidefinite","kind":"function","src_hash":"772ea4957622e082","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_fuzzy_positive_semidefinite(M)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_fuzzy_positive_semidefinite_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._fuzzy_positive_semidefinite_correct","statement":"Path(_fuzzy_positive_semidefinite(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af29740e0f06e725"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._fuzzy_positive_semidefinite","kind":"function","src_hash":"772ea4957622e082","in":{"base":"Any","pred":"hasattr(M, '_has_nonnegative_diagonals') and hasattr(M, 'is_weakly_diagonally_dominant')"},"out":{"base":"Any"},"spec":{"lhs":"_fuzzy_positive_semidefinite(M)","rhs":"<unspecified:_fuzzy_positive_semidefinite>","over":{"base":"Any","pred":"hasattr(M, '_has_nonnegative_diagonals') and hasattr(M, 'is_weakly_diagonally_dominant')"},"name":"_fuzzy_positive_semidefinite_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._fuzzy_positive_semidefinite_correct","statement":"Path(_fuzzy_positive_semidefinite(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af29740e0f06e725","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(M, '_has_nonnegative_diagonals')","hasattr(M, 'is_weakly_diagonally_dominant')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M._has_nonnegative_diagonals","M.is_weakly_diagonally_dominant"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _fuzzy_positive_semidefinite(M):
     nonnegative_diagonals = M._has_nonnegative_diagonals()
     if nonnegative_diagonals is False:
@@ -999,16 +1160,25 @@ def _fuzzy_positive_semidefinite(M):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_positive_definite(M), internal helper behaves correctly) over Any ║
+# ║ Path(_is_positive_definite(M), <unspecified:_is_positive_definite>) over {Any | hasattr(M, 'is_hermitian') and hasattr(M, 'is_square') and hasattr(M, 'H')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _is_positive_definite : Any → Any                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(M, 'is_hermitian')                     ║
+# ║   requires: hasattr(M, 'is_square')                        ║
+# ║   requires: hasattr(M, 'H')                                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _is_positive_definite : {Any | hasattr(M, 'is_hermiti...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 35fef3f8645eac66  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._is_positive_definite","kind":"function","src_hash":"f8c5cfbc2958a4a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_positive_definite(M)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_is_positive_definite_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._is_positive_definite_correct","statement":"Path(_is_positive_definite(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35fef3f8645eac66"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._is_positive_definite","kind":"function","src_hash":"f8c5cfbc2958a4a3","in":{"base":"Any","pred":"hasattr(M, 'is_hermitian') and hasattr(M, 'is_square') and hasattr(M, 'H')"},"out":{"base":"Any"},"spec":{"lhs":"_is_positive_definite(M)","rhs":"<unspecified:_is_positive_definite>","over":{"base":"Any","pred":"hasattr(M, 'is_hermitian') and hasattr(M, 'is_square') and hasattr(M, 'H')"},"name":"_is_positive_definite_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._is_positive_definite_correct","statement":"Path(_is_positive_definite(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35fef3f8645eac66","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(M, 'is_hermitian')","hasattr(M, 'is_square')","hasattr(M, 'H')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.H","M.is_hermitian","M.is_square"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _is_positive_definite(M):
     if not M.is_hermitian:
         if not M.is_square:
@@ -1023,16 +1193,25 @@ def _is_positive_definite(M):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_positive_semidefinite(M), internal helper behaves correctly) over Any ║
+# ║ Path(_is_positive_semidefinite(M), <unspecified:_is_positive_semidefinite>) over {Any | hasattr(M, 'is_hermitian') and hasattr(M, 'is_square') and hasattr(M, 'H')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _is_positive_semidefinite : Any → Any                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(M, 'is_hermitian')                     ║
+# ║   requires: hasattr(M, 'is_square')                        ║
+# ║   requires: hasattr(M, 'H')                                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _is_positive_semidefinite : {Any | hasattr(M, 'is_her...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00e6ce83c52cbd4b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._is_positive_semidefinite","kind":"function","src_hash":"7aba4b8a9059c75b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_positive_semidefinite(M)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_is_positive_semidefinite_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._is_positive_semidefinite_correct","statement":"Path(_is_positive_semidefinite(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00e6ce83c52cbd4b"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._is_positive_semidefinite","kind":"function","src_hash":"7aba4b8a9059c75b","in":{"base":"Any","pred":"hasattr(M, 'is_hermitian') and hasattr(M, 'is_square') and hasattr(M, 'H')"},"out":{"base":"Any"},"spec":{"lhs":"_is_positive_semidefinite(M)","rhs":"<unspecified:_is_positive_semidefinite>","over":{"base":"Any","pred":"hasattr(M, 'is_hermitian') and hasattr(M, 'is_square') and hasattr(M, 'H')"},"name":"_is_positive_semidefinite_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._is_positive_semidefinite_correct","statement":"Path(_is_positive_semidefinite(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00e6ce83c52cbd4b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(M, 'is_hermitian')","hasattr(M, 'is_square')","hasattr(M, 'H')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.H","M.is_hermitian","M.is_square"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _is_positive_semidefinite(M):
     if not M.is_hermitian:
         if not M.is_square:
@@ -1047,46 +1226,70 @@ def _is_positive_semidefinite(M):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_negative_definite(M), internal helper behaves correctly) over Any ║
+# ║ Path(_is_negative_definite(M), _is_positive_definite(-M)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _is_positive_definite(-M)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _is_negative_definite : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3aa2fc87ce332a4a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._is_negative_definite","kind":"function","src_hash":"bc40d30f336bdd7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_negative_definite(M)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_is_negative_definite_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3aa2fc87ce332a4a"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._is_negative_definite","kind":"function","src_hash":"bc40d30f336bdd7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_negative_definite(M)","rhs":"_is_positive_definite(-M)","over":{"base":"Any"},"name":"_is_negative_definite_correct"},"guarantee":"returns _is_positive_definite(-M)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3aa2fc87ce332a4a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_is_positive_definite(-M)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _is_negative_definite(M):
     return _is_positive_definite(-M)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_negative_semidefinite(M), internal helper behaves correctly) over Any ║
+# ║ Path(_is_negative_semidefinite(M), _is_positive_semidefinite(-M)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _is_positive_semidefinite(-M)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _is_negative_semidefinite : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f02c760e9ca8acd8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._is_negative_semidefinite","kind":"function","src_hash":"87a574e61850b4d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_negative_semidefinite(M)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_is_negative_semidefinite_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f02c760e9ca8acd8"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._is_negative_semidefinite","kind":"function","src_hash":"87a574e61850b4d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_negative_semidefinite(M)","rhs":"_is_positive_semidefinite(-M)","over":{"base":"Any"},"name":"_is_negative_semidefinite_correct"},"guarantee":"returns _is_positive_semidefinite(-M)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f02c760e9ca8acd8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_is_positive_semidefinite(-M)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _is_negative_semidefinite(M):
     return _is_positive_semidefinite(-M)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_indefinite(M), internal helper behaves correctly) over Any ║
+# ║ Path(_is_indefinite(M), result == (fuzzy_and([any_positive, any_negative]) if M.is_hermitian else (M + M.H).is_indefinite) and result == fuzzy_and([any_positive, any_negative]) or result == (M + M.H).is_indefinite) over {Any | hasattr(M, 'is_hermitian') and hasattr(M, 'is_square') and hasattr(M, 'eigenvals') and hasattr(M, 'H')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _is_indefinite : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'is_hermitian')                     ║
+# ║   requires: hasattr(M, 'is_square')                        ║
+# ║   requires: hasattr(M, 'eigenvals')                        ║
+# ║   ensures:  result == (fuzzy_and([any_positive, any_n...   ║
+# ║   ensures:  result == fuzzy_and([any_positive, any_ne...   ║
+# ║   fiber[case_0]: M.is_hermitian => fuzzy_and([any_pos...   ║
+# ║   fiber[case_1]: M.is_square => (M + M.H).is_indefinite    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _is_indefinite : {Any | hasattr(M, 'is_hermitian') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d91a80c367ebac3c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bea4ac15127e42f9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._is_indefinite","kind":"function","src_hash":"78ddf3b7d5b6c0e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_indefinite(M)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_is_indefinite_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._is_indefinite_correct","statement":"Path(_is_indefinite(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d91a80c367ebac3c"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._is_indefinite","kind":"function","src_hash":"78ddf3b7d5b6c0e7","in":{"base":"Any","pred":"hasattr(M, 'is_hermitian') and hasattr(M, 'is_square') and hasattr(M, 'eigenvals') and hasattr(M, 'H')"},"out":{"base":"Any","pred":"result satisfies: result == (fuzzy_and([any_positive, any_negative]) if M.is_hermitian else (M + M.H).is_indefinite) and result == fuzzy_and([any_positive, any_negative]) or result == (M + M.H).is_indefinite"},"spec":{"lhs":"_is_indefinite(M)","rhs":"result == (fuzzy_and([any_positive, any_negative]) if M.is_hermitian else (M + M.H).is_indefinite) and result == fuzzy_and([any_positive, any_negative]) or result == (M + M.H).is_indefinite","over":{"base":"Any","pred":"hasattr(M, 'is_hermitian') and hasattr(M, 'is_square') and hasattr(M, 'eigenvals') and hasattr(M, 'H')"},"name":"_is_indefinite_correct"},"guarantee":"result == (fuzzy_and([any_positive, any_negative]) if M.is_hermitian else (M + M.H).is_indefinite); result == fuzzy_and([any_positive, any_negative]) or result == (M + M.H).is_indefinite; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._is_indefinite_correct","statement":"Path(_is_indefinite(x), result == (fuzzy_and([any_positive, any_negative]) if M.is_hermitian else (M + M.H).is_indefinite); result == fuzzy_and([any_positive, any_negative]) or result == (M + M.H).is_indefinite; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bea4ac15127e42f9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'is_hermitian')","hasattr(M, 'is_square')","hasattr(M, 'eigenvals')","hasattr(M, 'H')"],"ensures":["result == (fuzzy_and([any_positive, any_negative]) if M.is_hermitian else (M + M.H).is_indefinite)","result == fuzzy_and([any_positive, any_negative]) or result == (M + M.H).is_indefinite"],"fibers":[{"name":"case_0","guard":"M.is_hermitian","ensures":["result == fuzzy_and([any_positive, any_negative])"],"decidability":"library","returns_expr":"fuzzy_and([any_positive, any_negative])"},{"name":"case_1","guard":"M.is_square","ensures":["result == (M + M.H).is_indefinite"],"decidability":"library","returns_expr":"(M + M.H).is_indefinite"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.H","M.eigenvals","M.is_hermitian","M.is_square"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _is_indefinite(M):
     if M.is_hermitian:
         eigen = M.eigenvals()
@@ -1104,16 +1307,24 @@ def _is_indefinite(M):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_positive_definite_GE(M), a division-free gaussian elimination method for testing positive-definiteness) over Any ║
+# ║ Path(_is_positive_definite_GE(M), <unspecified:_is_positive_definite_GE>) over {Any | hasattr(M, 'rows') and hasattr(M, 'as_mutable')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _is_positive_definite_GE : Any → Any                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(M, 'rows')                             ║
+# ║   requires: hasattr(M, 'as_mutable')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _is_positive_definite_GE : {Any | hasattr(M, 'rows') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c391a897329bc3a9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._is_positive_definite_GE","kind":"function","src_hash":"13414ab9eebca40e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_positive_definite_GE(M)","rhs":"a division-free gaussian elimination method for testing positive-definiteness","over":{"base":"Any"},"name":"_is_positive_definite_GE_correct"},"guarantee":"a division-free gaussian elimination method for testing positive-definiteness","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._is_positive_definite_GE_correct","statement":"Path(_is_positive_definite_GE(x), a division-free gaussian elimination method for testing positive-definiteness)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c391a897329bc3a9"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._is_positive_definite_GE","kind":"function","src_hash":"13414ab9eebca40e","in":{"base":"Any","pred":"hasattr(M, 'rows') and hasattr(M, 'as_mutable')"},"out":{"base":"Any"},"spec":{"lhs":"_is_positive_definite_GE(M)","rhs":"<unspecified:_is_positive_definite_GE>","over":{"base":"Any","pred":"hasattr(M, 'rows') and hasattr(M, 'as_mutable')"},"name":"_is_positive_definite_GE_correct"},"guarantee":"a division-free gaussian elimination method for testing positive-definiteness","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._is_positive_definite_GE_correct","statement":"Path(_is_positive_definite_GE(x), a division-free gaussian elimination method for testing positive-definiteness)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c391a897329bc3a9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(M, 'rows')","hasattr(M, 'as_mutable')"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["M.as_mutable","M.rows"],"writes":["M[*]"]},"state_contract":{"modifies":["M[*]"],"old_bindings":{"old_M_star":"M[*]"}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _is_positive_definite_GE(M):
     """A division-free gaussian elimination method for testing
     positive-definiteness."""
@@ -1130,16 +1341,25 @@ def _is_positive_definite_GE(M):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_positive_semidefinite_cholesky(M), uses cholesky factorization with complete pivoting) over Any ║
+# ║ Path(_is_positive_semidefinite_cholesky(M), <unspecified:_is_positive_semidefinite_cholesky>) over {Any | hasattr(M, 'as_mutable') and hasattr(M, 'rows') and hasattr(M, 'col_swap') and hasattr(M, 'row_swap') and hasattr(M, 'cols')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _is_positive_semidefinite_cholesky : Any → Any             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(M, 'as_mutable')                       ║
+# ║   requires: hasattr(M, 'rows')                             ║
+# ║   requires: hasattr(M, 'col_swap')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _is_positive_semidefinite_cholesky : {Any | hasattr(M...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef8d80119add59ea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._is_positive_semidefinite_cholesky","kind":"function","src_hash":"a5343e2de4cfb8ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_positive_semidefinite_cholesky(M)","rhs":"uses cholesky factorization with complete pivoting","over":{"base":"Any"},"name":"_is_positive_semidefinite_cholesky_correct"},"guarantee":"uses cholesky factorization with complete pivoting","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._is_positive_semidefinite_cholesky_correct","statement":"Path(_is_positive_semidefinite_cholesky(x), uses cholesky factorization with complete pivoting)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef8d80119add59ea"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._is_positive_semidefinite_cholesky","kind":"function","src_hash":"a5343e2de4cfb8ac","in":{"base":"Any","pred":"hasattr(M, 'as_mutable') and hasattr(M, 'rows') and hasattr(M, 'col_swap') and hasattr(M, 'row_swap') and hasattr(M, 'cols')"},"out":{"base":"Any"},"spec":{"lhs":"_is_positive_semidefinite_cholesky(M)","rhs":"<unspecified:_is_positive_semidefinite_cholesky>","over":{"base":"Any","pred":"hasattr(M, 'as_mutable') and hasattr(M, 'rows') and hasattr(M, 'col_swap') and hasattr(M, 'row_swap') and hasattr(M, 'cols')"},"name":"_is_positive_semidefinite_cholesky_correct"},"guarantee":"uses cholesky factorization with complete pivoting","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._is_positive_semidefinite_cholesky_correct","statement":"Path(_is_positive_semidefinite_cholesky(x), uses cholesky factorization with complete pivoting)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef8d80119add59ea","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(M, 'as_mutable')","hasattr(M, 'rows')","hasattr(M, 'col_swap')","hasattr(M, 'row_swap')","hasattr(M, 'cols')"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["M.as_mutable","M.col_swap","M.cols","M.row_swap","M.rows"],"writes":["M[*]"]},"state_contract":{"modifies":["M[*]"],"old_bindings":{"old_M_star":"M[*]"}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _is_positive_semidefinite_cholesky(M):
     """Uses Cholesky factorization with complete pivoting
 
@@ -1366,9 +1586,16 @@ _is_indefinite.__doc__            = _doc_positive_definite
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_jordan_form(M, ), return $(p, j)$ where $j$ is a jordan block matrix and $p$ is a matrix such that $m = p j p^{-1}$) over {Any | isinstance(term, Float)} ║
+# ║ Path(_jordan_form(M, calc_transform, chop), len(ret) == old_len_ret + 1 and len(size_nums) == old_len_size_nums) over {Any | isinstance(term, Float) and M.is_square and hasattr(M, 'is_square') and hasattr(M, 'has') and hasattr(M, 'cols') and hasattr(M, 'rows') and hasattr(M, 'hstack') and hasattr(M, 'values') and hasattr(M, 'eye')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _jordan_form : {Any | isinstance(term, Float)} → Any       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: M.is_square                                    ║
+# ║   requires: hasattr(M, 'is_square')                        ║
+# ║   requires: hasattr(M, 'has')                              ║
+# ║   ensures:  len(ret) == old_len_ret + 1                    ║
+# ║   ensures:  len(size_nums) == old_len_size_nums            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _jordan_form : {Any | isinstance(term, Float) and M.i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Float: {isinstance(term, Float)} → library_axiom         ║
@@ -1378,9 +1605,12 @@ _is_indefinite.__doc__            = _doc_positive_definite
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 3.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 26586e35...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._jordan_form","kind":"function","src_hash":"addc4517b566c41b","in":{"base":"Any","pred":"isinstance(term, Float)"},"out":{"base":"Any"},"spec":{"lhs":"_jordan_form(M, )","rhs":"return $(p, j)$ where $j$ is a jordan block matrix and $p$ is a matrix such that $m = p j p^{-1}$","over":{"base":"Any","pred":"isinstance(term, Float)"},"name":"_jordan_form_correct"},"guarantee":"return $(p, j)$ where $j$ is a jordan block matrix and $p$ is a matrix such that $m = p j p^{-1}$","fibers":[{"name":"Float","pred":"isinstance(term, Float)","path":{"lhs":"_jordan_form(x)","rhs":"return $(p, j)$ where $j$ is a jordan block matrix and $p$ is a matrix such that $m = p j p^{-1}$","over":{"base":"Float","pred":"isinstance(term, Float)"},"name":"_jordan_form_Float_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._jordan_form_Float_correct","statement":"_jordan_form satisfies spec on Float inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"26586e356b0c43d6"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._jordan_form","kind":"function","src_hash":"addc4517b566c41b","in":{"base":"Any","pred":"isinstance(term, Float) and M.is_square and hasattr(M, 'is_square') and hasattr(M, 'has') and hasattr(M, 'cols') and hasattr(M, 'rows') and hasattr(M, 'hstack') and hasattr(M, 'values') and hasattr(M, 'eye')"},"out":{"base":"Any","pred":"result satisfies: len(ret) == old_len_ret + 1 and len(size_nums) == old_len_size_nums"},"spec":{"lhs":"_jordan_form(M, calc_transform, chop)","rhs":"len(ret) == old_len_ret + 1 and len(size_nums) == old_len_size_nums","over":{"base":"Any","pred":"isinstance(term, Float) and M.is_square and hasattr(M, 'is_square') and hasattr(M, 'has') and hasattr(M, 'cols') and hasattr(M, 'rows') and hasattr(M, 'hstack') and hasattr(M, 'values') and hasattr(M, 'eye')"},"name":"_jordan_form_correct"},"guarantee":"len(ret) == old_len_ret + 1; len(size_nums) == old_len_size_nums","fibers":[{"name":"Float","pred":"isinstance(term, Float)","path":{"lhs":"_jordan_form(x)","rhs":"len(ret) == old_len_ret + 1; len(size_nums) == old_len_size_nums","over":{"base":"Float","pred":"isinstance(term, Float)"},"name":"_jordan_form_Float_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._jordan_form_Float_correct","statement":"_jordan_form satisfies spec on Float inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"26586e356b0c43d6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["M.is_square","hasattr(M, 'is_square')","hasattr(M, 'has')","hasattr(M, 'cols')","hasattr(M, 'rows')","hasattr(M, 'hstack')","hasattr(M, 'values')","hasattr(M, 'eye')"],"ensures":["len(ret) == old_len_ret + 1","len(size_nums) == old_len_size_nums"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.cols","M.eye","M.has","M.hstack","M.is_square","M.rows","M.values"],"calls_mutating":["block_structure.extend","eig_basis.extend","jordan_basis.extend","ret.append","size_nums.reverse"],"raises":["MatrixError","NonSquareMatrixError"],"catches":["ValueError"]},"state_contract":{"modifies":["block_structure.*","eig_basis.*","jordan_basis.*","ret.*","size_nums.*"],"old_bindings":{"old_len_block_structure":"len(block_structure)","old_len_eig_basis":"len(eig_basis)","old_len_jordan_basis":"len(jordan_basis)","old_len_ret":"len(ret)","old_len_size_nums":"len(size_nums)"},"post_ensures":["len(ret) == old_len_ret + 1","len(size_nums) == old_len_size_nums"],"exceptional_post":{"MatrixError":["isinstance(raised, MatrixError)"],"NonSquareMatrixError":["isinstance(raised, NonSquareMatrixError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.0,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['M', 'calc_transform'], spec=['M', 'calc_transform', 'chop']","Poor branch-fiber coverage: 0% (branches={'nullity < ret[-1] or nullity > algebraic_multiplicity', 'len(small_basis) == 0', 'len(eigs.keys()) == mat.cols', 'nullity == algebraic_multiplicity', 'pivots[-1] == len(small_basis)', 'block_eig != eig', 'len(args) == 1', 'jordan_form_size != M.rows'}, fibers={'Float'})"]}}
 def _jordan_form(M, calc_transform=True, *, chop=False):
     """Return $(P, J)$ where $J$ is a Jordan block
     matrix and $P$ is a matrix such that $M = P J P^{-1}$
@@ -1627,16 +1857,23 @@ def _jordan_form(M, calc_transform=True, *, chop=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_left_eigenvects(M, ), returns left eigenvectors and eigenvalues) over Any ║
+# ║ Path(_left_eigenvects(M, **flags), [(val, mult, [l.transpose() for l in basis]) for val, mult, basis in eigs]) over {Any | hasattr(M, 'transpose')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _left_eigenvects : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'transpose')                        ║
+# ║   returns:  [(val, mult, [l.transpose() for l in basi...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _left_eigenvects : {Any | hasattr(M, 'transpose')} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 49130daf1497720c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9507d0c241f39652  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._left_eigenvects","kind":"function","src_hash":"32d19dd3ab15a987","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_left_eigenvects(M, )","rhs":"returns left eigenvectors and eigenvalues","over":{"base":"Any"},"name":"_left_eigenvects_correct"},"guarantee":"returns left eigenvectors and eigenvalues","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._left_eigenvects_correct","statement":"Path(_left_eigenvects(x), returns left eigenvectors and eigenvalues)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49130daf1497720c"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._left_eigenvects","kind":"function","src_hash":"32d19dd3ab15a987","in":{"base":"Any","pred":"hasattr(M, 'transpose')"},"out":{"base":"Any"},"spec":{"lhs":"_left_eigenvects(M, **flags)","rhs":"[(val, mult, [l.transpose() for l in basis]) for val, mult, basis in eigs]","over":{"base":"Any","pred":"hasattr(M, 'transpose')"},"name":"_left_eigenvects_correct"},"guarantee":"returns [(val, mult, [l.transpose() for l in basis]) for val, mult, basis in eigs]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._left_eigenvects_correct","statement":"Path(_left_eigenvects(x), returns [(val, mult, [l.transpose() for l in basis]) for val, mult, basis in eigs])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9507d0c241f39652","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'transpose')"],"returns_expr":"[(val, mult, [l.transpose() for l in basis]) for val, mult, basis in eigs]","pure":false,"effects":{"effect_type":"reads_state","reads":["M.transpose"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['M'], spec=['M', '**flags']"]}}
 def _left_eigenvects(M, **flags):
     """Returns left eigenvectors and eigenvalues.
 
@@ -1673,16 +1910,25 @@ def _left_eigenvects(M, **flags):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_singular_values(M), compute the singular values of a matrix) over Any ║
+# ║ Path(_singular_values(M), <unspecified:_singular_values>) over {Any | hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'zero') and hasattr(M, 'multiply') and hasattr(M, 'H')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _singular_values : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(M, 'rows')                             ║
+# ║   requires: hasattr(M, 'cols')                             ║
+# ║   requires: hasattr(M, 'zero')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _singular_values : {Any | hasattr(M, 'rows') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f287f8d634f7a161  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._singular_values","kind":"function","src_hash":"3a48a6f54165e702","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_singular_values(M)","rhs":"compute the singular values of a matrix","over":{"base":"Any"},"name":"_singular_values_correct"},"guarantee":"compute the singular values of a matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._singular_values_correct","statement":"Path(_singular_values(x), compute the singular values of a matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f287f8d634f7a161"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.eigen._singular_values","kind":"function","src_hash":"3a48a6f54165e702","in":{"base":"Any","pred":"hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'zero') and hasattr(M, 'multiply') and hasattr(M, 'H')"},"out":{"base":"Any"},"spec":{"lhs":"_singular_values(M)","rhs":"<unspecified:_singular_values>","over":{"base":"Any","pred":"hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'zero') and hasattr(M, 'multiply') and hasattr(M, 'H')"},"name":"_singular_values_correct"},"guarantee":"compute the singular values of a matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.eigen._singular_values_correct","statement":"Path(_singular_values(x), compute the singular values of a matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f287f8d634f7a161","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(M, 'rows')","hasattr(M, 'cols')","hasattr(M, 'zero')","hasattr(M, 'multiply')","hasattr(M, 'H')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _singular_values(M):
     """Compute the singular values of a Matrix
 

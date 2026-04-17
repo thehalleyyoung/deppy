@@ -78,16 +78,22 @@ allhints = (
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pdsolve(eq,), solves any (supported) kind of partial differential equation) over Any ║
+# ║ Path(pdsolve(eq, func, hint), <unspecified:pdsolve>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pdsolve : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 19b85ea092f7d8c7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.pde.pdsolve","kind":"function","src_hash":"071d4cce1434028d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pdsolve(eq,)","rhs":"solves any (supported) kind of partial differential equation","over":{"base":"Any"},"name":"pdsolve_correct"},"guarantee":"solves any (supported) kind of partial differential equation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.pde.pdsolve_correct","statement":"Path(pdsolve(x), solves any (supported) kind of partial differential equation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19b85ea092f7d8c7"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.pde.pdsolve","kind":"function","src_hash":"071d4cce1434028d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pdsolve(eq, func, hint)","rhs":"<unspecified:pdsolve>","over":{"base":"Any"},"name":"pdsolve_correct"},"guarantee":"solves any (supported) kind of partial differential equation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.pde.pdsolve_correct","statement":"Path(pdsolve(x), solves any (supported) kind of partial differential equation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19b85ea092f7d8c7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['eq', 'func', 'hint', 'dict', 'solvefun'], spec=['eq', 'func', 'hint', 'dict', 'solvefun', '**kwargs']"]}}
 def pdsolve(eq, func=None, hint='default', dict=False, solvefun=None, **kwargs):
     """
     Solves any (supported) kind of partial differential equation.
@@ -224,16 +230,23 @@ def pdsolve(eq, func=None, hint='default', dict=False, solvefun=None, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_helper_simplify(eq,), id) over Any                   ║
+# ║ Path(_helper_simplify(eq, hint, func), id) over {Any | hasattr(hint, 'removesuffix')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _helper_simplify : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(hint, 'removesuffix')                  ║
+# ║   returns:  _handle_Integral(solvefunc(eq, func, orde...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _helper_simplify : {Any | hasattr(hint, 'removesuffix...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b1031a7547bbc74b   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.pde._helper_simplify","kind":"function","src_hash":"9a59a383c33c1b15","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_helper_simplify(eq,)","rhs":"helper function of pdsolve that calls the respective pde functions to solve for the partial differential equations","over":{"base":"Any"},"name":"_helper_simplify_correct","kind":"composition"},"guarantee":"helper function of pdsolve that calls the respective pde functions to solve for the partial differential equations","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_handle_Integral","by":"library_axiom"},{"fn":"solvefunc","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1031a7547bbc74b"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.pde._helper_simplify","kind":"function","src_hash":"9a59a383c33c1b15","in":{"base":"Any","pred":"hasattr(hint, 'removesuffix')"},"out":{"base":"Any"},"spec":{"lhs":"_helper_simplify(eq, hint, func)","rhs":"_handle_Integral(solvefunc(eq, func, order, match, solvefun), func, order, hint)","over":{"base":"Any","pred":"hasattr(hint, 'removesuffix')"},"name":"_helper_simplify_correct","kind":"composition"},"guarantee":"returns _handle_Integral(solvefunc(eq, func, order, match, solvefun), func, order, hint)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_handle_Integral","by":"library_axiom"},{"fn":"solvefunc","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1031a7547bbc74b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(hint, 'removesuffix')"],"returns_expr":"_handle_Integral(solvefunc(eq, func, order, match, solvefun), func, order, hint)","pure":false,"effects":{"effect_type":"reads_state","reads":["hint.removesuffix"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _helper_simplify(eq, hint, func, order, match, solvefun):
     """Helper function of pdsolve that calls the respective
     pde functions to solve for the partial differential
@@ -246,16 +259,28 @@ def _helper_simplify(eq, hint, func, order, match, solvefun):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_handle_Integral(exp), converts a solution with integrals in it into an actual solution) over Any ║
+# ║ Path(_handle_Integral(expr, func, order), result == (expr if hint.endswith('_Integral') else simplify(expr.doit()) if hint == '1st_linear_constant_coeff' else expr) and result == expr or result == simplify(expr.doit())) over {Any | hasattr(hint, 'endswith') and hasattr(expr, 'doit')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _handle_Integral : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(hint, 'endswith')                      ║
+# ║   requires: hasattr(expr, 'doit')                          ║
+# ║   ensures:  result == (expr if hint.endswith('_Integr...   ║
+# ║   ensures:  result == expr or result == simplify(expr...   ║
+# ║   fiber[case_0]: hint.endswith('_Integral') => expr        ║
+# ║   fiber[case_1]: hint == '1st_linear_constant_coeff' ...   ║
+# ║   fiber[case_2]: not (hint.endswith('_Integral')) and...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _handle_Integral : {Any | hasattr(hint, 'endswith') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d260f4697d51f41  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 18e26f105b79cd2d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.pde._handle_Integral","kind":"function","src_hash":"eeef032825eede11","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_handle_Integral(exp)","rhs":"converts a solution with integrals in it into an actual solution","over":{"base":"Any"},"name":"_handle_Integral_correct"},"guarantee":"converts a solution with integrals in it into an actual solution","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.pde._handle_Integral_correct","statement":"Path(_handle_Integral(x), converts a solution with integrals in it into an actual solution)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d260f4697d51f41"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.pde._handle_Integral","kind":"function","src_hash":"eeef032825eede11","in":{"base":"Any","pred":"hasattr(hint, 'endswith') and hasattr(expr, 'doit')"},"out":{"base":"Any","pred":"result satisfies: result == (expr if hint.endswith('_Integral') else simplify(expr.doit()) if hint == '1st_linear_constant_coeff' else expr) and result == expr or result == simplify(expr.doit())"},"spec":{"lhs":"_handle_Integral(expr, func, order)","rhs":"result == (expr if hint.endswith('_Integral') else simplify(expr.doit()) if hint == '1st_linear_constant_coeff' else expr) and result == expr or result == simplify(expr.doit())","over":{"base":"Any","pred":"hasattr(hint, 'endswith') and hasattr(expr, 'doit')"},"name":"_handle_Integral_correct"},"guarantee":"result == (expr if hint.endswith('_Integral') else simplify(expr.doit()) if hint == '1st_linear_constant_coeff' else expr); result == expr or result == simplify(expr.doit()); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.pde._handle_Integral_correct","statement":"Path(_handle_Integral(x), result == (expr if hint.endswith('_Integral') else simplify(expr.doit()) if hint == '1st_linear_constant_coeff' else expr); result == expr or result == simplify(expr.doit()); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18e26f105b79cd2d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(hint, 'endswith')","hasattr(expr, 'doit')"],"ensures":["result == (expr if hint.endswith('_Integral') else simplify(expr.doit()) if hint == '1st_linear_constant_coeff' else expr)","result == expr or result == simplify(expr.doit())"],"fibers":[{"name":"case_0","guard":"hint.endswith('_Integral')","ensures":["result == expr"],"decidability":"library","returns_expr":"expr"},{"name":"case_1","guard":"hint == '1st_linear_constant_coeff'","ensures":["result == simplify(expr.doit())"],"decidability":"z3","returns_expr":"simplify(expr.doit())"},{"name":"case_2","guard":"not (hint.endswith('_Integral')) and not (hint == '1st_linear_constant_coeff')","ensures":["result == expr"],"decidability":"z3","returns_expr":"expr"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.doit","hint.endswith"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _handle_Integral(expr, func, order, hint):
     r"""
     Converts a solution with integrals in it into an actual solution.
@@ -273,9 +298,15 @@ def _handle_Integral(expr, func, order, hint):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(classify_pde(eq,), returns a tuple of possible pdsolve() classifications for a pde) over {Any | isinstance(eq, Equality)} ║
+# ║ Path(classify_pde(eq, func, dict), # HINT: classify_pde may be idempotent: classify_pde(classify_pde(x)) == classify_pde(x)) over {Any | isinstance(eq, Equality) and not (func and len(func.args) != 2) and hasattr(func, 'func') and hasattr(eq, 'is_Add') and hasattr(eq, 'lhs') and hasattr(func, 'args') and hasattr(eq, 'rhs') and hasattr(eq, 'coeff') and hasattr(eq, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ classify_pde : {Any | isinstance(eq, Equality)} → Any      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (func and len(func.args) != 2)             ║
+# ║   requires: hasattr(func, 'func')                          ║
+# ║   requires: hasattr(eq, 'is_Add')                          ║
+# ║   ensures:  # HINT: classify_pde may be idempotent: c...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ classify_pde : {Any | isinstance(eq, Equality) and no...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Equality: {isinstance(eq, Equality)} → library_axiom     ║
@@ -285,9 +316,12 @@ def _handle_Integral(expr, func, order, hint):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 3.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | a73befb5...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.pde.classify_pde","kind":"function","src_hash":"86f7d63deefede69","in":{"base":"Any","pred":"isinstance(eq, Equality)"},"out":{"base":"Any"},"spec":{"lhs":"classify_pde(eq,)","rhs":"returns a tuple of possible pdsolve() classifications for a pde","over":{"base":"Any","pred":"isinstance(eq, Equality)"},"name":"classify_pde_correct"},"guarantee":"returns a tuple of possible pdsolve() classifications for a pde","fibers":[{"name":"Equality","pred":"isinstance(eq, Equality)","path":{"lhs":"classify_pde(x)","rhs":"returns a tuple of possible pdsolve() classifications for a pde","over":{"base":"Equality","pred":"isinstance(eq, Equality)"},"name":"classify_pde_Equality_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.pde.classify_pde_Equality_correct","statement":"classify_pde satisfies spec on Equality inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a73befb536e21ea1"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.pde.classify_pde","kind":"function","src_hash":"86f7d63deefede69","in":{"base":"Any","pred":"isinstance(eq, Equality) and not (func and len(func.args) != 2) and hasattr(func, 'func') and hasattr(eq, 'is_Add') and hasattr(eq, 'lhs') and hasattr(func, 'args') and hasattr(eq, 'rhs') and hasattr(eq, 'coeff') and hasattr(eq, 'args')"},"out":{"base":"Any","pred":"result satisfies: # HINT: classify_pde may be idempotent: classify_pde(classify_pde(x)) == classify_pde(x)"},"spec":{"lhs":"classify_pde(eq, func, dict)","rhs":"# HINT: classify_pde may be idempotent: classify_pde(classify_pde(x)) == classify_pde(x)","over":{"base":"Any","pred":"isinstance(eq, Equality) and not (func and len(func.args) != 2) and hasattr(func, 'func') and hasattr(eq, 'is_Add') and hasattr(eq, 'lhs') and hasattr(func, 'args') and hasattr(eq, 'rhs') and hasattr(eq, 'coeff') and hasattr(eq, 'args')"},"name":"classify_pde_correct"},"guarantee":"# HINT: classify_pde may be idempotent: classify_pde(classify_pde(x)) == classify_pde(x)","fibers":[{"name":"Equality","pred":"isinstance(eq, Equality)","path":{"lhs":"classify_pde(x)","rhs":"# HINT: classify_pde may be idempotent: classify_pde(classify_pde(x)) == classify_pde(x)","over":{"base":"Equality","pred":"isinstance(eq, Equality)"},"name":"classify_pde_Equality_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.pde.classify_pde_Equality_correct","statement":"classify_pde satisfies spec on Equality inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a73befb536e21ea1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (func and len(func.args) != 2)","hasattr(func, 'func')","hasattr(eq, 'is_Add')","hasattr(eq, 'lhs')","hasattr(func, 'args')","hasattr(eq, 'rhs')","hasattr(eq, 'coeff')","hasattr(eq, 'args')"],"ensures":["# HINT: classify_pde may be idempotent: classify_pde(classify_pde(x)) == classify_pde(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["eq.args","eq.coeff","eq.is_Add","eq.lhs","eq.rhs","func.args","func.func"],"calls_mutating":["r.update"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["r.*"],"old_bindings":{"old_len_r":"len(r)"},"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['eq', 'func', 'dict'], spec=['eq', 'func', 'dict', 'prep', '**kwargs']","Poor branch-fiber coverage: 0% (branches={'prep or func is None', 'r[b] ** 2 + r[c] ** 2 != 0', 'eq.rhs != 0', 'isinstance(eq, Equality)', 'func and len(func.args) != 2', 'order == 1', 'coeff == 1', 'func is None', 'power is None or match[n] < power'}, fibers={'Equality'})"]}}
 def classify_pde(eq, func=None, dict=False, *, prep=True, **kwargs):
     """
     Returns a tuple of possible pdsolve() classifications for a PDE.
@@ -430,9 +464,15 @@ def classify_pde(eq, func=None, dict=False, *, prep=True, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(checkpdesol(pde), checks if the given solution satisfies the partial differential equation) over {Any | isinstance(pde, Equality)} ║
+# ║ Path(checkpdesol(pde, sol, func), len(funcs) == old_len_funcs - 1) over {Any | isinstance(pde, Equality) and hasattr(sol, 'lhs') and hasattr(sol, 'rhs') and hasattr(sol, 'reversed') and hasattr(pde, 'lhs') and hasattr(pde, 'rhs') and hasattr(pde, 'subs') and len(funcs) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ checkpdesol : {Any | isinstance(pde, Equality)} → Any      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(sol, 'lhs')                            ║
+# ║   requires: hasattr(sol, 'rhs')                            ║
+# ║   requires: hasattr(sol, 'reversed')                       ║
+# ║   ensures:  len(funcs) == old_len_funcs - 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ checkpdesol : {Any | isinstance(pde, Equality) and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Equality: {isinstance(pde, Equality)} → library_axiom    ║
@@ -442,9 +482,12 @@ def classify_pde(eq, func=None, dict=False, *, prep=True, **kwargs):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | de5fe703...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.pde.checkpdesol","kind":"function","src_hash":"e033dc4df5bdce4d","in":{"base":"Any","pred":"isinstance(pde, Equality)"},"out":{"base":"Any"},"spec":{"lhs":"checkpdesol(pde)","rhs":"checks if the given solution satisfies the partial differential equation","over":{"base":"Any","pred":"isinstance(pde, Equality)"},"name":"checkpdesol_correct"},"guarantee":"checks if the given solution satisfies the partial differential equation","fibers":[{"name":"Equality","pred":"isinstance(pde, Equality)","path":{"lhs":"checkpdesol(x)","rhs":"checks if the given solution satisfies the partial differential equation","over":{"base":"Equality","pred":"isinstance(pde, Equality)"},"name":"checkpdesol_Equality_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.pde.checkpdesol_Equality_correct","statement":"checkpdesol satisfies spec on Equality inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"de5fe70302c6a701"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.pde.checkpdesol","kind":"function","src_hash":"e033dc4df5bdce4d","in":{"base":"Any","pred":"isinstance(pde, Equality) and hasattr(sol, 'lhs') and hasattr(sol, 'rhs') and hasattr(sol, 'reversed') and hasattr(pde, 'lhs') and hasattr(pde, 'rhs') and hasattr(pde, 'subs') and len(funcs) > 0"},"out":{"base":"Any","pred":"result satisfies: len(funcs) == old_len_funcs - 1"},"spec":{"lhs":"checkpdesol(pde, sol, func)","rhs":"len(funcs) == old_len_funcs - 1","over":{"base":"Any","pred":"isinstance(pde, Equality) and hasattr(sol, 'lhs') and hasattr(sol, 'rhs') and hasattr(sol, 'reversed') and hasattr(pde, 'lhs') and hasattr(pde, 'rhs') and hasattr(pde, 'subs') and len(funcs) > 0"},"name":"checkpdesol_correct"},"guarantee":"len(funcs) == old_len_funcs - 1","fibers":[{"name":"Equality","pred":"isinstance(pde, Equality)","path":{"lhs":"checkpdesol(x)","rhs":"len(funcs) == old_len_funcs - 1","over":{"base":"Equality","pred":"isinstance(pde, Equality)"},"name":"checkpdesol_Equality_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.pde.checkpdesol_Equality_correct","statement":"checkpdesol satisfies spec on Equality inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"de5fe70302c6a701","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(sol, 'lhs')","hasattr(sol, 'rhs')","hasattr(sol, 'reversed')","hasattr(pde, 'lhs')","hasattr(pde, 'rhs')","hasattr(pde, 'subs')","len(funcs) > 0"],"ensures":["len(funcs) == old_len_funcs - 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["pde.lhs","pde.rhs","pde.subs","sol.lhs","sol.reversed","sol.rhs"],"calls_mutating":["funcs.pop"],"raises":["NotImplementedError","ValueError"],"catches":["ValueError"]},"state_contract":{"modifies":["funcs.*"],"old_bindings":{"old_len_funcs":"len(funcs)"},"pre_requires":["len(funcs) > 0"],"post_ensures":["len(funcs) == old_len_funcs - 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(pde, Equality)', 'len(solved) == 1', 'sol.lhs == func', 'len(funcs) != 1', 'sol.rhs == func', 'func is None', 'not isinstance(sol, Equality)'}, fibers={'Equality'})"]}}
 def checkpdesol(pde, sol, func=None, solve_for_func=True):
     """
     Checks if the given solution satisfies the partial differential
@@ -540,16 +583,24 @@ def checkpdesol(pde, sol, func=None, solve_for_func=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pde_1st_linear_constant_coeff_homogeneous(eq,), id) over Any ║
+# ║ Path(pde_1st_linear_constant_coeff_homogeneous(eq, func, order), id) over {Any | hasattr(func, 'func') and hasattr(func, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ pde_1st_linear_constant_coeff_homogeneous : Any → Any      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(func, 'func')                          ║
+# ║   requires: hasattr(func, 'args')                          ║
+# ║   returns:  Eq(f(x, y), exp(-S(d) / (b ** 2 + c ** 2)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ pde_1st_linear_constant_coeff_homogeneous : {Any | ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 0a71239df04ed8ae   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.pde.pde_1st_linear_constant_coeff_homogeneous","kind":"function","src_hash":"55303e0141bfd478","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pde_1st_linear_constant_coeff_homogeneous(eq,)","rhs":"solves a first order linear homogeneous partial differential equation with constant coefficients","over":{"base":"Any"},"name":"pde_1st_linear_constant_coeff_homogeneous_correct","kind":"composition"},"guarantee":"solves a first order linear homogeneous partial differential equation with constant coefficients","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Eq","by":"library_axiom"},{"fn":"f","by":"library_axiom"},{"fn":"exp","by":"library_axiom"},{"fn":"S","by":"library_axiom"},{"fn":"solvefun","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a71239df04ed8ae"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.pde.pde_1st_linear_constant_coeff_homogeneous","kind":"function","src_hash":"55303e0141bfd478","in":{"base":"Any","pred":"hasattr(func, 'func') and hasattr(func, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"pde_1st_linear_constant_coeff_homogeneous(eq, func, order)","rhs":"Eq(f(x, y), exp(-S(d) / (b ** 2 + c ** 2) * (b * x + c * y)) * solvefun(c * x - b * y))","over":{"base":"Any","pred":"hasattr(func, 'func') and hasattr(func, 'args')"},"name":"pde_1st_linear_constant_coeff_homogeneous_correct","kind":"composition"},"guarantee":"returns Eq(f(x, y), exp(-S(d) / (b ** 2 + c ** 2) * (b * x + c * y)) * solvefun(c * x - b * y))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Eq","by":"library_axiom"},{"fn":"f","by":"library_axiom"},{"fn":"exp","by":"library_axiom"},{"fn":"S","by":"library_axiom"},{"fn":"solvefun","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a71239df04ed8ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(func, 'func')","hasattr(func, 'args')"],"returns_expr":"Eq(f(x, y), exp(-S(d) / (b ** 2 + c ** 2) * (b * x + c * y)) * solvefun(c * x - b * y))","pure":false,"effects":{"effect_type":"reads_state","reads":["func.args","func.func"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def pde_1st_linear_constant_coeff_homogeneous(eq, func, order, match, solvefun):
     r"""
     Solves a first order linear homogeneous
@@ -625,16 +676,24 @@ def pde_1st_linear_constant_coeff_homogeneous(eq, func, order, match, solvefun):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pde_1st_linear_constant_coeff(eq,), id) over Any      ║
+# ║ Path(pde_1st_linear_constant_coeff(eq, func, order), id) over {Any | hasattr(func, 'func') and hasattr(func, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ pde_1st_linear_constant_coeff : Any → Any                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(func, 'func')                          ║
+# ║   requires: hasattr(func, 'args')                          ║
+# ║   returns:  Eq(f(x, y), Subs(expterm * (functerm + ge...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ pde_1st_linear_constant_coeff : {Any | hasattr(func, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ba0db0d4aa1f2d66   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.pde.pde_1st_linear_constant_coeff","kind":"function","src_hash":"63482c118f783dc2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pde_1st_linear_constant_coeff(eq,)","rhs":"solves a first order linear partial differential equation with constant coefficients","over":{"base":"Any"},"name":"pde_1st_linear_constant_coeff_correct","kind":"composition"},"guarantee":"solves a first order linear partial differential equation with constant coefficients","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Eq","by":"library_axiom"},{"fn":"f","by":"library_axiom"},{"fn":"Subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba0db0d4aa1f2d66"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.pde.pde_1st_linear_constant_coeff","kind":"function","src_hash":"63482c118f783dc2","in":{"base":"Any","pred":"hasattr(func, 'func') and hasattr(func, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"pde_1st_linear_constant_coeff(eq, func, order)","rhs":"Eq(f(x, y), Subs(expterm * (functerm + genterm), (eta, xi), (c * x - b * y, b * x + c * y)))","over":{"base":"Any","pred":"hasattr(func, 'func') and hasattr(func, 'args')"},"name":"pde_1st_linear_constant_coeff_correct","kind":"composition"},"guarantee":"returns Eq(f(x, y), Subs(expterm * (functerm + genterm), (eta, xi), (c * x - b * y, b * x + c * y)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Eq","by":"library_axiom"},{"fn":"f","by":"library_axiom"},{"fn":"Subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba0db0d4aa1f2d66","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(func, 'func')","hasattr(func, 'args')"],"returns_expr":"Eq(f(x, y), Subs(expterm * (functerm + genterm), (eta, xi), (c * x - b * y, b * x + c * y)))","pure":false,"effects":{"effect_type":"reads_state","reads":["func.args","func.func"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def pde_1st_linear_constant_coeff(eq, func, order, match, solvefun):
     r"""
     Solves a first order linear partial differential equation
@@ -735,7 +794,13 @@ def pde_1st_linear_constant_coeff(eq, func, order, match, solvefun):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pde_1st_linear_variable_coeff(eq,), solves a first order linear partial differential equation with variable coefficients) over {Any | isinstance(sol, list)} ║
+# ║ Path(pde_1st_linear_variable_coeff(eq, func, order), len(solsym) == old_len_solsym - 1) over {Any | isinstance(sol, list) and hasattr(func, 'func') and hasattr(func, 'args') and len(solsym) > 0} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(func, 'func')                          ║
+# ║   requires: hasattr(func, 'args')                          ║
+# ║   requires: len(solsym) > 0                                ║
+# ║   ensures:  len(solsym) == old_len_solsym - 1              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pde_1st_linear_variable_coeff : {Any | isinstance(sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -747,9 +812,12 @@ def pde_1st_linear_constant_coeff(eq, func, order, match, solvefun):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | a25df0fd...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.pde.pde_1st_linear_variable_coeff","kind":"function","src_hash":"6b164673a105e0a1","in":{"base":"Any","pred":"isinstance(sol, list)"},"out":{"base":"Any"},"spec":{"lhs":"pde_1st_linear_variable_coeff(eq,)","rhs":"solves a first order linear partial differential equation with variable coefficients","over":{"base":"Any","pred":"isinstance(sol, list)"},"name":"pde_1st_linear_variable_coeff_correct"},"guarantee":"solves a first order linear partial differential equation with variable coefficients","fibers":[{"name":"list","pred":"isinstance(sol, list)","path":{"lhs":"pde_1st_linear_variable_coeff(x)","rhs":"solves a first order linear partial differential equation with variable coefficients","over":{"base":"list","pred":"isinstance(sol, list)"},"name":"pde_1st_linear_variable_coeff_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.pde.pde_1st_linear_variable_coeff_list_correct","statement":"pde_1st_linear_variable_coeff satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a25df0fd71a81c5a"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.pde.pde_1st_linear_variable_coeff","kind":"function","src_hash":"6b164673a105e0a1","in":{"base":"Any","pred":"isinstance(sol, list) and hasattr(func, 'func') and hasattr(func, 'args') and len(solsym) > 0"},"out":{"base":"Any","pred":"result satisfies: len(solsym) == old_len_solsym - 1"},"spec":{"lhs":"pde_1st_linear_variable_coeff(eq, func, order)","rhs":"len(solsym) == old_len_solsym - 1","over":{"base":"Any","pred":"isinstance(sol, list) and hasattr(func, 'func') and hasattr(func, 'args') and len(solsym) > 0"},"name":"pde_1st_linear_variable_coeff_correct"},"guarantee":"len(solsym) == old_len_solsym - 1","fibers":[{"name":"list","pred":"isinstance(sol, list)","path":{"lhs":"pde_1st_linear_variable_coeff(x)","rhs":"len(solsym) == old_len_solsym - 1","over":{"base":"list","pred":"isinstance(sol, list)"},"name":"pde_1st_linear_variable_coeff_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.pde.pde_1st_linear_variable_coeff_list_correct","statement":"pde_1st_linear_variable_coeff satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a25df0fd71a81c5a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(func, 'func')","hasattr(func, 'args')","len(solsym) > 0"],"ensures":["len(solsym) == old_len_solsym - 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["func.args","func.func"],"calls_mutating":["solsym.pop"],"raises":["NotImplementedError"],"catches":["NotImplementedError"]},"state_contract":{"modifies":["solsym.*"],"old_bindings":{"old_len_solsym":"len(solsym)"},"pre_requires":["len(solsym) > 0"],"post_ensures":["len(solsym) == old_len_solsym - 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(final, list)', 'isinstance(sol, list)', 'len(solsym) == 1'}, fibers={'list'})"]}}
 def pde_1st_linear_variable_coeff(eq, func, order, match, solvefun):
     r"""
     Solves a first order linear partial differential equation
@@ -880,16 +948,26 @@ def pde_1st_linear_variable_coeff(eq, func, order, match, solvefun):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_simplify_variable_coeff(sol), id) over Any           ║
+# ║ Path(_simplify_variable_coeff(sol, syms, func), id) over {Any | hasattr(syms, 'pop') and hasattr(sol, 'subs') and len(syms) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _simplify_variable_coeff : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(syms, 'pop')                           ║
+# ║   requires: hasattr(sol, 'subs')                           ║
+# ║   requires: len(syms) > 0                                  ║
+# ║   ensures:  len(syms) == old_len_syms - 1                  ║
+# ║   returns:  simplify(final.subs(eta, funcarg))             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _simplify_variable_coeff : {Any | hasattr(syms, 'pop'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 71fd1434a8e63bbf   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.pde._simplify_variable_coeff","kind":"function","src_hash":"017c4a526dd7beb7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_simplify_variable_coeff(sol)","rhs":"helper function to replace constants by functions in 1st_linear_variable_coeff","over":{"base":"Any"},"name":"_simplify_variable_coeff_correct","kind":"composition"},"guarantee":"helper function to replace constants by functions in 1st_linear_variable_coeff","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"simplify","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71fd1434a8e63bbf"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.pde._simplify_variable_coeff","kind":"function","src_hash":"017c4a526dd7beb7","in":{"base":"Any","pred":"hasattr(syms, 'pop') and hasattr(sol, 'subs') and len(syms) > 0"},"out":{"base":"Any","pred":"result satisfies: result == (simplify(final.subs(eta, funcarg)))"},"spec":{"lhs":"_simplify_variable_coeff(sol, syms, func)","rhs":"simplify(final.subs(eta, funcarg))","over":{"base":"Any","pred":"hasattr(syms, 'pop') and hasattr(sol, 'subs') and len(syms) > 0"},"name":"_simplify_variable_coeff_correct","kind":"composition"},"guarantee":"returns simplify(final.subs(eta, funcarg)); len(syms) == old_len_syms - 1","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"simplify","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71fd1434a8e63bbf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(syms, 'pop')","hasattr(sol, 'subs')","len(syms) > 0"],"ensures":["len(syms) == old_len_syms - 1"],"returns_expr":"simplify(final.subs(eta, funcarg))","pure":false,"effects":{"effect_type":"mutates_args","reads":["sol.subs","syms.pop"],"calls_mutating":["syms.pop"]},"state_contract":{"modifies":["syms.*"],"old_bindings":{"old_len_syms":"len(syms)"},"pre_requires":["len(syms) > 0"],"post_ensures":["len(syms) == old_len_syms - 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _simplify_variable_coeff(sol, syms, func, funcarg):
     r"""
     Helper function to replace constants by functions in 1st_linear_variable_coeff
@@ -907,9 +985,15 @@ def _simplify_variable_coeff(sol, syms, func, funcarg):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pde_separate(eq,), separate variables in partial differential equation either by additive or multiplicative separation approach) over {Any | isinstance(eq, Equality)} ║
+# ║ Path(pde_separate(eq, fun, sep), # HINT: pde_separate may be idempotent: pde_separate(pde_separate(x)) == pde_separate(x)) over {Any | isinstance(eq, Equality) and not (eq.rhs != 0) and hasattr(eq, 'rhs') and hasattr(fun, 'args') and hasattr(eq, 'lhs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ pde_separate : {Any | isinstance(eq, Equality)} → Any      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (eq.rhs != 0)                              ║
+# ║   requires: hasattr(eq, 'rhs')                             ║
+# ║   requires: hasattr(fun, 'args')                           ║
+# ║   ensures:  # HINT: pde_separate may be idempotent: p...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ pde_separate : {Any | isinstance(eq, Equality) and no...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Equality: {isinstance(eq, Equality)} → library_axiom     ║
@@ -919,9 +1003,12 @@ def _simplify_variable_coeff(sol, syms, func, funcarg):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b0460cb3...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.pde.pde_separate","kind":"function","src_hash":"63a6c84196eaa93b","in":{"base":"Any","pred":"isinstance(eq, Equality)"},"out":{"base":"Any"},"spec":{"lhs":"pde_separate(eq,)","rhs":"separate variables in partial differential equation either by additive or multiplicative separation approach","over":{"base":"Any","pred":"isinstance(eq, Equality)"},"name":"pde_separate_correct"},"guarantee":"separate variables in partial differential equation either by additive or multiplicative separation approach","fibers":[{"name":"Equality","pred":"isinstance(eq, Equality)","path":{"lhs":"pde_separate(x)","rhs":"separate variables in partial differential equation either by additive or multiplicative separation approach","over":{"base":"Equality","pred":"isinstance(eq, Equality)"},"name":"pde_separate_Equality_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.pde.pde_separate_Equality_correct","statement":"pde_separate satisfies spec on Equality inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b0460cb318a387dc"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.pde.pde_separate","kind":"function","src_hash":"63a6c84196eaa93b","in":{"base":"Any","pred":"isinstance(eq, Equality) and not (eq.rhs != 0) and hasattr(eq, 'rhs') and hasattr(fun, 'args') and hasattr(eq, 'lhs')"},"out":{"base":"Any","pred":"result satisfies: # HINT: pde_separate may be idempotent: pde_separate(pde_separate(x)) == pde_separate(x)"},"spec":{"lhs":"pde_separate(eq, fun, sep)","rhs":"# HINT: pde_separate may be idempotent: pde_separate(pde_separate(x)) == pde_separate(x)","over":{"base":"Any","pred":"isinstance(eq, Equality) and not (eq.rhs != 0) and hasattr(eq, 'rhs') and hasattr(fun, 'args') and hasattr(eq, 'lhs')"},"name":"pde_separate_correct"},"guarantee":"# HINT: pde_separate may be idempotent: pde_separate(pde_separate(x)) == pde_separate(x)","fibers":[{"name":"Equality","pred":"isinstance(eq, Equality)","path":{"lhs":"pde_separate(x)","rhs":"# HINT: pde_separate may be idempotent: pde_separate(pde_separate(x)) == pde_separate(x)","over":{"base":"Equality","pred":"isinstance(eq, Equality)"},"name":"pde_separate_Equality_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.pde.pde_separate_Equality_correct","statement":"pde_separate satisfies spec on Equality inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b0460cb318a387dc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (eq.rhs != 0)","hasattr(eq, 'rhs')","hasattr(fun, 'args')","hasattr(eq, 'lhs')"],"ensures":["# HINT: pde_separate may be idempotent: pde_separate(pde_separate(x)) == pde_separate(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["eq.lhs","eq.rhs","fun.args"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={\"strategy == 'mul'\", 'eq.rhs != 0', 'isinstance(eq, Equality)', 'set(orig_args) != set(subs_args)', \"strategy == 'add'\", 'len(subs_args) != len(orig_args)'}, fibers={'Equality'})"]}}
 def pde_separate(eq, fun, sep, strategy='mul'):
     """Separate variables in partial differential equation either by additive
     or multiplicative separation approach. It tries to rewrite an equation so
@@ -1010,16 +1097,22 @@ def pde_separate(eq, fun, sep, strategy='mul'):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pde_separate_add(eq,), helper function for searching additive separable solutions) over Any ║
+# ║ Path(pde_separate_add(eq, fun, sep), pde_separate(eq, fun, sep, strategy='add')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  pde_separate(eq, fun, sep, strategy='add')     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pde_separate_add : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 09137de7e9eea7d9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.pde.pde_separate_add","kind":"function","src_hash":"451d5590eede5bae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pde_separate_add(eq,)","rhs":"helper function for searching additive separable solutions","over":{"base":"Any"},"name":"pde_separate_add_correct"},"guarantee":"helper function for searching additive separable solutions","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"09137de7e9eea7d9"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.pde.pde_separate_add","kind":"function","src_hash":"451d5590eede5bae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pde_separate_add(eq, fun, sep)","rhs":"pde_separate(eq, fun, sep, strategy='add')","over":{"base":"Any"},"name":"pde_separate_add_correct"},"guarantee":"returns pde_separate(eq, fun, sep, strategy='add')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"09137de7e9eea7d9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"pde_separate(eq, fun, sep, strategy='add')","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def pde_separate_add(eq, fun, sep):
     """
     Helper function for searching additive separable solutions.
@@ -1046,16 +1139,22 @@ def pde_separate_add(eq, fun, sep):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pde_separate_mul(eq,), helper function for searching multiplicative separable solutions) over Any ║
+# ║ Path(pde_separate_mul(eq, fun, sep), pde_separate(eq, fun, sep, strategy='mul')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  pde_separate(eq, fun, sep, strategy='mul')     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pde_separate_mul : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8ea49160ed8d8447           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.pde.pde_separate_mul","kind":"function","src_hash":"5eebc6f8763798c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pde_separate_mul(eq,)","rhs":"helper function for searching multiplicative separable solutions","over":{"base":"Any"},"name":"pde_separate_mul_correct"},"guarantee":"helper function for searching multiplicative separable solutions","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ea49160ed8d8447"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.pde.pde_separate_mul","kind":"function","src_hash":"5eebc6f8763798c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pde_separate_mul(eq, fun, sep)","rhs":"pde_separate(eq, fun, sep, strategy='mul')","over":{"base":"Any"},"name":"pde_separate_mul_correct"},"guarantee":"returns pde_separate(eq, fun, sep, strategy='mul')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ea49160ed8d8447","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"pde_separate(eq, fun, sep, strategy='mul')","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def pde_separate_mul(eq, fun, sep):
     """
     Helper function for searching multiplicative separable solutions.
@@ -1082,16 +1181,23 @@ def pde_separate_mul(eq, fun, sep):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_separate(eq,), separate expression into two parts based on dependencies of variables) over Any ║
+# ║ Path(_separate(eq, dep, others), <unspecified:_separate>) over {Any | hasattr(eq, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _separate : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(eq, 'args')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _separate : {Any | hasattr(eq, 'args')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a6c6cda56c846b7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.pde._separate","kind":"function","src_hash":"9f1f2090ed21d532","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_separate(eq,)","rhs":"separate expression into two parts based on dependencies of variables","over":{"base":"Any"},"name":"_separate_correct"},"guarantee":"separate expression into two parts based on dependencies of variables","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.pde._separate_correct","statement":"Path(_separate(x), separate expression into two parts based on dependencies of variables)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a6c6cda56c846b7"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.pde._separate","kind":"function","src_hash":"9f1f2090ed21d532","in":{"base":"Any","pred":"hasattr(eq, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_separate(eq, dep, others)","rhs":"<unspecified:_separate>","over":{"base":"Any","pred":"hasattr(eq, 'args')"},"name":"_separate_correct"},"guarantee":"separate expression into two parts based on dependencies of variables","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.pde._separate_correct","statement":"Path(_separate(x), separate expression into two parts based on dependencies of variables)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a6c6cda56c846b7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(eq, 'args')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def _separate(eq, dep, others):
     """Separate expression into two parts based on dependencies of variables."""
 

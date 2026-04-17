@@ -20,16 +20,22 @@ from sympy.multipledispatch import Dispatcher
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(PrimePredicate(), correctly constructs a PrimePredicate instance) over Any ║
+# ║ Path(PrimePredicate(), isinstance(self, Predicate)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ PrimePredicate : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Predicate)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ PrimePredicate : Any → {Any | result satisfies: isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0502e23643f93cce           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.ntheory.PrimePredicate","kind":"class","src_hash":"1d3a0ee5325dd066","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PrimePredicate()","rhs":"correctly constructs a PrimePredicate instance","over":{"base":"Any"},"name":"PrimePredicate_correct"},"guarantee":"correctly constructs a PrimePredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0502e23643f93cce"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.ntheory.PrimePredicate","kind":"class","src_hash":"1d3a0ee5325dd066","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Predicate)"},"spec":{"lhs":"PrimePredicate()","rhs":"isinstance(self, Predicate)","over":{"base":"Any"},"name":"PrimePredicate_correct"},"guarantee":"isinstance(self, Predicate)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0502e23643f93cce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Predicate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function PrimePredicate not found in source"]}}
 class PrimePredicate(Predicate):
     """
     Prime number predicate.
@@ -68,16 +74,22 @@ class PrimePredicate(Predicate):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(CompositePredicate(), correctly constructs a CompositePredicate instance) over Any ║
+# ║ Path(CompositePredicate(), isinstance(self, Predicate)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CompositePredicate : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Predicate)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CompositePredicate : Any → {Any | result satisfies: i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7f0da6bfb131992c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.ntheory.CompositePredicate","kind":"class","src_hash":"1074763e20ac70ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CompositePredicate()","rhs":"correctly constructs a CompositePredicate instance","over":{"base":"Any"},"name":"CompositePredicate_correct"},"guarantee":"correctly constructs a CompositePredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7f0da6bfb131992c"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.ntheory.CompositePredicate","kind":"class","src_hash":"1074763e20ac70ba","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Predicate)"},"spec":{"lhs":"CompositePredicate()","rhs":"isinstance(self, Predicate)","over":{"base":"Any"},"name":"CompositePredicate_correct"},"guarantee":"isinstance(self, Predicate)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7f0da6bfb131992c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Predicate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function CompositePredicate not found in source"]}}
 class CompositePredicate(Predicate):
     """
     Composite number predicate.
@@ -107,16 +119,22 @@ class CompositePredicate(Predicate):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(EvenPredicate(), correctly constructs a EvenPredicate instance) over Any ║
+# ║ Path(EvenPredicate(), isinstance(self, Predicate)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ EvenPredicate : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Predicate)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ EvenPredicate : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 05c5d4fd450eb351           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.ntheory.EvenPredicate","kind":"class","src_hash":"3a762a6d37d6d16d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"EvenPredicate()","rhs":"correctly constructs a EvenPredicate instance","over":{"base":"Any"},"name":"EvenPredicate_correct"},"guarantee":"correctly constructs a EvenPredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"05c5d4fd450eb351"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.ntheory.EvenPredicate","kind":"class","src_hash":"3a762a6d37d6d16d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Predicate)"},"spec":{"lhs":"EvenPredicate()","rhs":"isinstance(self, Predicate)","over":{"base":"Any"},"name":"EvenPredicate_correct"},"guarantee":"isinstance(self, Predicate)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"05c5d4fd450eb351","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Predicate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function EvenPredicate not found in source"]}}
 class EvenPredicate(Predicate):
     """
     Even number predicate.
@@ -146,16 +164,22 @@ class EvenPredicate(Predicate):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(OddPredicate(), correctly constructs a OddPredicate instance) over Any ║
+# ║ Path(OddPredicate(), isinstance(self, Predicate)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ OddPredicate : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Predicate)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ OddPredicate : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f0ffb2f39a0c008b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.ntheory.OddPredicate","kind":"class","src_hash":"68866cc82487cbe5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"OddPredicate()","rhs":"correctly constructs a OddPredicate instance","over":{"base":"Any"},"name":"OddPredicate_correct"},"guarantee":"correctly constructs a OddPredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f0ffb2f39a0c008b"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.ntheory.OddPredicate","kind":"class","src_hash":"68866cc82487cbe5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Predicate)"},"spec":{"lhs":"OddPredicate()","rhs":"isinstance(self, Predicate)","over":{"base":"Any"},"name":"OddPredicate_correct"},"guarantee":"isinstance(self, Predicate)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f0ffb2f39a0c008b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Predicate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function OddPredicate not found in source"]}}
 class OddPredicate(Predicate):
     """
     Odd number predicate.

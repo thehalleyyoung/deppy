@@ -29,16 +29,24 @@ from sympy.functions.elementary.exponential import (exp, log)
 from sympy.functions.elementary.miscellaneous import sqrt
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FracField___init__(), test_FracField___init__ produces the expected output) over Any ║
+# ║ Path(test_FracField___init__(), F1.x == F1.gens[0] and F1.y == F1.gens[1] and F1.x == F2.x and F1.y == F2.y and F1.x != F3.x and F1.y != F3.y) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FracField___init__ : Any → {Any | F1.x == F1.gen...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  F1.x == F1.gens[0]                             ║
+# ║   ensures:  F1.y == F1.gens[1]                             ║
+# ║   ensures:  F1.x == F2.x                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FracField___init__ : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 87c7ac81cb2072bd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a61646c7f6c75d5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracField___init__","kind":"function","src_hash":"ffab7aaae1c6734a","in":{"base":"Any"},"out":{"base":"Any","pred":"F1.x == F1.gens[0] and F1.y == F1.gens[1] and F1.x == F2.x and F1.y == F2.y and F1.x != F3.x and F1.y != F3.y"},"spec":{"lhs":"test_FracField___init__()","rhs":"test_FracField___init__ produces the expected output","over":{"base":"Any"},"name":"test_FracField___init___correct"},"guarantee":"test_FracField___init__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracField___init___correct","statement":"Path(test_FracField___init__(x), test_FracField___init__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87c7ac81cb2072bd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracField___init__","kind":"function","src_hash":"ffab7aaae1c6734a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: F1.x == F1.gens[0] and F1.y == F1.gens[1] and F1.x == F2.x and F1.y == F2.y and F1.x != F3.x and F1.y != F3.y"},"spec":{"lhs":"test_FracField___init__()","rhs":"F1.x == F1.gens[0] and F1.y == F1.gens[1] and F1.x == F2.x and F1.y == F2.y and F1.x != F3.x and F1.y != F3.y","over":{"base":"Any"},"name":"test_FracField___init___correct"},"guarantee":"F1.x == F1.gens[0]; F1.y == F1.gens[1]; F1.x == F2.x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracField___init___correct","statement":"Path(test_FracField___init__(x), F1.x == F1.gens[0]; F1.y == F1.gens[1]; F1.x == F2.x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a61646c7f6c75d5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["F1.x == F1.gens[0]","F1.y == F1.gens[1]","F1.x == F2.x","F1.y == F2.y","F1.x != F3.x","F1.y != F3.y"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_FracField___init__():
     F1 = FracField("x,y", ZZ, lex)
     F2 = FracField("x,y", ZZ, lex)
@@ -52,31 +60,45 @@ def test_FracField___init__():
     assert F1.y != F3.y
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FracField___hash__(), test_FracField___hash__ produces the expected output) over Any ║
+# ║ Path(test_FracField___hash__(), hash(F)) over Any          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FracField___hash__ : Any → {Any | hash(F)}            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hash(F)                                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FracField___hash__ : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 531b896bb683fb38  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8842c820008a4f9e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracField___hash__","kind":"function","src_hash":"89639544c29e8a3f","in":{"base":"Any"},"out":{"base":"Any","pred":"hash(F)"},"spec":{"lhs":"test_FracField___hash__()","rhs":"test_FracField___hash__ produces the expected output","over":{"base":"Any"},"name":"test_FracField___hash___correct"},"guarantee":"test_FracField___hash__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracField___hash___correct","statement":"Path(test_FracField___hash__(x), test_FracField___hash__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"531b896bb683fb38"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracField___hash__","kind":"function","src_hash":"89639544c29e8a3f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hash(F)"},"spec":{"lhs":"test_FracField___hash__()","rhs":"hash(F)","over":{"base":"Any"},"name":"test_FracField___hash___correct"},"guarantee":"hash(F)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracField___hash___correct","statement":"Path(test_FracField___hash__(x), hash(F))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8842c820008a4f9e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hash(F)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_FracField___hash__():
     F, x, y, z = field("x,y,z", QQ)
     assert hash(F)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FracField___eq__(), test_FracField___eq__ produces the expected output) over Any ║
+# ║ Path(test_FracField___eq__(), field('x,y,z', QQ)[0] == field('x,y,z', QQ)[0] and field('x,y,z', QQ)[0] != field('x,y,z', ZZ)[0] and field('x,y,z', ZZ)[0] != field('x,y,z', QQ)[0] and field('x,y,z', QQ)[0] != field('x,y', QQ)[0] and field('x,y', QQ)[0] != field('x,y,z', QQ)[0]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FracField___eq__ : Any → {Any | field('x,y,z', Q...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  field('x,y,z', QQ)[0] == field('x,y,z', Q...   ║
+# ║   ensures:  field('x,y,z', QQ)[0] != field('x,y,z', Z...   ║
+# ║   ensures:  field('x,y,z', ZZ)[0] != field('x,y,z', Q...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FracField___eq__ : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de2d2a60da38ea98  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 57d848396380beb4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracField___eq__","kind":"function","src_hash":"c01a6f7c13845ca9","in":{"base":"Any"},"out":{"base":"Any","pred":"field('x,y,z', QQ)[0] == field('x,y,z', QQ)[0] and field('x,y,z', QQ)[0] != field('x,y,z', ZZ)[0] and field('x,y,z', ZZ)[0] != field('x,y,z', QQ)[0] and field('x,y,z', QQ)[0] != field('x,y', QQ)[0] and field('x,y', QQ)[0] != field('x,y,z', QQ)[0]"},"spec":{"lhs":"test_FracField___eq__()","rhs":"test_FracField___eq__ produces the expected output","over":{"base":"Any"},"name":"test_FracField___eq___correct"},"guarantee":"test_FracField___eq__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracField___eq___correct","statement":"Path(test_FracField___eq__(x), test_FracField___eq__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de2d2a60da38ea98"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracField___eq__","kind":"function","src_hash":"c01a6f7c13845ca9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: field('x,y,z', QQ)[0] == field('x,y,z', QQ)[0] and field('x,y,z', QQ)[0] != field('x,y,z', ZZ)[0] and field('x,y,z', ZZ)[0] != field('x,y,z', QQ)[0] and field('x,y,z', QQ)[0] != field('x,y', QQ)[0] and field('x,y', QQ)[0] != field('x,y,z', QQ)[0]"},"spec":{"lhs":"test_FracField___eq__()","rhs":"field('x,y,z', QQ)[0] == field('x,y,z', QQ)[0] and field('x,y,z', QQ)[0] != field('x,y,z', ZZ)[0] and field('x,y,z', ZZ)[0] != field('x,y,z', QQ)[0] and field('x,y,z', QQ)[0] != field('x,y', QQ)[0] and field('x,y', QQ)[0] != field('x,y,z', QQ)[0]","over":{"base":"Any"},"name":"test_FracField___eq___correct"},"guarantee":"field('x,y,z', QQ)[0] == field('x,y,z', QQ)[0]; field('x,y,z', QQ)[0] != field('x,y,z', ZZ)[0]; field('x,y,z', ZZ)[0] != field('x,y,z', QQ)[0]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracField___eq___correct","statement":"Path(test_FracField___eq__(x), field('x,y,z', QQ)[0] == field('x,y,z', QQ)[0]; field('x,y,z', QQ)[0] != field('x,y,z', ZZ)[0]; field('x,y,z', ZZ)[0] != field('x,y,z', QQ)[0])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57d848396380beb4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["field('x,y,z', QQ)[0] == field('x,y,z', QQ)[0]","field('x,y,z', QQ)[0] != field('x,y,z', ZZ)[0]","field('x,y,z', ZZ)[0] != field('x,y,z', QQ)[0]","field('x,y,z', QQ)[0] != field('x,y', QQ)[0]","field('x,y', QQ)[0] != field('x,y,z', QQ)[0]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_FracField___eq__():
     assert field("x,y,z", QQ)[0] == field("x,y,z", QQ)[0]
     assert field("x,y,z", QQ)[0] != field("x,y,z", ZZ)[0]
@@ -85,16 +107,24 @@ def test_FracField___eq__():
     assert field("x,y", QQ)[0] != field("x,y,z", QQ)[0]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sfield(), test_sfield produces the expected output) over Any ║
+# ║ Path(test_sfield(), sfield(exp(x) * exp(exp(x) + 1 + log(exp(x) + 3) / 2) ** 2 / (exp(x) + 3)) == (F, e ** 2 * exex ** 2 * ex) and sfield(((x - 3) * log(x) + 4 * x ** 2) * exp(1 / x + log(x) / 3) / x ** 2) == (F, (4 * F.x ** 2 * ex + F.x * ex * lg - 3 * ex * lg) / x3 ** 5) and sfield((x + 1) / (x * (x + log(x)) ** QQ(3, 2)) - 1 / (x * log(x) ** 2)) == (F, (F.x * lg ** 2 - F.x * srt + lg ** 2 - lg * srt) / (F.x ** 2 * lg ** 2 * srt + F.x * lg ** 3 * srt))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sfield : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sfield(exp(x) * exp(exp(x) + 1 + log(exp(...   ║
+# ║   ensures:  sfield(((x - 3) * log(x) + 4 * x ** 2) * ...   ║
+# ║   ensures:  sfield((x + 1) / (x * (x + log(x)) ** QQ(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sfield : Any → {Any | result satisfies: sfield(e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 152717089a7685c9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad38cbb9812a0bfe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_sfield","kind":"function","src_hash":"59d205e26834ca37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_sfield()","rhs":"test_sfield produces the expected output","over":{"base":"Any"},"name":"test_sfield_correct"},"guarantee":"test_sfield produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_sfield_correct","statement":"Path(test_sfield(x), test_sfield produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"152717089a7685c9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_sfield","kind":"function","src_hash":"59d205e26834ca37","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sfield(exp(x) * exp(exp(x) + 1 + log(exp(x) + 3) / 2) ** 2 / (exp(x) + 3)) == (F, e ** 2 * exex ** 2 * ex) and sfield(((x - 3) * log(x) + 4 * x ** 2) * exp(1 / x + log(x) / 3) / x ** 2) == (F, (4 * F.x ** 2 * ex + F.x * ex * lg - 3 * ex * lg) / x3 ** 5) and sfield((x + 1) / (x * (x + log(x)) ** QQ(3, 2)) - 1 / (x * log(x) ** 2)) == (F, (F.x * lg ** 2 - F.x * srt + lg ** 2 - lg * srt) / (F.x ** 2 * lg ** 2 * srt + F.x * lg ** 3 * srt))"},"spec":{"lhs":"test_sfield()","rhs":"sfield(exp(x) * exp(exp(x) + 1 + log(exp(x) + 3) / 2) ** 2 / (exp(x) + 3)) == (F, e ** 2 * exex ** 2 * ex) and sfield(((x - 3) * log(x) + 4 * x ** 2) * exp(1 / x + log(x) / 3) / x ** 2) == (F, (4 * F.x ** 2 * ex + F.x * ex * lg - 3 * ex * lg) / x3 ** 5) and sfield((x + 1) / (x * (x + log(x)) ** QQ(3, 2)) - 1 / (x * log(x) ** 2)) == (F, (F.x * lg ** 2 - F.x * srt + lg ** 2 - lg * srt) / (F.x ** 2 * lg ** 2 * srt + F.x * lg ** 3 * srt))","over":{"base":"Any"},"name":"test_sfield_correct"},"guarantee":"sfield(exp(x) * exp(exp(x) + 1 + log(exp(x) + 3) / 2) ** 2 / (exp(x) + 3)) == (F, e ** 2 * exex ** 2 * ex); sfield(((x - 3) * log(x) + 4 * x ** 2) * exp(1 / x + log(x) / 3) / x ** 2) == (F, (4 * F.x ** 2 * ex + F.x * ex * lg - 3 * ex * lg) / x3 ** 5); sfield((x + 1) / (x * (x + log(x)) ** QQ(3, 2)) - 1 / (x * log(x) ** 2)) == (F, (F.x * lg ** 2 - F.x * srt + lg ** 2 - lg * srt) / (F.x ** 2 * lg ** 2 * srt + F.x * lg ** 3 * srt))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_sfield_correct","statement":"Path(test_sfield(x), sfield(exp(x) * exp(exp(x) + 1 + log(exp(x) + 3) / 2) ** 2 / (exp(x) + 3)) == (F, e ** 2 * exex ** 2 * ex); sfield(((x - 3) * log(x) + 4 * x ** 2) * exp(1 / x + log(x) / 3) / x ** 2) == (F, (4 * F.x ** 2 * ex + F.x * ex * lg - 3 * ex * lg) / x3 ** 5); sfield((x + 1) / (x * (x + log(x)) ** QQ(3, 2)) - 1 / (x * log(x) ** 2)) == (F, (F.x * lg ** 2 - F.x * srt + lg ** 2 - lg * srt) / (F.x ** 2 * lg ** 2 * srt + F.x * lg ** 3 * srt)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad38cbb9812a0bfe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sfield(exp(x) * exp(exp(x) + 1 + log(exp(x) + 3) / 2) ** 2 / (exp(x) + 3)) == (F, e ** 2 * exex ** 2 * ex)","sfield(((x - 3) * log(x) + 4 * x ** 2) * exp(1 / x + log(x) / 3) / x ** 2) == (F, (4 * F.x ** 2 * ex + F.x * ex * lg - 3 * ex * lg) / x3 ** 5)","sfield((x + 1) / (x * (x + log(x)) ** QQ(3, 2)) - 1 / (x * log(x) ** 2)) == (F, (F.x * lg ** 2 - F.x * srt + lg ** 2 - lg * srt) / (F.x ** 2 * lg ** 2 * srt + F.x * lg ** 3 * srt))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_sfield():
     x = symbols("x")
 
@@ -115,31 +145,44 @@ def test_sfield():
             (F.x**2*lg**2*srt + F.x*lg**3*srt))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FracElement___hash__(), test_FracElement___hash__ produces the expected output) over Any ║
+# ║ Path(test_FracElement___hash__(), hash(x * y / z)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FracElement___hash__ : Any → {Any | hash(x * y /...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hash(x * y / z)                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FracElement___hash__ : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d7e2c4648d1dca3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9db7e10481489397  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracElement___hash__","kind":"function","src_hash":"6c181cd95b180234","in":{"base":"Any"},"out":{"base":"Any","pred":"hash(x * y / z)"},"spec":{"lhs":"test_FracElement___hash__()","rhs":"test_FracElement___hash__ produces the expected output","over":{"base":"Any"},"name":"test_FracElement___hash___correct"},"guarantee":"test_FracElement___hash__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracElement___hash___correct","statement":"Path(test_FracElement___hash__(x), test_FracElement___hash__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d7e2c4648d1dca3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracElement___hash__","kind":"function","src_hash":"6c181cd95b180234","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hash(x * y / z)"},"spec":{"lhs":"test_FracElement___hash__()","rhs":"hash(x * y / z)","over":{"base":"Any"},"name":"test_FracElement___hash___correct"},"guarantee":"hash(x * y / z)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracElement___hash___correct","statement":"Path(test_FracElement___hash__(x), hash(x * y / z))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9db7e10481489397","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hash(x * y / z)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_FracElement___hash__():
     F, x, y, z = field("x,y,z", QQ)
     assert hash(x*y/z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FracElement_copy(), test_FracElement_copy produces the expected output) over Any ║
+# ║ Path(test_FracElement_copy(), f == g and f != g) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FracElement_copy : Any → {Any | f == g and f != g}    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f == g                                         ║
+# ║   ensures:  f != g                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FracElement_copy : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e57994f2413a07f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 510d4bb3c955ba2a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracElement_copy","kind":"function","src_hash":"e9c54f071dcbd8ee","in":{"base":"Any"},"out":{"base":"Any","pred":"f == g and f != g"},"spec":{"lhs":"test_FracElement_copy()","rhs":"test_FracElement_copy produces the expected output","over":{"base":"Any"},"name":"test_FracElement_copy_correct"},"guarantee":"test_FracElement_copy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracElement_copy_correct","statement":"Path(test_FracElement_copy(x), test_FracElement_copy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e57994f2413a07f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracElement_copy","kind":"function","src_hash":"e9c54f071dcbd8ee","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f == g and f != g"},"spec":{"lhs":"test_FracElement_copy()","rhs":"f == g and f != g","over":{"base":"Any"},"name":"test_FracElement_copy_correct"},"guarantee":"f == g; f != g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracElement_copy_correct","statement":"Path(test_FracElement_copy(x), f == g; f != g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"510d4bb3c955ba2a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f == g","f != g"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_FracElement_copy():
     F, x, y, z = field("x,y,z", ZZ)
 
@@ -151,16 +194,24 @@ def test_FracElement_copy():
     assert f != g
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FracElement_as_expr(), test_FracElement_as_expr produces the expected output) over Any ║
+# ║ Path(test_FracElement_as_expr(), f != g and f.as_expr() == g and f.as_expr(X, Y, Z) == g) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FracElement_as_expr : Any → {Any | f != g and f....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f != g                                         ║
+# ║   ensures:  f.as_expr() == g                               ║
+# ║   ensures:  f.as_expr(X, Y, Z) == g                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FracElement_as_expr : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd313f5980858bb1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd328a54b33a7266  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracElement_as_expr","kind":"function","src_hash":"291de97c286c2600","in":{"base":"Any"},"out":{"base":"Any","pred":"f != g and f.as_expr() == g and f != g and f.as_expr(X, Y, Z) == g"},"spec":{"lhs":"test_FracElement_as_expr()","rhs":"test_FracElement_as_expr produces the expected output","over":{"base":"Any"},"name":"test_FracElement_as_expr_correct"},"guarantee":"test_FracElement_as_expr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracElement_as_expr_correct","statement":"Path(test_FracElement_as_expr(x), test_FracElement_as_expr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd313f5980858bb1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracElement_as_expr","kind":"function","src_hash":"291de97c286c2600","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f != g and f.as_expr() == g and f.as_expr(X, Y, Z) == g"},"spec":{"lhs":"test_FracElement_as_expr()","rhs":"f != g and f.as_expr() == g and f.as_expr(X, Y, Z) == g","over":{"base":"Any"},"name":"test_FracElement_as_expr_correct"},"guarantee":"f != g; f.as_expr() == g; f.as_expr(X, Y, Z) == g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracElement_as_expr_correct","statement":"Path(test_FracElement_as_expr(x), f != g; f.as_expr() == g; f.as_expr(X, Y, Z) == g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd328a54b33a7266","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f != g","f.as_expr() == g","f.as_expr(X, Y, Z) == g"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_FracElement_as_expr():
     F, x, y, z = field("x,y,z", ZZ)
     f = (3*x**2*y - x*y*z)/(7*z**3 + 1)
@@ -180,7 +231,12 @@ def test_FracElement_as_expr():
     raises(ValueError, lambda: f.as_expr(X))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FracElement_from_expr(), test_FracElement_from_expr produces the expected output) over {Any | isinstance(ZZ[2 ** x].get_field().convert(2 ** (-x)), FracElement)} ║
+# ║ Path(test_FracElement_from_expr(), f == 1 and F.is_element(f) and f == F(3) / 7 and F.is_element(f) and f == X and F.is_element(f) and f == X * Rational(3, 7) and F.is_element(f) and f == 1 / X and F.is_element(f) and f == X * Y * Z and F.is_element(f) and f == X * Y / Z and F.is_element(f) and f == X * Y * Z + X * Y + X and F.is_element(f) and f == (X * Y * Z + X * Y + X) / (X * Y + 7) and F.is_element(f) and f == X ** 3 * Y * Z + X ** 2 * Y ** 7 + 1 and F.is_element(f) and isinstance(ZZ[2 ** x].get_field().convert(2 ** (-x)), FracElement) and isinstance(ZZ[x ** 2].get_field().convert(x ** (-6)), FracElement) and isinstance(ZZ[exp(Rational(1, 3))].get_field().convert(E), FracElement)) over {Any | isinstance(ZZ[2 ** x].get_field().convert(2 ** (-x)), FracElement)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f == 1 and F.is_element(f)                     ║
+# ║   ensures:  f == F(3) / 7 and F.is_element(f)              ║
+# ║   ensures:  f == X and F.is_element(f)                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_FracElement_from_expr : {Any | isinstance(ZZ[2 *...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -192,9 +248,12 @@ def test_FracElement_as_expr():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | dec62089...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracElement_from_expr","kind":"function","src_hash":"a7f80fb7d7705321","in":{"base":"Any","pred":"isinstance(ZZ[2 ** x].get_field().convert(2 ** (-x)), FracElement)"},"out":{"base":"Any","pred":"f == 1 and F.is_element(f) and f == F(3) / 7 and F.is_element(f) and f == X and F.is_element(f) and f == X * Rational(3, 7) and F.is_element(f) and f == 1 / X and F.is_element(f) and f == X * Y * Z and F.is_element(f) and f == X * Y / Z and F.is_element(f) and f == X * Y * Z + X * Y + X and F.is_element(f) and f == (X * Y * Z + X * Y + X) / (X * Y + 7) and F.is_element(f) and f == X ** 3 * Y * Z + X ** 2 * Y ** 7 + 1 and F.is_element(f) and isinstance(ZZ[2 ** x].get_field().convert(2 ** (-x)), FracElement) and isinstance(ZZ[x ** 2].get_field().convert(x ** (-6)), FracElement) and isinstance(ZZ[exp(Rational(1, 3))].get_field().convert(E), FracElement)"},"spec":{"lhs":"test_FracElement_from_expr()","rhs":"test_FracElement_from_expr produces the expected output","over":{"base":"Any","pred":"isinstance(ZZ[2 ** x].get_field().convert(2 ** (-x)), FracElement)"},"name":"test_FracElement_from_expr_correct"},"guarantee":"test_FracElement_from_expr produces the expected output","fibers":[{"name":"FracElement","pred":"isinstance(ZZ[2 ** x].get_field().convert(2 ** (-x)), FracElement)","path":{"lhs":"test_FracElement_from_expr(x)","rhs":"test_FracElement_from_expr produces the expected output","over":{"base":"FracElement","pred":"isinstance(ZZ[2 ** x].get_field().convert(2 ** (-x)), FracElement)"},"name":"test_FracElement_from_expr_FracElement_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracElement_from_expr_FracElement_correct","statement":"test_FracElement_from_expr satisfies spec on FracElement inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"dec620894208e234"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracElement_from_expr","kind":"function","src_hash":"a7f80fb7d7705321","in":{"base":"Any","pred":"isinstance(ZZ[2 ** x].get_field().convert(2 ** (-x)), FracElement)"},"out":{"base":"Any","pred":"result satisfies: f == 1 and F.is_element(f) and f == F(3) / 7 and F.is_element(f) and f == X and F.is_element(f) and f == X * Rational(3, 7) and F.is_element(f) and f == 1 / X and F.is_element(f) and f == X * Y * Z and F.is_element(f) and f == X * Y / Z and F.is_element(f) and f == X * Y * Z + X * Y + X and F.is_element(f) and f == (X * Y * Z + X * Y + X) / (X * Y + 7) and F.is_element(f) and f == X ** 3 * Y * Z + X ** 2 * Y ** 7 + 1 and F.is_element(f) and isinstance(ZZ[2 ** x].get_field().convert(2 ** (-x)), FracElement) and isinstance(ZZ[x ** 2].get_field().convert(x ** (-6)), FracElement) and isinstance(ZZ[exp(Rational(1, 3))].get_field().convert(E), FracElement)"},"spec":{"lhs":"test_FracElement_from_expr()","rhs":"f == 1 and F.is_element(f) and f == F(3) / 7 and F.is_element(f) and f == X and F.is_element(f) and f == X * Rational(3, 7) and F.is_element(f) and f == 1 / X and F.is_element(f) and f == X * Y * Z and F.is_element(f) and f == X * Y / Z and F.is_element(f) and f == X * Y * Z + X * Y + X and F.is_element(f) and f == (X * Y * Z + X * Y + X) / (X * Y + 7) and F.is_element(f) and f == X ** 3 * Y * Z + X ** 2 * Y ** 7 + 1 and F.is_element(f) and isinstance(ZZ[2 ** x].get_field().convert(2 ** (-x)), FracElement) and isinstance(ZZ[x ** 2].get_field().convert(x ** (-6)), FracElement) and isinstance(ZZ[exp(Rational(1, 3))].get_field().convert(E), FracElement)","over":{"base":"Any","pred":"isinstance(ZZ[2 ** x].get_field().convert(2 ** (-x)), FracElement)"},"name":"test_FracElement_from_expr_correct"},"guarantee":"f == 1 and F.is_element(f); f == F(3) / 7 and F.is_element(f); f == X and F.is_element(f)","fibers":[{"name":"FracElement","pred":"isinstance(ZZ[2 ** x].get_field().convert(2 ** (-x)), FracElement)","path":{"lhs":"test_FracElement_from_expr(x)","rhs":"f == 1 and F.is_element(f); f == F(3) / 7 and F.is_element(f); f == X and F.is_element(f)","over":{"base":"FracElement","pred":"isinstance(ZZ[2 ** x].get_field().convert(2 ** (-x)), FracElement)"},"name":"test_FracElement_from_expr_FracElement_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracElement_from_expr_FracElement_correct","statement":"test_FracElement_from_expr satisfies spec on FracElement inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"dec620894208e234","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f == 1 and F.is_element(f)","f == F(3) / 7 and F.is_element(f)","f == X and F.is_element(f)","f == X * Rational(3, 7) and F.is_element(f)","f == 1 / X and F.is_element(f)","f == X * Y * Z and F.is_element(f)","f == X * Y / Z and F.is_element(f)","f == X * Y * Z + X * Y + X and F.is_element(f)","f == (X * Y * Z + X * Y + X) / (X * Y + 7) and F.is_element(f)","f == X ** 3 * Y * Z + X ** 2 * Y ** 7 + 1 and F.is_element(f)","isinstance(ZZ[2 ** x].get_field().convert(2 ** (-x)), FracElement)","isinstance(ZZ[x ** 2].get_field().convert(x ** (-6)), FracElement)","isinstance(ZZ[exp(Rational(1, 3))].get_field().convert(E), FracElement)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":true}}
 def test_FracElement_from_expr():
     x, y, z = symbols("x,y,z")
     F, X, Y, Z = field((x, y, z), ZZ)
@@ -241,16 +300,24 @@ def test_FracElement_from_expr():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FracField_nested(), test_FracField_nested produces the expected output) over Any ║
+# ║ Path(test_FracField_nested(), frac.numer == F1.poly_ring(x)(a + b) and frac.numer.coeffs() == [F1(a + b)] and frac.denom == F1.poly_ring(x)(1) and frac.numer == F3.poly_ring(x)(a + b) and frac.numer.coeffs() == [F3(a + b)] and frac.denom == F3.poly_ring(x)(1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FracField_nested : Any → {Any | frac.numer == F1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  frac.numer == F1.poly_ring(x)(a + b)           ║
+# ║   ensures:  frac.numer.coeffs() == [F1(a + b)]             ║
+# ║   ensures:  frac.denom == F1.poly_ring(x)(1)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FracField_nested : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b6488da325126d2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 61d0d0f83f12d8d6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracField_nested","kind":"function","src_hash":"534e995ec5d5e528","in":{"base":"Any"},"out":{"base":"Any","pred":"frac.numer == F1.poly_ring(x)(a + b) and frac.numer.coeffs() == [F1(a + b)] and frac.denom == F1.poly_ring(x)(1) and frac.numer == F3.poly_ring(x)(a + b) and frac.numer.coeffs() == [F3(a + b)] and frac.denom == F3.poly_ring(x)(1) and frac.numer == F1.poly_ring(x)(a + b) and frac.numer.coeffs() == [F1(a + b)] and frac.denom == F1.poly_ring(x)(1) and frac.numer == F3.poly_ring(x)(a + b) and frac.numer.coeffs() == [F3(a + b)] and frac.denom == F3.poly_ring(x)(1)"},"spec":{"lhs":"test_FracField_nested()","rhs":"test_FracField_nested produces the expected output","over":{"base":"Any"},"name":"test_FracField_nested_correct"},"guarantee":"test_FracField_nested produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracField_nested_correct","statement":"Path(test_FracField_nested(x), test_FracField_nested produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b6488da325126d2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracField_nested","kind":"function","src_hash":"534e995ec5d5e528","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: frac.numer == F1.poly_ring(x)(a + b) and frac.numer.coeffs() == [F1(a + b)] and frac.denom == F1.poly_ring(x)(1) and frac.numer == F3.poly_ring(x)(a + b) and frac.numer.coeffs() == [F3(a + b)] and frac.denom == F3.poly_ring(x)(1)"},"spec":{"lhs":"test_FracField_nested()","rhs":"frac.numer == F1.poly_ring(x)(a + b) and frac.numer.coeffs() == [F1(a + b)] and frac.denom == F1.poly_ring(x)(1) and frac.numer == F3.poly_ring(x)(a + b) and frac.numer.coeffs() == [F3(a + b)] and frac.denom == F3.poly_ring(x)(1)","over":{"base":"Any"},"name":"test_FracField_nested_correct"},"guarantee":"frac.numer == F1.poly_ring(x)(a + b); frac.numer.coeffs() == [F1(a + b)]; frac.denom == F1.poly_ring(x)(1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracField_nested_correct","statement":"Path(test_FracField_nested(x), frac.numer == F1.poly_ring(x)(a + b); frac.numer.coeffs() == [F1(a + b)]; frac.denom == F1.poly_ring(x)(1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61d0d0f83f12d8d6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["frac.numer == F1.poly_ring(x)(a + b)","frac.numer.coeffs() == [F1(a + b)]","frac.denom == F1.poly_ring(x)(1)","frac.numer == F3.poly_ring(x)(a + b)","frac.numer.coeffs() == [F3(a + b)]","frac.denom == F3.poly_ring(x)(1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_FracField_nested():
     a, b, x = symbols('a b x')
     F1 = ZZ.frac_field(a, b)
@@ -279,16 +346,24 @@ def test_FracField_nested():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FracElement__lt_le_gt_ge__(), test_FracElement__lt_le_gt_ge__ produces the expected output) over Any ║
+# ║ Path(test_FracElement__lt_le_gt_ge__(), F(1) < 1 / x < 1 / x ** 2 < 1 / x ** 3 and F(1) <= 1 / x <= 1 / x ** 2 <= 1 / x ** 3 and -7 / x < 1 / x < 3 / x < y / x < 1 / x ** 2 and -7 / x <= 1 / x <= 3 / x <= y / x <= 1 / x ** 2 and 1 / x ** 3 > 1 / x ** 2 > 1 / x > F(1) and 1 / x ** 3 >= 1 / x ** 2 >= 1 / x >= F(1) and 1 / x ** 2 > y / x > 3 / x > 1 / x > -7 / x and 1 / x ** 2 >= y / x >= 3 / x >= 1 / x >= -7 / x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FracElement__lt_le_gt_ge__ : Any → {Any | F(1) <...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  F(1) < 1 / x < 1 / x ** 2 < 1 / x ** 3         ║
+# ║   ensures:  F(1) <= 1 / x <= 1 / x ** 2 <= 1 / x ** 3      ║
+# ║   ensures:  -7 / x < 1 / x < 3 / x < y / x < 1 / x ** 2    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FracElement__lt_le_gt_ge__ : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da18b48db94aaadf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d2b41bb5e86c49b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracElement__lt_le_gt_ge__","kind":"function","src_hash":"47164bb0de6779d2","in":{"base":"Any"},"out":{"base":"Any","pred":"F(1) < 1 / x < 1 / x ** 2 < 1 / x ** 3 and F(1) <= 1 / x <= 1 / x ** 2 <= 1 / x ** 3 and -7 / x < 1 / x < 3 / x < y / x < 1 / x ** 2 and -7 / x <= 1 / x <= 3 / x <= y / x <= 1 / x ** 2 and 1 / x ** 3 > 1 / x ** 2 > 1 / x > F(1) and 1 / x ** 3 >= 1 / x ** 2 >= 1 / x >= F(1) and 1 / x ** 2 > y / x > 3 / x > 1 / x > -7 / x and 1 / x ** 2 >= y / x >= 3 / x >= 1 / x >= -7 / x"},"spec":{"lhs":"test_FracElement__lt_le_gt_ge__()","rhs":"test_FracElement__lt_le_gt_ge__ produces the expected output","over":{"base":"Any"},"name":"test_FracElement__lt_le_gt_ge___correct"},"guarantee":"test_FracElement__lt_le_gt_ge__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracElement__lt_le_gt_ge___correct","statement":"Path(test_FracElement__lt_le_gt_ge__(x), test_FracElement__lt_le_gt_ge__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da18b48db94aaadf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracElement__lt_le_gt_ge__","kind":"function","src_hash":"47164bb0de6779d2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: F(1) < 1 / x < 1 / x ** 2 < 1 / x ** 3 and F(1) <= 1 / x <= 1 / x ** 2 <= 1 / x ** 3 and -7 / x < 1 / x < 3 / x < y / x < 1 / x ** 2 and -7 / x <= 1 / x <= 3 / x <= y / x <= 1 / x ** 2 and 1 / x ** 3 > 1 / x ** 2 > 1 / x > F(1) and 1 / x ** 3 >= 1 / x ** 2 >= 1 / x >= F(1) and 1 / x ** 2 > y / x > 3 / x > 1 / x > -7 / x and 1 / x ** 2 >= y / x >= 3 / x >= 1 / x >= -7 / x"},"spec":{"lhs":"test_FracElement__lt_le_gt_ge__()","rhs":"F(1) < 1 / x < 1 / x ** 2 < 1 / x ** 3 and F(1) <= 1 / x <= 1 / x ** 2 <= 1 / x ** 3 and -7 / x < 1 / x < 3 / x < y / x < 1 / x ** 2 and -7 / x <= 1 / x <= 3 / x <= y / x <= 1 / x ** 2 and 1 / x ** 3 > 1 / x ** 2 > 1 / x > F(1) and 1 / x ** 3 >= 1 / x ** 2 >= 1 / x >= F(1) and 1 / x ** 2 > y / x > 3 / x > 1 / x > -7 / x and 1 / x ** 2 >= y / x >= 3 / x >= 1 / x >= -7 / x","over":{"base":"Any"},"name":"test_FracElement__lt_le_gt_ge___correct"},"guarantee":"F(1) < 1 / x < 1 / x ** 2 < 1 / x ** 3; F(1) <= 1 / x <= 1 / x ** 2 <= 1 / x ** 3; -7 / x < 1 / x < 3 / x < y / x < 1 / x ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracElement__lt_le_gt_ge___correct","statement":"Path(test_FracElement__lt_le_gt_ge__(x), F(1) < 1 / x < 1 / x ** 2 < 1 / x ** 3; F(1) <= 1 / x <= 1 / x ** 2 <= 1 / x ** 3; -7 / x < 1 / x < 3 / x < y / x < 1 / x ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d2b41bb5e86c49b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["F(1) < 1 / x < 1 / x ** 2 < 1 / x ** 3","F(1) <= 1 / x <= 1 / x ** 2 <= 1 / x ** 3","-7 / x < 1 / x < 3 / x < y / x < 1 / x ** 2","-7 / x <= 1 / x <= 3 / x <= y / x <= 1 / x ** 2","1 / x ** 3 > 1 / x ** 2 > 1 / x > F(1)","1 / x ** 3 >= 1 / x ** 2 >= 1 / x >= F(1)","1 / x ** 2 > y / x > 3 / x > 1 / x > -7 / x","1 / x ** 2 >= y / x >= 3 / x >= 1 / x >= -7 / x"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_FracElement__lt_le_gt_ge__():
     F, x, y = field("x,y", ZZ)
 
@@ -305,16 +380,23 @@ def test_FracElement__lt_le_gt_ge__():
     assert 1/x**2 >= y/x >= 3/x >= 1/x >= -7/x
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FracElement___neg__(), test_FracElement___neg__ produces the expected output) over Any ║
+# ║ Path(test_FracElement___neg__(), -f == g and -g == f) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FracElement___neg__ : Any → {Any | -f == g and -...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  -f == g                                        ║
+# ║   ensures:  -g == f                                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FracElement___neg__ : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d947c790c581350a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 67e1634534df445e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracElement___neg__","kind":"function","src_hash":"e2df233f886dac0a","in":{"base":"Any"},"out":{"base":"Any","pred":"-f == g and -g == f"},"spec":{"lhs":"test_FracElement___neg__()","rhs":"test_FracElement___neg__ produces the expected output","over":{"base":"Any"},"name":"test_FracElement___neg___correct"},"guarantee":"test_FracElement___neg__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracElement___neg___correct","statement":"Path(test_FracElement___neg__(x), test_FracElement___neg__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d947c790c581350a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracElement___neg__","kind":"function","src_hash":"e2df233f886dac0a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: -f == g and -g == f"},"spec":{"lhs":"test_FracElement___neg__()","rhs":"-f == g and -g == f","over":{"base":"Any"},"name":"test_FracElement___neg___correct"},"guarantee":"-f == g; -g == f","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracElement___neg___correct","statement":"Path(test_FracElement___neg__(x), -f == g; -g == f)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67e1634534df445e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["-f == g","-g == f"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_FracElement___neg__():
     F, x,y = field("x,y", QQ)
 
@@ -325,16 +407,24 @@ def test_FracElement___neg__():
     assert -g == f
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FracElement___add__(), test_FracElement___add__ produces the expected output) over Any ║
+# ║ Path(test_FracElement___add__(), f + g == g + f == (x + y) / (x * y) and x + F.ring.gens[0] == F.ring.gens[0] + x == 2 * x and x + 3 == 3 + x and x + QQ(3, 7) == QQ(3, 7) + x == (7 * x + 3) / 7 and dict(f.numer) == {(1, 0, 0, 0): 1, (0, 0, 0, 0): u * v} and dict(f.denom) == {(0, 1, 0, 0): 1, (0, 0, 0, 0): u * v}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FracElement___add__ : Any → {Any | f + g == g + ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f + g == g + f == (x + y) / (x * y)            ║
+# ║   ensures:  x + F.ring.gens[0] == F.ring.gens[0] + x ...   ║
+# ║   ensures:  x + 3 == 3 + x                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FracElement___add__ : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c486de73bd89e14  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd3a47ac56e305ae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracElement___add__","kind":"function","src_hash":"2323bf73b34a41bd","in":{"base":"Any"},"out":{"base":"Any","pred":"f + g == g + f == (x + y) / (x * y) and x + F.ring.gens[0] == F.ring.gens[0] + x == 2 * x and x + 3 == 3 + x and x + QQ(3, 7) == QQ(3, 7) + x == (7 * x + 3) / 7 and dict(f.numer) == {(1, 0, 0, 0): 1, (0, 0, 0, 0): u * v} and dict(f.denom) == {(0, 1, 0, 0): 1, (0, 0, 0, 0): u * v} and dict(f.numer) == {(1, 0, 0, 0): 1, (0, 0, 0, 0): u * v} and dict(f.denom) == {(0, 1, 0, 0): 1, (0, 0, 0, 0): u * v}"},"spec":{"lhs":"test_FracElement___add__()","rhs":"test_FracElement___add__ produces the expected output","over":{"base":"Any"},"name":"test_FracElement___add___correct"},"guarantee":"test_FracElement___add__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracElement___add___correct","statement":"Path(test_FracElement___add__(x), test_FracElement___add__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c486de73bd89e14"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracElement___add__","kind":"function","src_hash":"2323bf73b34a41bd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f + g == g + f == (x + y) / (x * y) and x + F.ring.gens[0] == F.ring.gens[0] + x == 2 * x and x + 3 == 3 + x and x + QQ(3, 7) == QQ(3, 7) + x == (7 * x + 3) / 7 and dict(f.numer) == {(1, 0, 0, 0): 1, (0, 0, 0, 0): u * v} and dict(f.denom) == {(0, 1, 0, 0): 1, (0, 0, 0, 0): u * v}"},"spec":{"lhs":"test_FracElement___add__()","rhs":"f + g == g + f == (x + y) / (x * y) and x + F.ring.gens[0] == F.ring.gens[0] + x == 2 * x and x + 3 == 3 + x and x + QQ(3, 7) == QQ(3, 7) + x == (7 * x + 3) / 7 and dict(f.numer) == {(1, 0, 0, 0): 1, (0, 0, 0, 0): u * v} and dict(f.denom) == {(0, 1, 0, 0): 1, (0, 0, 0, 0): u * v}","over":{"base":"Any"},"name":"test_FracElement___add___correct"},"guarantee":"f + g == g + f == (x + y) / (x * y); x + F.ring.gens[0] == F.ring.gens[0] + x == 2 * x; x + 3 == 3 + x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracElement___add___correct","statement":"Path(test_FracElement___add__(x), f + g == g + f == (x + y) / (x * y); x + F.ring.gens[0] == F.ring.gens[0] + x == 2 * x; x + 3 == 3 + x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd3a47ac56e305ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f + g == g + f == (x + y) / (x * y)","x + F.ring.gens[0] == F.ring.gens[0] + x == 2 * x","x + 3 == 3 + x","x + QQ(3, 7) == QQ(3, 7) + x == (7 * x + 3) / 7","dict(f.numer) == {(1, 0, 0, 0): 1, (0, 0, 0, 0): u * v}","dict(f.denom) == {(0, 1, 0, 0): 1, (0, 0, 0, 0): u * v}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_FracElement___add__():
     F, x,y = field("x,y", QQ)
 
@@ -362,16 +452,24 @@ def test_FracElement___add__():
     assert dict(f.denom) == {(0, 1, 0, 0): 1, (0, 0, 0, 0): u*v}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FracElement___sub__(), test_FracElement___sub__ produces the expected output) over Any ║
+# ║ Path(test_FracElement___sub__(), f - g == (-x + y) / (x * y) and x - F.ring.gens[0] == F.ring.gens[0] - x == 0 and x - 3 == -(3 - x) and x - QQ(3, 7) == -(QQ(3, 7) - x) == (7 * x - 3) / 7 and dict(f.numer) == {(1, 0, 0, 0): -1, (0, 0, 0, 0): u * v} and dict(f.denom) == {(0, 1, 0, 0): 1, (0, 0, 0, 0): -u * v}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FracElement___sub__ : Any → {Any | f - g == (-x ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f - g == (-x + y) / (x * y)                    ║
+# ║   ensures:  x - F.ring.gens[0] == F.ring.gens[0] - x ...   ║
+# ║   ensures:  x - 3 == -(3 - x)                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FracElement___sub__ : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb3205ceca44cb9c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7eca7780a0f593a0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracElement___sub__","kind":"function","src_hash":"d44dff24c10d16de","in":{"base":"Any"},"out":{"base":"Any","pred":"f - g == (-x + y) / (x * y) and x - F.ring.gens[0] == F.ring.gens[0] - x == 0 and x - 3 == -(3 - x) and x - QQ(3, 7) == -(QQ(3, 7) - x) == (7 * x - 3) / 7 and dict(f.numer) == {(1, 0, 0, 0): -1, (0, 0, 0, 0): u * v} and dict(f.denom) == {(0, 1, 0, 0): 1, (0, 0, 0, 0): -u * v} and dict(f.numer) == {(1, 0, 0, 0): -1, (0, 0, 0, 0): u * v} and dict(f.denom) == {(0, 1, 0, 0): 1, (0, 0, 0, 0): -u * v}"},"spec":{"lhs":"test_FracElement___sub__()","rhs":"test_FracElement___sub__ produces the expected output","over":{"base":"Any"},"name":"test_FracElement___sub___correct"},"guarantee":"test_FracElement___sub__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracElement___sub___correct","statement":"Path(test_FracElement___sub__(x), test_FracElement___sub__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb3205ceca44cb9c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracElement___sub__","kind":"function","src_hash":"d44dff24c10d16de","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f - g == (-x + y) / (x * y) and x - F.ring.gens[0] == F.ring.gens[0] - x == 0 and x - 3 == -(3 - x) and x - QQ(3, 7) == -(QQ(3, 7) - x) == (7 * x - 3) / 7 and dict(f.numer) == {(1, 0, 0, 0): -1, (0, 0, 0, 0): u * v} and dict(f.denom) == {(0, 1, 0, 0): 1, (0, 0, 0, 0): -u * v}"},"spec":{"lhs":"test_FracElement___sub__()","rhs":"f - g == (-x + y) / (x * y) and x - F.ring.gens[0] == F.ring.gens[0] - x == 0 and x - 3 == -(3 - x) and x - QQ(3, 7) == -(QQ(3, 7) - x) == (7 * x - 3) / 7 and dict(f.numer) == {(1, 0, 0, 0): -1, (0, 0, 0, 0): u * v} and dict(f.denom) == {(0, 1, 0, 0): 1, (0, 0, 0, 0): -u * v}","over":{"base":"Any"},"name":"test_FracElement___sub___correct"},"guarantee":"f - g == (-x + y) / (x * y); x - F.ring.gens[0] == F.ring.gens[0] - x == 0; x - 3 == -(3 - x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracElement___sub___correct","statement":"Path(test_FracElement___sub__(x), f - g == (-x + y) / (x * y); x - F.ring.gens[0] == F.ring.gens[0] - x == 0; x - 3 == -(3 - x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7eca7780a0f593a0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f - g == (-x + y) / (x * y)","x - F.ring.gens[0] == F.ring.gens[0] - x == 0","x - 3 == -(3 - x)","x - QQ(3, 7) == -(QQ(3, 7) - x) == (7 * x - 3) / 7","dict(f.numer) == {(1, 0, 0, 0): -1, (0, 0, 0, 0): u * v}","dict(f.denom) == {(0, 1, 0, 0): 1, (0, 0, 0, 0): -u * v}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_FracElement___sub__():
     F, x,y = field("x,y", QQ)
 
@@ -399,16 +497,24 @@ def test_FracElement___sub__():
     assert dict(f.denom) == {(0, 1, 0, 0): 1, (0, 0, 0, 0):-u*v}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FracElement___mul__(), test_FracElement___mul__ produces the expected output) over Any ║
+# ║ Path(test_FracElement___mul__(), f * g == g * f == 1 / (x * y) and x * F.ring.gens[0] == F.ring.gens[0] * x == x ** 2 and x * 3 == 3 * x and x * QQ(3, 7) == QQ(3, 7) * x == x * Rational(3, 7) and dict(f.numer) == {(1, 1, 0, 0): u + 1, (0, 0, 0, 0): 1} and dict(f.denom) == {(0, 0, 1, 0): v - 1, (0, 0, 0, 1): -u * v, (0, 0, 0, 0): -1}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FracElement___mul__ : Any → {Any | f * g == g * ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f * g == g * f == 1 / (x * y)                  ║
+# ║   ensures:  x * F.ring.gens[0] == F.ring.gens[0] * x ...   ║
+# ║   ensures:  x * 3 == 3 * x                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FracElement___mul__ : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 12c60a05a7d4567d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4121855ff840bce6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracElement___mul__","kind":"function","src_hash":"3b1dcc5585cd97d3","in":{"base":"Any"},"out":{"base":"Any","pred":"f * g == g * f == 1 / (x * y) and x * F.ring.gens[0] == F.ring.gens[0] * x == x ** 2 and x * 3 == 3 * x and x * QQ(3, 7) == QQ(3, 7) * x == x * Rational(3, 7) and dict(f.numer) == {(1, 1, 0, 0): u + 1, (0, 0, 0, 0): 1} and dict(f.denom) == {(0, 0, 1, 0): v - 1, (0, 0, 0, 1): -u * v, (0, 0, 0, 0): -1} and dict(f.numer) == {(1, 1, 0, 0): u + 1, (0, 0, 0, 0): 1} and dict(f.denom) == {(0, 0, 1, 0): v - 1, (0, 0, 0, 1): -u * v, (0, 0, 0, 0): -1}"},"spec":{"lhs":"test_FracElement___mul__()","rhs":"test_FracElement___mul__ produces the expected output","over":{"base":"Any"},"name":"test_FracElement___mul___correct"},"guarantee":"test_FracElement___mul__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracElement___mul___correct","statement":"Path(test_FracElement___mul__(x), test_FracElement___mul__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12c60a05a7d4567d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracElement___mul__","kind":"function","src_hash":"3b1dcc5585cd97d3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f * g == g * f == 1 / (x * y) and x * F.ring.gens[0] == F.ring.gens[0] * x == x ** 2 and x * 3 == 3 * x and x * QQ(3, 7) == QQ(3, 7) * x == x * Rational(3, 7) and dict(f.numer) == {(1, 1, 0, 0): u + 1, (0, 0, 0, 0): 1} and dict(f.denom) == {(0, 0, 1, 0): v - 1, (0, 0, 0, 1): -u * v, (0, 0, 0, 0): -1}"},"spec":{"lhs":"test_FracElement___mul__()","rhs":"f * g == g * f == 1 / (x * y) and x * F.ring.gens[0] == F.ring.gens[0] * x == x ** 2 and x * 3 == 3 * x and x * QQ(3, 7) == QQ(3, 7) * x == x * Rational(3, 7) and dict(f.numer) == {(1, 1, 0, 0): u + 1, (0, 0, 0, 0): 1} and dict(f.denom) == {(0, 0, 1, 0): v - 1, (0, 0, 0, 1): -u * v, (0, 0, 0, 0): -1}","over":{"base":"Any"},"name":"test_FracElement___mul___correct"},"guarantee":"f * g == g * f == 1 / (x * y); x * F.ring.gens[0] == F.ring.gens[0] * x == x ** 2; x * 3 == 3 * x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracElement___mul___correct","statement":"Path(test_FracElement___mul__(x), f * g == g * f == 1 / (x * y); x * F.ring.gens[0] == F.ring.gens[0] * x == x ** 2; x * 3 == 3 * x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4121855ff840bce6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f * g == g * f == 1 / (x * y)","x * F.ring.gens[0] == F.ring.gens[0] * x == x ** 2","x * 3 == 3 * x","x * QQ(3, 7) == QQ(3, 7) * x == x * Rational(3, 7)","dict(f.numer) == {(1, 1, 0, 0): u + 1, (0, 0, 0, 0): 1}","dict(f.denom) == {(0, 0, 1, 0): v - 1, (0, 0, 0, 1): -u * v, (0, 0, 0, 0): -1}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_FracElement___mul__():
     F, x,y = field("x,y", QQ)
 
@@ -436,16 +542,24 @@ def test_FracElement___mul__():
     assert dict(f.denom) == {(0, 0, 1, 0): v - 1, (0, 0, 0, 1): -u*v, (0, 0, 0, 0): -1}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FracElement___truediv__(), test_FracElement___truediv__ produces the expected output) over Any ║
+# ║ Path(test_FracElement___truediv__(), f / g == y / x and x / F.ring.gens[0] == F.ring.gens[0] / x == 1 and x * 3 == 3 * x and x / QQ(3, 7) == (QQ(3, 7) / x) ** (-1) == x * Rational(7, 3) and dict(f.numer) == {(0, 0, 0, 0): u * v} and dict(f.denom) == {(1, 1, 0, 0): 1} and dict(g.numer) == {(1, 1, 0, 0): 1} and dict(g.denom) == {(0, 0, 0, 0): u * v}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FracElement___truediv__ : Any → {Any | f / g == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f / g == y / x                                 ║
+# ║   ensures:  x / F.ring.gens[0] == F.ring.gens[0] / x ...   ║
+# ║   ensures:  x * 3 == 3 * x                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FracElement___truediv__ : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 581d3c85e4b5f333  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da8de3e5becf47f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracElement___truediv__","kind":"function","src_hash":"492495c4fd85b4ef","in":{"base":"Any"},"out":{"base":"Any","pred":"f / g == y / x and x / F.ring.gens[0] == F.ring.gens[0] / x == 1 and x * 3 == 3 * x and x / QQ(3, 7) == (QQ(3, 7) / x) ** (-1) == x * Rational(7, 3) and dict(f.numer) == {(0, 0, 0, 0): u * v} and dict(f.denom) == {(1, 1, 0, 0): 1} and dict(g.numer) == {(1, 1, 0, 0): 1} and dict(g.denom) == {(0, 0, 0, 0): u * v} and dict(f.numer) == {(0, 0, 0, 0): u * v} and dict(f.denom) == {(1, 1, 0, 0): 1} and dict(g.numer) == {(1, 1, 0, 0): 1} and dict(g.denom) == {(0, 0, 0, 0): u * v}"},"spec":{"lhs":"test_FracElement___truediv__()","rhs":"test_FracElement___truediv__ produces the expected output","over":{"base":"Any"},"name":"test_FracElement___truediv___correct"},"guarantee":"test_FracElement___truediv__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracElement___truediv___correct","statement":"Path(test_FracElement___truediv__(x), test_FracElement___truediv__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"581d3c85e4b5f333"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracElement___truediv__","kind":"function","src_hash":"492495c4fd85b4ef","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f / g == y / x and x / F.ring.gens[0] == F.ring.gens[0] / x == 1 and x * 3 == 3 * x and x / QQ(3, 7) == (QQ(3, 7) / x) ** (-1) == x * Rational(7, 3) and dict(f.numer) == {(0, 0, 0, 0): u * v} and dict(f.denom) == {(1, 1, 0, 0): 1} and dict(g.numer) == {(1, 1, 0, 0): 1} and dict(g.denom) == {(0, 0, 0, 0): u * v}"},"spec":{"lhs":"test_FracElement___truediv__()","rhs":"f / g == y / x and x / F.ring.gens[0] == F.ring.gens[0] / x == 1 and x * 3 == 3 * x and x / QQ(3, 7) == (QQ(3, 7) / x) ** (-1) == x * Rational(7, 3) and dict(f.numer) == {(0, 0, 0, 0): u * v} and dict(f.denom) == {(1, 1, 0, 0): 1} and dict(g.numer) == {(1, 1, 0, 0): 1} and dict(g.denom) == {(0, 0, 0, 0): u * v}","over":{"base":"Any"},"name":"test_FracElement___truediv___correct"},"guarantee":"f / g == y / x; x / F.ring.gens[0] == F.ring.gens[0] / x == 1; x * 3 == 3 * x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracElement___truediv___correct","statement":"Path(test_FracElement___truediv__(x), f / g == y / x; x / F.ring.gens[0] == F.ring.gens[0] / x == 1; x * 3 == 3 * x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da8de3e5becf47f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f / g == y / x","x / F.ring.gens[0] == F.ring.gens[0] / x == 1","x * 3 == 3 * x","x / QQ(3, 7) == (QQ(3, 7) / x) ** (-1) == x * Rational(7, 3)","dict(f.numer) == {(0, 0, 0, 0): u * v}","dict(f.denom) == {(1, 1, 0, 0): 1}","dict(g.numer) == {(1, 1, 0, 0): 1}","dict(g.denom) == {(0, 0, 0, 0): u * v}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":true}}
 def test_FracElement___truediv__():
     F, x,y = field("x,y", QQ)
 
@@ -485,16 +599,24 @@ def test_FracElement___truediv__():
     assert dict(g.denom) == {(0, 0, 0, 0): u*v}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FracElement___pow__(), test_FracElement___pow__ produces the expected output) over Any ║
+# ║ Path(test_FracElement___pow__(), f ** 3 == 1 / x ** 3 and g ** 3 == 1 / y ** 3 and (f * g) ** 3 == 1 / (x ** 3 * y ** 3) and (f * g) ** (-3) == (x * y) ** 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FracElement___pow__ : Any → {Any | f ** 3 == 1 /...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f ** 3 == 1 / x ** 3                           ║
+# ║   ensures:  g ** 3 == 1 / y ** 3                           ║
+# ║   ensures:  (f * g) ** 3 == 1 / (x ** 3 * y ** 3)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FracElement___pow__ : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1d5e7c7c485b87d1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97c1d33a46e8ee50  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracElement___pow__","kind":"function","src_hash":"de202e0eeb4f787e","in":{"base":"Any"},"out":{"base":"Any","pred":"f ** 3 == 1 / x ** 3 and g ** 3 == 1 / y ** 3 and (f * g) ** 3 == 1 / (x ** 3 * y ** 3) and (f * g) ** (-3) == (x * y) ** 3"},"spec":{"lhs":"test_FracElement___pow__()","rhs":"test_FracElement___pow__ produces the expected output","over":{"base":"Any"},"name":"test_FracElement___pow___correct"},"guarantee":"test_FracElement___pow__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracElement___pow___correct","statement":"Path(test_FracElement___pow__(x), test_FracElement___pow__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d5e7c7c485b87d1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracElement___pow__","kind":"function","src_hash":"de202e0eeb4f787e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f ** 3 == 1 / x ** 3 and g ** 3 == 1 / y ** 3 and (f * g) ** 3 == 1 / (x ** 3 * y ** 3) and (f * g) ** (-3) == (x * y) ** 3"},"spec":{"lhs":"test_FracElement___pow__()","rhs":"f ** 3 == 1 / x ** 3 and g ** 3 == 1 / y ** 3 and (f * g) ** 3 == 1 / (x ** 3 * y ** 3) and (f * g) ** (-3) == (x * y) ** 3","over":{"base":"Any"},"name":"test_FracElement___pow___correct"},"guarantee":"f ** 3 == 1 / x ** 3; g ** 3 == 1 / y ** 3; (f * g) ** 3 == 1 / (x ** 3 * y ** 3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracElement___pow___correct","statement":"Path(test_FracElement___pow__(x), f ** 3 == 1 / x ** 3; g ** 3 == 1 / y ** 3; (f * g) ** 3 == 1 / (x ** 3 * y ** 3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97c1d33a46e8ee50","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f ** 3 == 1 / x ** 3","g ** 3 == 1 / y ** 3","(f * g) ** 3 == 1 / (x ** 3 * y ** 3)","(f * g) ** (-3) == (x * y) ** 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_FracElement___pow__():
     F, x,y = field("x,y", QQ)
 
@@ -509,16 +631,22 @@ def test_FracElement___pow__():
     raises(ZeroDivisionError, lambda: (x - x)**-3)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FracElement_diff(), test_FracElement_diff produces the expected output) over Any ║
+# ║ Path(test_FracElement_diff(), ((x ** 2 + y) / (z + 1)).diff(x) == 2 * x / (z + 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FracElement_diff : Any → {Any | ((x ** 2 + y) / ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ((x ** 2 + y) / (z + 1)).diff(x) == 2 * x...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FracElement_diff : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c874f25c5cda1056  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed993d615ba5f205  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracElement_diff","kind":"function","src_hash":"4538133d0670739d","in":{"base":"Any"},"out":{"base":"Any","pred":"((x ** 2 + y) / (z + 1)).diff(x) == 2 * x / (z + 1)"},"spec":{"lhs":"test_FracElement_diff()","rhs":"test_FracElement_diff produces the expected output","over":{"base":"Any"},"name":"test_FracElement_diff_correct"},"guarantee":"test_FracElement_diff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracElement_diff_correct","statement":"Path(test_FracElement_diff(x), test_FracElement_diff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c874f25c5cda1056"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracElement_diff","kind":"function","src_hash":"4538133d0670739d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ((x ** 2 + y) / (z + 1)).diff(x) == 2 * x / (z + 1)"},"spec":{"lhs":"test_FracElement_diff()","rhs":"((x ** 2 + y) / (z + 1)).diff(x) == 2 * x / (z + 1)","over":{"base":"Any"},"name":"test_FracElement_diff_correct"},"guarantee":"((x ** 2 + y) / (z + 1)).diff(x) == 2 * x / (z + 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracElement_diff_correct","statement":"Path(test_FracElement_diff(x), ((x ** 2 + y) / (z + 1)).diff(x) == 2 * x / (z + 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed993d615ba5f205","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["((x ** 2 + y) / (z + 1)).diff(x) == 2 * x / (z + 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_FracElement_diff():
     F, x,y,z = field("x,y,z", ZZ)
 
@@ -526,7 +654,10 @@ def test_FracElement_diff():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FracElement___call__(), test_FracElement___call__ produces the expected output) over {Any | isinstance(r, FracElement)} ║
+# ║ Path(test_FracElement___call__(), r == 4 and (not isinstance(r, FracElement))) over {Any | isinstance(r, FracElement)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  r == 4 and (not isinstance(r, FracElement))    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_FracElement___call__ : {Any | isinstance(r, Frac...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -538,9 +669,12 @@ def test_FracElement_diff():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 836375f6...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracElement___call__","kind":"function","src_hash":"b70d7a7917aad526","in":{"base":"Any","pred":"isinstance(r, FracElement)"},"out":{"base":"Any","pred":"r == 4 and (not isinstance(r, FracElement))"},"spec":{"lhs":"test_FracElement___call__()","rhs":"test_FracElement___call__ produces the expected output","over":{"base":"Any","pred":"isinstance(r, FracElement)"},"name":"test_FracElement___call___correct"},"guarantee":"test_FracElement___call__ produces the expected output","fibers":[{"name":"FracElement","pred":"isinstance(r, FracElement)","path":{"lhs":"test_FracElement___call__(x)","rhs":"test_FracElement___call__ produces the expected output","over":{"base":"FracElement","pred":"isinstance(r, FracElement)"},"name":"test_FracElement___call___FracElement_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracElement___call___FracElement_correct","statement":"test_FracElement___call__ satisfies spec on FracElement inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"836375f62e8cd527"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracElement___call__","kind":"function","src_hash":"b70d7a7917aad526","in":{"base":"Any","pred":"isinstance(r, FracElement)"},"out":{"base":"Any","pred":"result satisfies: r == 4 and (not isinstance(r, FracElement))"},"spec":{"lhs":"test_FracElement___call__()","rhs":"r == 4 and (not isinstance(r, FracElement))","over":{"base":"Any","pred":"isinstance(r, FracElement)"},"name":"test_FracElement___call___correct"},"guarantee":"r == 4 and (not isinstance(r, FracElement))","fibers":[{"name":"FracElement","pred":"isinstance(r, FracElement)","path":{"lhs":"test_FracElement___call__(x)","rhs":"r == 4 and (not isinstance(r, FracElement))","over":{"base":"FracElement","pred":"isinstance(r, FracElement)"},"name":"test_FracElement___call___FracElement_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracElement___call___FracElement_correct","statement":"test_FracElement___call__ satisfies spec on FracElement inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"836375f62e8cd527","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["r == 4 and (not isinstance(r, FracElement))"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":true}}
 def test_FracElement___call__():
     F, x,y,z = field("x,y,z", ZZ)
     f = (x**2 + 3*y)/z
@@ -550,16 +684,22 @@ def test_FracElement___call__():
     raises(ZeroDivisionError, lambda: f(1, 1, 0))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FracElement_evaluate(), test_FracElement_evaluate produces the expected output) over Any ║
+# ║ Path(test_FracElement_evaluate(), f.evaluate(x, 0) == 3 * Fyz.y / Fyz.z) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FracElement_evaluate : Any → {Any | f.evaluate(x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.evaluate(x, 0) == 3 * Fyz.y / Fyz.z          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FracElement_evaluate : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0143c01752d327bf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7601d07497c159d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracElement_evaluate","kind":"function","src_hash":"2ca39eb0fc1f8e28","in":{"base":"Any"},"out":{"base":"Any","pred":"f.evaluate(x, 0) == 3 * Fyz.y / Fyz.z"},"spec":{"lhs":"test_FracElement_evaluate()","rhs":"test_FracElement_evaluate produces the expected output","over":{"base":"Any"},"name":"test_FracElement_evaluate_correct"},"guarantee":"test_FracElement_evaluate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracElement_evaluate_correct","statement":"Path(test_FracElement_evaluate(x), test_FracElement_evaluate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0143c01752d327bf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracElement_evaluate","kind":"function","src_hash":"2ca39eb0fc1f8e28","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.evaluate(x, 0) == 3 * Fyz.y / Fyz.z"},"spec":{"lhs":"test_FracElement_evaluate()","rhs":"f.evaluate(x, 0) == 3 * Fyz.y / Fyz.z","over":{"base":"Any"},"name":"test_FracElement_evaluate_correct"},"guarantee":"f.evaluate(x, 0) == 3 * Fyz.y / Fyz.z","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracElement_evaluate_correct","statement":"Path(test_FracElement_evaluate(x), f.evaluate(x, 0) == 3 * Fyz.y / Fyz.z)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7601d07497c159d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.evaluate(x, 0) == 3 * Fyz.y / Fyz.z"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_FracElement_evaluate():
     F, x,y,z = field("x,y,z", ZZ)
     Fyz = field("y,z", ZZ)[0]
@@ -569,16 +709,22 @@ def test_FracElement_evaluate():
     raises(ZeroDivisionError, lambda: f.evaluate(z, 0))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FracElement_subs(), test_FracElement_subs produces the expected output) over Any ║
+# ║ Path(test_FracElement_subs(), f.subs(x, 0) == 3 * y / z) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FracElement_subs : Any → {Any | f.subs(x, 0) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.subs(x, 0) == 3 * y / z                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FracElement_subs : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 648366433f1ef1cf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1825555bdbe59891  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracElement_subs","kind":"function","src_hash":"33a819844c6c8b3d","in":{"base":"Any"},"out":{"base":"Any","pred":"f.subs(x, 0) == 3 * y / z"},"spec":{"lhs":"test_FracElement_subs()","rhs":"test_FracElement_subs produces the expected output","over":{"base":"Any"},"name":"test_FracElement_subs_correct"},"guarantee":"test_FracElement_subs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracElement_subs_correct","statement":"Path(test_FracElement_subs(x), test_FracElement_subs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"648366433f1ef1cf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracElement_subs","kind":"function","src_hash":"33a819844c6c8b3d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.subs(x, 0) == 3 * y / z"},"spec":{"lhs":"test_FracElement_subs()","rhs":"f.subs(x, 0) == 3 * y / z","over":{"base":"Any"},"name":"test_FracElement_subs_correct"},"guarantee":"f.subs(x, 0) == 3 * y / z","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracElement_subs_correct","statement":"Path(test_FracElement_subs(x), f.subs(x, 0) == 3 * y / z)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1825555bdbe59891","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.subs(x, 0) == 3 * y / z"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_FracElement_subs():
     F, x,y,z = field("x,y,z", ZZ)
     f = (x**2 + 3*y)/z
@@ -587,30 +733,43 @@ def test_FracElement_subs():
     raises(ZeroDivisionError, lambda: f.subs(z, 0))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FracElement_compose(), test_FracElement_compose produces the expected output) over Any ║
+# ║ Path(test_FracElement_compose(), <unspecified:test_FracElement_compose>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_FracElement_compose : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 28af2afcda3e290d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracElement_compose","kind":"function","src_hash":"9a6a8389be8317ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_FracElement_compose()","rhs":"test_FracElement_compose produces the expected output","over":{"base":"Any"},"name":"test_FracElement_compose_correct"},"guarantee":"test_FracElement_compose produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"28af2afcda3e290d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracElement_compose","kind":"function","src_hash":"9a6a8389be8317ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_FracElement_compose()","rhs":"<unspecified:test_FracElement_compose>","over":{"base":"Any"},"name":"test_FracElement_compose_correct"},"guarantee":"test_FracElement_compose produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"28af2afcda3e290d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def test_FracElement_compose():
     pass
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FracField_index(), test_FracField_index produces the expected output) over Any ║
+# ║ Path(test_FracField_index(), F.index(x) == 0 and F.index(y) == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FracField_index : Any → {Any | F.index(x) == 0 a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  F.index(x) == 0                                ║
+# ║   ensures:  F.index(y) == 1                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FracField_index : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b0ad452a2767613  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d5189a41c265db8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracField_index","kind":"function","src_hash":"734177b3cc009ce2","in":{"base":"Any"},"out":{"base":"Any","pred":"F.index(x) == 0 and F.index(y) == 1"},"spec":{"lhs":"test_FracField_index()","rhs":"test_FracField_index produces the expected output","over":{"base":"Any"},"name":"test_FracField_index_correct"},"guarantee":"test_FracField_index produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracField_index_correct","statement":"Path(test_FracField_index(x), test_FracField_index produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b0ad452a2767613"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_fields.test_FracField_index","kind":"function","src_hash":"734177b3cc009ce2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: F.index(x) == 0 and F.index(y) == 1"},"spec":{"lhs":"test_FracField_index()","rhs":"F.index(x) == 0 and F.index(y) == 1","over":{"base":"Any"},"name":"test_FracField_index_correct"},"guarantee":"F.index(x) == 0; F.index(y) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_fields.test_FracField_index_correct","statement":"Path(test_FracField_index(x), F.index(x) == 0; F.index(y) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d5189a41c265db8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["F.index(x) == 0","F.index(y) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_FracField_index():
     a = symbols("a")
     F, x, y, z = field('x y z', QQ)

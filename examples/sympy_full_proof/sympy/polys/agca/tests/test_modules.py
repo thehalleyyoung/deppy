@@ -25,16 +25,24 @@ from sympy.core.numbers import Rational
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FreeModuleElement(), test_FreeModuleElement produces the expected output) over Any ║
+# ║ Path(test_FreeModuleElement(), list(e) == f and f[0] == e[0] and f[1] == e[1] and f[2] == e[2] and e + g == M.convert([x + 1, x, x ** 2]) and f + g == M.convert([x + 1, x, x ** 2]) and -e == M.convert([-1, -x, -x ** 2]) and e - g == M.convert([1 - x, x, x ** 2]) and e != g and M.convert([x, x, x]) / QQ.old_poly_ring(x).convert(x) == [1, 1, 1] and R.free_module(1).convert([x]) / R.convert(x) == [1]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FreeModuleElement : Any → {Any | list(e) == f an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(e) == f                                   ║
+# ║   ensures:  f[0] == e[0]                                   ║
+# ║   ensures:  f[1] == e[1]                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FreeModuleElement : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 535621141affaa05  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 60d30e26196caf35  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_modules.test_FreeModuleElement","kind":"function","src_hash":"d8ca786d06f2a1cb","in":{"base":"Any"},"out":{"base":"Any","pred":"list(e) == f and f[0] == e[0] and f[1] == e[1] and f[2] == e[2] and e + g == M.convert([x + 1, x, x ** 2]) and f + g == M.convert([x + 1, x, x ** 2]) and -e == M.convert([-1, -x, -x ** 2]) and e - g == M.convert([1 - x, x, x ** 2]) and e != g and M.convert([x, x, x]) / QQ.old_poly_ring(x).convert(x) == [1, 1, 1] and R.free_module(1).convert([x]) / R.convert(x) == [1]"},"spec":{"lhs":"test_FreeModuleElement()","rhs":"test_FreeModuleElement produces the expected output","over":{"base":"Any"},"name":"test_FreeModuleElement_correct"},"guarantee":"test_FreeModuleElement produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_modules.test_FreeModuleElement_correct","statement":"Path(test_FreeModuleElement(x), test_FreeModuleElement produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"535621141affaa05"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_modules.test_FreeModuleElement","kind":"function","src_hash":"d8ca786d06f2a1cb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(e) == f and f[0] == e[0] and f[1] == e[1] and f[2] == e[2] and e + g == M.convert([x + 1, x, x ** 2]) and f + g == M.convert([x + 1, x, x ** 2]) and -e == M.convert([-1, -x, -x ** 2]) and e - g == M.convert([1 - x, x, x ** 2]) and e != g and M.convert([x, x, x]) / QQ.old_poly_ring(x).convert(x) == [1, 1, 1] and R.free_module(1).convert([x]) / R.convert(x) == [1]"},"spec":{"lhs":"test_FreeModuleElement()","rhs":"list(e) == f and f[0] == e[0] and f[1] == e[1] and f[2] == e[2] and e + g == M.convert([x + 1, x, x ** 2]) and f + g == M.convert([x + 1, x, x ** 2]) and -e == M.convert([-1, -x, -x ** 2]) and e - g == M.convert([1 - x, x, x ** 2]) and e != g and M.convert([x, x, x]) / QQ.old_poly_ring(x).convert(x) == [1, 1, 1] and R.free_module(1).convert([x]) / R.convert(x) == [1]","over":{"base":"Any"},"name":"test_FreeModuleElement_correct"},"guarantee":"list(e) == f; f[0] == e[0]; f[1] == e[1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_modules.test_FreeModuleElement_correct","statement":"Path(test_FreeModuleElement(x), list(e) == f; f[0] == e[0]; f[1] == e[1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60d30e26196caf35","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(e) == f","f[0] == e[0]","f[1] == e[1]","f[2] == e[2]","e + g == M.convert([x + 1, x, x ** 2])","f + g == M.convert([x + 1, x, x ** 2])","-e == M.convert([-1, -x, -x ** 2])","e - g == M.convert([1 - x, x, x ** 2])","e != g","M.convert([x, x, x]) / QQ.old_poly_ring(x).convert(x) == [1, 1, 1]","R.free_module(1).convert([x]) / R.convert(x) == [1]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_FreeModuleElement():
     M = QQ.old_poly_ring(x).free_module(3)
     e = M.convert([1, x, x**2])
@@ -58,16 +66,24 @@ def test_FreeModuleElement():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FreeModule(), test_FreeModule produces the expected output) over Any ║
+# ║ Path(test_FreeModule(), M1 == FreeModule(QQ.old_poly_ring(x), 2) and M1 != FreeModule(QQ.old_poly_ring(y), 2) and M1 != FreeModule(QQ.old_poly_ring(x), 3) and [x, 1] in M1 and [x] not in M1 and [2, y] not in M1 and [1 / (x + 1), 2] not in M1 and e == [X, X ** 2 + 1] and e == [x, x ** 2 + 1] and 2 * e == [2 * x, 2 * x ** 2 + 2] and e * 2 == [2 * x, 2 * x ** 2 + 2] and e / 2 == [x / 2, (x ** 2 + 1) / 2] and x * e == [x ** 2, x ** 3 + x] and e * x == [x ** 2, x ** 3 + x] and X * e == [x ** 2, x ** 3 + x] and e * X == [x ** 2, x ** 3 + x] and [x, 1] in M2 and [x] not in M2 and [2, y] not in M2 and [1 / (x + 1), 2] in M2 and e / (1 + x) == [x / (1 + x), (x ** 2 + 1) / (1 + x)] and M3.convert(e) == M3.convert([x, x ** 2 + 1]) and not M3.is_submodule(0) and not M3.is_zero()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FreeModule : Any → {Any | M1 == FreeModule(QQ.ol...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  M1 == FreeModule(QQ.old_poly_ring(x), 2)       ║
+# ║   ensures:  M1 != FreeModule(QQ.old_poly_ring(y), 2)       ║
+# ║   ensures:  M1 != FreeModule(QQ.old_poly_ring(x), 3)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FreeModule : Any → {Any | result satisfies: M1 =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 50c8b64e8799571b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b417e55fdd8b7ea6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_modules.test_FreeModule","kind":"function","src_hash":"673e4b74da5745f6","in":{"base":"Any"},"out":{"base":"Any","pred":"M1 == FreeModule(QQ.old_poly_ring(x), 2) and M1 != FreeModule(QQ.old_poly_ring(y), 2) and M1 != FreeModule(QQ.old_poly_ring(x), 3) and [x, 1] in M1 and [x] not in M1 and [2, y] not in M1 and [1 / (x + 1), 2] not in M1 and e == [X, X ** 2 + 1] and e == [x, x ** 2 + 1] and 2 * e == [2 * x, 2 * x ** 2 + 2] and e * 2 == [2 * x, 2 * x ** 2 + 2] and e / 2 == [x / 2, (x ** 2 + 1) / 2] and x * e == [x ** 2, x ** 3 + x] and e * x == [x ** 2, x ** 3 + x] and X * e == [x ** 2, x ** 3 + x] and e * X == [x ** 2, x ** 3 + x] and [x, 1] in M2 and [x] not in M2 and [2, y] not in M2 and [1 / (x + 1), 2] in M2 and e == [X, X ** 2 + 1] and e == [x, x ** 2 + 1] and 2 * e == [2 * x, 2 * x ** 2 + 2] and e * 2 == [2 * x, 2 * x ** 2 + 2] and e / 2 == [x / 2, (x ** 2 + 1) / 2] and x * e == [x ** 2, x ** 3 + x] and e * x == [x ** 2, x ** 3 + x] and e / (1 + x) == [x / (1 + x), (x ** 2 + 1) / (1 + x)] and X * e == [x ** 2, x ** 3 + x] and e * X == [x ** 2, x ** 3 + x] and M3.convert(e) == M3.convert([x, x ** 2 + 1]) and not M3.is_submodule(0) and not M3.is_zero()"},"spec":{"lhs":"test_FreeModule()","rhs":"test_FreeModule produces the expected output","over":{"base":"Any"},"name":"test_FreeModule_correct"},"guarantee":"test_FreeModule produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_modules.test_FreeModule_correct","statement":"Path(test_FreeModule(x), test_FreeModule produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50c8b64e8799571b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_modules.test_FreeModule","kind":"function","src_hash":"673e4b74da5745f6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: M1 == FreeModule(QQ.old_poly_ring(x), 2) and M1 != FreeModule(QQ.old_poly_ring(y), 2) and M1 != FreeModule(QQ.old_poly_ring(x), 3) and [x, 1] in M1 and [x] not in M1 and [2, y] not in M1 and [1 / (x + 1), 2] not in M1 and e == [X, X ** 2 + 1] and e == [x, x ** 2 + 1] and 2 * e == [2 * x, 2 * x ** 2 + 2] and e * 2 == [2 * x, 2 * x ** 2 + 2] and e / 2 == [x / 2, (x ** 2 + 1) / 2] and x * e == [x ** 2, x ** 3 + x] and e * x == [x ** 2, x ** 3 + x] and X * e == [x ** 2, x ** 3 + x] and e * X == [x ** 2, x ** 3 + x] and [x, 1] in M2 and [x] not in M2 and [2, y] not in M2 and [1 / (x + 1), 2] in M2 and e / (1 + x) == [x / (1 + x), (x ** 2 + 1) / (1 + x)] and M3.convert(e) == M3.convert([x, x ** 2 + 1]) and not M3.is_submodule(0) and not M3.is_zero()"},"spec":{"lhs":"test_FreeModule()","rhs":"M1 == FreeModule(QQ.old_poly_ring(x), 2) and M1 != FreeModule(QQ.old_poly_ring(y), 2) and M1 != FreeModule(QQ.old_poly_ring(x), 3) and [x, 1] in M1 and [x] not in M1 and [2, y] not in M1 and [1 / (x + 1), 2] not in M1 and e == [X, X ** 2 + 1] and e == [x, x ** 2 + 1] and 2 * e == [2 * x, 2 * x ** 2 + 2] and e * 2 == [2 * x, 2 * x ** 2 + 2] and e / 2 == [x / 2, (x ** 2 + 1) / 2] and x * e == [x ** 2, x ** 3 + x] and e * x == [x ** 2, x ** 3 + x] and X * e == [x ** 2, x ** 3 + x] and e * X == [x ** 2, x ** 3 + x] and [x, 1] in M2 and [x] not in M2 and [2, y] not in M2 and [1 / (x + 1), 2] in M2 and e / (1 + x) == [x / (1 + x), (x ** 2 + 1) / (1 + x)] and M3.convert(e) == M3.convert([x, x ** 2 + 1]) and not M3.is_submodule(0) and not M3.is_zero()","over":{"base":"Any"},"name":"test_FreeModule_correct"},"guarantee":"M1 == FreeModule(QQ.old_poly_ring(x), 2); M1 != FreeModule(QQ.old_poly_ring(y), 2); M1 != FreeModule(QQ.old_poly_ring(x), 3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_modules.test_FreeModule_correct","statement":"Path(test_FreeModule(x), M1 == FreeModule(QQ.old_poly_ring(x), 2); M1 != FreeModule(QQ.old_poly_ring(y), 2); M1 != FreeModule(QQ.old_poly_ring(x), 3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b417e55fdd8b7ea6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["M1 == FreeModule(QQ.old_poly_ring(x), 2)","M1 != FreeModule(QQ.old_poly_ring(y), 2)","M1 != FreeModule(QQ.old_poly_ring(x), 3)","[x, 1] in M1","[x] not in M1","[2, y] not in M1","[1 / (x + 1), 2] not in M1","e == [X, X ** 2 + 1]","e == [x, x ** 2 + 1]","2 * e == [2 * x, 2 * x ** 2 + 2]","e * 2 == [2 * x, 2 * x ** 2 + 2]","e / 2 == [x / 2, (x ** 2 + 1) / 2]","x * e == [x ** 2, x ** 3 + x]","e * x == [x ** 2, x ** 3 + x]","X * e == [x ** 2, x ** 3 + x]","e * X == [x ** 2, x ** 3 + x]","[x, 1] in M2","[x] not in M2","[2, y] not in M2","[1 / (x + 1), 2] in M2","e / (1 + x) == [x / (1 + x), (x ** 2 + 1) / (1 + x)]","M3.convert(e) == M3.convert([x, x ** 2 + 1])","not M3.is_submodule(0)","not M3.is_zero()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_FreeModule():
     M1 = FreeModule(QQ.old_poly_ring(x), 2)
     assert M1 == FreeModule(QQ.old_poly_ring(x), 2)
@@ -124,16 +140,24 @@ def test_FreeModule():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ModuleOrder(), test_ModuleOrder produces the expected output) over Any ║
+# ║ Path(test_ModuleOrder(), o1 == ModuleOrder(lex, grlex, False) and (o1 != ModuleOrder(lex, grlex, False)) is False and o1 != o2 and o1((1, 2, 3)) == (1, (5, (2, 3))) and o2((1, 2, 3)) == (-1, (2, 3))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ModuleOrder : Any → {Any | o1 == ModuleOrder(lex...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  o1 == ModuleOrder(lex, grlex, False)           ║
+# ║   ensures:  (o1 != ModuleOrder(lex, grlex, False)) is...   ║
+# ║   ensures:  o1 != o2                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ModuleOrder : Any → {Any | result satisfies: o1 ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78530904ea3a7786  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c383e21ec37f1c9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_modules.test_ModuleOrder","kind":"function","src_hash":"1f7d3156a8be9e81","in":{"base":"Any"},"out":{"base":"Any","pred":"o1 == ModuleOrder(lex, grlex, False) and (o1 != ModuleOrder(lex, grlex, False)) is False and o1 != o2 and o1((1, 2, 3)) == (1, (5, (2, 3))) and o2((1, 2, 3)) == (-1, (2, 3))"},"spec":{"lhs":"test_ModuleOrder()","rhs":"test_ModuleOrder produces the expected output","over":{"base":"Any"},"name":"test_ModuleOrder_correct"},"guarantee":"test_ModuleOrder produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_modules.test_ModuleOrder_correct","statement":"Path(test_ModuleOrder(x), test_ModuleOrder produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78530904ea3a7786"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_modules.test_ModuleOrder","kind":"function","src_hash":"1f7d3156a8be9e81","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: o1 == ModuleOrder(lex, grlex, False) and (o1 != ModuleOrder(lex, grlex, False)) is False and o1 != o2 and o1((1, 2, 3)) == (1, (5, (2, 3))) and o2((1, 2, 3)) == (-1, (2, 3))"},"spec":{"lhs":"test_ModuleOrder()","rhs":"o1 == ModuleOrder(lex, grlex, False) and (o1 != ModuleOrder(lex, grlex, False)) is False and o1 != o2 and o1((1, 2, 3)) == (1, (5, (2, 3))) and o2((1, 2, 3)) == (-1, (2, 3))","over":{"base":"Any"},"name":"test_ModuleOrder_correct"},"guarantee":"o1 == ModuleOrder(lex, grlex, False); (o1 != ModuleOrder(lex, grlex, False)) is False; o1 != o2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_modules.test_ModuleOrder_correct","statement":"Path(test_ModuleOrder(x), o1 == ModuleOrder(lex, grlex, False); (o1 != ModuleOrder(lex, grlex, False)) is False; o1 != o2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c383e21ec37f1c9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["o1 == ModuleOrder(lex, grlex, False)","(o1 != ModuleOrder(lex, grlex, False)) is False","o1 != o2","o1((1, 2, 3)) == (1, (5, (2, 3)))","o2((1, 2, 3)) == (-1, (2, 3))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_ModuleOrder():
     o1 = ModuleOrder(lex, grlex, False)
     o2 = ModuleOrder(ilex, lex, False)
@@ -147,16 +171,24 @@ def test_ModuleOrder():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_SubModulePolyRing_global(), test_SubModulePolyRing_global produces the expected output) over Any ║
+# ║ Path(test_SubModulePolyRing_global(), F == Fd and Fd == F and F != M and M != F and Fd != M and M != Fd and Fd == F.submodule(*F.basis()) and Fd.is_full_module() and not M.is_full_module() and not Fd.is_zero() and not M.is_zero() and Fd.submodule().is_zero() and M.contains([x ** 2 + y ** 2 + x, 1 + y, 1]) and not M.contains([x ** 2 + y ** 2 + x, 1 + y, 2]) and M.contains([y ** 2, 1 - x * y, -x]) and not F.submodule([1 + x, 0, 0]) == F.submodule([1, 0, 0]) and F.submodule([1, 0, 0], [0, 1, 0]).union(F.submodule([0, 0, 1])) == F and not M.is_submodule(0) and m.module is F and n.module is M and F.submodule([x, x, x]) != F.submodule([x, x, x], order='ilex')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_SubModulePolyRing_global : Any → {Any | F == Fd ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  F == Fd                                        ║
+# ║   ensures:  Fd == F                                        ║
+# ║   ensures:  F != M                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_SubModulePolyRing_global : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 693cd76a9697dfec  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a7e43193090e752  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_modules.test_SubModulePolyRing_global","kind":"function","src_hash":"b174fa7bf77c28c9","in":{"base":"Any"},"out":{"base":"Any","pred":"F == Fd and Fd == F and F != M and M != F and Fd != M and M != Fd and Fd == F.submodule(*F.basis()) and Fd.is_full_module() and not M.is_full_module() and not Fd.is_zero() and not M.is_zero() and Fd.submodule().is_zero() and M.contains([x ** 2 + y ** 2 + x, 1 + y, 1]) and not M.contains([x ** 2 + y ** 2 + x, 1 + y, 2]) and M.contains([y ** 2, 1 - x * y, -x]) and not F.submodule([1 + x, 0, 0]) == F.submodule([1, 0, 0]) and F.submodule([1, 0, 0], [0, 1, 0]).union(F.submodule([0, 0, 1])) == F and not M.is_submodule(0) and m.module is F and n.module is M and F.submodule([x, x, x]) != F.submodule([x, x, x], order='ilex')"},"spec":{"lhs":"test_SubModulePolyRing_global()","rhs":"test_SubModulePolyRing_global produces the expected output","over":{"base":"Any"},"name":"test_SubModulePolyRing_global_correct"},"guarantee":"test_SubModulePolyRing_global produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_modules.test_SubModulePolyRing_global_correct","statement":"Path(test_SubModulePolyRing_global(x), test_SubModulePolyRing_global produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"693cd76a9697dfec"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_modules.test_SubModulePolyRing_global","kind":"function","src_hash":"b174fa7bf77c28c9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: F == Fd and Fd == F and F != M and M != F and Fd != M and M != Fd and Fd == F.submodule(*F.basis()) and Fd.is_full_module() and not M.is_full_module() and not Fd.is_zero() and not M.is_zero() and Fd.submodule().is_zero() and M.contains([x ** 2 + y ** 2 + x, 1 + y, 1]) and not M.contains([x ** 2 + y ** 2 + x, 1 + y, 2]) and M.contains([y ** 2, 1 - x * y, -x]) and not F.submodule([1 + x, 0, 0]) == F.submodule([1, 0, 0]) and F.submodule([1, 0, 0], [0, 1, 0]).union(F.submodule([0, 0, 1])) == F and not M.is_submodule(0) and m.module is F and n.module is M and F.submodule([x, x, x]) != F.submodule([x, x, x], order='ilex')"},"spec":{"lhs":"test_SubModulePolyRing_global()","rhs":"F == Fd and Fd == F and F != M and M != F and Fd != M and M != Fd and Fd == F.submodule(*F.basis()) and Fd.is_full_module() and not M.is_full_module() and not Fd.is_zero() and not M.is_zero() and Fd.submodule().is_zero() and M.contains([x ** 2 + y ** 2 + x, 1 + y, 1]) and not M.contains([x ** 2 + y ** 2 + x, 1 + y, 2]) and M.contains([y ** 2, 1 - x * y, -x]) and not F.submodule([1 + x, 0, 0]) == F.submodule([1, 0, 0]) and F.submodule([1, 0, 0], [0, 1, 0]).union(F.submodule([0, 0, 1])) == F and not M.is_submodule(0) and m.module is F and n.module is M and F.submodule([x, x, x]) != F.submodule([x, x, x], order='ilex')","over":{"base":"Any"},"name":"test_SubModulePolyRing_global_correct"},"guarantee":"F == Fd; Fd == F; F != M","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_modules.test_SubModulePolyRing_global_correct","statement":"Path(test_SubModulePolyRing_global(x), F == Fd; Fd == F; F != M)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a7e43193090e752","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["F == Fd","Fd == F","F != M","M != F","Fd != M","M != Fd","Fd == F.submodule(*F.basis())","Fd.is_full_module()","not M.is_full_module()","not Fd.is_zero()","not M.is_zero()","Fd.submodule().is_zero()","M.contains([x ** 2 + y ** 2 + x, 1 + y, 1])","not M.contains([x ** 2 + y ** 2 + x, 1 + y, 2])","M.contains([y ** 2, 1 - x * y, -x])","not F.submodule([1 + x, 0, 0]) == F.submodule([1, 0, 0])","F.submodule([1, 0, 0], [0, 1, 0]).union(F.submodule([0, 0, 1])) == F","not M.is_submodule(0)","m.module is F","n.module is M","F.submodule([x, x, x]) != F.submodule([x, x, x], order='ilex')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_SubModulePolyRing_global():
     R = QQ.old_poly_ring(x, y)
     F = R.free_module(3)
@@ -198,16 +230,24 @@ def test_SubModulePolyRing_global():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_SubModulePolyRing_local(), test_SubModulePolyRing_local produces the expected output) over Any ║
+# ║ Path(test_SubModulePolyRing_local(), F == Fd and Fd == F and F != M and M != F and Fd != M and M != Fd and Fd == F.submodule(*F.basis()) and Fd.is_full_module() and not M.is_full_module() and not Fd.is_zero() and not M.is_zero() and Fd.submodule().is_zero() and M.contains([x ** 2 + y ** 2 + x, 1 + y, 1]) and not M.contains([x ** 2 + y ** 2 + x, 1 + y, 2]) and M.contains([y ** 2, 1 - x * y, -x]) and F.submodule([1 + x, 0, 0]) == F.submodule([1, 0, 0]) and F.submodule([1, 0, 0], [0, 1, 0]).union(F.submodule([0, 0, 1 + x * y])) == F) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_SubModulePolyRing_local : Any → {Any | F == Fd a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  F == Fd                                        ║
+# ║   ensures:  Fd == F                                        ║
+# ║   ensures:  F != M                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_SubModulePolyRing_local : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 36f8ec9143a9e1ad  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e3ac0a9d74d9da1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_modules.test_SubModulePolyRing_local","kind":"function","src_hash":"08fdbf212bd3ff36","in":{"base":"Any"},"out":{"base":"Any","pred":"F == Fd and Fd == F and F != M and M != F and Fd != M and M != Fd and Fd == F.submodule(*F.basis()) and Fd.is_full_module() and not M.is_full_module() and not Fd.is_zero() and not M.is_zero() and Fd.submodule().is_zero() and M.contains([x ** 2 + y ** 2 + x, 1 + y, 1]) and not M.contains([x ** 2 + y ** 2 + x, 1 + y, 2]) and M.contains([y ** 2, 1 - x * y, -x]) and F.submodule([1 + x, 0, 0]) == F.submodule([1, 0, 0]) and F.submodule([1, 0, 0], [0, 1, 0]).union(F.submodule([0, 0, 1 + x * y])) == F"},"spec":{"lhs":"test_SubModulePolyRing_local()","rhs":"test_SubModulePolyRing_local produces the expected output","over":{"base":"Any"},"name":"test_SubModulePolyRing_local_correct"},"guarantee":"test_SubModulePolyRing_local produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_modules.test_SubModulePolyRing_local_correct","statement":"Path(test_SubModulePolyRing_local(x), test_SubModulePolyRing_local produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36f8ec9143a9e1ad"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_modules.test_SubModulePolyRing_local","kind":"function","src_hash":"08fdbf212bd3ff36","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: F == Fd and Fd == F and F != M and M != F and Fd != M and M != Fd and Fd == F.submodule(*F.basis()) and Fd.is_full_module() and not M.is_full_module() and not Fd.is_zero() and not M.is_zero() and Fd.submodule().is_zero() and M.contains([x ** 2 + y ** 2 + x, 1 + y, 1]) and not M.contains([x ** 2 + y ** 2 + x, 1 + y, 2]) and M.contains([y ** 2, 1 - x * y, -x]) and F.submodule([1 + x, 0, 0]) == F.submodule([1, 0, 0]) and F.submodule([1, 0, 0], [0, 1, 0]).union(F.submodule([0, 0, 1 + x * y])) == F"},"spec":{"lhs":"test_SubModulePolyRing_local()","rhs":"F == Fd and Fd == F and F != M and M != F and Fd != M and M != Fd and Fd == F.submodule(*F.basis()) and Fd.is_full_module() and not M.is_full_module() and not Fd.is_zero() and not M.is_zero() and Fd.submodule().is_zero() and M.contains([x ** 2 + y ** 2 + x, 1 + y, 1]) and not M.contains([x ** 2 + y ** 2 + x, 1 + y, 2]) and M.contains([y ** 2, 1 - x * y, -x]) and F.submodule([1 + x, 0, 0]) == F.submodule([1, 0, 0]) and F.submodule([1, 0, 0], [0, 1, 0]).union(F.submodule([0, 0, 1 + x * y])) == F","over":{"base":"Any"},"name":"test_SubModulePolyRing_local_correct"},"guarantee":"F == Fd; Fd == F; F != M","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_modules.test_SubModulePolyRing_local_correct","statement":"Path(test_SubModulePolyRing_local(x), F == Fd; Fd == F; F != M)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e3ac0a9d74d9da1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["F == Fd","Fd == F","F != M","M != F","Fd != M","M != Fd","Fd == F.submodule(*F.basis())","Fd.is_full_module()","not M.is_full_module()","not Fd.is_zero()","not M.is_zero()","Fd.submodule().is_zero()","M.contains([x ** 2 + y ** 2 + x, 1 + y, 1])","not M.contains([x ** 2 + y ** 2 + x, 1 + y, 2])","M.contains([y ** 2, 1 - x * y, -x])","F.submodule([1 + x, 0, 0]) == F.submodule([1, 0, 0])","F.submodule([1, 0, 0], [0, 1, 0]).union(F.submodule([0, 0, 1 + x * y])) == F"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_SubModulePolyRing_local():
     R = QQ.old_poly_ring(x, y, order=ilex)
     F = R.free_module(3)
@@ -242,14 +282,23 @@ def test_SubModulePolyRing_local():
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(test_SubModulePolyRing_nontriv_global(), id) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  contains([x, y], x)                            ║
+# ║   ensures:  contains([x, y], x + y)                        ║
+# ║   ensures:  not contains([x, y], 1)                        ║
+# ║   returns:  F.submodule(*[[g] for g in I]).contains([f])   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ test_SubModulePolyRing_nontriv_global : Any → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 9e7e0cb075e49476   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_modules.test_SubModulePolyRing_nontriv_global","kind":"function","src_hash":"dad7f1715a56919f","in":{"base":"Any"},"out":{"base":"Any","pred":"contains([x, y], x) and contains([x, y], x + y) and not contains([x, y], 1) and not contains([x, y], z) and contains([x ** 2 + y, x ** 2 + x], x - y) and not contains([x + y + z, x * y + x * z + y * z, x * y * z], x ** 2) and contains([x + y + z, x * y + x * z + y * z, x * y * z], x ** 3) and contains([x + y + z, x * y + x * z + y * z, x * y * z], x ** 4) and not contains([x + y + z, x * y + x * z + y * z, x * y * z], x * y ** 2) and contains([x + y + z, x * y + x * z + y * z, x * y * z], x * y * z) and contains([x, 1 + x + y, 5 - 7 * y], 1) and not contains([x * (1 + x + y), y * (1 + z)], x) and not contains([x * (1 + x + y), y * (1 + z)], x + y)"},"spec":{"lhs":"test_SubModulePolyRing_nontriv_global()","rhs":"test_SubModulePolyRing_nontriv_global produces the expected output","over":{"base":"Any"},"name":"test_SubModulePolyRing_nontriv_global_correct","kind":"composition"},"guarantee":"test_SubModulePolyRing_nontriv_global produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"submodule","by":"library_axiom"},{"fn":"contains","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e7e0cb075e49476"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_modules.test_SubModulePolyRing_nontriv_global","kind":"function","src_hash":"dad7f1715a56919f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (F.submodule(*[[g] for g in I]).contains([f]))"},"spec":{"lhs":"test_SubModulePolyRing_nontriv_global()","rhs":"F.submodule(*[[g] for g in I]).contains([f])","over":{"base":"Any"},"name":"test_SubModulePolyRing_nontriv_global_correct","kind":"composition"},"guarantee":"returns F.submodule(*[[g] for g in I]).contains([f]); contains([x, y], x); contains([x, y], x + y); not contains([x, y], 1)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"submodule","by":"library_axiom"},{"fn":"contains","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e7e0cb075e49476","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["contains([x, y], x)","contains([x, y], x + y)","not contains([x, y], 1)","not contains([x, y], z)","contains([x ** 2 + y, x ** 2 + x], x - y)","not contains([x + y + z, x * y + x * z + y * z, x * y * z], x ** 2)","contains([x + y + z, x * y + x * z + y * z, x * y * z], x ** 3)","contains([x + y + z, x * y + x * z + y * z, x * y * z], x ** 4)","not contains([x + y + z, x * y + x * z + y * z, x * y * z], x * y ** 2)","contains([x + y + z, x * y + x * z + y * z, x * y * z], x ** 4 + y ** 3 + 2 * z * y * x)","contains([x + y + z, x * y + x * z + y * z, x * y * z], x * y * z)","contains([x, 1 + x + y, 5 - 7 * y], 1)","contains([x ** 3 + y ** 3, y ** 3 + z ** 3, z ** 3 + x ** 3, x ** 2 * y + x ** 2 * z + y ** 2 * z], x ** 3)","not contains([x ** 3 + y ** 3, y ** 3 + z ** 3, z ** 3 + x ** 3, x ** 2 * y + x ** 2 * z + y ** 2 * z], x ** 2 + y ** 2)","not contains([x * (1 + x + y), y * (1 + z)], x)","not contains([x * (1 + x + y), y * (1 + z)], x + y)"],"returns_expr":"F.submodule(*[[g] for g in I]).contains([f])","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_SubModulePolyRing_nontriv_global():
     R = QQ.old_poly_ring(x, y, z)
     F = R.free_module(1)
@@ -284,14 +333,23 @@ def test_SubModulePolyRing_nontriv_global():
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(test_SubModulePolyRing_nontriv_local(), id) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_SubModulePolyRing_nontriv_local : Any → {Any | c...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  contains([x, y], x)                            ║
+# ║   ensures:  contains([x, y], x + y)                        ║
+# ║   ensures:  not contains([x, y], 1)                        ║
+# ║   returns:  F.submodule(*[[g] for g in I]).contains([f])   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_SubModulePolyRing_nontriv_local : Any → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 0df6e88ad96b6ba7   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_modules.test_SubModulePolyRing_nontriv_local","kind":"function","src_hash":"b0445cbf0f23ab27","in":{"base":"Any"},"out":{"base":"Any","pred":"contains([x, y], x) and contains([x, y], x + y) and not contains([x, y], 1) and not contains([x, y], z) and contains([x ** 2 + y, x ** 2 + x], x - y) and not contains([x + y + z, x * y + x * z + y * z, x * y * z], x ** 2) and contains([x * (1 + x + y), y * (1 + z)], x) and contains([x * (1 + x + y), y * (1 + z)], x + y)"},"spec":{"lhs":"test_SubModulePolyRing_nontriv_local()","rhs":"test_SubModulePolyRing_nontriv_local produces the expected output","over":{"base":"Any"},"name":"test_SubModulePolyRing_nontriv_local_correct","kind":"composition"},"guarantee":"test_SubModulePolyRing_nontriv_local produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"submodule","by":"library_axiom"},{"fn":"contains","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0df6e88ad96b6ba7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_modules.test_SubModulePolyRing_nontriv_local","kind":"function","src_hash":"b0445cbf0f23ab27","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (F.submodule(*[[g] for g in I]).contains([f]))"},"spec":{"lhs":"test_SubModulePolyRing_nontriv_local()","rhs":"F.submodule(*[[g] for g in I]).contains([f])","over":{"base":"Any"},"name":"test_SubModulePolyRing_nontriv_local_correct","kind":"composition"},"guarantee":"returns F.submodule(*[[g] for g in I]).contains([f]); contains([x, y], x); contains([x, y], x + y); not contains([x, y], 1)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"submodule","by":"library_axiom"},{"fn":"contains","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0df6e88ad96b6ba7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["contains([x, y], x)","contains([x, y], x + y)","not contains([x, y], 1)","not contains([x, y], z)","contains([x ** 2 + y, x ** 2 + x], x - y)","not contains([x + y + z, x * y + x * z + y * z, x * y * z], x ** 2)","contains([x * (1 + x + y), y * (1 + z)], x)","contains([x * (1 + x + y), y * (1 + z)], x + y)"],"returns_expr":"F.submodule(*[[g] for g in I]).contains([f])","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_SubModulePolyRing_nontriv_local():
     R = QQ.old_poly_ring(x, y, z, order=ilex)
     F = R.free_module(1)
@@ -310,16 +368,24 @@ def test_SubModulePolyRing_nontriv_local():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_syzygy(), test_syzygy produces the expected output) over Any ║
+# ║ Path(test_syzygy(), M.syzygy_module() == S and M2.syzygy_module() == S2 and F.submodule(*F.basis()).syzygy_module() == F.submodule() and M3.syzygy_module() == S3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_syzygy : Any → {Any | M.syzygy_module() == S and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  M.syzygy_module() == S                         ║
+# ║   ensures:  M2.syzygy_module() == S2                       ║
+# ║   ensures:  F.submodule(*F.basis()).syzygy_module() =...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_syzygy : Any → {Any | result satisfies: M.syzygy...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0653e4fa552ee97d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7fff3068396167c0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_modules.test_syzygy","kind":"function","src_hash":"15952460c57ad111","in":{"base":"Any"},"out":{"base":"Any","pred":"M.syzygy_module() == S and M2.syzygy_module() == S2 and F.submodule(*F.basis()).syzygy_module() == F.submodule() and M3.syzygy_module() == S3"},"spec":{"lhs":"test_syzygy()","rhs":"test_syzygy produces the expected output","over":{"base":"Any"},"name":"test_syzygy_correct"},"guarantee":"test_syzygy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_modules.test_syzygy_correct","statement":"Path(test_syzygy(x), test_syzygy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0653e4fa552ee97d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_modules.test_syzygy","kind":"function","src_hash":"15952460c57ad111","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: M.syzygy_module() == S and M2.syzygy_module() == S2 and F.submodule(*F.basis()).syzygy_module() == F.submodule() and M3.syzygy_module() == S3"},"spec":{"lhs":"test_syzygy()","rhs":"M.syzygy_module() == S and M2.syzygy_module() == S2 and F.submodule(*F.basis()).syzygy_module() == F.submodule() and M3.syzygy_module() == S3","over":{"base":"Any"},"name":"test_syzygy_correct"},"guarantee":"M.syzygy_module() == S; M2.syzygy_module() == S2; F.submodule(*F.basis()).syzygy_module() == F.submodule()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_modules.test_syzygy_correct","statement":"Path(test_syzygy(x), M.syzygy_module() == S; M2.syzygy_module() == S2; F.submodule(*F.basis()).syzygy_module() == F.submodule())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7fff3068396167c0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["M.syzygy_module() == S","M2.syzygy_module() == S2","F.submodule(*F.basis()).syzygy_module() == F.submodule()","M3.syzygy_module() == S3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_syzygy():
     R = QQ.old_poly_ring(x, y, z)
     M = R.free_module(1).submodule([x*y], [y*z], [x*z])
@@ -340,16 +406,24 @@ def test_syzygy():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_in_terms_of_generators(), test_in_terms_of_generators produces the expected output) over Any ║
+# ║ Path(test_in_terms_of_generators(), M.in_terms_of_generators([x, x]) == [R.convert(Rational(1, 4)), R.convert(x / 2)] and SM.in_terms_of_generators([2, 0]) == [R.convert(-2 / (x - 1))] and SM.in_terms_of_generators([x ** 2, x ** 2]) == [R.convert(x), R.convert(y)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_in_terms_of_generators : Any → {Any | SM.in_term...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  M.in_terms_of_generators([x, x]) == [R.co...   ║
+# ║   ensures:  SM.in_terms_of_generators([2, 0]) == [R.c...   ║
+# ║   ensures:  SM.in_terms_of_generators([x ** 2, x ** 2...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_in_terms_of_generators : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e61ea9e94c955d6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f60535464e5889f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_modules.test_in_terms_of_generators","kind":"function","src_hash":"18a1fa8e94a05eb3","in":{"base":"Any"},"out":{"base":"Any","pred":"SM.in_terms_of_generators([2, 0]) == [R.convert(-2 / (x - 1))] and SM.in_terms_of_generators([x ** 2, x ** 2]) == [R.convert(x), R.convert(y)]"},"spec":{"lhs":"test_in_terms_of_generators()","rhs":"test_in_terms_of_generators produces the expected output","over":{"base":"Any"},"name":"test_in_terms_of_generators_correct"},"guarantee":"test_in_terms_of_generators produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_modules.test_in_terms_of_generators_correct","statement":"Path(test_in_terms_of_generators(x), test_in_terms_of_generators produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e61ea9e94c955d6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_modules.test_in_terms_of_generators","kind":"function","src_hash":"18a1fa8e94a05eb3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: M.in_terms_of_generators([x, x]) == [R.convert(Rational(1, 4)), R.convert(x / 2)] and SM.in_terms_of_generators([2, 0]) == [R.convert(-2 / (x - 1))] and SM.in_terms_of_generators([x ** 2, x ** 2]) == [R.convert(x), R.convert(y)]"},"spec":{"lhs":"test_in_terms_of_generators()","rhs":"M.in_terms_of_generators([x, x]) == [R.convert(Rational(1, 4)), R.convert(x / 2)] and SM.in_terms_of_generators([2, 0]) == [R.convert(-2 / (x - 1))] and SM.in_terms_of_generators([x ** 2, x ** 2]) == [R.convert(x), R.convert(y)]","over":{"base":"Any"},"name":"test_in_terms_of_generators_correct"},"guarantee":"M.in_terms_of_generators([x, x]) == [R.convert(Rational(1, 4)), R.convert(x / 2)]; SM.in_terms_of_generators([2, 0]) == [R.convert(-2 / (x - 1))]; SM.in_terms_of_generators([x ** 2, x ** 2]) == [R.convert(x), R.convert(y)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_modules.test_in_terms_of_generators_correct","statement":"Path(test_in_terms_of_generators(x), M.in_terms_of_generators([x, x]) == [R.convert(Rational(1, 4)), R.convert(x / 2)]; SM.in_terms_of_generators([2, 0]) == [R.convert(-2 / (x - 1))]; SM.in_terms_of_generators([x ** 2, x ** 2]) == [R.convert(x), R.convert(y)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f60535464e5889f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["M.in_terms_of_generators([x, x]) == [R.convert(Rational(1, 4)), R.convert(x / 2)]","SM.in_terms_of_generators([2, 0]) == [R.convert(-2 / (x - 1))]","SM.in_terms_of_generators([x ** 2, x ** 2]) == [R.convert(x), R.convert(y)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_in_terms_of_generators():
     R = QQ.old_poly_ring(x, order="ilex")
     M = R.free_module(2).submodule([2*x, 0], [1, 2])
@@ -369,16 +443,24 @@ def test_in_terms_of_generators():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_QuotientModuleElement(), test_QuotientModuleElement produces the expected output) over Any ║
+# ║ Path(test_QuotientModuleElement(), M.convert([x + 1, x ** 2 + x, x ** 3 + x ** 2]) == 0 and e == [x ** 2, 2, 0] + N == F.convert([x ** 2, 2, 0]) + N == M.convert(F.convert([x ** 2, 2, 0])) and M.convert([x ** 2 + 1, 2 * x + 2, x ** 2]) == e + [0, x, 0] == e + M.convert([0, x, 0]) == e + F.convert([0, x, 0]) and M.convert([x ** 2 + 1, 2, x ** 2]) == e - [0, x, 0] == e - M.convert([0, x, 0]) == e - F.convert([0, x, 0]) and M.convert([0, 2, 0]) == M.convert([x ** 2, 4, 0]) - e == [x ** 2, 4, 0] - e == F.convert([x ** 2, 4, 0]) - e and M.convert([x ** 3 + x ** 2, 2 * x + 2, 0]) == (1 + x) * e == R.convert(1 + x) * e == e * (1 + x) == e * R.convert(1 + x) and -e == [-x ** 2, -2, 0] and M.convert([1, 1, 0]) == f / x == f / R.convert(x) and M2.convert(M.convert([2, x, x ** 2])) == [2, x, 0] and M.convert(M4.convert([2, 0, 0])) == [2, 0, 0]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_QuotientModuleElement : Any → {Any | M.convert([...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  M.convert([x + 1, x ** 2 + x, x ** 3 + x ...   ║
+# ║   ensures:  e == [x ** 2, 2, 0] + N == F.convert([x *...   ║
+# ║   ensures:  M.convert([x ** 2 + 1, 2 * x + 2, x ** 2]...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_QuotientModuleElement : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f2786157c343eb5e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc040b27af9e90ce  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_modules.test_QuotientModuleElement","kind":"function","src_hash":"bb725fe676b79274","in":{"base":"Any"},"out":{"base":"Any","pred":"M.convert([x + 1, x ** 2 + x, x ** 3 + x ** 2]) == 0 and -e == [-x ** 2, -2, 0] and M.convert([1, 1, 0]) == f / x == f / R.convert(x) and M2.convert(M.convert([2, x, x ** 2])) == [2, x, 0] and M.convert(M4.convert([2, 0, 0])) == [2, 0, 0]"},"spec":{"lhs":"test_QuotientModuleElement()","rhs":"test_QuotientModuleElement produces the expected output","over":{"base":"Any"},"name":"test_QuotientModuleElement_correct"},"guarantee":"test_QuotientModuleElement produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_modules.test_QuotientModuleElement_correct","statement":"Path(test_QuotientModuleElement(x), test_QuotientModuleElement produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2786157c343eb5e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_modules.test_QuotientModuleElement","kind":"function","src_hash":"bb725fe676b79274","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: M.convert([x + 1, x ** 2 + x, x ** 3 + x ** 2]) == 0 and e == [x ** 2, 2, 0] + N == F.convert([x ** 2, 2, 0]) + N == M.convert(F.convert([x ** 2, 2, 0])) and M.convert([x ** 2 + 1, 2 * x + 2, x ** 2]) == e + [0, x, 0] == e + M.convert([0, x, 0]) == e + F.convert([0, x, 0]) and M.convert([x ** 2 + 1, 2, x ** 2]) == e - [0, x, 0] == e - M.convert([0, x, 0]) == e - F.convert([0, x, 0]) and M.convert([0, 2, 0]) == M.convert([x ** 2, 4, 0]) - e == [x ** 2, 4, 0] - e == F.convert([x ** 2, 4, 0]) - e and M.convert([x ** 3 + x ** 2, 2 * x + 2, 0]) == (1 + x) * e == R.convert(1 + x) * e == e * (1 + x) == e * R.convert(1 + x) and -e == [-x ** 2, -2, 0] and M.convert([1, 1, 0]) == f / x == f / R.convert(x) and M2.convert(M.convert([2, x, x ** 2])) == [2, x, 0] and M.convert(M4.convert([2, 0, 0])) == [2, 0, 0]"},"spec":{"lhs":"test_QuotientModuleElement()","rhs":"M.convert([x + 1, x ** 2 + x, x ** 3 + x ** 2]) == 0 and e == [x ** 2, 2, 0] + N == F.convert([x ** 2, 2, 0]) + N == M.convert(F.convert([x ** 2, 2, 0])) and M.convert([x ** 2 + 1, 2 * x + 2, x ** 2]) == e + [0, x, 0] == e + M.convert([0, x, 0]) == e + F.convert([0, x, 0]) and M.convert([x ** 2 + 1, 2, x ** 2]) == e - [0, x, 0] == e - M.convert([0, x, 0]) == e - F.convert([0, x, 0]) and M.convert([0, 2, 0]) == M.convert([x ** 2, 4, 0]) - e == [x ** 2, 4, 0] - e == F.convert([x ** 2, 4, 0]) - e and M.convert([x ** 3 + x ** 2, 2 * x + 2, 0]) == (1 + x) * e == R.convert(1 + x) * e == e * (1 + x) == e * R.convert(1 + x) and -e == [-x ** 2, -2, 0] and M.convert([1, 1, 0]) == f / x == f / R.convert(x) and M2.convert(M.convert([2, x, x ** 2])) == [2, x, 0] and M.convert(M4.convert([2, 0, 0])) == [2, 0, 0]","over":{"base":"Any"},"name":"test_QuotientModuleElement_correct"},"guarantee":"M.convert([x + 1, x ** 2 + x, x ** 3 + x ** 2]) == 0; e == [x ** 2, 2, 0] + N == F.convert([x ** 2, 2, 0]) + N == M.convert(F.convert([x ** 2, 2, 0])); M.convert([x ** 2 + 1, 2 * x + 2, x ** 2]) == e + [0, x, 0] == e + M.convert([0, x, 0]) == e + F.convert([0, x, 0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_modules.test_QuotientModuleElement_correct","statement":"Path(test_QuotientModuleElement(x), M.convert([x + 1, x ** 2 + x, x ** 3 + x ** 2]) == 0; e == [x ** 2, 2, 0] + N == F.convert([x ** 2, 2, 0]) + N == M.convert(F.convert([x ** 2, 2, 0])); M.convert([x ** 2 + 1, 2 * x + 2, x ** 2]) == e + [0, x, 0] == e + M.convert([0, x, 0]) == e + F.convert([0, x, 0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc040b27af9e90ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["M.convert([x + 1, x ** 2 + x, x ** 3 + x ** 2]) == 0","e == [x ** 2, 2, 0] + N == F.convert([x ** 2, 2, 0]) + N == M.convert(F.convert([x ** 2, 2, 0]))","M.convert([x ** 2 + 1, 2 * x + 2, x ** 2]) == e + [0, x, 0] == e + M.convert([0, x, 0]) == e + F.convert([0, x, 0])","M.convert([x ** 2 + 1, 2, x ** 2]) == e - [0, x, 0] == e - M.convert([0, x, 0]) == e - F.convert([0, x, 0])","M.convert([0, 2, 0]) == M.convert([x ** 2, 4, 0]) - e == [x ** 2, 4, 0] - e == F.convert([x ** 2, 4, 0]) - e","M.convert([x ** 3 + x ** 2, 2 * x + 2, 0]) == (1 + x) * e == R.convert(1 + x) * e == e * (1 + x) == e * R.convert(1 + x)","-e == [-x ** 2, -2, 0]","M.convert([1, 1, 0]) == f / x == f / R.convert(x)","M2.convert(M.convert([2, x, x ** 2])) == [2, x, 0]","M.convert(M4.convert([2, 0, 0])) == [2, 0, 0]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_QuotientModuleElement():
     R = QQ.old_poly_ring(x)
     F = R.free_module(3)
@@ -415,16 +497,24 @@ def test_QuotientModuleElement():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_QuotientModule(), test_QuotientModule produces the expected output) over Any ║
+# ║ Path(test_QuotientModule(), M != F and M != N and M == F / [(1, x, x ** 2)] and not M.is_zero() and (F / F.basis()).is_zero() and SQ == M.submodule([2, x, x ** 2]) and SQ != M.submodule([2, 1, 0]) and SQ != M and M.is_submodule(SQ) and not SQ.is_full_module() and M1 == M2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_QuotientModule : Any → {Any | M != F and M != N ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  M != F                                         ║
+# ║   ensures:  M != N                                         ║
+# ║   ensures:  M == F / [(1, x, x ** 2)]                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_QuotientModule : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fd412fed6ab558c4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a14060a29c4bf3bf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_modules.test_QuotientModule","kind":"function","src_hash":"969177d1b5bb93fd","in":{"base":"Any"},"out":{"base":"Any","pred":"M != F and M != N and M == F / [(1, x, x ** 2)] and not M.is_zero() and (F / F.basis()).is_zero() and SQ == M.submodule([2, x, x ** 2]) and SQ != M.submodule([2, 1, 0]) and SQ != M and M.is_submodule(SQ) and not SQ.is_full_module() and M1 == M2"},"spec":{"lhs":"test_QuotientModule()","rhs":"test_QuotientModule produces the expected output","over":{"base":"Any"},"name":"test_QuotientModule_correct"},"guarantee":"test_QuotientModule produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_modules.test_QuotientModule_correct","statement":"Path(test_QuotientModule(x), test_QuotientModule produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd412fed6ab558c4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_modules.test_QuotientModule","kind":"function","src_hash":"969177d1b5bb93fd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: M != F and M != N and M == F / [(1, x, x ** 2)] and not M.is_zero() and (F / F.basis()).is_zero() and SQ == M.submodule([2, x, x ** 2]) and SQ != M.submodule([2, 1, 0]) and SQ != M and M.is_submodule(SQ) and not SQ.is_full_module() and M1 == M2"},"spec":{"lhs":"test_QuotientModule()","rhs":"M != F and M != N and M == F / [(1, x, x ** 2)] and not M.is_zero() and (F / F.basis()).is_zero() and SQ == M.submodule([2, x, x ** 2]) and SQ != M.submodule([2, 1, 0]) and SQ != M and M.is_submodule(SQ) and not SQ.is_full_module() and M1 == M2","over":{"base":"Any"},"name":"test_QuotientModule_correct"},"guarantee":"M != F; M != N; M == F / [(1, x, x ** 2)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_modules.test_QuotientModule_correct","statement":"Path(test_QuotientModule(x), M != F; M != N; M == F / [(1, x, x ** 2)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a14060a29c4bf3bf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["M != F","M != N","M == F / [(1, x, x ** 2)]","not M.is_zero()","(F / F.basis()).is_zero()","SQ == M.submodule([2, x, x ** 2])","SQ != M.submodule([2, 1, 0])","SQ != M","M.is_submodule(SQ)","not SQ.is_full_module()","M1 == M2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_QuotientModule():
     R = QQ.old_poly_ring(x)
     F = R.free_module(3)
@@ -455,16 +545,24 @@ def test_QuotientModule():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ModulesQuotientRing(), test_ModulesQuotientRing produces the expected output) over Any ║
+# ║ Path(test_ModulesQuotientRing(), M1 == R.free_module(2) and M1 != QQ.old_poly_ring(x).free_module(2) and M1 != R.free_module(3) and [x, 1] in M1 and [x] not in M1 and [1 / (R.convert(x) + 1), 2] in M1 and [1, 2 / (1 + y)] in M1 and [1, 2 / y] not in M1 and M1.convert([x ** 2, y]) == [-1, y] and F == Fd and Fd == F and F != M and M != F and Fd != M and M != Fd and Fd == F.submodule(*F.basis()) and Fd.is_full_module() and not M.is_full_module() and not Fd.is_zero() and not M.is_zero() and Fd.submodule().is_zero() and M.contains([x ** 2 + y ** 2 + x, -x ** 2 + y, 1]) and not M.contains([x ** 2 + y ** 2 + x, 1 + y, 2]) and M.contains([y ** 2, 1 - x * y, -x]) and F.submodule([x, 0, 0]) == F.submodule([1, 0, 0]) and not F.submodule([y, 0, 0]) == F.submodule([1, 0, 0]) and F.submodule([1, 0, 0], [0, 1, 0]).union(F.submodule([0, 0, 1])) == F and not M.is_submodule(0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ModulesQuotientRing : Any → {Any | M1 == R.free_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  M1 == R.free_module(2)                         ║
+# ║   ensures:  M1 != QQ.old_poly_ring(x).free_module(2)       ║
+# ║   ensures:  M1 != R.free_module(3)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ModulesQuotientRing : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 73ea48a799ac02dc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26e1802730fe34c8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_modules.test_ModulesQuotientRing","kind":"function","src_hash":"7bc76453231737b8","in":{"base":"Any"},"out":{"base":"Any","pred":"M1 == R.free_module(2) and M1 != QQ.old_poly_ring(x).free_module(2) and M1 != R.free_module(3) and [x, 1] in M1 and [x] not in M1 and [1 / (R.convert(x) + 1), 2] in M1 and [1, 2 / (1 + y)] in M1 and [1, 2 / y] not in M1 and M1.convert([x ** 2, y]) == [-1, y] and F == Fd and Fd == F and F != M and M != F and Fd != M and M != Fd and Fd == F.submodule(*F.basis()) and Fd.is_full_module() and not M.is_full_module() and not Fd.is_zero() and not M.is_zero() and Fd.submodule().is_zero() and M.contains([x ** 2 + y ** 2 + x, -x ** 2 + y, 1]) and not M.contains([x ** 2 + y ** 2 + x, 1 + y, 2]) and M.contains([y ** 2, 1 - x * y, -x]) and F.submodule([x, 0, 0]) == F.submodule([1, 0, 0]) and not F.submodule([y, 0, 0]) == F.submodule([1, 0, 0]) and F.submodule([1, 0, 0], [0, 1, 0]).union(F.submodule([0, 0, 1])) == F and not M.is_submodule(0)"},"spec":{"lhs":"test_ModulesQuotientRing()","rhs":"test_ModulesQuotientRing produces the expected output","over":{"base":"Any"},"name":"test_ModulesQuotientRing_correct"},"guarantee":"test_ModulesQuotientRing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_modules.test_ModulesQuotientRing_correct","statement":"Path(test_ModulesQuotientRing(x), test_ModulesQuotientRing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73ea48a799ac02dc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_modules.test_ModulesQuotientRing","kind":"function","src_hash":"7bc76453231737b8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: M1 == R.free_module(2) and M1 != QQ.old_poly_ring(x).free_module(2) and M1 != R.free_module(3) and [x, 1] in M1 and [x] not in M1 and [1 / (R.convert(x) + 1), 2] in M1 and [1, 2 / (1 + y)] in M1 and [1, 2 / y] not in M1 and M1.convert([x ** 2, y]) == [-1, y] and F == Fd and Fd == F and F != M and M != F and Fd != M and M != Fd and Fd == F.submodule(*F.basis()) and Fd.is_full_module() and not M.is_full_module() and not Fd.is_zero() and not M.is_zero() and Fd.submodule().is_zero() and M.contains([x ** 2 + y ** 2 + x, -x ** 2 + y, 1]) and not M.contains([x ** 2 + y ** 2 + x, 1 + y, 2]) and M.contains([y ** 2, 1 - x * y, -x]) and F.submodule([x, 0, 0]) == F.submodule([1, 0, 0]) and not F.submodule([y, 0, 0]) == F.submodule([1, 0, 0]) and F.submodule([1, 0, 0], [0, 1, 0]).union(F.submodule([0, 0, 1])) == F and not M.is_submodule(0)"},"spec":{"lhs":"test_ModulesQuotientRing()","rhs":"M1 == R.free_module(2) and M1 != QQ.old_poly_ring(x).free_module(2) and M1 != R.free_module(3) and [x, 1] in M1 and [x] not in M1 and [1 / (R.convert(x) + 1), 2] in M1 and [1, 2 / (1 + y)] in M1 and [1, 2 / y] not in M1 and M1.convert([x ** 2, y]) == [-1, y] and F == Fd and Fd == F and F != M and M != F and Fd != M and M != Fd and Fd == F.submodule(*F.basis()) and Fd.is_full_module() and not M.is_full_module() and not Fd.is_zero() and not M.is_zero() and Fd.submodule().is_zero() and M.contains([x ** 2 + y ** 2 + x, -x ** 2 + y, 1]) and not M.contains([x ** 2 + y ** 2 + x, 1 + y, 2]) and M.contains([y ** 2, 1 - x * y, -x]) and F.submodule([x, 0, 0]) == F.submodule([1, 0, 0]) and not F.submodule([y, 0, 0]) == F.submodule([1, 0, 0]) and F.submodule([1, 0, 0], [0, 1, 0]).union(F.submodule([0, 0, 1])) == F and not M.is_submodule(0)","over":{"base":"Any"},"name":"test_ModulesQuotientRing_correct"},"guarantee":"M1 == R.free_module(2); M1 != QQ.old_poly_ring(x).free_module(2); M1 != R.free_module(3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_modules.test_ModulesQuotientRing_correct","statement":"Path(test_ModulesQuotientRing(x), M1 == R.free_module(2); M1 != QQ.old_poly_ring(x).free_module(2); M1 != R.free_module(3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26e1802730fe34c8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["M1 == R.free_module(2)","M1 != QQ.old_poly_ring(x).free_module(2)","M1 != R.free_module(3)","[x, 1] in M1","[x] not in M1","[1 / (R.convert(x) + 1), 2] in M1","[1, 2 / (1 + y)] in M1","[1, 2 / y] not in M1","M1.convert([x ** 2, y]) == [-1, y]","F == Fd","Fd == F","F != M","M != F","Fd != M","M != Fd","Fd == F.submodule(*F.basis())","Fd.is_full_module()","not M.is_full_module()","not Fd.is_zero()","not M.is_zero()","Fd.submodule().is_zero()","M.contains([x ** 2 + y ** 2 + x, -x ** 2 + y, 1])","not M.contains([x ** 2 + y ** 2 + x, 1 + y, 2])","M.contains([y ** 2, 1 - x * y, -x])","F.submodule([x, 0, 0]) == F.submodule([1, 0, 0])","not F.submodule([y, 0, 0]) == F.submodule([1, 0, 0])","F.submodule([1, 0, 0], [0, 1, 0]).union(F.submodule([0, 0, 1])) == F","not M.is_submodule(0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_ModulesQuotientRing():
     R = QQ.old_poly_ring(x, y, order=(("lex", x), ("ilex", y))) / [x**2 + 1]
     M1 = R.free_module(2)
@@ -509,16 +607,23 @@ def test_ModulesQuotientRing():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_module_mul(), test_module_mul produces the expected output) over Any ║
+# ║ Path(test_module_mul(), I * M == M * I == S1 == x * M == M * x and I * S1 == S2 == x * S1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_module_mul : Any → {Any | I * M == M * I == S1 =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  I * M == M * I == S1 == x * M == M * x         ║
+# ║   ensures:  I * S1 == S2 == x * S1                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_module_mul : Any → {Any | result satisfies: I * ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 827c3cafca021054  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5a2baa9a60b8a1f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_modules.test_module_mul","kind":"function","src_hash":"b505ac73ee100a65","in":{"base":"Any"},"out":{"base":"Any","pred":"I * M == M * I == S1 == x * M == M * x and I * S1 == S2 == x * S1"},"spec":{"lhs":"test_module_mul()","rhs":"test_module_mul produces the expected output","over":{"base":"Any"},"name":"test_module_mul_correct"},"guarantee":"test_module_mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_modules.test_module_mul_correct","statement":"Path(test_module_mul(x), test_module_mul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"827c3cafca021054"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_modules.test_module_mul","kind":"function","src_hash":"b505ac73ee100a65","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: I * M == M * I == S1 == x * M == M * x and I * S1 == S2 == x * S1"},"spec":{"lhs":"test_module_mul()","rhs":"I * M == M * I == S1 == x * M == M * x and I * S1 == S2 == x * S1","over":{"base":"Any"},"name":"test_module_mul_correct"},"guarantee":"I * M == M * I == S1 == x * M == M * x; I * S1 == S2 == x * S1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_modules.test_module_mul_correct","statement":"Path(test_module_mul(x), I * M == M * I == S1 == x * M == M * x; I * S1 == S2 == x * S1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5a2baa9a60b8a1f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["I * M == M * I == S1 == x * M == M * x","I * S1 == S2 == x * S1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_module_mul():
     R = QQ.old_poly_ring(x)
     M = R.free_module(2)
@@ -531,16 +636,23 @@ def test_module_mul():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_intersection(), test_intersection produces the expected output) over Any ║
+# ║ Path(test_intersection(), I1 == M2.intersect(M1) == I and F.submodule([x, y]).intersect(F.submodule([y, x])).is_zero()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_intersection : Any → {Any | I1 == M2.intersect(M...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  I1 == M2.intersect(M1) == I                    ║
+# ║   ensures:  F.submodule([x, y]).intersect(F.submodule...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_intersection : Any → {Any | result satisfies: I1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f037559be677166  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 12ca7d2795d906c9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_modules.test_intersection","kind":"function","src_hash":"3c1299dda3bfd520","in":{"base":"Any"},"out":{"base":"Any","pred":"I1 == M2.intersect(M1) == I and F.submodule([x, y]).intersect(F.submodule([y, x])).is_zero()"},"spec":{"lhs":"test_intersection()","rhs":"test_intersection produces the expected output","over":{"base":"Any"},"name":"test_intersection_correct"},"guarantee":"test_intersection produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_modules.test_intersection_correct","statement":"Path(test_intersection(x), test_intersection produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f037559be677166"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_modules.test_intersection","kind":"function","src_hash":"3c1299dda3bfd520","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: I1 == M2.intersect(M1) == I and F.submodule([x, y]).intersect(F.submodule([y, x])).is_zero()"},"spec":{"lhs":"test_intersection()","rhs":"I1 == M2.intersect(M1) == I and F.submodule([x, y]).intersect(F.submodule([y, x])).is_zero()","over":{"base":"Any"},"name":"test_intersection_correct"},"guarantee":"I1 == M2.intersect(M1) == I; F.submodule([x, y]).intersect(F.submodule([y, x])).is_zero()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_modules.test_intersection_correct","statement":"Path(test_intersection(x), I1 == M2.intersect(M1) == I; F.submodule([x, y]).intersect(F.submodule([y, x])).is_zero())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12ca7d2795d906c9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["I1 == M2.intersect(M1) == I","F.submodule([x, y]).intersect(F.submodule([y, x])).is_zero()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_intersection():
     # SCA, example 2.8.5
     F = QQ.old_poly_ring(x, y).free_module(2)
@@ -557,16 +669,24 @@ def test_intersection():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_quotient(), test_quotient produces the expected output) over Any ║
+# ║ Path(test_quotient(), F.submodule([x * y, x * z], [y * z, x * y]).module_quotient(F.submodule([y, z], [z, y])) == QQ.old_poly_ring(x, y, z).ideal(x ** 2 * y ** 2 - x * y * z ** 2) and F.submodule([x, y]).module_quotient(F.submodule()).is_whole_ring() and q == R.ideal(y ** 2, x - y)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_quotient : Any → {Any | F.submodule([x, y]).modu...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  F.submodule([x * y, x * z], [y * z, x * y...   ║
+# ║   ensures:  F.submodule([x, y]).module_quotient(F.sub...   ║
+# ║   ensures:  q == R.ideal(y ** 2, x - y)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_quotient : Any → {Any | result satisfies: F.subm...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 140c07c4e33e5665  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 767624b52e95836f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_modules.test_quotient","kind":"function","src_hash":"97eb3b1f15ca0fdd","in":{"base":"Any"},"out":{"base":"Any","pred":"F.submodule([x, y]).module_quotient(F.submodule()).is_whole_ring() and q == R.ideal(y ** 2, x - y) and g * N.gens[0] == sum((c * x for c, x in zip(rel[i], M.gens)))"},"spec":{"lhs":"test_quotient()","rhs":"test_quotient produces the expected output","over":{"base":"Any"},"name":"test_quotient_correct"},"guarantee":"test_quotient produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_modules.test_quotient_correct","statement":"Path(test_quotient(x), test_quotient produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"140c07c4e33e5665"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_modules.test_quotient","kind":"function","src_hash":"97eb3b1f15ca0fdd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: F.submodule([x * y, x * z], [y * z, x * y]).module_quotient(F.submodule([y, z], [z, y])) == QQ.old_poly_ring(x, y, z).ideal(x ** 2 * y ** 2 - x * y * z ** 2) and F.submodule([x, y]).module_quotient(F.submodule()).is_whole_ring() and q == R.ideal(y ** 2, x - y)"},"spec":{"lhs":"test_quotient()","rhs":"F.submodule([x * y, x * z], [y * z, x * y]).module_quotient(F.submodule([y, z], [z, y])) == QQ.old_poly_ring(x, y, z).ideal(x ** 2 * y ** 2 - x * y * z ** 2) and F.submodule([x, y]).module_quotient(F.submodule()).is_whole_ring() and q == R.ideal(y ** 2, x - y)","over":{"base":"Any"},"name":"test_quotient_correct"},"guarantee":"F.submodule([x * y, x * z], [y * z, x * y]).module_quotient(F.submodule([y, z], [z, y])) == QQ.old_poly_ring(x, y, z).ideal(x ** 2 * y ** 2 - x * y * z ** 2); F.submodule([x, y]).module_quotient(F.submodule()).is_whole_ring(); q == R.ideal(y ** 2, x - y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_modules.test_quotient_correct","statement":"Path(test_quotient(x), F.submodule([x * y, x * z], [y * z, x * y]).module_quotient(F.submodule([y, z], [z, y])) == QQ.old_poly_ring(x, y, z).ideal(x ** 2 * y ** 2 - x * y * z ** 2); F.submodule([x, y]).module_quotient(F.submodule()).is_whole_ring(); q == R.ideal(y ** 2, x - y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"767624b52e95836f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["F.submodule([x * y, x * z], [y * z, x * y]).module_quotient(F.submodule([y, z], [z, y])) == QQ.old_poly_ring(x, y, z).ideal(x ** 2 * y ** 2 - x * y * z ** 2)","F.submodule([x, y]).module_quotient(F.submodule()).is_whole_ring()","q == R.ideal(y ** 2, x - y)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_quotient():
     # SCA, example 2.8.6
     R = QQ.old_poly_ring(x, y, z)
@@ -584,16 +704,22 @@ def test_quotient():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_groebner_extendend(), test_groebner_extendend produces the expected output) over Any ║
+# ║ Path(test_groebner_extendend(), <unspecified:test_groebner_extendend>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_groebner_extendend : Any → {Any | g == sum((c * ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f19cae99c1df7578  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_modules.test_groebner_extendend","kind":"function","src_hash":"d323a97f96ab98cc","in":{"base":"Any"},"out":{"base":"Any","pred":"g == sum((c * gen for c, gen in zip(R[i], M.gens)))"},"spec":{"lhs":"test_groebner_extendend()","rhs":"test_groebner_extendend produces the expected output","over":{"base":"Any"},"name":"test_groebner_extendend_correct"},"guarantee":"test_groebner_extendend produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_modules.test_groebner_extendend_correct","statement":"Path(test_groebner_extendend(x), test_groebner_extendend produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f19cae99c1df7578"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.tests.test_modules.test_groebner_extendend","kind":"function","src_hash":"d323a97f96ab98cc","in":{"base":"Any"},"out":{"base":"Any","pred":"g == sum((c * gen for c, gen in zip(R[i], M.gens)))"},"spec":{"lhs":"test_groebner_extendend()","rhs":"<unspecified:test_groebner_extendend>","over":{"base":"Any"},"name":"test_groebner_extendend_correct"},"guarantee":"test_groebner_extendend produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.tests.test_modules.test_groebner_extendend_correct","statement":"Path(test_groebner_extendend(x), test_groebner_extendend produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f19cae99c1df7578","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_groebner_extendend():
     M = QQ.old_poly_ring(x, y, z).free_module(3).submodule([x + 1, y, 1], [x*y, z, z**2])
     G, R = M._groebner_vec(extended=True)

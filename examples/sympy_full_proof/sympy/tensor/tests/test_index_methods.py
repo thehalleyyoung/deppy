@@ -25,16 +25,24 @@ from sympy.tensor.index_methods import (get_contraction_structure, get_indices)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_trivial_indices(), test_trivial_indices produces the expected output) over Any ║
+# ║ Path(test_trivial_indices(), get_indices(x) == (set(), {}) and get_indices(x * y) == (set(), {}) and get_indices(x + y) == (set(), {}) and get_indices(x ** y) == (set(), {})) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_trivial_indices : Any → {Any | get_indices(x) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  get_indices(x) == (set(), {})                  ║
+# ║   ensures:  get_indices(x * y) == (set(), {})              ║
+# ║   ensures:  get_indices(x + y) == (set(), {})              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_trivial_indices : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 460097c697b05a98  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f159fb7835dde648  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_index_methods.test_trivial_indices","kind":"function","src_hash":"e0895b6aa1c4b23a","in":{"base":"Any"},"out":{"base":"Any","pred":"get_indices(x) == (set(), {}) and get_indices(x * y) == (set(), {}) and get_indices(x + y) == (set(), {}) and get_indices(x ** y) == (set(), {})"},"spec":{"lhs":"test_trivial_indices()","rhs":"test_trivial_indices produces the expected output","over":{"base":"Any"},"name":"test_trivial_indices_correct"},"guarantee":"test_trivial_indices produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_index_methods.test_trivial_indices_correct","statement":"Path(test_trivial_indices(x), test_trivial_indices produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"460097c697b05a98"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_index_methods.test_trivial_indices","kind":"function","src_hash":"e0895b6aa1c4b23a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: get_indices(x) == (set(), {}) and get_indices(x * y) == (set(), {}) and get_indices(x + y) == (set(), {}) and get_indices(x ** y) == (set(), {})"},"spec":{"lhs":"test_trivial_indices()","rhs":"get_indices(x) == (set(), {}) and get_indices(x * y) == (set(), {}) and get_indices(x + y) == (set(), {}) and get_indices(x ** y) == (set(), {})","over":{"base":"Any"},"name":"test_trivial_indices_correct"},"guarantee":"get_indices(x) == (set(), {}); get_indices(x * y) == (set(), {}); get_indices(x + y) == (set(), {})","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_index_methods.test_trivial_indices_correct","statement":"Path(test_trivial_indices(x), get_indices(x) == (set(), {}); get_indices(x * y) == (set(), {}); get_indices(x + y) == (set(), {}))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f159fb7835dde648","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["get_indices(x) == (set(), {})","get_indices(x * y) == (set(), {})","get_indices(x + y) == (set(), {})","get_indices(x ** y) == (set(), {})"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_trivial_indices():
     x, y = symbols('x y')
     assert get_indices(x) == (set(), {})
@@ -44,16 +52,23 @@ def test_trivial_indices():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_get_indices_Indexed(), test_get_indices_Indexed produces the expected output) over Any ║
+# ║ Path(test_get_indices_Indexed(), get_indices(x[i, j]) == ({i, j}, {}) and get_indices(x[j, i]) == ({j, i}, {})) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_get_indices_Indexed : Any → {Any | get_indices(x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  get_indices(x[i, j]) == ({i, j}, {})           ║
+# ║   ensures:  get_indices(x[j, i]) == ({j, i}, {})           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_get_indices_Indexed : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1056e87a7bf317ec  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f39719347bfbb472  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_index_methods.test_get_indices_Indexed","kind":"function","src_hash":"9ab25376a4013a81","in":{"base":"Any"},"out":{"base":"Any","pred":"get_indices(x[i, j]) == ({i, j}, {}) and get_indices(x[j, i]) == ({j, i}, {})"},"spec":{"lhs":"test_get_indices_Indexed()","rhs":"test_get_indices_Indexed produces the expected output","over":{"base":"Any"},"name":"test_get_indices_Indexed_correct"},"guarantee":"test_get_indices_Indexed produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_index_methods.test_get_indices_Indexed_correct","statement":"Path(test_get_indices_Indexed(x), test_get_indices_Indexed produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1056e87a7bf317ec"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_index_methods.test_get_indices_Indexed","kind":"function","src_hash":"9ab25376a4013a81","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: get_indices(x[i, j]) == ({i, j}, {}) and get_indices(x[j, i]) == ({j, i}, {})"},"spec":{"lhs":"test_get_indices_Indexed()","rhs":"get_indices(x[i, j]) == ({i, j}, {}) and get_indices(x[j, i]) == ({j, i}, {})","over":{"base":"Any"},"name":"test_get_indices_Indexed_correct"},"guarantee":"get_indices(x[i, j]) == ({i, j}, {}); get_indices(x[j, i]) == ({j, i}, {})","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_index_methods.test_get_indices_Indexed_correct","statement":"Path(test_get_indices_Indexed(x), get_indices(x[i, j]) == ({i, j}, {}); get_indices(x[j, i]) == ({j, i}, {}))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f39719347bfbb472","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["get_indices(x[i, j]) == ({i, j}, {})","get_indices(x[j, i]) == ({j, i}, {})"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_get_indices_Indexed():
     x = IndexedBase('x')
     i, j = Idx('i'), Idx('j')
@@ -62,16 +77,24 @@ def test_get_indices_Indexed():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_get_indices_Idx(), test_get_indices_Idx produces the expected output) over Any ║
+# ║ Path(test_get_indices_Idx(), get_indices(f(i) * j) == ({i, j}, {}) and get_indices(f(j, i)) == ({j, i}, {}) and get_indices(f(i) * i) == (set(), {})) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_get_indices_Idx : Any → {Any | get_indices(f(i) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  get_indices(f(i) * j) == ({i, j}, {})          ║
+# ║   ensures:  get_indices(f(j, i)) == ({j, i}, {})           ║
+# ║   ensures:  get_indices(f(i) * i) == (set(), {})           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_get_indices_Idx : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83b5cf4eabe73ef6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d36cbf6b46c5cc8a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_index_methods.test_get_indices_Idx","kind":"function","src_hash":"3f8eb5fc0d84bf95","in":{"base":"Any"},"out":{"base":"Any","pred":"get_indices(f(i) * j) == ({i, j}, {}) and get_indices(f(j, i)) == ({j, i}, {}) and get_indices(f(i) * i) == (set(), {})"},"spec":{"lhs":"test_get_indices_Idx()","rhs":"test_get_indices_Idx produces the expected output","over":{"base":"Any"},"name":"test_get_indices_Idx_correct"},"guarantee":"test_get_indices_Idx produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_index_methods.test_get_indices_Idx_correct","statement":"Path(test_get_indices_Idx(x), test_get_indices_Idx produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83b5cf4eabe73ef6"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_index_methods.test_get_indices_Idx","kind":"function","src_hash":"3f8eb5fc0d84bf95","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: get_indices(f(i) * j) == ({i, j}, {}) and get_indices(f(j, i)) == ({j, i}, {}) and get_indices(f(i) * i) == (set(), {})"},"spec":{"lhs":"test_get_indices_Idx()","rhs":"get_indices(f(i) * j) == ({i, j}, {}) and get_indices(f(j, i)) == ({j, i}, {}) and get_indices(f(i) * i) == (set(), {})","over":{"base":"Any"},"name":"test_get_indices_Idx_correct"},"guarantee":"get_indices(f(i) * j) == ({i, j}, {}); get_indices(f(j, i)) == ({j, i}, {}); get_indices(f(i) * i) == (set(), {})","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_index_methods.test_get_indices_Idx_correct","statement":"Path(test_get_indices_Idx(x), get_indices(f(i) * j) == ({i, j}, {}); get_indices(f(j, i)) == ({j, i}, {}); get_indices(f(i) * i) == (set(), {}))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d36cbf6b46c5cc8a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["get_indices(f(i) * j) == ({i, j}, {})","get_indices(f(j, i)) == ({j, i}, {})","get_indices(f(i) * i) == (set(), {})"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_get_indices_Idx():
     f = Function('f')
     i, j = Idx('i'), Idx('j')
@@ -81,16 +104,23 @@ def test_get_indices_Idx():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_get_indices_mul(), test_get_indices_mul produces the expected output) over Any ║
+# ║ Path(test_get_indices_mul(), get_indices(x[j] * y[i]) == ({i, j}, {}) and get_indices(x[i] * y[j]) == ({i, j}, {})) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_get_indices_mul : Any → {Any | get_indices(x[j] ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  get_indices(x[j] * y[i]) == ({i, j}, {})       ║
+# ║   ensures:  get_indices(x[i] * y[j]) == ({i, j}, {})       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_get_indices_mul : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c80d1ffc42124b6c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b4d2ee352cf4b89  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_index_methods.test_get_indices_mul","kind":"function","src_hash":"9424563fd7200346","in":{"base":"Any"},"out":{"base":"Any","pred":"get_indices(x[j] * y[i]) == ({i, j}, {}) and get_indices(x[i] * y[j]) == ({i, j}, {})"},"spec":{"lhs":"test_get_indices_mul()","rhs":"test_get_indices_mul produces the expected output","over":{"base":"Any"},"name":"test_get_indices_mul_correct"},"guarantee":"test_get_indices_mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_index_methods.test_get_indices_mul_correct","statement":"Path(test_get_indices_mul(x), test_get_indices_mul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c80d1ffc42124b6c"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_index_methods.test_get_indices_mul","kind":"function","src_hash":"9424563fd7200346","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: get_indices(x[j] * y[i]) == ({i, j}, {}) and get_indices(x[i] * y[j]) == ({i, j}, {})"},"spec":{"lhs":"test_get_indices_mul()","rhs":"get_indices(x[j] * y[i]) == ({i, j}, {}) and get_indices(x[i] * y[j]) == ({i, j}, {})","over":{"base":"Any"},"name":"test_get_indices_mul_correct"},"guarantee":"get_indices(x[j] * y[i]) == ({i, j}, {}); get_indices(x[i] * y[j]) == ({i, j}, {})","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_index_methods.test_get_indices_mul_correct","statement":"Path(test_get_indices_mul(x), get_indices(x[j] * y[i]) == ({i, j}, {}); get_indices(x[i] * y[j]) == ({i, j}, {}))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b4d2ee352cf4b89","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["get_indices(x[j] * y[i]) == ({i, j}, {})","get_indices(x[i] * y[j]) == ({i, j}, {})"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_get_indices_mul():
     x = IndexedBase('x')
     y = IndexedBase('y')
@@ -100,16 +130,22 @@ def test_get_indices_mul():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_get_indices_exceptions(), test_get_indices_exceptions produces the expected output) over Any ║
+# ║ Path(test_get_indices_exceptions(), <unspecified:test_get_indices_exceptions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_get_indices_exceptions : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c28dbbe4a18bb577  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_index_methods.test_get_indices_exceptions","kind":"function","src_hash":"a2ba89e35a207c00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_get_indices_exceptions()","rhs":"test_get_indices_exceptions produces the expected output","over":{"base":"Any"},"name":"test_get_indices_exceptions_correct"},"guarantee":"test_get_indices_exceptions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_index_methods.test_get_indices_exceptions_correct","statement":"Path(test_get_indices_exceptions(x), test_get_indices_exceptions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c28dbbe4a18bb577"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_index_methods.test_get_indices_exceptions","kind":"function","src_hash":"a2ba89e35a207c00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_get_indices_exceptions()","rhs":"<unspecified:test_get_indices_exceptions>","over":{"base":"Any"},"name":"test_get_indices_exceptions_correct"},"guarantee":"test_get_indices_exceptions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_index_methods.test_get_indices_exceptions_correct","statement":"Path(test_get_indices_exceptions(x), test_get_indices_exceptions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c28dbbe4a18bb577","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_get_indices_exceptions():
     x = IndexedBase('x')
     y = IndexedBase('y')
@@ -118,16 +154,23 @@ def test_get_indices_exceptions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_scalar_broadcast(), test_scalar_broadcast produces the expected output) over Any ║
+# ║ Path(test_scalar_broadcast(), get_indices(x[i] + y[i, i]) == ({i}, {}) and get_indices(x[i] + y[j, j]) == ({i}, {})) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_scalar_broadcast : Any → {Any | get_indices(x[i]...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  get_indices(x[i] + y[i, i]) == ({i}, {})       ║
+# ║   ensures:  get_indices(x[i] + y[j, j]) == ({i}, {})       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_scalar_broadcast : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d96ea796d95ba606  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b56b211ec4dcf5e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_index_methods.test_scalar_broadcast","kind":"function","src_hash":"5c5b2d16dda27323","in":{"base":"Any"},"out":{"base":"Any","pred":"get_indices(x[i] + y[i, i]) == ({i}, {}) and get_indices(x[i] + y[j, j]) == ({i}, {})"},"spec":{"lhs":"test_scalar_broadcast()","rhs":"test_scalar_broadcast produces the expected output","over":{"base":"Any"},"name":"test_scalar_broadcast_correct"},"guarantee":"test_scalar_broadcast produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_index_methods.test_scalar_broadcast_correct","statement":"Path(test_scalar_broadcast(x), test_scalar_broadcast produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d96ea796d95ba606"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_index_methods.test_scalar_broadcast","kind":"function","src_hash":"5c5b2d16dda27323","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: get_indices(x[i] + y[i, i]) == ({i}, {}) and get_indices(x[i] + y[j, j]) == ({i}, {})"},"spec":{"lhs":"test_scalar_broadcast()","rhs":"get_indices(x[i] + y[i, i]) == ({i}, {}) and get_indices(x[i] + y[j, j]) == ({i}, {})","over":{"base":"Any"},"name":"test_scalar_broadcast_correct"},"guarantee":"get_indices(x[i] + y[i, i]) == ({i}, {}); get_indices(x[i] + y[j, j]) == ({i}, {})","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_index_methods.test_scalar_broadcast_correct","statement":"Path(test_scalar_broadcast(x), get_indices(x[i] + y[i, i]) == ({i}, {}); get_indices(x[i] + y[j, j]) == ({i}, {}))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b56b211ec4dcf5e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["get_indices(x[i] + y[i, i]) == ({i}, {})","get_indices(x[i] + y[j, j]) == ({i}, {})"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_scalar_broadcast():
     x = IndexedBase('x')
     y = IndexedBase('y')
@@ -137,16 +180,24 @@ def test_scalar_broadcast():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_get_indices_add(), test_get_indices_add produces the expected output) over Any ║
+# ║ Path(test_get_indices_add(), get_indices(x[i] + 2 * y[i]) == ({i}, {}) and get_indices(y[i] + 2 * A[i, j] * x[j]) == ({i}, {}) and get_indices(y[i] + 2 * (x[i] + A[i, j] * x[j])) == ({i}, {}) and get_indices(y[i] + x[i] * (A[j, j] + 1)) == ({i}, {}) and get_indices(y[i] + x[i] * x[j] * (y[j] + A[j, k] * x[k])) == ({i}, {})) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_get_indices_add : Any → {Any | get_indices(x[i] ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  get_indices(x[i] + 2 * y[i]) == ({i}, {})      ║
+# ║   ensures:  get_indices(y[i] + 2 * A[i, j] * x[j]) ==...   ║
+# ║   ensures:  get_indices(y[i] + 2 * (x[i] + A[i, j] * ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_get_indices_add : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e13003a757e1b91  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c0634b9f5fb76b5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_index_methods.test_get_indices_add","kind":"function","src_hash":"15ef03fce513865c","in":{"base":"Any"},"out":{"base":"Any","pred":"get_indices(x[i] + 2 * y[i]) == ({i}, {}) and get_indices(y[i] + 2 * A[i, j] * x[j]) == ({i}, {}) and get_indices(y[i] + 2 * (x[i] + A[i, j] * x[j])) == ({i}, {}) and get_indices(y[i] + x[i] * (A[j, j] + 1)) == ({i}, {}) and get_indices(y[i] + x[i] * x[j] * (y[j] + A[j, k] * x[k])) == ({i}, {})"},"spec":{"lhs":"test_get_indices_add()","rhs":"test_get_indices_add produces the expected output","over":{"base":"Any"},"name":"test_get_indices_add_correct"},"guarantee":"test_get_indices_add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_index_methods.test_get_indices_add_correct","statement":"Path(test_get_indices_add(x), test_get_indices_add produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e13003a757e1b91"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_index_methods.test_get_indices_add","kind":"function","src_hash":"15ef03fce513865c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: get_indices(x[i] + 2 * y[i]) == ({i}, {}) and get_indices(y[i] + 2 * A[i, j] * x[j]) == ({i}, {}) and get_indices(y[i] + 2 * (x[i] + A[i, j] * x[j])) == ({i}, {}) and get_indices(y[i] + x[i] * (A[j, j] + 1)) == ({i}, {}) and get_indices(y[i] + x[i] * x[j] * (y[j] + A[j, k] * x[k])) == ({i}, {})"},"spec":{"lhs":"test_get_indices_add()","rhs":"get_indices(x[i] + 2 * y[i]) == ({i}, {}) and get_indices(y[i] + 2 * A[i, j] * x[j]) == ({i}, {}) and get_indices(y[i] + 2 * (x[i] + A[i, j] * x[j])) == ({i}, {}) and get_indices(y[i] + x[i] * (A[j, j] + 1)) == ({i}, {}) and get_indices(y[i] + x[i] * x[j] * (y[j] + A[j, k] * x[k])) == ({i}, {})","over":{"base":"Any"},"name":"test_get_indices_add_correct"},"guarantee":"get_indices(x[i] + 2 * y[i]) == ({i}, {}); get_indices(y[i] + 2 * A[i, j] * x[j]) == ({i}, {}); get_indices(y[i] + 2 * (x[i] + A[i, j] * x[j])) == ({i}, {})","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_index_methods.test_get_indices_add_correct","statement":"Path(test_get_indices_add(x), get_indices(x[i] + 2 * y[i]) == ({i}, {}); get_indices(y[i] + 2 * A[i, j] * x[j]) == ({i}, {}); get_indices(y[i] + 2 * (x[i] + A[i, j] * x[j])) == ({i}, {}))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c0634b9f5fb76b5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["get_indices(x[i] + 2 * y[i]) == ({i}, {})","get_indices(y[i] + 2 * A[i, j] * x[j]) == ({i}, {})","get_indices(y[i] + 2 * (x[i] + A[i, j] * x[j])) == ({i}, {})","get_indices(y[i] + x[i] * (A[j, j] + 1)) == ({i}, {})","get_indices(y[i] + x[i] * x[j] * (y[j] + A[j, k] * x[k])) == ({i}, {})"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_get_indices_add():
     x = IndexedBase('x')
     y = IndexedBase('y')
@@ -161,16 +212,24 @@ def test_get_indices_add():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_get_indices_Pow(), test_get_indices_Pow produces the expected output) over Any ║
+# ║ Path(test_get_indices_Pow(), get_indices(Pow(x[i], y[j])) == ({i, j}, {}) and get_indices(Pow(x[i, k], y[j, k])) == ({i, j, k}, {}) and get_indices(Pow(A[i, k], y[k] + A[k, j] * x[j])) == ({i, k}, {}) and get_indices(Pow(2, x[i])) == get_indices(exp(x[i])) and get_indices(Pow(x[i], 2)) == ({i}, {})) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_get_indices_Pow : Any → {Any | get_indices(Pow(x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  get_indices(Pow(x[i], y[j])) == ({i, j}, {})   ║
+# ║   ensures:  get_indices(Pow(x[i, k], y[j, k])) == ({i...   ║
+# ║   ensures:  get_indices(Pow(A[i, k], y[k] + A[k, j] *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_get_indices_Pow : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a9ad54f1075fedfb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f4bf8a2d289c4887  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_index_methods.test_get_indices_Pow","kind":"function","src_hash":"9bc441e2a1aa35a5","in":{"base":"Any"},"out":{"base":"Any","pred":"get_indices(Pow(x[i], y[j])) == ({i, j}, {}) and get_indices(Pow(x[i, k], y[j, k])) == ({i, j, k}, {}) and get_indices(Pow(A[i, k], y[k] + A[k, j] * x[j])) == ({i, k}, {}) and get_indices(Pow(2, x[i])) == get_indices(exp(x[i])) and get_indices(Pow(x[i], 2)) == ({i}, {})"},"spec":{"lhs":"test_get_indices_Pow()","rhs":"test_get_indices_Pow produces the expected output","over":{"base":"Any"},"name":"test_get_indices_Pow_correct"},"guarantee":"test_get_indices_Pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_index_methods.test_get_indices_Pow_correct","statement":"Path(test_get_indices_Pow(x), test_get_indices_Pow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9ad54f1075fedfb"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_index_methods.test_get_indices_Pow","kind":"function","src_hash":"9bc441e2a1aa35a5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: get_indices(Pow(x[i], y[j])) == ({i, j}, {}) and get_indices(Pow(x[i, k], y[j, k])) == ({i, j, k}, {}) and get_indices(Pow(A[i, k], y[k] + A[k, j] * x[j])) == ({i, k}, {}) and get_indices(Pow(2, x[i])) == get_indices(exp(x[i])) and get_indices(Pow(x[i], 2)) == ({i}, {})"},"spec":{"lhs":"test_get_indices_Pow()","rhs":"get_indices(Pow(x[i], y[j])) == ({i, j}, {}) and get_indices(Pow(x[i, k], y[j, k])) == ({i, j, k}, {}) and get_indices(Pow(A[i, k], y[k] + A[k, j] * x[j])) == ({i, k}, {}) and get_indices(Pow(2, x[i])) == get_indices(exp(x[i])) and get_indices(Pow(x[i], 2)) == ({i}, {})","over":{"base":"Any"},"name":"test_get_indices_Pow_correct"},"guarantee":"get_indices(Pow(x[i], y[j])) == ({i, j}, {}); get_indices(Pow(x[i, k], y[j, k])) == ({i, j, k}, {}); get_indices(Pow(A[i, k], y[k] + A[k, j] * x[j])) == ({i, k}, {})","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_index_methods.test_get_indices_Pow_correct","statement":"Path(test_get_indices_Pow(x), get_indices(Pow(x[i], y[j])) == ({i, j}, {}); get_indices(Pow(x[i, k], y[j, k])) == ({i, j, k}, {}); get_indices(Pow(A[i, k], y[k] + A[k, j] * x[j])) == ({i, k}, {}))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4bf8a2d289c4887","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["get_indices(Pow(x[i], y[j])) == ({i, j}, {})","get_indices(Pow(x[i, k], y[j, k])) == ({i, j, k}, {})","get_indices(Pow(A[i, k], y[k] + A[k, j] * x[j])) == ({i, k}, {})","get_indices(Pow(2, x[i])) == get_indices(exp(x[i]))","get_indices(Pow(x[i], 2)) == ({i}, {})"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_get_indices_Pow():
     x = IndexedBase('x')
     y = IndexedBase('y')
@@ -186,16 +245,24 @@ def test_get_indices_Pow():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_get_contraction_structure_basic(), test_get_contraction_structure_basic produces the expected output) over Any ║
+# ║ Path(test_get_contraction_structure_basic(), get_contraction_structure(x[i] * y[j]) == {None: {x[i] * y[j]}} and get_contraction_structure(x[i] + y[j]) == {None: {x[i], y[j]}} and get_contraction_structure(x[i] * y[i]) == {(i,): {x[i] * y[i]}} and get_contraction_structure(1 + x[i] * y[i]) == {None: {S.One}, (i,): {x[i] * y[i]}} and get_contraction_structure(x[i] ** y[i]) == {None: {x[i] ** y[i]}}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_get_contraction_structure_basic : Any → {Any | g...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  get_contraction_structure(x[i] * y[j]) ==...   ║
+# ║   ensures:  get_contraction_structure(x[i] + y[j]) ==...   ║
+# ║   ensures:  get_contraction_structure(x[i] * y[i]) ==...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_get_contraction_structure_basic : Any → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb6036ec50e3bdbb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b825cdf188cb2689  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_index_methods.test_get_contraction_structure_basic","kind":"function","src_hash":"c1aee6a8f98a2bae","in":{"base":"Any"},"out":{"base":"Any","pred":"get_contraction_structure(x[i] * y[j]) == {None: {x[i] * y[j]}} and get_contraction_structure(x[i] + y[j]) == {None: {x[i], y[j]}} and get_contraction_structure(x[i] * y[i]) == {(i,): {x[i] * y[i]}} and get_contraction_structure(x[i] ** y[i]) == {None: {x[i] ** y[i]}}"},"spec":{"lhs":"test_get_contraction_structure_basic()","rhs":"test_get_contraction_structure_basic produces the expected output","over":{"base":"Any"},"name":"test_get_contraction_structure_basic_correct"},"guarantee":"test_get_contraction_structure_basic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_index_methods.test_get_contraction_structure_basic_correct","statement":"Path(test_get_contraction_structure_basic(x), test_get_contraction_structure_basic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb6036ec50e3bdbb"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_index_methods.test_get_contraction_structure_basic","kind":"function","src_hash":"c1aee6a8f98a2bae","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: get_contraction_structure(x[i] * y[j]) == {None: {x[i] * y[j]}} and get_contraction_structure(x[i] + y[j]) == {None: {x[i], y[j]}} and get_contraction_structure(x[i] * y[i]) == {(i,): {x[i] * y[i]}} and get_contraction_structure(1 + x[i] * y[i]) == {None: {S.One}, (i,): {x[i] * y[i]}} and get_contraction_structure(x[i] ** y[i]) == {None: {x[i] ** y[i]}}"},"spec":{"lhs":"test_get_contraction_structure_basic()","rhs":"get_contraction_structure(x[i] * y[j]) == {None: {x[i] * y[j]}} and get_contraction_structure(x[i] + y[j]) == {None: {x[i], y[j]}} and get_contraction_structure(x[i] * y[i]) == {(i,): {x[i] * y[i]}} and get_contraction_structure(1 + x[i] * y[i]) == {None: {S.One}, (i,): {x[i] * y[i]}} and get_contraction_structure(x[i] ** y[i]) == {None: {x[i] ** y[i]}}","over":{"base":"Any"},"name":"test_get_contraction_structure_basic_correct"},"guarantee":"get_contraction_structure(x[i] * y[j]) == {None: {x[i] * y[j]}}; get_contraction_structure(x[i] + y[j]) == {None: {x[i], y[j]}}; get_contraction_structure(x[i] * y[i]) == {(i,): {x[i] * y[i]}}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_index_methods.test_get_contraction_structure_basic_correct","statement":"Path(test_get_contraction_structure_basic(x), get_contraction_structure(x[i] * y[j]) == {None: {x[i] * y[j]}}; get_contraction_structure(x[i] + y[j]) == {None: {x[i], y[j]}}; get_contraction_structure(x[i] * y[i]) == {(i,): {x[i] * y[i]}})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b825cdf188cb2689","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["get_contraction_structure(x[i] * y[j]) == {None: {x[i] * y[j]}}","get_contraction_structure(x[i] + y[j]) == {None: {x[i], y[j]}}","get_contraction_structure(x[i] * y[i]) == {(i,): {x[i] * y[i]}}","get_contraction_structure(1 + x[i] * y[i]) == {None: {S.One}, (i,): {x[i] * y[i]}}","get_contraction_structure(x[i] ** y[i]) == {None: {x[i] ** y[i]}}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_get_contraction_structure_basic():
     x = IndexedBase('x')
     y = IndexedBase('y')
@@ -209,16 +276,23 @@ def test_get_contraction_structure_basic():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_get_contraction_structure_complex(), test_get_contraction_structure_complex produces the expected output) over Any ║
+# ║ Path(test_get_contraction_structure_complex(), get_contraction_structure(expr1) == d1 and get_contraction_structure(expr2) == d2) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  get_contraction_structure(expr1) == d1         ║
+# ║   ensures:  get_contraction_structure(expr2) == d2         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_get_contraction_structure_complex : Any → {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fbc167f560112304  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db828836259736ef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_index_methods.test_get_contraction_structure_complex","kind":"function","src_hash":"d13f65458b629c49","in":{"base":"Any"},"out":{"base":"Any","pred":"get_contraction_structure(expr1) == d1 and get_contraction_structure(expr2) == d2"},"spec":{"lhs":"test_get_contraction_structure_complex()","rhs":"test_get_contraction_structure_complex produces the expected output","over":{"base":"Any"},"name":"test_get_contraction_structure_complex_correct"},"guarantee":"test_get_contraction_structure_complex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_index_methods.test_get_contraction_structure_complex_correct","statement":"Path(test_get_contraction_structure_complex(x), test_get_contraction_structure_complex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbc167f560112304"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_index_methods.test_get_contraction_structure_complex","kind":"function","src_hash":"d13f65458b629c49","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: get_contraction_structure(expr1) == d1 and get_contraction_structure(expr2) == d2"},"spec":{"lhs":"test_get_contraction_structure_complex()","rhs":"get_contraction_structure(expr1) == d1 and get_contraction_structure(expr2) == d2","over":{"base":"Any"},"name":"test_get_contraction_structure_complex_correct"},"guarantee":"get_contraction_structure(expr1) == d1; get_contraction_structure(expr2) == d2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_index_methods.test_get_contraction_structure_complex_correct","statement":"Path(test_get_contraction_structure_complex(x), get_contraction_structure(expr1) == d1; get_contraction_structure(expr2) == d2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db828836259736ef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["get_contraction_structure(expr1) == d1","get_contraction_structure(expr2) == d2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_get_contraction_structure_complex():
     x = IndexedBase('x')
     y = IndexedBase('y')
@@ -233,16 +307,23 @@ def test_get_contraction_structure_complex():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_contraction_structure_simple_Pow(), test_contraction_structure_simple_Pow produces the expected output) over Any ║
+# ║ Path(test_contraction_structure_simple_Pow(), get_contraction_structure(ii_jj) == {None: {ii_jj}, ii_jj: [{(i,): {x[i, i]}}, {(j,): {y[j, j]}}]} and get_contraction_structure(ii_jk) == {None: {x[i, i] ** y[j, k]}, x[i, i] ** y[j, k]: [{(i,): {x[i, i]}}]}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_contraction_structure_simple_Pow : Any → Any          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  get_contraction_structure(ii_jj) == {None...   ║
+# ║   ensures:  get_contraction_structure(ii_jk) == {None...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_contraction_structure_simple_Pow : Any → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 34cd77e2631214ea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f9e15827227eb58  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_index_methods.test_contraction_structure_simple_Pow","kind":"function","src_hash":"4bb978a77a52d015","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_contraction_structure_simple_Pow()","rhs":"test_contraction_structure_simple_Pow produces the expected output","over":{"base":"Any"},"name":"test_contraction_structure_simple_Pow_correct"},"guarantee":"test_contraction_structure_simple_Pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_index_methods.test_contraction_structure_simple_Pow_correct","statement":"Path(test_contraction_structure_simple_Pow(x), test_contraction_structure_simple_Pow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34cd77e2631214ea"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_index_methods.test_contraction_structure_simple_Pow","kind":"function","src_hash":"4bb978a77a52d015","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: get_contraction_structure(ii_jj) == {None: {ii_jj}, ii_jj: [{(i,): {x[i, i]}}, {(j,): {y[j, j]}}]} and get_contraction_structure(ii_jk) == {None: {x[i, i] ** y[j, k]}, x[i, i] ** y[j, k]: [{(i,): {x[i, i]}}]}"},"spec":{"lhs":"test_contraction_structure_simple_Pow()","rhs":"get_contraction_structure(ii_jj) == {None: {ii_jj}, ii_jj: [{(i,): {x[i, i]}}, {(j,): {y[j, j]}}]} and get_contraction_structure(ii_jk) == {None: {x[i, i] ** y[j, k]}, x[i, i] ** y[j, k]: [{(i,): {x[i, i]}}]}","over":{"base":"Any"},"name":"test_contraction_structure_simple_Pow_correct"},"guarantee":"get_contraction_structure(ii_jj) == {None: {ii_jj}, ii_jj: [{(i,): {x[i, i]}}, {(j,): {y[j, j]}}]}; get_contraction_structure(ii_jk) == {None: {x[i, i] ** y[j, k]}, x[i, i] ** y[j, k]: [{(i,): {x[i, i]}}]}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_index_methods.test_contraction_structure_simple_Pow_correct","statement":"Path(test_contraction_structure_simple_Pow(x), get_contraction_structure(ii_jj) == {None: {ii_jj}, ii_jj: [{(i,): {x[i, i]}}, {(j,): {y[j, j]}}]}; get_contraction_structure(ii_jk) == {None: {x[i, i] ** y[j, k]}, x[i, i] ** y[j, k]: [{(i,): {x[i, i]}}]})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f9e15827227eb58","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["get_contraction_structure(ii_jj) == {None: {ii_jj}, ii_jj: [{(i,): {x[i, i]}}, {(j,): {y[j, j]}}]}","get_contraction_structure(ii_jk) == {None: {x[i, i] ** y[j, k]}, x[i, i] ** y[j, k]: [{(i,): {x[i, i]}}]}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_contraction_structure_simple_Pow():
     x = IndexedBase('x')
     y = IndexedBase('y')
@@ -266,16 +347,24 @@ def test_contraction_structure_simple_Pow():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_contraction_structure_Mul_and_Pow(), test_contraction_structure_Mul_and_Pow produces the expected output) over Any ║
+# ║ Path(test_contraction_structure_Mul_and_Pow(), get_contraction_structure(i_ji) == {None: {i_ji}} and get_contraction_structure(ij_i) == {None: {ij_i}} and get_contraction_structure(j_ij_i) == {(j,): {j_ij_i}} and get_contraction_structure(j_i_ji) == {(j,): {j_i_ji}} and result == expected) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  get_contraction_structure(i_ji) == {None:...   ║
+# ║   ensures:  get_contraction_structure(ij_i) == {None:...   ║
+# ║   ensures:  get_contraction_structure(j_ij_i) == {(j,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_contraction_structure_Mul_and_Pow : Any → {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 489249cd51abcec6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 40bfa12916b946b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_index_methods.test_contraction_structure_Mul_and_Pow","kind":"function","src_hash":"325870d2d94ea470","in":{"base":"Any"},"out":{"base":"Any","pred":"get_contraction_structure(i_ji) == {None: {i_ji}} and get_contraction_structure(ij_i) == {None: {ij_i}} and get_contraction_structure(j_ij_i) == {(j,): {j_ij_i}} and get_contraction_structure(j_i_ji) == {(j,): {j_i_ji}} and result == expected"},"spec":{"lhs":"test_contraction_structure_Mul_and_Pow()","rhs":"test_contraction_structure_Mul_and_Pow produces the expected output","over":{"base":"Any"},"name":"test_contraction_structure_Mul_and_Pow_correct"},"guarantee":"test_contraction_structure_Mul_and_Pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_index_methods.test_contraction_structure_Mul_and_Pow_correct","statement":"Path(test_contraction_structure_Mul_and_Pow(x), test_contraction_structure_Mul_and_Pow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"489249cd51abcec6"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_index_methods.test_contraction_structure_Mul_and_Pow","kind":"function","src_hash":"325870d2d94ea470","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: get_contraction_structure(i_ji) == {None: {i_ji}} and get_contraction_structure(ij_i) == {None: {ij_i}} and get_contraction_structure(j_ij_i) == {(j,): {j_ij_i}} and get_contraction_structure(j_i_ji) == {(j,): {j_i_ji}} and result == expected"},"spec":{"lhs":"test_contraction_structure_Mul_and_Pow()","rhs":"get_contraction_structure(i_ji) == {None: {i_ji}} and get_contraction_structure(ij_i) == {None: {ij_i}} and get_contraction_structure(j_ij_i) == {(j,): {j_ij_i}} and get_contraction_structure(j_i_ji) == {(j,): {j_i_ji}} and result == expected","over":{"base":"Any"},"name":"test_contraction_structure_Mul_and_Pow_correct"},"guarantee":"get_contraction_structure(i_ji) == {None: {i_ji}}; get_contraction_structure(ij_i) == {None: {ij_i}}; get_contraction_structure(j_ij_i) == {(j,): {j_ij_i}}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_index_methods.test_contraction_structure_Mul_and_Pow_correct","statement":"Path(test_contraction_structure_Mul_and_Pow(x), get_contraction_structure(i_ji) == {None: {i_ji}}; get_contraction_structure(ij_i) == {None: {ij_i}}; get_contraction_structure(j_ij_i) == {(j,): {j_ij_i}})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40bfa12916b946b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["get_contraction_structure(i_ji) == {None: {i_ji}}","get_contraction_structure(ij_i) == {None: {ij_i}}","get_contraction_structure(j_ij_i) == {(j,): {j_ij_i}}","get_contraction_structure(j_i_ji) == {(j,): {j_i_ji}}","result == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_contraction_structure_Mul_and_Pow():
     x = IndexedBase('x')
     y = IndexedBase('y')
@@ -305,16 +394,23 @@ def test_contraction_structure_Mul_and_Pow():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_contraction_structure_Add_in_Pow(), test_contraction_structure_Add_in_Pow produces the expected output) over Any ║
+# ║ Path(test_contraction_structure_Add_in_Pow(), result == expected and result_2 == expected_2) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == expected                             ║
+# ║   ensures:  result_2 == expected_2                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_contraction_structure_Add_in_Pow : Any → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be27ca2d3284535e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 71903195e757e404  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_index_methods.test_contraction_structure_Add_in_Pow","kind":"function","src_hash":"c7078360cba0b4d1","in":{"base":"Any"},"out":{"base":"Any","pred":"result == expected and result_2 == expected_2"},"spec":{"lhs":"test_contraction_structure_Add_in_Pow()","rhs":"test_contraction_structure_Add_in_Pow produces the expected output","over":{"base":"Any"},"name":"test_contraction_structure_Add_in_Pow_correct"},"guarantee":"test_contraction_structure_Add_in_Pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_index_methods.test_contraction_structure_Add_in_Pow_correct","statement":"Path(test_contraction_structure_Add_in_Pow(x), test_contraction_structure_Add_in_Pow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be27ca2d3284535e"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_index_methods.test_contraction_structure_Add_in_Pow","kind":"function","src_hash":"c7078360cba0b4d1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == expected and result_2 == expected_2"},"spec":{"lhs":"test_contraction_structure_Add_in_Pow()","rhs":"result == expected and result_2 == expected_2","over":{"base":"Any"},"name":"test_contraction_structure_Add_in_Pow_correct"},"guarantee":"result == expected; result_2 == expected_2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_index_methods.test_contraction_structure_Add_in_Pow_correct","statement":"Path(test_contraction_structure_Add_in_Pow(x), result == expected; result_2 == expected_2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71903195e757e404","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == expected","result_2 == expected_2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_contraction_structure_Add_in_Pow():
     x = IndexedBase('x')
     y = IndexedBase('y')
@@ -342,16 +438,22 @@ def test_contraction_structure_Add_in_Pow():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_contraction_structure_Pow_in_Pow(), test_contraction_structure_Pow_in_Pow produces the expected output) over Any ║
+# ║ Path(test_contraction_structure_Pow_in_Pow(), get_contraction_structure(ii_jj_kk) == expected) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  get_contraction_structure(ii_jj_kk) == ex...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_contraction_structure_Pow_in_Pow : Any → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75993e78e3a33591  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed5a290d45e2f5a7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_index_methods.test_contraction_structure_Pow_in_Pow","kind":"function","src_hash":"9ea405a3d2d1fc9a","in":{"base":"Any"},"out":{"base":"Any","pred":"get_contraction_structure(ii_jj_kk) == expected"},"spec":{"lhs":"test_contraction_structure_Pow_in_Pow()","rhs":"test_contraction_structure_Pow_in_Pow produces the expected output","over":{"base":"Any"},"name":"test_contraction_structure_Pow_in_Pow_correct"},"guarantee":"test_contraction_structure_Pow_in_Pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_index_methods.test_contraction_structure_Pow_in_Pow_correct","statement":"Path(test_contraction_structure_Pow_in_Pow(x), test_contraction_structure_Pow_in_Pow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75993e78e3a33591"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_index_methods.test_contraction_structure_Pow_in_Pow","kind":"function","src_hash":"9ea405a3d2d1fc9a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: get_contraction_structure(ii_jj_kk) == expected"},"spec":{"lhs":"test_contraction_structure_Pow_in_Pow()","rhs":"get_contraction_structure(ii_jj_kk) == expected","over":{"base":"Any"},"name":"test_contraction_structure_Pow_in_Pow_correct"},"guarantee":"get_contraction_structure(ii_jj_kk) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_index_methods.test_contraction_structure_Pow_in_Pow_correct","statement":"Path(test_contraction_structure_Pow_in_Pow(x), get_contraction_structure(ii_jj_kk) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed5a290d45e2f5a7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["get_contraction_structure(ii_jj_kk) == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_contraction_structure_Pow_in_Pow():
     x = IndexedBase('x')
     y = IndexedBase('y')
@@ -375,16 +477,24 @@ def test_contraction_structure_Pow_in_Pow():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ufunc_support(), test_ufunc_support produces the expected output) over Any ║
+# ║ Path(test_ufunc_support(), get_indices(f(x[i])) == ({i}, {}) and get_indices(f(x[i], y[j])) == ({i, j}, {}) and get_indices(f(y[i]) * g(x[i])) == (set(), {}) and get_indices(f(a, x[i])) == ({i}, {}) and get_indices(f(a, y[i], x[j]) * g(x[i])) == ({j}, {}) and get_indices(g(f(x[i]))) == ({i}, {}) and get_contraction_structure(f(x[i])) == {None: {f(x[i])}} and get_contraction_structure(f(y[i]) * g(x[i])) == {(i,): {f(y[i]) * g(x[i])}} and get_contraction_structure(f(y[i]) * g(f(x[i]))) == {(i,): {f(y[i]) * g(f(x[i]))}} and get_contraction_structure(f(x[j], y[i]) * g(x[i])) == {(i,): {f(x[j], y[i]) * g(x[i])}}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ufunc_support : Any → {Any | get_indices(f(x[i])...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  get_indices(f(x[i])) == ({i}, {})              ║
+# ║   ensures:  get_indices(f(x[i], y[j])) == ({i, j}, {})     ║
+# ║   ensures:  get_indices(f(y[i]) * g(x[i])) == (set(),...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ufunc_support : Any → {Any | result satisfies: g...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c76d697780db29b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92d1847fa149ff51  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_index_methods.test_ufunc_support","kind":"function","src_hash":"c80b5feeb1671f2b","in":{"base":"Any"},"out":{"base":"Any","pred":"get_indices(f(x[i])) == ({i}, {}) and get_indices(f(x[i], y[j])) == ({i, j}, {}) and get_indices(f(y[i]) * g(x[i])) == (set(), {}) and get_indices(f(a, x[i])) == ({i}, {}) and get_indices(f(a, y[i], x[j]) * g(x[i])) == ({j}, {}) and get_indices(g(f(x[i]))) == ({i}, {}) and get_contraction_structure(f(x[i])) == {None: {f(x[i])}} and get_contraction_structure(f(y[i]) * g(x[i])) == {(i,): {f(y[i]) * g(x[i])}}"},"spec":{"lhs":"test_ufunc_support()","rhs":"test_ufunc_support produces the expected output","over":{"base":"Any"},"name":"test_ufunc_support_correct"},"guarantee":"test_ufunc_support produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_index_methods.test_ufunc_support_correct","statement":"Path(test_ufunc_support(x), test_ufunc_support produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c76d697780db29b"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.tests.test_index_methods.test_ufunc_support","kind":"function","src_hash":"c80b5feeb1671f2b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: get_indices(f(x[i])) == ({i}, {}) and get_indices(f(x[i], y[j])) == ({i, j}, {}) and get_indices(f(y[i]) * g(x[i])) == (set(), {}) and get_indices(f(a, x[i])) == ({i}, {}) and get_indices(f(a, y[i], x[j]) * g(x[i])) == ({j}, {}) and get_indices(g(f(x[i]))) == ({i}, {}) and get_contraction_structure(f(x[i])) == {None: {f(x[i])}} and get_contraction_structure(f(y[i]) * g(x[i])) == {(i,): {f(y[i]) * g(x[i])}} and get_contraction_structure(f(y[i]) * g(f(x[i]))) == {(i,): {f(y[i]) * g(f(x[i]))}} and get_contraction_structure(f(x[j], y[i]) * g(x[i])) == {(i,): {f(x[j], y[i]) * g(x[i])}}"},"spec":{"lhs":"test_ufunc_support()","rhs":"get_indices(f(x[i])) == ({i}, {}) and get_indices(f(x[i], y[j])) == ({i, j}, {}) and get_indices(f(y[i]) * g(x[i])) == (set(), {}) and get_indices(f(a, x[i])) == ({i}, {}) and get_indices(f(a, y[i], x[j]) * g(x[i])) == ({j}, {}) and get_indices(g(f(x[i]))) == ({i}, {}) and get_contraction_structure(f(x[i])) == {None: {f(x[i])}} and get_contraction_structure(f(y[i]) * g(x[i])) == {(i,): {f(y[i]) * g(x[i])}} and get_contraction_structure(f(y[i]) * g(f(x[i]))) == {(i,): {f(y[i]) * g(f(x[i]))}} and get_contraction_structure(f(x[j], y[i]) * g(x[i])) == {(i,): {f(x[j], y[i]) * g(x[i])}}","over":{"base":"Any"},"name":"test_ufunc_support_correct"},"guarantee":"get_indices(f(x[i])) == ({i}, {}); get_indices(f(x[i], y[j])) == ({i, j}, {}); get_indices(f(y[i]) * g(x[i])) == (set(), {})","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.tests.test_index_methods.test_ufunc_support_correct","statement":"Path(test_ufunc_support(x), get_indices(f(x[i])) == ({i}, {}); get_indices(f(x[i], y[j])) == ({i, j}, {}); get_indices(f(y[i]) * g(x[i])) == (set(), {}))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92d1847fa149ff51","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["get_indices(f(x[i])) == ({i}, {})","get_indices(f(x[i], y[j])) == ({i, j}, {})","get_indices(f(y[i]) * g(x[i])) == (set(), {})","get_indices(f(a, x[i])) == ({i}, {})","get_indices(f(a, y[i], x[j]) * g(x[i])) == ({j}, {})","get_indices(g(f(x[i]))) == ({i}, {})","get_contraction_structure(f(x[i])) == {None: {f(x[i])}}","get_contraction_structure(f(y[i]) * g(x[i])) == {(i,): {f(y[i]) * g(x[i])}}","get_contraction_structure(f(y[i]) * g(f(x[i]))) == {(i,): {f(y[i]) * g(f(x[i]))}}","get_contraction_structure(f(x[j], y[i]) * g(x[i])) == {(i,): {f(x[j], y[i]) * g(x[i])}}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_ufunc_support():
     f = Function('f')
     g = Function('g')

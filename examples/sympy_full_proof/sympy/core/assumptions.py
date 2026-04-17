@@ -235,16 +235,22 @@ from sympy.core.random import _assumptions_shuffle as shuffle
 from sympy.core.assumptions_generated import generated_assumptions as _assumptions
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_load_pre_generated_assumption_rules(), load the assumption rules from pre-generated data) over Any ║
+# ║ Path(_load_pre_generated_assumption_rules(), isinstance(result, FactRules)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _load_pre_generated_assumption_rules : Any → FactRules     ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   ensures:  isinstance(result, FactRules)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _load_pre_generated_assumption_rules : Any → {FactRul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a6172508cde7ae0f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1d28c84ed635e76f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.assumptions._load_pre_generated_assumption_rules","kind":"function","src_hash":"66334f2643ff3e08","in":{"base":"Any"},"out":{"base":"FactRules"},"spec":{"lhs":"_load_pre_generated_assumption_rules()","rhs":"load the assumption rules from pre-generated data","over":{"base":"Any"},"name":"_load_pre_generated_assumption_rules_correct"},"guarantee":"load the assumption rules from pre-generated data","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.assumptions._load_pre_generated_assumption_rules_correct","statement":"Path(_load_pre_generated_assumption_rules(x), load the assumption rules from pre-generated data)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6172508cde7ae0f"}
+# @cctt_verify {"v":2,"sym":"sympy.core.assumptions._load_pre_generated_assumption_rules","kind":"function","src_hash":"66334f2643ff3e08","in":{"base":"Any"},"out":{"base":"FactRules","pred":"result satisfies: isinstance(result, FactRules)"},"spec":{"lhs":"_load_pre_generated_assumption_rules()","rhs":"isinstance(result, FactRules)","over":{"base":"Any"},"name":"_load_pre_generated_assumption_rules_correct"},"guarantee":"isinstance(result, FactRules)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.assumptions._load_pre_generated_assumption_rules_correct","statement":"Path(_load_pre_generated_assumption_rules(x), isinstance(result, FactRules))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d28c84ed635e76f","spec_source":"static","formal_spec":{"source":"static","strength":"partial","ensures":["isinstance(result, FactRules)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _load_pre_generated_assumption_rules() -> FactRules:
     """ Load the assumption rules from pre-generated data
 
@@ -254,16 +260,22 @@ def _load_pre_generated_assumption_rules() -> FactRules:
     return _assume_rules
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_generate_assumption_rules(), generate the default assumption rules) over Any ║
+# ║ Path(_generate_assumption_rules(), <unspecified:_generate_assumption_rules>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _generate_assumption_rules : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d57059842458ac51  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.assumptions._generate_assumption_rules","kind":"function","src_hash":"9835c4b9e0baa18a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_assumption_rules()","rhs":"generate the default assumption rules","over":{"base":"Any"},"name":"_generate_assumption_rules_correct"},"guarantee":"generate the default assumption rules","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.assumptions._generate_assumption_rules_correct","statement":"Path(_generate_assumption_rules(x), generate the default assumption rules)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d57059842458ac51"}
+# @cctt_verify {"v":2,"sym":"sympy.core.assumptions._generate_assumption_rules","kind":"function","src_hash":"9835c4b9e0baa18a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_assumption_rules()","rhs":"<unspecified:_generate_assumption_rules>","over":{"base":"Any"},"name":"_generate_assumption_rules_correct"},"guarantee":"generate the default assumption rules","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.assumptions._generate_assumption_rules_correct","statement":"Path(_generate_assumption_rules(x), generate the default assumption rules)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d57059842458ac51","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _generate_assumption_rules():
     """ Generate the default assumption rules
 
@@ -341,16 +353,22 @@ _assume_defined = frozenset(_assume_defined)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(assumptions(exp), return the t/f assumptions of ``expr``) over Any ║
+# ║ Path(assumptions(expr, _check), <unspecified:assumptions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ assumptions : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3efa4333f8451ed2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.assumptions.assumptions","kind":"function","src_hash":"16848789f3b369d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"assumptions(exp)","rhs":"return the t/f assumptions of ``expr``","over":{"base":"Any"},"name":"assumptions_correct"},"guarantee":"return the t/f assumptions of ``expr``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.assumptions.assumptions_correct","statement":"Path(assumptions(x), return the t/f assumptions of ``expr``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3efa4333f8451ed2"}
+# @cctt_verify {"v":2,"sym":"sympy.core.assumptions.assumptions","kind":"function","src_hash":"16848789f3b369d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"assumptions(expr, _check)","rhs":"<unspecified:assumptions>","over":{"base":"Any"},"name":"assumptions_correct"},"guarantee":"return the t/f assumptions of ``expr``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.assumptions.assumptions_correct","statement":"Path(assumptions(x), return the t/f assumptions of ``expr``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3efa4333f8451ed2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def assumptions(expr, _check=None):
     """return the T/F assumptions of ``expr``"""
     n = sympify(expr)
@@ -368,16 +386,22 @@ def assumptions(expr, _check=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(common_assumptions(exp), return those assumptions which have the same true or false value for all the given expressions) over Any ║
+# ║ Path(common_assumptions(exprs, check), <unspecified:common_assumptions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ common_assumptions : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff1dab14dcc31ad6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.assumptions.common_assumptions","kind":"function","src_hash":"19905990c4488a9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"common_assumptions(exp)","rhs":"return those assumptions which have the same true or false value for all the given expressions","over":{"base":"Any"},"name":"common_assumptions_correct"},"guarantee":"return those assumptions which have the same true or false value for all the given expressions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.assumptions.common_assumptions_correct","statement":"Path(common_assumptions(x), return those assumptions which have the same true or false value for all the given expressions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff1dab14dcc31ad6"}
+# @cctt_verify {"v":2,"sym":"sympy.core.assumptions.common_assumptions","kind":"function","src_hash":"19905990c4488a9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"common_assumptions(exprs, check)","rhs":"<unspecified:common_assumptions>","over":{"base":"Any"},"name":"common_assumptions_correct"},"guarantee":"return those assumptions which have the same true or false value for all the given expressions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.assumptions.common_assumptions_correct","statement":"Path(common_assumptions(x), return those assumptions which have the same true or false value for all the given expressions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff1dab14dcc31ad6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def common_assumptions(exprs, check=None):
     """return those assumptions which have the same True or False
     value for all the given expressions.
@@ -415,16 +439,22 @@ def common_assumptions(exprs, check=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(failing_assumptions(exp), return a dictionary containing assumptions with values not matching those of the passed assumptions) over Any ║
+# ║ Path(failing_assumptions(expr, **assumptions), <unspecified:failing_assumptions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ failing_assumptions : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8603ed1fa2da7fb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.assumptions.failing_assumptions","kind":"function","src_hash":"5013eb417cb2590c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"failing_assumptions(exp)","rhs":"return a dictionary containing assumptions with values not matching those of the passed assumptions","over":{"base":"Any"},"name":"failing_assumptions_correct"},"guarantee":"return a dictionary containing assumptions with values not matching those of the passed assumptions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.assumptions.failing_assumptions_correct","statement":"Path(failing_assumptions(x), return a dictionary containing assumptions with values not matching those of the passed assumptions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8603ed1fa2da7fb"}
+# @cctt_verify {"v":2,"sym":"sympy.core.assumptions.failing_assumptions","kind":"function","src_hash":"5013eb417cb2590c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"failing_assumptions(expr, **assumptions)","rhs":"<unspecified:failing_assumptions>","over":{"base":"Any"},"name":"failing_assumptions_correct"},"guarantee":"return a dictionary containing assumptions with values not matching those of the passed assumptions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.assumptions.failing_assumptions_correct","statement":"Path(failing_assumptions(x), return a dictionary containing assumptions with values not matching those of the passed assumptions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8603ed1fa2da7fb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', '**assumptions']"]}}
 def failing_assumptions(expr, **assumptions):
     """
     Return a dictionary containing assumptions with values not
@@ -459,16 +489,22 @@ def failing_assumptions(expr, **assumptions):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check_assumptions(exp), checks whether assumptions of ``expr`` match the t/f assumptions given (or possessed by ``against``)) over Any ║
+# ║ Path(check_assumptions(expr, against, **assume), <unspecified:check_assumptions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ check_assumptions : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d491b82eb7d25219  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.assumptions.check_assumptions","kind":"function","src_hash":"e41213e9557f7e7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check_assumptions(exp)","rhs":"checks whether assumptions of ``expr`` match the t/f assumptions given (or possessed by ``against``)","over":{"base":"Any"},"name":"check_assumptions_correct"},"guarantee":"checks whether assumptions of ``expr`` match the t/f assumptions given (or possessed by ``against``)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.assumptions.check_assumptions_correct","statement":"Path(check_assumptions(x), checks whether assumptions of ``expr`` match the t/f assumptions given (or possessed by ``against``))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d491b82eb7d25219"}
+# @cctt_verify {"v":2,"sym":"sympy.core.assumptions.check_assumptions","kind":"function","src_hash":"e41213e9557f7e7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check_assumptions(expr, against, **assume)","rhs":"<unspecified:check_assumptions>","over":{"base":"Any"},"name":"check_assumptions_correct"},"guarantee":"checks whether assumptions of ``expr`` match the t/f assumptions given (or possessed by ``against``)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.assumptions.check_assumptions_correct","statement":"Path(check_assumptions(x), checks whether assumptions of ``expr`` match the t/f assumptions given (or possessed by ``against``))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d491b82eb7d25219","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['expr', 'against'], spec=['expr', 'against', '**assume']"]}}
 def check_assumptions(expr, against=None, **assume):
     """
     Checks whether assumptions of ``expr`` match the T/F assumptions
@@ -547,30 +583,44 @@ def check_assumptions(expr, against=None, **assume):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a StdFactKB instance) preserved by StdFactKB(*args) over {Any | isinstance(facts, FactKB)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ StdFactKB : {Any | isinstance(facts, FactKB)} → Any        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, FactKB)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ StdFactKB : {Any | isinstance(facts, FactKB)} → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a302b757f4593851  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.assumptions.StdFactKB","kind":"class","src_hash":"c6ada0af92408743","in":{"base":"Any","pred":"isinstance(facts, FactKB)"},"out":{"base":"Any"},"spec":{"lhs":"StdFactKB(*args)","rhs":"correctly constructs a StdFactKB instance","over":{"base":"Any","pred":"isinstance(facts, FactKB)"},"name":"StdFactKB_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a StdFactKB instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_generator') and hasattr(self, '_generator') and hasattr(self, '_generator')","kind":"class","induction":"structural on _generator, _generator, _generator"}],"methods_preserving":["__init__","copy","generator"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a302b757f4593851"}
+# @cctt_verify {"v":2,"sym":"sympy.core.assumptions.StdFactKB","kind":"class","src_hash":"c6ada0af92408743","in":{"base":"Any","pred":"isinstance(facts, FactKB)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, FactKB)"},"spec":{"lhs":"StdFactKB(*args)","rhs":"correctly constructs a StdFactKB instance","over":{"base":"Any","pred":"isinstance(facts, FactKB)"},"name":"StdFactKB_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, FactKB); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_generator') and hasattr(self, '_generator') and hasattr(self, '_generator')","kind":"class","induction":"structural on _generator, _generator, _generator"}],"methods_preserving":["__init__","copy","generator"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a302b757f4593851","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, FactKB)"],"invariants":["hasattr(self, '_generator')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function StdFactKB not found in source"]}}
 class StdFactKB(FactKB):
     """A FactKB specialized for the built-in rules
 
     This is the only kind of FactKB that Basic objects should use.
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(fac), initializes the instance correctly) over Any ║
+# ║ Path(__init__(facts), <unspecified:__init__>) over {Any | hasattr(facts, 'generator') and hasattr(facts, 'copy')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(facts, 'generator')                    ║
+# ║   requires: hasattr(facts, 'copy')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | hasattr(facts, 'generator') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c320e94d874b473b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.assumptions.StdFactKB.__init__","kind":"method","src_hash":"b19cc7a1b943e5ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(fac)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c320e94d874b473b"}
+# @cctt_verify {"v":2,"sym":"sympy.core.assumptions.StdFactKB.__init__","kind":"method","src_hash":"b19cc7a1b943e5ab","in":{"base":"Any","pred":"hasattr(facts, 'generator') and hasattr(facts, 'copy')"},"out":{"base":"Any"},"spec":{"lhs":"__init__(facts)","rhs":"<unspecified:__init__>","over":{"base":"Any","pred":"hasattr(facts, 'generator') and hasattr(facts, 'copy')"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c320e94d874b473b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(facts, 'generator')","hasattr(facts, 'copy')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, facts=None):
         super().__init__(_assume_rules)
         # save a copy of the facts dict
@@ -584,62 +634,86 @@ class StdFactKB(FactKB):
             self.deduce_all_facts(facts)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(copy(), copy produces the expected output) over Any   ║
+# ║ Path(copy(), self.__class__(self)) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__class__(self)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ copy : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f5b08a23649a7cb4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.assumptions.StdFactKB.copy","kind":"method","src_hash":"5d864f2a3c14df06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"copy()","rhs":"copy produces the expected output","over":{"base":"Any"},"name":"copy_correct"},"guarantee":"copy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f5b08a23649a7cb4"}
+# @cctt_verify {"v":2,"sym":"sympy.core.assumptions.StdFactKB.copy","kind":"method","src_hash":"5d864f2a3c14df06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"copy()","rhs":"self.__class__(self)","over":{"base":"Any"},"name":"copy_correct"},"guarantee":"returns self.__class__(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f5b08a23649a7cb4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__class__(self)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def copy(self):
         return self.__class__(self)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(generator(), returns the generator attribute) over Any ║
+# ║ Path(generator(), self._generator.copy()) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._generator.copy()                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ generator : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 86fe5d047cbac709           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.assumptions.StdFactKB.generator","kind":"property","src_hash":"1bfac71151ecd754","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"generator()","rhs":"returns the generator attribute","over":{"base":"Any"},"name":"generator_correct"},"guarantee":"returns the generator attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"86fe5d047cbac709"}
+# @cctt_verify {"v":2,"sym":"sympy.core.assumptions.StdFactKB.generator","kind":"property","src_hash":"1bfac71151ecd754","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"generator()","rhs":"self._generator.copy()","over":{"base":"Any"},"name":"generator_correct"},"guarantee":"returns self._generator.copy()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"86fe5d047cbac709","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._generator.copy()","pure":false,"effects":{"effect_type":"reads_state","reads":["self._generator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def generator(self):
         return self._generator.copy()
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_property(fac), convert a fact name to the name of the corresponding property) over Any ║
+# ║ Path(as_property(fact), 'is_%s' % fact) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'is_%s' % fact                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_property : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b92536a2bda40d8e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.assumptions.as_property","kind":"function","src_hash":"092c36cb06d3a0cb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_property(fac)","rhs":"convert a fact name to the name of the corresponding property","over":{"base":"Any"},"name":"as_property_correct"},"guarantee":"convert a fact name to the name of the corresponding property","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b92536a2bda40d8e"}
+# @cctt_verify {"v":2,"sym":"sympy.core.assumptions.as_property","kind":"function","src_hash":"092c36cb06d3a0cb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_property(fact)","rhs":"'is_%s' % fact","over":{"base":"Any"},"name":"as_property_correct"},"guarantee":"returns 'is_%s' % fact","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b92536a2bda40d8e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'is_%s' % fact","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def as_property(fact):
     """Convert a fact name to the name of the corresponding property"""
     return 'is_%s' % fact
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(make_property(fac), create the automagic property corresponding to a fact) over Any ║
+# ║ Path(make_property(fact), <unspecified:make_property>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ make_property : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7865ef5f70d5584b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.assumptions.make_property","kind":"function","src_hash":"db0f5ea08175f964","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"make_property(fac)","rhs":"create the automagic property corresponding to a fact","over":{"base":"Any"},"name":"make_property_correct"},"guarantee":"create the automagic property corresponding to a fact","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.assumptions.make_property_correct","statement":"Path(make_property(x), create the automagic property corresponding to a fact)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7865ef5f70d5584b"}
+# @cctt_verify {"v":2,"sym":"sympy.core.assumptions.make_property","kind":"function","src_hash":"db0f5ea08175f964","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"make_property(fact)","rhs":"<unspecified:make_property>","over":{"base":"Any"},"name":"make_property_correct"},"guarantee":"create the automagic property corresponding to a fact","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.assumptions.make_property_correct","statement":"Path(make_property(x), create the automagic property corresponding to a fact)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7865ef5f70d5584b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def make_property(fact):
     """Create the automagic property corresponding to a fact."""
 
@@ -656,16 +730,24 @@ def make_property(fact):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_ask(fac), find the truth value for a property of an object) over Any ║
+# ║ Path(_ask(fact, obj), <unspecified:_ask>) over {Any | hasattr(obj, '_assumptions') and hasattr(obj, '_prop_handler')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ask : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(obj, '_assumptions')                   ║
+# ║   requires: hasattr(obj, '_prop_handler')                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ask : {Any | hasattr(obj, '_assumptions') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5da8549b35f0cd3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.assumptions._ask","kind":"function","src_hash":"cad3ae7a7c3b4947","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_ask(fac)","rhs":"find the truth value for a property of an object","over":{"base":"Any"},"name":"_ask_correct"},"guarantee":"find the truth value for a property of an object","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.assumptions._ask_correct","statement":"Path(_ask(x), find the truth value for a property of an object)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5da8549b35f0cd3"}
+# @cctt_verify {"v":2,"sym":"sympy.core.assumptions._ask","kind":"function","src_hash":"cad3ae7a7c3b4947","in":{"base":"Any","pred":"hasattr(obj, '_assumptions') and hasattr(obj, '_prop_handler')"},"out":{"base":"Any"},"spec":{"lhs":"_ask(fact, obj)","rhs":"<unspecified:_ask>","over":{"base":"Any","pred":"hasattr(obj, '_assumptions') and hasattr(obj, '_prop_handler')"},"name":"_ask_correct"},"guarantee":"find the truth value for a property of an object","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.assumptions._ask_correct","statement":"Path(_ask(x), find the truth value for a property of an object)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5da8549b35f0cd3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(obj, '_assumptions')","hasattr(obj, '_prop_handler')"],"pure":false,"effects":{"effect_type":"nondeterministic","reads":["obj._assumptions","obj._prop_handler"],"calls_mutating":["facts_queued.update","facts_to_check.extend"],"nondeterministic_sources":["shuffle"]},"state_contract":{"modifies":["facts_queued.*","facts_to_check.*"],"old_bindings":{"old_len_facts_queued":"len(facts_queued)","old_len_facts_to_check":"len(facts_to_check)"}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _ask(fact, obj):
     """
     Find the truth value for a property of an object.
@@ -772,7 +854,10 @@ def _ask(fact, obj):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_prepare_class_assumptions(cls), precompute class level assumptions and generate handlers) over {Any | isinstance(v, (bool, int, type(None)))} ║
+# ║ Path(_prepare_class_assumptions(cls), <unspecified:_prepare_class_assumptions>) over {Any | isinstance(v, (bool, int, type(None)))} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _prepare_class_assumptions : {Any | isinstance(v, (bo...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -784,9 +869,12 @@ def _ask(fact, obj):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 29f357fb...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.assumptions._prepare_class_assumptions","kind":"function","src_hash":"d2693de9562c7bd5","in":{"base":"Any","pred":"isinstance(v, (bool, int, type(None)))"},"out":{"base":"Any"},"spec":{"lhs":"_prepare_class_assumptions(cls)","rhs":"precompute class level assumptions and generate handlers","over":{"base":"Any","pred":"isinstance(v, (bool, int, type(None)))"},"name":"_prepare_class_assumptions_correct"},"guarantee":"precompute class level assumptions and generate handlers","fibers":[{"name":"(bool","pred":"isinstance(v, (bool, int, type(None)))","path":{"lhs":"_prepare_class_assumptions(x)","rhs":"precompute class level assumptions and generate handlers","over":{"base":"(bool","pred":"isinstance(v, (bool, int, type(None)))"},"name":"_prepare_class_assumptions_(bool_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.assumptions._prepare_class_assumptions_(bool_correct","statement":"_prepare_class_assumptions satisfies spec on (bool inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"29f357fb5ca8c547"}
+# @cctt_verify {"v":2,"sym":"sympy.core.assumptions._prepare_class_assumptions","kind":"function","src_hash":"d2693de9562c7bd5","in":{"base":"Any","pred":"isinstance(v, (bool, int, type(None)))"},"out":{"base":"Any"},"spec":{"lhs":"_prepare_class_assumptions(cls)","rhs":"<unspecified:_prepare_class_assumptions>","over":{"base":"Any","pred":"isinstance(v, (bool, int, type(None)))"},"name":"_prepare_class_assumptions_correct"},"guarantee":"precompute class level assumptions and generate handlers","fibers":[{"name":"(bool","pred":"isinstance(v, (bool, int, type(None)))","path":{"lhs":"_prepare_class_assumptions(x)","rhs":"precompute class level assumptions and generate handlers","over":{"base":"(bool","pred":"isinstance(v, (bool, int, type(None)))"},"name":"_prepare_class_assumptions_(bool_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.assumptions._prepare_class_assumptions_(bool_correct","statement":"_prepare_class_assumptions satisfies spec on (bool inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"29f357fb5ca8c547","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_args","reads":["*.__bases__","*.__dict__","cls.__bases__","cls.__dict__","cls._prop_handler","cls.default_assumptions"],"writes":["cls._explicit_class_assumptions","cls._prop_handler","cls.default_assumptions"],"calls_mutating":["defs.update","derived_from_bases.update"]},"state_contract":{"modifies":["cls._explicit_class_assumptions","cls._prop_handler","cls.default_assumptions","defs.*","derived_from_bases.*"],"old_bindings":{"old_cls__explicit_class_assumptions":"cls._explicit_class_assumptions","old_cls__prop_handler":"cls._prop_handler","old_cls_default_assumptions":"cls.default_assumptions","old_len_defs":"len(defs)","old_len_derived_from_bases":"len(derived_from_bases)"}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(v, (bool, int, type(None)))'}, fibers={'(bool'})"]}}
 def _prepare_class_assumptions(cls):
     """Precompute class level assumptions and generate handlers.
 
@@ -856,26 +944,38 @@ def _prepare_class_assumptions(cls):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ManagedProperties(*args), correctly constructs a ManagedProperties instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ManagedProperties : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, type)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ManagedProperties : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b42ebf2c2aaba4e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.assumptions.ManagedProperties","kind":"class","src_hash":"dccfa98340f4a560","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ManagedProperties(*args)","rhs":"correctly constructs a ManagedProperties instance","over":{"base":"Any"},"name":"ManagedProperties_class_invariant"},"guarantee":"correctly constructs a ManagedProperties instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b42ebf2c2aaba4e"}
+# @cctt_verify {"v":2,"sym":"sympy.core.assumptions.ManagedProperties","kind":"class","src_hash":"dccfa98340f4a560","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, type)"},"spec":{"lhs":"ManagedProperties(*args)","rhs":"correctly constructs a ManagedProperties instance","over":{"base":"Any"},"name":"ManagedProperties_class_invariant"},"guarantee":"isinstance(self, type)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b42ebf2c2aaba4e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, type)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function ManagedProperties not found in source"]}}
 class ManagedProperties(type):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(cls), initializes the instance correctly) over Any ║
+# ║ Path(__init__(cls, *args, **kwargs), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3e38f16ccb598127           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.assumptions.ManagedProperties.__init__","kind":"method","src_hash":"76171bccbe217a53","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(cls)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e38f16ccb598127"}
+# @cctt_verify {"v":2,"sym":"sympy.core.assumptions.ManagedProperties.__init__","kind":"method","src_hash":"76171bccbe217a53","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(cls, *args, **kwargs)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e38f16ccb598127","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(cls, *args, **kwargs):
         msg = ("The ManagedProperties metaclass. "
                "Basic does not use metaclasses any more")

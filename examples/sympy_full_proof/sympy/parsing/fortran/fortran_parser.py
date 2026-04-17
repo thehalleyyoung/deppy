@@ -317,16 +317,22 @@ else:
             raise ImportError('lfortran not available')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(call_visitor(for), calls the ast visitor on the module) over Any ║
+# ║ Path(call_visitor(fort_node), <unspecified:call_visitor>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ call_visitor : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8fc567b6cce2a5fc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.fortran.fortran_parser.call_visitor","kind":"function","src_hash":"fd76b12735c32cef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"call_visitor(for)","rhs":"calls the ast visitor on the module","over":{"base":"Any"},"name":"call_visitor_correct"},"guarantee":"calls the ast visitor on the module","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.fortran.fortran_parser.call_visitor_correct","statement":"Path(call_visitor(x), calls the ast visitor on the module)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fc567b6cce2a5fc"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.fortran.fortran_parser.call_visitor","kind":"function","src_hash":"fd76b12735c32cef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"call_visitor(fort_node)","rhs":"<unspecified:call_visitor>","over":{"base":"Any"},"name":"call_visitor_correct"},"guarantee":"calls the ast visitor on the module","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.fortran.fortran_parser.call_visitor_correct","statement":"Path(call_visitor(x), calls the ast visitor on the module)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fc567b6cce2a5fc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def call_visitor(fort_node):
     """Calls the AST Visitor on the Module
 
@@ -354,16 +360,22 @@ def call_visitor(fort_node):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(src_to_sympy(src), wrapper function to convert the given fortran source code to sympy expressions) over Any ║
+# ║ Path(src_to_sympy(src), <unspecified:src_to_sympy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ src_to_sympy : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2882ec27edc2076  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.fortran.fortran_parser.src_to_sympy","kind":"function","src_hash":"ebc83a6fd0b1e7a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"src_to_sympy(src)","rhs":"wrapper function to convert the given fortran source code to sympy expressions","over":{"base":"Any"},"name":"src_to_sympy_correct"},"guarantee":"wrapper function to convert the given fortran source code to sympy expressions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.fortran.fortran_parser.src_to_sympy_correct","statement":"Path(src_to_sympy(x), wrapper function to convert the given fortran source code to sympy expressions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2882ec27edc2076"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.fortran.fortran_parser.src_to_sympy","kind":"function","src_hash":"ebc83a6fd0b1e7a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"src_to_sympy(src)","rhs":"<unspecified:src_to_sympy>","over":{"base":"Any"},"name":"src_to_sympy_correct"},"guarantee":"wrapper function to convert the given fortran source code to sympy expressions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.fortran.fortran_parser.src_to_sympy_correct","statement":"Path(src_to_sympy(x), wrapper function to convert the given fortran source code to sympy expressions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2882ec27edc2076","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def src_to_sympy(src):
     """Wrapper function to convert the given Fortran source code to SymPy Expressions
 

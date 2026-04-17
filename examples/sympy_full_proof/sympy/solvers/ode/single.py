@@ -52,16 +52,22 @@ from .lie_group import _ode_lie_group
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ODEMatchError(), correctly constructs a ODEMatchError instance) over Any ║
+# ║ Path(ODEMatchError(), isinstance(self, NotImplementedError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ODEMatchError : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, NotImplementedError)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ODEMatchError : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9aaba4daa2429daf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.ODEMatchError","kind":"class","src_hash":"1baba2a5716999ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ODEMatchError()","rhs":"correctly constructs a ODEMatchError instance","over":{"base":"Any"},"name":"ODEMatchError_correct"},"guarantee":"correctly constructs a ODEMatchError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9aaba4daa2429daf"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.ODEMatchError","kind":"class","src_hash":"1baba2a5716999ec","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, NotImplementedError)"},"spec":{"lhs":"ODEMatchError()","rhs":"isinstance(self, NotImplementedError)","over":{"base":"Any"},"name":"ODEMatchError_correct"},"guarantee":"isinstance(self, NotImplementedError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9aaba4daa2429daf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, NotImplementedError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function ODEMatchError not found in source"]}}
 class ODEMatchError(NotImplementedError):
     """Raised if a SingleODESolver is asked to solve an ODE it does not match"""
     pass
@@ -70,14 +76,19 @@ class ODEMatchError(NotImplementedError):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a SingleODEProblem instance) preserved by SingleODEProblem(*args) over {Any | isinstance(eq, Expr) and isinstance(func, AppliedUndef) and isinstance(sym, Symbol)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ SingleODEProblem : {Any | isinstance(eq, Expr) and is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9bec3a59f3d95e9c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SingleODEProblem","kind":"class","src_hash":"456d9e4797ea4c3b","in":{"base":"Any","pred":"isinstance(eq, Expr) and isinstance(func, AppliedUndef) and isinstance(sym, Symbol)"},"out":{"base":"Any","pred":"isinstance(eq, Expr) and isinstance(func, AppliedUndef) and isinstance(sym, Symbol) and isinstance(prep, bool)"},"spec":{"lhs":"SingleODEProblem(*args)","rhs":"correctly constructs a SingleODEProblem instance","over":{"base":"Any","pred":"isinstance(eq, Expr) and isinstance(func, AppliedUndef) and isinstance(sym, Symbol)"},"name":"SingleODEProblem_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a SingleODEProblem instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'eq') and hasattr(self, 'func') and hasattr(self, 'sym') and hasattr(self, 'prep') and hasattr(self, 'params')","kind":"class","induction":"structural on eq, func, sym, prep"}],"methods_preserving":["__init__","order","eq_preprocessed","eq_high_order_free","eq_expanded","_get_eq_preprocessed","get_numbered_constants","iter_numbered_constants","is_autonomous","get_linear_coefficients"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9bec3a59f3d95e9c"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SingleODEProblem","kind":"class","src_hash":"456d9e4797ea4c3b","in":{"base":"Any","pred":"isinstance(eq, Expr) and isinstance(func, AppliedUndef) and isinstance(sym, Symbol)"},"out":{"base":"Any","pred":"isinstance(eq, Expr) and isinstance(func, AppliedUndef) and isinstance(sym, Symbol) and isinstance(prep, bool)"},"spec":{"lhs":"SingleODEProblem(*args)","rhs":"correctly constructs a SingleODEProblem instance","over":{"base":"Any","pred":"isinstance(eq, Expr) and isinstance(func, AppliedUndef) and isinstance(sym, Symbol)"},"name":"SingleODEProblem_class_invariant","kind":"invariant"},"guarantee":"preserves 5 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'eq') and hasattr(self, 'func') and hasattr(self, 'sym') and hasattr(self, 'prep') and hasattr(self, 'params')","kind":"class","induction":"structural on eq, func, sym, prep"}],"methods_preserving":["__init__","order","eq_preprocessed","eq_high_order_free","eq_expanded","_get_eq_preprocessed","get_numbered_constants","iter_numbered_constants","is_autonomous","get_linear_coefficients"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9bec3a59f3d95e9c","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'eq')","hasattr(self, 'func')","hasattr(self, 'sym')","hasattr(self, 'prep')","hasattr(self, 'params')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function SingleODEProblem not found in source"]}}
 class SingleODEProblem:
     """Represents an ordinary differential equation (ODE)
 
@@ -118,16 +129,24 @@ class SingleODEProblem:
     _eq_high_order_free = None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(eq,), initializes the instance correctly) over Any ║
+# ║ Path(__init__(eq, func, sym), isinstance(eq, Expr) and isinstance(func, AppliedUndef) and isinstance(sym, Symbol) and isinstance(prep, bool)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(eq, Expr)                           ║
+# ║   ensures:  isinstance(func, AppliedUndef)                 ║
+# ║   ensures:  isinstance(sym, Symbol)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 286f92b6b62b9fa9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SingleODEProblem.__init__","kind":"method","src_hash":"a119c5a0ece757ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(eq,)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"286f92b6b62b9fa9"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SingleODEProblem.__init__","kind":"method","src_hash":"a119c5a0ece757ea","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(eq, Expr) and isinstance(func, AppliedUndef) and isinstance(sym, Symbol) and isinstance(prep, bool)"},"spec":{"lhs":"__init__(eq, func, sym)","rhs":"isinstance(eq, Expr) and isinstance(func, AppliedUndef) and isinstance(sym, Symbol) and isinstance(prep, bool)","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"isinstance(eq, Expr); isinstance(func, AppliedUndef); isinstance(sym, Symbol)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"286f92b6b62b9fa9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(eq, Expr)","isinstance(func, AppliedUndef)","isinstance(sym, Symbol)","isinstance(prep, bool)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, eq, func, sym, prep=True, **kwargs):
         assert isinstance(eq, Expr)
         assert isinstance(func, AppliedUndef)
@@ -141,46 +160,66 @@ class SingleODEProblem:
 
     @cached_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(order(), order produces the expected output) over Any ║
+# ║ Path(order(), ode_order(self.eq, self.func)) over Any      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ order : Any → int                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, int)                        ║
+# ║   returns:  ode_order(self.eq, self.func)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ order : Any → {int | result satisfies: result == (ode...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b72f0f412931a245           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SingleODEProblem.order","kind":"method","src_hash":"b6d09c7741697411","in":{"base":"Any"},"out":{"base":"int"},"spec":{"lhs":"order()","rhs":"order produces the expected output","over":{"base":"Any"},"name":"order_correct"},"guarantee":"order produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b72f0f412931a245"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SingleODEProblem.order","kind":"method","src_hash":"b6d09c7741697411","in":{"base":"Any"},"out":{"base":"int","pred":"result satisfies: result == (ode_order(self.eq, self.func))"},"spec":{"lhs":"order()","rhs":"ode_order(self.eq, self.func)","over":{"base":"Any"},"name":"order_correct"},"guarantee":"returns ode_order(self.eq, self.func); isinstance(result, int)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b72f0f412931a245","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, int)"],"returns_expr":"ode_order(self.eq, self.func)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.eq","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def order(self) -> int:
         return ode_order(self.eq, self.func)
 
     @cached_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eq_preprocessed(), eq_preprocessed produces the expected output) over Any ║
+# ║ Path(eq_preprocessed(), self._get_eq_preprocessed()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eq_preprocessed : Any → Expr                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  self._get_eq_preprocessed()                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eq_preprocessed : Any → {Expr | result satisfies: res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a343120add044c0f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SingleODEProblem.eq_preprocessed","kind":"method","src_hash":"f6ab06866d84e434","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eq_preprocessed()","rhs":"eq_preprocessed produces the expected output","over":{"base":"Any"},"name":"eq_preprocessed_correct"},"guarantee":"eq_preprocessed produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a343120add044c0f"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SingleODEProblem.eq_preprocessed","kind":"method","src_hash":"f6ab06866d84e434","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (self._get_eq_preprocessed())"},"spec":{"lhs":"eq_preprocessed()","rhs":"self._get_eq_preprocessed()","over":{"base":"Any"},"name":"eq_preprocessed_correct"},"guarantee":"returns self._get_eq_preprocessed(); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a343120add044c0f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"self._get_eq_preprocessed()","pure":false,"effects":{"effect_type":"reads_state","reads":["self._get_eq_preprocessed"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eq_preprocessed(self) -> Expr:
         return self._get_eq_preprocessed()
 
     @cached_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eq_high_order_free(), eq_high_order_free produces the expected output) over Any ║
+# ║ Path(eq_high_order_free(), isinstance(result, Expr)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eq_high_order_free : Any → Expr                            ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eq_high_order_free : Any → {Expr | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc43867547e3a51d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c800f3dac305e8b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SingleODEProblem.eq_high_order_free","kind":"method","src_hash":"26ccaba6f0e8b1f1","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eq_high_order_free()","rhs":"eq_high_order_free produces the expected output","over":{"base":"Any"},"name":"eq_high_order_free_correct"},"guarantee":"eq_high_order_free produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SingleODEProblem.eq_high_order_free_correct","statement":"Path(eq_high_order_free(x), eq_high_order_free produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc43867547e3a51d"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SingleODEProblem.eq_high_order_free","kind":"method","src_hash":"26ccaba6f0e8b1f1","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: isinstance(result, Expr)"},"spec":{"lhs":"eq_high_order_free()","rhs":"isinstance(result, Expr)","over":{"base":"Any"},"name":"eq_high_order_free_correct"},"guarantee":"isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SingleODEProblem.eq_high_order_free_correct","statement":"Path(eq_high_order_free(x), isinstance(result, Expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c800f3dac305e8b","spec_source":"static","formal_spec":{"source":"static","strength":"partial","ensures":["isinstance(result, Expr)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.eq","self.func","self.order","self.sym"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eq_high_order_free(self) -> Expr:
         a = Wild('a', exclude=[self.func])
         c1 = Wild('c1', exclude=[self.sym])
@@ -199,30 +238,43 @@ class SingleODEProblem:
 
     @cached_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eq_expanded(), eq_expanded produces the expected output) over Any ║
+# ║ Path(eq_expanded(), expand(self.eq_preprocessed)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eq_expanded : Any → Expr                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  expand(self.eq_preprocessed)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eq_expanded : Any → {Expr | result satisfies: result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e9f97b131e8701e4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SingleODEProblem.eq_expanded","kind":"method","src_hash":"e8fa317afc334e44","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"eq_expanded()","rhs":"eq_expanded produces the expected output","over":{"base":"Any"},"name":"eq_expanded_correct"},"guarantee":"eq_expanded produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e9f97b131e8701e4"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SingleODEProblem.eq_expanded","kind":"method","src_hash":"e8fa317afc334e44","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (expand(self.eq_preprocessed))"},"spec":{"lhs":"eq_expanded()","rhs":"expand(self.eq_preprocessed)","over":{"base":"Any"},"name":"eq_expanded_correct"},"guarantee":"returns expand(self.eq_preprocessed); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e9f97b131e8701e4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"expand(self.eq_preprocessed)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.eq_preprocessed"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eq_expanded(self) -> Expr:
         return expand(self.eq_preprocessed)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_eq_preprocessed(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_eq_preprocessed(), isinstance(result, Expr)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_eq_preprocessed : Any → Expr                          ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_eq_preprocessed : Any → {Expr | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0306cfcc3f7ead9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f3f224a70d8b45c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SingleODEProblem._get_eq_preprocessed","kind":"method","src_hash":"164905b4c1484c15","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"_get_eq_preprocessed()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_eq_preprocessed_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SingleODEProblem._get_eq_preprocessed_correct","statement":"Path(_get_eq_preprocessed(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0306cfcc3f7ead9"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SingleODEProblem._get_eq_preprocessed","kind":"method","src_hash":"164905b4c1484c15","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: isinstance(result, Expr)"},"spec":{"lhs":"_get_eq_preprocessed()","rhs":"isinstance(result, Expr)","over":{"base":"Any"},"name":"_get_eq_preprocessed_correct"},"guarantee":"isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SingleODEProblem._get_eq_preprocessed_correct","statement":"Path(_get_eq_preprocessed(x), isinstance(result, Expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f3f224a70d8b45c","spec_source":"static","formal_spec":{"source":"static","strength":"partial","ensures":["isinstance(result, Expr)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.eq","self.func","self.prep"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_eq_preprocessed(self) -> Expr:
         if self.prep:
             process_eq, process_func = _preprocess(self.eq, self.func)
@@ -233,16 +285,23 @@ class SingleODEProblem:
         return process_eq
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_numbered_constants(num), returns a list of constants that do not occur in eq already) over Any ║
+# ║ Path(get_numbered_constants(num, start, prefix), isinstance(result, list) and all(isinstance(x, Symbol) for x in result)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_numbered_constants : Any → list[Symbol]                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, list)                       ║
+# ║   ensures:  all(isinstance(x, Symbol) for x in result)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_numbered_constants : Any → {list[Symbol] | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80150198e0fb0c2c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2aad110c13697b1b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SingleODEProblem.get_numbered_constants","kind":"method","src_hash":"74f98f053536dc11","in":{"base":"Any"},"out":{"base":"list[Symbol]"},"spec":{"lhs":"get_numbered_constants(num)","rhs":"returns a list of constants that do not occur in eq already","over":{"base":"Any"},"name":"get_numbered_constants_correct"},"guarantee":"returns a list of constants that do not occur in eq already","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SingleODEProblem.get_numbered_constants_correct","statement":"Path(get_numbered_constants(x), returns a list of constants that do not occur in eq already)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80150198e0fb0c2c"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SingleODEProblem.get_numbered_constants","kind":"method","src_hash":"74f98f053536dc11","in":{"base":"Any"},"out":{"base":"list[Symbol]","pred":"result satisfies: isinstance(result, list) and all(isinstance(x, Symbol) for x in result)"},"spec":{"lhs":"get_numbered_constants(num, start, prefix)","rhs":"isinstance(result, list) and all(isinstance(x, Symbol) for x in result)","over":{"base":"Any"},"name":"get_numbered_constants_correct"},"guarantee":"isinstance(result, list); all(isinstance(x, Symbol) for x in result)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SingleODEProblem.get_numbered_constants_correct","statement":"Path(get_numbered_constants(x), isinstance(result, list); all(isinstance(x, Symbol) for x in result))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2aad110c13697b1b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, list)","all(isinstance(x, Symbol) for x in result)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.iter_numbered_constants"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_numbered_constants(self, num=1, start=1, prefix='C') -> list[Symbol]:
         """
         Returns a list of constants that do not occur
@@ -253,16 +312,23 @@ class SingleODEProblem:
         return Cs
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(iter_numbered_constants(sta), returns an iterator of constants that do not occur in eq already) over Any ║
+# ║ Path(iter_numbered_constants(start, prefix), numbered_symbols(start=start, prefix=prefix, exclude=atom_set)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ iter_numbered_constants : Any → Iterator[Symbol]           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Iterator[Symbol])           ║
+# ║   returns:  numbered_symbols(start=start, prefix=pref...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ iter_numbered_constants : Any → {Iterator[Symbol] | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a3a3ace16859c26  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a030eb412d2728e8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SingleODEProblem.iter_numbered_constants","kind":"method","src_hash":"aff44eeb173ab2f1","in":{"base":"Any"},"out":{"base":"Iterator[Symbol]"},"spec":{"lhs":"iter_numbered_constants(sta)","rhs":"returns an iterator of constants that do not occur in eq already","over":{"base":"Any"},"name":"iter_numbered_constants_correct"},"guarantee":"returns an iterator of constants that do not occur in eq already","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SingleODEProblem.iter_numbered_constants_correct","statement":"Path(iter_numbered_constants(x), returns an iterator of constants that do not occur in eq already)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a3a3ace16859c26"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SingleODEProblem.iter_numbered_constants","kind":"method","src_hash":"aff44eeb173ab2f1","in":{"base":"Any"},"out":{"base":"Iterator[Symbol]","pred":"result satisfies: result == (numbered_symbols(start=start, prefix=prefix, exclude=atom_set))"},"spec":{"lhs":"iter_numbered_constants(start, prefix)","rhs":"numbered_symbols(start=start, prefix=prefix, exclude=atom_set)","over":{"base":"Any"},"name":"iter_numbered_constants_correct"},"guarantee":"returns numbered_symbols(start=start, prefix=prefix, exclude=atom_set); isinstance(result, Iterator[Symbol])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SingleODEProblem.iter_numbered_constants_correct","statement":"Path(iter_numbered_constants(x), returns numbered_symbols(start=start, prefix=prefix, exclude=atom_set); isinstance(result, Iterator[Symbol]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a030eb412d2728e8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Iterator[Symbol])"],"returns_expr":"numbered_symbols(start=start, prefix=prefix, exclude=atom_set)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.eq"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def iter_numbered_constants(self, start=1, prefix='C') -> Iterator[Symbol]:
         """
         Returns an iterator of constants that do not occur
@@ -276,16 +342,22 @@ class SingleODEProblem:
 
     @cached_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_autonomous(), is_autonomous produces the expected output) over Any ║
+# ║ Path(is_autonomous(), x not in syms) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  x not in syms                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_autonomous : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 46f6bc5071a68ba7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f58faff63acec0a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SingleODEProblem.is_autonomous","kind":"method","src_hash":"cc593ce7f663358d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_autonomous()","rhs":"is_autonomous produces the expected output","over":{"base":"Any"},"name":"is_autonomous_correct"},"guarantee":"is_autonomous produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SingleODEProblem.is_autonomous_correct","statement":"Path(is_autonomous(x), is_autonomous produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46f6bc5071a68ba7"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SingleODEProblem.is_autonomous","kind":"method","src_hash":"cc593ce7f663358d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_autonomous()","rhs":"x not in syms","over":{"base":"Any"},"name":"is_autonomous_correct"},"guarantee":"returns x not in syms","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SingleODEProblem.is_autonomous_correct","statement":"Path(is_autonomous(x), returns x not in syms)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f58faff63acec0a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"x not in syms","pure":false,"effects":{"effect_type":"reads_state","reads":["self.eq","self.func","self.sym"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_autonomous(self):
         u = Dummy('u')
         x = self.sym
@@ -293,16 +365,24 @@ class SingleODEProblem:
         return x not in syms
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_linear_coefficients(eq,), matches a differential equation to the linear form:) over Any ║
+# ║ Path(get_linear_coefficients(eq, func, order), <unspecified:get_linear_coefficients>) over {Any | hasattr(func, 'func') and hasattr(func, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_linear_coefficients : Any → {Any | result satisfi...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(func, 'func')                          ║
+# ║   requires: hasattr(func, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_linear_coefficients : {Any | hasattr(func, 'func'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e8afe4c7a9083814  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SingleODEProblem.get_linear_coefficients","kind":"method","src_hash":"0ef657ac84ca28d0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: coeff terms, where order is the order of the"},"spec":{"lhs":"get_linear_coefficients(eq,)","rhs":"matches a differential equation to the linear form:","over":{"base":"Any"},"name":"get_linear_coefficients_correct"},"guarantee":"matches a differential equation to the linear form:","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SingleODEProblem.get_linear_coefficients_correct","statement":"Path(get_linear_coefficients(x), matches a differential equation to the linear form:)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8afe4c7a9083814"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SingleODEProblem.get_linear_coefficients","kind":"method","src_hash":"0ef657ac84ca28d0","in":{"base":"Any","pred":"hasattr(func, 'func') and hasattr(func, 'args')"},"out":{"base":"Any","pred":"result satisfies: coeff terms, where order is the order of the"},"spec":{"lhs":"get_linear_coefficients(eq, func, order)","rhs":"<unspecified:get_linear_coefficients>","over":{"base":"Any","pred":"hasattr(func, 'func') and hasattr(func, 'args')"},"name":"get_linear_coefficients_correct"},"guarantee":"matches a differential equation to the linear form:","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SingleODEProblem.get_linear_coefficients_correct","statement":"Path(get_linear_coefficients(x), matches a differential equation to the linear form:)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8afe4c7a9083814","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(func, 'func')","hasattr(func, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["func.args","func.func"],"catches":["PolyNonlinearError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_linear_coefficients(self, eq, func, order):
         r"""
         Matches a differential equation to the linear form:
@@ -360,14 +440,19 @@ class SingleODEProblem:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a SingleODESolver instance) preserved by SingleODESolver(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ SingleODESolver : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5793905fdd0ada4e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SingleODESolver","kind":"class","src_hash":"d4d98a2a6488d157","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SingleODESolver(*args)","rhs":"correctly constructs a SingleODESolver instance","over":{"base":"Any"},"name":"SingleODESolver_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a SingleODESolver instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'ode_problem')","kind":"class","induction":"structural on ode_problem"}],"methods_preserving":["__init__","matches","get_general_solution","_matches","_get_general_solution"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5793905fdd0ada4e"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SingleODESolver","kind":"class","src_hash":"d4d98a2a6488d157","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SingleODESolver(*args)","rhs":"correctly constructs a SingleODESolver instance","over":{"base":"Any"},"name":"SingleODESolver_class_invariant","kind":"invariant"},"guarantee":"preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'ode_problem')","kind":"class","induction":"structural on ode_problem"}],"methods_preserving":["__init__","matches","get_general_solution","_matches","_get_general_solution"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5793905fdd0ada4e","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'ode_problem')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function SingleODESolver not found in source"]}}
 class SingleODESolver:
     """
     Base class for Single ODE solvers.
@@ -425,30 +510,42 @@ class SingleODESolver:
     order: list | None = None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(ode), initializes the instance correctly) over Any ║
+# ║ Path(__init__(ode_problem), self.ode_problem == ode_problem) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.ode_problem == ode_problem                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.ode_pr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c87812e9703130a0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SingleODESolver.__init__","kind":"method","src_hash":"663cde5adfc89529","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(ode)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c87812e9703130a0"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SingleODESolver.__init__","kind":"method","src_hash":"663cde5adfc89529","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.ode_problem == ode_problem"},"spec":{"lhs":"__init__(ode_problem)","rhs":"self.ode_problem == ode_problem","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.ode_problem == ode_problem","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c87812e9703130a0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.ode_problem == ode_problem"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, ode_problem):
         self.ode_problem = ode_problem
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(matches(), matches produces the expected output) over Any ║
+# ║ Path(matches(), isinstance(result, bool)) over Any         ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ matches : Any → bool                                       ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   ensures:  isinstance(result, bool)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ matches : Any → {bool | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95c7782f6f2ae962  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9fa6f4fc67d5808  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SingleODESolver.matches","kind":"method","src_hash":"4983cc0ceb36f8d3","in":{"base":"Any"},"out":{"base":"bool"},"spec":{"lhs":"matches()","rhs":"matches produces the expected output","over":{"base":"Any"},"name":"matches_correct"},"guarantee":"matches produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SingleODESolver.matches_correct","statement":"Path(matches(x), matches produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95c7782f6f2ae962"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SingleODESolver.matches","kind":"method","src_hash":"4983cc0ceb36f8d3","in":{"base":"Any"},"out":{"base":"bool","pred":"result satisfies: isinstance(result, bool)"},"spec":{"lhs":"matches()","rhs":"isinstance(result, bool)","over":{"base":"Any"},"name":"matches_correct"},"guarantee":"isinstance(result, bool)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SingleODESolver.matches_correct","statement":"Path(matches(x), isinstance(result, bool))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9fa6f4fc67d5808","spec_source":"static","formal_spec":{"source":"static","strength":"partial","ensures":["isinstance(result, bool)"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._matched","self._matches","self.ode_problem","self.order"],"writes":["self._matched"]},"state_contract":{"modifies":["self._matched"],"old_bindings":{"old_self__matched":"self._matched"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def matches(self) -> bool:
         if self.order is not None and self.ode_problem.order not in self.order:
             self._matched = False
@@ -459,16 +556,24 @@ class SingleODESolver:
         return self._matched
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_general_solution(sim), get_general_solution produces the expected output) over Any ║
+# ║ Path(get_general_solution(simplify), self._get_general_solution(simplify_flag=simplify)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_general_solution : Any → list[Equality]                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, list)                       ║
+# ║   ensures:  all(isinstance(x, Equality) for x in result)   ║
+# ║   returns:  self._get_general_solution(simplify_flag=...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_general_solution : Any → {list[Equality] | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4085623fb1c34d9c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55c1d12199c013e0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SingleODESolver.get_general_solution","kind":"method","src_hash":"7204665124e34f41","in":{"base":"Any"},"out":{"base":"list[Equality]"},"spec":{"lhs":"get_general_solution(sim)","rhs":"get_general_solution produces the expected output","over":{"base":"Any"},"name":"get_general_solution_correct"},"guarantee":"get_general_solution produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SingleODESolver.get_general_solution_correct","statement":"Path(get_general_solution(x), get_general_solution produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4085623fb1c34d9c"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SingleODESolver.get_general_solution","kind":"method","src_hash":"7204665124e34f41","in":{"base":"Any"},"out":{"base":"list[Equality]","pred":"result satisfies: result == (self._get_general_solution(simplify_flag=simplify))"},"spec":{"lhs":"get_general_solution(simplify)","rhs":"self._get_general_solution(simplify_flag=simplify)","over":{"base":"Any"},"name":"get_general_solution_correct"},"guarantee":"returns self._get_general_solution(simplify_flag=simplify); isinstance(result, list); all(isinstance(x, Equality) for x in result)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SingleODESolver.get_general_solution_correct","statement":"Path(get_general_solution(x), returns self._get_general_solution(simplify_flag=simplify); isinstance(result, list); all(isinstance(x, Equality) for x in result))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55c1d12199c013e0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, list)","all(isinstance(x, Equality) for x in result)"],"returns_expr":"self._get_general_solution(simplify_flag=simplify)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._get_general_solution","self.hint","self.matches","self.ode_problem"],"raises":["ODEMatchError"]},"state_contract":{"exceptional_post":{"ODEMatchError":["isinstance(raised, ODEMatchError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_general_solution(self, *, simplify: bool = True) -> list[Equality]:
         if not self.matches():
             msg = "%s solver cannot solve:\n%s"
@@ -476,31 +581,44 @@ class SingleODESolver:
         return self._get_general_solution(simplify_flag=simplify)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_matches(), internal helper behaves correctly) over Any ║
+# ║ Path(_matches(), isinstance(result, bool)) over Any        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _matches : Any → bool                                      ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   ensures:  isinstance(result, bool)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _matches : Any → {bool | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba5f4e6b687ef403  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9318ac8b63c05261  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SingleODESolver._matches","kind":"method","src_hash":"4d35b4a6c8cf37c8","in":{"base":"Any"},"out":{"base":"bool"},"spec":{"lhs":"_matches()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_matches_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SingleODESolver._matches_correct","statement":"Path(_matches(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba5f4e6b687ef403"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SingleODESolver._matches","kind":"method","src_hash":"4d35b4a6c8cf37c8","in":{"base":"Any"},"out":{"base":"bool","pred":"result satisfies: isinstance(result, bool)"},"spec":{"lhs":"_matches()","rhs":"isinstance(result, bool)","over":{"base":"Any"},"name":"_matches_correct"},"guarantee":"isinstance(result, bool)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SingleODESolver._matches_correct","statement":"Path(_matches(x), isinstance(result, bool))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9318ac8b63c05261","spec_source":"static","formal_spec":{"source":"static","strength":"partial","ensures":["isinstance(result, bool)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _matches(self) -> bool:
         msg = "Subclasses of SingleODESolver should implement matches."
         raise NotImplementedError(msg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_general_solution(sim), internal helper behaves correctly) over Any ║
+# ║ Path(_get_general_solution(simplify_flag), isinstance(result, list) and all(isinstance(x, Equality) for x in result)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_general_solution : Any → list[Equality]               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, list)                       ║
+# ║   ensures:  all(isinstance(x, Equality) for x in result)   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_general_solution : Any → {list[Equality] | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 20654471141f7bd8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b2541e8bbdcaa66  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SingleODESolver._get_general_solution","kind":"method","src_hash":"8f309659467b1568","in":{"base":"Any"},"out":{"base":"list[Equality]"},"spec":{"lhs":"_get_general_solution(sim)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SingleODESolver._get_general_solution_correct","statement":"Path(_get_general_solution(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20654471141f7bd8"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SingleODESolver._get_general_solution","kind":"method","src_hash":"8f309659467b1568","in":{"base":"Any"},"out":{"base":"list[Equality]","pred":"result satisfies: isinstance(result, list) and all(isinstance(x, Equality) for x in result)"},"spec":{"lhs":"_get_general_solution(simplify_flag)","rhs":"isinstance(result, list) and all(isinstance(x, Equality) for x in result)","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"isinstance(result, list); all(isinstance(x, Equality) for x in result)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SingleODESolver._get_general_solution_correct","statement":"Path(_get_general_solution(x), isinstance(result, list); all(isinstance(x, Equality) for x in result))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b2541e8bbdcaa66","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, list)","all(isinstance(x, Equality) for x in result)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_general_solution(self, *, simplify_flag: bool = True) -> list[Equality]:
         msg = "Subclasses of SingleODESolver should implement get_general_solution."
         raise NotImplementedError(msg)
@@ -509,28 +627,40 @@ class SingleODESolver:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SinglePatternODESolver(*args), correctly constructs a SinglePatternODESolver instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SinglePatternODESolver : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SingleODESolver)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SinglePatternODESolver : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a574bee58041eb3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SinglePatternODESolver","kind":"class","src_hash":"497c911304eed97b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SinglePatternODESolver(*args)","rhs":"correctly constructs a SinglePatternODESolver instance","over":{"base":"Any"},"name":"SinglePatternODESolver_class_invariant"},"guarantee":"correctly constructs a SinglePatternODESolver instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a574bee58041eb3"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SinglePatternODESolver","kind":"class","src_hash":"497c911304eed97b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SingleODESolver)"},"spec":{"lhs":"SinglePatternODESolver(*args)","rhs":"correctly constructs a SinglePatternODESolver instance","over":{"base":"Any"},"name":"SinglePatternODESolver_class_invariant"},"guarantee":"isinstance(self, SingleODESolver)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a574bee58041eb3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SingleODESolver)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function SinglePatternODESolver not found in source"]}}
 class SinglePatternODESolver(SingleODESolver):
     '''Superclass for ODE solvers based on pattern matching'''
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(wilds(), wilds produces the expected output) over Any ║
+# ║ Path(wilds(), self._wilds(f, x, order)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._wilds(f, x, order)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ wilds : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea9421394b1bcfc0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca0b1ed83ae94195  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SinglePatternODESolver.wilds","kind":"method","src_hash":"0870b89641377a2b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"wilds()","rhs":"wilds produces the expected output","over":{"base":"Any"},"name":"wilds_correct"},"guarantee":"wilds produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SinglePatternODESolver.wilds_correct","statement":"Path(wilds(x), wilds produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea9421394b1bcfc0"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SinglePatternODESolver.wilds","kind":"method","src_hash":"0870b89641377a2b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"wilds()","rhs":"self._wilds(f, x, order)","over":{"base":"Any"},"name":"wilds_correct"},"guarantee":"returns self._wilds(f, x, order)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SinglePatternODESolver.wilds_correct","statement":"Path(wilds(x), returns self._wilds(f, x, order))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca0b1ed83ae94195","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._wilds(f, x, order)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._wilds","self.ode_problem"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def wilds(self):
         prob = self.ode_problem
         f = prob.func.func
@@ -541,29 +671,41 @@ class SinglePatternODESolver(SingleODESolver):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(wilds_match(), id) over Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [match.get(w, S.Zero) for w in self.wilds()]   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ wilds_match : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | db7cdab122800066   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SinglePatternODESolver.wilds_match","kind":"method","src_hash":"0ee08b3c806dad8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"wilds_match()","rhs":"wilds_match produces the expected output","over":{"base":"Any"},"name":"wilds_match_correct","kind":"composition"},"guarantee":"wilds_match produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"get","by":"library_axiom"},{"fn":"wilds","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db7cdab122800066"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SinglePatternODESolver.wilds_match","kind":"method","src_hash":"0ee08b3c806dad8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"wilds_match()","rhs":"[match.get(w, S.Zero) for w in self.wilds()]","over":{"base":"Any"},"name":"wilds_match_correct","kind":"composition"},"guarantee":"returns [match.get(w, S.Zero) for w in self.wilds()]","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"get","by":"library_axiom"},{"fn":"wilds","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db7cdab122800066","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[match.get(w, S.Zero) for w in self.wilds()]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._wilds_match","self.wilds"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def wilds_match(self):
         match = self._wilds_match
         return [match.get(w, S.Zero) for w in self.wilds()]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_matches(), internal helper behaves correctly) over Any ║
+# ║ Path(_matches(), <unspecified:_matches>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _matches : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7bea7e11eb01de84  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SinglePatternODESolver._matches","kind":"method","src_hash":"3d66bc6a10927283","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_matches()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_matches_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SinglePatternODESolver._matches_correct","statement":"Path(_matches(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7bea7e11eb01de84"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SinglePatternODESolver._matches","kind":"method","src_hash":"3d66bc6a10927283","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_matches()","rhs":"<unspecified:_matches>","over":{"base":"Any"},"name":"_matches_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SinglePatternODESolver._matches_correct","statement":"Path(_matches(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7bea7e11eb01de84","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._equation","self._verify","self.ode_problem"],"writes":["self._wilds_match"]},"state_contract":{"modifies":["self._wilds_match"],"old_bindings":{"old_self__wilds_match":"self._wilds_match"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _matches(self):
         eq = self.ode_problem.eq_expanded
         f = self.ode_problem.func.func
@@ -586,45 +728,64 @@ class SinglePatternODESolver(SingleODESolver):
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_verify(fx), internal helper behaves correctly) over Any ║
+# ║ Path(_verify(fx), True) over Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _verify : Any → bool                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, bool)                       ║
+# ║   returns:  True                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _verify : Any → {bool | result satisfies: result == (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5c2c6edf3b6b520b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SinglePatternODESolver._verify","kind":"method","src_hash":"71b07bbc3cd2493c","in":{"base":"Any"},"out":{"base":"bool"},"spec":{"lhs":"_verify(fx)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_verify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5c2c6edf3b6b520b"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SinglePatternODESolver._verify","kind":"method","src_hash":"71b07bbc3cd2493c","in":{"base":"Any"},"out":{"base":"bool","pred":"result satisfies: result == (True)"},"spec":{"lhs":"_verify(fx)","rhs":"True","over":{"base":"Any"},"name":"_verify_correct"},"guarantee":"returns True; isinstance(result, bool)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5c2c6edf3b6b520b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, bool)"],"returns_expr":"True","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _verify(self, fx) -> bool:
         return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_wilds(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(_wilds(f, x, order), <unspecified:_wilds>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _wilds : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 334f4da263dfb6c8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SinglePatternODESolver._wilds","kind":"method","src_hash":"efa01ee831eadea9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_wilds(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_wilds_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SinglePatternODESolver._wilds_correct","statement":"Path(_wilds(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"334f4da263dfb6c8"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SinglePatternODESolver._wilds","kind":"method","src_hash":"efa01ee831eadea9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_wilds(f, x, order)","rhs":"<unspecified:_wilds>","over":{"base":"Any"},"name":"_wilds_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SinglePatternODESolver._wilds_correct","statement":"Path(_wilds(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"334f4da263dfb6c8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _wilds(self, f, x, order):
         msg = "Subclasses of SingleODESolver should implement _wilds"
         raise NotImplementedError(msg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_equation(fx,), internal helper behaves correctly) over Any ║
+# ║ Path(_equation(fx, x, order), <unspecified:_equation>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _equation : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ffe6c4574620dd2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SinglePatternODESolver._equation","kind":"method","src_hash":"44440c65c17e8f28","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_equation(fx,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_equation_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SinglePatternODESolver._equation_correct","statement":"Path(_equation(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ffe6c4574620dd2"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SinglePatternODESolver._equation","kind":"method","src_hash":"44440c65c17e8f28","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_equation(fx, x, order)","rhs":"<unspecified:_equation>","over":{"base":"Any"},"name":"_equation_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SinglePatternODESolver._equation_correct","statement":"Path(_equation(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ffe6c4574620dd2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _equation(self, fx, x, order):
         msg = "Subclasses of SingleODESolver should implement _equation"
         raise NotImplementedError(msg)
@@ -633,14 +794,20 @@ class SinglePatternODESolver(SingleODESolver):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(NthAlgebraic(*args), correctly constructs a NthAlgebraic instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ NthAlgebraic : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SingleODESolver)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ NthAlgebraic : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc1e366a8c15b307  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthAlgebraic","kind":"class","src_hash":"514c835bdac4fe80","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"NthAlgebraic(*args)","rhs":"correctly constructs a NthAlgebraic instance","over":{"base":"Any"},"name":"NthAlgebraic_class_invariant"},"guarantee":"correctly constructs a NthAlgebraic instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc1e366a8c15b307"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthAlgebraic","kind":"class","src_hash":"514c835bdac4fe80","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SingleODESolver)"},"spec":{"lhs":"NthAlgebraic(*args)","rhs":"correctly constructs a NthAlgebraic instance","over":{"base":"Any"},"name":"NthAlgebraic_class_invariant"},"guarantee":"isinstance(self, SingleODESolver)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc1e366a8c15b307","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SingleODESolver)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function NthAlgebraic not found in source"]}}
 class NthAlgebraic(SingleODESolver):
     r"""
     Solves an `n`\th order ordinary differential equation using algebra and
@@ -668,16 +835,22 @@ class NthAlgebraic(SingleODESolver):
     has_integral = True  # nth_algebraic_Integral hint
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_matches(), matches any differential equation that nth_algebraic can solve) over Any ║
+# ║ Path(_matches(), <unspecified:_matches>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _matches : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 71fb4fec44eb9325  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthAlgebraic._matches","kind":"method","src_hash":"82d7a594cf775489","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_matches()","rhs":"matches any differential equation that nth_algebraic can solve","over":{"base":"Any"},"name":"_matches_correct"},"guarantee":"matches any differential equation that nth_algebraic can solve","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.NthAlgebraic._matches_correct","statement":"Path(_matches(x), matches any differential equation that nth_algebraic can solve)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71fb4fec44eb9325"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthAlgebraic._matches","kind":"method","src_hash":"82d7a594cf775489","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_matches()","rhs":"<unspecified:_matches>","over":{"base":"Any"},"name":"_matches_correct"},"guarantee":"matches any differential equation that nth_algebraic can solve","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.NthAlgebraic._matches_correct","statement":"Path(_matches(x), matches any differential equation that nth_algebraic can solve)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71fb4fec44eb9325","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._get_diffx","self.ode_problem"],"writes":["self.solutions"],"catches":["NotImplementedError"]},"state_contract":{"modifies":["self.solutions"],"old_bindings":{"old_self_solutions":"self.solutions"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _matches(self):
         r"""
         Matches any differential equation that nth_algebraic can solve. Uses
@@ -727,16 +900,22 @@ class NthAlgebraic(SingleODESolver):
         return len(solns) != 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_general_solution(sim), internal helper behaves correctly) over Any ║
+# ║ Path(_get_general_solution(simplify_flag), self.solutions) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.solutions                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_general_solution : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5ea2379d44511389           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthAlgebraic._get_general_solution","kind":"method","src_hash":"c9ae1d34f505eae9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(sim)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5ea2379d44511389"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthAlgebraic._get_general_solution","kind":"method","src_hash":"c9ae1d34f505eae9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(simplify_flag)","rhs":"self.solutions","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"returns self.solutions","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5ea2379d44511389","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.solutions","pure":false,"effects":{"effect_type":"reads_state","reads":["self.solutions"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_general_solution(self, *, simplify_flag: bool = True):
         return self.solutions
 
@@ -751,14 +930,20 @@ class NthAlgebraic(SingleODESolver):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_get_diffx(var), id) over Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _get_diffx : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 95fbdfb2208e5c6c   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthAlgebraic._get_diffx","kind":"staticmethod","src_hash":"d2f02bbc4c7ab240","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_diffx(var)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_diffx_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Integral","by":"library_axiom"},{"fn":"Dummy","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95fbdfb2208e5c6c"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthAlgebraic._get_diffx","kind":"staticmethod","src_hash":"d2f02bbc4c7ab240","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_diffx(var)","rhs":"<unspecified:_get_diffx>","over":{"base":"Any"},"name":"_get_diffx_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Integral","by":"library_axiom"},{"fn":"Dummy","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95fbdfb2208e5c6c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_diffx(var):
         diffcls = NthAlgebraic._diffx_stored.get(var, None)
 
@@ -779,14 +964,20 @@ class NthAlgebraic(SingleODESolver):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(FirstExact(*args), correctly constructs a FirstExact instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ FirstExact : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SinglePatternODESolver)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ FirstExact : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 85f8582c11f28f48  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.FirstExact","kind":"class","src_hash":"1b53d10a527edd3e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FirstExact(*args)","rhs":"correctly constructs a FirstExact instance","over":{"base":"Any"},"name":"FirstExact_class_invariant"},"guarantee":"correctly constructs a FirstExact instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85f8582c11f28f48"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.FirstExact","kind":"class","src_hash":"1b53d10a527edd3e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SinglePatternODESolver)"},"spec":{"lhs":"FirstExact(*args)","rhs":"correctly constructs a FirstExact instance","over":{"base":"Any"},"name":"FirstExact_class_invariant"},"guarantee":"isinstance(self, SinglePatternODESolver)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85f8582c11f28f48","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SinglePatternODESolver)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function FirstExact not found in source"]}}
 class FirstExact(SinglePatternODESolver):
     r"""
     Solves 1st order exact ordinary differential equations.
@@ -848,47 +1039,70 @@ class FirstExact(SinglePatternODESolver):
     order = [1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_wilds(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(_wilds(f, x, order), (P, Q)) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (P, Q)                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _wilds : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b559bb130b29296  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 820cf1d3e9b601fc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.FirstExact._wilds","kind":"method","src_hash":"0978355cb27708a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_wilds(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_wilds_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.FirstExact._wilds_correct","statement":"Path(_wilds(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b559bb130b29296"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.FirstExact._wilds","kind":"method","src_hash":"0978355cb27708a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_wilds(f, x, order)","rhs":"(P, Q)","over":{"base":"Any"},"name":"_wilds_correct"},"guarantee":"returns (P, Q)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.FirstExact._wilds_correct","statement":"Path(_wilds(x), returns (P, Q))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"820cf1d3e9b601fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(P, Q)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _wilds(self, f, x, order):
         P = Wild('P', exclude=[f(x).diff(x)])
         Q = Wild('Q', exclude=[f(x).diff(x)])
         return P, Q
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_equation(fx,), internal helper behaves correctly) over Any ║
+# ║ Path(_equation(fx, x, order), P + Q * fx.diff(x)) over {Any | hasattr(fx, 'diff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _equation : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(fx, 'diff')                            ║
+# ║   returns:  P + Q * fx.diff(x)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _equation : {Any | hasattr(fx, 'diff')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0ff545559cdb1c8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f893e7be1fa5a7d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.FirstExact._equation","kind":"method","src_hash":"baf371756319ff41","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_equation(fx,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_equation_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.FirstExact._equation_correct","statement":"Path(_equation(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0ff545559cdb1c8"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.FirstExact._equation","kind":"method","src_hash":"baf371756319ff41","in":{"base":"Any","pred":"hasattr(fx, 'diff')"},"out":{"base":"Any"},"spec":{"lhs":"_equation(fx, x, order)","rhs":"P + Q * fx.diff(x)","over":{"base":"Any","pred":"hasattr(fx, 'diff')"},"name":"_equation_correct"},"guarantee":"returns P + Q * fx.diff(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.FirstExact._equation_correct","statement":"Path(_equation(x), returns P + Q * fx.diff(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f893e7be1fa5a7d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(fx, 'diff')"],"returns_expr":"P + Q * fx.diff(x)","pure":false,"effects":{"effect_type":"reads_state","reads":["fx.diff","self.wilds"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _equation(self, fx, x, order):
         P, Q = self.wilds()
         return P + Q*fx.diff(x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_verify(fx), internal helper behaves correctly) over Any ║
+# ║ Path(_verify(fx), isinstance(result, bool) and result == (True if numerator.is_zero else True) and result == True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _verify : Any → bool                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, bool)                       ║
+# ║   ensures:  result == (True if numerator.is_zero else...   ║
+# ║   ensures:  result == True                                 ║
+# ║   fiber[case_0]: numerator.is_zero => True                 ║
+# ║   fiber[case_1]: not (numerator.is_zero) => True           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _verify : Any → {bool | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05338032a6020538  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 23e779da381b9d96  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.FirstExact._verify","kind":"method","src_hash":"0a6ceb0e8faa1429","in":{"base":"Any"},"out":{"base":"bool"},"spec":{"lhs":"_verify(fx)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_verify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.FirstExact._verify_correct","statement":"Path(_verify(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05338032a6020538"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.FirstExact._verify","kind":"method","src_hash":"0a6ceb0e8faa1429","in":{"base":"Any"},"out":{"base":"bool","pred":"result satisfies: isinstance(result, bool) and result == (True if numerator.is_zero else True) and result == True"},"spec":{"lhs":"_verify(fx)","rhs":"isinstance(result, bool) and result == (True if numerator.is_zero else True) and result == True","over":{"base":"Any"},"name":"_verify_correct"},"guarantee":"isinstance(result, bool); result == (True if numerator.is_zero else True); result == True; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.FirstExact._verify_correct","statement":"Path(_verify(x), isinstance(result, bool); result == (True if numerator.is_zero else True); result == True; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23e779da381b9d96","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, bool)","result == (True if numerator.is_zero else True)","result == True"],"fibers":[{"name":"case_0","guard":"numerator.is_zero","ensures":["result == True"],"decidability":"library","returns_expr":"True"},{"name":"case_1","guard":"not (numerator.is_zero)","ensures":["result == True"],"decidability":"library","returns_expr":"True"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._wilds_match","self.ode_problem","self.wilds","self.wilds_match"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _verify(self, fx) -> bool:
         P, Q = self.wilds()
         x = self.ode_problem.sym
@@ -935,16 +1149,22 @@ class FirstExact(SinglePatternODESolver):
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_general_solution(sim), internal helper behaves correctly) over Any ║
+# ║ Path(_get_general_solution(simplify_flag), [gen_sol]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [gen_sol]                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_general_solution : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 90279da4351f95dd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 25b09539113c020c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.FirstExact._get_general_solution","kind":"method","src_hash":"db52c4a689321829","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(sim)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.FirstExact._get_general_solution_correct","statement":"Path(_get_general_solution(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90279da4351f95dd"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.FirstExact._get_general_solution","kind":"method","src_hash":"db52c4a689321829","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(simplify_flag)","rhs":"[gen_sol]","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"returns [gen_sol]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.FirstExact._get_general_solution_correct","statement":"Path(_get_general_solution(x), returns [gen_sol])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25b09539113c020c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[gen_sol]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ode_problem","self.wilds_match"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_general_solution(self, *, simplify_flag: bool = True):
         m, n = self.wilds_match()
         fx = self.ode_problem.func
@@ -963,14 +1183,20 @@ class FirstExact(SinglePatternODESolver):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(FirstLinear(*args), correctly constructs a FirstLinear instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ FirstLinear : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SinglePatternODESolver)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ FirstLinear : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 67cdfdaee9539cda  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.FirstLinear","kind":"class","src_hash":"859c7fca36c1a163","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FirstLinear(*args)","rhs":"correctly constructs a FirstLinear instance","over":{"base":"Any"},"name":"FirstLinear_class_invariant"},"guarantee":"correctly constructs a FirstLinear instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67cdfdaee9539cda"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.FirstLinear","kind":"class","src_hash":"859c7fca36c1a163","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SinglePatternODESolver)"},"spec":{"lhs":"FirstLinear(*args)","rhs":"correctly constructs a FirstLinear instance","over":{"base":"Any"},"name":"FirstLinear_class_invariant"},"guarantee":"isinstance(self, SinglePatternODESolver)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67cdfdaee9539cda","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SinglePatternODESolver)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function FirstLinear not found in source"]}}
 class FirstLinear(SinglePatternODESolver):
     r"""
     Solves 1st order linear differential equations.
@@ -1027,47 +1253,66 @@ class FirstLinear(SinglePatternODESolver):
     order = [1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_wilds(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(_wilds(f, x, order), (P, Q)) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (P, Q)                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _wilds : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6142e3d8d6ac0511  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e553b7d495cbe1ef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.FirstLinear._wilds","kind":"method","src_hash":"9a533b07b7724ee5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_wilds(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_wilds_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.FirstLinear._wilds_correct","statement":"Path(_wilds(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6142e3d8d6ac0511"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.FirstLinear._wilds","kind":"method","src_hash":"9a533b07b7724ee5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_wilds(f, x, order)","rhs":"(P, Q)","over":{"base":"Any"},"name":"_wilds_correct"},"guarantee":"returns (P, Q)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.FirstLinear._wilds_correct","statement":"Path(_wilds(x), returns (P, Q))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e553b7d495cbe1ef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(P, Q)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _wilds(self, f, x, order):
         P = Wild('P', exclude=[f(x)])
         Q = Wild('Q', exclude=[f(x), f(x).diff(x)])
         return P, Q
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_equation(fx,), internal helper behaves correctly) over Any ║
+# ║ Path(_equation(fx, x, order), fx.diff(x) + P * fx - Q) over {Any | hasattr(fx, 'diff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _equation : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(fx, 'diff')                            ║
+# ║   returns:  fx.diff(x) + P * fx - Q                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _equation : {Any | hasattr(fx, 'diff')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 67c6a2f72f6a7c5e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e399710e2c5e65ec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.FirstLinear._equation","kind":"method","src_hash":"1524b7bfef9221f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_equation(fx,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_equation_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.FirstLinear._equation_correct","statement":"Path(_equation(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67c6a2f72f6a7c5e"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.FirstLinear._equation","kind":"method","src_hash":"1524b7bfef9221f4","in":{"base":"Any","pred":"hasattr(fx, 'diff')"},"out":{"base":"Any"},"spec":{"lhs":"_equation(fx, x, order)","rhs":"fx.diff(x) + P * fx - Q","over":{"base":"Any","pred":"hasattr(fx, 'diff')"},"name":"_equation_correct"},"guarantee":"returns fx.diff(x) + P * fx - Q","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.FirstLinear._equation_correct","statement":"Path(_equation(x), returns fx.diff(x) + P * fx - Q)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e399710e2c5e65ec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(fx, 'diff')"],"returns_expr":"fx.diff(x) + P * fx - Q","pure":false,"effects":{"effect_type":"reads_state","reads":["fx.diff","self.wilds"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _equation(self, fx, x, order):
         P, Q = self.wilds()
         return fx.diff(x) + P*fx - Q
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_general_solution(sim), internal helper behaves correctly) over Any ║
+# ║ Path(_get_general_solution(simplify_flag), [gensol]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [gensol]                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_general_solution : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4064caf22319aa92  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eaaa082e9aa9a454  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.FirstLinear._get_general_solution","kind":"method","src_hash":"522e24a4db669a4e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(sim)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.FirstLinear._get_general_solution_correct","statement":"Path(_get_general_solution(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4064caf22319aa92"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.FirstLinear._get_general_solution","kind":"method","src_hash":"522e24a4db669a4e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(simplify_flag)","rhs":"[gensol]","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"returns [gensol]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.FirstLinear._get_general_solution_correct","statement":"Path(_get_general_solution(x), returns [gensol])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eaaa082e9aa9a454","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[gensol]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ode_problem","self.wilds_match"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_general_solution(self, *, simplify_flag: bool = True):
         P, Q = self.wilds_match()
         fx = self.ode_problem.func
@@ -1081,14 +1326,20 @@ class FirstLinear(SinglePatternODESolver):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(AlmostLinear(*args), correctly constructs a AlmostLinear instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ AlmostLinear : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SinglePatternODESolver)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ AlmostLinear : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a615d848240bd645  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.AlmostLinear","kind":"class","src_hash":"6f55667945fff68e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"AlmostLinear(*args)","rhs":"correctly constructs a AlmostLinear instance","over":{"base":"Any"},"name":"AlmostLinear_class_invariant"},"guarantee":"correctly constructs a AlmostLinear instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a615d848240bd645"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.AlmostLinear","kind":"class","src_hash":"6f55667945fff68e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SinglePatternODESolver)"},"spec":{"lhs":"AlmostLinear(*args)","rhs":"correctly constructs a AlmostLinear instance","over":{"base":"Any"},"name":"AlmostLinear_class_invariant"},"guarantee":"isinstance(self, SinglePatternODESolver)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a615d848240bd645","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SinglePatternODESolver)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function AlmostLinear not found in source"]}}
 class AlmostLinear(SinglePatternODESolver):
     r"""
     Solves an almost-linear differential equation.
@@ -1141,47 +1392,66 @@ class AlmostLinear(SinglePatternODESolver):
     order = [1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_wilds(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(_wilds(f, x, order), (P, Q)) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (P, Q)                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _wilds : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3d4f6b91d06980d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e63fbd68d2e4a34  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.AlmostLinear._wilds","kind":"method","src_hash":"0978355cb27708a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_wilds(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_wilds_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.AlmostLinear._wilds_correct","statement":"Path(_wilds(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3d4f6b91d06980d"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.AlmostLinear._wilds","kind":"method","src_hash":"0978355cb27708a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_wilds(f, x, order)","rhs":"(P, Q)","over":{"base":"Any"},"name":"_wilds_correct"},"guarantee":"returns (P, Q)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.AlmostLinear._wilds_correct","statement":"Path(_wilds(x), returns (P, Q))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e63fbd68d2e4a34","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(P, Q)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _wilds(self, f, x, order):
         P = Wild('P', exclude=[f(x).diff(x)])
         Q = Wild('Q', exclude=[f(x).diff(x)])
         return P, Q
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_equation(fx,), internal helper behaves correctly) over Any ║
+# ║ Path(_equation(fx, x, order), P * fx.diff(x) + Q) over {Any | hasattr(fx, 'diff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _equation : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(fx, 'diff')                            ║
+# ║   returns:  P * fx.diff(x) + Q                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _equation : {Any | hasattr(fx, 'diff')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff235d9fc96b8b38  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 23c9569a56eadd75  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.AlmostLinear._equation","kind":"method","src_hash":"0c6c2b93c897a289","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_equation(fx,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_equation_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.AlmostLinear._equation_correct","statement":"Path(_equation(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff235d9fc96b8b38"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.AlmostLinear._equation","kind":"method","src_hash":"0c6c2b93c897a289","in":{"base":"Any","pred":"hasattr(fx, 'diff')"},"out":{"base":"Any"},"spec":{"lhs":"_equation(fx, x, order)","rhs":"P * fx.diff(x) + Q","over":{"base":"Any","pred":"hasattr(fx, 'diff')"},"name":"_equation_correct"},"guarantee":"returns P * fx.diff(x) + Q","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.AlmostLinear._equation_correct","statement":"Path(_equation(x), returns P * fx.diff(x) + Q)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23c9569a56eadd75","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(fx, 'diff')"],"returns_expr":"P * fx.diff(x) + Q","pure":false,"effects":{"effect_type":"reads_state","reads":["fx.diff","self.wilds"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _equation(self, fx, x, order):
         P, Q = self.wilds()
         return P*fx.diff(x) + Q
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_verify(fx), internal helper behaves correctly) over Any ║
+# ║ Path(_verify(fx), <unspecified:_verify>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _verify : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 334bd9655c39e9e0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.AlmostLinear._verify","kind":"method","src_hash":"9b77a137764f6158","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_verify(fx)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_verify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.AlmostLinear._verify_correct","statement":"Path(_verify(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"334bd9655c39e9e0"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.AlmostLinear._verify","kind":"method","src_hash":"9b77a137764f6158","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_verify(fx)","rhs":"<unspecified:_verify>","over":{"base":"Any"},"name":"_verify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.AlmostLinear._verify_correct","statement":"Path(_verify(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"334bd9655c39e9e0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.ly","self.wilds_match"],"writes":["self.ax","self.bx","self.cx","self.ly"]},"state_contract":{"modifies":["self.ax","self.bx","self.cx","self.ly"],"old_bindings":{"old_self_ax":"self.ax","old_self_bx":"self.bx","old_self_cx":"self.cx","old_self_ly":"self.ly"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _verify(self, fx):
         a, b = self.wilds_match()
         c, b = b.as_independent(fx) if b.is_Add else (S.Zero, b)
@@ -1200,16 +1470,22 @@ class AlmostLinear(SinglePatternODESolver):
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_general_solution(sim), internal helper behaves correctly) over Any ║
+# ║ Path(_get_general_solution(simplify_flag), [gensol]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [gensol]                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_general_solution : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a6d32bddde13756b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 29fd8dfbe96fab43  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.AlmostLinear._get_general_solution","kind":"method","src_hash":"18b0c5fc34d58746","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(sim)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.AlmostLinear._get_general_solution_correct","statement":"Path(_get_general_solution(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6d32bddde13756b"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.AlmostLinear._get_general_solution","kind":"method","src_hash":"18b0c5fc34d58746","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(simplify_flag)","rhs":"[gensol]","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"returns [gensol]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.AlmostLinear._get_general_solution_correct","statement":"Path(_get_general_solution(x), returns [gensol])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29fd8dfbe96fab43","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[gensol]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ax","self.bx","self.cx","self.ly","self.ode_problem"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_general_solution(self, *, simplify_flag: bool = True):
         x = self.ode_problem.sym
         (C1,)  = self.ode_problem.get_numbered_constants(num=1)
@@ -1222,14 +1498,20 @@ class AlmostLinear(SinglePatternODESolver):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Bernoulli(*args), correctly constructs a Bernoulli instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Bernoulli : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SinglePatternODESolver)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Bernoulli : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e528e8039bf781f9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.Bernoulli","kind":"class","src_hash":"d97df570a9e865d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Bernoulli(*args)","rhs":"correctly constructs a Bernoulli instance","over":{"base":"Any"},"name":"Bernoulli_class_invariant"},"guarantee":"correctly constructs a Bernoulli instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e528e8039bf781f9"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.Bernoulli","kind":"class","src_hash":"d97df570a9e865d7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SinglePatternODESolver)"},"spec":{"lhs":"Bernoulli(*args)","rhs":"correctly constructs a Bernoulli instance","over":{"base":"Any"},"name":"Bernoulli_class_invariant"},"guarantee":"isinstance(self, SinglePatternODESolver)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e528e8039bf781f9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SinglePatternODESolver)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function Bernoulli not found in source"]}}
 class Bernoulli(SinglePatternODESolver):
     r"""
     Solves Bernoulli differential equations.
@@ -1310,16 +1592,22 @@ class Bernoulli(SinglePatternODESolver):
     order = [1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_wilds(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(_wilds(f, x, order), (P, Q, n)) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (P, Q, n)                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _wilds : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 045e412afb1db3e0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4107e3fc4e03453c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.Bernoulli._wilds","kind":"method","src_hash":"abb71a79ca512503","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_wilds(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_wilds_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.Bernoulli._wilds_correct","statement":"Path(_wilds(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"045e412afb1db3e0"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.Bernoulli._wilds","kind":"method","src_hash":"abb71a79ca512503","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_wilds(f, x, order)","rhs":"(P, Q, n)","over":{"base":"Any"},"name":"_wilds_correct"},"guarantee":"returns (P, Q, n)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.Bernoulli._wilds_correct","statement":"Path(_wilds(x), returns (P, Q, n))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4107e3fc4e03453c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(P, Q, n)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _wilds(self, f, x, order):
         P = Wild('P', exclude=[f(x)])
         Q = Wild('Q', exclude=[f(x)])
@@ -1327,31 +1615,44 @@ class Bernoulli(SinglePatternODESolver):
         return P, Q, n
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_equation(fx,), internal helper behaves correctly) over Any ║
+# ║ Path(_equation(fx, x, order), fx.diff(x) + P * fx - Q * fx ** n) over {Any | hasattr(fx, 'diff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _equation : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(fx, 'diff')                            ║
+# ║   returns:  fx.diff(x) + P * fx - Q * fx ** n              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _equation : {Any | hasattr(fx, 'diff')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a3c9dd8d37f236d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3be000709fbe8b2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.Bernoulli._equation","kind":"method","src_hash":"ed27f3bcad6a8012","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_equation(fx,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_equation_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.Bernoulli._equation_correct","statement":"Path(_equation(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a3c9dd8d37f236d"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.Bernoulli._equation","kind":"method","src_hash":"ed27f3bcad6a8012","in":{"base":"Any","pred":"hasattr(fx, 'diff')"},"out":{"base":"Any"},"spec":{"lhs":"_equation(fx, x, order)","rhs":"fx.diff(x) + P * fx - Q * fx ** n","over":{"base":"Any","pred":"hasattr(fx, 'diff')"},"name":"_equation_correct"},"guarantee":"returns fx.diff(x) + P * fx - Q * fx ** n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.Bernoulli._equation_correct","statement":"Path(_equation(x), returns fx.diff(x) + P * fx - Q * fx ** n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3be000709fbe8b2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(fx, 'diff')"],"returns_expr":"fx.diff(x) + P * fx - Q * fx ** n","pure":false,"effects":{"effect_type":"reads_state","reads":["fx.diff","self.wilds"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _equation(self, fx, x, order):
         P, Q, n = self.wilds()
         return fx.diff(x) + P*fx - Q*fx**n
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_general_solution(sim), internal helper behaves correctly) over Any ║
+# ║ Path(_get_general_solution(simplify_flag), [gensol]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [gensol]                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_general_solution : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5fb6c0f363e038c8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 50143d7b2c254864  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.Bernoulli._get_general_solution","kind":"method","src_hash":"6645954a3cad2955","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(sim)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.Bernoulli._get_general_solution_correct","statement":"Path(_get_general_solution(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5fb6c0f363e038c8"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.Bernoulli._get_general_solution","kind":"method","src_hash":"6645954a3cad2955","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(simplify_flag)","rhs":"[gensol]","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"returns [gensol]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.Bernoulli._get_general_solution_correct","statement":"Path(_get_general_solution(x), returns [gensol])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50143d7b2c254864","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[gensol]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ode_problem","self.wilds_match"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_general_solution(self, *, simplify_flag: bool = True):
         P, Q, n = self.wilds_match()
         fx = self.ode_problem.func
@@ -1373,14 +1674,20 @@ class Bernoulli(SinglePatternODESolver):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Factorable(*args), correctly constructs a Factorable instance) over {Any | isinstance(sol, list)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Factorable : {Any | isinstance(sol, list)} → Any           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SingleODESolver)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Factorable : {Any | isinstance(sol, list)} → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 10716e3cd9e1f900  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.Factorable","kind":"class","src_hash":"55d3f52f15d4c3a5","in":{"base":"Any","pred":"isinstance(sol, list)"},"out":{"base":"Any"},"spec":{"lhs":"Factorable(*args)","rhs":"correctly constructs a Factorable instance","over":{"base":"Any","pred":"isinstance(sol, list)"},"name":"Factorable_class_invariant"},"guarantee":"correctly constructs a Factorable instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10716e3cd9e1f900"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.Factorable","kind":"class","src_hash":"55d3f52f15d4c3a5","in":{"base":"Any","pred":"isinstance(sol, list)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SingleODESolver)"},"spec":{"lhs":"Factorable(*args)","rhs":"correctly constructs a Factorable instance","over":{"base":"Any","pred":"isinstance(sol, list)"},"name":"Factorable_class_invariant"},"guarantee":"isinstance(self, SingleODESolver)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10716e3cd9e1f900","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SingleODESolver)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function Factorable not found in source"]}}
 class Factorable(SingleODESolver):
     r"""
         Solves equations having a solvable factor.
@@ -1406,16 +1713,22 @@ class Factorable(SingleODESolver):
     has_integral = False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_matches(), internal helper behaves correctly) over Any ║
+# ║ Path(_matches(), len(self) == old_len_self + 1) over Any   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _matches : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _matches : Any → {Any | result satisfies: len(self) =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c81ff10640b1843f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b748fe8dc778f00  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.Factorable._matches","kind":"method","src_hash":"013d191f88dac11e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_matches()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_matches_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.Factorable._matches_correct","statement":"Path(_matches(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c81ff10640b1843f"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.Factorable._matches","kind":"method","src_hash":"013d191f88dac11e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"_matches()","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"_matches_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.Factorable._matches_correct","statement":"Path(_matches(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b748fe8dc778f00","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.eqs","self.ode_problem"],"writes":["self.eqs"],"calls_mutating":["self.eqs.append"]},"state_contract":{"modifies":["self.*","self.eqs"],"old_bindings":{"old_self_eqs":"self.eqs","old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _matches(self):
         eq_orig = self.ode_problem.eq
         f = self.ode_problem.func.func
@@ -1444,16 +1757,22 @@ class Factorable(SingleODESolver):
         return len(self.eqs)>0 and len(factors)>1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_general_solution(sim), internal helper behaves correctly) over Any ║
+# ║ Path(_get_general_solution(simplify_flag), len(sols) == old_len_sols + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_general_solution : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(sols) == old_len_sols + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_general_solution : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 039bf07f7d5a2e6e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78b8fdac9891b4fd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.Factorable._get_general_solution","kind":"method","src_hash":"e197f0d5ea493320","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(sim)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.Factorable._get_general_solution_correct","statement":"Path(_get_general_solution(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"039bf07f7d5a2e6e"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.Factorable._get_general_solution","kind":"method","src_hash":"e197f0d5ea493320","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(sols) == old_len_sols + 1"},"spec":{"lhs":"_get_general_solution(simplify_flag)","rhs":"len(sols) == old_len_sols + 1","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"len(sols) == old_len_sols + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.Factorable._get_general_solution_correct","statement":"Path(_get_general_solution(x), len(sols) == old_len_sols + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78b8fdac9891b4fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(sols) == old_len_sols + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.eqs","self.ode_problem"],"calls_mutating":["sols.append","sols.extend"],"raises":["NotImplementedError"],"catches":["NotImplementedError"]},"state_contract":{"modifies":["sols.*"],"old_bindings":{"old_len_sols":"len(sols)"},"post_ensures":["len(sols) == old_len_sols + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_general_solution(self, *, simplify_flag: bool = True):
         func = self.ode_problem.func.func
         x = self.ode_problem.sym
@@ -1479,14 +1798,20 @@ class Factorable(SingleODESolver):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(RiccatiSpecial(*args), correctly constructs a RiccatiSpecial instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ RiccatiSpecial : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SinglePatternODESolver)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ RiccatiSpecial : Any → {Any | result satisfies: isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 838561ecd2772f01  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.RiccatiSpecial","kind":"class","src_hash":"e2b99614266cfcb2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"RiccatiSpecial(*args)","rhs":"correctly constructs a RiccatiSpecial instance","over":{"base":"Any"},"name":"RiccatiSpecial_class_invariant"},"guarantee":"correctly constructs a RiccatiSpecial instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"838561ecd2772f01"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.RiccatiSpecial","kind":"class","src_hash":"e2b99614266cfcb2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SinglePatternODESolver)"},"spec":{"lhs":"RiccatiSpecial(*args)","rhs":"correctly constructs a RiccatiSpecial instance","over":{"base":"Any"},"name":"RiccatiSpecial_class_invariant"},"guarantee":"isinstance(self, SinglePatternODESolver)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"838561ecd2772f01","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SinglePatternODESolver)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function RiccatiSpecial not found in source"]}}
 class RiccatiSpecial(SinglePatternODESolver):
     r"""
     The general Riccati equation has the form
@@ -1530,16 +1855,22 @@ class RiccatiSpecial(SinglePatternODESolver):
     order = [1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_wilds(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(_wilds(f, x, order), (a, b, c, d)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (a, b, c, d)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _wilds : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65030908bff05bf3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 762e10ae8e92ae68  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.RiccatiSpecial._wilds","kind":"method","src_hash":"09db1de81b9b7279","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_wilds(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_wilds_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.RiccatiSpecial._wilds_correct","statement":"Path(_wilds(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65030908bff05bf3"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.RiccatiSpecial._wilds","kind":"method","src_hash":"09db1de81b9b7279","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_wilds(f, x, order)","rhs":"(a, b, c, d)","over":{"base":"Any"},"name":"_wilds_correct"},"guarantee":"returns (a, b, c, d)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.RiccatiSpecial._wilds_correct","statement":"Path(_wilds(x), returns (a, b, c, d))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"762e10ae8e92ae68","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(a, b, c, d)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _wilds(self, f, x, order):
         a = Wild('a', exclude=[x, f(x), f(x).diff(x), 0])
         b = Wild('b', exclude=[x, f(x), f(x).diff(x), 0])
@@ -1548,31 +1879,44 @@ class RiccatiSpecial(SinglePatternODESolver):
         return a, b, c, d
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_equation(fx,), internal helper behaves correctly) over Any ║
+# ║ Path(_equation(fx, x, order), a * fx.diff(x) + b * fx ** 2 + c * fx / x + d / x ** 2) over {Any | hasattr(fx, 'diff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _equation : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(fx, 'diff')                            ║
+# ║   returns:  a * fx.diff(x) + b * fx ** 2 + c * fx / x...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _equation : {Any | hasattr(fx, 'diff')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f7af0b3ea81b51c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 026e3bc82ea5141b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.RiccatiSpecial._equation","kind":"method","src_hash":"a8acc93dff63eecd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_equation(fx,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_equation_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.RiccatiSpecial._equation_correct","statement":"Path(_equation(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f7af0b3ea81b51c"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.RiccatiSpecial._equation","kind":"method","src_hash":"a8acc93dff63eecd","in":{"base":"Any","pred":"hasattr(fx, 'diff')"},"out":{"base":"Any"},"spec":{"lhs":"_equation(fx, x, order)","rhs":"a * fx.diff(x) + b * fx ** 2 + c * fx / x + d / x ** 2","over":{"base":"Any","pred":"hasattr(fx, 'diff')"},"name":"_equation_correct"},"guarantee":"returns a * fx.diff(x) + b * fx ** 2 + c * fx / x + d / x ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.RiccatiSpecial._equation_correct","statement":"Path(_equation(x), returns a * fx.diff(x) + b * fx ** 2 + c * fx / x + d / x ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"026e3bc82ea5141b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(fx, 'diff')"],"returns_expr":"a * fx.diff(x) + b * fx ** 2 + c * fx / x + d / x ** 2","pure":false,"effects":{"effect_type":"reads_state","reads":["fx.diff","self.wilds"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _equation(self, fx, x, order):
         a, b, c, d = self.wilds()
         return a*fx.diff(x) + b*fx**2 + c*fx/x + d/x**2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_general_solution(sim), internal helper behaves correctly) over Any ║
+# ║ Path(_get_general_solution(simplify_flag), [gensol]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [gensol]                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_general_solution : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 810da9d215614a63  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b7d554b30a77591d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.RiccatiSpecial._get_general_solution","kind":"method","src_hash":"615456bd719aa402","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(sim)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.RiccatiSpecial._get_general_solution_correct","statement":"Path(_get_general_solution(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"810da9d215614a63"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.RiccatiSpecial._get_general_solution","kind":"method","src_hash":"615456bd719aa402","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(simplify_flag)","rhs":"[gensol]","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"returns [gensol]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.RiccatiSpecial._get_general_solution_correct","statement":"Path(_get_general_solution(x), returns [gensol])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7d554b30a77591d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[gensol]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ode_problem","self.wilds_match"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_general_solution(self, *, simplify_flag: bool = True):
         a, b, c, d = self.wilds_match()
         fx = self.ode_problem.func
@@ -1587,14 +1931,20 @@ class RiccatiSpecial(SinglePatternODESolver):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(RationalRiccati(*args), correctly constructs a RationalRiccati instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ RationalRiccati : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SinglePatternODESolver)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ RationalRiccati : Any → {Any | result satisfies: isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fd4d3b086e3666a1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.RationalRiccati","kind":"class","src_hash":"c9e5e2e4d057b891","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"RationalRiccati(*args)","rhs":"correctly constructs a RationalRiccati instance","over":{"base":"Any"},"name":"RationalRiccati_class_invariant"},"guarantee":"correctly constructs a RationalRiccati instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd4d3b086e3666a1"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.RationalRiccati","kind":"class","src_hash":"c9e5e2e4d057b891","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SinglePatternODESolver)"},"spec":{"lhs":"RationalRiccati(*args)","rhs":"correctly constructs a RationalRiccati instance","over":{"base":"Any"},"name":"RationalRiccati_class_invariant"},"guarantee":"isinstance(self, SinglePatternODESolver)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd4d3b086e3666a1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SinglePatternODESolver)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function RationalRiccati not found in source"]}}
 class RationalRiccati(SinglePatternODESolver):
     r"""
     Gives general solutions to the first order Riccati differential
@@ -1631,16 +1981,22 @@ class RationalRiccati(SinglePatternODESolver):
     order = [1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_wilds(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(_wilds(f, x, order), (b0, b1, b2)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (b0, b1, b2)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _wilds : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8549a3a90e58b97d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 703ef514892bf18d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.RationalRiccati._wilds","kind":"method","src_hash":"6600cb3278024cf7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_wilds(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_wilds_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.RationalRiccati._wilds_correct","statement":"Path(_wilds(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8549a3a90e58b97d"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.RationalRiccati._wilds","kind":"method","src_hash":"6600cb3278024cf7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_wilds(f, x, order)","rhs":"(b0, b1, b2)","over":{"base":"Any"},"name":"_wilds_correct"},"guarantee":"returns (b0, b1, b2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.RationalRiccati._wilds_correct","statement":"Path(_wilds(x), returns (b0, b1, b2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"703ef514892bf18d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(b0, b1, b2)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _wilds(self, f, x, order):
         b0 = Wild('b0', exclude=[f(x), f(x).diff(x)])
         b1 = Wild('b1', exclude=[f(x), f(x).diff(x)])
@@ -1648,31 +2004,44 @@ class RationalRiccati(SinglePatternODESolver):
         return (b0, b1, b2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_equation(fx,), internal helper behaves correctly) over Any ║
+# ║ Path(_equation(fx, x, order), fx.diff(x) - b0 - b1 * fx - b2 * fx ** 2) over {Any | hasattr(fx, 'diff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _equation : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(fx, 'diff')                            ║
+# ║   returns:  fx.diff(x) - b0 - b1 * fx - b2 * fx ** 2       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _equation : {Any | hasattr(fx, 'diff')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5fa70fb79b3f9b41  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 772fece16e50e257  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.RationalRiccati._equation","kind":"method","src_hash":"b35c3eb9f14873f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_equation(fx,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_equation_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.RationalRiccati._equation_correct","statement":"Path(_equation(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5fa70fb79b3f9b41"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.RationalRiccati._equation","kind":"method","src_hash":"b35c3eb9f14873f4","in":{"base":"Any","pred":"hasattr(fx, 'diff')"},"out":{"base":"Any"},"spec":{"lhs":"_equation(fx, x, order)","rhs":"fx.diff(x) - b0 - b1 * fx - b2 * fx ** 2","over":{"base":"Any","pred":"hasattr(fx, 'diff')"},"name":"_equation_correct"},"guarantee":"returns fx.diff(x) - b0 - b1 * fx - b2 * fx ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.RationalRiccati._equation_correct","statement":"Path(_equation(x), returns fx.diff(x) - b0 - b1 * fx - b2 * fx ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"772fece16e50e257","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(fx, 'diff')"],"returns_expr":"fx.diff(x) - b0 - b1 * fx - b2 * fx ** 2","pure":false,"effects":{"effect_type":"reads_state","reads":["fx.diff","self.wilds"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _equation(self, fx, x, order):
         b0, b1, b2 = self.wilds()
         return fx.diff(x) - b0 - b1*fx - b2*fx**2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_matches(), internal helper behaves correctly) over Any ║
+# ║ Path(_matches(), <unspecified:_matches>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _matches : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e78561ef0da056b8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.RationalRiccati._matches","kind":"method","src_hash":"cef7e0cffd99c9f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_matches()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_matches_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.RationalRiccati._matches_correct","statement":"Path(_matches(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e78561ef0da056b8"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.RationalRiccati._matches","kind":"method","src_hash":"cef7e0cffd99c9f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_matches()","rhs":"<unspecified:_matches>","over":{"base":"Any"},"name":"_matches_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.RationalRiccati._matches_correct","statement":"Path(_matches(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e78561ef0da056b8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.ode_problem","self.wilds"],"writes":["self._wilds_match"]},"state_contract":{"modifies":["self._wilds_match"],"old_bindings":{"old_self__wilds_match":"self._wilds_match"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _matches(self):
         eq = self.ode_problem.eq_expanded
         f = self.ode_problem.func.func
@@ -1691,16 +2060,22 @@ class RationalRiccati(SinglePatternODESolver):
         return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_general_solution(sim), internal helper behaves correctly) over Any ║
+# ║ Path(_get_general_solution(simplify_flag), solve_riccati(fx, x, b0, b1, b2, gensol=True)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  solve_riccati(fx, x, b0, b1, b2, gensol=T...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_general_solution : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2cc0ba2044fc2238  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d2c08888c55ca5eb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.RationalRiccati._get_general_solution","kind":"method","src_hash":"9ba1b9194e958b71","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(sim)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.RationalRiccati._get_general_solution_correct","statement":"Path(_get_general_solution(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2cc0ba2044fc2238"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.RationalRiccati._get_general_solution","kind":"method","src_hash":"9ba1b9194e958b71","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(simplify_flag)","rhs":"solve_riccati(fx, x, b0, b1, b2, gensol=True)","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"returns solve_riccati(fx, x, b0, b1, b2, gensol=True)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.RationalRiccati._get_general_solution_correct","statement":"Path(_get_general_solution(x), returns solve_riccati(fx, x, b0, b1, b2, gensol=True))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d2c08888c55ca5eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"solve_riccati(fx, x, b0, b1, b2, gensol=True)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ode_problem","self.wilds_match"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_general_solution(self, *, simplify_flag: bool = True):
         # Match the equation
         b0, b1, b2 = self.wilds_match()
@@ -1712,14 +2087,20 @@ class RationalRiccati(SinglePatternODESolver):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SecondNonlinearAutonomousConserved(*args), correctly constructs a SecondNonlinearAutonomousConserved instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SecondNonlinearAutonomousConserved : Any → Any             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SinglePatternODESolver)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SecondNonlinearAutonomousConserved : Any → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eca8160757ccdf73  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SecondNonlinearAutonomousConserved","kind":"class","src_hash":"3b82574856e49cb5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SecondNonlinearAutonomousConserved(*args)","rhs":"correctly constructs a SecondNonlinearAutonomousConserved instance","over":{"base":"Any"},"name":"SecondNonlinearAutonomousConserved_class_invariant"},"guarantee":"correctly constructs a SecondNonlinearAutonomousConserved instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eca8160757ccdf73"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SecondNonlinearAutonomousConserved","kind":"class","src_hash":"3b82574856e49cb5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SinglePatternODESolver)"},"spec":{"lhs":"SecondNonlinearAutonomousConserved(*args)","rhs":"correctly constructs a SecondNonlinearAutonomousConserved instance","over":{"base":"Any"},"name":"SecondNonlinearAutonomousConserved_class_invariant"},"guarantee":"isinstance(self, SinglePatternODESolver)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eca8160757ccdf73","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SinglePatternODESolver)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function SecondNonlinearAutonomousConserved not found in source"]}}
 class SecondNonlinearAutonomousConserved(SinglePatternODESolver):
     r"""
     Gives solution for the autonomous second order nonlinear
@@ -1759,60 +2140,85 @@ class SecondNonlinearAutonomousConserved(SinglePatternODESolver):
     order = [2]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_wilds(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(_wilds(f, x, order), (fy,)) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (fy,)                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _wilds : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 978cefb22856f8fc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33c0bcec949cfb7b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SecondNonlinearAutonomousConserved._wilds","kind":"method","src_hash":"4a685920b68dc884","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_wilds(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_wilds_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SecondNonlinearAutonomousConserved._wilds_correct","statement":"Path(_wilds(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"978cefb22856f8fc"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SecondNonlinearAutonomousConserved._wilds","kind":"method","src_hash":"4a685920b68dc884","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_wilds(f, x, order)","rhs":"(fy,)","over":{"base":"Any"},"name":"_wilds_correct"},"guarantee":"returns (fy,)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SecondNonlinearAutonomousConserved._wilds_correct","statement":"Path(_wilds(x), returns (fy,))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33c0bcec949cfb7b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(fy,)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _wilds(self, f, x, order):
         fy = Wild('fy', exclude=[0, f(x).diff(x), f(x).diff(x, 2)])
         return (fy, )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_equation(fx,), internal helper behaves correctly) over Any ║
+# ║ Path(_equation(fx, x, order), fx.diff(x, 2) + fy) over {Any | hasattr(fx, 'diff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _equation : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(fx, 'diff')                            ║
+# ║   returns:  fx.diff(x, 2) + fy                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _equation : {Any | hasattr(fx, 'diff')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd50f0485b821b55  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1dadc24ee59913e2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SecondNonlinearAutonomousConserved._equation","kind":"method","src_hash":"5eaee4d5b2447cad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_equation(fx,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_equation_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SecondNonlinearAutonomousConserved._equation_correct","statement":"Path(_equation(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd50f0485b821b55"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SecondNonlinearAutonomousConserved._equation","kind":"method","src_hash":"5eaee4d5b2447cad","in":{"base":"Any","pred":"hasattr(fx, 'diff')"},"out":{"base":"Any"},"spec":{"lhs":"_equation(fx, x, order)","rhs":"fx.diff(x, 2) + fy","over":{"base":"Any","pred":"hasattr(fx, 'diff')"},"name":"_equation_correct"},"guarantee":"returns fx.diff(x, 2) + fy","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SecondNonlinearAutonomousConserved._equation_correct","statement":"Path(_equation(x), returns fx.diff(x, 2) + fy)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1dadc24ee59913e2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(fx, 'diff')"],"returns_expr":"fx.diff(x, 2) + fy","pure":false,"effects":{"effect_type":"reads_state","reads":["fx.diff","self.wilds"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _equation(self, fx, x, order):
         fy = self.wilds()[0]
         return fx.diff(x, 2) + fy
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_verify(fx), internal helper behaves correctly) over Any ║
+# ║ Path(_verify(fx), self.ode_problem.is_autonomous) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.ode_problem.is_autonomous                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _verify : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0c22f7a7546a7f1a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SecondNonlinearAutonomousConserved._verify","kind":"method","src_hash":"3b33359344315baa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_verify(fx)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_verify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0c22f7a7546a7f1a"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SecondNonlinearAutonomousConserved._verify","kind":"method","src_hash":"3b33359344315baa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_verify(fx)","rhs":"self.ode_problem.is_autonomous","over":{"base":"Any"},"name":"_verify_correct"},"guarantee":"returns self.ode_problem.is_autonomous","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0c22f7a7546a7f1a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.ode_problem.is_autonomous","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ode_problem"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _verify(self, fx):
         return self.ode_problem.is_autonomous
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_general_solution(sim), id) over Any              ║
+# ║ Path(_get_general_solution(simplify_flag), id) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [Eq(lhs, C2 + x), Eq(lhs, C2 - x)]             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_general_solution : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 2f24cf479a6739aa   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SecondNonlinearAutonomousConserved._get_general_solution","kind":"method","src_hash":"67aa890bed42a4e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(sim)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_general_solution_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Eq","by":"library_axiom"},{"fn":"Eq","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f24cf479a6739aa"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SecondNonlinearAutonomousConserved._get_general_solution","kind":"method","src_hash":"67aa890bed42a4e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(simplify_flag)","rhs":"[Eq(lhs, C2 + x), Eq(lhs, C2 - x)]","over":{"base":"Any"},"name":"_get_general_solution_correct","kind":"composition"},"guarantee":"returns [Eq(lhs, C2 + x), Eq(lhs, C2 - x)]","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Eq","by":"library_axiom"},{"fn":"Eq","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f24cf479a6739aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[Eq(lhs, C2 + x), Eq(lhs, C2 - x)]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ode_problem","self.wilds_match"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_general_solution(self, *, simplify_flag: bool = True):
         g = self.wilds_match()[0]
         fx = self.ode_problem.func
@@ -1828,14 +2234,20 @@ class SecondNonlinearAutonomousConserved(SinglePatternODESolver):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Liouville(*args), correctly constructs a Liouville instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Liouville : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SinglePatternODESolver)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Liouville : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b0bd93f382329c9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.Liouville","kind":"class","src_hash":"7ab3ca24b7c09a03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Liouville(*args)","rhs":"correctly constructs a Liouville instance","over":{"base":"Any"},"name":"Liouville_class_invariant"},"guarantee":"correctly constructs a Liouville instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b0bd93f382329c9"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.Liouville","kind":"class","src_hash":"7ab3ca24b7c09a03","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SinglePatternODESolver)"},"spec":{"lhs":"Liouville(*args)","rhs":"correctly constructs a Liouville instance","over":{"base":"Any"},"name":"Liouville_class_invariant"},"guarantee":"isinstance(self, SinglePatternODESolver)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b0bd93f382329c9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SinglePatternODESolver)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function Liouville not found in source"]}}
 class Liouville(SinglePatternODESolver):
     r"""
     Solves 2nd order Liouville differential equations.
@@ -1898,16 +2310,22 @@ class Liouville(SinglePatternODESolver):
     order = [2]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_wilds(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(_wilds(f, x, order), (d, e, k)) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (d, e, k)                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _wilds : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aee252b55ba69c71  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dbad1904c37e538e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.Liouville._wilds","kind":"method","src_hash":"c5e46c04325061bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_wilds(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_wilds_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.Liouville._wilds_correct","statement":"Path(_wilds(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aee252b55ba69c71"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.Liouville._wilds","kind":"method","src_hash":"c5e46c04325061bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_wilds(f, x, order)","rhs":"(d, e, k)","over":{"base":"Any"},"name":"_wilds_correct"},"guarantee":"returns (d, e, k)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.Liouville._wilds_correct","statement":"Path(_wilds(x), returns (d, e, k))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbad1904c37e538e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(d, e, k)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _wilds(self, f, x, order):
         d = Wild('d', exclude=[f(x).diff(x), f(x).diff(x, 2)])
         e = Wild('e', exclude=[f(x).diff(x)])
@@ -1915,16 +2333,23 @@ class Liouville(SinglePatternODESolver):
         return d, e, k
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_equation(fx,), id) over Any                          ║
+# ║ Path(_equation(fx, x, order), id) over {Any | hasattr(fx, 'diff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _equation : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(fx, 'diff')                            ║
+# ║   returns:  d * fx.diff(x, 2) + e * fx.diff(x) ** 2 +...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _equation : {Any | hasattr(fx, 'diff')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c5e8a0f42bfdc0bd   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.Liouville._equation","kind":"method","src_hash":"648d528ba7c27471","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_equation(fx,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_equation_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"diff","by":"library_axiom"},{"fn":"diff","by":"library_axiom"},{"fn":"diff","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5e8a0f42bfdc0bd"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.Liouville._equation","kind":"method","src_hash":"648d528ba7c27471","in":{"base":"Any","pred":"hasattr(fx, 'diff')"},"out":{"base":"Any"},"spec":{"lhs":"_equation(fx, x, order)","rhs":"d * fx.diff(x, 2) + e * fx.diff(x) ** 2 + k * fx.diff(x)","over":{"base":"Any","pred":"hasattr(fx, 'diff')"},"name":"_equation_correct","kind":"composition"},"guarantee":"returns d * fx.diff(x, 2) + e * fx.diff(x) ** 2 + k * fx.diff(x)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"diff","by":"library_axiom"},{"fn":"diff","by":"library_axiom"},{"fn":"diff","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5e8a0f42bfdc0bd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(fx, 'diff')"],"returns_expr":"d * fx.diff(x, 2) + e * fx.diff(x) ** 2 + k * fx.diff(x)","pure":false,"effects":{"effect_type":"reads_state","reads":["fx.diff","self.wilds"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _equation(self, fx, x, order):
         # Liouville ODE in the form
         # f(x).diff(x, 2) + g(f(x))*(f(x).diff(x))**2 + h(x)*f(x).diff(x)
@@ -1934,16 +2359,22 @@ class Liouville(SinglePatternODESolver):
         return d*fx.diff(x, 2) + e*fx.diff(x)**2 + k*fx.diff(x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_verify(fx), internal helper behaves correctly) over Any ║
+# ║ Path(_verify(fx), <unspecified:_verify>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _verify : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a6c7bf283553c34e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.Liouville._verify","kind":"method","src_hash":"0145f5c86642a2c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_verify(fx)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_verify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.Liouville._verify_correct","statement":"Path(_verify(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6c7bf283553c34e"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.Liouville._verify","kind":"method","src_hash":"0145f5c86642a2c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_verify(fx)","rhs":"<unspecified:_verify>","over":{"base":"Any"},"name":"_verify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.Liouville._verify_correct","statement":"Path(_verify(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6c7bf283553c34e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.g","self.h","self.ode_problem","self.wilds_match","self.y"],"writes":["self.g","self.h","self.y"]},"state_contract":{"modifies":["self.g","self.h","self.y"],"old_bindings":{"old_self_g":"self.g","old_self_h":"self.h","old_self_y":"self.y"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _verify(self, fx):
         d, e, k = self.wilds_match()
         self.y = Dummy('y')
@@ -1955,16 +2386,22 @@ class Liouville(SinglePatternODESolver):
         return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_general_solution(sim), internal helper behaves correctly) over Any ║
+# ║ Path(_get_general_solution(simplify_flag), [gen_sol]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [gen_sol]                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_general_solution : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16aca074a4535960  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75669bd08eac2b82  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.Liouville._get_general_solution","kind":"method","src_hash":"50c60c82c72cabdc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(sim)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.Liouville._get_general_solution_correct","statement":"Path(_get_general_solution(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16aca074a4535960"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.Liouville._get_general_solution","kind":"method","src_hash":"50c60c82c72cabdc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(simplify_flag)","rhs":"[gen_sol]","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"returns [gen_sol]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.Liouville._get_general_solution_correct","statement":"Path(_get_general_solution(x), returns [gen_sol])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75669bd08eac2b82","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[gen_sol]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.g","self.h","self.ode_problem","self.wilds_match","self.y"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_general_solution(self, *, simplify_flag: bool = True):
         d, e, k = self.wilds_match()
         fx = self.ode_problem.func
@@ -1979,14 +2416,20 @@ class Liouville(SinglePatternODESolver):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Separable(*args), correctly constructs a Separable instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Separable : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SinglePatternODESolver)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Separable : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e442a2533ef89aef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.Separable","kind":"class","src_hash":"9912f77aba3ac7fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Separable(*args)","rhs":"correctly constructs a Separable instance","over":{"base":"Any"},"name":"Separable_class_invariant"},"guarantee":"correctly constructs a Separable instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e442a2533ef89aef"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.Separable","kind":"class","src_hash":"9912f77aba3ac7fc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SinglePatternODESolver)"},"spec":{"lhs":"Separable(*args)","rhs":"correctly constructs a Separable instance","over":{"base":"Any"},"name":"Separable_class_invariant"},"guarantee":"isinstance(self, SinglePatternODESolver)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e442a2533ef89aef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SinglePatternODESolver)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function Separable not found in source"]}}
 class Separable(SinglePatternODESolver):
     r"""
     Solves separable 1st order differential equations.
@@ -2047,47 +2490,66 @@ class Separable(SinglePatternODESolver):
     order = [1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_wilds(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(_wilds(f, x, order), (d, e)) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (d, e)                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _wilds : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 74a11fbad69318cc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8b051011fe10244  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.Separable._wilds","kind":"method","src_hash":"b23d7f452542b620","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_wilds(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_wilds_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.Separable._wilds_correct","statement":"Path(_wilds(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"74a11fbad69318cc"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.Separable._wilds","kind":"method","src_hash":"b23d7f452542b620","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_wilds(f, x, order)","rhs":"(d, e)","over":{"base":"Any"},"name":"_wilds_correct"},"guarantee":"returns (d, e)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.Separable._wilds_correct","statement":"Path(_wilds(x), returns (d, e))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8b051011fe10244","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(d, e)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _wilds(self, f, x, order):
         d = Wild('d', exclude=[f(x).diff(x), f(x).diff(x, 2)])
         e = Wild('e', exclude=[f(x).diff(x)])
         return d, e
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_equation(fx,), internal helper behaves correctly) over Any ║
+# ║ Path(_equation(fx, x, order), d + e * fx.diff(x)) over {Any | hasattr(fx, 'diff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _equation : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(fx, 'diff')                            ║
+# ║   returns:  d + e * fx.diff(x)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _equation : {Any | hasattr(fx, 'diff')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ec196e3aef581d7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 078ea272f63b2d07  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.Separable._equation","kind":"method","src_hash":"110d9bf4d7adbc55","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_equation(fx,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_equation_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.Separable._equation_correct","statement":"Path(_equation(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ec196e3aef581d7"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.Separable._equation","kind":"method","src_hash":"110d9bf4d7adbc55","in":{"base":"Any","pred":"hasattr(fx, 'diff')"},"out":{"base":"Any"},"spec":{"lhs":"_equation(fx, x, order)","rhs":"d + e * fx.diff(x)","over":{"base":"Any","pred":"hasattr(fx, 'diff')"},"name":"_equation_correct"},"guarantee":"returns d + e * fx.diff(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.Separable._equation_correct","statement":"Path(_equation(x), returns d + e * fx.diff(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"078ea272f63b2d07","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(fx, 'diff')"],"returns_expr":"d + e * fx.diff(x)","pure":false,"effects":{"effect_type":"reads_state","reads":["fx.diff","self.wilds"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _equation(self, fx, x, order):
         d, e = self.wilds()
         return d + e*fx.diff(x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_verify(fx), internal helper behaves correctly) over Any ║
+# ║ Path(_verify(fx), bool(self.m1 and self.m2)) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  bool(self.m1 and self.m2)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _verify : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81e28c1ce7b32409  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54323fccb022c58d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.Separable._verify","kind":"method","src_hash":"1cee1d3315df8b58","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_verify(fx)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_verify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.Separable._verify_correct","statement":"Path(_verify(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81e28c1ce7b32409"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.Separable._verify","kind":"method","src_hash":"1cee1d3315df8b58","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_verify(fx)","rhs":"bool(self.m1 and self.m2)","over":{"base":"Any"},"name":"_verify_correct"},"guarantee":"returns bool(self.m1 and self.m2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.Separable._verify_correct","statement":"Path(_verify(x), returns bool(self.m1 and self.m2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54323fccb022c58d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"bool(self.m1 and self.m2)","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.m1","self.m2","self.ode_problem","self.wilds_match","self.y"],"writes":["self.m1","self.m2","self.y"]},"state_contract":{"modifies":["self.m1","self.m2","self.y"],"old_bindings":{"old_self_m1":"self.m1","old_self_m2":"self.m2","old_self_y":"self.y"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _verify(self, fx):
         d, e = self.wilds_match()
         self.y = Dummy('y')
@@ -2100,32 +2562,44 @@ class Separable(SinglePatternODESolver):
         return bool(self.m1 and self.m2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_match_object(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_match_object(), (self.m1, self.m2, x, fx)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.m1, self.m2, x, fx)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_match_object : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92858ca58802c7f4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 47a8a1c34150212b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.Separable._get_match_object","kind":"method","src_hash":"f9617801359e9176","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_match_object()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_match_object_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.Separable._get_match_object_correct","statement":"Path(_get_match_object(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92858ca58802c7f4"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.Separable._get_match_object","kind":"method","src_hash":"f9617801359e9176","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_match_object()","rhs":"(self.m1, self.m2, x, fx)","over":{"base":"Any"},"name":"_get_match_object_correct"},"guarantee":"returns (self.m1, self.m2, x, fx)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.Separable._get_match_object_correct","statement":"Path(_get_match_object(x), returns (self.m1, self.m2, x, fx))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47a8a1c34150212b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.m1, self.m2, x, fx)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.m1","self.m2","self.ode_problem"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_match_object(self):
         fx = self.ode_problem.func
         x = self.ode_problem.sym
         return self.m1, self.m2, x, fx
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_general_solution(sim), internal helper behaves correctly) over Any ║
+# ║ Path(_get_general_solution(simplify_flag), [gen_sol]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [gen_sol]                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_general_solution : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc6fe2a0de8fe316  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd43d0d766c7fa51  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.Separable._get_general_solution","kind":"method","src_hash":"f991ef10f1f7a4f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(sim)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.Separable._get_general_solution_correct","statement":"Path(_get_general_solution(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc6fe2a0de8fe316"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.Separable._get_general_solution","kind":"method","src_hash":"f991ef10f1f7a4f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(simplify_flag)","rhs":"[gen_sol]","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"returns [gen_sol]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.Separable._get_general_solution_correct","statement":"Path(_get_general_solution(x), returns [gen_sol])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd43d0d766c7fa51","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[gen_sol]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._get_match_object","self.ode_problem","self.y"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_general_solution(self, *, simplify_flag: bool = True):
         m1, m2, x, fx = self._get_match_object()
         (C1,) = self.ode_problem.get_numbered_constants(num=1)
@@ -2139,14 +2613,20 @@ class Separable(SinglePatternODESolver):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SeparableReduced(*args), correctly constructs a SeparableReduced instance) over {Any | isinstance(expr, Add) and isinstance(expr, Mul) and isinstance(expr, Pow)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Separable)                    ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ SeparableReduced : {Any | isinstance(expr, Add) and i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 49e1ea67daa47a4e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SeparableReduced","kind":"class","src_hash":"6fd244bbb76f16ef","in":{"base":"Any","pred":"isinstance(expr, Add) and isinstance(expr, Mul) and isinstance(expr, Pow)"},"out":{"base":"Any"},"spec":{"lhs":"SeparableReduced(*args)","rhs":"correctly constructs a SeparableReduced instance","over":{"base":"Any","pred":"isinstance(expr, Add) and isinstance(expr, Mul) and isinstance(expr, Pow)"},"name":"SeparableReduced_class_invariant"},"guarantee":"correctly constructs a SeparableReduced instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49e1ea67daa47a4e"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SeparableReduced","kind":"class","src_hash":"6fd244bbb76f16ef","in":{"base":"Any","pred":"isinstance(expr, Add) and isinstance(expr, Mul) and isinstance(expr, Pow)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Separable)"},"spec":{"lhs":"SeparableReduced(*args)","rhs":"correctly constructs a SeparableReduced instance","over":{"base":"Any","pred":"isinstance(expr, Add) and isinstance(expr, Mul) and isinstance(expr, Pow)"},"name":"SeparableReduced_class_invariant"},"guarantee":"isinstance(self, Separable)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49e1ea67daa47a4e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Separable)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function SeparableReduced not found in source"]}}
 class SeparableReduced(Separable):
     r"""
     Solves a differential equation that can be reduced to the separable form.
@@ -2213,16 +2693,22 @@ class SeparableReduced(Separable):
     order = [1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_degree(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_degree(expr, x), <unspecified:_degree>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _degree : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08564f7f03721d48  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SeparableReduced._degree","kind":"method","src_hash":"852fb797c5347eba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_degree(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_degree_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SeparableReduced._degree_correct","statement":"Path(_degree(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08564f7f03721d48"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SeparableReduced._degree","kind":"method","src_hash":"852fb797c5347eba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_degree(expr, x)","rhs":"<unspecified:_degree>","over":{"base":"Any"},"name":"_degree_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SeparableReduced._degree_correct","statement":"Path(_degree(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08564f7f03721d48","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._degree"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _degree(self, expr, x):
         # Made this function to calculate the degree of
         # x in an expression. If expr will be of form
@@ -2239,16 +2725,23 @@ class SeparableReduced(Separable):
         return 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_powers(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_powers(expr), <unspecified:_powers>) over {Any | hasattr(expr, 'atoms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _powers : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'atoms')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _powers : {Any | hasattr(expr, 'atoms')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7126ee4a1e1a731f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SeparableReduced._powers","kind":"method","src_hash":"155decda73d9f0bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_powers(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_powers_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SeparableReduced._powers_correct","statement":"Path(_powers(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7126ee4a1e1a731f"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SeparableReduced._powers","kind":"method","src_hash":"155decda73d9f0bb","in":{"base":"Any","pred":"hasattr(expr, 'atoms')"},"out":{"base":"Any"},"spec":{"lhs":"_powers(expr)","rhs":"<unspecified:_powers>","over":{"base":"Any","pred":"hasattr(expr, 'atoms')"},"name":"_powers_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SeparableReduced._powers_correct","statement":"Path(_powers(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7126ee4a1e1a731f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'atoms')"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["expr.atoms","self._degree","self.ode_problem","self.y"],"writes":["self.y"],"calls_mutating":["pows.add"]},"state_contract":{"modifies":["pows.*","self.y"],"old_bindings":{"old_self_y":"self.y"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _powers(self, expr):
         # this function will return all the different relative power of x w.r.t f(x).
         # expr = x**p * f(x)**q then it will return {p/q}.
@@ -2273,16 +2766,23 @@ class SeparableReduced(Separable):
         return pows
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_verify(fx), internal helper behaves correctly) over Any ║
+# ║ Path(_verify(fx), len(free) == old_len_free - 1) over {Any | len(free) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _verify : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(free) > 0                                  ║
+# ║   ensures:  len(free) == old_len_free - 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _verify : {Any | len(free) > 0} → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | efcb1fecb36b659a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | caf24cddac72a419  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SeparableReduced._verify","kind":"method","src_hash":"cb6be75a2cad3ab0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_verify(fx)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_verify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SeparableReduced._verify_correct","statement":"Path(_verify(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"efcb1fecb36b659a"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SeparableReduced._verify","kind":"method","src_hash":"cb6be75a2cad3ab0","in":{"base":"Any","pred":"len(free) > 0"},"out":{"base":"Any","pred":"result satisfies: len(free) == old_len_free - 1"},"spec":{"lhs":"_verify(fx)","rhs":"len(free) == old_len_free - 1","over":{"base":"Any","pred":"len(free) > 0"},"name":"_verify_correct"},"guarantee":"len(free) == old_len_free - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SeparableReduced._verify_correct","statement":"Path(_verify(x), len(free) == old_len_free - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"caf24cddac72a419","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(free) > 0"],"ensures":["len(free) == old_len_free - 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._powers","self.ode_problem","self.r2","self.t","self.wilds_match"],"writes":["self.r2","self.t"],"calls_mutating":["free.pop","pows.update","self.r2.update"]},"state_contract":{"modifies":["free.*","pows.*","self.*","self.r2","self.t"],"old_bindings":{"old_self_r2":"self.r2","old_self_t":"self.t","old_len_free":"len(free)","old_len_pows":"len(pows)"},"pre_requires":["len(free) > 0"],"post_ensures":["len(free) == old_len_free - 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _verify(self, fx):
         num, den = self.wilds_match()
         x = self.ode_problem.sym
@@ -2310,16 +2810,22 @@ class SeparableReduced(Separable):
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_match_object(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_match_object(), (m1, m2, x, x ** self.r2['power'] * fx)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (m1, m2, x, x ** self.r2['power'] * fx)        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_match_object : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7689bb4c7cbfcb02  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9819945c6364b44b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SeparableReduced._get_match_object","kind":"method","src_hash":"8f5d6a148c2893cc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_match_object()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_match_object_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SeparableReduced._get_match_object_correct","statement":"Path(_get_match_object(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7689bb4c7cbfcb02"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SeparableReduced._get_match_object","kind":"method","src_hash":"8f5d6a148c2893cc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_match_object()","rhs":"(m1, m2, x, x ** self.r2['power'] * fx)","over":{"base":"Any"},"name":"_get_match_object_correct"},"guarantee":"returns (m1, m2, x, x ** self.r2['power'] * fx)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SeparableReduced._get_match_object_correct","statement":"Path(_get_match_object(x), returns (m1, m2, x, x ** self.r2['power'] * fx))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9819945c6364b44b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(m1, m2, x, x ** self.r2['power'] * fx)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ode_problem","self.r2","self.y"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_match_object(self):
         fx = self.ode_problem.func
         x = self.ode_problem.sym
@@ -2333,14 +2839,20 @@ class SeparableReduced(Separable):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(HomogeneousCoeffSubsDepDivIndep(*args), correctly constructs a HomogeneousCoeffSubsDepDivIndep instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ HomogeneousCoeffSubsDepDivIndep : Any → Any                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SinglePatternODESolver)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ HomogeneousCoeffSubsDepDivIndep : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f2bdfdac6b9742a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.HomogeneousCoeffSubsDepDivIndep","kind":"class","src_hash":"783b800102860210","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"HomogeneousCoeffSubsDepDivIndep(*args)","rhs":"correctly constructs a HomogeneousCoeffSubsDepDivIndep instance","over":{"base":"Any"},"name":"HomogeneousCoeffSubsDepDivIndep_class_invariant"},"guarantee":"correctly constructs a HomogeneousCoeffSubsDepDivIndep instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f2bdfdac6b9742a"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.HomogeneousCoeffSubsDepDivIndep","kind":"class","src_hash":"783b800102860210","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SinglePatternODESolver)"},"spec":{"lhs":"HomogeneousCoeffSubsDepDivIndep(*args)","rhs":"correctly constructs a HomogeneousCoeffSubsDepDivIndep instance","over":{"base":"Any"},"name":"HomogeneousCoeffSubsDepDivIndep_class_invariant"},"guarantee":"isinstance(self, SinglePatternODESolver)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f2bdfdac6b9742a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SinglePatternODESolver)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function HomogeneousCoeffSubsDepDivIndep not found in source"]}}
 class HomogeneousCoeffSubsDepDivIndep(SinglePatternODESolver):
     r"""
     Solves a 1st order differential equation with homogeneous coefficients
@@ -2423,47 +2935,66 @@ class HomogeneousCoeffSubsDepDivIndep(SinglePatternODESolver):
     order = [1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_wilds(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(_wilds(f, x, order), (d, e)) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (d, e)                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _wilds : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dced9b4efeda5560  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1af670fad3306027  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.HomogeneousCoeffSubsDepDivIndep._wilds","kind":"method","src_hash":"b23d7f452542b620","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_wilds(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_wilds_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.HomogeneousCoeffSubsDepDivIndep._wilds_correct","statement":"Path(_wilds(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dced9b4efeda5560"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.HomogeneousCoeffSubsDepDivIndep._wilds","kind":"method","src_hash":"b23d7f452542b620","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_wilds(f, x, order)","rhs":"(d, e)","over":{"base":"Any"},"name":"_wilds_correct"},"guarantee":"returns (d, e)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.HomogeneousCoeffSubsDepDivIndep._wilds_correct","statement":"Path(_wilds(x), returns (d, e))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1af670fad3306027","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(d, e)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _wilds(self, f, x, order):
         d = Wild('d', exclude=[f(x).diff(x), f(x).diff(x, 2)])
         e = Wild('e', exclude=[f(x).diff(x)])
         return d, e
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_equation(fx,), internal helper behaves correctly) over Any ║
+# ║ Path(_equation(fx, x, order), d + e * fx.diff(x)) over {Any | hasattr(fx, 'diff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _equation : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(fx, 'diff')                            ║
+# ║   returns:  d + e * fx.diff(x)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _equation : {Any | hasattr(fx, 'diff')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 876f6a9e77c2cd25  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 081617611bc30e73  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.HomogeneousCoeffSubsDepDivIndep._equation","kind":"method","src_hash":"110d9bf4d7adbc55","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_equation(fx,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_equation_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.HomogeneousCoeffSubsDepDivIndep._equation_correct","statement":"Path(_equation(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"876f6a9e77c2cd25"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.HomogeneousCoeffSubsDepDivIndep._equation","kind":"method","src_hash":"110d9bf4d7adbc55","in":{"base":"Any","pred":"hasattr(fx, 'diff')"},"out":{"base":"Any"},"spec":{"lhs":"_equation(fx, x, order)","rhs":"d + e * fx.diff(x)","over":{"base":"Any","pred":"hasattr(fx, 'diff')"},"name":"_equation_correct"},"guarantee":"returns d + e * fx.diff(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.HomogeneousCoeffSubsDepDivIndep._equation_correct","statement":"Path(_equation(x), returns d + e * fx.diff(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"081617611bc30e73","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(fx, 'diff')"],"returns_expr":"d + e * fx.diff(x)","pure":false,"effects":{"effect_type":"reads_state","reads":["fx.diff","self.wilds"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _equation(self, fx, x, order):
         d, e = self.wilds()
         return d + e*fx.diff(x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_verify(fx), internal helper behaves correctly) over Any ║
+# ║ Path(_verify(fx), <unspecified:_verify>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _verify : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f7f12107d1f9e642  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.HomogeneousCoeffSubsDepDivIndep._verify","kind":"method","src_hash":"9e53f5f452c15e85","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_verify(fx)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_verify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.HomogeneousCoeffSubsDepDivIndep._verify_correct","statement":"Path(_verify(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7f12107d1f9e642"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.HomogeneousCoeffSubsDepDivIndep._verify","kind":"method","src_hash":"9e53f5f452c15e85","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_verify(fx)","rhs":"<unspecified:_verify>","over":{"base":"Any"},"name":"_verify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.HomogeneousCoeffSubsDepDivIndep._verify_correct","statement":"Path(_verify(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7f12107d1f9e642","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.d","self.e","self.ode_problem","self.u","self.wilds_match","self.y"],"writes":["self.d","self.e","self.u","self.y"]},"state_contract":{"modifies":["self.d","self.e","self.u","self.y"],"old_bindings":{"old_self_d":"self.d","old_self_e":"self.e","old_self_u":"self.u","old_self_y":"self.y"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _verify(self, fx):
         self.d, self.e = self.wilds_match()
         self.y = Dummy('y')
@@ -2480,16 +3011,22 @@ class HomogeneousCoeffSubsDepDivIndep(SinglePatternODESolver):
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_match_object(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_match_object(), [self.d, self.e, fx, x, self.u, self.u1, self.y, xarg, yarg]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [self.d, self.e, fx, x, self.u, self.u1, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_match_object : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb0fa8da61e4bb38  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9794d644584f2561  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.HomogeneousCoeffSubsDepDivIndep._get_match_object","kind":"method","src_hash":"158639c09e4e43c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_match_object()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_match_object_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.HomogeneousCoeffSubsDepDivIndep._get_match_object_correct","statement":"Path(_get_match_object(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb0fa8da61e4bb38"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.HomogeneousCoeffSubsDepDivIndep._get_match_object","kind":"method","src_hash":"158639c09e4e43c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_match_object()","rhs":"[self.d, self.e, fx, x, self.u, self.u1, self.y, xarg, yarg]","over":{"base":"Any"},"name":"_get_match_object_correct"},"guarantee":"returns [self.d, self.e, fx, x, self.u, self.u1, self.y, xarg, yarg]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.HomogeneousCoeffSubsDepDivIndep._get_match_object_correct","statement":"Path(_get_match_object(x), returns [self.d, self.e, fx, x, self.u, self.u1, self.y, xarg, yarg])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9794d644584f2561","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[self.d, self.e, fx, x, self.u, self.u1, self.y, xarg, yarg]","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.d","self.e","self.ode_problem","self.u","self.u1","self.y"],"writes":["self.u1"]},"state_contract":{"modifies":["self.u1"],"old_bindings":{"old_self_u1":"self.u1"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_match_object(self):
         fx = self.ode_problem.func
         x = self.ode_problem.sym
@@ -2499,16 +3036,22 @@ class HomogeneousCoeffSubsDepDivIndep(SinglePatternODESolver):
         return [self.d, self.e, fx, x, self.u, self.u1, self.y, xarg, yarg]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_general_solution(sim), internal helper behaves correctly) over Any ║
+# ║ Path(_get_general_solution(simplify_flag), [gen_sol]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [gen_sol]                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_general_solution : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 538d65a2c878c98c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58bf4cf4668cdb3e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.HomogeneousCoeffSubsDepDivIndep._get_general_solution","kind":"method","src_hash":"23f21644646e9b5e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(sim)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.HomogeneousCoeffSubsDepDivIndep._get_general_solution_correct","statement":"Path(_get_general_solution(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"538d65a2c878c98c"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.HomogeneousCoeffSubsDepDivIndep._get_general_solution","kind":"method","src_hash":"23f21644646e9b5e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(simplify_flag)","rhs":"[gen_sol]","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"returns [gen_sol]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.HomogeneousCoeffSubsDepDivIndep._get_general_solution_correct","statement":"Path(_get_general_solution(x), returns [gen_sol])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58bf4cf4668cdb3e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[gen_sol]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._get_match_object","self.ode_problem"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_general_solution(self, *, simplify_flag: bool = True):
         d, e, fx, x, u, u1, y, xarg, yarg = self._get_match_object()
         (C1,) = self.ode_problem.get_numbered_constants(num=1)
@@ -2523,14 +3066,20 @@ class HomogeneousCoeffSubsDepDivIndep(SinglePatternODESolver):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(HomogeneousCoeffSubsIndepDivDep(*args), correctly constructs a HomogeneousCoeffSubsIndepDivDep instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ HomogeneousCoeffSubsIndepDivDep : Any → Any                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SinglePatternODESolver)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ HomogeneousCoeffSubsIndepDivDep : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5113aae2fe24e2d4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.HomogeneousCoeffSubsIndepDivDep","kind":"class","src_hash":"de862b89fcbc0955","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"HomogeneousCoeffSubsIndepDivDep(*args)","rhs":"correctly constructs a HomogeneousCoeffSubsIndepDivDep instance","over":{"base":"Any"},"name":"HomogeneousCoeffSubsIndepDivDep_class_invariant"},"guarantee":"correctly constructs a HomogeneousCoeffSubsIndepDivDep instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5113aae2fe24e2d4"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.HomogeneousCoeffSubsIndepDivDep","kind":"class","src_hash":"de862b89fcbc0955","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SinglePatternODESolver)"},"spec":{"lhs":"HomogeneousCoeffSubsIndepDivDep(*args)","rhs":"correctly constructs a HomogeneousCoeffSubsIndepDivDep instance","over":{"base":"Any"},"name":"HomogeneousCoeffSubsIndepDivDep_class_invariant"},"guarantee":"isinstance(self, SinglePatternODESolver)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5113aae2fe24e2d4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SinglePatternODESolver)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function HomogeneousCoeffSubsIndepDivDep not found in source"]}}
 class HomogeneousCoeffSubsIndepDivDep(SinglePatternODESolver):
     r"""
     Solves a 1st order differential equation with homogeneous coefficients
@@ -2616,47 +3165,66 @@ class HomogeneousCoeffSubsIndepDivDep(SinglePatternODESolver):
     order = [1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_wilds(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(_wilds(f, x, order), (d, e)) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (d, e)                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _wilds : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4fc2b8f7856e6be  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a6809182cd8f50e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.HomogeneousCoeffSubsIndepDivDep._wilds","kind":"method","src_hash":"b23d7f452542b620","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_wilds(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_wilds_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.HomogeneousCoeffSubsIndepDivDep._wilds_correct","statement":"Path(_wilds(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4fc2b8f7856e6be"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.HomogeneousCoeffSubsIndepDivDep._wilds","kind":"method","src_hash":"b23d7f452542b620","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_wilds(f, x, order)","rhs":"(d, e)","over":{"base":"Any"},"name":"_wilds_correct"},"guarantee":"returns (d, e)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.HomogeneousCoeffSubsIndepDivDep._wilds_correct","statement":"Path(_wilds(x), returns (d, e))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a6809182cd8f50e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(d, e)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _wilds(self, f, x, order):
         d = Wild('d', exclude=[f(x).diff(x), f(x).diff(x, 2)])
         e = Wild('e', exclude=[f(x).diff(x)])
         return d, e
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_equation(fx,), internal helper behaves correctly) over Any ║
+# ║ Path(_equation(fx, x, order), d + e * fx.diff(x)) over {Any | hasattr(fx, 'diff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _equation : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(fx, 'diff')                            ║
+# ║   returns:  d + e * fx.diff(x)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _equation : {Any | hasattr(fx, 'diff')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c453948667b09d7b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c48525ef1a3d01d2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.HomogeneousCoeffSubsIndepDivDep._equation","kind":"method","src_hash":"110d9bf4d7adbc55","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_equation(fx,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_equation_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.HomogeneousCoeffSubsIndepDivDep._equation_correct","statement":"Path(_equation(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c453948667b09d7b"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.HomogeneousCoeffSubsIndepDivDep._equation","kind":"method","src_hash":"110d9bf4d7adbc55","in":{"base":"Any","pred":"hasattr(fx, 'diff')"},"out":{"base":"Any"},"spec":{"lhs":"_equation(fx, x, order)","rhs":"d + e * fx.diff(x)","over":{"base":"Any","pred":"hasattr(fx, 'diff')"},"name":"_equation_correct"},"guarantee":"returns d + e * fx.diff(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.HomogeneousCoeffSubsIndepDivDep._equation_correct","statement":"Path(_equation(x), returns d + e * fx.diff(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c48525ef1a3d01d2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(fx, 'diff')"],"returns_expr":"d + e * fx.diff(x)","pure":false,"effects":{"effect_type":"reads_state","reads":["fx.diff","self.wilds"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _equation(self, fx, x, order):
         d, e = self.wilds()
         return d + e*fx.diff(x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_verify(fx), internal helper behaves correctly) over Any ║
+# ║ Path(_verify(fx), <unspecified:_verify>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _verify : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65a1e0f97bb1aadc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.HomogeneousCoeffSubsIndepDivDep._verify","kind":"method","src_hash":"cf29f5a313630f1e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_verify(fx)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_verify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.HomogeneousCoeffSubsIndepDivDep._verify_correct","statement":"Path(_verify(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65a1e0f97bb1aadc"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.HomogeneousCoeffSubsIndepDivDep._verify","kind":"method","src_hash":"cf29f5a313630f1e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_verify(fx)","rhs":"<unspecified:_verify>","over":{"base":"Any"},"name":"_verify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.HomogeneousCoeffSubsIndepDivDep._verify_correct","statement":"Path(_verify(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65a1e0f97bb1aadc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.d","self.e","self.ode_problem","self.u","self.wilds_match","self.y"],"writes":["self.d","self.e","self.u","self.y"]},"state_contract":{"modifies":["self.d","self.e","self.u","self.y"],"old_bindings":{"old_self_d":"self.d","old_self_e":"self.e","old_self_u":"self.u","old_self_y":"self.y"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _verify(self, fx):
         self.d, self.e = self.wilds_match()
         self.y = Dummy('y')
@@ -2673,16 +3241,22 @@ class HomogeneousCoeffSubsIndepDivDep(SinglePatternODESolver):
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_match_object(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_match_object(), [self.d, self.e, fx, x, self.u, self.u1, self.y, xarg, yarg]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [self.d, self.e, fx, x, self.u, self.u1, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_match_object : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c55a48f0daee07e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 51752b9a3d7f40ec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.HomogeneousCoeffSubsIndepDivDep._get_match_object","kind":"method","src_hash":"158639c09e4e43c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_match_object()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_match_object_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.HomogeneousCoeffSubsIndepDivDep._get_match_object_correct","statement":"Path(_get_match_object(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c55a48f0daee07e"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.HomogeneousCoeffSubsIndepDivDep._get_match_object","kind":"method","src_hash":"158639c09e4e43c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_match_object()","rhs":"[self.d, self.e, fx, x, self.u, self.u1, self.y, xarg, yarg]","over":{"base":"Any"},"name":"_get_match_object_correct"},"guarantee":"returns [self.d, self.e, fx, x, self.u, self.u1, self.y, xarg, yarg]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.HomogeneousCoeffSubsIndepDivDep._get_match_object_correct","statement":"Path(_get_match_object(x), returns [self.d, self.e, fx, x, self.u, self.u1, self.y, xarg, yarg])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51752b9a3d7f40ec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[self.d, self.e, fx, x, self.u, self.u1, self.y, xarg, yarg]","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.d","self.e","self.ode_problem","self.u","self.u1","self.y"],"writes":["self.u1"]},"state_contract":{"modifies":["self.u1"],"old_bindings":{"old_self_u1":"self.u1"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_match_object(self):
         fx = self.ode_problem.func
         x = self.ode_problem.sym
@@ -2692,16 +3266,22 @@ class HomogeneousCoeffSubsIndepDivDep(SinglePatternODESolver):
         return [self.d, self.e, fx, x, self.u, self.u1, self.y, xarg, yarg]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_general_solution(sim), internal helper behaves correctly) over Any ║
+# ║ Path(_get_general_solution(simplify_flag), [gen_sol]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [gen_sol]                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_general_solution : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ff69754538e04a9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07314b272541f758  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.HomogeneousCoeffSubsIndepDivDep._get_general_solution","kind":"method","src_hash":"8945b0653303041f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(sim)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.HomogeneousCoeffSubsIndepDivDep._get_general_solution_correct","statement":"Path(_get_general_solution(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ff69754538e04a9"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.HomogeneousCoeffSubsIndepDivDep._get_general_solution","kind":"method","src_hash":"8945b0653303041f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(simplify_flag)","rhs":"[gen_sol]","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"returns [gen_sol]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.HomogeneousCoeffSubsIndepDivDep._get_general_solution_correct","statement":"Path(_get_general_solution(x), returns [gen_sol])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07314b272541f758","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[gen_sol]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._get_match_object","self.ode_problem"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_general_solution(self, *, simplify_flag: bool = True):
         d, e, fx, x, u, u1, y, xarg, yarg = self._get_match_object()
         (C1,) = self.ode_problem.get_numbered_constants(num=1)
@@ -2714,14 +3294,21 @@ class HomogeneousCoeffSubsIndepDivDep(SinglePatternODESolver):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(HomogeneousCoeffBest(*args), correctly constructs a HomogeneousCoeffBest instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ HomogeneousCoeffBest : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, HomogeneousCoeffSubsInde...   ║
+# ║   ensures:  isinstance(self, HomogeneousCoeffSubsDepD...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ HomogeneousCoeffBest : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a817ef7cb8bcdad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.HomogeneousCoeffBest","kind":"class","src_hash":"7cbe745f7093143c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"HomogeneousCoeffBest(*args)","rhs":"correctly constructs a HomogeneousCoeffBest instance","over":{"base":"Any"},"name":"HomogeneousCoeffBest_class_invariant"},"guarantee":"correctly constructs a HomogeneousCoeffBest instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a817ef7cb8bcdad"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.HomogeneousCoeffBest","kind":"class","src_hash":"7cbe745f7093143c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, HomogeneousCoeffSubsIndepDivDep) and isinstance(self, HomogeneousCoeffSubsDepDivIndep)"},"spec":{"lhs":"HomogeneousCoeffBest(*args)","rhs":"correctly constructs a HomogeneousCoeffBest instance","over":{"base":"Any"},"name":"HomogeneousCoeffBest_class_invariant"},"guarantee":"isinstance(self, HomogeneousCoeffSubsIndepDivDep); isinstance(self, HomogeneousCoeffSubsDepDivIndep)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a817ef7cb8bcdad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, HomogeneousCoeffSubsIndepDivDep)","isinstance(self, HomogeneousCoeffSubsDepDivIndep)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function HomogeneousCoeffBest not found in source"]}}
 class HomogeneousCoeffBest(HomogeneousCoeffSubsIndepDivDep, HomogeneousCoeffSubsDepDivIndep):
     r"""
     Returns the best solution to an ODE from the two hints
@@ -2768,31 +3355,43 @@ class HomogeneousCoeffBest(HomogeneousCoeffSubsIndepDivDep, HomogeneousCoeffSubs
     order = [1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_verify(fx), internal helper behaves correctly) over Any ║
+# ║ Path(_verify(fx), HomogeneousCoeffSubsIndepDivDep._verify(self, fx) and HomogeneousCoeffSubsDepDivIndep._verify(self, fx)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  HomogeneousCoeffSubsIndepDivDep._verify(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _verify : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 999befc69386bc56  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d652a4ba4cbcf8b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.HomogeneousCoeffBest._verify","kind":"method","src_hash":"696938dbeb7eee60","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_verify(fx)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_verify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.HomogeneousCoeffBest._verify_correct","statement":"Path(_verify(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"999befc69386bc56"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.HomogeneousCoeffBest._verify","kind":"method","src_hash":"696938dbeb7eee60","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_verify(fx)","rhs":"HomogeneousCoeffSubsIndepDivDep._verify(self, fx) and HomogeneousCoeffSubsDepDivIndep._verify(self, fx)","over":{"base":"Any"},"name":"_verify_correct"},"guarantee":"returns HomogeneousCoeffSubsIndepDivDep._verify(self, fx) and HomogeneousCoeffSubsDepDivIndep._verify(self, fx)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.HomogeneousCoeffBest._verify_correct","statement":"Path(_verify(x), returns HomogeneousCoeffSubsIndepDivDep._verify(self, fx) and HomogeneousCoeffSubsDepDivIndep._verify(self, fx))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d652a4ba4cbcf8b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"HomogeneousCoeffSubsIndepDivDep._verify(self, fx) and HomogeneousCoeffSubsDepDivIndep._verify(self, fx)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _verify(self, fx):
         return HomogeneousCoeffSubsIndepDivDep._verify(self, fx) and \
                HomogeneousCoeffSubsDepDivIndep._verify(self, fx)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_general_solution(sim), id) over Any              ║
+# ║ Path(_get_general_solution(simplify_flag), id) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  min([sol1, sol2], key=lambda x: ode_sol_s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_general_solution : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ae32f42c570e8dd7   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.HomogeneousCoeffBest._get_general_solution","kind":"method","src_hash":"379f4e2e74c96aca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(sim)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_general_solution_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"min","by":"library_axiom"},{"fn":"ode_sol_simplicity","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae32f42c570e8dd7"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.HomogeneousCoeffBest._get_general_solution","kind":"method","src_hash":"379f4e2e74c96aca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(simplify_flag)","rhs":"min([sol1, sol2], key=lambda x: ode_sol_simplicity(x, fx, trysolving=not simplify))","over":{"base":"Any"},"name":"_get_general_solution_correct","kind":"composition"},"guarantee":"returns min([sol1, sol2], key=lambda x: ode_sol_simplicity(x, fx, trysolving=not simplify))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"min","by":"library_axiom"},{"fn":"ode_sol_simplicity","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae32f42c570e8dd7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"min([sol1, sol2], key=lambda x: ode_sol_simplicity(x, fx, trysolving=not simplify))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ode_problem"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_general_solution(self, *, simplify_flag: bool = True):
         # There are two substitutions that solve the equation, u1=y/x and u2=x/y
         # # They produce different integrals, so try them both and see which
@@ -2810,14 +3409,20 @@ class HomogeneousCoeffBest(HomogeneousCoeffSubsIndepDivDep, HomogeneousCoeffSubs
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(LinearCoefficients(*args), correctly constructs a LinearCoefficients instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ LinearCoefficients : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, HomogeneousCoeffBest)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ LinearCoefficients : Any → {Any | result satisfies: i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e50a3f35c98242f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.LinearCoefficients","kind":"class","src_hash":"257dbfe2b7ad9878","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LinearCoefficients(*args)","rhs":"correctly constructs a LinearCoefficients instance","over":{"base":"Any"},"name":"LinearCoefficients_class_invariant"},"guarantee":"correctly constructs a LinearCoefficients instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e50a3f35c98242f"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.LinearCoefficients","kind":"class","src_hash":"257dbfe2b7ad9878","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, HomogeneousCoeffBest)"},"spec":{"lhs":"LinearCoefficients(*args)","rhs":"correctly constructs a LinearCoefficients instance","over":{"base":"Any"},"name":"LinearCoefficients_class_invariant"},"guarantee":"isinstance(self, HomogeneousCoeffBest)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e50a3f35c98242f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, HomogeneousCoeffBest)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function LinearCoefficients not found in source"]}}
 class LinearCoefficients(HomogeneousCoeffBest):
     r"""
     Solves a differential equation with linear coefficients.
@@ -2873,47 +3478,67 @@ class LinearCoefficients(HomogeneousCoeffBest):
     order = [1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_wilds(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(_wilds(f, x, order), (d, e)) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (d, e)                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _wilds : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1eec0b21bd1aeb12  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e19e9f8f6f32e126  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.LinearCoefficients._wilds","kind":"method","src_hash":"b23d7f452542b620","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_wilds(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_wilds_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.LinearCoefficients._wilds_correct","statement":"Path(_wilds(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1eec0b21bd1aeb12"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.LinearCoefficients._wilds","kind":"method","src_hash":"b23d7f452542b620","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_wilds(f, x, order)","rhs":"(d, e)","over":{"base":"Any"},"name":"_wilds_correct"},"guarantee":"returns (d, e)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.LinearCoefficients._wilds_correct","statement":"Path(_wilds(x), returns (d, e))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e19e9f8f6f32e126","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(d, e)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _wilds(self, f, x, order):
         d = Wild('d', exclude=[f(x).diff(x), f(x).diff(x, 2)])
         e = Wild('e', exclude=[f(x).diff(x)])
         return d, e
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_equation(fx,), internal helper behaves correctly) over Any ║
+# ║ Path(_equation(fx, x, order), d + e * fx.diff(x)) over {Any | hasattr(fx, 'diff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _equation : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(fx, 'diff')                            ║
+# ║   returns:  d + e * fx.diff(x)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _equation : {Any | hasattr(fx, 'diff')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b21f048a11c3287  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed52920ed24a757d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.LinearCoefficients._equation","kind":"method","src_hash":"110d9bf4d7adbc55","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_equation(fx,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_equation_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.LinearCoefficients._equation_correct","statement":"Path(_equation(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b21f048a11c3287"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.LinearCoefficients._equation","kind":"method","src_hash":"110d9bf4d7adbc55","in":{"base":"Any","pred":"hasattr(fx, 'diff')"},"out":{"base":"Any"},"spec":{"lhs":"_equation(fx, x, order)","rhs":"d + e * fx.diff(x)","over":{"base":"Any","pred":"hasattr(fx, 'diff')"},"name":"_equation_correct"},"guarantee":"returns d + e * fx.diff(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.LinearCoefficients._equation_correct","statement":"Path(_equation(x), returns d + e * fx.diff(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed52920ed24a757d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(fx, 'diff')"],"returns_expr":"d + e * fx.diff(x)","pure":false,"effects":{"effect_type":"reads_state","reads":["fx.diff","self.wilds"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _equation(self, fx, x, order):
         d, e = self.wilds()
         return d + e*fx.diff(x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_verify(fx), internal helper behaves correctly) over Any ║
+# ║ Path(_verify(fx), <unspecified:_verify>) over {Any | hasattr(fx, 'diff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _verify : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(fx, 'diff')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _verify : {Any | hasattr(fx, 'diff')} → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 444bea61f76e91a2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.LinearCoefficients._verify","kind":"method","src_hash":"f6d7e5e5abf78556","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_verify(fx)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_verify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.LinearCoefficients._verify_correct","statement":"Path(_verify(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"444bea61f76e91a2"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.LinearCoefficients._verify","kind":"method","src_hash":"f6d7e5e5abf78556","in":{"base":"Any","pred":"hasattr(fx, 'diff')"},"out":{"base":"Any"},"spec":{"lhs":"_verify(fx)","rhs":"<unspecified:_verify>","over":{"base":"Any","pred":"hasattr(fx, 'diff')"},"name":"_verify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.LinearCoefficients._verify_correct","statement":"Path(_verify(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"444bea61f76e91a2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(fx, 'diff')"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["fx.diff","self._linear_coeff_match","self.d","self.e","self.ode_problem","self.wilds","self.wilds_match","self.xarg","self.y","self.yarg"],"writes":["self.d","self.e","self.y"]},"state_contract":{"modifies":["self.d","self.e","self.y"],"old_bindings":{"old_self_d":"self.d","old_self_e":"self.e","old_self_y":"self.y"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _verify(self, fx):
         self.d, self.e = self.wilds_match()
         a, b = self.wilds()
@@ -2943,16 +3568,25 @@ class LinearCoefficients(HomogeneousCoeffBest):
             return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_linear_coeff_match(exp), helper function to match hint ``linear_coefficients``) over Any ║
+# ║ Path(_linear_coeff_match(expr, func), <unspecified:_linear_coeff_match>) over {Any | hasattr(func, 'func') and hasattr(func, 'args') and hasattr(expr, 'atoms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _linear_coeff_match : Any → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(func, 'func')                          ║
+# ║   requires: hasattr(func, 'args')                          ║
+# ║   requires: hasattr(expr, 'atoms')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _linear_coeff_match : {Any | hasattr(func, 'func') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77225b9da5c9bbca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.LinearCoefficients._linear_coeff_match","kind":"method","src_hash":"3d10d9d3c838fc93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_linear_coeff_match(exp)","rhs":"helper function to match hint ``linear_coefficients``","over":{"base":"Any"},"name":"_linear_coeff_match_correct"},"guarantee":"helper function to match hint ``linear_coefficients``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.LinearCoefficients._linear_coeff_match_correct","statement":"Path(_linear_coeff_match(x), helper function to match hint ``linear_coefficients``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77225b9da5c9bbca"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.LinearCoefficients._linear_coeff_match","kind":"method","src_hash":"3d10d9d3c838fc93","in":{"base":"Any","pred":"hasattr(func, 'func') and hasattr(func, 'args') and hasattr(expr, 'atoms')"},"out":{"base":"Any"},"spec":{"lhs":"_linear_coeff_match(expr, func)","rhs":"<unspecified:_linear_coeff_match>","over":{"base":"Any","pred":"hasattr(func, 'func') and hasattr(func, 'args') and hasattr(expr, 'atoms')"},"name":"_linear_coeff_match_correct"},"guarantee":"helper function to match hint ``linear_coefficients``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.LinearCoefficients._linear_coeff_match_correct","statement":"Path(_linear_coeff_match(x), helper function to match hint ``linear_coefficients``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77225b9da5c9bbca","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(func, 'func')","hasattr(func, 'args')","hasattr(expr, 'atoms')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _linear_coeff_match(self, expr, func):
         r"""
         Helper function to match hint ``linear_coefficients``.
@@ -3037,16 +3671,22 @@ class LinearCoefficients(HomogeneousCoeffBest):
             return (b2*c1 - b1*c2)/denom, (a1*c2 - a2*c1)/denom
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_match_object(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_match_object(), [self.d, self.e, fx, x, u, self.u1, self.y, self.xarg, self.yarg]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [self.d, self.e, fx, x, u, self.u1, self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_match_object : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a08adc11639d8ba  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a41d7d8f164dd3d5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.LinearCoefficients._get_match_object","kind":"method","src_hash":"fcd3f5a7a92cfb7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_match_object()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_match_object_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.LinearCoefficients._get_match_object_correct","statement":"Path(_get_match_object(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a08adc11639d8ba"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.LinearCoefficients._get_match_object","kind":"method","src_hash":"fcd3f5a7a92cfb7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_match_object()","rhs":"[self.d, self.e, fx, x, u, self.u1, self.y, self.xarg, self.yarg]","over":{"base":"Any"},"name":"_get_match_object_correct"},"guarantee":"returns [self.d, self.e, fx, x, u, self.u1, self.y, self.xarg, self.yarg]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.LinearCoefficients._get_match_object_correct","statement":"Path(_get_match_object(x), returns [self.d, self.e, fx, x, u, self.u1, self.y, self.xarg, self.yarg])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a41d7d8f164dd3d5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[self.d, self.e, fx, x, u, self.u1, self.y, self.xarg, self.yarg]","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.d","self.e","self.ode_problem","self.u1","self.xarg","self.y","self.yarg"],"writes":["self.u1"]},"state_contract":{"modifies":["self.u1"],"old_bindings":{"old_self_u1":"self.u1"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_match_object(self):
         fx = self.ode_problem.func
         x = self.ode_problem.sym
@@ -3058,14 +3698,20 @@ class LinearCoefficients(HomogeneousCoeffBest):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(NthOrderReducible(*args), correctly constructs a NthOrderReducible instance) over {Any | isinstance(gsol, list)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SingleODESolver)              ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ NthOrderReducible : {Any | isinstance(gsol, list)} → ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4cb0c97ac07120ec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthOrderReducible","kind":"class","src_hash":"03fa134993c81c93","in":{"base":"Any","pred":"isinstance(gsol, list)"},"out":{"base":"Any","pred":"len(func.args) == 1"},"spec":{"lhs":"NthOrderReducible(*args)","rhs":"correctly constructs a NthOrderReducible instance","over":{"base":"Any","pred":"isinstance(gsol, list)"},"name":"NthOrderReducible_class_invariant"},"guarantee":"correctly constructs a NthOrderReducible instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4cb0c97ac07120ec"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthOrderReducible","kind":"class","src_hash":"03fa134993c81c93","in":{"base":"Any","pred":"isinstance(gsol, list)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SingleODESolver)"},"spec":{"lhs":"NthOrderReducible(*args)","rhs":"correctly constructs a NthOrderReducible instance","over":{"base":"Any","pred":"isinstance(gsol, list)"},"name":"NthOrderReducible_class_invariant"},"guarantee":"isinstance(self, SingleODESolver)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4cb0c97ac07120ec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SingleODESolver)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function NthOrderReducible not found in source"]}}
 class NthOrderReducible(SingleODESolver):
     r"""
     Solves ODEs that only involve derivatives of the dependent variable using
@@ -3094,16 +3740,22 @@ class NthOrderReducible(SingleODESolver):
     has_integral = False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_matches(), internal helper behaves correctly) over Any ║
+# ║ Path(_matches(), len(func.args) == 1) over Any             ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _matches : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(func.args) == 1                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _matches : Any → {Any | result satisfies: len(func.ar...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e69d59984763b7b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 70af72ef325db642  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthOrderReducible._matches","kind":"method","src_hash":"2865e093a82b0195","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_matches()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_matches_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.NthOrderReducible._matches_correct","statement":"Path(_matches(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e69d59984763b7b"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthOrderReducible._matches","kind":"method","src_hash":"2865e093a82b0195","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(func.args) == 1"},"spec":{"lhs":"_matches()","rhs":"len(func.args) == 1","over":{"base":"Any"},"name":"_matches_correct"},"guarantee":"len(func.args) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.NthOrderReducible._matches_correct","statement":"Path(_matches(x), len(func.args) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70af72ef325db642","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(func.args) == 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.ode_problem","self.smallest"],"writes":["self.smallest"]},"state_contract":{"modifies":["self.smallest"],"old_bindings":{"old_self_smallest":"self.smallest"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _matches(self):
         # Any ODE that can be solved with a substitution and
         # repeated integration e.g.:
@@ -3132,16 +3784,22 @@ class NthOrderReducible(SingleODESolver):
         return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_general_solution(sim), internal helper behaves correctly) over Any ║
+# ║ Path(_get_general_solution(simplify_flag), <unspecified:_get_general_solution>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_general_solution : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65bf45ffc4d35c57  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthOrderReducible._get_general_solution","kind":"method","src_hash":"03a42a37a2d08c3d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(sim)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.NthOrderReducible._get_general_solution_correct","statement":"Path(_get_general_solution(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65bf45ffc4d35c57"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthOrderReducible._get_general_solution","kind":"method","src_hash":"03a42a37a2d08c3d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(simplify_flag)","rhs":"<unspecified:_get_general_solution>","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.NthOrderReducible._get_general_solution_correct","statement":"Path(_get_general_solution(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65bf45ffc4d35c57","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_general_solution(self, *, simplify_flag: bool = True):
         eq = self.ode_problem.eq
         f = self.ode_problem.func.func
@@ -3173,14 +3831,20 @@ class NthOrderReducible(SingleODESolver):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SecondHypergeometric(*args), correctly constructs a SecondHypergeometric instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SecondHypergeometric : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SingleODESolver)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SecondHypergeometric : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab198618d73d6e87  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SecondHypergeometric","kind":"class","src_hash":"cefe748eced0457f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SecondHypergeometric(*args)","rhs":"correctly constructs a SecondHypergeometric instance","over":{"base":"Any"},"name":"SecondHypergeometric_class_invariant"},"guarantee":"correctly constructs a SecondHypergeometric instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab198618d73d6e87"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SecondHypergeometric","kind":"class","src_hash":"cefe748eced0457f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SingleODESolver)"},"spec":{"lhs":"SecondHypergeometric(*args)","rhs":"correctly constructs a SecondHypergeometric instance","over":{"base":"Any"},"name":"SecondHypergeometric_class_invariant"},"guarantee":"isinstance(self, SingleODESolver)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab198618d73d6e87","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SingleODESolver)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function SecondHypergeometric not found in source"]}}
 class SecondHypergeometric(SingleODESolver):
     r"""
     Solves 2nd order linear differential equations.
@@ -3240,16 +3904,22 @@ class SecondHypergeometric(SingleODESolver):
     has_integral = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_matches(), internal helper behaves correctly) over Any ║
+# ║ Path(_matches(), self.match_object is not None) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.match_object is not None                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _matches : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6163e0eb9a3160e4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a95a0d603ed6e80e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SecondHypergeometric._matches","kind":"method","src_hash":"5a8a4721ea255b2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_matches()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_matches_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SecondHypergeometric._matches_correct","statement":"Path(_matches(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6163e0eb9a3160e4"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SecondHypergeometric._matches","kind":"method","src_hash":"5a8a4721ea255b2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_matches()","rhs":"self.match_object is not None","over":{"base":"Any"},"name":"_matches_correct"},"guarantee":"returns self.match_object is not None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SecondHypergeometric._matches_correct","statement":"Path(_matches(x), returns self.match_object is not None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a95a0d603ed6e80e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.match_object is not None","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.match_object","self.ode_problem"],"writes":["self.match_object"],"calls_mutating":["self.match_object.update"]},"state_contract":{"modifies":["self.*","self.match_object"],"old_bindings":{"old_self_match_object":"self.match_object"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _matches(self):
         eq = self.ode_problem.eq_preprocessed
         func = self.ode_problem.func
@@ -3267,16 +3937,22 @@ class SecondHypergeometric(SingleODESolver):
         return self.match_object is not None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_general_solution(sim), internal helper behaves correctly) over Any ║
+# ║ Path(_get_general_solution(simplify_flag), [sol]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [sol]                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_general_solution : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 237bad55712f856e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 17e51eb7ef928eda  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SecondHypergeometric._get_general_solution","kind":"method","src_hash":"db40f362dc9bab9f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(sim)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SecondHypergeometric._get_general_solution_correct","statement":"Path(_get_general_solution(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"237bad55712f856e"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SecondHypergeometric._get_general_solution","kind":"method","src_hash":"db40f362dc9bab9f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(simplify_flag)","rhs":"[sol]","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"returns [sol]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SecondHypergeometric._get_general_solution_correct","statement":"Path(_get_general_solution(x), returns [sol])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17e51eb7ef928eda","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[sol]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.match_object","self.ode_problem"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_general_solution(self, *, simplify_flag: bool = True):
         eq = self.ode_problem.eq
         func = self.ode_problem.func
@@ -3292,14 +3968,20 @@ class SecondHypergeometric(SingleODESolver):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(NthLinearConstantCoeffHomogeneous(*args), correctly constructs a NthLinearConstantCoeffHomogeneous instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ NthLinearConstantCoeffHomogeneous : Any → Any              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SingleODESolver)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ NthLinearConstantCoeffHomogeneous : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e786cc0cdd0b886f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthLinearConstantCoeffHomogeneous","kind":"class","src_hash":"0f6fd6beed2e6c4a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"NthLinearConstantCoeffHomogeneous(*args)","rhs":"correctly constructs a NthLinearConstantCoeffHomogeneous instance","over":{"base":"Any"},"name":"NthLinearConstantCoeffHomogeneous_class_invariant"},"guarantee":"correctly constructs a NthLinearConstantCoeffHomogeneous instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e786cc0cdd0b886f"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthLinearConstantCoeffHomogeneous","kind":"class","src_hash":"0f6fd6beed2e6c4a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SingleODESolver)"},"spec":{"lhs":"NthLinearConstantCoeffHomogeneous(*args)","rhs":"correctly constructs a NthLinearConstantCoeffHomogeneous instance","over":{"base":"Any"},"name":"NthLinearConstantCoeffHomogeneous_class_invariant"},"guarantee":"isinstance(self, SingleODESolver)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e786cc0cdd0b886f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SingleODESolver)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function NthLinearConstantCoeffHomogeneous not found in source"]}}
 class NthLinearConstantCoeffHomogeneous(SingleODESolver):
     r"""
     Solves an `n`\th order linear homogeneous differential equation with
@@ -3368,16 +4050,22 @@ class NthLinearConstantCoeffHomogeneous(SingleODESolver):
     has_integral = False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_matches(), internal helper behaves correctly) over Any ║
+# ║ Path(_matches(), <unspecified:_matches>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _matches : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e31172d1cd0da2c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthLinearConstantCoeffHomogeneous._matches","kind":"method","src_hash":"ac68b9ce303c6795","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_matches()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_matches_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.NthLinearConstantCoeffHomogeneous._matches_correct","statement":"Path(_matches(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e31172d1cd0da2c"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthLinearConstantCoeffHomogeneous._matches","kind":"method","src_hash":"ac68b9ce303c6795","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_matches()","rhs":"<unspecified:_matches>","over":{"base":"Any"},"name":"_matches_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.NthLinearConstantCoeffHomogeneous._matches_correct","statement":"Path(_matches(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e31172d1cd0da2c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.ode_problem","self.r"],"writes":["self.r"]},"state_contract":{"modifies":["self.r"],"old_bindings":{"old_self_r":"self.r"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _matches(self):
         eq = self.ode_problem.eq_high_order_free
         func = self.ode_problem.func
@@ -3392,16 +4080,22 @@ class NthLinearConstantCoeffHomogeneous(SingleODESolver):
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_general_solution(sim), internal helper behaves correctly) over Any ║
+# ║ Path(_get_general_solution(simplify_flag), [gsol]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [gsol]                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_general_solution : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 395d11ba2bedd6d6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf2afe3665bb6a07  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthLinearConstantCoeffHomogeneous._get_general_solution","kind":"method","src_hash":"2b74958d985aa9b6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(sim)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.NthLinearConstantCoeffHomogeneous._get_general_solution_correct","statement":"Path(_get_general_solution(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"395d11ba2bedd6d6"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthLinearConstantCoeffHomogeneous._get_general_solution","kind":"method","src_hash":"2b74958d985aa9b6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(simplify_flag)","rhs":"[gsol]","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"returns [gsol]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.NthLinearConstantCoeffHomogeneous._get_general_solution_correct","statement":"Path(_get_general_solution(x), returns [gsol])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf2afe3665bb6a07","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[gsol]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ode_problem","self.r"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_general_solution(self, *, simplify_flag: bool = True):
         fx = self.ode_problem.func
         order = self.ode_problem.order
@@ -3419,14 +4113,20 @@ class NthLinearConstantCoeffHomogeneous(SingleODESolver):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(NthLinearConstantCoeffVariationOfParameters(*args), correctly constructs a NthLinearConstantCoeffVariationOfParameters instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ NthLinearConstantCoeffVariationOfParameters : Any → Any    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SingleODESolver)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ NthLinearConstantCoeffVariationOfParameters : Any → {...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a79bc04fbef0ee18  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthLinearConstantCoeffVariationOfParameters","kind":"class","src_hash":"d85f7f4f8e725b4a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"NthLinearConstantCoeffVariationOfParameters(*args)","rhs":"correctly constructs a NthLinearConstantCoeffVariationOfParameters instance","over":{"base":"Any"},"name":"NthLinearConstantCoeffVariationOfParameters_class_invariant"},"guarantee":"correctly constructs a NthLinearConstantCoeffVariationOfParameters instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a79bc04fbef0ee18"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthLinearConstantCoeffVariationOfParameters","kind":"class","src_hash":"d85f7f4f8e725b4a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SingleODESolver)"},"spec":{"lhs":"NthLinearConstantCoeffVariationOfParameters(*args)","rhs":"correctly constructs a NthLinearConstantCoeffVariationOfParameters instance","over":{"base":"Any"},"name":"NthLinearConstantCoeffVariationOfParameters_class_invariant"},"guarantee":"isinstance(self, SingleODESolver)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a79bc04fbef0ee18","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SingleODESolver)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function NthLinearConstantCoeffVariationOfParameters not found in source"]}}
 class NthLinearConstantCoeffVariationOfParameters(SingleODESolver):
     r"""
     Solves an `n`\th order linear differential equation with constant
@@ -3500,16 +4200,22 @@ class NthLinearConstantCoeffVariationOfParameters(SingleODESolver):
     has_integral = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_matches(), internal helper behaves correctly) over Any ║
+# ║ Path(_matches(), <unspecified:_matches>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _matches : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff199c5414ebbab8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthLinearConstantCoeffVariationOfParameters._matches","kind":"method","src_hash":"1a399c1cae187132","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_matches()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_matches_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.NthLinearConstantCoeffVariationOfParameters._matches_correct","statement":"Path(_matches(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff199c5414ebbab8"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthLinearConstantCoeffVariationOfParameters._matches","kind":"method","src_hash":"1a399c1cae187132","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_matches()","rhs":"<unspecified:_matches>","over":{"base":"Any"},"name":"_matches_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.NthLinearConstantCoeffVariationOfParameters._matches_correct","statement":"Path(_matches(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff199c5414ebbab8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.ode_problem","self.r"],"writes":["self.r"]},"state_contract":{"modifies":["self.r"],"old_bindings":{"old_self_r":"self.r"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _matches(self):
         eq = self.ode_problem.eq_high_order_free
         func = self.ode_problem.func
@@ -3525,16 +4231,22 @@ class NthLinearConstantCoeffVariationOfParameters(SingleODESolver):
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_general_solution(sim), internal helper behaves correctly) over Any ║
+# ║ Path(_get_general_solution(simplify_flag), [homogen_sol]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [homogen_sol]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_general_solution : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83a5bbc1dce70717  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c92f777074e5b91  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthLinearConstantCoeffVariationOfParameters._get_general_solution","kind":"method","src_hash":"03c907d3d9ae7ca8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(sim)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.NthLinearConstantCoeffVariationOfParameters._get_general_solution_correct","statement":"Path(_get_general_solution(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83a5bbc1dce70717"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthLinearConstantCoeffVariationOfParameters._get_general_solution","kind":"method","src_hash":"03c907d3d9ae7ca8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(simplify_flag)","rhs":"[homogen_sol]","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"returns [homogen_sol]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.NthLinearConstantCoeffVariationOfParameters._get_general_solution_correct","statement":"Path(_get_general_solution(x), returns [homogen_sol])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c92f777074e5b91","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[homogen_sol]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ode_problem","self.r"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_general_solution(self, *, simplify_flag: bool = True):
         eq = self.ode_problem.eq_high_order_free
         f = self.ode_problem.func.func
@@ -3554,14 +4266,20 @@ class NthLinearConstantCoeffVariationOfParameters(SingleODESolver):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(NthLinearConstantCoeffUndeterminedCoefficients(*args), correctly constructs a NthLinearConstantCoeffUndeterminedCoefficients instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SingleODESolver)              ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ NthLinearConstantCoeffUndeterminedCoefficients : Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d0792889e3e5d5b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthLinearConstantCoeffUndeterminedCoefficients","kind":"class","src_hash":"c5c0d1582794c152","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"NthLinearConstantCoeffUndeterminedCoefficients(*args)","rhs":"correctly constructs a NthLinearConstantCoeffUndeterminedCoefficients instance","over":{"base":"Any"},"name":"NthLinearConstantCoeffUndeterminedCoefficients_class_invariant"},"guarantee":"correctly constructs a NthLinearConstantCoeffUndeterminedCoefficients instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d0792889e3e5d5b"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthLinearConstantCoeffUndeterminedCoefficients","kind":"class","src_hash":"c5c0d1582794c152","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SingleODESolver)"},"spec":{"lhs":"NthLinearConstantCoeffUndeterminedCoefficients(*args)","rhs":"correctly constructs a NthLinearConstantCoeffUndeterminedCoefficients instance","over":{"base":"Any"},"name":"NthLinearConstantCoeffUndeterminedCoefficients_class_invariant"},"guarantee":"isinstance(self, SingleODESolver)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d0792889e3e5d5b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SingleODESolver)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function NthLinearConstantCoeffUndeterminedCoefficients not found in source"]}}
 class NthLinearConstantCoeffUndeterminedCoefficients(SingleODESolver):
     r"""
     Solves an `n`\th order linear differential equation with constant
@@ -3623,16 +4341,22 @@ class NthLinearConstantCoeffUndeterminedCoefficients(SingleODESolver):
     has_integral = False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_matches(), internal helper behaves correctly) over Any ║
+# ║ Path(_matches(), <unspecified:_matches>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _matches : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2db45c1ed4fb8f4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthLinearConstantCoeffUndeterminedCoefficients._matches","kind":"method","src_hash":"1dc7bb1d11e0c6c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_matches()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_matches_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.NthLinearConstantCoeffUndeterminedCoefficients._matches_correct","statement":"Path(_matches(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2db45c1ed4fb8f4"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthLinearConstantCoeffUndeterminedCoefficients._matches","kind":"method","src_hash":"1dc7bb1d11e0c6c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_matches()","rhs":"<unspecified:_matches>","over":{"base":"Any"},"name":"_matches_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.NthLinearConstantCoeffUndeterminedCoefficients._matches_correct","statement":"Path(_matches(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2db45c1ed4fb8f4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.ode_problem","self.r"],"writes":["self.r","self.trialset"]},"state_contract":{"modifies":["self.r","self.trialset"],"old_bindings":{"old_self_r":"self.r","old_self_trialset":"self.trialset"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _matches(self):
         eq = self.ode_problem.eq_high_order_free
         func = self.ode_problem.func
@@ -3650,16 +4374,22 @@ class NthLinearConstantCoeffUndeterminedCoefficients(SingleODESolver):
         return does_match
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_general_solution(sim), internal helper behaves correctly) over Any ║
+# ║ Path(_get_general_solution(simplify_flag), [gsol]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [gsol]                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_general_solution : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c695423d33d8bb1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4bfed8be04e841eb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthLinearConstantCoeffUndeterminedCoefficients._get_general_solution","kind":"method","src_hash":"c4f29c515d279732","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(sim)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.NthLinearConstantCoeffUndeterminedCoefficients._get_general_solution_correct","statement":"Path(_get_general_solution(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c695423d33d8bb1"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthLinearConstantCoeffUndeterminedCoefficients._get_general_solution","kind":"method","src_hash":"c4f29c515d279732","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(simplify_flag)","rhs":"[gsol]","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"returns [gsol]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.NthLinearConstantCoeffUndeterminedCoefficients._get_general_solution_correct","statement":"Path(_get_general_solution(x), returns [gsol])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4bfed8be04e841eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[gsol]","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.ode_problem","self.r","self.trialset"],"calls_mutating":["self.r.update"]},"state_contract":{"modifies":["self.*"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_general_solution(self, *, simplify_flag: bool = True):
         eq = self.ode_problem.eq
         f = self.ode_problem.func.func
@@ -3680,14 +4410,20 @@ class NthLinearConstantCoeffUndeterminedCoefficients(SingleODESolver):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(NthLinearEulerEqHomogeneous(*args), correctly constructs a NthLinearEulerEqHomogeneous instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ NthLinearEulerEqHomogeneous : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SingleODESolver)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ NthLinearEulerEqHomogeneous : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1dc2f006e1476bd8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthLinearEulerEqHomogeneous","kind":"class","src_hash":"c35c0a6497c1fb82","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"NthLinearEulerEqHomogeneous(*args)","rhs":"correctly constructs a NthLinearEulerEqHomogeneous instance","over":{"base":"Any"},"name":"NthLinearEulerEqHomogeneous_class_invariant"},"guarantee":"correctly constructs a NthLinearEulerEqHomogeneous instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1dc2f006e1476bd8"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthLinearEulerEqHomogeneous","kind":"class","src_hash":"c35c0a6497c1fb82","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SingleODESolver)"},"spec":{"lhs":"NthLinearEulerEqHomogeneous(*args)","rhs":"correctly constructs a NthLinearEulerEqHomogeneous instance","over":{"base":"Any"},"name":"NthLinearEulerEqHomogeneous_class_invariant"},"guarantee":"isinstance(self, SingleODESolver)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1dc2f006e1476bd8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SingleODESolver)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function NthLinearEulerEqHomogeneous not found in source"]}}
 class NthLinearEulerEqHomogeneous(SingleODESolver):
     r"""
     Solves an `n`\th order linear homogeneous variable-coefficient
@@ -3759,16 +4495,22 @@ class NthLinearEulerEqHomogeneous(SingleODESolver):
     has_integral = False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_matches(), internal helper behaves correctly) over Any ║
+# ║ Path(_matches(), <unspecified:_matches>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _matches : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d9166f2f3c643fcb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthLinearEulerEqHomogeneous._matches","kind":"method","src_hash":"235790425b57f692","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_matches()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_matches_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.NthLinearEulerEqHomogeneous._matches_correct","statement":"Path(_matches(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9166f2f3c643fcb"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthLinearEulerEqHomogeneous._matches","kind":"method","src_hash":"235790425b57f692","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_matches()","rhs":"<unspecified:_matches>","over":{"base":"Any"},"name":"_matches_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.NthLinearEulerEqHomogeneous._matches_correct","statement":"Path(_matches(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9166f2f3c643fcb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.ode_problem","self.r"],"writes":["self.r"]},"state_contract":{"modifies":["self.r"],"old_bindings":{"old_self_r":"self.r"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _matches(self):
         eq = self.ode_problem.eq_preprocessed
         f = self.ode_problem.func.func
@@ -3789,16 +4531,22 @@ class NthLinearEulerEqHomogeneous(SingleODESolver):
         return does_match
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_general_solution(sim), internal helper behaves correctly) over Any ║
+# ║ Path(_get_general_solution(simplify_flag), [homogen_sol]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [homogen_sol]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_general_solution : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 535590185a8943a1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4a6b8315e0fb791  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthLinearEulerEqHomogeneous._get_general_solution","kind":"method","src_hash":"0485a4cc3305f4d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(sim)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.NthLinearEulerEqHomogeneous._get_general_solution_correct","statement":"Path(_get_general_solution(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"535590185a8943a1"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthLinearEulerEqHomogeneous._get_general_solution","kind":"method","src_hash":"0485a4cc3305f4d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(simplify_flag)","rhs":"[homogen_sol]","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"returns [homogen_sol]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.NthLinearEulerEqHomogeneous._get_general_solution_correct","statement":"Path(_get_general_solution(x), returns [homogen_sol])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4a6b8315e0fb791","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[homogen_sol]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ode_problem","self.r"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_general_solution(self, *, simplify_flag: bool = True):
         fx = self.ode_problem.func
         eq = self.ode_problem.eq
@@ -3809,14 +4557,20 @@ class NthLinearEulerEqHomogeneous(SingleODESolver):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(NthLinearEulerEqNonhomogeneousVariationOfParameters(*args), correctly constructs a NthLinearEulerEqNonhomogeneousVariationOfParameters instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SingleODESolver)              ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ NthLinearEulerEqNonhomogeneousVariationOfParameters :...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee79c54597aac30f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthLinearEulerEqNonhomogeneousVariationOfParameters","kind":"class","src_hash":"39967c3add846410","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"NthLinearEulerEqNonhomogeneousVariationOfParameters(*args)","rhs":"correctly constructs a NthLinearEulerEqNonhomogeneousVariationOfParameters instance","over":{"base":"Any"},"name":"NthLinearEulerEqNonhomogeneousVariationOfParameters_class_invariant"},"guarantee":"correctly constructs a NthLinearEulerEqNonhomogeneousVariationOfParameters instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee79c54597aac30f"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthLinearEulerEqNonhomogeneousVariationOfParameters","kind":"class","src_hash":"39967c3add846410","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SingleODESolver)"},"spec":{"lhs":"NthLinearEulerEqNonhomogeneousVariationOfParameters(*args)","rhs":"correctly constructs a NthLinearEulerEqNonhomogeneousVariationOfParameters instance","over":{"base":"Any"},"name":"NthLinearEulerEqNonhomogeneousVariationOfParameters_class_invariant"},"guarantee":"isinstance(self, SingleODESolver)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee79c54597aac30f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SingleODESolver)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function NthLinearEulerEqNonhomogeneousVariationOfParameters not found in source"]}}
 class NthLinearEulerEqNonhomogeneousVariationOfParameters(SingleODESolver):
     r"""
     Solves an `n`\th order linear non homogeneous Cauchy-Euler equidimensional
@@ -3875,16 +4629,22 @@ class NthLinearEulerEqNonhomogeneousVariationOfParameters(SingleODESolver):
     has_integral = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_matches(), internal helper behaves correctly) over Any ║
+# ║ Path(_matches(), <unspecified:_matches>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _matches : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa38b25ab5d3e238  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthLinearEulerEqNonhomogeneousVariationOfParameters._matches","kind":"method","src_hash":"262d077d0e4f7ddd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_matches()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_matches_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.NthLinearEulerEqNonhomogeneousVariationOfParameters._matches_correct","statement":"Path(_matches(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa38b25ab5d3e238"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthLinearEulerEqNonhomogeneousVariationOfParameters._matches","kind":"method","src_hash":"262d077d0e4f7ddd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_matches()","rhs":"<unspecified:_matches>","over":{"base":"Any"},"name":"_matches_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.NthLinearEulerEqNonhomogeneousVariationOfParameters._matches_correct","statement":"Path(_matches(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa38b25ab5d3e238","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.ode_problem","self.r"],"writes":["self.r"]},"state_contract":{"modifies":["self.r"],"old_bindings":{"old_self_r":"self.r"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _matches(self):
         eq = self.ode_problem.eq_preprocessed
         f = self.ode_problem.func.func
@@ -3906,16 +4666,22 @@ class NthLinearEulerEqNonhomogeneousVariationOfParameters(SingleODESolver):
         return does_match
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_general_solution(sim), id) over Any              ║
+# ║ Path(_get_general_solution(simplify_flag), id) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [Eq(f(x), homogen_sol.rhs + (sol.rhs - ho...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_general_solution : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | eb2bbafe3d1abd6a   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthLinearEulerEqNonhomogeneousVariationOfParameters._get_general_solution","kind":"method","src_hash":"dbf9161e4227abe9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(sim)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_general_solution_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Eq","by":"library_axiom"},{"fn":"f","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb2bbafe3d1abd6a"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthLinearEulerEqNonhomogeneousVariationOfParameters._get_general_solution","kind":"method","src_hash":"dbf9161e4227abe9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(simplify_flag)","rhs":"[Eq(f(x), homogen_sol.rhs + (sol.rhs - homogen_sol.rhs) * self.r[order])]","over":{"base":"Any"},"name":"_get_general_solution_correct","kind":"composition"},"guarantee":"returns [Eq(f(x), homogen_sol.rhs + (sol.rhs - homogen_sol.rhs) * self.r[order])]","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Eq","by":"library_axiom"},{"fn":"f","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb2bbafe3d1abd6a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[Eq(f(x), homogen_sol.rhs + (sol.rhs - homogen_sol.rhs) * self.r[order])]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ode_problem","self.r"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_general_solution(self, *, simplify_flag: bool = True):
         eq = self.ode_problem.eq
         f = self.ode_problem.func.func
@@ -3931,14 +4697,20 @@ class NthLinearEulerEqNonhomogeneousVariationOfParameters(SingleODESolver):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(NthLinearEulerEqNonhomogeneousUndeterminedCoefficients(*args), correctly constructs a NthLinearEulerEqNonhomogeneousUndeterminedCoefficients instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SingleODESolver)              ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ NthLinearEulerEqNonhomogeneousUndeterminedCoefficient...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2e22d277ce48841  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthLinearEulerEqNonhomogeneousUndeterminedCoefficients","kind":"class","src_hash":"1d60e2e6f6227b80","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"NthLinearEulerEqNonhomogeneousUndeterminedCoefficients(*args)","rhs":"correctly constructs a NthLinearEulerEqNonhomogeneousUndeterminedCoefficients instance","over":{"base":"Any"},"name":"NthLinearEulerEqNonhomogeneousUndeterminedCoefficients_class_invariant"},"guarantee":"correctly constructs a NthLinearEulerEqNonhomogeneousUndeterminedCoefficients instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2e22d277ce48841"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthLinearEulerEqNonhomogeneousUndeterminedCoefficients","kind":"class","src_hash":"1d60e2e6f6227b80","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SingleODESolver)"},"spec":{"lhs":"NthLinearEulerEqNonhomogeneousUndeterminedCoefficients(*args)","rhs":"correctly constructs a NthLinearEulerEqNonhomogeneousUndeterminedCoefficients instance","over":{"base":"Any"},"name":"NthLinearEulerEqNonhomogeneousUndeterminedCoefficients_class_invariant"},"guarantee":"isinstance(self, SingleODESolver)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2e22d277ce48841","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SingleODESolver)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function NthLinearEulerEqNonhomogeneousUndeterminedCoefficients not found in source"]}}
 class NthLinearEulerEqNonhomogeneousUndeterminedCoefficients(SingleODESolver):
     r"""
     Solves an `n`\th order linear non homogeneous Cauchy-Euler equidimensional
@@ -3989,16 +4761,22 @@ class NthLinearEulerEqNonhomogeneousUndeterminedCoefficients(SingleODESolver):
     has_integral = False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_matches(), internal helper behaves correctly) over Any ║
+# ║ Path(_matches(), <unspecified:_matches>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _matches : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2be1be7bd2779519  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthLinearEulerEqNonhomogeneousUndeterminedCoefficients._matches","kind":"method","src_hash":"82e97b68cf077531","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_matches()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_matches_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.NthLinearEulerEqNonhomogeneousUndeterminedCoefficients._matches_correct","statement":"Path(_matches(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2be1be7bd2779519"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthLinearEulerEqNonhomogeneousUndeterminedCoefficients._matches","kind":"method","src_hash":"82e97b68cf077531","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_matches()","rhs":"<unspecified:_matches>","over":{"base":"Any"},"name":"_matches_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.NthLinearEulerEqNonhomogeneousUndeterminedCoefficients._matches_correct","statement":"Path(_matches(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2be1be7bd2779519","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.ode_problem","self.r"],"writes":["self.r"]},"state_contract":{"modifies":["self.r"],"old_bindings":{"old_self_r":"self.r"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _matches(self):
         eq = self.ode_problem.eq_high_order_free
         f = self.ode_problem.func.func
@@ -4022,16 +4800,22 @@ class NthLinearEulerEqNonhomogeneousUndeterminedCoefficients(SingleODESolver):
         return does_match
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_general_solution(sim), internal helper behaves correctly) over Any ║
+# ║ Path(_get_general_solution(simplify_flag), [sol]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [sol]                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_general_solution : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ce03348a06c2720  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97f292284ac1b7d9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthLinearEulerEqNonhomogeneousUndeterminedCoefficients._get_general_solution","kind":"method","src_hash":"48ed791bb21a6aba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(sim)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.NthLinearEulerEqNonhomogeneousUndeterminedCoefficients._get_general_solution_correct","statement":"Path(_get_general_solution(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ce03348a06c2720"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.NthLinearEulerEqNonhomogeneousUndeterminedCoefficients._get_general_solution","kind":"method","src_hash":"48ed791bb21a6aba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(simplify_flag)","rhs":"[sol]","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"returns [sol]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.NthLinearEulerEqNonhomogeneousUndeterminedCoefficients._get_general_solution_correct","statement":"Path(_get_general_solution(x), returns [sol])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97f292284ac1b7d9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[sol]","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.const_undet_instance","self.ode_problem","self.r"],"writes":["self.const_undet_instance"]},"state_contract":{"modifies":["self.const_undet_instance"],"old_bindings":{"old_self_const_undet_instance":"self.const_undet_instance"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_general_solution(self, *, simplify_flag: bool = True):
         f = self.ode_problem.func.func
         x = self.ode_problem.sym
@@ -4059,14 +4843,20 @@ class NthLinearEulerEqNonhomogeneousUndeterminedCoefficients(SingleODESolver):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SecondLinearBessel(*args), correctly constructs a SecondLinearBessel instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SecondLinearBessel : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SingleODESolver)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SecondLinearBessel : Any → {Any | result satisfies: i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 833823f6a36ff83e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SecondLinearBessel","kind":"class","src_hash":"ae5dbf3eacce0beb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SecondLinearBessel(*args)","rhs":"correctly constructs a SecondLinearBessel instance","over":{"base":"Any"},"name":"SecondLinearBessel_class_invariant"},"guarantee":"correctly constructs a SecondLinearBessel instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"833823f6a36ff83e"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SecondLinearBessel","kind":"class","src_hash":"ae5dbf3eacce0beb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SingleODESolver)"},"spec":{"lhs":"SecondLinearBessel(*args)","rhs":"correctly constructs a SecondLinearBessel instance","over":{"base":"Any"},"name":"SecondLinearBessel_class_invariant"},"guarantee":"isinstance(self, SingleODESolver)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"833823f6a36ff83e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SingleODESolver)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function SecondLinearBessel not found in source"]}}
 class SecondLinearBessel(SingleODESolver):
     r"""
     Gives solution of the Bessel differential equation
@@ -4102,16 +4892,22 @@ class SecondLinearBessel(SingleODESolver):
     has_integral = False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_matches(), internal helper behaves correctly) over Any ║
+# ║ Path(_matches(), <unspecified:_matches>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _matches : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b54a629ee7b35c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SecondLinearBessel._matches","kind":"method","src_hash":"3700457aa24749c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_matches()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_matches_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SecondLinearBessel._matches_correct","statement":"Path(_matches(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b54a629ee7b35c6"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SecondLinearBessel._matches","kind":"method","src_hash":"3700457aa24749c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_matches()","rhs":"<unspecified:_matches>","over":{"base":"Any"},"name":"_matches_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SecondLinearBessel._matches_correct","statement":"Path(_matches(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b54a629ee7b35c6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.ode_problem","self.rn"],"writes":["self.rn"]},"state_contract":{"modifies":["self.rn"],"old_bindings":{"old_self_rn":"self.rn"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _matches(self):
         eq = self.ode_problem.eq_high_order_free
         f = self.ode_problem.func
@@ -4185,16 +4981,22 @@ class SecondLinearBessel(SingleODESolver):
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_general_solution(sim), id) over Any              ║
+# ║ Path(_get_general_solution(simplify_flag), id) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [Eq(f(x), (x ** Rational(1 - c4, 2) * (C1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_general_solution : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 67672ced765a2646   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SecondLinearBessel._get_general_solution","kind":"method","src_hash":"babcff7e98a19b6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(sim)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_general_solution_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Eq","by":"library_axiom"},{"fn":"f","by":"library_axiom"},{"fn":"Rational","by":"library_axiom"},{"fn":"besselj","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67672ced765a2646"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SecondLinearBessel._get_general_solution","kind":"method","src_hash":"babcff7e98a19b6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(simplify_flag)","rhs":"[Eq(f(x), (x ** Rational(1 - c4, 2) * (C1 * besselj(n / d4, a4 * x ** d4 / d4) + C2 * bessely(n / d4, a4 * x ** d4 / d4))).subs(x, x - b4))]","over":{"base":"Any"},"name":"_get_general_solution_correct","kind":"composition"},"guarantee":"returns [Eq(f(x), (x ** Rational(1 - c4, 2) * (C1 * besselj(n / d4, a4 * x ** d4 / d4) + C2 * bessely(n / d4, a4 * x ** d4 / d4))).subs(x, x - b4))]","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Eq","by":"library_axiom"},{"fn":"f","by":"library_axiom"},{"fn":"Rational","by":"library_axiom"},{"fn":"besselj","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67672ced765a2646","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[Eq(f(x), (x ** Rational(1 - c4, 2) * (C1 * besselj(n / d4, a4 * x ** d4 / d4) + C2 * bessely(n / d4, a4 * x ** d4 / d4))).subs(x, x - b4))]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ode_problem","self.rn"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_general_solution(self, *, simplify_flag: bool = True):
         f = self.ode_problem.func.func
         x = self.ode_problem.sym
@@ -4212,14 +5014,20 @@ class SecondLinearBessel(SingleODESolver):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SecondLinearAiry(*args), correctly constructs a SecondLinearAiry instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SecondLinearAiry : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SingleODESolver)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SecondLinearAiry : Any → {Any | result satisfies: isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7166f867bf79f004  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SecondLinearAiry","kind":"class","src_hash":"963e74a92bdffa91","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SecondLinearAiry(*args)","rhs":"correctly constructs a SecondLinearAiry instance","over":{"base":"Any"},"name":"SecondLinearAiry_class_invariant"},"guarantee":"correctly constructs a SecondLinearAiry instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7166f867bf79f004"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SecondLinearAiry","kind":"class","src_hash":"963e74a92bdffa91","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SingleODESolver)"},"spec":{"lhs":"SecondLinearAiry(*args)","rhs":"correctly constructs a SecondLinearAiry instance","over":{"base":"Any"},"name":"SecondLinearAiry_class_invariant"},"guarantee":"isinstance(self, SingleODESolver)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7166f867bf79f004","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SingleODESolver)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function SecondLinearAiry not found in source"]}}
 class SecondLinearAiry(SingleODESolver):
     r"""
     Gives solution of the Airy differential equation
@@ -4242,16 +5050,22 @@ class SecondLinearAiry(SingleODESolver):
     has_integral = False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_matches(), internal helper behaves correctly) over Any ║
+# ║ Path(_matches(), <unspecified:_matches>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _matches : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c42bdde754eafc14  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SecondLinearAiry._matches","kind":"method","src_hash":"a93e1019919bdd10","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_matches()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_matches_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SecondLinearAiry._matches_correct","statement":"Path(_matches(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c42bdde754eafc14"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SecondLinearAiry._matches","kind":"method","src_hash":"a93e1019919bdd10","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_matches()","rhs":"<unspecified:_matches>","over":{"base":"Any"},"name":"_matches_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.SecondLinearAiry._matches_correct","statement":"Path(_matches(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c42bdde754eafc14","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.ode_problem","self.rn"],"writes":["self.rn"]},"state_contract":{"modifies":["self.rn"],"old_bindings":{"old_self_rn":"self.rn"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _matches(self):
         eq = self.ode_problem.eq_high_order_free
         f = self.ode_problem.func
@@ -4271,16 +5085,22 @@ class SecondLinearAiry(SingleODESolver):
         return does_match
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_general_solution(sim), id) over Any              ║
+# ║ Path(_get_general_solution(simplify_flag), id) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [Eq(f(x), C1 * airyai(arg) + C2 * airybi(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_general_solution : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | df9f5f4b5d8d5688   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SecondLinearAiry._get_general_solution","kind":"method","src_hash":"81df9fd62a1d813d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(sim)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_general_solution_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Eq","by":"library_axiom"},{"fn":"f","by":"library_axiom"},{"fn":"airyai","by":"library_axiom"},{"fn":"airybi","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df9f5f4b5d8d5688"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.SecondLinearAiry._get_general_solution","kind":"method","src_hash":"81df9fd62a1d813d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(simplify_flag)","rhs":"[Eq(f(x), C1 * airyai(arg) + C2 * airybi(arg))]","over":{"base":"Any"},"name":"_get_general_solution_correct","kind":"composition"},"guarantee":"returns [Eq(f(x), C1 * airyai(arg) + C2 * airybi(arg))]","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Eq","by":"library_axiom"},{"fn":"f","by":"library_axiom"},{"fn":"airyai","by":"library_axiom"},{"fn":"airybi","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df9f5f4b5d8d5688","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[Eq(f(x), C1 * airyai(arg) + C2 * airybi(arg))]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ode_problem","self.rn"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_general_solution(self, *, simplify_flag: bool = True):
         f = self.ode_problem.func.func
         x = self.ode_problem.sym
@@ -4300,14 +5120,20 @@ class SecondLinearAiry(SingleODESolver):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(LieGroup(*args), correctly constructs a LieGroup instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ LieGroup : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SingleODESolver)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ LieGroup : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b1f813631d67e85  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.LieGroup","kind":"class","src_hash":"5845c098b8212ea1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LieGroup(*args)","rhs":"correctly constructs a LieGroup instance","over":{"base":"Any"},"name":"LieGroup_class_invariant"},"guarantee":"correctly constructs a LieGroup instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b1f813631d67e85"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.LieGroup","kind":"class","src_hash":"5845c098b8212ea1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SingleODESolver)"},"spec":{"lhs":"LieGroup(*args)","rhs":"correctly constructs a LieGroup instance","over":{"base":"Any"},"name":"LieGroup_class_invariant"},"guarantee":"isinstance(self, SingleODESolver)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b1f813631d67e85","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SingleODESolver)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function LieGroup not found in source"]}}
 class LieGroup(SingleODESolver):
     r"""
     This hint implements the Lie group method of solving first order differential
@@ -4361,30 +5187,42 @@ class LieGroup(SingleODESolver):
     has_integral = False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_has_additional_params(), internal helper behaves correctly) over Any ║
+# ║ Path(_has_additional_params(), 'xi' in self.ode_problem.params and 'eta' in self.ode_problem.params) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'xi' in self.ode_problem.params and 'eta'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _has_additional_params : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8d2f41ebef31a025           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.LieGroup._has_additional_params","kind":"method","src_hash":"5416b305612f5e51","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_has_additional_params()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_has_additional_params_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8d2f41ebef31a025"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.LieGroup._has_additional_params","kind":"method","src_hash":"5416b305612f5e51","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_has_additional_params()","rhs":"'xi' in self.ode_problem.params and 'eta' in self.ode_problem.params","over":{"base":"Any"},"name":"_has_additional_params_correct"},"guarantee":"returns 'xi' in self.ode_problem.params and 'eta' in self.ode_problem.params","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8d2f41ebef31a025","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'xi' in self.ode_problem.params and 'eta' in self.ode_problem.params","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ode_problem"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _has_additional_params(self):
         return 'xi' in self.ode_problem.params and 'eta' in self.ode_problem.params
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_matches(), internal helper behaves correctly) over Any ║
+# ║ Path(_matches(), <unspecified:_matches>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _matches : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9683303b65f2f726  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.LieGroup._matches","kind":"method","src_hash":"02cd5f4124a7e6f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_matches()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_matches_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.LieGroup._matches_correct","statement":"Path(_matches(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9683303b65f2f726"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.LieGroup._matches","kind":"method","src_hash":"02cd5f4124a7e6f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_matches()","rhs":"<unspecified:_matches>","over":{"base":"Any"},"name":"_matches_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.LieGroup._matches_correct","statement":"Path(_matches(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9683303b65f2f726","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._has_additional_params","self.ode_problem","self.r3"],"writes":["self.r3"],"calls_mutating":["self.r3.update"]},"state_contract":{"modifies":["self.*","self.r3"],"old_bindings":{"old_self_r3":"self.r3"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _matches(self):
         eq = self.ode_problem.eq
         f = self.ode_problem.func.func
@@ -4411,16 +5249,22 @@ class LieGroup(SingleODESolver):
         return does_match
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_general_solution(sim), internal helper behaves correctly) over Any ║
+# ║ Path(_get_general_solution(simplify_flag), <unspecified:_get_general_solution>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_general_solution : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3b6fffa493ae68c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.LieGroup._get_general_solution","kind":"method","src_hash":"9b2cc10f413e5d53","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(sim)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.LieGroup._get_general_solution_correct","statement":"Path(_get_general_solution(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3b6fffa493ae68c"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.single.LieGroup._get_general_solution","kind":"method","src_hash":"9b2cc10f413e5d53","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_general_solution(simplify_flag)","rhs":"<unspecified:_get_general_solution>","over":{"base":"Any"},"name":"_get_general_solution_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.single.LieGroup._get_general_solution_correct","statement":"Path(_get_general_solution(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3b6fffa493ae68c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ode_problem","self.r3"],"calls_mutating":["desols.extend"],"raises":["NotImplementedError"],"catches":["NotImplementedError"]},"state_contract":{"modifies":["desols.*"],"old_bindings":{"old_len_desols":"len(desols)"},"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_general_solution(self, *, simplify_flag: bool = True):
         eq = self.ode_problem.eq
         x = self.ode_problem.sym

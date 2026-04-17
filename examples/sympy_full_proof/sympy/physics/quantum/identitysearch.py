@@ -47,7 +47,10 @@ scipy = import_module('scipy', import_kwargs={'fromlist': ['sparse']})
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_scalar_sparse_matrix(cir), checks if a given scipy.sparse matrix is a scalar matrix) over {Any | isinstance(matrix, int)} ║
+# ║ Path(is_scalar_sparse_matrix(circuit, nqubits, identity_only), <unspecified:is_scalar_sparse_matrix>) over {Any | isinstance(matrix, int)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_scalar_sparse_matrix : {Any | isinstance(matrix, i...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -59,9 +62,12 @@ scipy = import_module('scipy', import_kwargs={'fromlist': ['sparse']})
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | a34f54fc...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch.is_scalar_sparse_matrix","kind":"function","src_hash":"a9406fed1c32b918","in":{"base":"Any","pred":"isinstance(matrix, int)"},"out":{"base":"Any"},"spec":{"lhs":"is_scalar_sparse_matrix(cir)","rhs":"checks if a given scipy.sparse matrix is a scalar matrix","over":{"base":"Any","pred":"isinstance(matrix, int)"},"name":"is_scalar_sparse_matrix_correct"},"guarantee":"checks if a given scipy.sparse matrix is a scalar matrix","fibers":[{"name":"int","pred":"isinstance(matrix, int)","path":{"lhs":"is_scalar_sparse_matrix(x)","rhs":"checks if a given scipy.sparse matrix is a scalar matrix","over":{"base":"int","pred":"isinstance(matrix, int)"},"name":"is_scalar_sparse_matrix_int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.identitysearch.is_scalar_sparse_matrix_int_correct","statement":"is_scalar_sparse_matrix satisfies spec on int inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a34f54fc2f9387fd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch.is_scalar_sparse_matrix","kind":"function","src_hash":"a9406fed1c32b918","in":{"base":"Any","pred":"isinstance(matrix, int)"},"out":{"base":"Any"},"spec":{"lhs":"is_scalar_sparse_matrix(circuit, nqubits, identity_only)","rhs":"<unspecified:is_scalar_sparse_matrix>","over":{"base":"Any","pred":"isinstance(matrix, int)"},"name":"is_scalar_sparse_matrix_correct"},"guarantee":"checks if a given scipy.sparse matrix is a scalar matrix","fibers":[{"name":"int","pred":"isinstance(matrix, int)","path":{"lhs":"is_scalar_sparse_matrix(x)","rhs":"checks if a given scipy.sparse matrix is a scalar matrix","over":{"base":"int","pred":"isinstance(matrix, int)"},"name":"is_scalar_sparse_matrix_int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.identitysearch.is_scalar_sparse_matrix_int_correct","statement":"is_scalar_sparse_matrix satisfies spec on int inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a34f54fc2f9387fd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'first_element == 0.0 + 0j', 'isinstance(matrix, int)'}, fibers={'int'})"]}}
 def is_scalar_sparse_matrix(circuit, nqubits, identity_only, eps=1e-11):
     """Checks if a given scipy.sparse matrix is a scalar matrix.
 
@@ -151,7 +157,13 @@ def is_scalar_sparse_matrix(circuit, nqubits, identity_only, eps=1e-11):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_scalar_nonsparse_matrix(cir), checks if a given circuit, in matrix form, is equivalent to a scalar value) over {Any | isinstance(matrix, Number)} ║
+# ║ Path(is_scalar_nonsparse_matrix(circuit, nqubits, identity_only), result == (matrix == 1 if identity_only else True if isinstance(matrix, Number) else bool(matrix.is_diagonal() and has_correct_trace and is_identity)) and result == matrix == 1 if identity_only else True or result == bool(matrix.is_diagonal() and has_correct_trace and is_identity)) over {Any | isinstance(matrix, Number)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (matrix == 1 if identity_only e...   ║
+# ║   ensures:  result == matrix == 1 if identity_only el...   ║
+# ║   fiber[Number]: isinstance(matrix, Number) => matrix...   ║
+# ║   fiber[Number]: not (isinstance(matrix, Number)) => ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_scalar_nonsparse_matrix : {Any | isinstance(matrix...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -163,9 +175,12 @@ def is_scalar_sparse_matrix(circuit, nqubits, identity_only, eps=1e-11):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | cd6b1579...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch.is_scalar_nonsparse_matrix","kind":"function","src_hash":"98944b767e10add6","in":{"base":"Any","pred":"isinstance(matrix, Number)"},"out":{"base":"Any"},"spec":{"lhs":"is_scalar_nonsparse_matrix(cir)","rhs":"checks if a given circuit, in matrix form, is equivalent to a scalar value","over":{"base":"Any","pred":"isinstance(matrix, Number)"},"name":"is_scalar_nonsparse_matrix_correct"},"guarantee":"checks if a given circuit, in matrix form, is equivalent to a scalar value","fibers":[{"name":"Number","pred":"isinstance(matrix, Number)","path":{"lhs":"is_scalar_nonsparse_matrix(x)","rhs":"checks if a given circuit, in matrix form, is equivalent to a scalar value","over":{"base":"Number","pred":"isinstance(matrix, Number)"},"name":"is_scalar_nonsparse_matrix_Number_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.identitysearch.is_scalar_nonsparse_matrix_Number_correct","statement":"is_scalar_nonsparse_matrix satisfies spec on Number inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"cd6b15796b25683f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch.is_scalar_nonsparse_matrix","kind":"function","src_hash":"98944b767e10add6","in":{"base":"Any","pred":"isinstance(matrix, Number)"},"out":{"base":"Any","pred":"result satisfies: result == (matrix == 1 if identity_only else True if isinstance(matrix, Number) else bool(matrix.is_diagonal() and has_correct_trace and is_identity)) and result == matrix == 1 if identity_only else True or result == bool(matrix.is_diagonal() and has_correct_trace and is_identity)"},"spec":{"lhs":"is_scalar_nonsparse_matrix(circuit, nqubits, identity_only)","rhs":"result == (matrix == 1 if identity_only else True if isinstance(matrix, Number) else bool(matrix.is_diagonal() and has_correct_trace and is_identity)) and result == matrix == 1 if identity_only else True or result == bool(matrix.is_diagonal() and has_correct_trace and is_identity)","over":{"base":"Any","pred":"isinstance(matrix, Number)"},"name":"is_scalar_nonsparse_matrix_correct"},"guarantee":"result == (matrix == 1 if identity_only else True if isinstance(matrix, Number) else bool(matrix.is_diagonal() and has_correct_trace and is_identity)); result == matrix == 1 if identity_only else True or result == bool(matrix.is_diagonal() and has_correct_trace and is_identity); 2-fiber decomposition","fibers":[{"name":"Number","pred":"isinstance(matrix, Number)","path":{"lhs":"is_scalar_nonsparse_matrix(x)","rhs":"result == (matrix == 1 if identity_only else True if isinstance(matrix, Number) else bool(matrix.is_diagonal() and has_correct_trace and is_identity)); result == matrix == 1 if identity_only else True or result == bool(matrix.is_diagonal() and has_correct_trace and is_identity); 2-fiber decomposition","over":{"base":"Number","pred":"isinstance(matrix, Number)"},"name":"is_scalar_nonsparse_matrix_Number_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.identitysearch.is_scalar_nonsparse_matrix_Number_correct","statement":"is_scalar_nonsparse_matrix satisfies spec on Number inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"cd6b15796b25683f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (matrix == 1 if identity_only else True if isinstance(matrix, Number) else bool(matrix.is_diagonal() and has_correct_trace and is_identity))","result == matrix == 1 if identity_only else True or result == bool(matrix.is_diagonal() and has_correct_trace and is_identity)"],"fibers":[{"name":"Number","guard":"isinstance(matrix, Number)","ensures":["result == matrix == 1 if identity_only else True"],"decidability":"structural","returns_expr":"matrix == 1 if identity_only else True"},{"name":"Number","guard":"not (isinstance(matrix, Number))","ensures":["result == bool(matrix.is_diagonal() and has_correct_trace and is_identity)"],"decidability":"structural","returns_expr":"bool(matrix.is_diagonal() and has_correct_trace and is_identity)"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(matrix, Number)'}, fibers={'Number'})"]}}
 def is_scalar_nonsparse_matrix(circuit, nqubits, identity_only, eps=None):
     """Checks if a given circuit, in matrix form, is equivalent to
     a scalar value.
@@ -220,9 +235,17 @@ else:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_min_qubits(a_g), internal helper behaves correctly) over {Any | isinstance(a_gate, Pow)} ║
+# ║ Path(_get_min_qubits(a_gate), result == (a_gate.base.min_qubits if isinstance(a_gate, Pow) else a_gate.min_qubits) and result == a_gate.base.min_qubits or result == a_gate.min_qubits) over {Any | isinstance(a_gate, Pow) and hasattr(a_gate, 'min_qubits') and hasattr(a_gate, 'base')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_min_qubits : {Any | isinstance(a_gate, Pow)} → Any    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a_gate, 'min_qubits')                  ║
+# ║   requires: hasattr(a_gate, 'base')                        ║
+# ║   ensures:  result == (a_gate.base.min_qubits if isin...   ║
+# ║   ensures:  result == a_gate.base.min_qubits or resul...   ║
+# ║   fiber[Pow]: isinstance(a_gate, Pow) => a_gate.base....   ║
+# ║   fiber[Pow]: not (isinstance(a_gate, Pow)) => a_gate...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_min_qubits : {Any | isinstance(a_gate, Pow) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Pow: {isinstance(a_gate, Pow)} → library_axiom           ║
@@ -232,9 +255,12 @@ else:
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 15c66357...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch._get_min_qubits","kind":"function","src_hash":"0be9c79da9a48feb","in":{"base":"Any","pred":"isinstance(a_gate, Pow)"},"out":{"base":"Any"},"spec":{"lhs":"_get_min_qubits(a_g)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(a_gate, Pow)"},"name":"_get_min_qubits_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"Pow","pred":"isinstance(a_gate, Pow)","path":{"lhs":"_get_min_qubits(x)","rhs":"internal helper behaves correctly","over":{"base":"Pow","pred":"isinstance(a_gate, Pow)"},"name":"_get_min_qubits_Pow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.identitysearch._get_min_qubits_Pow_correct","statement":"_get_min_qubits satisfies spec on Pow inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"15c663577c3fc3df"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch._get_min_qubits","kind":"function","src_hash":"0be9c79da9a48feb","in":{"base":"Any","pred":"isinstance(a_gate, Pow) and hasattr(a_gate, 'min_qubits') and hasattr(a_gate, 'base')"},"out":{"base":"Any","pred":"result satisfies: result == (a_gate.base.min_qubits if isinstance(a_gate, Pow) else a_gate.min_qubits) and result == a_gate.base.min_qubits or result == a_gate.min_qubits"},"spec":{"lhs":"_get_min_qubits(a_gate)","rhs":"result == (a_gate.base.min_qubits if isinstance(a_gate, Pow) else a_gate.min_qubits) and result == a_gate.base.min_qubits or result == a_gate.min_qubits","over":{"base":"Any","pred":"isinstance(a_gate, Pow) and hasattr(a_gate, 'min_qubits') and hasattr(a_gate, 'base')"},"name":"_get_min_qubits_correct"},"guarantee":"result == (a_gate.base.min_qubits if isinstance(a_gate, Pow) else a_gate.min_qubits); result == a_gate.base.min_qubits or result == a_gate.min_qubits; 2-fiber decomposition","fibers":[{"name":"Pow","pred":"isinstance(a_gate, Pow)","path":{"lhs":"_get_min_qubits(x)","rhs":"result == (a_gate.base.min_qubits if isinstance(a_gate, Pow) else a_gate.min_qubits); result == a_gate.base.min_qubits or result == a_gate.min_qubits; 2-fiber decomposition","over":{"base":"Pow","pred":"isinstance(a_gate, Pow)"},"name":"_get_min_qubits_Pow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.identitysearch._get_min_qubits_Pow_correct","statement":"_get_min_qubits satisfies spec on Pow inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"15c663577c3fc3df","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a_gate, 'min_qubits')","hasattr(a_gate, 'base')"],"ensures":["result == (a_gate.base.min_qubits if isinstance(a_gate, Pow) else a_gate.min_qubits)","result == a_gate.base.min_qubits or result == a_gate.min_qubits"],"fibers":[{"name":"Pow","guard":"isinstance(a_gate, Pow)","ensures":["result == a_gate.base.min_qubits"],"decidability":"structural","returns_expr":"a_gate.base.min_qubits"},{"name":"Pow","guard":"not (isinstance(a_gate, Pow))","ensures":["result == a_gate.min_qubits"],"decidability":"structural","returns_expr":"a_gate.min_qubits"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["a_gate.base","a_gate.min_qubits"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(a_gate, Pow)'}, fibers={'Pow'})"]}}
 def _get_min_qubits(a_gate):
     if isinstance(a_gate, Pow):
         return a_gate.base.min_qubits
@@ -243,16 +269,22 @@ def _get_min_qubits(a_gate):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ll_op(lef), perform a ll operation) over Any          ║
+# ║ Path(ll_op(left, right), <unspecified:ll_op>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ll_op : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 331dd81a983b55e3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch.ll_op","kind":"function","src_hash":"01cf98c41490b050","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ll_op(lef)","rhs":"perform a ll operation","over":{"base":"Any"},"name":"ll_op_correct"},"guarantee":"perform a ll operation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.identitysearch.ll_op_correct","statement":"Path(ll_op(x), perform a ll operation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"331dd81a983b55e3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch.ll_op","kind":"function","src_hash":"01cf98c41490b050","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ll_op(left, right)","rhs":"<unspecified:ll_op>","over":{"base":"Any"},"name":"ll_op_correct"},"guarantee":"perform a ll operation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.identitysearch.ll_op_correct","statement":"Path(ll_op(x), perform a ll operation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"331dd81a983b55e3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def ll_op(left, right):
     """Perform a LL operation.
 
@@ -305,16 +337,22 @@ def ll_op(left, right):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lr_op(lef), perform a lr operation) over Any          ║
+# ║ Path(lr_op(left, right), <unspecified:lr_op>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lr_op : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bbec6cb1bbed71b2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch.lr_op","kind":"function","src_hash":"eb6a211e666009c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lr_op(lef)","rhs":"perform a lr operation","over":{"base":"Any"},"name":"lr_op_correct"},"guarantee":"perform a lr operation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.identitysearch.lr_op_correct","statement":"Path(lr_op(x), perform a lr operation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bbec6cb1bbed71b2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch.lr_op","kind":"function","src_hash":"eb6a211e666009c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lr_op(left, right)","rhs":"<unspecified:lr_op>","over":{"base":"Any"},"name":"lr_op_correct"},"guarantee":"perform a lr operation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.identitysearch.lr_op_correct","statement":"Path(lr_op(x), perform a lr operation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bbec6cb1bbed71b2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def lr_op(left, right):
     """Perform a LR operation.
 
@@ -367,16 +405,22 @@ def lr_op(left, right):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rl_op(lef), perform a rl operation) over Any          ║
+# ║ Path(rl_op(left, right), <unspecified:rl_op>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rl_op : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82c445f953972968  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch.rl_op","kind":"function","src_hash":"3e339bbafbb4fbd5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rl_op(lef)","rhs":"perform a rl operation","over":{"base":"Any"},"name":"rl_op_correct"},"guarantee":"perform a rl operation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.identitysearch.rl_op_correct","statement":"Path(rl_op(x), perform a rl operation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82c445f953972968"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch.rl_op","kind":"function","src_hash":"3e339bbafbb4fbd5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rl_op(left, right)","rhs":"<unspecified:rl_op>","over":{"base":"Any"},"name":"rl_op_correct"},"guarantee":"perform a rl operation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.identitysearch.rl_op_correct","statement":"Path(rl_op(x), perform a rl operation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82c445f953972968","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def rl_op(left, right):
     """Perform a RL operation.
 
@@ -429,16 +473,22 @@ def rl_op(left, right):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rr_op(lef), perform a rr operation) over Any          ║
+# ║ Path(rr_op(left, right), <unspecified:rr_op>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rr_op : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3deaa740376dca2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch.rr_op","kind":"function","src_hash":"b24fee133abd4507","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rr_op(lef)","rhs":"perform a rr operation","over":{"base":"Any"},"name":"rr_op_correct"},"guarantee":"perform a rr operation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.identitysearch.rr_op_correct","statement":"Path(rr_op(x), perform a rr operation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3deaa740376dca2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch.rr_op","kind":"function","src_hash":"b24fee133abd4507","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rr_op(left, right)","rhs":"<unspecified:rr_op>","over":{"base":"Any"},"name":"rr_op_correct"},"guarantee":"perform a rr operation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.identitysearch.rr_op_correct","statement":"Path(rr_op(x), perform a rr operation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3deaa740376dca2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def rr_op(left, right):
     """Perform a RR operation.
 
@@ -491,7 +541,11 @@ def rr_op(left, right):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(generate_gate_rules(gat), returns a set of gate rules) over {Any | isinstance(gate_seq, Number) and isinstance(gate_seq, Mul)} ║
+# ║ Path(generate_gate_rules(gate_seq, return_as_muls), <unspecified:generate_gate_rules>) over {Any | isinstance(gate_seq, Number) and isinstance(gate_seq, Mul) and hasattr(gate_seq, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(gate_seq, 'args')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ generate_gate_rules : {Any | isinstance(gate_seq, Num...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -504,9 +558,12 @@ def rr_op(left, right):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 8b05c81a...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch.generate_gate_rules","kind":"function","src_hash":"04f2ec1f46bbfb80","in":{"base":"Any","pred":"isinstance(gate_seq, Number) and isinstance(gate_seq, Mul)"},"out":{"base":"Any","pred":"result satisfies: bool"},"spec":{"lhs":"generate_gate_rules(gat)","rhs":"returns a set of gate rules","over":{"base":"Any","pred":"isinstance(gate_seq, Number) and isinstance(gate_seq, Mul)"},"name":"generate_gate_rules_correct"},"guarantee":"returns a set of gate rules","fibers":[{"name":"Number","pred":"isinstance(gate_seq, Number)","path":{"lhs":"generate_gate_rules(x)","rhs":"returns a set of gate rules","over":{"base":"Number","pred":"isinstance(gate_seq, Number)"},"name":"generate_gate_rules_Number_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.identitysearch.generate_gate_rules_Number_correct","statement":"generate_gate_rules satisfies spec on Number inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(gate_seq, Mul)","path":{"lhs":"generate_gate_rules(x)","rhs":"returns a set of gate rules","over":{"base":"Mul","pred":"isinstance(gate_seq, Mul)"},"name":"generate_gate_rules_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.identitysearch.generate_gate_rules_Mul_correct","statement":"generate_gate_rules satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8b05c81a2ff93631"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch.generate_gate_rules","kind":"function","src_hash":"04f2ec1f46bbfb80","in":{"base":"Any","pred":"isinstance(gate_seq, Number) and isinstance(gate_seq, Mul) and hasattr(gate_seq, 'args')"},"out":{"base":"Any","pred":"result satisfies: bool"},"spec":{"lhs":"generate_gate_rules(gate_seq, return_as_muls)","rhs":"<unspecified:generate_gate_rules>","over":{"base":"Any","pred":"isinstance(gate_seq, Number) and isinstance(gate_seq, Mul) and hasattr(gate_seq, 'args')"},"name":"generate_gate_rules_correct"},"guarantee":"returns a set of gate rules","fibers":[{"name":"Number","pred":"isinstance(gate_seq, Number)","path":{"lhs":"generate_gate_rules(x)","rhs":"returns a set of gate rules","over":{"base":"Number","pred":"isinstance(gate_seq, Number)"},"name":"generate_gate_rules_Number_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.identitysearch.generate_gate_rules_Number_correct","statement":"generate_gate_rules satisfies spec on Number inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(gate_seq, Mul)","path":{"lhs":"generate_gate_rules(x)","rhs":"returns a set of gate rules","over":{"base":"Mul","pred":"isinstance(gate_seq, Mul)"},"name":"generate_gate_rules_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.identitysearch.generate_gate_rules_Mul_correct","statement":"generate_gate_rules satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8b05c81a2ff93631","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(gate_seq, 'args')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'ops + 1 < max_ops', 'isinstance(gate_seq, Mul)', 'isinstance(gate_seq, Number)'}, fibers={'Number', 'Mul'})"]}}
 def generate_gate_rules(gate_seq, return_as_muls=False):
     """Returns a set of gate rules.  Each gate rules is represented
     as a 2-tuple of tuples or Muls.  An empty tuple represents an arbitrary
@@ -653,7 +710,12 @@ def generate_gate_rules(gate_seq, return_as_muls=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(generate_equivalent_ids(gat), returns a set of equivalent gate identities) over {Any | isinstance(gate_seq, Number) and isinstance(gate_seq, Mul)} ║
+# ║ Path(generate_equivalent_ids(gate_seq, return_as_muls), <unspecified:generate_equivalent_ids>) over {Any | isinstance(gate_seq, Number) and isinstance(gate_seq, Mul) and hasattr(gate_seq, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(gate_seq, 'args')                      ║
+# ║   fiber[Number]: isinstance(gate_seq, Number) => {S.One}   ║
+# ║   fiber[Mul]: isinstance(gate_seq, Mul)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ generate_equivalent_ids : {Any | isinstance(gate_seq,...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -666,9 +728,12 @@ def generate_gate_rules(gate_seq, return_as_muls=False):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 62d08411...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch.generate_equivalent_ids","kind":"function","src_hash":"5892e3bcd5d200fd","in":{"base":"Any","pred":"isinstance(gate_seq, Number) and isinstance(gate_seq, Mul)"},"out":{"base":"Any","pred":"result satisfies: bool"},"spec":{"lhs":"generate_equivalent_ids(gat)","rhs":"returns a set of equivalent gate identities","over":{"base":"Any","pred":"isinstance(gate_seq, Number) and isinstance(gate_seq, Mul)"},"name":"generate_equivalent_ids_correct"},"guarantee":"returns a set of equivalent gate identities","fibers":[{"name":"Number","pred":"isinstance(gate_seq, Number)","path":{"lhs":"generate_equivalent_ids(x)","rhs":"returns a set of equivalent gate identities","over":{"base":"Number","pred":"isinstance(gate_seq, Number)"},"name":"generate_equivalent_ids_Number_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.identitysearch.generate_equivalent_ids_Number_correct","statement":"generate_equivalent_ids satisfies spec on Number inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(gate_seq, Mul)","path":{"lhs":"generate_equivalent_ids(x)","rhs":"returns a set of equivalent gate identities","over":{"base":"Mul","pred":"isinstance(gate_seq, Mul)"},"name":"generate_equivalent_ids_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.identitysearch.generate_equivalent_ids_Mul_correct","statement":"generate_equivalent_ids satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"62d08411b00aae8e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch.generate_equivalent_ids","kind":"function","src_hash":"5892e3bcd5d200fd","in":{"base":"Any","pred":"isinstance(gate_seq, Number) and isinstance(gate_seq, Mul) and hasattr(gate_seq, 'args')"},"out":{"base":"Any","pred":"result satisfies: bool"},"spec":{"lhs":"generate_equivalent_ids(gate_seq, return_as_muls)","rhs":"<unspecified:generate_equivalent_ids>","over":{"base":"Any","pred":"isinstance(gate_seq, Number) and isinstance(gate_seq, Mul) and hasattr(gate_seq, 'args')"},"name":"generate_equivalent_ids_correct"},"guarantee":"2-fiber decomposition","fibers":[{"name":"Number","pred":"isinstance(gate_seq, Number)","path":{"lhs":"generate_equivalent_ids(x)","rhs":"2-fiber decomposition","over":{"base":"Number","pred":"isinstance(gate_seq, Number)"},"name":"generate_equivalent_ids_Number_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.identitysearch.generate_equivalent_ids_Number_correct","statement":"generate_equivalent_ids satisfies spec on Number inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(gate_seq, Mul)","path":{"lhs":"generate_equivalent_ids(x)","rhs":"2-fiber decomposition","over":{"base":"Mul","pred":"isinstance(gate_seq, Mul)"},"name":"generate_equivalent_ids_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.identitysearch.generate_equivalent_ids_Mul_correct","statement":"generate_equivalent_ids satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"62d08411b00aae8e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(gate_seq, 'args')"],"fibers":[{"name":"Number","guard":"isinstance(gate_seq, Number)","ensures":["result == {S.One}"],"decidability":"structural","returns_expr":"{S.One}"},{"name":"Mul","guard":"isinstance(gate_seq, Mul)","ensures":[],"decidability":"structural"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'l == ()', 'r == ()', 'isinstance(gate_seq, Mul)', 'isinstance(gate_seq, Number)'}, fibers={'Number', 'Mul'})"]}}
 def generate_equivalent_ids(gate_seq, return_as_muls=False):
     """Returns a set of equivalent gate identities.
 
@@ -751,14 +816,20 @@ def generate_equivalent_ids(gate_seq, return_as_muls=False):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(GateIdentity(*args), correctly constructs a GateIdentity instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ GateIdentity : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ GateIdentity : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 232865eddc42a6ad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch.GateIdentity","kind":"class","src_hash":"926953ebd77ec60f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"GateIdentity(*args)","rhs":"correctly constructs a GateIdentity instance","over":{"base":"Any"},"name":"GateIdentity_class_invariant"},"guarantee":"correctly constructs a GateIdentity instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"232865eddc42a6ad"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch.GateIdentity","kind":"class","src_hash":"926953ebd77ec60f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic)"},"spec":{"lhs":"GateIdentity(*args)","rhs":"correctly constructs a GateIdentity instance","over":{"base":"Any"},"name":"GateIdentity_class_invariant"},"guarantee":"isinstance(self, Basic)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"232865eddc42a6ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function GateIdentity not found in source"]}}
 class GateIdentity(Basic):
     """Wrapper class for circuits that reduce to a scalar value.
 
@@ -791,16 +862,22 @@ class GateIdentity(Basic):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args), <unspecified:__new__>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ffda1417e0293793           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch.GateIdentity.__new__","kind":"method","src_hash":"d6c86637bfd97612","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ffda1417e0293793"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch.GateIdentity.__new__","kind":"method","src_hash":"d6c86637bfd97612","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ffda1417e0293793","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args):
         # args should be a tuple - a variable length argument list
         obj = Basic.__new__(cls, *args)
@@ -812,91 +889,127 @@ class GateIdentity(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(circuit(), returns the circuit attribute) over Any    ║
+# ║ Path(circuit(), self._circuit) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._circuit                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ circuit : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cfa3bd908e50a134           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch.GateIdentity.circuit","kind":"property","src_hash":"acd2b80fa1d4beae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"circuit()","rhs":"returns the circuit attribute","over":{"base":"Any"},"name":"circuit_correct"},"guarantee":"returns the circuit attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cfa3bd908e50a134"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch.GateIdentity.circuit","kind":"property","src_hash":"acd2b80fa1d4beae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"circuit()","rhs":"self._circuit","over":{"base":"Any"},"name":"circuit_correct"},"guarantee":"returns self._circuit","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cfa3bd908e50a134","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._circuit","pure":false,"effects":{"effect_type":"reads_state","reads":["self._circuit"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def circuit(self):
         return self._circuit
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gate_rules(), returns the gate_rules attribute) over Any ║
+# ║ Path(gate_rules(), self._rules) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._rules                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gate_rules : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6aff240fae9d33d3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch.GateIdentity.gate_rules","kind":"property","src_hash":"d48a4525828806a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gate_rules()","rhs":"returns the gate_rules attribute","over":{"base":"Any"},"name":"gate_rules_correct"},"guarantee":"returns the gate_rules attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6aff240fae9d33d3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch.GateIdentity.gate_rules","kind":"property","src_hash":"d48a4525828806a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gate_rules()","rhs":"self._rules","over":{"base":"Any"},"name":"gate_rules_correct"},"guarantee":"returns self._rules","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6aff240fae9d33d3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._rules","pure":false,"effects":{"effect_type":"reads_state","reads":["self._rules"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gate_rules(self):
         return self._rules
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(equivalent_ids(), returns the equivalent_ids attribute) over Any ║
+# ║ Path(equivalent_ids(), self._eq_ids) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._eq_ids                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ equivalent_ids : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e10038d2ed0485bb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch.GateIdentity.equivalent_ids","kind":"property","src_hash":"6ee165ab4b8ed515","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equivalent_ids()","rhs":"returns the equivalent_ids attribute","over":{"base":"Any"},"name":"equivalent_ids_correct"},"guarantee":"returns the equivalent_ids attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e10038d2ed0485bb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch.GateIdentity.equivalent_ids","kind":"property","src_hash":"6ee165ab4b8ed515","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equivalent_ids()","rhs":"self._eq_ids","over":{"base":"Any"},"name":"equivalent_ids_correct"},"guarantee":"returns self._eq_ids","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e10038d2ed0485bb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._eq_ids","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eq_ids"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def equivalent_ids(self):
         return self._eq_ids
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sequence(), returns the sequence attribute) over Any  ║
+# ║ Path(sequence(), self.args) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sequence : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5b0484a95fca4a0b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch.GateIdentity.sequence","kind":"property","src_hash":"5abe802e32e68fac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sequence()","rhs":"returns the sequence attribute","over":{"base":"Any"},"name":"sequence_correct"},"guarantee":"returns the sequence attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5b0484a95fca4a0b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch.GateIdentity.sequence","kind":"property","src_hash":"5abe802e32e68fac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sequence()","rhs":"self.args","over":{"base":"Any"},"name":"sequence_correct"},"guarantee":"returns self.args","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5b0484a95fca4a0b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def sequence(self):
         return self.args
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), str(self.circuit)) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  str(self.circuit)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8234698a5b47564a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch.GateIdentity.__str__","kind":"method","src_hash":"7adf24e9b8301c71","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8234698a5b47564a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch.GateIdentity.__str__","kind":"method","src_hash":"7adf24e9b8301c71","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"str(self.circuit)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns str(self.circuit)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8234698a5b47564a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"str(self.circuit)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.circuit"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         """Returns the string of gates in a tuple."""
         return str(self.circuit)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_degenerate(ide), checks if a gate identity is a permutation of another identity) over Any ║
+# ║ Path(is_degenerate(identity_set, gate_identity), <unspecified:is_degenerate>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_degenerate : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5dee23270ec57a90  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch.is_degenerate","kind":"function","src_hash":"0f68405c3658ccde","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_degenerate(ide)","rhs":"checks if a gate identity is a permutation of another identity","over":{"base":"Any"},"name":"is_degenerate_correct"},"guarantee":"checks if a gate identity is a permutation of another identity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.identitysearch.is_degenerate_correct","statement":"Path(is_degenerate(x), checks if a gate identity is a permutation of another identity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5dee23270ec57a90"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch.is_degenerate","kind":"function","src_hash":"0f68405c3658ccde","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_degenerate(identity_set, gate_identity)","rhs":"<unspecified:is_degenerate>","over":{"base":"Any"},"name":"is_degenerate_correct"},"guarantee":"checks if a gate identity is a permutation of another identity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.identitysearch.is_degenerate_correct","statement":"Path(is_degenerate(x), checks if a gate identity is a permutation of another identity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5dee23270ec57a90","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def is_degenerate(identity_set, gate_identity):
     """Checks if a gate identity is a permutation of another identity.
 
@@ -937,16 +1050,22 @@ def is_degenerate(identity_set, gate_identity):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_reducible(cir), determines if a circuit is reducible by checking if its subcircuits are scalar values) over Any ║
+# ║ Path(is_reducible(circuit, nqubits, begin), <unspecified:is_reducible>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_reducible : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d50379bdfa85ec6a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch.is_reducible","kind":"function","src_hash":"6dc98b15f08bab4c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_reducible(cir)","rhs":"determines if a circuit is reducible by checking if its subcircuits are scalar values","over":{"base":"Any"},"name":"is_reducible_correct"},"guarantee":"determines if a circuit is reducible by checking if its subcircuits are scalar values","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.identitysearch.is_reducible_correct","statement":"Path(is_reducible(x), determines if a circuit is reducible by checking if its subcircuits are scalar values)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d50379bdfa85ec6a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch.is_reducible","kind":"function","src_hash":"6dc98b15f08bab4c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_reducible(circuit, nqubits, begin)","rhs":"<unspecified:is_reducible>","over":{"base":"Any"},"name":"is_reducible_correct"},"guarantee":"determines if a circuit is reducible by checking if its subcircuits are scalar values","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.identitysearch.is_reducible_correct","statement":"Path(is_reducible(x), determines if a circuit is reducible by checking if its subcircuits are scalar values)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d50379bdfa85ec6a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def is_reducible(circuit, nqubits, begin, end):
     """Determines if a circuit is reducible by checking
     if its subcircuits are scalar values.
@@ -998,16 +1117,22 @@ def is_reducible(circuit, nqubits, begin, end):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bfs_identity_search(gat), constructs a set of gate identities from the list of possible gates) over Any ║
+# ║ Path(bfs_identity_search(gate_list, nqubits, max_depth), <unspecified:bfs_identity_search>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bfs_identity_search : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b17d2816f4fb9fb0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch.bfs_identity_search","kind":"function","src_hash":"6aebfd96a6fe5201","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bfs_identity_search(gat)","rhs":"constructs a set of gate identities from the list of possible gates","over":{"base":"Any"},"name":"bfs_identity_search_correct"},"guarantee":"constructs a set of gate identities from the list of possible gates","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.identitysearch.bfs_identity_search_correct","statement":"Path(bfs_identity_search(x), constructs a set of gate identities from the list of possible gates)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b17d2816f4fb9fb0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch.bfs_identity_search","kind":"function","src_hash":"6aebfd96a6fe5201","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bfs_identity_search(gate_list, nqubits, max_depth)","rhs":"<unspecified:bfs_identity_search>","over":{"base":"Any"},"name":"bfs_identity_search_correct"},"guarantee":"constructs a set of gate identities from the list of possible gates","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.identitysearch.bfs_identity_search_correct","statement":"Path(bfs_identity_search(x), constructs a set of gate identities from the list of possible gates)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b17d2816f4fb9fb0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def bfs_identity_search(gate_list, nqubits, max_depth=None,
        identity_only=False):
     """Constructs a set of gate identities from the list of possible gates.
@@ -1087,16 +1212,22 @@ def bfs_identity_search(gate_list, nqubits, max_depth=None,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(random_identity_search(gat), randomly selects numgates from gate_list and checks if it is a gate identity) over Any ║
+# ║ Path(random_identity_search(gate_list, numgates, nqubits), circuit if is_scalar else None) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  circuit if is_scalar else None                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ random_identity_search : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad4dc2b0e5b2107f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 072a5e9e219764e6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch.random_identity_search","kind":"function","src_hash":"353786ccf83db54d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"random_identity_search(gat)","rhs":"randomly selects numgates from gate_list and checks if it is a gate identity","over":{"base":"Any"},"name":"random_identity_search_correct"},"guarantee":"randomly selects numgates from gate_list and checks if it is a gate identity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.identitysearch.random_identity_search_correct","statement":"Path(random_identity_search(x), randomly selects numgates from gate_list and checks if it is a gate identity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad4dc2b0e5b2107f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.identitysearch.random_identity_search","kind":"function","src_hash":"353786ccf83db54d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"random_identity_search(gate_list, numgates, nqubits)","rhs":"circuit if is_scalar else None","over":{"base":"Any"},"name":"random_identity_search_correct"},"guarantee":"returns circuit if is_scalar else None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.identitysearch.random_identity_search_correct","statement":"Path(random_identity_search(x), returns circuit if is_scalar else None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"072a5e9e219764e6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"circuit if is_scalar else None","pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["randint"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def random_identity_search(gate_list, numgates, nqubits):
     """Randomly selects numgates from gate_list and checks if it is
     a gate identity.

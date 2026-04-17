@@ -83,16 +83,23 @@ neg_one = Integer(-1)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_forward_jacobian(exp), test_forward_jacobian produces the expected output) over Any ║
+# ║ Path(test_forward_jacobian(expr, wrt), simplify(jacobian - expr.jacobian(wrt)) == zeros) over {Any | hasattr(expr, 'jacobian')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_forward_jacobian : Any → {Any | simplify(jacobia...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'jacobian')                      ║
+# ║   ensures:  simplify(jacobian - expr.jacobian(wrt)) =...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_forward_jacobian : {Any | hasattr(expr, 'jacobia...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d931af7f9b09a5c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54d377d5bb180da2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_cse_diff.test_forward_jacobian","kind":"function","src_hash":"68a17f24ed705603","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(jacobian - expr.jacobian(wrt)) == zeros"},"spec":{"lhs":"test_forward_jacobian(exp)","rhs":"test_forward_jacobian produces the expected output","over":{"base":"Any"},"name":"test_forward_jacobian_correct"},"guarantee":"test_forward_jacobian produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_cse_diff.test_forward_jacobian_correct","statement":"Path(test_forward_jacobian(x), test_forward_jacobian produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d931af7f9b09a5c"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_cse_diff.test_forward_jacobian","kind":"function","src_hash":"68a17f24ed705603","in":{"base":"Any","pred":"hasattr(expr, 'jacobian')"},"out":{"base":"Any","pred":"result satisfies: simplify(jacobian - expr.jacobian(wrt)) == zeros"},"spec":{"lhs":"test_forward_jacobian(expr, wrt)","rhs":"simplify(jacobian - expr.jacobian(wrt)) == zeros","over":{"base":"Any","pred":"hasattr(expr, 'jacobian')"},"name":"test_forward_jacobian_correct"},"guarantee":"simplify(jacobian - expr.jacobian(wrt)) == zeros","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_cse_diff.test_forward_jacobian_correct","statement":"Path(test_forward_jacobian(x), simplify(jacobian - expr.jacobian(wrt)) == zeros)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54d377d5bb180da2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'jacobian')"],"ensures":["simplify(jacobian - expr.jacobian(wrt)) == zeros"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.jacobian"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_forward_jacobian(expr, wrt):
     expr = ImmutableDenseMatrix([expr]).T
     wrt = ImmutableDenseMatrix([wrt]).T
@@ -102,16 +109,23 @@ def test_forward_jacobian(expr, wrt):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_process_cse(), test_process_cse produces the expected output) over Any ║
+# ║ Path(test_process_cse(), p_repl == expected_output[0] and p_reduced == expected_output[1]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_process_cse : Any → {Any | p_repl == expected_ou...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p_repl == expected_output[0]                   ║
+# ║   ensures:  p_reduced == expected_output[1]                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_process_cse : Any → {Any | result satisfies: p_r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 842d86b1a98420d8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8074bf5526c11f95  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_cse_diff.test_process_cse","kind":"function","src_hash":"c627f4852f4faba1","in":{"base":"Any"},"out":{"base":"Any","pred":"p_repl == expected_output[0] and p_reduced == expected_output[1]"},"spec":{"lhs":"test_process_cse()","rhs":"test_process_cse produces the expected output","over":{"base":"Any"},"name":"test_process_cse_correct"},"guarantee":"test_process_cse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_cse_diff.test_process_cse_correct","statement":"Path(test_process_cse(x), test_process_cse produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"842d86b1a98420d8"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_cse_diff.test_process_cse","kind":"function","src_hash":"c627f4852f4faba1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p_repl == expected_output[0] and p_reduced == expected_output[1]"},"spec":{"lhs":"test_process_cse()","rhs":"p_repl == expected_output[0] and p_reduced == expected_output[1]","over":{"base":"Any"},"name":"test_process_cse_correct"},"guarantee":"p_repl == expected_output[0]; p_reduced == expected_output[1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_cse_diff.test_process_cse_correct","statement":"Path(test_process_cse(x), p_repl == expected_output[0]; p_reduced == expected_output[1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8074bf5526c11f95","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p_repl == expected_output[0]","p_reduced == expected_output[1]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_process_cse():
     x, y, z = symbols('x y z')
     f = Function('f')
@@ -133,7 +147,12 @@ def test_process_cse():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_io_matrix_type(), test_io_matrix_type produces the expected output) over {Any | isinstance(jacobian_core[0], type(reduced_expr[0])) and isinstance(jacobian, type(expr))} ║
+# ║ Path(test_io_matrix_type(), isinstance(jacobian_core[0], type(reduced_expr[0])) and isinstance(jacobian_norm[0], type(reduced_expr[0])) and isinstance(jacobian, type(expr))) over {Any | isinstance(jacobian_core[0], type(reduced_expr[0])) and isinstance(jacobian, type(expr))} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(jacobian_core[0], type(reduced...   ║
+# ║   ensures:  isinstance(jacobian_norm[0], type(reduced...   ║
+# ║   ensures:  isinstance(jacobian, type(expr))               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_io_matrix_type : {Any | isinstance(jacobian_core...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -146,9 +165,12 @@ def test_process_cse():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 0.7ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 6927e1b5...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_cse_diff.test_io_matrix_type","kind":"function","src_hash":"01ab523188819d3a","in":{"base":"Any","pred":"isinstance(jacobian_core[0], type(reduced_expr[0])) and isinstance(jacobian, type(expr))"},"out":{"base":"Any","pred":"isinstance(jacobian_core[0], type(reduced_expr[0])) and isinstance(jacobian_norm[0], type(reduced_expr[0])) and isinstance(jacobian, type(expr))"},"spec":{"lhs":"test_io_matrix_type()","rhs":"test_io_matrix_type produces the expected output","over":{"base":"Any","pred":"isinstance(jacobian_core[0], type(reduced_expr[0])) and isinstance(jacobian, type(expr))"},"name":"test_io_matrix_type_correct"},"guarantee":"test_io_matrix_type produces the expected output","fibers":[{"name":"type(reduced_expr[0]","pred":"isinstance(jacobian_core[0], type(reduced_expr[0]))","path":{"lhs":"test_io_matrix_type(x)","rhs":"test_io_matrix_type produces the expected output","over":{"base":"type(reduced_expr[0]","pred":"isinstance(jacobian_core[0], type(reduced_expr[0]))"},"name":"test_io_matrix_type_type(reduced_expr[0]_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_cse_diff.test_io_matrix_type_type(reduced_expr[0]_correct","statement":"test_io_matrix_type satisfies spec on type(reduced_expr[0] inputs"},"trust":"LIBRARY"},{"name":"type(expr","pred":"isinstance(jacobian, type(expr))","path":{"lhs":"test_io_matrix_type(x)","rhs":"test_io_matrix_type produces the expected output","over":{"base":"type(expr","pred":"isinstance(jacobian, type(expr))"},"name":"test_io_matrix_type_type(expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_cse_diff.test_io_matrix_type_type(expr_correct","statement":"test_io_matrix_type satisfies spec on type(expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6927e1b589cfbbdf"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_cse_diff.test_io_matrix_type","kind":"function","src_hash":"01ab523188819d3a","in":{"base":"Any","pred":"isinstance(jacobian_core[0], type(reduced_expr[0])) and isinstance(jacobian, type(expr))"},"out":{"base":"Any","pred":"result satisfies: isinstance(jacobian_core[0], type(reduced_expr[0])) and isinstance(jacobian_norm[0], type(reduced_expr[0])) and isinstance(jacobian, type(expr))"},"spec":{"lhs":"test_io_matrix_type()","rhs":"isinstance(jacobian_core[0], type(reduced_expr[0])) and isinstance(jacobian_norm[0], type(reduced_expr[0])) and isinstance(jacobian, type(expr))","over":{"base":"Any","pred":"isinstance(jacobian_core[0], type(reduced_expr[0])) and isinstance(jacobian, type(expr))"},"name":"test_io_matrix_type_correct"},"guarantee":"isinstance(jacobian_core[0], type(reduced_expr[0])); isinstance(jacobian_norm[0], type(reduced_expr[0])); isinstance(jacobian, type(expr))","fibers":[{"name":"type(reduced_expr[0]","pred":"isinstance(jacobian_core[0], type(reduced_expr[0]))","path":{"lhs":"test_io_matrix_type(x)","rhs":"isinstance(jacobian_core[0], type(reduced_expr[0])); isinstance(jacobian_norm[0], type(reduced_expr[0])); isinstance(jacobian, type(expr))","over":{"base":"type(reduced_expr[0]","pred":"isinstance(jacobian_core[0], type(reduced_expr[0]))"},"name":"test_io_matrix_type_type(reduced_expr[0]_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_cse_diff.test_io_matrix_type_type(reduced_expr[0]_correct","statement":"test_io_matrix_type satisfies spec on type(reduced_expr[0] inputs"},"trust":"LIBRARY"},{"name":"type(expr","pred":"isinstance(jacobian, type(expr))","path":{"lhs":"test_io_matrix_type(x)","rhs":"isinstance(jacobian_core[0], type(reduced_expr[0])); isinstance(jacobian_norm[0], type(reduced_expr[0])); isinstance(jacobian, type(expr))","over":{"base":"type(expr","pred":"isinstance(jacobian, type(expr))"},"name":"test_io_matrix_type_type(expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_cse_diff.test_io_matrix_type_type(expr_correct","statement":"test_io_matrix_type satisfies spec on type(expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6927e1b589cfbbdf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(jacobian_core[0], type(reduced_expr[0]))","isinstance(jacobian_norm[0], type(reduced_expr[0]))","isinstance(jacobian, type(expr))"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"failed","binding":true}}
 def test_io_matrix_type():
     x, y, z = symbols('x y z')
     expr = ImmutableDenseMatrix([
@@ -175,7 +197,12 @@ def test_io_matrix_type():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_forward_jacobian_input_output(), test_forward_jacobian_input_output produces the expected output) over {Any | isinstance(replacements_core, type(replacements)) and isinstance(jacobian_core, type(reduced_expr)) and isinstance(precomputed_fs_core, list)} ║
+# ║ Path(test_forward_jacobian_input_output(), isinstance(replacements_core, type(replacements)) and isinstance(jacobian_core, type(reduced_expr)) and isinstance(precomputed_fs_core, list) and len(replacements_core) == len(replacements) and len(jacobian_core) == 1 and len(precomputed_fs_core) == len(replacements) and isinstance(replacements_norm, type(replacements)) and isinstance(jacobian_norm, type(reduced_expr)) and isinstance(precomputed_fs_norm, list) and len(replacements_norm) == len(replacements) and len(jacobian_norm) == 1 and len(precomputed_fs_norm) == len(replacements)) over {Any | isinstance(replacements_core, type(replacements)) and isinstance(jacobian_core, type(reduced_expr)) and isinstance(precomputed_fs_core, list)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(replacements_core, type(replac...   ║
+# ║   ensures:  isinstance(jacobian_core, type(reduced_ex...   ║
+# ║   ensures:  isinstance(precomputed_fs_core, list)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_forward_jacobian_input_output : {Any | isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -189,9 +216,12 @@ def test_io_matrix_type():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?3 ✗4 VCs | 11.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 4e74f774...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_cse_diff.test_forward_jacobian_input_output","kind":"function","src_hash":"d5aa28b411c2bcf4","in":{"base":"Any","pred":"isinstance(replacements_core, type(replacements)) and isinstance(jacobian_core, type(reduced_expr)) and isinstance(precomputed_fs_core, list)"},"out":{"base":"Any","pred":"isinstance(replacements_core, type(replacements)) and isinstance(jacobian_core, type(reduced_expr)) and isinstance(precomputed_fs_core, list) and len(replacements_core) == len(replacements) and len(jacobian_core) == 1 and len(precomputed_fs_core) == len(replacements) and isinstance(replacements_norm, type(replacements)) and isinstance(jacobian_norm, type(reduced_expr)) and isinstance(precomputed_fs_norm, list) and len(replacements_norm) == len(replacements) and len(jacobian_norm) == 1 and len(precomputed_fs_norm) == len(replacements)"},"spec":{"lhs":"test_forward_jacobian_input_output()","rhs":"test_forward_jacobian_input_output produces the expected output","over":{"base":"Any","pred":"isinstance(replacements_core, type(replacements)) and isinstance(jacobian_core, type(reduced_expr)) and isinstance(precomputed_fs_core, list)"},"name":"test_forward_jacobian_input_output_correct"},"guarantee":"test_forward_jacobian_input_output produces the expected output","fibers":[{"name":"type(replacements","pred":"isinstance(replacements_core, type(replacements))","path":{"lhs":"test_forward_jacobian_input_output(x)","rhs":"test_forward_jacobian_input_output produces the expected output","over":{"base":"type(replacements","pred":"isinstance(replacements_core, type(replacements))"},"name":"test_forward_jacobian_input_output_type(replacements_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_cse_diff.test_forward_jacobian_input_output_type(replacements_correct","statement":"test_forward_jacobian_input_output satisfies spec on type(replacements inputs"},"trust":"LIBRARY"},{"name":"type(reduced_expr","pred":"isinstance(jacobian_core, type(reduced_expr))","path":{"lhs":"test_forward_jacobian_input_output(x)","rhs":"test_forward_jacobian_input_output produces the expected output","over":{"base":"type(reduced_expr","pred":"isinstance(jacobian_core, type(reduced_expr))"},"name":"test_forward_jacobian_input_output_type(reduced_expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_cse_diff.test_forward_jacobian_input_output_type(reduced_expr_correct","statement":"test_forward_jacobian_input_output satisfies spec on type(reduced_expr inputs"},"trust":"LIBRARY"},{"name":"list","pred":"isinstance(precomputed_fs_core, list)","path":{"lhs":"test_forward_jacobian_input_output(x)","rhs":"test_forward_jacobian_input_output produces the expected output","over":{"base":"list","pred":"isinstance(precomputed_fs_core, list)"},"name":"test_forward_jacobian_input_output_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_cse_diff.test_forward_jacobian_input_output_list_correct","statement":"test_forward_jacobian_input_output satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4e74f774aaae781e"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_cse_diff.test_forward_jacobian_input_output","kind":"function","src_hash":"d5aa28b411c2bcf4","in":{"base":"Any","pred":"isinstance(replacements_core, type(replacements)) and isinstance(jacobian_core, type(reduced_expr)) and isinstance(precomputed_fs_core, list)"},"out":{"base":"Any","pred":"result satisfies: isinstance(replacements_core, type(replacements)) and isinstance(jacobian_core, type(reduced_expr)) and isinstance(precomputed_fs_core, list) and len(replacements_core) == len(replacements) and len(jacobian_core) == 1 and len(precomputed_fs_core) == len(replacements) and isinstance(replacements_norm, type(replacements)) and isinstance(jacobian_norm, type(reduced_expr)) and isinstance(precomputed_fs_norm, list) and len(replacements_norm) == len(replacements) and len(jacobian_norm) == 1 and len(precomputed_fs_norm) == len(replacements)"},"spec":{"lhs":"test_forward_jacobian_input_output()","rhs":"isinstance(replacements_core, type(replacements)) and isinstance(jacobian_core, type(reduced_expr)) and isinstance(precomputed_fs_core, list) and len(replacements_core) == len(replacements) and len(jacobian_core) == 1 and len(precomputed_fs_core) == len(replacements) and isinstance(replacements_norm, type(replacements)) and isinstance(jacobian_norm, type(reduced_expr)) and isinstance(precomputed_fs_norm, list) and len(replacements_norm) == len(replacements) and len(jacobian_norm) == 1 and len(precomputed_fs_norm) == len(replacements)","over":{"base":"Any","pred":"isinstance(replacements_core, type(replacements)) and isinstance(jacobian_core, type(reduced_expr)) and isinstance(precomputed_fs_core, list)"},"name":"test_forward_jacobian_input_output_correct"},"guarantee":"isinstance(replacements_core, type(replacements)); isinstance(jacobian_core, type(reduced_expr)); isinstance(precomputed_fs_core, list)","fibers":[{"name":"type(replacements","pred":"isinstance(replacements_core, type(replacements))","path":{"lhs":"test_forward_jacobian_input_output(x)","rhs":"isinstance(replacements_core, type(replacements)); isinstance(jacobian_core, type(reduced_expr)); isinstance(precomputed_fs_core, list)","over":{"base":"type(replacements","pred":"isinstance(replacements_core, type(replacements))"},"name":"test_forward_jacobian_input_output_type(replacements_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_cse_diff.test_forward_jacobian_input_output_type(replacements_correct","statement":"test_forward_jacobian_input_output satisfies spec on type(replacements inputs"},"trust":"LIBRARY"},{"name":"type(reduced_expr","pred":"isinstance(jacobian_core, type(reduced_expr))","path":{"lhs":"test_forward_jacobian_input_output(x)","rhs":"isinstance(replacements_core, type(replacements)); isinstance(jacobian_core, type(reduced_expr)); isinstance(precomputed_fs_core, list)","over":{"base":"type(reduced_expr","pred":"isinstance(jacobian_core, type(reduced_expr))"},"name":"test_forward_jacobian_input_output_type(reduced_expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_cse_diff.test_forward_jacobian_input_output_type(reduced_expr_correct","statement":"test_forward_jacobian_input_output satisfies spec on type(reduced_expr inputs"},"trust":"LIBRARY"},{"name":"list","pred":"isinstance(precomputed_fs_core, list)","path":{"lhs":"test_forward_jacobian_input_output(x)","rhs":"isinstance(replacements_core, type(replacements)); isinstance(jacobian_core, type(reduced_expr)); isinstance(precomputed_fs_core, list)","over":{"base":"list","pred":"isinstance(precomputed_fs_core, list)"},"name":"test_forward_jacobian_input_output_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_cse_diff.test_forward_jacobian_input_output_list_correct","statement":"test_forward_jacobian_input_output satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4e74f774aaae781e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(replacements_core, type(replacements))","isinstance(jacobian_core, type(reduced_expr))","isinstance(precomputed_fs_core, list)","len(replacements_core) == len(replacements)","len(jacobian_core) == 1","len(precomputed_fs_core) == len(replacements)","isinstance(replacements_norm, type(replacements))","isinstance(jacobian_norm, type(reduced_expr))","isinstance(precomputed_fs_norm, list)","len(replacements_norm) == len(replacements)","len(jacobian_norm) == 1","len(precomputed_fs_norm) == len(replacements)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":1,"n_assumed":3,"n_failed":4,"trust_level":"LIBRARY_ASSUMED","compile_ms":11.2,"verdict_class":"failed","binding":true}}
 def test_forward_jacobian_input_output():
     x, y, z = symbols('x y z')
     expr = Matrix([
@@ -223,16 +253,23 @@ def test_forward_jacobian_input_output():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jacobian_hessian(), test_jacobian_hessian produces the expected output) over Any ║
+# ║ Path(test_jacobian_hessian(), _forward_jacobian(L, syms) == Matrix([[2 * x * y, x ** 2], [y, 4 * y + x]]) and _forward_jacobian(L, syms) == Matrix([[1, 0], [2 * x * y ** 3, x ** 2 * 3 * y ** 2]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jacobian_hessian : Any → {Any | _forward_jacobia...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _forward_jacobian(L, syms) == Matrix([[2 ...   ║
+# ║   ensures:  _forward_jacobian(L, syms) == Matrix([[1,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jacobian_hessian : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9170237db70a584f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cbd7c25947f284a5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_cse_diff.test_jacobian_hessian","kind":"function","src_hash":"2f44c7de189ab9e3","in":{"base":"Any"},"out":{"base":"Any","pred":"_forward_jacobian(L, syms) == Matrix([[2 * x * y, x ** 2], [y, 4 * y + x]])"},"spec":{"lhs":"test_jacobian_hessian()","rhs":"test_jacobian_hessian produces the expected output","over":{"base":"Any"},"name":"test_jacobian_hessian_correct"},"guarantee":"test_jacobian_hessian produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_cse_diff.test_jacobian_hessian_correct","statement":"Path(test_jacobian_hessian(x), test_jacobian_hessian produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9170237db70a584f"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_cse_diff.test_jacobian_hessian","kind":"function","src_hash":"2f44c7de189ab9e3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _forward_jacobian(L, syms) == Matrix([[2 * x * y, x ** 2], [y, 4 * y + x]]) and _forward_jacobian(L, syms) == Matrix([[1, 0], [2 * x * y ** 3, x ** 2 * 3 * y ** 2]])"},"spec":{"lhs":"test_jacobian_hessian()","rhs":"_forward_jacobian(L, syms) == Matrix([[2 * x * y, x ** 2], [y, 4 * y + x]]) and _forward_jacobian(L, syms) == Matrix([[1, 0], [2 * x * y ** 3, x ** 2 * 3 * y ** 2]])","over":{"base":"Any"},"name":"test_jacobian_hessian_correct"},"guarantee":"_forward_jacobian(L, syms) == Matrix([[2 * x * y, x ** 2], [y, 4 * y + x]]); _forward_jacobian(L, syms) == Matrix([[1, 0], [2 * x * y ** 3, x ** 2 * 3 * y ** 2]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_cse_diff.test_jacobian_hessian_correct","statement":"Path(test_jacobian_hessian(x), _forward_jacobian(L, syms) == Matrix([[2 * x * y, x ** 2], [y, 4 * y + x]]); _forward_jacobian(L, syms) == Matrix([[1, 0], [2 * x * y ** 3, x ** 2 * 3 * y ** 2]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cbd7c25947f284a5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_forward_jacobian(L, syms) == Matrix([[2 * x * y, x ** 2], [y, 4 * y + x]])","_forward_jacobian(L, syms) == Matrix([[1, 0], [2 * x * y ** 3, x ** 2 * 3 * y ** 2]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_jacobian_hessian():
     L = Matrix(1, 2, [x**2*y, 2*y**2 + x*y])
     syms = [x, y]
@@ -243,16 +280,24 @@ def test_jacobian_hessian():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jacobian_metrics(), test_jacobian_metrics produces the expected output) over Any ║
+# ║ Path(test_jacobian_metrics(), J == X.jacobian(Y.T) and J == X.T.jacobian(Y) and J == X.T.jacobian(Y.T) and g == Matrix([[1, 0], [0, rho ** 2]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jacobian_metrics : Any → {Any | J == X.jacobian(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  J == X.jacobian(Y.T)                           ║
+# ║   ensures:  J == X.T.jacobian(Y)                           ║
+# ║   ensures:  J == X.T.jacobian(Y.T)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jacobian_metrics : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 23460554707312b7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d442d359a4c5bfa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_cse_diff.test_jacobian_metrics","kind":"function","src_hash":"425c7b36e7ec47f5","in":{"base":"Any"},"out":{"base":"Any","pred":"J == X.jacobian(Y.T) and J == X.T.jacobian(Y) and J == X.T.jacobian(Y.T) and g == Matrix([[1, 0], [0, rho ** 2]])"},"spec":{"lhs":"test_jacobian_metrics()","rhs":"test_jacobian_metrics produces the expected output","over":{"base":"Any"},"name":"test_jacobian_metrics_correct"},"guarantee":"test_jacobian_metrics produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_cse_diff.test_jacobian_metrics_correct","statement":"Path(test_jacobian_metrics(x), test_jacobian_metrics produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23460554707312b7"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_cse_diff.test_jacobian_metrics","kind":"function","src_hash":"425c7b36e7ec47f5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: J == X.jacobian(Y.T) and J == X.T.jacobian(Y) and J == X.T.jacobian(Y.T) and g == Matrix([[1, 0], [0, rho ** 2]])"},"spec":{"lhs":"test_jacobian_metrics()","rhs":"J == X.jacobian(Y.T) and J == X.T.jacobian(Y) and J == X.T.jacobian(Y.T) and g == Matrix([[1, 0], [0, rho ** 2]])","over":{"base":"Any"},"name":"test_jacobian_metrics_correct"},"guarantee":"J == X.jacobian(Y.T); J == X.T.jacobian(Y); J == X.T.jacobian(Y.T)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_cse_diff.test_jacobian_metrics_correct","statement":"Path(test_jacobian_metrics(x), J == X.jacobian(Y.T); J == X.T.jacobian(Y); J == X.T.jacobian(Y.T))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d442d359a4c5bfa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["J == X.jacobian(Y.T)","J == X.T.jacobian(Y)","J == X.T.jacobian(Y.T)","g == Matrix([[1, 0], [0, rho ** 2]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_jacobian_metrics():
     rho, phi = symbols("rho,phi")
     X = Matrix([rho * cos(phi), rho * sin(phi)])
@@ -267,16 +312,22 @@ def test_jacobian_metrics():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jacobian2(), test_jacobian2 produces the expected output) over Any ║
+# ║ Path(test_jacobian2(), _forward_jacobian(X, Y) == J) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jacobian2 : Any → {Any | _forward_jacobian(X, Y)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _forward_jacobian(X, Y) == J                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jacobian2 : Any → {Any | result satisfies: _forw...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 458e3b971e9a579a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 06dfc47dd885698b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_cse_diff.test_jacobian2","kind":"function","src_hash":"eb96a31a50a2da53","in":{"base":"Any"},"out":{"base":"Any","pred":"_forward_jacobian(X, Y) == J"},"spec":{"lhs":"test_jacobian2()","rhs":"test_jacobian2 produces the expected output","over":{"base":"Any"},"name":"test_jacobian2_correct"},"guarantee":"test_jacobian2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_cse_diff.test_jacobian2_correct","statement":"Path(test_jacobian2(x), test_jacobian2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"458e3b971e9a579a"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_cse_diff.test_jacobian2","kind":"function","src_hash":"eb96a31a50a2da53","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _forward_jacobian(X, Y) == J"},"spec":{"lhs":"test_jacobian2()","rhs":"_forward_jacobian(X, Y) == J","over":{"base":"Any"},"name":"test_jacobian2_correct"},"guarantee":"_forward_jacobian(X, Y) == J","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_cse_diff.test_jacobian2_correct","statement":"Path(test_jacobian2(x), _forward_jacobian(X, Y) == J)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"06dfc47dd885698b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_forward_jacobian(X, Y) == J"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jacobian2():
     rho, phi = symbols("rho,phi")
     X = Matrix([rho * cos(phi), rho * sin(phi), rho ** 2])
@@ -290,16 +341,22 @@ def test_jacobian2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_4564(), test_issue_4564 produces the expected output) over Any ║
+# ║ Path(test_issue_4564(), <unspecified:test_issue_4564>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_4564 : Any → {Any | J.rows == i and J.cols...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bae95b6599300ea6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_cse_diff.test_issue_4564","kind":"function","src_hash":"6201e4101eabcdad","in":{"base":"Any"},"out":{"base":"Any","pred":"J.rows == i and J.cols == j and J[:, k] == X_slice"},"spec":{"lhs":"test_issue_4564()","rhs":"test_issue_4564 produces the expected output","over":{"base":"Any"},"name":"test_issue_4564_correct"},"guarantee":"test_issue_4564 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_cse_diff.test_issue_4564_correct","statement":"Path(test_issue_4564(x), test_issue_4564 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bae95b6599300ea6"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_cse_diff.test_issue_4564","kind":"function","src_hash":"6201e4101eabcdad","in":{"base":"Any"},"out":{"base":"Any","pred":"J.rows == i and J.cols == j and J[:, k] == X_slice"},"spec":{"lhs":"test_issue_4564()","rhs":"<unspecified:test_issue_4564>","over":{"base":"Any"},"name":"test_issue_4564_correct"},"guarantee":"test_issue_4564 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_cse_diff.test_issue_4564_correct","statement":"Path(test_issue_4564(x), test_issue_4564 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bae95b6599300ea6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_4564():
     X = Matrix([exp(x + y + z), exp(x + y + z), exp(x + y + z)])
     Y = Matrix([x, y, z])
@@ -315,16 +372,22 @@ def test_issue_4564():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nonvectorJacobian(), test_nonvectorJacobian produces the expected output) over Any ║
+# ║ Path(test_nonvectorJacobian(), <unspecified:test_nonvectorJacobian>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_nonvectorJacobian : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ba2889e1d64c627  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_cse_diff.test_nonvectorJacobian","kind":"function","src_hash":"47ff106774910e51","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_nonvectorJacobian()","rhs":"test_nonvectorJacobian produces the expected output","over":{"base":"Any"},"name":"test_nonvectorJacobian_correct"},"guarantee":"test_nonvectorJacobian produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_cse_diff.test_nonvectorJacobian_correct","statement":"Path(test_nonvectorJacobian(x), test_nonvectorJacobian produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ba2889e1d64c627"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_cse_diff.test_nonvectorJacobian","kind":"function","src_hash":"47ff106774910e51","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_nonvectorJacobian()","rhs":"<unspecified:test_nonvectorJacobian>","over":{"base":"Any"},"name":"test_nonvectorJacobian_correct"},"guarantee":"test_nonvectorJacobian produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_cse_diff.test_nonvectorJacobian_correct","statement":"Path(test_nonvectorJacobian(x), test_nonvectorJacobian produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ba2889e1d64c627","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_nonvectorJacobian():
     X = Matrix([[exp(x + y + z), exp(x + y + z)],
                 [exp(x + y + z), exp(x + y + z)]])

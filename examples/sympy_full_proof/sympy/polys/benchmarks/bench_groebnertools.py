@@ -36,29 +36,41 @@ F_1 = F3 + Fg
 F_2 = F3 + Fg + [x3**2 + x3*x4 + x4**2]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(time_vertex_color_12_vertices_23_edges(), time_vertex_color_12_vertices_23_edges produces the expected output) over Any ║
+# ║ Path(time_vertex_color_12_vertices_23_edges(), groebner(F_1, R) != [1]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  groebner(F_1, R) != [1]                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ time_vertex_color_12_vertices_23_edges : Any → {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82ac4753c2413e47  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b557bf4d31c9e31b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_groebnertools.time_vertex_color_12_vertices_23_edges","kind":"function","src_hash":"59ecbd613d2bd5f4","in":{"base":"Any"},"out":{"base":"Any","pred":"groebner(F_1, R) != [1]"},"spec":{"lhs":"time_vertex_color_12_vertices_23_edges()","rhs":"time_vertex_color_12_vertices_23_edges produces the expected output","over":{"base":"Any"},"name":"time_vertex_color_12_vertices_23_edges_correct"},"guarantee":"time_vertex_color_12_vertices_23_edges produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_groebnertools.time_vertex_color_12_vertices_23_edges_correct","statement":"Path(time_vertex_color_12_vertices_23_edges(x), time_vertex_color_12_vertices_23_edges produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82ac4753c2413e47"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_groebnertools.time_vertex_color_12_vertices_23_edges","kind":"function","src_hash":"59ecbd613d2bd5f4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: groebner(F_1, R) != [1]"},"spec":{"lhs":"time_vertex_color_12_vertices_23_edges()","rhs":"groebner(F_1, R) != [1]","over":{"base":"Any"},"name":"time_vertex_color_12_vertices_23_edges_correct"},"guarantee":"groebner(F_1, R) != [1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_groebnertools.time_vertex_color_12_vertices_23_edges_correct","statement":"Path(time_vertex_color_12_vertices_23_edges(x), groebner(F_1, R) != [1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b557bf4d31c9e31b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["groebner(F_1, R) != [1]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def time_vertex_color_12_vertices_23_edges():
     assert groebner(F_1, R) != [1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(time_vertex_color_12_vertices_24_edges(), time_vertex_color_12_vertices_24_edges produces the expected output) over Any ║
+# ║ Path(time_vertex_color_12_vertices_24_edges(), groebner(F_2, R) == [1]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  groebner(F_2, R) == [1]                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ time_vertex_color_12_vertices_24_edges : Any → {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 426ebf2d7f2fcdea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 708002ed6869c265  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_groebnertools.time_vertex_color_12_vertices_24_edges","kind":"function","src_hash":"8c938affda2e874a","in":{"base":"Any"},"out":{"base":"Any","pred":"groebner(F_2, R) == [1]"},"spec":{"lhs":"time_vertex_color_12_vertices_24_edges()","rhs":"time_vertex_color_12_vertices_24_edges produces the expected output","over":{"base":"Any"},"name":"time_vertex_color_12_vertices_24_edges_correct"},"guarantee":"time_vertex_color_12_vertices_24_edges produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_groebnertools.time_vertex_color_12_vertices_24_edges_correct","statement":"Path(time_vertex_color_12_vertices_24_edges(x), time_vertex_color_12_vertices_24_edges produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"426ebf2d7f2fcdea"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_groebnertools.time_vertex_color_12_vertices_24_edges","kind":"function","src_hash":"8c938affda2e874a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: groebner(F_2, R) == [1]"},"spec":{"lhs":"time_vertex_color_12_vertices_24_edges()","rhs":"groebner(F_2, R) == [1]","over":{"base":"Any"},"name":"time_vertex_color_12_vertices_24_edges_correct"},"guarantee":"groebner(F_2, R) == [1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_groebnertools.time_vertex_color_12_vertices_24_edges_correct","statement":"Path(time_vertex_color_12_vertices_24_edges(x), groebner(F_2, R) == [1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"708002ed6869c265","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["groebner(F_2, R) == [1]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def time_vertex_color_12_vertices_24_edges():
     assert groebner(F_2, R) == [1]

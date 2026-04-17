@@ -24,7 +24,12 @@ from math import gcd
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(egyptian_fraction(r, ), return the list of denominators of an egyptian fraction expansion [1]_ of the said rational `r`) over {Any | isinstance(r, Rational) and isinstance(r, (Tuple, tuple))} ║
+# ║ Path(egyptian_fraction(r, algorithm), <unspecified:egyptian_fraction>) over {Any | isinstance(r, Rational) and isinstance(r, (Tuple, tuple)) and not (r <= 0) and hasattr(r, 'as_numer_denom')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (r <= 0)                                   ║
+# ║   requires: hasattr(r, 'as_numer_denom')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ egyptian_fraction : {Any | isinstance(r, Rational) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -37,9 +42,12 @@ from math import gcd
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | bd1ecada...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.egyptian_fraction.egyptian_fraction","kind":"function","src_hash":"03a0f0ddab1afe00","in":{"base":"Any","pred":"isinstance(r, Rational) and isinstance(r, (Tuple, tuple))"},"out":{"base":"Any"},"spec":{"lhs":"egyptian_fraction(r, )","rhs":"return the list of denominators of an egyptian fraction expansion [1]_ of the said rational `r`","over":{"base":"Any","pred":"isinstance(r, Rational) and isinstance(r, (Tuple, tuple))"},"name":"egyptian_fraction_correct"},"guarantee":"return the list of denominators of an egyptian fraction expansion [1]_ of the said rational `r`","fibers":[{"name":"Rational","pred":"isinstance(r, Rational)","path":{"lhs":"egyptian_fraction(x)","rhs":"return the list of denominators of an egyptian fraction expansion [1]_ of the said rational `r`","over":{"base":"Rational","pred":"isinstance(r, Rational)"},"name":"egyptian_fraction_Rational_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.egyptian_fraction.egyptian_fraction_Rational_correct","statement":"egyptian_fraction satisfies spec on Rational inputs"},"trust":"LIBRARY"},{"name":"(Tuple","pred":"isinstance(r, (Tuple, tuple))","path":{"lhs":"egyptian_fraction(x)","rhs":"return the list of denominators of an egyptian fraction expansion [1]_ of the said rational `r`","over":{"base":"(Tuple","pred":"isinstance(r, (Tuple, tuple))"},"name":"egyptian_fraction_(Tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.egyptian_fraction.egyptian_fraction_(Tuple_correct","statement":"egyptian_fraction satisfies spec on (Tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"bd1ecada051a1f3e"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.egyptian_fraction.egyptian_fraction","kind":"function","src_hash":"03a0f0ddab1afe00","in":{"base":"Any","pred":"isinstance(r, Rational) and isinstance(r, (Tuple, tuple)) and not (r <= 0) and hasattr(r, 'as_numer_denom')"},"out":{"base":"Any"},"spec":{"lhs":"egyptian_fraction(r, algorithm)","rhs":"<unspecified:egyptian_fraction>","over":{"base":"Any","pred":"isinstance(r, Rational) and isinstance(r, (Tuple, tuple)) and not (r <= 0) and hasattr(r, 'as_numer_denom')"},"name":"egyptian_fraction_correct"},"guarantee":"return the list of denominators of an egyptian fraction expansion [1]_ of the said rational `r`","fibers":[{"name":"Rational","pred":"isinstance(r, Rational)","path":{"lhs":"egyptian_fraction(x)","rhs":"return the list of denominators of an egyptian fraction expansion [1]_ of the said rational `r`","over":{"base":"Rational","pred":"isinstance(r, Rational)"},"name":"egyptian_fraction_Rational_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.egyptian_fraction.egyptian_fraction_Rational_correct","statement":"egyptian_fraction satisfies spec on Rational inputs"},"trust":"LIBRARY"},{"name":"(Tuple","pred":"isinstance(r, (Tuple, tuple))","path":{"lhs":"egyptian_fraction(x)","rhs":"return the list of denominators of an egyptian fraction expansion [1]_ of the said rational `r`","over":{"base":"(Tuple","pred":"isinstance(r, (Tuple, tuple))"},"name":"egyptian_fraction_(Tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.egyptian_fraction.egyptian_fraction_(Tuple_correct","statement":"egyptian_fraction satisfies spec on (Tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"bd1ecada051a1f3e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (r <= 0)","hasattr(r, 'as_numer_denom')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["r.as_numer_denom"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={\"algorithm == 'Golomb'\", 'x == y + 1', 'rem == 0', 'y == 1 and x == 2', 'r <= 0', \"algorithm == 'Greedy'\", \"algorithm == 'Graham Jewett'\", 'not isinstance(r, Rational)', 'isinstance(r, (Tuple, tuple)) and len(r) == 2', \"algorithm == 'Takenouchi'\"}, fibers={'(Tuple', 'Rational'})"]}}
 def egyptian_fraction(r, algorithm="Greedy"):
     """
     Return the list of denominators of an Egyptian fraction
@@ -174,16 +182,25 @@ def egyptian_fraction(r, algorithm="Greedy"):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(egypt_greedy(x, ), egypt_greedy produces the expected output) over Any ║
+# ║ Path(egypt_greedy(x, y), result == ([y] if x == 1 else [y // x + 1] + egypt_greedy(num, denom)) and result == [y] or result == [y // x + 1] + egypt_greedy(num, denom)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ egypt_greedy : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ([y] if x == 1 else [y // x + 1...   ║
+# ║   ensures:  result == [y] or result == [y // x + 1] +...   ║
+# ║   fiber[case_0]: x == 1 => [y]                             ║
+# ║   fiber[case_1]: not (x == 1) => [y // x + 1] + egypt...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ egypt_greedy : Any → {Any | result satisfies: result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7896d13c9a116548  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 74662ad9e4874a5b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.egyptian_fraction.egypt_greedy","kind":"function","src_hash":"628047f278ab3bbe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"egypt_greedy(x, )","rhs":"egypt_greedy produces the expected output","over":{"base":"Any"},"name":"egypt_greedy_correct"},"guarantee":"egypt_greedy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.egyptian_fraction.egypt_greedy_correct","statement":"Path(egypt_greedy(x), egypt_greedy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7896d13c9a116548"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.egyptian_fraction.egypt_greedy","kind":"function","src_hash":"628047f278ab3bbe","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ([y] if x == 1 else [y // x + 1] + egypt_greedy(num, denom)) and result == [y] or result == [y // x + 1] + egypt_greedy(num, denom)"},"spec":{"lhs":"egypt_greedy(x, y)","rhs":"result == ([y] if x == 1 else [y // x + 1] + egypt_greedy(num, denom)) and result == [y] or result == [y // x + 1] + egypt_greedy(num, denom)","over":{"base":"Any"},"name":"egypt_greedy_correct"},"guarantee":"result == ([y] if x == 1 else [y // x + 1] + egypt_greedy(num, denom)); result == [y] or result == [y // x + 1] + egypt_greedy(num, denom); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.egyptian_fraction.egypt_greedy_correct","statement":"Path(egypt_greedy(x), result == ([y] if x == 1 else [y // x + 1] + egypt_greedy(num, denom)); result == [y] or result == [y // x + 1] + egypt_greedy(num, denom); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"74662ad9e4874a5b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ([y] if x == 1 else [y // x + 1] + egypt_greedy(num, denom))","result == [y] or result == [y // x + 1] + egypt_greedy(num, denom)"],"fibers":[{"name":"case_0","guard":"x == 1","ensures":["result == [y]"],"decidability":"z3","returns_expr":"[y]"},{"name":"case_1","guard":"not (x == 1)","ensures":["result == [y // x + 1] + egypt_greedy(num, denom)"],"decidability":"z3","returns_expr":"[y // x + 1] + egypt_greedy(num, denom)"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def egypt_greedy(x, y):
     # assumes gcd(x, y) == 1
     if x == 1:
@@ -200,16 +217,22 @@ def egypt_greedy(x, y):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(egypt_graham_jewett(x, ), egypt_graham_jewett produces the expected output) over Any ║
+# ║ Path(egypt_graham_jewett(x, y), sorted(l)) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sorted(l)                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ egypt_graham_jewett : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 932f25894598bdd1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b836c750682baae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.egyptian_fraction.egypt_graham_jewett","kind":"function","src_hash":"ccb67e0a62cb246e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"egypt_graham_jewett(x, )","rhs":"egypt_graham_jewett produces the expected output","over":{"base":"Any"},"name":"egypt_graham_jewett_correct"},"guarantee":"egypt_graham_jewett produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.egyptian_fraction.egypt_graham_jewett_correct","statement":"Path(egypt_graham_jewett(x), egypt_graham_jewett produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"932f25894598bdd1"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.egyptian_fraction.egypt_graham_jewett","kind":"function","src_hash":"ccb67e0a62cb246e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"egypt_graham_jewett(x, y)","rhs":"sorted(l)","over":{"base":"Any"},"name":"egypt_graham_jewett_correct"},"guarantee":"returns sorted(l)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.egyptian_fraction.egypt_graham_jewett_correct","statement":"Path(egypt_graham_jewett(x), returns sorted(l))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b836c750682baae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sorted(l)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def egypt_graham_jewett(x, y):
     # assumes gcd(x, y) == 1
     l = [y] * x
@@ -233,16 +256,22 @@ def egypt_graham_jewett(x, y):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(egypt_takenouchi(x, ), egypt_takenouchi produces the expected output) over Any ║
+# ║ Path(egypt_takenouchi(x, y), <unspecified:egypt_takenouchi>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ egypt_takenouchi : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b1a1407f9f6e0b6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.egyptian_fraction.egypt_takenouchi","kind":"function","src_hash":"28488fbd19f1ed08","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"egypt_takenouchi(x, )","rhs":"egypt_takenouchi produces the expected output","over":{"base":"Any"},"name":"egypt_takenouchi_correct"},"guarantee":"egypt_takenouchi produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.egyptian_fraction.egypt_takenouchi_correct","statement":"Path(egypt_takenouchi(x), egypt_takenouchi produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b1a1407f9f6e0b6"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.egyptian_fraction.egypt_takenouchi","kind":"function","src_hash":"28488fbd19f1ed08","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"egypt_takenouchi(x, y)","rhs":"<unspecified:egypt_takenouchi>","over":{"base":"Any"},"name":"egypt_takenouchi_correct"},"guarantee":"egypt_takenouchi produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.egyptian_fraction.egypt_takenouchi_correct","statement":"Path(egypt_takenouchi(x), egypt_takenouchi produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b1a1407f9f6e0b6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def egypt_takenouchi(x, y):
     # assumes gcd(x, y) == 1
     # special cases for 3/y
@@ -269,16 +298,22 @@ def egypt_takenouchi(x, y):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(egypt_golomb(x, ), egypt_golomb produces the expected output) over Any ║
+# ║ Path(egypt_golomb(x, y), # HINT: egypt_golomb may be idempotent: egypt_golomb(egypt_golomb(x)) == egypt_golomb(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ egypt_golomb : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: egypt_golomb may be idempotent: e...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ egypt_golomb : Any → {Any | result satisfies: # HINT:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c2aab2b99c08f51  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc91a2a15a6f7324  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.egyptian_fraction.egypt_golomb","kind":"function","src_hash":"59ed4226ea3f5c9a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"egypt_golomb(x, )","rhs":"egypt_golomb produces the expected output","over":{"base":"Any"},"name":"egypt_golomb_correct"},"guarantee":"egypt_golomb produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.egyptian_fraction.egypt_golomb_correct","statement":"Path(egypt_golomb(x), egypt_golomb produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c2aab2b99c08f51"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.egyptian_fraction.egypt_golomb","kind":"function","src_hash":"59ed4226ea3f5c9a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: egypt_golomb may be idempotent: egypt_golomb(egypt_golomb(x)) == egypt_golomb(x)"},"spec":{"lhs":"egypt_golomb(x, y)","rhs":"# HINT: egypt_golomb may be idempotent: egypt_golomb(egypt_golomb(x)) == egypt_golomb(x)","over":{"base":"Any"},"name":"egypt_golomb_correct"},"guarantee":"# HINT: egypt_golomb may be idempotent: egypt_golomb(egypt_golomb(x)) == egypt_golomb(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.egyptian_fraction.egypt_golomb_correct","statement":"Path(egypt_golomb(x), # HINT: egypt_golomb may be idempotent: egypt_golomb(egypt_golomb(x)) == egypt_golomb(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc91a2a15a6f7324","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: egypt_golomb may be idempotent: egypt_golomb(egypt_golomb(x)) == egypt_golomb(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def egypt_golomb(x, y):
     # assumes x < y and gcd(x, y) == 1
     if x == 1:
@@ -290,16 +325,22 @@ def egypt_golomb(x, y):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(egypt_harmonic(r), egypt_harmonic produces the expected output) over Any ║
+# ║ Path(egypt_harmonic(r), (rv, r - acc)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (rv, r - acc)                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ egypt_harmonic : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 04300eaba2a7c426  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a5f2759c6369a50a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.egyptian_fraction.egypt_harmonic","kind":"function","src_hash":"4d1e0b140355c2d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"egypt_harmonic(r)","rhs":"egypt_harmonic produces the expected output","over":{"base":"Any"},"name":"egypt_harmonic_correct"},"guarantee":"egypt_harmonic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.egyptian_fraction.egypt_harmonic_correct","statement":"Path(egypt_harmonic(x), egypt_harmonic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04300eaba2a7c426"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.egyptian_fraction.egypt_harmonic","kind":"function","src_hash":"4d1e0b140355c2d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"egypt_harmonic(r)","rhs":"(rv, r - acc)","over":{"base":"Any"},"name":"egypt_harmonic_correct"},"guarantee":"returns (rv, r - acc)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.egyptian_fraction.egypt_harmonic_correct","statement":"Path(egypt_harmonic(x), returns (rv, r - acc))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a5f2759c6369a50a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(rv, r - acc)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def egypt_harmonic(r):
     # assumes r is Rational
     rv = []

@@ -24,7 +24,12 @@ from sympy.physics.mechanics.loads import gravity, _parse_load
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_force_default(), test_force_default produces the expected output) over {Any | isinstance(f1, tuple)} ║
+# ║ Path(test_force_default(), f1.point == Po and f1.force == N.x and f1.__repr__() == 'Force(point=Po, force=N.x)' and isinstance(f1, tuple) and f1[0] == Po and f1[1] == N.x and f1 == (Po, N.x) and f1 != (N.x, Po) and f1 != (Po, N.x + N.y) and f1 != (Point('Co'), N.x) and f1 == f2) over {Any | isinstance(f1, tuple)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f1.point == Po                                 ║
+# ║   ensures:  f1.force == N.x                                ║
+# ║   ensures:  f1.__repr__() == 'Force(point=Po, force=N...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_force_default : {Any | isinstance(f1, tuple)} → ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -36,9 +41,12 @@ from sympy.physics.mechanics.loads import gravity, _parse_load
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 94f28f17...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_loads.test_force_default","kind":"function","src_hash":"223b62791fed403d","in":{"base":"Any","pred":"isinstance(f1, tuple)"},"out":{"base":"Any","pred":"f1.point == Po and f1.force == N.x and f1.__repr__() == 'Force(point=Po, force=N.x)' and isinstance(f1, tuple) and f1[0] == Po and f1[1] == N.x and f1 == (Po, N.x) and f1 != (N.x, Po) and f1 != (Po, N.x + N.y) and f1 != (Point('Co'), N.x) and f1 == f2"},"spec":{"lhs":"test_force_default()","rhs":"test_force_default produces the expected output","over":{"base":"Any","pred":"isinstance(f1, tuple)"},"name":"test_force_default_correct"},"guarantee":"test_force_default produces the expected output","fibers":[{"name":"tuple","pred":"isinstance(f1, tuple)","path":{"lhs":"test_force_default(x)","rhs":"test_force_default produces the expected output","over":{"base":"tuple","pred":"isinstance(f1, tuple)"},"name":"test_force_default_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_loads.test_force_default_tuple_correct","statement":"test_force_default satisfies spec on tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"94f28f17f787769d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_loads.test_force_default","kind":"function","src_hash":"223b62791fed403d","in":{"base":"Any","pred":"isinstance(f1, tuple)"},"out":{"base":"Any","pred":"result satisfies: f1.point == Po and f1.force == N.x and f1.__repr__() == 'Force(point=Po, force=N.x)' and isinstance(f1, tuple) and f1[0] == Po and f1[1] == N.x and f1 == (Po, N.x) and f1 != (N.x, Po) and f1 != (Po, N.x + N.y) and f1 != (Point('Co'), N.x) and f1 == f2"},"spec":{"lhs":"test_force_default()","rhs":"f1.point == Po and f1.force == N.x and f1.__repr__() == 'Force(point=Po, force=N.x)' and isinstance(f1, tuple) and f1[0] == Po and f1[1] == N.x and f1 == (Po, N.x) and f1 != (N.x, Po) and f1 != (Po, N.x + N.y) and f1 != (Point('Co'), N.x) and f1 == f2","over":{"base":"Any","pred":"isinstance(f1, tuple)"},"name":"test_force_default_correct"},"guarantee":"f1.point == Po; f1.force == N.x; f1.__repr__() == 'Force(point=Po, force=N.x)'","fibers":[{"name":"tuple","pred":"isinstance(f1, tuple)","path":{"lhs":"test_force_default(x)","rhs":"f1.point == Po; f1.force == N.x; f1.__repr__() == 'Force(point=Po, force=N.x)'","over":{"base":"tuple","pred":"isinstance(f1, tuple)"},"name":"test_force_default_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_loads.test_force_default_tuple_correct","statement":"test_force_default satisfies spec on tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"94f28f17f787769d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f1.point == Po","f1.force == N.x","f1.__repr__() == 'Force(point=Po, force=N.x)'","isinstance(f1, tuple)","f1[0] == Po","f1[1] == N.x","f1 == (Po, N.x)","f1 != (N.x, Po)","f1 != (Po, N.x + N.y)","f1 != (Point('Co'), N.x)","f1 == f2"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":true}}
 def test_force_default():
     N = ReferenceFrame('N')
     Po = Point('Po')
@@ -61,7 +69,12 @@ def test_force_default():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_torque_default(), test_torque_default produces the expected output) over {Any | isinstance(f1, tuple)} ║
+# ║ Path(test_torque_default(), f1.frame == N and f1.torque == N.x and f1.__repr__() == 'Torque(frame=N, torque=N.x)' and isinstance(f1, tuple) and f1[0] == N and f1[1] == N.x and f1 == (N, N.x) and f1 != (N.x, N) and f1 != (N, N.x + N.y) and f1 != (ReferenceFrame('A'), N.x) and f1 == f2) over {Any | isinstance(f1, tuple)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f1.frame == N                                  ║
+# ║   ensures:  f1.torque == N.x                               ║
+# ║   ensures:  f1.__repr__() == 'Torque(frame=N, torque=...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_torque_default : {Any | isinstance(f1, tuple)} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -73,9 +86,12 @@ def test_force_default():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | a014b1bb...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_loads.test_torque_default","kind":"function","src_hash":"2773b0133649a085","in":{"base":"Any","pred":"isinstance(f1, tuple)"},"out":{"base":"Any","pred":"f1.frame == N and f1.torque == N.x and f1.__repr__() == 'Torque(frame=N, torque=N.x)' and isinstance(f1, tuple) and f1[0] == N and f1[1] == N.x and f1 == (N, N.x) and f1 != (N.x, N) and f1 != (N, N.x + N.y) and f1 != (ReferenceFrame('A'), N.x) and f1 == f2"},"spec":{"lhs":"test_torque_default()","rhs":"test_torque_default produces the expected output","over":{"base":"Any","pred":"isinstance(f1, tuple)"},"name":"test_torque_default_correct"},"guarantee":"test_torque_default produces the expected output","fibers":[{"name":"tuple","pred":"isinstance(f1, tuple)","path":{"lhs":"test_torque_default(x)","rhs":"test_torque_default produces the expected output","over":{"base":"tuple","pred":"isinstance(f1, tuple)"},"name":"test_torque_default_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_loads.test_torque_default_tuple_correct","statement":"test_torque_default satisfies spec on tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a014b1bb4f914fec"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_loads.test_torque_default","kind":"function","src_hash":"2773b0133649a085","in":{"base":"Any","pred":"isinstance(f1, tuple)"},"out":{"base":"Any","pred":"result satisfies: f1.frame == N and f1.torque == N.x and f1.__repr__() == 'Torque(frame=N, torque=N.x)' and isinstance(f1, tuple) and f1[0] == N and f1[1] == N.x and f1 == (N, N.x) and f1 != (N.x, N) and f1 != (N, N.x + N.y) and f1 != (ReferenceFrame('A'), N.x) and f1 == f2"},"spec":{"lhs":"test_torque_default()","rhs":"f1.frame == N and f1.torque == N.x and f1.__repr__() == 'Torque(frame=N, torque=N.x)' and isinstance(f1, tuple) and f1[0] == N and f1[1] == N.x and f1 == (N, N.x) and f1 != (N.x, N) and f1 != (N, N.x + N.y) and f1 != (ReferenceFrame('A'), N.x) and f1 == f2","over":{"base":"Any","pred":"isinstance(f1, tuple)"},"name":"test_torque_default_correct"},"guarantee":"f1.frame == N; f1.torque == N.x; f1.__repr__() == 'Torque(frame=N, torque=N.x)'","fibers":[{"name":"tuple","pred":"isinstance(f1, tuple)","path":{"lhs":"test_torque_default(x)","rhs":"f1.frame == N; f1.torque == N.x; f1.__repr__() == 'Torque(frame=N, torque=N.x)'","over":{"base":"tuple","pred":"isinstance(f1, tuple)"},"name":"test_torque_default_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_loads.test_torque_default_tuple_correct","statement":"test_torque_default satisfies spec on tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a014b1bb4f914fec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f1.frame == N","f1.torque == N.x","f1.__repr__() == 'Torque(frame=N, torque=N.x)'","isinstance(f1, tuple)","f1[0] == N","f1[1] == N.x","f1 == (N, N.x)","f1 != (N.x, N)","f1 != (N, N.x + N.y)","f1 != (ReferenceFrame('A'), N.x)","f1 == f2"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":true}}
 def test_torque_default():
     N = ReferenceFrame('N')
     f1 = Torque(N, N.x)
@@ -97,16 +113,22 @@ def test_torque_default():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gravity(), test_gravity produces the expected output) over Any ║
+# ║ Path(test_gravity(), <unspecified:test_gravity>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_gravity : Any → {Any | forceList[i][j] == l[i][j]}    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee837d1003d1e219  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_loads.test_gravity","kind":"function","src_hash":"bfb0e68aa3af29e9","in":{"base":"Any"},"out":{"base":"Any","pred":"forceList[i][j] == l[i][j]"},"spec":{"lhs":"test_gravity()","rhs":"test_gravity produces the expected output","over":{"base":"Any"},"name":"test_gravity_correct"},"guarantee":"test_gravity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_loads.test_gravity_correct","statement":"Path(test_gravity(x), test_gravity produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee837d1003d1e219"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_loads.test_gravity","kind":"function","src_hash":"bfb0e68aa3af29e9","in":{"base":"Any"},"out":{"base":"Any","pred":"forceList[i][j] == l[i][j]"},"spec":{"lhs":"test_gravity()","rhs":"<unspecified:test_gravity>","over":{"base":"Any"},"name":"test_gravity_correct"},"guarantee":"test_gravity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_loads.test_gravity_correct","statement":"Path(test_gravity(x), test_gravity produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee837d1003d1e219","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_gravity():
     N = ReferenceFrame('N')
     m, M, g = symbols('m M g')
@@ -127,7 +149,12 @@ def test_gravity():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_parse_loads(), test_parse_loads produces the expected output) over {Any | isinstance(f1, Force) and isinstance(t1, Torque)} ║
+# ║ Path(test_parse_loads(), _parse_load(Force(po, N.z)) == (po, N.z) and _parse_load(Torque(N, N.x)) == (N, N.x) and isinstance(f1, Force) and f1 == Force(po, N.x) and isinstance(t1, Torque) and t1 == Torque(N, N.y)) over {Any | isinstance(f1, Force) and isinstance(t1, Torque)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _parse_load(Force(po, N.z)) == (po, N.z)       ║
+# ║   ensures:  _parse_load(Torque(N, N.x)) == (N, N.x)        ║
+# ║   ensures:  isinstance(f1, Force)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_parse_loads : {Any | isinstance(f1, Force) and i...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -140,9 +167,12 @@ def test_gravity():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 4.2ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 513df640...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_loads.test_parse_loads","kind":"function","src_hash":"790f393962ca1009","in":{"base":"Any","pred":"isinstance(f1, Force) and isinstance(t1, Torque)"},"out":{"base":"Any","pred":"_parse_load(Force(po, N.z)) == (po, N.z) and _parse_load(Torque(N, N.x)) == (N, N.x) and isinstance(f1, Force) and f1 == Force(po, N.x) and isinstance(t1, Torque) and t1 == Torque(N, N.y)"},"spec":{"lhs":"test_parse_loads()","rhs":"test_parse_loads produces the expected output","over":{"base":"Any","pred":"isinstance(f1, Force) and isinstance(t1, Torque)"},"name":"test_parse_loads_correct"},"guarantee":"test_parse_loads produces the expected output","fibers":[{"name":"Force","pred":"isinstance(f1, Force)","path":{"lhs":"test_parse_loads(x)","rhs":"test_parse_loads produces the expected output","over":{"base":"Force","pred":"isinstance(f1, Force)"},"name":"test_parse_loads_Force_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_loads.test_parse_loads_Force_correct","statement":"test_parse_loads satisfies spec on Force inputs"},"trust":"LIBRARY"},{"name":"Torque","pred":"isinstance(t1, Torque)","path":{"lhs":"test_parse_loads(x)","rhs":"test_parse_loads produces the expected output","over":{"base":"Torque","pred":"isinstance(t1, Torque)"},"name":"test_parse_loads_Torque_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_loads.test_parse_loads_Torque_correct","statement":"test_parse_loads satisfies spec on Torque inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"513df6408d0794b9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_loads.test_parse_loads","kind":"function","src_hash":"790f393962ca1009","in":{"base":"Any","pred":"isinstance(f1, Force) and isinstance(t1, Torque)"},"out":{"base":"Any","pred":"result satisfies: _parse_load(Force(po, N.z)) == (po, N.z) and _parse_load(Torque(N, N.x)) == (N, N.x) and isinstance(f1, Force) and f1 == Force(po, N.x) and isinstance(t1, Torque) and t1 == Torque(N, N.y)"},"spec":{"lhs":"test_parse_loads()","rhs":"_parse_load(Force(po, N.z)) == (po, N.z) and _parse_load(Torque(N, N.x)) == (N, N.x) and isinstance(f1, Force) and f1 == Force(po, N.x) and isinstance(t1, Torque) and t1 == Torque(N, N.y)","over":{"base":"Any","pred":"isinstance(f1, Force) and isinstance(t1, Torque)"},"name":"test_parse_loads_correct"},"guarantee":"_parse_load(Force(po, N.z)) == (po, N.z); _parse_load(Torque(N, N.x)) == (N, N.x); isinstance(f1, Force)","fibers":[{"name":"Force","pred":"isinstance(f1, Force)","path":{"lhs":"test_parse_loads(x)","rhs":"_parse_load(Force(po, N.z)) == (po, N.z); _parse_load(Torque(N, N.x)) == (N, N.x); isinstance(f1, Force)","over":{"base":"Force","pred":"isinstance(f1, Force)"},"name":"test_parse_loads_Force_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_loads.test_parse_loads_Force_correct","statement":"test_parse_loads satisfies spec on Force inputs"},"trust":"LIBRARY"},{"name":"Torque","pred":"isinstance(t1, Torque)","path":{"lhs":"test_parse_loads(x)","rhs":"_parse_load(Force(po, N.z)) == (po, N.z); _parse_load(Torque(N, N.x)) == (N, N.x); isinstance(f1, Force)","over":{"base":"Torque","pred":"isinstance(t1, Torque)"},"name":"test_parse_loads_Torque_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_loads.test_parse_loads_Torque_correct","statement":"test_parse_loads satisfies spec on Torque inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"513df6408d0794b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_parse_load(Force(po, N.z)) == (po, N.z)","_parse_load(Torque(N, N.x)) == (N, N.x)","isinstance(f1, Force)","f1 == Force(po, N.x)","isinstance(t1, Torque)","t1 == Torque(N, N.y)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.2,"verdict_class":"failed","binding":true}}
 def test_parse_loads():
     N = ReferenceFrame('N')
     po = Point('po')

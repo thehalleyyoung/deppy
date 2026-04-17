@@ -20,16 +20,24 @@ from sympy.physics.mechanics import (dynamicsymbols, ReferenceFrame, Point,
                                         KanesMethod, Particle)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_replace_qdots_in_force(), test_replace_qdots_in_force produces the expected output) over Any ║
+# ║ Path(test_replace_qdots_in_force(), KM2.mass_matrix.expand() == mass_matrix_expected.expand() and KM2.forcing.expand() == forcing_matrix_expected.expand() and fr1.expand() == fr1_expected.expand() and fr2.expand() == fr2_expected.expand() and fr1.expand() == fr1_cubic_expected.expand() and fr2.expand() == fr2_cubic_expected.expand()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_replace_qdots_in_force : Any → {Any | KM2.mass_m...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  KM2.mass_matrix.expand() == mass_matrix_e...   ║
+# ║   ensures:  KM2.forcing.expand() == forcing_matrix_ex...   ║
+# ║   ensures:  fr1.expand() == fr1_expected.expand()          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_replace_qdots_in_force : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7bc517375b4f520d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 11275f045ad7452a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane4.test_replace_qdots_in_force","kind":"function","src_hash":"64b2039223191246","in":{"base":"Any"},"out":{"base":"Any","pred":"KM2.mass_matrix.expand() == mass_matrix_expected.expand() and KM2.forcing.expand() == forcing_matrix_expected.expand() and fr1.expand() == fr1_expected.expand() and fr2.expand() == fr2_expected.expand() and fr1.expand() == fr1_expected.expand() and fr2.expand() == fr2_expected.expand() and fr1.expand() == fr1_cubic_expected.expand() and fr2.expand() == fr2_cubic_expected.expand()"},"spec":{"lhs":"test_replace_qdots_in_force()","rhs":"test_replace_qdots_in_force produces the expected output","over":{"base":"Any"},"name":"test_replace_qdots_in_force_correct"},"guarantee":"test_replace_qdots_in_force produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane4.test_replace_qdots_in_force_correct","statement":"Path(test_replace_qdots_in_force(x), test_replace_qdots_in_force produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7bc517375b4f520d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane4.test_replace_qdots_in_force","kind":"function","src_hash":"64b2039223191246","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: KM2.mass_matrix.expand() == mass_matrix_expected.expand() and KM2.forcing.expand() == forcing_matrix_expected.expand() and fr1.expand() == fr1_expected.expand() and fr2.expand() == fr2_expected.expand() and fr1.expand() == fr1_cubic_expected.expand() and fr2.expand() == fr2_cubic_expected.expand()"},"spec":{"lhs":"test_replace_qdots_in_force()","rhs":"KM2.mass_matrix.expand() == mass_matrix_expected.expand() and KM2.forcing.expand() == forcing_matrix_expected.expand() and fr1.expand() == fr1_expected.expand() and fr2.expand() == fr2_expected.expand() and fr1.expand() == fr1_cubic_expected.expand() and fr2.expand() == fr2_cubic_expected.expand()","over":{"base":"Any"},"name":"test_replace_qdots_in_force_correct"},"guarantee":"KM2.mass_matrix.expand() == mass_matrix_expected.expand(); KM2.forcing.expand() == forcing_matrix_expected.expand(); fr1.expand() == fr1_expected.expand()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane4.test_replace_qdots_in_force_correct","statement":"Path(test_replace_qdots_in_force(x), KM2.mass_matrix.expand() == mass_matrix_expected.expand(); KM2.forcing.expand() == forcing_matrix_expected.expand(); fr1.expand() == fr1_expected.expand())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11275f045ad7452a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["KM2.mass_matrix.expand() == mass_matrix_expected.expand()","KM2.forcing.expand() == forcing_matrix_expected.expand()","fr1.expand() == fr1_expected.expand()","fr2.expand() == fr2_expected.expand()","fr1.expand() == fr1_cubic_expected.expand()","fr2.expand() == fr2_cubic_expected.expand()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":true}}
 def test_replace_qdots_in_force():
     # Test PR 16700 "Replaces qdots with us in force-list in kanes.py"
     # The new functionality allows one to specify forces in qdots which will

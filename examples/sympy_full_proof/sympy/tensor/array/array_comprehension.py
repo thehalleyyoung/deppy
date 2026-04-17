@@ -27,14 +27,20 @@ from sympy.core.numbers import Integer
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a ArrayComprehension instance) preserved by ArrayComprehension(*args) over {Any | isinstance(sup, list) and isinstance(i, Expr)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ ArrayComprehension : {Any | isinstance(sup, list) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 61360b22e65c90d6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehension","kind":"class","src_hash":"3ecf2f41eb55bdf4","in":{"base":"Any","pred":"isinstance(sup, list) and isinstance(i, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"ArrayComprehension(*args)","rhs":"correctly constructs a ArrayComprehension instance","over":{"base":"Any","pred":"isinstance(sup, list) and isinstance(i, Expr)"},"name":"ArrayComprehension_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a ArrayComprehension instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_shape_numeric","pred":"self.is_shape_numeric","kind":"class"}],"methods_preserving":["function","limits","free_symbols","variables","bound_symbols","shape","is_shape_numeric","rank","__len__","doit","_expand_array","_get_element","tolist","tomatrix"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61360b22e65c90d6"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehension","kind":"class","src_hash":"3ecf2f41eb55bdf4","in":{"base":"Any","pred":"isinstance(sup, list) and isinstance(i, Expr)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic)"},"spec":{"lhs":"ArrayComprehension(*args)","rhs":"correctly constructs a ArrayComprehension instance","over":{"base":"Any","pred":"isinstance(sup, list) and isinstance(i, Expr)"},"name":"ArrayComprehension_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Basic)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_shape_numeric","pred":"self.is_shape_numeric","kind":"class"}],"methods_preserving":["function","limits","free_symbols","variables","bound_symbols","shape","is_shape_numeric","rank","__len__","doit","_expand_array","_get_element","tolist","tomatrix"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61360b22e65c90d6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function ArrayComprehension not found in source"]}}
 class ArrayComprehension(Basic):
     """
     Generate a list comprehension.
@@ -62,16 +68,23 @@ class ArrayComprehension(Basic):
     ArrayComprehension(10*i + j, (i, 1, 4), (j, 1, k))
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, function, *symbols), <unspecified:__new__>) over {Any | not (any((len(l) != 3 or None for l in symbols)))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (any((len(l) != 3 or None for l in sy...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | not (any((len(l) != 3 or None for l ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | caff7fd588ac2fa3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehension.__new__","kind":"method","src_hash":"b8552a27f558008a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"caff7fd588ac2fa3"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehension.__new__","kind":"method","src_hash":"b8552a27f558008a","in":{"base":"Any","pred":"not (any((len(l) != 3 or None for l in symbols)))"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, function, *symbols)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"not (any((len(l) != 3 or None for l in symbols)))"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"caff7fd588ac2fa3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (any((len(l) != 3 or None for l in symbols)))"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._calculate_loop_size","cls._calculate_shape_from_limits","cls._check_limits_validity"],"calls_mutating":["arglist.extend"],"raises":["ValueError"]},"state_contract":{"modifies":["arglist.*"],"old_bindings":{"old_len_arglist":"len(arglist)"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, function, *symbols, **assumptions):
         if any(len(l) != 3 or None for l in symbols):
             raise ValueError('ArrayComprehension requires values lower and upper bound'
@@ -87,16 +100,22 @@ class ArrayComprehension(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(function(), returns the function attribute) over Any  ║
+# ║ Path(function(), self._args[0]) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._args[0]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ function : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fbc9f7e799bb895b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehension.function","kind":"property","src_hash":"975d1f184204a921","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"function()","rhs":"returns the function attribute","over":{"base":"Any"},"name":"function_correct"},"guarantee":"returns the function attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fbc9f7e799bb895b"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehension.function","kind":"property","src_hash":"975d1f184204a921","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"function()","rhs":"self._args[0]","over":{"base":"Any"},"name":"function_correct"},"guarantee":"returns self._args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fbc9f7e799bb895b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def function(self):
         """The function applied across limits.
 
@@ -114,16 +133,22 @@ class ArrayComprehension(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(limits(), returns the limits attribute) over Any      ║
+# ║ Path(limits(), self._limits) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._limits                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ limits : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5bea70d5f289bd32           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehension.limits","kind":"property","src_hash":"03a28da74b49830a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"limits()","rhs":"returns the limits attribute","over":{"base":"Any"},"name":"limits_correct"},"guarantee":"returns the limits attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5bea70d5f289bd32"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehension.limits","kind":"property","src_hash":"03a28da74b49830a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"limits()","rhs":"self._limits","over":{"base":"Any"},"name":"limits_correct"},"guarantee":"returns self._limits","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5bea70d5f289bd32","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._limits","pure":false,"effects":{"effect_type":"reads_state","reads":["self._limits"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def limits(self):
         """
         The list of limits that will be applied while expanding the array.
@@ -142,16 +167,22 @@ class ArrayComprehension(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(free_symbols(), returns the free_symbols attribute) over Any ║
+# ║ Path(free_symbols(), <unspecified:free_symbols>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ free_symbols : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8138c309ce7d6d6c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehension.free_symbols","kind":"property","src_hash":"0591f0444e1b0741","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"returns the free_symbols attribute","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns the free_symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8138c309ce7d6d6c"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehension.free_symbols","kind":"property","src_hash":"0591f0444e1b0741","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"<unspecified:free_symbols>","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns the free_symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8138c309ce7d6d6c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def free_symbols(self):
         """
         The set of the free_symbols in the array.
@@ -180,16 +211,22 @@ class ArrayComprehension(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(variables(), returns the variables attribute) over Any ║
+# ║ Path(variables(), [l[0] for l in self._limits]) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [l[0] for l in self._limits]                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ variables : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bfdc80c236a26701           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehension.variables","kind":"property","src_hash":"2fae90f959948833","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"variables()","rhs":"returns the variables attribute","over":{"base":"Any"},"name":"variables_correct"},"guarantee":"returns the variables attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bfdc80c236a26701"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehension.variables","kind":"property","src_hash":"2fae90f959948833","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"variables()","rhs":"[l[0] for l in self._limits]","over":{"base":"Any"},"name":"variables_correct"},"guarantee":"returns [l[0] for l in self._limits]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bfdc80c236a26701","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[l[0] for l in self._limits]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._limits"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def variables(self):
         """The tuples of the variables in the limits.
 
@@ -207,16 +244,22 @@ class ArrayComprehension(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bound_symbols(), returns the bound_symbols attribute) over Any ║
+# ║ Path(bound_symbols(), [l[0] for l in self._limits if len(l) != 1]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [l[0] for l in self._limits if len(l) != 1]    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bound_symbols : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 04ed884b9c8be6f6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehension.bound_symbols","kind":"property","src_hash":"a11aa09f0cec01da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bound_symbols()","rhs":"returns the bound_symbols attribute","over":{"base":"Any"},"name":"bound_symbols_correct"},"guarantee":"returns the bound_symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"04ed884b9c8be6f6"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehension.bound_symbols","kind":"property","src_hash":"a11aa09f0cec01da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bound_symbols()","rhs":"[l[0] for l in self._limits if len(l) != 1]","over":{"base":"Any"},"name":"bound_symbols_correct"},"guarantee":"returns [l[0] for l in self._limits if len(l) != 1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"04ed884b9c8be6f6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[l[0] for l in self._limits if len(l) != 1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._limits"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def bound_symbols(self):
         """The list of dummy variables.
 
@@ -230,16 +273,22 @@ class ArrayComprehension(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shape(), returns the shape attribute) over Any        ║
+# ║ Path(shape(), self._shape) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._shape                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ shape : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 43855fbee6429608           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehension.shape","kind":"property","src_hash":"019fd4c701307e2f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"returns the shape attribute","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns the shape attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"43855fbee6429608"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehension.shape","kind":"property","src_hash":"019fd4c701307e2f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"self._shape","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns self._shape","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"43855fbee6429608","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._shape","pure":false,"effects":{"effect_type":"reads_state","reads":["self._shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shape(self):
         """
         The shape of the expanded array, which may have symbols.
@@ -267,16 +316,22 @@ class ArrayComprehension(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_shape_numeric(), returns the is_shape_numeric attribute) over Any ║
+# ║ Path(is_shape_numeric(), <unspecified:is_shape_numeric>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_shape_numeric : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2dbf197f1d18982e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehension.is_shape_numeric","kind":"property","src_hash":"e87b57329c0882ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_shape_numeric()","rhs":"returns the is_shape_numeric attribute","over":{"base":"Any"},"name":"is_shape_numeric_correct"},"guarantee":"returns the is_shape_numeric attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2dbf197f1d18982e"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehension.is_shape_numeric","kind":"property","src_hash":"e87b57329c0882ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_shape_numeric()","rhs":"<unspecified:is_shape_numeric>","over":{"base":"Any"},"name":"is_shape_numeric_correct"},"guarantee":"returns the is_shape_numeric attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2dbf197f1d18982e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._limits"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_shape_numeric(self):
         """
         Test if the array is shape-numeric which means there is no symbolic
@@ -301,16 +356,22 @@ class ArrayComprehension(Basic):
         return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rank(), the rank of the expanded array) over Any      ║
+# ║ Path(rank(), self._rank) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._rank                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rank : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0ec072a89ec87173           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehension.rank","kind":"method","src_hash":"0c27b6296657e02a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rank()","rhs":"the rank of the expanded array","over":{"base":"Any"},"name":"rank_correct"},"guarantee":"the rank of the expanded array","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0ec072a89ec87173"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehension.rank","kind":"method","src_hash":"0c27b6296657e02a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rank()","rhs":"self._rank","over":{"base":"Any"},"name":"rank_correct"},"guarantee":"returns self._rank","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0ec072a89ec87173","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._rank","pure":false,"effects":{"effect_type":"reads_state","reads":["self._rank"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rank(self):
         """The rank of the expanded array.
 
@@ -327,16 +388,23 @@ class ArrayComprehension(Basic):
         return self._rank
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__len__(), returns the number of elements) over Any   ║
+# ║ Path(__len__(), self._loop_size) over {Any | not (self._loop_size.free_symbols)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __len__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (self._loop_size.free_symbols)             ║
+# ║   returns:  self._loop_size                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __len__ : {Any | not (self._loop_size.free_symbols)} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2edcad268187fee1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehension.__len__","kind":"method","src_hash":"c61a6f761065367d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"returns the number of elements","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns the number of elements","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2edcad268187fee1"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehension.__len__","kind":"method","src_hash":"c61a6f761065367d","in":{"base":"Any","pred":"not (self._loop_size.free_symbols)"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"self._loop_size","over":{"base":"Any","pred":"not (self._loop_size.free_symbols)"},"name":"__len___correct"},"guarantee":"returns self._loop_size","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2edcad268187fee1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (self._loop_size.free_symbols)"],"returns_expr":"self._loop_size","pure":false,"effects":{"effect_type":"reads_state","reads":["self._loop_size"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __len__(self):
         """
         The length of the expanded array which means the number
@@ -363,16 +431,22 @@ class ArrayComprehension(Basic):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_limits_validity(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_check_limits_validity(cls, function, limits), len(new_limits) == old_len_new_limits + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_limits_validity : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(new_limits) == old_len_new_limits + 1      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_limits_validity : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ee27fa6594a9b02  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 87bee96410015e75  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehension._check_limits_validity","kind":"classmethod","src_hash":"c92e1ec8b6b259dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_limits_validity(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_check_limits_validity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.array_comprehension.ArrayComprehension._check_limits_validity_correct","statement":"Path(_check_limits_validity(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ee27fa6594a9b02"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehension._check_limits_validity","kind":"classmethod","src_hash":"c92e1ec8b6b259dd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(new_limits) == old_len_new_limits + 1"},"spec":{"lhs":"_check_limits_validity(cls, function, limits)","rhs":"len(new_limits) == old_len_new_limits + 1","over":{"base":"Any"},"name":"_check_limits_validity_correct"},"guarantee":"len(new_limits) == old_len_new_limits + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.array_comprehension.ArrayComprehension._check_limits_validity_correct","statement":"Path(_check_limits_validity(x), len(new_limits) == old_len_new_limits + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87bee96410015e75","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(new_limits) == old_len_new_limits + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["new_limits.append"],"raises":["TypeError","ValueError"]},"state_contract":{"modifies":["new_limits.*"],"old_bindings":{"old_len_new_limits":"len(new_limits)"},"post_ensures":["len(new_limits) == old_len_new_limits + 1"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _check_limits_validity(cls, function, limits):
         #limits = sympify(limits)
         new_limits = []
@@ -397,31 +471,43 @@ class ArrayComprehension(Basic):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_calculate_shape_from_limits(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_calculate_shape_from_limits(cls, limits), tuple([sup - inf + 1 for _, inf, sup in limits])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple([sup - inf + 1 for _, inf, sup in l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _calculate_shape_from_limits : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c655ca3980b15df1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehension._calculate_shape_from_limits","kind":"classmethod","src_hash":"ad3013866a2eb36f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_calculate_shape_from_limits(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_calculate_shape_from_limits_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c655ca3980b15df1"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehension._calculate_shape_from_limits","kind":"classmethod","src_hash":"ad3013866a2eb36f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_calculate_shape_from_limits(cls, limits)","rhs":"tuple([sup - inf + 1 for _, inf, sup in limits])","over":{"base":"Any"},"name":"_calculate_shape_from_limits_correct"},"guarantee":"returns tuple([sup - inf + 1 for _, inf, sup in limits])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c655ca3980b15df1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple([sup - inf + 1 for _, inf, sup in limits])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _calculate_shape_from_limits(cls, limits):
         return tuple([sup - inf + 1 for _, inf, sup in limits])
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_calculate_loop_size(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_calculate_loop_size(cls, shape), <unspecified:_calculate_loop_size>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _calculate_loop_size : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95cf38b1028b338e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehension._calculate_loop_size","kind":"classmethod","src_hash":"96e1e02f1232ce1c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_calculate_loop_size(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_calculate_loop_size_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.array_comprehension.ArrayComprehension._calculate_loop_size_correct","statement":"Path(_calculate_loop_size(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95cf38b1028b338e"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehension._calculate_loop_size","kind":"classmethod","src_hash":"96e1e02f1232ce1c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_calculate_loop_size(cls, shape)","rhs":"<unspecified:_calculate_loop_size>","over":{"base":"Any"},"name":"_calculate_loop_size_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.array_comprehension.ArrayComprehension._calculate_loop_size_correct","statement":"Path(_calculate_loop_size(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95cf38b1028b338e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _calculate_loop_size(cls, shape):
         if not shape:
             return 0
@@ -432,16 +518,22 @@ class ArrayComprehension(Basic):
         return loop_size
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), doit produces the expected output) over Any ║
+# ║ Path(doit(**hints), <unspecified:doit>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c344f3dccea507b6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehension.doit","kind":"method","src_hash":"2736dc2d5c2e6a7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"doit produces the expected output","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.array_comprehension.ArrayComprehension.doit_correct","statement":"Path(doit(x), doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c344f3dccea507b6"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehension.doit","kind":"method","src_hash":"2736dc2d5c2e6a7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**hints)","rhs":"<unspecified:doit>","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.array_comprehension.ArrayComprehension.doit_correct","statement":"Path(doit(x), doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c344f3dccea507b6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._expand_array","self.is_shape_numeric"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         if not self.is_shape_numeric:
             return self
@@ -449,16 +541,22 @@ class ArrayComprehension(Basic):
         return self._expand_array()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_expand_array(), internal helper behaves correctly) over Any ║
+# ║ Path(_expand_array(), ImmutableDenseNDimArray(res, self.shape)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ImmutableDenseNDimArray(res, self.shape)       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _expand_array : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 203c81973d8c190c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dcb00f71c4b1228f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehension._expand_array","kind":"method","src_hash":"0b83741a86abd895","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_expand_array()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_expand_array_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.array_comprehension.ArrayComprehension._expand_array_correct","statement":"Path(_expand_array(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"203c81973d8c190c"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehension._expand_array","kind":"method","src_hash":"0b83741a86abd895","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_expand_array()","rhs":"ImmutableDenseNDimArray(res, self.shape)","over":{"base":"Any"},"name":"_expand_array_correct"},"guarantee":"returns ImmutableDenseNDimArray(res, self.shape)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.array_comprehension.ArrayComprehension._expand_array_correct","statement":"Path(_expand_array(x), returns ImmutableDenseNDimArray(res, self.shape))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dcb00f71c4b1228f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ImmutableDenseNDimArray(res, self.shape)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _expand_array(self):
         res = []
         for values in itertools.product(*[range(inf, sup+1)
@@ -469,16 +567,22 @@ class ArrayComprehension(Basic):
         return ImmutableDenseNDimArray(res, self.shape)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_element(val), internal helper behaves correctly) over Any ║
+# ║ Path(_get_element(values), <unspecified:_get_element>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_element : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 73ae81544693914b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehension._get_element","kind":"method","src_hash":"46700f206257e953","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_element(val)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_element_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.array_comprehension.ArrayComprehension._get_element_correct","statement":"Path(_get_element(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73ae81544693914b"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehension._get_element","kind":"method","src_hash":"46700f206257e953","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_element(values)","rhs":"<unspecified:_get_element>","over":{"base":"Any"},"name":"_get_element_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.array_comprehension.ArrayComprehension._get_element_correct","statement":"Path(_get_element(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73ae81544693914b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.function","self.variables"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_element(self, values):
         temp = self.function
         for var, val in zip(self.variables, values):
@@ -488,14 +592,20 @@ class ArrayComprehension(Basic):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(tolist(), id) over Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._expand_array().tolist()                  ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ tolist : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 48e37a0269a658b7   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehension.tolist","kind":"method","src_hash":"faa401dd45329e7f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tolist()","rhs":"transform the expanded array to a list","over":{"base":"Any"},"name":"tolist_correct","kind":"composition"},"guarantee":"transform the expanded array to a list","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_expand_array","by":"library_axiom"},{"fn":"tolist","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"48e37a0269a658b7"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehension.tolist","kind":"method","src_hash":"faa401dd45329e7f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tolist()","rhs":"self._expand_array().tolist()","over":{"base":"Any"},"name":"tolist_correct","kind":"composition"},"guarantee":"returns self._expand_array().tolist()","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_expand_array","by":"library_axiom"},{"fn":"tolist","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"48e37a0269a658b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._expand_array().tolist()","pure":false,"effects":{"effect_type":"reads_state","reads":["self._expand_array","self.is_shape_numeric"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def tolist(self):
         """Transform the expanded array to a list.
 
@@ -520,16 +630,24 @@ class ArrayComprehension(Basic):
         raise ValueError("A symbolic array cannot be expanded to a list")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tomatrix(), id) over Any                              ║
+# ║ Path(tomatrix(), id) over {Any | self.is_shape_numeric and not (self._rank != 2)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ tomatrix : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.is_shape_numeric                          ║
+# ║   requires: not (self._rank != 2)                          ║
+# ║   returns:  Matrix(self._expand_array().tomatrix())        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ tomatrix : {Any | self.is_shape_numeric and not (self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | fd5943684eb84147   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehension.tomatrix","kind":"method","src_hash":"837c0e11b28bb449","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tomatrix()","rhs":"transform the expanded array to a matrix","over":{"base":"Any"},"name":"tomatrix_correct","kind":"composition"},"guarantee":"transform the expanded array to a matrix","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Matrix","by":"library_axiom"},{"fn":"_expand_array","by":"library_axiom"},{"fn":"tomatrix","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd5943684eb84147"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehension.tomatrix","kind":"method","src_hash":"837c0e11b28bb449","in":{"base":"Any","pred":"self.is_shape_numeric and not (self._rank != 2)"},"out":{"base":"Any"},"spec":{"lhs":"tomatrix()","rhs":"Matrix(self._expand_array().tomatrix())","over":{"base":"Any","pred":"self.is_shape_numeric and not (self._rank != 2)"},"name":"tomatrix_correct","kind":"composition"},"guarantee":"returns Matrix(self._expand_array().tomatrix())","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Matrix","by":"library_axiom"},{"fn":"_expand_array","by":"library_axiom"},{"fn":"tomatrix","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd5943684eb84147","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.is_shape_numeric","not (self._rank != 2)"],"returns_expr":"Matrix(self._expand_array().tomatrix())","pure":false,"effects":{"effect_type":"reads_state","reads":["self._expand_array","self._rank","self.is_shape_numeric"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def tomatrix(self):
         """Transform the expanded array to a matrix.
 
@@ -564,7 +682,10 @@ class ArrayComprehension(Basic):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(isLambda(v), isLambda produces the expected output) over {Any | isinstance(v, type(LAMBDA))} ║
+# ║ Path(isLambda(v), isinstance(v, type(LAMBDA)) and v.__name__ == LAMBDA.__name__) over {Any | isinstance(v, type(LAMBDA))} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  isinstance(v, type(LAMBDA)) and v.__name_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ isLambda : {Any | isinstance(v, type(LAMBDA))} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -576,9 +697,12 @@ class ArrayComprehension(Basic):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | fa92716a...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.isLambda","kind":"function","src_hash":"6a8e82e9d3491d5b","in":{"base":"Any","pred":"isinstance(v, type(LAMBDA))"},"out":{"base":"Any"},"spec":{"lhs":"isLambda(v)","rhs":"isLambda produces the expected output","over":{"base":"Any","pred":"isinstance(v, type(LAMBDA))"},"name":"isLambda_correct"},"guarantee":"isLambda produces the expected output","fibers":[{"name":"type(LAMBDA","pred":"isinstance(v, type(LAMBDA))","path":{"lhs":"isLambda(x)","rhs":"isLambda produces the expected output","over":{"base":"type(LAMBDA","pred":"isinstance(v, type(LAMBDA))"},"name":"isLambda_type(LAMBDA_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.array_comprehension.isLambda_type(LAMBDA_correct","statement":"isLambda satisfies spec on type(LAMBDA inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"fa92716a84761fcc"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.isLambda","kind":"function","src_hash":"6a8e82e9d3491d5b","in":{"base":"Any","pred":"isinstance(v, type(LAMBDA))"},"out":{"base":"Any"},"spec":{"lhs":"isLambda(v)","rhs":"isinstance(v, type(LAMBDA)) and v.__name__ == LAMBDA.__name__","over":{"base":"Any","pred":"isinstance(v, type(LAMBDA))"},"name":"isLambda_correct"},"guarantee":"returns isinstance(v, type(LAMBDA)) and v.__name__ == LAMBDA.__name__","fibers":[{"name":"type(LAMBDA","pred":"isinstance(v, type(LAMBDA))","path":{"lhs":"isLambda(x)","rhs":"returns isinstance(v, type(LAMBDA)) and v.__name__ == LAMBDA.__name__","over":{"base":"type(LAMBDA","pred":"isinstance(v, type(LAMBDA))"},"name":"isLambda_type(LAMBDA_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.array_comprehension.isLambda_type(LAMBDA_correct","statement":"isLambda satisfies spec on type(LAMBDA inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"fa92716a84761fcc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"isinstance(v, type(LAMBDA)) and v.__name__ == LAMBDA.__name__","pure":false,"effects":{"effect_type":"reads_state","reads":["v.__name__"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":true}}
 def isLambda(v):
     LAMBDA = lambda: 0
     return isinstance(v, type(LAMBDA)) and v.__name__ == LAMBDA.__name__
@@ -586,14 +710,20 @@ def isLambda(v):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ArrayComprehensionMap(*args), correctly constructs a ArrayComprehensionMap instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ArrayComprehensionMap : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ArrayComprehension)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ArrayComprehensionMap : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f4748974b2fc6f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehensionMap","kind":"class","src_hash":"fac095cdc2f6c992","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ArrayComprehensionMap(*args)","rhs":"correctly constructs a ArrayComprehensionMap instance","over":{"base":"Any"},"name":"ArrayComprehensionMap_class_invariant"},"guarantee":"correctly constructs a ArrayComprehensionMap instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f4748974b2fc6f1"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehensionMap","kind":"class","src_hash":"fac095cdc2f6c992","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ArrayComprehension)"},"spec":{"lhs":"ArrayComprehensionMap(*args)","rhs":"correctly constructs a ArrayComprehensionMap instance","over":{"base":"Any"},"name":"ArrayComprehensionMap_class_invariant"},"guarantee":"isinstance(self, ArrayComprehension)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f4748974b2fc6f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ArrayComprehension)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function ArrayComprehensionMap not found in source"]}}
 class ArrayComprehensionMap(ArrayComprehension):
     '''
     A subclass of ArrayComprehension dedicated to map external function lambda.
@@ -620,16 +750,24 @@ class ArrayComprehensionMap(ArrayComprehension):
 
     '''
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, function, *symbols), <unspecified:__new__>) over {Any | not (any((len(l) != 3 or None for l in symbols))) and isLambda(function)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (any((len(l) != 3 or None for l in sy...   ║
+# ║   requires: isLambda(function)                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | not (any((len(l) != 3 or None for l ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6a95a4be9eb7a758           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehensionMap.__new__","kind":"method","src_hash":"f78e9c7e0ccc2651","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a95a4be9eb7a758"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehensionMap.__new__","kind":"method","src_hash":"f78e9c7e0ccc2651","in":{"base":"Any","pred":"not (any((len(l) != 3 or None for l in symbols))) and isLambda(function)"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, function, *symbols)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"not (any((len(l) != 3 or None for l in symbols))) and isLambda(function)"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a95a4be9eb7a758","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (any((len(l) != 3 or None for l in symbols)))","isLambda(function)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._calculate_loop_size","cls._calculate_shape_from_limits","cls._check_limits_validity"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, function, *symbols, **assumptions):
         if any(len(l) != 3 or None for l in symbols):
             raise ValueError('ArrayComprehension requires values lower and upper bound'
@@ -649,16 +787,22 @@ class ArrayComprehensionMap(ArrayComprehension):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(func(), returns the func attribute) over Any          ║
+# ║ Path(func(), <unspecified:func>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ func : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c9f57673b772f649           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehensionMap.func","kind":"property","src_hash":"1c336bae9798426d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"func()","rhs":"returns the func attribute","over":{"base":"Any"},"name":"func_correct"},"guarantee":"returns the func attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c9f57673b772f649"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehensionMap.func","kind":"property","src_hash":"1c336bae9798426d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"func()","rhs":"<unspecified:func>","over":{"base":"Any"},"name":"func_correct"},"guarantee":"returns the func attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c9f57673b772f649","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._lambda"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def func(self):
         class _(ArrayComprehensionMap):
             def __new__(cls, *args, **kwargs):
@@ -666,16 +810,22 @@ class ArrayComprehensionMap(ArrayComprehension):
         return _
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_element(val), internal helper behaves correctly) over Any ║
+# ║ Path(_get_element(values), <unspecified:_get_element>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_element : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9522032e14d72586  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehensionMap._get_element","kind":"method","src_hash":"9032a26489e5cf0b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_element(val)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_element_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.array_comprehension.ArrayComprehensionMap._get_element_correct","statement":"Path(_get_element(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9522032e14d72586"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.array_comprehension.ArrayComprehensionMap._get_element","kind":"method","src_hash":"9032a26489e5cf0b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_element(values)","rhs":"<unspecified:_get_element>","over":{"base":"Any"},"name":"_get_element_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.array_comprehension.ArrayComprehensionMap._get_element_correct","statement":"Path(_get_element(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9522032e14d72586","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._lambda"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_element(self, values):
         temp = self._lambda
         if self._lambda.__code__.co_argcount == 0:

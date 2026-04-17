@@ -43,46 +43,66 @@ xx = N.x | (-N.y - N.z)
 xx2 = N.x | (N.y + N.z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ascii_vpretty(exp), ascii_vpretty produces the expected output) over Any ║
+# ║ Path(ascii_vpretty(expr), vpprint(expr, use_unicode=False, wrap_line=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  vpprint(expr, use_unicode=False, wrap_lin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ascii_vpretty : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 539ed5be3ea2c361           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_printing.ascii_vpretty","kind":"function","src_hash":"c144e168a530e0d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ascii_vpretty(exp)","rhs":"ascii_vpretty produces the expected output","over":{"base":"Any"},"name":"ascii_vpretty_correct"},"guarantee":"ascii_vpretty produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"539ed5be3ea2c361"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_printing.ascii_vpretty","kind":"function","src_hash":"c144e168a530e0d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ascii_vpretty(expr)","rhs":"vpprint(expr, use_unicode=False, wrap_line=False)","over":{"base":"Any"},"name":"ascii_vpretty_correct"},"guarantee":"returns vpprint(expr, use_unicode=False, wrap_line=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"539ed5be3ea2c361","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"vpprint(expr, use_unicode=False, wrap_line=False)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def ascii_vpretty(expr):
     return vpprint(expr, use_unicode=False, wrap_line=False)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(unicode_vpretty(exp), unicode_vpretty produces the expected output) over Any ║
+# ║ Path(unicode_vpretty(expr), vpprint(expr, use_unicode=True, wrap_line=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  vpprint(expr, use_unicode=True, wrap_line...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ unicode_vpretty : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 06b8f4b1aa19b057           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_printing.unicode_vpretty","kind":"function","src_hash":"06be65c4ce050d8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unicode_vpretty(exp)","rhs":"unicode_vpretty produces the expected output","over":{"base":"Any"},"name":"unicode_vpretty_correct"},"guarantee":"unicode_vpretty produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"06b8f4b1aa19b057"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_printing.unicode_vpretty","kind":"function","src_hash":"06be65c4ce050d8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unicode_vpretty(expr)","rhs":"vpprint(expr, use_unicode=True, wrap_line=False)","over":{"base":"Any"},"name":"unicode_vpretty_correct"},"guarantee":"returns vpprint(expr, use_unicode=True, wrap_line=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"06b8f4b1aa19b057","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"vpprint(expr, use_unicode=True, wrap_line=False)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def unicode_vpretty(expr):
     return vpprint(expr, use_unicode=True, wrap_line=False)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_latex_printer(), test_latex_printer produces the expected output) over Any ║
+# ║ Path(test_latex_printer(), VectorLatexPrinter().doprint(r ** 2) == 'r^{2}' and VectorLatexPrinter().doprint(r2.diff()) == '\\dot{r^{2}}' and VectorLatexPrinter().doprint(ra.diff().diff()) == '\\ddot{r^{a}}') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_latex_printer : Any → {Any | VectorLatexPrinter(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  VectorLatexPrinter().doprint(r ** 2) == '...   ║
+# ║   ensures:  VectorLatexPrinter().doprint(r2.diff()) =...   ║
+# ║   ensures:  VectorLatexPrinter().doprint(ra.diff().di...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_latex_printer : Any → {Any | result satisfies: V...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a02e661fafe8277  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dddb5444e21df10a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_printing.test_latex_printer","kind":"function","src_hash":"7d001946ec541287","in":{"base":"Any"},"out":{"base":"Any","pred":"VectorLatexPrinter().doprint(r ** 2) == 'r^{2}' and VectorLatexPrinter().doprint(r2.diff()) == '\\\\dot{r^{2}}' and VectorLatexPrinter().doprint(ra.diff().diff()) == '\\\\ddot{r^{a}}'"},"spec":{"lhs":"test_latex_printer()","rhs":"test_latex_printer produces the expected output","over":{"base":"Any"},"name":"test_latex_printer_correct"},"guarantee":"test_latex_printer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_printing.test_latex_printer_correct","statement":"Path(test_latex_printer(x), test_latex_printer produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a02e661fafe8277"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_printing.test_latex_printer","kind":"function","src_hash":"7d001946ec541287","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: VectorLatexPrinter().doprint(r ** 2) == 'r^{2}' and VectorLatexPrinter().doprint(r2.diff()) == '\\\\dot{r^{2}}' and VectorLatexPrinter().doprint(ra.diff().diff()) == '\\\\ddot{r^{a}}'"},"spec":{"lhs":"test_latex_printer()","rhs":"VectorLatexPrinter().doprint(r ** 2) == 'r^{2}' and VectorLatexPrinter().doprint(r2.diff()) == '\\\\dot{r^{2}}' and VectorLatexPrinter().doprint(ra.diff().diff()) == '\\\\ddot{r^{a}}'","over":{"base":"Any"},"name":"test_latex_printer_correct"},"guarantee":"VectorLatexPrinter().doprint(r ** 2) == 'r^{2}'; VectorLatexPrinter().doprint(r2.diff()) == '\\\\dot{r^{2}}'; VectorLatexPrinter().doprint(ra.diff().diff()) == '\\\\ddot{r^{a}}'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_printing.test_latex_printer_correct","statement":"Path(test_latex_printer(x), VectorLatexPrinter().doprint(r ** 2) == 'r^{2}'; VectorLatexPrinter().doprint(r2.diff()) == '\\\\dot{r^{2}}'; VectorLatexPrinter().doprint(ra.diff().diff()) == '\\\\ddot{r^{a}}')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dddb5444e21df10a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["VectorLatexPrinter().doprint(r ** 2) == 'r^{2}'","VectorLatexPrinter().doprint(r2.diff()) == '\\\\dot{r^{2}}'","VectorLatexPrinter().doprint(ra.diff().diff()) == '\\\\ddot{r^{a}}'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_latex_printer():
     r = Function('r')('t')
     assert VectorLatexPrinter().doprint(r ** 2) == "r^{2}"
@@ -93,16 +113,24 @@ def test_latex_printer():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_vector_pretty_print(), test_vector_pretty_print produces the expected output) over Any ║
+# ║ Path(test_vector_pretty_print(), ascii_vpretty(v) == expected and unicode_vpretty(v) == uexpected and ascii_vpretty(w) == expected and unicode_vpretty(w) == uexpected and ascii_vpretty(o) == expected and unicode_vpretty(o) == uexpected and ascii_vpretty(-A.x) == '-a_x' and unicode_vpretty(-A.x) == '-a_x' and ascii_vpretty(0 * A.x) == '0' and unicode_vpretty(0 * A.x) == '0') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_vector_pretty_print : Any → {Any | ascii_vpretty...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ascii_vpretty(v) == expected                   ║
+# ║   ensures:  unicode_vpretty(v) == uexpected                ║
+# ║   ensures:  ascii_vpretty(w) == expected                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_vector_pretty_print : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 465418e1fecd814a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fe4b7c44f2d128a6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_printing.test_vector_pretty_print","kind":"function","src_hash":"10cfa465b49586a5","in":{"base":"Any"},"out":{"base":"Any","pred":"ascii_vpretty(v) == expected and unicode_vpretty(v) == uexpected and ascii_vpretty(w) == expected and unicode_vpretty(w) == uexpected and ascii_vpretty(o) == expected and unicode_vpretty(o) == uexpected and ascii_vpretty(-A.x) == '-a_x' and unicode_vpretty(-A.x) == '-a_x' and ascii_vpretty(0 * A.x) == '0' and unicode_vpretty(0 * A.x) == '0'"},"spec":{"lhs":"test_vector_pretty_print()","rhs":"test_vector_pretty_print produces the expected output","over":{"base":"Any"},"name":"test_vector_pretty_print_correct"},"guarantee":"test_vector_pretty_print produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_printing.test_vector_pretty_print_correct","statement":"Path(test_vector_pretty_print(x), test_vector_pretty_print produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"465418e1fecd814a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_printing.test_vector_pretty_print","kind":"function","src_hash":"10cfa465b49586a5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ascii_vpretty(v) == expected and unicode_vpretty(v) == uexpected and ascii_vpretty(w) == expected and unicode_vpretty(w) == uexpected and ascii_vpretty(o) == expected and unicode_vpretty(o) == uexpected and ascii_vpretty(-A.x) == '-a_x' and unicode_vpretty(-A.x) == '-a_x' and ascii_vpretty(0 * A.x) == '0' and unicode_vpretty(0 * A.x) == '0'"},"spec":{"lhs":"test_vector_pretty_print()","rhs":"ascii_vpretty(v) == expected and unicode_vpretty(v) == uexpected and ascii_vpretty(w) == expected and unicode_vpretty(w) == uexpected and ascii_vpretty(o) == expected and unicode_vpretty(o) == uexpected and ascii_vpretty(-A.x) == '-a_x' and unicode_vpretty(-A.x) == '-a_x' and ascii_vpretty(0 * A.x) == '0' and unicode_vpretty(0 * A.x) == '0'","over":{"base":"Any"},"name":"test_vector_pretty_print_correct"},"guarantee":"ascii_vpretty(v) == expected; unicode_vpretty(v) == uexpected; ascii_vpretty(w) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_printing.test_vector_pretty_print_correct","statement":"Path(test_vector_pretty_print(x), ascii_vpretty(v) == expected; unicode_vpretty(v) == uexpected; ascii_vpretty(w) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe4b7c44f2d128a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ascii_vpretty(v) == expected","unicode_vpretty(v) == uexpected","ascii_vpretty(w) == expected","unicode_vpretty(w) == uexpected","ascii_vpretty(o) == expected","unicode_vpretty(o) == uexpected","ascii_vpretty(-A.x) == '-a_x'","unicode_vpretty(-A.x) == '-a_x'","ascii_vpretty(0 * A.x) == '0'","unicode_vpretty(0 * A.x) == '0'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_vector_pretty_print():
 
     # TODO : The unit vectors should print with subscripts but they just
@@ -155,16 +183,24 @@ b         a         b     \
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_vector_latex(), test_vector_latex produces the expected output) over Any ║
+# ║ Path(test_vector_latex(), vlatex(v) == '(a^{2} + \\frac{b}{c})\\mathbf{\\hat{a}_x} + \\sqrt{d}\\mathbf{\\hat{a}_y} + \\cos{\\left(\\omega \\right)}\\mathbf{\\hat{a}_z}' and vlatex(v) == '\\theta\\mathbf{\\hat{a}_x} + \\omega^{2}\\mathbf{\\hat{a}_y} + \\alpha q\\mathbf{\\hat{a}_z}' and vlatex(v) == '\\sin{\\left(\\theta_{1} \\right)}\\mathbf{\\hat{a}_x} + \\cos{\\left(\\phi_{1} \\right)} \\cos{\\left(\\phi_{2} \\right)}\\mathbf{\\hat{a}_y} + \\cos{\\left(\\theta_{1} + \\phi_{3} \\right)}\\mathbf{\\hat{a}_z}' and vlatex(v) == expected and vlatex(ww) == expected and vlatex(xx) == expected and vlatex(xx2) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_vector_latex : Any → {Any | vlatex(v) == expecte...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  vlatex(v) == '(a^{2} + \\frac{b}{c})\\mat...   ║
+# ║   ensures:  vlatex(v) == '\\theta\\mathbf{\\hat{a}_x}...   ║
+# ║   ensures:  vlatex(v) == '\\sin{\\left(\\theta_{1} \\...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_vector_latex : Any → {Any | result satisfies: vl...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24c1f060135fcca3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 502c0ac1a0a27224  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_printing.test_vector_latex","kind":"function","src_hash":"5c54c7d5277e7bbc","in":{"base":"Any"},"out":{"base":"Any","pred":"vlatex(v) == expected and vlatex(v) == expected and vlatex(ww) == expected and vlatex(xx) == expected and vlatex(xx2) == expected"},"spec":{"lhs":"test_vector_latex()","rhs":"test_vector_latex produces the expected output","over":{"base":"Any"},"name":"test_vector_latex_correct"},"guarantee":"test_vector_latex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_printing.test_vector_latex_correct","statement":"Path(test_vector_latex(x), test_vector_latex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24c1f060135fcca3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_printing.test_vector_latex","kind":"function","src_hash":"5c54c7d5277e7bbc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: vlatex(v) == '(a^{2} + \\\\frac{b}{c})\\\\mathbf{\\\\hat{a}_x} + \\\\sqrt{d}\\\\mathbf{\\\\hat{a}_y} + \\\\cos{\\\\left(\\\\omega \\\\right)}\\\\mathbf{\\\\hat{a}_z}' and vlatex(v) == '\\\\theta\\\\mathbf{\\\\hat{a}_x} + \\\\omega^{2}\\\\mathbf{\\\\hat{a}_y} + \\\\alpha q\\\\mathbf{\\\\hat{a}_z}' and vlatex(v) == '\\\\sin{\\\\left(\\\\theta_{1} \\\\right)}\\\\mathbf{\\\\hat{a}_x} + \\\\cos{\\\\left(\\\\phi_{1} \\\\right)} \\\\cos{\\\\left(\\\\phi_{2} \\\\right)}\\\\mathbf{\\\\hat{a}_y} + \\\\cos{\\\\left(\\\\theta_{1} + \\\\phi_{3} \\\\right)}\\\\mathbf{\\\\hat{a}_z}' and vlatex(v) == expected and vlatex(ww) == expected and vlatex(xx) == expected and vlatex(xx2) == expected"},"spec":{"lhs":"test_vector_latex()","rhs":"vlatex(v) == '(a^{2} + \\\\frac{b}{c})\\\\mathbf{\\\\hat{a}_x} + \\\\sqrt{d}\\\\mathbf{\\\\hat{a}_y} + \\\\cos{\\\\left(\\\\omega \\\\right)}\\\\mathbf{\\\\hat{a}_z}' and vlatex(v) == '\\\\theta\\\\mathbf{\\\\hat{a}_x} + \\\\omega^{2}\\\\mathbf{\\\\hat{a}_y} + \\\\alpha q\\\\mathbf{\\\\hat{a}_z}' and vlatex(v) == '\\\\sin{\\\\left(\\\\theta_{1} \\\\right)}\\\\mathbf{\\\\hat{a}_x} + \\\\cos{\\\\left(\\\\phi_{1} \\\\right)} \\\\cos{\\\\left(\\\\phi_{2} \\\\right)}\\\\mathbf{\\\\hat{a}_y} + \\\\cos{\\\\left(\\\\theta_{1} + \\\\phi_{3} \\\\right)}\\\\mathbf{\\\\hat{a}_z}' and vlatex(v) == expected and vlatex(ww) == expected and vlatex(xx) == expected and vlatex(xx2) == expected","over":{"base":"Any"},"name":"test_vector_latex_correct"},"guarantee":"vlatex(v) == '(a^{2} + \\\\frac{b}{c})\\\\mathbf{\\\\hat{a}_x} + \\\\sqrt{d}\\\\mathbf{\\\\hat{a}_y} + \\\\cos{\\\\left(\\\\omega \\\\right)}\\\\mathbf{\\\\hat{a}_z}'; vlatex(v) == '\\\\theta\\\\mathbf{\\\\hat{a}_x} + \\\\omega^{2}\\\\mathbf{\\\\hat{a}_y} + \\\\alpha q\\\\mathbf{\\\\hat{a}_z}'; vlatex(v) == '\\\\sin{\\\\left(\\\\theta_{1} \\\\right)}\\\\mathbf{\\\\hat{a}_x} + \\\\cos{\\\\left(\\\\phi_{1} \\\\right)} \\\\cos{\\\\left(\\\\phi_{2} \\\\right)}\\\\mathbf{\\\\hat{a}_y} + \\\\cos{\\\\left(\\\\theta_{1} + \\\\phi_{3} \\\\right)}\\\\mathbf{\\\\hat{a}_z}'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_printing.test_vector_latex_correct","statement":"Path(test_vector_latex(x), vlatex(v) == '(a^{2} + \\\\frac{b}{c})\\\\mathbf{\\\\hat{a}_x} + \\\\sqrt{d}\\\\mathbf{\\\\hat{a}_y} + \\\\cos{\\\\left(\\\\omega \\\\right)}\\\\mathbf{\\\\hat{a}_z}'; vlatex(v) == '\\\\theta\\\\mathbf{\\\\hat{a}_x} + \\\\omega^{2}\\\\mathbf{\\\\hat{a}_y} + \\\\alpha q\\\\mathbf{\\\\hat{a}_z}'; vlatex(v) == '\\\\sin{\\\\left(\\\\theta_{1} \\\\right)}\\\\mathbf{\\\\hat{a}_x} + \\\\cos{\\\\left(\\\\phi_{1} \\\\right)} \\\\cos{\\\\left(\\\\phi_{2} \\\\right)}\\\\mathbf{\\\\hat{a}_y} + \\\\cos{\\\\left(\\\\theta_{1} + \\\\phi_{3} \\\\right)}\\\\mathbf{\\\\hat{a}_z}')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"502c0ac1a0a27224","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["vlatex(v) == '(a^{2} + \\\\frac{b}{c})\\\\mathbf{\\\\hat{a}_x} + \\\\sqrt{d}\\\\mathbf{\\\\hat{a}_y} + \\\\cos{\\\\left(\\\\omega \\\\right)}\\\\mathbf{\\\\hat{a}_z}'","vlatex(v) == '\\\\theta\\\\mathbf{\\\\hat{a}_x} + \\\\omega^{2}\\\\mathbf{\\\\hat{a}_y} + \\\\alpha q\\\\mathbf{\\\\hat{a}_z}'","vlatex(v) == '\\\\sin{\\\\left(\\\\theta_{1} \\\\right)}\\\\mathbf{\\\\hat{a}_x} + \\\\cos{\\\\left(\\\\phi_{1} \\\\right)} \\\\cos{\\\\left(\\\\phi_{2} \\\\right)}\\\\mathbf{\\\\hat{a}_y} + \\\\cos{\\\\left(\\\\theta_{1} + \\\\phi_{3} \\\\right)}\\\\mathbf{\\\\hat{a}_z}'","vlatex(v) == expected","vlatex(ww) == expected","vlatex(xx) == expected","vlatex(xx2) == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_vector_latex():
 
     a, b, c, d, omega = symbols('a, b, c, d, omega')
@@ -236,32 +272,46 @@ def test_vector_latex():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_vector_latex_arguments(), test_vector_latex_arguments produces the expected output) over Any ║
+# ║ Path(test_vector_latex_arguments(), vlatex(N.x * 3.0, full_prec=False) == '3.0\\mathbf{\\hat{n}_x}' and vlatex(N.x * 3.0, full_prec=True) == '3.00000000000000\\mathbf{\\hat{n}_x}') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_vector_latex_arguments : Any → {Any | vlatex(N.x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  vlatex(N.x * 3.0, full_prec=False) == '3....   ║
+# ║   ensures:  vlatex(N.x * 3.0, full_prec=True) == '3.0...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_vector_latex_arguments : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4fb7abd66638ba9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c85f5dbe2ed61b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_printing.test_vector_latex_arguments","kind":"function","src_hash":"94c8047e36172cfc","in":{"base":"Any"},"out":{"base":"Any","pred":"vlatex(N.x * 3.0, full_prec=False) == '3.0\\\\mathbf{\\\\hat{n}_x}' and vlatex(N.x * 3.0, full_prec=True) == '3.00000000000000\\\\mathbf{\\\\hat{n}_x}'"},"spec":{"lhs":"test_vector_latex_arguments()","rhs":"test_vector_latex_arguments produces the expected output","over":{"base":"Any"},"name":"test_vector_latex_arguments_correct"},"guarantee":"test_vector_latex_arguments produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_printing.test_vector_latex_arguments_correct","statement":"Path(test_vector_latex_arguments(x), test_vector_latex_arguments produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4fb7abd66638ba9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_printing.test_vector_latex_arguments","kind":"function","src_hash":"94c8047e36172cfc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: vlatex(N.x * 3.0, full_prec=False) == '3.0\\\\mathbf{\\\\hat{n}_x}' and vlatex(N.x * 3.0, full_prec=True) == '3.00000000000000\\\\mathbf{\\\\hat{n}_x}'"},"spec":{"lhs":"test_vector_latex_arguments()","rhs":"vlatex(N.x * 3.0, full_prec=False) == '3.0\\\\mathbf{\\\\hat{n}_x}' and vlatex(N.x * 3.0, full_prec=True) == '3.00000000000000\\\\mathbf{\\\\hat{n}_x}'","over":{"base":"Any"},"name":"test_vector_latex_arguments_correct"},"guarantee":"vlatex(N.x * 3.0, full_prec=False) == '3.0\\\\mathbf{\\\\hat{n}_x}'; vlatex(N.x * 3.0, full_prec=True) == '3.00000000000000\\\\mathbf{\\\\hat{n}_x}'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_printing.test_vector_latex_arguments_correct","statement":"Path(test_vector_latex_arguments(x), vlatex(N.x * 3.0, full_prec=False) == '3.0\\\\mathbf{\\\\hat{n}_x}'; vlatex(N.x * 3.0, full_prec=True) == '3.00000000000000\\\\mathbf{\\\\hat{n}_x}')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c85f5dbe2ed61b4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["vlatex(N.x * 3.0, full_prec=False) == '3.0\\\\mathbf{\\\\hat{n}_x}'","vlatex(N.x * 3.0, full_prec=True) == '3.00000000000000\\\\mathbf{\\\\hat{n}_x}'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_vector_latex_arguments():
     assert vlatex(N.x * 3.0, full_prec=False) == r'3.0\mathbf{\hat{n}_x}'
     assert vlatex(N.x * 3.0, full_prec=True) == r'3.00000000000000\mathbf{\hat{n}_x}'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_vector_latex_with_functions(), test_vector_latex_with_functions produces the expected output) over Any ║
+# ║ Path(test_vector_latex_with_functions(), vlatex(v) == '\\dot{\\omega}\\mathbf{\\hat{n}_x}' and vlatex(v) == '\\dot{\\omega}^{\\alpha}\\mathbf{\\hat{n}_x}') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_vector_latex_with_functions : Any → {Any | vlate...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  vlatex(v) == '\\dot{\\omega}\\mathbf{\\ha...   ║
+# ║   ensures:  vlatex(v) == '\\dot{\\omega}^{\\alpha}\\m...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_vector_latex_with_functions : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6fcbb80f96ccbd6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 11a26d31e0a03773  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_printing.test_vector_latex_with_functions","kind":"function","src_hash":"b7748bff88dce5b3","in":{"base":"Any"},"out":{"base":"Any","pred":"vlatex(v) == '\\\\dot{\\\\omega}\\\\mathbf{\\\\hat{n}_x}' and vlatex(v) == '\\\\dot{\\\\omega}^{\\\\alpha}\\\\mathbf{\\\\hat{n}_x}'"},"spec":{"lhs":"test_vector_latex_with_functions()","rhs":"test_vector_latex_with_functions produces the expected output","over":{"base":"Any"},"name":"test_vector_latex_with_functions_correct"},"guarantee":"test_vector_latex_with_functions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_printing.test_vector_latex_with_functions_correct","statement":"Path(test_vector_latex_with_functions(x), test_vector_latex_with_functions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6fcbb80f96ccbd6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_printing.test_vector_latex_with_functions","kind":"function","src_hash":"b7748bff88dce5b3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: vlatex(v) == '\\\\dot{\\\\omega}\\\\mathbf{\\\\hat{n}_x}' and vlatex(v) == '\\\\dot{\\\\omega}^{\\\\alpha}\\\\mathbf{\\\\hat{n}_x}'"},"spec":{"lhs":"test_vector_latex_with_functions()","rhs":"vlatex(v) == '\\\\dot{\\\\omega}\\\\mathbf{\\\\hat{n}_x}' and vlatex(v) == '\\\\dot{\\\\omega}^{\\\\alpha}\\\\mathbf{\\\\hat{n}_x}'","over":{"base":"Any"},"name":"test_vector_latex_with_functions_correct"},"guarantee":"vlatex(v) == '\\\\dot{\\\\omega}\\\\mathbf{\\\\hat{n}_x}'; vlatex(v) == '\\\\dot{\\\\omega}^{\\\\alpha}\\\\mathbf{\\\\hat{n}_x}'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_printing.test_vector_latex_with_functions_correct","statement":"Path(test_vector_latex_with_functions(x), vlatex(v) == '\\\\dot{\\\\omega}\\\\mathbf{\\\\hat{n}_x}'; vlatex(v) == '\\\\dot{\\\\omega}^{\\\\alpha}\\\\mathbf{\\\\hat{n}_x}')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11a26d31e0a03773","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["vlatex(v) == '\\\\dot{\\\\omega}\\\\mathbf{\\\\hat{n}_x}'","vlatex(v) == '\\\\dot{\\\\omega}^{\\\\alpha}\\\\mathbf{\\\\hat{n}_x}'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_vector_latex_with_functions():
 
     N = ReferenceFrame('N')
@@ -279,16 +329,24 @@ def test_vector_latex_with_functions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dyadic_pretty_print(), test_dyadic_pretty_print produces the expected output) over Any ║
+# ║ Path(test_dyadic_pretty_print(), ascii_vpretty(y) == expected and unicode_vpretty(y) == uexpected and ascii_vpretty(x) == expected and unicode_vpretty(x) == uexpected and ascii_vpretty(Dyadic([])) == '0' and unicode_vpretty(Dyadic([])) == '0' and ascii_vpretty(xx) == '- n_x|n_y - n_x|n_z' and unicode_vpretty(xx) == '- n_x⊗n_y - n_x⊗n_z' and ascii_vpretty(xx2) == 'n_x|n_y + n_x|n_z' and unicode_vpretty(xx2) == 'n_x⊗n_y + n_x⊗n_z') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dyadic_pretty_print : Any → {Any | ascii_vpretty...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ascii_vpretty(y) == expected                   ║
+# ║   ensures:  unicode_vpretty(y) == uexpected                ║
+# ║   ensures:  ascii_vpretty(x) == expected                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dyadic_pretty_print : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad14c2b096a44f62  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e1f5549125a6c1d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_printing.test_dyadic_pretty_print","kind":"function","src_hash":"3bdc21b770a92cf5","in":{"base":"Any"},"out":{"base":"Any","pred":"ascii_vpretty(y) == expected and unicode_vpretty(y) == uexpected and ascii_vpretty(x) == expected and unicode_vpretty(x) == uexpected and ascii_vpretty(Dyadic([])) == '0' and unicode_vpretty(Dyadic([])) == '0' and ascii_vpretty(xx) == '- n_x|n_y - n_x|n_z' and unicode_vpretty(xx) == '- n_x\u2297n_y - n_x\u2297n_z' and ascii_vpretty(xx2) == 'n_x|n_y + n_x|n_z' and unicode_vpretty(xx2) == 'n_x\u2297n_y + n_x\u2297n_z'"},"spec":{"lhs":"test_dyadic_pretty_print()","rhs":"test_dyadic_pretty_print produces the expected output","over":{"base":"Any"},"name":"test_dyadic_pretty_print_correct"},"guarantee":"test_dyadic_pretty_print produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_printing.test_dyadic_pretty_print_correct","statement":"Path(test_dyadic_pretty_print(x), test_dyadic_pretty_print produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad14c2b096a44f62"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_printing.test_dyadic_pretty_print","kind":"function","src_hash":"3bdc21b770a92cf5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ascii_vpretty(y) == expected and unicode_vpretty(y) == uexpected and ascii_vpretty(x) == expected and unicode_vpretty(x) == uexpected and ascii_vpretty(Dyadic([])) == '0' and unicode_vpretty(Dyadic([])) == '0' and ascii_vpretty(xx) == '- n_x|n_y - n_x|n_z' and unicode_vpretty(xx) == '- n_x\u2297n_y - n_x\u2297n_z' and ascii_vpretty(xx2) == 'n_x|n_y + n_x|n_z' and unicode_vpretty(xx2) == 'n_x\u2297n_y + n_x\u2297n_z'"},"spec":{"lhs":"test_dyadic_pretty_print()","rhs":"ascii_vpretty(y) == expected and unicode_vpretty(y) == uexpected and ascii_vpretty(x) == expected and unicode_vpretty(x) == uexpected and ascii_vpretty(Dyadic([])) == '0' and unicode_vpretty(Dyadic([])) == '0' and ascii_vpretty(xx) == '- n_x|n_y - n_x|n_z' and unicode_vpretty(xx) == '- n_x\u2297n_y - n_x\u2297n_z' and ascii_vpretty(xx2) == 'n_x|n_y + n_x|n_z' and unicode_vpretty(xx2) == 'n_x\u2297n_y + n_x\u2297n_z'","over":{"base":"Any"},"name":"test_dyadic_pretty_print_correct"},"guarantee":"ascii_vpretty(y) == expected; unicode_vpretty(y) == uexpected; ascii_vpretty(x) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_printing.test_dyadic_pretty_print_correct","statement":"Path(test_dyadic_pretty_print(x), ascii_vpretty(y) == expected; unicode_vpretty(y) == uexpected; ascii_vpretty(x) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e1f5549125a6c1d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ascii_vpretty(y) == expected","unicode_vpretty(y) == uexpected","ascii_vpretty(x) == expected","unicode_vpretty(x) == uexpected","ascii_vpretty(Dyadic([])) == '0'","unicode_vpretty(Dyadic([])) == '0'","ascii_vpretty(xx) == '- n_x|n_y - n_x|n_z'","unicode_vpretty(xx) == '- n_x\u2297n_y - n_x\u2297n_z'","ascii_vpretty(xx2) == 'n_x|n_y + n_x|n_z'","unicode_vpretty(xx2) == 'n_x\u2297n_y + n_x\u2297n_z'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dyadic_pretty_print():
 
     expected = """\
@@ -319,16 +377,24 @@ a  n_x⊗n_y + b n_y⊗n_y + c⋅sin(α) n_z⊗n_y\
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dyadic_latex(), test_dyadic_latex produces the expected output) over Any ║
+# ║ Path(test_dyadic_latex(), vlatex(y) == expected and vlatex(x) == expected and vlatex(Dyadic([])) == '0') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dyadic_latex : Any → {Any | vlatex(y) == expecte...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  vlatex(y) == expected                          ║
+# ║   ensures:  vlatex(x) == expected                          ║
+# ║   ensures:  vlatex(Dyadic([])) == '0'                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dyadic_latex : Any → {Any | result satisfies: vl...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0d372bad2b8d55a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0d64aadbb9ec2e1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_printing.test_dyadic_latex","kind":"function","src_hash":"ddae18b90a7892fa","in":{"base":"Any"},"out":{"base":"Any","pred":"vlatex(y) == expected and vlatex(x) == expected and vlatex(Dyadic([])) == '0'"},"spec":{"lhs":"test_dyadic_latex()","rhs":"test_dyadic_latex produces the expected output","over":{"base":"Any"},"name":"test_dyadic_latex_correct"},"guarantee":"test_dyadic_latex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_printing.test_dyadic_latex_correct","statement":"Path(test_dyadic_latex(x), test_dyadic_latex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0d372bad2b8d55a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_printing.test_dyadic_latex","kind":"function","src_hash":"ddae18b90a7892fa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: vlatex(y) == expected and vlatex(x) == expected and vlatex(Dyadic([])) == '0'"},"spec":{"lhs":"test_dyadic_latex()","rhs":"vlatex(y) == expected and vlatex(x) == expected and vlatex(Dyadic([])) == '0'","over":{"base":"Any"},"name":"test_dyadic_latex_correct"},"guarantee":"vlatex(y) == expected; vlatex(x) == expected; vlatex(Dyadic([])) == '0'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_printing.test_dyadic_latex_correct","statement":"Path(test_dyadic_latex(x), vlatex(y) == expected; vlatex(x) == expected; vlatex(Dyadic([])) == '0')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0d64aadbb9ec2e1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["vlatex(y) == expected","vlatex(x) == expected","vlatex(Dyadic([])) == '0'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dyadic_latex():
 
     expected = (r'a^{2}\mathbf{\hat{n}_x}\otimes \mathbf{\hat{n}_y} + '
@@ -349,16 +415,24 @@ def test_dyadic_latex():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dyadic_str(), test_dyadic_str produces the expected output) over Any ║
+# ║ Path(test_dyadic_str(), vsprint(Dyadic([])) == '0' and vsprint(y) == 'a**2*(N.x|N.y) + b*(N.y|N.y) + c*sin(alpha)*(N.z|N.y)' and vsprint(x) == 'alpha*(N.x|N.x) + sin(omega)*(N.y|N.z) + alpha*beta*(N.z|N.x)' and vsprint(ww) == "alpha*N.x + asin(omega)*N.y - beta*alpha'*N.z" and vsprint(xx) == '- (N.x|N.y) - (N.x|N.z)' and vsprint(xx2) == '(N.x|N.y) + (N.x|N.z)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dyadic_str : Any → {Any | vsprint(Dyadic([])) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  vsprint(Dyadic([])) == '0'                     ║
+# ║   ensures:  vsprint(y) == 'a**2*(N.x|N.y) + b*(N.y|N....   ║
+# ║   ensures:  vsprint(x) == 'alpha*(N.x|N.x) + sin(omeg...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dyadic_str : Any → {Any | result satisfies: vspr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c49683de236acd5a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 340d1376eab383aa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_printing.test_dyadic_str","kind":"function","src_hash":"803b104af7b04e2b","in":{"base":"Any"},"out":{"base":"Any","pred":"vsprint(Dyadic([])) == '0' and vsprint(y) == 'a**2*(N.x|N.y) + b*(N.y|N.y) + c*sin(alpha)*(N.z|N.y)' and vsprint(x) == 'alpha*(N.x|N.x) + sin(omega)*(N.y|N.z) + alpha*beta*(N.z|N.x)' and vsprint(ww) == \"alpha*N.x + asin(omega)*N.y - beta*alpha'*N.z\" and vsprint(xx) == '- (N.x|N.y) - (N.x|N.z)' and vsprint(xx2) == '(N.x|N.y) + (N.x|N.z)'"},"spec":{"lhs":"test_dyadic_str()","rhs":"test_dyadic_str produces the expected output","over":{"base":"Any"},"name":"test_dyadic_str_correct"},"guarantee":"test_dyadic_str produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_printing.test_dyadic_str_correct","statement":"Path(test_dyadic_str(x), test_dyadic_str produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c49683de236acd5a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_printing.test_dyadic_str","kind":"function","src_hash":"803b104af7b04e2b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: vsprint(Dyadic([])) == '0' and vsprint(y) == 'a**2*(N.x|N.y) + b*(N.y|N.y) + c*sin(alpha)*(N.z|N.y)' and vsprint(x) == 'alpha*(N.x|N.x) + sin(omega)*(N.y|N.z) + alpha*beta*(N.z|N.x)' and vsprint(ww) == \"alpha*N.x + asin(omega)*N.y - beta*alpha'*N.z\" and vsprint(xx) == '- (N.x|N.y) - (N.x|N.z)' and vsprint(xx2) == '(N.x|N.y) + (N.x|N.z)'"},"spec":{"lhs":"test_dyadic_str()","rhs":"vsprint(Dyadic([])) == '0' and vsprint(y) == 'a**2*(N.x|N.y) + b*(N.y|N.y) + c*sin(alpha)*(N.z|N.y)' and vsprint(x) == 'alpha*(N.x|N.x) + sin(omega)*(N.y|N.z) + alpha*beta*(N.z|N.x)' and vsprint(ww) == \"alpha*N.x + asin(omega)*N.y - beta*alpha'*N.z\" and vsprint(xx) == '- (N.x|N.y) - (N.x|N.z)' and vsprint(xx2) == '(N.x|N.y) + (N.x|N.z)'","over":{"base":"Any"},"name":"test_dyadic_str_correct"},"guarantee":"vsprint(Dyadic([])) == '0'; vsprint(y) == 'a**2*(N.x|N.y) + b*(N.y|N.y) + c*sin(alpha)*(N.z|N.y)'; vsprint(x) == 'alpha*(N.x|N.x) + sin(omega)*(N.y|N.z) + alpha*beta*(N.z|N.x)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_printing.test_dyadic_str_correct","statement":"Path(test_dyadic_str(x), vsprint(Dyadic([])) == '0'; vsprint(y) == 'a**2*(N.x|N.y) + b*(N.y|N.y) + c*sin(alpha)*(N.z|N.y)'; vsprint(x) == 'alpha*(N.x|N.x) + sin(omega)*(N.y|N.z) + alpha*beta*(N.z|N.x)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"340d1376eab383aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["vsprint(Dyadic([])) == '0'","vsprint(y) == 'a**2*(N.x|N.y) + b*(N.y|N.y) + c*sin(alpha)*(N.z|N.y)'","vsprint(x) == 'alpha*(N.x|N.x) + sin(omega)*(N.y|N.z) + alpha*beta*(N.z|N.x)'","vsprint(ww) == \"alpha*N.x + asin(omega)*N.y - beta*alpha'*N.z\"","vsprint(xx) == '- (N.x|N.y) - (N.x|N.z)'","vsprint(xx2) == '(N.x|N.y) + (N.x|N.z)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dyadic_str():
     assert vsprint(Dyadic([])) == '0'
     assert vsprint(y) == 'a**2*(N.x|N.y) + b*(N.y|N.y) + c*sin(alpha)*(N.z|N.y)'
@@ -369,16 +443,22 @@ def test_dyadic_str():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_vlatex(), test_vlatex produces the expected output) over Any ║
+# ║ Path(test_vlatex(), vlatex(expr) == expected) over Any     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_vlatex : Any → {Any | vlatex(expr) == expected}       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  vlatex(expr) == expected                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_vlatex : Any → {Any | result satisfies: vlatex(e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c811e9e0ef1cb287  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e8c2f00d74c0053c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_printing.test_vlatex","kind":"function","src_hash":"7524acdb6d569bc6","in":{"base":"Any"},"out":{"base":"Any","pred":"vlatex(expr) == expected"},"spec":{"lhs":"test_vlatex()","rhs":"test_vlatex produces the expected output","over":{"base":"Any"},"name":"test_vlatex_correct"},"guarantee":"test_vlatex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_printing.test_vlatex_correct","statement":"Path(test_vlatex(x), test_vlatex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c811e9e0ef1cb287"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_printing.test_vlatex","kind":"function","src_hash":"7524acdb6d569bc6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: vlatex(expr) == expected"},"spec":{"lhs":"test_vlatex()","rhs":"vlatex(expr) == expected","over":{"base":"Any"},"name":"test_vlatex_correct"},"guarantee":"vlatex(expr) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_printing.test_vlatex_correct","statement":"Path(test_vlatex(x), vlatex(expr) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8c2f00d74c0053c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["vlatex(expr) == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_vlatex(): # vlatex is broken #12078
     from sympy.physics.vector import vlatex
 
@@ -397,16 +477,22 @@ def test_vlatex(): # vlatex is broken #12078
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_13354(), test for proper pretty printing of physics vectors with add instances in arguments) over Any ║
+# ║ Path(test_issue_13354(), ascii_vpretty(z) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_13354 : Any → {Any | ascii_vpretty(z) == e...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ascii_vpretty(z) == expected                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_13354 : Any → {Any | result satisfies: asc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eeefb95436178403  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c6568b3c17e63b50  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_printing.test_issue_13354","kind":"function","src_hash":"4c1f98fddefc1182","in":{"base":"Any"},"out":{"base":"Any","pred":"ascii_vpretty(z) == expected"},"spec":{"lhs":"test_issue_13354()","rhs":"test for proper pretty printing of physics vectors with add instances in arguments","over":{"base":"Any"},"name":"test_issue_13354_correct"},"guarantee":"test for proper pretty printing of physics vectors with add instances in arguments","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_printing.test_issue_13354_correct","statement":"Path(test_issue_13354(x), test for proper pretty printing of physics vectors with add instances in arguments)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eeefb95436178403"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_printing.test_issue_13354","kind":"function","src_hash":"4c1f98fddefc1182","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ascii_vpretty(z) == expected"},"spec":{"lhs":"test_issue_13354()","rhs":"ascii_vpretty(z) == expected","over":{"base":"Any"},"name":"test_issue_13354_correct"},"guarantee":"ascii_vpretty(z) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_printing.test_issue_13354_correct","statement":"Path(test_issue_13354(x), ascii_vpretty(z) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6568b3c17e63b50","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ascii_vpretty(z) == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_13354():
     """
     Test for proper pretty printing of physics vectors with ADD
@@ -428,16 +514,24 @@ def test_issue_13354():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_vector_derivative_printing(), test_vector_derivative_printing produces the expected output) over Any ║
+# ║ Path(test_vector_derivative_printing(), unicode_vpretty(v) == 'ω̇ n_x' and ascii_vpretty(v) == "omega'(t) n_x" and vlatex(v) == '\\ddot{\\omega}\\mathbf{\\hat{n}_x}' and unicode_vpretty(v) == 'ω̈ n_x' and ascii_vpretty(v) == "omega''(t) n_x" and vlatex(v) == '\\dddot{\\omega}\\mathbf{\\hat{n}_x}' and unicode_vpretty(v) == 'ω⃛ n_x' and ascii_vpretty(v) == "omega'''(t) n_x" and vlatex(v) == '\\ddddot{\\omega}\\mathbf{\\hat{n}_x}' and unicode_vpretty(v) == 'ω⃜ n_x' and ascii_vpretty(v) == "omega''''(t) n_x" and vlatex(v) == '\\frac{d^{5}}{d t^{5}} \\omega\\mathbf{\\hat{n}_x}' and unicode_vpretty(v) == uexpected and ascii_vpretty(v) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_vector_derivative_printing : Any → {Any | unicod...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  unicode_vpretty(v) == 'ω̇ n_x'                 ║
+# ║   ensures:  ascii_vpretty(v) == "omega'(t) n_x"            ║
+# ║   ensures:  vlatex(v) == '\\ddot{\\omega}\\mathbf{\\h...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_vector_derivative_printing : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07e77a458eab43a6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a9887f29a8d567ed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_printing.test_vector_derivative_printing","kind":"function","src_hash":"d592af9673805528","in":{"base":"Any"},"out":{"base":"Any","pred":"unicode_vpretty(v) == '\u03c9\u0307 n_x' and ascii_vpretty(v) == \"omega'(t) n_x\" and vlatex(v) == '\\\\ddot{\\\\omega}\\\\mathbf{\\\\hat{n}_x}' and unicode_vpretty(v) == '\u03c9\u0308 n_x' and ascii_vpretty(v) == \"omega''(t) n_x\" and vlatex(v) == '\\\\dddot{\\\\omega}\\\\mathbf{\\\\hat{n}_x}' and unicode_vpretty(v) == '\u03c9\u20db n_x' and ascii_vpretty(v) == \"omega'''(t) n_x\" and vlatex(v) == '\\\\ddddot{\\\\omega}\\\\mathbf{\\\\hat{n}_x}' and unicode_vpretty(v) == '\u03c9\u20dc n_x' and ascii_vpretty(v) == \"omega''''(t) n_x\" and vlatex(v) == '\\\\frac{d^{5}}{d t^{5}} \\\\omega\\\\mathbf{\\\\hat{n}_x}' and unicode_vpretty(v) == uexpected and ascii_vpretty(v) == expected"},"spec":{"lhs":"test_vector_derivative_printing()","rhs":"test_vector_derivative_printing produces the expected output","over":{"base":"Any"},"name":"test_vector_derivative_printing_correct"},"guarantee":"test_vector_derivative_printing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_printing.test_vector_derivative_printing_correct","statement":"Path(test_vector_derivative_printing(x), test_vector_derivative_printing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07e77a458eab43a6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_printing.test_vector_derivative_printing","kind":"function","src_hash":"d592af9673805528","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: unicode_vpretty(v) == '\u03c9\u0307 n_x' and ascii_vpretty(v) == \"omega'(t) n_x\" and vlatex(v) == '\\\\ddot{\\\\omega}\\\\mathbf{\\\\hat{n}_x}' and unicode_vpretty(v) == '\u03c9\u0308 n_x' and ascii_vpretty(v) == \"omega''(t) n_x\" and vlatex(v) == '\\\\dddot{\\\\omega}\\\\mathbf{\\\\hat{n}_x}' and unicode_vpretty(v) == '\u03c9\u20db n_x' and ascii_vpretty(v) == \"omega'''(t) n_x\" and vlatex(v) == '\\\\ddddot{\\\\omega}\\\\mathbf{\\\\hat{n}_x}' and unicode_vpretty(v) == '\u03c9\u20dc n_x' and ascii_vpretty(v) == \"omega''''(t) n_x\" and vlatex(v) == '\\\\frac{d^{5}}{d t^{5}} \\\\omega\\\\mathbf{\\\\hat{n}_x}' and unicode_vpretty(v) == uexpected and ascii_vpretty(v) == expected"},"spec":{"lhs":"test_vector_derivative_printing()","rhs":"unicode_vpretty(v) == '\u03c9\u0307 n_x' and ascii_vpretty(v) == \"omega'(t) n_x\" and vlatex(v) == '\\\\ddot{\\\\omega}\\\\mathbf{\\\\hat{n}_x}' and unicode_vpretty(v) == '\u03c9\u0308 n_x' and ascii_vpretty(v) == \"omega''(t) n_x\" and vlatex(v) == '\\\\dddot{\\\\omega}\\\\mathbf{\\\\hat{n}_x}' and unicode_vpretty(v) == '\u03c9\u20db n_x' and ascii_vpretty(v) == \"omega'''(t) n_x\" and vlatex(v) == '\\\\ddddot{\\\\omega}\\\\mathbf{\\\\hat{n}_x}' and unicode_vpretty(v) == '\u03c9\u20dc n_x' and ascii_vpretty(v) == \"omega''''(t) n_x\" and vlatex(v) == '\\\\frac{d^{5}}{d t^{5}} \\\\omega\\\\mathbf{\\\\hat{n}_x}' and unicode_vpretty(v) == uexpected and ascii_vpretty(v) == expected","over":{"base":"Any"},"name":"test_vector_derivative_printing_correct"},"guarantee":"unicode_vpretty(v) == '\u03c9\u0307 n_x'; ascii_vpretty(v) == \"omega'(t) n_x\"; vlatex(v) == '\\\\ddot{\\\\omega}\\\\mathbf{\\\\hat{n}_x}'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_printing.test_vector_derivative_printing_correct","statement":"Path(test_vector_derivative_printing(x), unicode_vpretty(v) == '\u03c9\u0307 n_x'; ascii_vpretty(v) == \"omega'(t) n_x\"; vlatex(v) == '\\\\ddot{\\\\omega}\\\\mathbf{\\\\hat{n}_x}')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9887f29a8d567ed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["unicode_vpretty(v) == '\u03c9\u0307 n_x'","ascii_vpretty(v) == \"omega'(t) n_x\"","vlatex(v) == '\\\\ddot{\\\\omega}\\\\mathbf{\\\\hat{n}_x}'","unicode_vpretty(v) == '\u03c9\u0308 n_x'","ascii_vpretty(v) == \"omega''(t) n_x\"","vlatex(v) == '\\\\dddot{\\\\omega}\\\\mathbf{\\\\hat{n}_x}'","unicode_vpretty(v) == '\u03c9\u20db n_x'","ascii_vpretty(v) == \"omega'''(t) n_x\"","vlatex(v) == '\\\\ddddot{\\\\omega}\\\\mathbf{\\\\hat{n}_x}'","unicode_vpretty(v) == '\u03c9\u20dc n_x'","ascii_vpretty(v) == \"omega''''(t) n_x\"","vlatex(v) == '\\\\frac{d^{5}}{d t^{5}} \\\\omega\\\\mathbf{\\\\hat{n}_x}'","unicode_vpretty(v) == uexpected","ascii_vpretty(v) == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_vector_derivative_printing():
     # First order
     v = omega.diff() * N.x
@@ -488,16 +582,24 @@ dt        \
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_vector_str_printing(), test_vector_str_printing produces the expected output) over Any ║
+# ║ Path(test_vector_str_printing(), vsprint(w) == 'alpha*N.x + sin(omega)*N.y + alpha*beta*N.z' and vsprint(omega.diff() * N.x) == "omega'*N.x" and vsstrrepr(w) == 'alpha*N.x + sin(omega)*N.y + alpha*beta*N.z') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_vector_str_printing : Any → {Any | vsprint(w) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  vsprint(w) == 'alpha*N.x + sin(omega)*N.y...   ║
+# ║   ensures:  vsprint(omega.diff() * N.x) == "omega'*N.x"    ║
+# ║   ensures:  vsstrrepr(w) == 'alpha*N.x + sin(omega)*N...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_vector_str_printing : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a06b8787ef1a6288  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 688f2317bb5c2caa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_printing.test_vector_str_printing","kind":"function","src_hash":"bd03563b76f7578a","in":{"base":"Any"},"out":{"base":"Any","pred":"vsprint(w) == 'alpha*N.x + sin(omega)*N.y + alpha*beta*N.z' and vsprint(omega.diff() * N.x) == \"omega'*N.x\" and vsstrrepr(w) == 'alpha*N.x + sin(omega)*N.y + alpha*beta*N.z'"},"spec":{"lhs":"test_vector_str_printing()","rhs":"test_vector_str_printing produces the expected output","over":{"base":"Any"},"name":"test_vector_str_printing_correct"},"guarantee":"test_vector_str_printing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_printing.test_vector_str_printing_correct","statement":"Path(test_vector_str_printing(x), test_vector_str_printing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a06b8787ef1a6288"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_printing.test_vector_str_printing","kind":"function","src_hash":"bd03563b76f7578a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: vsprint(w) == 'alpha*N.x + sin(omega)*N.y + alpha*beta*N.z' and vsprint(omega.diff() * N.x) == \"omega'*N.x\" and vsstrrepr(w) == 'alpha*N.x + sin(omega)*N.y + alpha*beta*N.z'"},"spec":{"lhs":"test_vector_str_printing()","rhs":"vsprint(w) == 'alpha*N.x + sin(omega)*N.y + alpha*beta*N.z' and vsprint(omega.diff() * N.x) == \"omega'*N.x\" and vsstrrepr(w) == 'alpha*N.x + sin(omega)*N.y + alpha*beta*N.z'","over":{"base":"Any"},"name":"test_vector_str_printing_correct"},"guarantee":"vsprint(w) == 'alpha*N.x + sin(omega)*N.y + alpha*beta*N.z'; vsprint(omega.diff() * N.x) == \"omega'*N.x\"; vsstrrepr(w) == 'alpha*N.x + sin(omega)*N.y + alpha*beta*N.z'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_printing.test_vector_str_printing_correct","statement":"Path(test_vector_str_printing(x), vsprint(w) == 'alpha*N.x + sin(omega)*N.y + alpha*beta*N.z'; vsprint(omega.diff() * N.x) == \"omega'*N.x\"; vsstrrepr(w) == 'alpha*N.x + sin(omega)*N.y + alpha*beta*N.z')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"688f2317bb5c2caa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["vsprint(w) == 'alpha*N.x + sin(omega)*N.y + alpha*beta*N.z'","vsprint(omega.diff() * N.x) == \"omega'*N.x\"","vsstrrepr(w) == 'alpha*N.x + sin(omega)*N.y + alpha*beta*N.z'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_vector_str_printing():
     assert vsprint(w) == 'alpha*N.x + sin(omega)*N.y + alpha*beta*N.z'
     assert vsprint(omega.diff() * N.x) == "omega'*N.x"
@@ -505,32 +607,47 @@ def test_vector_str_printing():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_vector_str_arguments(), test_vector_str_arguments produces the expected output) over Any ║
+# ║ Path(test_vector_str_arguments(), vsprint(N.x * 3.0, full_prec=False) == '3.0*N.x' and vsprint(N.x * 3.0, full_prec=True) == '3.00000000000000*N.x') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_vector_str_arguments : Any → {Any | vsprint(N.x ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  vsprint(N.x * 3.0, full_prec=False) == '3...   ║
+# ║   ensures:  vsprint(N.x * 3.0, full_prec=True) == '3....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_vector_str_arguments : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b4c57b8ed486f6f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 67cd1261229d4f1d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_printing.test_vector_str_arguments","kind":"function","src_hash":"fd9a89b483c67e96","in":{"base":"Any"},"out":{"base":"Any","pred":"vsprint(N.x * 3.0, full_prec=False) == '3.0*N.x' and vsprint(N.x * 3.0, full_prec=True) == '3.00000000000000*N.x'"},"spec":{"lhs":"test_vector_str_arguments()","rhs":"test_vector_str_arguments produces the expected output","over":{"base":"Any"},"name":"test_vector_str_arguments_correct"},"guarantee":"test_vector_str_arguments produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_printing.test_vector_str_arguments_correct","statement":"Path(test_vector_str_arguments(x), test_vector_str_arguments produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b4c57b8ed486f6f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_printing.test_vector_str_arguments","kind":"function","src_hash":"fd9a89b483c67e96","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: vsprint(N.x * 3.0, full_prec=False) == '3.0*N.x' and vsprint(N.x * 3.0, full_prec=True) == '3.00000000000000*N.x'"},"spec":{"lhs":"test_vector_str_arguments()","rhs":"vsprint(N.x * 3.0, full_prec=False) == '3.0*N.x' and vsprint(N.x * 3.0, full_prec=True) == '3.00000000000000*N.x'","over":{"base":"Any"},"name":"test_vector_str_arguments_correct"},"guarantee":"vsprint(N.x * 3.0, full_prec=False) == '3.0*N.x'; vsprint(N.x * 3.0, full_prec=True) == '3.00000000000000*N.x'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_printing.test_vector_str_arguments_correct","statement":"Path(test_vector_str_arguments(x), vsprint(N.x * 3.0, full_prec=False) == '3.0*N.x'; vsprint(N.x * 3.0, full_prec=True) == '3.00000000000000*N.x')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67cd1261229d4f1d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["vsprint(N.x * 3.0, full_prec=False) == '3.0*N.x'","vsprint(N.x * 3.0, full_prec=True) == '3.00000000000000*N.x'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_vector_str_arguments():
     assert vsprint(N.x * 3.0, full_prec=False) == '3.0*N.x'
     assert vsprint(N.x * 3.0, full_prec=True) == '3.00000000000000*N.x'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_14041(), test_issue_14041 produces the expected output) over Any ║
+# ║ Path(test_issue_14041(), vlatex(L * (phid + thetad) ** 2 * A_frame.x) == 'L \\left(\\dot{\\phi} + \\dot{\\theta}\\right)^{2}\\mathbf{\\hat{a}_x}' and vlatex((phid + thetad) ** 2 * A_frame.x) == '\\left(\\dot{\\phi} + \\dot{\\theta}\\right)^{2}\\mathbf{\\hat{a}_x}' and vlatex((phid * thetad) ** a * A_frame.x) == '\\left(\\dot{\\phi} \\dot{\\theta}\\right)^{a}\\mathbf{\\hat{a}_x}') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_14041 : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  vlatex(L * (phid + thetad) ** 2 * A_frame...   ║
+# ║   ensures:  vlatex((phid + thetad) ** 2 * A_frame.x) ...   ║
+# ║   ensures:  vlatex((phid * thetad) ** a * A_frame.x) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_14041 : Any → {Any | result satisfies: vla...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1263f4ab20756ab1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 35eeb8145fee414d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_printing.test_issue_14041","kind":"function","src_hash":"071adbace1028160","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_14041()","rhs":"test_issue_14041 produces the expected output","over":{"base":"Any"},"name":"test_issue_14041_correct"},"guarantee":"test_issue_14041 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_printing.test_issue_14041_correct","statement":"Path(test_issue_14041(x), test_issue_14041 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1263f4ab20756ab1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_printing.test_issue_14041","kind":"function","src_hash":"071adbace1028160","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: vlatex(L * (phid + thetad) ** 2 * A_frame.x) == 'L \\\\left(\\\\dot{\\\\phi} + \\\\dot{\\\\theta}\\\\right)^{2}\\\\mathbf{\\\\hat{a}_x}' and vlatex((phid + thetad) ** 2 * A_frame.x) == '\\\\left(\\\\dot{\\\\phi} + \\\\dot{\\\\theta}\\\\right)^{2}\\\\mathbf{\\\\hat{a}_x}' and vlatex((phid * thetad) ** a * A_frame.x) == '\\\\left(\\\\dot{\\\\phi} \\\\dot{\\\\theta}\\\\right)^{a}\\\\mathbf{\\\\hat{a}_x}'"},"spec":{"lhs":"test_issue_14041()","rhs":"vlatex(L * (phid + thetad) ** 2 * A_frame.x) == 'L \\\\left(\\\\dot{\\\\phi} + \\\\dot{\\\\theta}\\\\right)^{2}\\\\mathbf{\\\\hat{a}_x}' and vlatex((phid + thetad) ** 2 * A_frame.x) == '\\\\left(\\\\dot{\\\\phi} + \\\\dot{\\\\theta}\\\\right)^{2}\\\\mathbf{\\\\hat{a}_x}' and vlatex((phid * thetad) ** a * A_frame.x) == '\\\\left(\\\\dot{\\\\phi} \\\\dot{\\\\theta}\\\\right)^{a}\\\\mathbf{\\\\hat{a}_x}'","over":{"base":"Any"},"name":"test_issue_14041_correct"},"guarantee":"vlatex(L * (phid + thetad) ** 2 * A_frame.x) == 'L \\\\left(\\\\dot{\\\\phi} + \\\\dot{\\\\theta}\\\\right)^{2}\\\\mathbf{\\\\hat{a}_x}'; vlatex((phid + thetad) ** 2 * A_frame.x) == '\\\\left(\\\\dot{\\\\phi} + \\\\dot{\\\\theta}\\\\right)^{2}\\\\mathbf{\\\\hat{a}_x}'; vlatex((phid * thetad) ** a * A_frame.x) == '\\\\left(\\\\dot{\\\\phi} \\\\dot{\\\\theta}\\\\right)^{a}\\\\mathbf{\\\\hat{a}_x}'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_printing.test_issue_14041_correct","statement":"Path(test_issue_14041(x), vlatex(L * (phid + thetad) ** 2 * A_frame.x) == 'L \\\\left(\\\\dot{\\\\phi} + \\\\dot{\\\\theta}\\\\right)^{2}\\\\mathbf{\\\\hat{a}_x}'; vlatex((phid + thetad) ** 2 * A_frame.x) == '\\\\left(\\\\dot{\\\\phi} + \\\\dot{\\\\theta}\\\\right)^{2}\\\\mathbf{\\\\hat{a}_x}'; vlatex((phid * thetad) ** a * A_frame.x) == '\\\\left(\\\\dot{\\\\phi} \\\\dot{\\\\theta}\\\\right)^{a}\\\\mathbf{\\\\hat{a}_x}')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35eeb8145fee414d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["vlatex(L * (phid + thetad) ** 2 * A_frame.x) == 'L \\\\left(\\\\dot{\\\\phi} + \\\\dot{\\\\theta}\\\\right)^{2}\\\\mathbf{\\\\hat{a}_x}'","vlatex((phid + thetad) ** 2 * A_frame.x) == '\\\\left(\\\\dot{\\\\phi} + \\\\dot{\\\\theta}\\\\right)^{2}\\\\mathbf{\\\\hat{a}_x}'","vlatex((phid * thetad) ** a * A_frame.x) == '\\\\left(\\\\dot{\\\\phi} \\\\dot{\\\\theta}\\\\right)^{a}\\\\mathbf{\\\\hat{a}_x}'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_14041():
     import sympy.physics.mechanics as me
 

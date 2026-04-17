@@ -36,16 +36,22 @@ x, y, z = symbols('x,y,z')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_W(), correctly constructs a _W instance) over Any    ║
+# ║ Path(_W(), isinstance(self, Enum)) over Any                ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _W : Any → Any                                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Enum)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _W : Any → {Any | result satisfies: isinstance(self, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | acf82f3aac7ed6e7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_smtlib._W","kind":"class","src_hash":"34d7d69c579954b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_W()","rhs":"correctly constructs a _W instance","over":{"base":"Any"},"name":"_W_correct"},"guarantee":"correctly constructs a _W instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"acf82f3aac7ed6e7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_smtlib._W","kind":"class","src_hash":"34d7d69c579954b1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Enum)"},"spec":{"lhs":"_W()","rhs":"isinstance(self, Enum)","over":{"base":"Any"},"name":"_W_correct"},"guarantee":"isinstance(self, Enum)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"acf82f3aac7ed6e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Enum)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function _W not found in source"]}}
 class _W(Enum):
     DEFAULTING_TO_FLOAT = re.compile("Could not infer type of `.+`. Defaulting to float.", re.IGNORECASE)
     WILL_NOT_DECLARE = re.compile("Non-Symbol/Function `.+` will not be declared.", re.IGNORECASE)
@@ -54,16 +60,23 @@ class _W(Enum):
 
 @contextlib.contextmanager
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_warns(exp), internal helper behaves correctly) over typing.Iterable[_W] ║
+# ║ Path(_check_warns(expected), <unspecified:_check_warns>) over {typing.Iterable[_W] | isinstance(expected, typing.Iterable[_W])} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_warns : typing.Iterable[_W] → Any                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(expected, typing.Iterable[_W])      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_warns : {typing.Iterable[_W] | isinstance(expe...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 913a5a2f13bc8de9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_smtlib._check_warns","kind":"function","src_hash":"1af2b20d4c3ff93f","in":{"base":"typing.Iterable[_W]"},"out":{"base":"Any"},"spec":{"lhs":"_check_warns(exp)","rhs":"internal helper behaves correctly","over":{"base":"typing.Iterable[_W]"},"name":"_check_warns_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_smtlib._check_warns_correct","statement":"Path(_check_warns(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"913a5a2f13bc8de9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_smtlib._check_warns","kind":"function","src_hash":"1af2b20d4c3ff93f","in":{"base":"typing.Iterable[_W]","pred":"isinstance(expected, typing.Iterable[_W])"},"out":{"base":"Any"},"spec":{"lhs":"_check_warns(expected)","rhs":"<unspecified:_check_warns>","over":{"base":"typing.Iterable[_W]","pred":"isinstance(expected, typing.Iterable[_W])"},"name":"_check_warns_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_smtlib._check_warns_correct","statement":"Path(_check_warns(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"913a5a2f13bc8de9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(expected, typing.Iterable[_W])"],"pure":false,"effects":{"effect_type":"reads_state","raises":["Failed"]},"state_contract":{"exceptional_post":{"Failed":["isinstance(raised, Failed)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _check_warns(expected: typing.Iterable[_W]):
     warns: typing.List[str] = []
     log_warn = warns.append
@@ -82,16 +95,22 @@ def _check_warns(expected: typing.Iterable[_W]):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Integer(), test_Integer produces the expected output) over Any ║
+# ║ Path(test_Integer(), <unspecified:test_Integer>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Integer : Any → {Any | smtlib_code(Integer(67), ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 40b47fa885a22eb7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_smtlib.test_Integer","kind":"function","src_hash":"21d062c1b8efb52e","in":{"base":"Any"},"out":{"base":"Any","pred":"smtlib_code(Integer(67), log_warn=w) == '67' and smtlib_code(Integer(-1), log_warn=w) == '-1' and smtlib_code(Integer(67)) == '67' and smtlib_code(Integer(-1)) == '-1'"},"spec":{"lhs":"test_Integer()","rhs":"test_Integer produces the expected output","over":{"base":"Any"},"name":"test_Integer_correct"},"guarantee":"test_Integer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_smtlib.test_Integer_correct","statement":"Path(test_Integer(x), test_Integer produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40b47fa885a22eb7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_smtlib.test_Integer","kind":"function","src_hash":"21d062c1b8efb52e","in":{"base":"Any"},"out":{"base":"Any","pred":"smtlib_code(Integer(67), log_warn=w) == '67' and smtlib_code(Integer(-1), log_warn=w) == '-1' and smtlib_code(Integer(67)) == '67' and smtlib_code(Integer(-1)) == '-1'"},"spec":{"lhs":"test_Integer()","rhs":"<unspecified:test_Integer>","over":{"base":"Any"},"name":"test_Integer_correct"},"guarantee":"test_Integer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_smtlib.test_Integer_correct","statement":"Path(test_Integer(x), test_Integer produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40b47fa885a22eb7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Integer():
     with _check_warns([_W.WILL_NOT_ASSERT] * 2) as w:
         assert smtlib_code(Integer(67), log_warn=w) == "67"
@@ -102,16 +121,22 @@ def test_Integer():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Rational(), test_Rational produces the expected output) over Any ║
+# ║ Path(test_Rational(), <unspecified:test_Rational>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Rational : Any → {Any | smtlib_code(Rational(3, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3fe704604d4a7b4d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_smtlib.test_Rational","kind":"function","src_hash":"4f803d1dcbc9bba2","in":{"base":"Any"},"out":{"base":"Any","pred":"smtlib_code(Rational(3, 7), log_warn=w) == '(/ 3 7)' and smtlib_code(Rational(18, 9), log_warn=w) == '2' and smtlib_code(Rational(3, -7), log_warn=w) == '(/ -3 7)' and smtlib_code(Rational(-3, -7), log_warn=w) == '(/ 3 7)'"},"spec":{"lhs":"test_Rational()","rhs":"test_Rational produces the expected output","over":{"base":"Any"},"name":"test_Rational_correct"},"guarantee":"test_Rational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_smtlib.test_Rational_correct","statement":"Path(test_Rational(x), test_Rational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3fe704604d4a7b4d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_smtlib.test_Rational","kind":"function","src_hash":"4f803d1dcbc9bba2","in":{"base":"Any"},"out":{"base":"Any","pred":"smtlib_code(Rational(3, 7), log_warn=w) == '(/ 3 7)' and smtlib_code(Rational(18, 9), log_warn=w) == '2' and smtlib_code(Rational(3, -7), log_warn=w) == '(/ -3 7)' and smtlib_code(Rational(-3, -7), log_warn=w) == '(/ 3 7)'"},"spec":{"lhs":"test_Rational()","rhs":"<unspecified:test_Rational>","over":{"base":"Any"},"name":"test_Rational_correct"},"guarantee":"test_Rational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_smtlib.test_Rational_correct","statement":"Path(test_Rational(x), test_Rational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3fe704604d4a7b4d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Rational():
     with _check_warns([_W.WILL_NOT_ASSERT] * 4) as w:
         assert smtlib_code(Rational(3, 7), log_warn=w) == "(/ 3 7)"
@@ -126,16 +151,22 @@ def test_Rational():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Relational(), test_Relational produces the expected output) over Any ║
+# ║ Path(test_Relational(), <unspecified:test_Relational>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Relational : Any → {Any | smtlib_code(Eq(x, y), ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e790afc1df7657f6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_smtlib.test_Relational","kind":"function","src_hash":"20b04f3cef39df60","in":{"base":"Any"},"out":{"base":"Any","pred":"smtlib_code(Eq(x, y), auto_declare=False, log_warn=w) == '(assert (= x y))' and smtlib_code(Le(x, y), auto_declare=False, log_warn=w) == '(assert (<= x y))' and smtlib_code(Lt(x, y), auto_declare=False, log_warn=w) == '(assert (< x y))' and smtlib_code(Gt(x, y), auto_declare=False, log_warn=w) == '(assert (> x y))' and smtlib_code(Ge(x, y), auto_declare=False, log_warn=w) == '(assert (>= x y))'"},"spec":{"lhs":"test_Relational()","rhs":"test_Relational produces the expected output","over":{"base":"Any"},"name":"test_Relational_correct"},"guarantee":"test_Relational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_smtlib.test_Relational_correct","statement":"Path(test_Relational(x), test_Relational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e790afc1df7657f6"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_smtlib.test_Relational","kind":"function","src_hash":"20b04f3cef39df60","in":{"base":"Any"},"out":{"base":"Any","pred":"smtlib_code(Eq(x, y), auto_declare=False, log_warn=w) == '(assert (= x y))' and smtlib_code(Le(x, y), auto_declare=False, log_warn=w) == '(assert (<= x y))' and smtlib_code(Lt(x, y), auto_declare=False, log_warn=w) == '(assert (< x y))' and smtlib_code(Gt(x, y), auto_declare=False, log_warn=w) == '(assert (> x y))' and smtlib_code(Ge(x, y), auto_declare=False, log_warn=w) == '(assert (>= x y))'"},"spec":{"lhs":"test_Relational()","rhs":"<unspecified:test_Relational>","over":{"base":"Any"},"name":"test_Relational_correct"},"guarantee":"test_Relational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_smtlib.test_Relational_correct","statement":"Path(test_Relational(x), test_Relational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e790afc1df7657f6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Relational():
     with _check_warns([_W.DEFAULTING_TO_FLOAT] * 12) as w:
         assert smtlib_code(Eq(x, y), auto_declare=False, log_warn=w) == "(assert (= x y))"
@@ -147,16 +178,22 @@ def test_Relational():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_AppliedBinaryRelation(), test_AppliedBinaryRelation produces the expected output) over Any ║
+# ║ Path(test_AppliedBinaryRelation(), <unspecified:test_AppliedBinaryRelation>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_AppliedBinaryRelation : Any → {Any | smtlib_code...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e00efbe256df07ad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_smtlib.test_AppliedBinaryRelation","kind":"function","src_hash":"22775d7d5c1359bb","in":{"base":"Any"},"out":{"base":"Any","pred":"smtlib_code(Q.eq(x, y), auto_declare=False, log_warn=w) == '(assert (= x y))' and smtlib_code(Q.lt(x, y), auto_declare=False, log_warn=w) == '(assert (< x y))' and smtlib_code(Q.le(x, y), auto_declare=False, log_warn=w) == '(assert (<= x y))' and smtlib_code(Q.gt(x, y), auto_declare=False, log_warn=w) == '(assert (> x y))' and smtlib_code(Q.ge(x, y), auto_declare=False, log_warn=w) == '(assert (>= x y))'"},"spec":{"lhs":"test_AppliedBinaryRelation()","rhs":"test_AppliedBinaryRelation produces the expected output","over":{"base":"Any"},"name":"test_AppliedBinaryRelation_correct"},"guarantee":"test_AppliedBinaryRelation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_smtlib.test_AppliedBinaryRelation_correct","statement":"Path(test_AppliedBinaryRelation(x), test_AppliedBinaryRelation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e00efbe256df07ad"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_smtlib.test_AppliedBinaryRelation","kind":"function","src_hash":"22775d7d5c1359bb","in":{"base":"Any"},"out":{"base":"Any","pred":"smtlib_code(Q.eq(x, y), auto_declare=False, log_warn=w) == '(assert (= x y))' and smtlib_code(Q.lt(x, y), auto_declare=False, log_warn=w) == '(assert (< x y))' and smtlib_code(Q.le(x, y), auto_declare=False, log_warn=w) == '(assert (<= x y))' and smtlib_code(Q.gt(x, y), auto_declare=False, log_warn=w) == '(assert (> x y))' and smtlib_code(Q.ge(x, y), auto_declare=False, log_warn=w) == '(assert (>= x y))'"},"spec":{"lhs":"test_AppliedBinaryRelation()","rhs":"<unspecified:test_AppliedBinaryRelation>","over":{"base":"Any"},"name":"test_AppliedBinaryRelation_correct"},"guarantee":"test_AppliedBinaryRelation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_smtlib.test_AppliedBinaryRelation_correct","statement":"Path(test_AppliedBinaryRelation(x), test_AppliedBinaryRelation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e00efbe256df07ad","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_AppliedBinaryRelation():
     with _check_warns([_W.DEFAULTING_TO_FLOAT] * 12) as w:
         assert smtlib_code(Q.eq(x, y), auto_declare=False, log_warn=w) == "(assert (= x y))"
@@ -170,16 +207,22 @@ def test_AppliedBinaryRelation():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_AppliedPredicate(), test_AppliedPredicate produces the expected output) over Any ║
+# ║ Path(test_AppliedPredicate(), <unspecified:test_AppliedPredicate>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_AppliedPredicate : Any → {Any | smtlib_code(Q.ze...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e2a61acd7dd4002  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_smtlib.test_AppliedPredicate","kind":"function","src_hash":"fb8b399b60ab214c","in":{"base":"Any"},"out":{"base":"Any","pred":"smtlib_code(Q.zero(x), auto_declare=False, log_warn=w) == '(assert (= x 0))'"},"spec":{"lhs":"test_AppliedPredicate()","rhs":"test_AppliedPredicate produces the expected output","over":{"base":"Any"},"name":"test_AppliedPredicate_correct"},"guarantee":"test_AppliedPredicate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_smtlib.test_AppliedPredicate_correct","statement":"Path(test_AppliedPredicate(x), test_AppliedPredicate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e2a61acd7dd4002"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_smtlib.test_AppliedPredicate","kind":"function","src_hash":"fb8b399b60ab214c","in":{"base":"Any"},"out":{"base":"Any","pred":"smtlib_code(Q.zero(x), auto_declare=False, log_warn=w) == '(assert (= x 0))'"},"spec":{"lhs":"test_AppliedPredicate()","rhs":"<unspecified:test_AppliedPredicate>","over":{"base":"Any"},"name":"test_AppliedPredicate_correct"},"guarantee":"test_AppliedPredicate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_smtlib.test_AppliedPredicate_correct","statement":"Path(test_AppliedPredicate(x), test_AppliedPredicate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e2a61acd7dd4002","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_AppliedPredicate():
     with _check_warns([_W.DEFAULTING_TO_FLOAT] * 6) as w:
         assert smtlib_code(Q.positive(x), auto_declare=False, log_warn=w) == "(assert (> x 0))"
@@ -190,16 +233,22 @@ def test_AppliedPredicate():
         assert smtlib_code(Q.nonzero(x), auto_declare=False, log_warn=w) == "(assert (not (= x 0)))"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Function(), test_Function produces the expected output) over Any ║
+# ║ Path(test_Function(), <unspecified:test_Function>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Function : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a90c11abb4f3ef42  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_smtlib.test_Function","kind":"function","src_hash":"0ad8e6003a2c6f46","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Function()","rhs":"test_Function produces the expected output","over":{"base":"Any"},"name":"test_Function_correct"},"guarantee":"test_Function produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_smtlib.test_Function_correct","statement":"Path(test_Function(x), test_Function produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a90c11abb4f3ef42"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_smtlib.test_Function","kind":"function","src_hash":"0ad8e6003a2c6f46","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Function()","rhs":"<unspecified:test_Function>","over":{"base":"Any"},"name":"test_Function_correct"},"guarantee":"test_Function produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_smtlib.test_Function_correct","statement":"Path(test_Function(x), test_Function produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a90c11abb4f3ef42","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_Function():
     with _check_warns([_W.DEFAULTING_TO_FLOAT, _W.WILL_NOT_ASSERT]) as w:
         assert smtlib_code(sin(x) ** cos(x), auto_declare=False, log_warn=w) == "(pow (sin x) (cos x))"
@@ -265,16 +314,22 @@ def test_Function():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Pow(), test_Pow produces the expected output) over Any ║
+# ║ Path(test_Pow(), 2 * x) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  2 * x                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Pow : Any → {Any | smtlib_code(x ** 3, auto_decl...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b91a7b2dc9defab3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82090c1ba3a9c5a7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_smtlib.test_Pow","kind":"function","src_hash":"f9ab2d8050227847","in":{"base":"Any"},"out":{"base":"Any","pred":"smtlib_code(x ** 3, auto_declare=False, log_warn=w) == '(pow x 3)' and smtlib_code(x ** y ** 3, auto_declare=False, log_warn=w) == '(pow x (pow y 3))'"},"spec":{"lhs":"test_Pow()","rhs":"test_Pow produces the expected output","over":{"base":"Any"},"name":"test_Pow_correct"},"guarantee":"test_Pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_smtlib.test_Pow_correct","statement":"Path(test_Pow(x), test_Pow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b91a7b2dc9defab3"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_smtlib.test_Pow","kind":"function","src_hash":"f9ab2d8050227847","in":{"base":"Any"},"out":{"base":"Any","pred":"smtlib_code(x ** 3, auto_declare=False, log_warn=w) == '(pow x 3)' and smtlib_code(x ** y ** 3, auto_declare=False, log_warn=w) == '(pow x (pow y 3))'"},"spec":{"lhs":"test_Pow()","rhs":"2 * x","over":{"base":"Any"},"name":"test_Pow_correct"},"guarantee":"returns 2 * x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_smtlib.test_Pow_correct","statement":"Path(test_Pow(x), returns 2 * x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82090c1ba3a9c5a7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"2 * x","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_Pow():
     with _check_warns([_W.DEFAULTING_TO_FLOAT, _W.WILL_NOT_ASSERT]) as w:
         assert smtlib_code(x ** 3, auto_declare=False, log_warn=w) == "(pow x 3)"
@@ -322,16 +377,22 @@ def test_Pow():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_basic_ops(), test_basic_ops produces the expected output) over Any ║
+# ║ Path(test_basic_ops(), <unspecified:test_basic_ops>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_basic_ops : Any → {Any | smtlib_code(x * y, auto...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2982795544552fb5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_smtlib.test_basic_ops","kind":"function","src_hash":"98589c9e801d2277","in":{"base":"Any"},"out":{"base":"Any","pred":"smtlib_code(x * y, auto_declare=False, log_warn=w) == '(* x y)' and smtlib_code(x + y, auto_declare=False, log_warn=w) == '(+ x y)' and smtlib_code(-x, auto_declare=False, log_warn=w) == '(* -1 x)'"},"spec":{"lhs":"test_basic_ops()","rhs":"test_basic_ops produces the expected output","over":{"base":"Any"},"name":"test_basic_ops_correct"},"guarantee":"test_basic_ops produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_smtlib.test_basic_ops_correct","statement":"Path(test_basic_ops(x), test_basic_ops produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2982795544552fb5"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_smtlib.test_basic_ops","kind":"function","src_hash":"98589c9e801d2277","in":{"base":"Any"},"out":{"base":"Any","pred":"smtlib_code(x * y, auto_declare=False, log_warn=w) == '(* x y)' and smtlib_code(x + y, auto_declare=False, log_warn=w) == '(+ x y)' and smtlib_code(-x, auto_declare=False, log_warn=w) == '(* -1 x)'"},"spec":{"lhs":"test_basic_ops()","rhs":"<unspecified:test_basic_ops>","over":{"base":"Any"},"name":"test_basic_ops_correct"},"guarantee":"test_basic_ops produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_smtlib.test_basic_ops_correct","statement":"Path(test_basic_ops(x), test_basic_ops produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2982795544552fb5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_basic_ops():
     with _check_warns([_W.DEFAULTING_TO_FLOAT, _W.DEFAULTING_TO_FLOAT, _W.WILL_NOT_ASSERT]) as w:
         assert smtlib_code(x * y, auto_declare=False, log_warn=w) == "(* x y)"
@@ -348,7 +409,10 @@ def test_basic_ops():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_quantifier_extensions(), test_quantifier_extensions produces the expected output) over {Any | isinstance(function, ForAll) and isinstance(a, (tuple, Tuple)) and isinstance(a, Boolean)} ║
+# ║ Path(test_quantifier_extensions(), <unspecified:test_quantifier_extensions>) over {Any | isinstance(function, ForAll) and isinstance(a, (tuple, Tuple)) and isinstance(a, Boolean)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_quantifier_extensions : {Any | isinstance(functi...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -362,9 +426,12 @@ def test_basic_ops():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?3 ✗3 VCs | 8.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ee4a73e4...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_smtlib.test_quantifier_extensions","kind":"function","src_hash":"75ff0442e56b7817","in":{"base":"Any","pred":"isinstance(function, ForAll) and isinstance(a, (tuple, Tuple)) and isinstance(a, Boolean)"},"out":{"base":"Any","pred":"len(limits) + len(function) == len(args) and len(function) == 1"},"spec":{"lhs":"test_quantifier_extensions()","rhs":"test_quantifier_extensions produces the expected output","over":{"base":"Any","pred":"isinstance(function, ForAll) and isinstance(a, (tuple, Tuple)) and isinstance(a, Boolean)"},"name":"test_quantifier_extensions_correct"},"guarantee":"test_quantifier_extensions produces the expected output","fibers":[{"name":"ForAll","pred":"isinstance(function, ForAll)","path":{"lhs":"test_quantifier_extensions(x)","rhs":"test_quantifier_extensions produces the expected output","over":{"base":"ForAll","pred":"isinstance(function, ForAll)"},"name":"test_quantifier_extensions_ForAll_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_smtlib.test_quantifier_extensions_ForAll_correct","statement":"test_quantifier_extensions satisfies spec on ForAll inputs"},"trust":"LIBRARY"},{"name":"(tuple","pred":"isinstance(a, (tuple, Tuple))","path":{"lhs":"test_quantifier_extensions(x)","rhs":"test_quantifier_extensions produces the expected output","over":{"base":"(tuple","pred":"isinstance(a, (tuple, Tuple))"},"name":"test_quantifier_extensions_(tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_smtlib.test_quantifier_extensions_(tuple_correct","statement":"test_quantifier_extensions satisfies spec on (tuple inputs"},"trust":"LIBRARY"},{"name":"Boolean","pred":"isinstance(a, Boolean)","path":{"lhs":"test_quantifier_extensions(x)","rhs":"test_quantifier_extensions produces the expected output","over":{"base":"Boolean","pred":"isinstance(a, Boolean)"},"name":"test_quantifier_extensions_Boolean_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_smtlib.test_quantifier_extensions_Boolean_correct","statement":"test_quantifier_extensions satisfies spec on Boolean inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ee4a73e472cc433a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_smtlib.test_quantifier_extensions","kind":"function","src_hash":"75ff0442e56b7817","in":{"base":"Any","pred":"isinstance(function, ForAll) and isinstance(a, (tuple, Tuple)) and isinstance(a, Boolean)"},"out":{"base":"Any","pred":"len(limits) + len(function) == len(args) and len(function) == 1"},"spec":{"lhs":"test_quantifier_extensions()","rhs":"<unspecified:test_quantifier_extensions>","over":{"base":"Any","pred":"isinstance(function, ForAll) and isinstance(a, (tuple, Tuple)) and isinstance(a, Boolean)"},"name":"test_quantifier_extensions_correct"},"guarantee":"test_quantifier_extensions produces the expected output","fibers":[{"name":"ForAll","pred":"isinstance(function, ForAll)","path":{"lhs":"test_quantifier_extensions(x)","rhs":"test_quantifier_extensions produces the expected output","over":{"base":"ForAll","pred":"isinstance(function, ForAll)"},"name":"test_quantifier_extensions_ForAll_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_smtlib.test_quantifier_extensions_ForAll_correct","statement":"test_quantifier_extensions satisfies spec on ForAll inputs"},"trust":"LIBRARY"},{"name":"(tuple","pred":"isinstance(a, (tuple, Tuple))","path":{"lhs":"test_quantifier_extensions(x)","rhs":"test_quantifier_extensions produces the expected output","over":{"base":"(tuple","pred":"isinstance(a, (tuple, Tuple))"},"name":"test_quantifier_extensions_(tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_smtlib.test_quantifier_extensions_(tuple_correct","statement":"test_quantifier_extensions satisfies spec on (tuple inputs"},"trust":"LIBRARY"},{"name":"Boolean","pred":"isinstance(a, Boolean)","path":{"lhs":"test_quantifier_extensions(x)","rhs":"test_quantifier_extensions produces the expected output","over":{"base":"Boolean","pred":"isinstance(a, Boolean)"},"name":"test_quantifier_extensions_Boolean_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_smtlib.test_quantifier_extensions_Boolean_correct","statement":"test_quantifier_extensions satisfies spec on Boolean inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ee4a73e472cc433a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":2,"n_assumed":3,"n_failed":3,"trust_level":"LIBRARY_ASSUMED","compile_ms":8.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(function, ForAll)'}, fibers={'ForAll', 'Boolean', '(tuple'})"]}}
 def test_quantifier_extensions():
     from sympy.logic.boolalg import Boolean
     from sympy import Interval, Tuple, sympify
@@ -454,16 +521,22 @@ def test_quantifier_extensions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mix_number_mult_symbols(), test_mix_number_mult_symbols produces the expected output) over Any ║
+# ║ Path(test_mix_number_mult_symbols(), <unspecified:test_mix_number_mult_symbols>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_mix_number_mult_symbols : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6243bbc3e9e4e7f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_smtlib.test_mix_number_mult_symbols","kind":"function","src_hash":"cd81c62a37faaa6b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_mix_number_mult_symbols()","rhs":"test_mix_number_mult_symbols produces the expected output","over":{"base":"Any"},"name":"test_mix_number_mult_symbols_correct"},"guarantee":"test_mix_number_mult_symbols produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_smtlib.test_mix_number_mult_symbols_correct","statement":"Path(test_mix_number_mult_symbols(x), test_mix_number_mult_symbols produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6243bbc3e9e4e7f1"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_smtlib.test_mix_number_mult_symbols","kind":"function","src_hash":"cd81c62a37faaa6b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_mix_number_mult_symbols()","rhs":"<unspecified:test_mix_number_mult_symbols>","over":{"base":"Any"},"name":"test_mix_number_mult_symbols_correct"},"guarantee":"test_mix_number_mult_symbols produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_smtlib.test_mix_number_mult_symbols_correct","statement":"Path(test_mix_number_mult_symbols(x), test_mix_number_mult_symbols produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6243bbc3e9e4e7f1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_mix_number_mult_symbols():
     with _check_warns([_W.WILL_NOT_ASSERT]) as w:
         assert smtlib_code(
@@ -535,16 +608,22 @@ def test_mix_number_mult_symbols():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_boolean(), test_boolean produces the expected output) over Any ║
+# ║ Path(test_boolean(), <unspecified:test_boolean>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_boolean : Any → {Any | smtlib_code(~x, log_warn=...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ba3ed81b955bb6c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_smtlib.test_boolean","kind":"function","src_hash":"e92c9392ed98d506","in":{"base":"Any"},"out":{"base":"Any","pred":"smtlib_code(~x, log_warn=w) == '(declare-const x Bool)\\n(assert (not x))'"},"spec":{"lhs":"test_boolean()","rhs":"test_boolean produces the expected output","over":{"base":"Any"},"name":"test_boolean_correct"},"guarantee":"test_boolean produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_smtlib.test_boolean_correct","statement":"Path(test_boolean(x), test_boolean produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ba3ed81b955bb6c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_smtlib.test_boolean","kind":"function","src_hash":"e92c9392ed98d506","in":{"base":"Any"},"out":{"base":"Any","pred":"smtlib_code(~x, log_warn=w) == '(declare-const x Bool)\\n(assert (not x))'"},"spec":{"lhs":"test_boolean()","rhs":"<unspecified:test_boolean>","over":{"base":"Any"},"name":"test_boolean_correct"},"guarantee":"test_boolean produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_smtlib.test_boolean_correct","statement":"Path(test_boolean(x), test_boolean produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ba3ed81b955bb6c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_boolean():
     with _check_warns([]) as w:
         assert smtlib_code(x & y, log_warn=w) == '(declare-const x Bool)\n' \
@@ -634,16 +713,22 @@ def test_boolean():
 #     assert julia_code((1, eye(3), Matrix(0, 0, []), [])) == "(1, [1 0 0;\n0 1 0;\n0 0 1], zeros(0, 0), Any[])"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_smtlib_piecewise(), test_smtlib_piecewise produces the expected output) over Any ║
+# ║ Path(test_smtlib_piecewise(), <unspecified:test_smtlib_piecewise>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_smtlib_piecewise : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f1a278e27723dc16  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_smtlib.test_smtlib_piecewise","kind":"function","src_hash":"13bc54f549bdf899","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_smtlib_piecewise()","rhs":"test_smtlib_piecewise produces the expected output","over":{"base":"Any"},"name":"test_smtlib_piecewise_correct"},"guarantee":"test_smtlib_piecewise produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_smtlib.test_smtlib_piecewise_correct","statement":"Path(test_smtlib_piecewise(x), test_smtlib_piecewise produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1a278e27723dc16"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_smtlib.test_smtlib_piecewise","kind":"function","src_hash":"13bc54f549bdf899","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_smtlib_piecewise()","rhs":"<unspecified:test_smtlib_piecewise>","over":{"base":"Any"},"name":"test_smtlib_piecewise_correct"},"guarantee":"test_smtlib_piecewise produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_smtlib.test_smtlib_piecewise_correct","statement":"Path(test_smtlib_piecewise(x), test_smtlib_piecewise produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1a278e27723dc16","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_smtlib_piecewise():
     with _check_warns([_W.DEFAULTING_TO_FLOAT, _W.WILL_NOT_ASSERT]) as w:
         assert smtlib_code(
@@ -673,16 +758,22 @@ def test_smtlib_piecewise():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_smtlib_piecewise_times_const(), test_smtlib_piecewise_times_const produces the expected output) over Any ║
+# ║ Path(test_smtlib_piecewise_times_const(), <unspecified:test_smtlib_piecewise_times_const>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_smtlib_piecewise_times_const : Any → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4032baa2d41f7b47  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_smtlib.test_smtlib_piecewise_times_const","kind":"function","src_hash":"a5ccecd95227d75c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_smtlib_piecewise_times_const()","rhs":"test_smtlib_piecewise_times_const produces the expected output","over":{"base":"Any"},"name":"test_smtlib_piecewise_times_const_correct"},"guarantee":"test_smtlib_piecewise_times_const produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_smtlib.test_smtlib_piecewise_times_const_correct","statement":"Path(test_smtlib_piecewise_times_const(x), test_smtlib_piecewise_times_const produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4032baa2d41f7b47"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_smtlib.test_smtlib_piecewise_times_const","kind":"function","src_hash":"a5ccecd95227d75c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_smtlib_piecewise_times_const()","rhs":"<unspecified:test_smtlib_piecewise_times_const>","over":{"base":"Any"},"name":"test_smtlib_piecewise_times_const_correct"},"guarantee":"test_smtlib_piecewise_times_const produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_smtlib.test_smtlib_piecewise_times_const_correct","statement":"Path(test_smtlib_piecewise_times_const(x), test_smtlib_piecewise_times_const produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4032baa2d41f7b47","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_smtlib_piecewise_times_const():
     pw = Piecewise((x, x < 1), (x ** 2, True))
     with _check_warns([_W.DEFAULTING_TO_FLOAT, _W.WILL_NOT_ASSERT]) as w:
@@ -719,16 +810,22 @@ def test_smtlib_piecewise_times_const():
 #     assert julia_code(sum(A)) == "AA[1,1] + AA[1,2] + AA[1,3]"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_smtlib_boolean(), test_smtlib_boolean produces the expected output) over Any ║
+# ║ Path(test_smtlib_boolean(), <unspecified:test_smtlib_boolean>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_smtlib_boolean : Any → {Any | smtlib_code(True, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e795fde3f3b90117  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_smtlib.test_smtlib_boolean","kind":"function","src_hash":"fcd13aca77d7d311","in":{"base":"Any"},"out":{"base":"Any","pred":"smtlib_code(True, auto_assert=False, log_warn=w) == 'true' and smtlib_code(True, log_warn=w) == '(assert true)' and smtlib_code(S.true, log_warn=w) == '(assert true)' and smtlib_code(S.false, log_warn=w) == '(assert false)' and smtlib_code(False, log_warn=w) == '(assert false)' and smtlib_code(False, auto_assert=False, log_warn=w) == 'false'"},"spec":{"lhs":"test_smtlib_boolean()","rhs":"test_smtlib_boolean produces the expected output","over":{"base":"Any"},"name":"test_smtlib_boolean_correct"},"guarantee":"test_smtlib_boolean produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_smtlib.test_smtlib_boolean_correct","statement":"Path(test_smtlib_boolean(x), test_smtlib_boolean produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e795fde3f3b90117"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_smtlib.test_smtlib_boolean","kind":"function","src_hash":"fcd13aca77d7d311","in":{"base":"Any"},"out":{"base":"Any","pred":"smtlib_code(True, auto_assert=False, log_warn=w) == 'true' and smtlib_code(True, log_warn=w) == '(assert true)' and smtlib_code(S.true, log_warn=w) == '(assert true)' and smtlib_code(S.false, log_warn=w) == '(assert false)' and smtlib_code(False, log_warn=w) == '(assert false)' and smtlib_code(False, auto_assert=False, log_warn=w) == 'false'"},"spec":{"lhs":"test_smtlib_boolean()","rhs":"<unspecified:test_smtlib_boolean>","over":{"base":"Any"},"name":"test_smtlib_boolean_correct"},"guarantee":"test_smtlib_boolean produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_smtlib.test_smtlib_boolean_correct","statement":"Path(test_smtlib_boolean(x), test_smtlib_boolean produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e795fde3f3b90117","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_smtlib_boolean():
     with _check_warns([]) as w:
         assert smtlib_code(True, auto_assert=False, log_warn=w) == 'true'
@@ -740,16 +837,22 @@ def test_smtlib_boolean():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_not_supported(), test_not_supported produces the expected output) over Any ║
+# ║ Path(test_not_supported(), <unspecified:test_not_supported>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_not_supported : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e42797f08b1d012c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_smtlib.test_not_supported","kind":"function","src_hash":"bc8fe6c8cefd82e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_not_supported()","rhs":"test_not_supported produces the expected output","over":{"base":"Any"},"name":"test_not_supported_correct"},"guarantee":"test_not_supported produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_smtlib.test_not_supported_correct","statement":"Path(test_not_supported(x), test_not_supported produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e42797f08b1d012c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_smtlib.test_not_supported","kind":"function","src_hash":"bc8fe6c8cefd82e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_not_supported()","rhs":"<unspecified:test_not_supported>","over":{"base":"Any"},"name":"test_not_supported_correct"},"guarantee":"test_not_supported produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_smtlib.test_not_supported_correct","statement":"Path(test_not_supported(x), test_not_supported produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e42797f08b1d012c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_not_supported():
     f = Function('f')
     with _check_warns([_W.DEFAULTING_TO_FLOAT, _W.WILL_NOT_ASSERT]) as w:
@@ -759,16 +862,24 @@ def test_not_supported():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Float(), test_Float produces the expected output) over Any ║
+# ║ Path(test_Float(), smtlib_code(0.0) == '0.0' and smtlib_code(3e-18) == '(* 3.0 (pow 10 -18))' and smtlib_code(5.3) == '5.3') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Float : Any → {Any | smtlib_code(0.0) == '0.0' a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  smtlib_code(0.0) == '0.0'                      ║
+# ║   ensures:  smtlib_code(3e-18) == '(* 3.0 (pow 10 -18))'   ║
+# ║   ensures:  smtlib_code(5.3) == '5.3'                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Float : Any → {Any | result satisfies: smtlib_co...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4755b2d32ee24e90  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | efa915ff7bfb468c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_smtlib.test_Float","kind":"function","src_hash":"360b2aefa9ca5b68","in":{"base":"Any"},"out":{"base":"Any","pred":"smtlib_code(0.0) == '0.0' and smtlib_code(3e-18) == '(* 3.0 (pow 10 -18))' and smtlib_code(5.3) == '5.3'"},"spec":{"lhs":"test_Float()","rhs":"test_Float produces the expected output","over":{"base":"Any"},"name":"test_Float_correct"},"guarantee":"test_Float produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_smtlib.test_Float_correct","statement":"Path(test_Float(x), test_Float produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4755b2d32ee24e90"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_smtlib.test_Float","kind":"function","src_hash":"360b2aefa9ca5b68","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: smtlib_code(0.0) == '0.0' and smtlib_code(3e-18) == '(* 3.0 (pow 10 -18))' and smtlib_code(5.3) == '5.3'"},"spec":{"lhs":"test_Float()","rhs":"smtlib_code(0.0) == '0.0' and smtlib_code(3e-18) == '(* 3.0 (pow 10 -18))' and smtlib_code(5.3) == '5.3'","over":{"base":"Any"},"name":"test_Float_correct"},"guarantee":"smtlib_code(0.0) == '0.0'; smtlib_code(3e-18) == '(* 3.0 (pow 10 -18))'; smtlib_code(5.3) == '5.3'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_smtlib.test_Float_correct","statement":"Path(test_Float(x), smtlib_code(0.0) == '0.0'; smtlib_code(3e-18) == '(* 3.0 (pow 10 -18))'; smtlib_code(5.3) == '5.3')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"efa915ff7bfb468c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["smtlib_code(0.0) == '0.0'","smtlib_code(3e-18) == '(* 3.0 (pow 10 -18))'","smtlib_code(5.3) == '5.3'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Float():
     assert smtlib_code(0.0) == "0.0"
     assert smtlib_code(0.000000000000000003) == '(* 3.0 (pow 10 -18))'

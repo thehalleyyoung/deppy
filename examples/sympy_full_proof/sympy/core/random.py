@@ -59,32 +59,44 @@ _assumptions_shuffle = _assumptions_rng.shuffle
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(seed(a, ), seed produces the expected output) over Any ║
+# ║ Path(seed(a, version), <unspecified:seed>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ seed : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b74b90bbc7b596c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.random.seed","kind":"function","src_hash":"fc6cd5dcc1f51e0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"seed(a, )","rhs":"seed produces the expected output","over":{"base":"Any"},"name":"seed_correct"},"guarantee":"seed produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.random.seed_correct","statement":"Path(seed(x), seed produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b74b90bbc7b596c"}
+# @cctt_verify {"v":2,"sym":"sympy.core.random.seed","kind":"function","src_hash":"fc6cd5dcc1f51e0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"seed(a, version)","rhs":"<unspecified:seed>","over":{"base":"Any"},"name":"seed_correct"},"guarantee":"seed produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.random.seed_correct","statement":"Path(seed(x), seed produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b74b90bbc7b596c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def seed(a=None, version=2):
     rng.seed(a=a, version=version)
     _assumptions_rng.seed(a=a, version=version)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(random_complex_number(a, ), return a random complex number) over Any ║
+# ║ Path(random_complex_number(a, b, c), <unspecified:random_complex_number>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ random_complex_number : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6911ec8eb4768075  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.random.random_complex_number","kind":"function","src_hash":"d24341cd455e3cd9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"random_complex_number(a, )","rhs":"return a random complex number","over":{"base":"Any"},"name":"random_complex_number_correct"},"guarantee":"return a random complex number","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.random.random_complex_number_correct","statement":"Path(random_complex_number(x), return a random complex number)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6911ec8eb4768075"}
+# @cctt_verify {"v":2,"sym":"sympy.core.random.random_complex_number","kind":"function","src_hash":"d24341cd455e3cd9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"random_complex_number(a, b, c)","rhs":"<unspecified:random_complex_number>","over":{"base":"Any"},"name":"random_complex_number_correct"},"guarantee":"return a random complex number","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.random.random_complex_number_correct","statement":"Path(random_complex_number(x), return a random complex number)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6911ec8eb4768075","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["uniform"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def random_complex_number(a=2, b=-1, c=3, d=1, rational=False, tolerance=None):
     """
     Return a random complex number.
@@ -105,9 +117,15 @@ def random_complex_number(a=2, b=-1, c=3, d=1, rational=False, tolerance=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(verify_numerically(f, ), test numerically that f and g agree when evaluated in the argument z) over {Any | isinstance(z, Symbol)} ║
+# ║ Path(verify_numerically(f, g, z), comp(z1, z2, tol)) over {Any | isinstance(z, Symbol) and hasattr(f, 'free_symbols') and hasattr(g, 'free_symbols') and hasattr(f, 'subs') and hasattr(g, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ verify_numerically : {Any | isinstance(z, Symbol)} → Any   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'free_symbols')                     ║
+# ║   requires: hasattr(g, 'free_symbols')                     ║
+# ║   requires: hasattr(f, 'subs')                             ║
+# ║   returns:  comp(z1, z2, tol)                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ verify_numerically : {Any | isinstance(z, Symbol) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Symbol: {isinstance(z, Symbol)} → library_axiom          ║
@@ -117,9 +135,12 @@ def random_complex_number(a=2, b=-1, c=3, d=1, rational=False, tolerance=None):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 50168383...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.random.verify_numerically","kind":"function","src_hash":"9a08e2c659bc6042","in":{"base":"Any","pred":"isinstance(z, Symbol)"},"out":{"base":"Any"},"spec":{"lhs":"verify_numerically(f, )","rhs":"test numerically that f and g agree when evaluated in the argument z","over":{"base":"Any","pred":"isinstance(z, Symbol)"},"name":"verify_numerically_correct"},"guarantee":"test numerically that f and g agree when evaluated in the argument z","fibers":[{"name":"Symbol","pred":"isinstance(z, Symbol)","path":{"lhs":"verify_numerically(x)","rhs":"test numerically that f and g agree when evaluated in the argument z","over":{"base":"Symbol","pred":"isinstance(z, Symbol)"},"name":"verify_numerically_Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.random.verify_numerically_Symbol_correct","statement":"verify_numerically satisfies spec on Symbol inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"501683831e39554c"}
+# @cctt_verify {"v":2,"sym":"sympy.core.random.verify_numerically","kind":"function","src_hash":"9a08e2c659bc6042","in":{"base":"Any","pred":"isinstance(z, Symbol) and hasattr(f, 'free_symbols') and hasattr(g, 'free_symbols') and hasattr(f, 'subs') and hasattr(g, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"verify_numerically(f, g, z)","rhs":"comp(z1, z2, tol)","over":{"base":"Any","pred":"isinstance(z, Symbol) and hasattr(f, 'free_symbols') and hasattr(g, 'free_symbols') and hasattr(f, 'subs') and hasattr(g, 'subs')"},"name":"verify_numerically_correct"},"guarantee":"returns comp(z1, z2, tol)","fibers":[{"name":"Symbol","pred":"isinstance(z, Symbol)","path":{"lhs":"verify_numerically(x)","rhs":"returns comp(z1, z2, tol)","over":{"base":"Symbol","pred":"isinstance(z, Symbol)"},"name":"verify_numerically_Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.random.verify_numerically_Symbol_correct","statement":"verify_numerically satisfies spec on Symbol inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"501683831e39554c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'free_symbols')","hasattr(g, 'free_symbols')","hasattr(f, 'subs')","hasattr(g, 'subs')"],"returns_expr":"comp(z1, z2, tol)","pure":false,"effects":{"effect_type":"reads_state","reads":["f.free_symbols","f.subs","g.free_symbols","g.subs"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'z is None', 'isinstance(z, Symbol)'}, fibers={'Symbol'})"]}}
 def verify_numerically(f, g, z=None, tol=1.0e-6, a=2, b=-1, c=3, d=1):
     """
     Test numerically that f and g agree when evaluated in the argument z.
@@ -153,16 +174,23 @@ def verify_numerically(f, g, z=None, tol=1.0e-6, a=2, b=-1, c=3, d=1):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_derivative_numerically(f, ), id) over Any        ║
+# ║ Path(test_derivative_numerically(f, z, tol), id) over {Any | hasattr(f, 'diff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_derivative_numerically : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'diff')                             ║
+# ║   returns:  comp(f1.n(), f2.n(), tol)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_derivative_numerically : {Any | hasattr(f, 'diff...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 143c2f6133e8e473   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.random.test_derivative_numerically","kind":"function","src_hash":"40b969138282f6f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_derivative_numerically(f, )","rhs":"test numerically that the symbolically computed derivative of f with respect to z is correct","over":{"base":"Any"},"name":"test_derivative_numerically_correct","kind":"composition"},"guarantee":"test numerically that the symbolically computed derivative of f with respect to z is correct","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"comp","by":"library_axiom"},{"fn":"n","by":"library_axiom"},{"fn":"n","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"143c2f6133e8e473"}
+# @cctt_verify {"v":2,"sym":"sympy.core.random.test_derivative_numerically","kind":"function","src_hash":"40b969138282f6f7","in":{"base":"Any","pred":"hasattr(f, 'diff')"},"out":{"base":"Any"},"spec":{"lhs":"test_derivative_numerically(f, z, tol)","rhs":"comp(f1.n(), f2.n(), tol)","over":{"base":"Any","pred":"hasattr(f, 'diff')"},"name":"test_derivative_numerically_correct","kind":"composition"},"guarantee":"returns comp(f1.n(), f2.n(), tol)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"comp","by":"library_axiom"},{"fn":"n","by":"library_axiom"},{"fn":"n","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"143c2f6133e8e473","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'diff')"],"returns_expr":"comp(f1.n(), f2.n(), tol)","pure":false,"effects":{"effect_type":"reads_state","reads":["f.diff"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_derivative_numerically(f, z, tol=1.0e-6, a=2, b=-1, c=3, d=1):
     """
     Test numerically that the symbolically computed derivative of f
@@ -190,9 +218,18 @@ def test_derivative_numerically(f, z, tol=1.0e-6, a=2, b=-1, c=3, d=1):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_randrange(see), return a randrange generator) over {Any | isinstance(seed, int)} ║
+# ║ Path(_randrange(seed), len(seed) == old_len_seed and len(seq) == old_len_seq - 1) over {Any | isinstance(seed, int) and hasattr(seed, 'reverse') and len(seq) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _randrange : {Any | isinstance(seed, int)} → Any           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(seed, 'reverse')                       ║
+# ║   requires: len(seq) > 0                                   ║
+# ║   ensures:  len(seed) == old_len_seed                      ║
+# ║   ensures:  len(seq) == old_len_seq - 1                    ║
+# ║   fiber[zero_or_none]: seed is None => randrange           ║
+# ║   fiber[int]: isinstance(seed, int) => randrange           ║
+# ║   fiber[case_2]: is_sequence(seed) => give                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _randrange : {Any | isinstance(seed, int) and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   int: {isinstance(seed, int)} → library_axiom             ║
@@ -202,9 +239,12 @@ def test_derivative_numerically(f, z, tol=1.0e-6, a=2, b=-1, c=3, d=1):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 09b1f54a...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.random._randrange","kind":"function","src_hash":"a5dfda16a6b96016","in":{"base":"Any","pred":"isinstance(seed, int)"},"out":{"base":"Any"},"spec":{"lhs":"_randrange(see)","rhs":"return a randrange generator","over":{"base":"Any","pred":"isinstance(seed, int)"},"name":"_randrange_correct"},"guarantee":"return a randrange generator","fibers":[{"name":"int","pred":"isinstance(seed, int)","path":{"lhs":"_randrange(x)","rhs":"return a randrange generator","over":{"base":"int","pred":"isinstance(seed, int)"},"name":"_randrange_int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.random._randrange_int_correct","statement":"_randrange satisfies spec on int inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"09b1f54a6433b820"}
+# @cctt_verify {"v":2,"sym":"sympy.core.random._randrange","kind":"function","src_hash":"a5dfda16a6b96016","in":{"base":"Any","pred":"isinstance(seed, int) and hasattr(seed, 'reverse') and len(seq) > 0"},"out":{"base":"Any","pred":"result satisfies: len(seed) == old_len_seed and len(seq) == old_len_seq - 1"},"spec":{"lhs":"_randrange(seed)","rhs":"len(seed) == old_len_seed and len(seq) == old_len_seq - 1","over":{"base":"Any","pred":"isinstance(seed, int) and hasattr(seed, 'reverse') and len(seq) > 0"},"name":"_randrange_correct"},"guarantee":"len(seed) == old_len_seed; len(seq) == old_len_seq - 1; 4-fiber decomposition","fibers":[{"name":"int","pred":"isinstance(seed, int)","path":{"lhs":"_randrange(x)","rhs":"len(seed) == old_len_seed; len(seq) == old_len_seq - 1; 4-fiber decomposition","over":{"base":"int","pred":"isinstance(seed, int)"},"name":"_randrange_int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.random._randrange_int_correct","statement":"_randrange satisfies spec on int inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"09b1f54a6433b820","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(seed, 'reverse')","len(seq) > 0"],"ensures":["len(seed) == old_len_seed","len(seq) == old_len_seq - 1"],"fibers":[{"name":"zero_or_none","guard":"seed is None","ensures":["result == randrange"],"decidability":"structural","returns_expr":"randrange"},{"name":"int","guard":"isinstance(seed, int)","ensures":["result == randrange"],"decidability":"structural","returns_expr":"randrange"},{"name":"case_2","guard":"is_sequence(seed)","ensures":["result == give"],"decidability":"library","returns_expr":"give"},{"name":"int","guard":"not (seed is None) and not (isinstance(seed, int)) and not (is_sequence(seed))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"mutates_args","reads":["seed.reverse"],"calls_mutating":["seed.reverse","seq.pop"],"raises":["ValueError"],"catches":["IndexError"]},"state_contract":{"modifies":["seed.*","seq.*"],"old_bindings":{"old_len_seed":"len(seed)","old_len_seq":"len(seq)"},"pre_requires":["len(seq) > 0"],"post_ensures":["len(seed) == old_len_seed","len(seq) == old_len_seq - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'w < 1', 'a <= x < b', 'isinstance(seed, int)', 'b is None', 'seed is None'}, fibers={'int'})"]}}
 def _randrange(seed=None):
     """Return a randrange generator.
 
@@ -259,9 +299,18 @@ def _randrange(seed=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_randint(see), return a randint generator) over {Any | isinstance(seed, int)} ║
+# ║ Path(_randint(seed), len(seed) == old_len_seed and len(seq) == old_len_seq - 1) over {Any | isinstance(seed, int) and hasattr(seed, 'reverse') and len(seq) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _randint : {Any | isinstance(seed, int)} → Any             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(seed, 'reverse')                       ║
+# ║   requires: len(seq) > 0                                   ║
+# ║   ensures:  len(seed) == old_len_seed                      ║
+# ║   ensures:  len(seq) == old_len_seq - 1                    ║
+# ║   fiber[zero_or_none]: seed is None => randint             ║
+# ║   fiber[int]: isinstance(seed, int) => randint             ║
+# ║   fiber[case_2]: is_sequence(seed) => give                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _randint : {Any | isinstance(seed, int) and hasattr(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   int: {isinstance(seed, int)} → library_axiom             ║
@@ -271,9 +320,12 @@ def _randrange(seed=None):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | d2b575a7...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.random._randint","kind":"function","src_hash":"f49625c19df24399","in":{"base":"Any","pred":"isinstance(seed, int)"},"out":{"base":"Any"},"spec":{"lhs":"_randint(see)","rhs":"return a randint generator","over":{"base":"Any","pred":"isinstance(seed, int)"},"name":"_randint_correct"},"guarantee":"return a randint generator","fibers":[{"name":"int","pred":"isinstance(seed, int)","path":{"lhs":"_randint(x)","rhs":"return a randint generator","over":{"base":"int","pred":"isinstance(seed, int)"},"name":"_randint_int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.random._randint_int_correct","statement":"_randint satisfies spec on int inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d2b575a730201c8f"}
+# @cctt_verify {"v":2,"sym":"sympy.core.random._randint","kind":"function","src_hash":"f49625c19df24399","in":{"base":"Any","pred":"isinstance(seed, int) and hasattr(seed, 'reverse') and len(seq) > 0"},"out":{"base":"Any","pred":"result satisfies: len(seed) == old_len_seed and len(seq) == old_len_seq - 1"},"spec":{"lhs":"_randint(seed)","rhs":"len(seed) == old_len_seed and len(seq) == old_len_seq - 1","over":{"base":"Any","pred":"isinstance(seed, int) and hasattr(seed, 'reverse') and len(seq) > 0"},"name":"_randint_correct"},"guarantee":"len(seed) == old_len_seed; len(seq) == old_len_seq - 1; 4-fiber decomposition","fibers":[{"name":"int","pred":"isinstance(seed, int)","path":{"lhs":"_randint(x)","rhs":"len(seed) == old_len_seed; len(seq) == old_len_seq - 1; 4-fiber decomposition","over":{"base":"int","pred":"isinstance(seed, int)"},"name":"_randint_int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.random._randint_int_correct","statement":"_randint satisfies spec on int inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d2b575a730201c8f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(seed, 'reverse')","len(seq) > 0"],"ensures":["len(seed) == old_len_seed","len(seq) == old_len_seq - 1"],"fibers":[{"name":"zero_or_none","guard":"seed is None","ensures":["result == randint"],"decidability":"structural","returns_expr":"randint"},{"name":"int","guard":"isinstance(seed, int)","ensures":["result == randint"],"decidability":"structural","returns_expr":"randint"},{"name":"case_2","guard":"is_sequence(seed)","ensures":["result == give"],"decidability":"library","returns_expr":"give"},{"name":"int","guard":"not (seed is None) and not (isinstance(seed, int)) and not (is_sequence(seed))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"mutates_args","reads":["seed.reverse"],"calls_mutating":["seed.reverse","seq.pop"],"raises":["ValueError"],"catches":["IndexError"]},"state_contract":{"modifies":["seed.*","seq.*"],"old_bindings":{"old_len_seed":"len(seed)","old_len_seq":"len(seq)"},"pre_requires":["len(seq) > 0"],"post_ensures":["len(seed) == old_len_seed","len(seq) == old_len_seq - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'seed is None', 'isinstance(seed, int)', 'a <= x <= b', 'w < 0'}, fibers={'int'})"]}}
 def _randint(seed=None):
     """Return a randint generator.
 

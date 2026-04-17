@@ -61,14 +61,19 @@ from sympy.utilities.iterables import iterable
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Module instance) preserved by Module(*args) over {Any | isinstance(elem, self.dtype) and isinstance(e, Module) and isinstance(e, Ideal)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Module : {Any | isinstance(elem, self.dtype) and isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec7c0b94bfd6d2e8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.Module","kind":"class","src_hash":"0b8060052d7fdb2e","in":{"base":"Any","pred":"isinstance(elem, self.dtype) and isinstance(e, Module) and isinstance(e, Ideal)"},"out":{"base":"Any"},"spec":{"lhs":"Module(*args)","rhs":"correctly constructs a Module instance","over":{"base":"Any","pred":"isinstance(elem, self.dtype) and isinstance(e, Module) and isinstance(e, Ideal)"},"name":"Module_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Module instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'ring')","kind":"class","induction":"structural on ring"}],"methods_preserving":["__init__","convert","submodule","quotient_module","__truediv__","contains","__contains__","subset","__eq__","__ne__","is_zero","is_submodule","multiply_ideal","__mul__","identity_hom"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec7c0b94bfd6d2e8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.Module","kind":"class","src_hash":"0b8060052d7fdb2e","in":{"base":"Any","pred":"isinstance(elem, self.dtype) and isinstance(e, Module) and isinstance(e, Ideal)"},"out":{"base":"Any"},"spec":{"lhs":"Module(*args)","rhs":"correctly constructs a Module instance","over":{"base":"Any","pred":"isinstance(elem, self.dtype) and isinstance(e, Module) and isinstance(e, Ideal)"},"name":"Module_class_invariant","kind":"invariant"},"guarantee":"preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'ring')","kind":"class","induction":"structural on ring"}],"methods_preserving":["__init__","convert","submodule","quotient_module","__truediv__","contains","__contains__","subset","__eq__","__ne__","is_zero","is_submodule","multiply_ideal","__mul__","identity_hom"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec7c0b94bfd6d2e8","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'ring')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function Module not found in source"]}}
 class Module:
     """
     Abstract base class for modules.
@@ -97,30 +102,44 @@ class Module:
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(rin), initializes the instance correctly) over Any ║
+# ║ Path(__init__(ring), self.ring == ring) over Any           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.ring == ring                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.ring =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 69afd9a9941a3ea5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.Module.__init__","kind":"method","src_hash":"985c4c531746f3a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(rin)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"69afd9a9941a3ea5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.Module.__init__","kind":"method","src_hash":"985c4c531746f3a4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.ring == ring"},"spec":{"lhs":"__init__(ring)","rhs":"self.ring == ring","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.ring == ring","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"69afd9a9941a3ea5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.ring == ring"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, ring):
         self.ring = ring
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(convert(ele), convert ``elem`` into internal representation of this module) over Any ║
+# ║ Path(convert(elem, M), elem) over {Any | isinstance(elem, self.dtype)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ convert : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(elem, self.dtype)                   ║
+# ║   ensures:  result == elem                                 ║
+# ║   returns:  elem                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ convert : {Any | isinstance(elem, self.dtype)} → {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ea523759b1ce21b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0116c0f8fd7516c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.Module.convert","kind":"method","src_hash":"72b993b46d8cae7e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"convert(ele)","rhs":"convert ``elem`` into internal representation of this module","over":{"base":"Any"},"name":"convert_correct"},"guarantee":"convert ``elem`` into internal representation of this module","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.Module.convert_correct","statement":"Path(convert(x), convert ``elem`` into internal representation of this module)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ea523759b1ce21b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.Module.convert","kind":"method","src_hash":"72b993b46d8cae7e","in":{"base":"Any","pred":"isinstance(elem, self.dtype)"},"out":{"base":"Any","pred":"result satisfies: result == (elem)"},"spec":{"lhs":"convert(elem, M)","rhs":"elem","over":{"base":"Any","pred":"isinstance(elem, self.dtype)"},"name":"convert_correct"},"guarantee":"returns elem; result == elem","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.Module.convert_correct","statement":"Path(convert(x), returns elem; result == elem)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0116c0f8fd7516c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(elem, self.dtype)"],"ensures":["result == elem"],"returns_expr":"elem","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dtype"],"raises":["CoercionFailed"]},"state_contract":{"exceptional_post":{"CoercionFailed":["isinstance(raised, CoercionFailed)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def convert(self, elem, M=None):
         """
         Convert ``elem`` into internal representation of this module.
@@ -132,62 +151,86 @@ class Module:
         return elem
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(submodule(*ge), generate a submodule) over Any        ║
+# ║ Path(submodule(*gens), <unspecified:submodule>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ submodule : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e48276f75eecd19d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.Module.submodule","kind":"method","src_hash":"786025b1f8b25d14","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"submodule(*ge)","rhs":"generate a submodule","over":{"base":"Any"},"name":"submodule_correct"},"guarantee":"generate a submodule","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e48276f75eecd19d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.Module.submodule","kind":"method","src_hash":"786025b1f8b25d14","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"submodule(*gens)","rhs":"<unspecified:submodule>","over":{"base":"Any"},"name":"submodule_correct"},"guarantee":"generate a submodule","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e48276f75eecd19d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def submodule(self, *gens):
         """Generate a submodule."""
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(quotient_module(oth), generate a quotient module) over Any ║
+# ║ Path(quotient_module(other), <unspecified:quotient_module>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ quotient_module : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ef997f5129767d16           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.Module.quotient_module","kind":"method","src_hash":"3c948a4b91b8bfd5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quotient_module(oth)","rhs":"generate a quotient module","over":{"base":"Any"},"name":"quotient_module_correct"},"guarantee":"generate a quotient module","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ef997f5129767d16"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.Module.quotient_module","kind":"method","src_hash":"3c948a4b91b8bfd5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quotient_module(other)","rhs":"<unspecified:quotient_module>","over":{"base":"Any"},"name":"quotient_module_correct"},"guarantee":"generate a quotient module","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ef997f5129767d16","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def quotient_module(self, other):
         """Generate a quotient module."""
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__truediv__(e), internal helper behaves correctly) over Any ║
+# ║ Path(__truediv__(e), self.quotient_module(e)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.quotient_module(e)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __truediv__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0a831d92099d8278           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.Module.__truediv__","kind":"method","src_hash":"0706952e6f392530","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0a831d92099d8278"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.Module.__truediv__","kind":"method","src_hash":"0706952e6f392530","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(e)","rhs":"self.quotient_module(e)","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"returns self.quotient_module(e)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0a831d92099d8278","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.quotient_module(e)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.quotient_module","self.submodule"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __truediv__(self, e):
         if not isinstance(e, Module):
             e = self.submodule(*e)
         return self.quotient_module(e)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(contains(ele), return true if ``elem`` is an element of this module) over Any ║
+# ║ Path(contains(elem), <unspecified:contains>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ contains : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f9f9740436fbab1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.Module.contains","kind":"method","src_hash":"da726f9e4b22c20a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"contains(ele)","rhs":"return true if ``elem`` is an element of this module","over":{"base":"Any"},"name":"contains_correct"},"guarantee":"return true if ``elem`` is an element of this module","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.Module.contains_correct","statement":"Path(contains(x), return true if ``elem`` is an element of this module)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f9f9740436fbab1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.Module.contains","kind":"method","src_hash":"da726f9e4b22c20a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"contains(elem)","rhs":"<unspecified:contains>","over":{"base":"Any"},"name":"contains_correct"},"guarantee":"return true if ``elem`` is an element of this module","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.Module.contains_correct","statement":"Path(contains(x), return true if ``elem`` is an element of this module)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f9f9740436fbab1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.convert"],"catches":["CoercionFailed"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def contains(self, elem):
         """Return True if ``elem`` is an element of this module."""
         try:
@@ -197,30 +240,42 @@ class Module:
             return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__contains__(ele), correctly tests membership) over Any ║
+# ║ Path(__contains__(elem), self.contains(elem)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.contains(elem)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __contains__ : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ac7f0335256fe50c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.Module.__contains__","kind":"method","src_hash":"cea0d9ad452081c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(ele)","rhs":"correctly tests membership","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ac7f0335256fe50c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.Module.__contains__","kind":"method","src_hash":"cea0d9ad452081c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(elem)","rhs":"self.contains(elem)","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"returns self.contains(elem)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ac7f0335256fe50c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.contains(elem)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.contains"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __contains__(self, elem):
         return self.contains(elem)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(subset(oth), returns true if ``other`` is is a subset of ``self``) over Any ║
+# ║ Path(subset(other), all((self.contains(x) for x in other))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  all((self.contains(x) for x in other))         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ subset : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 42a1d7c2db121e17           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.Module.subset","kind":"method","src_hash":"f42626b8cd6328d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subset(oth)","rhs":"returns true if ``other`` is is a subset of ``self``","over":{"base":"Any"},"name":"subset_correct"},"guarantee":"returns true if ``other`` is is a subset of ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"42a1d7c2db121e17"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.Module.subset","kind":"method","src_hash":"f42626b8cd6328d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subset(other)","rhs":"all((self.contains(x) for x in other))","over":{"base":"Any"},"name":"subset_correct"},"guarantee":"returns all((self.contains(x) for x in other))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"42a1d7c2db121e17","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"all((self.contains(x) for x in other))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.contains"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def subset(self, other):
         """
         Returns True if ``other`` is is a subset of ``self``.
@@ -239,74 +294,105 @@ class Module:
         return all(self.contains(x) for x in other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), self.is_submodule(other) and other.is_submodule(self)) over {Any | hasattr(other, 'is_submodule')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'is_submodule')                 ║
+# ║   returns:  self.is_submodule(other) and other.is_sub...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'is_submodule')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | eccc9a2ebc9dac09           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.Module.__eq__","kind":"method","src_hash":"4550080ef027025b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eccc9a2ebc9dac09"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.Module.__eq__","kind":"method","src_hash":"4550080ef027025b","in":{"base":"Any","pred":"hasattr(other, 'is_submodule')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"self.is_submodule(other) and other.is_submodule(self)","over":{"base":"Any","pred":"hasattr(other, 'is_submodule')"},"name":"__eq___correct"},"guarantee":"returns self.is_submodule(other) and other.is_submodule(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eccc9a2ebc9dac09","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'is_submodule')"],"returns_expr":"self.is_submodule(other) and other.is_submodule(self)","pure":false,"effects":{"effect_type":"reads_state","reads":["other.is_submodule","self.is_submodule"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         return self.is_submodule(other) and other.is_submodule(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__ne__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__ne__(other), not self == other) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not self == other                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __ne__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1780e748ca8a4889           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.Module.__ne__","kind":"method","src_hash":"48f42aaaef579218","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1780e748ca8a4889"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.Module.__ne__","kind":"method","src_hash":"48f42aaaef579218","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(other)","rhs":"not self == other","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"returns not self == other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1780e748ca8a4889","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not self == other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __ne__(self, other):
         return not (self == other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_zero(), returns true if ``self`` is a zero module) over Any ║
+# ║ Path(is_zero(), <unspecified:is_zero>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_zero : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 55b1bf62fe32aa22           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.Module.is_zero","kind":"method","src_hash":"621e79434d7b72eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_zero()","rhs":"returns true if ``self`` is a zero module","over":{"base":"Any"},"name":"is_zero_correct"},"guarantee":"returns true if ``self`` is a zero module","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"55b1bf62fe32aa22"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.Module.is_zero","kind":"method","src_hash":"621e79434d7b72eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_zero()","rhs":"<unspecified:is_zero>","over":{"base":"Any"},"name":"is_zero_correct"},"guarantee":"returns true if ``self`` is a zero module","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"55b1bf62fe32aa22","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_zero(self):
         """Returns True if ``self`` is a zero module."""
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_submodule(oth), returns true if ``other`` is a submodule of ``self``) over Any ║
+# ║ Path(is_submodule(other), <unspecified:is_submodule>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_submodule : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1045cd5383994509           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.Module.is_submodule","kind":"method","src_hash":"4eb8b4fa7b95fe4b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_submodule(oth)","rhs":"returns true if ``other`` is a submodule of ``self``","over":{"base":"Any"},"name":"is_submodule_correct"},"guarantee":"returns true if ``other`` is a submodule of ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1045cd5383994509"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.Module.is_submodule","kind":"method","src_hash":"4eb8b4fa7b95fe4b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_submodule(other)","rhs":"<unspecified:is_submodule>","over":{"base":"Any"},"name":"is_submodule_correct"},"guarantee":"returns true if ``other`` is a submodule of ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1045cd5383994509","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_submodule(self, other):
         """Returns True if ``other`` is a submodule of ``self``."""
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(multiply_ideal(oth), multiply ``self`` by the ideal ``other``) over Any ║
+# ║ Path(multiply_ideal(other), <unspecified:multiply_ideal>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ multiply_ideal : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 21daab6be8829996           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.Module.multiply_ideal","kind":"method","src_hash":"2a01fe628f0c6222","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"multiply_ideal(oth)","rhs":"multiply ``self`` by the ideal ``other``","over":{"base":"Any"},"name":"multiply_ideal_correct"},"guarantee":"multiply ``self`` by the ideal ``other``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"21daab6be8829996"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.Module.multiply_ideal","kind":"method","src_hash":"2a01fe628f0c6222","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"multiply_ideal(other)","rhs":"<unspecified:multiply_ideal>","over":{"base":"Any"},"name":"multiply_ideal_correct"},"guarantee":"multiply ``self`` by the ideal ``other``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"21daab6be8829996","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def multiply_ideal(self, other):
         """
         Multiply ``self`` by the ideal ``other``.
@@ -314,16 +400,22 @@ class Module:
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(e), returns the product) over Any             ║
+# ║ Path(__mul__(e), <unspecified:__mul__>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __mul__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c18e114b1a201aa8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.Module.__mul__","kind":"method","src_hash":"f5b7be8ee9d911f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(e)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c18e114b1a201aa8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.Module.__mul__","kind":"method","src_hash":"f5b7be8ee9d911f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(e)","rhs":"<unspecified:__mul__>","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c18e114b1a201aa8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.multiply_ideal","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, e):
         if not isinstance(e, Ideal):
             try:
@@ -335,16 +427,22 @@ class Module:
     __rmul__ = __mul__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(identity_hom(), return the identity homomorphism on ``self``) over Any ║
+# ║ Path(identity_hom(), <unspecified:identity_hom>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ identity_hom : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4dcb225ef2731fb2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.Module.identity_hom","kind":"method","src_hash":"e990c05b28d8383b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"identity_hom()","rhs":"return the identity homomorphism on ``self``","over":{"base":"Any"},"name":"identity_hom_correct"},"guarantee":"return the identity homomorphism on ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4dcb225ef2731fb2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.Module.identity_hom","kind":"method","src_hash":"e990c05b28d8383b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"identity_hom()","rhs":"<unspecified:identity_hom>","over":{"base":"Any"},"name":"identity_hom_correct"},"guarantee":"return the identity homomorphism on ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4dcb225ef2731fb2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def identity_hom(self):
         """Return the identity homomorphism on ``self``."""
         raise NotImplementedError
@@ -353,14 +451,19 @@ class Module:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a ModuleElement instance) preserved by ModuleElement(*args) over {Any | isinstance(o, self.module.ring.dtype) and isinstance(om, self.__class__)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ ModuleElement : {Any | isinstance(o, self.module.ring...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dbf9559c27072964  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.ModuleElement","kind":"class","src_hash":"3e83f8402ab0d60f","in":{"base":"Any","pred":"isinstance(o, self.module.ring.dtype) and isinstance(om, self.__class__)"},"out":{"base":"Any"},"spec":{"lhs":"ModuleElement(*args)","rhs":"correctly constructs a ModuleElement instance","over":{"base":"Any","pred":"isinstance(o, self.module.ring.dtype) and isinstance(om, self.__class__)"},"name":"ModuleElement_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a ModuleElement instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'module') and hasattr(self, 'data')","kind":"class","induction":"structural on module, data"}],"methods_preserving":["__init__","add","mul","div","eq","__add__","__neg__","__sub__","__rsub__","__mul__","__truediv__","__eq__","__ne__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbf9559c27072964"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.ModuleElement","kind":"class","src_hash":"3e83f8402ab0d60f","in":{"base":"Any","pred":"isinstance(o, self.module.ring.dtype) and isinstance(om, self.__class__)"},"out":{"base":"Any"},"spec":{"lhs":"ModuleElement(*args)","rhs":"correctly constructs a ModuleElement instance","over":{"base":"Any","pred":"isinstance(o, self.module.ring.dtype) and isinstance(om, self.__class__)"},"name":"ModuleElement_class_invariant","kind":"invariant"},"guarantee":"preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'module') and hasattr(self, 'data')","kind":"class","induction":"structural on module, data"}],"methods_preserving":["__init__","add","mul","div","eq","__add__","__neg__","__sub__","__rsub__","__mul__","__truediv__","__eq__","__ne__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbf9559c27072964","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'module')","hasattr(self, 'data')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function ModuleElement not found in source"]}}
 class ModuleElement:
     """
     Base class for module element wrappers.
@@ -383,91 +486,130 @@ class ModuleElement:
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(mod), initializes the instance correctly) over Any ║
+# ║ Path(__init__(module, data), self.module == module and self.data == data) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.module == module                          ║
+# ║   ensures:  self.data == data                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.module...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9804433b9f07491d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.ModuleElement.__init__","kind":"method","src_hash":"a94c9b2963c129e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(mod)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9804433b9f07491d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.ModuleElement.__init__","kind":"method","src_hash":"a94c9b2963c129e2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.module == module and self.data == data"},"spec":{"lhs":"__init__(module, data)","rhs":"self.module == module and self.data == data","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.module == module; self.data == data","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9804433b9f07491d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.module == module","self.data == data"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, module, data):
         self.module = module
         self.data = data
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(add(d1,), add data ``d1`` and ``d2``) over Any        ║
+# ║ Path(add(d1, d2), d1 + d2) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  d1 + d2                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ add : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b483fcd70bf1ba04           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.ModuleElement.add","kind":"method","src_hash":"5c2794c8343b00d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"add(d1,)","rhs":"add data ``d1`` and ``d2``","over":{"base":"Any"},"name":"add_correct"},"guarantee":"add data ``d1`` and ``d2``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b483fcd70bf1ba04"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.ModuleElement.add","kind":"method","src_hash":"5c2794c8343b00d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"add(d1, d2)","rhs":"d1 + d2","over":{"base":"Any"},"name":"add_correct"},"guarantee":"returns d1 + d2","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b483fcd70bf1ba04","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"d1 + d2","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def add(self, d1, d2):
         """Add data ``d1`` and ``d2``."""
         return d1 + d2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mul(m, ), multiply module data ``m`` by coefficient d) over Any ║
+# ║ Path(mul(m, d), m * d) over Any                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  m * d                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ mul : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | de4930233d37f2aa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.ModuleElement.mul","kind":"method","src_hash":"6bbccaac5520f30f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mul(m, )","rhs":"multiply module data ``m`` by coefficient d","over":{"base":"Any"},"name":"mul_correct"},"guarantee":"multiply module data ``m`` by coefficient d","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"de4930233d37f2aa"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.ModuleElement.mul","kind":"method","src_hash":"6bbccaac5520f30f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mul(m, d)","rhs":"m * d","over":{"base":"Any"},"name":"mul_correct"},"guarantee":"returns m * d","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"de4930233d37f2aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"m * d","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def mul(self, m, d):
         """Multiply module data ``m`` by coefficient d."""
         return m * d
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(div(m, ), divide module data ``m`` by coefficient d) over Any ║
+# ║ Path(div(m, d), m / d) over Any                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  m / d                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ div : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fad7720ce34a291f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.ModuleElement.div","kind":"method","src_hash":"5dfe2f4741d420cf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"div(m, )","rhs":"divide module data ``m`` by coefficient d","over":{"base":"Any"},"name":"div_correct"},"guarantee":"divide module data ``m`` by coefficient d","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fad7720ce34a291f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.ModuleElement.div","kind":"method","src_hash":"5dfe2f4741d420cf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"div(m, d)","rhs":"m / d","over":{"base":"Any"},"name":"div_correct"},"guarantee":"returns m / d","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fad7720ce34a291f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"m / d","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def div(self, m, d):
         """Divide module data ``m`` by coefficient d."""
         return m / d
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eq(d1,), return true if d1 and d2 represent the same element) over Any ║
+# ║ Path(eq(d1, d2), d1 == d2) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  d1 == d2                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eq : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7a26e261d8a924dc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.ModuleElement.eq","kind":"method","src_hash":"69b8a7d52fa789ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eq(d1,)","rhs":"return true if d1 and d2 represent the same element","over":{"base":"Any"},"name":"eq_correct"},"guarantee":"return true if d1 and d2 represent the same element","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7a26e261d8a924dc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.ModuleElement.eq","kind":"method","src_hash":"69b8a7d52fa789ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eq(d1, d2)","rhs":"d1 == d2","over":{"base":"Any"},"name":"eq_correct"},"guarantee":"returns d1 == d2","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7a26e261d8a924dc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"d1 == d2","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eq(self, d1, d2):
         """Return true if d1 and d2 represent the same element."""
         return d1 == d2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(om), returns the sum/concatenation) over Any  ║
+# ║ Path(__add__(om), <unspecified:__add__>) over {Any | hasattr(om, 'module') and hasattr(om, 'data')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __add__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(om, 'module')                          ║
+# ║   requires: hasattr(om, 'data')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __add__ : {Any | hasattr(om, 'module') and hasattr(om...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 93ca9bd12c178a19           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.ModuleElement.__add__","kind":"method","src_hash":"12779e51ae6770cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(om)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"93ca9bd12c178a19"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.ModuleElement.__add__","kind":"method","src_hash":"12779e51ae6770cd","in":{"base":"Any","pred":"hasattr(om, 'module') and hasattr(om, 'data')"},"out":{"base":"Any"},"spec":{"lhs":"__add__(om)","rhs":"<unspecified:__add__>","over":{"base":"Any","pred":"hasattr(om, 'module') and hasattr(om, 'data')"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"93ca9bd12c178a19","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(om, 'module')","hasattr(om, 'data')"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["*.__class__","om.data","om.module","self.__class__","self.add","self.data","self.module"],"calls_mutating":["self.add"],"catches":["CoercionFailed"]},"state_contract":{"modifies":["self.*"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, om):
         if not isinstance(om, self.__class__) or om.module != self.module:
             try:
@@ -479,31 +621,44 @@ class ModuleElement:
     __radd__ = __add__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__neg__(), returns the additive inverse) over Any     ║
+# ║ Path(__neg__(), self.__class__(self.module, self.mul(self.data, self.module.ring.convert(-1)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__class__(self.module, self.mul(self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __neg__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 32226ff21c523748           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.ModuleElement.__neg__","kind":"method","src_hash":"e665ce90946988a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"returns the additive inverse","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns the additive inverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"32226ff21c523748"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.ModuleElement.__neg__","kind":"method","src_hash":"e665ce90946988a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"self.__class__(self.module, self.mul(self.data, self.module.ring.convert(-1)))","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns self.__class__(self.module, self.mul(self.data, self.module.ring.convert(-1)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"32226ff21c523748","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__class__(self.module, self.mul(self.data, self.module.ring.convert(-1)))","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.data","self.module","self.mul"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __neg__(self):
         return self.__class__(self.module, self.mul(self.data,
                        self.module.ring.convert(-1)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(om), internal helper behaves correctly) over Any ║
+# ║ Path(__sub__(om), <unspecified:__sub__>) over {Any | hasattr(om, 'module')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __sub__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(om, 'module')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __sub__ : {Any | hasattr(om, 'module')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dbcae1a954a1fe57           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.ModuleElement.__sub__","kind":"method","src_hash":"80bb4bfca26b2463","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(om)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dbcae1a954a1fe57"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.ModuleElement.__sub__","kind":"method","src_hash":"80bb4bfca26b2463","in":{"base":"Any","pred":"hasattr(om, 'module')"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(om)","rhs":"<unspecified:__sub__>","over":{"base":"Any","pred":"hasattr(om, 'module')"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dbcae1a954a1fe57","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(om, 'module')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","om.module","self.__add__","self.__class__","self.module"],"catches":["CoercionFailed"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(self, om):
         if not isinstance(om, self.__class__) or om.module != self.module:
             try:
@@ -513,30 +668,42 @@ class ModuleElement:
         return self.__add__(-om)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rsub__(om), internal helper behaves correctly) over Any ║
+# ║ Path(__rsub__(om), (-self).__add__(om)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (-self).__add__(om)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rsub__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | eb6ee2450a820bed           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.ModuleElement.__rsub__","kind":"method","src_hash":"b2419370241d7e23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(om)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eb6ee2450a820bed"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.ModuleElement.__rsub__","kind":"method","src_hash":"b2419370241d7e23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(om)","rhs":"(-self).__add__(om)","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"returns (-self).__add__(om)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eb6ee2450a820bed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(-self).__add__(om)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rsub__(self, om):
         return (-self).__add__(om)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(o), returns the product) over Any             ║
+# ║ Path(__mul__(o), <unspecified:__mul__>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __mul__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0cf8777999c03101           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.ModuleElement.__mul__","kind":"method","src_hash":"c7182004c45f3cdb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(o)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0cf8777999c03101"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.ModuleElement.__mul__","kind":"method","src_hash":"c7182004c45f3cdb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(o)","rhs":"<unspecified:__mul__>","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0cf8777999c03101","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.data","self.module","self.mul"],"catches":["CoercionFailed"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, o):
         if not isinstance(o, self.module.ring.dtype):
             try:
@@ -548,16 +715,22 @@ class ModuleElement:
     __rmul__ = __mul__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__truediv__(o), internal helper behaves correctly) over Any ║
+# ║ Path(__truediv__(o), <unspecified:__truediv__>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __truediv__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 523a562d6fb44385           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.ModuleElement.__truediv__","kind":"method","src_hash":"56dc18bcc410b3bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(o)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"523a562d6fb44385"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.ModuleElement.__truediv__","kind":"method","src_hash":"56dc18bcc410b3bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(o)","rhs":"<unspecified:__truediv__>","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"523a562d6fb44385","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.data","self.div","self.module"],"catches":["CoercionFailed"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __truediv__(self, o):
         if not isinstance(o, self.module.ring.dtype):
             try:
@@ -567,16 +740,24 @@ class ModuleElement:
         return self.__class__(self.module, self.div(self.data, o))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(om), correctly determines equality) over Any   ║
+# ║ Path(__eq__(om), <unspecified:__eq__>) over {Any | hasattr(om, 'data') and hasattr(om, 'module')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(om, 'data')                            ║
+# ║   requires: hasattr(om, 'module')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(om, 'data') and hasattr(om, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 03f39e3a7b6c9a39           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.ModuleElement.__eq__","kind":"method","src_hash":"fe0b10aebbbc6e37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(om)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"03f39e3a7b6c9a39"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.ModuleElement.__eq__","kind":"method","src_hash":"fe0b10aebbbc6e37","in":{"base":"Any","pred":"hasattr(om, 'data') and hasattr(om, 'module')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(om)","rhs":"<unspecified:__eq__>","over":{"base":"Any","pred":"hasattr(om, 'data') and hasattr(om, 'module')"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"03f39e3a7b6c9a39","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(om, 'data')","hasattr(om, 'module')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","om.data","om.module","self.__class__","self.data","self.eq","self.module"],"catches":["CoercionFailed"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, om):
         if not isinstance(om, self.__class__) or om.module != self.module:
             try:
@@ -586,16 +767,22 @@ class ModuleElement:
         return self.eq(self.data, om.data)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__ne__(om), internal helper behaves correctly) over Any ║
+# ║ Path(__ne__(om), not self == om) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not self == om                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __ne__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c924f2d65240a82e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.ModuleElement.__ne__","kind":"method","src_hash":"28b38d49337e0900","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(om)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c924f2d65240a82e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.ModuleElement.__ne__","kind":"method","src_hash":"28b38d49337e0900","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(om)","rhs":"not self == om","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"returns not self == om","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c924f2d65240a82e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not self == om","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __ne__(self, om):
         return not self == om
 
@@ -607,70 +794,100 @@ class ModuleElement:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(FreeModuleElement(*args), correctly constructs a FreeModuleElement instance) over {Any | isinstance(x, DMP)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ FreeModuleElement : {Any | isinstance(x, DMP)} → Any       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ModuleElement)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ FreeModuleElement : {Any | isinstance(x, DMP)} → {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1abaf87190aaa9d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModuleElement","kind":"class","src_hash":"e2f8741826b552ae","in":{"base":"Any","pred":"isinstance(x, DMP)"},"out":{"base":"Any"},"spec":{"lhs":"FreeModuleElement(*args)","rhs":"correctly constructs a FreeModuleElement instance","over":{"base":"Any","pred":"isinstance(x, DMP)"},"name":"FreeModuleElement_class_invariant"},"guarantee":"correctly constructs a FreeModuleElement instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1abaf87190aaa9d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModuleElement","kind":"class","src_hash":"e2f8741826b552ae","in":{"base":"Any","pred":"isinstance(x, DMP)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ModuleElement)"},"spec":{"lhs":"FreeModuleElement(*args)","rhs":"correctly constructs a FreeModuleElement instance","over":{"base":"Any","pred":"isinstance(x, DMP)"},"name":"FreeModuleElement_class_invariant"},"guarantee":"isinstance(self, ModuleElement)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1abaf87190aaa9d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ModuleElement)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function FreeModuleElement not found in source"]}}
 class FreeModuleElement(ModuleElement):
     """Element of a free module. Data stored as a tuple."""
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(add(d1,), add produces the expected output) over Any  ║
+# ║ Path(add(d1, d2), tuple((x + y for x, y in zip(d1, d2)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple((x + y for x, y in zip(d1, d2)))         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ add : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1696f6797230ddd1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModuleElement.add","kind":"method","src_hash":"a69b55f0a4b51170","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"add(d1,)","rhs":"add produces the expected output","over":{"base":"Any"},"name":"add_correct"},"guarantee":"add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1696f6797230ddd1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModuleElement.add","kind":"method","src_hash":"a69b55f0a4b51170","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"add(d1, d2)","rhs":"tuple((x + y for x, y in zip(d1, d2)))","over":{"base":"Any"},"name":"add_correct"},"guarantee":"returns tuple((x + y for x, y in zip(d1, d2)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1696f6797230ddd1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple((x + y for x, y in zip(d1, d2)))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def add(self, d1, d2):
         return tuple(x + y for x, y in zip(d1, d2))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mul(d, ), mul produces the expected output) over Any  ║
+# ║ Path(mul(d, p), tuple((x * p for x in d))) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple((x * p for x in d))                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ mul : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2752998c185b1518           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModuleElement.mul","kind":"method","src_hash":"1fe04026f7a7c42c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mul(d, )","rhs":"mul produces the expected output","over":{"base":"Any"},"name":"mul_correct"},"guarantee":"mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2752998c185b1518"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModuleElement.mul","kind":"method","src_hash":"1fe04026f7a7c42c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mul(d, p)","rhs":"tuple((x * p for x in d))","over":{"base":"Any"},"name":"mul_correct"},"guarantee":"returns tuple((x * p for x in d))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2752998c185b1518","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple((x * p for x in d))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def mul(self, d, p):
         return tuple(x * p for x in d)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(div(d, ), div produces the expected output) over Any  ║
+# ║ Path(div(d, p), tuple((x / p for x in d))) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple((x / p for x in d))                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ div : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b78aa4f24f6c8c19           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModuleElement.div","kind":"method","src_hash":"76d8fdcaab15e9bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"div(d, )","rhs":"div produces the expected output","over":{"base":"Any"},"name":"div_correct"},"guarantee":"div produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b78aa4f24f6c8c19"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModuleElement.div","kind":"method","src_hash":"76d8fdcaab15e9bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"div(d, p)","rhs":"tuple((x / p for x in d))","over":{"base":"Any"},"name":"div_correct"},"guarantee":"returns tuple((x / p for x in d))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b78aa4f24f6c8c19","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple((x / p for x in d))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def div(self, d, p):
         return tuple(x / p for x in d)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), '[' + ', '.join((sstr(x) for x in data)) + ']') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '[' + ', '.join((sstr(x) for x in data)) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d9afc2c92f7a0ae5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModuleElement.__repr__","kind":"method","src_hash":"ae73387a63ffd08b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d9afc2c92f7a0ae5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModuleElement.__repr__","kind":"method","src_hash":"ae73387a63ffd08b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'[' + ', '.join((sstr(x) for x in data)) + ']'","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns '[' + ', '.join((sstr(x) for x in data)) + ']'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d9afc2c92f7a0ae5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'[' + ', '.join((sstr(x) for x in data)) + ']'","pure":false,"effects":{"effect_type":"reads_state","reads":["self.data","self.module"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         from sympy.printing.str import sstr
         data = self.data
@@ -679,30 +896,42 @@ class FreeModuleElement(ModuleElement):
         return '[' + ', '.join(sstr(x) for x in data) + ']'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__iter__(), yields all elements in order) over Any    ║
+# ║ Path(__iter__(), self.data.__iter__()) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.data.__iter__()                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __iter__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dc48a2b5efbfc376           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModuleElement.__iter__","kind":"method","src_hash":"07366a46ef609235","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"yields all elements in order","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dc48a2b5efbfc376"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModuleElement.__iter__","kind":"method","src_hash":"07366a46ef609235","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"self.data.__iter__()","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"returns self.data.__iter__()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dc48a2b5efbfc376","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.data.__iter__()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.data"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __iter__(self):
         return self.data.__iter__()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(idx), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(idx), self.data[idx]) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.data[idx]                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 40b6544abc290dc9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModuleElement.__getitem__","kind":"method","src_hash":"46c1037c392965cf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(idx)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"40b6544abc290dc9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModuleElement.__getitem__","kind":"method","src_hash":"46c1037c392965cf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(idx)","rhs":"self.data[idx]","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns self.data[idx]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"40b6544abc290dc9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.data[idx]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.data"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, idx):
         return self.data[idx]
 
@@ -710,14 +939,20 @@ class FreeModuleElement(ModuleElement):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a FreeModule instance) preserved by FreeModule(*args) over {Any | isinstance(other, SubModule) and isinstance(other, FreeModule) and isinstance(elem, FreeModuleElement)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Module)                       ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ FreeModule : {Any | isinstance(other, SubModule) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 046eb9e857438635  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModule","kind":"class","src_hash":"75b799c410edd4b6","in":{"base":"Any","pred":"isinstance(other, SubModule) and isinstance(other, FreeModule) and isinstance(elem, FreeModuleElement)"},"out":{"base":"Any"},"spec":{"lhs":"FreeModule(*args)","rhs":"correctly constructs a FreeModule instance","over":{"base":"Any","pred":"isinstance(other, SubModule) and isinstance(other, FreeModule) and isinstance(elem, FreeModuleElement)"},"name":"FreeModule_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a FreeModule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'rank')","kind":"class","induction":"structural on rank"}],"methods_preserving":["__init__","__repr__","is_submodule","convert","is_zero","basis","quotient_module","multiply_ideal","identity_hom"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"046eb9e857438635"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModule","kind":"class","src_hash":"75b799c410edd4b6","in":{"base":"Any","pred":"isinstance(other, SubModule) and isinstance(other, FreeModule) and isinstance(elem, FreeModuleElement)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Module)"},"spec":{"lhs":"FreeModule(*args)","rhs":"correctly constructs a FreeModule instance","over":{"base":"Any","pred":"isinstance(other, SubModule) and isinstance(other, FreeModule) and isinstance(elem, FreeModuleElement)"},"name":"FreeModule_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Module); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'rank')","kind":"class","induction":"structural on rank"}],"methods_preserving":["__init__","__repr__","is_submodule","convert","is_zero","basis","quotient_module","multiply_ideal","identity_hom"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"046eb9e857438635","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Module)"],"invariants":["hasattr(self, 'rank')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function FreeModule not found in source"]}}
 class FreeModule(Module):
     """
     Abstract base class for free modules.
@@ -734,45 +969,66 @@ class FreeModule(Module):
     dtype = FreeModuleElement
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(rin), initializes the instance correctly) over Any ║
+# ║ Path(__init__(ring, rank), self.rank == rank) over Any     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.rank == rank                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.rank =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 190c3a3de8443016           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModule.__init__","kind":"method","src_hash":"51c24fc0e9bb57a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(rin)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"190c3a3de8443016"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModule.__init__","kind":"method","src_hash":"51c24fc0e9bb57a7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.rank == rank"},"spec":{"lhs":"__init__(ring, rank)","rhs":"self.rank == rank","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.rank == rank","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"190c3a3de8443016","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.rank == rank"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, ring, rank):
         Module.__init__(self, ring)
         self.rank = rank
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), repr(self.ring) + '**' + repr(self.rank)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  repr(self.ring) + '**' + repr(self.rank)       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | afb5379c55022aa5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModule.__repr__","kind":"method","src_hash":"314e51ccf2c415e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"afb5379c55022aa5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModule.__repr__","kind":"method","src_hash":"314e51ccf2c415e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"repr(self.ring) + '**' + repr(self.rank)","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns repr(self.ring) + '**' + repr(self.rank)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"afb5379c55022aa5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"repr(self.ring) + '**' + repr(self.rank)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rank","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return repr(self.ring) + "**" + repr(self.rank)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_submodule(oth), returns true if ``other`` is a submodule of ``self``) over Any ║
+# ║ Path(is_submodule(other), <unspecified:is_submodule>) over {Any | hasattr(other, 'container') and hasattr(other, 'ring') and hasattr(other, 'rank')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_submodule : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'container')                    ║
+# ║   requires: hasattr(other, 'ring')                         ║
+# ║   requires: hasattr(other, 'rank')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_submodule : {Any | hasattr(other, 'container') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78eb75216449ab32  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModule.is_submodule","kind":"method","src_hash":"65dec04049fc6580","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_submodule(oth)","rhs":"returns true if ``other`` is a submodule of ``self``","over":{"base":"Any"},"name":"is_submodule_correct"},"guarantee":"returns true if ``other`` is a submodule of ``self``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.FreeModule.is_submodule_correct","statement":"Path(is_submodule(x), returns true if ``other`` is a submodule of ``self``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78eb75216449ab32"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModule.is_submodule","kind":"method","src_hash":"65dec04049fc6580","in":{"base":"Any","pred":"hasattr(other, 'container') and hasattr(other, 'ring') and hasattr(other, 'rank')"},"out":{"base":"Any"},"spec":{"lhs":"is_submodule(other)","rhs":"<unspecified:is_submodule>","over":{"base":"Any","pred":"hasattr(other, 'container') and hasattr(other, 'ring') and hasattr(other, 'rank')"},"name":"is_submodule_correct"},"guarantee":"returns true if ``other`` is a submodule of ``self``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.FreeModule.is_submodule_correct","statement":"Path(is_submodule(x), returns true if ``other`` is a submodule of ``self``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78eb75216449ab32","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'container')","hasattr(other, 'ring')","hasattr(other, 'rank')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.container","other.rank","other.ring","self.rank","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_submodule(self, other):
         """
         Returns True if ``other`` is a submodule of ``self``.
@@ -798,16 +1054,26 @@ class FreeModule(Module):
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(convert(ele), convert ``elem`` into the internal representation) over Any ║
+# ║ Path(convert(elem, M), <unspecified:convert>) over {Any | hasattr(elem, 'module') and hasattr(elem, 'data')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ convert : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(elem, 'module')                        ║
+# ║   requires: hasattr(elem, 'data')                          ║
+# ║   fiber[FreeModuleElement]: isinstance(elem, FreeModu...   ║
+# ║   fiber[case_1]: iterable(elem) => FreeModuleElement(...   ║
+# ║   fiber[case_2]: _aresame(elem, 0) => FreeModuleEleme...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ convert : {Any | hasattr(elem, 'module') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b8e1d4a4b6ac9779  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9fef4a8e84d15d65  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModule.convert","kind":"method","src_hash":"1e8f59456eb29f98","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"convert(ele)","rhs":"convert ``elem`` into the internal representation","over":{"base":"Any"},"name":"convert_correct"},"guarantee":"convert ``elem`` into the internal representation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.FreeModule.convert_correct","statement":"Path(convert(x), convert ``elem`` into the internal representation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8e1d4a4b6ac9779"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModule.convert","kind":"method","src_hash":"1e8f59456eb29f98","in":{"base":"Any","pred":"hasattr(elem, 'module') and hasattr(elem, 'data')"},"out":{"base":"Any"},"spec":{"lhs":"convert(elem, M)","rhs":"<unspecified:convert>","over":{"base":"Any","pred":"hasattr(elem, 'module') and hasattr(elem, 'data')"},"name":"convert_correct"},"guarantee":"4-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.FreeModule.convert_correct","statement":"Path(convert(x), 4-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9fef4a8e84d15d65","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(elem, 'module')","hasattr(elem, 'data')"],"fibers":[{"name":"FreeModuleElement","guard":"isinstance(elem, FreeModuleElement)","ensures":["result == FreeModuleElement(self, tuple((self.ring.convert(x, elem.module.ring) for x in elem.data)))"],"decidability":"structural","returns_expr":"FreeModuleElement(self, tuple((self.ring.convert(x, elem.module.ring) for x in elem.data)))"},{"name":"case_1","guard":"iterable(elem)","ensures":["result == FreeModuleElement(self, tpl)"],"decidability":"library","returns_expr":"FreeModuleElement(self, tpl)"},{"name":"case_2","guard":"_aresame(elem, 0)","ensures":["result == FreeModuleElement(self, (self.ring.convert(0),) * self.rank)"],"decidability":"library","returns_expr":"FreeModuleElement(self, (self.ring.convert(0),) * self.rank)"},{"name":"FreeModuleElement","guard":"not (isinstance(elem, FreeModuleElement)) and not (iterable(elem)) and not (_aresame(elem, 0))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["elem.data","elem.module","self.rank","self.ring"],"raises":["CoercionFailed"]},"state_contract":{"exceptional_post":{"CoercionFailed":["isinstance(raised, CoercionFailed)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def convert(self, elem, M=None):
         """
         Convert ``elem`` into the internal representation.
@@ -842,16 +1108,22 @@ class FreeModule(Module):
             raise CoercionFailed
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_zero(), returns true if ``self`` is a zero module) over Any ║
+# ║ Path(is_zero(), self.rank == 0) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rank == 0                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_zero : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6c1a2da3f816b2dd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModule.is_zero","kind":"method","src_hash":"4ce40e711876e0e4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_zero()","rhs":"returns true if ``self`` is a zero module","over":{"base":"Any"},"name":"is_zero_correct"},"guarantee":"returns true if ``self`` is a zero module","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6c1a2da3f816b2dd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModule.is_zero","kind":"method","src_hash":"4ce40e711876e0e4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_zero()","rhs":"self.rank == 0","over":{"base":"Any"},"name":"is_zero_correct"},"guarantee":"returns self.rank == 0","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6c1a2da3f816b2dd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rank == 0","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rank"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_zero(self):
         """
         Returns True if ``self`` is a zero module.
@@ -874,14 +1146,20 @@ class FreeModule(Module):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(basis(), id) over Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple((self.convert(M.row(i)) for i in ra...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ basis : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b59267b007c4c46e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModule.basis","kind":"method","src_hash":"2a78e9f1cdca2d1a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"basis()","rhs":"return a set of basis elements","over":{"base":"Any"},"name":"basis_correct","kind":"composition"},"guarantee":"return a set of basis elements","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"tuple","by":"library_axiom"},{"fn":"convert","by":"library_axiom"},{"fn":"row","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b59267b007c4c46e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModule.basis","kind":"method","src_hash":"2a78e9f1cdca2d1a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"basis()","rhs":"tuple((self.convert(M.row(i)) for i in range(self.rank)))","over":{"base":"Any"},"name":"basis_correct","kind":"composition"},"guarantee":"returns tuple((self.convert(M.row(i)) for i in range(self.rank)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"tuple","by":"library_axiom"},{"fn":"convert","by":"library_axiom"},{"fn":"row","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b59267b007c4c46e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple((self.convert(M.row(i)) for i in range(self.rank)))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.convert","self.rank"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def basis(self):
         """
         Return a set of basis elements.
@@ -899,16 +1177,22 @@ class FreeModule(Module):
         return tuple(self.convert(M.row(i)) for i in range(self.rank))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(quotient_module(sub), return a quotient module) over Any ║
+# ║ Path(quotient_module(submodule), QuotientModule(self.ring, self, submodule)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  QuotientModule(self.ring, self, submodule)     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ quotient_module : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 49de9a173fa3a044           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModule.quotient_module","kind":"method","src_hash":"79a6a11e6019ae20","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quotient_module(sub)","rhs":"return a quotient module","over":{"base":"Any"},"name":"quotient_module_correct"},"guarantee":"return a quotient module","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"49de9a173fa3a044"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModule.quotient_module","kind":"method","src_hash":"79a6a11e6019ae20","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quotient_module(submodule)","rhs":"QuotientModule(self.ring, self, submodule)","over":{"base":"Any"},"name":"quotient_module_correct"},"guarantee":"returns QuotientModule(self.ring, self, submodule)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"49de9a173fa3a044","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"QuotientModule(self.ring, self, submodule)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def quotient_module(self, submodule):
         """
         Return a quotient module.
@@ -930,16 +1214,22 @@ class FreeModule(Module):
         return QuotientModule(self.ring, self, submodule)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(multiply_ideal(oth), multiply ``self`` by the ideal ``other``) over Any ║
+# ║ Path(multiply_ideal(other), self.submodule(*self.basis()).multiply_ideal(other)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.submodule(*self.basis()).multiply_id...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ multiply_ideal : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e70e57a323259891           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModule.multiply_ideal","kind":"method","src_hash":"5a5a5a671c52812e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"multiply_ideal(oth)","rhs":"multiply ``self`` by the ideal ``other``","over":{"base":"Any"},"name":"multiply_ideal_correct"},"guarantee":"multiply ``self`` by the ideal ``other``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e70e57a323259891"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModule.multiply_ideal","kind":"method","src_hash":"5a5a5a671c52812e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"multiply_ideal(other)","rhs":"self.submodule(*self.basis()).multiply_ideal(other)","over":{"base":"Any"},"name":"multiply_ideal_correct"},"guarantee":"returns self.submodule(*self.basis()).multiply_ideal(other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e70e57a323259891","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.submodule(*self.basis()).multiply_ideal(other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.basis","self.submodule"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def multiply_ideal(self, other):
         """
         Multiply ``self`` by the ideal ``other``.
@@ -959,14 +1249,20 @@ class FreeModule(Module):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(identity_hom(), id) over Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  homomorphism(self, self, self.basis())         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ identity_hom : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a6b7edf51a9a351b   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModule.identity_hom","kind":"method","src_hash":"73bdb9053950dcd9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"identity_hom()","rhs":"return the identity homomorphism on ``self``","over":{"base":"Any"},"name":"identity_hom_correct","kind":"composition"},"guarantee":"return the identity homomorphism on ``self``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"homomorphism","by":"library_axiom"},{"fn":"basis","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6b7edf51a9a351b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModule.identity_hom","kind":"method","src_hash":"73bdb9053950dcd9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"identity_hom()","rhs":"homomorphism(self, self, self.basis())","over":{"base":"Any"},"name":"identity_hom_correct","kind":"composition"},"guarantee":"returns homomorphism(self, self, self.basis())","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"homomorphism","by":"library_axiom"},{"fn":"basis","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6b7edf51a9a351b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"homomorphism(self, self, self.basis())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.basis"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def identity_hom(self):
         """
         Return the identity homomorphism on ``self``.
@@ -988,14 +1284,20 @@ class FreeModule(Module):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(FreeModulePolyRing(*args), correctly constructs a FreeModulePolyRing instance) over {Any | isinstance(ring, PolynomialRingBase) and isinstance(ring.dom, Field)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, FreeModule)                   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ FreeModulePolyRing : {Any | isinstance(ring, Polynomi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3cba44db6232e18c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModulePolyRing","kind":"class","src_hash":"df619caae8f5b06b","in":{"base":"Any","pred":"isinstance(ring, PolynomialRingBase) and isinstance(ring.dom, Field)"},"out":{"base":"Any"},"spec":{"lhs":"FreeModulePolyRing(*args)","rhs":"correctly constructs a FreeModulePolyRing instance","over":{"base":"Any","pred":"isinstance(ring, PolynomialRingBase) and isinstance(ring.dom, Field)"},"name":"FreeModulePolyRing_class_invariant"},"guarantee":"correctly constructs a FreeModulePolyRing instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3cba44db6232e18c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModulePolyRing","kind":"class","src_hash":"df619caae8f5b06b","in":{"base":"Any","pred":"isinstance(ring, PolynomialRingBase) and isinstance(ring.dom, Field)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, FreeModule)"},"spec":{"lhs":"FreeModulePolyRing(*args)","rhs":"correctly constructs a FreeModulePolyRing instance","over":{"base":"Any","pred":"isinstance(ring, PolynomialRingBase) and isinstance(ring.dom, Field)"},"name":"FreeModulePolyRing_class_invariant"},"guarantee":"isinstance(self, FreeModule)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3cba44db6232e18c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, FreeModule)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function FreeModulePolyRing not found in source"]}}
 class FreeModulePolyRing(FreeModule):
     """
     Free module over a generalized polynomial ring.
@@ -1017,16 +1319,25 @@ class FreeModulePolyRing(FreeModule):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(rin), initializes the instance correctly) over Any ║
+# ║ Path(__init__(ring, rank), <unspecified:__init__>) over {Any | isinstance(ring, PolynomialRingBase) and isinstance(ring.dom, Field) and hasattr(ring, 'dom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(ring, PolynomialRingBase)           ║
+# ║   requires: isinstance(ring.dom, Field)                    ║
+# ║   requires: hasattr(ring, 'dom')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | isinstance(ring, PolynomialRingBase...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ccf26cbccd1d591d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModulePolyRing.__init__","kind":"method","src_hash":"179c4381bc39803e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(rin)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ccf26cbccd1d591d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModulePolyRing.__init__","kind":"method","src_hash":"179c4381bc39803e","in":{"base":"Any","pred":"isinstance(ring, PolynomialRingBase) and isinstance(ring.dom, Field) and hasattr(ring, 'dom')"},"out":{"base":"Any"},"spec":{"lhs":"__init__(ring, rank)","rhs":"<unspecified:__init__>","over":{"base":"Any","pred":"isinstance(ring, PolynomialRingBase) and isinstance(ring.dom, Field) and hasattr(ring, 'dom')"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ccf26cbccd1d591d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(ring, PolynomialRingBase)","isinstance(ring.dom, Field)","hasattr(ring, 'dom')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["ring.dom"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, ring, rank):
         from sympy.polys.domains.old_polynomialring import PolynomialRingBase
         FreeModule.__init__(self, ring, rank)
@@ -1038,16 +1349,22 @@ class FreeModulePolyRing(FreeModule):
                                       + 'got %s' % ring.dom)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(submodule(*ge), generate a submodule) over Any        ║
+# ║ Path(submodule(*gens, **opts), SubModulePolyRing(gens, self, **opts)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  SubModulePolyRing(gens, self, **opts)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ submodule : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b9954c02b14eb778           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModulePolyRing.submodule","kind":"method","src_hash":"25a20045856a7b94","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"submodule(*ge)","rhs":"generate a submodule","over":{"base":"Any"},"name":"submodule_correct"},"guarantee":"generate a submodule","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b9954c02b14eb778"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModulePolyRing.submodule","kind":"method","src_hash":"25a20045856a7b94","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"submodule(*gens, **opts)","rhs":"SubModulePolyRing(gens, self, **opts)","over":{"base":"Any"},"name":"submodule_correct"},"guarantee":"returns SubModulePolyRing(gens, self, **opts)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b9954c02b14eb778","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"SubModulePolyRing(gens, self, **opts)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def submodule(self, *gens, **opts):
         """
         Generate a submodule.
@@ -1071,14 +1388,20 @@ class FreeModulePolyRing(FreeModule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a FreeModuleQuotientRing instance) preserved by FreeModuleQuotientRing(*args) over {Any | isinstance(ring, QuotientRing)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, FreeModule)                   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ FreeModuleQuotientRing : {Any | isinstance(ring, Quot...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c049d58fade331dd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModuleQuotientRing","kind":"class","src_hash":"d77abfee1d254c65","in":{"base":"Any","pred":"isinstance(ring, QuotientRing)"},"out":{"base":"Any"},"spec":{"lhs":"FreeModuleQuotientRing(*args)","rhs":"correctly constructs a FreeModuleQuotientRing instance","over":{"base":"Any","pred":"isinstance(ring, QuotientRing)"},"name":"FreeModuleQuotientRing_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a FreeModuleQuotientRing instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'quot')","kind":"class","induction":"structural on quot"}],"methods_preserving":["__init__","__repr__","submodule","lift","unlift"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c049d58fade331dd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModuleQuotientRing","kind":"class","src_hash":"d77abfee1d254c65","in":{"base":"Any","pred":"isinstance(ring, QuotientRing)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, FreeModule)"},"spec":{"lhs":"FreeModuleQuotientRing(*args)","rhs":"correctly constructs a FreeModuleQuotientRing instance","over":{"base":"Any","pred":"isinstance(ring, QuotientRing)"},"name":"FreeModuleQuotientRing_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, FreeModule); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'quot')","kind":"class","induction":"structural on quot"}],"methods_preserving":["__init__","__repr__","submodule","lift","unlift"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c049d58fade331dd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, FreeModule)"],"invariants":["hasattr(self, 'quot')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function FreeModuleQuotientRing not found in source"]}}
 class FreeModuleQuotientRing(FreeModule):
     """
     Free module over a quotient ring.
@@ -1100,16 +1423,23 @@ class FreeModuleQuotientRing(FreeModule):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(rin), initializes the instance correctly) over Any ║
+# ║ Path(__init__(ring, rank), <unspecified:__init__>) over {Any | isinstance(ring, QuotientRing)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(ring, QuotientRing)                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | isinstance(ring, QuotientRing)} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aa5755833365bf38           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModuleQuotientRing.__init__","kind":"method","src_hash":"59950109eb960cdd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(rin)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa5755833365bf38"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModuleQuotientRing.__init__","kind":"method","src_hash":"59950109eb960cdd","in":{"base":"Any","pred":"isinstance(ring, QuotientRing)"},"out":{"base":"Any"},"spec":{"lhs":"__init__(ring, rank)","rhs":"<unspecified:__init__>","over":{"base":"Any","pred":"isinstance(ring, QuotientRing)"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa5755833365bf38","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(ring, QuotientRing)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.rank","self.ring"],"writes":["self.quot"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["self.quot"],"old_bindings":{"old_self_quot":"self.quot"},"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, ring, rank):
         from sympy.polys.domains.quotientring import QuotientRing
         FreeModule.__init__(self, ring, rank)
@@ -1120,30 +1450,42 @@ class FreeModuleQuotientRing(FreeModule):
         self.quot = F / (self.ring.base_ideal*F)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), '(' + repr(self.ring) + ')' + '**' + repr(self.rank)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '(' + repr(self.ring) + ')' + '**' + repr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1fb4526925618ca8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModuleQuotientRing.__repr__","kind":"method","src_hash":"000fce823e7a9c29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1fb4526925618ca8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModuleQuotientRing.__repr__","kind":"method","src_hash":"000fce823e7a9c29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'(' + repr(self.ring) + ')' + '**' + repr(self.rank)","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns '(' + repr(self.ring) + ')' + '**' + repr(self.rank)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1fb4526925618ca8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'(' + repr(self.ring) + ')' + '**' + repr(self.rank)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rank","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return "(" + repr(self.ring) + ")" + "**" + repr(self.rank)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(submodule(*ge), generate a submodule) over Any        ║
+# ║ Path(submodule(*gens, **opts), SubModuleQuotientRing(gens, self, **opts)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  SubModuleQuotientRing(gens, self, **opts)      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ submodule : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f94643f0fc8d630d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModuleQuotientRing.submodule","kind":"method","src_hash":"317d0b5c9ac79546","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"submodule(*ge)","rhs":"generate a submodule","over":{"base":"Any"},"name":"submodule_correct"},"guarantee":"generate a submodule","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f94643f0fc8d630d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModuleQuotientRing.submodule","kind":"method","src_hash":"317d0b5c9ac79546","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"submodule(*gens, **opts)","rhs":"SubModuleQuotientRing(gens, self, **opts)","over":{"base":"Any"},"name":"submodule_correct"},"guarantee":"returns SubModuleQuotientRing(gens, self, **opts)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f94643f0fc8d630d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"SubModuleQuotientRing(gens, self, **opts)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def submodule(self, *gens, **opts):
         """
         Generate a submodule.
@@ -1164,16 +1506,22 @@ class FreeModuleQuotientRing(FreeModule):
         return SubModuleQuotientRing(gens, self, **opts)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lift(ele), lift the element ``elem`` of self to the module self.quot) over Any ║
+# ║ Path(lift(elem), self.quot.convert([x.data for x in elem])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.quot.convert([x.data for x in elem])      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lift : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 20b4c33b52321361           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModuleQuotientRing.lift","kind":"method","src_hash":"30adf0b30b9bfa1b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lift(ele)","rhs":"lift the element ``elem`` of self to the module self.quot","over":{"base":"Any"},"name":"lift_correct"},"guarantee":"lift the element ``elem`` of self to the module self.quot","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"20b4c33b52321361"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModuleQuotientRing.lift","kind":"method","src_hash":"30adf0b30b9bfa1b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lift(elem)","rhs":"self.quot.convert([x.data for x in elem])","over":{"base":"Any"},"name":"lift_correct"},"guarantee":"returns self.quot.convert([x.data for x in elem])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"20b4c33b52321361","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.quot.convert([x.data for x in elem])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.quot"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lift(self, elem):
         """
         Lift the element ``elem`` of self to the module self.quot.
@@ -1200,16 +1548,23 @@ class FreeModuleQuotientRing(FreeModule):
         return self.quot.convert([x.data for x in elem])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(unlift(ele), push down an element of self.quot to self) over Any ║
+# ║ Path(unlift(elem), self.convert(elem.data)) over {Any | hasattr(elem, 'data')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ unlift : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(elem, 'data')                          ║
+# ║   returns:  self.convert(elem.data)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ unlift : {Any | hasattr(elem, 'data')} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d45bb6fd9210e62f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModuleQuotientRing.unlift","kind":"method","src_hash":"b38adb6d47a2e947","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unlift(ele)","rhs":"push down an element of self.quot to self","over":{"base":"Any"},"name":"unlift_correct"},"guarantee":"push down an element of self.quot to self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d45bb6fd9210e62f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.FreeModuleQuotientRing.unlift","kind":"method","src_hash":"b38adb6d47a2e947","in":{"base":"Any","pred":"hasattr(elem, 'data')"},"out":{"base":"Any"},"spec":{"lhs":"unlift(elem)","rhs":"self.convert(elem.data)","over":{"base":"Any","pred":"hasattr(elem, 'data')"},"name":"unlift_correct"},"guarantee":"returns self.convert(elem.data)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d45bb6fd9210e62f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(elem, 'data')"],"returns_expr":"self.convert(elem.data)","pure":false,"effects":{"effect_type":"reads_state","reads":["elem.data","self.convert"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def unlift(self, elem):
         """
         Push down an element of self.quot to self.
@@ -1239,14 +1594,20 @@ class FreeModuleQuotientRing(FreeModule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a SubModule instance) preserved by SubModule(*args) over {Any | isinstance(other, SubModule) and isinstance(other, (FreeModule, QuotientModule)) and isinstance(elem, self.container.dtype)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Module)                       ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ SubModule : {Any | isinstance(other, SubModule) and i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b43e173544e3a6d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule","kind":"class","src_hash":"afb2fb0a9cf8fadc","in":{"base":"Any","pred":"isinstance(other, SubModule) and isinstance(other, (FreeModule, QuotientModule)) and isinstance(elem, self.container.dtype)"},"out":{"base":"Any"},"spec":{"lhs":"SubModule(*args)","rhs":"correctly constructs a SubModule instance","over":{"base":"Any","pred":"isinstance(other, SubModule) and isinstance(other, (FreeModule, QuotientModule)) and isinstance(elem, self.container.dtype)"},"name":"SubModule_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a SubModule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'gens') and hasattr(self, 'container') and hasattr(self, 'rank') and hasattr(self, 'ring') and hasattr(self, 'dtype')","kind":"class","induction":"structural on gens, container, rank, ring"}],"methods_preserving":["__init__","__repr__","_contains","_syzygies","_in_terms_of_generators","convert","_intersect","_module_quotient","intersect","module_quotient","union","is_zero","submodule","is_full_module","is_submodule","syzygy_module","in_terms_of_generators","reduce_element","quotient_module","__add__","multiply_ideal","inclusion_hom","identity_hom"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b43e173544e3a6d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule","kind":"class","src_hash":"afb2fb0a9cf8fadc","in":{"base":"Any","pred":"isinstance(other, SubModule) and isinstance(other, (FreeModule, QuotientModule)) and isinstance(elem, self.container.dtype)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Module)"},"spec":{"lhs":"SubModule(*args)","rhs":"correctly constructs a SubModule instance","over":{"base":"Any","pred":"isinstance(other, SubModule) and isinstance(other, (FreeModule, QuotientModule)) and isinstance(elem, self.container.dtype)"},"name":"SubModule_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Module); preserves 5 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'gens') and hasattr(self, 'container') and hasattr(self, 'rank') and hasattr(self, 'ring') and hasattr(self, 'dtype')","kind":"class","induction":"structural on gens, container, rank, ring"}],"methods_preserving":["__init__","__repr__","_contains","_syzygies","_in_terms_of_generators","convert","_intersect","_module_quotient","intersect","module_quotient","union","is_zero","submodule","is_full_module","is_submodule","syzygy_module","in_terms_of_generators","reduce_element","quotient_module","__add__","multiply_ideal","inclusion_hom","identity_hom"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b43e173544e3a6d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Module)"],"invariants":["hasattr(self, 'gens')","hasattr(self, 'container')","hasattr(self, 'rank')","hasattr(self, 'ring')","hasattr(self, 'dtype')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function SubModule not found in source"]}}
 class SubModule(Module):
     """
     Base class for submodules.
@@ -1271,16 +1632,25 @@ class SubModule(Module):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(gen), initializes the instance correctly) over Any ║
+# ║ Path(__init__(gens, container), self.container == container) over {Any | hasattr(container, 'rank') and hasattr(container, 'ring') and hasattr(container, 'dtype') and hasattr(container, 'convert')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(container, 'rank')                     ║
+# ║   requires: hasattr(container, 'ring')                     ║
+# ║   requires: hasattr(container, 'dtype')                    ║
+# ║   ensures:  self.container == container                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | hasattr(container, 'rank') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | eefb925d78550016           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule.__init__","kind":"method","src_hash":"b15b0713d1e8e538","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(gen)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eefb925d78550016"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule.__init__","kind":"method","src_hash":"b15b0713d1e8e538","in":{"base":"Any","pred":"hasattr(container, 'rank') and hasattr(container, 'ring') and hasattr(container, 'dtype') and hasattr(container, 'convert')"},"out":{"base":"Any","pred":"result satisfies: self.container == container"},"spec":{"lhs":"__init__(gens, container)","rhs":"self.container == container","over":{"base":"Any","pred":"hasattr(container, 'rank') and hasattr(container, 'ring') and hasattr(container, 'dtype') and hasattr(container, 'convert')"},"name":"__init___correct"},"guarantee":"self.container == container","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eefb925d78550016","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(container, 'rank')","hasattr(container, 'ring')","hasattr(container, 'dtype')","hasattr(container, 'convert')"],"ensures":["self.container == container"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, gens, container):
         Module.__init__(self, container.ring)
         self.gens = tuple(container.convert(x) for x in gens)
@@ -1290,76 +1660,108 @@ class SubModule(Module):
         self.dtype = container.dtype
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), '<' + ', '.join((repr(x) for x in self.gens)) + '>') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '<' + ', '.join((repr(x) for x in self.ge...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5c6247c320cfbb2d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule.__repr__","kind":"method","src_hash":"941f72d90154bdb7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5c6247c320cfbb2d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule.__repr__","kind":"method","src_hash":"941f72d90154bdb7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'<' + ', '.join((repr(x) for x in self.gens)) + '>'","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns '<' + ', '.join((repr(x) for x in self.gens)) + '>'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5c6247c320cfbb2d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'<' + ', '.join((repr(x) for x in self.gens)) + '>'","pure":false,"effects":{"effect_type":"reads_state","reads":["self.gens"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return "<" + ", ".join(repr(x) for x in self.gens) + ">"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_contains(oth), implementation of containment. other is guaranteed to be freemoduleelement) over Any ║
+# ║ Path(_contains(other), <unspecified:_contains>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _contains : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | da0a83dd038ebd80           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule._contains","kind":"method","src_hash":"b2ee2698d11f2a8c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contains(oth)","rhs":"implementation of containment. other is guaranteed to be freemoduleelement","over":{"base":"Any"},"name":"_contains_correct"},"guarantee":"implementation of containment. other is guaranteed to be freemoduleelement","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"da0a83dd038ebd80"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule._contains","kind":"method","src_hash":"b2ee2698d11f2a8c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contains(other)","rhs":"<unspecified:_contains>","over":{"base":"Any"},"name":"_contains_correct"},"guarantee":"implementation of containment. other is guaranteed to be freemoduleelement","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"da0a83dd038ebd80","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _contains(self, other):
         """Implementation of containment.
            Other is guaranteed to be FreeModuleElement."""
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_syzygies(), implementation of syzygy computation wrt self generators) over Any ║
+# ║ Path(_syzygies(), <unspecified:_syzygies>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _syzygies : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 382e11dca72c8344           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule._syzygies","kind":"method","src_hash":"4c50f233a4cae2fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_syzygies()","rhs":"implementation of syzygy computation wrt self generators","over":{"base":"Any"},"name":"_syzygies_correct"},"guarantee":"implementation of syzygy computation wrt self generators","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"382e11dca72c8344"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule._syzygies","kind":"method","src_hash":"4c50f233a4cae2fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_syzygies()","rhs":"<unspecified:_syzygies>","over":{"base":"Any"},"name":"_syzygies_correct"},"guarantee":"implementation of syzygy computation wrt self generators","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"382e11dca72c8344","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _syzygies(self):
         """Implementation of syzygy computation wrt self generators."""
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_in_terms_of_generators(e), implementation of expression in terms of generators) over Any ║
+# ║ Path(_in_terms_of_generators(e), <unspecified:_in_terms_of_generators>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _in_terms_of_generators : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 09061654bcec9069           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule._in_terms_of_generators","kind":"method","src_hash":"7c1b62ab4a88ae34","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_in_terms_of_generators(e)","rhs":"implementation of expression in terms of generators","over":{"base":"Any"},"name":"_in_terms_of_generators_correct"},"guarantee":"implementation of expression in terms of generators","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"09061654bcec9069"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule._in_terms_of_generators","kind":"method","src_hash":"7c1b62ab4a88ae34","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_in_terms_of_generators(e)","rhs":"<unspecified:_in_terms_of_generators>","over":{"base":"Any"},"name":"_in_terms_of_generators_correct"},"guarantee":"implementation of expression in terms of generators","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"09061654bcec9069","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _in_terms_of_generators(self, e):
         """Implementation of expression in terms of generators."""
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(convert(ele), convert ``elem`` into the internal represantition) over Any ║
+# ║ Path(convert(elem, M), <unspecified:convert>) over {Any | self._contains(r) and hasattr(elem, 'module')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ convert : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: self._contains(r)                              ║
+# ║   requires: hasattr(elem, 'module')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ convert : {Any | self._contains(r) and hasattr(elem, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2106f42ebca758ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule.convert","kind":"method","src_hash":"7d2d7cef61c4192d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"convert(ele)","rhs":"convert ``elem`` into the internal represantition","over":{"base":"Any"},"name":"convert_correct"},"guarantee":"convert ``elem`` into the internal represantition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.SubModule.convert_correct","statement":"Path(convert(x), convert ``elem`` into the internal represantition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2106f42ebca758ac"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule.convert","kind":"method","src_hash":"7d2d7cef61c4192d","in":{"base":"Any","pred":"self._contains(r) and hasattr(elem, 'module')"},"out":{"base":"Any"},"spec":{"lhs":"convert(elem, M)","rhs":"<unspecified:convert>","over":{"base":"Any","pred":"self._contains(r) and hasattr(elem, 'module')"},"name":"convert_correct"},"guarantee":"convert ``elem`` into the internal represantition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.SubModule.convert_correct","statement":"Path(convert(x), convert ``elem`` into the internal represantition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2106f42ebca758ac","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["self._contains(r)","hasattr(elem, 'module')"],"pure":false,"effects":{"effect_type":"io","reads":["elem.module","self._contains","self.container"],"raises":["CoercionFailed"],"io_operations":["copy"]},"state_contract":{"exceptional_post":{"CoercionFailed":["isinstance(raised, CoercionFailed)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def convert(self, elem, M=None):
         """
         Convert ``elem`` into the internal represantition.
@@ -1384,48 +1786,69 @@ class SubModule(Module):
         return r
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_intersect(oth), implementation of intersection. other is guaranteed to be a submodule of same free module) over Any ║
+# ║ Path(_intersect(other), <unspecified:_intersect>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _intersect : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fadf223197f2c51e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule._intersect","kind":"method","src_hash":"18beaed27f314b9a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_intersect(oth)","rhs":"implementation of intersection. other is guaranteed to be a submodule of same free module","over":{"base":"Any"},"name":"_intersect_correct"},"guarantee":"implementation of intersection. other is guaranteed to be a submodule of same free module","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fadf223197f2c51e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule._intersect","kind":"method","src_hash":"18beaed27f314b9a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_intersect(other)","rhs":"<unspecified:_intersect>","over":{"base":"Any"},"name":"_intersect_correct"},"guarantee":"implementation of intersection. other is guaranteed to be a submodule of same free module","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fadf223197f2c51e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _intersect(self, other):
         """Implementation of intersection.
            Other is guaranteed to be a submodule of same free module."""
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_module_quotient(oth), implementation of quotient. other is guaranteed to be a submodule of same free module) over Any ║
+# ║ Path(_module_quotient(other), <unspecified:_module_quotient>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _module_quotient : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b52aa291132f1608           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule._module_quotient","kind":"method","src_hash":"92b821c4c16b5b6b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_module_quotient(oth)","rhs":"implementation of quotient. other is guaranteed to be a submodule of same free module","over":{"base":"Any"},"name":"_module_quotient_correct"},"guarantee":"implementation of quotient. other is guaranteed to be a submodule of same free module","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b52aa291132f1608"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule._module_quotient","kind":"method","src_hash":"92b821c4c16b5b6b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_module_quotient(other)","rhs":"<unspecified:_module_quotient>","over":{"base":"Any"},"name":"_module_quotient_correct"},"guarantee":"implementation of quotient. other is guaranteed to be a submodule of same free module","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b52aa291132f1608","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _module_quotient(self, other):
         """Implementation of quotient.
            Other is guaranteed to be a submodule of same free module."""
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(intersect(oth), returns the intersection of ``self`` with submodule ``other``) over Any ║
+# ║ Path(intersect(other, **options), self._intersect(other, **options)) over {Any | isinstance(other, SubModule) and not (other.container != self.container) and hasattr(other, 'container')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ intersect : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(other, SubModule)                   ║
+# ║   requires: not (other.container != self.container)        ║
+# ║   requires: hasattr(other, 'container')                    ║
+# ║   returns:  self._intersect(other, **options)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ intersect : {Any | isinstance(other, SubModule) and n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0cce76e2c065a8ff  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cdec7b17d873848e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule.intersect","kind":"method","src_hash":"be3d79f04d92d4d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"intersect(oth)","rhs":"returns the intersection of ``self`` with submodule ``other``","over":{"base":"Any"},"name":"intersect_correct"},"guarantee":"returns the intersection of ``self`` with submodule ``other``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.SubModule.intersect_correct","statement":"Path(intersect(x), returns the intersection of ``self`` with submodule ``other``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0cce76e2c065a8ff"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule.intersect","kind":"method","src_hash":"be3d79f04d92d4d6","in":{"base":"Any","pred":"isinstance(other, SubModule) and not (other.container != self.container) and hasattr(other, 'container')"},"out":{"base":"Any"},"spec":{"lhs":"intersect(other, **options)","rhs":"self._intersect(other, **options)","over":{"base":"Any","pred":"isinstance(other, SubModule) and not (other.container != self.container) and hasattr(other, 'container')"},"name":"intersect_correct"},"guarantee":"returns self._intersect(other, **options)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.SubModule.intersect_correct","statement":"Path(intersect(x), returns self._intersect(other, **options))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cdec7b17d873848e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(other, SubModule)","not (other.container != self.container)","hasattr(other, 'container')"],"returns_expr":"self._intersect(other, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["other.container","self._intersect","self.container"],"raises":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def intersect(self, other, **options):
         """
         Returns the intersection of ``self`` with submodule ``other``.
@@ -1462,16 +1885,25 @@ class SubModule(Module):
         return self._intersect(other, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(module_quotient(oth), returns the module quotient of ``self`` by submodule ``other``) over Any ║
+# ║ Path(module_quotient(other, **options), self._module_quotient(other, **options)) over {Any | isinstance(other, SubModule) and not (other.container != self.container) and hasattr(other, 'container')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ module_quotient : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(other, SubModule)                   ║
+# ║   requires: not (other.container != self.container)        ║
+# ║   requires: hasattr(other, 'container')                    ║
+# ║   returns:  self._module_quotient(other, **options)        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ module_quotient : {Any | isinstance(other, SubModule)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b6f778266da904ad  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d278b20c11695482  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule.module_quotient","kind":"method","src_hash":"23138caf3fe82c4d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"module_quotient(oth)","rhs":"returns the module quotient of ``self`` by submodule ``other``","over":{"base":"Any"},"name":"module_quotient_correct"},"guarantee":"returns the module quotient of ``self`` by submodule ``other``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.SubModule.module_quotient_correct","statement":"Path(module_quotient(x), returns the module quotient of ``self`` by submodule ``other``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6f778266da904ad"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule.module_quotient","kind":"method","src_hash":"23138caf3fe82c4d","in":{"base":"Any","pred":"isinstance(other, SubModule) and not (other.container != self.container) and hasattr(other, 'container')"},"out":{"base":"Any"},"spec":{"lhs":"module_quotient(other, **options)","rhs":"self._module_quotient(other, **options)","over":{"base":"Any","pred":"isinstance(other, SubModule) and not (other.container != self.container) and hasattr(other, 'container')"},"name":"module_quotient_correct"},"guarantee":"returns self._module_quotient(other, **options)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.SubModule.module_quotient_correct","statement":"Path(module_quotient(x), returns self._module_quotient(other, **options))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d278b20c11695482","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(other, SubModule)","not (other.container != self.container)","hasattr(other, 'container')"],"returns_expr":"self._module_quotient(other, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["other.container","self._module_quotient","self.container"],"raises":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def module_quotient(self, other, **options):
         r"""
         Returns the module quotient of ``self`` by submodule ``other``.
@@ -1513,16 +1945,25 @@ class SubModule(Module):
         return self._module_quotient(other, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(union(oth), returns the module generated by the union of ``self`` and ``other``) over Any ║
+# ║ Path(union(other), self.__class__(self.gens + other.gens, self.container)) over {Any | isinstance(other, SubModule) and not (other.container != self.container) and hasattr(other, 'container') and hasattr(other, 'gens')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ union : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(other, SubModule)                   ║
+# ║   requires: not (other.container != self.container)        ║
+# ║   requires: hasattr(other, 'container')                    ║
+# ║   returns:  self.__class__(self.gens + other.gens, se...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ union : {Any | isinstance(other, SubModule) and not (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 96271d39be4ea512  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 41c6065b4f573383  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule.union","kind":"method","src_hash":"1f7d218933dcb719","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"union(oth)","rhs":"returns the module generated by the union of ``self`` and ``other``","over":{"base":"Any"},"name":"union_correct"},"guarantee":"returns the module generated by the union of ``self`` and ``other``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.SubModule.union_correct","statement":"Path(union(x), returns the module generated by the union of ``self`` and ``other``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96271d39be4ea512"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule.union","kind":"method","src_hash":"1f7d218933dcb719","in":{"base":"Any","pred":"isinstance(other, SubModule) and not (other.container != self.container) and hasattr(other, 'container') and hasattr(other, 'gens')"},"out":{"base":"Any"},"spec":{"lhs":"union(other)","rhs":"self.__class__(self.gens + other.gens, self.container)","over":{"base":"Any","pred":"isinstance(other, SubModule) and not (other.container != self.container) and hasattr(other, 'container') and hasattr(other, 'gens')"},"name":"union_correct"},"guarantee":"returns self.__class__(self.gens + other.gens, self.container)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.SubModule.union_correct","statement":"Path(union(x), returns self.__class__(self.gens + other.gens, self.container))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41c6065b4f573383","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(other, SubModule)","not (other.container != self.container)","hasattr(other, 'container')","hasattr(other, 'gens')"],"returns_expr":"self.__class__(self.gens + other.gens, self.container)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","other.container","other.gens","self.__class__","self.container","self.gens"],"raises":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def union(self, other):
         """
         Returns the module generated by the union of ``self`` and ``other``.
@@ -1546,16 +1987,22 @@ class SubModule(Module):
         return self.__class__(self.gens + other.gens, self.container)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_zero(), return true if ``self`` is a zero module) over Any ║
+# ║ Path(is_zero(), all((x == 0 for x in self.gens))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  all((x == 0 for x in self.gens))               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_zero : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f457af4d528f5f04           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule.is_zero","kind":"method","src_hash":"c3eff87070dd9164","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_zero()","rhs":"return true if ``self`` is a zero module","over":{"base":"Any"},"name":"is_zero_correct"},"guarantee":"return true if ``self`` is a zero module","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f457af4d528f5f04"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule.is_zero","kind":"method","src_hash":"c3eff87070dd9164","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_zero()","rhs":"all((x == 0 for x in self.gens))","over":{"base":"Any"},"name":"is_zero_correct"},"guarantee":"returns all((x == 0 for x in self.gens))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f457af4d528f5f04","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"all((x == 0 for x in self.gens))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.gens"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_zero(self):
         """
         Return True if ``self`` is a zero module.
@@ -1574,16 +2021,23 @@ class SubModule(Module):
         return all(x == 0 for x in self.gens)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(submodule(*ge), generate a submodule) over Any        ║
+# ║ Path(submodule(*gens), self.__class__(gens, self.container)) over {Any | self.subset(gens)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ submodule : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.subset(gens)                              ║
+# ║   returns:  self.__class__(gens, self.container)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ submodule : {Any | self.subset(gens)} → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e115af343b5374cf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd84134afdc61aa2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule.submodule","kind":"method","src_hash":"e03ca74887b173b9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"submodule(*ge)","rhs":"generate a submodule","over":{"base":"Any"},"name":"submodule_correct"},"guarantee":"generate a submodule","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.SubModule.submodule_correct","statement":"Path(submodule(x), generate a submodule)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e115af343b5374cf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule.submodule","kind":"method","src_hash":"e03ca74887b173b9","in":{"base":"Any","pred":"self.subset(gens)"},"out":{"base":"Any"},"spec":{"lhs":"submodule(*gens)","rhs":"self.__class__(gens, self.container)","over":{"base":"Any","pred":"self.subset(gens)"},"name":"submodule_correct"},"guarantee":"returns self.__class__(gens, self.container)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.SubModule.submodule_correct","statement":"Path(submodule(x), returns self.__class__(gens, self.container))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd84134afdc61aa2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.subset(gens)"],"returns_expr":"self.__class__(gens, self.container)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.container","self.subset"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def submodule(self, *gens):
         """
         Generate a submodule.
@@ -1602,16 +2056,22 @@ class SubModule(Module):
         return self.__class__(gens, self.container)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_full_module(), return true if ``self`` is the entire free module) over Any ║
+# ║ Path(is_full_module(), all((self.contains(x) for x in self.container.basis()))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  all((self.contains(x) for x in self.conta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_full_module : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c31a18a1e77e9cc4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule.is_full_module","kind":"method","src_hash":"c852aee313c90ddc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_full_module()","rhs":"return true if ``self`` is the entire free module","over":{"base":"Any"},"name":"is_full_module_correct"},"guarantee":"return true if ``self`` is the entire free module","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c31a18a1e77e9cc4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule.is_full_module","kind":"method","src_hash":"c852aee313c90ddc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_full_module()","rhs":"all((self.contains(x) for x in self.container.basis()))","over":{"base":"Any"},"name":"is_full_module_correct"},"guarantee":"returns all((self.contains(x) for x in self.container.basis()))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c31a18a1e77e9cc4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"all((self.contains(x) for x in self.container.basis()))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.container","self.contains"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_full_module(self):
         """
         Return True if ``self`` is the entire free module.
@@ -1630,16 +2090,24 @@ class SubModule(Module):
         return all(self.contains(x) for x in self.container.basis())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_submodule(oth), returns true if ``other`` is a submodule of ``self``) over Any ║
+# ║ Path(is_submodule(other), <unspecified:is_submodule>) over {Any | hasattr(other, 'container') and hasattr(other, 'gens')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_submodule : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'container')                    ║
+# ║   requires: hasattr(other, 'gens')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_submodule : {Any | hasattr(other, 'container') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00a0442e9d8ee7c3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule.is_submodule","kind":"method","src_hash":"309412c45a178227","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_submodule(oth)","rhs":"returns true if ``other`` is a submodule of ``self``","over":{"base":"Any"},"name":"is_submodule_correct"},"guarantee":"returns true if ``other`` is a submodule of ``self``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.SubModule.is_submodule_correct","statement":"Path(is_submodule(x), returns true if ``other`` is a submodule of ``self``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00a0442e9d8ee7c3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule.is_submodule","kind":"method","src_hash":"309412c45a178227","in":{"base":"Any","pred":"hasattr(other, 'container') and hasattr(other, 'gens')"},"out":{"base":"Any"},"spec":{"lhs":"is_submodule(other)","rhs":"<unspecified:is_submodule>","over":{"base":"Any","pred":"hasattr(other, 'container') and hasattr(other, 'gens')"},"name":"is_submodule_correct"},"guarantee":"returns true if ``other`` is a submodule of ``self``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.SubModule.is_submodule_correct","statement":"Path(is_submodule(x), returns true if ``other`` is a submodule of ``self``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00a0442e9d8ee7c3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'container')","hasattr(other, 'gens')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.container","other.gens","self.container","self.contains","self.is_full_module"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_submodule(self, other):
         """
         Returns True if ``other`` is a submodule of ``self``.
@@ -1664,16 +2132,22 @@ class SubModule(Module):
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(syzygy_module(**o), id) over Any                      ║
+# ║ Path(syzygy_module(**opts), id) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  F.submodule(*[x for x in self._syzygies()...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ syzygy_module : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d3bd6c238dd13e69   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule.syzygy_module","kind":"method","src_hash":"5194b4e2dd64db82","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"syzygy_module(**o)","rhs":"compute the syzygy module of the generators of ``self``","over":{"base":"Any"},"name":"syzygy_module_correct","kind":"composition"},"guarantee":"compute the syzygy module of the generators of ``self``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"submodule","by":"library_axiom"},{"fn":"_syzygies","by":"library_axiom"},{"fn":"convert","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3bd6c238dd13e69"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule.syzygy_module","kind":"method","src_hash":"5194b4e2dd64db82","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"syzygy_module(**opts)","rhs":"F.submodule(*[x for x in self._syzygies() if F.convert(x) != 0], **opts)","over":{"base":"Any"},"name":"syzygy_module_correct","kind":"composition"},"guarantee":"returns F.submodule(*[x for x in self._syzygies() if F.convert(x) != 0], **opts)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"submodule","by":"library_axiom"},{"fn":"_syzygies","by":"library_axiom"},{"fn":"convert","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3bd6c238dd13e69","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"F.submodule(*[x for x in self._syzygies() if F.convert(x) != 0], **opts)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._syzygies","self.gens","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def syzygy_module(self, **opts):
         r"""
         Compute the syzygy module of the generators of ``self``.
@@ -1709,16 +2183,22 @@ class SubModule(Module):
                            **opts)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(in_terms_of_generators(e), express element ``e`` of ``self`` in terms of the generators) over Any ║
+# ║ Path(in_terms_of_generators(e), self._in_terms_of_generators(e)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._in_terms_of_generators(e)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ in_terms_of_generators : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a8e224e514201920  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d4c3229f267abcd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule.in_terms_of_generators","kind":"method","src_hash":"da530d58903adf56","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"in_terms_of_generators(e)","rhs":"express element ``e`` of ``self`` in terms of the generators","over":{"base":"Any"},"name":"in_terms_of_generators_correct"},"guarantee":"express element ``e`` of ``self`` in terms of the generators","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.SubModule.in_terms_of_generators_correct","statement":"Path(in_terms_of_generators(x), express element ``e`` of ``self`` in terms of the generators)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8e224e514201920"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule.in_terms_of_generators","kind":"method","src_hash":"da530d58903adf56","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"in_terms_of_generators(e)","rhs":"self._in_terms_of_generators(e)","over":{"base":"Any"},"name":"in_terms_of_generators_correct"},"guarantee":"returns self._in_terms_of_generators(e)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.SubModule.in_terms_of_generators_correct","statement":"Path(in_terms_of_generators(x), returns self._in_terms_of_generators(e))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d4c3229f267abcd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._in_terms_of_generators(e)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._in_terms_of_generators","self.convert"],"raises":["ValueError"],"catches":["CoercionFailed"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def in_terms_of_generators(self, e):
         """
         Express element ``e`` of ``self`` in terms of the generators.
@@ -1740,16 +2220,23 @@ class SubModule(Module):
         return self._in_terms_of_generators(e)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reduce_element(x), reduce the element ``x`` of our ring modulo the ideal ``self``) over Any ║
+# ║ Path(reduce_element(x), x) over Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ reduce_element : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == x                                    ║
+# ║   returns:  x                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ reduce_element : Any → {Any | result satisfies: resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a40364b1d557aa54           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule.reduce_element","kind":"method","src_hash":"079027a12455a871","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reduce_element(x)","rhs":"reduce the element ``x`` of our ring modulo the ideal ``self``","over":{"base":"Any"},"name":"reduce_element_correct"},"guarantee":"reduce the element ``x`` of our ring modulo the ideal ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a40364b1d557aa54"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule.reduce_element","kind":"method","src_hash":"079027a12455a871","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (x)"},"spec":{"lhs":"reduce_element(x)","rhs":"x","over":{"base":"Any"},"name":"reduce_element_correct"},"guarantee":"returns x; result == x","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a40364b1d557aa54","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == x"],"returns_expr":"x","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reduce_element(self, x):
         """
         Reduce the element ``x`` of our ring modulo the ideal ``self``.
@@ -1760,16 +2247,23 @@ class SubModule(Module):
         return x
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(quotient_module(oth), return a quotient module) over Any ║
+# ║ Path(quotient_module(other, **opts), SubQuotientModule(self.gens, self.container.quotient_module(other), **opts)) over {Any | self.is_submodule(other)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ quotient_module : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.is_submodule(other)                       ║
+# ║   returns:  SubQuotientModule(self.gens, self.contain...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ quotient_module : {Any | self.is_submodule(other)} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e37a188124dbf75f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1def94d8c136aa34  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule.quotient_module","kind":"method","src_hash":"7d59fa9d27139e86","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quotient_module(oth)","rhs":"return a quotient module","over":{"base":"Any"},"name":"quotient_module_correct"},"guarantee":"return a quotient module","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.SubModule.quotient_module_correct","statement":"Path(quotient_module(x), return a quotient module)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e37a188124dbf75f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule.quotient_module","kind":"method","src_hash":"7d59fa9d27139e86","in":{"base":"Any","pred":"self.is_submodule(other)"},"out":{"base":"Any"},"spec":{"lhs":"quotient_module(other, **opts)","rhs":"SubQuotientModule(self.gens, self.container.quotient_module(other), **opts)","over":{"base":"Any","pred":"self.is_submodule(other)"},"name":"quotient_module_correct"},"guarantee":"returns SubQuotientModule(self.gens, self.container.quotient_module(other), **opts)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.SubModule.quotient_module_correct","statement":"Path(quotient_module(x), returns SubQuotientModule(self.gens, self.container.quotient_module(other), **opts))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1def94d8c136aa34","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.is_submodule(other)"],"returns_expr":"SubQuotientModule(self.gens, self.container.quotient_module(other), **opts)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.container","self.gens","self.is_submodule"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def quotient_module(self, other, **opts):
         """
         Return a quotient module.
@@ -1799,32 +2293,45 @@ class SubModule(Module):
                 self.container.quotient_module(other), **opts)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(oth), self.container.quotient_module(self).convert(oth)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.container.quotient_module(self).conv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __add__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a45682074e947b8b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule.__add__","kind":"method","src_hash":"41cb2fb7747c339a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a45682074e947b8b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule.__add__","kind":"method","src_hash":"41cb2fb7747c339a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"self.container.quotient_module(self).convert(oth)","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns self.container.quotient_module(self).convert(oth)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a45682074e947b8b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.container.quotient_module(self).convert(oth)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.container"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, oth):
         return self.container.quotient_module(self).convert(oth)
 
     __radd__ = __add__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(multiply_ideal(I), multiply ``self`` by the ideal ``i``) over Any ║
+# ║ Path(multiply_ideal(I), self.submodule(*[x * g for [x] in I._module.gens for g in self.gens])) over {Any | hasattr(I, '_module')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ multiply_ideal : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(I, '_module')                          ║
+# ║   returns:  self.submodule(*[x * g for [x] in I._modu...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ multiply_ideal : {Any | hasattr(I, '_module')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 025e91a9931d3391           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule.multiply_ideal","kind":"method","src_hash":"f6c935d7dff16bce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"multiply_ideal(I)","rhs":"multiply ``self`` by the ideal ``i``","over":{"base":"Any"},"name":"multiply_ideal_correct"},"guarantee":"multiply ``self`` by the ideal ``i``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"025e91a9931d3391"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule.multiply_ideal","kind":"method","src_hash":"f6c935d7dff16bce","in":{"base":"Any","pred":"hasattr(I, '_module')"},"out":{"base":"Any"},"spec":{"lhs":"multiply_ideal(I)","rhs":"self.submodule(*[x * g for [x] in I._module.gens for g in self.gens])","over":{"base":"Any","pred":"hasattr(I, '_module')"},"name":"multiply_ideal_correct"},"guarantee":"returns self.submodule(*[x * g for [x] in I._module.gens for g in self.gens])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"025e91a9931d3391","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(I, '_module')"],"returns_expr":"self.submodule(*[x * g for [x] in I._module.gens for g in self.gens])","pure":false,"effects":{"effect_type":"reads_state","reads":["I._module","self.gens","self.submodule"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def multiply_ideal(self, I):
         """
         Multiply ``self`` by the ideal ``I``.
@@ -1842,16 +2349,22 @@ class SubModule(Module):
         return self.submodule(*[x*g for [x] in I._module.gens for g in self.gens])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inclusion_hom(), return a homomorphism representing the inclusion map of ``self``) over Any ║
+# ║ Path(inclusion_hom(), self.container.identity_hom().restrict_domain(self)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.container.identity_hom().restrict_do...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ inclusion_hom : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0b89928c2015d134           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule.inclusion_hom","kind":"method","src_hash":"d78d009680f579bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inclusion_hom()","rhs":"return a homomorphism representing the inclusion map of ``self``","over":{"base":"Any"},"name":"inclusion_hom_correct"},"guarantee":"return a homomorphism representing the inclusion map of ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0b89928c2015d134"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule.inclusion_hom","kind":"method","src_hash":"d78d009680f579bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inclusion_hom()","rhs":"self.container.identity_hom().restrict_domain(self)","over":{"base":"Any"},"name":"inclusion_hom_correct"},"guarantee":"returns self.container.identity_hom().restrict_domain(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0b89928c2015d134","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.container.identity_hom().restrict_domain(self)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.container"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def inclusion_hom(self):
         """
         Return a homomorphism representing the inclusion map of ``self``.
@@ -1873,14 +2386,20 @@ class SubModule(Module):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(identity_hom(), id) over Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.container.identity_hom().restrict_do...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ identity_hom : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | fc6f75185b7b297a   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule.identity_hom","kind":"method","src_hash":"c52d02b4028b3155","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"identity_hom()","rhs":"return the identity homomorphism on ``self``","over":{"base":"Any"},"name":"identity_hom_correct","kind":"composition"},"guarantee":"return the identity homomorphism on ``self``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"identity_hom","by":"library_axiom"},{"fn":"restrict_domain","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc6f75185b7b297a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModule.identity_hom","kind":"method","src_hash":"c52d02b4028b3155","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"identity_hom()","rhs":"self.container.identity_hom().restrict_domain(self).restrict_codomain(self)","over":{"base":"Any"},"name":"identity_hom_correct","kind":"composition"},"guarantee":"returns self.container.identity_hom().restrict_domain(self).restrict_codomain(self)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"identity_hom","by":"library_axiom"},{"fn":"restrict_domain","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc6f75185b7b297a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.container.identity_hom().restrict_domain(self).restrict_codomain(self)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.container"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def identity_hom(self):
         """
         Return the identity homomorphism on ``self``.
@@ -1902,14 +2421,20 @@ class SubModule(Module):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a SubQuotientModule instance) preserved by SubQuotientModule(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SubQuotientModule : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SubModule)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SubQuotientModule : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd7ed17ffca33026  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubQuotientModule","kind":"class","src_hash":"eef13ef3cf2934ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SubQuotientModule(*args)","rhs":"correctly constructs a SubQuotientModule instance","over":{"base":"Any"},"name":"SubQuotientModule_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a SubQuotientModule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'killed_module') and hasattr(self, 'base')","kind":"class","induction":"structural on killed_module, base"}],"methods_preserving":["__init__","_contains","_syzygies","_in_terms_of_generators","is_full_module","quotient_hom"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd7ed17ffca33026"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubQuotientModule","kind":"class","src_hash":"eef13ef3cf2934ad","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SubModule)"},"spec":{"lhs":"SubQuotientModule(*args)","rhs":"correctly constructs a SubQuotientModule instance","over":{"base":"Any"},"name":"SubQuotientModule_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, SubModule); preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'killed_module') and hasattr(self, 'base')","kind":"class","induction":"structural on killed_module, base"}],"methods_preserving":["__init__","_contains","_syzygies","_in_terms_of_generators","is_full_module","quotient_hom"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd7ed17ffca33026","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SubModule)"],"invariants":["hasattr(self, 'killed_module')","hasattr(self, 'base')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function SubQuotientModule not found in source"]}}
 class SubQuotientModule(SubModule):
     """
     Submodule of a quotient module.
@@ -1933,16 +2458,22 @@ class SubQuotientModule(SubModule):
     - killed_module - submodule used to form the quotient
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(gen), initializes the instance correctly) over Any ║
+# ║ Path(__init__(gens, container, **opts), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7d946baee993ae8f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubQuotientModule.__init__","kind":"method","src_hash":"b39ba4c6a8edc3d9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(gen)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7d946baee993ae8f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubQuotientModule.__init__","kind":"method","src_hash":"b39ba4c6a8edc3d9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(gens, container, **opts)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7d946baee993ae8f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, gens, container, **opts):
         SubModule.__init__(self, gens, container)
         self.killed_module = self.container.killed_module
@@ -1952,30 +2483,43 @@ class SubQuotientModule(SubModule):
             *[x.data for x in self.gens], **opts).union(self.killed_module)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_contains(ele), internal helper behaves correctly) over Any ║
+# ║ Path(_contains(elem), self.base.contains(elem.data)) over {Any | hasattr(elem, 'data')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _contains : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(elem, 'data')                          ║
+# ║   returns:  self.base.contains(elem.data)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _contains : {Any | hasattr(elem, 'data')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8717ebab82eae4ba           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubQuotientModule._contains","kind":"method","src_hash":"f47bb5a97dc59d56","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contains(ele)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_contains_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8717ebab82eae4ba"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubQuotientModule._contains","kind":"method","src_hash":"f47bb5a97dc59d56","in":{"base":"Any","pred":"hasattr(elem, 'data')"},"out":{"base":"Any"},"spec":{"lhs":"_contains(elem)","rhs":"self.base.contains(elem.data)","over":{"base":"Any","pred":"hasattr(elem, 'data')"},"name":"_contains_correct"},"guarantee":"returns self.base.contains(elem.data)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8717ebab82eae4ba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(elem, 'data')"],"returns_expr":"self.base.contains(elem.data)","pure":false,"effects":{"effect_type":"reads_state","reads":["elem.data","self.base"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _contains(self, elem):
         return self.base.contains(elem.data)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_syzygies(), internal helper behaves correctly) over Any ║
+# ║ Path(_syzygies(), [X[:len(self.gens)] for X in self.base._syzygies()]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [X[:len(self.gens)] for X in self.base._s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _syzygies : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | db1ff542b93a0748           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubQuotientModule._syzygies","kind":"method","src_hash":"00d4a79af4960e56","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_syzygies()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_syzygies_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"db1ff542b93a0748"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubQuotientModule._syzygies","kind":"method","src_hash":"00d4a79af4960e56","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_syzygies()","rhs":"[X[:len(self.gens)] for X in self.base._syzygies()]","over":{"base":"Any"},"name":"_syzygies_correct"},"guarantee":"returns [X[:len(self.gens)] for X in self.base._syzygies()]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"db1ff542b93a0748","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[X[:len(self.gens)] for X in self.base._syzygies()]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.base","self.gens"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _syzygies(self):
         # let N = self.killed_module be generated by e_1, ..., e_r
         # let F = self.base be generated by f_1, ..., f_s and e_1, ..., e_r
@@ -1991,30 +2535,43 @@ class SubQuotientModule(SubModule):
         return [X[:len(self.gens)] for X in self.base._syzygies()]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_in_terms_of_generators(e), internal helper behaves correctly) over Any ║
+# ║ Path(_in_terms_of_generators(e), self.base._in_terms_of_generators(e.data)[:len(self.gens)]) over {Any | hasattr(e, 'data')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _in_terms_of_generators : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(e, 'data')                             ║
+# ║   returns:  self.base._in_terms_of_generators(e.data)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _in_terms_of_generators : {Any | hasattr(e, 'data')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | de5009de8bc51dd3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubQuotientModule._in_terms_of_generators","kind":"method","src_hash":"6303668c5acf2102","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_in_terms_of_generators(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_in_terms_of_generators_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"de5009de8bc51dd3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubQuotientModule._in_terms_of_generators","kind":"method","src_hash":"6303668c5acf2102","in":{"base":"Any","pred":"hasattr(e, 'data')"},"out":{"base":"Any"},"spec":{"lhs":"_in_terms_of_generators(e)","rhs":"self.base._in_terms_of_generators(e.data)[:len(self.gens)]","over":{"base":"Any","pred":"hasattr(e, 'data')"},"name":"_in_terms_of_generators_correct"},"guarantee":"returns self.base._in_terms_of_generators(e.data)[:len(self.gens)]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"de5009de8bc51dd3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(e, 'data')"],"returns_expr":"self.base._in_terms_of_generators(e.data)[:len(self.gens)]","pure":false,"effects":{"effect_type":"reads_state","reads":["e.data","self.base","self.gens"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _in_terms_of_generators(self, e):
         return self.base._in_terms_of_generators(e.data)[:len(self.gens)]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_full_module(), return true if ``self`` is the entire free module) over Any ║
+# ║ Path(is_full_module(), self.base.is_full_module()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.base.is_full_module()                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_full_module : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e0589e3332582f4a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubQuotientModule.is_full_module","kind":"method","src_hash":"159916bd4ad3befd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_full_module()","rhs":"return true if ``self`` is the entire free module","over":{"base":"Any"},"name":"is_full_module_correct"},"guarantee":"return true if ``self`` is the entire free module","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e0589e3332582f4a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubQuotientModule.is_full_module","kind":"method","src_hash":"159916bd4ad3befd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_full_module()","rhs":"self.base.is_full_module()","over":{"base":"Any"},"name":"is_full_module_correct"},"guarantee":"returns self.base.is_full_module()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e0589e3332582f4a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.base.is_full_module()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.base"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_full_module(self):
         """
         Return True if ``self`` is the entire free module.
@@ -2033,16 +2590,22 @@ class SubQuotientModule(SubModule):
         return self.base.is_full_module()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(quotient_hom(), return the quotient homomorphism to self) over Any ║
+# ║ Path(quotient_hom(), self.base.identity_hom().quotient_codomain(self.killed_module)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.base.identity_hom().quotient_codomai...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ quotient_hom : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 77430ca84b85b8cf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubQuotientModule.quotient_hom","kind":"method","src_hash":"cb3f2b7868ec69c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quotient_hom()","rhs":"return the quotient homomorphism to self","over":{"base":"Any"},"name":"quotient_hom_correct"},"guarantee":"return the quotient homomorphism to self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"77430ca84b85b8cf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubQuotientModule.quotient_hom","kind":"method","src_hash":"cb3f2b7868ec69c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quotient_hom()","rhs":"self.base.identity_hom().quotient_codomain(self.killed_module)","over":{"base":"Any"},"name":"quotient_hom_correct"},"guarantee":"returns self.base.identity_hom().quotient_codomain(self.killed_module)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"77430ca84b85b8cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.base.identity_hom().quotient_codomain(self.killed_module)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.base","self.killed_module"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def quotient_hom(self):
         """
         Return the quotient homomorphism to self.
@@ -2070,28 +2633,40 @@ _subs1 = lambda x: x[1:]
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ModuleOrder(*args), correctly constructs a ModuleOrder instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ModuleOrder : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ProductOrder)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ModuleOrder : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7acef06060e6e485  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.ModuleOrder","kind":"class","src_hash":"88d405168496ee01","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ModuleOrder(*args)","rhs":"correctly constructs a ModuleOrder instance","over":{"base":"Any"},"name":"ModuleOrder_class_invariant"},"guarantee":"correctly constructs a ModuleOrder instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7acef06060e6e485"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.ModuleOrder","kind":"class","src_hash":"88d405168496ee01","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ProductOrder)"},"spec":{"lhs":"ModuleOrder(*args)","rhs":"correctly constructs a ModuleOrder instance","over":{"base":"Any"},"name":"ModuleOrder_class_invariant"},"guarantee":"isinstance(self, ProductOrder)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7acef06060e6e485","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ProductOrder)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function ModuleOrder not found in source"]}}
 class ModuleOrder(ProductOrder):
     """A product monomial order with a zeroth term as module index."""
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(o1,), initializes the instance correctly) over Any ║
+# ║ Path(__init__(o1, o2, TOP), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 477a2dd790899b1c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.ModuleOrder.__init__","kind":"method","src_hash":"6a0730ca39602f9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(o1,)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"477a2dd790899b1c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.ModuleOrder.__init__","kind":"method","src_hash":"6a0730ca39602f9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(o1, o2, TOP)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"477a2dd790899b1c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, o1, o2, TOP):
         if TOP:
             ProductOrder.__init__(self, (o2, _subs1), (o1, _subs0))
@@ -2102,14 +2677,20 @@ class ModuleOrder(ProductOrder):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a SubModulePolyRing instance) preserved by SubModulePolyRing(*args) over {Any | isinstance(container, FreeModulePolyRing) and isinstance(other, SubModulePolyRing)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SubModule)                    ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ SubModulePolyRing : {Any | isinstance(container, Free...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ee96dc66c20393c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModulePolyRing","kind":"class","src_hash":"4801a3b0e7fbb031","in":{"base":"Any","pred":"isinstance(container, FreeModulePolyRing) and isinstance(other, SubModulePolyRing)"},"out":{"base":"Any"},"spec":{"lhs":"SubModulePolyRing(*args)","rhs":"correctly constructs a SubModulePolyRing instance","over":{"base":"Any","pred":"isinstance(container, FreeModulePolyRing) and isinstance(other, SubModulePolyRing)"},"name":"SubModulePolyRing_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a SubModulePolyRing instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'order') and hasattr(self, '_gb') and hasattr(self, '_gbe')","kind":"class","induction":"structural on order, _gb, _gbe"}],"methods_preserving":["__init__","__eq__","_groebner","_groebner_vec","_contains","_syzygies","_in_terms_of_generators","reduce_element","_intersect","_module_quotient"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ee96dc66c20393c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModulePolyRing","kind":"class","src_hash":"4801a3b0e7fbb031","in":{"base":"Any","pred":"isinstance(container, FreeModulePolyRing) and isinstance(other, SubModulePolyRing)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SubModule)"},"spec":{"lhs":"SubModulePolyRing(*args)","rhs":"correctly constructs a SubModulePolyRing instance","over":{"base":"Any","pred":"isinstance(container, FreeModulePolyRing) and isinstance(other, SubModulePolyRing)"},"name":"SubModulePolyRing_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, SubModule); preserves 3 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'order') and hasattr(self, '_gb') and hasattr(self, '_gbe')","kind":"class","induction":"structural on order, _gb, _gbe"}],"methods_preserving":["__init__","__eq__","_groebner","_groebner_vec","_contains","_syzygies","_in_terms_of_generators","reduce_element","_intersect","_module_quotient"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ee96dc66c20393c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SubModule)"],"invariants":["hasattr(self, 'order')","hasattr(self, '_gb')","hasattr(self, '_gbe')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function SubModulePolyRing not found in source"]}}
 class SubModulePolyRing(SubModule):
     """
     Submodule of a free module over a generalized polynomial ring.
@@ -2131,16 +2712,23 @@ class SubModulePolyRing(SubModule):
     #self._gbe - cached groebner basis relations
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(gen), initializes the instance correctly) over Any ║
+# ║ Path(__init__(gens, container, order), <unspecified:__init__>) over {Any | isinstance(container, FreeModulePolyRing)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(container, FreeModulePolyRing)      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | isinstance(container, FreeModulePol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4bce1a6019f30986           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModulePolyRing.__init__","kind":"method","src_hash":"527c6d5b13b62edb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(gen)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4bce1a6019f30986"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModulePolyRing.__init__","kind":"method","src_hash":"527c6d5b13b62edb","in":{"base":"Any","pred":"isinstance(container, FreeModulePolyRing)"},"out":{"base":"Any"},"spec":{"lhs":"__init__(gens, container, order)","rhs":"<unspecified:__init__>","over":{"base":"Any","pred":"isinstance(container, FreeModulePolyRing)"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4bce1a6019f30986","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(container, FreeModulePolyRing)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.ring"],"writes":["self._gb","self._gbe","self.order"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["self._gb","self._gbe","self.order"],"old_bindings":{"old_self__gb":"self._gb","old_self__gbe":"self._gbe","old_self_order":"self.order"},"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, gens, container, order="lex", TOP=True):
         SubModule.__init__(self, gens, container)
         if not isinstance(container, FreeModulePolyRing):
@@ -2151,32 +2739,45 @@ class SubModulePolyRing(SubModule):
         self._gbe = None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), <unspecified:__eq__>) over {Any | hasattr(other, 'order')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'order')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'order')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ebd197751764ca2d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModulePolyRing.__eq__","kind":"method","src_hash":"254b8c82cee55814","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ebd197751764ca2d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModulePolyRing.__eq__","kind":"method","src_hash":"254b8c82cee55814","in":{"base":"Any","pred":"hasattr(other, 'order')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"<unspecified:__eq__>","over":{"base":"Any","pred":"hasattr(other, 'order')"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ebd197751764ca2d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'order')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.order","self.order"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         if isinstance(other, SubModulePolyRing) and self.order != other.order:
             return False
         return SubModule.__eq__(self, other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_groebner(ext), returns a standard basis in sdm form) over Any ║
+# ║ Path(_groebner(extended), <unspecified:_groebner>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _groebner : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff8ecc2b39775b50  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModulePolyRing._groebner","kind":"method","src_hash":"5e76cabfb390413b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_groebner(ext)","rhs":"returns a standard basis in sdm form","over":{"base":"Any"},"name":"_groebner_correct"},"guarantee":"returns a standard basis in sdm form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.SubModulePolyRing._groebner_correct","statement":"Path(_groebner(x), returns a standard basis in sdm form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff8ecc2b39775b50"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModulePolyRing._groebner","kind":"method","src_hash":"5e76cabfb390413b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_groebner(extended)","rhs":"<unspecified:_groebner>","over":{"base":"Any"},"name":"_groebner_correct"},"guarantee":"returns a standard basis in sdm form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.SubModulePolyRing._groebner_correct","statement":"Path(_groebner(x), returns a standard basis in sdm form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff8ecc2b39775b50","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._gb","self._gbe","self.gens","self.order","self.ring"],"writes":["self._gb"]},"state_contract":{"modifies":["self._gb"],"old_bindings":{"old_self__gb":"self._gb"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _groebner(self, extended=False):
         """Returns a standard basis in sdm form."""
         from sympy.polys.distributedmodules import sdm_groebner, sdm_nf_mora
@@ -2195,16 +2796,22 @@ class SubModulePolyRing(SubModule):
             return self._gb
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_groebner_vec(ext), returns a standard basis in element form) over Any ║
+# ║ Path(_groebner_vec(extended), <unspecified:_groebner_vec>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _groebner_vec : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2de025cc1014c066  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModulePolyRing._groebner_vec","kind":"method","src_hash":"bb214363a788b60a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_groebner_vec(ext)","rhs":"returns a standard basis in element form","over":{"base":"Any"},"name":"_groebner_vec_correct"},"guarantee":"returns a standard basis in element form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.SubModulePolyRing._groebner_vec_correct","statement":"Path(_groebner_vec(x), returns a standard basis in element form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2de025cc1014c066"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModulePolyRing._groebner_vec","kind":"method","src_hash":"bb214363a788b60a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_groebner_vec(extended)","rhs":"<unspecified:_groebner_vec>","over":{"base":"Any"},"name":"_groebner_vec_correct"},"guarantee":"returns a standard basis in element form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.SubModulePolyRing._groebner_vec_correct","statement":"Path(_groebner_vec(x), returns a standard basis in element form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2de025cc1014c066","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._groebner","self.convert","self.gens","self.rank","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _groebner_vec(self, extended=False):
         """Returns a standard basis in element form."""
         if not extended:
@@ -2219,14 +2826,20 @@ class SubModulePolyRing(SubModule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_contains(x), id) over Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sdm_nf_mora(self.ring._vector_to_sdm(x, s...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _contains : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 461f0ee9db02ec92   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModulePolyRing._contains","kind":"method","src_hash":"e27f2589d3fa0055","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contains(x)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_contains_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sdm_nf_mora","by":"library_axiom"},{"fn":"_vector_to_sdm","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"461f0ee9db02ec92"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModulePolyRing._contains","kind":"method","src_hash":"e27f2589d3fa0055","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contains(x)","rhs":"sdm_nf_mora(self.ring._vector_to_sdm(x, self.order), self._groebner(), self.order, self.ring.dom) == sdm_zero()","over":{"base":"Any"},"name":"_contains_correct","kind":"composition"},"guarantee":"returns sdm_nf_mora(self.ring._vector_to_sdm(x, self.order), self._groebner(), self.order, self.ring.dom) == sdm_zero()","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sdm_nf_mora","by":"library_axiom"},{"fn":"_vector_to_sdm","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"461f0ee9db02ec92","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sdm_nf_mora(self.ring._vector_to_sdm(x, self.order), self._groebner(), self.order, self.ring.dom) == sdm_zero()","pure":false,"effects":{"effect_type":"reads_state","reads":["self._groebner","self.order","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _contains(self, x):
         from sympy.polys.distributedmodules import sdm_zero, sdm_nf_mora
         return sdm_nf_mora(self.ring._vector_to_sdm(x, self.order),
@@ -2234,16 +2847,22 @@ class SubModulePolyRing(SubModule):
             sdm_zero()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_syzygies(), compute syzygies) over Any               ║
+# ║ Path(_syzygies(), <unspecified:_syzygies>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _syzygies : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d96c06f9b2ce28e0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModulePolyRing._syzygies","kind":"method","src_hash":"79406590f1af2eab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_syzygies()","rhs":"compute syzygies","over":{"base":"Any"},"name":"_syzygies_correct"},"guarantee":"compute syzygies","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.SubModulePolyRing._syzygies_correct","statement":"Path(_syzygies(x), compute syzygies)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d96c06f9b2ce28e0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModulePolyRing._syzygies","kind":"method","src_hash":"79406590f1af2eab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_syzygies()","rhs":"<unspecified:_syzygies>","over":{"base":"Any"},"name":"_syzygies_correct"},"guarantee":"compute syzygies","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.SubModulePolyRing._syzygies_correct","statement":"Path(_syzygies(x), compute syzygies)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d96c06f9b2ce28e0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _syzygies(self):
         """Compute syzygies. See [SCA, algorithm 2.5.4]."""
         # NOTE if self.gens is a standard basis, this can be done more
@@ -2278,16 +2897,22 @@ class SubModulePolyRing(SubModule):
         return G0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_in_terms_of_generators(e), expression in terms of generators) over Any ║
+# ║ Path(_in_terms_of_generators(e), [-x / e[0] for x in e[1:]]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [-x / e[0] for x in e[1:]]                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _in_terms_of_generators : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7fa0485e53c9bf75  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2eb347cd43ab059e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModulePolyRing._in_terms_of_generators","kind":"method","src_hash":"42ce39ace2dea568","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_in_terms_of_generators(e)","rhs":"expression in terms of generators","over":{"base":"Any"},"name":"_in_terms_of_generators_correct"},"guarantee":"expression in terms of generators","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.SubModulePolyRing._in_terms_of_generators_correct","statement":"Path(_in_terms_of_generators(x), expression in terms of generators)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7fa0485e53c9bf75"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModulePolyRing._in_terms_of_generators","kind":"method","src_hash":"42ce39ace2dea568","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_in_terms_of_generators(e)","rhs":"[-x / e[0] for x in e[1:]]","over":{"base":"Any"},"name":"_in_terms_of_generators_correct"},"guarantee":"returns [-x / e[0] for x in e[1:]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.SubModulePolyRing._in_terms_of_generators_correct","statement":"Path(_in_terms_of_generators(x), returns [-x / e[0] for x in e[1:]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2eb347cd43ab059e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[-x / e[0] for x in e[1:]]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.gens","self.rank","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _in_terms_of_generators(self, e):
         """Expression in terms of generators. See [SCA, 2.8.1]."""
         # NOTE: if gens is a standard basis, this can be done more efficiently
@@ -2300,16 +2925,22 @@ class SubModulePolyRing(SubModule):
         return [-x/e[0] for x in e[1:]]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reduce_element(x, ), id) over Any                     ║
+# ║ Path(reduce_element(x, NF), id) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.container.convert(self.ring._sdm_to_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ reduce_element : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | af3c4146074a4913   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModulePolyRing.reduce_element","kind":"method","src_hash":"691e0b521dd5189c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reduce_element(x, )","rhs":"reduce the element ``x`` of our container modulo ``self``","over":{"base":"Any"},"name":"reduce_element_correct","kind":"composition"},"guarantee":"reduce the element ``x`` of our container modulo ``self``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"convert","by":"library_axiom"},{"fn":"_sdm_to_vector","by":"library_axiom"},{"fn":"NF","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af3c4146074a4913"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModulePolyRing.reduce_element","kind":"method","src_hash":"691e0b521dd5189c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reduce_element(x, NF)","rhs":"self.container.convert(self.ring._sdm_to_vector(NF(self.ring._vector_to_sdm(x, self.order), self._groebner(), self.order, self.ring.dom), self.rank))","over":{"base":"Any"},"name":"reduce_element_correct","kind":"composition"},"guarantee":"returns self.container.convert(self.ring._sdm_to_vector(NF(self.ring._vector_to_sdm(x, self.order), self._groebner(), self.order, self.ring.dom), self.rank))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"convert","by":"library_axiom"},{"fn":"_sdm_to_vector","by":"library_axiom"},{"fn":"NF","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af3c4146074a4913","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.container.convert(self.ring._sdm_to_vector(NF(self.ring._vector_to_sdm(x, self.order), self._groebner(), self.order, self.ring.dom), self.rank))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._groebner","self.container","self.order","self.rank","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reduce_element(self, x, NF=None):
         """
         Reduce the element ``x`` of our container modulo ``self``.
@@ -2326,16 +2957,23 @@ class SubModulePolyRing(SubModule):
             self.rank))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_intersect(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_intersect(other, relations), <unspecified:_intersect>) over {Any | hasattr(other, 'gens')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _intersect : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'gens')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _intersect : {Any | hasattr(other, 'gens')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e51df87af9d57b21  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModulePolyRing._intersect","kind":"method","src_hash":"17ff047b465b153f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_intersect(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_intersect_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.SubModulePolyRing._intersect_correct","statement":"Path(_intersect(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e51df87af9d57b21"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModulePolyRing._intersect","kind":"method","src_hash":"17ff047b465b153f","in":{"base":"Any","pred":"hasattr(other, 'gens')"},"out":{"base":"Any"},"spec":{"lhs":"_intersect(other, relations)","rhs":"<unspecified:_intersect>","over":{"base":"Any","pred":"hasattr(other, 'gens')"},"name":"_intersect_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.SubModulePolyRing._intersect_correct","statement":"Path(_intersect(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e51df87af9d57b21","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'gens')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.gens","self.container","self.gens","self.rank","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _intersect(self, other, relations=False):
         # See: [SCA, section 2.8.2]
         fi = self.gens
@@ -2357,16 +2995,24 @@ class SubModulePolyRing(SubModule):
         return res
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_module_quotient(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_module_quotient(other, relations), <unspecified:_module_quotient>) over {Any | not (relations and len(other.gens) != 1) and hasattr(other, 'gens')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _module_quotient : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (relations and len(other.gens) != 1)       ║
+# ║   requires: hasattr(other, 'gens')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _module_quotient : {Any | not (relations and len(othe...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 305dd2303e9af723  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModulePolyRing._module_quotient","kind":"method","src_hash":"2e6456eed016792b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_module_quotient(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_module_quotient_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.SubModulePolyRing._module_quotient_correct","statement":"Path(_module_quotient(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"305dd2303e9af723"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModulePolyRing._module_quotient","kind":"method","src_hash":"2e6456eed016792b","in":{"base":"Any","pred":"not (relations and len(other.gens) != 1) and hasattr(other, 'gens')"},"out":{"base":"Any"},"spec":{"lhs":"_module_quotient(other, relations)","rhs":"<unspecified:_module_quotient>","over":{"base":"Any","pred":"not (relations and len(other.gens) != 1) and hasattr(other, 'gens')"},"name":"_module_quotient_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.SubModulePolyRing._module_quotient_correct","statement":"Path(_module_quotient(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"305dd2303e9af723","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (relations and len(other.gens) != 1)","hasattr(other, 'gens')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.gens","self._module_quotient","self.container","self.gens","self.rank","self.ring"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _module_quotient(self, other, relations=False):
         # See: [SCA, section 2.8.4]
         if relations and len(other.gens) != 1:
@@ -2403,14 +3049,20 @@ class SubModulePolyRing(SubModule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a SubModuleQuotientRing instance) preserved by SubModuleQuotientRing(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SubModuleQuotientRing : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SubModule)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SubModuleQuotientRing : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b038fe3835d9831d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModuleQuotientRing","kind":"class","src_hash":"6ad8d8e8cae676b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SubModuleQuotientRing(*args)","rhs":"correctly constructs a SubModuleQuotientRing instance","over":{"base":"Any"},"name":"SubModuleQuotientRing_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a SubModuleQuotientRing instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'quot')","kind":"class","induction":"structural on quot"}],"methods_preserving":["__init__","_contains","_syzygies","_in_terms_of_generators"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b038fe3835d9831d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModuleQuotientRing","kind":"class","src_hash":"6ad8d8e8cae676b8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SubModule)"},"spec":{"lhs":"SubModuleQuotientRing(*args)","rhs":"correctly constructs a SubModuleQuotientRing instance","over":{"base":"Any"},"name":"SubModuleQuotientRing_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, SubModule); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'quot')","kind":"class","induction":"structural on quot"}],"methods_preserving":["__init__","_contains","_syzygies","_in_terms_of_generators"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b038fe3835d9831d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SubModule)"],"invariants":["hasattr(self, 'quot')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function SubModuleQuotientRing not found in source"]}}
 class SubModuleQuotientRing(SubModule):
     """
     Class for submodules of free modules over quotient rings.
@@ -2433,61 +3085,85 @@ class SubModuleQuotientRing(SubModule):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(gen), initializes the instance correctly) over Any ║
+# ║ Path(__init__(gens, container), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 75220d46fb4a02e5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModuleQuotientRing.__init__","kind":"method","src_hash":"8efc545c82875d32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(gen)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"75220d46fb4a02e5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModuleQuotientRing.__init__","kind":"method","src_hash":"8efc545c82875d32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(gens, container)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"75220d46fb4a02e5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, gens, container):
         SubModule.__init__(self, gens, container)
         self.quot = self.container.quot.submodule(
             *[self.container.lift(x) for x in self.gens])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_contains(ele), internal helper behaves correctly) over Any ║
+# ║ Path(_contains(elem), self.quot._contains(self.container.lift(elem))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.quot._contains(self.container.lift(e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _contains : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c4624b0f873b175e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModuleQuotientRing._contains","kind":"method","src_hash":"3d5501e71357db97","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contains(ele)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_contains_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c4624b0f873b175e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModuleQuotientRing._contains","kind":"method","src_hash":"3d5501e71357db97","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contains(elem)","rhs":"self.quot._contains(self.container.lift(elem))","over":{"base":"Any"},"name":"_contains_correct"},"guarantee":"returns self.quot._contains(self.container.lift(elem))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c4624b0f873b175e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.quot._contains(self.container.lift(elem))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.container","self.quot"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _contains(self, elem):
         return self.quot._contains(self.container.lift(elem))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_syzygies(), id) over Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [tuple((self.ring.convert(y, self.quot.ri...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _syzygies : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 264747c242ab2b3b   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModuleQuotientRing._syzygies","kind":"method","src_hash":"5571f3644b6cfa11","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_syzygies()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_syzygies_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"tuple","by":"library_axiom"},{"fn":"convert","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"264747c242ab2b3b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModuleQuotientRing._syzygies","kind":"method","src_hash":"5571f3644b6cfa11","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_syzygies()","rhs":"[tuple((self.ring.convert(y, self.quot.ring) for y in x)) for x in self.quot._syzygies()]","over":{"base":"Any"},"name":"_syzygies_correct","kind":"composition"},"guarantee":"returns [tuple((self.ring.convert(y, self.quot.ring) for y in x)) for x in self.quot._syzygies()]","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"tuple","by":"library_axiom"},{"fn":"convert","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"264747c242ab2b3b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[tuple((self.ring.convert(y, self.quot.ring) for y in x)) for x in self.quot._syzygies()]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.quot","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _syzygies(self):
         return [tuple(self.ring.convert(y, self.quot.ring) for y in x)
                 for x in self.quot._syzygies()]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_in_terms_of_generators(ele), internal helper behaves correctly) over Any ║
+# ║ Path(_in_terms_of_generators(elem), [self.ring.convert(x, self.quot.ring) for x in self.quot._in_terms_of_generators(self.container.lift(elem))]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [self.ring.convert(x, self.quot.ring) for...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _in_terms_of_generators : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0123e2f4019d758a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d8d1b1a10c46877  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModuleQuotientRing._in_terms_of_generators","kind":"method","src_hash":"33cd4d91a468847b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_in_terms_of_generators(ele)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_in_terms_of_generators_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.SubModuleQuotientRing._in_terms_of_generators_correct","statement":"Path(_in_terms_of_generators(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0123e2f4019d758a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.SubModuleQuotientRing._in_terms_of_generators","kind":"method","src_hash":"33cd4d91a468847b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_in_terms_of_generators(elem)","rhs":"[self.ring.convert(x, self.quot.ring) for x in self.quot._in_terms_of_generators(self.container.lift(elem))]","over":{"base":"Any"},"name":"_in_terms_of_generators_correct"},"guarantee":"returns [self.ring.convert(x, self.quot.ring) for x in self.quot._in_terms_of_generators(self.container.lift(elem))]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.SubModuleQuotientRing._in_terms_of_generators_correct","statement":"Path(_in_terms_of_generators(x), returns [self.ring.convert(x, self.quot.ring) for x in self.quot._in_terms_of_generators(self.container.lift(elem))])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d8d1b1a10c46877","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[self.ring.convert(x, self.quot.ring) for x in self.quot._in_terms_of_generators(self.container.lift(elem))]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.container","self.quot","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _in_terms_of_generators(self, elem):
         return [self.ring.convert(x, self.quot.ring) for x in
             self.quot._in_terms_of_generators(self.container.lift(elem))]
@@ -2500,43 +3176,61 @@ class SubModuleQuotientRing(SubModule):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(QuotientModuleElement(*args), correctly constructs a QuotientModuleElement instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ QuotientModuleElement : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ModuleElement)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ QuotientModuleElement : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e1424255b137523  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.QuotientModuleElement","kind":"class","src_hash":"0ad4e31995e1c3ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"QuotientModuleElement(*args)","rhs":"correctly constructs a QuotientModuleElement instance","over":{"base":"Any"},"name":"QuotientModuleElement_class_invariant"},"guarantee":"correctly constructs a QuotientModuleElement instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e1424255b137523"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.QuotientModuleElement","kind":"class","src_hash":"0ad4e31995e1c3ac","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ModuleElement)"},"spec":{"lhs":"QuotientModuleElement(*args)","rhs":"correctly constructs a QuotientModuleElement instance","over":{"base":"Any"},"name":"QuotientModuleElement_class_invariant"},"guarantee":"isinstance(self, ModuleElement)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e1424255b137523","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ModuleElement)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function QuotientModuleElement not found in source"]}}
 class QuotientModuleElement(ModuleElement):
     """Element of a quotient module."""
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eq(d1,), equality comparison) over Any                ║
+# ║ Path(eq(d1, d2), self.module.killed_module.contains(d1 - d2)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.module.killed_module.contains(d1 - d2)    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eq : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3cd438f111ab52cd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.QuotientModuleElement.eq","kind":"method","src_hash":"21c8677bbbb68e80","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eq(d1,)","rhs":"equality comparison","over":{"base":"Any"},"name":"eq_correct"},"guarantee":"equality comparison","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3cd438f111ab52cd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.QuotientModuleElement.eq","kind":"method","src_hash":"21c8677bbbb68e80","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eq(d1, d2)","rhs":"self.module.killed_module.contains(d1 - d2)","over":{"base":"Any"},"name":"eq_correct"},"guarantee":"returns self.module.killed_module.contains(d1 - d2)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3cd438f111ab52cd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.module.killed_module.contains(d1 - d2)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.module"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eq(self, d1, d2):
         """Equality comparison."""
         return self.module.killed_module.contains(d1 - d2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), repr(self.data) + ' + ' + repr(self.module.killed_module)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  repr(self.data) + ' + ' + repr(self.modul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c182753775495af6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.QuotientModuleElement.__repr__","kind":"method","src_hash":"7d66459dbd68e80e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c182753775495af6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.QuotientModuleElement.__repr__","kind":"method","src_hash":"7d66459dbd68e80e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"repr(self.data) + ' + ' + repr(self.module.killed_module)","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns repr(self.data) + ' + ' + repr(self.module.killed_module)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c182753775495af6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"repr(self.data) + ' + ' + repr(self.module.killed_module)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.data","self.module"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return repr(self.data) + " + " + repr(self.module.killed_module)
 
@@ -2544,14 +3238,20 @@ class QuotientModuleElement(ModuleElement):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a QuotientModule instance) preserved by QuotientModule(*args) over {Any | isinstance(other, QuotientModule) and isinstance(other, SubQuotientModule) and isinstance(elem, QuotientModuleElement)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Module)                       ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ QuotientModule : {Any | isinstance(other, QuotientMod...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f83a78c75f92b87b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.QuotientModule","kind":"class","src_hash":"59257363447a20db","in":{"base":"Any","pred":"isinstance(other, QuotientModule) and isinstance(other, SubQuotientModule) and isinstance(elem, QuotientModuleElement)"},"out":{"base":"Any"},"spec":{"lhs":"QuotientModule(*args)","rhs":"correctly constructs a QuotientModule instance","over":{"base":"Any","pred":"isinstance(other, QuotientModule) and isinstance(other, SubQuotientModule) and isinstance(elem, QuotientModuleElement)"},"name":"QuotientModule_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a QuotientModule instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'base') and hasattr(self, 'killed_module') and hasattr(self, 'rank')","kind":"class","induction":"structural on base, killed_module, rank"}],"methods_preserving":["__init__","__repr__","is_zero","is_submodule","submodule","convert","identity_hom","quotient_hom"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f83a78c75f92b87b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.QuotientModule","kind":"class","src_hash":"59257363447a20db","in":{"base":"Any","pred":"isinstance(other, QuotientModule) and isinstance(other, SubQuotientModule) and isinstance(elem, QuotientModuleElement)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Module)"},"spec":{"lhs":"QuotientModule(*args)","rhs":"correctly constructs a QuotientModule instance","over":{"base":"Any","pred":"isinstance(other, QuotientModule) and isinstance(other, SubQuotientModule) and isinstance(elem, QuotientModuleElement)"},"name":"QuotientModule_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Module); preserves 3 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'base') and hasattr(self, 'killed_module') and hasattr(self, 'rank')","kind":"class","induction":"structural on base, killed_module, rank"}],"methods_preserving":["__init__","__repr__","is_zero","is_submodule","submodule","convert","identity_hom","quotient_hom"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f83a78c75f92b87b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Module)"],"invariants":["hasattr(self, 'base')","hasattr(self, 'killed_module')","hasattr(self, 'rank')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function QuotientModule not found in source"]}}
 class QuotientModule(Module):
     """
     Class for quotient modules.
@@ -2569,16 +3269,26 @@ class QuotientModule(Module):
     dtype = QuotientModuleElement
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(rin), initializes the instance correctly) over Any ║
+# ║ Path(__init__(ring, base, submodule), self.base == base and self.killed_module == submodule) over {Any | base.is_submodule(submodule) and hasattr(base, 'rank') and hasattr(base, 'is_submodule')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: base.is_submodule(submodule)                   ║
+# ║   requires: hasattr(base, 'rank')                          ║
+# ║   requires: hasattr(base, 'is_submodule')                  ║
+# ║   ensures:  self.base == base                              ║
+# ║   ensures:  self.killed_module == submodule                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | base.is_submodule(submodule) and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b15551ad4dfbad5a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.QuotientModule.__init__","kind":"method","src_hash":"d378cf755c653719","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(rin)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b15551ad4dfbad5a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.QuotientModule.__init__","kind":"method","src_hash":"d378cf755c653719","in":{"base":"Any","pred":"base.is_submodule(submodule) and hasattr(base, 'rank') and hasattr(base, 'is_submodule')"},"out":{"base":"Any","pred":"result satisfies: self.base == base and self.killed_module == submodule"},"spec":{"lhs":"__init__(ring, base, submodule)","rhs":"self.base == base and self.killed_module == submodule","over":{"base":"Any","pred":"base.is_submodule(submodule) and hasattr(base, 'rank') and hasattr(base, 'is_submodule')"},"name":"__init___correct"},"guarantee":"self.base == base; self.killed_module == submodule","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b15551ad4dfbad5a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["base.is_submodule(submodule)","hasattr(base, 'rank')","hasattr(base, 'is_submodule')"],"ensures":["self.base == base","self.killed_module == submodule"],"pure":false,"effects":{"effect_type":"reads_state","reads":["base.is_submodule","base.rank"],"writes":["self.base","self.killed_module","self.rank"],"raises":["ValueError"]},"state_contract":{"modifies":["self.base","self.killed_module","self.rank"],"old_bindings":{"old_self_base":"self.base","old_self_killed_module":"self.killed_module","old_self_rank":"self.rank"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, ring, base, submodule):
         Module.__init__(self, ring)
         if not base.is_submodule(submodule):
@@ -2588,30 +3298,42 @@ class QuotientModule(Module):
         self.rank = base.rank
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), repr(self.base) + '/' + repr(self.killed_module)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  repr(self.base) + '/' + repr(self.killed_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 823868e625675234           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.QuotientModule.__repr__","kind":"method","src_hash":"e2a404d80c352c84","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"823868e625675234"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.QuotientModule.__repr__","kind":"method","src_hash":"e2a404d80c352c84","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"repr(self.base) + '/' + repr(self.killed_module)","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns repr(self.base) + '/' + repr(self.killed_module)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"823868e625675234","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"repr(self.base) + '/' + repr(self.killed_module)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.base","self.killed_module"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return repr(self.base) + "/" + repr(self.killed_module)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_zero(), return true if ``self`` is a zero module) over Any ║
+# ║ Path(is_zero(), self.base == self.killed_module) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.base == self.killed_module                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_zero : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 25af96dbfbaa6f1c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.QuotientModule.is_zero","kind":"method","src_hash":"c7b7a9d725fc437b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_zero()","rhs":"return true if ``self`` is a zero module","over":{"base":"Any"},"name":"is_zero_correct"},"guarantee":"return true if ``self`` is a zero module","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"25af96dbfbaa6f1c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.QuotientModule.is_zero","kind":"method","src_hash":"c7b7a9d725fc437b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_zero()","rhs":"self.base == self.killed_module","over":{"base":"Any"},"name":"is_zero_correct"},"guarantee":"returns self.base == self.killed_module","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"25af96dbfbaa6f1c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.base == self.killed_module","pure":false,"effects":{"effect_type":"reads_state","reads":["self.base","self.killed_module"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_zero(self):
         """
         Return True if ``self`` is a zero module.
@@ -2633,16 +3355,25 @@ class QuotientModule(Module):
         return self.base == self.killed_module
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_submodule(oth), return true if ``other`` is a submodule of ``self``) over Any ║
+# ║ Path(is_submodule(other), <unspecified:is_submodule>) over {Any | hasattr(other, 'container') and hasattr(other, 'killed_module') and hasattr(other, 'base')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_submodule : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'container')                    ║
+# ║   requires: hasattr(other, 'killed_module')                ║
+# ║   requires: hasattr(other, 'base')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_submodule : {Any | hasattr(other, 'container') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4acc8dbd2f52c825  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.QuotientModule.is_submodule","kind":"method","src_hash":"cc4a2c928093ae70","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_submodule(oth)","rhs":"return true if ``other`` is a submodule of ``self``","over":{"base":"Any"},"name":"is_submodule_correct"},"guarantee":"return true if ``other`` is a submodule of ``self``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.QuotientModule.is_submodule_correct","statement":"Path(is_submodule(x), return true if ``other`` is a submodule of ``self``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4acc8dbd2f52c825"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.QuotientModule.is_submodule","kind":"method","src_hash":"cc4a2c928093ae70","in":{"base":"Any","pred":"hasattr(other, 'container') and hasattr(other, 'killed_module') and hasattr(other, 'base')"},"out":{"base":"Any"},"spec":{"lhs":"is_submodule(other)","rhs":"<unspecified:is_submodule>","over":{"base":"Any","pred":"hasattr(other, 'container') and hasattr(other, 'killed_module') and hasattr(other, 'base')"},"name":"is_submodule_correct"},"guarantee":"return true if ``other`` is a submodule of ``self``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.QuotientModule.is_submodule_correct","statement":"Path(is_submodule(x), return true if ``other`` is a submodule of ``self``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4acc8dbd2f52c825","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'container')","hasattr(other, 'killed_module')","hasattr(other, 'base')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.base","other.container","other.killed_module","self.base","self.killed_module"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_submodule(self, other):
         """
         Return True if ``other`` is a submodule of ``self``.
@@ -2667,16 +3398,22 @@ class QuotientModule(Module):
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(submodule(*ge), generate a submodule) over Any        ║
+# ║ Path(submodule(*gens, **opts), SubQuotientModule(gens, self, **opts)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  SubQuotientModule(gens, self, **opts)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ submodule : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 38ea6f018fa48b50           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.QuotientModule.submodule","kind":"method","src_hash":"85da1ce6e13d0f01","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"submodule(*ge)","rhs":"generate a submodule","over":{"base":"Any"},"name":"submodule_correct"},"guarantee":"generate a submodule","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"38ea6f018fa48b50"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.QuotientModule.submodule","kind":"method","src_hash":"85da1ce6e13d0f01","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"submodule(*gens, **opts)","rhs":"SubQuotientModule(gens, self, **opts)","over":{"base":"Any"},"name":"submodule_correct"},"guarantee":"returns SubQuotientModule(gens, self, **opts)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"38ea6f018fa48b50","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"SubQuotientModule(gens, self, **opts)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def submodule(self, *gens, **opts):
         """
         Generate a submodule.
@@ -2696,16 +3433,24 @@ class QuotientModule(Module):
         return SubQuotientModule(gens, self, **opts)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(convert(ele), convert ``elem`` into the internal representation) over Any ║
+# ║ Path(convert(elem, M), <unspecified:convert>) over {Any | hasattr(elem, 'module') and hasattr(elem, 'data')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ convert : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(elem, 'module')                        ║
+# ║   requires: hasattr(elem, 'data')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ convert : {Any | hasattr(elem, 'module') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dda89eb83601f621  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.QuotientModule.convert","kind":"method","src_hash":"ce05ef41ca3ba516","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"convert(ele)","rhs":"convert ``elem`` into the internal representation","over":{"base":"Any"},"name":"convert_correct"},"guarantee":"convert ``elem`` into the internal representation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.QuotientModule.convert_correct","statement":"Path(convert(x), convert ``elem`` into the internal representation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dda89eb83601f621"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.QuotientModule.convert","kind":"method","src_hash":"ce05ef41ca3ba516","in":{"base":"Any","pred":"hasattr(elem, 'module') and hasattr(elem, 'data')"},"out":{"base":"Any"},"spec":{"lhs":"convert(elem, M)","rhs":"<unspecified:convert>","over":{"base":"Any","pred":"hasattr(elem, 'module') and hasattr(elem, 'data')"},"name":"convert_correct"},"guarantee":"convert ``elem`` into the internal representation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.QuotientModule.convert_correct","statement":"Path(convert(x), convert ``elem`` into the internal representation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dda89eb83601f621","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(elem, 'module')","hasattr(elem, 'data')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["elem.data","elem.module","self.base","self.killed_module"],"raises":["CoercionFailed"]},"state_contract":{"exceptional_post":{"CoercionFailed":["isinstance(raised, CoercionFailed)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def convert(self, elem, M=None):
         """
         Convert ``elem`` into the internal representation.
@@ -2733,14 +3478,20 @@ class QuotientModule(Module):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(identity_hom(), id) over Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.base.identity_hom().quotient_codomai...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ identity_hom : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 9f7e6b901116a325   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.QuotientModule.identity_hom","kind":"method","src_hash":"893cbc85cf726952","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"identity_hom()","rhs":"return the identity homomorphism on ``self``","over":{"base":"Any"},"name":"identity_hom_correct","kind":"composition"},"guarantee":"return the identity homomorphism on ``self``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"identity_hom","by":"library_axiom"},{"fn":"quotient_codomain","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f7e6b901116a325"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.QuotientModule.identity_hom","kind":"method","src_hash":"893cbc85cf726952","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"identity_hom()","rhs":"self.base.identity_hom().quotient_codomain(self.killed_module).quotient_domain(self.killed_module)","over":{"base":"Any"},"name":"identity_hom_correct","kind":"composition"},"guarantee":"returns self.base.identity_hom().quotient_codomain(self.killed_module).quotient_domain(self.killed_module)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"identity_hom","by":"library_axiom"},{"fn":"quotient_codomain","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f7e6b901116a325","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.base.identity_hom().quotient_codomain(self.killed_module).quotient_domain(self.killed_module)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.base","self.killed_module"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def identity_hom(self):
         """
         Return the identity homomorphism on ``self``.
@@ -2760,16 +3511,22 @@ class QuotientModule(Module):
             self.killed_module).quotient_domain(self.killed_module)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(quotient_hom(), return the quotient homomorphism to ``self``) over Any ║
+# ║ Path(quotient_hom(), self.base.identity_hom().quotient_codomain(self.killed_module)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.base.identity_hom().quotient_codomai...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ quotient_hom : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e22519dade425244  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8720762c880e83af  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.QuotientModule.quotient_hom","kind":"method","src_hash":"a1d14daa8a3ad5f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quotient_hom()","rhs":"return the quotient homomorphism to ``self``","over":{"base":"Any"},"name":"quotient_hom_correct"},"guarantee":"return the quotient homomorphism to ``self``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.QuotientModule.quotient_hom_correct","statement":"Path(quotient_hom(x), return the quotient homomorphism to ``self``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e22519dade425244"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.modules.QuotientModule.quotient_hom","kind":"method","src_hash":"a1d14daa8a3ad5f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quotient_hom()","rhs":"self.base.identity_hom().quotient_codomain(self.killed_module)","over":{"base":"Any"},"name":"quotient_hom_correct"},"guarantee":"returns self.base.identity_hom().quotient_codomain(self.killed_module)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.modules.QuotientModule.quotient_hom_correct","statement":"Path(quotient_hom(x), returns self.base.identity_hom().quotient_codomain(self.killed_module))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8720762c880e83af","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.base.identity_hom().quotient_codomain(self.killed_module)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.base","self.killed_module"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def quotient_hom(self):
         """
         Return the quotient homomorphism to ``self``.

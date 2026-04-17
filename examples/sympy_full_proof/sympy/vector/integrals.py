@@ -31,14 +31,20 @@ from sympy.vector.operators import _get_coord_systems
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ParametricIntegral(*args), correctly constructs a ParametricIntegral instance) over {Any | isinstance(parametricfield, Vector) and isinstance(result, Integral)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ ParametricIntegral : {Any | isinstance(parametricfiel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c4d2ba7e0339518  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.integrals.ParametricIntegral","kind":"class","src_hash":"dd138abdf5368634","in":{"base":"Any","pred":"isinstance(parametricfield, Vector) and isinstance(result, Integral)"},"out":{"base":"Any"},"spec":{"lhs":"ParametricIntegral(*args)","rhs":"correctly constructs a ParametricIntegral instance","over":{"base":"Any","pred":"isinstance(parametricfield, Vector) and isinstance(result, Integral)"},"name":"ParametricIntegral_class_invariant"},"guarantee":"correctly constructs a ParametricIntegral instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c4d2ba7e0339518"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.integrals.ParametricIntegral","kind":"class","src_hash":"dd138abdf5368634","in":{"base":"Any","pred":"isinstance(parametricfield, Vector) and isinstance(result, Integral)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic)"},"spec":{"lhs":"ParametricIntegral(*args)","rhs":"correctly constructs a ParametricIntegral instance","over":{"base":"Any","pred":"isinstance(parametricfield, Vector) and isinstance(result, Integral)"},"name":"ParametricIntegral_class_invariant"},"guarantee":"isinstance(self, Basic)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c4d2ba7e0339518","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function ParametricIntegral not found in source"]}}
 class ParametricIntegral(Basic):
     """
     Represents integral of a scalar or vector field
@@ -69,16 +75,25 @@ class ParametricIntegral(Basic):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, field, parametricregion), <unspecified:__new__>) over {Any | hasattr(parametricregion, 'dimensions') and hasattr(parametricregion, 'definition') and hasattr(parametricregion, 'parameters') and hasattr(parametricregion, 'limits')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(parametricregion, 'dimensions')        ║
+# ║   requires: hasattr(parametricregion, 'definition')        ║
+# ║   requires: hasattr(parametricregion, 'parameters')        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | hasattr(parametricregion, 'dimension...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fa2e91fddd50838a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.integrals.ParametricIntegral.__new__","kind":"method","src_hash":"a0c33346c74582f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fa2e91fddd50838a"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.integrals.ParametricIntegral.__new__","kind":"method","src_hash":"a0c33346c74582f9","in":{"base":"Any","pred":"hasattr(parametricregion, 'dimensions') and hasattr(parametricregion, 'definition') and hasattr(parametricregion, 'parameters') and hasattr(parametricregion, 'limits')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, field, parametricregion)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"hasattr(parametricregion, 'dimensions') and hasattr(parametricregion, 'definition') and hasattr(parametricregion, 'parameters') and hasattr(parametricregion, 'limits')"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fa2e91fddd50838a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(parametricregion, 'dimensions')","hasattr(parametricregion, 'definition')","hasattr(parametricregion, 'parameters')","hasattr(parametricregion, 'limits')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._bounds_case","parametricregion.definition","parametricregion.dimensions","parametricregion.limits","parametricregion.parameters"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, field, parametricregion):
 
         coord_set = _get_coord_systems(field)
@@ -153,16 +168,26 @@ class ParametricIntegral(Basic):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_bounds_case(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_bounds_case(cls, parameters, limits), result == (parameters if not E else topological_sort((V, E), key=default_sort_key)) and result == parameters or result == topological_sort((V, E), key=default_sort_key)) over {Any | hasattr(limits, 'keys')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _bounds_case : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(limits, 'keys')                        ║
+# ║   ensures:  result == (parameters if not E else topol...   ║
+# ║   ensures:  result == parameters or result == topolog...   ║
+# ║   fiber[case_0]: not E => parameters                       ║
+# ║   fiber[case_1]: not (not E) => topological_sort((V, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _bounds_case : {Any | hasattr(limits, 'keys')} → {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2202e1d9e395a75  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b7d4657c922a1914  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.integrals.ParametricIntegral._bounds_case","kind":"classmethod","src_hash":"77f3a37e41852d4b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_bounds_case(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_bounds_case_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.integrals.ParametricIntegral._bounds_case_correct","statement":"Path(_bounds_case(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2202e1d9e395a75"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.integrals.ParametricIntegral._bounds_case","kind":"classmethod","src_hash":"77f3a37e41852d4b","in":{"base":"Any","pred":"hasattr(limits, 'keys')"},"out":{"base":"Any","pred":"result satisfies: result == (parameters if not E else topological_sort((V, E), key=default_sort_key)) and result == parameters or result == topological_sort((V, E), key=default_sort_key)"},"spec":{"lhs":"_bounds_case(cls, parameters, limits)","rhs":"result == (parameters if not E else topological_sort((V, E), key=default_sort_key)) and result == parameters or result == topological_sort((V, E), key=default_sort_key)","over":{"base":"Any","pred":"hasattr(limits, 'keys')"},"name":"_bounds_case_correct"},"guarantee":"result == (parameters if not E else topological_sort((V, E), key=default_sort_key)); result == parameters or result == topological_sort((V, E), key=default_sort_key); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.integrals.ParametricIntegral._bounds_case_correct","statement":"Path(_bounds_case(x), result == (parameters if not E else topological_sort((V, E), key=default_sort_key)); result == parameters or result == topological_sort((V, E), key=default_sort_key); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7d4657c922a1914","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(limits, 'keys')"],"ensures":["result == (parameters if not E else topological_sort((V, E), key=default_sort_key))","result == parameters or result == topological_sort((V, E), key=default_sort_key)"],"fibers":[{"name":"case_0","guard":"not E","ensures":["result == parameters"],"decidability":"library","returns_expr":"parameters"},{"name":"case_1","guard":"not (not E)","ensures":["result == topological_sort((V, E), key=default_sort_key)"],"decidability":"library","returns_expr":"topological_sort((V, E), key=default_sort_key)"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _bounds_case(cls, parameters, limits):
 
         V = list(limits.keys())
@@ -184,37 +209,52 @@ class ParametricIntegral(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(field(), returns the field attribute) over Any        ║
+# ║ Path(field(), self.args[0]) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ field : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b5049b9f792f0dbb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.integrals.ParametricIntegral.field","kind":"property","src_hash":"0011fcedc2c7054e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"field()","rhs":"returns the field attribute","over":{"base":"Any"},"name":"field_correct"},"guarantee":"returns the field attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b5049b9f792f0dbb"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.integrals.ParametricIntegral.field","kind":"property","src_hash":"0011fcedc2c7054e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"field()","rhs":"self.args[0]","over":{"base":"Any"},"name":"field_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b5049b9f792f0dbb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def field(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parametricregion(), returns the parametricregion attribute) over Any ║
+# ║ Path(parametricregion(), self.args[1]) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ parametricregion : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ce0965f8a254a381           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.integrals.ParametricIntegral.parametricregion","kind":"property","src_hash":"ef9be392f5d44cd1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parametricregion()","rhs":"returns the parametricregion attribute","over":{"base":"Any"},"name":"parametricregion_correct"},"guarantee":"returns the parametricregion attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ce0965f8a254a381"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.integrals.ParametricIntegral.parametricregion","kind":"property","src_hash":"ef9be392f5d44cd1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parametricregion()","rhs":"self.args[1]","over":{"base":"Any"},"name":"parametricregion_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ce0965f8a254a381","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def parametricregion(self):
         return self.args[1]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(vector_integrate(fie), compute the integral of a vector/scalar field over a a region or a set of parameters) over {Any | isinstance(region[0], ParametricRegion) and isinstance(region[0], ImplicitRegion) and isinstance(region[0], GeometryEntity)} ║
+# ║ Path(vector_integrate(field, *region), # HINT: vector_integrate may be idempotent: vector_integrate(vector_integrate(x)) == vector_integrate(x)) over {Any | isinstance(region[0], ParametricRegion) and isinstance(region[0], ImplicitRegion) and isinstance(region[0], GeometryEntity)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: vector_integrate may be idempoten...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ vector_integrate : {Any | isinstance(region[0], Param...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -228,9 +268,12 @@ class ParametricIntegral(Basic):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?3 ✗4 VCs | 0.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | c5d69981...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.integrals.vector_integrate","kind":"function","src_hash":"919e32a8e1fa6ee0","in":{"base":"Any","pred":"isinstance(region[0], ParametricRegion) and isinstance(region[0], ImplicitRegion) and isinstance(region[0], GeometryEntity)"},"out":{"base":"Any"},"spec":{"lhs":"vector_integrate(fie)","rhs":"compute the integral of a vector/scalar field over a a region or a set of parameters","over":{"base":"Any","pred":"isinstance(region[0], ParametricRegion) and isinstance(region[0], ImplicitRegion) and isinstance(region[0], GeometryEntity)"},"name":"vector_integrate_correct"},"guarantee":"compute the integral of a vector/scalar field over a a region or a set of parameters","fibers":[{"name":"ParametricRegion","pred":"isinstance(region[0], ParametricRegion)","path":{"lhs":"vector_integrate(x)","rhs":"compute the integral of a vector/scalar field over a a region or a set of parameters","over":{"base":"ParametricRegion","pred":"isinstance(region[0], ParametricRegion)"},"name":"vector_integrate_ParametricRegion_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.integrals.vector_integrate_ParametricRegion_correct","statement":"vector_integrate satisfies spec on ParametricRegion inputs"},"trust":"LIBRARY"},{"name":"ImplicitRegion","pred":"isinstance(region[0], ImplicitRegion)","path":{"lhs":"vector_integrate(x)","rhs":"compute the integral of a vector/scalar field over a a region or a set of parameters","over":{"base":"ImplicitRegion","pred":"isinstance(region[0], ImplicitRegion)"},"name":"vector_integrate_ImplicitRegion_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.integrals.vector_integrate_ImplicitRegion_correct","statement":"vector_integrate satisfies spec on ImplicitRegion inputs"},"trust":"LIBRARY"},{"name":"GeometryEntity","pred":"isinstance(region[0], GeometryEntity)","path":{"lhs":"vector_integrate(x)","rhs":"compute the integral of a vector/scalar field over a a region or a set of parameters","over":{"base":"GeometryEntity","pred":"isinstance(region[0], GeometryEntity)"},"name":"vector_integrate_GeometryEntity_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.integrals.vector_integrate_GeometryEntity_correct","statement":"vector_integrate satisfies spec on GeometryEntity inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c5d699819c204fc0"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.integrals.vector_integrate","kind":"function","src_hash":"919e32a8e1fa6ee0","in":{"base":"Any","pred":"isinstance(region[0], ParametricRegion) and isinstance(region[0], ImplicitRegion) and isinstance(region[0], GeometryEntity)"},"out":{"base":"Any","pred":"result satisfies: # HINT: vector_integrate may be idempotent: vector_integrate(vector_integrate(x)) == vector_integrate(x)"},"spec":{"lhs":"vector_integrate(field, *region)","rhs":"# HINT: vector_integrate may be idempotent: vector_integrate(vector_integrate(x)) == vector_integrate(x)","over":{"base":"Any","pred":"isinstance(region[0], ParametricRegion) and isinstance(region[0], ImplicitRegion) and isinstance(region[0], GeometryEntity)"},"name":"vector_integrate_correct"},"guarantee":"# HINT: vector_integrate may be idempotent: vector_integrate(vector_integrate(x)) == vector_integrate(x)","fibers":[{"name":"ParametricRegion","pred":"isinstance(region[0], ParametricRegion)","path":{"lhs":"vector_integrate(x)","rhs":"# HINT: vector_integrate may be idempotent: vector_integrate(vector_integrate(x)) == vector_integrate(x)","over":{"base":"ParametricRegion","pred":"isinstance(region[0], ParametricRegion)"},"name":"vector_integrate_ParametricRegion_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.integrals.vector_integrate_ParametricRegion_correct","statement":"vector_integrate satisfies spec on ParametricRegion inputs"},"trust":"LIBRARY"},{"name":"ImplicitRegion","pred":"isinstance(region[0], ImplicitRegion)","path":{"lhs":"vector_integrate(x)","rhs":"# HINT: vector_integrate may be idempotent: vector_integrate(vector_integrate(x)) == vector_integrate(x)","over":{"base":"ImplicitRegion","pred":"isinstance(region[0], ImplicitRegion)"},"name":"vector_integrate_ImplicitRegion_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.integrals.vector_integrate_ImplicitRegion_correct","statement":"vector_integrate satisfies spec on ImplicitRegion inputs"},"trust":"LIBRARY"},{"name":"GeometryEntity","pred":"isinstance(region[0], GeometryEntity)","path":{"lhs":"vector_integrate(x)","rhs":"# HINT: vector_integrate may be idempotent: vector_integrate(vector_integrate(x)) == vector_integrate(x)","over":{"base":"GeometryEntity","pred":"isinstance(region[0], GeometryEntity)"},"name":"vector_integrate_GeometryEntity_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.integrals.vector_integrate_GeometryEntity_correct","statement":"vector_integrate satisfies spec on GeometryEntity inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c5d699819c204fc0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: vector_integrate may be idempotent: vector_integrate(vector_integrate(x)) == vector_integrate(x)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":1,"n_assumed":3,"n_failed":4,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['field'], spec=['field', '*region']","Poor branch-fiber coverage: 0% (branches={'len(region) == 1', 'isinstance(region[0], GeometryEntity)', 'isinstance(region[0], ParametricRegion)', 'isinstance(region[0], ImplicitRegion)'}, fibers={'ParametricRegion', 'GeometryEntity', 'ImplicitRegion'})"]}}
 def vector_integrate(field, *region):
     """
     Compute the integral of a vector/scalar field

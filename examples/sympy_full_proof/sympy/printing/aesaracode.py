@@ -99,14 +99,20 @@ if aesara:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a AesaraPrinter instance) preserved by AesaraPrinter(*args) over {Any | isinstance(children[1], int) and isinstance(i, sympy.Basic)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Printer)                      ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ AesaraPrinter : {Any | isinstance(children[1], int) a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 34851c741641ab23  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter","kind":"class","src_hash":"14486abac2928285","in":{"base":"Any","pred":"isinstance(children[1], int) and isinstance(i, sympy.Basic)"},"out":{"base":"Any"},"spec":{"lhs":"AesaraPrinter(*args)","rhs":"correctly constructs a AesaraPrinter instance","over":{"base":"Any","pred":"isinstance(children[1], int) and isinstance(i, sympy.Basic)"},"name":"AesaraPrinter_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a AesaraPrinter instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'cache')","kind":"class","induction":"structural on cache"}],"methods_preserving":["__init__","_get_key","_get_or_create","_print_Symbol","_print_AppliedUndef","_print_Basic","_print_Number","_print_MatrixSymbol","_print_DenseMatrix","_print_MatMul","_print_MatPow","_print_MatrixSlice","_print_BlockMatrix","_print_slice","_print_Pi","_print_Piecewise","_print_Rational","_print_Integer","_print_factorial","_print_Derivative","emptyPrinter","doprint"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34851c741641ab23"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter","kind":"class","src_hash":"14486abac2928285","in":{"base":"Any","pred":"isinstance(children[1], int) and isinstance(i, sympy.Basic)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Printer)"},"spec":{"lhs":"AesaraPrinter(*args)","rhs":"correctly constructs a AesaraPrinter instance","over":{"base":"Any","pred":"isinstance(children[1], int) and isinstance(i, sympy.Basic)"},"name":"AesaraPrinter_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Printer); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'cache')","kind":"class","induction":"structural on cache"}],"methods_preserving":["__init__","_get_key","_get_or_create","_print_Symbol","_print_AppliedUndef","_print_Basic","_print_Number","_print_MatrixSymbol","_print_DenseMatrix","_print_MatMul","_print_MatPow","_print_MatrixSlice","_print_BlockMatrix","_print_slice","_print_Pi","_print_Piecewise","_print_Rational","_print_Integer","_print_factorial","_print_Derivative","emptyPrinter","doprint"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34851c741641ab23","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Printer)"],"invariants":["hasattr(self, 'cache')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function AesaraPrinter not found in source"]}}
 class AesaraPrinter(Printer):
     """
     .. deprecated:: 1.14.
@@ -142,31 +148,45 @@ class AesaraPrinter(Printer):
     printmethod = "_aesara"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(*ar), initializes the instance correctly) over Any ║
+# ║ Path(__init__(*args, **kwargs), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 68ccb0cc6c068dea           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter.__init__","kind":"method","src_hash":"134f101aead9d193","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*ar)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"68ccb0cc6c068dea"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter.__init__","kind":"method","src_hash":"134f101aead9d193","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*args, **kwargs)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"68ccb0cc6c068dea","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, *args, **kwargs):
         self.cache = kwargs.pop('cache', {})
         super().__init__(*args, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_key(s, ), get the cache key for a sympy object) over Any ║
+# ║ Path(_get_key(s, name, dtype), (name, type(s), s.args, dtype, broadcastable)) over {Any | hasattr(s, 'name') and hasattr(s, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_key : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(s, 'name')                             ║
+# ║   requires: hasattr(s, 'args')                             ║
+# ║   returns:  (name, type(s), s.args, dtype, broadcasta...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_key : {Any | hasattr(s, 'name') and hasattr(s, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c5b52be4260b540  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa675ebd4877bd4c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter._get_key","kind":"method","src_hash":"cfb26a6127ec9a8d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_key(s, )","rhs":"get the cache key for a sympy object","over":{"base":"Any"},"name":"_get_key_correct"},"guarantee":"get the cache key for a sympy object","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.aesaracode.AesaraPrinter._get_key_correct","statement":"Path(_get_key(x), get the cache key for a sympy object)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c5b52be4260b540"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter._get_key","kind":"method","src_hash":"cfb26a6127ec9a8d","in":{"base":"Any","pred":"hasattr(s, 'name') and hasattr(s, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_get_key(s, name, dtype)","rhs":"(name, type(s), s.args, dtype, broadcastable)","over":{"base":"Any","pred":"hasattr(s, 'name') and hasattr(s, 'args')"},"name":"_get_key_correct"},"guarantee":"returns (name, type(s), s.args, dtype, broadcastable)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.aesaracode.AesaraPrinter._get_key_correct","statement":"Path(_get_key(x), returns (name, type(s), s.args, dtype, broadcastable))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa675ebd4877bd4c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(s, 'name')","hasattr(s, 'args')"],"returns_expr":"(name, type(s), s.args, dtype, broadcastable)","pure":false,"effects":{"effect_type":"reads_state","reads":["s.args","s.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_key(self, s, name=None, dtype=None, broadcastable=None):
         """ Get the cache key for a SymPy object.
 
@@ -186,16 +206,23 @@ class AesaraPrinter(Printer):
         return (name, type(s), s.args, dtype, broadcastable)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_or_create(s, ), get the aesara variable for a sympy symbol from the cache, or create it if it does not exist) over Any ║
+# ║ Path(_get_or_create(s, name, dtype), <unspecified:_get_or_create>) over {Any | hasattr(s, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_or_create : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(s, 'name')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_or_create : {Any | hasattr(s, 'name')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9667cf0e42c7170d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter._get_or_create","kind":"method","src_hash":"69470b6f28534e05","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_or_create(s, )","rhs":"get the aesara variable for a sympy symbol from the cache, or create it if it does not exist","over":{"base":"Any"},"name":"_get_or_create_correct"},"guarantee":"get the aesara variable for a sympy symbol from the cache, or create it if it does not exist","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.aesaracode.AesaraPrinter._get_or_create_correct","statement":"Path(_get_or_create(x), get the aesara variable for a sympy symbol from the cache, or create it if it does not exist)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9667cf0e42c7170d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter._get_or_create","kind":"method","src_hash":"69470b6f28534e05","in":{"base":"Any","pred":"hasattr(s, 'name')"},"out":{"base":"Any"},"spec":{"lhs":"_get_or_create(s, name, dtype)","rhs":"<unspecified:_get_or_create>","over":{"base":"Any","pred":"hasattr(s, 'name')"},"name":"_get_or_create_correct"},"guarantee":"get the aesara variable for a sympy symbol from the cache, or create it if it does not exist","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.aesaracode.AesaraPrinter._get_or_create_correct","statement":"Path(_get_or_create(x), get the aesara variable for a sympy symbol from the cache, or create it if it does not exist)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9667cf0e42c7170d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(s, 'name')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["s.name","self._get_key","self.cache"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_or_create(self, s, name=None, dtype=None, broadcastable=None):
         """
         Get the Aesara variable for a SymPy symbol from the cache, or create it
@@ -220,32 +247,45 @@ class AesaraPrinter(Printer):
         return value
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Symbol(s, ), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Symbol(s, **kwargs), self._get_or_create(s, dtype=dtype, broadcastable=bc)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._get_or_create(s, dtype=dtype, broad...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_Symbol : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 960b4229942478e8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d88cd4d0218fe447  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter._print_Symbol","kind":"method","src_hash":"66ac38a29ceb8e4f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Symbol(s, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Symbol_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.aesaracode.AesaraPrinter._print_Symbol_correct","statement":"Path(_print_Symbol(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"960b4229942478e8"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter._print_Symbol","kind":"method","src_hash":"66ac38a29ceb8e4f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Symbol(s, **kwargs)","rhs":"self._get_or_create(s, dtype=dtype, broadcastable=bc)","over":{"base":"Any"},"name":"_print_Symbol_correct"},"guarantee":"returns self._get_or_create(s, dtype=dtype, broadcastable=bc)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.aesaracode.AesaraPrinter._print_Symbol_correct","statement":"Path(_print_Symbol(x), returns self._get_or_create(s, dtype=dtype, broadcastable=bc))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d88cd4d0218fe447","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._get_or_create(s, dtype=dtype, broadcastable=bc)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._get_or_create"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Symbol(self, s, **kwargs):
         dtype = kwargs.get('dtypes', {}).get(s)
         bc = kwargs.get('broadcastables', {}).get(s)
         return self._get_or_create(s, dtype=dtype, broadcastable=bc)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_AppliedUndef(s, ), internal helper behaves correctly) over Any ║
+# ║ Path(_print_AppliedUndef(s, **kwargs), self._get_or_create(s, name=name, dtype=dtype, broadcastable=bc)) over {Any | hasattr(s, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_AppliedUndef : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(s, 'args')                             ║
+# ║   returns:  self._get_or_create(s, name=name, dtype=d...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_AppliedUndef : {Any | hasattr(s, 'args')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff94c0d4ac953ad0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | deb555caa0f15431  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter._print_AppliedUndef","kind":"method","src_hash":"9e2dd8a11c7af92b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_AppliedUndef(s, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_AppliedUndef_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.aesaracode.AesaraPrinter._print_AppliedUndef_correct","statement":"Path(_print_AppliedUndef(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff94c0d4ac953ad0"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter._print_AppliedUndef","kind":"method","src_hash":"9e2dd8a11c7af92b","in":{"base":"Any","pred":"hasattr(s, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_AppliedUndef(s, **kwargs)","rhs":"self._get_or_create(s, name=name, dtype=dtype, broadcastable=bc)","over":{"base":"Any","pred":"hasattr(s, 'args')"},"name":"_print_AppliedUndef_correct"},"guarantee":"returns self._get_or_create(s, name=name, dtype=dtype, broadcastable=bc)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.aesaracode.AesaraPrinter._print_AppliedUndef_correct","statement":"Path(_print_AppliedUndef(x), returns self._get_or_create(s, name=name, dtype=dtype, broadcastable=bc))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"deb555caa0f15431","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(s, 'args')"],"returns_expr":"self._get_or_create(s, name=name, dtype=dtype, broadcastable=bc)","pure":false,"effects":{"effect_type":"reads_state","reads":["s.args","self._get_or_create"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_AppliedUndef(self, s, **kwargs):
         name = str(type(s)) + '_' + str(s.args[0])
         dtype = kwargs.get('dtypes', {}).get(s)
@@ -253,62 +293,90 @@ class AesaraPrinter(Printer):
         return self._get_or_create(s, name=name, dtype=dtype, broadcastable=bc)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Basic(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Basic(expr, **kwargs), op(*children)) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Basic : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  op(*children)                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Basic : {Any | hasattr(expr, 'args')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 53da79e9a6982549  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3a85c5e21bb19eb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter._print_Basic","kind":"method","src_hash":"07a64dec0f59876c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Basic(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Basic_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.aesaracode.AesaraPrinter._print_Basic_correct","statement":"Path(_print_Basic(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53da79e9a6982549"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter._print_Basic","kind":"method","src_hash":"07a64dec0f59876c","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Basic(expr, **kwargs)","rhs":"op(*children)","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_Basic_correct"},"guarantee":"returns op(*children)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.aesaracode.AesaraPrinter._print_Basic_correct","statement":"Path(_print_Basic(x), returns op(*children))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3a85c5e21bb19eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"op(*children)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Basic(self, expr, **kwargs):
         op = mapping[type(expr)]
         children = [self._print(arg, **kwargs) for arg in expr.args]
         return op(*children)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Number(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Number(n, **kwargs), float(n.evalf())) over {Any | hasattr(n, 'evalf')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Number : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(n, 'evalf')                            ║
+# ║   returns:  float(n.evalf())                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Number : {Any | hasattr(n, 'evalf')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f116b72b2309a3ab           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter._print_Number","kind":"method","src_hash":"d8cd65d605b3875d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Number(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Number_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f116b72b2309a3ab"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter._print_Number","kind":"method","src_hash":"d8cd65d605b3875d","in":{"base":"Any","pred":"hasattr(n, 'evalf')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Number(n, **kwargs)","rhs":"float(n.evalf())","over":{"base":"Any","pred":"hasattr(n, 'evalf')"},"name":"_print_Number_correct"},"guarantee":"returns float(n.evalf())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f116b72b2309a3ab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(n, 'evalf')"],"returns_expr":"float(n.evalf())","pure":false,"effects":{"effect_type":"reads_state","reads":["n.evalf"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Number(self, n, **kwargs):
         # Integers already taken care of below, interpret as float
         return float(n.evalf())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MatrixSymbol(X, ), internal helper behaves correctly) over Any ║
+# ║ Path(_print_MatrixSymbol(X, **kwargs), self._get_or_create(X, dtype=dtype, broadcastable=(None, None))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._get_or_create(X, dtype=dtype, broad...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_MatrixSymbol : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98a6b5bdd6c15ac1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f800cfbfab720241  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter._print_MatrixSymbol","kind":"method","src_hash":"b12b06c132cd3f3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixSymbol(X, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MatrixSymbol_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.aesaracode.AesaraPrinter._print_MatrixSymbol_correct","statement":"Path(_print_MatrixSymbol(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98a6b5bdd6c15ac1"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter._print_MatrixSymbol","kind":"method","src_hash":"b12b06c132cd3f3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixSymbol(X, **kwargs)","rhs":"self._get_or_create(X, dtype=dtype, broadcastable=(None, None))","over":{"base":"Any"},"name":"_print_MatrixSymbol_correct"},"guarantee":"returns self._get_or_create(X, dtype=dtype, broadcastable=(None, None))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.aesaracode.AesaraPrinter._print_MatrixSymbol_correct","statement":"Path(_print_MatrixSymbol(x), returns self._get_or_create(X, dtype=dtype, broadcastable=(None, None)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f800cfbfab720241","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._get_or_create(X, dtype=dtype, broadcastable=(None, None))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._get_or_create"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MatrixSymbol(self, X, **kwargs):
         dtype = kwargs.get('dtypes', {}).get(X)
         return self._get_or_create(X, dtype=dtype, broadcastable=(None, None))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_DenseMatrix(X, ), internal helper behaves correctly) over Any ║
+# ║ Path(_print_DenseMatrix(X, **kwargs), aet.stacklists([[self._print(arg, **kwargs) for arg in L] for L in X.tolist()])) over {Any | hasattr(aet, 'stacklists') and hasattr(X, 'tolist')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_DenseMatrix : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(aet, 'stacklists')                     ║
+# ║   requires: hasattr(X, 'tolist')                           ║
+# ║   returns:  aet.stacklists([[self._print(arg, **kwarg...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_DenseMatrix : {Any | hasattr(aet, 'stacklists'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de268fb77f500d89  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4d2953887384318f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter._print_DenseMatrix","kind":"method","src_hash":"cb67ec8dc1c93632","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_DenseMatrix(X, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_DenseMatrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.aesaracode.AesaraPrinter._print_DenseMatrix_correct","statement":"Path(_print_DenseMatrix(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de268fb77f500d89"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter._print_DenseMatrix","kind":"method","src_hash":"cb67ec8dc1c93632","in":{"base":"Any","pred":"hasattr(aet, 'stacklists') and hasattr(X, 'tolist')"},"out":{"base":"Any"},"spec":{"lhs":"_print_DenseMatrix(X, **kwargs)","rhs":"aet.stacklists([[self._print(arg, **kwargs) for arg in L] for L in X.tolist()])","over":{"base":"Any","pred":"hasattr(aet, 'stacklists') and hasattr(X, 'tolist')"},"name":"_print_DenseMatrix_correct"},"guarantee":"returns aet.stacklists([[self._print(arg, **kwargs) for arg in L] for L in X.tolist()])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.aesaracode.AesaraPrinter._print_DenseMatrix_correct","statement":"Path(_print_DenseMatrix(x), returns aet.stacklists([[self._print(arg, **kwargs) for arg in L] for L in X.tolist()]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d2953887384318f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(aet, 'stacklists')","hasattr(X, 'tolist')"],"returns_expr":"aet.stacklists([[self._print(arg, **kwargs) for arg in L] for L in X.tolist()])","pure":false,"effects":{"effect_type":"reads_state","reads":["X.tolist","self._print"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_DenseMatrix(self, X, **kwargs):
         if not hasattr(aet, 'stacklists'):
             raise NotImplementedError(
@@ -322,16 +390,23 @@ class AesaraPrinter(Printer):
     _print_ImmutableMatrix = _print_ImmutableDenseMatrix = _print_DenseMatrix
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MatMul(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_MatMul(expr, **kwargs), <unspecified:_print_MatMul>) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_MatMul : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_MatMul : {Any | hasattr(expr, 'args')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f56a674790eefd5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter._print_MatMul","kind":"method","src_hash":"9b8fabaab06b2cae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatMul(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MatMul_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.aesaracode.AesaraPrinter._print_MatMul_correct","statement":"Path(_print_MatMul(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f56a674790eefd5"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter._print_MatMul","kind":"method","src_hash":"9b8fabaab06b2cae","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatMul(expr, **kwargs)","rhs":"<unspecified:_print_MatMul>","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_MatMul_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.aesaracode.AesaraPrinter._print_MatMul_correct","statement":"Path(_print_MatMul(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f56a674790eefd5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MatMul(self, expr, **kwargs):
         children = [self._print(arg, **kwargs) for arg in expr.args]
         result = children[0]
@@ -340,16 +415,23 @@ class AesaraPrinter(Printer):
         return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MatPow(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_MatPow(expr, **kwargs), <unspecified:_print_MatPow>) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_MatPow : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_MatPow : {Any | hasattr(expr, 'args')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c817b37d252d0cb2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter._print_MatPow","kind":"method","src_hash":"3f89c61881661802","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatPow(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MatPow_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.aesaracode.AesaraPrinter._print_MatPow_correct","statement":"Path(_print_MatPow(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c817b37d252d0cb2"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter._print_MatPow","kind":"method","src_hash":"3f89c61881661802","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatPow(expr, **kwargs)","rhs":"<unspecified:_print_MatPow>","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_MatPow_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.aesaracode.AesaraPrinter._print_MatPow_correct","statement":"Path(_print_MatPow(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c817b37d252d0cb2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MatPow(self, expr, **kwargs):
         children = [self._print(arg, **kwargs) for arg in expr.args]
         result = 1
@@ -362,16 +444,25 @@ class AesaraPrinter(Printer):
         return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MatrixSlice(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_MatrixSlice(expr, **kwargs), parent[rowslice, colslice]) over {Any | hasattr(expr, 'parent') and hasattr(expr, 'rowslice') and hasattr(expr, 'colslice')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_MatrixSlice : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'parent')                        ║
+# ║   requires: hasattr(expr, 'rowslice')                      ║
+# ║   requires: hasattr(expr, 'colslice')                      ║
+# ║   returns:  parent[rowslice, colslice]                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_MatrixSlice : {Any | hasattr(expr, 'parent') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7627fe1dab31e9ad  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f06d5be40fb204ad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter._print_MatrixSlice","kind":"method","src_hash":"c7b4f0be23cfd7a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixSlice(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MatrixSlice_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.aesaracode.AesaraPrinter._print_MatrixSlice_correct","statement":"Path(_print_MatrixSlice(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7627fe1dab31e9ad"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter._print_MatrixSlice","kind":"method","src_hash":"c7b4f0be23cfd7a0","in":{"base":"Any","pred":"hasattr(expr, 'parent') and hasattr(expr, 'rowslice') and hasattr(expr, 'colslice')"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixSlice(expr, **kwargs)","rhs":"parent[rowslice, colslice]","over":{"base":"Any","pred":"hasattr(expr, 'parent') and hasattr(expr, 'rowslice') and hasattr(expr, 'colslice')"},"name":"_print_MatrixSlice_correct"},"guarantee":"returns parent[rowslice, colslice]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.aesaracode.AesaraPrinter._print_MatrixSlice_correct","statement":"Path(_print_MatrixSlice(x), returns parent[rowslice, colslice])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f06d5be40fb204ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'parent')","hasattr(expr, 'rowslice')","hasattr(expr, 'colslice')"],"returns_expr":"parent[rowslice, colslice]","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.colslice","expr.parent","expr.rowslice","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MatrixSlice(self, expr, **kwargs):
         parent = self._print(expr.parent, **kwargs)
         rowslice = self._print(slice(*expr.rowslice), **kwargs)
@@ -379,16 +470,23 @@ class AesaraPrinter(Printer):
         return parent[rowslice, colslice]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_BlockMatrix(exp), id) over Any                 ║
+# ║ Path(_print_BlockMatrix(expr, **kwargs), id) over {Any | hasattr(expr, 'blocks')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_BlockMatrix : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'blocks')                        ║
+# ║   returns:  aet.join(0, *[aet.join(1, *row) for row i...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_BlockMatrix : {Any | hasattr(expr, 'blocks')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 99f4460356e4839e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter._print_BlockMatrix","kind":"method","src_hash":"6562eaff1237865a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_BlockMatrix(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_BlockMatrix_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"join","by":"library_axiom"},{"fn":"join","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99f4460356e4839e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter._print_BlockMatrix","kind":"method","src_hash":"6562eaff1237865a","in":{"base":"Any","pred":"hasattr(expr, 'blocks')"},"out":{"base":"Any"},"spec":{"lhs":"_print_BlockMatrix(expr, **kwargs)","rhs":"aet.join(0, *[aet.join(1, *row) for row in blocks])","over":{"base":"Any","pred":"hasattr(expr, 'blocks')"},"name":"_print_BlockMatrix_correct","kind":"composition"},"guarantee":"returns aet.join(0, *[aet.join(1, *row) for row in blocks])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"join","by":"library_axiom"},{"fn":"join","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99f4460356e4839e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'blocks')"],"returns_expr":"aet.join(0, *[aet.join(1, *row) for row in blocks])","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.blocks","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_BlockMatrix(self, expr, **kwargs):
         nrows, ncols = expr.blocks.shape
         blocks = [[self._print(expr.blocks[r, c], **kwargs)
@@ -398,46 +496,68 @@ class AesaraPrinter(Printer):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_slice(exp), id) over Any                       ║
+# ║ Path(_print_slice(expr, **kwargs), id) over {Any | hasattr(expr, 'start') and hasattr(expr, 'stop') and hasattr(expr, 'step')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_slice : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'start')                         ║
+# ║   requires: hasattr(expr, 'stop')                          ║
+# ║   requires: hasattr(expr, 'step')                          ║
+# ║   returns:  slice(*[self._print(i, **kwargs) if isins...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_slice : {Any | hasattr(expr, 'start') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 253eb9c2602dd645   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter._print_slice","kind":"method","src_hash":"bb10bc81238f117f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_slice(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_slice_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"slice","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"253eb9c2602dd645"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter._print_slice","kind":"method","src_hash":"bb10bc81238f117f","in":{"base":"Any","pred":"hasattr(expr, 'start') and hasattr(expr, 'stop') and hasattr(expr, 'step')"},"out":{"base":"Any"},"spec":{"lhs":"_print_slice(expr, **kwargs)","rhs":"slice(*[self._print(i, **kwargs) if isinstance(i, sympy.Basic) else i for i in (expr.start, expr.stop, expr.step)])","over":{"base":"Any","pred":"hasattr(expr, 'start') and hasattr(expr, 'stop') and hasattr(expr, 'step')"},"name":"_print_slice_correct","kind":"composition"},"guarantee":"returns slice(*[self._print(i, **kwargs) if isinstance(i, sympy.Basic) else i for i in (expr.start, expr.stop, expr.step)])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"slice","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"253eb9c2602dd645","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'start')","hasattr(expr, 'stop')","hasattr(expr, 'step')"],"returns_expr":"slice(*[self._print(i, **kwargs) if isinstance(i, sympy.Basic) else i for i in (expr.start, expr.stop, expr.step)])","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.start","expr.step","expr.stop","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_slice(self, expr, **kwargs):
         return slice(*[self._print(i, **kwargs)
                         if isinstance(i, sympy.Basic) else i
                         for i in (expr.start, expr.stop, expr.step)])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Pi(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Pi(expr, **kwargs), math.pi) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  math.pi                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_Pi : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 145bcb1d2c9275f9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter._print_Pi","kind":"method","src_hash":"442d4d66c7aea32c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Pi(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Pi_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"145bcb1d2c9275f9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter._print_Pi","kind":"method","src_hash":"442d4d66c7aea32c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Pi(expr, **kwargs)","rhs":"math.pi","over":{"base":"Any"},"name":"_print_Pi_correct"},"guarantee":"returns math.pi","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"145bcb1d2c9275f9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"math.pi","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Pi(self, expr, **kwargs):
         return math.pi
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Piecewise(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Piecewise(expr, **kwargs), <unspecified:_print_Piecewise>) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Piecewise : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Piecewise : {Any | hasattr(expr, 'args')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8803a15a7f465e28  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter._print_Piecewise","kind":"method","src_hash":"055a1839ce9ce2da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Piecewise(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Piecewise_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.aesaracode.AesaraPrinter._print_Piecewise_correct","statement":"Path(_print_Piecewise(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8803a15a7f465e28"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter._print_Piecewise","kind":"method","src_hash":"055a1839ce9ce2da","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Piecewise(expr, **kwargs)","rhs":"<unspecified:_print_Piecewise>","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_Piecewise_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.aesaracode.AesaraPrinter._print_Piecewise_correct","statement":"Path(_print_Piecewise(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8803a15a7f465e28","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Piecewise(self, expr, **kwargs):
         import numpy as np
         e, cond = expr.args[0].args  # First condition and corresponding value
@@ -456,59 +576,89 @@ class AesaraPrinter(Printer):
         return aet.switch(p_cond, p_e, p_remaining)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Rational(exp), id) over Any                    ║
+# ║ Path(_print_Rational(expr, **kwargs), id) over {Any | hasattr(expr, 'p') and hasattr(expr, 'q')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Rational : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'p')                             ║
+# ║   requires: hasattr(expr, 'q')                             ║
+# ║   returns:  true_divide(self._print(expr.p, **kwargs)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Rational : {Any | hasattr(expr, 'p') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 8da4510665ded7b3   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter._print_Rational","kind":"method","src_hash":"64a1b07e49b3ba9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Rational(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Rational_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"true_divide","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8da4510665ded7b3"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter._print_Rational","kind":"method","src_hash":"64a1b07e49b3ba9e","in":{"base":"Any","pred":"hasattr(expr, 'p') and hasattr(expr, 'q')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Rational(expr, **kwargs)","rhs":"true_divide(self._print(expr.p, **kwargs), self._print(expr.q, **kwargs))","over":{"base":"Any","pred":"hasattr(expr, 'p') and hasattr(expr, 'q')"},"name":"_print_Rational_correct","kind":"composition"},"guarantee":"returns true_divide(self._print(expr.p, **kwargs), self._print(expr.q, **kwargs))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"true_divide","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8da4510665ded7b3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'p')","hasattr(expr, 'q')"],"returns_expr":"true_divide(self._print(expr.p, **kwargs), self._print(expr.q, **kwargs))","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.p","expr.q","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Rational(self, expr, **kwargs):
         return true_divide(self._print(expr.p, **kwargs),
                            self._print(expr.q, **kwargs))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Integer(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Integer(expr, **kwargs), expr.p) over {Any | hasattr(expr, 'p')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Integer : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'p')                             ║
+# ║   returns:  expr.p                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Integer : {Any | hasattr(expr, 'p')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5fea7d20fa50e9e7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter._print_Integer","kind":"method","src_hash":"6335b04ed726ba53","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Integer(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Integer_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5fea7d20fa50e9e7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter._print_Integer","kind":"method","src_hash":"6335b04ed726ba53","in":{"base":"Any","pred":"hasattr(expr, 'p')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Integer(expr, **kwargs)","rhs":"expr.p","over":{"base":"Any","pred":"hasattr(expr, 'p')"},"name":"_print_Integer_correct"},"guarantee":"returns expr.p","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5fea7d20fa50e9e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'p')"],"returns_expr":"expr.p","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.p"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Integer(self, expr, **kwargs):
         return expr.p
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_factorial(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_factorial(expr, **kwargs), self._print(sympy.gamma(expr.args[0] + 1), **kwargs)) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_factorial : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  self._print(sympy.gamma(expr.args[0] + 1)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_factorial : {Any | hasattr(expr, 'args')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3f2df975f1241a30           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter._print_factorial","kind":"method","src_hash":"da4e3019d5353d18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_factorial(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_factorial_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3f2df975f1241a30"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter._print_factorial","kind":"method","src_hash":"da4e3019d5353d18","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_factorial(expr, **kwargs)","rhs":"self._print(sympy.gamma(expr.args[0] + 1), **kwargs)","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_factorial_correct"},"guarantee":"returns self._print(sympy.gamma(expr.args[0] + 1), **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3f2df975f1241a30","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"self._print(sympy.gamma(expr.args[0] + 1), **kwargs)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_factorial(self, expr, **kwargs):
         return self._print(sympy.gamma(expr.args[0] + 1), **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Derivative(der), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Derivative(deriv, **kwargs), <unspecified:_print_Derivative>) over {Any | hasattr(deriv, 'variables') and hasattr(deriv, 'expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Derivative : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(deriv, 'variables')                    ║
+# ║   requires: hasattr(deriv, 'expr')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Derivative : {Any | hasattr(deriv, 'variables'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3a1fe473d1bbed05  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter._print_Derivative","kind":"method","src_hash":"70c4739e987686a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Derivative(der)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Derivative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.aesaracode.AesaraPrinter._print_Derivative_correct","statement":"Path(_print_Derivative(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a1fe473d1bbed05"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter._print_Derivative","kind":"method","src_hash":"70c4739e987686a3","in":{"base":"Any","pred":"hasattr(deriv, 'variables') and hasattr(deriv, 'expr')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Derivative(deriv, **kwargs)","rhs":"<unspecified:_print_Derivative>","over":{"base":"Any","pred":"hasattr(deriv, 'variables') and hasattr(deriv, 'expr')"},"name":"_print_Derivative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.aesaracode.AesaraPrinter._print_Derivative_correct","statement":"Path(_print_Derivative(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a1fe473d1bbed05","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(deriv, 'variables')","hasattr(deriv, 'expr')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["deriv.expr","deriv.variables","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Derivative(self, deriv, **kwargs):
         from aesara.gradient import Rop
 
@@ -519,30 +669,43 @@ class AesaraPrinter(Printer):
         return rv
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(emptyPrinter(exp), emptyPrinter produces the expected output) over Any ║
+# ║ Path(emptyPrinter(expr), expr) over Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ emptyPrinter : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == expr                                 ║
+# ║   returns:  expr                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ emptyPrinter : Any → {Any | result satisfies: result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | be8b13eea343baba           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter.emptyPrinter","kind":"method","src_hash":"99cd6809cf46d6a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"emptyPrinter(exp)","rhs":"emptyPrinter produces the expected output","over":{"base":"Any"},"name":"emptyPrinter_correct"},"guarantee":"emptyPrinter produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"be8b13eea343baba"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter.emptyPrinter","kind":"method","src_hash":"99cd6809cf46d6a3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (expr)"},"spec":{"lhs":"emptyPrinter(expr)","rhs":"expr","over":{"base":"Any"},"name":"emptyPrinter_correct"},"guarantee":"returns expr; result == expr","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"be8b13eea343baba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == expr"],"returns_expr":"expr","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def emptyPrinter(self, expr):
         return expr
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doprint(exp), convert a sympy expression to a aesara graph variable) over Any ║
+# ║ Path(doprint(expr, dtypes, broadcastables), self._print(expr, dtypes=dtypes, broadcastables=broadcastables)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print(expr, dtypes=dtypes, broadcas...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doprint : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a83f09a58029a07  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ecc747b2a9ff52a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter.doprint","kind":"method","src_hash":"f5d91d8e1da10d39","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doprint(exp)","rhs":"convert a sympy expression to a aesara graph variable","over":{"base":"Any"},"name":"doprint_correct"},"guarantee":"convert a sympy expression to a aesara graph variable","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.aesaracode.AesaraPrinter.doprint_correct","statement":"Path(doprint(x), convert a sympy expression to a aesara graph variable)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a83f09a58029a07"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.AesaraPrinter.doprint","kind":"method","src_hash":"f5d91d8e1da10d39","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doprint(expr, dtypes, broadcastables)","rhs":"self._print(expr, dtypes=dtypes, broadcastables=broadcastables)","over":{"base":"Any"},"name":"doprint_correct"},"guarantee":"returns self._print(expr, dtypes=dtypes, broadcastables=broadcastables)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.aesaracode.AesaraPrinter.doprint_correct","statement":"Path(doprint(x), returns self._print(expr, dtypes=dtypes, broadcastables=broadcastables))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ecc747b2a9ff52a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print(expr, dtypes=dtypes, broadcastables=broadcastables)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doprint(self, expr, dtypes=None, broadcastables=None):
         """ Convert a SymPy expression to a Aesara graph variable.
 
@@ -596,16 +759,23 @@ global_cache: dict[Any, Any] = {}
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(aesara_code(exp), id) over Any                        ║
+# ║ Path(aesara_code(expr, cache, **kwargs), id) over {Any | aesara} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ aesara_code : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: aesara                                         ║
+# ║   returns:  AesaraPrinter(cache=cache, settings={}).d...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ aesara_code : {Any | aesara} → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a3286341b1cafde5   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.aesara_code","kind":"function","src_hash":"87d33ec398344ebc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"aesara_code(exp)","rhs":"convert a sympy expression into a aesara graph variable","over":{"base":"Any"},"name":"aesara_code_correct","kind":"composition"},"guarantee":"convert a sympy expression into a aesara graph variable","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"AesaraPrinter","by":"library_axiom"},{"fn":"doprint","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3286341b1cafde5"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.aesara_code","kind":"function","src_hash":"87d33ec398344ebc","in":{"base":"Any","pred":"aesara"},"out":{"base":"Any"},"spec":{"lhs":"aesara_code(expr, cache, **kwargs)","rhs":"AesaraPrinter(cache=cache, settings={}).doprint(expr, **kwargs)","over":{"base":"Any","pred":"aesara"},"name":"aesara_code_correct","kind":"composition"},"guarantee":"returns AesaraPrinter(cache=cache, settings={}).doprint(expr, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"AesaraPrinter","by":"library_axiom"},{"fn":"doprint","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3286341b1cafde5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["aesara"],"returns_expr":"AesaraPrinter(cache=cache, settings={}).doprint(expr, **kwargs)","pure":false,"effects":{"effect_type":"reads_state","raises":["ImportError"]},"state_contract":{"exceptional_post":{"ImportError":["isinstance(raised, ImportError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['expr', 'cache'], spec=['expr', 'cache', '**kwargs']"]}}
 def aesara_code(expr, cache=None, **kwargs):
     """
     Convert a SymPy expression into a Aesara graph variable.
@@ -652,16 +822,24 @@ def aesara_code(expr, cache=None, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dim_handling(inp), get value of ``broadcastables`` argument to :func:`.aesara_code` from keyword arguments to :func:`.aesara_function`) over Any ║
+# ║ Path(dim_handling(inputs, dim, dims), <unspecified:dim_handling>) over {Any | hasattr(dims, 'values') and hasattr(dims, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dim_handling : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(dims, 'values')                        ║
+# ║   requires: hasattr(dims, 'items')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dim_handling : {Any | hasattr(dims, 'values') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c9e9163992bc3f74  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.dim_handling","kind":"function","src_hash":"c5ee35bd0b4194d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dim_handling(inp)","rhs":"get value of ``broadcastables`` argument to :func:`.aesara_code` from keyword arguments to :func:`.aesara_function`","over":{"base":"Any"},"name":"dim_handling_correct"},"guarantee":"get value of ``broadcastables`` argument to :func:`.aesara_code` from keyword arguments to :func:`.aesara_function`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.aesaracode.dim_handling_correct","statement":"Path(dim_handling(x), get value of ``broadcastables`` argument to :func:`.aesara_code` from keyword arguments to :func:`.aesara_function`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9e9163992bc3f74"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.dim_handling","kind":"function","src_hash":"c5ee35bd0b4194d8","in":{"base":"Any","pred":"hasattr(dims, 'values') and hasattr(dims, 'items')"},"out":{"base":"Any"},"spec":{"lhs":"dim_handling(inputs, dim, dims)","rhs":"<unspecified:dim_handling>","over":{"base":"Any","pred":"hasattr(dims, 'values') and hasattr(dims, 'items')"},"name":"dim_handling_correct"},"guarantee":"get value of ``broadcastables`` argument to :func:`.aesara_code` from keyword arguments to :func:`.aesara_function`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.aesaracode.dim_handling_correct","statement":"Path(dim_handling(x), get value of ``broadcastables`` argument to :func:`.aesara_code` from keyword arguments to :func:`.aesara_function`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9e9163992bc3f74","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(dims, 'values')","hasattr(dims, 'items')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["dims.items","dims.values"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dim_handling(inputs, dim=None, dims=None, broadcastables=None):
     r"""
     Get value of ``broadcastables`` argument to :func:`.aesara_code` from
@@ -710,7 +888,12 @@ def dim_handling(inputs, dim=None, dims=None, broadcastables=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(aesara_function(inp), create a aesara function from sympy expressions) over {Any | isinstance(output, aesara.graph.basic.Variable)} ║
+# ║ Path(aesara_function(inputs, outputs, scalar), len(kwargs) == old_len_kwargs - 1) over {Any | isinstance(output, aesara.graph.basic.Variable) and aesara and len(kwargs) > 0} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: aesara                                         ║
+# ║   requires: len(kwargs) > 0                                ║
+# ║   ensures:  len(kwargs) == old_len_kwargs - 1              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ aesara_function : {Any | isinstance(output, aesara.gr...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -722,9 +905,12 @@ def dim_handling(inputs, dim=None, dims=None, broadcastables=None):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b6eefd09...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.aesara_function","kind":"function","src_hash":"14fc21ada94c2627","in":{"base":"Any","pred":"isinstance(output, aesara.graph.basic.Variable)"},"out":{"base":"Any"},"spec":{"lhs":"aesara_function(inp)","rhs":"create a aesara function from sympy expressions","over":{"base":"Any","pred":"isinstance(output, aesara.graph.basic.Variable)"},"name":"aesara_function_correct"},"guarantee":"create a aesara function from sympy expressions","fibers":[{"name":"aesara_graph_basic_Variable","pred":"isinstance(output, aesara.graph.basic.Variable)","path":{"lhs":"aesara_function(x)","rhs":"create a aesara function from sympy expressions","over":{"base":"aesara.graph.basic.Variable","pred":"isinstance(output, aesara.graph.basic.Variable)"},"name":"aesara_function_aesara.graph.basic.Variable_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.aesaracode.aesara_function_aesara.graph.basic.Variable_correct","statement":"aesara_function satisfies spec on aesara.graph.basic.Variable inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b6eefd091c33df05"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.aesaracode.aesara_function","kind":"function","src_hash":"14fc21ada94c2627","in":{"base":"Any","pred":"isinstance(output, aesara.graph.basic.Variable) and aesara and len(kwargs) > 0"},"out":{"base":"Any","pred":"result satisfies: len(kwargs) == old_len_kwargs - 1"},"spec":{"lhs":"aesara_function(inputs, outputs, scalar)","rhs":"len(kwargs) == old_len_kwargs - 1","over":{"base":"Any","pred":"isinstance(output, aesara.graph.basic.Variable) and aesara and len(kwargs) > 0"},"name":"aesara_function_correct"},"guarantee":"len(kwargs) == old_len_kwargs - 1","fibers":[{"name":"aesara_graph_basic_Variable","pred":"isinstance(output, aesara.graph.basic.Variable)","path":{"lhs":"aesara_function(x)","rhs":"len(kwargs) == old_len_kwargs - 1","over":{"base":"aesara.graph.basic.Variable","pred":"isinstance(output, aesara.graph.basic.Variable)"},"name":"aesara_function_aesara.graph.basic.Variable_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.aesaracode.aesara_function_aesara.graph.basic.Variable_correct","statement":"aesara_function satisfies spec on aesara.graph.basic.Variable inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b6eefd091c33df05","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["aesara","len(kwargs) > 0"],"ensures":["len(kwargs) == old_len_kwargs - 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["kwargs.pop"],"raises":["ImportError"]},"state_contract":{"modifies":["kwargs.*"],"old_bindings":{"old_len_kwargs":"len(kwargs)"},"pre_requires":["len(kwargs) > 0"],"post_ensures":["len(kwargs) == old_len_kwargs - 1"],"exceptional_post":{"ImportError":["isinstance(raised, ImportError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['inputs', 'outputs', 'scalar'], spec=['inputs', 'outputs', 'scalar', 'dim', 'dims', 'broadcastables', '**kwargs']","Poor branch-fiber coverage: 0% (branches={'len(toutputs) == 1'}, fibers={'aesara_graph_basic_Variable'})"]}}
 def aesara_function(inputs, outputs, scalar=False, *,
         dim=None, dims=None, broadcastables=None, **kwargs):
     """

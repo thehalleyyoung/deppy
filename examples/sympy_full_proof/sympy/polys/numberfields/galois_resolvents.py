@@ -54,31 +54,43 @@ from mpmath.libmp.libmpf import prec_to_dps
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(GaloisGroupException(), correctly constructs a GaloisGroupException instance) over Any ║
+# ║ Path(GaloisGroupException(), isinstance(self, Exception)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ GaloisGroupException : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Exception)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ GaloisGroupException : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9d1d50d63a4dab76           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galois_resolvents.GaloisGroupException","kind":"class","src_hash":"4a9cb58eedd8eef6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"GaloisGroupException()","rhs":"correctly constructs a GaloisGroupException instance","over":{"base":"Any"},"name":"GaloisGroupException_correct"},"guarantee":"correctly constructs a GaloisGroupException instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9d1d50d63a4dab76"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galois_resolvents.GaloisGroupException","kind":"class","src_hash":"4a9cb58eedd8eef6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Exception)"},"spec":{"lhs":"GaloisGroupException()","rhs":"isinstance(self, Exception)","over":{"base":"Any"},"name":"GaloisGroupException_correct"},"guarantee":"isinstance(self, Exception)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9d1d50d63a4dab76","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Exception)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function GaloisGroupException not found in source"]}}
 class GaloisGroupException(Exception):
     ...
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ResolventException(), correctly constructs a ResolventException instance) over Any ║
+# ║ Path(ResolventException(), isinstance(self, GaloisGroupException)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ResolventException : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, GaloisGroupException)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ResolventException : Any → {Any | result satisfies: i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3e8f9d9cc86ff459           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galois_resolvents.ResolventException","kind":"class","src_hash":"da40ff2140573c16","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ResolventException()","rhs":"correctly constructs a ResolventException instance","over":{"base":"Any"},"name":"ResolventException_correct"},"guarantee":"correctly constructs a ResolventException instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e8f9d9cc86ff459"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galois_resolvents.ResolventException","kind":"class","src_hash":"da40ff2140573c16","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, GaloisGroupException)"},"spec":{"lhs":"ResolventException()","rhs":"isinstance(self, GaloisGroupException)","over":{"base":"Any"},"name":"ResolventException_correct"},"guarantee":"isinstance(self, GaloisGroupException)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e8f9d9cc86ff459","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, GaloisGroupException)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function ResolventException not found in source"]}}
 class ResolventException(GaloisGroupException):
     ...
 
@@ -86,14 +98,19 @@ class ResolventException(GaloisGroupException):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Resolvent instance) preserved by Resolvent(*args) over {Any | isinstance(a, int)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Resolvent : {Any | isinstance(a, int)} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a377e2c26e91f56f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galois_resolvents.Resolvent","kind":"class","src_hash":"f4f405d725d53496","in":{"base":"Any","pred":"isinstance(a, int)"},"out":{"base":"Any"},"spec":{"lhs":"Resolvent(*args)","rhs":"correctly constructs a Resolvent instance","over":{"base":"Any","pred":"isinstance(a, int)"},"name":"Resolvent_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Resolvent instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'F') and hasattr(self, 'X') and hasattr(self, 's') and hasattr(self, 'm') and hasattr(self, 't') and hasattr(self, 'r') and hasattr(self, 't') and hasattr(self, 'coeff_prec_func')","kind":"class","induction":"structural on F, X, s, m"}],"methods_preserving":["__init__","get_prec","approximate_roots_of_poly","round_roots_to_integers_for_poly","eval_for_poly"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a377e2c26e91f56f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galois_resolvents.Resolvent","kind":"class","src_hash":"f4f405d725d53496","in":{"base":"Any","pred":"isinstance(a, int)"},"out":{"base":"Any"},"spec":{"lhs":"Resolvent(*args)","rhs":"correctly constructs a Resolvent instance","over":{"base":"Any","pred":"isinstance(a, int)"},"name":"Resolvent_class_invariant","kind":"invariant"},"guarantee":"preserves 10 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'F') and hasattr(self, 'X') and hasattr(self, 's') and hasattr(self, 'm') and hasattr(self, 't') and hasattr(self, 'r') and hasattr(self, 't') and hasattr(self, 'coeff_prec_func')","kind":"class","induction":"structural on F, X, s, m"}],"methods_preserving":["__init__","get_prec","approximate_roots_of_poly","round_roots_to_integers_for_poly","eval_for_poly"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a377e2c26e91f56f","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'F')","hasattr(self, 'X')","hasattr(self, 's')","hasattr(self, 'm')","hasattr(self, 't')","hasattr(self, 'r')","hasattr(self, 'coeff_prec_func')","hasattr(self, 'root_prec_func')","hasattr(self, 'root_lambdas')","hasattr(self, 'esf_lambdas')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Resolvent not found in source"]}}
 class Resolvent:
     r"""
     If $G$ is a subgroup of the symmetric group $S_n$,
@@ -228,16 +245,24 @@ class Resolvent:
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(F, ), initializes the instance correctly) over Any ║
+# ║ Path(__init__(F, X, s), self.F == F and self.X == X and self.s == s) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.F == F                                    ║
+# ║   ensures:  self.X == X                                    ║
+# ║   ensures:  self.s == s                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.F == F...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a9462b80551ff51d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galois_resolvents.Resolvent.__init__","kind":"method","src_hash":"65d28886b36f26aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(F, )","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a9462b80551ff51d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galois_resolvents.Resolvent.__init__","kind":"method","src_hash":"65d28886b36f26aa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.F == F and self.X == X and self.s == s"},"spec":{"lhs":"__init__(F, X, s)","rhs":"self.F == F and self.X == X and self.s == s","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.F == F; self.X == X; self.s == s","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a9462b80551ff51d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.F == F","self.X == X","self.s == s"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.m","self.r","self.t"],"writes":["self.F","self.X","self.coeff_prec_func","self.esf_lambdas","self.m","self.r","self.root_lambdas","self.root_prec_func","self.s","self.t"],"raises":["ResolventException"]},"state_contract":{"modifies":["self.F","self.X","self.coeff_prec_func","self.esf_lambdas","self.m","self.r","self.root_lambdas","self.root_prec_func","self.s","self.t"],"old_bindings":{"old_self_F":"self.F","old_self_X":"self.X","old_self_coeff_prec_func":"self.coeff_prec_func","old_self_esf_lambdas":"self.esf_lambdas","old_self_m":"self.m","old_self_r":"self.r","old_self_root_lambdas":"self.root_lambdas","old_self_root_prec_func":"self.root_prec_func","old_self_s":"self.s","old_self_t":"self.t"},"exceptional_post":{"ResolventException":["isinstance(raised, ResolventException)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, F, X, s):
         r"""
         Parameters
@@ -301,16 +326,22 @@ class Resolvent:
         self.esf_lambdas = [lambdify(R, c) for c in C]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_prec(M, ), for a given upper bound *m* on the magnitude of the complex numbers to be plugged in for this resolvent's symbols, compute a sufficient precision for evaluating those complex numbers, such that the co) over Any ║
+# ║ Path(get_prec(M, target), fastlog(r) + 1) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  fastlog(r) + 1                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_prec : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 917bb01d826fcfcb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ce530a61e5b6351  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galois_resolvents.Resolvent.get_prec","kind":"method","src_hash":"fd6fedc61c231a8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_prec(M, )","rhs":"for a given upper bound *m* on the magnitude of the complex numbers to be plugged in for this resolvent's symbols, compute a sufficient precision for evaluating those complex numbers, such that the co","over":{"base":"Any"},"name":"get_prec_correct"},"guarantee":"for a given upper bound *m* on the magnitude of the complex numbers to be plugged in for this resolvent's symbols, compute a sufficient precision for evaluating those complex numbers, such that the co","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.galois_resolvents.Resolvent.get_prec_correct","statement":"Path(get_prec(x), for a given upper bound *m* on the magnitude of the complex numbers to be plugged in for this resolvent's symbols, compute a sufficient precision for evaluating those complex numbers, such that the co)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"917bb01d826fcfcb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galois_resolvents.Resolvent.get_prec","kind":"method","src_hash":"fd6fedc61c231a8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_prec(M, target)","rhs":"fastlog(r) + 1","over":{"base":"Any"},"name":"get_prec_correct"},"guarantee":"returns fastlog(r) + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.galois_resolvents.Resolvent.get_prec_correct","statement":"Path(get_prec(x), returns fastlog(r) + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ce530a61e5b6351","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"fastlog(r) + 1","pure":false,"effects":{"effect_type":"reads_state","reads":["self.coeff_prec_func","self.root_prec_func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_prec(self, M, target='coeffs'):
         r"""
         For a given upper bound *M* on the magnitude of the complex numbers to
@@ -346,16 +377,23 @@ class Resolvent:
         return fastlog(r) + 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(approximate_roots_of_poly(T, ), approximate the roots of a given polynomial *t* to sufficient precision in order to evaluate this resolvent's coefficients, or determine whether the resolvent has an integer root) over Any ║
+# ║ Path(approximate_roots_of_poly(T, target), <unspecified:approximate_roots_of_poly>) over {Any | hasattr(T, 'all_roots')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ approximate_roots_of_poly : Any → Any                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(T, 'all_roots')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ approximate_roots_of_poly : {Any | hasattr(T, 'all_ro...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0c808704689c1b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galois_resolvents.Resolvent.approximate_roots_of_poly","kind":"method","src_hash":"aef48c197ba09a5c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"approximate_roots_of_poly(T, )","rhs":"approximate the roots of a given polynomial *t* to sufficient precision in order to evaluate this resolvent's coefficients, or determine whether the resolvent has an integer root","over":{"base":"Any"},"name":"approximate_roots_of_poly_correct"},"guarantee":"approximate the roots of a given polynomial *t* to sufficient precision in order to evaluate this resolvent's coefficients, or determine whether the resolvent has an integer root","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.galois_resolvents.Resolvent.approximate_roots_of_poly_correct","statement":"Path(approximate_roots_of_poly(x), approximate the roots of a given polynomial *t* to sufficient precision in order to evaluate this resolvent's coefficients, or determine whether the resolvent has an integer root)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0c808704689c1b4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galois_resolvents.Resolvent.approximate_roots_of_poly","kind":"method","src_hash":"aef48c197ba09a5c","in":{"base":"Any","pred":"hasattr(T, 'all_roots')"},"out":{"base":"Any"},"spec":{"lhs":"approximate_roots_of_poly(T, target)","rhs":"<unspecified:approximate_roots_of_poly>","over":{"base":"Any","pred":"hasattr(T, 'all_roots')"},"name":"approximate_roots_of_poly_correct"},"guarantee":"approximate the roots of a given polynomial *t* to sufficient precision in order to evaluate this resolvent's coefficients, or determine whether the resolvent has an integer root","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.galois_resolvents.Resolvent.approximate_roots_of_poly_correct","statement":"Path(approximate_roots_of_poly(x), approximate the roots of a given polynomial *t* to sufficient precision in order to evaluate this resolvent's coefficients, or determine whether the resolvent has an integer root)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0c808704689c1b4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(T, 'all_roots')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["T.all_roots","self.get_prec"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def approximate_roots_of_poly(self, T, target='coeffs'):
         """
         Approximate the roots of a given polynomial *T* to sufficient precision
@@ -408,16 +446,23 @@ class Resolvent:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(round_mpf(a), round_mpf produces the expected output) over Any ║
+# ║ Path(round_mpf(a), <unspecified:round_mpf>) over {Any | hasattr(a, 'context')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ round_mpf : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(a, 'context')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ round_mpf : {Any | hasattr(a, 'context')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e432dc9225696aad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galois_resolvents.Resolvent.round_mpf","kind":"staticmethod","src_hash":"82a4d8110155f081","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"round_mpf(a)","rhs":"round_mpf produces the expected output","over":{"base":"Any"},"name":"round_mpf_correct"},"guarantee":"round_mpf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.galois_resolvents.Resolvent.round_mpf_correct","statement":"Path(round_mpf(x), round_mpf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e432dc9225696aad"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galois_resolvents.Resolvent.round_mpf","kind":"staticmethod","src_hash":"82a4d8110155f081","in":{"base":"Any","pred":"hasattr(a, 'context')"},"out":{"base":"Any"},"spec":{"lhs":"round_mpf(a)","rhs":"<unspecified:round_mpf>","over":{"base":"Any","pred":"hasattr(a, 'context')"},"name":"round_mpf_correct"},"guarantee":"round_mpf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.galois_resolvents.Resolvent.round_mpf_correct","statement":"Path(round_mpf(x), round_mpf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e432dc9225696aad","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(a, 'context')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.context"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def round_mpf(a):
         if isinstance(a, int):
             return a
@@ -429,16 +474,22 @@ class Resolvent:
         return ZZ(int(a.context.nint(a)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(round_roots_to_integers_for_poly(T), for a given polynomial *t*, round the roots of this resolvent to the nearest integers) over Any ║
+# ║ Path(round_roots_to_integers_for_poly(T), {i: self.round_mpf(r.real) for i, r in enumerate(approx_roots_of_self) if self.round_mpf(r.imag) == 0}) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  {i: self.round_mpf(r.real) for i, r in en...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ round_roots_to_integers_for_poly : Any → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 91d22e3520afbf9b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a2714ec26680553  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galois_resolvents.Resolvent.round_roots_to_integers_for_poly","kind":"method","src_hash":"d221bf734937c9ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"round_roots_to_integers_for_poly(T)","rhs":"for a given polynomial *t*, round the roots of this resolvent to the nearest integers","over":{"base":"Any"},"name":"round_roots_to_integers_for_poly_correct"},"guarantee":"for a given polynomial *t*, round the roots of this resolvent to the nearest integers","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.galois_resolvents.Resolvent.round_roots_to_integers_for_poly_correct","statement":"Path(round_roots_to_integers_for_poly(x), for a given polynomial *t*, round the roots of this resolvent to the nearest integers)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91d22e3520afbf9b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galois_resolvents.Resolvent.round_roots_to_integers_for_poly","kind":"method","src_hash":"d221bf734937c9ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"round_roots_to_integers_for_poly(T)","rhs":"{i: self.round_mpf(r.real) for i, r in enumerate(approx_roots_of_self) if self.round_mpf(r.imag) == 0}","over":{"base":"Any"},"name":"round_roots_to_integers_for_poly_correct"},"guarantee":"returns {i: self.round_mpf(r.real) for i, r in enumerate(approx_roots_of_self) if self.round_mpf(r.imag) == 0}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.galois_resolvents.Resolvent.round_roots_to_integers_for_poly_correct","statement":"Path(round_roots_to_integers_for_poly(x), returns {i: self.round_mpf(r.real) for i, r in enumerate(approx_roots_of_self) if self.round_mpf(r.imag) == 0})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a2714ec26680553","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"{i: self.round_mpf(r.real) for i, r in enumerate(approx_roots_of_self) if self.round_mpf(r.imag) == 0}","pure":false,"effects":{"effect_type":"reads_state","reads":["self.approximate_roots_of_poly","self.root_lambdas","self.round_mpf"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def round_roots_to_integers_for_poly(self, T):
         """
         For a given polynomial *T*, round the roots of this resolvent to the
@@ -480,16 +531,23 @@ class Resolvent:
         }
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval_for_poly(T, ), compute the integer values of the coefficients of this resolvent, when plugging in the roots of a given polynomial) over Any ║
+# ║ Path(eval_for_poly(T, find_integer_root), (R, a0, i0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval_for_poly : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(R) == old_len_R + 1                        ║
+# ║   returns:  (R, a0, i0)                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval_for_poly : Any → {Any | result satisfies: result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c269e33595aaf059  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c7a28c4f8f5ea303  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galois_resolvents.Resolvent.eval_for_poly","kind":"method","src_hash":"eb604ba27899c545","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval_for_poly(T, )","rhs":"compute the integer values of the coefficients of this resolvent, when plugging in the roots of a given polynomial","over":{"base":"Any"},"name":"eval_for_poly_correct"},"guarantee":"compute the integer values of the coefficients of this resolvent, when plugging in the roots of a given polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.galois_resolvents.Resolvent.eval_for_poly_correct","statement":"Path(eval_for_poly(x), compute the integer values of the coefficients of this resolvent, when plugging in the roots of a given polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c269e33595aaf059"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galois_resolvents.Resolvent.eval_for_poly","kind":"method","src_hash":"eb604ba27899c545","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ((R, a0, i0))"},"spec":{"lhs":"eval_for_poly(T, find_integer_root)","rhs":"(R, a0, i0)","over":{"base":"Any"},"name":"eval_for_poly_correct"},"guarantee":"returns (R, a0, i0); len(R) == old_len_R + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.galois_resolvents.Resolvent.eval_for_poly_correct","statement":"Path(eval_for_poly(x), returns (R, a0, i0); len(R) == old_len_R + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7a28c4f8f5ea303","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(R) == old_len_R + 1"],"returns_expr":"(R, a0, i0)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.approximate_roots_of_poly","self.esf_lambdas","self.root_lambdas","self.round_mpf"],"calls_mutating":["R.append"],"raises":["ResolventException"]},"state_contract":{"modifies":["R.*"],"old_bindings":{"old_len_R":"len(R)"},"post_ensures":["len(R) == old_len_R + 1"],"exceptional_post":{"ResolventException":["isinstance(raised, ResolventException)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval_for_poly(self, T, find_integer_root=False):
         r"""
         Compute the integer values of the coefficients of this resolvent, when
@@ -544,16 +602,22 @@ class Resolvent:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(wrap(tex), line wrap a polynomial expression) over Any ║
+# ║ Path(wrap(text, width), <unspecified:wrap>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ wrap : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae82c7d1b46636e4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galois_resolvents.wrap","kind":"function","src_hash":"17f8192c26c42f6e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"wrap(tex)","rhs":"line wrap a polynomial expression","over":{"base":"Any"},"name":"wrap_correct"},"guarantee":"line wrap a polynomial expression","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.galois_resolvents.wrap_correct","statement":"Path(wrap(x), line wrap a polynomial expression)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae82c7d1b46636e4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galois_resolvents.wrap","kind":"function","src_hash":"17f8192c26c42f6e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"wrap(text, width)","rhs":"<unspecified:wrap>","over":{"base":"Any"},"name":"wrap_correct"},"guarantee":"line wrap a polynomial expression","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.galois_resolvents.wrap_correct","statement":"Path(wrap(x), line wrap a polynomial expression)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae82c7d1b46636e4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def wrap(text, width=80):
     """Line wrap a polynomial expression. """
     out = ''
@@ -568,32 +632,48 @@ def wrap(text, width=80):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(s_vars(n), form the symbols s1, s2, ..., sn to stand for elem) over Any ║
+# ║ Path(s_vars(n), symbols([f's{i + 1}' for i in range(n)])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  symbols([f's{i + 1}' for i in range(n)])       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ s_vars : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 41c073ae7758ba4e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galois_resolvents.s_vars","kind":"function","src_hash":"765ace26417fc890","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"s_vars(n)","rhs":"form the symbols s1, s2, ..., sn to stand for elem","over":{"base":"Any"},"name":"s_vars_correct"},"guarantee":"form the symbols s1, s2, ..., sn to stand for elem","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"41c073ae7758ba4e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galois_resolvents.s_vars","kind":"function","src_hash":"765ace26417fc890","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"s_vars(n)","rhs":"symbols([f's{i + 1}' for i in range(n)])","over":{"base":"Any"},"name":"s_vars_correct"},"guarantee":"returns symbols([f's{i + 1}' for i in range(n)])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"41c073ae7758ba4e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"symbols([f's{i + 1}' for i in range(n)])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def s_vars(n):
     """Form the symbols s1, s2, ..., sn to stand for elem. symm. polys. """
     return symbols([f's{i + 1}' for i in range(n)])
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sparse_symmetrize_resolvent_coeffs(F, ), compute the coefficients of a resolvent as functions of the coefficients of the associated polynomial) over Any ║
+# ║ Path(sparse_symmetrize_resolvent_coeffs(F, X, s), (symmetrized, symmetrization_times)) over {Any | hasattr(F, 'compose')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sparse_symmetrize_resolvent_coeffs : Any → Any             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(F, 'compose')                          ║
+# ║   ensures:  len(coeff_forms) == old_len_coeff_forms + 1    ║
+# ║   ensures:  len(coeffs) == old_len_coeffs + 1              ║
+# ║   ensures:  len(symmetrization_times) == old_len_symm...   ║
+# ║   returns:  (symmetrized, symmetrization_times)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sparse_symmetrize_resolvent_coeffs : {Any | hasattr(F...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f89aed92ad79aa17  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f1876099e7fe9a3d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galois_resolvents.sparse_symmetrize_resolvent_coeffs","kind":"function","src_hash":"9a051f247475dfc2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sparse_symmetrize_resolvent_coeffs(F, )","rhs":"compute the coefficients of a resolvent as functions of the coefficients of the associated polynomial","over":{"base":"Any"},"name":"sparse_symmetrize_resolvent_coeffs_correct"},"guarantee":"compute the coefficients of a resolvent as functions of the coefficients of the associated polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.galois_resolvents.sparse_symmetrize_resolvent_coeffs_correct","statement":"Path(sparse_symmetrize_resolvent_coeffs(x), compute the coefficients of a resolvent as functions of the coefficients of the associated polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f89aed92ad79aa17"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galois_resolvents.sparse_symmetrize_resolvent_coeffs","kind":"function","src_hash":"9a051f247475dfc2","in":{"base":"Any","pred":"hasattr(F, 'compose')"},"out":{"base":"Any","pred":"result satisfies: result == ((symmetrized, symmetrization_times))"},"spec":{"lhs":"sparse_symmetrize_resolvent_coeffs(F, X, s)","rhs":"(symmetrized, symmetrization_times)","over":{"base":"Any","pred":"hasattr(F, 'compose')"},"name":"sparse_symmetrize_resolvent_coeffs_correct"},"guarantee":"returns (symmetrized, symmetrization_times); len(coeff_forms) == old_len_coeff_forms + 1; len(coeffs) == old_len_coeffs + 1; len(symmetrization_times) == old_len_symmetrization_times + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.galois_resolvents.sparse_symmetrize_resolvent_coeffs_correct","statement":"Path(sparse_symmetrize_resolvent_coeffs(x), returns (symmetrized, symmetrization_times); len(coeff_forms) == old_len_coeff_forms + 1; len(coeffs) == old_len_coeffs + 1; len(symmetrization_times) == old_len_symmetrization_times + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1876099e7fe9a3d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(F, 'compose')"],"ensures":["len(coeff_forms) == old_len_coeff_forms + 1","len(coeffs) == old_len_coeffs + 1","len(symmetrization_times) == old_len_symmetrization_times + 1","len(symmetrized) == old_len_symmetrized + 1"],"returns_expr":"(symmetrized, symmetrization_times)","pure":false,"effects":{"effect_type":"nondeterministic","reads":["F.compose"],"calls_mutating":["coeff_forms.append","coeffs.append","symmetrization_times.append","symmetrized.append","sys.stdout.flush"],"raises":["ResolventException"],"io_operations":["print","sys.stdout.flush"],"nondeterministic_sources":["time.time"]},"state_contract":{"modifies":["coeff_forms.*","coeffs.*","symmetrization_times.*","symmetrized.*","sys.*"],"old_bindings":{"old_len_coeff_forms":"len(coeff_forms)","old_len_coeffs":"len(coeffs)","old_len_symmetrization_times":"len(symmetrization_times)","old_len_symmetrized":"len(symmetrized)"},"post_ensures":["len(coeff_forms) == old_len_coeff_forms + 1","len(coeffs) == old_len_coeffs + 1","len(symmetrization_times) == old_len_symmetrization_times + 1","len(symmetrized) == old_len_symmetrized + 1"],"exceptional_post":{"ResolventException":["isinstance(raised, ResolventException)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def sparse_symmetrize_resolvent_coeffs(F, X, s, verbose=False):
     """
     Compute the coefficients of a resolvent as functions of the coefficients of
@@ -673,16 +753,22 @@ def sparse_symmetrize_resolvent_coeffs(F, X, s, verbose=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(define_resolvents(), define all the resolvents for polys t of degree 4 through 6) over Any ║
+# ║ Path(define_resolvents(), {(4, 0): (F40, X4, s40), (4, 1): (F41, X4, s41), (5, 1): (F51, X5, s51), (6, 1): (F61, X6, s61), (6, 2): (F62, X6, s62)}) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  {(4, 0): (F40, X4, s40), (4, 1): (F41, X4...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ define_resolvents : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e0ccd7557096bf9e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b157684a475aeab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galois_resolvents.define_resolvents","kind":"function","src_hash":"7bfd3ce0110afbe2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"define_resolvents()","rhs":"define all the resolvents for polys t of degree 4 through 6","over":{"base":"Any"},"name":"define_resolvents_correct"},"guarantee":"define all the resolvents for polys t of degree 4 through 6","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.galois_resolvents.define_resolvents_correct","statement":"Path(define_resolvents(x), define all the resolvents for polys t of degree 4 through 6)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0ccd7557096bf9e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galois_resolvents.define_resolvents","kind":"function","src_hash":"7bfd3ce0110afbe2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"define_resolvents()","rhs":"{(4, 0): (F40, X4, s40), (4, 1): (F41, X4, s41), (5, 1): (F51, X5, s51), (6, 1): (F61, X6, s61), (6, 2): (F62, X6, s62)}","over":{"base":"Any"},"name":"define_resolvents_correct"},"guarantee":"returns {(4, 0): (F40, X4, s40), (4, 1): (F41, X4, s41), (5, 1): (F51, X5, s51), (6, 1): (F61, X6, s61), (6, 2): (F62, X6, s62)}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.galois_resolvents.define_resolvents_correct","statement":"Path(define_resolvents(x), returns {(4, 0): (F40, X4, s40), (4, 1): (F41, X4, s41), (5, 1): (F51, X5, s51), (6, 1): (F61, X6, s61), (6, 2): (F62, X6, s62)})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b157684a475aeab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"{(4, 0): (F40, X4, s40), (4, 1): (F41, X4, s41), (5, 1): (F51, X5, s51), (6, 1): (F61, X6, s61), (6, 2): (F62, X6, s62)}","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def define_resolvents():
     """Define all the resolvents for polys T of degree 4 through 6. """
     from sympy.combinatorics.galois import PGL2F5
@@ -755,16 +841,22 @@ def define_resolvents():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(generate_lambda_lookup(ver), generate the whole lookup table of coeff lambdas, for all resolvents) over Any ║
+# ║ Path(generate_lambda_lookup(verbose, trial_run), <unspecified:generate_lambda_lookup>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ generate_lambda_lookup : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a13010a452b4e03d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galois_resolvents.generate_lambda_lookup","kind":"function","src_hash":"d14d565fe1e0e218","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"generate_lambda_lookup(ver)","rhs":"generate the whole lookup table of coeff lambdas, for all resolvents","over":{"base":"Any"},"name":"generate_lambda_lookup_correct"},"guarantee":"generate the whole lookup table of coeff lambdas, for all resolvents","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.galois_resolvents.generate_lambda_lookup_correct","statement":"Path(generate_lambda_lookup(x), generate the whole lookup table of coeff lambdas, for all resolvents)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a13010a452b4e03d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galois_resolvents.generate_lambda_lookup","kind":"function","src_hash":"d14d565fe1e0e218","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"generate_lambda_lookup(verbose, trial_run)","rhs":"<unspecified:generate_lambda_lookup>","over":{"base":"Any"},"name":"generate_lambda_lookup_correct"},"guarantee":"generate the whole lookup table of coeff lambdas, for all resolvents","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.galois_resolvents.generate_lambda_lookup_correct","statement":"Path(generate_lambda_lookup(x), generate the whole lookup table of coeff lambdas, for all resolvents)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a13010a452b4e03d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def generate_lambda_lookup(verbose=False, trial_run=False):
     """
     Generate the whole lookup table of coeff lambdas, for all resolvents.
@@ -809,16 +901,24 @@ def generate_lambda_lookup(verbose=False, trial_run=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_resolvent_by_lookup(T, ), use the lookup table, to return a resolvent (as dup) for a given polynomial *t*) over Any ║
+# ║ Path(get_resolvent_by_lookup(T, number), [ZZ(1)] + [c(*T_coeffs) for c in L]) over {Any | hasattr(T, 'degree') and hasattr(T, 'rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_resolvent_by_lookup : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(T, 'degree')                           ║
+# ║   requires: hasattr(T, 'rep')                              ║
+# ║   returns:  [ZZ(1)] + [c(*T_coeffs) for c in L]            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_resolvent_by_lookup : {Any | hasattr(T, 'degree')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c9b708eb7aace605  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e36600878964e258  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galois_resolvents.get_resolvent_by_lookup","kind":"function","src_hash":"6af3fbc980d1de87","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_resolvent_by_lookup(T, )","rhs":"use the lookup table, to return a resolvent (as dup) for a given polynomial *t*","over":{"base":"Any"},"name":"get_resolvent_by_lookup_correct"},"guarantee":"use the lookup table, to return a resolvent (as dup) for a given polynomial *t*","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.galois_resolvents.get_resolvent_by_lookup_correct","statement":"Path(get_resolvent_by_lookup(x), use the lookup table, to return a resolvent (as dup) for a given polynomial *t*)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9b708eb7aace605"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.galois_resolvents.get_resolvent_by_lookup","kind":"function","src_hash":"6af3fbc980d1de87","in":{"base":"Any","pred":"hasattr(T, 'degree') and hasattr(T, 'rep')"},"out":{"base":"Any"},"spec":{"lhs":"get_resolvent_by_lookup(T, number)","rhs":"[ZZ(1)] + [c(*T_coeffs) for c in L]","over":{"base":"Any","pred":"hasattr(T, 'degree') and hasattr(T, 'rep')"},"name":"get_resolvent_by_lookup_correct"},"guarantee":"returns [ZZ(1)] + [c(*T_coeffs) for c in L]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.galois_resolvents.get_resolvent_by_lookup_correct","statement":"Path(get_resolvent_by_lookup(x), returns [ZZ(1)] + [c(*T_coeffs) for c in L])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e36600878964e258","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(T, 'degree')","hasattr(T, 'rep')"],"returns_expr":"[ZZ(1)] + [c(*T_coeffs) for c in L]","pure":false,"effects":{"effect_type":"reads_state","reads":["T.degree","T.rep"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def get_resolvent_by_lookup(T, number):
     """
     Use the lookup table, to return a resolvent (as dup) for a given

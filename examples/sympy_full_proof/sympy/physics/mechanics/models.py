@@ -25,16 +25,22 @@ import sympy.physics.mechanics as me
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(multi_mass_spring_damper(n, ), returns a system containing the symbolic equations of motion and associated variables for a simple multi-degree of freedom point mass, spring, damper system with optional gravitational and external sp) over Any ║
+# ║ Path(multi_mass_spring_damper(n, apply_gravity, apply_external_forces), <unspecified:multi_mass_spring_damper>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ multi_mass_spring_damper : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f400e361a77a233  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.models.multi_mass_spring_damper","kind":"function","src_hash":"c0284d4a85673709","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"multi_mass_spring_damper(n, )","rhs":"returns a system containing the symbolic equations of motion and associated variables for a simple multi-degree of freedom point mass, spring, damper system with optional gravitational and external sp","over":{"base":"Any"},"name":"multi_mass_spring_damper_correct"},"guarantee":"returns a system containing the symbolic equations of motion and associated variables for a simple multi-degree of freedom point mass, spring, damper system with optional gravitational and external sp","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.models.multi_mass_spring_damper_correct","statement":"Path(multi_mass_spring_damper(x), returns a system containing the symbolic equations of motion and associated variables for a simple multi-degree of freedom point mass, spring, damper system with optional gravitational and external sp)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f400e361a77a233"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.models.multi_mass_spring_damper","kind":"function","src_hash":"c0284d4a85673709","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"multi_mass_spring_damper(n, apply_gravity, apply_external_forces)","rhs":"<unspecified:multi_mass_spring_damper>","over":{"base":"Any"},"name":"multi_mass_spring_damper_correct"},"guarantee":"returns a system containing the symbolic equations of motion and associated variables for a simple multi-degree of freedom point mass, spring, damper system with optional gravitational and external sp","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.models.multi_mass_spring_damper_correct","statement":"Path(multi_mass_spring_damper(x), returns a system containing the symbolic equations of motion and associated variables for a simple multi-degree of freedom point mass, spring, damper system with optional gravitational and external sp)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f400e361a77a233","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def multi_mass_spring_damper(n=1, apply_gravity=False,
                              apply_external_forces=False):
     r"""Returns a system containing the symbolic equations of motion and
@@ -138,16 +144,25 @@ def multi_mass_spring_damper(n=1, apply_gravity=False,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(n_link_pendulum_on_cart(n, ), returns the system containing the symbolic first order equations of motion for a 2d n-link pendulum on a sliding cart under the influence of gravity) over Any ║
+# ║ Path(n_link_pendulum_on_cart(n, cart_force, joint_torques), len(forces) == old_len_forces + 1 and len(frames) == old_len_frames + 1 and len(kindiffs) == old_len_kindiffs + 1 and len(particles) == old_len_particles + 1 and len(points) == old_len_points + 1 and len(specified) == old_len_specified + 1) over {Any | not (n <= 0)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ n_link_pendulum_on_cart : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (n <= 0)                                   ║
+# ║   ensures:  len(forces) == old_len_forces + 1              ║
+# ║   ensures:  len(frames) == old_len_frames + 1              ║
+# ║   ensures:  len(kindiffs) == old_len_kindiffs + 1          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ n_link_pendulum_on_cart : {Any | not (n <= 0)} → {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba7bc2620e41ea7c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d2995a82ab776894  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.models.n_link_pendulum_on_cart","kind":"function","src_hash":"02b8eba45e081c63","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"n_link_pendulum_on_cart(n, )","rhs":"returns the system containing the symbolic first order equations of motion for a 2d n-link pendulum on a sliding cart under the influence of gravity","over":{"base":"Any"},"name":"n_link_pendulum_on_cart_correct"},"guarantee":"returns the system containing the symbolic first order equations of motion for a 2d n-link pendulum on a sliding cart under the influence of gravity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.models.n_link_pendulum_on_cart_correct","statement":"Path(n_link_pendulum_on_cart(x), returns the system containing the symbolic first order equations of motion for a 2d n-link pendulum on a sliding cart under the influence of gravity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba7bc2620e41ea7c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.models.n_link_pendulum_on_cart","kind":"function","src_hash":"02b8eba45e081c63","in":{"base":"Any","pred":"not (n <= 0)"},"out":{"base":"Any","pred":"result satisfies: len(forces) == old_len_forces + 1 and len(frames) == old_len_frames + 1 and len(kindiffs) == old_len_kindiffs + 1 and len(particles) == old_len_particles + 1 and len(points) == old_len_points + 1 and len(specified) == old_len_specified + 1"},"spec":{"lhs":"n_link_pendulum_on_cart(n, cart_force, joint_torques)","rhs":"len(forces) == old_len_forces + 1 and len(frames) == old_len_frames + 1 and len(kindiffs) == old_len_kindiffs + 1 and len(particles) == old_len_particles + 1 and len(points) == old_len_points + 1 and len(specified) == old_len_specified + 1","over":{"base":"Any","pred":"not (n <= 0)"},"name":"n_link_pendulum_on_cart_correct"},"guarantee":"len(forces) == old_len_forces + 1; len(frames) == old_len_frames + 1; len(kindiffs) == old_len_kindiffs + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.models.n_link_pendulum_on_cart_correct","statement":"Path(n_link_pendulum_on_cart(x), len(forces) == old_len_forces + 1; len(frames) == old_len_frames + 1; len(kindiffs) == old_len_kindiffs + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d2995a82ab776894","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (n <= 0)"],"ensures":["len(forces) == old_len_forces + 1","len(frames) == old_len_frames + 1","len(kindiffs) == old_len_kindiffs + 1","len(particles) == old_len_particles + 1","len(points) == old_len_points + 1","len(specified) == old_len_specified + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["forces.append","frames.append","kindiffs.append","particles.append","points.append","specified.append"],"raises":["ValueError"]},"state_contract":{"modifies":["forces.*","frames.*","kindiffs.*","particles.*","points.*","specified.*"],"old_bindings":{"old_len_forces":"len(forces)","old_len_frames":"len(frames)","old_len_kindiffs":"len(kindiffs)","old_len_particles":"len(particles)","old_len_points":"len(points)","old_len_specified":"len(specified)"},"post_ensures":["len(forces) == old_len_forces + 1","len(frames) == old_len_frames + 1","len(kindiffs) == old_len_kindiffs + 1","len(particles) == old_len_particles + 1","len(points) == old_len_points + 1","len(specified) == old_len_specified + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def n_link_pendulum_on_cart(n=1, cart_force=True, joint_torques=False):
     r"""Returns the system containing the symbolic first order equations of
     motion for a 2D n-link pendulum on a sliding cart under the influence of

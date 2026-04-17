@@ -29,16 +29,24 @@ m = Symbol('m', integer=True)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_qexpr_new(), test_qexpr_new produces the expected output) over Any ║
+# ║ Path(test_qexpr_new(), q.label == (0,) and q.hilbert_space == HilbertSpace() and q.is_commutative is False and q.label == (Integer(0), Integer(1))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_qexpr_new : Any → {Any | q.label == (0,) and q.h...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  q.label == (0,)                                ║
+# ║   ensures:  q.hilbert_space == HilbertSpace()              ║
+# ║   ensures:  q.is_commutative is False                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_qexpr_new : Any → {Any | result satisfies: q.lab...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3f6ea8a79b2e95e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26adb36b6970a6b2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qexpr.test_qexpr_new","kind":"function","src_hash":"bdd27af24c1481e1","in":{"base":"Any"},"out":{"base":"Any","pred":"q.label == (0,) and q.hilbert_space == HilbertSpace() and q.is_commutative is False and q.label == (Integer(0), Integer(1)) and q.label == (Integer(0), Integer(1)) and q.hilbert_space == HilbertSpace()"},"spec":{"lhs":"test_qexpr_new()","rhs":"test_qexpr_new produces the expected output","over":{"base":"Any"},"name":"test_qexpr_new_correct"},"guarantee":"test_qexpr_new produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qexpr.test_qexpr_new_correct","statement":"Path(test_qexpr_new(x), test_qexpr_new produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3f6ea8a79b2e95e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qexpr.test_qexpr_new","kind":"function","src_hash":"bdd27af24c1481e1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: q.label == (0,) and q.hilbert_space == HilbertSpace() and q.is_commutative is False and q.label == (Integer(0), Integer(1))"},"spec":{"lhs":"test_qexpr_new()","rhs":"q.label == (0,) and q.hilbert_space == HilbertSpace() and q.is_commutative is False and q.label == (Integer(0), Integer(1))","over":{"base":"Any"},"name":"test_qexpr_new_correct"},"guarantee":"q.label == (0,); q.hilbert_space == HilbertSpace(); q.is_commutative is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qexpr.test_qexpr_new_correct","statement":"Path(test_qexpr_new(x), q.label == (0,); q.hilbert_space == HilbertSpace(); q.is_commutative is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26adb36b6970a6b2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["q.label == (0,)","q.hilbert_space == HilbertSpace()","q.is_commutative is False","q.label == (Integer(0), Integer(1))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_qexpr_new():
     q = QExpr(0)
     assert q.label == (0,)
@@ -54,16 +62,24 @@ def test_qexpr_new():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_qexpr_commutative(), test_qexpr_commutative produces the expected output) over Any ║
+# ║ Path(test_qexpr_commutative(), q1.is_commutative is False and q2.is_commutative is False and q1 * q2 != q2 * q1 and q.is_commutative is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_qexpr_commutative : Any → {Any | q1.is_commutati...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  q1.is_commutative is False                     ║
+# ║   ensures:  q2.is_commutative is False                     ║
+# ║   ensures:  q1 * q2 != q2 * q1                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_qexpr_commutative : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bbc7034274606e49  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 04e673d62451f61e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qexpr.test_qexpr_commutative","kind":"function","src_hash":"1689399a768507b1","in":{"base":"Any"},"out":{"base":"Any","pred":"q1.is_commutative is False and q2.is_commutative is False and q1 * q2 != q2 * q1 and q.is_commutative is False"},"spec":{"lhs":"test_qexpr_commutative()","rhs":"test_qexpr_commutative produces the expected output","over":{"base":"Any"},"name":"test_qexpr_commutative_correct"},"guarantee":"test_qexpr_commutative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qexpr.test_qexpr_commutative_correct","statement":"Path(test_qexpr_commutative(x), test_qexpr_commutative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bbc7034274606e49"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qexpr.test_qexpr_commutative","kind":"function","src_hash":"1689399a768507b1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: q1.is_commutative is False and q2.is_commutative is False and q1 * q2 != q2 * q1 and q.is_commutative is False"},"spec":{"lhs":"test_qexpr_commutative()","rhs":"q1.is_commutative is False and q2.is_commutative is False and q1 * q2 != q2 * q1 and q.is_commutative is False","over":{"base":"Any"},"name":"test_qexpr_commutative_correct"},"guarantee":"q1.is_commutative is False; q2.is_commutative is False; q1 * q2 != q2 * q1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qexpr.test_qexpr_commutative_correct","statement":"Path(test_qexpr_commutative(x), q1.is_commutative is False; q2.is_commutative is False; q1 * q2 != q2 * q1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04e673d62451f61e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["q1.is_commutative is False","q2.is_commutative is False","q1 * q2 != q2 * q1","q.is_commutative is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_qexpr_commutative():
     q1 = QExpr(x)
     q2 = QExpr(y)
@@ -76,32 +92,45 @@ def test_qexpr_commutative():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_qexpr_free_symbols(), test_qexpr_free_symbols produces the expected output) over Any ║
+# ║ Path(test_qexpr_free_symbols(), q1.free_symbols == {x, y}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_qexpr_free_symbols : Any → {Any | q1.free_symbol...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  q1.free_symbols == {x, y}                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_qexpr_free_symbols : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ce2df4a36d64934  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 89a6bff543c79bf4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qexpr.test_qexpr_free_symbols","kind":"function","src_hash":"8da14979f2f65791","in":{"base":"Any"},"out":{"base":"Any","pred":"q1.free_symbols == {x, y}"},"spec":{"lhs":"test_qexpr_free_symbols()","rhs":"test_qexpr_free_symbols produces the expected output","over":{"base":"Any"},"name":"test_qexpr_free_symbols_correct"},"guarantee":"test_qexpr_free_symbols produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qexpr.test_qexpr_free_symbols_correct","statement":"Path(test_qexpr_free_symbols(x), test_qexpr_free_symbols produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ce2df4a36d64934"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qexpr.test_qexpr_free_symbols","kind":"function","src_hash":"8da14979f2f65791","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: q1.free_symbols == {x, y}"},"spec":{"lhs":"test_qexpr_free_symbols()","rhs":"q1.free_symbols == {x, y}","over":{"base":"Any"},"name":"test_qexpr_free_symbols_correct"},"guarantee":"q1.free_symbols == {x, y}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qexpr.test_qexpr_free_symbols_correct","statement":"Path(test_qexpr_free_symbols(x), q1.free_symbols == {x, y})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89a6bff543c79bf4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["q1.free_symbols == {x, y}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_qexpr_free_symbols():
     q1 = QExpr(x, y)
     assert q1.free_symbols == {x, y}
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_qexpr_sum(), test_qexpr_sum produces the expected output) over Any ║
+# ║ Path(test_qexpr_sum(), q1.doit() == QExpr(0) + QExpr(1) + QExpr(2) and q2.doit() == QExpr(0, 0) + QExpr(0, 1) + QExpr(0, 2) + QExpr(1, 0) + QExpr(1, 1) + QExpr(1, 2) + QExpr(2, 0) + QExpr(2, 1) + QExpr(2, 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_qexpr_sum : Any → {Any | q1.doit() == QExpr(0) +...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  q1.doit() == QExpr(0) + QExpr(1) + QExpr(2)    ║
+# ║   ensures:  q2.doit() == QExpr(0, 0) + QExpr(0, 1) + ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_qexpr_sum : Any → {Any | result satisfies: q1.do...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 871d8fcb911e38a5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3cd007dd3c66c0c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qexpr.test_qexpr_sum","kind":"function","src_hash":"ac857ae7e563226b","in":{"base":"Any"},"out":{"base":"Any","pred":"q1.doit() == QExpr(0) + QExpr(1) + QExpr(2)"},"spec":{"lhs":"test_qexpr_sum()","rhs":"test_qexpr_sum produces the expected output","over":{"base":"Any"},"name":"test_qexpr_sum_correct"},"guarantee":"test_qexpr_sum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qexpr.test_qexpr_sum_correct","statement":"Path(test_qexpr_sum(x), test_qexpr_sum produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"871d8fcb911e38a5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qexpr.test_qexpr_sum","kind":"function","src_hash":"ac857ae7e563226b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: q1.doit() == QExpr(0) + QExpr(1) + QExpr(2) and q2.doit() == QExpr(0, 0) + QExpr(0, 1) + QExpr(0, 2) + QExpr(1, 0) + QExpr(1, 1) + QExpr(1, 2) + QExpr(2, 0) + QExpr(2, 1) + QExpr(2, 2)"},"spec":{"lhs":"test_qexpr_sum()","rhs":"q1.doit() == QExpr(0) + QExpr(1) + QExpr(2) and q2.doit() == QExpr(0, 0) + QExpr(0, 1) + QExpr(0, 2) + QExpr(1, 0) + QExpr(1, 1) + QExpr(1, 2) + QExpr(2, 0) + QExpr(2, 1) + QExpr(2, 2)","over":{"base":"Any"},"name":"test_qexpr_sum_correct"},"guarantee":"q1.doit() == QExpr(0) + QExpr(1) + QExpr(2); q2.doit() == QExpr(0, 0) + QExpr(0, 1) + QExpr(0, 2) + QExpr(1, 0) + QExpr(1, 1) + QExpr(1, 2) + QExpr(2, 0) + QExpr(2, 1) + QExpr(2, 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qexpr.test_qexpr_sum_correct","statement":"Path(test_qexpr_sum(x), q1.doit() == QExpr(0) + QExpr(1) + QExpr(2); q2.doit() == QExpr(0, 0) + QExpr(0, 1) + QExpr(0, 2) + QExpr(1, 0) + QExpr(1, 1) + QExpr(1, 2) + QExpr(2, 0) + QExpr(2, 1) + QExpr(2, 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3cd007dd3c66c0c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["q1.doit() == QExpr(0) + QExpr(1) + QExpr(2)","q2.doit() == QExpr(0, 0) + QExpr(0, 1) + QExpr(0, 2) + QExpr(1, 0) + QExpr(1, 1) + QExpr(1, 2) + QExpr(2, 0) + QExpr(2, 1) + QExpr(2, 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_qexpr_sum():
     q1 = Sum(QExpr(n), (n,0,2))
     assert q1.doit() == QExpr(0) + QExpr(1) + QExpr(2)
@@ -113,16 +142,23 @@ def test_qexpr_sum():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_qexpr_subs(), test_qexpr_subs produces the expected output) over Any ║
+# ║ Path(test_qexpr_subs(), q1.subs(x, y) == QExpr(y, y) and q1.subs({x: 1, y: 2}) == QExpr(1, 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_qexpr_subs : Any → {Any | q1.subs(x, y) == QExpr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  q1.subs(x, y) == QExpr(y, y)                   ║
+# ║   ensures:  q1.subs({x: 1, y: 2}) == QExpr(1, 2)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_qexpr_subs : Any → {Any | result satisfies: q1.s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b9e122bad730985  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e3f90b6fbe14443  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qexpr.test_qexpr_subs","kind":"function","src_hash":"b93e9ffa68b95efe","in":{"base":"Any"},"out":{"base":"Any","pred":"q1.subs(x, y) == QExpr(y, y) and q1.subs({x: 1, y: 2}) == QExpr(1, 2)"},"spec":{"lhs":"test_qexpr_subs()","rhs":"test_qexpr_subs produces the expected output","over":{"base":"Any"},"name":"test_qexpr_subs_correct"},"guarantee":"test_qexpr_subs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qexpr.test_qexpr_subs_correct","statement":"Path(test_qexpr_subs(x), test_qexpr_subs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b9e122bad730985"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qexpr.test_qexpr_subs","kind":"function","src_hash":"b93e9ffa68b95efe","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: q1.subs(x, y) == QExpr(y, y) and q1.subs({x: 1, y: 2}) == QExpr(1, 2)"},"spec":{"lhs":"test_qexpr_subs()","rhs":"q1.subs(x, y) == QExpr(y, y) and q1.subs({x: 1, y: 2}) == QExpr(1, 2)","over":{"base":"Any"},"name":"test_qexpr_subs_correct"},"guarantee":"q1.subs(x, y) == QExpr(y, y); q1.subs({x: 1, y: 2}) == QExpr(1, 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qexpr.test_qexpr_subs_correct","statement":"Path(test_qexpr_subs(x), q1.subs(x, y) == QExpr(y, y); q1.subs({x: 1, y: 2}) == QExpr(1, 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e3f90b6fbe14443","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["q1.subs(x, y) == QExpr(y, y)","q1.subs({x: 1, y: 2}) == QExpr(1, 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_qexpr_subs():
     q1 = QExpr(x, y)
     assert q1.subs(x, y) == QExpr(y, y)
@@ -130,16 +166,24 @@ def test_qexpr_subs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_qsympify(), test_qsympify produces the expected output) over Any ║
+# ║ Path(test_qsympify(), _qsympify_sequence([[1, 2], [1, 3]]) == (Tuple(1, 2), Tuple(1, 3)) and _qsympify_sequence(([1, 2, [3, 4, [2]], 1], 3)) == (Tuple(1, 2, Tuple(3, 4, Tuple(2)), 1), 3) and _qsympify_sequence((1,)) == (1,)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_qsympify : Any → {Any | _qsympify_sequence([[1, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _qsympify_sequence([[1, 2], [1, 3]]) == (...   ║
+# ║   ensures:  _qsympify_sequence(([1, 2, [3, 4, [2]], 1...   ║
+# ║   ensures:  _qsympify_sequence((1,)) == (1,)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_qsympify : Any → {Any | result satisfies: _qsymp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | caacd736fe5b56d4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a1151d0367503f4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qexpr.test_qsympify","kind":"function","src_hash":"a26e6fbe20659e3c","in":{"base":"Any"},"out":{"base":"Any","pred":"_qsympify_sequence([[1, 2], [1, 3]]) == (Tuple(1, 2), Tuple(1, 3)) and _qsympify_sequence((1,)) == (1,)"},"spec":{"lhs":"test_qsympify()","rhs":"test_qsympify produces the expected output","over":{"base":"Any"},"name":"test_qsympify_correct"},"guarantee":"test_qsympify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qexpr.test_qsympify_correct","statement":"Path(test_qsympify(x), test_qsympify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"caacd736fe5b56d4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qexpr.test_qsympify","kind":"function","src_hash":"a26e6fbe20659e3c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _qsympify_sequence([[1, 2], [1, 3]]) == (Tuple(1, 2), Tuple(1, 3)) and _qsympify_sequence(([1, 2, [3, 4, [2]], 1], 3)) == (Tuple(1, 2, Tuple(3, 4, Tuple(2)), 1), 3) and _qsympify_sequence((1,)) == (1,)"},"spec":{"lhs":"test_qsympify()","rhs":"_qsympify_sequence([[1, 2], [1, 3]]) == (Tuple(1, 2), Tuple(1, 3)) and _qsympify_sequence(([1, 2, [3, 4, [2]], 1], 3)) == (Tuple(1, 2, Tuple(3, 4, Tuple(2)), 1), 3) and _qsympify_sequence((1,)) == (1,)","over":{"base":"Any"},"name":"test_qsympify_correct"},"guarantee":"_qsympify_sequence([[1, 2], [1, 3]]) == (Tuple(1, 2), Tuple(1, 3)); _qsympify_sequence(([1, 2, [3, 4, [2]], 1], 3)) == (Tuple(1, 2, Tuple(3, 4, Tuple(2)), 1), 3); _qsympify_sequence((1,)) == (1,)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qexpr.test_qsympify_correct","statement":"Path(test_qsympify(x), _qsympify_sequence([[1, 2], [1, 3]]) == (Tuple(1, 2), Tuple(1, 3)); _qsympify_sequence(([1, 2, [3, 4, [2]], 1], 3)) == (Tuple(1, 2, Tuple(3, 4, Tuple(2)), 1), 3); _qsympify_sequence((1,)) == (1,))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a1151d0367503f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_qsympify_sequence([[1, 2], [1, 3]]) == (Tuple(1, 2), Tuple(1, 3))","_qsympify_sequence(([1, 2, [3, 4, [2]], 1], 3)) == (Tuple(1, 2, Tuple(3, 4, Tuple(2)), 1), 3)","_qsympify_sequence((1,)) == (1,)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_qsympify():
     assert _qsympify_sequence([[1, 2], [1, 3]]) == (Tuple(1, 2), Tuple(1, 3))
     assert _qsympify_sequence(([1, 2, [3, 4, [2, ]], 1], 3)) == \

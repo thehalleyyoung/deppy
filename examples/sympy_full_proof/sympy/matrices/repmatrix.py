@@ -40,14 +40,20 @@ from .kind import MatrixKind
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(RepMatrix(*args), correctly constructs a RepMatrix instance) over {Any | isinstance(other, RepMatrix) and isinstance(element, Expr)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MatrixBase)                   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ RepMatrix : {Any | isinstance(other, RepMatrix) and i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd0e67252ac245b3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix","kind":"class","src_hash":"7debbc3c8e982878","in":{"base":"Any","pred":"isinstance(other, RepMatrix) and isinstance(element, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"RepMatrix(*args)","rhs":"correctly constructs a RepMatrix instance","over":{"base":"Any","pred":"isinstance(other, RepMatrix) and isinstance(element, Expr)"},"name":"RepMatrix_class_invariant"},"guarantee":"correctly constructs a RepMatrix instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd0e67252ac245b3"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix","kind":"class","src_hash":"7debbc3c8e982878","in":{"base":"Any","pred":"isinstance(other, RepMatrix) and isinstance(element, Expr)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MatrixBase)"},"spec":{"lhs":"RepMatrix(*args)","rhs":"correctly constructs a RepMatrix instance","over":{"base":"Any","pred":"isinstance(other, RepMatrix) and isinstance(element, Expr)"},"name":"RepMatrix_class_invariant"},"guarantee":"isinstance(self, MatrixBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd0e67252ac245b3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MatrixBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function RepMatrix not found in source"]}}
 class RepMatrix(MatrixBase):
     """Matrix implementation based on DomainMatrix as an internal representation.
 
@@ -79,16 +85,23 @@ class RepMatrix(MatrixBase):
     _rep: DomainMatrix
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), <unspecified:__eq__>) over {Any | hasattr(other, '_rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, '_rep')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, '_rep')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0ad99b9c909d257a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix.__eq__","kind":"method","src_hash":"72fa9b510f33a16e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0ad99b9c909d257a"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix.__eq__","kind":"method","src_hash":"72fa9b510f33a16e","in":{"base":"Any","pred":"hasattr(other, '_rep')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"<unspecified:__eq__>","over":{"base":"Any","pred":"hasattr(other, '_rep')"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0ad99b9c909d257a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, '_rep')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other._rep","self._rep"],"catches":["SympifyError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         # Skip sympify for mutable matrices...
         if not isinstance(other, RepMatrix):
@@ -102,16 +115,22 @@ class RepMatrix(MatrixBase):
         return self._rep.unify_eq(other._rep)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_DM(dom), convert to a :class:`~.domainmatrix`) over Any ║
+# ║ Path(to_DM(domain, **kwargs), <unspecified:to_DM>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_DM : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e1c7394087486e2c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix.to_DM","kind":"method","src_hash":"c591252f82d07edb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_DM(dom)","rhs":"convert to a :class:`~.domainmatrix`","over":{"base":"Any"},"name":"to_DM_correct"},"guarantee":"convert to a :class:`~.domainmatrix`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.RepMatrix.to_DM_correct","statement":"Path(to_DM(x), convert to a :class:`~.domainmatrix`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1c7394087486e2c"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix.to_DM","kind":"method","src_hash":"c591252f82d07edb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_DM(domain, **kwargs)","rhs":"<unspecified:to_DM>","over":{"base":"Any"},"name":"to_DM_correct"},"guarantee":"convert to a :class:`~.domainmatrix`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.RepMatrix.to_DM_correct","statement":"Path(to_DM(x), convert to a :class:`~.domainmatrix`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1c7394087486e2c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._rep"],"raises":["TypeError"],"catches":["CoercionFailed"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_DM(self, domain=None, **kwargs):
         """Convert to a :class:`~.DomainMatrix`.
 
@@ -193,16 +212,25 @@ class RepMatrix(MatrixBase):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_unify_element_sympy(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_unify_element_sympy(cls, rep, element), (rep, element)) over {Any | hasattr(rep, 'domain') and hasattr(element, 'is_Integer') and hasattr(element, 'is_Rational') and hasattr(rep, 'convert_to')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _unify_element_sympy : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(rep, 'domain')                         ║
+# ║   requires: hasattr(element, 'is_Integer')                 ║
+# ║   requires: hasattr(element, 'is_Rational')                ║
+# ║   returns:  (rep, element)                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _unify_element_sympy : {Any | hasattr(rep, 'domain') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99d535aaf19f1d6e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb4850699e74c56b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._unify_element_sympy","kind":"classmethod","src_hash":"e77f546212e813f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_unify_element_sympy(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_unify_element_sympy_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.RepMatrix._unify_element_sympy_correct","statement":"Path(_unify_element_sympy(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99d535aaf19f1d6e"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._unify_element_sympy","kind":"classmethod","src_hash":"e77f546212e813f0","in":{"base":"Any","pred":"hasattr(rep, 'domain') and hasattr(element, 'is_Integer') and hasattr(element, 'is_Rational') and hasattr(rep, 'convert_to')"},"out":{"base":"Any"},"spec":{"lhs":"_unify_element_sympy(cls, rep, element)","rhs":"(rep, element)","over":{"base":"Any","pred":"hasattr(rep, 'domain') and hasattr(element, 'is_Integer') and hasattr(element, 'is_Rational') and hasattr(rep, 'convert_to')"},"name":"_unify_element_sympy_correct"},"guarantee":"returns (rep, element)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.RepMatrix._unify_element_sympy_correct","statement":"Path(_unify_element_sympy(x), returns (rep, element))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb4850699e74c56b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(rep, 'domain')","hasattr(element, 'is_Integer')","hasattr(element, 'is_Rational')","hasattr(rep, 'convert_to')"],"returns_expr":"(rep, element)","pure":false,"effects":{"effect_type":"reads_state","reads":["element.is_Integer","element.is_Rational","rep.convert_to","rep.domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _unify_element_sympy(cls, rep, element):
         domain = rep.domain
         element = _sympify(element)
@@ -243,16 +271,22 @@ class RepMatrix(MatrixBase):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dod_to_DomainMatrix(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_dod_to_DomainMatrix(cls, rows, cols), <unspecified:_dod_to_DomainMatrix>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _dod_to_DomainMatrix : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a9fd3944462f3ad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._dod_to_DomainMatrix","kind":"classmethod","src_hash":"5df0443d2b85fa71","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dod_to_DomainMatrix(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_dod_to_DomainMatrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.RepMatrix._dod_to_DomainMatrix_correct","statement":"Path(_dod_to_DomainMatrix(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a9fd3944462f3ad"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._dod_to_DomainMatrix","kind":"classmethod","src_hash":"5df0443d2b85fa71","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dod_to_DomainMatrix(cls, rows, cols)","rhs":"<unspecified:_dod_to_DomainMatrix>","over":{"base":"Any"},"name":"_dod_to_DomainMatrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.RepMatrix._dod_to_DomainMatrix_correct","statement":"Path(_dod_to_DomainMatrix(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a9fd3944462f3ad","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _dod_to_DomainMatrix(cls, rows, cols, dod, types):
 
         if not all(issubclass(typ, Expr) for typ in types):
@@ -280,16 +314,22 @@ class RepMatrix(MatrixBase):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_flat_list_to_DomainMatrix(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_flat_list_to_DomainMatrix(cls, rows, cols), <unspecified:_flat_list_to_DomainMatrix>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _flat_list_to_DomainMatrix : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83e159191b0cbfbd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._flat_list_to_DomainMatrix","kind":"classmethod","src_hash":"a8d7f7c57142f7c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_flat_list_to_DomainMatrix(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_flat_list_to_DomainMatrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.RepMatrix._flat_list_to_DomainMatrix_correct","statement":"Path(_flat_list_to_DomainMatrix(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83e159191b0cbfbd"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._flat_list_to_DomainMatrix","kind":"classmethod","src_hash":"a8d7f7c57142f7c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_flat_list_to_DomainMatrix(cls, rows, cols)","rhs":"<unspecified:_flat_list_to_DomainMatrix>","over":{"base":"Any"},"name":"_flat_list_to_DomainMatrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.RepMatrix._flat_list_to_DomainMatrix_correct","statement":"Path(_flat_list_to_DomainMatrix(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83e159191b0cbfbd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._dod_to_DomainMatrix"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _flat_list_to_DomainMatrix(cls, rows, cols, flat_list):
 
         elements_dod = defaultdict(dict)
@@ -305,16 +345,24 @@ class RepMatrix(MatrixBase):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_smat_to_DomainMatrix(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_smat_to_DomainMatrix(cls, rows, cols), <unspecified:_smat_to_DomainMatrix>) over {Any | hasattr(smat, 'items') and hasattr(smat, 'values')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _smat_to_DomainMatrix : Any → Any                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(smat, 'items')                         ║
+# ║   requires: hasattr(smat, 'values')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _smat_to_DomainMatrix : {Any | hasattr(smat, 'items')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75903192839c2690  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._smat_to_DomainMatrix","kind":"classmethod","src_hash":"9ec430d443bb0d1d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_smat_to_DomainMatrix(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_smat_to_DomainMatrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.RepMatrix._smat_to_DomainMatrix_correct","statement":"Path(_smat_to_DomainMatrix(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75903192839c2690"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._smat_to_DomainMatrix","kind":"classmethod","src_hash":"9ec430d443bb0d1d","in":{"base":"Any","pred":"hasattr(smat, 'items') and hasattr(smat, 'values')"},"out":{"base":"Any"},"spec":{"lhs":"_smat_to_DomainMatrix(cls, rows, cols)","rhs":"<unspecified:_smat_to_DomainMatrix>","over":{"base":"Any","pred":"hasattr(smat, 'items') and hasattr(smat, 'values')"},"name":"_smat_to_DomainMatrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.RepMatrix._smat_to_DomainMatrix_correct","statement":"Path(_smat_to_DomainMatrix(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75903192839c2690","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(smat, 'items')","hasattr(smat, 'values')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._dod_to_DomainMatrix","smat.items","smat.values"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _smat_to_DomainMatrix(cls, rows, cols, smat):
 
         elements_dod = defaultdict(dict)
@@ -328,87 +376,123 @@ class RepMatrix(MatrixBase):
         return rep
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(flat(), flat produces the expected output) over Any   ║
+# ║ Path(flat(), self._rep.to_sympy().to_list_flat()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._rep.to_sympy().to_list_flat()            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ flat : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 301d959d4a3dce13           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix.flat","kind":"method","src_hash":"82c148bdb93f9948","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"flat()","rhs":"flat produces the expected output","over":{"base":"Any"},"name":"flat_correct"},"guarantee":"flat produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"301d959d4a3dce13"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix.flat","kind":"method","src_hash":"82c148bdb93f9948","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"flat()","rhs":"self._rep.to_sympy().to_list_flat()","over":{"base":"Any"},"name":"flat_correct"},"guarantee":"returns self._rep.to_sympy().to_list_flat()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"301d959d4a3dce13","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._rep.to_sympy().to_list_flat()","pure":false,"effects":{"effect_type":"reads_state","reads":["self._rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def flat(self):
         return self._rep.to_sympy().to_list_flat()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_tolist(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_tolist(), self._rep.to_sympy().to_list()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._rep.to_sympy().to_list()                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_tolist : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 009493367795943f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_tolist","kind":"method","src_hash":"c8338a0a7a29b421","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_tolist()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_tolist_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"009493367795943f"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_tolist","kind":"method","src_hash":"c8338a0a7a29b421","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_tolist()","rhs":"self._rep.to_sympy().to_list()","over":{"base":"Any"},"name":"_eval_tolist_correct"},"guarantee":"returns self._rep.to_sympy().to_list()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"009493367795943f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._rep.to_sympy().to_list()","pure":false,"effects":{"effect_type":"reads_state","reads":["self._rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_tolist(self):
         return self._rep.to_sympy().to_list()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_todok(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_todok(), self._rep.to_sympy().to_dok()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._rep.to_sympy().to_dok()                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_todok : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a7cfeece0f2c61c6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_todok","kind":"method","src_hash":"16dfdf46d05303da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_todok()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_todok_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a7cfeece0f2c61c6"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_todok","kind":"method","src_hash":"16dfdf46d05303da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_todok()","rhs":"self._rep.to_sympy().to_dok()","over":{"base":"Any"},"name":"_eval_todok_correct"},"guarantee":"returns self._rep.to_sympy().to_dok()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a7cfeece0f2c61c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._rep.to_sympy().to_dok()","pure":false,"effects":{"effect_type":"reads_state","reads":["self._rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_todok(self):
         return self._rep.to_sympy().to_dok()
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_from_dok(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_from_dok(cls, rows, cols), cls._fromrep(cls._smat_to_DomainMatrix(rows, cols, dok))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls._fromrep(cls._smat_to_DomainMatrix(ro...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_from_dok : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 749c059d79423af1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_from_dok","kind":"classmethod","src_hash":"4f23630c1daafda3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_from_dok(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_from_dok_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"749c059d79423af1"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_from_dok","kind":"classmethod","src_hash":"4f23630c1daafda3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_from_dok(cls, rows, cols)","rhs":"cls._fromrep(cls._smat_to_DomainMatrix(rows, cols, dok))","over":{"base":"Any"},"name":"_eval_from_dok_correct"},"guarantee":"returns cls._fromrep(cls._smat_to_DomainMatrix(rows, cols, dok))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"749c059d79423af1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls._fromrep(cls._smat_to_DomainMatrix(rows, cols, dok))","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._fromrep","cls._smat_to_DomainMatrix"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_from_dok(cls, rows, cols, dok):
         return cls._fromrep(cls._smat_to_DomainMatrix(rows, cols, dok))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_values(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_values(), list(self._eval_iter_values())) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  list(self._eval_iter_values())                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_values : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4d3cb10269325336           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_values","kind":"method","src_hash":"7b4c09f0a92324fa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_values()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_values_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d3cb10269325336"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_values","kind":"method","src_hash":"7b4c09f0a92324fa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_values()","rhs":"list(self._eval_iter_values())","over":{"base":"Any"},"name":"_eval_values_correct"},"guarantee":"returns list(self._eval_iter_values())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d3cb10269325336","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"list(self._eval_iter_values())","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_iter_values"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_values(self):
         return list(self._eval_iter_values())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_iter_values(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_iter_values(), <unspecified:_eval_iter_values>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_iter_values : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f2f13616d8892ba0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_iter_values","kind":"method","src_hash":"74dbfe9739c6f142","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_iter_values()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_iter_values_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.RepMatrix._eval_iter_values_correct","statement":"Path(_eval_iter_values(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2f13616d8892ba0"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_iter_values","kind":"method","src_hash":"74dbfe9739c6f142","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_iter_values()","rhs":"<unspecified:_eval_iter_values>","over":{"base":"Any"},"name":"_eval_iter_values_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.RepMatrix._eval_iter_values_correct","statement":"Path(_eval_iter_values(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2f13616d8892ba0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_iter_values(self):
         rep = self._rep
         K = rep.domain
@@ -418,16 +502,22 @@ class RepMatrix(MatrixBase):
         return values
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_iter_items(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_iter_items(), <unspecified:_eval_iter_items>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_iter_items : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0980d31e88777882  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_iter_items","kind":"method","src_hash":"b52550f6b53c51d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_iter_items()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_iter_items_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.RepMatrix._eval_iter_items_correct","statement":"Path(_eval_iter_items(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0980d31e88777882"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_iter_items","kind":"method","src_hash":"b52550f6b53c51d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_iter_items()","rhs":"<unspecified:_eval_iter_items>","over":{"base":"Any"},"name":"_eval_iter_items_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.RepMatrix._eval_iter_items_correct","statement":"Path(_eval_iter_items(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0980d31e88777882","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_iter_items(self):
         rep = self._rep
         K = rep.domain
@@ -438,31 +528,44 @@ class RepMatrix(MatrixBase):
         return items
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(copy(), copy produces the expected output) over Any   ║
+# ║ Path(copy(), self._fromrep(self._rep.copy())) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._fromrep(self._rep.copy())                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ copy : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 435ea16c497368dc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix.copy","kind":"method","src_hash":"21a0ad2f8b73354f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"copy()","rhs":"copy produces the expected output","over":{"base":"Any"},"name":"copy_correct"},"guarantee":"copy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"435ea16c497368dc"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix.copy","kind":"method","src_hash":"21a0ad2f8b73354f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"copy()","rhs":"self._fromrep(self._rep.copy())","over":{"base":"Any"},"name":"copy_correct"},"guarantee":"returns self._fromrep(self._rep.copy())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"435ea16c497368dc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._fromrep(self._rep.copy())","pure":false,"effects":{"effect_type":"reads_state","reads":["self._fromrep","self._rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def copy(self):
         return self._fromrep(self._rep.copy())
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(kind(), returns the kind attribute) over Any          ║
+# ║ Path(kind(), MatrixKind(element_kind)) over Any            ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ kind : Any → MatrixKind                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, MatrixKind)                 ║
+# ║   returns:  MatrixKind(element_kind)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ kind : Any → {MatrixKind | result satisfies: result =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 02a1baebb5392084           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix.kind","kind":"property","src_hash":"7d56cbb1ff8a5fc7","in":{"base":"Any"},"out":{"base":"MatrixKind"},"spec":{"lhs":"kind()","rhs":"returns the kind attribute","over":{"base":"Any"},"name":"kind_correct"},"guarantee":"returns the kind attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"02a1baebb5392084"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix.kind","kind":"property","src_hash":"7d56cbb1ff8a5fc7","in":{"base":"Any"},"out":{"base":"MatrixKind","pred":"result satisfies: result == (MatrixKind(element_kind))"},"spec":{"lhs":"kind()","rhs":"MatrixKind(element_kind)","over":{"base":"Any"},"name":"kind_correct"},"guarantee":"returns MatrixKind(element_kind); isinstance(result, MatrixKind)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"02a1baebb5392084","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, MatrixKind)"],"returns_expr":"MatrixKind(element_kind)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._rep","self.values"],"raises":["RuntimeError"]},"state_contract":{"exceptional_post":{"RuntimeError":["isinstance(raised, RuntimeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def kind(self) -> MatrixKind:
         domain = self._rep.domain
         element_kind: Kind
@@ -479,16 +582,22 @@ class RepMatrix(MatrixBase):
         return MatrixKind(element_kind)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_has(*pa), id) over Any                          ║
+# ║ Path(_eval_has(*patterns), id) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  zhas or any((value.has(*patterns) for val...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_has : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 6d4d4db45717c6c3   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_has","kind":"method","src_hash":"4d88c8cdc691b538","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_has(*pa)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_has_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"any","by":"library_axiom"},{"fn":"has","by":"library_axiom"},{"fn":"values","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d4d4db45717c6c3"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_has","kind":"method","src_hash":"4d88c8cdc691b538","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_has(*patterns)","rhs":"zhas or any((value.has(*patterns) for value in dok.values()))","over":{"base":"Any"},"name":"_eval_has_correct","kind":"composition"},"guarantee":"returns zhas or any((value.has(*patterns) for value in dok.values()))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"any","by":"library_axiom"},{"fn":"has","by":"library_axiom"},{"fn":"values","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d4d4db45717c6c3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"zhas or any((value.has(*patterns) for value in dok.values()))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.cols","self.rows","self.todok"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_has(self, *patterns):
         # if the matrix has any zeros, see if S.Zero
         # has the pattern.  If _smat is full length,
@@ -500,47 +609,65 @@ class RepMatrix(MatrixBase):
         return zhas or any(value.has(*patterns) for value in dok.values())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_Identity(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_Identity(), <unspecified:_eval_is_Identity>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_Identity : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 555ba711769eeca7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_is_Identity","kind":"method","src_hash":"66bb62628bd682ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_Identity()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_Identity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.RepMatrix._eval_is_Identity_correct","statement":"Path(_eval_is_Identity(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"555ba711769eeca7"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_is_Identity","kind":"method","src_hash":"66bb62628bd682ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_Identity()","rhs":"<unspecified:_eval_is_Identity>","over":{"base":"Any"},"name":"_eval_is_Identity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.RepMatrix._eval_is_Identity_correct","statement":"Path(_eval_is_Identity(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"555ba711769eeca7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rows","self.todok"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_Identity(self):
         if not all(self[i, i] == 1 for i in range(self.rows)):
             return False
         return len(self.todok()) == self.rows
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_symmetric(sim), id) over Any                 ║
+# ║ Path(_eval_is_symmetric(simpfunc), id) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(diff.values()) == 0                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_symmetric : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 097a04ca6baf57de   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_is_symmetric","kind":"method","src_hash":"96fe9583346fce31","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_symmetric(sim)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_symmetric_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"len","by":"library_axiom"},{"fn":"values","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"097a04ca6baf57de"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_is_symmetric","kind":"method","src_hash":"96fe9583346fce31","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_symmetric(simpfunc)","rhs":"len(diff.values()) == 0","over":{"base":"Any"},"name":"_eval_is_symmetric_correct","kind":"composition"},"guarantee":"returns len(diff.values()) == 0","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"len","by":"library_axiom"},{"fn":"values","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"097a04ca6baf57de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(diff.values()) == 0","pure":false,"effects":{"effect_type":"reads_state","reads":["self.T"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_symmetric(self, simpfunc):
         diff = (self - self.T).applyfunc(simpfunc)
         return len(diff.values()) == 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_transpose(), returns the transposed sparsematrix of this sparsematrix) over Any ║
+# ║ Path(_eval_transpose(), self._fromrep(self._rep.transpose())) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._fromrep(self._rep.transpose())           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_transpose : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0d9b98d12529e9b1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_transpose","kind":"method","src_hash":"2a5bd3c971f44172","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_transpose()","rhs":"returns the transposed sparsematrix of this sparsematrix","over":{"base":"Any"},"name":"_eval_transpose_correct"},"guarantee":"returns the transposed sparsematrix of this sparsematrix","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0d9b98d12529e9b1"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_transpose","kind":"method","src_hash":"2a5bd3c971f44172","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_transpose()","rhs":"self._fromrep(self._rep.transpose())","over":{"base":"Any"},"name":"_eval_transpose_correct"},"guarantee":"returns self._fromrep(self._rep.transpose())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0d9b98d12529e9b1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._fromrep(self._rep.transpose())","pure":false,"effects":{"effect_type":"reads_state","reads":["self._fromrep","self._rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_transpose(self):
         """Returns the transposed SparseMatrix of this SparseMatrix.
 
@@ -561,192 +688,278 @@ class RepMatrix(MatrixBase):
         return self._fromrep(self._rep.transpose())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_col_join(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_col_join(other), self._fromrep(self._rep.vstack(other._rep))) over {Any | hasattr(other, '_rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_col_join : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, '_rep')                         ║
+# ║   returns:  self._fromrep(self._rep.vstack(other._rep))    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_col_join : {Any | hasattr(other, '_rep')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 65482a52c6ce370b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_col_join","kind":"method","src_hash":"cd4763e9df7e5a33","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_col_join(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_col_join_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"65482a52c6ce370b"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_col_join","kind":"method","src_hash":"cd4763e9df7e5a33","in":{"base":"Any","pred":"hasattr(other, '_rep')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_col_join(other)","rhs":"self._fromrep(self._rep.vstack(other._rep))","over":{"base":"Any","pred":"hasattr(other, '_rep')"},"name":"_eval_col_join_correct"},"guarantee":"returns self._fromrep(self._rep.vstack(other._rep))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"65482a52c6ce370b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, '_rep')"],"returns_expr":"self._fromrep(self._rep.vstack(other._rep))","pure":false,"effects":{"effect_type":"reads_state","reads":["other._rep","self._fromrep","self._rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_col_join(self, other):
         return self._fromrep(self._rep.vstack(other._rep))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_row_join(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_row_join(other), self._fromrep(self._rep.hstack(other._rep))) over {Any | hasattr(other, '_rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_row_join : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, '_rep')                         ║
+# ║   returns:  self._fromrep(self._rep.hstack(other._rep))    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_row_join : {Any | hasattr(other, '_rep')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 03665046dc4f3985           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_row_join","kind":"method","src_hash":"e686ceb0db039cfc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_row_join(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_row_join_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"03665046dc4f3985"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_row_join","kind":"method","src_hash":"e686ceb0db039cfc","in":{"base":"Any","pred":"hasattr(other, '_rep')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_row_join(other)","rhs":"self._fromrep(self._rep.hstack(other._rep))","over":{"base":"Any","pred":"hasattr(other, '_rep')"},"name":"_eval_row_join_correct"},"guarantee":"returns self._fromrep(self._rep.hstack(other._rep))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"03665046dc4f3985","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, '_rep')"],"returns_expr":"self._fromrep(self._rep.hstack(other._rep))","pure":false,"effects":{"effect_type":"reads_state","reads":["other._rep","self._fromrep","self._rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_row_join(self, other):
         return self._fromrep(self._rep.hstack(other._rep))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_extract(row), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_extract(rowsList, colsList), self._fromrep(self._rep.extract(rowsList, colsList))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._fromrep(self._rep.extract(rowsList,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_extract : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6b7cc2548dd7cb95           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_extract","kind":"method","src_hash":"b39dccea87ece4d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_extract(row)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_extract_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6b7cc2548dd7cb95"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_extract","kind":"method","src_hash":"b39dccea87ece4d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_extract(rowsList, colsList)","rhs":"self._fromrep(self._rep.extract(rowsList, colsList))","over":{"base":"Any"},"name":"_eval_extract_correct"},"guarantee":"returns self._fromrep(self._rep.extract(rowsList, colsList))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6b7cc2548dd7cb95","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._fromrep(self._rep.extract(rowsList, colsList))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._fromrep","self._rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_extract(self, rowsList, colsList):
         return self._fromrep(self._rep.extract(rowsList, colsList))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(key), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(key), _getitem_RepMatrix(self, key)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _getitem_RepMatrix(self, key)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 88107f5c9d58b846           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix.__getitem__","kind":"method","src_hash":"bd884700399aba2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(key)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"88107f5c9d58b846"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix.__getitem__","kind":"method","src_hash":"bd884700399aba2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(key)","rhs":"_getitem_RepMatrix(self, key)","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns _getitem_RepMatrix(self, key)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"88107f5c9d58b846","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_getitem_RepMatrix(self, key)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, key):
         return _getitem_RepMatrix(self, key)
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_zeros(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_zeros(cls, rows, cols), cls._fromrep(rep)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls._fromrep(rep)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_zeros : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5f9f4326d002e6e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f1b84c3877dffef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_zeros","kind":"classmethod","src_hash":"122aa2c53abb9a94","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_zeros(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_zeros_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.RepMatrix._eval_zeros_correct","statement":"Path(_eval_zeros(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5f9f4326d002e6e"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_zeros","kind":"classmethod","src_hash":"122aa2c53abb9a94","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_zeros(cls, rows, cols)","rhs":"cls._fromrep(rep)","over":{"base":"Any"},"name":"_eval_zeros_correct"},"guarantee":"returns cls._fromrep(rep)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.RepMatrix._eval_zeros_correct","statement":"Path(_eval_zeros(x), returns cls._fromrep(rep))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f1b84c3877dffef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls._fromrep(rep)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._fromrep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_zeros(cls, rows, cols):
         rep = DomainMatrix.zeros((rows, cols), ZZ)
         return cls._fromrep(rep)
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_eye(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_eye(cls, rows, cols), cls._fromrep(rep)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls._fromrep(rep)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_eye : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb7e20fe6f3788eb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be1992d101088e9f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_eye","kind":"classmethod","src_hash":"8f865ab16a16f7da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_eye(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_eye_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.RepMatrix._eval_eye_correct","statement":"Path(_eval_eye(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb7e20fe6f3788eb"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_eye","kind":"classmethod","src_hash":"8f865ab16a16f7da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_eye(cls, rows, cols)","rhs":"cls._fromrep(rep)","over":{"base":"Any"},"name":"_eval_eye_correct"},"guarantee":"returns cls._fromrep(rep)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.RepMatrix._eval_eye_correct","statement":"Path(_eval_eye(x), returns cls._fromrep(rep))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be1992d101088e9f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls._fromrep(rep)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._fromrep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_eye(cls, rows, cols):
         rep = DomainMatrix.eye((rows, cols), ZZ)
         return cls._fromrep(rep)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_add(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_add(other), classof(self, other)._fromrep(self._rep + other._rep)) over {Any | hasattr(other, '_rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_add : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, '_rep')                         ║
+# ║   returns:  classof(self, other)._fromrep(self._rep +...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_add : {Any | hasattr(other, '_rep')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c8b5edb248672f41           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_add","kind":"method","src_hash":"de0cb25e8eb21704","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_add(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_add_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c8b5edb248672f41"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_add","kind":"method","src_hash":"de0cb25e8eb21704","in":{"base":"Any","pred":"hasattr(other, '_rep')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_add(other)","rhs":"classof(self, other)._fromrep(self._rep + other._rep)","over":{"base":"Any","pred":"hasattr(other, '_rep')"},"name":"_eval_add_correct"},"guarantee":"returns classof(self, other)._fromrep(self._rep + other._rep)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c8b5edb248672f41","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, '_rep')"],"returns_expr":"classof(self, other)._fromrep(self._rep + other._rep)","pure":false,"effects":{"effect_type":"reads_state","reads":["other._rep","self._rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_add(self, other):
         return classof(self, other)._fromrep(self._rep + other._rep)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_matrix_mul(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_matrix_mul(other), classof(self, other)._fromrep(self._rep * other._rep)) over {Any | hasattr(other, '_rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_matrix_mul : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, '_rep')                         ║
+# ║   returns:  classof(self, other)._fromrep(self._rep *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_matrix_mul : {Any | hasattr(other, '_rep')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a6ca5b0d44165500           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_matrix_mul","kind":"method","src_hash":"3ebe2d0c6b746bb1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_matrix_mul(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_matrix_mul_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a6ca5b0d44165500"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_matrix_mul","kind":"method","src_hash":"3ebe2d0c6b746bb1","in":{"base":"Any","pred":"hasattr(other, '_rep')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_matrix_mul(other)","rhs":"classof(self, other)._fromrep(self._rep * other._rep)","over":{"base":"Any","pred":"hasattr(other, '_rep')"},"name":"_eval_matrix_mul_correct"},"guarantee":"returns classof(self, other)._fromrep(self._rep * other._rep)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a6ca5b0d44165500","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, '_rep')"],"returns_expr":"classof(self, other)._fromrep(self._rep * other._rep)","pure":false,"effects":{"effect_type":"reads_state","reads":["other._rep","self._rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_matrix_mul(self, other):
         return classof(self, other)._fromrep(self._rep * other._rep)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_matrix_mul_elementwise(oth), id) over Any       ║
+# ║ Path(_eval_matrix_mul_elementwise(other), id) over {Any | hasattr(other, '_rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_matrix_mul_elementwise : Any → Any                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, '_rep')                         ║
+# ║   returns:  classof(self, other)._fromrep(newrep)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_matrix_mul_elementwise : {Any | hasattr(other, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5fbf34348c71c195   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_matrix_mul_elementwise","kind":"method","src_hash":"4720bda0e44aa1c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_matrix_mul_elementwise(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_matrix_mul_elementwise_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"classof","by":"library_axiom"},{"fn":"_fromrep","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5fbf34348c71c195"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_matrix_mul_elementwise","kind":"method","src_hash":"4720bda0e44aa1c6","in":{"base":"Any","pred":"hasattr(other, '_rep')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_matrix_mul_elementwise(other)","rhs":"classof(self, other)._fromrep(newrep)","over":{"base":"Any","pred":"hasattr(other, '_rep')"},"name":"_eval_matrix_mul_elementwise_correct","kind":"composition"},"guarantee":"returns classof(self, other)._fromrep(newrep)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"classof","by":"library_axiom"},{"fn":"_fromrep","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5fbf34348c71c195","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, '_rep')"],"returns_expr":"classof(self, other)._fromrep(newrep)","pure":false,"effects":{"effect_type":"reads_state","reads":["other._rep","self._rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_matrix_mul_elementwise(self, other):
         selfrep, otherrep = self._rep.unify(other._rep)
         newrep = selfrep.mul_elementwise(otherrep)
         return classof(self, other)._fromrep(newrep)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_scalar_mul(oth), id) over Any                   ║
+# ║ Path(_eval_scalar_mul(other), id) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._fromrep(rep.scalarmul(other))            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_scalar_mul : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | dfc405e63ecbeb12   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_scalar_mul","kind":"method","src_hash":"c1ca13fe17ecbb6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_scalar_mul(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_scalar_mul_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_fromrep","by":"library_axiom"},{"fn":"scalarmul","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfc405e63ecbeb12"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_scalar_mul","kind":"method","src_hash":"c1ca13fe17ecbb6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_scalar_mul(other)","rhs":"self._fromrep(rep.scalarmul(other))","over":{"base":"Any"},"name":"_eval_scalar_mul_correct","kind":"composition"},"guarantee":"returns self._fromrep(rep.scalarmul(other))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_fromrep","by":"library_axiom"},{"fn":"scalarmul","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfc405e63ecbeb12","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._fromrep(rep.scalarmul(other))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._fromrep","self._rep","self._unify_element_sympy"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_scalar_mul(self, other):
         rep, other = self._unify_element_sympy(self._rep, other)
         return self._fromrep(rep.scalarmul(other))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_scalar_rmul(oth), id) over Any                  ║
+# ║ Path(_eval_scalar_rmul(other), id) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._fromrep(rep.rscalarmul(other))           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_scalar_rmul : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c29b636a922f7274   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_scalar_rmul","kind":"method","src_hash":"ba4dd09118c8403f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_scalar_rmul(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_scalar_rmul_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_fromrep","by":"library_axiom"},{"fn":"rscalarmul","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c29b636a922f7274"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_scalar_rmul","kind":"method","src_hash":"ba4dd09118c8403f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_scalar_rmul(other)","rhs":"self._fromrep(rep.rscalarmul(other))","over":{"base":"Any"},"name":"_eval_scalar_rmul_correct","kind":"composition"},"guarantee":"returns self._fromrep(rep.rscalarmul(other))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_fromrep","by":"library_axiom"},{"fn":"rscalarmul","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c29b636a922f7274","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._fromrep(rep.rscalarmul(other))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._fromrep","self._rep","self._unify_element_sympy"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_scalar_rmul(self, other):
         rep, other = self._unify_element_sympy(self._rep, other)
         return self._fromrep(rep.rscalarmul(other))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_Abs(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_Abs(), self._fromrep(self._rep.applyfunc(abs))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._fromrep(self._rep.applyfunc(abs))        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_Abs : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b61eb2d36b691fb3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_Abs","kind":"method","src_hash":"eef9785932aa48fe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_Abs()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_Abs_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b61eb2d36b691fb3"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_Abs","kind":"method","src_hash":"eef9785932aa48fe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_Abs()","rhs":"self._fromrep(self._rep.applyfunc(abs))","over":{"base":"Any"},"name":"_eval_Abs_correct"},"guarantee":"returns self._fromrep(self._rep.applyfunc(abs))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b61eb2d36b691fb3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._fromrep(self._rep.applyfunc(abs))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._fromrep","self._rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_Abs(self):
         return self._fromrep(self._rep.applyfunc(abs))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_conjugate(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_conjugate(), result == (self.copy() if domain in (ZZ, QQ) else self._fromrep(rep.applyfunc(lambda e: e.conjugate()))) and result == self.copy() or result == self._fromrep(rep.applyfunc(lambda e: e.conjugate()))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_conjugate : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self.copy() if domain in (ZZ, ...   ║
+# ║   ensures:  result == self.copy() or result == self._...   ║
+# ║   fiber[case_0]: domain in (ZZ, QQ) => self.copy()         ║
+# ║   fiber[case_1]: not (domain in (ZZ, QQ)) => self._fr...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_conjugate : Any → {Any | result satisfies: resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5c2f9e4f3097f87  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 966a69cfaa1f55e1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_conjugate","kind":"method","src_hash":"71f15b18a9f256ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.RepMatrix._eval_conjugate_correct","statement":"Path(_eval_conjugate(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5c2f9e4f3097f87"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix._eval_conjugate","kind":"method","src_hash":"71f15b18a9f256ad","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self.copy() if domain in (ZZ, QQ) else self._fromrep(rep.applyfunc(lambda e: e.conjugate()))) and result == self.copy() or result == self._fromrep(rep.applyfunc(lambda e: e.conjugate()))"},"spec":{"lhs":"_eval_conjugate()","rhs":"result == (self.copy() if domain in (ZZ, QQ) else self._fromrep(rep.applyfunc(lambda e: e.conjugate()))) and result == self.copy() or result == self._fromrep(rep.applyfunc(lambda e: e.conjugate()))","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"result == (self.copy() if domain in (ZZ, QQ) else self._fromrep(rep.applyfunc(lambda e: e.conjugate()))); result == self.copy() or result == self._fromrep(rep.applyfunc(lambda e: e.conjugate())); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.RepMatrix._eval_conjugate_correct","statement":"Path(_eval_conjugate(x), result == (self.copy() if domain in (ZZ, QQ) else self._fromrep(rep.applyfunc(lambda e: e.conjugate()))); result == self.copy() or result == self._fromrep(rep.applyfunc(lambda e: e.conjugate())); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"966a69cfaa1f55e1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self.copy() if domain in (ZZ, QQ) else self._fromrep(rep.applyfunc(lambda e: e.conjugate())))","result == self.copy() or result == self._fromrep(rep.applyfunc(lambda e: e.conjugate()))"],"fibers":[{"name":"case_0","guard":"domain in (ZZ, QQ)","ensures":["result == self.copy()"],"decidability":"library","returns_expr":"self.copy()"},{"name":"case_1","guard":"not (domain in (ZZ, QQ))","ensures":["result == self._fromrep(rep.applyfunc(lambda e: e.conjugate()))"],"decidability":"library","returns_expr":"self._fromrep(rep.applyfunc(lambda e: e.conjugate()))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._fromrep","self._rep","self.copy"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         rep = self._rep
         domain = rep.domain
@@ -756,16 +969,22 @@ class RepMatrix(MatrixBase):
             return self._fromrep(rep.applyfunc(lambda e: e.conjugate()))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(equals(oth), applies ``equals`` to corresponding elements of the matrices, trying to prove that the elements are equivalent, returning true if they are, false if any pair is not, and none (or the first failing exp) over Any ║
+# ║ Path(equals(other, failing_expression), <unspecified:equals>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ equals : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf4abd6229b87b84  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix.equals","kind":"method","src_hash":"f940925ccb31cab8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equals(oth)","rhs":"applies ``equals`` to corresponding elements of the matrices, trying to prove that the elements are equivalent, returning true if they are, false if any pair is not, and none (or the first failing exp","over":{"base":"Any"},"name":"equals_correct"},"guarantee":"applies ``equals`` to corresponding elements of the matrices, trying to prove that the elements are equivalent, returning true if they are, false if any pair is not, and none (or the first failing exp","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.RepMatrix.equals_correct","statement":"Path(equals(x), applies ``equals`` to corresponding elements of the matrices, trying to prove that the elements are equivalent, returning true if they are, false if any pair is not, and none (or the first failing exp)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf4abd6229b87b84"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix.equals","kind":"method","src_hash":"f940925ccb31cab8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equals(other, failing_expression)","rhs":"<unspecified:equals>","over":{"base":"Any"},"name":"equals_correct"},"guarantee":"applies ``equals`` to corresponding elements of the matrices, trying to prove that the elements are equivalent, returning true if they are, false if any pair is not, and none (or the first failing exp","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.RepMatrix.equals_correct","statement":"Path(equals(x), applies ``equals`` to corresponding elements of the matrices, trying to prove that the elements are equivalent, returning true if they are, false if any pair is not, and none (or the first failing exp)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf4abd6229b87b84","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.cols","self.rows","self.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def equals(self, other, failing_expression=False):
         """Applies ``equals`` to corresponding elements of the matrices,
         trying to prove that the elements are equivalent, returning True
@@ -808,16 +1027,25 @@ class RepMatrix(MatrixBase):
         return rv
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inv_mod(M, ), returns the inverse of the integer matrix ``m`` modulo ``m``) over Any ║
+# ║ Path(inv_mod(M, m), dMi.to_Matrix()) over {Any | M.is_square and hasattr(M, 'is_square') and hasattr(M, 'to_DM')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ inv_mod : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: M.is_square                                    ║
+# ║   requires: hasattr(M, 'is_square')                        ║
+# ║   requires: hasattr(M, 'to_DM')                            ║
+# ║   returns:  dMi.to_Matrix()                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ inv_mod : {Any | M.is_square and hasattr(M, 'is_squar...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d6283d39658b415e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d7db3883c551d870  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix.inv_mod","kind":"method","src_hash":"f3fda24760962278","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inv_mod(M, )","rhs":"returns the inverse of the integer matrix ``m`` modulo ``m``","over":{"base":"Any"},"name":"inv_mod_correct"},"guarantee":"returns the inverse of the integer matrix ``m`` modulo ``m``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.RepMatrix.inv_mod_correct","statement":"Path(inv_mod(x), returns the inverse of the integer matrix ``m`` modulo ``m``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6283d39658b415e"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix.inv_mod","kind":"method","src_hash":"f3fda24760962278","in":{"base":"Any","pred":"M.is_square and hasattr(M, 'is_square') and hasattr(M, 'to_DM')"},"out":{"base":"Any"},"spec":{"lhs":"inv_mod(M, m)","rhs":"dMi.to_Matrix()","over":{"base":"Any","pred":"M.is_square and hasattr(M, 'is_square') and hasattr(M, 'to_DM')"},"name":"inv_mod_correct"},"guarantee":"returns dMi.to_Matrix()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.RepMatrix.inv_mod_correct","statement":"Path(inv_mod(x), returns dMi.to_Matrix())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7db3883c551d870","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["M.is_square","hasattr(M, 'is_square')","hasattr(M, 'to_DM')"],"returns_expr":"dMi.to_Matrix()","pure":false,"effects":{"effect_type":"reads_state","reads":["M.is_square","M.to_DM"],"raises":["NonInvertibleMatrixError","NonSquareMatrixError","TypeError","ValueError"],"catches":["CoercionFailed","DMNonInvertibleMatrixError","NotInvertible","ValueError"]},"state_contract":{"exceptional_post":{"NonInvertibleMatrixError":["isinstance(raised, NonInvertibleMatrixError)"],"NonSquareMatrixError":["isinstance(raised, NonSquareMatrixError)"],"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def inv_mod(M, m):
         r"""
         Returns the inverse of the integer matrix ``M`` modulo ``m``.
@@ -871,16 +1099,22 @@ class RepMatrix(MatrixBase):
         return dMi.to_Matrix()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lll(del), lll-reduced basis for the rowspace of a matrix of integers) over Any ║
+# ║ Path(lll(delta), self._fromrep(basis)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._fromrep(basis)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lll : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93f03333a52287b1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bcf2f1d965ad87fa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix.lll","kind":"method","src_hash":"dcae451944c0b2d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lll(del)","rhs":"lll-reduced basis for the rowspace of a matrix of integers","over":{"base":"Any"},"name":"lll_correct"},"guarantee":"lll-reduced basis for the rowspace of a matrix of integers","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.RepMatrix.lll_correct","statement":"Path(lll(x), lll-reduced basis for the rowspace of a matrix of integers)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93f03333a52287b1"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix.lll","kind":"method","src_hash":"dcae451944c0b2d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lll(delta)","rhs":"self._fromrep(basis)","over":{"base":"Any"},"name":"lll_correct"},"guarantee":"returns self._fromrep(basis)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.RepMatrix.lll_correct","statement":"Path(lll(x), returns self._fromrep(basis))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bcf2f1d965ad87fa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._fromrep(basis)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._fromrep","self._rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lll(self, delta=0.75):
         """LLL-reduced basis for the rowspace of a matrix of integers.
 
@@ -916,16 +1150,22 @@ class RepMatrix(MatrixBase):
         return self._fromrep(basis)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lll_transform(del), lll-reduced basis and transformation matrix) over Any ║
+# ║ Path(lll_transform(delta), (B, T)) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (B, T)                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lll_transform : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37334bf25ada5b91  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 140ab6601aec6571  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix.lll_transform","kind":"method","src_hash":"18dee28b4cad8a91","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lll_transform(del)","rhs":"lll-reduced basis and transformation matrix","over":{"base":"Any"},"name":"lll_transform_correct"},"guarantee":"lll-reduced basis and transformation matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.RepMatrix.lll_transform_correct","statement":"Path(lll_transform(x), lll-reduced basis and transformation matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37334bf25ada5b91"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.RepMatrix.lll_transform","kind":"method","src_hash":"18dee28b4cad8a91","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lll_transform(delta)","rhs":"(B, T)","over":{"base":"Any"},"name":"lll_transform_correct"},"guarantee":"returns (B, T)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.RepMatrix.lll_transform_correct","statement":"Path(lll_transform(x), returns (B, T))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"140ab6601aec6571","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(B, T)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._fromrep","self._rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lll_transform(self, delta=0.75):
         """LLL-reduced basis and transformation matrix.
 
@@ -979,14 +1219,20 @@ class RepMatrix(MatrixBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MutableRepMatrix(*args), correctly constructs a MutableRepMatrix instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ MutableRepMatrix : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, RepMatrix)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ MutableRepMatrix : Any → {Any | result satisfies: isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7be44e20577e946c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix","kind":"class","src_hash":"a734f72e52bd72c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MutableRepMatrix(*args)","rhs":"correctly constructs a MutableRepMatrix instance","over":{"base":"Any"},"name":"MutableRepMatrix_class_invariant"},"guarantee":"correctly constructs a MutableRepMatrix instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7be44e20577e946c"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix","kind":"class","src_hash":"a734f72e52bd72c5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, RepMatrix)"},"spec":{"lhs":"MutableRepMatrix(*args)","rhs":"correctly constructs a MutableRepMatrix instance","over":{"base":"Any"},"name":"MutableRepMatrix_class_invariant"},"guarantee":"isinstance(self, RepMatrix)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7be44e20577e946c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, RepMatrix)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function MutableRepMatrix not found in source"]}}
 class MutableRepMatrix(RepMatrix):
     """Mutable matrix based on DomainMatrix as the internal representation"""
 
@@ -999,31 +1245,43 @@ class MutableRepMatrix(RepMatrix):
     is_zero = False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, **kwargs), cls._new(*args, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls._new(*args, **kwargs)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ce87e7aa292cd1a8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix.__new__","kind":"method","src_hash":"8720b0f15a452439","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ce87e7aa292cd1a8"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix.__new__","kind":"method","src_hash":"8720b0f15a452439","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, **kwargs)","rhs":"cls._new(*args, **kwargs)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns cls._new(*args, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ce87e7aa292cd1a8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls._new(*args, **kwargs)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._new"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, **kwargs):
         return cls._new(*args, **kwargs)
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_new(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_new(cls, *args, copy), cls._fromrep(rep)) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls._fromrep(rep)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _new : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 04b1aa34a461c549  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2fef9fc463b3726d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix._new","kind":"classmethod","src_hash":"0c5e0fca0ed73a8d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_new(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_new_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.MutableRepMatrix._new_correct","statement":"Path(_new(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04b1aa34a461c549"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix._new","kind":"classmethod","src_hash":"0c5e0fca0ed73a8d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_new(cls, *args, copy)","rhs":"cls._fromrep(rep)","over":{"base":"Any"},"name":"_new_correct"},"guarantee":"returns cls._fromrep(rep)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.MutableRepMatrix._new_correct","statement":"Path(_new(x), returns cls._fromrep(rep))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fef9fc463b3726d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls._fromrep(rep)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._flat_list_to_DomainMatrix","cls._fromrep","cls._handle_creation_inputs"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _new(cls, *args, copy=True, **kwargs):
         if copy is False:
             # The input was rows, cols, [list].
@@ -1041,16 +1299,23 @@ class MutableRepMatrix(RepMatrix):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_fromrep(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_fromrep(cls, rep), <unspecified:_fromrep>) over {Any | hasattr(rep, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _fromrep : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(rep, 'shape')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _fromrep : {Any | hasattr(rep, 'shape')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5493c115260de2f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix._fromrep","kind":"classmethod","src_hash":"425dede939d6913f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_fromrep(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_fromrep_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.MutableRepMatrix._fromrep_correct","statement":"Path(_fromrep(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5493c115260de2f"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix._fromrep","kind":"classmethod","src_hash":"425dede939d6913f","in":{"base":"Any","pred":"hasattr(rep, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"_fromrep(cls, rep)","rhs":"<unspecified:_fromrep>","over":{"base":"Any","pred":"hasattr(rep, 'shape')"},"name":"_fromrep_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.MutableRepMatrix._fromrep_correct","statement":"Path(_fromrep(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5493c115260de2f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(rep, 'shape')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["rep.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _fromrep(cls, rep):
         obj = super().__new__(cls)
         obj.rows, obj.cols = rep.shape
@@ -1058,44 +1323,62 @@ class MutableRepMatrix(RepMatrix):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(copy(), copy produces the expected output) over Any   ║
+# ║ Path(copy(), self._fromrep(self._rep.copy())) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._fromrep(self._rep.copy())                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ copy : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8b629e523fa679b0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix.copy","kind":"method","src_hash":"21a0ad2f8b73354f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"copy()","rhs":"copy produces the expected output","over":{"base":"Any"},"name":"copy_correct"},"guarantee":"copy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8b629e523fa679b0"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix.copy","kind":"method","src_hash":"21a0ad2f8b73354f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"copy()","rhs":"self._fromrep(self._rep.copy())","over":{"base":"Any"},"name":"copy_correct"},"guarantee":"returns self._fromrep(self._rep.copy())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8b629e523fa679b0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._fromrep(self._rep.copy())","pure":false,"effects":{"effect_type":"reads_state","reads":["self._fromrep","self._rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def copy(self):
         return self._fromrep(self._rep.copy())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_mutable(), as_mutable produces the expected output) over Any ║
+# ║ Path(as_mutable(), self.copy()) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.copy()                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_mutable : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2ca344ea024580bc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix.as_mutable","kind":"method","src_hash":"e070fba30c4c0743","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_mutable()","rhs":"as_mutable produces the expected output","over":{"base":"Any"},"name":"as_mutable_correct"},"guarantee":"as_mutable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2ca344ea024580bc"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix.as_mutable","kind":"method","src_hash":"e070fba30c4c0743","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_mutable()","rhs":"self.copy()","over":{"base":"Any"},"name":"as_mutable_correct"},"guarantee":"returns self.copy()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2ca344ea024580bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.copy()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.copy"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_mutable(self):
         return self.copy()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__setitem__(key), correctly sets the element at the given index) over Any ║
+# ║ Path(__setitem__(key, value), <unspecified:__setitem__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __setitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c781396901c0782d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix.__setitem__","kind":"method","src_hash":"be1e21fdc1f7463c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__setitem__(key)","rhs":"correctly sets the element at the given index","over":{"base":"Any"},"name":"__setitem___correct"},"guarantee":"correctly sets the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c781396901c0782d"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix.__setitem__","kind":"method","src_hash":"be1e21fdc1f7463c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__setitem__(key, value)","rhs":"<unspecified:__setitem__>","over":{"base":"Any"},"name":"__setitem___correct"},"guarantee":"correctly sets the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c781396901c0782d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._rep","self._setitem","self._unify_element_sympy"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __setitem__(self, key, value):
         """
 
@@ -1143,76 +1426,106 @@ class MutableRepMatrix(RepMatrix):
             self._rep.rep.setitem(i, j, value)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_col_del(col), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_col_del(col), <unspecified:_eval_col_del>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_col_del : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 335026d8bcbf9d1f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix._eval_col_del","kind":"method","src_hash":"f71c56396b86d99f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_col_del(col)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_col_del_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.MutableRepMatrix._eval_col_del_correct","statement":"Path(_eval_col_del(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"335026d8bcbf9d1f"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix._eval_col_del","kind":"method","src_hash":"f71c56396b86d99f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_col_del(col)","rhs":"<unspecified:_eval_col_del>","over":{"base":"Any"},"name":"_eval_col_del_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.MutableRepMatrix._eval_col_del_correct","statement":"Path(_eval_col_del(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"335026d8bcbf9d1f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._rep"],"writes":["self._rep","self.cols"]},"state_contract":{"modifies":["self._rep","self.cols"],"old_bindings":{"old_self__rep":"self._rep","old_self_cols":"self.cols"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_col_del(self, col):
         self._rep = DomainMatrix.hstack(self._rep[:,:col], self._rep[:,col+1:])
         self.cols -= 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_row_del(row), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_row_del(row), <unspecified:_eval_row_del>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_row_del : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 53cc9c9742ecb9ca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix._eval_row_del","kind":"method","src_hash":"e312c32b87978f05","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_row_del(row)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_row_del_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.MutableRepMatrix._eval_row_del_correct","statement":"Path(_eval_row_del(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53cc9c9742ecb9ca"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix._eval_row_del","kind":"method","src_hash":"e312c32b87978f05","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_row_del(row)","rhs":"<unspecified:_eval_row_del>","over":{"base":"Any"},"name":"_eval_row_del_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.MutableRepMatrix._eval_row_del_correct","statement":"Path(_eval_row_del(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53cc9c9742ecb9ca","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._rep"],"writes":["self._rep","self.rows"]},"state_contract":{"modifies":["self._rep","self.rows"],"old_bindings":{"old_self__rep":"self._rep","old_self_rows":"self.rows"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_row_del(self, row):
         self._rep = DomainMatrix.vstack(self._rep[:row,:], self._rep[row+1:, :])
         self.rows -= 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_col_insert(col), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_col_insert(col, other), self.hstack(self[:, :col], other, self[:, col:])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.hstack(self[:, :col], other, self[:,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_col_insert : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 48b814517c7ea8f3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 53e64de59748ca84  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix._eval_col_insert","kind":"method","src_hash":"d5964c8c8ad35828","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_col_insert(col)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_col_insert_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.MutableRepMatrix._eval_col_insert_correct","statement":"Path(_eval_col_insert(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"48b814517c7ea8f3"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix._eval_col_insert","kind":"method","src_hash":"d5964c8c8ad35828","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_col_insert(col, other)","rhs":"self.hstack(self[:, :col], other, self[:, col:])","over":{"base":"Any"},"name":"_eval_col_insert_correct"},"guarantee":"returns self.hstack(self[:, :col], other, self[:, col:])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.MutableRepMatrix._eval_col_insert_correct","statement":"Path(_eval_col_insert(x), returns self.hstack(self[:, :col], other, self[:, col:]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53e64de59748ca84","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.hstack(self[:, :col], other, self[:, col:])","pure":false,"effects":{"effect_type":"reads_state","reads":["self._new","self.hstack"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_col_insert(self, col, other):
         other = self._new(other)
         return self.hstack(self[:,:col], other, self[:,col:])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_row_insert(row), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_row_insert(row, other), self.vstack(self[:row, :], other, self[row:, :])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.vstack(self[:row, :], other, self[ro...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_row_insert : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc1df23233ba609b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 363134f5b775c7da  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix._eval_row_insert","kind":"method","src_hash":"af85c9efd3cfd134","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_row_insert(row)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_row_insert_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.MutableRepMatrix._eval_row_insert_correct","statement":"Path(_eval_row_insert(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc1df23233ba609b"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix._eval_row_insert","kind":"method","src_hash":"af85c9efd3cfd134","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_row_insert(row, other)","rhs":"self.vstack(self[:row, :], other, self[row:, :])","over":{"base":"Any"},"name":"_eval_row_insert_correct"},"guarantee":"returns self.vstack(self[:row, :], other, self[row:, :])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.MutableRepMatrix._eval_row_insert_correct","statement":"Path(_eval_row_insert(x), returns self.vstack(self[:row, :], other, self[row:, :]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"363134f5b775c7da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.vstack(self[:row, :], other, self[row:, :])","pure":false,"effects":{"effect_type":"reads_state","reads":["self._new","self.vstack"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_row_insert(self, row, other):
         other = self._new(other)
         return self.vstack(self[:row,:], other, self[row:,:])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(col_op(j, ), in-place operation on col j using two-arg functor whose args are interpreted as (self[i, j], i)) over Any ║
+# ║ Path(col_op(j, f), <unspecified:col_op>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ col_op : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6132755392f83f23  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix.col_op","kind":"method","src_hash":"6e96c40b1556c9ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"col_op(j, )","rhs":"in-place operation on col j using two-arg functor whose args are interpreted as (self[i, j], i)","over":{"base":"Any"},"name":"col_op_correct"},"guarantee":"in-place operation on col j using two-arg functor whose args are interpreted as (self[i, j], i)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.MutableRepMatrix.col_op_correct","statement":"Path(col_op(x), in-place operation on col j using two-arg functor whose args are interpreted as (self[i, j], i))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6132755392f83f23"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix.col_op","kind":"method","src_hash":"6e96c40b1556c9ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"col_op(j, f)","rhs":"<unspecified:col_op>","over":{"base":"Any"},"name":"col_op_correct"},"guarantee":"in-place operation on col j using two-arg functor whose args are interpreted as (self[i, j], i)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.MutableRepMatrix.col_op_correct","statement":"Path(col_op(x), in-place operation on col j using two-arg functor whose args are interpreted as (self[i, j], i))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6132755392f83f23","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.rows"],"writes":["self[*]"]},"state_contract":{"modifies":["self[*]"],"old_bindings":{"old_self_star":"self[*]"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def col_op(self, j, f):
         """In-place operation on col j using two-arg functor whose args are
         interpreted as (self[i, j], i).
@@ -1237,16 +1550,22 @@ class MutableRepMatrix(RepMatrix):
             self[i, j] = f(self[i, j], i)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(col_swap(i, ), swap the two given columns of the matrix in-place) over Any ║
+# ║ Path(col_swap(i, j), <unspecified:col_swap>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ col_swap : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 008395dd29e93681  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix.col_swap","kind":"method","src_hash":"7bdad40b4313a57c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"col_swap(i, )","rhs":"swap the two given columns of the matrix in-place","over":{"base":"Any"},"name":"col_swap_correct"},"guarantee":"swap the two given columns of the matrix in-place","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.MutableRepMatrix.col_swap_correct","statement":"Path(col_swap(x), swap the two given columns of the matrix in-place)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"008395dd29e93681"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix.col_swap","kind":"method","src_hash":"7bdad40b4313a57c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"col_swap(i, j)","rhs":"<unspecified:col_swap>","over":{"base":"Any"},"name":"col_swap_correct"},"guarantee":"swap the two given columns of the matrix in-place","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.MutableRepMatrix.col_swap_correct","statement":"Path(col_swap(x), swap the two given columns of the matrix in-place)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"008395dd29e93681","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rows"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def col_swap(self, i, j):
         """Swap the two given columns of the matrix in-place.
 
@@ -1275,16 +1594,22 @@ class MutableRepMatrix(RepMatrix):
             self[k, i], self[k, j] = self[k, j], self[k, i]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(row_op(i, ), in-place operation on row ``i`` using two-arg functor whose args are interpreted as ``(self[i, j], j)``) over Any ║
+# ║ Path(row_op(i, f), <unspecified:row_op>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ row_op : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0edd6544e13fdc17  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix.row_op","kind":"method","src_hash":"5d53248cd7dc73c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"row_op(i, )","rhs":"in-place operation on row ``i`` using two-arg functor whose args are interpreted as ``(self[i, j], j)``","over":{"base":"Any"},"name":"row_op_correct"},"guarantee":"in-place operation on row ``i`` using two-arg functor whose args are interpreted as ``(self[i, j], j)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.MutableRepMatrix.row_op_correct","statement":"Path(row_op(x), in-place operation on row ``i`` using two-arg functor whose args are interpreted as ``(self[i, j], j)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0edd6544e13fdc17"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix.row_op","kind":"method","src_hash":"5d53248cd7dc73c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"row_op(i, f)","rhs":"<unspecified:row_op>","over":{"base":"Any"},"name":"row_op_correct"},"guarantee":"in-place operation on row ``i`` using two-arg functor whose args are interpreted as ``(self[i, j], j)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.MutableRepMatrix.row_op_correct","statement":"Path(row_op(x), in-place operation on row ``i`` using two-arg functor whose args are interpreted as ``(self[i, j], j)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0edd6544e13fdc17","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.cols"],"writes":["self[*]"]},"state_contract":{"modifies":["self[*]"],"old_bindings":{"old_self_star":"self[*]"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def row_op(self, i, f):
         """In-place operation on row ``i`` using two-arg functor whose args are
         interpreted as ``(self[i, j], j)``.
@@ -1312,16 +1637,22 @@ class MutableRepMatrix(RepMatrix):
 
     #The next three methods give direct support for the most common row operations inplace.
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(row_mult(i, ), multiply the given row by the given factor in-place) over Any ║
+# ║ Path(row_mult(i, factor), <unspecified:row_mult>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ row_mult : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 25e23b5dc5f215e4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix.row_mult","kind":"method","src_hash":"0c5d134b388de4e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"row_mult(i, )","rhs":"multiply the given row by the given factor in-place","over":{"base":"Any"},"name":"row_mult_correct"},"guarantee":"multiply the given row by the given factor in-place","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.MutableRepMatrix.row_mult_correct","statement":"Path(row_mult(x), multiply the given row by the given factor in-place)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25e23b5dc5f215e4"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix.row_mult","kind":"method","src_hash":"0c5d134b388de4e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"row_mult(i, factor)","rhs":"<unspecified:row_mult>","over":{"base":"Any"},"name":"row_mult_correct"},"guarantee":"multiply the given row by the given factor in-place","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.MutableRepMatrix.row_mult_correct","statement":"Path(row_mult(x), multiply the given row by the given factor in-place)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25e23b5dc5f215e4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.cols"],"writes":["self[*]"]},"state_contract":{"modifies":["self[*]"],"old_bindings":{"old_self_star":"self[*]"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def row_mult(self,i,factor):
         """Multiply the given row by the given factor in-place.
 
@@ -1341,16 +1672,22 @@ class MutableRepMatrix(RepMatrix):
             self[i,j] *= factor
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(row_add(s, ), add k times row s (source) to row t (target) in place) over Any ║
+# ║ Path(row_add(s, t, k), <unspecified:row_add>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ row_add : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d7ef3313dcaeb14d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix.row_add","kind":"method","src_hash":"de62dc54a74148b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"row_add(s, )","rhs":"add k times row s (source) to row t (target) in place","over":{"base":"Any"},"name":"row_add_correct"},"guarantee":"add k times row s (source) to row t (target) in place","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.MutableRepMatrix.row_add_correct","statement":"Path(row_add(x), add k times row s (source) to row t (target) in place)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7ef3313dcaeb14d"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix.row_add","kind":"method","src_hash":"de62dc54a74148b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"row_add(s, t, k)","rhs":"<unspecified:row_add>","over":{"base":"Any"},"name":"row_add_correct"},"guarantee":"add k times row s (source) to row t (target) in place","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.MutableRepMatrix.row_add_correct","statement":"Path(row_add(x), add k times row s (source) to row t (target) in place)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7ef3313dcaeb14d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.cols"],"writes":["self[*]"]},"state_contract":{"modifies":["self[*]"],"old_bindings":{"old_self_star":"self[*]"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def row_add(self,s,t,k):
         """Add k times row s (source) to row t (target) in place.
 
@@ -1370,16 +1707,22 @@ class MutableRepMatrix(RepMatrix):
             self[t,j] += k*self[s,j]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(row_swap(i, ), swap the two given rows of the matrix in-place) over Any ║
+# ║ Path(row_swap(i, j), <unspecified:row_swap>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ row_swap : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f7253f67b275cbb8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix.row_swap","kind":"method","src_hash":"6de0370de48b416f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"row_swap(i, )","rhs":"swap the two given rows of the matrix in-place","over":{"base":"Any"},"name":"row_swap_correct"},"guarantee":"swap the two given rows of the matrix in-place","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.MutableRepMatrix.row_swap_correct","statement":"Path(row_swap(x), swap the two given rows of the matrix in-place)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7253f67b275cbb8"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix.row_swap","kind":"method","src_hash":"6de0370de48b416f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"row_swap(i, j)","rhs":"<unspecified:row_swap>","over":{"base":"Any"},"name":"row_swap_correct"},"guarantee":"swap the two given rows of the matrix in-place","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.MutableRepMatrix.row_swap_correct","statement":"Path(row_swap(x), swap the two given rows of the matrix in-place)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7253f67b275cbb8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.cols"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def row_swap(self, i, j):
         """Swap the two given rows of the matrix in-place.
 
@@ -1408,16 +1751,22 @@ class MutableRepMatrix(RepMatrix):
             self[i, k], self[j, k] = self[j, k], self[i, k]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(zip_row_op(i, ), in-place operation on row ``i`` using two-arg functor whose args are interpreted as ``(self[i, j], self[k, j])``) over Any ║
+# ║ Path(zip_row_op(i, k, f), <unspecified:zip_row_op>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ zip_row_op : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 90b2f8f098b09332  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix.zip_row_op","kind":"method","src_hash":"59aa615812c4ec75","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zip_row_op(i, )","rhs":"in-place operation on row ``i`` using two-arg functor whose args are interpreted as ``(self[i, j], self[k, j])``","over":{"base":"Any"},"name":"zip_row_op_correct"},"guarantee":"in-place operation on row ``i`` using two-arg functor whose args are interpreted as ``(self[i, j], self[k, j])``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.MutableRepMatrix.zip_row_op_correct","statement":"Path(zip_row_op(x), in-place operation on row ``i`` using two-arg functor whose args are interpreted as ``(self[i, j], self[k, j])``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90b2f8f098b09332"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix.zip_row_op","kind":"method","src_hash":"59aa615812c4ec75","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zip_row_op(i, k, f)","rhs":"<unspecified:zip_row_op>","over":{"base":"Any"},"name":"zip_row_op_correct"},"guarantee":"in-place operation on row ``i`` using two-arg functor whose args are interpreted as ``(self[i, j], self[k, j])``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.MutableRepMatrix.zip_row_op_correct","statement":"Path(zip_row_op(x), in-place operation on row ``i`` using two-arg functor whose args are interpreted as ``(self[i, j], self[k, j])``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90b2f8f098b09332","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.cols"],"writes":["self[*]"]},"state_contract":{"modifies":["self[*]"],"old_bindings":{"old_self_star":"self[*]"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def zip_row_op(self, i, k, f):
         """In-place operation on row ``i`` using two-arg functor whose args are
         interpreted as ``(self[i, j], self[k, j])``.
@@ -1444,16 +1793,23 @@ class MutableRepMatrix(RepMatrix):
             self[i, j] = f(self[i, j], self[k, j])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(copyin_list(key), id) over Any                        ║
+# ║ Path(copyin_list(key, value), id) over {Any | is_sequence(value)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ copyin_list : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: is_sequence(value)                             ║
+# ║   returns:  self.copyin_matrix(key, type(self)(value))     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ copyin_list : {Any | is_sequence(value)} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | cb3a452973855874   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix.copyin_list","kind":"method","src_hash":"13dcca435818cc7f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"copyin_list(key)","rhs":"copy in elements from a list","over":{"base":"Any"},"name":"copyin_list_correct","kind":"composition"},"guarantee":"copy in elements from a list","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"copyin_matrix","by":"library_axiom"},{"fn":"type","by":"library_axiom"},{"fn":"self","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb3a452973855874"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix.copyin_list","kind":"method","src_hash":"13dcca435818cc7f","in":{"base":"Any","pred":"is_sequence(value)"},"out":{"base":"Any"},"spec":{"lhs":"copyin_list(key, value)","rhs":"self.copyin_matrix(key, type(self)(value))","over":{"base":"Any","pred":"is_sequence(value)"},"name":"copyin_list_correct","kind":"composition"},"guarantee":"returns self.copyin_matrix(key, type(self)(value))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"copyin_matrix","by":"library_axiom"},{"fn":"type","by":"library_axiom"},{"fn":"self","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb3a452973855874","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["is_sequence(value)"],"returns_expr":"self.copyin_matrix(key, type(self)(value))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.copyin_matrix"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def copyin_list(self, key, value):
         """Copy in elements from a list.
 
@@ -1493,16 +1849,25 @@ class MutableRepMatrix(RepMatrix):
         return self.copyin_matrix(key, type(self)(value))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(copyin_matrix(key), copy in values from a matrix into the given bounds) over Any ║
+# ║ Path(copyin_matrix(key, value), <unspecified:copyin_matrix>) over {Any | not (shape != (dr, dc)) and hasattr(value, 'shape') and hasattr(value, 'rows') and hasattr(value, 'cols')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ copyin_matrix : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (shape != (dr, dc))                        ║
+# ║   requires: hasattr(value, 'shape')                        ║
+# ║   requires: hasattr(value, 'rows')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ copyin_matrix : {Any | not (shape != (dr, dc)) and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f243bc5525f5c79  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix.copyin_matrix","kind":"method","src_hash":"24c03898765e3476","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"copyin_matrix(key)","rhs":"copy in values from a matrix into the given bounds","over":{"base":"Any"},"name":"copyin_matrix_correct"},"guarantee":"copy in values from a matrix into the given bounds","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.MutableRepMatrix.copyin_matrix_correct","statement":"Path(copyin_matrix(x), copy in values from a matrix into the given bounds)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f243bc5525f5c79"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix.copyin_matrix","kind":"method","src_hash":"24c03898765e3476","in":{"base":"Any","pred":"not (shape != (dr, dc)) and hasattr(value, 'shape') and hasattr(value, 'rows') and hasattr(value, 'cols')"},"out":{"base":"Any"},"spec":{"lhs":"copyin_matrix(key, value)","rhs":"<unspecified:copyin_matrix>","over":{"base":"Any","pred":"not (shape != (dr, dc)) and hasattr(value, 'shape') and hasattr(value, 'rows') and hasattr(value, 'cols')"},"name":"copyin_matrix_correct"},"guarantee":"copy in values from a matrix into the given bounds","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.MutableRepMatrix.copyin_matrix_correct","statement":"Path(copyin_matrix(x), copy in values from a matrix into the given bounds)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f243bc5525f5c79","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (shape != (dr, dc))","hasattr(value, 'shape')","hasattr(value, 'rows')","hasattr(value, 'cols')"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.key2bounds","value.cols","value.rows","value.shape"],"writes":["self[*]"],"raises":["ShapeError"]},"state_contract":{"modifies":["self[*]"],"old_bindings":{"old_self_star":"self[*]"},"exceptional_post":{"ShapeError":["isinstance(raised, ShapeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def copyin_matrix(self, key, value):
         """Copy in values from a matrix into the given bounds.
 
@@ -1551,16 +1916,22 @@ class MutableRepMatrix(RepMatrix):
                 self[i + rlo, j + clo] = value[i, j]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fill(val), fill self with the given value) over Any   ║
+# ║ Path(fill(value), <unspecified:fill>) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fill : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aeb12ca7eb2157cc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix.fill","kind":"method","src_hash":"d2f45e2c07e01b68","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fill(val)","rhs":"fill self with the given value","over":{"base":"Any"},"name":"fill_correct"},"guarantee":"fill self with the given value","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.MutableRepMatrix.fill_correct","statement":"Path(fill(x), fill self with the given value)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aeb12ca7eb2157cc"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix.MutableRepMatrix.fill","kind":"method","src_hash":"d2f45e2c07e01b68","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fill(value)","rhs":"<unspecified:fill>","over":{"base":"Any"},"name":"fill_correct"},"guarantee":"fill self with the given value","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix.MutableRepMatrix.fill_correct","statement":"Path(fill(x), fill self with the given value)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aeb12ca7eb2157cc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.cols","self.rows","self.shape"],"writes":["self._rep"]},"state_contract":{"modifies":["self._rep"],"old_bindings":{"old_self__rep":"self._rep"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fill(self, value):
         """Fill self with the given value.
 
@@ -1601,7 +1972,10 @@ class MutableRepMatrix(RepMatrix):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_getitem_RepMatrix(key), return portion of self defined by key) over {Any | isinstance(key, tuple) and isinstance(key, slice) and isinstance(i, Expr)} ║
+# ║ Path(_getitem_RepMatrix(key), <unspecified:_getitem_RepMatrix>) over {Any | isinstance(key, tuple) and isinstance(key, slice) and isinstance(i, Expr)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _getitem_RepMatrix : {Any | isinstance(key, tuple) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1615,9 +1989,12 @@ class MutableRepMatrix(RepMatrix):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?3 ✗3 VCs | 8.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | f2787ad1...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix._getitem_RepMatrix","kind":"function","src_hash":"d4e43c3a2ec34f35","in":{"base":"Any","pred":"isinstance(key, tuple) and isinstance(key, slice) and isinstance(i, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"_getitem_RepMatrix(key)","rhs":"return portion of self defined by key","over":{"base":"Any","pred":"isinstance(key, tuple) and isinstance(key, slice) and isinstance(i, Expr)"},"name":"_getitem_RepMatrix_correct"},"guarantee":"return portion of self defined by key","fibers":[{"name":"tuple","pred":"isinstance(key, tuple)","path":{"lhs":"_getitem_RepMatrix(x)","rhs":"return portion of self defined by key","over":{"base":"tuple","pred":"isinstance(key, tuple)"},"name":"_getitem_RepMatrix_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix._getitem_RepMatrix_tuple_correct","statement":"_getitem_RepMatrix satisfies spec on tuple inputs"},"trust":"LIBRARY"},{"name":"slice","pred":"isinstance(key, slice)","path":{"lhs":"_getitem_RepMatrix(x)","rhs":"return portion of self defined by key","over":{"base":"slice","pred":"isinstance(key, slice)"},"name":"_getitem_RepMatrix_slice_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix._getitem_RepMatrix_slice_correct","statement":"_getitem_RepMatrix satisfies spec on slice inputs"},"trust":"LIBRARY"},{"name":"Expr","pred":"isinstance(i, Expr)","path":{"lhs":"_getitem_RepMatrix(x)","rhs":"return portion of self defined by key","over":{"base":"Expr","pred":"isinstance(i, Expr)"},"name":"_getitem_RepMatrix_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix._getitem_RepMatrix_Expr_correct","statement":"_getitem_RepMatrix satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f2787ad140239ad0"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.repmatrix._getitem_RepMatrix","kind":"function","src_hash":"d4e43c3a2ec34f35","in":{"base":"Any","pred":"isinstance(key, tuple) and isinstance(key, slice) and isinstance(i, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"_getitem_RepMatrix(key)","rhs":"<unspecified:_getitem_RepMatrix>","over":{"base":"Any","pred":"isinstance(key, tuple) and isinstance(key, slice) and isinstance(i, Expr)"},"name":"_getitem_RepMatrix_correct"},"guarantee":"return portion of self defined by key","fibers":[{"name":"tuple","pred":"isinstance(key, tuple)","path":{"lhs":"_getitem_RepMatrix(x)","rhs":"return portion of self defined by key","over":{"base":"tuple","pred":"isinstance(key, tuple)"},"name":"_getitem_RepMatrix_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix._getitem_RepMatrix_tuple_correct","statement":"_getitem_RepMatrix satisfies spec on tuple inputs"},"trust":"LIBRARY"},{"name":"slice","pred":"isinstance(key, slice)","path":{"lhs":"_getitem_RepMatrix(x)","rhs":"return portion of self defined by key","over":{"base":"slice","pred":"isinstance(key, slice)"},"name":"_getitem_RepMatrix_slice_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix._getitem_RepMatrix_slice_correct","statement":"_getitem_RepMatrix satisfies spec on slice inputs"},"trust":"LIBRARY"},{"name":"Expr","pred":"isinstance(i, Expr)","path":{"lhs":"_getitem_RepMatrix(x)","rhs":"return portion of self defined by key","over":{"base":"Expr","pred":"isinstance(i, Expr)"},"name":"_getitem_RepMatrix_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.repmatrix._getitem_RepMatrix_Expr_correct","statement":"_getitem_RepMatrix satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f2787ad140239ad0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._rep","self.cols","self.extract","self.rows","self.shape"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":2,"n_assumed":3,"n_failed":3,"trust_level":"LIBRARY_ASSUMED","compile_ms":8.8,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(key, tuple)', 'isinstance(i, Expr) and (not i.is_number) or (isinstance(j, Expr) and (not j.is_number))', '(j < 0) is True or (j >= self.shape[1]) is True or (i < 0) is True or ((i >= self.shape[0]) is True)', 'domain != EXRAW', 'isinstance(j, slice)', 'isinstance(i, slice)'}, fibers={'slice', 'Expr', 'tuple'})"]}}
 def _getitem_RepMatrix(self, key):
     """Return portion of self defined by key. If the key involves a slice
     then a list will be returned (if key is a single slice) or a matrix

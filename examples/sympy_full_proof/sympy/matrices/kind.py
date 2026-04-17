@@ -24,14 +24,20 @@ from sympy.core.mul import Mul
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MatrixKind(*args), correctly constructs a MatrixKind instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ MatrixKind : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Kind)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ MatrixKind : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78ca8987d9cc98cf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.kind.MatrixKind","kind":"class","src_hash":"e7eb73e12bbc864d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MatrixKind(*args)","rhs":"correctly constructs a MatrixKind instance","over":{"base":"Any"},"name":"MatrixKind_class_invariant"},"guarantee":"correctly constructs a MatrixKind instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78ca8987d9cc98cf"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.kind.MatrixKind","kind":"class","src_hash":"e7eb73e12bbc864d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Kind)"},"spec":{"lhs":"MatrixKind(*args)","rhs":"correctly constructs a MatrixKind instance","over":{"base":"Any"},"name":"MatrixKind_class_invariant"},"guarantee":"isinstance(self, Kind)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78ca8987d9cc98cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Kind)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function MatrixKind not found in source"]}}
 class MatrixKind(Kind):
     """
     Kind for all matrices in SymPy.
@@ -90,41 +96,57 @@ class MatrixKind(Kind):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, element_kind), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | da9f2fe7c5a654d1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.kind.MatrixKind.__new__","kind":"method","src_hash":"3fdd811326ffc1fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"da9f2fe7c5a654d1"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.kind.MatrixKind.__new__","kind":"method","src_hash":"3fdd811326ffc1fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, element_kind)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"da9f2fe7c5a654d1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, element_kind=NumberKind):
         obj = super().__new__(cls, element_kind)
         obj.element_kind = element_kind
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), 'MatrixKind(%s)' % self.element_kind) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'MatrixKind(%s)' % self.element_kind           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 069bfaf4113ae830           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.kind.MatrixKind.__repr__","kind":"method","src_hash":"c92b7180844f72f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"069bfaf4113ae830"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.kind.MatrixKind.__repr__","kind":"method","src_hash":"c92b7180844f72f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'MatrixKind(%s)' % self.element_kind","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns 'MatrixKind(%s)' % self.element_kind","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"069bfaf4113ae830","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'MatrixKind(%s)' % self.element_kind","pure":false,"effects":{"effect_type":"reads_state","reads":["self.element_kind"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return "MatrixKind(%s)" % self.element_kind
 
 
 @Mul._kind_dispatcher.register(_NumberKind, MatrixKind)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(num_mat_mul(k1,), return matrixkind) over {Any | isinstance(k2, MatrixKind)} ║
+# ║ Path(num_mat_mul(k1, k2), MatrixKind(elemk)) over {Any | isinstance(k2, MatrixKind) and hasattr(k2, 'element_kind')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ num_mat_mul : {Any | isinstance(k2, MatrixKind)} → Any     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(k2, 'element_kind')                    ║
+# ║   returns:  MatrixKind(elemk)                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ num_mat_mul : {Any | isinstance(k2, MatrixKind) and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   MatrixKind: {isinstance(k2, MatrixKind)} → library_...   ║
@@ -134,9 +156,12 @@ class MatrixKind(Kind):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ce5facf7...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.kind.num_mat_mul","kind":"function","src_hash":"3aa955ee26557e53","in":{"base":"Any","pred":"isinstance(k2, MatrixKind)"},"out":{"base":"Any"},"spec":{"lhs":"num_mat_mul(k1,)","rhs":"return matrixkind","over":{"base":"Any","pred":"isinstance(k2, MatrixKind)"},"name":"num_mat_mul_correct"},"guarantee":"return matrixkind","fibers":[{"name":"MatrixKind","pred":"isinstance(k2, MatrixKind)","path":{"lhs":"num_mat_mul(x)","rhs":"return matrixkind","over":{"base":"MatrixKind","pred":"isinstance(k2, MatrixKind)"},"name":"num_mat_mul_MatrixKind_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.kind.num_mat_mul_MatrixKind_correct","statement":"num_mat_mul satisfies spec on MatrixKind inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ce5facf7b6d531fe"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.kind.num_mat_mul","kind":"function","src_hash":"3aa955ee26557e53","in":{"base":"Any","pred":"isinstance(k2, MatrixKind) and hasattr(k2, 'element_kind')"},"out":{"base":"Any"},"spec":{"lhs":"num_mat_mul(k1, k2)","rhs":"MatrixKind(elemk)","over":{"base":"Any","pred":"isinstance(k2, MatrixKind) and hasattr(k2, 'element_kind')"},"name":"num_mat_mul_correct"},"guarantee":"returns MatrixKind(elemk)","fibers":[{"name":"MatrixKind","pred":"isinstance(k2, MatrixKind)","path":{"lhs":"num_mat_mul(x)","rhs":"returns MatrixKind(elemk)","over":{"base":"MatrixKind","pred":"isinstance(k2, MatrixKind)"},"name":"num_mat_mul_MatrixKind_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.kind.num_mat_mul_MatrixKind_correct","statement":"num_mat_mul satisfies spec on MatrixKind inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ce5facf7b6d531fe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(k2, 'element_kind')"],"returns_expr":"MatrixKind(elemk)","pure":false,"effects":{"effect_type":"reads_state","reads":["k2.element_kind"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(k2, MatrixKind)'}, fibers={'MatrixKind'})"]}}
 def num_mat_mul(k1, k2):
     """
     Return MatrixKind. The element kind is selected by recursive dispatching.
@@ -156,16 +181,24 @@ def num_mat_mul(k1, k2):
 
 @Mul._kind_dispatcher.register(MatrixKind, MatrixKind)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mat_mat_mul(k1,), return matrixkind) over Any         ║
+# ║ Path(mat_mat_mul(k1, k2), MatrixKind(elemk)) over {Any | hasattr(k1, 'element_kind') and hasattr(k2, 'element_kind')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ mat_mat_mul : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(k1, 'element_kind')                    ║
+# ║   requires: hasattr(k2, 'element_kind')                    ║
+# ║   returns:  MatrixKind(elemk)                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ mat_mat_mul : {Any | hasattr(k1, 'element_kind') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b2b5cc1139c3a25f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c14a23efad3b943  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.kind.mat_mat_mul","kind":"function","src_hash":"f738c37926aa3f40","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mat_mat_mul(k1,)","rhs":"return matrixkind","over":{"base":"Any"},"name":"mat_mat_mul_correct"},"guarantee":"return matrixkind","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.kind.mat_mat_mul_correct","statement":"Path(mat_mat_mul(x), return matrixkind)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2b5cc1139c3a25f"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.kind.mat_mat_mul","kind":"function","src_hash":"f738c37926aa3f40","in":{"base":"Any","pred":"hasattr(k1, 'element_kind') and hasattr(k2, 'element_kind')"},"out":{"base":"Any"},"spec":{"lhs":"mat_mat_mul(k1, k2)","rhs":"MatrixKind(elemk)","over":{"base":"Any","pred":"hasattr(k1, 'element_kind') and hasattr(k2, 'element_kind')"},"name":"mat_mat_mul_correct"},"guarantee":"returns MatrixKind(elemk)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.kind.mat_mat_mul_correct","statement":"Path(mat_mat_mul(x), returns MatrixKind(elemk))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c14a23efad3b943","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(k1, 'element_kind')","hasattr(k2, 'element_kind')"],"returns_expr":"MatrixKind(elemk)","pure":false,"effects":{"effect_type":"reads_state","reads":["k1.element_kind","k2.element_kind"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def mat_mat_mul(k1, k2):
     """
     Return MatrixKind. The element kind is selected by recursive dispatching.

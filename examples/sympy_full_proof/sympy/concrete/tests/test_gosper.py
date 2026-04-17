@@ -31,16 +31,23 @@ from sympy.abc import a, b, j, k, m, n, r, x
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gosper_normal(), test_gosper_normal produces the expected output) over Any ║
+# ║ Path(test_gosper_normal(), gosper_normal(*eq) == (Poly(Rational(1, 4), n), Poly(n + Rational(3, 2)), Poly(n + Rational(1, 4))) and gosper_normal(*eq, polys=False) == (Rational(1, 4), n + Rational(3, 2), n + Rational(1, 4))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gosper_normal : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gosper_normal(*eq) == (Poly(Rational(1, 4...   ║
+# ║   ensures:  gosper_normal(*eq, polys=False) == (Ratio...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gosper_normal : Any → {Any | result satisfies: g...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd08158d483e6dd7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3198554f921c3881  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_gosper.test_gosper_normal","kind":"function","src_hash":"6e45f9262e9ba00e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_gosper_normal()","rhs":"test_gosper_normal produces the expected output","over":{"base":"Any"},"name":"test_gosper_normal_correct"},"guarantee":"test_gosper_normal produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_gosper.test_gosper_normal_correct","statement":"Path(test_gosper_normal(x), test_gosper_normal produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd08158d483e6dd7"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_gosper.test_gosper_normal","kind":"function","src_hash":"6e45f9262e9ba00e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gosper_normal(*eq) == (Poly(Rational(1, 4), n), Poly(n + Rational(3, 2)), Poly(n + Rational(1, 4))) and gosper_normal(*eq, polys=False) == (Rational(1, 4), n + Rational(3, 2), n + Rational(1, 4))"},"spec":{"lhs":"test_gosper_normal()","rhs":"gosper_normal(*eq) == (Poly(Rational(1, 4), n), Poly(n + Rational(3, 2)), Poly(n + Rational(1, 4))) and gosper_normal(*eq, polys=False) == (Rational(1, 4), n + Rational(3, 2), n + Rational(1, 4))","over":{"base":"Any"},"name":"test_gosper_normal_correct"},"guarantee":"gosper_normal(*eq) == (Poly(Rational(1, 4), n), Poly(n + Rational(3, 2)), Poly(n + Rational(1, 4))); gosper_normal(*eq, polys=False) == (Rational(1, 4), n + Rational(3, 2), n + Rational(1, 4))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_gosper.test_gosper_normal_correct","statement":"Path(test_gosper_normal(x), gosper_normal(*eq) == (Poly(Rational(1, 4), n), Poly(n + Rational(3, 2)), Poly(n + Rational(1, 4))); gosper_normal(*eq, polys=False) == (Rational(1, 4), n + Rational(3, 2), n + Rational(1, 4)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3198554f921c3881","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gosper_normal(*eq) == (Poly(Rational(1, 4), n), Poly(n + Rational(3, 2)), Poly(n + Rational(1, 4)))","gosper_normal(*eq, polys=False) == (Rational(1, 4), n + Rational(3, 2), n + Rational(1, 4))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_gosper_normal():
     eq = 4*n + 5, 2*(4*n + 1)*(2*n + 3), n
     assert gosper_normal(*eq) == \
@@ -50,32 +57,46 @@ def test_gosper_normal():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gosper_term(), test_gosper_term produces the expected output) over Any ║
+# ║ Path(test_gosper_term(), gosper_term((4 * k + 1) * factorial(k) / factorial(2 * k + 1), k) == (-k - S.Half) / (k + Rational(1, 4))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gosper_term : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gosper_term((4 * k + 1) * factorial(k) / ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gosper_term : Any → {Any | result satisfies: gos...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f54f36524803cf44  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ddbbd987b3f254c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_gosper.test_gosper_term","kind":"function","src_hash":"7a050955db1f6f98","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_gosper_term()","rhs":"test_gosper_term produces the expected output","over":{"base":"Any"},"name":"test_gosper_term_correct"},"guarantee":"test_gosper_term produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_gosper.test_gosper_term_correct","statement":"Path(test_gosper_term(x), test_gosper_term produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f54f36524803cf44"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_gosper.test_gosper_term","kind":"function","src_hash":"7a050955db1f6f98","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gosper_term((4 * k + 1) * factorial(k) / factorial(2 * k + 1), k) == (-k - S.Half) / (k + Rational(1, 4))"},"spec":{"lhs":"test_gosper_term()","rhs":"gosper_term((4 * k + 1) * factorial(k) / factorial(2 * k + 1), k) == (-k - S.Half) / (k + Rational(1, 4))","over":{"base":"Any"},"name":"test_gosper_term_correct"},"guarantee":"gosper_term((4 * k + 1) * factorial(k) / factorial(2 * k + 1), k) == (-k - S.Half) / (k + Rational(1, 4))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_gosper.test_gosper_term_correct","statement":"Path(test_gosper_term(x), gosper_term((4 * k + 1) * factorial(k) / factorial(2 * k + 1), k) == (-k - S.Half) / (k + Rational(1, 4)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ddbbd987b3f254c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gosper_term((4 * k + 1) * factorial(k) / factorial(2 * k + 1), k) == (-k - S.Half) / (k + Rational(1, 4))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_gosper_term():
     assert gosper_term((4*k + 1)*factorial(
         k)/factorial(2*k + 1), k) == (-k - S.Half)/(k + Rational(1, 4))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gosper_sum(), test_gosper_sum produces the expected output) over Any ║
+# ║ Path(test_gosper_sum(), gosper_sum(1, (k, 0, n)) == 1 + n and gosper_sum(k, (k, 0, n)) == n * (1 + n) / 2 and gosper_sum(k ** 2, (k, 0, n)) == n * (1 + n) * (1 + 2 * n) / 6 and gosper_sum(k ** 3, (k, 0, n)) == n ** 2 * (1 + n) ** 2 / 4 and gosper_sum(2 ** k, (k, 0, n)) == 2 * 2 ** n - 1 and gosper_sum(factorial(k), (k, 0, n)) is None and gosper_sum(binomial(n, k), (k, 0, n)) is None and gosper_sum(factorial(k) / k ** 2, (k, 0, n)) is None and gosper_sum((k - 3) * factorial(k), (k, 0, n)) is None and gosper_sum(k * factorial(k), k) == factorial(k) and gosper_sum(k * factorial(k), (k, 0, n)) == n * factorial(n) + factorial(n) - 1 and gosper_sum((-1) ** k * binomial(n, k), (k, 0, n)) == 0 and gosper_sum((-1) ** k * binomial(n, k), (k, 0, m)) == -(-1) ** m * (m - n) * binomial(n, m) / n and gosper_sum((4 * k + 1) * factorial(k) / factorial(2 * k + 1), (k, 0, n)) == (2 * factorial(2 * n + 1) - factorial(n)) / factorial(2 * n + 1) and gosper_sum(n * (n + a + b) * a ** n * b ** n / (factorial(n + a) * factorial(n + b)), (n, 0, m)).simplify() == -exp(m * log(a) + m * log(b)) * gamma(a + 1) * gamma(b + 1) / (gamma(a) * gamma(b) * gamma(a + m + 1) * gamma(b + m + 1)) + 1 / (gamma(a) * gamma(b))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gosper_sum : Any → {Any | gosper_sum(1, (k, 0, n...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gosper_sum(1, (k, 0, n)) == 1 + n              ║
+# ║   ensures:  gosper_sum(k, (k, 0, n)) == n * (1 + n) / 2    ║
+# ║   ensures:  gosper_sum(k ** 2, (k, 0, n)) == n * (1 +...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gosper_sum : Any → {Any | result satisfies: gosp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 057b665d99fd94d2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 974b4e351b90ba11  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_gosper.test_gosper_sum","kind":"function","src_hash":"0329805feca34ff9","in":{"base":"Any"},"out":{"base":"Any","pred":"gosper_sum(1, (k, 0, n)) == 1 + n and gosper_sum(k, (k, 0, n)) == n * (1 + n) / 2 and gosper_sum(k ** 2, (k, 0, n)) == n * (1 + n) * (1 + 2 * n) / 6 and gosper_sum(k ** 3, (k, 0, n)) == n ** 2 * (1 + n) ** 2 / 4 and gosper_sum(2 ** k, (k, 0, n)) == 2 * 2 ** n - 1 and gosper_sum(factorial(k), (k, 0, n)) is None and gosper_sum(binomial(n, k), (k, 0, n)) is None and gosper_sum(factorial(k) / k ** 2, (k, 0, n)) is None and gosper_sum((k - 3) * factorial(k), (k, 0, n)) is None and gosper_sum(k * factorial(k), k) == factorial(k) and gosper_sum(k * factorial(k), (k, 0, n)) == n * factorial(n) + factorial(n) - 1 and gosper_sum((-1) ** k * binomial(n, k), (k, 0, n)) == 0"},"spec":{"lhs":"test_gosper_sum()","rhs":"test_gosper_sum produces the expected output","over":{"base":"Any"},"name":"test_gosper_sum_correct"},"guarantee":"test_gosper_sum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_gosper.test_gosper_sum_correct","statement":"Path(test_gosper_sum(x), test_gosper_sum produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"057b665d99fd94d2"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_gosper.test_gosper_sum","kind":"function","src_hash":"0329805feca34ff9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gosper_sum(1, (k, 0, n)) == 1 + n and gosper_sum(k, (k, 0, n)) == n * (1 + n) / 2 and gosper_sum(k ** 2, (k, 0, n)) == n * (1 + n) * (1 + 2 * n) / 6 and gosper_sum(k ** 3, (k, 0, n)) == n ** 2 * (1 + n) ** 2 / 4 and gosper_sum(2 ** k, (k, 0, n)) == 2 * 2 ** n - 1 and gosper_sum(factorial(k), (k, 0, n)) is None and gosper_sum(binomial(n, k), (k, 0, n)) is None and gosper_sum(factorial(k) / k ** 2, (k, 0, n)) is None and gosper_sum((k - 3) * factorial(k), (k, 0, n)) is None and gosper_sum(k * factorial(k), k) == factorial(k) and gosper_sum(k * factorial(k), (k, 0, n)) == n * factorial(n) + factorial(n) - 1 and gosper_sum((-1) ** k * binomial(n, k), (k, 0, n)) == 0 and gosper_sum((-1) ** k * binomial(n, k), (k, 0, m)) == -(-1) ** m * (m - n) * binomial(n, m) / n and gosper_sum((4 * k + 1) * factorial(k) / factorial(2 * k + 1), (k, 0, n)) == (2 * factorial(2 * n + 1) - factorial(n)) / factorial(2 * n + 1) and gosper_sum(n * (n + a + b) * a ** n * b ** n / (factorial(n + a) * factorial(n + b)), (n, 0, m)).simplify() == -exp(m * log(a) + m * log(b)) * gamma(a + 1) * gamma(b + 1) / (gamma(a) * gamma(b) * gamma(a + m + 1) * gamma(b + m + 1)) + 1 / (gamma(a) * gamma(b))"},"spec":{"lhs":"test_gosper_sum()","rhs":"gosper_sum(1, (k, 0, n)) == 1 + n and gosper_sum(k, (k, 0, n)) == n * (1 + n) / 2 and gosper_sum(k ** 2, (k, 0, n)) == n * (1 + n) * (1 + 2 * n) / 6 and gosper_sum(k ** 3, (k, 0, n)) == n ** 2 * (1 + n) ** 2 / 4 and gosper_sum(2 ** k, (k, 0, n)) == 2 * 2 ** n - 1 and gosper_sum(factorial(k), (k, 0, n)) is None and gosper_sum(binomial(n, k), (k, 0, n)) is None and gosper_sum(factorial(k) / k ** 2, (k, 0, n)) is None and gosper_sum((k - 3) * factorial(k), (k, 0, n)) is None and gosper_sum(k * factorial(k), k) == factorial(k) and gosper_sum(k * factorial(k), (k, 0, n)) == n * factorial(n) + factorial(n) - 1 and gosper_sum((-1) ** k * binomial(n, k), (k, 0, n)) == 0 and gosper_sum((-1) ** k * binomial(n, k), (k, 0, m)) == -(-1) ** m * (m - n) * binomial(n, m) / n and gosper_sum((4 * k + 1) * factorial(k) / factorial(2 * k + 1), (k, 0, n)) == (2 * factorial(2 * n + 1) - factorial(n)) / factorial(2 * n + 1) and gosper_sum(n * (n + a + b) * a ** n * b ** n / (factorial(n + a) * factorial(n + b)), (n, 0, m)).simplify() == -exp(m * log(a) + m * log(b)) * gamma(a + 1) * gamma(b + 1) / (gamma(a) * gamma(b) * gamma(a + m + 1) * gamma(b + m + 1)) + 1 / (gamma(a) * gamma(b))","over":{"base":"Any"},"name":"test_gosper_sum_correct"},"guarantee":"gosper_sum(1, (k, 0, n)) == 1 + n; gosper_sum(k, (k, 0, n)) == n * (1 + n) / 2; gosper_sum(k ** 2, (k, 0, n)) == n * (1 + n) * (1 + 2 * n) / 6","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_gosper.test_gosper_sum_correct","statement":"Path(test_gosper_sum(x), gosper_sum(1, (k, 0, n)) == 1 + n; gosper_sum(k, (k, 0, n)) == n * (1 + n) / 2; gosper_sum(k ** 2, (k, 0, n)) == n * (1 + n) * (1 + 2 * n) / 6)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"974b4e351b90ba11","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gosper_sum(1, (k, 0, n)) == 1 + n","gosper_sum(k, (k, 0, n)) == n * (1 + n) / 2","gosper_sum(k ** 2, (k, 0, n)) == n * (1 + n) * (1 + 2 * n) / 6","gosper_sum(k ** 3, (k, 0, n)) == n ** 2 * (1 + n) ** 2 / 4","gosper_sum(2 ** k, (k, 0, n)) == 2 * 2 ** n - 1","gosper_sum(factorial(k), (k, 0, n)) is None","gosper_sum(binomial(n, k), (k, 0, n)) is None","gosper_sum(factorial(k) / k ** 2, (k, 0, n)) is None","gosper_sum((k - 3) * factorial(k), (k, 0, n)) is None","gosper_sum(k * factorial(k), k) == factorial(k)","gosper_sum(k * factorial(k), (k, 0, n)) == n * factorial(n) + factorial(n) - 1","gosper_sum((-1) ** k * binomial(n, k), (k, 0, n)) == 0","gosper_sum((-1) ** k * binomial(n, k), (k, 0, m)) == -(-1) ** m * (m - n) * binomial(n, m) / n","gosper_sum((4 * k + 1) * factorial(k) / factorial(2 * k + 1), (k, 0, n)) == (2 * factorial(2 * n + 1) - factorial(n)) / factorial(2 * n + 1)","gosper_sum(n * (n + a + b) * a ** n * b ** n / (factorial(n + a) * factorial(n + b)), (n, 0, m)).simplify() == -exp(m * log(a) + m * log(b)) * gamma(a + 1) * gamma(b + 1) / (gamma(a) * gamma(b) * gamma(a + m + 1) * gamma(b + m + 1)) + 1 / (gamma(a) * gamma(b))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_gosper_sum():
     assert gosper_sum(1, (k, 0, n)) == 1 + n
     assert gosper_sum(k, (k, 0, n)) == n*(1 + n)/2
@@ -110,16 +131,24 @@ def test_gosper_sum():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gosper_sum_indefinite(), test_gosper_sum_indefinite produces the expected output) over Any ║
+# ║ Path(test_gosper_sum_indefinite(), gosper_sum(k, k) == k * (k - 1) / 2 and gosper_sum(k ** 2, k) == k * (k - 1) * (2 * k - 1) / 6 and gosper_sum(1 / (k * (k + 1)), k) == -1 / k and gosper_sum(-(27 * k ** 4 + 158 * k ** 3 + 430 * k ** 2 + 678 * k + 445) * gamma(2 * k + 4) / (3 * (3 * k + 7) * gamma(3 * k + 6)), k) == (3 * k + 5) * (k ** 2 + 2 * k + 5) * gamma(2 * k + 4) / gamma(3 * k + 6)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gosper_sum_indefinite : Any → {Any | gosper_sum(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gosper_sum(k, k) == k * (k - 1) / 2            ║
+# ║   ensures:  gosper_sum(k ** 2, k) == k * (k - 1) * (2...   ║
+# ║   ensures:  gosper_sum(1 / (k * (k + 1)), k) == -1 / k     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gosper_sum_indefinite : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 90ae0ca964ef9018  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4215a0ecaf629733  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_gosper.test_gosper_sum_indefinite","kind":"function","src_hash":"0719319e2b0ad797","in":{"base":"Any"},"out":{"base":"Any","pred":"gosper_sum(k, k) == k * (k - 1) / 2 and gosper_sum(k ** 2, k) == k * (k - 1) * (2 * k - 1) / 6 and gosper_sum(1 / (k * (k + 1)), k) == -1 / k"},"spec":{"lhs":"test_gosper_sum_indefinite()","rhs":"test_gosper_sum_indefinite produces the expected output","over":{"base":"Any"},"name":"test_gosper_sum_indefinite_correct"},"guarantee":"test_gosper_sum_indefinite produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_gosper.test_gosper_sum_indefinite_correct","statement":"Path(test_gosper_sum_indefinite(x), test_gosper_sum_indefinite produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90ae0ca964ef9018"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_gosper.test_gosper_sum_indefinite","kind":"function","src_hash":"0719319e2b0ad797","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gosper_sum(k, k) == k * (k - 1) / 2 and gosper_sum(k ** 2, k) == k * (k - 1) * (2 * k - 1) / 6 and gosper_sum(1 / (k * (k + 1)), k) == -1 / k and gosper_sum(-(27 * k ** 4 + 158 * k ** 3 + 430 * k ** 2 + 678 * k + 445) * gamma(2 * k + 4) / (3 * (3 * k + 7) * gamma(3 * k + 6)), k) == (3 * k + 5) * (k ** 2 + 2 * k + 5) * gamma(2 * k + 4) / gamma(3 * k + 6)"},"spec":{"lhs":"test_gosper_sum_indefinite()","rhs":"gosper_sum(k, k) == k * (k - 1) / 2 and gosper_sum(k ** 2, k) == k * (k - 1) * (2 * k - 1) / 6 and gosper_sum(1 / (k * (k + 1)), k) == -1 / k and gosper_sum(-(27 * k ** 4 + 158 * k ** 3 + 430 * k ** 2 + 678 * k + 445) * gamma(2 * k + 4) / (3 * (3 * k + 7) * gamma(3 * k + 6)), k) == (3 * k + 5) * (k ** 2 + 2 * k + 5) * gamma(2 * k + 4) / gamma(3 * k + 6)","over":{"base":"Any"},"name":"test_gosper_sum_indefinite_correct"},"guarantee":"gosper_sum(k, k) == k * (k - 1) / 2; gosper_sum(k ** 2, k) == k * (k - 1) * (2 * k - 1) / 6; gosper_sum(1 / (k * (k + 1)), k) == -1 / k","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_gosper.test_gosper_sum_indefinite_correct","statement":"Path(test_gosper_sum_indefinite(x), gosper_sum(k, k) == k * (k - 1) / 2; gosper_sum(k ** 2, k) == k * (k - 1) * (2 * k - 1) / 6; gosper_sum(1 / (k * (k + 1)), k) == -1 / k)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4215a0ecaf629733","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gosper_sum(k, k) == k * (k - 1) / 2","gosper_sum(k ** 2, k) == k * (k - 1) * (2 * k - 1) / 6","gosper_sum(1 / (k * (k + 1)), k) == -1 / k","gosper_sum(-(27 * k ** 4 + 158 * k ** 3 + 430 * k ** 2 + 678 * k + 445) * gamma(2 * k + 4) / (3 * (3 * k + 7) * gamma(3 * k + 6)), k) == (3 * k + 5) * (k ** 2 + 2 * k + 5) * gamma(2 * k + 4) / gamma(3 * k + 6)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_gosper_sum_indefinite():
     assert gosper_sum(k, k) == k*(k - 1)/2
     assert gosper_sum(k**2, k) == k*(k - 1)*(2*k - 1)/6
@@ -131,16 +160,22 @@ def test_gosper_sum_indefinite():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gosper_sum_parametric(), test_gosper_sum_parametric produces the expected output) over Any ║
+# ║ Path(test_gosper_sum_parametric(), gosper_sum(binomial(S.Half, m - j + 1) * binomial(S.Half, m + j), (j, 1, n)) == n * (1 + m - n) * (-1 + 2 * m + 2 * n) * binomial(S.Half, 1 + m - n) * binomial(S.Half, m + n) / (m * (1 + 2 * m))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gosper_sum_parametric : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gosper_sum(binomial(S.Half, m - j + 1) * ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gosper_sum_parametric : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a82d2752c802974  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 96f6417d5f5414cf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_gosper.test_gosper_sum_parametric","kind":"function","src_hash":"6f53656231b1ea25","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_gosper_sum_parametric()","rhs":"test_gosper_sum_parametric produces the expected output","over":{"base":"Any"},"name":"test_gosper_sum_parametric_correct"},"guarantee":"test_gosper_sum_parametric produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_gosper.test_gosper_sum_parametric_correct","statement":"Path(test_gosper_sum_parametric(x), test_gosper_sum_parametric produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a82d2752c802974"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_gosper.test_gosper_sum_parametric","kind":"function","src_hash":"6f53656231b1ea25","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gosper_sum(binomial(S.Half, m - j + 1) * binomial(S.Half, m + j), (j, 1, n)) == n * (1 + m - n) * (-1 + 2 * m + 2 * n) * binomial(S.Half, 1 + m - n) * binomial(S.Half, m + n) / (m * (1 + 2 * m))"},"spec":{"lhs":"test_gosper_sum_parametric()","rhs":"gosper_sum(binomial(S.Half, m - j + 1) * binomial(S.Half, m + j), (j, 1, n)) == n * (1 + m - n) * (-1 + 2 * m + 2 * n) * binomial(S.Half, 1 + m - n) * binomial(S.Half, m + n) / (m * (1 + 2 * m))","over":{"base":"Any"},"name":"test_gosper_sum_parametric_correct"},"guarantee":"gosper_sum(binomial(S.Half, m - j + 1) * binomial(S.Half, m + j), (j, 1, n)) == n * (1 + m - n) * (-1 + 2 * m + 2 * n) * binomial(S.Half, 1 + m - n) * binomial(S.Half, m + n) / (m * (1 + 2 * m))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_gosper.test_gosper_sum_parametric_correct","statement":"Path(test_gosper_sum_parametric(x), gosper_sum(binomial(S.Half, m - j + 1) * binomial(S.Half, m + j), (j, 1, n)) == n * (1 + m - n) * (-1 + 2 * m + 2 * n) * binomial(S.Half, 1 + m - n) * binomial(S.Half, m + n) / (m * (1 + 2 * m)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96f6417d5f5414cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gosper_sum(binomial(S.Half, m - j + 1) * binomial(S.Half, m + j), (j, 1, n)) == n * (1 + m - n) * (-1 + 2 * m + 2 * n) * binomial(S.Half, 1 + m - n) * binomial(S.Half, m + n) / (m * (1 + 2 * m))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_gosper_sum_parametric():
     assert gosper_sum(binomial(S.Half, m - j + 1)*binomial(S.Half, m + j), (j, 1, n)) == \
         n*(1 + m - n)*(-1 + 2*m + 2*n)*binomial(S.Half, 1 + m - n)* \
@@ -148,32 +183,46 @@ def test_gosper_sum_parametric():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gosper_sum_algebraic(), test_gosper_sum_algebraic produces the expected output) over Any ║
+# ║ Path(test_gosper_sum_algebraic(), gosper_sum(n ** 2 + sqrt(2), (n, 0, m)) == (m + 1) * (2 * m ** 2 + m + 6 * sqrt(2)) / 6) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gosper_sum_algebraic : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gosper_sum(n ** 2 + sqrt(2), (n, 0, m)) =...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gosper_sum_algebraic : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c028e0d4351d90a0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9385bb4a04a8278  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_gosper.test_gosper_sum_algebraic","kind":"function","src_hash":"9184b791b4b61bb8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_gosper_sum_algebraic()","rhs":"test_gosper_sum_algebraic produces the expected output","over":{"base":"Any"},"name":"test_gosper_sum_algebraic_correct"},"guarantee":"test_gosper_sum_algebraic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_gosper.test_gosper_sum_algebraic_correct","statement":"Path(test_gosper_sum_algebraic(x), test_gosper_sum_algebraic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c028e0d4351d90a0"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_gosper.test_gosper_sum_algebraic","kind":"function","src_hash":"9184b791b4b61bb8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gosper_sum(n ** 2 + sqrt(2), (n, 0, m)) == (m + 1) * (2 * m ** 2 + m + 6 * sqrt(2)) / 6"},"spec":{"lhs":"test_gosper_sum_algebraic()","rhs":"gosper_sum(n ** 2 + sqrt(2), (n, 0, m)) == (m + 1) * (2 * m ** 2 + m + 6 * sqrt(2)) / 6","over":{"base":"Any"},"name":"test_gosper_sum_algebraic_correct"},"guarantee":"gosper_sum(n ** 2 + sqrt(2), (n, 0, m)) == (m + 1) * (2 * m ** 2 + m + 6 * sqrt(2)) / 6","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_gosper.test_gosper_sum_algebraic_correct","statement":"Path(test_gosper_sum_algebraic(x), gosper_sum(n ** 2 + sqrt(2), (n, 0, m)) == (m + 1) * (2 * m ** 2 + m + 6 * sqrt(2)) / 6)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9385bb4a04a8278","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gosper_sum(n ** 2 + sqrt(2), (n, 0, m)) == (m + 1) * (2 * m ** 2 + m + 6 * sqrt(2)) / 6"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_gosper_sum_algebraic():
     assert gosper_sum(
         n**2 + sqrt(2), (n, 0, m)) == (m + 1)*(2*m**2 + m + 6*sqrt(2))/6
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gosper_sum_iterated(), test_gosper_sum_iterated produces the expected output) over Any ║
+# ║ Path(test_gosper_sum_iterated(), gosper_sum(f1, (k, 0, n)) == f2 and gosper_sum(f2, (n, 0, n)) == f3 and gosper_sum(f3, (n, 0, n)) == f4 and gosper_sum(f4, (n, 0, n)) == f5) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gosper_sum_iterated : Any → {Any | gosper_sum(f1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gosper_sum(f1, (k, 0, n)) == f2                ║
+# ║   ensures:  gosper_sum(f2, (n, 0, n)) == f3                ║
+# ║   ensures:  gosper_sum(f3, (n, 0, n)) == f4                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gosper_sum_iterated : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed3e536c020b518e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 02865fe6490438c5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_gosper.test_gosper_sum_iterated","kind":"function","src_hash":"26c82ba6fa8cd345","in":{"base":"Any"},"out":{"base":"Any","pred":"gosper_sum(f1, (k, 0, n)) == f2 and gosper_sum(f2, (n, 0, n)) == f3 and gosper_sum(f3, (n, 0, n)) == f4 and gosper_sum(f4, (n, 0, n)) == f5"},"spec":{"lhs":"test_gosper_sum_iterated()","rhs":"test_gosper_sum_iterated produces the expected output","over":{"base":"Any"},"name":"test_gosper_sum_iterated_correct"},"guarantee":"test_gosper_sum_iterated produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_gosper.test_gosper_sum_iterated_correct","statement":"Path(test_gosper_sum_iterated(x), test_gosper_sum_iterated produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed3e536c020b518e"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_gosper.test_gosper_sum_iterated","kind":"function","src_hash":"26c82ba6fa8cd345","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gosper_sum(f1, (k, 0, n)) == f2 and gosper_sum(f2, (n, 0, n)) == f3 and gosper_sum(f3, (n, 0, n)) == f4 and gosper_sum(f4, (n, 0, n)) == f5"},"spec":{"lhs":"test_gosper_sum_iterated()","rhs":"gosper_sum(f1, (k, 0, n)) == f2 and gosper_sum(f2, (n, 0, n)) == f3 and gosper_sum(f3, (n, 0, n)) == f4 and gosper_sum(f4, (n, 0, n)) == f5","over":{"base":"Any"},"name":"test_gosper_sum_iterated_correct"},"guarantee":"gosper_sum(f1, (k, 0, n)) == f2; gosper_sum(f2, (n, 0, n)) == f3; gosper_sum(f3, (n, 0, n)) == f4","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_gosper.test_gosper_sum_iterated_correct","statement":"Path(test_gosper_sum_iterated(x), gosper_sum(f1, (k, 0, n)) == f2; gosper_sum(f2, (n, 0, n)) == f3; gosper_sum(f3, (n, 0, n)) == f4)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"02865fe6490438c5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gosper_sum(f1, (k, 0, n)) == f2","gosper_sum(f2, (n, 0, n)) == f3","gosper_sum(f3, (n, 0, n)) == f4","gosper_sum(f4, (n, 0, n)) == f5"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_gosper_sum_iterated():
     f1 = binomial(2*k, k)/4**k
     f2 = (1 + 2*n)*binomial(2*n, n)/4**n
@@ -191,16 +240,24 @@ def test_gosper_sum_iterated():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gosper_sum_AeqB_part1(), test_gosper_sum_AeqB_part1 produces the expected output) over Any ║
+# ║ Path(test_gosper_sum_AeqB_part1(), g is not None and simplify(g - g1a) == 0 and g is not None and simplify(g - g1b) == 0 and g is not None and simplify(g - g1c) == 0 and g is not None and simplify(g - g1d) == 0 and g is not None and simplify(g - g1e) == 0 and g is not None and simplify(g - g1f) == 0 and g is not None and simplify(g - g1g) == 0 and g is not None and simplify(g - g1h).rewrite(gamma) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gosper_sum_AeqB_part1 : Any → {Any | g is not No...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  g is not None and simplify(g - g1a) == 0       ║
+# ║   ensures:  g is not None and simplify(g - g1b) == 0       ║
+# ║   ensures:  g is not None and simplify(g - g1c) == 0       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gosper_sum_AeqB_part1 : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 34ad20f4a58110ba  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab95c73235842497  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_gosper.test_gosper_sum_AeqB_part1","kind":"function","src_hash":"f03cb5634fd19227","in":{"base":"Any"},"out":{"base":"Any","pred":"g is not None and simplify(g - g1a) == 0 and g is not None and simplify(g - g1b) == 0 and g is not None and simplify(g - g1c) == 0 and g is not None and simplify(g - g1d) == 0 and g is not None and simplify(g - g1e) == 0 and g is not None and simplify(g - g1f) == 0 and g is not None and simplify(g - g1g) == 0 and g is not None and simplify(g - g1h).rewrite(gamma) == 0"},"spec":{"lhs":"test_gosper_sum_AeqB_part1()","rhs":"test_gosper_sum_AeqB_part1 produces the expected output","over":{"base":"Any"},"name":"test_gosper_sum_AeqB_part1_correct"},"guarantee":"test_gosper_sum_AeqB_part1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_gosper.test_gosper_sum_AeqB_part1_correct","statement":"Path(test_gosper_sum_AeqB_part1(x), test_gosper_sum_AeqB_part1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34ad20f4a58110ba"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_gosper.test_gosper_sum_AeqB_part1","kind":"function","src_hash":"f03cb5634fd19227","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: g is not None and simplify(g - g1a) == 0 and g is not None and simplify(g - g1b) == 0 and g is not None and simplify(g - g1c) == 0 and g is not None and simplify(g - g1d) == 0 and g is not None and simplify(g - g1e) == 0 and g is not None and simplify(g - g1f) == 0 and g is not None and simplify(g - g1g) == 0 and g is not None and simplify(g - g1h).rewrite(gamma) == 0"},"spec":{"lhs":"test_gosper_sum_AeqB_part1()","rhs":"g is not None and simplify(g - g1a) == 0 and g is not None and simplify(g - g1b) == 0 and g is not None and simplify(g - g1c) == 0 and g is not None and simplify(g - g1d) == 0 and g is not None and simplify(g - g1e) == 0 and g is not None and simplify(g - g1f) == 0 and g is not None and simplify(g - g1g) == 0 and g is not None and simplify(g - g1h).rewrite(gamma) == 0","over":{"base":"Any"},"name":"test_gosper_sum_AeqB_part1_correct"},"guarantee":"g is not None and simplify(g - g1a) == 0; g is not None and simplify(g - g1b) == 0; g is not None and simplify(g - g1c) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_gosper.test_gosper_sum_AeqB_part1_correct","statement":"Path(test_gosper_sum_AeqB_part1(x), g is not None and simplify(g - g1a) == 0; g is not None and simplify(g - g1b) == 0; g is not None and simplify(g - g1c) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab95c73235842497","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["g is not None and simplify(g - g1a) == 0","g is not None and simplify(g - g1b) == 0","g is not None and simplify(g - g1c) == 0","g is not None and simplify(g - g1d) == 0","g is not None and simplify(g - g1e) == 0","g is not None and simplify(g - g1f) == 0","g is not None and simplify(g - g1g) == 0","g is not None and simplify(g - g1h).rewrite(gamma) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def test_gosper_sum_AeqB_part1():
     f1a = n**4
     f1b = n**3*2**n
@@ -244,16 +301,24 @@ def test_gosper_sum_AeqB_part1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gosper_sum_AeqB_part2(), test_gosper_sum_AeqB_part2 produces the expected output) over Any ║
+# ║ Path(test_gosper_sum_AeqB_part2(), g is not None and simplify(g - g2a) == 0 and g is not None and simplify(g - g2b) == 0 and g is not None and simplify(g - g2c) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gosper_sum_AeqB_part2 : Any → {Any | g is not No...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  g is not None and simplify(g - g2a) == 0       ║
+# ║   ensures:  g is not None and simplify(g - g2b) == 0       ║
+# ║   ensures:  g is not None and simplify(g - g2c) == 0       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gosper_sum_AeqB_part2 : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4671f3399afc813c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c4f0890a52676a5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_gosper.test_gosper_sum_AeqB_part2","kind":"function","src_hash":"785cc4988306be82","in":{"base":"Any"},"out":{"base":"Any","pred":"g is not None and simplify(g - g2a) == 0 and g is not None and simplify(g - g2b) == 0 and g is not None and simplify(g - g2c) == 0"},"spec":{"lhs":"test_gosper_sum_AeqB_part2()","rhs":"test_gosper_sum_AeqB_part2 produces the expected output","over":{"base":"Any"},"name":"test_gosper_sum_AeqB_part2_correct"},"guarantee":"test_gosper_sum_AeqB_part2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_gosper.test_gosper_sum_AeqB_part2_correct","statement":"Path(test_gosper_sum_AeqB_part2(x), test_gosper_sum_AeqB_part2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4671f3399afc813c"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_gosper.test_gosper_sum_AeqB_part2","kind":"function","src_hash":"785cc4988306be82","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: g is not None and simplify(g - g2a) == 0 and g is not None and simplify(g - g2b) == 0 and g is not None and simplify(g - g2c) == 0"},"spec":{"lhs":"test_gosper_sum_AeqB_part2()","rhs":"g is not None and simplify(g - g2a) == 0 and g is not None and simplify(g - g2b) == 0 and g is not None and simplify(g - g2c) == 0","over":{"base":"Any"},"name":"test_gosper_sum_AeqB_part2_correct"},"guarantee":"g is not None and simplify(g - g2a) == 0; g is not None and simplify(g - g2b) == 0; g is not None and simplify(g - g2c) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_gosper.test_gosper_sum_AeqB_part2_correct","statement":"Path(test_gosper_sum_AeqB_part2(x), g is not None and simplify(g - g2a) == 0; g is not None and simplify(g - g2b) == 0; g is not None and simplify(g - g2c) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c4f0890a52676a5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["g is not None and simplify(g - g2a) == 0","g is not None and simplify(g - g2b) == 0","g is not None and simplify(g - g2c) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_gosper_sum_AeqB_part2():
     f2a = n**2*a**n
     f2b = (n - r/2)*binomial(r, n)
@@ -275,16 +340,22 @@ def test_gosper_sum_AeqB_part2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gosper_nan(), test_gosper_nan produces the expected output) over Any ║
+# ║ Path(test_gosper_nan(), simplify(g - g2d) == 0) over Any   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gosper_nan : Any → {Any | simplify(g - g2d) == 0}     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(g - g2d) == 0                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gosper_nan : Any → {Any | result satisfies: simp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86fdaca4b324d431  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7551576e76f07aa5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_gosper.test_gosper_nan","kind":"function","src_hash":"7d8c1e07ca6670f9","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(g - g2d) == 0"},"spec":{"lhs":"test_gosper_nan()","rhs":"test_gosper_nan produces the expected output","over":{"base":"Any"},"name":"test_gosper_nan_correct"},"guarantee":"test_gosper_nan produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_gosper.test_gosper_nan_correct","statement":"Path(test_gosper_nan(x), test_gosper_nan produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86fdaca4b324d431"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_gosper.test_gosper_nan","kind":"function","src_hash":"7d8c1e07ca6670f9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(g - g2d) == 0"},"spec":{"lhs":"test_gosper_nan()","rhs":"simplify(g - g2d) == 0","over":{"base":"Any"},"name":"test_gosper_nan_correct"},"guarantee":"simplify(g - g2d) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_gosper.test_gosper_nan_correct","statement":"Path(test_gosper_nan(x), simplify(g - g2d) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7551576e76f07aa5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(g - g2d) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_gosper_nan():
     a = Symbol('a', positive=True)
     b = Symbol('b', positive=True)
@@ -298,16 +369,24 @@ def test_gosper_nan():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gosper_sum_AeqB_part3(), test_gosper_sum_AeqB_part3 produces the expected output) over Any ║
+# ║ Path(test_gosper_sum_AeqB_part3(), g is None and g is not None and simplify(g - g3b) == 0 and g is not None and simplify(g - g3c) == 0 and g is not None and simplify(g - g3d) == 0 and g is not None and simplify(g - g3f) == 0 and g is not None and simplify(g - g3g) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gosper_sum_AeqB_part3 : Any → {Any | g is None a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  g is None                                      ║
+# ║   ensures:  g is not None and simplify(g - g3b) == 0       ║
+# ║   ensures:  g is not None and simplify(g - g3c) == 0       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gosper_sum_AeqB_part3 : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99e5119d4048ef73  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3a014bf4a24e61bf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_gosper.test_gosper_sum_AeqB_part3","kind":"function","src_hash":"6d0ae7a67e511e4a","in":{"base":"Any"},"out":{"base":"Any","pred":"g is None and g is not None and simplify(g - g3b) == 0 and g is not None and simplify(g - g3c) == 0 and g is not None and simplify(g - g3d) == 0 and g is None and g is not None and simplify(g - g3f) == 0 and g is not None and simplify(g - g3g) == 0"},"spec":{"lhs":"test_gosper_sum_AeqB_part3()","rhs":"test_gosper_sum_AeqB_part3 produces the expected output","over":{"base":"Any"},"name":"test_gosper_sum_AeqB_part3_correct"},"guarantee":"test_gosper_sum_AeqB_part3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_gosper.test_gosper_sum_AeqB_part3_correct","statement":"Path(test_gosper_sum_AeqB_part3(x), test_gosper_sum_AeqB_part3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99e5119d4048ef73"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_gosper.test_gosper_sum_AeqB_part3","kind":"function","src_hash":"6d0ae7a67e511e4a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: g is None and g is not None and simplify(g - g3b) == 0 and g is not None and simplify(g - g3c) == 0 and g is not None and simplify(g - g3d) == 0 and g is not None and simplify(g - g3f) == 0 and g is not None and simplify(g - g3g) == 0"},"spec":{"lhs":"test_gosper_sum_AeqB_part3()","rhs":"g is None and g is not None and simplify(g - g3b) == 0 and g is not None and simplify(g - g3c) == 0 and g is not None and simplify(g - g3d) == 0 and g is not None and simplify(g - g3f) == 0 and g is not None and simplify(g - g3g) == 0","over":{"base":"Any"},"name":"test_gosper_sum_AeqB_part3_correct"},"guarantee":"g is None; g is not None and simplify(g - g3b) == 0; g is not None and simplify(g - g3c) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_gosper.test_gosper_sum_AeqB_part3_correct","statement":"Path(test_gosper_sum_AeqB_part3(x), g is None; g is not None and simplify(g - g3b) == 0; g is not None and simplify(g - g3c) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a014bf4a24e61bf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["g is None","g is not None and simplify(g - g3b) == 0","g is not None and simplify(g - g3c) == 0","g is not None and simplify(g - g3d) == 0","g is not None and simplify(g - g3f) == 0","g is not None and simplify(g - g3g) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_gosper_sum_AeqB_part3():
     f3a = 1/n**4
     f3b = (6*n + 3)/(4*n**4 + 8*n**3 + 8*n**2 + 4*n + 3)

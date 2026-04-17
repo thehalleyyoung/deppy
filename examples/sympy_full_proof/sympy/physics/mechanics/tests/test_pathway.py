@@ -44,16 +44,22 @@ from sympy.simplify.simplify import simplify
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_simplify_loads(loa), internal helper behaves correctly) over Any ║
+# ║ Path(_simplify_loads(loads), [load.__class__(load.location, load.vector.simplify()) for load in loads]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [load.__class__(load.location, load.vecto...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _simplify_loads : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8344c674b7621a0c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c75cee6fe0d1f126  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway._simplify_loads","kind":"function","src_hash":"c96af85ad886ee17","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_simplify_loads(loa)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_simplify_loads_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway._simplify_loads_correct","statement":"Path(_simplify_loads(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8344c674b7621a0c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway._simplify_loads","kind":"function","src_hash":"c96af85ad886ee17","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_simplify_loads(loads)","rhs":"[load.__class__(load.location, load.vector.simplify()) for load in loads]","over":{"base":"Any"},"name":"_simplify_loads_correct"},"guarantee":"returns [load.__class__(load.location, load.vector.simplify()) for load in loads]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway._simplify_loads_correct","statement":"Path(_simplify_loads(x), returns [load.__class__(load.location, load.vector.simplify()) for load in loads])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c75cee6fe0d1f126","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[load.__class__(load.location, load.vector.simplify()) for load in loads]","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _simplify_loads(loads):
     return [
         load.__class__(load.location, load.vector.simplify())
@@ -64,27 +70,39 @@ def _simplify_loads(loads):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TestLinearPathway(*args), correctly constructs a TestLinearPathway instance) over {Any | isinstance(instance, LinearPathway) and isinstance(instance.attachments[0], Point)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TestLinearPathway : {Any | isinstance(instance, Linea...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c71583c94c5f7cb0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway","kind":"class","src_hash":"98dce7f9cf5f3678","in":{"base":"Any","pred":"isinstance(instance, LinearPathway) and isinstance(instance.attachments[0], Point)"},"out":{"base":"Any","pred":"issubclass(LinearPathway, PathwayBase) and isinstance(instance, LinearPathway) and hasattr(instance, 'attachments') and len(instance.attachments) == 2 and instance.attachments[0] is pointA and instance.attachments[1] is pointB and isinstance(instance.attachments[0], Point) and instance.attachments[0].name == 'pA' and isinstance(instance.attachments[1], Point) and instance.attachments[1].name == 'pB' and repr(pathway) == expected and self.pathway.length == 2 and self.pathway.extension_velocity == 0 and self.pathway.to_loads(self.F) == expected and self.pathway.length == expected and self.pathway.extension_velocity == expected and self.pathway.to_loads(self.F) == expected and simplify(self.pathway.length - expected) == 0 and simplify(self.pathway.extension_velocity - expected) == 0 and self.pathway.to_loads(self.F) == expected"},"spec":{"lhs":"TestLinearPathway(*args)","rhs":"correctly constructs a TestLinearPathway instance","over":{"base":"Any","pred":"isinstance(instance, LinearPathway) and isinstance(instance.attachments[0], Point)"},"name":"TestLinearPathway_class_invariant"},"guarantee":"correctly constructs a TestLinearPathway instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c71583c94c5f7cb0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway","kind":"class","src_hash":"98dce7f9cf5f3678","in":{"base":"Any","pred":"isinstance(instance, LinearPathway) and isinstance(instance.attachments[0], Point)"},"out":{"base":"Any","pred":"issubclass(LinearPathway, PathwayBase) and isinstance(instance, LinearPathway) and hasattr(instance, 'attachments') and len(instance.attachments) == 2 and instance.attachments[0] is pointA and instance.attachments[1] is pointB and isinstance(instance.attachments[0], Point) and instance.attachments[0].name == 'pA' and isinstance(instance.attachments[1], Point) and instance.attachments[1].name == 'pB' and repr(pathway) == expected and self.pathway.length == 2 and self.pathway.extension_velocity == 0 and self.pathway.to_loads(self.F) == expected and self.pathway.length == expected and self.pathway.extension_velocity == expected and self.pathway.to_loads(self.F) == expected and simplify(self.pathway.length - expected) == 0 and simplify(self.pathway.extension_velocity - expected) == 0 and self.pathway.to_loads(self.F) == expected"},"spec":{"lhs":"TestLinearPathway(*args)","rhs":"correctly constructs a TestLinearPathway instance","over":{"base":"Any","pred":"isinstance(instance, LinearPathway) and isinstance(instance.attachments[0], Point)"},"name":"TestLinearPathway_class_invariant"},"guarantee":"correctly constructs a TestLinearPathway instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c71583c94c5f7cb0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function TestLinearPathway not found in source"]}}
 class TestLinearPathway:
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_pathway_base_subclass(), test_is_pathway_base_subclass produces the expected output) over Any ║
+# ║ Path(test_is_pathway_base_subclass(), issubclass(LinearPathway, PathwayBase)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_pathway_base_subclass : Any → Any                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  issubclass(LinearPathway, PathwayBase)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_pathway_base_subclass : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6431b74ce5d93133  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 31ba54509bb192ab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_is_pathway_base_subclass","kind":"method","src_hash":"b9bacd25946b6aa0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_is_pathway_base_subclass()","rhs":"test_is_pathway_base_subclass produces the expected output","over":{"base":"Any"},"name":"test_is_pathway_base_subclass_correct"},"guarantee":"test_is_pathway_base_subclass produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_is_pathway_base_subclass_correct","statement":"Path(test_is_pathway_base_subclass(x), test_is_pathway_base_subclass produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6431b74ce5d93133"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_is_pathway_base_subclass","kind":"method","src_hash":"b9bacd25946b6aa0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: issubclass(LinearPathway, PathwayBase)"},"spec":{"lhs":"test_is_pathway_base_subclass()","rhs":"issubclass(LinearPathway, PathwayBase)","over":{"base":"Any"},"name":"test_is_pathway_base_subclass_correct"},"guarantee":"issubclass(LinearPathway, PathwayBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_is_pathway_base_subclass_correct","statement":"Path(test_is_pathway_base_subclass(x), issubclass(LinearPathway, PathwayBase))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31ba54509bb192ab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["issubclass(LinearPathway, PathwayBase)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_is_pathway_base_subclass(self):
         assert issubclass(LinearPathway, PathwayBase)
 
@@ -96,16 +114,24 @@ class TestLinearPathway:
         ]
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_valid_constructor(arg), test_valid_constructor produces the expected output) over Any ║
+# ║ Path(test_valid_constructor(args, kwargs), isinstance(instance, LinearPathway) and hasattr(instance, 'attachments') and len(instance.attachments) == 2 and instance.attachments[0] is pointA and instance.attachments[1] is pointB and isinstance(instance.attachments[0], Point) and instance.attachments[0].name == 'pA' and isinstance(instance.attachments[1], Point) and instance.attachments[1].name == 'pB') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_valid_constructor : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(instance, LinearPathway)            ║
+# ║   ensures:  hasattr(instance, 'attachments')               ║
+# ║   ensures:  len(instance.attachments) == 2                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_valid_constructor : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f59dcca110aa6502  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3230482753ab66a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_valid_constructor","kind":"staticmethod","src_hash":"49449b51bbdd8db2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_valid_constructor(arg)","rhs":"test_valid_constructor produces the expected output","over":{"base":"Any"},"name":"test_valid_constructor_correct"},"guarantee":"test_valid_constructor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_valid_constructor_correct","statement":"Path(test_valid_constructor(x), test_valid_constructor produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f59dcca110aa6502"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_valid_constructor","kind":"staticmethod","src_hash":"49449b51bbdd8db2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(instance, LinearPathway) and hasattr(instance, 'attachments') and len(instance.attachments) == 2 and instance.attachments[0] is pointA and instance.attachments[1] is pointB and isinstance(instance.attachments[0], Point) and instance.attachments[0].name == 'pA' and isinstance(instance.attachments[1], Point) and instance.attachments[1].name == 'pB'"},"spec":{"lhs":"test_valid_constructor(args, kwargs)","rhs":"isinstance(instance, LinearPathway) and hasattr(instance, 'attachments') and len(instance.attachments) == 2 and instance.attachments[0] is pointA and instance.attachments[1] is pointB and isinstance(instance.attachments[0], Point) and instance.attachments[0].name == 'pA' and isinstance(instance.attachments[1], Point) and instance.attachments[1].name == 'pB'","over":{"base":"Any"},"name":"test_valid_constructor_correct"},"guarantee":"isinstance(instance, LinearPathway); hasattr(instance, 'attachments'); len(instance.attachments) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_valid_constructor_correct","statement":"Path(test_valid_constructor(x), isinstance(instance, LinearPathway); hasattr(instance, 'attachments'); len(instance.attachments) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3230482753ab66a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(instance, LinearPathway)","hasattr(instance, 'attachments')","len(instance.attachments) == 2","instance.attachments[0] is pointA","instance.attachments[1] is pointB","isinstance(instance.attachments[0], Point)","instance.attachments[0].name == 'pA'","isinstance(instance.attachments[1], Point)","instance.attachments[1].name == 'pB'"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_valid_constructor(args, kwargs):
         pointA, pointB = args
         instance = LinearPathway(*args, **kwargs)
@@ -128,16 +154,22 @@ class TestLinearPathway:
         ]
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_invalid_attachments_incorrect_number(att), test_invalid_attachments_incorrect_number produces the expected output) over Any ║
+# ║ Path(test_invalid_attachments_incorrect_number(attachments), <unspecified:test_invalid_attachments_incorrect_number>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_invalid_attachments_incorrect_number : Any → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7948b2519ed44c05  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_invalid_attachments_incorrect_number","kind":"staticmethod","src_hash":"01b9e7abe471e615","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_invalid_attachments_incorrect_number(att)","rhs":"test_invalid_attachments_incorrect_number produces the expected output","over":{"base":"Any"},"name":"test_invalid_attachments_incorrect_number_correct"},"guarantee":"test_invalid_attachments_incorrect_number produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_invalid_attachments_incorrect_number_correct","statement":"Path(test_invalid_attachments_incorrect_number(x), test_invalid_attachments_incorrect_number produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7948b2519ed44c05"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_invalid_attachments_incorrect_number","kind":"staticmethod","src_hash":"01b9e7abe471e615","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_invalid_attachments_incorrect_number(attachments)","rhs":"<unspecified:test_invalid_attachments_incorrect_number>","over":{"base":"Any"},"name":"test_invalid_attachments_incorrect_number_correct"},"guarantee":"test_invalid_attachments_incorrect_number produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_invalid_attachments_incorrect_number_correct","statement":"Path(test_invalid_attachments_incorrect_number(x), test_invalid_attachments_incorrect_number produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7948b2519ed44c05","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_invalid_attachments_incorrect_number(attachments):
         with pytest.raises(ValueError):
             _ = LinearPathway(*attachments)
@@ -151,32 +183,44 @@ class TestLinearPathway:
         ]
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_invalid_attachments_not_point(att), test_invalid_attachments_not_point produces the expected output) over Any ║
+# ║ Path(test_invalid_attachments_not_point(attachments), <unspecified:test_invalid_attachments_not_point>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_invalid_attachments_not_point : Any → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 89d24cd5be2c9d5b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_invalid_attachments_not_point","kind":"staticmethod","src_hash":"678b60c8a4e93fe9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_invalid_attachments_not_point(att)","rhs":"test_invalid_attachments_not_point produces the expected output","over":{"base":"Any"},"name":"test_invalid_attachments_not_point_correct"},"guarantee":"test_invalid_attachments_not_point produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_invalid_attachments_not_point_correct","statement":"Path(test_invalid_attachments_not_point(x), test_invalid_attachments_not_point produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89d24cd5be2c9d5b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_invalid_attachments_not_point","kind":"staticmethod","src_hash":"678b60c8a4e93fe9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_invalid_attachments_not_point(attachments)","rhs":"<unspecified:test_invalid_attachments_not_point>","over":{"base":"Any"},"name":"test_invalid_attachments_not_point_correct"},"guarantee":"test_invalid_attachments_not_point produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_invalid_attachments_not_point_correct","statement":"Path(test_invalid_attachments_not_point(x), test_invalid_attachments_not_point produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89d24cd5be2c9d5b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_invalid_attachments_not_point(attachments):
         with pytest.raises(TypeError):
             _ = LinearPathway(*attachments)
 
     @pytest.fixture(autouse=True)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_linear_pathway_fixture(), internal helper behaves correctly) over Any ║
+# ║ Path(_linear_pathway_fixture(), <unspecified:_linear_pathway_fixture>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _linear_pathway_fixture : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 67b500d5d76c63fa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway._linear_pathway_fixture","kind":"method","src_hash":"17c6d283fb9b36f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_linear_pathway_fixture()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_linear_pathway_fixture_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway._linear_pathway_fixture_correct","statement":"Path(_linear_pathway_fixture(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67b500d5d76c63fa"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway._linear_pathway_fixture","kind":"method","src_hash":"17c6d283fb9b36f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_linear_pathway_fixture()","rhs":"<unspecified:_linear_pathway_fixture>","over":{"base":"Any"},"name":"_linear_pathway_fixture_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway._linear_pathway_fixture_correct","statement":"Path(_linear_pathway_fixture(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67b500d5d76c63fa","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.pA","self.pB"],"writes":["self.F","self.N","self.pA","self.pB","self.pathway","self.q1","self.q1d","self.q2","self.q2d","self.q3","self.q3d"]},"state_contract":{"modifies":["self.F","self.N","self.pA","self.pB","self.pathway","self.q1","self.q1d","self.q2","self.q2d","self.q3","self.q3d"],"old_bindings":{"old_self_F":"self.F","old_self_N":"self.N","old_self_pA":"self.pA","old_self_pB":"self.pB","old_self_pathway":"self.pathway","old_self_q1":"self.q1","old_self_q1d":"self.q1d","old_self_q2":"self.q2","old_self_q2d":"self.q2d","old_self_q3":"self.q3","old_self_q3d":"self.q3d"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _linear_pathway_fixture(self):
         self.N = ReferenceFrame('N')
         self.pA = Point('pA')
@@ -191,16 +235,22 @@ class TestLinearPathway:
         self.F = Symbol('F')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_properties_are_immutable(), test_properties_are_immutable produces the expected output) over Any ║
+# ║ Path(test_properties_are_immutable(), <unspecified:test_properties_are_immutable>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_properties_are_immutable : Any → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5feddfac8e5a3e0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_properties_are_immutable","kind":"method","src_hash":"21e33deb55cd221f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_properties_are_immutable()","rhs":"test_properties_are_immutable produces the expected output","over":{"base":"Any"},"name":"test_properties_are_immutable_correct"},"guarantee":"test_properties_are_immutable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_properties_are_immutable_correct","statement":"Path(test_properties_are_immutable(x), test_properties_are_immutable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5feddfac8e5a3e0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_properties_are_immutable","kind":"method","src_hash":"21e33deb55cd221f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_properties_are_immutable()","rhs":"<unspecified:test_properties_are_immutable>","over":{"base":"Any"},"name":"test_properties_are_immutable_correct"},"guarantee":"test_properties_are_immutable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_properties_are_immutable_correct","statement":"Path(test_properties_are_immutable(x), test_properties_are_immutable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5feddfac8e5a3e0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.pA","self.pB"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_properties_are_immutable(self):
         instance = LinearPathway(self.pA, self.pB)
         with pytest.raises(AttributeError):
@@ -211,62 +261,88 @@ class TestLinearPathway:
             instance.attachments[1] = None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_repr(), test_repr produces the expected output) over Any ║
+# ║ Path(test_repr(), repr(pathway) == expected) over Any      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_repr : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  repr(pathway) == expected                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_repr : Any → {Any | result satisfies: repr(pathw...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 424837ca26a6e2d4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 67e01d0d0e37b1fa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_repr","kind":"method","src_hash":"12f3da556d1b4869","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_repr()","rhs":"test_repr produces the expected output","over":{"base":"Any"},"name":"test_repr_correct"},"guarantee":"test_repr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_repr_correct","statement":"Path(test_repr(x), test_repr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"424837ca26a6e2d4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_repr","kind":"method","src_hash":"12f3da556d1b4869","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: repr(pathway) == expected"},"spec":{"lhs":"test_repr()","rhs":"repr(pathway) == expected","over":{"base":"Any"},"name":"test_repr_correct"},"guarantee":"repr(pathway) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_repr_correct","statement":"Path(test_repr(x), repr(pathway) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67e01d0d0e37b1fa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["repr(pathway) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.pA","self.pB"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_repr(self):
         pathway = LinearPathway(self.pA, self.pB)
         expected = 'LinearPathway(pA, pB)'
         assert repr(pathway) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_static_pathway_length(), test_static_pathway_length produces the expected output) over Any ║
+# ║ Path(test_static_pathway_length(), <unspecified:test_static_pathway_length>) over {Any | self.pathway.length == 2} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_static_pathway_length : Any → Any                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: self.pathway.length == 2                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_static_pathway_length : {Any | self.pathway.leng...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88ce3d43aa79a52c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_static_pathway_length","kind":"method","src_hash":"ec90fa1d514336ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_static_pathway_length()","rhs":"test_static_pathway_length produces the expected output","over":{"base":"Any"},"name":"test_static_pathway_length_correct"},"guarantee":"test_static_pathway_length produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_static_pathway_length_correct","statement":"Path(test_static_pathway_length(x), test_static_pathway_length produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88ce3d43aa79a52c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_static_pathway_length","kind":"method","src_hash":"ec90fa1d514336ea","in":{"base":"Any","pred":"self.pathway.length == 2"},"out":{"base":"Any"},"spec":{"lhs":"test_static_pathway_length()","rhs":"<unspecified:test_static_pathway_length>","over":{"base":"Any","pred":"self.pathway.length == 2"},"name":"test_static_pathway_length_correct"},"guarantee":"test_static_pathway_length produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_static_pathway_length_correct","statement":"Path(test_static_pathway_length(x), test_static_pathway_length produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88ce3d43aa79a52c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["self.pathway.length == 2"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.N","self.pA","self.pB","self.pathway"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_static_pathway_length(self):
         self.pB.set_pos(self.pA, 2*self.N.x)
         assert self.pathway.length == 2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_static_pathway_extension_velocity(), test_static_pathway_extension_velocity produces the expected output) over Any ║
+# ║ Path(test_static_pathway_extension_velocity(), <unspecified:test_static_pathway_extension_velocity>) over {Any | self.pathway.extension_velocity == 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_static_pathway_extension_velocity : Any → Any         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: self.pathway.extension_velocity == 0           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_static_pathway_extension_velocity : {Any | self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e012028d36eca37  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_static_pathway_extension_velocity","kind":"method","src_hash":"a80a3c94223e5d86","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_static_pathway_extension_velocity()","rhs":"test_static_pathway_extension_velocity produces the expected output","over":{"base":"Any"},"name":"test_static_pathway_extension_velocity_correct"},"guarantee":"test_static_pathway_extension_velocity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_static_pathway_extension_velocity_correct","statement":"Path(test_static_pathway_extension_velocity(x), test_static_pathway_extension_velocity produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e012028d36eca37"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_static_pathway_extension_velocity","kind":"method","src_hash":"a80a3c94223e5d86","in":{"base":"Any","pred":"self.pathway.extension_velocity == 0"},"out":{"base":"Any"},"spec":{"lhs":"test_static_pathway_extension_velocity()","rhs":"<unspecified:test_static_pathway_extension_velocity>","over":{"base":"Any","pred":"self.pathway.extension_velocity == 0"},"name":"test_static_pathway_extension_velocity_correct"},"guarantee":"test_static_pathway_extension_velocity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_static_pathway_extension_velocity_correct","statement":"Path(test_static_pathway_extension_velocity(x), test_static_pathway_extension_velocity produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e012028d36eca37","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["self.pathway.extension_velocity == 0"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.N","self.pA","self.pB","self.pathway"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_static_pathway_extension_velocity(self):
         self.pB.set_pos(self.pA, 2*self.N.x)
         assert self.pathway.extension_velocity == 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_static_pathway_to_loads(), test_static_pathway_to_loads produces the expected output) over Any ║
+# ║ Path(test_static_pathway_to_loads(), self.pathway.to_loads(self.F) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_static_pathway_to_loads : Any → Any                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.pathway.to_loads(self.F) == expected      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_static_pathway_to_loads : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4567f7a79dce1df2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fd8fee92b0c51477  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_static_pathway_to_loads","kind":"method","src_hash":"86fca845d44be076","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_static_pathway_to_loads()","rhs":"test_static_pathway_to_loads produces the expected output","over":{"base":"Any"},"name":"test_static_pathway_to_loads_correct"},"guarantee":"test_static_pathway_to_loads produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_static_pathway_to_loads_correct","statement":"Path(test_static_pathway_to_loads(x), test_static_pathway_to_loads produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4567f7a79dce1df2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_static_pathway_to_loads","kind":"method","src_hash":"86fca845d44be076","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.pathway.to_loads(self.F) == expected"},"spec":{"lhs":"test_static_pathway_to_loads()","rhs":"self.pathway.to_loads(self.F) == expected","over":{"base":"Any"},"name":"test_static_pathway_to_loads_correct"},"guarantee":"self.pathway.to_loads(self.F) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_static_pathway_to_loads_correct","statement":"Path(test_static_pathway_to_loads(x), self.pathway.to_loads(self.F) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd8fee92b0c51477","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.pathway.to_loads(self.F) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.F","self.N","self.pA","self.pB","self.pathway"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_static_pathway_to_loads(self):
         self.pB.set_pos(self.pA, 2*self.N.x)
         expected = [
@@ -276,48 +352,66 @@ class TestLinearPathway:
         assert self.pathway.to_loads(self.F) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_2D_pathway_length(), test_2D_pathway_length produces the expected output) over Any ║
+# ║ Path(test_2D_pathway_length(), self.pathway.length == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_2D_pathway_length : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.pathway.length == expected                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_2D_pathway_length : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d3b9c8820816037  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16b71fbe63355e19  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_2D_pathway_length","kind":"method","src_hash":"f5bcb327d8a92d76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_2D_pathway_length()","rhs":"test_2D_pathway_length produces the expected output","over":{"base":"Any"},"name":"test_2D_pathway_length_correct"},"guarantee":"test_2D_pathway_length produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_2D_pathway_length_correct","statement":"Path(test_2D_pathway_length(x), test_2D_pathway_length produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d3b9c8820816037"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_2D_pathway_length","kind":"method","src_hash":"f5bcb327d8a92d76","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.pathway.length == expected"},"spec":{"lhs":"test_2D_pathway_length()","rhs":"self.pathway.length == expected","over":{"base":"Any"},"name":"test_2D_pathway_length_correct"},"guarantee":"self.pathway.length == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_2D_pathway_length_correct","statement":"Path(test_2D_pathway_length(x), self.pathway.length == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16b71fbe63355e19","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.pathway.length == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.N","self.pA","self.pB","self.pathway","self.q1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_2D_pathway_length(self):
         self.pB.set_pos(self.pA, 2*self.q1*self.N.x)
         expected = 2*sqrt(self.q1**2)
         assert self.pathway.length == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_2D_pathway_extension_velocity(), test_2D_pathway_extension_velocity produces the expected output) over Any ║
+# ║ Path(test_2D_pathway_extension_velocity(), self.pathway.extension_velocity == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_2D_pathway_extension_velocity : Any → Any             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.pathway.extension_velocity == expected    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_2D_pathway_extension_velocity : Any → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 729c8e32bec6094a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5fedd597b6e941c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_2D_pathway_extension_velocity","kind":"method","src_hash":"5ca4d213a1e98852","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_2D_pathway_extension_velocity()","rhs":"test_2D_pathway_extension_velocity produces the expected output","over":{"base":"Any"},"name":"test_2D_pathway_extension_velocity_correct"},"guarantee":"test_2D_pathway_extension_velocity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_2D_pathway_extension_velocity_correct","statement":"Path(test_2D_pathway_extension_velocity(x), test_2D_pathway_extension_velocity produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"729c8e32bec6094a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_2D_pathway_extension_velocity","kind":"method","src_hash":"5ca4d213a1e98852","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.pathway.extension_velocity == expected"},"spec":{"lhs":"test_2D_pathway_extension_velocity()","rhs":"self.pathway.extension_velocity == expected","over":{"base":"Any"},"name":"test_2D_pathway_extension_velocity_correct"},"guarantee":"self.pathway.extension_velocity == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_2D_pathway_extension_velocity_correct","statement":"Path(test_2D_pathway_extension_velocity(x), self.pathway.extension_velocity == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5fedd597b6e941c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.pathway.extension_velocity == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.N","self.pA","self.pB","self.pathway","self.q1","self.q1d"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_2D_pathway_extension_velocity(self):
         self.pB.set_pos(self.pA, 2*self.q1*self.N.x)
         expected = 2*sqrt(self.q1**2)*self.q1d/self.q1
         assert self.pathway.extension_velocity == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_2D_pathway_to_loads(), test_2D_pathway_to_loads produces the expected output) over Any ║
+# ║ Path(test_2D_pathway_to_loads(), self.pathway.to_loads(self.F) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_2D_pathway_to_loads : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.pathway.to_loads(self.F) == expected      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_2D_pathway_to_loads : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84bbe3c559231e21  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af65c681a12843e7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_2D_pathway_to_loads","kind":"method","src_hash":"b2059090820927e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_2D_pathway_to_loads()","rhs":"test_2D_pathway_to_loads produces the expected output","over":{"base":"Any"},"name":"test_2D_pathway_to_loads_correct"},"guarantee":"test_2D_pathway_to_loads produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_2D_pathway_to_loads_correct","statement":"Path(test_2D_pathway_to_loads(x), test_2D_pathway_to_loads produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84bbe3c559231e21"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_2D_pathway_to_loads","kind":"method","src_hash":"b2059090820927e0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.pathway.to_loads(self.F) == expected"},"spec":{"lhs":"test_2D_pathway_to_loads()","rhs":"self.pathway.to_loads(self.F) == expected","over":{"base":"Any"},"name":"test_2D_pathway_to_loads_correct"},"guarantee":"self.pathway.to_loads(self.F) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_2D_pathway_to_loads_correct","statement":"Path(test_2D_pathway_to_loads(x), self.pathway.to_loads(self.F) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af65c681a12843e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.pathway.to_loads(self.F) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.F","self.N","self.pA","self.pB","self.pathway","self.q1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_2D_pathway_to_loads(self):
         self.pB.set_pos(self.pA, 2*self.q1*self.N.x)
         expected = [
@@ -327,16 +421,22 @@ class TestLinearPathway:
         assert self.pathway.to_loads(self.F) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_3D_pathway_length(), test_3D_pathway_length produces the expected output) over Any ║
+# ║ Path(test_3D_pathway_length(), simplify(self.pathway.length - expected) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_3D_pathway_length : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(self.pathway.length - expected) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_3D_pathway_length : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3fc5fc6b9701d989  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 838caa579ec65c02  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_3D_pathway_length","kind":"method","src_hash":"375551b14d3937fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_3D_pathway_length()","rhs":"test_3D_pathway_length produces the expected output","over":{"base":"Any"},"name":"test_3D_pathway_length_correct"},"guarantee":"test_3D_pathway_length produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_3D_pathway_length_correct","statement":"Path(test_3D_pathway_length(x), test_3D_pathway_length produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3fc5fc6b9701d989"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_3D_pathway_length","kind":"method","src_hash":"375551b14d3937fd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(self.pathway.length - expected) == 0"},"spec":{"lhs":"test_3D_pathway_length()","rhs":"simplify(self.pathway.length - expected) == 0","over":{"base":"Any"},"name":"test_3D_pathway_length_correct"},"guarantee":"simplify(self.pathway.length - expected) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_3D_pathway_length_correct","statement":"Path(test_3D_pathway_length(x), simplify(self.pathway.length - expected) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"838caa579ec65c02","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(self.pathway.length - expected) == 0"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.N","self.pA","self.pB","self.pathway","self.q1","self.q2","self.q3"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_3D_pathway_length(self):
         self.pB.set_pos(
             self.pA,
@@ -346,16 +446,22 @@ class TestLinearPathway:
         assert simplify(self.pathway.length - expected) == 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_3D_pathway_extension_velocity(), test_3D_pathway_extension_velocity produces the expected output) over Any ║
+# ║ Path(test_3D_pathway_extension_velocity(), simplify(self.pathway.extension_velocity - expected) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_3D_pathway_extension_velocity : Any → Any             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(self.pathway.extension_velocity ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_3D_pathway_extension_velocity : Any → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a602d77737d2115f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 04d242486d15bac3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_3D_pathway_extension_velocity","kind":"method","src_hash":"cf066e36b8d2eb3c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_3D_pathway_extension_velocity()","rhs":"test_3D_pathway_extension_velocity produces the expected output","over":{"base":"Any"},"name":"test_3D_pathway_extension_velocity_correct"},"guarantee":"test_3D_pathway_extension_velocity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_3D_pathway_extension_velocity_correct","statement":"Path(test_3D_pathway_extension_velocity(x), test_3D_pathway_extension_velocity produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a602d77737d2115f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_3D_pathway_extension_velocity","kind":"method","src_hash":"cf066e36b8d2eb3c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(self.pathway.extension_velocity - expected) == 0"},"spec":{"lhs":"test_3D_pathway_extension_velocity()","rhs":"simplify(self.pathway.extension_velocity - expected) == 0","over":{"base":"Any"},"name":"test_3D_pathway_extension_velocity_correct"},"guarantee":"simplify(self.pathway.extension_velocity - expected) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_3D_pathway_extension_velocity_correct","statement":"Path(test_3D_pathway_extension_velocity(x), simplify(self.pathway.extension_velocity - expected) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04d242486d15bac3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(self.pathway.extension_velocity - expected) == 0"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.N","self.pA","self.pB","self.pathway","self.q1","self.q1d","self.q2","self.q2d","self.q3","self.q3d"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_3D_pathway_extension_velocity(self):
         self.pB.set_pos(
             self.pA,
@@ -370,16 +476,22 @@ class TestLinearPathway:
         assert simplify(self.pathway.extension_velocity - expected) == 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_3D_pathway_to_loads(), test_3D_pathway_to_loads produces the expected output) over Any ║
+# ║ Path(test_3D_pathway_to_loads(), self.pathway.to_loads(self.F) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_3D_pathway_to_loads : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.pathway.to_loads(self.F) == expected      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_3D_pathway_to_loads : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fafdf2b46a273c3e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65e7c1c1bcc3ddbe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_3D_pathway_to_loads","kind":"method","src_hash":"a8b1aa37a6a65d70","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_3D_pathway_to_loads()","rhs":"test_3D_pathway_to_loads produces the expected output","over":{"base":"Any"},"name":"test_3D_pathway_to_loads_correct"},"guarantee":"test_3D_pathway_to_loads produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_3D_pathway_to_loads_correct","statement":"Path(test_3D_pathway_to_loads(x), test_3D_pathway_to_loads produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fafdf2b46a273c3e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_3D_pathway_to_loads","kind":"method","src_hash":"a8b1aa37a6a65d70","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.pathway.to_loads(self.F) == expected"},"spec":{"lhs":"test_3D_pathway_to_loads()","rhs":"self.pathway.to_loads(self.F) == expected","over":{"base":"Any"},"name":"test_3D_pathway_to_loads_correct"},"guarantee":"self.pathway.to_loads(self.F) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestLinearPathway.test_3D_pathway_to_loads_correct","statement":"Path(test_3D_pathway_to_loads(x), self.pathway.to_loads(self.F) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65e7c1c1bcc3ddbe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.pathway.to_loads(self.F) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.F","self.N","self.pA","self.pB","self.pathway","self.q1","self.q2","self.q3"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_3D_pathway_to_loads(self):
         self.pB.set_pos(
             self.pA,
@@ -406,27 +518,39 @@ class TestLinearPathway:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TestObstacleSetPathway(*args), correctly constructs a TestObstacleSetPathway instance) over {Any | isinstance(instance, ObstacleSetPathway) and isinstance(attachment, Point)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TestObstacleSetPathway : {Any | isinstance(instance, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88d86fd6e7e959d4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway","kind":"class","src_hash":"9feb12c0f9babab7","in":{"base":"Any","pred":"isinstance(instance, ObstacleSetPathway) and isinstance(attachment, Point)"},"out":{"base":"Any","pred":"issubclass(ObstacleSetPathway, PathwayBase) and isinstance(instance, ObstacleSetPathway) and hasattr(instance, 'attachments') and len(instance.attachments) == num_attachments and repr(pathway) == expected and pathway.length == 1 + 2 * sqrt(2) and pathway.extension_velocity == 0 and pathway.to_loads(self.F) == expected and (pathway.length - expected).simplify() == 0 and (pathway.extension_velocity - expected).simplify() == 0 and _simplify_loads(pathway.to_loads(self.F)) == expected and isinstance(attachment, Point)"},"spec":{"lhs":"TestObstacleSetPathway(*args)","rhs":"correctly constructs a TestObstacleSetPathway instance","over":{"base":"Any","pred":"isinstance(instance, ObstacleSetPathway) and isinstance(attachment, Point)"},"name":"TestObstacleSetPathway_class_invariant"},"guarantee":"correctly constructs a TestObstacleSetPathway instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88d86fd6e7e959d4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway","kind":"class","src_hash":"9feb12c0f9babab7","in":{"base":"Any","pred":"isinstance(instance, ObstacleSetPathway) and isinstance(attachment, Point)"},"out":{"base":"Any","pred":"issubclass(ObstacleSetPathway, PathwayBase) and isinstance(instance, ObstacleSetPathway) and hasattr(instance, 'attachments') and len(instance.attachments) == num_attachments and repr(pathway) == expected and pathway.length == 1 + 2 * sqrt(2) and pathway.extension_velocity == 0 and pathway.to_loads(self.F) == expected and (pathway.length - expected).simplify() == 0 and (pathway.extension_velocity - expected).simplify() == 0 and _simplify_loads(pathway.to_loads(self.F)) == expected and isinstance(attachment, Point)"},"spec":{"lhs":"TestObstacleSetPathway(*args)","rhs":"correctly constructs a TestObstacleSetPathway instance","over":{"base":"Any","pred":"isinstance(instance, ObstacleSetPathway) and isinstance(attachment, Point)"},"name":"TestObstacleSetPathway_class_invariant"},"guarantee":"correctly constructs a TestObstacleSetPathway instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88d86fd6e7e959d4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function TestObstacleSetPathway not found in source"]}}
 class TestObstacleSetPathway:
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_pathway_base_subclass(), test_is_pathway_base_subclass produces the expected output) over Any ║
+# ║ Path(test_is_pathway_base_subclass(), issubclass(ObstacleSetPathway, PathwayBase)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_pathway_base_subclass : Any → Any                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  issubclass(ObstacleSetPathway, PathwayBase)    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_pathway_base_subclass : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8642f5dd7f813be9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 578bd390c9872020  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_is_pathway_base_subclass","kind":"method","src_hash":"bc174619db9dd26a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_is_pathway_base_subclass()","rhs":"test_is_pathway_base_subclass produces the expected output","over":{"base":"Any"},"name":"test_is_pathway_base_subclass_correct"},"guarantee":"test_is_pathway_base_subclass produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_is_pathway_base_subclass_correct","statement":"Path(test_is_pathway_base_subclass(x), test_is_pathway_base_subclass produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8642f5dd7f813be9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_is_pathway_base_subclass","kind":"method","src_hash":"bc174619db9dd26a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: issubclass(ObstacleSetPathway, PathwayBase)"},"spec":{"lhs":"test_is_pathway_base_subclass()","rhs":"issubclass(ObstacleSetPathway, PathwayBase)","over":{"base":"Any"},"name":"test_is_pathway_base_subclass_correct"},"guarantee":"issubclass(ObstacleSetPathway, PathwayBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_is_pathway_base_subclass_correct","statement":"Path(test_is_pathway_base_subclass(x), issubclass(ObstacleSetPathway, PathwayBase))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"578bd390c9872020","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["issubclass(ObstacleSetPathway, PathwayBase)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_is_pathway_base_subclass(self):
         assert issubclass(ObstacleSetPathway, PathwayBase)
 
@@ -441,16 +565,24 @@ class TestObstacleSetPathway:
         ]
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_valid_constructor(num), test_valid_constructor produces the expected output) over Any ║
+# ║ Path(test_valid_constructor(num_attachments, attachments), isinstance(instance, ObstacleSetPathway) and hasattr(instance, 'attachments') and len(instance.attachments) == num_attachments) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_valid_constructor : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(instance, ObstacleSetPathway)       ║
+# ║   ensures:  hasattr(instance, 'attachments')               ║
+# ║   ensures:  len(instance.attachments) == num_attachments   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_valid_constructor : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 153bdf4a9eaaa291  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6bdb1ee0e5fe8db5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_valid_constructor","kind":"staticmethod","src_hash":"1df2cc7f193d8023","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_valid_constructor(num)","rhs":"test_valid_constructor produces the expected output","over":{"base":"Any"},"name":"test_valid_constructor_correct"},"guarantee":"test_valid_constructor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_valid_constructor_correct","statement":"Path(test_valid_constructor(x), test_valid_constructor produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"153bdf4a9eaaa291"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_valid_constructor","kind":"staticmethod","src_hash":"1df2cc7f193d8023","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(instance, ObstacleSetPathway) and hasattr(instance, 'attachments') and len(instance.attachments) == num_attachments"},"spec":{"lhs":"test_valid_constructor(num_attachments, attachments)","rhs":"isinstance(instance, ObstacleSetPathway) and hasattr(instance, 'attachments') and len(instance.attachments) == num_attachments","over":{"base":"Any"},"name":"test_valid_constructor_correct"},"guarantee":"isinstance(instance, ObstacleSetPathway); hasattr(instance, 'attachments'); len(instance.attachments) == num_attachments","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_valid_constructor_correct","statement":"Path(test_valid_constructor(x), isinstance(instance, ObstacleSetPathway); hasattr(instance, 'attachments'); len(instance.attachments) == num_attachments)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6bdb1ee0e5fe8db5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(instance, ObstacleSetPathway)","hasattr(instance, 'attachments')","len(instance.attachments) == num_attachments"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_valid_constructor(num_attachments, attachments):
         instance = ObstacleSetPathway(*attachments)
         assert isinstance(instance, ObstacleSetPathway)
@@ -465,16 +597,22 @@ class TestObstacleSetPathway:
         [[Point('pO')], [Point('pO'), Point('pI')]],
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_invalid_constructor_attachments_incorrect_number(att), test_invalid_constructor_attachments_incorrect_number produces the expected output) over Any ║
+# ║ Path(test_invalid_constructor_attachments_incorrect_number(attachments), <unspecified:test_invalid_constructor_attachments_incorrect_number>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_invalid_constructor_attachments_incorrect_number...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c9b98df3b23fa557  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_invalid_constructor_attachments_incorrect_number","kind":"staticmethod","src_hash":"c2dabd18532f6630","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_invalid_constructor_attachments_incorrect_number(att)","rhs":"test_invalid_constructor_attachments_incorrect_number produces the expected output","over":{"base":"Any"},"name":"test_invalid_constructor_attachments_incorrect_number_correct"},"guarantee":"test_invalid_constructor_attachments_incorrect_number produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_invalid_constructor_attachments_incorrect_number_correct","statement":"Path(test_invalid_constructor_attachments_incorrect_number(x), test_invalid_constructor_attachments_incorrect_number produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9b98df3b23fa557"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_invalid_constructor_attachments_incorrect_number","kind":"staticmethod","src_hash":"c2dabd18532f6630","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_invalid_constructor_attachments_incorrect_number(attachments)","rhs":"<unspecified:test_invalid_constructor_attachments_incorrect_number>","over":{"base":"Any"},"name":"test_invalid_constructor_attachments_incorrect_number_correct"},"guarantee":"test_invalid_constructor_attachments_incorrect_number produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_invalid_constructor_attachments_incorrect_number_correct","statement":"Path(test_invalid_constructor_attachments_incorrect_number(x), test_invalid_constructor_attachments_incorrect_number produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9b98df3b23fa557","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_invalid_constructor_attachments_incorrect_number(attachments):
         with pytest.raises(ValueError):
             _ = ObstacleSetPathway(*attachments)
@@ -489,31 +627,43 @@ class TestObstacleSetPathway:
         ]
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_invalid_constructor_attachments_not_point(att), test_invalid_constructor_attachments_not_point produces the expected output) over Any ║
+# ║ Path(test_invalid_constructor_attachments_not_point(attachments), <unspecified:test_invalid_constructor_attachments_not_point>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_invalid_constructor_attachments_not_point : Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c3d3167bc4a768b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_invalid_constructor_attachments_not_point","kind":"staticmethod","src_hash":"b394dcfdd7d2edf0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_invalid_constructor_attachments_not_point(att)","rhs":"test_invalid_constructor_attachments_not_point produces the expected output","over":{"base":"Any"},"name":"test_invalid_constructor_attachments_not_point_correct"},"guarantee":"test_invalid_constructor_attachments_not_point produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_invalid_constructor_attachments_not_point_correct","statement":"Path(test_invalid_constructor_attachments_not_point(x), test_invalid_constructor_attachments_not_point produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c3d3167bc4a768b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_invalid_constructor_attachments_not_point","kind":"staticmethod","src_hash":"b394dcfdd7d2edf0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_invalid_constructor_attachments_not_point(attachments)","rhs":"<unspecified:test_invalid_constructor_attachments_not_point>","over":{"base":"Any"},"name":"test_invalid_constructor_attachments_not_point_correct"},"guarantee":"test_invalid_constructor_attachments_not_point produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_invalid_constructor_attachments_not_point_correct","statement":"Path(test_invalid_constructor_attachments_not_point(x), test_invalid_constructor_attachments_not_point produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c3d3167bc4a768b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_invalid_constructor_attachments_not_point(attachments):
         with pytest.raises(TypeError):
             _ = WrappingPathway(*attachments)  # type: ignore
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_properties_are_immutable(), test_properties_are_immutable produces the expected output) over Any ║
+# ║ Path(test_properties_are_immutable(), <unspecified:test_properties_are_immutable>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_properties_are_immutable : Any → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 62073fddaf5b2197  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_properties_are_immutable","kind":"method","src_hash":"e5db2508e510a0a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_properties_are_immutable()","rhs":"test_properties_are_immutable produces the expected output","over":{"base":"Any"},"name":"test_properties_are_immutable_correct"},"guarantee":"test_properties_are_immutable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_properties_are_immutable_correct","statement":"Path(test_properties_are_immutable(x), test_properties_are_immutable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62073fddaf5b2197"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_properties_are_immutable","kind":"method","src_hash":"e5db2508e510a0a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_properties_are_immutable()","rhs":"<unspecified:test_properties_are_immutable>","over":{"base":"Any"},"name":"test_properties_are_immutable_correct"},"guarantee":"test_properties_are_immutable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_properties_are_immutable_correct","statement":"Path(test_properties_are_immutable(x), test_properties_are_immutable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62073fddaf5b2197","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_properties_are_immutable(self):
         pathway = ObstacleSetPathway(Point('pO'), Point('pA'), Point('pI'))
         with pytest.raises(AttributeError):
@@ -544,32 +694,44 @@ class TestObstacleSetPathway:
         ]
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_repr(att), test_repr produces the expected output) over Any ║
+# ║ Path(test_repr(attachments, expected), repr(pathway) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_repr : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  repr(pathway) == expected                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_repr : Any → {Any | result satisfies: repr(pathw...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 303b18f01bfdfd5f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f98807aed0d9575e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_repr","kind":"staticmethod","src_hash":"b290fcaef92f75e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_repr(att)","rhs":"test_repr produces the expected output","over":{"base":"Any"},"name":"test_repr_correct"},"guarantee":"test_repr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_repr_correct","statement":"Path(test_repr(x), test_repr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"303b18f01bfdfd5f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_repr","kind":"staticmethod","src_hash":"b290fcaef92f75e5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: repr(pathway) == expected"},"spec":{"lhs":"test_repr(attachments, expected)","rhs":"repr(pathway) == expected","over":{"base":"Any"},"name":"test_repr_correct"},"guarantee":"repr(pathway) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_repr_correct","statement":"Path(test_repr(x), repr(pathway) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f98807aed0d9575e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["repr(pathway) == expected"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_repr(attachments, expected):
         pathway = ObstacleSetPathway(*attachments)
         assert repr(pathway) == expected
 
     @pytest.fixture(autouse=True)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_obstacle_set_pathway_fixture(), internal helper behaves correctly) over Any ║
+# ║ Path(_obstacle_set_pathway_fixture(), <unspecified:_obstacle_set_pathway_fixture>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _obstacle_set_pathway_fixture : Any → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75580bd22918cdf0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway._obstacle_set_pathway_fixture","kind":"method","src_hash":"cb4a3001e231ef09","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_obstacle_set_pathway_fixture()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_obstacle_set_pathway_fixture_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway._obstacle_set_pathway_fixture_correct","statement":"Path(_obstacle_set_pathway_fixture(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75580bd22918cdf0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway._obstacle_set_pathway_fixture","kind":"method","src_hash":"cb4a3001e231ef09","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_obstacle_set_pathway_fixture()","rhs":"<unspecified:_obstacle_set_pathway_fixture>","over":{"base":"Any"},"name":"_obstacle_set_pathway_fixture_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway._obstacle_set_pathway_fixture_correct","statement":"Path(_obstacle_set_pathway_fixture(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75580bd22918cdf0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self.F","self.N","self.pA","self.pB","self.pI","self.pO","self.q","self.qd"]},"state_contract":{"modifies":["self.F","self.N","self.pA","self.pB","self.pI","self.pO","self.q","self.qd"],"old_bindings":{"old_self_F":"self.F","old_self_N":"self.N","old_self_pA":"self.pA","old_self_pB":"self.pB","old_self_pI":"self.pI","old_self_pO":"self.pO","old_self_q":"self.q","old_self_qd":"self.qd"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _obstacle_set_pathway_fixture(self):
         self.N = ReferenceFrame('N')
         self.pO = Point('pO')
@@ -581,16 +743,22 @@ class TestObstacleSetPathway:
         self.F = Symbol('F')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_static_pathway_length(), test_static_pathway_length produces the expected output) over Any ║
+# ║ Path(test_static_pathway_length(), pathway.length == 1 + 2 * sqrt(2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_static_pathway_length : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pathway.length == 1 + 2 * sqrt(2)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_static_pathway_length : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55699e6888396526  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2de89ee72006230d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_static_pathway_length","kind":"method","src_hash":"5ede259dddc4998a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_static_pathway_length()","rhs":"test_static_pathway_length produces the expected output","over":{"base":"Any"},"name":"test_static_pathway_length_correct"},"guarantee":"test_static_pathway_length produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_static_pathway_length_correct","statement":"Path(test_static_pathway_length(x), test_static_pathway_length produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55699e6888396526"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_static_pathway_length","kind":"method","src_hash":"5ede259dddc4998a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pathway.length == 1 + 2 * sqrt(2)"},"spec":{"lhs":"test_static_pathway_length()","rhs":"pathway.length == 1 + 2 * sqrt(2)","over":{"base":"Any"},"name":"test_static_pathway_length_correct"},"guarantee":"pathway.length == 1 + 2 * sqrt(2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_static_pathway_length_correct","statement":"Path(test_static_pathway_length(x), pathway.length == 1 + 2 * sqrt(2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2de89ee72006230d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pathway.length == 1 + 2 * sqrt(2)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.N","self.pA","self.pB","self.pI","self.pO"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_static_pathway_length(self):
         self.pA.set_pos(self.pO, self.N.x)
         self.pB.set_pos(self.pO, self.N.y)
@@ -599,16 +767,22 @@ class TestObstacleSetPathway:
         assert pathway.length == 1 + 2 * sqrt(2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_static_pathway_extension_velocity(), test_static_pathway_extension_velocity produces the expected output) over Any ║
+# ║ Path(test_static_pathway_extension_velocity(), pathway.extension_velocity == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_static_pathway_extension_velocity : Any → Any         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pathway.extension_velocity == 0                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_static_pathway_extension_velocity : Any → {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c68bdacb7ce1c886  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 72a65078f9402dfa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_static_pathway_extension_velocity","kind":"method","src_hash":"526479a435ba9731","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_static_pathway_extension_velocity()","rhs":"test_static_pathway_extension_velocity produces the expected output","over":{"base":"Any"},"name":"test_static_pathway_extension_velocity_correct"},"guarantee":"test_static_pathway_extension_velocity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_static_pathway_extension_velocity_correct","statement":"Path(test_static_pathway_extension_velocity(x), test_static_pathway_extension_velocity produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c68bdacb7ce1c886"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_static_pathway_extension_velocity","kind":"method","src_hash":"526479a435ba9731","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pathway.extension_velocity == 0"},"spec":{"lhs":"test_static_pathway_extension_velocity()","rhs":"pathway.extension_velocity == 0","over":{"base":"Any"},"name":"test_static_pathway_extension_velocity_correct"},"guarantee":"pathway.extension_velocity == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_static_pathway_extension_velocity_correct","statement":"Path(test_static_pathway_extension_velocity(x), pathway.extension_velocity == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72a65078f9402dfa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pathway.extension_velocity == 0"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.N","self.pA","self.pB","self.pI","self.pO"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_static_pathway_extension_velocity(self):
         self.pA.set_pos(self.pO, self.N.x)
         self.pB.set_pos(self.pO, self.N.y)
@@ -617,16 +791,22 @@ class TestObstacleSetPathway:
         assert pathway.extension_velocity == 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_static_pathway_to_loads(), test_static_pathway_to_loads produces the expected output) over Any ║
+# ║ Path(test_static_pathway_to_loads(), pathway.to_loads(self.F) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_static_pathway_to_loads : Any → Any                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pathway.to_loads(self.F) == expected           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_static_pathway_to_loads : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09b8d989d0c2b69e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9586c8f12a32952b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_static_pathway_to_loads","kind":"method","src_hash":"d13ec3de43394a44","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_static_pathway_to_loads()","rhs":"test_static_pathway_to_loads produces the expected output","over":{"base":"Any"},"name":"test_static_pathway_to_loads_correct"},"guarantee":"test_static_pathway_to_loads produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_static_pathway_to_loads_correct","statement":"Path(test_static_pathway_to_loads(x), test_static_pathway_to_loads produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09b8d989d0c2b69e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_static_pathway_to_loads","kind":"method","src_hash":"d13ec3de43394a44","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pathway.to_loads(self.F) == expected"},"spec":{"lhs":"test_static_pathway_to_loads()","rhs":"pathway.to_loads(self.F) == expected","over":{"base":"Any"},"name":"test_static_pathway_to_loads_correct"},"guarantee":"pathway.to_loads(self.F) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_static_pathway_to_loads_correct","statement":"Path(test_static_pathway_to_loads(x), pathway.to_loads(self.F) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9586c8f12a32952b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pathway.to_loads(self.F) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.F","self.N","self.pA","self.pB","self.pI","self.pO"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_static_pathway_to_loads(self):
         self.pA.set_pos(self.pO, self.N.x)
         self.pB.set_pos(self.pO, self.N.y)
@@ -643,16 +823,22 @@ class TestObstacleSetPathway:
         assert pathway.to_loads(self.F) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_2D_pathway_length(), test_2D_pathway_length produces the expected output) over Any ║
+# ║ Path(test_2D_pathway_length(), (pathway.length - expected).simplify() == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_2D_pathway_length : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (pathway.length - expected).simplify() == 0    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_2D_pathway_length : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a5debf1a6ce7a3f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c91b0a8000507329  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_2D_pathway_length","kind":"method","src_hash":"94e4c294953676c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_2D_pathway_length()","rhs":"test_2D_pathway_length produces the expected output","over":{"base":"Any"},"name":"test_2D_pathway_length_correct"},"guarantee":"test_2D_pathway_length produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_2D_pathway_length_correct","statement":"Path(test_2D_pathway_length(x), test_2D_pathway_length produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a5debf1a6ce7a3f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_2D_pathway_length","kind":"method","src_hash":"94e4c294953676c1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (pathway.length - expected).simplify() == 0"},"spec":{"lhs":"test_2D_pathway_length()","rhs":"(pathway.length - expected).simplify() == 0","over":{"base":"Any"},"name":"test_2D_pathway_length_correct"},"guarantee":"(pathway.length - expected).simplify() == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_2D_pathway_length_correct","statement":"Path(test_2D_pathway_length(x), (pathway.length - expected).simplify() == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c91b0a8000507329","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(pathway.length - expected).simplify() == 0"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.N","self.pA","self.pB","self.pI","self.pO","self.q"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_2D_pathway_length(self):
         self.pA.set_pos(self.pO, -(self.N.x + self.N.y))
         self.pB.set_pos(
@@ -666,16 +852,22 @@ class TestObstacleSetPathway:
         assert (pathway.length - expected).simplify() == 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_2D_pathway_extension_velocity(), test_2D_pathway_extension_velocity produces the expected output) over Any ║
+# ║ Path(test_2D_pathway_extension_velocity(), (pathway.extension_velocity - expected).simplify() == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_2D_pathway_extension_velocity : Any → Any             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (pathway.extension_velocity - expected).s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_2D_pathway_extension_velocity : Any → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e16bb273ebf7426  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 243f975abbc2e9d3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_2D_pathway_extension_velocity","kind":"method","src_hash":"239df23524a825ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_2D_pathway_extension_velocity()","rhs":"test_2D_pathway_extension_velocity produces the expected output","over":{"base":"Any"},"name":"test_2D_pathway_extension_velocity_correct"},"guarantee":"test_2D_pathway_extension_velocity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_2D_pathway_extension_velocity_correct","statement":"Path(test_2D_pathway_extension_velocity(x), test_2D_pathway_extension_velocity produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e16bb273ebf7426"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_2D_pathway_extension_velocity","kind":"method","src_hash":"239df23524a825ac","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (pathway.extension_velocity - expected).simplify() == 0"},"spec":{"lhs":"test_2D_pathway_extension_velocity()","rhs":"(pathway.extension_velocity - expected).simplify() == 0","over":{"base":"Any"},"name":"test_2D_pathway_extension_velocity_correct"},"guarantee":"(pathway.extension_velocity - expected).simplify() == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_2D_pathway_extension_velocity_correct","statement":"Path(test_2D_pathway_extension_velocity(x), (pathway.extension_velocity - expected).simplify() == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"243f975abbc2e9d3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(pathway.extension_velocity - expected).simplify() == 0"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.N","self.pA","self.pB","self.pI","self.pO","self.q","self.qd"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_2D_pathway_extension_velocity(self):
         self.pA.set_pos(self.pO, -(self.N.x + self.N.y))
         self.pB.set_pos(
@@ -689,16 +881,22 @@ class TestObstacleSetPathway:
         assert (pathway.extension_velocity - expected).simplify() == 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_2D_pathway_to_loads(), test_2D_pathway_to_loads produces the expected output) over Any ║
+# ║ Path(test_2D_pathway_to_loads(), _simplify_loads(pathway.to_loads(self.F)) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_2D_pathway_to_loads : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _simplify_loads(pathway.to_loads(self.F))...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_2D_pathway_to_loads : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df35c2e8b9f5a363  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81e9b63e393d3d1e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_2D_pathway_to_loads","kind":"method","src_hash":"92ba459b582a43fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_2D_pathway_to_loads()","rhs":"test_2D_pathway_to_loads produces the expected output","over":{"base":"Any"},"name":"test_2D_pathway_to_loads_correct"},"guarantee":"test_2D_pathway_to_loads produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_2D_pathway_to_loads_correct","statement":"Path(test_2D_pathway_to_loads(x), test_2D_pathway_to_loads produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df35c2e8b9f5a363"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_2D_pathway_to_loads","kind":"method","src_hash":"92ba459b582a43fc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _simplify_loads(pathway.to_loads(self.F)) == expected"},"spec":{"lhs":"test_2D_pathway_to_loads()","rhs":"_simplify_loads(pathway.to_loads(self.F)) == expected","over":{"base":"Any"},"name":"test_2D_pathway_to_loads_correct"},"guarantee":"_simplify_loads(pathway.to_loads(self.F)) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestObstacleSetPathway.test_2D_pathway_to_loads_correct","statement":"Path(test_2D_pathway_to_loads(x), _simplify_loads(pathway.to_loads(self.F)) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81e9b63e393d3d1e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_simplify_loads(pathway.to_loads(self.F)) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.F","self.N","self.pA","self.pB","self.pI","self.pO","self.q"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_2D_pathway_to_loads(self):
         self.pA.set_pos(self.pO, -(self.N.x + self.N.y))
         self.pB.set_pos(
@@ -728,42 +926,60 @@ class TestObstacleSetPathway:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TestWrappingPathway(*args), correctly constructs a TestWrappingPathway instance) over {Any | isinstance(instance, WrappingPathway) and isinstance(instance.attachments[0], Point) and isinstance(instance.geometry, WrappingGeometryBase)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TestWrappingPathway : {Any | isinstance(instance, Wra...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 3.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 244acaade9a4101c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway","kind":"class","src_hash":"011ff718045e529e","in":{"base":"Any","pred":"isinstance(instance, WrappingPathway) and isinstance(instance.attachments[0], Point) and isinstance(instance.geometry, WrappingGeometryBase)"},"out":{"base":"Any","pred":"issubclass(WrappingPathway, PathwayBase) and isinstance(instance, WrappingPathway) and hasattr(instance, 'attachments') and len(instance.attachments) == 2 and isinstance(instance.attachments[0], Point) and instance.attachments[0] == self.pA and isinstance(instance.attachments[1], Point) and instance.attachments[1] == self.pB and hasattr(instance, 'geometry') and isinstance(instance.geometry, WrappingGeometryBase) and instance.geometry == self.cylinder and repr(self.pathway) == expected and simplify(pathway.length - expected) == 0 and simplify(pathway.length - expected) == 0 and pathway.extension_velocity == 0 and pathway.extension_velocity == 0 and pathway.to_loads(self.F) == expected and _simplify_loads(pathway.to_loads(self.F)) == expected and simplify(self.pathway.length - expected) == 0 and simplify(self.pathway.extension_velocity - expected) == 0 and loads == expected"},"spec":{"lhs":"TestWrappingPathway(*args)","rhs":"correctly constructs a TestWrappingPathway instance","over":{"base":"Any","pred":"isinstance(instance, WrappingPathway) and isinstance(instance.attachments[0], Point) and isinstance(instance.geometry, WrappingGeometryBase)"},"name":"TestWrappingPathway_class_invariant"},"guarantee":"correctly constructs a TestWrappingPathway instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"244acaade9a4101c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway","kind":"class","src_hash":"011ff718045e529e","in":{"base":"Any","pred":"isinstance(instance, WrappingPathway) and isinstance(instance.attachments[0], Point) and isinstance(instance.geometry, WrappingGeometryBase)"},"out":{"base":"Any","pred":"issubclass(WrappingPathway, PathwayBase) and isinstance(instance, WrappingPathway) and hasattr(instance, 'attachments') and len(instance.attachments) == 2 and isinstance(instance.attachments[0], Point) and instance.attachments[0] == self.pA and isinstance(instance.attachments[1], Point) and instance.attachments[1] == self.pB and hasattr(instance, 'geometry') and isinstance(instance.geometry, WrappingGeometryBase) and instance.geometry == self.cylinder and repr(self.pathway) == expected and simplify(pathway.length - expected) == 0 and simplify(pathway.length - expected) == 0 and pathway.extension_velocity == 0 and pathway.extension_velocity == 0 and pathway.to_loads(self.F) == expected and _simplify_loads(pathway.to_loads(self.F)) == expected and simplify(self.pathway.length - expected) == 0 and simplify(self.pathway.extension_velocity - expected) == 0 and loads == expected"},"spec":{"lhs":"TestWrappingPathway(*args)","rhs":"correctly constructs a TestWrappingPathway instance","over":{"base":"Any","pred":"isinstance(instance, WrappingPathway) and isinstance(instance.attachments[0], Point) and isinstance(instance.geometry, WrappingGeometryBase)"},"name":"TestWrappingPathway_class_invariant"},"guarantee":"correctly constructs a TestWrappingPathway instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"244acaade9a4101c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function TestWrappingPathway not found in source"]}}
 class TestWrappingPathway:
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_pathway_base_subclass(), test_is_pathway_base_subclass produces the expected output) over Any ║
+# ║ Path(test_is_pathway_base_subclass(), issubclass(WrappingPathway, PathwayBase)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_pathway_base_subclass : Any → Any                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  issubclass(WrappingPathway, PathwayBase)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_pathway_base_subclass : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83f856b6cd7d510c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8e57d95c944ea77  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_is_pathway_base_subclass","kind":"method","src_hash":"cb09f71918beebaf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_is_pathway_base_subclass()","rhs":"test_is_pathway_base_subclass produces the expected output","over":{"base":"Any"},"name":"test_is_pathway_base_subclass_correct"},"guarantee":"test_is_pathway_base_subclass produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_is_pathway_base_subclass_correct","statement":"Path(test_is_pathway_base_subclass(x), test_is_pathway_base_subclass produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83f856b6cd7d510c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_is_pathway_base_subclass","kind":"method","src_hash":"cb09f71918beebaf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: issubclass(WrappingPathway, PathwayBase)"},"spec":{"lhs":"test_is_pathway_base_subclass()","rhs":"issubclass(WrappingPathway, PathwayBase)","over":{"base":"Any"},"name":"test_is_pathway_base_subclass_correct"},"guarantee":"issubclass(WrappingPathway, PathwayBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_is_pathway_base_subclass_correct","statement":"Path(test_is_pathway_base_subclass(x), issubclass(WrappingPathway, PathwayBase))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8e57d95c944ea77","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["issubclass(WrappingPathway, PathwayBase)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_is_pathway_base_subclass(self):
         assert issubclass(WrappingPathway, PathwayBase)
 
     @pytest.fixture(autouse=True)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_wrapping_pathway_fixture(), internal helper behaves correctly) over Any ║
+# ║ Path(_wrapping_pathway_fixture(), <unspecified:_wrapping_pathway_fixture>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _wrapping_pathway_fixture : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 214976877057fbb8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway._wrapping_pathway_fixture","kind":"method","src_hash":"1d1cd8ee62f97517","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_wrapping_pathway_fixture()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_wrapping_pathway_fixture_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway._wrapping_pathway_fixture_correct","statement":"Path(_wrapping_pathway_fixture(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"214976877057fbb8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway._wrapping_pathway_fixture","kind":"method","src_hash":"1d1cd8ee62f97517","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_wrapping_pathway_fixture()","rhs":"<unspecified:_wrapping_pathway_fixture>","over":{"base":"Any"},"name":"_wrapping_pathway_fixture_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway._wrapping_pathway_fixture_correct","statement":"Path(_wrapping_pathway_fixture(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"214976877057fbb8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.N","self.ax","self.cylinder","self.pA","self.pB","self.pO","self.r"],"writes":["self.F","self.N","self.ax","self.cylinder","self.pA","self.pB","self.pO","self.pathway","self.r","self.sphere"]},"state_contract":{"modifies":["self.F","self.N","self.ax","self.cylinder","self.pA","self.pB","self.pO","self.pathway","self.r","self.sphere"],"old_bindings":{"old_self_F":"self.F","old_self_N":"self.N","old_self_ax":"self.ax","old_self_cylinder":"self.cylinder","old_self_pA":"self.pA","old_self_pB":"self.pB","old_self_pO":"self.pO","old_self_pathway":"self.pathway","old_self_r":"self.r","old_self_sphere":"self.sphere"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _wrapping_pathway_fixture(self):
         self.pA = Point('pA')
         self.pB = Point('pB')
@@ -777,16 +993,24 @@ class TestWrappingPathway:
         self.F = Symbol('F')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_valid_constructor(), test_valid_constructor produces the expected output) over Any ║
+# ║ Path(test_valid_constructor(), isinstance(instance, WrappingPathway) and hasattr(instance, 'attachments') and len(instance.attachments) == 2 and isinstance(instance.attachments[0], Point) and instance.attachments[0] == self.pA and isinstance(instance.attachments[1], Point) and instance.attachments[1] == self.pB and hasattr(instance, 'geometry') and isinstance(instance.geometry, WrappingGeometryBase) and instance.geometry == self.cylinder) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_valid_constructor : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(instance, WrappingPathway)          ║
+# ║   ensures:  hasattr(instance, 'attachments')               ║
+# ║   ensures:  len(instance.attachments) == 2                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_valid_constructor : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9aa7482df04360b5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dff77f5aedfe043e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_valid_constructor","kind":"method","src_hash":"029db0276b15e254","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_valid_constructor()","rhs":"test_valid_constructor produces the expected output","over":{"base":"Any"},"name":"test_valid_constructor_correct"},"guarantee":"test_valid_constructor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_valid_constructor_correct","statement":"Path(test_valid_constructor(x), test_valid_constructor produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9aa7482df04360b5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_valid_constructor","kind":"method","src_hash":"029db0276b15e254","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(instance, WrappingPathway) and hasattr(instance, 'attachments') and len(instance.attachments) == 2 and isinstance(instance.attachments[0], Point) and instance.attachments[0] == self.pA and isinstance(instance.attachments[1], Point) and instance.attachments[1] == self.pB and hasattr(instance, 'geometry') and isinstance(instance.geometry, WrappingGeometryBase) and instance.geometry == self.cylinder"},"spec":{"lhs":"test_valid_constructor()","rhs":"isinstance(instance, WrappingPathway) and hasattr(instance, 'attachments') and len(instance.attachments) == 2 and isinstance(instance.attachments[0], Point) and instance.attachments[0] == self.pA and isinstance(instance.attachments[1], Point) and instance.attachments[1] == self.pB and hasattr(instance, 'geometry') and isinstance(instance.geometry, WrappingGeometryBase) and instance.geometry == self.cylinder","over":{"base":"Any"},"name":"test_valid_constructor_correct"},"guarantee":"isinstance(instance, WrappingPathway); hasattr(instance, 'attachments'); len(instance.attachments) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_valid_constructor_correct","statement":"Path(test_valid_constructor(x), isinstance(instance, WrappingPathway); hasattr(instance, 'attachments'); len(instance.attachments) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dff77f5aedfe043e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(instance, WrappingPathway)","hasattr(instance, 'attachments')","len(instance.attachments) == 2","isinstance(instance.attachments[0], Point)","instance.attachments[0] == self.pA","isinstance(instance.attachments[1], Point)","instance.attachments[1] == self.pB","hasattr(instance, 'geometry')","isinstance(instance.geometry, WrappingGeometryBase)","instance.geometry == self.cylinder"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.cylinder","self.pA","self.pB"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_valid_constructor(self):
         instance = WrappingPathway(self.pA, self.pB, self.cylinder)
         assert isinstance(instance, WrappingPathway)
@@ -808,16 +1032,22 @@ class TestWrappingPathway:
         ]
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_invalid_constructor_attachments_incorrect_number(att), test_invalid_constructor_attachments_incorrect_number produces the expected output) over Any ║
+# ║ Path(test_invalid_constructor_attachments_incorrect_number(attachments), <unspecified:test_invalid_constructor_attachments_incorrect_number>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_invalid_constructor_attachments_incorrect_number...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 73b64d6f55fcbeca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_invalid_constructor_attachments_incorrect_number","kind":"method","src_hash":"c935b3ac0f956c13","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_invalid_constructor_attachments_incorrect_number(att)","rhs":"test_invalid_constructor_attachments_incorrect_number produces the expected output","over":{"base":"Any"},"name":"test_invalid_constructor_attachments_incorrect_number_correct"},"guarantee":"test_invalid_constructor_attachments_incorrect_number produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_invalid_constructor_attachments_incorrect_number_correct","statement":"Path(test_invalid_constructor_attachments_incorrect_number(x), test_invalid_constructor_attachments_incorrect_number produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73b64d6f55fcbeca"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_invalid_constructor_attachments_incorrect_number","kind":"method","src_hash":"c935b3ac0f956c13","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_invalid_constructor_attachments_incorrect_number(attachments)","rhs":"<unspecified:test_invalid_constructor_attachments_incorrect_number>","over":{"base":"Any"},"name":"test_invalid_constructor_attachments_incorrect_number_correct"},"guarantee":"test_invalid_constructor_attachments_incorrect_number produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_invalid_constructor_attachments_incorrect_number_correct","statement":"Path(test_invalid_constructor_attachments_incorrect_number(x), test_invalid_constructor_attachments_incorrect_number produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73b64d6f55fcbeca","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.cylinder"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_invalid_constructor_attachments_incorrect_number(self, attachments):
         with pytest.raises(TypeError):
             _ = WrappingPathway(*attachments, self.cylinder)
@@ -831,31 +1061,43 @@ class TestWrappingPathway:
         ]
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_invalid_constructor_attachments_not_point(att), test_invalid_constructor_attachments_not_point produces the expected output) over Any ║
+# ║ Path(test_invalid_constructor_attachments_not_point(attachments), <unspecified:test_invalid_constructor_attachments_not_point>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_invalid_constructor_attachments_not_point : Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e093d737d51c8b63  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_invalid_constructor_attachments_not_point","kind":"staticmethod","src_hash":"7c0da1c1ba8f0455","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_invalid_constructor_attachments_not_point(att)","rhs":"test_invalid_constructor_attachments_not_point produces the expected output","over":{"base":"Any"},"name":"test_invalid_constructor_attachments_not_point_correct"},"guarantee":"test_invalid_constructor_attachments_not_point produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_invalid_constructor_attachments_not_point_correct","statement":"Path(test_invalid_constructor_attachments_not_point(x), test_invalid_constructor_attachments_not_point produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e093d737d51c8b63"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_invalid_constructor_attachments_not_point","kind":"staticmethod","src_hash":"7c0da1c1ba8f0455","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_invalid_constructor_attachments_not_point(attachments)","rhs":"<unspecified:test_invalid_constructor_attachments_not_point>","over":{"base":"Any"},"name":"test_invalid_constructor_attachments_not_point_correct"},"guarantee":"test_invalid_constructor_attachments_not_point produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_invalid_constructor_attachments_not_point_correct","statement":"Path(test_invalid_constructor_attachments_not_point(x), test_invalid_constructor_attachments_not_point produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e093d737d51c8b63","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_invalid_constructor_attachments_not_point(attachments):
         with pytest.raises(TypeError):
             _ = WrappingPathway(*attachments)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_invalid_constructor_geometry_is_not_supplied(), test_invalid_constructor_geometry_is_not_supplied produces the expected output) over Any ║
+# ║ Path(test_invalid_constructor_geometry_is_not_supplied(), <unspecified:test_invalid_constructor_geometry_is_not_supplied>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_invalid_constructor_geometry_is_not_supplied : A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d585487826ff9d9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_invalid_constructor_geometry_is_not_supplied","kind":"method","src_hash":"29271831623a0ffd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_invalid_constructor_geometry_is_not_supplied()","rhs":"test_invalid_constructor_geometry_is_not_supplied produces the expected output","over":{"base":"Any"},"name":"test_invalid_constructor_geometry_is_not_supplied_correct"},"guarantee":"test_invalid_constructor_geometry_is_not_supplied produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_invalid_constructor_geometry_is_not_supplied_correct","statement":"Path(test_invalid_constructor_geometry_is_not_supplied(x), test_invalid_constructor_geometry_is_not_supplied produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d585487826ff9d9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_invalid_constructor_geometry_is_not_supplied","kind":"method","src_hash":"29271831623a0ffd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_invalid_constructor_geometry_is_not_supplied()","rhs":"<unspecified:test_invalid_constructor_geometry_is_not_supplied>","over":{"base":"Any"},"name":"test_invalid_constructor_geometry_is_not_supplied_correct"},"guarantee":"test_invalid_constructor_geometry_is_not_supplied produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_invalid_constructor_geometry_is_not_supplied_correct","statement":"Path(test_invalid_constructor_geometry_is_not_supplied(x), test_invalid_constructor_geometry_is_not_supplied produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d585487826ff9d9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.pA","self.pB"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_invalid_constructor_geometry_is_not_supplied(self):
         with pytest.raises(TypeError):
             _ = WrappingPathway(self.pA, self.pB)
@@ -870,31 +1112,43 @@ class TestWrappingPathway:
         ]
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_invalid_geometry_not_geometry(geo), test_invalid_geometry_not_geometry produces the expected output) over Any ║
+# ║ Path(test_invalid_geometry_not_geometry(geometry), <unspecified:test_invalid_geometry_not_geometry>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_invalid_geometry_not_geometry : Any → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9397f0a993620cf5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_invalid_geometry_not_geometry","kind":"method","src_hash":"33b4cdaf56e83b96","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_invalid_geometry_not_geometry(geo)","rhs":"test_invalid_geometry_not_geometry produces the expected output","over":{"base":"Any"},"name":"test_invalid_geometry_not_geometry_correct"},"guarantee":"test_invalid_geometry_not_geometry produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_invalid_geometry_not_geometry_correct","statement":"Path(test_invalid_geometry_not_geometry(x), test_invalid_geometry_not_geometry produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9397f0a993620cf5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_invalid_geometry_not_geometry","kind":"method","src_hash":"33b4cdaf56e83b96","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_invalid_geometry_not_geometry(geometry)","rhs":"<unspecified:test_invalid_geometry_not_geometry>","over":{"base":"Any"},"name":"test_invalid_geometry_not_geometry_correct"},"guarantee":"test_invalid_geometry_not_geometry produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_invalid_geometry_not_geometry_correct","statement":"Path(test_invalid_geometry_not_geometry(x), test_invalid_geometry_not_geometry produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9397f0a993620cf5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.pA","self.pB"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_invalid_geometry_not_geometry(self, geometry):
         with pytest.raises(TypeError):
             _ = WrappingPathway(self.pA, self.pB, geometry)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_attachments_property_is_immutable(), test_attachments_property_is_immutable produces the expected output) over Any ║
+# ║ Path(test_attachments_property_is_immutable(), <unspecified:test_attachments_property_is_immutable>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_attachments_property_is_immutable : Any → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 523f12bf07ce8940  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_attachments_property_is_immutable","kind":"method","src_hash":"4531f77f99fa9a39","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_attachments_property_is_immutable()","rhs":"test_attachments_property_is_immutable produces the expected output","over":{"base":"Any"},"name":"test_attachments_property_is_immutable_correct"},"guarantee":"test_attachments_property_is_immutable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_attachments_property_is_immutable_correct","statement":"Path(test_attachments_property_is_immutable(x), test_attachments_property_is_immutable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"523f12bf07ce8940"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_attachments_property_is_immutable","kind":"method","src_hash":"4531f77f99fa9a39","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_attachments_property_is_immutable()","rhs":"<unspecified:test_attachments_property_is_immutable>","over":{"base":"Any"},"name":"test_attachments_property_is_immutable_correct"},"guarantee":"test_attachments_property_is_immutable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_attachments_property_is_immutable_correct","statement":"Path(test_attachments_property_is_immutable(x), test_attachments_property_is_immutable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"523f12bf07ce8940","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.pA","self.pB","self.pathway"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_attachments_property_is_immutable(self):
         with pytest.raises(TypeError):
             self.pathway.attachments[0] = self.pB
@@ -902,31 +1156,43 @@ class TestWrappingPathway:
             self.pathway.attachments[1] = self.pA
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_geometry_property_is_immutable(), test_geometry_property_is_immutable produces the expected output) over Any ║
+# ║ Path(test_geometry_property_is_immutable(), <unspecified:test_geometry_property_is_immutable>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_geometry_property_is_immutable : Any → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3349504d380d43c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_geometry_property_is_immutable","kind":"method","src_hash":"053e0a8f81415c40","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_geometry_property_is_immutable()","rhs":"test_geometry_property_is_immutable produces the expected output","over":{"base":"Any"},"name":"test_geometry_property_is_immutable_correct"},"guarantee":"test_geometry_property_is_immutable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_geometry_property_is_immutable_correct","statement":"Path(test_geometry_property_is_immutable(x), test_geometry_property_is_immutable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3349504d380d43c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_geometry_property_is_immutable","kind":"method","src_hash":"053e0a8f81415c40","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_geometry_property_is_immutable()","rhs":"<unspecified:test_geometry_property_is_immutable>","over":{"base":"Any"},"name":"test_geometry_property_is_immutable_correct"},"guarantee":"test_geometry_property_is_immutable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_geometry_property_is_immutable_correct","statement":"Path(test_geometry_property_is_immutable(x), test_geometry_property_is_immutable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3349504d380d43c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.pathway"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_geometry_property_is_immutable(self):
         with pytest.raises(AttributeError):
             self.pathway.geometry = None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_repr(), test_repr produces the expected output) over Any ║
+# ║ Path(test_repr(), repr(self.pathway) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_repr : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  repr(self.pathway) == expected                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_repr : Any → {Any | result satisfies: repr(self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd7133a1e7f22748  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b06b948e56de19e7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_repr","kind":"method","src_hash":"3e1aabc27870a83b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_repr()","rhs":"test_repr produces the expected output","over":{"base":"Any"},"name":"test_repr_correct"},"guarantee":"test_repr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_repr_correct","statement":"Path(test_repr(x), test_repr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd7133a1e7f22748"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_repr","kind":"method","src_hash":"3e1aabc27870a83b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: repr(self.pathway) == expected"},"spec":{"lhs":"test_repr()","rhs":"repr(self.pathway) == expected","over":{"base":"Any"},"name":"test_repr_correct"},"guarantee":"repr(self.pathway) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_repr_correct","statement":"Path(test_repr(x), repr(self.pathway) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b06b948e56de19e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["repr(self.pathway) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.cylinder","self.pathway"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_repr(self):
         expected = (
             f'WrappingPathway(pA, pB, '
@@ -936,16 +1202,22 @@ class TestWrappingPathway:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_expand_pos_to_vec(pos), internal helper behaves correctly) over Any ║
+# ║ Path(_expand_pos_to_vec(pos, frame), sum((mag * unit for mag, unit in zip(pos, frame)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sum((mag * unit for mag, unit in zip(pos,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _expand_pos_to_vec : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c5cf4a4086e9222a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway._expand_pos_to_vec","kind":"staticmethod","src_hash":"917bdd9dcbaa6864","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_expand_pos_to_vec(pos)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_expand_pos_to_vec_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c5cf4a4086e9222a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway._expand_pos_to_vec","kind":"staticmethod","src_hash":"917bdd9dcbaa6864","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_expand_pos_to_vec(pos, frame)","rhs":"sum((mag * unit for mag, unit in zip(pos, frame)))","over":{"base":"Any"},"name":"_expand_pos_to_vec_correct"},"guarantee":"returns sum((mag * unit for mag, unit in zip(pos, frame)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c5cf4a4086e9222a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sum((mag * unit for mag, unit in zip(pos, frame)))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _expand_pos_to_vec(pos, frame):
         return sum(mag*unit for (mag, unit) in zip(pos, frame))
 
@@ -958,16 +1230,22 @@ class TestWrappingPathway:
         ]
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_static_pathway_on_sphere_length(pA_), test_static_pathway_on_sphere_length produces the expected output) over Any ║
+# ║ Path(test_static_pathway_on_sphere_length(pA_vec, pB_vec, factor), simplify(pathway.length - expected) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_static_pathway_on_sphere_length : Any → Any           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(pathway.length - expected) == 0       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_static_pathway_on_sphere_length : Any → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c733c5ed9b5707d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 647191b10c1f9574  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_static_pathway_on_sphere_length","kind":"method","src_hash":"ede9e9466175db30","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_static_pathway_on_sphere_length(pA_)","rhs":"test_static_pathway_on_sphere_length produces the expected output","over":{"base":"Any"},"name":"test_static_pathway_on_sphere_length_correct"},"guarantee":"test_static_pathway_on_sphere_length produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_static_pathway_on_sphere_length_correct","statement":"Path(test_static_pathway_on_sphere_length(x), test_static_pathway_on_sphere_length produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c733c5ed9b5707d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_static_pathway_on_sphere_length","kind":"method","src_hash":"ede9e9466175db30","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(pathway.length - expected) == 0"},"spec":{"lhs":"test_static_pathway_on_sphere_length(pA_vec, pB_vec, factor)","rhs":"simplify(pathway.length - expected) == 0","over":{"base":"Any"},"name":"test_static_pathway_on_sphere_length_correct"},"guarantee":"simplify(pathway.length - expected) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_static_pathway_on_sphere_length_correct","statement":"Path(test_static_pathway_on_sphere_length(x), simplify(pathway.length - expected) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"647191b10c1f9574","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(pathway.length - expected) == 0"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.N","self._expand_pos_to_vec","self.pA","self.pB","self.pO","self.r","self.sphere"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_static_pathway_on_sphere_length(self, pA_vec, pB_vec, factor):
         pA_vec = self._expand_pos_to_vec(pA_vec, self.N)
         pB_vec = self._expand_pos_to_vec(pB_vec, self.N)
@@ -998,16 +1276,22 @@ class TestWrappingPathway:
         ]
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_static_pathway_on_cylinder_length(pA_), test_static_pathway_on_cylinder_length produces the expected output) over Any ║
+# ║ Path(test_static_pathway_on_cylinder_length(pA_vec, pB_vec, factor), simplify(pathway.length - expected) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_static_pathway_on_cylinder_length : Any → Any         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(pathway.length - expected) == 0       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_static_pathway_on_cylinder_length : Any → {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 041658be61a2eb6f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f7cca0c84f786010  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_static_pathway_on_cylinder_length","kind":"method","src_hash":"2f8cce706ab7a304","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_static_pathway_on_cylinder_length(pA_)","rhs":"test_static_pathway_on_cylinder_length produces the expected output","over":{"base":"Any"},"name":"test_static_pathway_on_cylinder_length_correct"},"guarantee":"test_static_pathway_on_cylinder_length produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_static_pathway_on_cylinder_length_correct","statement":"Path(test_static_pathway_on_cylinder_length(x), test_static_pathway_on_cylinder_length produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"041658be61a2eb6f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_static_pathway_on_cylinder_length","kind":"method","src_hash":"2f8cce706ab7a304","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(pathway.length - expected) == 0"},"spec":{"lhs":"test_static_pathway_on_cylinder_length(pA_vec, pB_vec, factor)","rhs":"simplify(pathway.length - expected) == 0","over":{"base":"Any"},"name":"test_static_pathway_on_cylinder_length_correct"},"guarantee":"simplify(pathway.length - expected) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_static_pathway_on_cylinder_length_correct","statement":"Path(test_static_pathway_on_cylinder_length(x), simplify(pathway.length - expected) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7cca0c84f786010","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(pathway.length - expected) == 0"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.N","self._expand_pos_to_vec","self.cylinder","self.pA","self.pB","self.pO","self.r"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_static_pathway_on_cylinder_length(self, pA_vec, pB_vec, factor):
         pA_vec = self._expand_pos_to_vec(pA_vec, self.N)
         pB_vec = self._expand_pos_to_vec(pB_vec, self.N)
@@ -1026,16 +1310,22 @@ class TestWrappingPathway:
         ]
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_static_pathway_on_sphere_extension_velocity(pA_), test_static_pathway_on_sphere_extension_velocity produces the expected output) over Any ║
+# ║ Path(test_static_pathway_on_sphere_extension_velocity(pA_vec, pB_vec), pathway.extension_velocity == 0) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pathway.extension_velocity == 0                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_static_pathway_on_sphere_extension_velocity : An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 29902611108e86b7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a777339c61098df7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_static_pathway_on_sphere_extension_velocity","kind":"method","src_hash":"6709e754d6e46c10","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_static_pathway_on_sphere_extension_velocity(pA_)","rhs":"test_static_pathway_on_sphere_extension_velocity produces the expected output","over":{"base":"Any"},"name":"test_static_pathway_on_sphere_extension_velocity_correct"},"guarantee":"test_static_pathway_on_sphere_extension_velocity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_static_pathway_on_sphere_extension_velocity_correct","statement":"Path(test_static_pathway_on_sphere_extension_velocity(x), test_static_pathway_on_sphere_extension_velocity produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29902611108e86b7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_static_pathway_on_sphere_extension_velocity","kind":"method","src_hash":"6709e754d6e46c10","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pathway.extension_velocity == 0"},"spec":{"lhs":"test_static_pathway_on_sphere_extension_velocity(pA_vec, pB_vec)","rhs":"pathway.extension_velocity == 0","over":{"base":"Any"},"name":"test_static_pathway_on_sphere_extension_velocity_correct"},"guarantee":"pathway.extension_velocity == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_static_pathway_on_sphere_extension_velocity_correct","statement":"Path(test_static_pathway_on_sphere_extension_velocity(x), pathway.extension_velocity == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a777339c61098df7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pathway.extension_velocity == 0"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.N","self._expand_pos_to_vec","self.pA","self.pB","self.pO","self.r","self.sphere"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_static_pathway_on_sphere_extension_velocity(self, pA_vec, pB_vec):
         pA_vec = self._expand_pos_to_vec(pA_vec, self.N)
         pB_vec = self._expand_pos_to_vec(pB_vec, self.N)
@@ -1057,16 +1347,22 @@ class TestWrappingPathway:
         ]
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_static_pathway_on_cylinder_extension_velocity(pA_), test_static_pathway_on_cylinder_extension_velocity produces the expected output) over Any ║
+# ║ Path(test_static_pathway_on_cylinder_extension_velocity(pA_vec, pB_vec), pathway.extension_velocity == 0) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pathway.extension_velocity == 0                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_static_pathway_on_cylinder_extension_velocity : ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd083d861130ba02  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0869fbebb3c2daf9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_static_pathway_on_cylinder_extension_velocity","kind":"method","src_hash":"ba51bfa65c99bff8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_static_pathway_on_cylinder_extension_velocity(pA_)","rhs":"test_static_pathway_on_cylinder_extension_velocity produces the expected output","over":{"base":"Any"},"name":"test_static_pathway_on_cylinder_extension_velocity_correct"},"guarantee":"test_static_pathway_on_cylinder_extension_velocity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_static_pathway_on_cylinder_extension_velocity_correct","statement":"Path(test_static_pathway_on_cylinder_extension_velocity(x), test_static_pathway_on_cylinder_extension_velocity produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd083d861130ba02"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_static_pathway_on_cylinder_extension_velocity","kind":"method","src_hash":"ba51bfa65c99bff8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pathway.extension_velocity == 0"},"spec":{"lhs":"test_static_pathway_on_cylinder_extension_velocity(pA_vec, pB_vec)","rhs":"pathway.extension_velocity == 0","over":{"base":"Any"},"name":"test_static_pathway_on_cylinder_extension_velocity_correct"},"guarantee":"pathway.extension_velocity == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_static_pathway_on_cylinder_extension_velocity_correct","statement":"Path(test_static_pathway_on_cylinder_extension_velocity(x), pathway.extension_velocity == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0869fbebb3c2daf9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pathway.extension_velocity == 0"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.N","self._expand_pos_to_vec","self.cylinder","self.pA","self.pB","self.pO","self.r"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_static_pathway_on_cylinder_extension_velocity(self, pA_vec, pB_vec):
         pA_vec = self._expand_pos_to_vec(pA_vec, self.N)
         pB_vec = self._expand_pos_to_vec(pB_vec, self.N)
@@ -1096,16 +1392,22 @@ class TestWrappingPathway:
         )
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_static_pathway_on_sphere_to_loads(pA_), test_static_pathway_on_sphere_to_loads produces the expected output) over Any ║
+# ║ Path(test_static_pathway_on_sphere_to_loads(pA_vec, pB_vec, pA_vec_expected), pathway.to_loads(self.F) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_static_pathway_on_sphere_to_loads : Any → Any         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pathway.to_loads(self.F) == expected           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_static_pathway_on_sphere_to_loads : Any → {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec50ff14cc841755  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 27e0b8c29100387c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_static_pathway_on_sphere_to_loads","kind":"method","src_hash":"d45dfbfa93769373","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_static_pathway_on_sphere_to_loads(pA_)","rhs":"test_static_pathway_on_sphere_to_loads produces the expected output","over":{"base":"Any"},"name":"test_static_pathway_on_sphere_to_loads_correct"},"guarantee":"test_static_pathway_on_sphere_to_loads produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_static_pathway_on_sphere_to_loads_correct","statement":"Path(test_static_pathway_on_sphere_to_loads(x), test_static_pathway_on_sphere_to_loads produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec50ff14cc841755"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_static_pathway_on_sphere_to_loads","kind":"method","src_hash":"d45dfbfa93769373","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pathway.to_loads(self.F) == expected"},"spec":{"lhs":"test_static_pathway_on_sphere_to_loads(pA_vec, pB_vec, pA_vec_expected)","rhs":"pathway.to_loads(self.F) == expected","over":{"base":"Any"},"name":"test_static_pathway_on_sphere_to_loads_correct"},"guarantee":"pathway.to_loads(self.F) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_static_pathway_on_sphere_to_loads_correct","statement":"Path(test_static_pathway_on_sphere_to_loads(x), pathway.to_loads(self.F) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27e0b8c29100387c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pathway.to_loads(self.F) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.F","self.N","self._expand_pos_to_vec","self.pA","self.pB","self.pO","self.r","self.sphere"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_static_pathway_on_sphere_to_loads(
         self,
         pA_vec,
@@ -1182,16 +1484,22 @@ class TestWrappingPathway:
         )
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_static_pathway_on_cylinder_to_loads(pA_), test_static_pathway_on_cylinder_to_loads produces the expected output) over Any ║
+# ║ Path(test_static_pathway_on_cylinder_to_loads(pA_vec, pB_vec, pA_vec_expected), _simplify_loads(pathway.to_loads(self.F)) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_static_pathway_on_cylinder_to_loads : Any → Any       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _simplify_loads(pathway.to_loads(self.F))...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_static_pathway_on_cylinder_to_loads : Any → {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b6c1b68f04e4dbc9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 56ca3822f119e356  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_static_pathway_on_cylinder_to_loads","kind":"method","src_hash":"960cffa429064a4d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_static_pathway_on_cylinder_to_loads(pA_)","rhs":"test_static_pathway_on_cylinder_to_loads produces the expected output","over":{"base":"Any"},"name":"test_static_pathway_on_cylinder_to_loads_correct"},"guarantee":"test_static_pathway_on_cylinder_to_loads produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_static_pathway_on_cylinder_to_loads_correct","statement":"Path(test_static_pathway_on_cylinder_to_loads(x), test_static_pathway_on_cylinder_to_loads produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6c1b68f04e4dbc9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_static_pathway_on_cylinder_to_loads","kind":"method","src_hash":"960cffa429064a4d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _simplify_loads(pathway.to_loads(self.F)) == expected"},"spec":{"lhs":"test_static_pathway_on_cylinder_to_loads(pA_vec, pB_vec, pA_vec_expected)","rhs":"_simplify_loads(pathway.to_loads(self.F)) == expected","over":{"base":"Any"},"name":"test_static_pathway_on_cylinder_to_loads_correct"},"guarantee":"_simplify_loads(pathway.to_loads(self.F)) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_static_pathway_on_cylinder_to_loads_correct","statement":"Path(test_static_pathway_on_cylinder_to_loads(x), _simplify_loads(pathway.to_loads(self.F)) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56ca3822f119e356","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_simplify_loads(pathway.to_loads(self.F)) == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.F","self.N","self._expand_pos_to_vec","self.cylinder","self.pA","self.pB","self.pO","self.r"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_static_pathway_on_cylinder_to_loads(
         self,
         pA_vec,
@@ -1220,16 +1528,22 @@ class TestWrappingPathway:
         assert _simplify_loads(pathway.to_loads(self.F)) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_2D_pathway_on_cylinder_length(), test_2D_pathway_on_cylinder_length produces the expected output) over Any ║
+# ║ Path(test_2D_pathway_on_cylinder_length(), simplify(self.pathway.length - expected) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_2D_pathway_on_cylinder_length : Any → Any             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(self.pathway.length - expected) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_2D_pathway_on_cylinder_length : Any → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5abde8c3092bd7c1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 47b30d4b937501c9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_2D_pathway_on_cylinder_length","kind":"method","src_hash":"56ad0f7408188ff4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_2D_pathway_on_cylinder_length()","rhs":"test_2D_pathway_on_cylinder_length produces the expected output","over":{"base":"Any"},"name":"test_2D_pathway_on_cylinder_length_correct"},"guarantee":"test_2D_pathway_on_cylinder_length produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_2D_pathway_on_cylinder_length_correct","statement":"Path(test_2D_pathway_on_cylinder_length(x), test_2D_pathway_on_cylinder_length produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5abde8c3092bd7c1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_2D_pathway_on_cylinder_length","kind":"method","src_hash":"56ad0f7408188ff4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(self.pathway.length - expected) == 0"},"spec":{"lhs":"test_2D_pathway_on_cylinder_length()","rhs":"simplify(self.pathway.length - expected) == 0","over":{"base":"Any"},"name":"test_2D_pathway_on_cylinder_length_correct"},"guarantee":"simplify(self.pathway.length - expected) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_2D_pathway_on_cylinder_length_correct","statement":"Path(test_2D_pathway_on_cylinder_length(x), simplify(self.pathway.length - expected) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47b30d4b937501c9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(self.pathway.length - expected) == 0"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.N","self.pA","self.pB","self.pO","self.pathway","self.r"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_2D_pathway_on_cylinder_length(self):
         q = dynamicsymbols('q')
         pA_pos = self.r*self.N.x
@@ -1240,16 +1554,22 @@ class TestWrappingPathway:
         assert simplify(self.pathway.length - expected) == 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_2D_pathway_on_cylinder_extension_velocity(), test_2D_pathway_on_cylinder_extension_velocity produces the expected output) over Any ║
+# ║ Path(test_2D_pathway_on_cylinder_extension_velocity(), simplify(self.pathway.extension_velocity - expected) == 0) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(self.pathway.extension_velocity ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_2D_pathway_on_cylinder_extension_velocity : Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d95f811bff15a58  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 20f7a36da800a1b3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_2D_pathway_on_cylinder_extension_velocity","kind":"method","src_hash":"9da4ecab19997c8b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_2D_pathway_on_cylinder_extension_velocity()","rhs":"test_2D_pathway_on_cylinder_extension_velocity produces the expected output","over":{"base":"Any"},"name":"test_2D_pathway_on_cylinder_extension_velocity_correct"},"guarantee":"test_2D_pathway_on_cylinder_extension_velocity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_2D_pathway_on_cylinder_extension_velocity_correct","statement":"Path(test_2D_pathway_on_cylinder_extension_velocity(x), test_2D_pathway_on_cylinder_extension_velocity produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d95f811bff15a58"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_2D_pathway_on_cylinder_extension_velocity","kind":"method","src_hash":"9da4ecab19997c8b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(self.pathway.extension_velocity - expected) == 0"},"spec":{"lhs":"test_2D_pathway_on_cylinder_extension_velocity()","rhs":"simplify(self.pathway.extension_velocity - expected) == 0","over":{"base":"Any"},"name":"test_2D_pathway_on_cylinder_extension_velocity_correct"},"guarantee":"simplify(self.pathway.extension_velocity - expected) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_2D_pathway_on_cylinder_extension_velocity_correct","statement":"Path(test_2D_pathway_on_cylinder_extension_velocity(x), simplify(self.pathway.extension_velocity - expected) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20f7a36da800a1b3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(self.pathway.extension_velocity - expected) == 0"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.N","self.pA","self.pB","self.pO","self.pathway","self.r"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_2D_pathway_on_cylinder_extension_velocity(self):
         q = dynamicsymbols('q')
         qd = dynamicsymbols('q', 1)
@@ -1261,16 +1581,22 @@ class TestWrappingPathway:
         assert simplify(self.pathway.extension_velocity - expected) == 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_2D_pathway_on_cylinder_to_loads(), test_2D_pathway_on_cylinder_to_loads produces the expected output) over Any ║
+# ║ Path(test_2D_pathway_on_cylinder_to_loads(), loads == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_2D_pathway_on_cylinder_to_loads : Any → Any           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  loads == expected                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_2D_pathway_on_cylinder_to_loads : Any → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d7a8cfdfd24cb86f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 60ea692fb5d6e252  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_2D_pathway_on_cylinder_to_loads","kind":"method","src_hash":"7c44d9ad4a3e73e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_2D_pathway_on_cylinder_to_loads()","rhs":"test_2D_pathway_on_cylinder_to_loads produces the expected output","over":{"base":"Any"},"name":"test_2D_pathway_on_cylinder_to_loads_correct"},"guarantee":"test_2D_pathway_on_cylinder_to_loads produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_2D_pathway_on_cylinder_to_loads_correct","statement":"Path(test_2D_pathway_on_cylinder_to_loads(x), test_2D_pathway_on_cylinder_to_loads produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7a8cfdfd24cb86f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_2D_pathway_on_cylinder_to_loads","kind":"method","src_hash":"7c44d9ad4a3e73e1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: loads == expected"},"spec":{"lhs":"test_2D_pathway_on_cylinder_to_loads()","rhs":"loads == expected","over":{"base":"Any"},"name":"test_2D_pathway_on_cylinder_to_loads_correct"},"guarantee":"loads == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_pathway.TestWrappingPathway.test_2D_pathway_on_cylinder_to_loads_correct","statement":"Path(test_2D_pathway_on_cylinder_to_loads(x), loads == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60ea692fb5d6e252","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["loads == expected"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.F","self.N","self.pA","self.pB","self.pO","self.pathway","self.r"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_2D_pathway_on_cylinder_to_loads(self):
         q = dynamicsymbols('q')
         pA_pos = self.r*self.N.x

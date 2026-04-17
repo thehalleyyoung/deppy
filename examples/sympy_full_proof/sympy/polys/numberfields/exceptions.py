@@ -19,16 +19,22 @@
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ClosureFailure(), correctly constructs a ClosureFailure instance) over Any ║
+# ║ Path(ClosureFailure(), isinstance(self, Exception)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ClosureFailure : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Exception)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ClosureFailure : Any → {Any | result satisfies: isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a8fc6ebda2c0611d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.exceptions.ClosureFailure","kind":"class","src_hash":"ae48acd0cba58a58","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ClosureFailure()","rhs":"correctly constructs a ClosureFailure instance","over":{"base":"Any"},"name":"ClosureFailure_correct"},"guarantee":"correctly constructs a ClosureFailure instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a8fc6ebda2c0611d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.exceptions.ClosureFailure","kind":"class","src_hash":"ae48acd0cba58a58","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Exception)"},"spec":{"lhs":"ClosureFailure()","rhs":"isinstance(self, Exception)","over":{"base":"Any"},"name":"ClosureFailure_correct"},"guarantee":"isinstance(self, Exception)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a8fc6ebda2c0611d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Exception)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function ClosureFailure not found in source"]}}
 class ClosureFailure(Exception):
     r"""
     Signals that a :py:class:`ModuleElement` which we tried to represent in a
@@ -65,16 +71,22 @@ class ClosureFailure(Exception):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(StructureError(), correctly constructs a StructureError instance) over Any ║
+# ║ Path(StructureError(), isinstance(self, Exception)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ StructureError : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Exception)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ StructureError : Any → {Any | result satisfies: isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f5e6a9b82ede11fc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.exceptions.StructureError","kind":"class","src_hash":"c5e0c5cb185eef08","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"StructureError()","rhs":"correctly constructs a StructureError instance","over":{"base":"Any"},"name":"StructureError_correct"},"guarantee":"correctly constructs a StructureError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f5e6a9b82ede11fc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.exceptions.StructureError","kind":"class","src_hash":"c5e0c5cb185eef08","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Exception)"},"spec":{"lhs":"StructureError()","rhs":"isinstance(self, Exception)","over":{"base":"Any"},"name":"StructureError_correct"},"guarantee":"isinstance(self, Exception)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f5e6a9b82ede11fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Exception)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function StructureError not found in source"]}}
 class StructureError(Exception):
     r"""
     Represents cases in which an algebraic structure was expected to have a
@@ -84,16 +96,22 @@ class StructureError(Exception):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(MissingUnityError(), correctly constructs a MissingUnityError instance) over Any ║
+# ║ Path(MissingUnityError(), isinstance(self, StructureError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ MissingUnityError : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, StructureError)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ MissingUnityError : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1a7167f87c93257a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.exceptions.MissingUnityError","kind":"class","src_hash":"68b27ce509874789","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MissingUnityError()","rhs":"correctly constructs a MissingUnityError instance","over":{"base":"Any"},"name":"MissingUnityError_correct"},"guarantee":"correctly constructs a MissingUnityError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1a7167f87c93257a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.exceptions.MissingUnityError","kind":"class","src_hash":"68b27ce509874789","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, StructureError)"},"spec":{"lhs":"MissingUnityError()","rhs":"isinstance(self, StructureError)","over":{"base":"Any"},"name":"MissingUnityError_correct"},"guarantee":"isinstance(self, StructureError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1a7167f87c93257a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, StructureError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function MissingUnityError not found in source"]}}
 class MissingUnityError(StructureError):
     r"""Structure should contain a unity element but does not."""
     pass

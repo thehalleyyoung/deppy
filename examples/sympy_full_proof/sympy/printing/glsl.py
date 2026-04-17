@@ -47,14 +47,20 @@ known_functions = {
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a GLSLPrinter instance) preserved by GLSLPrinter(*args) over {Any | isinstance(code, str) and isinstance(func, Lambda)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CodePrinter)                  ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ GLSLPrinter : {Any | isinstance(code, str) and isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f83275778be53988  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter","kind":"class","src_hash":"75301aab2d7ab960","in":{"base":"Any","pred":"isinstance(code, str) and isinstance(func, Lambda)"},"out":{"base":"Any"},"spec":{"lhs":"GLSLPrinter(*args)","rhs":"correctly constructs a GLSLPrinter instance","over":{"base":"Any","pred":"isinstance(code, str) and isinstance(func, Lambda)"},"name":"GLSLPrinter_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a GLSLPrinter instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'known_functions')","kind":"class","induction":"structural on known_functions"}],"methods_preserving":["__init__","_rate_index_position","_get_statement","_get_comment","_declare_number_const","_format_code","indent_code","_print_MatrixBase","_print_SparseRepMatrix","_traverse_matrix_indices","_print_MatrixElement","_print_list","_get_loop_opening_ending","_print_Function_with_args","_print_Piecewise","_print_Indexed","_print_Pow","_print_int","_print_Rational","_print_Relational","_print_Add","_print_Mul"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f83275778be53988"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter","kind":"class","src_hash":"75301aab2d7ab960","in":{"base":"Any","pred":"isinstance(code, str) and isinstance(func, Lambda)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CodePrinter)"},"spec":{"lhs":"GLSLPrinter(*args)","rhs":"correctly constructs a GLSLPrinter instance","over":{"base":"Any","pred":"isinstance(code, str) and isinstance(func, Lambda)"},"name":"GLSLPrinter_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, CodePrinter); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'known_functions')","kind":"class","induction":"structural on known_functions"}],"methods_preserving":["__init__","_rate_index_position","_get_statement","_get_comment","_declare_number_const","_format_code","indent_code","_print_MatrixBase","_print_SparseRepMatrix","_traverse_matrix_indices","_print_MatrixElement","_print_list","_get_loop_opening_ending","_print_Function_with_args","_print_Piecewise","_print_Indexed","_print_Pow","_print_int","_print_Rational","_print_Relational","_print_Add","_print_Mul"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f83275778be53988","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CodePrinter)"],"invariants":["hasattr(self, 'known_functions')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function GLSLPrinter not found in source"]}}
 class GLSLPrinter(CodePrinter):
     """
     Rudimentary, generic GLSL printing tools.
@@ -81,16 +87,23 @@ class GLSLPrinter(CodePrinter):
     })
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(set), initializes the instance correctly) over Any ║
+# ║ Path(__init__(settings), <unspecified:__init__>) over {Any | hasattr(settings, 'get')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(settings, 'get')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | hasattr(settings, 'get')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1b8753eac6d76e49           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter.__init__","kind":"method","src_hash":"8821e8eb92623b8b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(set)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1b8753eac6d76e49"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter.__init__","kind":"method","src_hash":"8821e8eb92623b8b","in":{"base":"Any","pred":"hasattr(settings, 'get')"},"out":{"base":"Any"},"spec":{"lhs":"__init__(settings)","rhs":"<unspecified:__init__>","over":{"base":"Any","pred":"hasattr(settings, 'get')"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1b8753eac6d76e49","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(settings, 'get')"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.known_functions","settings.get"],"writes":["self.known_functions"],"calls_mutating":["self.known_functions.update"]},"state_contract":{"modifies":["self.*","self.known_functions"],"old_bindings":{"old_self_known_functions":"self.known_functions"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, settings={}):
         CodePrinter.__init__(self, settings)
         self.known_functions = dict(known_functions)
@@ -98,86 +111,123 @@ class GLSLPrinter(CodePrinter):
         self.known_functions.update(userfuncs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rate_index_position(p), internal helper behaves correctly) over Any ║
+# ║ Path(_rate_index_position(p), p * 5) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  p * 5                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _rate_index_position : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9c352f58d8f8284d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._rate_index_position","kind":"method","src_hash":"b056d20fa49cff81","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rate_index_position(p)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_rate_index_position_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9c352f58d8f8284d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._rate_index_position","kind":"method","src_hash":"b056d20fa49cff81","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rate_index_position(p)","rhs":"p * 5","over":{"base":"Any"},"name":"_rate_index_position_correct"},"guarantee":"returns p * 5","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9c352f58d8f8284d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"p * 5","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _rate_index_position(self, p):
         return p*5
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_statement(cod), internal helper behaves correctly) over Any ║
+# ║ Path(_get_statement(codestring), '%s;' % codestring) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '%s;' % codestring                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_statement : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7df045e622fc3772           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._get_statement","kind":"method","src_hash":"a36c898509962ccc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_statement(cod)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_statement_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7df045e622fc3772"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._get_statement","kind":"method","src_hash":"a36c898509962ccc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_statement(codestring)","rhs":"'%s;' % codestring","over":{"base":"Any"},"name":"_get_statement_correct"},"guarantee":"returns '%s;' % codestring","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7df045e622fc3772","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'%s;' % codestring","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_statement(self, codestring):
         return "%s;" % codestring
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_comment(tex), internal helper behaves correctly) over Any ║
+# ║ Path(_get_comment(text), '// {}'.format(text)) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '// {}'.format(text)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_comment : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a0b287069ecb4452           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._get_comment","kind":"method","src_hash":"bf061ea09fed8216","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_comment(tex)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_comment_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a0b287069ecb4452"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._get_comment","kind":"method","src_hash":"bf061ea09fed8216","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_comment(text)","rhs":"'// {}'.format(text)","over":{"base":"Any"},"name":"_get_comment_correct"},"guarantee":"returns '// {}'.format(text)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a0b287069ecb4452","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'// {}'.format(text)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_comment(self, text):
         return "// {}".format(text)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_declare_number_const(nam), internal helper behaves correctly) over Any ║
+# ║ Path(_declare_number_const(name, value), 'float {} = {};'.format(name, value)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'float {} = {};'.format(name, value)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _declare_number_const : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9acc1743b5d9e56d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._declare_number_const","kind":"method","src_hash":"37af4010ca085203","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_declare_number_const(nam)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_declare_number_const_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9acc1743b5d9e56d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._declare_number_const","kind":"method","src_hash":"37af4010ca085203","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_declare_number_const(name, value)","rhs":"'float {} = {};'.format(name, value)","over":{"base":"Any"},"name":"_declare_number_const_correct"},"guarantee":"returns 'float {} = {};'.format(name, value)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9acc1743b5d9e56d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'float {} = {};'.format(name, value)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _declare_number_const(self, name, value):
         return "float {} = {};".format(name, value)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_format_code(lin), internal helper behaves correctly) over Any ║
+# ║ Path(_format_code(lines), self.indent_code(lines)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.indent_code(lines)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _format_code : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d113aa7ba4d608f9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._format_code","kind":"method","src_hash":"7bd71f7b561c870b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_format_code(lin)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_format_code_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d113aa7ba4d608f9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._format_code","kind":"method","src_hash":"7bd71f7b561c870b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_format_code(lines)","rhs":"self.indent_code(lines)","over":{"base":"Any"},"name":"_format_code_correct"},"guarantee":"returns self.indent_code(lines)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d113aa7ba4d608f9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.indent_code(lines)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.indent_code"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _format_code(self, lines):
         return self.indent_code(lines)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(indent_code(cod), accepts a string of code or a list of code lines) over Any ║
+# ║ Path(indent_code(code), <unspecified:indent_code>) over {Any | hasattr(code, 'splitlines')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ indent_code : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(code, 'splitlines')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ indent_code : {Any | hasattr(code, 'splitlines')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d65643efe10f9e2e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter.indent_code","kind":"method","src_hash":"f1d74be3af28d441","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"indent_code(cod)","rhs":"accepts a string of code or a list of code lines","over":{"base":"Any"},"name":"indent_code_correct"},"guarantee":"accepts a string of code or a list of code lines","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.glsl.GLSLPrinter.indent_code_correct","statement":"Path(indent_code(x), accepts a string of code or a list of code lines)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d65643efe10f9e2e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter.indent_code","kind":"method","src_hash":"f1d74be3af28d441","in":{"base":"Any","pred":"hasattr(code, 'splitlines')"},"out":{"base":"Any"},"spec":{"lhs":"indent_code(code)","rhs":"<unspecified:indent_code>","over":{"base":"Any","pred":"hasattr(code, 'splitlines')"},"name":"indent_code_correct"},"guarantee":"accepts a string of code or a list of code lines","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.glsl.GLSLPrinter.indent_code_correct","statement":"Path(indent_code(x), accepts a string of code or a list of code lines)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d65643efe10f9e2e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(code, 'splitlines')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def indent_code(self, code):
         """Accepts a string of code or a list of code lines"""
 
@@ -206,16 +256,25 @@ class GLSLPrinter(CodePrinter):
         return pretty
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MatrixBase(mat), internal helper behaves correctly) over Any ║
+# ║ Path(_print_MatrixBase(mat), <unspecified:_print_MatrixBase>) over {Any | hasattr(mat, 'rows') and hasattr(mat, 'cols') and hasattr(mat, 'transpose')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_MatrixBase : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(mat, 'rows')                           ║
+# ║   requires: hasattr(mat, 'cols')                           ║
+# ║   requires: hasattr(mat, 'transpose')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_MatrixBase : {Any | hasattr(mat, 'rows') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a8f87043a80862aa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._print_MatrixBase","kind":"method","src_hash":"9db50e2dc0c07199","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixBase(mat)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MatrixBase_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.glsl.GLSLPrinter._print_MatrixBase_correct","statement":"Path(_print_MatrixBase(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8f87043a80862aa"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._print_MatrixBase","kind":"method","src_hash":"9db50e2dc0c07199","in":{"base":"Any","pred":"hasattr(mat, 'rows') and hasattr(mat, 'cols') and hasattr(mat, 'transpose')"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixBase(mat)","rhs":"<unspecified:_print_MatrixBase>","over":{"base":"Any","pred":"hasattr(mat, 'rows') and hasattr(mat, 'cols') and hasattr(mat, 'transpose')"},"name":"_print_MatrixBase_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.glsl.GLSLPrinter._print_MatrixBase_correct","statement":"Path(_print_MatrixBase(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8f87043a80862aa","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(mat, 'rows')","hasattr(mat, 'cols')","hasattr(mat, 'transpose')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["mat.cols","mat.rows","mat.transpose","self._print","self._settings"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MatrixBase(self, mat):
         mat_separator = self._settings['mat_separator']
         mat_transpose = self._settings['mat_transpose']
@@ -263,31 +322,44 @@ class GLSLPrinter(CodePrinter):
             )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_SparseRepMatrix(mat), internal helper behaves correctly) over Any ║
+# ║ Path(_print_SparseRepMatrix(mat), self._print_not_supported(mat)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_not_supported(mat)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_SparseRepMatrix : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3328da2b40586664           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._print_SparseRepMatrix","kind":"method","src_hash":"daa2e3e48722c384","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_SparseRepMatrix(mat)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_SparseRepMatrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3328da2b40586664"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._print_SparseRepMatrix","kind":"method","src_hash":"daa2e3e48722c384","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_SparseRepMatrix(mat)","rhs":"self._print_not_supported(mat)","over":{"base":"Any"},"name":"_print_SparseRepMatrix_correct"},"guarantee":"returns self._print_not_supported(mat)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3328da2b40586664","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_not_supported(mat)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_not_supported"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_SparseRepMatrix(self, mat):
         # do not allow sparse matrices to be made dense
         return self._print_not_supported(mat)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_traverse_matrix_indices(mat), id) over Any           ║
+# ║ Path(_traverse_matrix_indices(mat), id) over {Any | hasattr(mat, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _traverse_matrix_indices : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(mat, 'shape')                          ║
+# ║   returns:  ((i, j) for i in range(cols) for j in ran...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _traverse_matrix_indices : {Any | hasattr(mat, 'shape...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | de410d9367c84eaf   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._traverse_matrix_indices","kind":"method","src_hash":"0478fa6f52694b34","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_traverse_matrix_indices(mat)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_traverse_matrix_indices_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"range","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de410d9367c84eaf"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._traverse_matrix_indices","kind":"method","src_hash":"0478fa6f52694b34","in":{"base":"Any","pred":"hasattr(mat, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"_traverse_matrix_indices(mat)","rhs":"((i, j) for i in range(cols) for j in range(rows))","over":{"base":"Any","pred":"hasattr(mat, 'shape')"},"name":"_traverse_matrix_indices_correct","kind":"composition"},"guarantee":"returns ((i, j) for i in range(cols) for j in range(rows))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"range","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de410d9367c84eaf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(mat, 'shape')"],"returns_expr":"((i, j) for i in range(cols) for j in range(rows))","pure":false,"effects":{"effect_type":"reads_state","reads":["mat.shape","self._settings"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _traverse_matrix_indices(self, mat):
         mat_transpose = self._settings['mat_transpose']
         if mat_transpose:
@@ -297,16 +369,25 @@ class GLSLPrinter(CodePrinter):
         return ((i, j) for i in range(cols) for j in range(rows))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MatrixElement(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_MatrixElement(expr), <unspecified:_print_MatrixElement>) over {Any | hasattr(expr, 'parent') and hasattr(expr, 'j') and hasattr(expr, 'i')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_MatrixElement : Any → Any                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'parent')                        ║
+# ║   requires: hasattr(expr, 'j')                             ║
+# ║   requires: hasattr(expr, 'i')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_MatrixElement : {Any | hasattr(expr, 'parent')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0374dee346dc054e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._print_MatrixElement","kind":"method","src_hash":"5dc922e90a1e4368","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixElement(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MatrixElement_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.glsl.GLSLPrinter._print_MatrixElement_correct","statement":"Path(_print_MatrixElement(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0374dee346dc054e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._print_MatrixElement","kind":"method","src_hash":"5dc922e90a1e4368","in":{"base":"Any","pred":"hasattr(expr, 'parent') and hasattr(expr, 'j') and hasattr(expr, 'i')"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixElement(expr)","rhs":"<unspecified:_print_MatrixElement>","over":{"base":"Any","pred":"hasattr(expr, 'parent') and hasattr(expr, 'j') and hasattr(expr, 'i')"},"name":"_print_MatrixElement_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.glsl.GLSLPrinter._print_MatrixElement_correct","statement":"Path(_print_MatrixElement(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0374dee346dc054e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'parent')","hasattr(expr, 'j')","hasattr(expr, 'i')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.i","expr.j","expr.parent","self._print","self._settings"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MatrixElement(self, expr):
         # print('begin _print_MatrixElement')
         nest = self._settings['mat_nested']
@@ -325,16 +406,25 @@ class GLSLPrinter(CodePrinter):
             return "{}[{}]".format(pnt, i + j*rows)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_list(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_list(expr), result == ('vec{}({})'.format(array_size, l) if array_size <= 4 and glsl_types else '{}({})'.format(array_constructor, l)) and result == 'vec{}({})'.format(array_size, l) or result == '{}({})'.format(array_constructor, l)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_list : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ('vec{}({})'.format(array_size,...   ║
+# ║   ensures:  result == 'vec{}({})'.format(array_size, ...   ║
+# ║   fiber[case_0]: array_size <= 4 and glsl_types => 'v...   ║
+# ║   fiber[case_1]: not (array_size <= 4 and glsl_types)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_list : Any → {Any | result satisfies: result =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9826bd648a8e5e50  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 793d40bda239e43f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._print_list","kind":"method","src_hash":"0e3ec12a04f39a3c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_list(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_list_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.glsl.GLSLPrinter._print_list_correct","statement":"Path(_print_list(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9826bd648a8e5e50"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._print_list","kind":"method","src_hash":"0e3ec12a04f39a3c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ('vec{}({})'.format(array_size, l) if array_size <= 4 and glsl_types else '{}({})'.format(array_constructor, l)) and result == 'vec{}({})'.format(array_size, l) or result == '{}({})'.format(array_constructor, l)"},"spec":{"lhs":"_print_list(expr)","rhs":"result == ('vec{}({})'.format(array_size, l) if array_size <= 4 and glsl_types else '{}({})'.format(array_constructor, l)) and result == 'vec{}({})'.format(array_size, l) or result == '{}({})'.format(array_constructor, l)","over":{"base":"Any"},"name":"_print_list_correct"},"guarantee":"result == ('vec{}({})'.format(array_size, l) if array_size <= 4 and glsl_types else '{}({})'.format(array_constructor, l)); result == 'vec{}({})'.format(array_size, l) or result == '{}({})'.format(array_constructor, l); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.glsl.GLSLPrinter._print_list_correct","statement":"Path(_print_list(x), result == ('vec{}({})'.format(array_size, l) if array_size <= 4 and glsl_types else '{}({})'.format(array_constructor, l)); result == 'vec{}({})'.format(array_size, l) or result == '{}({})'.format(array_constructor, l); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"793d40bda239e43f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ('vec{}({})'.format(array_size, l) if array_size <= 4 and glsl_types else '{}({})'.format(array_constructor, l))","result == 'vec{}({})'.format(array_size, l) or result == '{}({})'.format(array_constructor, l)"],"fibers":[{"name":"case_0","guard":"array_size <= 4 and glsl_types","ensures":["result == 'vec{}({})'.format(array_size, l)"],"decidability":"z3","returns_expr":"'vec{}({})'.format(array_size, l)"},{"name":"case_1","guard":"not (array_size <= 4 and glsl_types)","ensures":["result == '{}({})'.format(array_constructor, l)"],"decidability":"z3","returns_expr":"'{}({})'.format(array_constructor, l)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._print","self._settings"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_list(self, expr):
         l = ', '.join(self._print(item) for item in expr)
         glsl_types = self._settings['glsl_types']
@@ -351,16 +441,22 @@ class GLSLPrinter(CodePrinter):
     _print_Tuple = _print_list
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_loop_opening_ending(ind), internal helper behaves correctly) over Any ║
+# ║ Path(_get_loop_opening_ending(indices), (open_lines, close_lines)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (open_lines, close_lines)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_loop_opening_ending : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f46cf7f5fdc7e68  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b8c2565b2d9a158  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._get_loop_opening_ending","kind":"method","src_hash":"b2c22d435e23f7db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_loop_opening_ending(ind)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_loop_opening_ending_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.glsl.GLSLPrinter._get_loop_opening_ending_correct","statement":"Path(_get_loop_opening_ending(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f46cf7f5fdc7e68"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._get_loop_opening_ending","kind":"method","src_hash":"b2c22d435e23f7db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_loop_opening_ending(indices)","rhs":"(open_lines, close_lines)","over":{"base":"Any"},"name":"_get_loop_opening_ending_correct"},"guarantee":"returns (open_lines, close_lines)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.glsl.GLSLPrinter._get_loop_opening_ending_correct","statement":"Path(_get_loop_opening_ending(x), returns (open_lines, close_lines))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b8c2565b2d9a158","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(open_lines, close_lines)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_loop_opening_ending(self, indices):
         open_lines = []
         close_lines = []
@@ -375,16 +471,24 @@ class GLSLPrinter(CodePrinter):
         return open_lines, close_lines
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Function_with_args(fun), id) over Any          ║
+# ║ Path(_print_Function_with_args(func, func_args), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: func in self.known_functions              ║
+# ║   fiber[Lambda]: isinstance(func, Lambda) => self._pr...   ║
+# ║   fiber[Lambda]: not (func in self.known_functions) a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_Function_with_args : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f57d3357785f0438   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._print_Function_with_args","kind":"method","src_hash":"873a396929b60eee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Function_with_args(fun)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Function_with_args_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"parenthesize","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f57d3357785f0438"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._print_Function_with_args","kind":"method","src_hash":"873a396929b60eee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Function_with_args(func, func_args)","rhs":"<unspecified:_print_Function_with_args>","over":{"base":"Any"},"name":"_print_Function_with_args_correct","kind":"composition"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"parenthesize","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f57d3357785f0438","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"func in self.known_functions","ensures":[],"decidability":"library"},{"name":"Lambda","guard":"isinstance(func, Lambda)","ensures":["result == self._print(func(*func_args))"],"decidability":"structural","returns_expr":"self._print(func(*func_args))"},{"name":"Lambda","guard":"not (func in self.known_functions) and not (isinstance(func, Lambda))","ensures":["result == self._print_not_supported(func)"],"decidability":"structural","returns_expr":"self._print_not_supported(func)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._print","self._print_not_supported","self.known_functions","self.parenthesize","self.stringify"],"catches":["TypeError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Function_with_args(self, func, func_args):
         if func in self.known_functions:
             cond_func = self.known_functions[func]
@@ -407,16 +511,25 @@ class GLSLPrinter(CodePrinter):
             return self._print_not_supported(func)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Piecewise(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Piecewise(expr), len(lines) == old_len_lines + 1) over {Any | not (expr.args[-1].cond != True) and hasattr(expr, 'has') and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Piecewise : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (expr.args[-1].cond != True)               ║
+# ║   requires: hasattr(expr, 'has')                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ensures:  len(lines) == old_len_lines + 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Piecewise : {Any | not (expr.args[-1].cond != ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a36cac853ed905d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d0db3e765922d27  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._print_Piecewise","kind":"method","src_hash":"94bba6219669e2c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Piecewise(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Piecewise_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.glsl.GLSLPrinter._print_Piecewise_correct","statement":"Path(_print_Piecewise(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a36cac853ed905d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._print_Piecewise","kind":"method","src_hash":"94bba6219669e2c8","in":{"base":"Any","pred":"not (expr.args[-1].cond != True) and hasattr(expr, 'has') and hasattr(expr, 'args')"},"out":{"base":"Any","pred":"result satisfies: len(lines) == old_len_lines + 1"},"spec":{"lhs":"_print_Piecewise(expr)","rhs":"len(lines) == old_len_lines + 1","over":{"base":"Any","pred":"not (expr.args[-1].cond != True) and hasattr(expr, 'has') and hasattr(expr, 'args')"},"name":"_print_Piecewise_correct"},"guarantee":"len(lines) == old_len_lines + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.glsl.GLSLPrinter._print_Piecewise_correct","statement":"Path(_print_Piecewise(x), len(lines) == old_len_lines + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d0db3e765922d27","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (expr.args[-1].cond != True)","hasattr(expr, 'has')","hasattr(expr, 'args')"],"ensures":["len(lines) == old_len_lines + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.has","self._print"],"calls_mutating":["lines.append"],"raises":["ValueError"]},"state_contract":{"modifies":["lines.*"],"old_bindings":{"old_len_lines":"len(lines)"},"post_ensures":["len(lines) == old_len_lines + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Piecewise(self, expr):
         from sympy.codegen.ast import Assignment
         if expr.args[-1].cond != True:
@@ -452,16 +565,25 @@ class GLSLPrinter(CodePrinter):
             return ": ".join(ecpairs) + last_line + " ".join([")"*len(ecpairs)])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Indexed(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Indexed(expr), '{}[{}]'.format(self._print(expr.base.label), self._print(elem))) over {Any | hasattr(expr, 'shape') and hasattr(expr, 'rank') and hasattr(expr, 'indices') and hasattr(expr, 'base')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Indexed : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'shape')                         ║
+# ║   requires: hasattr(expr, 'rank')                          ║
+# ║   requires: hasattr(expr, 'indices')                       ║
+# ║   returns:  '{}[{}]'.format(self._print(expr.base.lab...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Indexed : {Any | hasattr(expr, 'shape') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 848dc7425720484f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 60bebee24665fda8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._print_Indexed","kind":"method","src_hash":"bf5f0554637f8459","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Indexed(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Indexed_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.glsl.GLSLPrinter._print_Indexed_correct","statement":"Path(_print_Indexed(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"848dc7425720484f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._print_Indexed","kind":"method","src_hash":"bf5f0554637f8459","in":{"base":"Any","pred":"hasattr(expr, 'shape') and hasattr(expr, 'rank') and hasattr(expr, 'indices') and hasattr(expr, 'base')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Indexed(expr)","rhs":"'{}[{}]'.format(self._print(expr.base.label), self._print(elem))","over":{"base":"Any","pred":"hasattr(expr, 'shape') and hasattr(expr, 'rank') and hasattr(expr, 'indices') and hasattr(expr, 'base')"},"name":"_print_Indexed_correct"},"guarantee":"returns '{}[{}]'.format(self._print(expr.base.label), self._print(elem))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.glsl.GLSLPrinter._print_Indexed_correct","statement":"Path(_print_Indexed(x), returns '{}[{}]'.format(self._print(expr.base.label), self._print(elem)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60bebee24665fda8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'shape')","hasattr(expr, 'rank')","hasattr(expr, 'indices')","hasattr(expr, 'base')"],"returns_expr":"'{}[{}]'.format(self._print(expr.base.label), self._print(elem))","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.base","expr.indices","expr.rank","expr.shape","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Indexed(self, expr):
         # calculate index for 1d array
         dims = expr.shape
@@ -476,16 +598,28 @@ class GLSLPrinter(CodePrinter):
         )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Pow(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Pow(expr), result == ('1.0/%s' % self.parenthesize(expr.base, PREC) if equal_valued(expr.exp, -1) else 'sqrt(%s)' % self._print(expr.base) if equal_valued(expr.exp, 0.5) else self._print_Function_with_args('pow', (self._print(expr.base), e))) and result == '1.0/%s' % self.parenthesize(expr.base, PREC) or result == 'sqrt(%s)' % self._print(expr.base) or result == self._print_Function_with_args('pow', (self._print(expr.base), e))) over {Any | hasattr(expr, 'exp') and hasattr(expr, 'base')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Pow : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'exp')                           ║
+# ║   requires: hasattr(expr, 'base')                          ║
+# ║   ensures:  result == ('1.0/%s' % self.parenthesize(e...   ║
+# ║   ensures:  result == '1.0/%s' % self.parenthesize(ex...   ║
+# ║   fiber[case_0]: equal_valued(expr.exp, -1) => '1.0/%...   ║
+# ║   fiber[case_1]: equal_valued(expr.exp, 0.5) => 'sqrt...   ║
+# ║   fiber[case_2]: not (equal_valued(expr.exp, -1)) and...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Pow : {Any | hasattr(expr, 'exp') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c395d2a0f3ddcf7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 031c2d11038d2af8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._print_Pow","kind":"method","src_hash":"67d491d601e067ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Pow(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Pow_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.glsl.GLSLPrinter._print_Pow_correct","statement":"Path(_print_Pow(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c395d2a0f3ddcf7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._print_Pow","kind":"method","src_hash":"67d491d601e067ac","in":{"base":"Any","pred":"hasattr(expr, 'exp') and hasattr(expr, 'base')"},"out":{"base":"Any","pred":"result satisfies: result == ('1.0/%s' % self.parenthesize(expr.base, PREC) if equal_valued(expr.exp, -1) else 'sqrt(%s)' % self._print(expr.base) if equal_valued(expr.exp, 0.5) else self._print_Function_with_args('pow', (self._print(expr.base), e))) and result == '1.0/%s' % self.parenthesize(expr.base, PREC) or result == 'sqrt(%s)' % self._print(expr.base) or result == self._print_Function_with_args('pow', (self._print(expr.base), e))"},"spec":{"lhs":"_print_Pow(expr)","rhs":"result == ('1.0/%s' % self.parenthesize(expr.base, PREC) if equal_valued(expr.exp, -1) else 'sqrt(%s)' % self._print(expr.base) if equal_valued(expr.exp, 0.5) else self._print_Function_with_args('pow', (self._print(expr.base), e))) and result == '1.0/%s' % self.parenthesize(expr.base, PREC) or result == 'sqrt(%s)' % self._print(expr.base) or result == self._print_Function_with_args('pow', (self._print(expr.base), e))","over":{"base":"Any","pred":"hasattr(expr, 'exp') and hasattr(expr, 'base')"},"name":"_print_Pow_correct"},"guarantee":"result == ('1.0/%s' % self.parenthesize(expr.base, PREC) if equal_valued(expr.exp, -1) else 'sqrt(%s)' % self._print(expr.base) if equal_valued(expr.exp, 0.5) else self._print_Function_with_args('pow', (self._print(expr.base), e))); result == '1.0/%s' % self.parenthesize(expr.base, PREC) or result == 'sqrt(%s)' % self._print(expr.base) or result == self._print_Function_with_args('pow', (self._print(expr.base), e)); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.glsl.GLSLPrinter._print_Pow_correct","statement":"Path(_print_Pow(x), result == ('1.0/%s' % self.parenthesize(expr.base, PREC) if equal_valued(expr.exp, -1) else 'sqrt(%s)' % self._print(expr.base) if equal_valued(expr.exp, 0.5) else self._print_Function_with_args('pow', (self._print(expr.base), e))); result == '1.0/%s' % self.parenthesize(expr.base, PREC) or result == 'sqrt(%s)' % self._print(expr.base) or result == self._print_Function_with_args('pow', (self._print(expr.base), e)); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"031c2d11038d2af8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'exp')","hasattr(expr, 'base')"],"ensures":["result == ('1.0/%s' % self.parenthesize(expr.base, PREC) if equal_valued(expr.exp, -1) else 'sqrt(%s)' % self._print(expr.base) if equal_valued(expr.exp, 0.5) else self._print_Function_with_args('pow', (self._print(expr.base), e)))","result == '1.0/%s' % self.parenthesize(expr.base, PREC) or result == 'sqrt(%s)' % self._print(expr.base) or result == self._print_Function_with_args('pow', (self._print(expr.base), e))"],"fibers":[{"name":"case_0","guard":"equal_valued(expr.exp, -1)","ensures":["result == '1.0/%s' % self.parenthesize(expr.base, PREC)"],"decidability":"library","returns_expr":"'1.0/%s' % self.parenthesize(expr.base, PREC)"},{"name":"case_1","guard":"equal_valued(expr.exp, 0.5)","ensures":["result == 'sqrt(%s)' % self._print(expr.base)"],"decidability":"library","returns_expr":"'sqrt(%s)' % self._print(expr.base)"},{"name":"case_2","guard":"not (equal_valued(expr.exp, -1)) and not (equal_valued(expr.exp, 0.5))","ensures":["result == self._print_Function_with_args('pow', (self._print(expr.base), e))"],"decidability":"library","returns_expr":"self._print_Function_with_args('pow', (self._print(expr.base), e))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.base","expr.exp","self._print","self._print_Function_with_args","self.parenthesize"],"catches":["TypeError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Pow(self, expr):
         PREC = precedence(expr)
         if equal_valued(expr.exp, -1):
@@ -503,44 +637,67 @@ class GLSLPrinter(CodePrinter):
             ))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_int(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_int(expr), str(float(expr))) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  str(float(expr))                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_int : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3df06a0b046f2070           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._print_int","kind":"method","src_hash":"420eeb58dd5874f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_int(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_int_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3df06a0b046f2070"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._print_int","kind":"method","src_hash":"420eeb58dd5874f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_int(expr)","rhs":"str(float(expr))","over":{"base":"Any"},"name":"_print_int_correct"},"guarantee":"returns str(float(expr))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3df06a0b046f2070","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"str(float(expr))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_int(self, expr):
         return str(float(expr))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Rational(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Rational(expr), '{}.0/{}.0'.format(expr.p, expr.q)) over {Any | hasattr(expr, 'p') and hasattr(expr, 'q')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Rational : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'p')                             ║
+# ║   requires: hasattr(expr, 'q')                             ║
+# ║   returns:  '{}.0/{}.0'.format(expr.p, expr.q)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Rational : {Any | hasattr(expr, 'p') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | accd62f2c84a73af           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._print_Rational","kind":"method","src_hash":"7d0555b05ed244d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Rational(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Rational_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"accd62f2c84a73af"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._print_Rational","kind":"method","src_hash":"7d0555b05ed244d5","in":{"base":"Any","pred":"hasattr(expr, 'p') and hasattr(expr, 'q')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Rational(expr)","rhs":"'{}.0/{}.0'.format(expr.p, expr.q)","over":{"base":"Any","pred":"hasattr(expr, 'p') and hasattr(expr, 'q')"},"name":"_print_Rational_correct"},"guarantee":"returns '{}.0/{}.0'.format(expr.p, expr.q)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"accd62f2c84a73af","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'p')","hasattr(expr, 'q')"],"returns_expr":"'{}.0/{}.0'.format(expr.p, expr.q)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.p","expr.q"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Rational(self, expr):
         return "{}.0/{}.0".format(expr.p, expr.q)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Relational(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Relational(expr), '{} {} {}'.format(lhs_code, op, rhs_code)) over {Any | hasattr(expr, 'rel_op') and hasattr(expr, 'lhs') and hasattr(expr, 'rhs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Relational : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'rel_op')                        ║
+# ║   requires: hasattr(expr, 'lhs')                           ║
+# ║   requires: hasattr(expr, 'rhs')                           ║
+# ║   returns:  '{} {} {}'.format(lhs_code, op, rhs_code)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Relational : {Any | hasattr(expr, 'rel_op') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a676113c926c37f5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 36fad989955f9523  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._print_Relational","kind":"method","src_hash":"1c926c8323695775","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Relational(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Relational_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.glsl.GLSLPrinter._print_Relational_correct","statement":"Path(_print_Relational(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a676113c926c37f5"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._print_Relational","kind":"method","src_hash":"1c926c8323695775","in":{"base":"Any","pred":"hasattr(expr, 'rel_op') and hasattr(expr, 'lhs') and hasattr(expr, 'rhs')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Relational(expr)","rhs":"'{} {} {}'.format(lhs_code, op, rhs_code)","over":{"base":"Any","pred":"hasattr(expr, 'rel_op') and hasattr(expr, 'lhs') and hasattr(expr, 'rhs')"},"name":"_print_Relational_correct"},"guarantee":"returns '{} {} {}'.format(lhs_code, op, rhs_code)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.glsl.GLSLPrinter._print_Relational_correct","statement":"Path(_print_Relational(x), returns '{} {} {}'.format(lhs_code, op, rhs_code))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36fad989955f9523","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'rel_op')","hasattr(expr, 'lhs')","hasattr(expr, 'rhs')"],"returns_expr":"'{} {} {}'.format(lhs_code, op, rhs_code)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.lhs","expr.rel_op","expr.rhs","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Relational(self, expr):
         lhs_code = self._print(expr.lhs)
         rhs_code = self._print(expr.rhs)
@@ -548,16 +705,23 @@ class GLSLPrinter(CodePrinter):
         return "{} {} {}".format(lhs_code, op, rhs_code)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Add(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Add(expr, order), <unspecified:_print_Add>) over {Any | hasattr(expr, 'as_ordered_terms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Add : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'as_ordered_terms')              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Add : {Any | hasattr(expr, 'as_ordered_terms')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78ab92423b9347f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._print_Add","kind":"method","src_hash":"beeb153f63df8b00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Add(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Add_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.glsl.GLSLPrinter._print_Add_correct","statement":"Path(_print_Add(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78ab92423b9347f8"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._print_Add","kind":"method","src_hash":"beeb153f63df8b00","in":{"base":"Any","pred":"hasattr(expr, 'as_ordered_terms')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Add(expr, order)","rhs":"<unspecified:_print_Add>","over":{"base":"Any","pred":"hasattr(expr, 'as_ordered_terms')"},"name":"_print_Add_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.glsl.GLSLPrinter._print_Add_correct","statement":"Path(_print_Add(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78ab92423b9347f8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'as_ordered_terms')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.as_ordered_terms","self._print","self._print_Function_with_args","self._settings"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Add(self, expr, order=None):
         if self._settings['use_operators']:
             return CodePrinter._print_Add(self, expr, order=order)
@@ -584,16 +748,23 @@ class GLSLPrinter(CodePrinter):
         return s
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Mul(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Mul(expr, **kwargs), <unspecified:_print_Mul>) over {Any | hasattr(expr, 'as_ordered_factors')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Mul : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'as_ordered_factors')            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Mul : {Any | hasattr(expr, 'as_ordered_factors...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce13103427aee6e3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._print_Mul","kind":"method","src_hash":"cdb6c8fb88eb025f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Mul(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Mul_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.glsl.GLSLPrinter._print_Mul_correct","statement":"Path(_print_Mul(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce13103427aee6e3"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.GLSLPrinter._print_Mul","kind":"method","src_hash":"cdb6c8fb88eb025f","in":{"base":"Any","pred":"hasattr(expr, 'as_ordered_factors')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Mul(expr, **kwargs)","rhs":"<unspecified:_print_Mul>","over":{"base":"Any","pred":"hasattr(expr, 'as_ordered_factors')"},"name":"_print_Mul_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.glsl.GLSLPrinter._print_Mul_correct","statement":"Path(_print_Mul(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce13103427aee6e3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'as_ordered_factors')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.as_ordered_factors","self._print","self._print_Function_with_args","self._settings"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Mul(self, expr, **kwargs):
         if self._settings['use_operators']:
             return CodePrinter._print_Mul(self, expr, **kwargs)
@@ -606,16 +777,22 @@ class GLSLPrinter(CodePrinter):
         return s
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(glsl_code(exp), converts an expr to a string of glsl code) over Any ║
+# ║ Path(glsl_code(expr, assign_to, **settings), GLSLPrinter(settings).doprint(expr, assign_to)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  GLSLPrinter(settings).doprint(expr, assig...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ glsl_code : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7ede3ed507b7c1a8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.glsl_code","kind":"function","src_hash":"8372c51f1e5e1aac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"glsl_code(exp)","rhs":"converts an expr to a string of glsl code","over":{"base":"Any"},"name":"glsl_code_correct"},"guarantee":"converts an expr to a string of glsl code","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7ede3ed507b7c1a8"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.glsl_code","kind":"function","src_hash":"8372c51f1e5e1aac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"glsl_code(expr, assign_to, **settings)","rhs":"GLSLPrinter(settings).doprint(expr, assign_to)","over":{"base":"Any"},"name":"glsl_code_correct"},"guarantee":"returns GLSLPrinter(settings).doprint(expr, assign_to)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7ede3ed507b7c1a8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"GLSLPrinter(settings).doprint(expr, assign_to)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['expr', 'assign_to'], spec=['expr', 'assign_to', '**settings']"]}}
 def glsl_code(expr,assign_to=None,**settings):
     """Converts an expr to a string of GLSL code
 
@@ -822,16 +999,22 @@ def glsl_code(expr,assign_to=None,**settings):
     return GLSLPrinter(settings).doprint(expr,assign_to)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(print_glsl(exp), prints the glsl representation of the given expression) over Any ║
+# ║ Path(print_glsl(expr, **settings), <unspecified:print_glsl>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ print_glsl : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88ec56b5dfd58625  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.print_glsl","kind":"function","src_hash":"78568cb4bac15d1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"print_glsl(exp)","rhs":"prints the glsl representation of the given expression","over":{"base":"Any"},"name":"print_glsl_correct"},"guarantee":"prints the glsl representation of the given expression","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.glsl.print_glsl_correct","statement":"Path(print_glsl(x), prints the glsl representation of the given expression)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88ec56b5dfd58625"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.glsl.print_glsl","kind":"function","src_hash":"78568cb4bac15d1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"print_glsl(expr, **settings)","rhs":"<unspecified:print_glsl>","over":{"base":"Any"},"name":"print_glsl_correct"},"guarantee":"prints the glsl representation of the given expression","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.glsl.print_glsl_correct","statement":"Path(print_glsl(x), prints the glsl representation of the given expression)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88ec56b5dfd58625","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","io_operations":["print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', '**settings']"]}}
 def print_glsl(expr, **settings):
     """Prints the GLSL representation of the given expression.
 

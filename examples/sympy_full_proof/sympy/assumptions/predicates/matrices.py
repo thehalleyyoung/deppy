@@ -19,16 +19,22 @@ from sympy.assumptions import Predicate
 from sympy.multipledispatch import Dispatcher
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(SquarePredicate(), correctly constructs a SquarePredicate instance) over Any ║
+# ║ Path(SquarePredicate(), isinstance(self, Predicate)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SquarePredicate : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Predicate)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SquarePredicate : Any → {Any | result satisfies: isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 72de6d329213d572           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.matrices.SquarePredicate","kind":"class","src_hash":"85ad67b793b61444","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SquarePredicate()","rhs":"correctly constructs a SquarePredicate instance","over":{"base":"Any"},"name":"SquarePredicate_correct"},"guarantee":"correctly constructs a SquarePredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"72de6d329213d572"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.matrices.SquarePredicate","kind":"class","src_hash":"85ad67b793b61444","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Predicate)"},"spec":{"lhs":"SquarePredicate()","rhs":"isinstance(self, Predicate)","over":{"base":"Any"},"name":"SquarePredicate_correct"},"guarantee":"isinstance(self, Predicate)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"72de6d329213d572","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Predicate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function SquarePredicate not found in source"]}}
 class SquarePredicate(Predicate):
     """
     Square matrix predicate.
@@ -65,16 +71,22 @@ class SquarePredicate(Predicate):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(SymmetricPredicate(), correctly constructs a SymmetricPredicate instance) over Any ║
+# ║ Path(SymmetricPredicate(), isinstance(self, Predicate)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SymmetricPredicate : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Predicate)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SymmetricPredicate : Any → {Any | result satisfies: i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 52f835433f9f2241           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.matrices.SymmetricPredicate","kind":"class","src_hash":"b716fd4c9e58495e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SymmetricPredicate()","rhs":"correctly constructs a SymmetricPredicate instance","over":{"base":"Any"},"name":"SymmetricPredicate_correct"},"guarantee":"correctly constructs a SymmetricPredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"52f835433f9f2241"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.matrices.SymmetricPredicate","kind":"class","src_hash":"b716fd4c9e58495e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Predicate)"},"spec":{"lhs":"SymmetricPredicate()","rhs":"isinstance(self, Predicate)","over":{"base":"Any"},"name":"SymmetricPredicate_correct"},"guarantee":"isinstance(self, Predicate)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"52f835433f9f2241","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Predicate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function SymmetricPredicate not found in source"]}}
 class SymmetricPredicate(Predicate):
     """
     Symmetric matrix predicate.
@@ -113,16 +125,22 @@ class SymmetricPredicate(Predicate):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(InvertiblePredicate(), correctly constructs a InvertiblePredicate instance) over Any ║
+# ║ Path(InvertiblePredicate(), isinstance(self, Predicate)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ InvertiblePredicate : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Predicate)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ InvertiblePredicate : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 604e271854dd4e04           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.matrices.InvertiblePredicate","kind":"class","src_hash":"09c61fbb73584d7f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"InvertiblePredicate()","rhs":"correctly constructs a InvertiblePredicate instance","over":{"base":"Any"},"name":"InvertiblePredicate_correct"},"guarantee":"correctly constructs a InvertiblePredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"604e271854dd4e04"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.matrices.InvertiblePredicate","kind":"class","src_hash":"09c61fbb73584d7f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Predicate)"},"spec":{"lhs":"InvertiblePredicate()","rhs":"isinstance(self, Predicate)","over":{"base":"Any"},"name":"InvertiblePredicate_correct"},"guarantee":"isinstance(self, Predicate)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"604e271854dd4e04","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Predicate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function InvertiblePredicate not found in source"]}}
 class InvertiblePredicate(Predicate):
     """
     Invertible matrix predicate.
@@ -158,16 +176,22 @@ class InvertiblePredicate(Predicate):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(OrthogonalPredicate(), correctly constructs a OrthogonalPredicate instance) over Any ║
+# ║ Path(OrthogonalPredicate(), isinstance(self, Predicate)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ OrthogonalPredicate : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Predicate)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ OrthogonalPredicate : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 06f1ee947e44c139           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.matrices.OrthogonalPredicate","kind":"class","src_hash":"f10cde46972d09b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"OrthogonalPredicate()","rhs":"correctly constructs a OrthogonalPredicate instance","over":{"base":"Any"},"name":"OrthogonalPredicate_correct"},"guarantee":"correctly constructs a OrthogonalPredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"06f1ee947e44c139"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.matrices.OrthogonalPredicate","kind":"class","src_hash":"f10cde46972d09b0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Predicate)"},"spec":{"lhs":"OrthogonalPredicate()","rhs":"isinstance(self, Predicate)","over":{"base":"Any"},"name":"OrthogonalPredicate_correct"},"guarantee":"isinstance(self, Predicate)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"06f1ee947e44c139","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Predicate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function OrthogonalPredicate not found in source"]}}
 class OrthogonalPredicate(Predicate):
     """
     Orthogonal matrix predicate.
@@ -208,16 +232,22 @@ class OrthogonalPredicate(Predicate):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(UnitaryPredicate(), correctly constructs a UnitaryPredicate instance) over Any ║
+# ║ Path(UnitaryPredicate(), isinstance(self, Predicate)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ UnitaryPredicate : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Predicate)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ UnitaryPredicate : Any → {Any | result satisfies: isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 20faef6be953139e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.matrices.UnitaryPredicate","kind":"class","src_hash":"deeacda83574e870","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"UnitaryPredicate()","rhs":"correctly constructs a UnitaryPredicate instance","over":{"base":"Any"},"name":"UnitaryPredicate_correct"},"guarantee":"correctly constructs a UnitaryPredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"20faef6be953139e"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.matrices.UnitaryPredicate","kind":"class","src_hash":"deeacda83574e870","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Predicate)"},"spec":{"lhs":"UnitaryPredicate()","rhs":"isinstance(self, Predicate)","over":{"base":"Any"},"name":"UnitaryPredicate_correct"},"guarantee":"isinstance(self, Predicate)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"20faef6be953139e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Predicate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function UnitaryPredicate not found in source"]}}
 class UnitaryPredicate(Predicate):
     """
     Unitary matrix predicate.
@@ -255,16 +285,22 @@ class UnitaryPredicate(Predicate):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(FullRankPredicate(), correctly constructs a FullRankPredicate instance) over Any ║
+# ║ Path(FullRankPredicate(), isinstance(self, Predicate)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ FullRankPredicate : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Predicate)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ FullRankPredicate : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0eb047e4a7d1483f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.matrices.FullRankPredicate","kind":"class","src_hash":"8cc56a2018d8832c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FullRankPredicate()","rhs":"correctly constructs a FullRankPredicate instance","over":{"base":"Any"},"name":"FullRankPredicate_correct"},"guarantee":"correctly constructs a FullRankPredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0eb047e4a7d1483f"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.matrices.FullRankPredicate","kind":"class","src_hash":"8cc56a2018d8832c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Predicate)"},"spec":{"lhs":"FullRankPredicate()","rhs":"isinstance(self, Predicate)","over":{"base":"Any"},"name":"FullRankPredicate_correct"},"guarantee":"isinstance(self, Predicate)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0eb047e4a7d1483f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Predicate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function FullRankPredicate not found in source"]}}
 class FullRankPredicate(Predicate):
     """
     Fullrank matrix predicate.
@@ -295,16 +331,22 @@ class FullRankPredicate(Predicate):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(PositiveDefinitePredicate(), correctly constructs a PositiveDefinitePredicate instance) over Any ║
+# ║ Path(PositiveDefinitePredicate(), isinstance(self, Predicate)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ PositiveDefinitePredicate : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Predicate)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ PositiveDefinitePredicate : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9993fcb3f4da7dba           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.matrices.PositiveDefinitePredicate","kind":"class","src_hash":"ff3b58585bf9f202","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PositiveDefinitePredicate()","rhs":"correctly constructs a PositiveDefinitePredicate instance","over":{"base":"Any"},"name":"PositiveDefinitePredicate_correct"},"guarantee":"correctly constructs a PositiveDefinitePredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9993fcb3f4da7dba"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.matrices.PositiveDefinitePredicate","kind":"class","src_hash":"ff3b58585bf9f202","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Predicate)"},"spec":{"lhs":"PositiveDefinitePredicate()","rhs":"isinstance(self, Predicate)","over":{"base":"Any"},"name":"PositiveDefinitePredicate_correct"},"guarantee":"isinstance(self, Predicate)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9993fcb3f4da7dba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Predicate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function PositiveDefinitePredicate not found in source"]}}
 class PositiveDefinitePredicate(Predicate):
     r"""
     Positive definite matrix predicate.
@@ -342,16 +384,22 @@ class PositiveDefinitePredicate(Predicate):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(UpperTriangularPredicate(), correctly constructs a UpperTriangularPredicate instance) over Any ║
+# ║ Path(UpperTriangularPredicate(), isinstance(self, Predicate)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ UpperTriangularPredicate : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Predicate)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ UpperTriangularPredicate : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4f08928fee11a424           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.matrices.UpperTriangularPredicate","kind":"class","src_hash":"df2b49e11316cd4b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"UpperTriangularPredicate()","rhs":"correctly constructs a UpperTriangularPredicate instance","over":{"base":"Any"},"name":"UpperTriangularPredicate_correct"},"guarantee":"correctly constructs a UpperTriangularPredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4f08928fee11a424"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.matrices.UpperTriangularPredicate","kind":"class","src_hash":"df2b49e11316cd4b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Predicate)"},"spec":{"lhs":"UpperTriangularPredicate()","rhs":"isinstance(self, Predicate)","over":{"base":"Any"},"name":"UpperTriangularPredicate_correct"},"guarantee":"isinstance(self, Predicate)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4f08928fee11a424","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Predicate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function UpperTriangularPredicate not found in source"]}}
 class UpperTriangularPredicate(Predicate):
     """
     Upper triangular matrix predicate.
@@ -382,16 +430,22 @@ class UpperTriangularPredicate(Predicate):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(LowerTriangularPredicate(), correctly constructs a LowerTriangularPredicate instance) over Any ║
+# ║ Path(LowerTriangularPredicate(), isinstance(self, Predicate)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ LowerTriangularPredicate : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Predicate)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ LowerTriangularPredicate : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ca43ff3a214a0c63           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.matrices.LowerTriangularPredicate","kind":"class","src_hash":"0e3d20c640b3dc75","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LowerTriangularPredicate()","rhs":"correctly constructs a LowerTriangularPredicate instance","over":{"base":"Any"},"name":"LowerTriangularPredicate_correct"},"guarantee":"correctly constructs a LowerTriangularPredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ca43ff3a214a0c63"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.matrices.LowerTriangularPredicate","kind":"class","src_hash":"0e3d20c640b3dc75","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Predicate)"},"spec":{"lhs":"LowerTriangularPredicate()","rhs":"isinstance(self, Predicate)","over":{"base":"Any"},"name":"LowerTriangularPredicate_correct"},"guarantee":"isinstance(self, Predicate)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ca43ff3a214a0c63","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Predicate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function LowerTriangularPredicate not found in source"]}}
 class LowerTriangularPredicate(Predicate):
     """
     Lower triangular matrix predicate.
@@ -422,16 +476,22 @@ class LowerTriangularPredicate(Predicate):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(DiagonalPredicate(), correctly constructs a DiagonalPredicate instance) over Any ║
+# ║ Path(DiagonalPredicate(), isinstance(self, Predicate)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ DiagonalPredicate : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Predicate)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ DiagonalPredicate : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 77a26df49ed38c4c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.matrices.DiagonalPredicate","kind":"class","src_hash":"0c71c9ec913b0a59","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DiagonalPredicate()","rhs":"correctly constructs a DiagonalPredicate instance","over":{"base":"Any"},"name":"DiagonalPredicate_correct"},"guarantee":"correctly constructs a DiagonalPredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"77a26df49ed38c4c"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.matrices.DiagonalPredicate","kind":"class","src_hash":"0c71c9ec913b0a59","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Predicate)"},"spec":{"lhs":"DiagonalPredicate()","rhs":"isinstance(self, Predicate)","over":{"base":"Any"},"name":"DiagonalPredicate_correct"},"guarantee":"isinstance(self, Predicate)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"77a26df49ed38c4c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Predicate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function DiagonalPredicate not found in source"]}}
 class DiagonalPredicate(Predicate):
     """
     Diagonal matrix predicate.
@@ -465,16 +525,22 @@ class DiagonalPredicate(Predicate):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(IntegerElementsPredicate(), correctly constructs a IntegerElementsPredicate instance) over Any ║
+# ║ Path(IntegerElementsPredicate(), isinstance(self, Predicate)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ IntegerElementsPredicate : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Predicate)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ IntegerElementsPredicate : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1fef35c423619d3c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.matrices.IntegerElementsPredicate","kind":"class","src_hash":"26504ae2c4c2b193","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"IntegerElementsPredicate()","rhs":"correctly constructs a IntegerElementsPredicate instance","over":{"base":"Any"},"name":"IntegerElementsPredicate_correct"},"guarantee":"correctly constructs a IntegerElementsPredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1fef35c423619d3c"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.matrices.IntegerElementsPredicate","kind":"class","src_hash":"26504ae2c4c2b193","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Predicate)"},"spec":{"lhs":"IntegerElementsPredicate()","rhs":"isinstance(self, Predicate)","over":{"base":"Any"},"name":"IntegerElementsPredicate_correct"},"guarantee":"isinstance(self, Predicate)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1fef35c423619d3c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Predicate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function IntegerElementsPredicate not found in source"]}}
 class IntegerElementsPredicate(Predicate):
     """
     Integer elements matrix predicate.
@@ -499,16 +565,22 @@ class IntegerElementsPredicate(Predicate):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(RealElementsPredicate(), correctly constructs a RealElementsPredicate instance) over Any ║
+# ║ Path(RealElementsPredicate(), isinstance(self, Predicate)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ RealElementsPredicate : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Predicate)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ RealElementsPredicate : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8adfd83492d2659b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.matrices.RealElementsPredicate","kind":"class","src_hash":"3a64d291519cf1eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"RealElementsPredicate()","rhs":"correctly constructs a RealElementsPredicate instance","over":{"base":"Any"},"name":"RealElementsPredicate_correct"},"guarantee":"correctly constructs a RealElementsPredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8adfd83492d2659b"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.matrices.RealElementsPredicate","kind":"class","src_hash":"3a64d291519cf1eb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Predicate)"},"spec":{"lhs":"RealElementsPredicate()","rhs":"isinstance(self, Predicate)","over":{"base":"Any"},"name":"RealElementsPredicate_correct"},"guarantee":"isinstance(self, Predicate)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8adfd83492d2659b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Predicate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function RealElementsPredicate not found in source"]}}
 class RealElementsPredicate(Predicate):
     """
     Real elements matrix predicate.
@@ -533,16 +605,22 @@ class RealElementsPredicate(Predicate):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ComplexElementsPredicate(), correctly constructs a ComplexElementsPredicate instance) over Any ║
+# ║ Path(ComplexElementsPredicate(), isinstance(self, Predicate)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ComplexElementsPredicate : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Predicate)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ComplexElementsPredicate : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 20e7550c3eeece36           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.matrices.ComplexElementsPredicate","kind":"class","src_hash":"a8388961ae50606f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ComplexElementsPredicate()","rhs":"correctly constructs a ComplexElementsPredicate instance","over":{"base":"Any"},"name":"ComplexElementsPredicate_correct"},"guarantee":"correctly constructs a ComplexElementsPredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"20e7550c3eeece36"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.matrices.ComplexElementsPredicate","kind":"class","src_hash":"a8388961ae50606f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Predicate)"},"spec":{"lhs":"ComplexElementsPredicate()","rhs":"isinstance(self, Predicate)","over":{"base":"Any"},"name":"ComplexElementsPredicate_correct"},"guarantee":"isinstance(self, Predicate)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"20e7550c3eeece36","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Predicate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function ComplexElementsPredicate not found in source"]}}
 class ComplexElementsPredicate(Predicate):
     """
     Complex elements matrix predicate.
@@ -569,16 +647,22 @@ class ComplexElementsPredicate(Predicate):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(SingularPredicate(), correctly constructs a SingularPredicate instance) over Any ║
+# ║ Path(SingularPredicate(), isinstance(self, Predicate)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SingularPredicate : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Predicate)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SingularPredicate : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b50fb93cd71857ae           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.matrices.SingularPredicate","kind":"class","src_hash":"e05c98fb68664385","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SingularPredicate()","rhs":"correctly constructs a SingularPredicate instance","over":{"base":"Any"},"name":"SingularPredicate_correct"},"guarantee":"correctly constructs a SingularPredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b50fb93cd71857ae"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.matrices.SingularPredicate","kind":"class","src_hash":"e05c98fb68664385","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Predicate)"},"spec":{"lhs":"SingularPredicate()","rhs":"isinstance(self, Predicate)","over":{"base":"Any"},"name":"SingularPredicate_correct"},"guarantee":"isinstance(self, Predicate)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b50fb93cd71857ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Predicate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function SingularPredicate not found in source"]}}
 class SingularPredicate(Predicate):
     """
     Singular matrix predicate.
@@ -606,16 +690,22 @@ class SingularPredicate(Predicate):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(NormalPredicate(), correctly constructs a NormalPredicate instance) over Any ║
+# ║ Path(NormalPredicate(), isinstance(self, Predicate)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ NormalPredicate : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Predicate)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ NormalPredicate : Any → {Any | result satisfies: isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 18b13771c3e18e55           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.matrices.NormalPredicate","kind":"class","src_hash":"1f30597654f1ef0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"NormalPredicate()","rhs":"correctly constructs a NormalPredicate instance","over":{"base":"Any"},"name":"NormalPredicate_correct"},"guarantee":"correctly constructs a NormalPredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"18b13771c3e18e55"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.matrices.NormalPredicate","kind":"class","src_hash":"1f30597654f1ef0d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Predicate)"},"spec":{"lhs":"NormalPredicate()","rhs":"isinstance(self, Predicate)","over":{"base":"Any"},"name":"NormalPredicate_correct"},"guarantee":"isinstance(self, Predicate)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"18b13771c3e18e55","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Predicate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function NormalPredicate not found in source"]}}
 class NormalPredicate(Predicate):
     """
     Normal matrix predicate.
@@ -641,16 +731,22 @@ class NormalPredicate(Predicate):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(TriangularPredicate(), correctly constructs a TriangularPredicate instance) over Any ║
+# ║ Path(TriangularPredicate(), isinstance(self, Predicate)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ TriangularPredicate : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Predicate)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ TriangularPredicate : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0f38beec55ce86df           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.matrices.TriangularPredicate","kind":"class","src_hash":"fd9c89f63fc62d48","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"TriangularPredicate()","rhs":"correctly constructs a TriangularPredicate instance","over":{"base":"Any"},"name":"TriangularPredicate_correct"},"guarantee":"correctly constructs a TriangularPredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0f38beec55ce86df"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.matrices.TriangularPredicate","kind":"class","src_hash":"fd9c89f63fc62d48","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Predicate)"},"spec":{"lhs":"TriangularPredicate()","rhs":"isinstance(self, Predicate)","over":{"base":"Any"},"name":"TriangularPredicate_correct"},"guarantee":"isinstance(self, Predicate)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0f38beec55ce86df","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Predicate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function TriangularPredicate not found in source"]}}
 class TriangularPredicate(Predicate):
     """
     Triangular matrix predicate.
@@ -682,16 +778,22 @@ class TriangularPredicate(Predicate):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(UnitTriangularPredicate(), correctly constructs a UnitTriangularPredicate instance) over Any ║
+# ║ Path(UnitTriangularPredicate(), isinstance(self, Predicate)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ UnitTriangularPredicate : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Predicate)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ UnitTriangularPredicate : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3f07bc59ba91fadb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.matrices.UnitTriangularPredicate","kind":"class","src_hash":"537bebbb5f1eba8c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"UnitTriangularPredicate()","rhs":"correctly constructs a UnitTriangularPredicate instance","over":{"base":"Any"},"name":"UnitTriangularPredicate_correct"},"guarantee":"correctly constructs a UnitTriangularPredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3f07bc59ba91fadb"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.matrices.UnitTriangularPredicate","kind":"class","src_hash":"537bebbb5f1eba8c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Predicate)"},"spec":{"lhs":"UnitTriangularPredicate()","rhs":"isinstance(self, Predicate)","over":{"base":"Any"},"name":"UnitTriangularPredicate_correct"},"guarantee":"isinstance(self, Predicate)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3f07bc59ba91fadb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Predicate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function UnitTriangularPredicate not found in source"]}}
 class UnitTriangularPredicate(Predicate):
     """
     Unit triangular matrix predicate.

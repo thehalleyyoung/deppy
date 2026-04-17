@@ -54,16 +54,25 @@ if TYPE_CHECKING:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(puiseux_ring(sym), construct a puiseux ring) over str | list[Expr] ║
+# ║ Path(puiseux_ring(symbols, domain), (ring,) + ring.gens) over {str | list[Expr] | isinstance(symbols, str | list[Expr]) and isinstance(domain, Domain)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ puiseux_ring : str | list[Expr] → tuple[PuiseuxRing, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(symbols, str | list[Expr])          ║
+# ║   requires: isinstance(domain, Domain)                     ║
+# ║   ensures:  isinstance(result, tuple)                      ║
+# ║   returns:  (ring,) + ring.gens                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ puiseux_ring : {str | list[Expr] | isinstance(symbols...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9ad6599ae65d739  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 23af6183077c2455  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.puiseux_ring","kind":"function","src_hash":"71dad22b19060814","in":{"base":"str | list[Expr]"},"out":{"base":"tuple[PuiseuxRing, Unpack[tuple[PuiseuxPoly, ...]]]"},"spec":{"lhs":"puiseux_ring(sym)","rhs":"construct a puiseux ring","over":{"base":"str | list[Expr]"},"name":"puiseux_ring_correct"},"guarantee":"construct a puiseux ring","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.puiseux.puiseux_ring_correct","statement":"Path(puiseux_ring(x), construct a puiseux ring)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9ad6599ae65d739"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.puiseux_ring","kind":"function","src_hash":"71dad22b19060814","in":{"base":"str | list[Expr]","pred":"isinstance(symbols, str | list[Expr]) and isinstance(domain, Domain)"},"out":{"base":"tuple[PuiseuxRing, Unpack[tuple[PuiseuxPoly, ...]]]","pred":"result satisfies: result == ((ring,) + ring.gens)"},"spec":{"lhs":"puiseux_ring(symbols, domain)","rhs":"(ring,) + ring.gens","over":{"base":"str | list[Expr]","pred":"isinstance(symbols, str | list[Expr]) and isinstance(domain, Domain)"},"name":"puiseux_ring_correct"},"guarantee":"returns (ring,) + ring.gens; isinstance(result, tuple)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.puiseux.puiseux_ring_correct","statement":"Path(puiseux_ring(x), returns (ring,) + ring.gens; isinstance(result, tuple))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23af6183077c2455","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(symbols, str | list[Expr])","isinstance(domain, Domain)"],"ensures":["isinstance(result, tuple)"],"returns_expr":"(ring,) + ring.gens","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def puiseux_ring(
     symbols: str | list[Expr], domain: Domain
 ) -> tuple[PuiseuxRing, Unpack[tuple[PuiseuxPoly, ...]]]:
@@ -87,14 +96,19 @@ def puiseux_ring(
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a PuiseuxRing instance) preserved by PuiseuxRing(*args) over {str | list[Expr] | isinstance(arg, dict) and isinstance(other, PuiseuxRing)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ PuiseuxRing : {str | list[Expr] | isinstance(arg, dic...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 157c58de97c2a55a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxRing","kind":"class","src_hash":"e3b188d570b948ff","in":{"base":"str | list[Expr]","pred":"isinstance(arg, dict) and isinstance(other, PuiseuxRing)"},"out":{"base":"Any"},"spec":{"lhs":"PuiseuxRing(*args)","rhs":"correctly constructs a PuiseuxRing instance","over":{"base":"str | list[Expr]","pred":"isinstance(arg, dict) and isinstance(other, PuiseuxRing)"},"name":"PuiseuxRing_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a PuiseuxRing instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'poly_ring') and hasattr(self, 'domain') and hasattr(self, 'symbols') and hasattr(self, 'gens') and hasattr(self, 'ngens') and hasattr(self, 'zero') and hasattr(self, 'one') and hasattr(self, 'zero_monom')","kind":"class","induction":"structural on poly_ring, domain, symbols, gens"}],"methods_preserving":["__init__","__repr__","__eq__","from_poly","from_dict","from_int","domain_new","ground_new","__call__","index"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"157c58de97c2a55a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxRing","kind":"class","src_hash":"e3b188d570b948ff","in":{"base":"str | list[Expr]","pred":"isinstance(arg, dict) and isinstance(other, PuiseuxRing)"},"out":{"base":"Any"},"spec":{"lhs":"PuiseuxRing(*args)","rhs":"correctly constructs a PuiseuxRing instance","over":{"base":"str | list[Expr]","pred":"isinstance(arg, dict) and isinstance(other, PuiseuxRing)"},"name":"PuiseuxRing_class_invariant","kind":"invariant"},"guarantee":"preserves 9 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'poly_ring') and hasattr(self, 'domain') and hasattr(self, 'symbols') and hasattr(self, 'gens') and hasattr(self, 'ngens') and hasattr(self, 'zero') and hasattr(self, 'one') and hasattr(self, 'zero_monom')","kind":"class","induction":"structural on poly_ring, domain, symbols, gens"}],"methods_preserving":["__init__","__repr__","__eq__","from_poly","from_dict","from_int","domain_new","ground_new","__call__","index"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"157c58de97c2a55a","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'poly_ring')","hasattr(self, 'domain')","hasattr(self, 'symbols')","hasattr(self, 'gens')","hasattr(self, 'ngens')","hasattr(self, 'zero')","hasattr(self, 'one')","hasattr(self, 'zero_monom')","hasattr(self, 'monomial_mul')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function PuiseuxRing not found in source"]}}
 class PuiseuxRing:
     """Ring of Puiseux polynomials.
 
@@ -133,16 +147,24 @@ class PuiseuxRing:
     PuiseuxPoly
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(sym), initializes the instance correctly) over Any ║
+# ║ Path(__init__(symbols, domain), self.domain == domain) over {Any | isinstance(symbols, str | list[Expr]) and isinstance(domain, Domain)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(symbols, str | list[Expr])          ║
+# ║   requires: isinstance(domain, Domain)                     ║
+# ║   ensures:  self.domain == domain                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | isinstance(symbols, str | list[Expr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4ee909102a979127           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxRing.__init__","kind":"method","src_hash":"77c993b40bfb9495","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(sym)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4ee909102a979127"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxRing.__init__","kind":"method","src_hash":"77c993b40bfb9495","in":{"base":"Any","pred":"isinstance(symbols, str | list[Expr]) and isinstance(domain, Domain)"},"out":{"base":"Any","pred":"result satisfies: self.domain == domain"},"spec":{"lhs":"__init__(symbols, domain)","rhs":"self.domain == domain","over":{"base":"Any","pred":"isinstance(symbols, str | list[Expr]) and isinstance(domain, Domain)"},"name":"__init___correct"},"guarantee":"self.domain == domain","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4ee909102a979127","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(symbols, str | list[Expr])","isinstance(domain, Domain)"],"ensures":["self.domain == domain"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, symbols: str | list[Expr], domain: Domain):
 
         poly_ring = PolyRing(symbols, domain)
@@ -164,46 +186,69 @@ class PuiseuxRing:
         self.monomial_mul = poly_ring.monomial_mul # type: ignore
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), f'PuiseuxRing({self.symbols}, {self.domain})') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __repr__ : Any → str                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, str)                        ║
+# ║   returns:  f'PuiseuxRing({self.symbols}, {self.domai...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __repr__ : Any → {str | result satisfies: result == (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cd53c3c495e19d5d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxRing.__repr__","kind":"method","src_hash":"8b4932ece6ab7a18","in":{"base":"Any"},"out":{"base":"str"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cd53c3c495e19d5d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxRing.__repr__","kind":"method","src_hash":"8b4932ece6ab7a18","in":{"base":"Any"},"out":{"base":"str","pred":"result satisfies: result == (f'PuiseuxRing({self.symbols}, {self.domain})')"},"spec":{"lhs":"__repr__()","rhs":"f'PuiseuxRing({self.symbols}, {self.domain})'","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns f'PuiseuxRing({self.symbols}, {self.domain})'; isinstance(result, str)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cd53c3c495e19d5d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, str)"],"returns_expr":"f'PuiseuxRing({self.symbols}, {self.domain})'","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.symbols"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self) -> str:
         return f"PuiseuxRing({self.symbols}, {self.domain})"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), isinstance(result, bool)) over {Any | hasattr(other, 'symbols') and hasattr(other, 'domain')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → bool                                        ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: hasattr(other, 'symbols')                      ║
+# ║   requires: hasattr(other, 'domain')                       ║
+# ║   ensures:  isinstance(result, bool)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'symbols') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 555f90012bf7d465           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxRing.__eq__","kind":"method","src_hash":"b4f8ddde5414d88b","in":{"base":"Any"},"out":{"base":"bool"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"555f90012bf7d465"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxRing.__eq__","kind":"method","src_hash":"b4f8ddde5414d88b","in":{"base":"Any","pred":"hasattr(other, 'symbols') and hasattr(other, 'domain')"},"out":{"base":"bool","pred":"result satisfies: isinstance(result, bool)"},"spec":{"lhs":"__eq__(other)","rhs":"isinstance(result, bool)","over":{"base":"Any","pred":"hasattr(other, 'symbols') and hasattr(other, 'domain')"},"name":"__eq___correct"},"guarantee":"isinstance(result, bool)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"555f90012bf7d465","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["hasattr(other, 'symbols')","hasattr(other, 'domain')"],"ensures":["isinstance(result, bool)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.domain","other.symbols","self.domain","self.symbols"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, PuiseuxRing):
             return NotImplemented
         return self.symbols == other.symbols and self.domain == other.domain
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_poly(pol), create a puiseux polynomial from a polynomial) over Any ║
+# ║ Path(from_poly(poly), PuiseuxPoly(poly, self)) over {Any | isinstance(poly, PolyElement)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_poly : Any → PuiseuxPoly                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(poly, PolyElement)                  ║
+# ║   ensures:  isinstance(result, PuiseuxPoly)                ║
+# ║   returns:  PuiseuxPoly(poly, self)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_poly : {Any | isinstance(poly, PolyElement)} → {...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7d04f9e3b3d61388           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxRing.from_poly","kind":"method","src_hash":"239b6d830559eab3","in":{"base":"Any"},"out":{"base":"PuiseuxPoly"},"spec":{"lhs":"from_poly(pol)","rhs":"create a puiseux polynomial from a polynomial","over":{"base":"Any"},"name":"from_poly_correct"},"guarantee":"create a puiseux polynomial from a polynomial","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7d04f9e3b3d61388"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxRing.from_poly","kind":"method","src_hash":"239b6d830559eab3","in":{"base":"Any","pred":"isinstance(poly, PolyElement)"},"out":{"base":"PuiseuxPoly","pred":"result satisfies: result == (PuiseuxPoly(poly, self))"},"spec":{"lhs":"from_poly(poly)","rhs":"PuiseuxPoly(poly, self)","over":{"base":"Any","pred":"isinstance(poly, PolyElement)"},"name":"from_poly_correct"},"guarantee":"returns PuiseuxPoly(poly, self); isinstance(result, PuiseuxPoly)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7d04f9e3b3d61388","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(poly, PolyElement)"],"ensures":["isinstance(result, PuiseuxPoly)"],"returns_expr":"PuiseuxPoly(poly, self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_poly(self, poly: PolyElement) -> PuiseuxPoly:
         """Create a Puiseux polynomial from a polynomial.
 
@@ -218,16 +263,24 @@ class PuiseuxRing:
         return PuiseuxPoly(poly, self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_dict(ter), create a puiseux polynomial from a dictionary of terms) over Any ║
+# ║ Path(from_dict(terms), PuiseuxPoly.from_dict(terms, self)) over {Any | isinstance(terms, dict[tuple[int, ...], Any])} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_dict : Any → PuiseuxPoly                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(terms, dict[tuple[int, ...], A...   ║
+# ║   ensures:  isinstance(result, PuiseuxPoly)                ║
+# ║   returns:  PuiseuxPoly.from_dict(terms, self)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_dict : {Any | isinstance(terms, dict[tuple[int, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f009a3440f0b50ca           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxRing.from_dict","kind":"method","src_hash":"62ae7bedf49a920c","in":{"base":"Any"},"out":{"base":"PuiseuxPoly"},"spec":{"lhs":"from_dict(ter)","rhs":"create a puiseux polynomial from a dictionary of terms","over":{"base":"Any"},"name":"from_dict_correct"},"guarantee":"create a puiseux polynomial from a dictionary of terms","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f009a3440f0b50ca"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxRing.from_dict","kind":"method","src_hash":"62ae7bedf49a920c","in":{"base":"Any","pred":"isinstance(terms, dict[tuple[int, ...], Any])"},"out":{"base":"PuiseuxPoly","pred":"result satisfies: result == (PuiseuxPoly.from_dict(terms, self))"},"spec":{"lhs":"from_dict(terms)","rhs":"PuiseuxPoly.from_dict(terms, self)","over":{"base":"Any","pred":"isinstance(terms, dict[tuple[int, ...], Any])"},"name":"from_dict_correct"},"guarantee":"returns PuiseuxPoly.from_dict(terms, self); isinstance(result, PuiseuxPoly)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f009a3440f0b50ca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(terms, dict[tuple[int, ...], Any])"],"ensures":["isinstance(result, PuiseuxPoly)"],"returns_expr":"PuiseuxPoly.from_dict(terms, self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_dict(self, terms: dict[tuple[int, ...], Any]) -> PuiseuxPoly:
         """Create a Puiseux polynomial from a dictionary of terms.
 
@@ -240,16 +293,24 @@ class PuiseuxRing:
         return PuiseuxPoly.from_dict(terms, self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_int(n), create a puiseux polynomial from an integer) over Any ║
+# ║ Path(from_int(n), self.from_poly(self.poly_ring(n))) over {Any | isinstance(n, int)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_int : Any → PuiseuxPoly                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(n, int)                             ║
+# ║   ensures:  isinstance(result, PuiseuxPoly)                ║
+# ║   returns:  self.from_poly(self.poly_ring(n))              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_int : {Any | isinstance(n, int)} → {PuiseuxPoly ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 16ac684997f63734           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxRing.from_int","kind":"method","src_hash":"23ab412b4e595c6e","in":{"base":"Any"},"out":{"base":"PuiseuxPoly"},"spec":{"lhs":"from_int(n)","rhs":"create a puiseux polynomial from an integer","over":{"base":"Any"},"name":"from_int_correct"},"guarantee":"create a puiseux polynomial from an integer","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"16ac684997f63734"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxRing.from_int","kind":"method","src_hash":"23ab412b4e595c6e","in":{"base":"Any","pred":"isinstance(n, int)"},"out":{"base":"PuiseuxPoly","pred":"result satisfies: result == (self.from_poly(self.poly_ring(n)))"},"spec":{"lhs":"from_int(n)","rhs":"self.from_poly(self.poly_ring(n))","over":{"base":"Any","pred":"isinstance(n, int)"},"name":"from_int_correct"},"guarantee":"returns self.from_poly(self.poly_ring(n)); isinstance(result, PuiseuxPoly)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"16ac684997f63734","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(n, int)"],"ensures":["isinstance(result, PuiseuxPoly)"],"returns_expr":"self.from_poly(self.poly_ring(n))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.from_poly","self.poly_ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_int(self, n: int) -> PuiseuxPoly:
         """Create a Puiseux polynomial from an integer.
 
@@ -262,16 +323,22 @@ class PuiseuxRing:
         return self.from_poly(self.poly_ring(n))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(domain_new(arg), create a new element of the domain) over Any ║
+# ║ Path(domain_new(arg), self.poly_ring.domain_new(arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.poly_ring.domain_new(arg)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ domain_new : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f4fd58537922f419           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxRing.domain_new","kind":"method","src_hash":"bd63c6167dc4fca9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"domain_new(arg)","rhs":"create a new element of the domain","over":{"base":"Any"},"name":"domain_new_correct"},"guarantee":"create a new element of the domain","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f4fd58537922f419"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxRing.domain_new","kind":"method","src_hash":"bd63c6167dc4fca9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"domain_new(arg)","rhs":"self.poly_ring.domain_new(arg)","over":{"base":"Any"},"name":"domain_new_correct"},"guarantee":"returns self.poly_ring.domain_new(arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f4fd58537922f419","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.poly_ring.domain_new(arg)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.poly_ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def domain_new(self, arg: Any) -> Any:
         """Create a new element of the domain.
 
@@ -286,16 +353,23 @@ class PuiseuxRing:
         return self.poly_ring.domain_new(arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ground_new(arg), create a new element from a ground element) over Any ║
+# ║ Path(ground_new(arg), self.from_poly(self.poly_ring.ground_new(arg))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ground_new : Any → PuiseuxPoly                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, PuiseuxPoly)                ║
+# ║   returns:  self.from_poly(self.poly_ring.ground_new(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ground_new : Any → {PuiseuxPoly | result satisfies: r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e8a7003cd86cd075           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxRing.ground_new","kind":"method","src_hash":"43c143b71bac4237","in":{"base":"Any"},"out":{"base":"PuiseuxPoly"},"spec":{"lhs":"ground_new(arg)","rhs":"create a new element from a ground element","over":{"base":"Any"},"name":"ground_new_correct"},"guarantee":"create a new element from a ground element","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e8a7003cd86cd075"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxRing.ground_new","kind":"method","src_hash":"43c143b71bac4237","in":{"base":"Any"},"out":{"base":"PuiseuxPoly","pred":"result satisfies: result == (self.from_poly(self.poly_ring.ground_new(arg)))"},"spec":{"lhs":"ground_new(arg)","rhs":"self.from_poly(self.poly_ring.ground_new(arg))","over":{"base":"Any"},"name":"ground_new_correct"},"guarantee":"returns self.from_poly(self.poly_ring.ground_new(arg)); isinstance(result, PuiseuxPoly)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e8a7003cd86cd075","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, PuiseuxPoly)"],"returns_expr":"self.from_poly(self.poly_ring.ground_new(arg))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.from_poly","self.poly_ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ground_new(self, arg: Any) -> PuiseuxPoly:
         """Create a new element from a ground element.
 
@@ -310,16 +384,26 @@ class PuiseuxRing:
         return self.from_poly(self.poly_ring.ground_new(arg))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(arg), correctly applies the callable) over Any ║
+# ║ Path(__call__(arg), isinstance(result, PuiseuxPoly) and result == (self.from_dict(arg) if isinstance(arg, dict) else self.from_poly(self.poly_ring(arg))) and result == self.from_dict(arg) or result == self.from_poly(self.poly_ring(arg))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __call__ : Any → PuiseuxPoly                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, PuiseuxPoly)                ║
+# ║   ensures:  result == (self.from_dict(arg) if isinsta...   ║
+# ║   ensures:  result == self.from_dict(arg) or result =...   ║
+# ║   fiber[dict]: isinstance(arg, dict) => self.from_dic...   ║
+# ║   fiber[dict]: not (isinstance(arg, dict)) => self.fr...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __call__ : Any → {PuiseuxPoly | result satisfies: isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f1a4738120fe509e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxRing.__call__","kind":"method","src_hash":"a075f7a9ff5cc7bf","in":{"base":"Any"},"out":{"base":"PuiseuxPoly"},"spec":{"lhs":"__call__(arg)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f1a4738120fe509e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxRing.__call__","kind":"method","src_hash":"a075f7a9ff5cc7bf","in":{"base":"Any"},"out":{"base":"PuiseuxPoly","pred":"result satisfies: isinstance(result, PuiseuxPoly) and result == (self.from_dict(arg) if isinstance(arg, dict) else self.from_poly(self.poly_ring(arg))) and result == self.from_dict(arg) or result == self.from_poly(self.poly_ring(arg))"},"spec":{"lhs":"__call__(arg)","rhs":"isinstance(result, PuiseuxPoly) and result == (self.from_dict(arg) if isinstance(arg, dict) else self.from_poly(self.poly_ring(arg))) and result == self.from_dict(arg) or result == self.from_poly(self.poly_ring(arg))","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"isinstance(result, PuiseuxPoly); result == (self.from_dict(arg) if isinstance(arg, dict) else self.from_poly(self.poly_ring(arg))); result == self.from_dict(arg) or result == self.from_poly(self.poly_ring(arg)); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f1a4738120fe509e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, PuiseuxPoly)","result == (self.from_dict(arg) if isinstance(arg, dict) else self.from_poly(self.poly_ring(arg)))","result == self.from_dict(arg) or result == self.from_poly(self.poly_ring(arg))"],"fibers":[{"name":"dict","guard":"isinstance(arg, dict)","ensures":["result == self.from_dict(arg)"],"decidability":"structural","returns_expr":"self.from_dict(arg)"},{"name":"dict","guard":"not (isinstance(arg, dict))","ensures":["result == self.from_poly(self.poly_ring(arg))"],"decidability":"structural","returns_expr":"self.from_poly(self.poly_ring(arg))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.from_dict","self.from_poly","self.poly_ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, arg: Any) -> PuiseuxPoly:
         """Coerce an element into the ring.
 
@@ -337,16 +421,24 @@ class PuiseuxRing:
             return self.from_poly(self.poly_ring(arg))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(index(x), return the index of a generator) over Any   ║
+# ║ Path(index(x), self.gens.index(x)) over {Any | isinstance(x, PuiseuxPoly)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ index : Any → int                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(x, PuiseuxPoly)                     ║
+# ║   ensures:  isinstance(result, int)                        ║
+# ║   returns:  self.gens.index(x)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ index : {Any | isinstance(x, PuiseuxPoly)} → {int | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0a3afdac85c23cf2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxRing.index","kind":"method","src_hash":"ca6c7fd0b3a6c117","in":{"base":"Any"},"out":{"base":"int"},"spec":{"lhs":"index(x)","rhs":"return the index of a generator","over":{"base":"Any"},"name":"index_correct"},"guarantee":"return the index of a generator","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0a3afdac85c23cf2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxRing.index","kind":"method","src_hash":"ca6c7fd0b3a6c117","in":{"base":"Any","pred":"isinstance(x, PuiseuxPoly)"},"out":{"base":"int","pred":"result satisfies: result == (self.gens.index(x))"},"spec":{"lhs":"index(x)","rhs":"self.gens.index(x)","over":{"base":"Any","pred":"isinstance(x, PuiseuxPoly)"},"name":"index_correct"},"guarantee":"returns self.gens.index(x); isinstance(result, int)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0a3afdac85c23cf2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(x, PuiseuxPoly)"],"ensures":["isinstance(result, int)"],"returns_expr":"self.gens.index(x)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.gens"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def index(self, x: PuiseuxPoly) -> int:
         """Return the index of a generator.
 
@@ -362,16 +454,26 @@ class PuiseuxRing:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_div_poly_monom(pol), id) over PolyElement            ║
+# ║ Path(_div_poly_monom(poly, monom), id) over {PolyElement | isinstance(poly, PolyElement) and isinstance(monom, Iterable[int]) and hasattr(poly, 'ring') and hasattr(poly, 'terms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _div_poly_monom : PolyElement → PolyElement                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(poly, PolyElement)                  ║
+# ║   requires: isinstance(monom, Iterable[int])               ║
+# ║   requires: hasattr(poly, 'ring')                          ║
+# ║   ensures:  isinstance(result, PolyElement)                ║
+# ║   returns:  ring.from_dict({div(m, monom): c for m, c...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _div_poly_monom : {PolyElement | isinstance(poly, Pol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 56ccac8f2e884a6e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux._div_poly_monom","kind":"function","src_hash":"c4bc0dc1dc40826e","in":{"base":"PolyElement"},"out":{"base":"PolyElement"},"spec":{"lhs":"_div_poly_monom(pol)","rhs":"internal helper behaves correctly","over":{"base":"PolyElement"},"name":"_div_poly_monom_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dict","by":"library_axiom"},{"fn":"div","by":"library_axiom"},{"fn":"terms","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56ccac8f2e884a6e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux._div_poly_monom","kind":"function","src_hash":"c4bc0dc1dc40826e","in":{"base":"PolyElement","pred":"isinstance(poly, PolyElement) and isinstance(monom, Iterable[int]) and hasattr(poly, 'ring') and hasattr(poly, 'terms')"},"out":{"base":"PolyElement","pred":"result satisfies: result == (ring.from_dict({div(m, monom): c for m, c in poly.terms()}))"},"spec":{"lhs":"_div_poly_monom(poly, monom)","rhs":"ring.from_dict({div(m, monom): c for m, c in poly.terms()})","over":{"base":"PolyElement","pred":"isinstance(poly, PolyElement) and isinstance(monom, Iterable[int]) and hasattr(poly, 'ring') and hasattr(poly, 'terms')"},"name":"_div_poly_monom_correct","kind":"composition"},"guarantee":"returns ring.from_dict({div(m, monom): c for m, c in poly.terms()}); isinstance(result, PolyElement)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dict","by":"library_axiom"},{"fn":"div","by":"library_axiom"},{"fn":"terms","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56ccac8f2e884a6e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(poly, PolyElement)","isinstance(monom, Iterable[int])","hasattr(poly, 'ring')","hasattr(poly, 'terms')"],"ensures":["isinstance(result, PolyElement)"],"returns_expr":"ring.from_dict({div(m, monom): c for m, c in poly.terms()})","pure":false,"effects":{"effect_type":"reads_state","reads":["poly.ring","poly.terms"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _div_poly_monom(poly: PolyElement, monom: Iterable[int]) -> PolyElement:
     ring = poly.ring
     div = ring.monomial_div
@@ -379,16 +481,26 @@ def _div_poly_monom(poly: PolyElement, monom: Iterable[int]) -> PolyElement:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_mul_poly_monom(pol), id) over PolyElement            ║
+# ║ Path(_mul_poly_monom(poly, monom), id) over {PolyElement | isinstance(poly, PolyElement) and isinstance(monom, Iterable[int]) and hasattr(poly, 'ring') and hasattr(poly, 'terms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _mul_poly_monom : PolyElement → PolyElement                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(poly, PolyElement)                  ║
+# ║   requires: isinstance(monom, Iterable[int])               ║
+# ║   requires: hasattr(poly, 'ring')                          ║
+# ║   ensures:  isinstance(result, PolyElement)                ║
+# ║   returns:  ring.from_dict({mul(m, monom): c for m, c...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _mul_poly_monom : {PolyElement | isinstance(poly, Pol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | be8745e3fb74f302   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux._mul_poly_monom","kind":"function","src_hash":"ef3f964b59d9a99f","in":{"base":"PolyElement"},"out":{"base":"PolyElement"},"spec":{"lhs":"_mul_poly_monom(pol)","rhs":"internal helper behaves correctly","over":{"base":"PolyElement"},"name":"_mul_poly_monom_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dict","by":"library_axiom"},{"fn":"mul","by":"library_axiom"},{"fn":"terms","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be8745e3fb74f302"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux._mul_poly_monom","kind":"function","src_hash":"ef3f964b59d9a99f","in":{"base":"PolyElement","pred":"isinstance(poly, PolyElement) and isinstance(monom, Iterable[int]) and hasattr(poly, 'ring') and hasattr(poly, 'terms')"},"out":{"base":"PolyElement","pred":"result satisfies: result == (ring.from_dict({mul(m, monom): c for m, c in poly.terms()}))"},"spec":{"lhs":"_mul_poly_monom(poly, monom)","rhs":"ring.from_dict({mul(m, monom): c for m, c in poly.terms()})","over":{"base":"PolyElement","pred":"isinstance(poly, PolyElement) and isinstance(monom, Iterable[int]) and hasattr(poly, 'ring') and hasattr(poly, 'terms')"},"name":"_mul_poly_monom_correct","kind":"composition"},"guarantee":"returns ring.from_dict({mul(m, monom): c for m, c in poly.terms()}); isinstance(result, PolyElement)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dict","by":"library_axiom"},{"fn":"mul","by":"library_axiom"},{"fn":"terms","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be8745e3fb74f302","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(poly, PolyElement)","isinstance(monom, Iterable[int])","hasattr(poly, 'ring')","hasattr(poly, 'terms')"],"ensures":["isinstance(result, PolyElement)"],"returns_expr":"ring.from_dict({mul(m, monom): c for m, c in poly.terms()})","pure":false,"effects":{"effect_type":"reads_state","reads":["poly.ring","poly.terms"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _mul_poly_monom(poly: PolyElement, monom: Iterable[int]) -> PolyElement:
     ring = poly.ring
     mul = ring.monomial_mul
@@ -396,16 +508,25 @@ def _mul_poly_monom(poly: PolyElement, monom: Iterable[int]) -> PolyElement:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_div_monom(mon), internal helper behaves correctly) over Iterable[int] ║
+# ║ Path(_div_monom(monom, div), tuple((mi - di for mi, di in zip(monom, div)))) over {Iterable[int] | isinstance(monom, Iterable[int]) and isinstance(div, Iterable[int])} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _div_monom : Iterable[int] → tuple[int, ...]               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(monom, Iterable[int])               ║
+# ║   requires: isinstance(div, Iterable[int])                 ║
+# ║   ensures:  isinstance(result, tuple)                      ║
+# ║   returns:  tuple((mi - di for mi, di in zip(monom, d...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _div_monom : {Iterable[int] | isinstance(monom, Itera...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 793e2b883f11cd28           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux._div_monom","kind":"function","src_hash":"b137ead10f58b605","in":{"base":"Iterable[int]"},"out":{"base":"tuple[int, ...]"},"spec":{"lhs":"_div_monom(mon)","rhs":"internal helper behaves correctly","over":{"base":"Iterable[int]"},"name":"_div_monom_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"793e2b883f11cd28"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux._div_monom","kind":"function","src_hash":"b137ead10f58b605","in":{"base":"Iterable[int]","pred":"isinstance(monom, Iterable[int]) and isinstance(div, Iterable[int])"},"out":{"base":"tuple[int, ...]","pred":"result satisfies: result == (tuple((mi - di for mi, di in zip(monom, div))))"},"spec":{"lhs":"_div_monom(monom, div)","rhs":"tuple((mi - di for mi, di in zip(monom, div)))","over":{"base":"Iterable[int]","pred":"isinstance(monom, Iterable[int]) and isinstance(div, Iterable[int])"},"name":"_div_monom_correct"},"guarantee":"returns tuple((mi - di for mi, di in zip(monom, div))); isinstance(result, tuple)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"793e2b883f11cd28","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(monom, Iterable[int])","isinstance(div, Iterable[int])"],"ensures":["isinstance(result, tuple)"],"returns_expr":"tuple((mi - di for mi, di in zip(monom, div)))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def _div_monom(monom: Iterable[int], div: Iterable[int]) -> tuple[int, ...]:
     return tuple(mi - di for mi, di in zip(monom, div))
 
@@ -413,14 +534,20 @@ def _div_monom(monom: Iterable[int], div: Iterable[int]) -> tuple[int, ...]:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a PuiseuxPoly instance) preserved by PuiseuxPoly(*args) over {Any | isinstance(other, PuiseuxPoly) and isinstance(other, int)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ PuiseuxPoly : {Any | isinstance(other, PuiseuxPoly) a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 4.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1fbfeb33fa0ae734  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly","kind":"class","src_hash":"56af63ff0391cd48","in":{"base":"Any","pred":"isinstance(other, PuiseuxPoly) and isinstance(other, int)"},"out":{"base":"Any","pred":"n >= 0 and False and False"},"spec":{"lhs":"PuiseuxPoly(*args)","rhs":"correctly constructs a PuiseuxPoly instance","over":{"base":"Any","pred":"isinstance(other, PuiseuxPoly) and isinstance(other, int)"},"name":"PuiseuxPoly_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a PuiseuxPoly instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_term","pred":"self.is_term","kind":"class"}],"methods_preserving":["__eq__","itermonoms","monoms","__iter__","__getitem__","__len__","iterterms","terms","is_term","to_dict","as_expr","__repr__","__pos__","__neg__","__add__","__radd__","__sub__","__rsub__","__mul__","__rmul__","__pow__","__truediv__","__rtruediv__","_add","_add_ground","_sub","_sub_ground","_rsub_ground","_mul","_mul_ground","_div_ground","_pow_pint","_pow_nint","_pow_rational","_inv","diff"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1fbfeb33fa0ae734"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly","kind":"class","src_hash":"56af63ff0391cd48","in":{"base":"Any","pred":"isinstance(other, PuiseuxPoly) and isinstance(other, int)"},"out":{"base":"Any","pred":"n >= 0 and False and False"},"spec":{"lhs":"PuiseuxPoly(*args)","rhs":"correctly constructs a PuiseuxPoly instance","over":{"base":"Any","pred":"isinstance(other, PuiseuxPoly) and isinstance(other, int)"},"name":"PuiseuxPoly_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a PuiseuxPoly instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_term","pred":"self.is_term","kind":"class"}],"methods_preserving":["__eq__","itermonoms","monoms","__iter__","__getitem__","__len__","iterterms","terms","is_term","to_dict","as_expr","__repr__","__pos__","__neg__","__add__","__radd__","__sub__","__rsub__","__mul__","__rmul__","__pow__","__truediv__","__rtruediv__","_add","_add_ground","_sub","_sub_ground","_rsub_ground","_mul","_mul_ground","_div_ground","_pow_pint","_pow_nint","_pow_rational","_inv","diff"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1fbfeb33fa0ae734","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function PuiseuxPoly not found in source"]}}
 class PuiseuxPoly:
     """Puiseux polynomial. Represents a truncated Puiseux series.
 
@@ -469,31 +596,50 @@ class PuiseuxPoly:
     ns: tuple[int, ...] | None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, poly, ring), cls._new(ring, poly, None, None)) over {Any | isinstance(poly, PolyElement) and isinstance(ring, PuiseuxRing)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → PuiseuxPoly                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(poly, PolyElement)                  ║
+# ║   requires: isinstance(ring, PuiseuxRing)                  ║
+# ║   ensures:  isinstance(result, PuiseuxPoly)                ║
+# ║   returns:  cls._new(ring, poly, None, None)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | isinstance(poly, PolyElement) and is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 01932e6cdc975ddf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.__new__","kind":"method","src_hash":"36e3c50b269c1f44","in":{"base":"Any"},"out":{"base":"PuiseuxPoly"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"01932e6cdc975ddf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.__new__","kind":"method","src_hash":"36e3c50b269c1f44","in":{"base":"Any","pred":"isinstance(poly, PolyElement) and isinstance(ring, PuiseuxRing)"},"out":{"base":"PuiseuxPoly","pred":"result satisfies: result == (cls._new(ring, poly, None, None))"},"spec":{"lhs":"__new__(cls, poly, ring)","rhs":"cls._new(ring, poly, None, None)","over":{"base":"Any","pred":"isinstance(poly, PolyElement) and isinstance(ring, PuiseuxRing)"},"name":"__new___correct"},"guarantee":"returns cls._new(ring, poly, None, None); isinstance(result, PuiseuxPoly)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"01932e6cdc975ddf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(poly, PolyElement)","isinstance(ring, PuiseuxRing)"],"ensures":["isinstance(result, PuiseuxPoly)"],"returns_expr":"cls._new(ring, poly, None, None)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._new"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, poly: PolyElement, ring: PuiseuxRing) -> PuiseuxPoly:
         return cls._new(ring, poly, None, None)
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_new(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_new(cls, ring, poly), cls._new_raw(ring, poly, monom, ns)) over {Any | isinstance(ring, PuiseuxRing) and isinstance(poly, PolyElement) and isinstance(monom, tuple[int, ...] | None) and isinstance(ns, tuple[int, ...] | None)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _new : Any → PuiseuxPoly                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(ring, PuiseuxRing)                  ║
+# ║   requires: isinstance(poly, PolyElement)                  ║
+# ║   requires: isinstance(monom, tuple[int, ...] | None)      ║
+# ║   ensures:  isinstance(result, PuiseuxPoly)                ║
+# ║   returns:  cls._new_raw(ring, poly, monom, ns)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _new : {Any | isinstance(ring, PuiseuxRing) and isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 14e5d5330767b88d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b94784ece9bd129  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly._new","kind":"classmethod","src_hash":"ecba3c944281c326","in":{"base":"Any"},"out":{"base":"PuiseuxPoly"},"spec":{"lhs":"_new(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_new_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.puiseux.PuiseuxPoly._new_correct","statement":"Path(_new(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14e5d5330767b88d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly._new","kind":"classmethod","src_hash":"ecba3c944281c326","in":{"base":"Any","pred":"isinstance(ring, PuiseuxRing) and isinstance(poly, PolyElement) and isinstance(monom, tuple[int, ...] | None) and isinstance(ns, tuple[int, ...] | None)"},"out":{"base":"PuiseuxPoly","pred":"result satisfies: result == (cls._new_raw(ring, poly, monom, ns))"},"spec":{"lhs":"_new(cls, ring, poly)","rhs":"cls._new_raw(ring, poly, monom, ns)","over":{"base":"Any","pred":"isinstance(ring, PuiseuxRing) and isinstance(poly, PolyElement) and isinstance(monom, tuple[int, ...] | None) and isinstance(ns, tuple[int, ...] | None)"},"name":"_new_correct"},"guarantee":"returns cls._new_raw(ring, poly, monom, ns); isinstance(result, PuiseuxPoly)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.puiseux.PuiseuxPoly._new_correct","statement":"Path(_new(x), returns cls._new_raw(ring, poly, monom, ns); isinstance(result, PuiseuxPoly))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b94784ece9bd129","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(ring, PuiseuxRing)","isinstance(poly, PolyElement)","isinstance(monom, tuple[int, ...] | None)","isinstance(ns, tuple[int, ...] | None)"],"ensures":["isinstance(result, PuiseuxPoly)"],"returns_expr":"cls._new_raw(ring, poly, monom, ns)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._new_raw","cls._normalize"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _new(
         cls,
         ring: PuiseuxRing,
@@ -506,16 +652,25 @@ class PuiseuxPoly:
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_new_raw(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_new_raw(cls, ring, poly), isinstance(result, PuiseuxPoly)) over {Any | isinstance(ring, PuiseuxRing) and isinstance(poly, PolyElement) and isinstance(monom, tuple[int, ...] | None) and isinstance(ns, tuple[int, ...] | None)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _new_raw : Any → PuiseuxPoly                               ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(ring, PuiseuxRing)                  ║
+# ║   requires: isinstance(poly, PolyElement)                  ║
+# ║   requires: isinstance(monom, tuple[int, ...] | None)      ║
+# ║   ensures:  isinstance(result, PuiseuxPoly)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _new_raw : {Any | isinstance(ring, PuiseuxRing) and i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f2f2843bcdbe278  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f2acbfd302cafcb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly._new_raw","kind":"classmethod","src_hash":"dadc65f018bd6704","in":{"base":"Any"},"out":{"base":"PuiseuxPoly"},"spec":{"lhs":"_new_raw(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_new_raw_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.puiseux.PuiseuxPoly._new_raw_correct","statement":"Path(_new_raw(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f2f2843bcdbe278"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly._new_raw","kind":"classmethod","src_hash":"dadc65f018bd6704","in":{"base":"Any","pred":"isinstance(ring, PuiseuxRing) and isinstance(poly, PolyElement) and isinstance(monom, tuple[int, ...] | None) and isinstance(ns, tuple[int, ...] | None)"},"out":{"base":"PuiseuxPoly","pred":"result satisfies: isinstance(result, PuiseuxPoly)"},"spec":{"lhs":"_new_raw(cls, ring, poly)","rhs":"isinstance(result, PuiseuxPoly)","over":{"base":"Any","pred":"isinstance(ring, PuiseuxRing) and isinstance(poly, PolyElement) and isinstance(monom, tuple[int, ...] | None) and isinstance(ns, tuple[int, ...] | None)"},"name":"_new_raw_correct"},"guarantee":"isinstance(result, PuiseuxPoly)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.puiseux.PuiseuxPoly._new_raw_correct","statement":"Path(_new_raw(x), isinstance(result, PuiseuxPoly))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f2acbfd302cafcb","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(ring, PuiseuxRing)","isinstance(poly, PolyElement)","isinstance(monom, tuple[int, ...] | None)","isinstance(ns, tuple[int, ...] | None)"],"ensures":["isinstance(result, PuiseuxPoly)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _new_raw(
         cls,
         ring: PuiseuxRing,
@@ -531,16 +686,30 @@ class PuiseuxPoly:
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), isinstance(result, bool) and result == (self.poly == other.poly and self.monom == other.monom and (self.ns == other.ns) if isinstance(other, PuiseuxPoly) else self.poly.__eq__(other) if self.monom is None and self.ns is None else NotImplemented) and result == self.poly == other.poly and self.monom == other.monom and (self.ns == other.ns) or result == self.poly.__eq__(other) or result == NotImplemented) over {Any | hasattr(other, 'poly') and hasattr(other, 'monom') and hasattr(other, 'ns')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → bool                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'poly')                         ║
+# ║   requires: hasattr(other, 'monom')                        ║
+# ║   requires: hasattr(other, 'ns')                           ║
+# ║   ensures:  isinstance(result, bool)                       ║
+# ║   ensures:  result == (self.poly == other.poly and se...   ║
+# ║   ensures:  result == self.poly == other.poly and sel...   ║
+# ║   fiber[PuiseuxPoly]: isinstance(other, PuiseuxPoly) ...   ║
+# ║   fiber[zero_or_none]: self.monom is None and self.ns...   ║
+# ║   fiber[PuiseuxPoly]: not (isinstance(other, PuiseuxP...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'poly') and hasattr(ot...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b875e019f2c22cd5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.__eq__","kind":"method","src_hash":"93659e296133d980","in":{"base":"Any"},"out":{"base":"bool"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b875e019f2c22cd5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.__eq__","kind":"method","src_hash":"93659e296133d980","in":{"base":"Any","pred":"hasattr(other, 'poly') and hasattr(other, 'monom') and hasattr(other, 'ns')"},"out":{"base":"bool","pred":"result satisfies: isinstance(result, bool) and result == (self.poly == other.poly and self.monom == other.monom and (self.ns == other.ns) if isinstance(other, PuiseuxPoly) else self.poly.__eq__(other) if self.monom is None and self.ns is None else NotImplemented) and result == self.poly == other.poly and self.monom == other.monom and (self.ns == other.ns) or result == self.poly.__eq__(other) or result == NotImplemented"},"spec":{"lhs":"__eq__(other)","rhs":"isinstance(result, bool) and result == (self.poly == other.poly and self.monom == other.monom and (self.ns == other.ns) if isinstance(other, PuiseuxPoly) else self.poly.__eq__(other) if self.monom is None and self.ns is None else NotImplemented) and result == self.poly == other.poly and self.monom == other.monom and (self.ns == other.ns) or result == self.poly.__eq__(other) or result == NotImplemented","over":{"base":"Any","pred":"hasattr(other, 'poly') and hasattr(other, 'monom') and hasattr(other, 'ns')"},"name":"__eq___correct"},"guarantee":"isinstance(result, bool); result == (self.poly == other.poly and self.monom == other.monom and (self.ns == other.ns) if isinstance(other, PuiseuxPoly) else self.poly.__eq__(other) if self.monom is None and self.ns is None else NotImplemented); result == self.poly == other.poly and self.monom == other.monom and (self.ns == other.ns) or result == self.poly.__eq__(other) or result == NotImplemented; 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b875e019f2c22cd5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'poly')","hasattr(other, 'monom')","hasattr(other, 'ns')"],"ensures":["isinstance(result, bool)","result == (self.poly == other.poly and self.monom == other.monom and (self.ns == other.ns) if isinstance(other, PuiseuxPoly) else self.poly.__eq__(other) if self.monom is None and self.ns is None else NotImplemented)","result == self.poly == other.poly and self.monom == other.monom and (self.ns == other.ns) or result == self.poly.__eq__(other) or result == NotImplemented"],"fibers":[{"name":"PuiseuxPoly","guard":"isinstance(other, PuiseuxPoly)","ensures":["result == self.poly == other.poly and self.monom == other.monom and (self.ns == other.ns)"],"decidability":"structural","returns_expr":"self.poly == other.poly and self.monom == other.monom and (self.ns == other.ns)"},{"name":"zero_or_none","guard":"self.monom is None and self.ns is None","ensures":["result == self.poly.__eq__(other)"],"decidability":"structural","returns_expr":"self.poly.__eq__(other)"},{"name":"PuiseuxPoly","guard":"not (isinstance(other, PuiseuxPoly)) and not (self.monom is None and self.ns is None)","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.monom","other.ns","other.poly","self.monom","self.ns","self.poly"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other: Any) -> bool:
         if isinstance(other, PuiseuxPoly):
             return (
@@ -555,16 +724,25 @@ class PuiseuxPoly:
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_normalize(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_normalize(cls, poly, monom), isinstance(result, tuple)) over {Any | isinstance(poly, PolyElement) and isinstance(monom, tuple[int, ...] | None) and isinstance(ns, tuple[int, ...] | None) and hasattr(poly, 'deflate') and hasattr(poly, 'degrees') and hasattr(poly, 'tail_degrees')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _normalize : Any → tuple[PolyElement, tuple[int, ...]...   ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(poly, PolyElement)                  ║
+# ║   requires: isinstance(monom, tuple[int, ...] | None)      ║
+# ║   requires: isinstance(ns, tuple[int, ...] | None)         ║
+# ║   ensures:  isinstance(result, tuple)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _normalize : {Any | isinstance(poly, PolyElement) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c173051c9ce847d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a1d35b1e661570f6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly._normalize","kind":"classmethod","src_hash":"3c2d7da3160e3eb6","in":{"base":"Any"},"out":{"base":"tuple[PolyElement, tuple[int, ...] | None, tuple[int, ...] | None]"},"spec":{"lhs":"_normalize(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_normalize_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.puiseux.PuiseuxPoly._normalize_correct","statement":"Path(_normalize(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c173051c9ce847d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly._normalize","kind":"classmethod","src_hash":"3c2d7da3160e3eb6","in":{"base":"Any","pred":"isinstance(poly, PolyElement) and isinstance(monom, tuple[int, ...] | None) and isinstance(ns, tuple[int, ...] | None) and hasattr(poly, 'deflate') and hasattr(poly, 'degrees') and hasattr(poly, 'tail_degrees')"},"out":{"base":"tuple[PolyElement, tuple[int, ...] | None, tuple[int, ...] | None]","pred":"result satisfies: isinstance(result, tuple)"},"spec":{"lhs":"_normalize(cls, poly, monom)","rhs":"isinstance(result, tuple)","over":{"base":"Any","pred":"isinstance(poly, PolyElement) and isinstance(monom, tuple[int, ...] | None) and isinstance(ns, tuple[int, ...] | None) and hasattr(poly, 'deflate') and hasattr(poly, 'degrees') and hasattr(poly, 'tail_degrees')"},"name":"_normalize_correct"},"guarantee":"isinstance(result, tuple)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.puiseux.PuiseuxPoly._normalize_correct","statement":"Path(_normalize(x), isinstance(result, tuple))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1d35b1e661570f6","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(poly, PolyElement)","isinstance(monom, tuple[int, ...] | None)","isinstance(ns, tuple[int, ...] | None)","hasattr(poly, 'deflate')","hasattr(poly, 'degrees')","hasattr(poly, 'tail_degrees')"],"ensures":["isinstance(result, tuple)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _normalize(
         cls,
         poly: PolyElement,
@@ -616,16 +794,30 @@ class PuiseuxPoly:
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_monom_fromint(cls), id) over Any                     ║
+# ║ Path(_monom_fromint(cls, monom, dmonom), id) over {Any | isinstance(monom, tuple[int, ...]) and isinstance(dmonom, tuple[int, ...] | None) and isinstance(ns, tuple[int, ...] | None)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _monom_fromint : Any → tuple[Any, ...]                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(monom, tuple[int, ...])             ║
+# ║   requires: isinstance(dmonom, tuple[int, ...] | None)     ║
+# ║   requires: isinstance(ns, tuple[int, ...] | None)         ║
+# ║   ensures:  isinstance(result, tuple)                      ║
+# ║   ensures:  result == (tuple((QQ(mi - di, ni) for mi,...   ║
+# ║   ensures:  result == tuple((QQ(mi - di, ni) for mi, ...   ║
+# ║   fiber[case_0]: dmonom is not None and ns is not Non...   ║
+# ║   fiber[case_1]: dmonom is not None => tuple((QQ(mi -...   ║
+# ║   fiber[case_2]: ns is not None => tuple((QQ(mi, ni) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _monom_fromint : {Any | isinstance(monom, tuple[int, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5b669195bc53a6be   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly._monom_fromint","kind":"classmethod","src_hash":"100a0da5f6fdfc57","in":{"base":"Any"},"out":{"base":"tuple[Any, ...]"},"spec":{"lhs":"_monom_fromint(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_monom_fromint_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"tuple","by":"library_axiom"},{"fn":"QQ","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b669195bc53a6be"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly._monom_fromint","kind":"classmethod","src_hash":"100a0da5f6fdfc57","in":{"base":"Any","pred":"isinstance(monom, tuple[int, ...]) and isinstance(dmonom, tuple[int, ...] | None) and isinstance(ns, tuple[int, ...] | None)"},"out":{"base":"tuple[Any, ...]","pred":"result satisfies: isinstance(result, tuple) and result == (tuple((QQ(mi - di, ni) for mi, di, ni in zip(monom, dmonom, ns))) if dmonom is not None and ns is not None else tuple((QQ(mi - di) for mi, di in zip(monom, dmonom))) if dmonom is not None else tuple((QQ(mi, ni) for mi, ni in zip(monom, ns))) if ns is not None else tuple((QQ(mi) for mi in monom))) and result == tuple((QQ(mi - di, ni) for mi, di, ni in zip(monom, dmonom, ns))) or result == tuple((QQ(mi - di) for mi, di in zip(monom, dmonom))) or result == tuple((QQ(mi, ni) for mi, ni in zip(monom, ns))) or result == tuple((QQ(mi) for mi in monom))"},"spec":{"lhs":"_monom_fromint(cls, monom, dmonom)","rhs":"isinstance(result, tuple) and result == (tuple((QQ(mi - di, ni) for mi, di, ni in zip(monom, dmonom, ns))) if dmonom is not None and ns is not None else tuple((QQ(mi - di) for mi, di in zip(monom, dmonom))) if dmonom is not None else tuple((QQ(mi, ni) for mi, ni in zip(monom, ns))) if ns is not None else tuple((QQ(mi) for mi in monom))) and result == tuple((QQ(mi - di, ni) for mi, di, ni in zip(monom, dmonom, ns))) or result == tuple((QQ(mi - di) for mi, di in zip(monom, dmonom))) or result == tuple((QQ(mi, ni) for mi, ni in zip(monom, ns))) or result == tuple((QQ(mi) for mi in monom))","over":{"base":"Any","pred":"isinstance(monom, tuple[int, ...]) and isinstance(dmonom, tuple[int, ...] | None) and isinstance(ns, tuple[int, ...] | None)"},"name":"_monom_fromint_correct","kind":"composition"},"guarantee":"isinstance(result, tuple); result == (tuple((QQ(mi - di, ni) for mi, di, ni in zip(monom, dmonom, ns))) if dmonom is not None and ns is not None else tuple((QQ(mi - di) for mi, di in zip(monom, dmonom))) if dmonom is not None else tuple((QQ(mi, ni) for mi, ni in zip(monom, ns))) if ns is not None else tuple((QQ(mi) for mi in monom))); result == tuple((QQ(mi - di, ni) for mi, di, ni in zip(monom, dmonom, ns))) or result == tuple((QQ(mi - di) for mi, di in zip(monom, dmonom))) or result == tuple((QQ(mi, ni) for mi, ni in zip(monom, ns))) or result == tuple((QQ(mi) for mi in monom)); 4-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"tuple","by":"library_axiom"},{"fn":"QQ","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b669195bc53a6be","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(monom, tuple[int, ...])","isinstance(dmonom, tuple[int, ...] | None)","isinstance(ns, tuple[int, ...] | None)"],"ensures":["isinstance(result, tuple)","result == (tuple((QQ(mi - di, ni) for mi, di, ni in zip(monom, dmonom, ns))) if dmonom is not None and ns is not None else tuple((QQ(mi - di) for mi, di in zip(monom, dmonom))) if dmonom is not None else tuple((QQ(mi, ni) for mi, ni in zip(monom, ns))) if ns is not None else tuple((QQ(mi) for mi in monom)))","result == tuple((QQ(mi - di, ni) for mi, di, ni in zip(monom, dmonom, ns))) or result == tuple((QQ(mi - di) for mi, di in zip(monom, dmonom))) or result == tuple((QQ(mi, ni) for mi, ni in zip(monom, ns))) or result == tuple((QQ(mi) for mi in monom))"],"fibers":[{"name":"case_0","guard":"dmonom is not None and ns is not None","ensures":["result == tuple((QQ(mi - di, ni) for mi, di, ni in zip(monom, dmonom, ns)))"],"decidability":"library","returns_expr":"tuple((QQ(mi - di, ni) for mi, di, ni in zip(monom, dmonom, ns)))"},{"name":"case_1","guard":"dmonom is not None","ensures":["result == tuple((QQ(mi - di) for mi, di in zip(monom, dmonom)))"],"decidability":"library","returns_expr":"tuple((QQ(mi - di) for mi, di in zip(monom, dmonom)))"},{"name":"case_2","guard":"ns is not None","ensures":["result == tuple((QQ(mi, ni) for mi, ni in zip(monom, ns)))"],"decidability":"library","returns_expr":"tuple((QQ(mi, ni) for mi, ni in zip(monom, ns)))"},{"name":"case_3","guard":"not (dmonom is not None and ns is not None) and not (dmonom is not None) and not (ns is not None)","ensures":["result == tuple((QQ(mi) for mi in monom))"],"decidability":"library","returns_expr":"tuple((QQ(mi) for mi in monom))"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _monom_fromint(
         cls,
         monom: tuple[int, ...],
@@ -643,16 +835,29 @@ class PuiseuxPoly:
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_monom_toint(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_monom_toint(cls, monom, dmonom), isinstance(result, tuple) and result == tuple((int((mi * ni).numerator + di) for mi, di, ni in zip(monom, dmonom, ns))) or result == tuple((int(mi.numerator + di) for mi, di in zip(monom, dmonom))) or result == tuple((int((mi * ni).numerator) for mi, ni in zip(monom, ns))) or result == tuple((int(mi.numerator) for mi in monom))) over {Any | isinstance(monom, tuple[Any, ...]) and isinstance(dmonom, tuple[int, ...] | None) and isinstance(ns, tuple[int, ...] | None)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _monom_toint : Any → tuple[int, ...]                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(monom, tuple[Any, ...])             ║
+# ║   requires: isinstance(dmonom, tuple[int, ...] | None)     ║
+# ║   requires: isinstance(ns, tuple[int, ...] | None)         ║
+# ║   ensures:  isinstance(result, tuple)                      ║
+# ║   ensures:  result == tuple((int((mi * ni).numerator ...   ║
+# ║   fiber[case_0]: dmonom is not None and ns is not Non...   ║
+# ║   fiber[case_1]: dmonom is not None => tuple((int(mi....   ║
+# ║   fiber[case_2]: ns is not None => tuple((int((mi * n...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _monom_toint : {Any | isinstance(monom, tuple[Any, .....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5aae5a77db2594a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a28ae36173f74572  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly._monom_toint","kind":"classmethod","src_hash":"3c4934e7a422e156","in":{"base":"Any"},"out":{"base":"tuple[int, ...]"},"spec":{"lhs":"_monom_toint(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_monom_toint_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.puiseux.PuiseuxPoly._monom_toint_correct","statement":"Path(_monom_toint(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5aae5a77db2594a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly._monom_toint","kind":"classmethod","src_hash":"3c4934e7a422e156","in":{"base":"Any","pred":"isinstance(monom, tuple[Any, ...]) and isinstance(dmonom, tuple[int, ...] | None) and isinstance(ns, tuple[int, ...] | None)"},"out":{"base":"tuple[int, ...]","pred":"result satisfies: isinstance(result, tuple) and result == tuple((int((mi * ni).numerator + di) for mi, di, ni in zip(monom, dmonom, ns))) or result == tuple((int(mi.numerator + di) for mi, di in zip(monom, dmonom))) or result == tuple((int((mi * ni).numerator) for mi, ni in zip(monom, ns))) or result == tuple((int(mi.numerator) for mi in monom))"},"spec":{"lhs":"_monom_toint(cls, monom, dmonom)","rhs":"isinstance(result, tuple) and result == tuple((int((mi * ni).numerator + di) for mi, di, ni in zip(monom, dmonom, ns))) or result == tuple((int(mi.numerator + di) for mi, di in zip(monom, dmonom))) or result == tuple((int((mi * ni).numerator) for mi, ni in zip(monom, ns))) or result == tuple((int(mi.numerator) for mi in monom))","over":{"base":"Any","pred":"isinstance(monom, tuple[Any, ...]) and isinstance(dmonom, tuple[int, ...] | None) and isinstance(ns, tuple[int, ...] | None)"},"name":"_monom_toint_correct"},"guarantee":"isinstance(result, tuple); result == tuple((int((mi * ni).numerator + di) for mi, di, ni in zip(monom, dmonom, ns))) or result == tuple((int(mi.numerator + di) for mi, di in zip(monom, dmonom))) or result == tuple((int((mi * ni).numerator) for mi, ni in zip(monom, ns))) or result == tuple((int(mi.numerator) for mi in monom)); 4-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.puiseux.PuiseuxPoly._monom_toint_correct","statement":"Path(_monom_toint(x), isinstance(result, tuple); result == tuple((int((mi * ni).numerator + di) for mi, di, ni in zip(monom, dmonom, ns))) or result == tuple((int(mi.numerator + di) for mi, di in zip(monom, dmonom))) or result == tuple((int((mi * ni).numerator) for mi, ni in zip(monom, ns))) or result == tuple((int(mi.numerator) for mi in monom)); 4-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a28ae36173f74572","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(monom, tuple[Any, ...])","isinstance(dmonom, tuple[int, ...] | None)","isinstance(ns, tuple[int, ...] | None)"],"ensures":["isinstance(result, tuple)","result == tuple((int((mi * ni).numerator + di) for mi, di, ni in zip(monom, dmonom, ns))) or result == tuple((int(mi.numerator + di) for mi, di in zip(monom, dmonom))) or result == tuple((int((mi * ni).numerator) for mi, ni in zip(monom, ns))) or result == tuple((int(mi.numerator) for mi in monom))"],"fibers":[{"name":"case_0","guard":"dmonom is not None and ns is not None","ensures":["result == tuple((int((mi * ni).numerator + di) for mi, di, ni in zip(monom, dmonom, ns)))"],"decidability":"library","returns_expr":"tuple((int((mi * ni).numerator + di) for mi, di, ni in zip(monom, dmonom, ns)))"},{"name":"case_1","guard":"dmonom is not None","ensures":["result == tuple((int(mi.numerator + di) for mi, di in zip(monom, dmonom)))"],"decidability":"library","returns_expr":"tuple((int(mi.numerator + di) for mi, di in zip(monom, dmonom)))"},{"name":"case_2","guard":"ns is not None","ensures":["result == tuple((int((mi * ni).numerator) for mi, ni in zip(monom, ns)))"],"decidability":"library","returns_expr":"tuple((int((mi * ni).numerator) for mi, ni in zip(monom, ns)))"},{"name":"case_3","guard":"not (dmonom is not None and ns is not None) and not (dmonom is not None) and not (ns is not None)","ensures":["result == tuple((int(mi.numerator) for mi in monom))"],"decidability":"library","returns_expr":"tuple((int(mi.numerator) for mi in monom))"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _monom_toint(
         cls,
         monom: tuple[Any, ...],
@@ -671,16 +876,22 @@ class PuiseuxPoly:
             return tuple(int(mi.numerator) for mi in monom)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(itermonoms(), iterate over the monomials of a puiseux polynomial) over Any ║
+# ║ Path(itermonoms(), isinstance(result, Iterator[tuple[Any, ...]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ itermonoms : Any → Iterator[tuple[Any, ...]]               ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   ensures:  isinstance(result, Iterator[tuple[Any, .....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ itermonoms : Any → {Iterator[tuple[Any, ...]] | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 051b07b8c4003dbd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b79e7a7d943903d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.itermonoms","kind":"method","src_hash":"b9384da2bd7993b5","in":{"base":"Any"},"out":{"base":"Iterator[tuple[Any, ...]]"},"spec":{"lhs":"itermonoms()","rhs":"iterate over the monomials of a puiseux polynomial","over":{"base":"Any"},"name":"itermonoms_correct"},"guarantee":"iterate over the monomials of a puiseux polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.puiseux.PuiseuxPoly.itermonoms_correct","statement":"Path(itermonoms(x), iterate over the monomials of a puiseux polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"051b07b8c4003dbd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.itermonoms","kind":"method","src_hash":"b9384da2bd7993b5","in":{"base":"Any"},"out":{"base":"Iterator[tuple[Any, ...]]","pred":"result satisfies: isinstance(result, Iterator[tuple[Any, ...]])"},"spec":{"lhs":"itermonoms()","rhs":"isinstance(result, Iterator[tuple[Any, ...]])","over":{"base":"Any"},"name":"itermonoms_correct"},"guarantee":"isinstance(result, Iterator[tuple[Any, ...]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.puiseux.PuiseuxPoly.itermonoms_correct","statement":"Path(itermonoms(x), isinstance(result, Iterator[tuple[Any, ...]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b79e7a7d943903d","spec_source":"static","formal_spec":{"source":"static","strength":"partial","ensures":["isinstance(result, Iterator[tuple[Any, ...]])"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._monom_fromint","self.monom","self.ns","self.poly"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def itermonoms(self) -> Iterator[tuple[Any, ...]]:
         """Iterate over the monomials of a Puiseux polynomial.
 
@@ -698,74 +909,109 @@ class PuiseuxPoly:
             yield self._monom_fromint(m, monom, ns)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(monoms(), return a list of the monomials of a puiseux polynomial) over Any ║
+# ║ Path(monoms(), list(self.itermonoms())) over Any           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ monoms : Any → list[tuple[Any, ...]]                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, list)                       ║
+# ║   ensures:  all(isinstance(x, tuple[Any, ...) for x i...   ║
+# ║   returns:  list(self.itermonoms())                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ monoms : Any → {list[tuple[Any, ...]] | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 425a20a440e11dad           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.monoms","kind":"method","src_hash":"25169f03914bd13b","in":{"base":"Any"},"out":{"base":"list[tuple[Any, ...]]"},"spec":{"lhs":"monoms()","rhs":"return a list of the monomials of a puiseux polynomial","over":{"base":"Any"},"name":"monoms_correct"},"guarantee":"return a list of the monomials of a puiseux polynomial","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"425a20a440e11dad"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.monoms","kind":"method","src_hash":"25169f03914bd13b","in":{"base":"Any"},"out":{"base":"list[tuple[Any, ...]]","pred":"result satisfies: result == (list(self.itermonoms()))"},"spec":{"lhs":"monoms()","rhs":"list(self.itermonoms())","over":{"base":"Any"},"name":"monoms_correct"},"guarantee":"returns list(self.itermonoms()); isinstance(result, list); all(isinstance(x, tuple[Any, ...) for x in result)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"425a20a440e11dad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, list)","all(isinstance(x, tuple[Any, ...) for x in result)"],"returns_expr":"list(self.itermonoms())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.itermonoms"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def monoms(self) -> list[tuple[Any, ...]]:
         """Return a list of the monomials of a Puiseux polynomial."""
         return list(self.itermonoms())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__iter__(), yields all elements in order) over Any    ║
+# ║ Path(__iter__(), self.itermonoms()) over Any               ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __iter__ : Any → Iterator[tuple[tuple[Any, ...], Any]]     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Iterator[tuple[tuple[A...   ║
+# ║   returns:  self.itermonoms()                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __iter__ : Any → {Iterator[tuple[tuple[Any, ...], Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8068f451caf936f7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.__iter__","kind":"method","src_hash":"aa4e90d4e9b5773d","in":{"base":"Any"},"out":{"base":"Iterator[tuple[tuple[Any, ...], Any]]"},"spec":{"lhs":"__iter__()","rhs":"yields all elements in order","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8068f451caf936f7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.__iter__","kind":"method","src_hash":"aa4e90d4e9b5773d","in":{"base":"Any"},"out":{"base":"Iterator[tuple[tuple[Any, ...], Any]]","pred":"result satisfies: result == (self.itermonoms())"},"spec":{"lhs":"__iter__()","rhs":"self.itermonoms()","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"returns self.itermonoms(); isinstance(result, Iterator[tuple[tuple[Any, ...], Any]])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8068f451caf936f7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Iterator[tuple[tuple[Any, ...], Any]])"],"returns_expr":"self.itermonoms()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.itermonoms"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __iter__(self) -> Iterator[tuple[tuple[Any, ...], Any]]:
         return self.itermonoms()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(mon), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(monom), self.poly[monom]) over {Any | isinstance(monom, tuple[int, ...])} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __getitem__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(monom, tuple[int, ...])             ║
+# ║   returns:  self.poly[monom]                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __getitem__ : {Any | isinstance(monom, tuple[int, ......   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f7ac485345fe7012           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.__getitem__","kind":"method","src_hash":"f03eef2a7ca3a1e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(mon)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f7ac485345fe7012"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.__getitem__","kind":"method","src_hash":"f03eef2a7ca3a1e8","in":{"base":"Any","pred":"isinstance(monom, tuple[int, ...])"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(monom)","rhs":"self.poly[monom]","over":{"base":"Any","pred":"isinstance(monom, tuple[int, ...])"},"name":"__getitem___correct"},"guarantee":"returns self.poly[monom]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f7ac485345fe7012","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(monom, tuple[int, ...])"],"returns_expr":"self.poly[monom]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._monom_toint","self.monom","self.ns","self.poly"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, monom: tuple[int, ...]) -> Any:
         monom = self._monom_toint(monom, self.monom, self.ns)
         return self.poly[monom]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__len__(), returns the number of elements) over Any   ║
+# ║ Path(__len__(), len(self.poly)) over Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __len__ : Any → int                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, int)                        ║
+# ║   returns:  len(self.poly)                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __len__ : Any → {int | result satisfies: result == (l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4ea62026f6f8e26f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.__len__","kind":"method","src_hash":"3a3a0049142e1885","in":{"base":"Any"},"out":{"base":"int"},"spec":{"lhs":"__len__()","rhs":"returns the number of elements","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns the number of elements","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4ea62026f6f8e26f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.__len__","kind":"method","src_hash":"3a3a0049142e1885","in":{"base":"Any"},"out":{"base":"int","pred":"result satisfies: result == (len(self.poly))"},"spec":{"lhs":"__len__()","rhs":"len(self.poly)","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns len(self.poly); isinstance(result, int)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4ea62026f6f8e26f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, int)"],"returns_expr":"len(self.poly)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.poly"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __len__(self) -> int:
         return len(self.poly)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(iterterms(), iterate over the terms of a puiseux polynomial) over Any ║
+# ║ Path(iterterms(), isinstance(result, Iterator[tuple[tuple[Any, ...], Any]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ iterterms : Any → Iterator[tuple[tuple[Any, ...], Any]]    ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   ensures:  isinstance(result, Iterator[tuple[tuple[A...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ iterterms : Any → {Iterator[tuple[tuple[Any, ...], An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e3ed1d7c93720d9b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 736a867dac8b7f28  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.iterterms","kind":"method","src_hash":"50b1bb23b7bfd8c8","in":{"base":"Any"},"out":{"base":"Iterator[tuple[tuple[Any, ...], Any]]"},"spec":{"lhs":"iterterms()","rhs":"iterate over the terms of a puiseux polynomial","over":{"base":"Any"},"name":"iterterms_correct"},"guarantee":"iterate over the terms of a puiseux polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.puiseux.PuiseuxPoly.iterterms_correct","statement":"Path(iterterms(x), iterate over the terms of a puiseux polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3ed1d7c93720d9b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.iterterms","kind":"method","src_hash":"50b1bb23b7bfd8c8","in":{"base":"Any"},"out":{"base":"Iterator[tuple[tuple[Any, ...], Any]]","pred":"result satisfies: isinstance(result, Iterator[tuple[tuple[Any, ...], Any]])"},"spec":{"lhs":"iterterms()","rhs":"isinstance(result, Iterator[tuple[tuple[Any, ...], Any]])","over":{"base":"Any"},"name":"iterterms_correct"},"guarantee":"isinstance(result, Iterator[tuple[tuple[Any, ...], Any]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.puiseux.PuiseuxPoly.iterterms_correct","statement":"Path(iterterms(x), isinstance(result, Iterator[tuple[tuple[Any, ...], Any]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"736a867dac8b7f28","spec_source":"static","formal_spec":{"source":"static","strength":"partial","ensures":["isinstance(result, Iterator[tuple[tuple[Any, ...], Any]])"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._monom_fromint","self.monom","self.ns","self.poly"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def iterterms(self) -> Iterator[tuple[tuple[Any, ...], Any]]:
         """Iterate over the terms of a Puiseux polynomial.
 
@@ -782,63 +1028,95 @@ class PuiseuxPoly:
             yield mq, coeff
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(terms(), return a list of the terms of a puiseux polynomial) over Any ║
+# ║ Path(terms(), list(self.iterterms())) over Any             ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ terms : Any → list[tuple[tuple[Any, ...], Any]]            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, list)                       ║
+# ║   ensures:  all(isinstance(x, tuple[tuple[Any, ...], ...   ║
+# ║   returns:  list(self.iterterms())                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ terms : Any → {list[tuple[tuple[Any, ...], Any]] | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 55d75514c53d76ad           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.terms","kind":"method","src_hash":"497734b7c94f9c69","in":{"base":"Any"},"out":{"base":"list[tuple[tuple[Any, ...], Any]]"},"spec":{"lhs":"terms()","rhs":"return a list of the terms of a puiseux polynomial","over":{"base":"Any"},"name":"terms_correct"},"guarantee":"return a list of the terms of a puiseux polynomial","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"55d75514c53d76ad"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.terms","kind":"method","src_hash":"497734b7c94f9c69","in":{"base":"Any"},"out":{"base":"list[tuple[tuple[Any, ...], Any]]","pred":"result satisfies: result == (list(self.iterterms()))"},"spec":{"lhs":"terms()","rhs":"list(self.iterterms())","over":{"base":"Any"},"name":"terms_correct"},"guarantee":"returns list(self.iterterms()); isinstance(result, list); all(isinstance(x, tuple[tuple[Any, ...], Any) for x in result)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"55d75514c53d76ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, list)","all(isinstance(x, tuple[tuple[Any, ...], Any) for x in result)"],"returns_expr":"list(self.iterterms())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.iterterms"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def terms(self) -> list[tuple[tuple[Any, ...], Any]]:
         """Return a list of the terms of a Puiseux polynomial."""
         return list(self.iterterms())
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_term(), returns the is_term attribute) over Any    ║
+# ║ Path(is_term(), self.poly.is_term) over Any                ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_term : Any → bool                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, bool)                       ║
+# ║   returns:  self.poly.is_term                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_term : Any → {bool | result satisfies: result == (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fd70acf5830d8056           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.is_term","kind":"property","src_hash":"52c6dc82224694cf","in":{"base":"Any"},"out":{"base":"bool"},"spec":{"lhs":"is_term()","rhs":"returns the is_term attribute","over":{"base":"Any"},"name":"is_term_correct"},"guarantee":"returns the is_term attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fd70acf5830d8056"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.is_term","kind":"property","src_hash":"52c6dc82224694cf","in":{"base":"Any"},"out":{"base":"bool","pred":"result satisfies: result == (self.poly.is_term)"},"spec":{"lhs":"is_term()","rhs":"self.poly.is_term","over":{"base":"Any"},"name":"is_term_correct"},"guarantee":"returns self.poly.is_term; isinstance(result, bool)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fd70acf5830d8056","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, bool)"],"returns_expr":"self.poly.is_term","pure":false,"effects":{"effect_type":"reads_state","reads":["self.poly"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_term(self) -> bool:
         """Return True if the Puiseux polynomial is a single term."""
         return self.poly.is_term
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_dict(), return a dictionary representation of a puiseux polynomial) over Any ║
+# ║ Path(to_dict(), dict(self.iterterms())) over Any           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ to_dict : Any → dict[tuple[int, ...], Any]                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, dict)                       ║
+# ║   returns:  dict(self.iterterms())                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ to_dict : Any → {dict[tuple[int, ...], Any] | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 16b620a581c385ae           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.to_dict","kind":"method","src_hash":"a967986eaa0a4dd9","in":{"base":"Any"},"out":{"base":"dict[tuple[int, ...], Any]"},"spec":{"lhs":"to_dict()","rhs":"return a dictionary representation of a puiseux polynomial","over":{"base":"Any"},"name":"to_dict_correct"},"guarantee":"return a dictionary representation of a puiseux polynomial","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"16b620a581c385ae"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.to_dict","kind":"method","src_hash":"a967986eaa0a4dd9","in":{"base":"Any"},"out":{"base":"dict[tuple[int, ...], Any]","pred":"result satisfies: result == (dict(self.iterterms()))"},"spec":{"lhs":"to_dict()","rhs":"dict(self.iterterms())","over":{"base":"Any"},"name":"to_dict_correct"},"guarantee":"returns dict(self.iterterms()); isinstance(result, dict)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"16b620a581c385ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, dict)"],"returns_expr":"dict(self.iterterms())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.iterterms"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_dict(self) -> dict[tuple[int, ...], Any]:
         """Return a dictionary representation of a Puiseux polynomial."""
         return dict(self.iterterms())
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_dict(cls), create a puiseux polynomial from a dictionary of terms) over Any ║
+# ║ Path(from_dict(cls, terms, ring), cls._new(ring, poly, monom, ns_final)) over {Any | isinstance(terms, dict[tuple[Any, ...], Any]) and isinstance(ring, PuiseuxRing) and hasattr(ring, 'ngens') and hasattr(ring, 'poly_ring') and hasattr(terms, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_dict : Any → PuiseuxPoly                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(terms, dict[tuple[Any, ...], A...   ║
+# ║   requires: isinstance(ring, PuiseuxRing)                  ║
+# ║   requires: hasattr(ring, 'ngens')                         ║
+# ║   ensures:  isinstance(result, PuiseuxPoly)                ║
+# ║   returns:  cls._new(ring, poly, monom, ns_final)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_dict : {Any | isinstance(terms, dict[tuple[Any, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ccdd8c2a97a51bc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5964f4a33ea4147  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.from_dict","kind":"classmethod","src_hash":"f112697ce115ecc2","in":{"base":"Any"},"out":{"base":"PuiseuxPoly"},"spec":{"lhs":"from_dict(cls)","rhs":"create a puiseux polynomial from a dictionary of terms","over":{"base":"Any"},"name":"from_dict_correct"},"guarantee":"create a puiseux polynomial from a dictionary of terms","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.puiseux.PuiseuxPoly.from_dict_correct","statement":"Path(from_dict(x), create a puiseux polynomial from a dictionary of terms)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ccdd8c2a97a51bc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.from_dict","kind":"classmethod","src_hash":"f112697ce115ecc2","in":{"base":"Any","pred":"isinstance(terms, dict[tuple[Any, ...], Any]) and isinstance(ring, PuiseuxRing) and hasattr(ring, 'ngens') and hasattr(ring, 'poly_ring') and hasattr(terms, 'items')"},"out":{"base":"PuiseuxPoly","pred":"result satisfies: result == (cls._new(ring, poly, monom, ns_final))"},"spec":{"lhs":"from_dict(cls, terms, ring)","rhs":"cls._new(ring, poly, monom, ns_final)","over":{"base":"Any","pred":"isinstance(terms, dict[tuple[Any, ...], Any]) and isinstance(ring, PuiseuxRing) and hasattr(ring, 'ngens') and hasattr(ring, 'poly_ring') and hasattr(terms, 'items')"},"name":"from_dict_correct"},"guarantee":"returns cls._new(ring, poly, monom, ns_final); isinstance(result, PuiseuxPoly)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.puiseux.PuiseuxPoly.from_dict_correct","statement":"Path(from_dict(x), returns cls._new(ring, poly, monom, ns_final); isinstance(result, PuiseuxPoly))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5964f4a33ea4147","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(terms, dict[tuple[Any, ...], Any])","isinstance(ring, PuiseuxRing)","hasattr(ring, 'ngens')","hasattr(ring, 'poly_ring')","hasattr(terms, 'items')"],"ensures":["isinstance(result, PuiseuxPoly)"],"returns_expr":"cls._new(ring, poly, monom, ns_final)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._monom_toint","cls._new","ring.ngens","ring.poly_ring","terms.items"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_dict(
         cls, terms: dict[tuple[Any, ...], Any], ring: PuiseuxRing
     ) -> PuiseuxPoly:
@@ -875,16 +1153,23 @@ class PuiseuxPoly:
         return cls._new(ring, poly, monom, ns_final)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_expr(), convert a puiseux polynomial to :class:`~sympy.core.expr.expr`) over Any ║
+# ║ Path(as_expr(), Add(*terms)) over Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ as_expr : Any → Expr                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  Add(*terms)                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ as_expr : Any → {Expr | result satisfies: result == (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a02f970aef2049f6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f49f6c7b768b8b2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.as_expr","kind":"method","src_hash":"ea75436df7769737","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"as_expr()","rhs":"convert a puiseux polynomial to :class:`~sympy.core.expr.expr`","over":{"base":"Any"},"name":"as_expr_correct"},"guarantee":"convert a puiseux polynomial to :class:`~sympy.core.expr.expr`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.puiseux.PuiseuxPoly.as_expr_correct","statement":"Path(as_expr(x), convert a puiseux polynomial to :class:`~sympy.core.expr.expr`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a02f970aef2049f6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.as_expr","kind":"method","src_hash":"ea75436df7769737","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (Add(*terms))"},"spec":{"lhs":"as_expr()","rhs":"Add(*terms)","over":{"base":"Any"},"name":"as_expr_correct"},"guarantee":"returns Add(*terms); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.puiseux.PuiseuxPoly.as_expr_correct","statement":"Path(as_expr(x), returns Add(*terms); isinstance(result, Expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f49f6c7b768b8b2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"Add(*terms)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_expr(self) -> Expr:
         """Convert a Puiseux polynomial to :class:`~sympy.core.expr.Expr`.
 
@@ -910,16 +1195,22 @@ class PuiseuxPoly:
         return Add(*terms)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), isinstance(result, str)) over Any         ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __repr__ : Any → str                                       ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   ensures:  isinstance(result, str)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __repr__ : Any → {str | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 63d203b649871992           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.__repr__","kind":"method","src_hash":"86c9bdb6f1f46c2d","in":{"base":"Any"},"out":{"base":"str"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"63d203b649871992"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.__repr__","kind":"method","src_hash":"86c9bdb6f1f46c2d","in":{"base":"Any"},"out":{"base":"str","pred":"result satisfies: isinstance(result, str)"},"spec":{"lhs":"__repr__()","rhs":"isinstance(result, str)","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"isinstance(result, str)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"63d203b649871992","spec_source":"static","formal_spec":{"source":"static","strength":"partial","ensures":["isinstance(result, str)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self) -> str:
 
         def format_power(base: str, exp: int) -> str:
@@ -950,16 +1241,25 @@ class PuiseuxPoly:
         return " + ".join(terms_str)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_unify(oth), bring two puiseux polynomials to a common monom and ns) over Any ║
+# ║ Path(_unify(other), isinstance(result, tuple)) over {Any | isinstance(other, PuiseuxPoly) and hasattr(other, 'poly') and hasattr(other, 'monom') and hasattr(other, 'ns')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _unify : Any → tuple[PolyElement, PolyElement, tuple[...   ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(other, PuiseuxPoly)                 ║
+# ║   requires: hasattr(other, 'poly')                         ║
+# ║   requires: hasattr(other, 'monom')                        ║
+# ║   ensures:  isinstance(result, tuple)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _unify : {Any | isinstance(other, PuiseuxPoly) and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4132d08356a874b1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f7ef110918f1c30  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly._unify","kind":"method","src_hash":"a4b21d35f88de1f8","in":{"base":"Any"},"out":{"base":"tuple[PolyElement, PolyElement, tuple[int, ...] | None, tuple[int, ...] | None]"},"spec":{"lhs":"_unify(oth)","rhs":"bring two puiseux polynomials to a common monom and ns","over":{"base":"Any"},"name":"_unify_correct"},"guarantee":"bring two puiseux polynomials to a common monom and ns","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.puiseux.PuiseuxPoly._unify_correct","statement":"Path(_unify(x), bring two puiseux polynomials to a common monom and ns)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4132d08356a874b1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly._unify","kind":"method","src_hash":"a4b21d35f88de1f8","in":{"base":"Any","pred":"isinstance(other, PuiseuxPoly) and hasattr(other, 'poly') and hasattr(other, 'monom') and hasattr(other, 'ns')"},"out":{"base":"tuple[PolyElement, PolyElement, tuple[int, ...] | None, tuple[int, ...] | None]","pred":"result satisfies: isinstance(result, tuple)"},"spec":{"lhs":"_unify(other)","rhs":"isinstance(result, tuple)","over":{"base":"Any","pred":"isinstance(other, PuiseuxPoly) and hasattr(other, 'poly') and hasattr(other, 'monom') and hasattr(other, 'ns')"},"name":"_unify_correct"},"guarantee":"isinstance(result, tuple)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.puiseux.PuiseuxPoly._unify_correct","statement":"Path(_unify(x), isinstance(result, tuple))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f7ef110918f1c30","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(other, PuiseuxPoly)","hasattr(other, 'poly')","hasattr(other, 'monom')","hasattr(other, 'ns')"],"ensures":["isinstance(result, tuple)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.monom","other.ns","other.poly","self.monom","self.ns","self.poly"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _unify(
         self, other: PuiseuxPoly
     ) -> tuple[
@@ -1015,44 +1315,66 @@ class PuiseuxPoly:
         return poly1, poly2, monom, ns
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__pos__(), internal helper behaves correctly) over Any ║
+# ║ Path(__pos__(), self) over Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __pos__ : Any → PuiseuxPoly                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, PuiseuxPoly)                ║
+# ║   ensures:  result == self                                 ║
+# ║   returns:  self                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __pos__ : Any → {PuiseuxPoly | result satisfies: resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bf569646ee288da7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.__pos__","kind":"method","src_hash":"27a84fb4b711a387","in":{"base":"Any"},"out":{"base":"PuiseuxPoly"},"spec":{"lhs":"__pos__()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__pos___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bf569646ee288da7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.__pos__","kind":"method","src_hash":"27a84fb4b711a387","in":{"base":"Any"},"out":{"base":"PuiseuxPoly","pred":"result satisfies: result == (self)"},"spec":{"lhs":"__pos__()","rhs":"self","over":{"base":"Any"},"name":"__pos___correct"},"guarantee":"returns self; isinstance(result, PuiseuxPoly); result == self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bf569646ee288da7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, PuiseuxPoly)","result == self"],"returns_expr":"self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __pos__(self) -> PuiseuxPoly:
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__neg__(), returns the additive inverse) over Any     ║
+# ║ Path(__neg__(), self._new_raw(self.ring, -self.poly, self.monom, self.ns)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __neg__ : Any → PuiseuxPoly                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, PuiseuxPoly)                ║
+# ║   returns:  self._new_raw(self.ring, -self.poly, self...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __neg__ : Any → {PuiseuxPoly | result satisfies: resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7ca1f4e5015f6262           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.__neg__","kind":"method","src_hash":"ae6164f148ddc9f4","in":{"base":"Any"},"out":{"base":"PuiseuxPoly"},"spec":{"lhs":"__neg__()","rhs":"returns the additive inverse","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns the additive inverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7ca1f4e5015f6262"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.__neg__","kind":"method","src_hash":"ae6164f148ddc9f4","in":{"base":"Any"},"out":{"base":"PuiseuxPoly","pred":"result satisfies: result == (self._new_raw(self.ring, -self.poly, self.monom, self.ns))"},"spec":{"lhs":"__neg__()","rhs":"self._new_raw(self.ring, -self.poly, self.monom, self.ns)","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns self._new_raw(self.ring, -self.poly, self.monom, self.ns); isinstance(result, PuiseuxPoly)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7ca1f4e5015f6262","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, PuiseuxPoly)"],"returns_expr":"self._new_raw(self.ring, -self.poly, self.monom, self.ns)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._new_raw","self.monom","self.ns","self.poly","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __neg__(self) -> PuiseuxPoly:
         return self._new_raw(self.ring, -self.poly, self.monom, self.ns)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), isinstance(result, PuiseuxPoly)) over {Any | hasattr(other, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __add__ : Any → PuiseuxPoly                                ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: hasattr(other, 'ring')                         ║
+# ║   ensures:  isinstance(result, PuiseuxPoly)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __add__ : {Any | hasattr(other, 'ring')} → {PuiseuxPo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5568cbc14870b20e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.__add__","kind":"method","src_hash":"79b2aa60c5fa267b","in":{"base":"Any"},"out":{"base":"PuiseuxPoly"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5568cbc14870b20e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.__add__","kind":"method","src_hash":"79b2aa60c5fa267b","in":{"base":"Any","pred":"hasattr(other, 'ring')"},"out":{"base":"PuiseuxPoly","pred":"result satisfies: isinstance(result, PuiseuxPoly)"},"spec":{"lhs":"__add__(other)","rhs":"isinstance(result, PuiseuxPoly)","over":{"base":"Any","pred":"hasattr(other, 'ring')"},"name":"__add___correct"},"guarantee":"isinstance(result, PuiseuxPoly)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5568cbc14870b20e","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["hasattr(other, 'ring')"],"ensures":["isinstance(result, PuiseuxPoly)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.ring","self._add","self._add_ground","self.ring"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other: Any) -> PuiseuxPoly:
         if isinstance(other, PuiseuxPoly):
             if self.ring != other.ring:
@@ -1067,16 +1389,27 @@ class PuiseuxPoly:
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__radd__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__radd__(other), isinstance(result, PuiseuxPoly) and result == (self._add_ground(domain.convert_from(QQ(other), QQ)) if isinstance(other, int) else self._add_ground(other) if domain.of_type(other) else NotImplemented) and result == self._add_ground(domain.convert_from(QQ(other), QQ)) or result == self._add_ground(other) or result == NotImplemented) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __radd__ : Any → PuiseuxPoly                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, PuiseuxPoly)                ║
+# ║   ensures:  result == (self._add_ground(domain.conver...   ║
+# ║   ensures:  result == self._add_ground(domain.convert...   ║
+# ║   fiber[int]: isinstance(other, int) => self._add_gro...   ║
+# ║   fiber[case_1]: domain.of_type(other) => self._add_g...   ║
+# ║   fiber[int]: not (isinstance(other, int)) and not (d...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __radd__ : Any → {PuiseuxPoly | result satisfies: isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 311b652b076e82c4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.__radd__","kind":"method","src_hash":"ef19d4c67a29d607","in":{"base":"Any"},"out":{"base":"PuiseuxPoly"},"spec":{"lhs":"__radd__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__radd___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"311b652b076e82c4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.__radd__","kind":"method","src_hash":"ef19d4c67a29d607","in":{"base":"Any"},"out":{"base":"PuiseuxPoly","pred":"result satisfies: isinstance(result, PuiseuxPoly) and result == (self._add_ground(domain.convert_from(QQ(other), QQ)) if isinstance(other, int) else self._add_ground(other) if domain.of_type(other) else NotImplemented) and result == self._add_ground(domain.convert_from(QQ(other), QQ)) or result == self._add_ground(other) or result == NotImplemented"},"spec":{"lhs":"__radd__(other)","rhs":"isinstance(result, PuiseuxPoly) and result == (self._add_ground(domain.convert_from(QQ(other), QQ)) if isinstance(other, int) else self._add_ground(other) if domain.of_type(other) else NotImplemented) and result == self._add_ground(domain.convert_from(QQ(other), QQ)) or result == self._add_ground(other) or result == NotImplemented","over":{"base":"Any"},"name":"__radd___correct"},"guarantee":"isinstance(result, PuiseuxPoly); result == (self._add_ground(domain.convert_from(QQ(other), QQ)) if isinstance(other, int) else self._add_ground(other) if domain.of_type(other) else NotImplemented); result == self._add_ground(domain.convert_from(QQ(other), QQ)) or result == self._add_ground(other) or result == NotImplemented; 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"311b652b076e82c4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, PuiseuxPoly)","result == (self._add_ground(domain.convert_from(QQ(other), QQ)) if isinstance(other, int) else self._add_ground(other) if domain.of_type(other) else NotImplemented)","result == self._add_ground(domain.convert_from(QQ(other), QQ)) or result == self._add_ground(other) or result == NotImplemented"],"fibers":[{"name":"int","guard":"isinstance(other, int)","ensures":["result == self._add_ground(domain.convert_from(QQ(other), QQ))"],"decidability":"structural","returns_expr":"self._add_ground(domain.convert_from(QQ(other), QQ))"},{"name":"case_1","guard":"domain.of_type(other)","ensures":["result == self._add_ground(other)"],"decidability":"library","returns_expr":"self._add_ground(other)"},{"name":"int","guard":"not (isinstance(other, int)) and not (domain.of_type(other))","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._add_ground","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __radd__(self, other: Any) -> PuiseuxPoly:
         domain = self.ring.domain
         if isinstance(other, int):
@@ -1087,16 +1420,23 @@ class PuiseuxPoly:
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__sub__(other), isinstance(result, PuiseuxPoly)) over {Any | hasattr(other, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __sub__ : Any → PuiseuxPoly                                ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: hasattr(other, 'ring')                         ║
+# ║   ensures:  isinstance(result, PuiseuxPoly)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __sub__ : {Any | hasattr(other, 'ring')} → {PuiseuxPo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a0bd5201277a309c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.__sub__","kind":"method","src_hash":"8bc16326f255a9a0","in":{"base":"Any"},"out":{"base":"PuiseuxPoly"},"spec":{"lhs":"__sub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a0bd5201277a309c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.__sub__","kind":"method","src_hash":"8bc16326f255a9a0","in":{"base":"Any","pred":"hasattr(other, 'ring')"},"out":{"base":"PuiseuxPoly","pred":"result satisfies: isinstance(result, PuiseuxPoly)"},"spec":{"lhs":"__sub__(other)","rhs":"isinstance(result, PuiseuxPoly)","over":{"base":"Any","pred":"hasattr(other, 'ring')"},"name":"__sub___correct"},"guarantee":"isinstance(result, PuiseuxPoly)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a0bd5201277a309c","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["hasattr(other, 'ring')"],"ensures":["isinstance(result, PuiseuxPoly)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.ring","self._sub","self._sub_ground","self.ring"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(self, other: Any) -> PuiseuxPoly:
         if isinstance(other, PuiseuxPoly):
             if self.ring != other.ring:
@@ -1113,16 +1453,27 @@ class PuiseuxPoly:
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rsub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rsub__(other), isinstance(result, PuiseuxPoly) and result == (self._rsub_ground(domain.convert_from(QQ(other), QQ)) if isinstance(other, int) else self._rsub_ground(other) if domain.of_type(other) else NotImplemented) and result == self._rsub_ground(domain.convert_from(QQ(other), QQ)) or result == self._rsub_ground(other) or result == NotImplemented) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __rsub__ : Any → PuiseuxPoly                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, PuiseuxPoly)                ║
+# ║   ensures:  result == (self._rsub_ground(domain.conve...   ║
+# ║   ensures:  result == self._rsub_ground(domain.conver...   ║
+# ║   fiber[int]: isinstance(other, int) => self._rsub_gr...   ║
+# ║   fiber[case_1]: domain.of_type(other) => self._rsub_...   ║
+# ║   fiber[int]: not (isinstance(other, int)) and not (d...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __rsub__ : Any → {PuiseuxPoly | result satisfies: isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b685463247a9bef9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.__rsub__","kind":"method","src_hash":"3589f2f90c142ee8","in":{"base":"Any"},"out":{"base":"PuiseuxPoly"},"spec":{"lhs":"__rsub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b685463247a9bef9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.__rsub__","kind":"method","src_hash":"3589f2f90c142ee8","in":{"base":"Any"},"out":{"base":"PuiseuxPoly","pred":"result satisfies: isinstance(result, PuiseuxPoly) and result == (self._rsub_ground(domain.convert_from(QQ(other), QQ)) if isinstance(other, int) else self._rsub_ground(other) if domain.of_type(other) else NotImplemented) and result == self._rsub_ground(domain.convert_from(QQ(other), QQ)) or result == self._rsub_ground(other) or result == NotImplemented"},"spec":{"lhs":"__rsub__(other)","rhs":"isinstance(result, PuiseuxPoly) and result == (self._rsub_ground(domain.convert_from(QQ(other), QQ)) if isinstance(other, int) else self._rsub_ground(other) if domain.of_type(other) else NotImplemented) and result == self._rsub_ground(domain.convert_from(QQ(other), QQ)) or result == self._rsub_ground(other) or result == NotImplemented","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"isinstance(result, PuiseuxPoly); result == (self._rsub_ground(domain.convert_from(QQ(other), QQ)) if isinstance(other, int) else self._rsub_ground(other) if domain.of_type(other) else NotImplemented); result == self._rsub_ground(domain.convert_from(QQ(other), QQ)) or result == self._rsub_ground(other) or result == NotImplemented; 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b685463247a9bef9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, PuiseuxPoly)","result == (self._rsub_ground(domain.convert_from(QQ(other), QQ)) if isinstance(other, int) else self._rsub_ground(other) if domain.of_type(other) else NotImplemented)","result == self._rsub_ground(domain.convert_from(QQ(other), QQ)) or result == self._rsub_ground(other) or result == NotImplemented"],"fibers":[{"name":"int","guard":"isinstance(other, int)","ensures":["result == self._rsub_ground(domain.convert_from(QQ(other), QQ))"],"decidability":"structural","returns_expr":"self._rsub_ground(domain.convert_from(QQ(other), QQ))"},{"name":"case_1","guard":"domain.of_type(other)","ensures":["result == self._rsub_ground(other)"],"decidability":"library","returns_expr":"self._rsub_ground(other)"},{"name":"int","guard":"not (isinstance(other, int)) and not (domain.of_type(other))","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._rsub_ground","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rsub__(self, other: Any) -> PuiseuxPoly:
         domain = self.ring.domain
         if isinstance(other, int):
@@ -1133,16 +1484,23 @@ class PuiseuxPoly:
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), isinstance(result, PuiseuxPoly)) over {Any | hasattr(other, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __mul__ : Any → PuiseuxPoly                                ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: hasattr(other, 'ring')                         ║
+# ║   ensures:  isinstance(result, PuiseuxPoly)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __mul__ : {Any | hasattr(other, 'ring')} → {PuiseuxPo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cbbada72537b8916           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.__mul__","kind":"method","src_hash":"b297b0ccfb8b594d","in":{"base":"Any"},"out":{"base":"PuiseuxPoly"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cbbada72537b8916"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.__mul__","kind":"method","src_hash":"b297b0ccfb8b594d","in":{"base":"Any","pred":"hasattr(other, 'ring')"},"out":{"base":"PuiseuxPoly","pred":"result satisfies: isinstance(result, PuiseuxPoly)"},"spec":{"lhs":"__mul__(other)","rhs":"isinstance(result, PuiseuxPoly)","over":{"base":"Any","pred":"hasattr(other, 'ring')"},"name":"__mul___correct"},"guarantee":"isinstance(result, PuiseuxPoly)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cbbada72537b8916","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["hasattr(other, 'ring')"],"ensures":["isinstance(result, PuiseuxPoly)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.ring","self._mul","self._mul_ground","self.ring"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other: Any) -> PuiseuxPoly:
         if isinstance(other, PuiseuxPoly):
             if self.ring != other.ring:
@@ -1159,16 +1517,27 @@ class PuiseuxPoly:
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rmul__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rmul__(other), isinstance(result, PuiseuxPoly) and result == (self._mul_ground(domain.convert_from(QQ(other), QQ)) if isinstance(other, int) else self._mul_ground(other) if domain.of_type(other) else NotImplemented) and result == self._mul_ground(domain.convert_from(QQ(other), QQ)) or result == self._mul_ground(other) or result == NotImplemented) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __rmul__ : Any → PuiseuxPoly                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, PuiseuxPoly)                ║
+# ║   ensures:  result == (self._mul_ground(domain.conver...   ║
+# ║   ensures:  result == self._mul_ground(domain.convert...   ║
+# ║   fiber[int]: isinstance(other, int) => self._mul_gro...   ║
+# ║   fiber[case_1]: domain.of_type(other) => self._mul_g...   ║
+# ║   fiber[int]: not (isinstance(other, int)) and not (d...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __rmul__ : Any → {PuiseuxPoly | result satisfies: isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9cd28854b31d41e6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.__rmul__","kind":"method","src_hash":"a74cb90db3136b31","in":{"base":"Any"},"out":{"base":"PuiseuxPoly"},"spec":{"lhs":"__rmul__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9cd28854b31d41e6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.__rmul__","kind":"method","src_hash":"a74cb90db3136b31","in":{"base":"Any"},"out":{"base":"PuiseuxPoly","pred":"result satisfies: isinstance(result, PuiseuxPoly) and result == (self._mul_ground(domain.convert_from(QQ(other), QQ)) if isinstance(other, int) else self._mul_ground(other) if domain.of_type(other) else NotImplemented) and result == self._mul_ground(domain.convert_from(QQ(other), QQ)) or result == self._mul_ground(other) or result == NotImplemented"},"spec":{"lhs":"__rmul__(other)","rhs":"isinstance(result, PuiseuxPoly) and result == (self._mul_ground(domain.convert_from(QQ(other), QQ)) if isinstance(other, int) else self._mul_ground(other) if domain.of_type(other) else NotImplemented) and result == self._mul_ground(domain.convert_from(QQ(other), QQ)) or result == self._mul_ground(other) or result == NotImplemented","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"isinstance(result, PuiseuxPoly); result == (self._mul_ground(domain.convert_from(QQ(other), QQ)) if isinstance(other, int) else self._mul_ground(other) if domain.of_type(other) else NotImplemented); result == self._mul_ground(domain.convert_from(QQ(other), QQ)) or result == self._mul_ground(other) or result == NotImplemented; 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9cd28854b31d41e6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, PuiseuxPoly)","result == (self._mul_ground(domain.convert_from(QQ(other), QQ)) if isinstance(other, int) else self._mul_ground(other) if domain.of_type(other) else NotImplemented)","result == self._mul_ground(domain.convert_from(QQ(other), QQ)) or result == self._mul_ground(other) or result == NotImplemented"],"fibers":[{"name":"int","guard":"isinstance(other, int)","ensures":["result == self._mul_ground(domain.convert_from(QQ(other), QQ))"],"decidability":"structural","returns_expr":"self._mul_ground(domain.convert_from(QQ(other), QQ))"},{"name":"case_1","guard":"domain.of_type(other)","ensures":["result == self._mul_ground(other)"],"decidability":"library","returns_expr":"self._mul_ground(other)"},{"name":"int","guard":"not (isinstance(other, int)) and not (domain.of_type(other))","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._mul_ground","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rmul__(self, other: Any) -> PuiseuxPoly:
         domain = self.ring.domain
         if isinstance(other, int):
@@ -1179,16 +1548,25 @@ class PuiseuxPoly:
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__pow__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__pow__(other), isinstance(result, PuiseuxPoly)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __pow__ : Any → PuiseuxPoly                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, PuiseuxPoly)                ║
+# ║   fiber[int]: isinstance(other, int)                       ║
+# ║   fiber[case_1]: QQ.of_type(other) => self._pow_ratio...   ║
+# ║   fiber[int]: not (isinstance(other, int)) and not (Q...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __pow__ : Any → {PuiseuxPoly | result satisfies: isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5ecf9d759f91dc21           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.__pow__","kind":"method","src_hash":"83ece49fdfaa39ab","in":{"base":"Any"},"out":{"base":"PuiseuxPoly"},"spec":{"lhs":"__pow__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5ecf9d759f91dc21"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.__pow__","kind":"method","src_hash":"83ece49fdfaa39ab","in":{"base":"Any"},"out":{"base":"PuiseuxPoly","pred":"result satisfies: isinstance(result, PuiseuxPoly)"},"spec":{"lhs":"__pow__(other)","rhs":"isinstance(result, PuiseuxPoly)","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"isinstance(result, PuiseuxPoly); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5ecf9d759f91dc21","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, PuiseuxPoly)"],"fibers":[{"name":"int","guard":"isinstance(other, int)","ensures":[],"decidability":"structural"},{"name":"case_1","guard":"QQ.of_type(other)","ensures":["result == self._pow_rational(other)"],"decidability":"library","returns_expr":"self._pow_rational(other)"},{"name":"int","guard":"not (isinstance(other, int)) and not (QQ.of_type(other))","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._pow_nint","self._pow_pint","self._pow_rational"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __pow__(self, other: Any) -> PuiseuxPoly:
         if isinstance(other, int):
             if other >= 0:
@@ -1201,16 +1579,24 @@ class PuiseuxPoly:
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__truediv__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__truediv__(other), isinstance(result, PuiseuxPoly)) over {Any | hasattr(other, 'ring') and hasattr(other, '_inv')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __truediv__ : Any → PuiseuxPoly                            ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: hasattr(other, 'ring')                         ║
+# ║   requires: hasattr(other, '_inv')                         ║
+# ║   ensures:  isinstance(result, PuiseuxPoly)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __truediv__ : {Any | hasattr(other, 'ring') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1c9b21e315d353fc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.__truediv__","kind":"method","src_hash":"833d616dab361e32","in":{"base":"Any"},"out":{"base":"PuiseuxPoly"},"spec":{"lhs":"__truediv__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1c9b21e315d353fc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.__truediv__","kind":"method","src_hash":"833d616dab361e32","in":{"base":"Any","pred":"hasattr(other, 'ring') and hasattr(other, '_inv')"},"out":{"base":"PuiseuxPoly","pred":"result satisfies: isinstance(result, PuiseuxPoly)"},"spec":{"lhs":"__truediv__(other)","rhs":"isinstance(result, PuiseuxPoly)","over":{"base":"Any","pred":"hasattr(other, 'ring') and hasattr(other, '_inv')"},"name":"__truediv___correct"},"guarantee":"isinstance(result, PuiseuxPoly)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1c9b21e315d353fc","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["hasattr(other, 'ring')","hasattr(other, '_inv')"],"ensures":["isinstance(result, PuiseuxPoly)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other._inv","other.ring","self._div_ground","self._mul","self._mul_ground","self.ring"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __truediv__(self, other: Any) -> PuiseuxPoly:
         if isinstance(other, PuiseuxPoly):
             if self.ring != other.ring:
@@ -1227,16 +1613,27 @@ class PuiseuxPoly:
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rtruediv__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rtruediv__(other), isinstance(result, PuiseuxPoly) and result == (self._inv()._mul_ground(self.ring.domain.convert_from(QQ(other), QQ)) if isinstance(other, int) else self._inv()._mul_ground(other) if self.ring.domain.of_type(other) else NotImplemented) and result == self._inv()._mul_ground(self.ring.domain.convert_from(QQ(other), QQ)) or result == self._inv()._mul_ground(other) or result == NotImplemented) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __rtruediv__ : Any → PuiseuxPoly                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, PuiseuxPoly)                ║
+# ║   ensures:  result == (self._inv()._mul_ground(self.r...   ║
+# ║   ensures:  result == self._inv()._mul_ground(self.ri...   ║
+# ║   fiber[int]: isinstance(other, int) => self._inv()._...   ║
+# ║   fiber[case_1]: self.ring.domain.of_type(other) => s...   ║
+# ║   fiber[int]: not (isinstance(other, int)) and not (s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __rtruediv__ : Any → {PuiseuxPoly | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ace65b24802ec1c0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.__rtruediv__","kind":"method","src_hash":"b8b2bddb3e713b40","in":{"base":"Any"},"out":{"base":"PuiseuxPoly"},"spec":{"lhs":"__rtruediv__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rtruediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ace65b24802ec1c0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.__rtruediv__","kind":"method","src_hash":"b8b2bddb3e713b40","in":{"base":"Any"},"out":{"base":"PuiseuxPoly","pred":"result satisfies: isinstance(result, PuiseuxPoly) and result == (self._inv()._mul_ground(self.ring.domain.convert_from(QQ(other), QQ)) if isinstance(other, int) else self._inv()._mul_ground(other) if self.ring.domain.of_type(other) else NotImplemented) and result == self._inv()._mul_ground(self.ring.domain.convert_from(QQ(other), QQ)) or result == self._inv()._mul_ground(other) or result == NotImplemented"},"spec":{"lhs":"__rtruediv__(other)","rhs":"isinstance(result, PuiseuxPoly) and result == (self._inv()._mul_ground(self.ring.domain.convert_from(QQ(other), QQ)) if isinstance(other, int) else self._inv()._mul_ground(other) if self.ring.domain.of_type(other) else NotImplemented) and result == self._inv()._mul_ground(self.ring.domain.convert_from(QQ(other), QQ)) or result == self._inv()._mul_ground(other) or result == NotImplemented","over":{"base":"Any"},"name":"__rtruediv___correct"},"guarantee":"isinstance(result, PuiseuxPoly); result == (self._inv()._mul_ground(self.ring.domain.convert_from(QQ(other), QQ)) if isinstance(other, int) else self._inv()._mul_ground(other) if self.ring.domain.of_type(other) else NotImplemented); result == self._inv()._mul_ground(self.ring.domain.convert_from(QQ(other), QQ)) or result == self._inv()._mul_ground(other) or result == NotImplemented; 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ace65b24802ec1c0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, PuiseuxPoly)","result == (self._inv()._mul_ground(self.ring.domain.convert_from(QQ(other), QQ)) if isinstance(other, int) else self._inv()._mul_ground(other) if self.ring.domain.of_type(other) else NotImplemented)","result == self._inv()._mul_ground(self.ring.domain.convert_from(QQ(other), QQ)) or result == self._inv()._mul_ground(other) or result == NotImplemented"],"fibers":[{"name":"int","guard":"isinstance(other, int)","ensures":["result == self._inv()._mul_ground(self.ring.domain.convert_from(QQ(other), QQ))"],"decidability":"structural","returns_expr":"self._inv()._mul_ground(self.ring.domain.convert_from(QQ(other), QQ))"},{"name":"case_1","guard":"self.ring.domain.of_type(other)","ensures":["result == self._inv()._mul_ground(other)"],"decidability":"library","returns_expr":"self._inv()._mul_ground(other)"},{"name":"int","guard":"not (isinstance(other, int)) and not (self.ring.domain.of_type(other))","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._inv","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rtruediv__(self, other: Any) -> PuiseuxPoly:
         if isinstance(other, int):
             return self._inv()._mul_ground(self.ring.domain.convert_from(QQ(other), QQ))
@@ -1246,88 +1643,133 @@ class PuiseuxPoly:
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_add(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_add(other), self._new(self.ring, poly1 + poly2, monom, ns)) over {Any | isinstance(other, PuiseuxPoly)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _add : Any → PuiseuxPoly                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(other, PuiseuxPoly)                 ║
+# ║   ensures:  isinstance(result, PuiseuxPoly)                ║
+# ║   returns:  self._new(self.ring, poly1 + poly2, monom...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _add : {Any | isinstance(other, PuiseuxPoly)} → {Puis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1bcdb14258e53047  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de92454be02efcde  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly._add","kind":"method","src_hash":"57381bc036954ca3","in":{"base":"Any"},"out":{"base":"PuiseuxPoly"},"spec":{"lhs":"_add(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_add_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.puiseux.PuiseuxPoly._add_correct","statement":"Path(_add(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1bcdb14258e53047"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly._add","kind":"method","src_hash":"57381bc036954ca3","in":{"base":"Any","pred":"isinstance(other, PuiseuxPoly)"},"out":{"base":"PuiseuxPoly","pred":"result satisfies: result == (self._new(self.ring, poly1 + poly2, monom, ns))"},"spec":{"lhs":"_add(other)","rhs":"self._new(self.ring, poly1 + poly2, monom, ns)","over":{"base":"Any","pred":"isinstance(other, PuiseuxPoly)"},"name":"_add_correct"},"guarantee":"returns self._new(self.ring, poly1 + poly2, monom, ns); isinstance(result, PuiseuxPoly)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.puiseux.PuiseuxPoly._add_correct","statement":"Path(_add(x), returns self._new(self.ring, poly1 + poly2, monom, ns); isinstance(result, PuiseuxPoly))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de92454be02efcde","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(other, PuiseuxPoly)"],"ensures":["isinstance(result, PuiseuxPoly)"],"returns_expr":"self._new(self.ring, poly1 + poly2, monom, ns)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._new","self._unify","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _add(self, other: PuiseuxPoly) -> PuiseuxPoly:
         poly1, poly2, monom, ns = self._unify(other)
         return self._new(self.ring, poly1 + poly2, monom, ns)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_add_ground(gro), internal helper behaves correctly) over Any ║
+# ║ Path(_add_ground(ground), self._add(self.ring.ground_new(ground))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _add_ground : Any → PuiseuxPoly                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, PuiseuxPoly)                ║
+# ║   returns:  self._add(self.ring.ground_new(ground))        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _add_ground : Any → {PuiseuxPoly | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 520e288747a7e867           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly._add_ground","kind":"method","src_hash":"469073d3ff28e089","in":{"base":"Any"},"out":{"base":"PuiseuxPoly"},"spec":{"lhs":"_add_ground(gro)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_add_ground_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"520e288747a7e867"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly._add_ground","kind":"method","src_hash":"469073d3ff28e089","in":{"base":"Any"},"out":{"base":"PuiseuxPoly","pred":"result satisfies: result == (self._add(self.ring.ground_new(ground)))"},"spec":{"lhs":"_add_ground(ground)","rhs":"self._add(self.ring.ground_new(ground))","over":{"base":"Any"},"name":"_add_ground_correct"},"guarantee":"returns self._add(self.ring.ground_new(ground)); isinstance(result, PuiseuxPoly)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"520e288747a7e867","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, PuiseuxPoly)"],"returns_expr":"self._add(self.ring.ground_new(ground))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._add","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _add_ground(self, ground: Any) -> PuiseuxPoly:
         return self._add(self.ring.ground_new(ground))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sub(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_sub(other), self._new(self.ring, poly1 - poly2, monom, ns)) over {Any | isinstance(other, PuiseuxPoly)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sub : Any → PuiseuxPoly                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(other, PuiseuxPoly)                 ║
+# ║   ensures:  isinstance(result, PuiseuxPoly)                ║
+# ║   returns:  self._new(self.ring, poly1 - poly2, monom...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sub : {Any | isinstance(other, PuiseuxPoly)} → {Puis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 73c557c19fd74bbc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e487a5f0c2ec6f4a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly._sub","kind":"method","src_hash":"4dd4d007e7874c3d","in":{"base":"Any"},"out":{"base":"PuiseuxPoly"},"spec":{"lhs":"_sub(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sub_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.puiseux.PuiseuxPoly._sub_correct","statement":"Path(_sub(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73c557c19fd74bbc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly._sub","kind":"method","src_hash":"4dd4d007e7874c3d","in":{"base":"Any","pred":"isinstance(other, PuiseuxPoly)"},"out":{"base":"PuiseuxPoly","pred":"result satisfies: result == (self._new(self.ring, poly1 - poly2, monom, ns))"},"spec":{"lhs":"_sub(other)","rhs":"self._new(self.ring, poly1 - poly2, monom, ns)","over":{"base":"Any","pred":"isinstance(other, PuiseuxPoly)"},"name":"_sub_correct"},"guarantee":"returns self._new(self.ring, poly1 - poly2, monom, ns); isinstance(result, PuiseuxPoly)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.puiseux.PuiseuxPoly._sub_correct","statement":"Path(_sub(x), returns self._new(self.ring, poly1 - poly2, monom, ns); isinstance(result, PuiseuxPoly))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e487a5f0c2ec6f4a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(other, PuiseuxPoly)"],"ensures":["isinstance(result, PuiseuxPoly)"],"returns_expr":"self._new(self.ring, poly1 - poly2, monom, ns)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._new","self._unify","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sub(self, other: PuiseuxPoly) -> PuiseuxPoly:
         poly1, poly2, monom, ns = self._unify(other)
         return self._new(self.ring, poly1 - poly2, monom, ns)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sub_ground(gro), internal helper behaves correctly) over Any ║
+# ║ Path(_sub_ground(ground), self._sub(self.ring.ground_new(ground))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sub_ground : Any → PuiseuxPoly                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, PuiseuxPoly)                ║
+# ║   returns:  self._sub(self.ring.ground_new(ground))        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sub_ground : Any → {PuiseuxPoly | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3085ede9a77f1a46           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly._sub_ground","kind":"method","src_hash":"9c62cab2715fbfb6","in":{"base":"Any"},"out":{"base":"PuiseuxPoly"},"spec":{"lhs":"_sub_ground(gro)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sub_ground_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3085ede9a77f1a46"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly._sub_ground","kind":"method","src_hash":"9c62cab2715fbfb6","in":{"base":"Any"},"out":{"base":"PuiseuxPoly","pred":"result satisfies: result == (self._sub(self.ring.ground_new(ground)))"},"spec":{"lhs":"_sub_ground(ground)","rhs":"self._sub(self.ring.ground_new(ground))","over":{"base":"Any"},"name":"_sub_ground_correct"},"guarantee":"returns self._sub(self.ring.ground_new(ground)); isinstance(result, PuiseuxPoly)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3085ede9a77f1a46","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, PuiseuxPoly)"],"returns_expr":"self._sub(self.ring.ground_new(ground))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._sub","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sub_ground(self, ground: Any) -> PuiseuxPoly:
         return self._sub(self.ring.ground_new(ground))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rsub_ground(gro), internal helper behaves correctly) over Any ║
+# ║ Path(_rsub_ground(ground), self.ring.ground_new(ground)._sub(self)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _rsub_ground : Any → PuiseuxPoly                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, PuiseuxPoly)                ║
+# ║   returns:  self.ring.ground_new(ground)._sub(self)        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _rsub_ground : Any → {PuiseuxPoly | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9e0adc3ffc2ee53d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly._rsub_ground","kind":"method","src_hash":"52b06c83e323ebd9","in":{"base":"Any"},"out":{"base":"PuiseuxPoly"},"spec":{"lhs":"_rsub_ground(gro)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_rsub_ground_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9e0adc3ffc2ee53d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly._rsub_ground","kind":"method","src_hash":"52b06c83e323ebd9","in":{"base":"Any"},"out":{"base":"PuiseuxPoly","pred":"result satisfies: result == (self.ring.ground_new(ground)._sub(self))"},"spec":{"lhs":"_rsub_ground(ground)","rhs":"self.ring.ground_new(ground)._sub(self)","over":{"base":"Any"},"name":"_rsub_ground_correct"},"guarantee":"returns self.ring.ground_new(ground)._sub(self); isinstance(result, PuiseuxPoly)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9e0adc3ffc2ee53d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, PuiseuxPoly)"],"returns_expr":"self.ring.ground_new(ground)._sub(self)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _rsub_ground(self, ground: Any) -> PuiseuxPoly:
         return self.ring.ground_new(ground)._sub(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_mul(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_mul(other), self._new(self.ring, poly1 * poly2, monom, ns)) over {Any | isinstance(other, PuiseuxPoly)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _mul : Any → PuiseuxPoly                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(other, PuiseuxPoly)                 ║
+# ║   ensures:  isinstance(result, PuiseuxPoly)                ║
+# ║   returns:  self._new(self.ring, poly1 * poly2, monom...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _mul : {Any | isinstance(other, PuiseuxPoly)} → {Puis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8614e8ccb461dc2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3794f7a6f57152eb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly._mul","kind":"method","src_hash":"c265ae82c76cb49b","in":{"base":"Any"},"out":{"base":"PuiseuxPoly"},"spec":{"lhs":"_mul(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_mul_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.puiseux.PuiseuxPoly._mul_correct","statement":"Path(_mul(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8614e8ccb461dc2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly._mul","kind":"method","src_hash":"c265ae82c76cb49b","in":{"base":"Any","pred":"isinstance(other, PuiseuxPoly)"},"out":{"base":"PuiseuxPoly","pred":"result satisfies: result == (self._new(self.ring, poly1 * poly2, monom, ns))"},"spec":{"lhs":"_mul(other)","rhs":"self._new(self.ring, poly1 * poly2, monom, ns)","over":{"base":"Any","pred":"isinstance(other, PuiseuxPoly)"},"name":"_mul_correct"},"guarantee":"returns self._new(self.ring, poly1 * poly2, monom, ns); isinstance(result, PuiseuxPoly)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.puiseux.PuiseuxPoly._mul_correct","statement":"Path(_mul(x), returns self._new(self.ring, poly1 * poly2, monom, ns); isinstance(result, PuiseuxPoly))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3794f7a6f57152eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(other, PuiseuxPoly)"],"ensures":["isinstance(result, PuiseuxPoly)"],"returns_expr":"self._new(self.ring, poly1 * poly2, monom, ns)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._new","self._unify","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _mul(self, other: PuiseuxPoly) -> PuiseuxPoly:
         poly1, poly2, monom, ns = self._unify(other)
         if monom is not None:
@@ -1335,44 +1777,67 @@ class PuiseuxPoly:
         return self._new(self.ring, poly1 * poly2, monom, ns)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_mul_ground(gro), internal helper behaves correctly) over Any ║
+# ║ Path(_mul_ground(ground), self._new_raw(self.ring, self.poly * ground, self.monom, self.ns)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _mul_ground : Any → PuiseuxPoly                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, PuiseuxPoly)                ║
+# ║   returns:  self._new_raw(self.ring, self.poly * grou...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _mul_ground : Any → {PuiseuxPoly | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 886c33a0c4a56d2a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly._mul_ground","kind":"method","src_hash":"d5183472ea788426","in":{"base":"Any"},"out":{"base":"PuiseuxPoly"},"spec":{"lhs":"_mul_ground(gro)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_mul_ground_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"886c33a0c4a56d2a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly._mul_ground","kind":"method","src_hash":"d5183472ea788426","in":{"base":"Any"},"out":{"base":"PuiseuxPoly","pred":"result satisfies: result == (self._new_raw(self.ring, self.poly * ground, self.monom, self.ns))"},"spec":{"lhs":"_mul_ground(ground)","rhs":"self._new_raw(self.ring, self.poly * ground, self.monom, self.ns)","over":{"base":"Any"},"name":"_mul_ground_correct"},"guarantee":"returns self._new_raw(self.ring, self.poly * ground, self.monom, self.ns); isinstance(result, PuiseuxPoly)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"886c33a0c4a56d2a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, PuiseuxPoly)"],"returns_expr":"self._new_raw(self.ring, self.poly * ground, self.monom, self.ns)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._new_raw","self.monom","self.ns","self.poly","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _mul_ground(self, ground: Any) -> PuiseuxPoly:
         return self._new_raw(self.ring, self.poly * ground, self.monom, self.ns)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_div_ground(gro), internal helper behaves correctly) over Any ║
+# ║ Path(_div_ground(ground), self._new_raw(self.ring, self.poly / ground, self.monom, self.ns)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _div_ground : Any → PuiseuxPoly                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, PuiseuxPoly)                ║
+# ║   returns:  self._new_raw(self.ring, self.poly / grou...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _div_ground : Any → {PuiseuxPoly | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ddb820ccfdf20e80           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly._div_ground","kind":"method","src_hash":"66fba60ee87c09d6","in":{"base":"Any"},"out":{"base":"PuiseuxPoly"},"spec":{"lhs":"_div_ground(gro)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_div_ground_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ddb820ccfdf20e80"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly._div_ground","kind":"method","src_hash":"66fba60ee87c09d6","in":{"base":"Any"},"out":{"base":"PuiseuxPoly","pred":"result satisfies: result == (self._new_raw(self.ring, self.poly / ground, self.monom, self.ns))"},"spec":{"lhs":"_div_ground(ground)","rhs":"self._new_raw(self.ring, self.poly / ground, self.monom, self.ns)","over":{"base":"Any"},"name":"_div_ground_correct"},"guarantee":"returns self._new_raw(self.ring, self.poly / ground, self.monom, self.ns); isinstance(result, PuiseuxPoly)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ddb820ccfdf20e80","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, PuiseuxPoly)"],"returns_expr":"self._new_raw(self.ring, self.poly / ground, self.monom, self.ns)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._new_raw","self.monom","self.ns","self.poly","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _div_ground(self, ground: Any) -> PuiseuxPoly:
         return self._new_raw(self.ring, self.poly / ground, self.monom, self.ns)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pow_pint(n), internal helper behaves correctly) over Any ║
+# ║ Path(_pow_pint(n), self._new(self.ring, self.poly ** n, monom, self.ns)) over {Any | isinstance(n, int) and n >= 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _pow_pint : Any → PuiseuxPoly                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(n, int)                             ║
+# ║   requires: n >= 0                                         ║
+# ║   ensures:  isinstance(result, PuiseuxPoly)                ║
+# ║   returns:  self._new(self.ring, self.poly ** n, mono...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _pow_pint : {Any | isinstance(n, int) and n >= 0} → {...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 886d22d47887dbd6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 645fc3cfc9bb946e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly._pow_pint","kind":"method","src_hash":"16448e3af1a5df02","in":{"base":"Any"},"out":{"base":"PuiseuxPoly"},"spec":{"lhs":"_pow_pint(n)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_pow_pint_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.puiseux.PuiseuxPoly._pow_pint_correct","statement":"Path(_pow_pint(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"886d22d47887dbd6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly._pow_pint","kind":"method","src_hash":"16448e3af1a5df02","in":{"base":"Any","pred":"isinstance(n, int) and n >= 0"},"out":{"base":"PuiseuxPoly","pred":"result satisfies: result == (self._new(self.ring, self.poly ** n, monom, self.ns))"},"spec":{"lhs":"_pow_pint(n)","rhs":"self._new(self.ring, self.poly ** n, monom, self.ns)","over":{"base":"Any","pred":"isinstance(n, int) and n >= 0"},"name":"_pow_pint_correct"},"guarantee":"returns self._new(self.ring, self.poly ** n, monom, self.ns); isinstance(result, PuiseuxPoly)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.puiseux.PuiseuxPoly._pow_pint_correct","statement":"Path(_pow_pint(x), returns self._new(self.ring, self.poly ** n, monom, self.ns); isinstance(result, PuiseuxPoly))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"645fc3cfc9bb946e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(n, int)","n >= 0"],"ensures":["isinstance(result, PuiseuxPoly)"],"returns_expr":"self._new(self.ring, self.poly ** n, monom, self.ns)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._new","self.monom","self.ns","self.poly","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _pow_pint(self, n: int) -> PuiseuxPoly:
         assert n >= 0
         monom = self.monom
@@ -1381,30 +1846,47 @@ class PuiseuxPoly:
         return self._new(self.ring, self.poly**n, monom, self.ns)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pow_nint(n), internal helper behaves correctly) over Any ║
+# ║ Path(_pow_nint(n), self._inv()._pow_pint(n)) over {Any | isinstance(n, int)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _pow_nint : Any → PuiseuxPoly                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(n, int)                             ║
+# ║   ensures:  isinstance(result, PuiseuxPoly)                ║
+# ║   returns:  self._inv()._pow_pint(n)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _pow_nint : {Any | isinstance(n, int)} → {PuiseuxPoly...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 01c7cd8f03ddab9d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly._pow_nint","kind":"method","src_hash":"88c2f5c223f2e5cd","in":{"base":"Any"},"out":{"base":"PuiseuxPoly"},"spec":{"lhs":"_pow_nint(n)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_pow_nint_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"01c7cd8f03ddab9d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly._pow_nint","kind":"method","src_hash":"88c2f5c223f2e5cd","in":{"base":"Any","pred":"isinstance(n, int)"},"out":{"base":"PuiseuxPoly","pred":"result satisfies: result == (self._inv()._pow_pint(n))"},"spec":{"lhs":"_pow_nint(n)","rhs":"self._inv()._pow_pint(n)","over":{"base":"Any","pred":"isinstance(n, int)"},"name":"_pow_nint_correct"},"guarantee":"returns self._inv()._pow_pint(n); isinstance(result, PuiseuxPoly)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"01c7cd8f03ddab9d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(n, int)"],"ensures":["isinstance(result, PuiseuxPoly)"],"returns_expr":"self._inv()._pow_pint(n)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._inv"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _pow_nint(self, n: int) -> PuiseuxPoly:
         return self._inv()._pow_pint(n)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pow_rational(n), internal helper behaves correctly) over Any ║
+# ║ Path(_pow_rational(n), self.ring.from_dict({monom: domain.one})) over {Any | self.is_term and domain.is_one(coeff)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _pow_rational : Any → PuiseuxPoly                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.is_term                                   ║
+# ║   requires: domain.is_one(coeff)                           ║
+# ║   ensures:  isinstance(result, PuiseuxPoly)                ║
+# ║   returns:  self.ring.from_dict({monom: domain.one})       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _pow_rational : {Any | self.is_term and domain.is_one...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8fea6b87386d735f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be1bc179e5d00424  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly._pow_rational","kind":"method","src_hash":"a3b7c05bd671a1bb","in":{"base":"Any"},"out":{"base":"PuiseuxPoly"},"spec":{"lhs":"_pow_rational(n)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_pow_rational_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.puiseux.PuiseuxPoly._pow_rational_correct","statement":"Path(_pow_rational(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fea6b87386d735f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly._pow_rational","kind":"method","src_hash":"a3b7c05bd671a1bb","in":{"base":"Any","pred":"self.is_term and domain.is_one(coeff)"},"out":{"base":"PuiseuxPoly","pred":"result satisfies: result == (self.ring.from_dict({monom: domain.one}))"},"spec":{"lhs":"_pow_rational(n)","rhs":"self.ring.from_dict({monom: domain.one})","over":{"base":"Any","pred":"self.is_term and domain.is_one(coeff)"},"name":"_pow_rational_correct"},"guarantee":"returns self.ring.from_dict({monom: domain.one}); isinstance(result, PuiseuxPoly)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.puiseux.PuiseuxPoly._pow_rational_correct","statement":"Path(_pow_rational(x), returns self.ring.from_dict({monom: domain.one}); isinstance(result, PuiseuxPoly))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be1bc179e5d00424","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.is_term","domain.is_one(coeff)"],"ensures":["isinstance(result, PuiseuxPoly)"],"returns_expr":"self.ring.from_dict({monom: domain.one})","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_term","self.ring","self.terms"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _pow_rational(self, n: Any) -> PuiseuxPoly:
         if not self.is_term:
             raise ValueError("Only monomials can be raised to a rational power")
@@ -1416,16 +1898,25 @@ class PuiseuxPoly:
         return self.ring.from_dict({monom: domain.one})
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_inv(), internal helper behaves correctly) over Any   ║
+# ║ Path(_inv(), self.ring.from_dict({monom: coeff})) over {Any | self.is_term and not (not domain.is_Field and (not domain.is_one(coeff)))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _inv : Any → PuiseuxPoly                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.is_term                                   ║
+# ║   requires: not (not domain.is_Field and (not domain....   ║
+# ║   ensures:  isinstance(result, PuiseuxPoly)                ║
+# ║   returns:  self.ring.from_dict({monom: coeff})            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _inv : {Any | self.is_term and not (not domain.is_Fie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 092f5a4faa40a569  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 142b982ba3944827  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly._inv","kind":"method","src_hash":"a301f22f34bdf116","in":{"base":"Any"},"out":{"base":"PuiseuxPoly"},"spec":{"lhs":"_inv()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_inv_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.puiseux.PuiseuxPoly._inv_correct","statement":"Path(_inv(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"092f5a4faa40a569"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly._inv","kind":"method","src_hash":"a301f22f34bdf116","in":{"base":"Any","pred":"self.is_term and not (not domain.is_Field and (not domain.is_one(coeff)))"},"out":{"base":"PuiseuxPoly","pred":"result satisfies: result == (self.ring.from_dict({monom: coeff}))"},"spec":{"lhs":"_inv()","rhs":"self.ring.from_dict({monom: coeff})","over":{"base":"Any","pred":"self.is_term and not (not domain.is_Field and (not domain.is_one(coeff)))"},"name":"_inv_correct"},"guarantee":"returns self.ring.from_dict({monom: coeff}); isinstance(result, PuiseuxPoly)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.puiseux.PuiseuxPoly._inv_correct","statement":"Path(_inv(x), returns self.ring.from_dict({monom: coeff}); isinstance(result, PuiseuxPoly))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"142b982ba3944827","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.is_term","not (not domain.is_Field and (not domain.is_one(coeff)))"],"ensures":["isinstance(result, PuiseuxPoly)"],"returns_expr":"self.ring.from_dict({monom: coeff})","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_term","self.ring","self.terms"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _inv(self) -> PuiseuxPoly:
         if not self.is_term:
             raise ValueError("Only terms can be inverted")
@@ -1438,16 +1929,24 @@ class PuiseuxPoly:
         return self.ring.from_dict({monom: coeff})
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(diff(x), differentiate a puiseux polynomial with respect to a variable) over Any ║
+# ║ Path(diff(x), ring(g)) over {Any | isinstance(x, PuiseuxPoly)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ diff : Any → PuiseuxPoly                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(x, PuiseuxPoly)                     ║
+# ║   ensures:  isinstance(result, PuiseuxPoly)                ║
+# ║   returns:  ring(g)                                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ diff : {Any | isinstance(x, PuiseuxPoly)} → {PuiseuxP...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b73639fba8bee294  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c7a994e9f824a687  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.diff","kind":"method","src_hash":"2704532b7ff95b04","in":{"base":"Any"},"out":{"base":"PuiseuxPoly"},"spec":{"lhs":"diff(x)","rhs":"differentiate a puiseux polynomial with respect to a variable","over":{"base":"Any"},"name":"diff_correct"},"guarantee":"differentiate a puiseux polynomial with respect to a variable","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.puiseux.PuiseuxPoly.diff_correct","statement":"Path(diff(x), differentiate a puiseux polynomial with respect to a variable)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b73639fba8bee294"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.puiseux.PuiseuxPoly.diff","kind":"method","src_hash":"2704532b7ff95b04","in":{"base":"Any","pred":"isinstance(x, PuiseuxPoly)"},"out":{"base":"PuiseuxPoly","pred":"result satisfies: result == (ring(g))"},"spec":{"lhs":"diff(x)","rhs":"ring(g)","over":{"base":"Any","pred":"isinstance(x, PuiseuxPoly)"},"name":"diff_correct"},"guarantee":"returns ring(g); isinstance(result, PuiseuxPoly)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.puiseux.PuiseuxPoly.diff_correct","statement":"Path(diff(x), returns ring(g); isinstance(result, PuiseuxPoly))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7a994e9f824a687","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(x, PuiseuxPoly)"],"ensures":["isinstance(result, PuiseuxPoly)"],"returns_expr":"ring(g)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.iterterms","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def diff(self, x: PuiseuxPoly) -> PuiseuxPoly:
         """Differentiate a Puiseux polynomial with respect to a variable.
 

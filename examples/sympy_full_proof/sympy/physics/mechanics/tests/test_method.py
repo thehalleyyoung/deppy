@@ -19,15 +19,21 @@ from sympy.physics.mechanics.method import _Methods
 from sympy.testing.pytest import raises
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_method(), test_method produces the expected output) over Any ║
+# ║ Path(test_method(), <unspecified:test_method>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_method : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc809534d7855810  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_method.test_method","kind":"function","src_hash":"a0a685b8f3846443","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_method()","rhs":"test_method produces the expected output","over":{"base":"Any"},"name":"test_method_correct"},"guarantee":"test_method produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_method.test_method_correct","statement":"Path(test_method(x), test_method produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc809534d7855810"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_method.test_method","kind":"function","src_hash":"a0a685b8f3846443","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_method()","rhs":"<unspecified:test_method>","over":{"base":"Any"},"name":"test_method_correct"},"guarantee":"test_method produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_method.test_method_correct","statement":"Path(test_method(x), test_method produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc809534d7855810","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_method():
     raises(TypeError, lambda: _Methods())

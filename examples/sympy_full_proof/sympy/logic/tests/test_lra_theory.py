@@ -38,16 +38,22 @@ import itertools
 from sympy.testing.pytest import raises, XFAIL, skip
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(make_random_problem(num), make_random_problem produces the expected output) over Any ║
+# ║ Path(make_random_problem(num_variables, num_constraints, sparsity), len(constraints) == old_len_constraints + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ make_random_problem : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(constraints) == old_len_constraints + 1    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ make_random_problem : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5cbacecba8be855c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b589963548afdae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_lra_theory.make_random_problem","kind":"function","src_hash":"fd8f8ec173d0a71b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"make_random_problem(num)","rhs":"make_random_problem produces the expected output","over":{"base":"Any"},"name":"make_random_problem_correct"},"guarantee":"make_random_problem produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_lra_theory.make_random_problem_correct","statement":"Path(make_random_problem(x), make_random_problem produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5cbacecba8be855c"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_lra_theory.make_random_problem","kind":"function","src_hash":"fd8f8ec173d0a71b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(constraints) == old_len_constraints + 1"},"spec":{"lhs":"make_random_problem(num_variables, num_constraints, sparsity)","rhs":"len(constraints) == old_len_constraints + 1","over":{"base":"Any"},"name":"make_random_problem_correct"},"guarantee":"len(constraints) == old_len_constraints + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_lra_theory.make_random_problem_correct","statement":"Path(make_random_problem(x), len(constraints) == old_len_constraints + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b589963548afdae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(constraints) == old_len_constraints + 1"],"pure":false,"effects":{"effect_type":"nondeterministic","calls_mutating":["constraints.append"],"nondeterministic_sources":["choice","randint","random"]},"state_contract":{"modifies":["constraints.*"],"old_bindings":{"old_len_constraints":"len(constraints)"},"post_ensures":["len(constraints) == old_len_constraints + 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def make_random_problem(num_variables=2, num_constraints=2, sparsity=.1, rational=True,
                         disable_strict = False, disable_nonstrict=False, disable_equality=False):
     def rand(sparsity=sparsity):
@@ -76,16 +82,22 @@ def make_random_problem(num_variables=2, num_constraints=2, sparsity=.1, rationa
     return constraints
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check_if_satisfiable_with_z3(con), check_if_satisfiable_with_z3 produces the expected output) over Any ║
+# ║ Path(check_if_satisfiable_with_z3(constraints), <unspecified:check_if_satisfiable_with_z3>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ check_if_satisfiable_with_z3 : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c961cd09e1af4875  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_lra_theory.check_if_satisfiable_with_z3","kind":"function","src_hash":"690bce54131444fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check_if_satisfiable_with_z3(con)","rhs":"check_if_satisfiable_with_z3 produces the expected output","over":{"base":"Any"},"name":"check_if_satisfiable_with_z3_correct"},"guarantee":"check_if_satisfiable_with_z3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_lra_theory.check_if_satisfiable_with_z3_correct","statement":"Path(check_if_satisfiable_with_z3(x), check_if_satisfiable_with_z3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c961cd09e1af4875"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_lra_theory.check_if_satisfiable_with_z3","kind":"function","src_hash":"690bce54131444fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check_if_satisfiable_with_z3(constraints)","rhs":"<unspecified:check_if_satisfiable_with_z3>","over":{"base":"Any"},"name":"check_if_satisfiable_with_z3_correct"},"guarantee":"check_if_satisfiable_with_z3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_lra_theory.check_if_satisfiable_with_z3_correct","statement":"Path(check_if_satisfiable_with_z3(x), check_if_satisfiable_with_z3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c961cd09e1af4875","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def check_if_satisfiable_with_z3(constraints):
     from sympy.external.importtools import import_module
     from sympy.printing.smtlib import smtlib_code
@@ -105,16 +117,23 @@ def check_if_satisfiable_with_z3(constraints):
             raise ValueError(f"z3 was not able to check the satisfiability of {boolean_formula}")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(find_rational_assignment(con), find_rational_assignment produces the expected output) over Any ║
+# ║ Path(find_rational_assignment(constr, assignment, iter), <unspecified:find_rational_assignment>) over {Any | hasattr(assignment, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ find_rational_assignment : Any → {Any | cons.subs(ass...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(assignment, 'items')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ find_rational_assignment : {Any | hasattr(assignment,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa437db00b618652  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_lra_theory.find_rational_assignment","kind":"function","src_hash":"2f403c7384003757","in":{"base":"Any"},"out":{"base":"Any","pred":"cons.subs(assign) == True"},"spec":{"lhs":"find_rational_assignment(con)","rhs":"find_rational_assignment produces the expected output","over":{"base":"Any"},"name":"find_rational_assignment_correct"},"guarantee":"find_rational_assignment produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_lra_theory.find_rational_assignment_correct","statement":"Path(find_rational_assignment(x), find_rational_assignment produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa437db00b618652"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_lra_theory.find_rational_assignment","kind":"function","src_hash":"2f403c7384003757","in":{"base":"Any","pred":"hasattr(assignment, 'items')"},"out":{"base":"Any","pred":"cons.subs(assign) == True"},"spec":{"lhs":"find_rational_assignment(constr, assignment, iter)","rhs":"<unspecified:find_rational_assignment>","over":{"base":"Any","pred":"hasattr(assignment, 'items')"},"name":"find_rational_assignment_correct"},"guarantee":"find_rational_assignment produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_lra_theory.find_rational_assignment_correct","statement":"Path(find_rational_assignment(x), find_rational_assignment produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa437db00b618652","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(assignment, 'items')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["assignment.items"],"catches":["AssertionError"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def find_rational_assignment(constr, assignment, iter=20):
     eps = sympify(1)
 
@@ -130,16 +149,22 @@ def find_rational_assignment(constr, assignment, iter=20):
     return None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(boolean_formula_to_encoded_cnf(bf), boolean_formula_to_encoded_cnf produces the expected output) over Any ║
+# ║ Path(boolean_formula_to_encoded_cnf(bf), <unspecified:boolean_formula_to_encoded_cnf>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ boolean_formula_to_encoded_cnf : Any → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b3ccf3b7ab2dfd4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_lra_theory.boolean_formula_to_encoded_cnf","kind":"function","src_hash":"09b6339f3604f16e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"boolean_formula_to_encoded_cnf(bf)","rhs":"boolean_formula_to_encoded_cnf produces the expected output","over":{"base":"Any"},"name":"boolean_formula_to_encoded_cnf_correct"},"guarantee":"boolean_formula_to_encoded_cnf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_lra_theory.boolean_formula_to_encoded_cnf_correct","statement":"Path(boolean_formula_to_encoded_cnf(x), boolean_formula_to_encoded_cnf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b3ccf3b7ab2dfd4"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_lra_theory.boolean_formula_to_encoded_cnf","kind":"function","src_hash":"09b6339f3604f16e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"boolean_formula_to_encoded_cnf(bf)","rhs":"<unspecified:boolean_formula_to_encoded_cnf>","over":{"base":"Any"},"name":"boolean_formula_to_encoded_cnf_correct"},"guarantee":"boolean_formula_to_encoded_cnf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_lra_theory.boolean_formula_to_encoded_cnf_correct","statement":"Path(boolean_formula_to_encoded_cnf(x), boolean_formula_to_encoded_cnf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b3ccf3b7ab2dfd4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def boolean_formula_to_encoded_cnf(bf):
     cnf = CNF.from_prop(bf)
     enc = EncodedCNF()
@@ -148,16 +173,24 @@ def boolean_formula_to_encoded_cnf(bf):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_from_encoded_cnf(), test_from_encoded_cnf produces the expected output) over Any ║
+# ║ Path(test_from_encoded_cnf(), lra.A.shape == (2, 5) and str(lra.slack) == '[_s1, _s2]' and str(lra.nonslack) == '[x, y, z]' and lra.A == Matrix([[1, 1, 0, -1, 0], [-1, -2, 1, 0, -1]]) and {(str(b.var), b.bound, b.upper, b.equality, b.strict) for b in lra.enc_to_boundary.values()} == {('_s1', 2, None, True, False), ('_s1', 2, True, False, False), ('_s2', -4, True, False, True), ('_s2', -6, True, False, False), ('x', 0, False, False, False)}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_from_encoded_cnf : Any → {Any | lra.A.shape == (...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  lra.A.shape == (2, 5)                          ║
+# ║   ensures:  str(lra.slack) == '[_s1, _s2]'                 ║
+# ║   ensures:  str(lra.nonslack) == '[x, y, z]'               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_from_encoded_cnf : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a82733c053d674d4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e504a86f54f315d8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_lra_theory.test_from_encoded_cnf","kind":"function","src_hash":"690faf442aa490e1","in":{"base":"Any"},"out":{"base":"Any","pred":"lra.A.shape == (2, 5) and str(lra.slack) == '[_s1, _s2]' and str(lra.nonslack) == '[x, y, z]' and lra.A == Matrix([[1, 1, 0, -1, 0], [-1, -2, 1, 0, -1]])"},"spec":{"lhs":"test_from_encoded_cnf()","rhs":"test_from_encoded_cnf produces the expected output","over":{"base":"Any"},"name":"test_from_encoded_cnf_correct"},"guarantee":"test_from_encoded_cnf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_lra_theory.test_from_encoded_cnf_correct","statement":"Path(test_from_encoded_cnf(x), test_from_encoded_cnf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a82733c053d674d4"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_lra_theory.test_from_encoded_cnf","kind":"function","src_hash":"690faf442aa490e1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: lra.A.shape == (2, 5) and str(lra.slack) == '[_s1, _s2]' and str(lra.nonslack) == '[x, y, z]' and lra.A == Matrix([[1, 1, 0, -1, 0], [-1, -2, 1, 0, -1]]) and {(str(b.var), b.bound, b.upper, b.equality, b.strict) for b in lra.enc_to_boundary.values()} == {('_s1', 2, None, True, False), ('_s1', 2, True, False, False), ('_s2', -4, True, False, True), ('_s2', -6, True, False, False), ('x', 0, False, False, False)}"},"spec":{"lhs":"test_from_encoded_cnf()","rhs":"lra.A.shape == (2, 5) and str(lra.slack) == '[_s1, _s2]' and str(lra.nonslack) == '[x, y, z]' and lra.A == Matrix([[1, 1, 0, -1, 0], [-1, -2, 1, 0, -1]]) and {(str(b.var), b.bound, b.upper, b.equality, b.strict) for b in lra.enc_to_boundary.values()} == {('_s1', 2, None, True, False), ('_s1', 2, True, False, False), ('_s2', -4, True, False, True), ('_s2', -6, True, False, False), ('x', 0, False, False, False)}","over":{"base":"Any"},"name":"test_from_encoded_cnf_correct"},"guarantee":"lra.A.shape == (2, 5); str(lra.slack) == '[_s1, _s2]'; str(lra.nonslack) == '[x, y, z]'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_lra_theory.test_from_encoded_cnf_correct","statement":"Path(test_from_encoded_cnf(x), lra.A.shape == (2, 5); str(lra.slack) == '[_s1, _s2]'; str(lra.nonslack) == '[x, y, z]')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e504a86f54f315d8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["lra.A.shape == (2, 5)","str(lra.slack) == '[_s1, _s2]'","str(lra.nonslack) == '[x, y, z]'","lra.A == Matrix([[1, 1, 0, -1, 0], [-1, -2, 1, 0, -1]])","{(str(b.var), b.bound, b.upper, b.equality, b.strict) for b in lra.enc_to_boundary.values()} == {('_s1', 2, None, True, False), ('_s1', 2, True, False, False), ('_s2', -4, True, False, True), ('_s2', -6, True, False, False), ('x', 0, False, False, False)}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_from_encoded_cnf():
     s1, s2 = symbols("s1 s2")
 
@@ -179,16 +212,22 @@ def test_from_encoded_cnf():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_problem(), test_problem produces the expected output) over Any ║
+# ║ Path(test_problem(), is_sat is True) over Any              ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_problem : Any → {Any | is_sat is True}                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  is_sat is True                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_problem : Any → {Any | result satisfies: is_sat ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d2657641dd47ffcd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86f52824fc87bd1f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_lra_theory.test_problem","kind":"function","src_hash":"514633b3188d9585","in":{"base":"Any"},"out":{"base":"Any","pred":"is_sat is True"},"spec":{"lhs":"test_problem()","rhs":"test_problem produces the expected output","over":{"base":"Any"},"name":"test_problem_correct"},"guarantee":"test_problem produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_lra_theory.test_problem_correct","statement":"Path(test_problem(x), test_problem produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d2657641dd47ffcd"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_lra_theory.test_problem","kind":"function","src_hash":"514633b3188d9585","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: is_sat is True"},"spec":{"lhs":"test_problem()","rhs":"is_sat is True","over":{"base":"Any"},"name":"test_problem_correct"},"guarantee":"is_sat is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_lra_theory.test_problem_correct","statement":"Path(test_problem(x), is_sat is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86f52824fc87bd1f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["is_sat is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_problem():
     from sympy.logic.algorithms.lra_theory import LRASolver
     from sympy.assumptions.cnf import CNF, EncodedCNF
@@ -205,16 +244,22 @@ def test_problem():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_random_problems(), test_random_problems produces the expected output) over Any ║
+# ║ Path(test_random_problems(), <unspecified:test_random_problems>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_random_problems : Any → {Any | all((0 not in cla...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 59a6263a272c3b17  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_lra_theory.test_random_problems","kind":"function","src_hash":"f729832caf8c4d86","in":{"base":"Any"},"out":{"base":"Any","pred":"all((0 not in clause for clause in enc.data)) and check_if_satisfiable_with_z3(constraints) is True and check_if_satisfiable_with_z3(constraints) is False and len(conflict) >= 2 and check_if_satisfiable_with_z3(conflict) is False and rat_assignment is not None and check_if_satisfiable_with_z3(subset) is True and cons.subs(assignment) == True"},"spec":{"lhs":"test_random_problems()","rhs":"test_random_problems produces the expected output","over":{"base":"Any"},"name":"test_random_problems_correct"},"guarantee":"test_random_problems produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_lra_theory.test_random_problems_correct","statement":"Path(test_random_problems(x), test_random_problems produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59a6263a272c3b17"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_lra_theory.test_random_problems","kind":"function","src_hash":"f729832caf8c4d86","in":{"base":"Any"},"out":{"base":"Any","pred":"all((0 not in clause for clause in enc.data)) and check_if_satisfiable_with_z3(constraints) is True and check_if_satisfiable_with_z3(constraints) is False and len(conflict) >= 2 and check_if_satisfiable_with_z3(conflict) is False and rat_assignment is not None and check_if_satisfiable_with_z3(subset) is True and cons.subs(assignment) == True"},"spec":{"lhs":"test_random_problems()","rhs":"<unspecified:test_random_problems>","over":{"base":"Any"},"name":"test_random_problems_correct"},"guarantee":"test_random_problems produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_lra_theory.test_random_problems_correct","statement":"Path(test_random_problems(x), test_random_problems produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59a6263a272c3b17","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.6,"verdict_class":"assumed","binding":true}}
 def test_random_problems():
     z3 = import_module("z3")
     if z3 is None:
@@ -313,16 +358,24 @@ def test_random_problems():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pos_neg_zero(), test_pos_neg_zero produces the expected output) over Any ║
+# ║ Path(test_pos_neg_zero(), len(lra.enc_to_boundary) == 3 and lra.check()[0] == False and len(lra.enc_to_boundary) == 2 and lra.check()[0] == True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pos_neg_zero : Any → {Any | len(lra.enc_to_bound...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(lra.enc_to_boundary) == 3                  ║
+# ║   ensures:  lra.check()[0] == False                        ║
+# ║   ensures:  len(lra.enc_to_boundary) == 2                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pos_neg_zero : Any → {Any | result satisfies: le...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce06548afcdac208  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 372d04b814a9f884  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_lra_theory.test_pos_neg_zero","kind":"function","src_hash":"03dc753e0959d62c","in":{"base":"Any"},"out":{"base":"Any","pred":"len(lra.enc_to_boundary) == 3 and lra.check()[0] == False and len(lra.enc_to_boundary) == 2 and lra.check()[0] == False and len(lra.enc_to_boundary) == 2 and lra.check()[0] == False and len(lra.enc_to_boundary) == 2 and lra.check()[0] == True"},"spec":{"lhs":"test_pos_neg_zero()","rhs":"test_pos_neg_zero produces the expected output","over":{"base":"Any"},"name":"test_pos_neg_zero_correct"},"guarantee":"test_pos_neg_zero produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_lra_theory.test_pos_neg_zero_correct","statement":"Path(test_pos_neg_zero(x), test_pos_neg_zero produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce06548afcdac208"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_lra_theory.test_pos_neg_zero","kind":"function","src_hash":"03dc753e0959d62c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(lra.enc_to_boundary) == 3 and lra.check()[0] == False and len(lra.enc_to_boundary) == 2 and lra.check()[0] == True"},"spec":{"lhs":"test_pos_neg_zero()","rhs":"len(lra.enc_to_boundary) == 3 and lra.check()[0] == False and len(lra.enc_to_boundary) == 2 and lra.check()[0] == True","over":{"base":"Any"},"name":"test_pos_neg_zero_correct"},"guarantee":"len(lra.enc_to_boundary) == 3; lra.check()[0] == False; len(lra.enc_to_boundary) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_lra_theory.test_pos_neg_zero_correct","statement":"Path(test_pos_neg_zero(x), len(lra.enc_to_boundary) == 3; lra.check()[0] == False; len(lra.enc_to_boundary) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"372d04b814a9f884","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(lra.enc_to_boundary) == 3","lra.check()[0] == False","len(lra.enc_to_boundary) == 2","lra.check()[0] == True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_pos_neg_zero():
     bf = Q.positive(x) & Q.negative(x) & Q.zero(y)
     enc = boolean_formula_to_encoded_cnf(bf)
@@ -363,16 +416,24 @@ def test_pos_neg_zero():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pos_neg_infinite(), test_pos_neg_infinite produces the expected output) over Any ║
+# ║ Path(test_pos_neg_infinite(), len(lra.enc_to_boundary) == 3 and lra.check()[0] == False and lra.check()[0] == True and len(lra.enc_to_boundary) == 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pos_neg_infinite : Any → {Any | len(lra.enc_to_b...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(lra.enc_to_boundary) == 3                  ║
+# ║   ensures:  lra.check()[0] == False                        ║
+# ║   ensures:  lra.check()[0] == True                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pos_neg_infinite : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f32263c4c321c109  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fe8a8c34d52250aa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_lra_theory.test_pos_neg_infinite","kind":"function","src_hash":"921b8dbba27a62ca","in":{"base":"Any"},"out":{"base":"Any","pred":"len(lra.enc_to_boundary) == 3 and lra.check()[0] == False and len(lra.enc_to_boundary) == 3 and lra.check()[0] == True and len(lra.enc_to_boundary) == 2 and lra.check()[0] == False"},"spec":{"lhs":"test_pos_neg_infinite()","rhs":"test_pos_neg_infinite produces the expected output","over":{"base":"Any"},"name":"test_pos_neg_infinite_correct"},"guarantee":"test_pos_neg_infinite produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_lra_theory.test_pos_neg_infinite_correct","statement":"Path(test_pos_neg_infinite(x), test_pos_neg_infinite produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f32263c4c321c109"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_lra_theory.test_pos_neg_infinite","kind":"function","src_hash":"921b8dbba27a62ca","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(lra.enc_to_boundary) == 3 and lra.check()[0] == False and lra.check()[0] == True and len(lra.enc_to_boundary) == 2"},"spec":{"lhs":"test_pos_neg_infinite()","rhs":"len(lra.enc_to_boundary) == 3 and lra.check()[0] == False and lra.check()[0] == True and len(lra.enc_to_boundary) == 2","over":{"base":"Any"},"name":"test_pos_neg_infinite_correct"},"guarantee":"len(lra.enc_to_boundary) == 3; lra.check()[0] == False; lra.check()[0] == True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_lra_theory.test_pos_neg_infinite_correct","statement":"Path(test_pos_neg_infinite(x), len(lra.enc_to_boundary) == 3; lra.check()[0] == False; lra.check()[0] == True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe8a8c34d52250aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(lra.enc_to_boundary) == 3","lra.check()[0] == False","lra.check()[0] == True","len(lra.enc_to_boundary) == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_pos_neg_infinite():
     bf = Q.positive_infinite(x) & Q.lt(x, 10000000) & Q.positive_infinite(y)
     enc = boolean_formula_to_encoded_cnf(bf)
@@ -403,16 +464,24 @@ def test_pos_neg_infinite():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_binrel_evaluation(), test_binrel_evaluation produces the expected output) over Any ║
+# ║ Path(test_binrel_evaluation(), len(lra.enc_to_boundary) == 0 and conflicts == [[1]] and conflicts == [[-1]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_binrel_evaluation : Any → {Any | len(lra.enc_to_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(lra.enc_to_boundary) == 0                  ║
+# ║   ensures:  conflicts == [[1]]                             ║
+# ║   ensures:  conflicts == [[-1]]                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_binrel_evaluation : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 46837b78a5b93a28  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6bceb6ccecc4d4aa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_lra_theory.test_binrel_evaluation","kind":"function","src_hash":"3c03d751f278927e","in":{"base":"Any"},"out":{"base":"Any","pred":"len(lra.enc_to_boundary) == 0 and conflicts == [[1]] and len(lra.enc_to_boundary) == 0 and conflicts == [[-1]]"},"spec":{"lhs":"test_binrel_evaluation()","rhs":"test_binrel_evaluation produces the expected output","over":{"base":"Any"},"name":"test_binrel_evaluation_correct"},"guarantee":"test_binrel_evaluation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_lra_theory.test_binrel_evaluation_correct","statement":"Path(test_binrel_evaluation(x), test_binrel_evaluation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46837b78a5b93a28"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_lra_theory.test_binrel_evaluation","kind":"function","src_hash":"3c03d751f278927e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(lra.enc_to_boundary) == 0 and conflicts == [[1]] and conflicts == [[-1]]"},"spec":{"lhs":"test_binrel_evaluation()","rhs":"len(lra.enc_to_boundary) == 0 and conflicts == [[1]] and conflicts == [[-1]]","over":{"base":"Any"},"name":"test_binrel_evaluation_correct"},"guarantee":"len(lra.enc_to_boundary) == 0; conflicts == [[1]]; conflicts == [[-1]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_lra_theory.test_binrel_evaluation_correct","statement":"Path(test_binrel_evaluation(x), len(lra.enc_to_boundary) == 0; conflicts == [[1]]; conflicts == [[-1]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6bceb6ccecc4d4aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(lra.enc_to_boundary) == 0","conflicts == [[1]]","conflicts == [[-1]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_binrel_evaluation():
     bf = Q.gt(3, 2)
     enc = boolean_formula_to_encoded_cnf(bf)
@@ -428,16 +497,24 @@ def test_binrel_evaluation():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_negation(), test_negation produces the expected output) over Any ║
+# ║ Path(test_negation(), HANDLE_NEGATION is True and len(lra.enc_to_boundary) == 2 and lra.check()[0] == False and sorted(lra.check()[1]) in [[-1, 2], [-2, 1]] and lra.check()[0] == True and len(lra.enc_to_boundary) == 3 and len(lra.check()[1]) == 3 and all((i > 0 for i in lra.check()[1]))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_negation : Any → {Any | HANDLE_NEGATION is True ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  HANDLE_NEGATION is True                        ║
+# ║   ensures:  len(lra.enc_to_boundary) == 2                  ║
+# ║   ensures:  lra.check()[0] == False                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_negation : Any → {Any | result satisfies: HANDLE...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eddfd839c7ea0b8b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ac029d762bd5310  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_lra_theory.test_negation","kind":"function","src_hash":"a3ac6a89ec578900","in":{"base":"Any"},"out":{"base":"Any","pred":"HANDLE_NEGATION is True and len(lra.enc_to_boundary) == 2 and lra.check()[0] == False and sorted(lra.check()[1]) in [[-1, 2], [-2, 1]] and len(lra.enc_to_boundary) == 2 and lra.check()[0] == True and len(lra.enc_to_boundary) == 2 and lra.check()[0] == False and len(lra.enc_to_boundary) == 2 and lra.check()[0] == False and len(lra.enc_to_boundary) == 3 and lra.check()[0] == False and len(lra.check()[1]) == 3 and all((i > 0 for i in lra.check()[1]))"},"spec":{"lhs":"test_negation()","rhs":"test_negation produces the expected output","over":{"base":"Any"},"name":"test_negation_correct"},"guarantee":"test_negation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_lra_theory.test_negation_correct","statement":"Path(test_negation(x), test_negation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eddfd839c7ea0b8b"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_lra_theory.test_negation","kind":"function","src_hash":"a3ac6a89ec578900","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: HANDLE_NEGATION is True and len(lra.enc_to_boundary) == 2 and lra.check()[0] == False and sorted(lra.check()[1]) in [[-1, 2], [-2, 1]] and lra.check()[0] == True and len(lra.enc_to_boundary) == 3 and len(lra.check()[1]) == 3 and all((i > 0 for i in lra.check()[1]))"},"spec":{"lhs":"test_negation()","rhs":"HANDLE_NEGATION is True and len(lra.enc_to_boundary) == 2 and lra.check()[0] == False and sorted(lra.check()[1]) in [[-1, 2], [-2, 1]] and lra.check()[0] == True and len(lra.enc_to_boundary) == 3 and len(lra.check()[1]) == 3 and all((i > 0 for i in lra.check()[1]))","over":{"base":"Any"},"name":"test_negation_correct"},"guarantee":"HANDLE_NEGATION is True; len(lra.enc_to_boundary) == 2; lra.check()[0] == False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_lra_theory.test_negation_correct","statement":"Path(test_negation(x), HANDLE_NEGATION is True; len(lra.enc_to_boundary) == 2; lra.check()[0] == False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ac029d762bd5310","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["HANDLE_NEGATION is True","len(lra.enc_to_boundary) == 2","lra.check()[0] == False","sorted(lra.check()[1]) in [[-1, 2], [-2, 1]]","lra.check()[0] == True","len(lra.enc_to_boundary) == 3","len(lra.check()[1]) == 3","all((i > 0 for i in lra.check()[1]))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_negation():
     assert HANDLE_NEGATION is True
     bf = Q.gt(x, 1) & ~Q.gt(x, 0)
@@ -490,16 +567,22 @@ def test_negation():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_unhandled_input(), test_unhandled_input produces the expected output) over Any ║
+# ║ Path(test_unhandled_input(), <unspecified:test_unhandled_input>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_unhandled_input : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 146d489bf44ccff1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_lra_theory.test_unhandled_input","kind":"function","src_hash":"9cfb4849289374e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_unhandled_input()","rhs":"test_unhandled_input produces the expected output","over":{"base":"Any"},"name":"test_unhandled_input_correct"},"guarantee":"test_unhandled_input produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_lra_theory.test_unhandled_input_correct","statement":"Path(test_unhandled_input(x), test_unhandled_input produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"146d489bf44ccff1"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_lra_theory.test_unhandled_input","kind":"function","src_hash":"9cfb4849289374e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_unhandled_input()","rhs":"<unspecified:test_unhandled_input>","over":{"base":"Any"},"name":"test_unhandled_input_correct"},"guarantee":"test_unhandled_input produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_lra_theory.test_unhandled_input_correct","statement":"Path(test_unhandled_input(x), test_unhandled_input produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"146d489bf44ccff1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_unhandled_input():
     nan = S.NaN
     bf = Q.gt(3, nan) & Q.gt(x, nan)
@@ -529,16 +612,23 @@ def test_unhandled_input():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_infinite_strict_inequalities(), test_infinite_strict_inequalities produces the expected output) over Any ║
+# ║ Path(test_infinite_strict_inequalities(), len(lra.enc_to_boundary) == 3 and lra.check()[0] == True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_infinite_strict_inequalities : Any → {Any | len(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(lra.enc_to_boundary) == 3                  ║
+# ║   ensures:  lra.check()[0] == True                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_infinite_strict_inequalities : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 245895c40a1b86cb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a08d8ec49decef7e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_lra_theory.test_infinite_strict_inequalities","kind":"function","src_hash":"35d674b379f09f98","in":{"base":"Any"},"out":{"base":"Any","pred":"len(lra.enc_to_boundary) == 3 and lra.check()[0] == True"},"spec":{"lhs":"test_infinite_strict_inequalities()","rhs":"test_infinite_strict_inequalities produces the expected output","over":{"base":"Any"},"name":"test_infinite_strict_inequalities_correct"},"guarantee":"test_infinite_strict_inequalities produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_lra_theory.test_infinite_strict_inequalities_correct","statement":"Path(test_infinite_strict_inequalities(x), test_infinite_strict_inequalities produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"245895c40a1b86cb"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_lra_theory.test_infinite_strict_inequalities","kind":"function","src_hash":"35d674b379f09f98","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(lra.enc_to_boundary) == 3 and lra.check()[0] == True"},"spec":{"lhs":"test_infinite_strict_inequalities()","rhs":"len(lra.enc_to_boundary) == 3 and lra.check()[0] == True","over":{"base":"Any"},"name":"test_infinite_strict_inequalities_correct"},"guarantee":"len(lra.enc_to_boundary) == 3; lra.check()[0] == True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_lra_theory.test_infinite_strict_inequalities_correct","statement":"Path(test_infinite_strict_inequalities(x), len(lra.enc_to_boundary) == 3; lra.check()[0] == True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a08d8ec49decef7e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(lra.enc_to_boundary) == 3","lra.check()[0] == True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_infinite_strict_inequalities():
     # Extensive testing of the interaction between strict inequalities
     # and constraints containing infinity is needed because
@@ -558,16 +648,22 @@ def test_infinite_strict_inequalities():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pivot(), test_pivot produces the expected output) over Any ║
+# ║ Path(test_pivot(), <unspecified:test_pivot>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_pivot : Any → {Any | LRASolver._pivot(m, i, j).r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68db31ddbc9bc0d2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_lra_theory.test_pivot","kind":"function","src_hash":"1fde3704f97ab243","in":{"base":"Any"},"out":{"base":"Any","pred":"LRASolver._pivot(m, i, j).rref() == rref"},"spec":{"lhs":"test_pivot()","rhs":"test_pivot produces the expected output","over":{"base":"Any"},"name":"test_pivot_correct"},"guarantee":"test_pivot produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_lra_theory.test_pivot_correct","statement":"Path(test_pivot(x), test_pivot produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68db31ddbc9bc0d2"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_lra_theory.test_pivot","kind":"function","src_hash":"1fde3704f97ab243","in":{"base":"Any"},"out":{"base":"Any","pred":"LRASolver._pivot(m, i, j).rref() == rref"},"spec":{"lhs":"test_pivot()","rhs":"<unspecified:test_pivot>","over":{"base":"Any"},"name":"test_pivot_correct"},"guarantee":"test_pivot produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_lra_theory.test_pivot_correct","statement":"Path(test_pivot(x), test_pivot produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68db31ddbc9bc0d2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["randint"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pivot():
     for _ in range(10):
         m = randMatrix(5)
@@ -579,16 +675,24 @@ def test_pivot():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_reset_bounds(), test_reset_bounds produces the expected output) over Any ║
+# ║ Path(test_reset_bounds(), len(lra.enc_to_boundary) == 2 and lra.check()[0] == False and lra.check()[0] == True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_reset_bounds : Any → {Any | len(lra.enc_to_bound...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(lra.enc_to_boundary) == 2                  ║
+# ║   ensures:  lra.check()[0] == False                        ║
+# ║   ensures:  lra.check()[0] == True                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_reset_bounds : Any → {Any | result satisfies: le...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 611fe7e9ccb4d6e8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce43ba8b804eeeb3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_lra_theory.test_reset_bounds","kind":"function","src_hash":"1d5a390ecbd70ce3","in":{"base":"Any"},"out":{"base":"Any","pred":"len(lra.enc_to_boundary) == 2 and lra.check()[0] == False and lra.check()[0] == True and var.upper == LRARational(float('inf'), 0) and var.upper_from_eq == False and var.upper_from_neg == False and var.lower == LRARational(-float('inf'), 0) and var.lower_from_eq == False and var.lower_from_neg == False and var.assign == LRARational(0, 0) and var.var is not None and var.col_idx is not None"},"spec":{"lhs":"test_reset_bounds()","rhs":"test_reset_bounds produces the expected output","over":{"base":"Any"},"name":"test_reset_bounds_correct"},"guarantee":"test_reset_bounds produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_lra_theory.test_reset_bounds_correct","statement":"Path(test_reset_bounds(x), test_reset_bounds produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"611fe7e9ccb4d6e8"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_lra_theory.test_reset_bounds","kind":"function","src_hash":"1d5a390ecbd70ce3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(lra.enc_to_boundary) == 2 and lra.check()[0] == False and lra.check()[0] == True"},"spec":{"lhs":"test_reset_bounds()","rhs":"len(lra.enc_to_boundary) == 2 and lra.check()[0] == False and lra.check()[0] == True","over":{"base":"Any"},"name":"test_reset_bounds_correct"},"guarantee":"len(lra.enc_to_boundary) == 2; lra.check()[0] == False; lra.check()[0] == True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_lra_theory.test_reset_bounds_correct","statement":"Path(test_reset_bounds(x), len(lra.enc_to_boundary) == 2; lra.check()[0] == False; lra.check()[0] == True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce43ba8b804eeeb3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(lra.enc_to_boundary) == 2","lra.check()[0] == False","lra.check()[0] == True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_reset_bounds():
     bf = Q.ge(x, 1) & Q.lt(x, 1)
     enc = boolean_formula_to_encoded_cnf(bf)
@@ -614,16 +718,23 @@ def test_reset_bounds():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_empty_cnf(), test_empty_cnf produces the expected output) over Any ║
+# ║ Path(test_empty_cnf(), len(conflict) == 0 and lra.check() == (True, {})) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_empty_cnf : Any → {Any | len(conflict) == 0 and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(conflict) == 0                             ║
+# ║   ensures:  lra.check() == (True, {})                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_empty_cnf : Any → {Any | result satisfies: len(c...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a16b5b132fc08de7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5bd5c7cf889762d5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_lra_theory.test_empty_cnf","kind":"function","src_hash":"76ccdf7822e3dcb6","in":{"base":"Any"},"out":{"base":"Any","pred":"len(conflict) == 0 and lra.check() == (True, {})"},"spec":{"lhs":"test_empty_cnf()","rhs":"test_empty_cnf produces the expected output","over":{"base":"Any"},"name":"test_empty_cnf_correct"},"guarantee":"test_empty_cnf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_lra_theory.test_empty_cnf_correct","statement":"Path(test_empty_cnf(x), test_empty_cnf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a16b5b132fc08de7"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_lra_theory.test_empty_cnf","kind":"function","src_hash":"76ccdf7822e3dcb6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(conflict) == 0 and lra.check() == (True, {})"},"spec":{"lhs":"test_empty_cnf()","rhs":"len(conflict) == 0 and lra.check() == (True, {})","over":{"base":"Any"},"name":"test_empty_cnf_correct"},"guarantee":"len(conflict) == 0; lra.check() == (True, {})","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_lra_theory.test_empty_cnf_correct","statement":"Path(test_empty_cnf(x), len(conflict) == 0; lra.check() == (True, {}))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5bd5c7cf889762d5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(conflict) == 0","lra.check() == (True, {})"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_empty_cnf():
     cnf = CNF()
     enc = EncodedCNF()

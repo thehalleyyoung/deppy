@@ -20,16 +20,22 @@ from sympy.testing.pytest import warns_deprecated_sympy
 # See https://github.com/sympy/sympy/pull/18095
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_deprecated_utilities(), test_deprecated_utilities produces the expected output) over Any ║
+# ║ Path(test_deprecated_utilities(), <unspecified:test_deprecated_utilities>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_deprecated_utilities : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 309e08509d24133f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_deprecated.test_deprecated_utilities","kind":"function","src_hash":"25ba2f98a30fe0b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_deprecated_utilities()","rhs":"test_deprecated_utilities produces the expected output","over":{"base":"Any"},"name":"test_deprecated_utilities_correct"},"guarantee":"test_deprecated_utilities produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_deprecated.test_deprecated_utilities_correct","statement":"Path(test_deprecated_utilities(x), test_deprecated_utilities produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"309e08509d24133f"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_deprecated.test_deprecated_utilities","kind":"function","src_hash":"25ba2f98a30fe0b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_deprecated_utilities()","rhs":"<unspecified:test_deprecated_utilities>","over":{"base":"Any"},"name":"test_deprecated_utilities_correct"},"guarantee":"test_deprecated_utilities produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_deprecated.test_deprecated_utilities_correct","statement":"Path(test_deprecated_utilities(x), test_deprecated_utilities produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"309e08509d24133f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_deprecated_utilities():
     with warns_deprecated_sympy():
         import sympy.utilities.pytest  # noqa:F401

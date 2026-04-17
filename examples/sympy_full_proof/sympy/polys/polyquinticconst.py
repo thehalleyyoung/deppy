@@ -40,27 +40,39 @@ x = Symbol('x')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a PolyQuintic instance) preserved by PolyQuintic(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ PolyQuintic : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 74.6ms                        ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7237a3a19aab6668  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyquinticconst.PolyQuintic","kind":"class","src_hash":"90ccf74f4638639a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PolyQuintic(*args)","rhs":"correctly constructs a PolyQuintic instance","over":{"base":"Any"},"name":"PolyQuintic_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a PolyQuintic instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 's') and hasattr(self, 'zeta1') and hasattr(self, 'zeta2') and hasattr(self, 'zeta3') and hasattr(self, 'zeta4')","kind":"class","induction":"structural on s, zeta1, zeta2, zeta3"}],"methods_preserving":["__init__","f20","b","o","a","c","F","l0","T","order","uv","zeta"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7237a3a19aab6668"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyquinticconst.PolyQuintic","kind":"class","src_hash":"90ccf74f4638639a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PolyQuintic(*args)","rhs":"correctly constructs a PolyQuintic instance","over":{"base":"Any"},"name":"PolyQuintic_class_invariant","kind":"invariant"},"guarantee":"preserves 4 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 's') and hasattr(self, 'zeta1') and hasattr(self, 'zeta2') and hasattr(self, 'zeta3') and hasattr(self, 'zeta4')","kind":"class","induction":"structural on s, zeta1, zeta2, zeta3"}],"methods_preserving":["__init__","f20","b","o","a","c","F","l0","T","order","uv","zeta"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7237a3a19aab6668","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'zeta1')","hasattr(self, 'zeta2')","hasattr(self, 'zeta3')","hasattr(self, 'zeta4')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":74.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function PolyQuintic not found in source"]}}
 class PolyQuintic:
     """Special functions for solvable quintics"""
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(pol), initializes the instance correctly) over Any ║
+# ║ Path(__init__(poly), <unspecified:__init__>) over {Any | hasattr(poly, 'all_coeffs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(poly, 'all_coeffs')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | hasattr(poly, 'all_coeffs')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5b77dfc691d36225           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyquinticconst.PolyQuintic.__init__","kind":"method","src_hash":"df1b5972b4d3b6c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(pol)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5b77dfc691d36225"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyquinticconst.PolyQuintic.__init__","kind":"method","src_hash":"df1b5972b4d3b6c2","in":{"base":"Any","pred":"hasattr(poly, 'all_coeffs')"},"out":{"base":"Any"},"spec":{"lhs":"__init__(poly)","rhs":"<unspecified:__init__>","over":{"base":"Any","pred":"hasattr(poly, 'all_coeffs')"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5b77dfc691d36225","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(poly, 'all_coeffs')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, poly):
         _, _, self.p, self.q, self.r, self.s = poly.all_coeffs()
         self.zeta1 = Rational(-1, 4) + (sqrt(5)/4) + I*sqrt((sqrt(5)/8) + Rational(5, 8))
@@ -70,16 +82,22 @@ class PolyQuintic:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(f20(), returns the f20 attribute) over Any            ║
+# ║ Path(f20(), Poly(f20, x)) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Poly(f20, x)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ f20 : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6dd8ffd7f8ea0280           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyquinticconst.PolyQuintic.f20","kind":"property","src_hash":"417adeeb9d12b2f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"f20()","rhs":"returns the f20 attribute","over":{"base":"Any"},"name":"f20_correct"},"guarantee":"returns the f20 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6dd8ffd7f8ea0280"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyquinticconst.PolyQuintic.f20","kind":"property","src_hash":"417adeeb9d12b2f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"f20()","rhs":"Poly(f20, x)","over":{"base":"Any"},"name":"f20_correct"},"guarantee":"returns Poly(f20, x)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6dd8ffd7f8ea0280","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Poly(f20, x)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.p","self.q","self.r","self.s"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def f20(self):
         p, q, r, s = self.p, self.q, self.r, self.s
         f20 = q**8 - 13*p*q**6*r + p**5*q**2*r**2 + 65*p**2*q**4*r**2 - 4*p**6*r**3 - 128*p**3*q**2*r**3 + 17*q**4*r**3 + 48*p**4*r**4 - 16*p*q**2*r**4 - 192*p**2*r**5 + 256*r**6 - 4*p**5*q**3*s - 12*p**2*q**5*s + 18*p**6*q*r*s + 12*p**3*q**3*r*s - 124*q**5*r*s + 196*p**4*q*r**2*s + 590*p*q**3*r**2*s - 160*p**2*q*r**3*s - 1600*q*r**4*s - 27*p**7*s**2 - 150*p**4*q**2*s**2 - 125*p*q**4*s**2 - 99*p**5*r*s**2 - 725*p**2*q**2*r*s**2 + 1200*p**3*r**2*s**2 + 3250*q**2*r**2*s**2 - 2000*p*r**3*s**2 - 1250*p*q*r*s**3 + 3125*p**2*s**4 - 9375*r*s**4-(2*p*q**6 - 19*p**2*q**4*r + 51*p**3*q**2*r**2 - 3*q**4*r**2 - 32*p**4*r**3 - 76*p*q**2*r**3 + 256*p**2*r**4 - 512*r**5 + 31*p**3*q**3*s + 58*q**5*s - 117*p**4*q*r*s - 105*p*q**3*r*s - 260*p**2*q*r**2*s + 2400*q*r**3*s + 108*p**5*s**2 + 325*p**2*q**2*s**2 - 525*p**3*r*s**2 - 2750*q**2*r*s**2 + 500*p*r**2*s**2 - 625*p*q*s**3 + 3125*s**4)*x+(p**2*q**4 - 6*p**3*q**2*r - 8*q**4*r + 9*p**4*r**2 + 76*p*q**2*r**2 - 136*p**2*r**3 + 400*r**4 - 50*p*q**3*s + 90*p**2*q*r*s - 1400*q*r**2*s + 625*q**2*s**2 + 500*p*r*s**2)*x**2-(2*q**4 - 21*p*q**2*r + 40*p**2*r**2 - 160*r**3 + 15*p**2*q*s + 400*q*r*s - 125*p*s**2)*x**3+(2*p*q**2 - 6*p**2*r + 40*r**2 - 50*q*s)*x**4 + 8*r*x**5 + x**6
@@ -87,16 +105,22 @@ class PolyQuintic:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(b(), returns the b attribute) over Any                ║
+# ║ Path(b(), <unspecified:b>) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ b : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 49e8e654f2381d2e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyquinticconst.PolyQuintic.b","kind":"property","src_hash":"ef0042c478e817ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"b()","rhs":"returns the b attribute","over":{"base":"Any"},"name":"b_correct"},"guarantee":"returns the b attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"49e8e654f2381d2e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyquinticconst.PolyQuintic.b","kind":"property","src_hash":"ef0042c478e817ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"b()","rhs":"<unspecified:b>","over":{"base":"Any"},"name":"b_correct"},"guarantee":"returns the b attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"49e8e654f2381d2e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.p","self.q","self.r","self.s"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def b(self):
         p, q, r, s = self.p, self.q, self.r, self.s
         b = ( [], [0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0],)
@@ -153,16 +177,22 @@ class PolyQuintic:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(o(), returns the o attribute) over Any                ║
+# ║ Path(o(), <unspecified:o>) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ o : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d572768e3d68580d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyquinticconst.PolyQuintic.o","kind":"property","src_hash":"ac5285823882c6a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"o()","rhs":"returns the o attribute","over":{"base":"Any"},"name":"o_correct"},"guarantee":"returns the o attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d572768e3d68580d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyquinticconst.PolyQuintic.o","kind":"property","src_hash":"ac5285823882c6a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"o()","rhs":"<unspecified:o>","over":{"base":"Any"},"name":"o_correct"},"guarantee":"returns the o attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d572768e3d68580d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.p","self.q","self.r","self.s"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def o(self):
         p, q, r, s = self.p, self.q, self.r, self.s
         o = [0]*6
@@ -183,16 +213,22 @@ class PolyQuintic:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(a(), returns the a attribute) over Any                ║
+# ║ Path(a(), <unspecified:a>) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ a : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 69507e42e6018b8a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyquinticconst.PolyQuintic.a","kind":"property","src_hash":"0d812f9a12a1a3ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"a()","rhs":"returns the a attribute","over":{"base":"Any"},"name":"a_correct"},"guarantee":"returns the a attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"69507e42e6018b8a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyquinticconst.PolyQuintic.a","kind":"property","src_hash":"0d812f9a12a1a3ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"a()","rhs":"<unspecified:a>","over":{"base":"Any"},"name":"a_correct"},"guarantee":"returns the a attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"69507e42e6018b8a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.p","self.q","self.r","self.s"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def a(self):
         p, q, r, s = self.p, self.q, self.r, self.s
         a = [0]*6
@@ -213,16 +249,22 @@ class PolyQuintic:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(c(), returns the c attribute) over Any                ║
+# ║ Path(c(), <unspecified:c>) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ c : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 27d405466fd3d2da           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyquinticconst.PolyQuintic.c","kind":"property","src_hash":"bde7e7703d00bf14","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"c()","rhs":"returns the c attribute","over":{"base":"Any"},"name":"c_correct"},"guarantee":"returns the c attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"27d405466fd3d2da"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyquinticconst.PolyQuintic.c","kind":"property","src_hash":"bde7e7703d00bf14","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"c()","rhs":"<unspecified:c>","over":{"base":"Any"},"name":"c_correct"},"guarantee":"returns the c attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"27d405466fd3d2da","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.p","self.q","self.r","self.s"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def c(self):
         p, q, r, s = self.p, self.q, self.r, self.s
         c = [0]*6
@@ -243,32 +285,44 @@ class PolyQuintic:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(F(), returns the F attribute) over Any                ║
+# ║ Path(F(), <unspecified:F>) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ F : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 953e3dcf2719e1cc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyquinticconst.PolyQuintic.F","kind":"property","src_hash":"fdd68ebbecaa7b08","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"F()","rhs":"returns the F attribute","over":{"base":"Any"},"name":"F_correct"},"guarantee":"returns the F attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"953e3dcf2719e1cc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyquinticconst.PolyQuintic.F","kind":"property","src_hash":"fdd68ebbecaa7b08","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"F()","rhs":"<unspecified:F>","over":{"base":"Any"},"name":"F_correct"},"guarantee":"returns the F attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"953e3dcf2719e1cc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.p","self.q","self.r","self.s"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def F(self):
         p, q, r, s = self.p, self.q, self.r, self.s
         F = 4*p**6*q**6 + 59*p**3*q**8 + 216*q**10 - 36*p**7*q**4*r - 623*p**4*q**6*r - 2610*p*q**8*r + 81*p**8*q**2*r**2 + 2015*p**5*q**4*r**2 + 10825*p**2*q**6*r**2 - 1800*p**6*q**2*r**3 - 17500*p**3*q**4*r**3 + 625*q**6*r**3 + 10000*p**4*q**2*r**4 + 108*p**8*q**3*s + 1584*p**5*q**5*s + 5700*p**2*q**7*s - 486*p**9*q*r*s - 9720*p**6*q**3*r*s - 45050*p**3*q**5*r*s - 9000*q**7*r*s + 10800*p**7*q*r**2*s + 92500*p**4*q**3*r**2*s + 32500*p*q**5*r**2*s - 60000*p**5*q*r**3*s - 50000*p**2*q**3*r**3*s + 729*p**10*s**2 + 12150*p**7*q**2*s**2 + 60000*p**4*q**4*s**2 + 93750*p*q**6*s**2 - 18225*p**8*r*s**2 - 175500*p**5*q**2*r*s**2 - 478125*p**2*q**4*r*s**2 + 135000*p**6*r**2*s**2 + 850000*p**3*q**2*r**2*s**2 + 15625*q**4*r**2*s**2 - 250000*p**4*r**3*s**2 + 225000*p**3*q**3*s**3 + 175000*q**5*s**3 - 1012500*p**4*q*r*s**3 - 1187500*p*q**3*r*s**3 + 1250000*p**2*q*r**2*s**3 + 928125*p**5*s**4 + 1875000*p**2*q**2*s**4 - 2812500*p**3*r*s**4 - 390625*q**2*r*s**4 - 9765625*s**6
         return F
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(l0(the), l0 produces the expected output) over Any    ║
+# ║ Path(l0(theta), <unspecified:l0>) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ l0 : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4511a3683c4e1233  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyquinticconst.PolyQuintic.l0","kind":"method","src_hash":"4d88ec174c09f1cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"l0(the)","rhs":"l0 produces the expected output","over":{"base":"Any"},"name":"l0_correct"},"guarantee":"l0 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyquinticconst.PolyQuintic.l0_correct","statement":"Path(l0(x), l0 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4511a3683c4e1233"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyquinticconst.PolyQuintic.l0","kind":"method","src_hash":"4d88ec174c09f1cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"l0(theta)","rhs":"<unspecified:l0>","over":{"base":"Any"},"name":"l0_correct"},"guarantee":"l0 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyquinticconst.PolyQuintic.l0_correct","statement":"Path(l0(x), l0 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4511a3683c4e1233","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.F","self.a"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def l0(self, theta):
         F = self.F
         a = self.a
@@ -276,16 +330,22 @@ class PolyQuintic:
         return l0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(T(the), T produces the expected output) over Any      ║
+# ║ Path(T(theta, d), <unspecified:T>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ T : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 040c5baf8a305ae5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyquinticconst.PolyQuintic.T","kind":"method","src_hash":"c40176b8e056a920","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"T(the)","rhs":"T produces the expected output","over":{"base":"Any"},"name":"T_correct"},"guarantee":"T produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyquinticconst.PolyQuintic.T_correct","statement":"Path(T(x), T produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"040c5baf8a305ae5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyquinticconst.PolyQuintic.T","kind":"method","src_hash":"c40176b8e056a920","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"T(theta, d)","rhs":"<unspecified:T>","over":{"base":"Any"},"name":"T_correct"},"guarantee":"T produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyquinticconst.PolyQuintic.T_correct","statement":"Path(T(x), T produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"040c5baf8a305ae5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.F","self.b"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def T(self, theta, d):
         F = self.F
         T = [0]*5
@@ -298,16 +358,22 @@ class PolyQuintic:
         return T
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(order(the), order produces the expected output) over Any ║
+# ║ Path(order(theta, d), N(order)) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  N(order)                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ order : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3df456d3feab0500  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b6823287be1febc5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyquinticconst.PolyQuintic.order","kind":"method","src_hash":"6824b08c70c68dc2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"order(the)","rhs":"order produces the expected output","over":{"base":"Any"},"name":"order_correct"},"guarantee":"order produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyquinticconst.PolyQuintic.order_correct","statement":"Path(order(x), order produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3df456d3feab0500"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyquinticconst.PolyQuintic.order","kind":"method","src_hash":"6824b08c70c68dc2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"order(theta, d)","rhs":"N(order)","over":{"base":"Any"},"name":"order_correct"},"guarantee":"returns N(order)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyquinticconst.PolyQuintic.order_correct","statement":"Path(order(x), returns N(order))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6823287be1febc5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"N(order)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.F","self.o"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def order(self, theta, d):
         F = self.F
         o = self.o
@@ -315,16 +381,22 @@ class PolyQuintic:
         return N(order)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(uv(the), id) over Any                                 ║
+# ║ Path(uv(theta, d), id) over Any                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (N(u), N(v))                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ uv : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ae88ba92d96483f8   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyquinticconst.PolyQuintic.uv","kind":"method","src_hash":"72020a5a2aefabdd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"uv(the)","rhs":"uv produces the expected output","over":{"base":"Any"},"name":"uv_correct","kind":"composition"},"guarantee":"uv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"N","by":"library_axiom"},{"fn":"N","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae88ba92d96483f8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyquinticconst.PolyQuintic.uv","kind":"method","src_hash":"72020a5a2aefabdd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"uv(theta, d)","rhs":"(N(u), N(v))","over":{"base":"Any"},"name":"uv_correct","kind":"composition"},"guarantee":"returns (N(u), N(v))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"N","by":"library_axiom"},{"fn":"N","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae88ba92d96483f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(N(u), N(v))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.F","self.c","self.q"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def uv(self, theta, d):
         c = self.c
         u = self.q*Rational(-25, 2)
@@ -333,15 +405,21 @@ class PolyQuintic:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(zeta(), returns the zeta attribute) over Any          ║
+# ║ Path(zeta(), [self.zeta1, self.zeta2, self.zeta3, self.zeta4]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [self.zeta1, self.zeta2, self.zeta3, self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ zeta : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fff3f2fae2cc338b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyquinticconst.PolyQuintic.zeta","kind":"property","src_hash":"b108978de093b077","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zeta()","rhs":"returns the zeta attribute","over":{"base":"Any"},"name":"zeta_correct"},"guarantee":"returns the zeta attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fff3f2fae2cc338b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyquinticconst.PolyQuintic.zeta","kind":"property","src_hash":"b108978de093b077","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zeta()","rhs":"[self.zeta1, self.zeta2, self.zeta3, self.zeta4]","over":{"base":"Any"},"name":"zeta_correct"},"guarantee":"returns [self.zeta1, self.zeta2, self.zeta3, self.zeta4]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fff3f2fae2cc338b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[self.zeta1, self.zeta2, self.zeta3, self.zeta4]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.zeta1","self.zeta2","self.zeta3","self.zeta4"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def zeta(self):
         return [self.zeta1, self.zeta2, self.zeta3, self.zeta4]

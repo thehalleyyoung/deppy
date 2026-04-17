@@ -23,16 +23,24 @@ from sympy.abc import x
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_random(), test_random produces the expected output) over Any ║
+# ║ Path(test_random(), a == b and len(got) == 1 and y == z) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_random : Any → {Any | a == b and len(got) == 1 a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a == b                                         ║
+# ║   ensures:  len(got) == 1                                  ║
+# ║   ensures:  y == z                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_random : Any → {Any | result satisfies: a == b a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 34dd61da11576cf2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b2fd903e0665e6d9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_random.test_random","kind":"function","src_hash":"2016d01c8fcc534a","in":{"base":"Any"},"out":{"base":"Any","pred":"a == b and len(got) == 1 and y == z"},"spec":{"lhs":"test_random()","rhs":"test_random produces the expected output","over":{"base":"Any"},"name":"test_random_correct"},"guarantee":"test_random produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_random.test_random_correct","statement":"Path(test_random(x), test_random produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34dd61da11576cf2"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_random.test_random","kind":"function","src_hash":"2016d01c8fcc534a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a == b and len(got) == 1 and y == z"},"spec":{"lhs":"test_random()","rhs":"a == b and len(got) == 1 and y == z","over":{"base":"Any"},"name":"test_random_correct"},"guarantee":"a == b; len(got) == 1; y == z","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_random.test_random_correct","statement":"Path(test_random(x), a == b; len(got) == 1; y == z)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2fd903e0665e6d9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a == b","len(got) == 1","y == z"],"pure":false,"effects":{"effect_type":"nondeterministic","calls_mutating":["got.add"],"nondeterministic_sources":["random.random","random.uniform"]},"state_contract":{"modifies":["got.*"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_random():
     random.seed(42)
     a = random.random()
@@ -61,16 +69,24 @@ def test_random():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_seed(), test_seed produces the expected output) over Any ║
+# ║ Path(test_seed(), rand() < 1 and a == c and first == second == third) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_seed : Any → {Any | rand() < 1 and a == c and fi...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rand() < 1                                     ║
+# ║   ensures:  a == c                                         ║
+# ║   ensures:  first == second == third                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_seed : Any → {Any | result satisfies: rand() < 1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c081c59ec4068a21  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9de71dc70dbd25db  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_random.test_seed","kind":"function","src_hash":"af94376e9a4e2d6e","in":{"base":"Any"},"out":{"base":"Any","pred":"rand() < 1 and a == c and first == second == third and a != b and a == b"},"spec":{"lhs":"test_seed()","rhs":"test_seed produces the expected output","over":{"base":"Any"},"name":"test_seed_correct"},"guarantee":"test_seed produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_random.test_seed_correct","statement":"Path(test_seed(x), test_seed produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c081c59ec4068a21"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_random.test_seed","kind":"function","src_hash":"af94376e9a4e2d6e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rand() < 1 and a == c and first == second == third"},"spec":{"lhs":"test_seed()","rhs":"rand() < 1 and a == c and first == second == third","over":{"base":"Any"},"name":"test_seed_correct"},"guarantee":"rand() < 1; a == c; first == second == third","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_random.test_seed_correct","statement":"Path(test_seed(x), rand() < 1; a == c; first == second == third)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9de71dc70dbd25db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rand() < 1","a == c","first == second == third"],"pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["shuffle"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_seed():
     assert rand() < 1
     seed(1)

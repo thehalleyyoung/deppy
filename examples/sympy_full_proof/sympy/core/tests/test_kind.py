@@ -30,16 +30,24 @@ comm_x = Symbol('x')
 noncomm_x = Symbol('x', commutative=False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_NumberKind(), test_NumberKind produces the expected output) over Any ║
+# ║ Path(test_NumberKind(), S.One.kind is NumberKind and pi.kind is NumberKind and S.NaN.kind is NumberKind and zoo.kind is NumberKind and I.kind is NumberKind and AlgebraicNumber(1).kind is NumberKind) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_NumberKind : Any → {Any | S.One.kind is NumberKi...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  S.One.kind is NumberKind                       ║
+# ║   ensures:  pi.kind is NumberKind                          ║
+# ║   ensures:  S.NaN.kind is NumberKind                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_NumberKind : Any → {Any | result satisfies: S.On...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8843f091c7b70dc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d9b9076f4393d6b6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_kind.test_NumberKind","kind":"function","src_hash":"0d21f877d2b8edc5","in":{"base":"Any"},"out":{"base":"Any","pred":"S.One.kind is NumberKind and pi.kind is NumberKind and S.NaN.kind is NumberKind and zoo.kind is NumberKind and I.kind is NumberKind and AlgebraicNumber(1).kind is NumberKind"},"spec":{"lhs":"test_NumberKind()","rhs":"test_NumberKind produces the expected output","over":{"base":"Any"},"name":"test_NumberKind_correct"},"guarantee":"test_NumberKind produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_kind.test_NumberKind_correct","statement":"Path(test_NumberKind(x), test_NumberKind produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8843f091c7b70dc"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_kind.test_NumberKind","kind":"function","src_hash":"0d21f877d2b8edc5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: S.One.kind is NumberKind and pi.kind is NumberKind and S.NaN.kind is NumberKind and zoo.kind is NumberKind and I.kind is NumberKind and AlgebraicNumber(1).kind is NumberKind"},"spec":{"lhs":"test_NumberKind()","rhs":"S.One.kind is NumberKind and pi.kind is NumberKind and S.NaN.kind is NumberKind and zoo.kind is NumberKind and I.kind is NumberKind and AlgebraicNumber(1).kind is NumberKind","over":{"base":"Any"},"name":"test_NumberKind_correct"},"guarantee":"S.One.kind is NumberKind; pi.kind is NumberKind; S.NaN.kind is NumberKind","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_kind.test_NumberKind_correct","statement":"Path(test_NumberKind(x), S.One.kind is NumberKind; pi.kind is NumberKind; S.NaN.kind is NumberKind)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9b9076f4393d6b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["S.One.kind is NumberKind","pi.kind is NumberKind","S.NaN.kind is NumberKind","zoo.kind is NumberKind","I.kind is NumberKind","AlgebraicNumber(1).kind is NumberKind"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_NumberKind():
     assert S.One.kind is NumberKind
     assert pi.kind is NumberKind
@@ -49,32 +57,48 @@ def test_NumberKind():
     assert AlgebraicNumber(1).kind is NumberKind
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Add_kind(), test_Add_kind produces the expected output) over Any ║
+# ║ Path(test_Add_kind(), Add(2, 3, evaluate=False).kind is NumberKind and Add(2, comm_x).kind is NumberKind and Add(2, noncomm_x).kind is UndefinedKind) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Add_kind : Any → {Any | Add(2, 3, evaluate=False...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Add(2, 3, evaluate=False).kind is NumberKind   ║
+# ║   ensures:  Add(2, comm_x).kind is NumberKind              ║
+# ║   ensures:  Add(2, noncomm_x).kind is UndefinedKind        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Add_kind : Any → {Any | result satisfies: Add(2,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ce332ba76e668f0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a250a6c74233348d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_kind.test_Add_kind","kind":"function","src_hash":"e88f5d5ca59b9868","in":{"base":"Any"},"out":{"base":"Any","pred":"Add(2, 3, evaluate=False).kind is NumberKind and Add(2, comm_x).kind is NumberKind and Add(2, noncomm_x).kind is UndefinedKind"},"spec":{"lhs":"test_Add_kind()","rhs":"test_Add_kind produces the expected output","over":{"base":"Any"},"name":"test_Add_kind_correct"},"guarantee":"test_Add_kind produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_kind.test_Add_kind_correct","statement":"Path(test_Add_kind(x), test_Add_kind produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ce332ba76e668f0"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_kind.test_Add_kind","kind":"function","src_hash":"e88f5d5ca59b9868","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Add(2, 3, evaluate=False).kind is NumberKind and Add(2, comm_x).kind is NumberKind and Add(2, noncomm_x).kind is UndefinedKind"},"spec":{"lhs":"test_Add_kind()","rhs":"Add(2, 3, evaluate=False).kind is NumberKind and Add(2, comm_x).kind is NumberKind and Add(2, noncomm_x).kind is UndefinedKind","over":{"base":"Any"},"name":"test_Add_kind_correct"},"guarantee":"Add(2, 3, evaluate=False).kind is NumberKind; Add(2, comm_x).kind is NumberKind; Add(2, noncomm_x).kind is UndefinedKind","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_kind.test_Add_kind_correct","statement":"Path(test_Add_kind(x), Add(2, 3, evaluate=False).kind is NumberKind; Add(2, comm_x).kind is NumberKind; Add(2, noncomm_x).kind is UndefinedKind)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a250a6c74233348d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Add(2, 3, evaluate=False).kind is NumberKind","Add(2, comm_x).kind is NumberKind","Add(2, noncomm_x).kind is UndefinedKind"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Add_kind():
     assert Add(2, 3, evaluate=False).kind is NumberKind
     assert Add(2,comm_x).kind is NumberKind
     assert Add(2,noncomm_x).kind is UndefinedKind
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mul_kind(), test_mul_kind produces the expected output) over Any ║
+# ║ Path(test_mul_kind(), Mul(2, comm_x, evaluate=False).kind is NumberKind and Mul(2, 3, evaluate=False).kind is NumberKind and Mul(noncomm_x, 2, evaluate=False).kind is UndefinedKind and Mul(2, noncomm_x, evaluate=False).kind is UndefinedKind) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_mul_kind : Any → {Any | Mul(2, comm_x, evaluate=...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Mul(2, comm_x, evaluate=False).kind is Nu...   ║
+# ║   ensures:  Mul(2, 3, evaluate=False).kind is NumberKind   ║
+# ║   ensures:  Mul(noncomm_x, 2, evaluate=False).kind is...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_mul_kind : Any → {Any | result satisfies: Mul(2,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 11958c2f4dd67b84  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab309cf4f194257b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_kind.test_mul_kind","kind":"function","src_hash":"34734a8d958b6b85","in":{"base":"Any"},"out":{"base":"Any","pred":"Mul(2, comm_x, evaluate=False).kind is NumberKind and Mul(2, 3, evaluate=False).kind is NumberKind and Mul(noncomm_x, 2, evaluate=False).kind is UndefinedKind and Mul(2, noncomm_x, evaluate=False).kind is UndefinedKind"},"spec":{"lhs":"test_mul_kind()","rhs":"test_mul_kind produces the expected output","over":{"base":"Any"},"name":"test_mul_kind_correct"},"guarantee":"test_mul_kind produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_kind.test_mul_kind_correct","statement":"Path(test_mul_kind(x), test_mul_kind produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11958c2f4dd67b84"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_kind.test_mul_kind","kind":"function","src_hash":"34734a8d958b6b85","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Mul(2, comm_x, evaluate=False).kind is NumberKind and Mul(2, 3, evaluate=False).kind is NumberKind and Mul(noncomm_x, 2, evaluate=False).kind is UndefinedKind and Mul(2, noncomm_x, evaluate=False).kind is UndefinedKind"},"spec":{"lhs":"test_mul_kind()","rhs":"Mul(2, comm_x, evaluate=False).kind is NumberKind and Mul(2, 3, evaluate=False).kind is NumberKind and Mul(noncomm_x, 2, evaluate=False).kind is UndefinedKind and Mul(2, noncomm_x, evaluate=False).kind is UndefinedKind","over":{"base":"Any"},"name":"test_mul_kind_correct"},"guarantee":"Mul(2, comm_x, evaluate=False).kind is NumberKind; Mul(2, 3, evaluate=False).kind is NumberKind; Mul(noncomm_x, 2, evaluate=False).kind is UndefinedKind","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_kind.test_mul_kind_correct","statement":"Path(test_mul_kind(x), Mul(2, comm_x, evaluate=False).kind is NumberKind; Mul(2, 3, evaluate=False).kind is NumberKind; Mul(noncomm_x, 2, evaluate=False).kind is UndefinedKind)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab309cf4f194257b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Mul(2, comm_x, evaluate=False).kind is NumberKind","Mul(2, 3, evaluate=False).kind is NumberKind","Mul(noncomm_x, 2, evaluate=False).kind is UndefinedKind","Mul(2, noncomm_x, evaluate=False).kind is UndefinedKind"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_mul_kind():
     assert Mul(2,comm_x, evaluate=False).kind is NumberKind
     assert Mul(2,3, evaluate=False).kind is NumberKind
@@ -82,63 +106,90 @@ def test_mul_kind():
     assert Mul(2,noncomm_x, evaluate=False).kind is UndefinedKind
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Symbol_kind(), test_Symbol_kind produces the expected output) over Any ║
+# ║ Path(test_Symbol_kind(), comm_x.kind is NumberKind and noncomm_x.kind is UndefinedKind) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Symbol_kind : Any → {Any | comm_x.kind is Number...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  comm_x.kind is NumberKind                      ║
+# ║   ensures:  noncomm_x.kind is UndefinedKind                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Symbol_kind : Any → {Any | result satisfies: com...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a51cd619801f11f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 146ec22baf6293d8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_kind.test_Symbol_kind","kind":"function","src_hash":"a89f05d801b098f0","in":{"base":"Any"},"out":{"base":"Any","pred":"comm_x.kind is NumberKind and noncomm_x.kind is UndefinedKind"},"spec":{"lhs":"test_Symbol_kind()","rhs":"test_Symbol_kind produces the expected output","over":{"base":"Any"},"name":"test_Symbol_kind_correct"},"guarantee":"test_Symbol_kind produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_kind.test_Symbol_kind_correct","statement":"Path(test_Symbol_kind(x), test_Symbol_kind produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a51cd619801f11f"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_kind.test_Symbol_kind","kind":"function","src_hash":"a89f05d801b098f0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: comm_x.kind is NumberKind and noncomm_x.kind is UndefinedKind"},"spec":{"lhs":"test_Symbol_kind()","rhs":"comm_x.kind is NumberKind and noncomm_x.kind is UndefinedKind","over":{"base":"Any"},"name":"test_Symbol_kind_correct"},"guarantee":"comm_x.kind is NumberKind; noncomm_x.kind is UndefinedKind","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_kind.test_Symbol_kind_correct","statement":"Path(test_Symbol_kind(x), comm_x.kind is NumberKind; noncomm_x.kind is UndefinedKind)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"146ec22baf6293d8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["comm_x.kind is NumberKind","noncomm_x.kind is UndefinedKind"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Symbol_kind():
     assert comm_x.kind is NumberKind
     assert noncomm_x.kind is UndefinedKind
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Integral_kind(), test_Integral_kind produces the expected output) over Any ║
+# ║ Path(test_Integral_kind(), Integral(comm_x, comm_x).kind is NumberKind and Integral(A, comm_x).kind is MatrixKind(NumberKind)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Integral_kind : Any → {Any | Integral(comm_x, co...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Integral(comm_x, comm_x).kind is NumberKind    ║
+# ║   ensures:  Integral(A, comm_x).kind is MatrixKind(Nu...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Integral_kind : Any → {Any | result satisfies: I...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0dde275a8d408e55  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a1086bf489c0929  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_kind.test_Integral_kind","kind":"function","src_hash":"0802f48b47965ff3","in":{"base":"Any"},"out":{"base":"Any","pred":"Integral(comm_x, comm_x).kind is NumberKind and Integral(A, comm_x).kind is MatrixKind(NumberKind)"},"spec":{"lhs":"test_Integral_kind()","rhs":"test_Integral_kind produces the expected output","over":{"base":"Any"},"name":"test_Integral_kind_correct"},"guarantee":"test_Integral_kind produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_kind.test_Integral_kind_correct","statement":"Path(test_Integral_kind(x), test_Integral_kind produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0dde275a8d408e55"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_kind.test_Integral_kind","kind":"function","src_hash":"0802f48b47965ff3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Integral(comm_x, comm_x).kind is NumberKind and Integral(A, comm_x).kind is MatrixKind(NumberKind)"},"spec":{"lhs":"test_Integral_kind()","rhs":"Integral(comm_x, comm_x).kind is NumberKind and Integral(A, comm_x).kind is MatrixKind(NumberKind)","over":{"base":"Any"},"name":"test_Integral_kind_correct"},"guarantee":"Integral(comm_x, comm_x).kind is NumberKind; Integral(A, comm_x).kind is MatrixKind(NumberKind)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_kind.test_Integral_kind_correct","statement":"Path(test_Integral_kind(x), Integral(comm_x, comm_x).kind is NumberKind; Integral(A, comm_x).kind is MatrixKind(NumberKind))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a1086bf489c0929","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Integral(comm_x, comm_x).kind is NumberKind","Integral(A, comm_x).kind is MatrixKind(NumberKind)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Integral_kind():
     A = MatrixSymbol('A', 2,2)
     assert Integral(comm_x, comm_x).kind is NumberKind
     assert Integral(A, comm_x).kind is MatrixKind(NumberKind)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Derivative_kind(), test_Derivative_kind produces the expected output) over Any ║
+# ║ Path(test_Derivative_kind(), Derivative(comm_x, comm_x).kind is NumberKind and Derivative(A, comm_x).kind is MatrixKind(NumberKind)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Derivative_kind : Any → {Any | Derivative(comm_x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Derivative(comm_x, comm_x).kind is Number...   ║
+# ║   ensures:  Derivative(A, comm_x).kind is MatrixKind(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Derivative_kind : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 19253974192c78dd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e74efad75ff4b20f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_kind.test_Derivative_kind","kind":"function","src_hash":"90294857ad303947","in":{"base":"Any"},"out":{"base":"Any","pred":"Derivative(comm_x, comm_x).kind is NumberKind and Derivative(A, comm_x).kind is MatrixKind(NumberKind)"},"spec":{"lhs":"test_Derivative_kind()","rhs":"test_Derivative_kind produces the expected output","over":{"base":"Any"},"name":"test_Derivative_kind_correct"},"guarantee":"test_Derivative_kind produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_kind.test_Derivative_kind_correct","statement":"Path(test_Derivative_kind(x), test_Derivative_kind produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19253974192c78dd"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_kind.test_Derivative_kind","kind":"function","src_hash":"90294857ad303947","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Derivative(comm_x, comm_x).kind is NumberKind and Derivative(A, comm_x).kind is MatrixKind(NumberKind)"},"spec":{"lhs":"test_Derivative_kind()","rhs":"Derivative(comm_x, comm_x).kind is NumberKind and Derivative(A, comm_x).kind is MatrixKind(NumberKind)","over":{"base":"Any"},"name":"test_Derivative_kind_correct"},"guarantee":"Derivative(comm_x, comm_x).kind is NumberKind; Derivative(A, comm_x).kind is MatrixKind(NumberKind)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_kind.test_Derivative_kind_correct","statement":"Path(test_Derivative_kind(x), Derivative(comm_x, comm_x).kind is NumberKind; Derivative(A, comm_x).kind is MatrixKind(NumberKind))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e74efad75ff4b20f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Derivative(comm_x, comm_x).kind is NumberKind","Derivative(A, comm_x).kind is MatrixKind(NumberKind)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Derivative_kind():
     A = MatrixSymbol('A', 2,2)
     assert Derivative(comm_x, comm_x).kind is NumberKind
     assert Derivative(A, comm_x).kind is MatrixKind(NumberKind)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Matrix_kind(), test_Matrix_kind produces the expected output) over Any ║
+# ║ Path(test_Matrix_kind(), <unspecified:test_Matrix_kind>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Matrix_kind : Any → {Any | m.kind is MatrixKind(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb199f589961472a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_kind.test_Matrix_kind","kind":"function","src_hash":"f6aa3cdff6c8bddd","in":{"base":"Any"},"out":{"base":"Any","pred":"m.kind is MatrixKind(NumberKind)"},"spec":{"lhs":"test_Matrix_kind()","rhs":"test_Matrix_kind produces the expected output","over":{"base":"Any"},"name":"test_Matrix_kind_correct"},"guarantee":"test_Matrix_kind produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_kind.test_Matrix_kind_correct","statement":"Path(test_Matrix_kind(x), test_Matrix_kind produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb199f589961472a"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_kind.test_Matrix_kind","kind":"function","src_hash":"f6aa3cdff6c8bddd","in":{"base":"Any"},"out":{"base":"Any","pred":"m.kind is MatrixKind(NumberKind)"},"spec":{"lhs":"test_Matrix_kind()","rhs":"<unspecified:test_Matrix_kind>","over":{"base":"Any"},"name":"test_Matrix_kind_correct"},"guarantee":"test_Matrix_kind produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_kind.test_Matrix_kind_correct","statement":"Path(test_Matrix_kind(x), test_Matrix_kind produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb199f589961472a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Matrix_kind():
     classes = (Matrix, SparseMatrix, ImmutableMatrix, ImmutableSparseMatrix)
     for cls in classes:
@@ -146,16 +197,23 @@ def test_Matrix_kind():
         assert m.kind is MatrixKind(NumberKind)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MatMul_kind(), test_MatMul_kind produces the expected output) over Any ║
+# ║ Path(test_MatMul_kind(), MatMul(2, M).kind is MatrixKind(NumberKind) and MatMul(comm_x, M).kind is MatrixKind(NumberKind)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_MatMul_kind : Any → {Any | MatMul(2, M).kind is ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  MatMul(2, M).kind is MatrixKind(NumberKind)    ║
+# ║   ensures:  MatMul(comm_x, M).kind is MatrixKind(Numb...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_MatMul_kind : Any → {Any | result satisfies: Mat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f29b83301e9398d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f5a2fb28d5713b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_kind.test_MatMul_kind","kind":"function","src_hash":"138fc14f286af47d","in":{"base":"Any"},"out":{"base":"Any","pred":"MatMul(2, M).kind is MatrixKind(NumberKind) and MatMul(comm_x, M).kind is MatrixKind(NumberKind)"},"spec":{"lhs":"test_MatMul_kind()","rhs":"test_MatMul_kind produces the expected output","over":{"base":"Any"},"name":"test_MatMul_kind_correct"},"guarantee":"test_MatMul_kind produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_kind.test_MatMul_kind_correct","statement":"Path(test_MatMul_kind(x), test_MatMul_kind produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f29b83301e9398d"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_kind.test_MatMul_kind","kind":"function","src_hash":"138fc14f286af47d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: MatMul(2, M).kind is MatrixKind(NumberKind) and MatMul(comm_x, M).kind is MatrixKind(NumberKind)"},"spec":{"lhs":"test_MatMul_kind()","rhs":"MatMul(2, M).kind is MatrixKind(NumberKind) and MatMul(comm_x, M).kind is MatrixKind(NumberKind)","over":{"base":"Any"},"name":"test_MatMul_kind_correct"},"guarantee":"MatMul(2, M).kind is MatrixKind(NumberKind); MatMul(comm_x, M).kind is MatrixKind(NumberKind)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_kind.test_MatMul_kind_correct","statement":"Path(test_MatMul_kind(x), MatMul(2, M).kind is MatrixKind(NumberKind); MatMul(comm_x, M).kind is MatrixKind(NumberKind))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f5a2fb28d5713b4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["MatMul(2, M).kind is MatrixKind(NumberKind)","MatMul(comm_x, M).kind is MatrixKind(NumberKind)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_MatMul_kind():
     M = Matrix([[1,2],[3,4]])
     assert MatMul(2, M).kind is MatrixKind(NumberKind)

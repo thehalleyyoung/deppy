@@ -23,14 +23,19 @@ from sympy.plotting.pygletplot.util import get_direction_vectors, get_basis_vect
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a PlotController instance) preserved by PlotController(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ PlotController : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 89645240e4a6f879  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_controller.PlotController","kind":"class","src_hash":"83fd7cbeee6cdbae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PlotController(*args)","rhs":"correctly constructs a PlotController instance","over":{"base":"Any"},"name":"PlotController_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a PlotController instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'invert_mouse_zoom') and hasattr(self, 'window') and hasattr(self, 'camera') and hasattr(self, 'action')","kind":"class","induction":"structural on invert_mouse_zoom, window, camera, action"}],"methods_preserving":["__init__","update","get_mouse_sensitivity","get_key_sensitivity","on_key_press","on_key_release","on_mouse_drag","on_mouse_scroll","is_2D"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89645240e4a6f879"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_controller.PlotController","kind":"class","src_hash":"83fd7cbeee6cdbae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PlotController(*args)","rhs":"correctly constructs a PlotController instance","over":{"base":"Any"},"name":"PlotController_class_invariant","kind":"invariant"},"guarantee":"preserves 4 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'invert_mouse_zoom') and hasattr(self, 'window') and hasattr(self, 'camera') and hasattr(self, 'action')","kind":"class","induction":"structural on invert_mouse_zoom, window, camera, action"}],"methods_preserving":["__init__","update","get_mouse_sensitivity","get_key_sensitivity","on_key_press","on_key_release","on_mouse_drag","on_mouse_scroll","is_2D"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89645240e4a6f879","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'invert_mouse_zoom')","hasattr(self, 'window')","hasattr(self, 'camera')","hasattr(self, 'action')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function PlotController not found in source"]}}
 class PlotController:
 
     normal_mouse_sensitivity = 4.0
@@ -93,16 +98,24 @@ class PlotController:
     }
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(win), initializes the instance correctly) over Any ║
+# ║ Path(__init__(window, invert_mouse_zoom, **kwargs), self.invert_mouse_zoom == invert_mouse_zoom and self.window == window) over {Any | hasattr(window, 'camera')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(window, 'camera')                      ║
+# ║   ensures:  self.invert_mouse_zoom == invert_mouse_zoom    ║
+# ║   ensures:  self.window == window                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | hasattr(window, 'camera')} → {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 428ad45e39c383a7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_controller.PlotController.__init__","kind":"method","src_hash":"531c2ede837d3f01","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(win)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"428ad45e39c383a7"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_controller.PlotController.__init__","kind":"method","src_hash":"531c2ede837d3f01","in":{"base":"Any","pred":"hasattr(window, 'camera')"},"out":{"base":"Any","pred":"result satisfies: self.invert_mouse_zoom == invert_mouse_zoom and self.window == window"},"spec":{"lhs":"__init__(window, invert_mouse_zoom, **kwargs)","rhs":"self.invert_mouse_zoom == invert_mouse_zoom and self.window == window","over":{"base":"Any","pred":"hasattr(window, 'camera')"},"name":"__init___correct"},"guarantee":"self.invert_mouse_zoom == invert_mouse_zoom; self.window == window","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"428ad45e39c383a7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(window, 'camera')"],"ensures":["self.invert_mouse_zoom == invert_mouse_zoom","self.window == window"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, window, *, invert_mouse_zoom=False, **kwargs):
         self.invert_mouse_zoom = invert_mouse_zoom
         self.window = window
@@ -140,16 +153,22 @@ class PlotController:
         }
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(update(dt), update produces the expected output) over Any ║
+# ║ Path(update(dt), True) over Any                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ update : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e4bb1dcf6cfdd95  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 847f01ebd9621339  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_controller.PlotController.update","kind":"method","src_hash":"137fd1c129925202","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"update(dt)","rhs":"update produces the expected output","over":{"base":"Any"},"name":"update_correct"},"guarantee":"update produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_controller.PlotController.update_correct","statement":"Path(update(x), update produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e4bb1dcf6cfdd95"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_controller.PlotController.update","kind":"method","src_hash":"137fd1c129925202","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"update(dt)","rhs":"True","over":{"base":"Any"},"name":"update_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_controller.PlotController.update_correct","statement":"Path(update(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"847f01ebd9621339","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.action","self.camera","self.get_key_sensitivity","self.is_2D","self.window"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def update(self, dt):
         z = 0
         if self.action['zoom_out']:
@@ -224,16 +243,25 @@ class PlotController:
         return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_mouse_sensitivity(), get_mouse_sensitivity produces the expected output) over Any ║
+# ║ Path(get_mouse_sensitivity(), result == (self.modified_mouse_sensitivity if self.action['modify_sensitivity'] else self.normal_mouse_sensitivity) and result == self.modified_mouse_sensitivity or result == self.normal_mouse_sensitivity) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_mouse_sensitivity : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self.modified_mouse_sensitivit...   ║
+# ║   ensures:  result == self.modified_mouse_sensitivity...   ║
+# ║   fiber[case_0]: self.action['modify_sensitivity'] =>...   ║
+# ║   fiber[case_1]: not (self.action['modify_sensitivity...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_mouse_sensitivity : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 139d83f30ae8968f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd6ce85ed7a5ef44  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_controller.PlotController.get_mouse_sensitivity","kind":"method","src_hash":"d5b701350aa97743","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_mouse_sensitivity()","rhs":"get_mouse_sensitivity produces the expected output","over":{"base":"Any"},"name":"get_mouse_sensitivity_correct"},"guarantee":"get_mouse_sensitivity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_controller.PlotController.get_mouse_sensitivity_correct","statement":"Path(get_mouse_sensitivity(x), get_mouse_sensitivity produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"139d83f30ae8968f"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_controller.PlotController.get_mouse_sensitivity","kind":"method","src_hash":"d5b701350aa97743","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self.modified_mouse_sensitivity if self.action['modify_sensitivity'] else self.normal_mouse_sensitivity) and result == self.modified_mouse_sensitivity or result == self.normal_mouse_sensitivity"},"spec":{"lhs":"get_mouse_sensitivity()","rhs":"result == (self.modified_mouse_sensitivity if self.action['modify_sensitivity'] else self.normal_mouse_sensitivity) and result == self.modified_mouse_sensitivity or result == self.normal_mouse_sensitivity","over":{"base":"Any"},"name":"get_mouse_sensitivity_correct"},"guarantee":"result == (self.modified_mouse_sensitivity if self.action['modify_sensitivity'] else self.normal_mouse_sensitivity); result == self.modified_mouse_sensitivity or result == self.normal_mouse_sensitivity; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_controller.PlotController.get_mouse_sensitivity_correct","statement":"Path(get_mouse_sensitivity(x), result == (self.modified_mouse_sensitivity if self.action['modify_sensitivity'] else self.normal_mouse_sensitivity); result == self.modified_mouse_sensitivity or result == self.normal_mouse_sensitivity; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd6ce85ed7a5ef44","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self.modified_mouse_sensitivity if self.action['modify_sensitivity'] else self.normal_mouse_sensitivity)","result == self.modified_mouse_sensitivity or result == self.normal_mouse_sensitivity"],"fibers":[{"name":"case_0","guard":"self.action['modify_sensitivity']","ensures":["result == self.modified_mouse_sensitivity"],"decidability":"library","returns_expr":"self.modified_mouse_sensitivity"},{"name":"case_1","guard":"not (self.action['modify_sensitivity'])","ensures":["result == self.normal_mouse_sensitivity"],"decidability":"library","returns_expr":"self.normal_mouse_sensitivity"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.action","self.modified_mouse_sensitivity","self.normal_mouse_sensitivity"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_mouse_sensitivity(self):
         if self.action['modify_sensitivity']:
             return self.modified_mouse_sensitivity
@@ -241,16 +269,25 @@ class PlotController:
             return self.normal_mouse_sensitivity
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_key_sensitivity(), get_key_sensitivity produces the expected output) over Any ║
+# ║ Path(get_key_sensitivity(), result == (self.modified_key_sensitivity if self.action['modify_sensitivity'] else self.normal_key_sensitivity) and result == self.modified_key_sensitivity or result == self.normal_key_sensitivity) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_key_sensitivity : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self.modified_key_sensitivity ...   ║
+# ║   ensures:  result == self.modified_key_sensitivity o...   ║
+# ║   fiber[case_0]: self.action['modify_sensitivity'] =>...   ║
+# ║   fiber[case_1]: not (self.action['modify_sensitivity...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_key_sensitivity : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a2198d267a56db2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd98634e426df72c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_controller.PlotController.get_key_sensitivity","kind":"method","src_hash":"030f1fd947400dc0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_key_sensitivity()","rhs":"get_key_sensitivity produces the expected output","over":{"base":"Any"},"name":"get_key_sensitivity_correct"},"guarantee":"get_key_sensitivity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_controller.PlotController.get_key_sensitivity_correct","statement":"Path(get_key_sensitivity(x), get_key_sensitivity produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a2198d267a56db2"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_controller.PlotController.get_key_sensitivity","kind":"method","src_hash":"030f1fd947400dc0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self.modified_key_sensitivity if self.action['modify_sensitivity'] else self.normal_key_sensitivity) and result == self.modified_key_sensitivity or result == self.normal_key_sensitivity"},"spec":{"lhs":"get_key_sensitivity()","rhs":"result == (self.modified_key_sensitivity if self.action['modify_sensitivity'] else self.normal_key_sensitivity) and result == self.modified_key_sensitivity or result == self.normal_key_sensitivity","over":{"base":"Any"},"name":"get_key_sensitivity_correct"},"guarantee":"result == (self.modified_key_sensitivity if self.action['modify_sensitivity'] else self.normal_key_sensitivity); result == self.modified_key_sensitivity or result == self.normal_key_sensitivity; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_controller.PlotController.get_key_sensitivity_correct","statement":"Path(get_key_sensitivity(x), result == (self.modified_key_sensitivity if self.action['modify_sensitivity'] else self.normal_key_sensitivity); result == self.modified_key_sensitivity or result == self.normal_key_sensitivity; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd98634e426df72c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self.modified_key_sensitivity if self.action['modify_sensitivity'] else self.normal_key_sensitivity)","result == self.modified_key_sensitivity or result == self.normal_key_sensitivity"],"fibers":[{"name":"case_0","guard":"self.action['modify_sensitivity']","ensures":["result == self.modified_key_sensitivity"],"decidability":"library","returns_expr":"self.modified_key_sensitivity"},{"name":"case_1","guard":"not (self.action['modify_sensitivity'])","ensures":["result == self.normal_key_sensitivity"],"decidability":"library","returns_expr":"self.normal_key_sensitivity"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.action","self.modified_key_sensitivity","self.normal_key_sensitivity"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_key_sensitivity(self):
         if self.action['modify_sensitivity']:
             return self.modified_key_sensitivity
@@ -258,46 +295,64 @@ class PlotController:
             return self.normal_key_sensitivity
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(on_key_press(sym), on_key_press produces the expected output) over Any ║
+# ║ Path(on_key_press(symbol, modifiers), <unspecified:on_key_press>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ on_key_press : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db46449ab6840606  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_controller.PlotController.on_key_press","kind":"method","src_hash":"99c43feb42523a17","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"on_key_press(sym)","rhs":"on_key_press produces the expected output","over":{"base":"Any"},"name":"on_key_press_correct"},"guarantee":"on_key_press produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_controller.PlotController.on_key_press_correct","statement":"Path(on_key_press(x), on_key_press produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db46449ab6840606"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_controller.PlotController.on_key_press","kind":"method","src_hash":"99c43feb42523a17","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"on_key_press(symbol, modifiers)","rhs":"<unspecified:on_key_press>","over":{"base":"Any"},"name":"on_key_press_correct"},"guarantee":"on_key_press produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_controller.PlotController.on_key_press_correct","statement":"Path(on_key_press(x), on_key_press produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db46449ab6840606","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.action","self.keymap"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def on_key_press(self, symbol, modifiers):
         if symbol in self.keymap:
             self.action[self.keymap[symbol]] = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(on_key_release(sym), on_key_release produces the expected output) over Any ║
+# ║ Path(on_key_release(symbol, modifiers), <unspecified:on_key_release>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ on_key_release : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a1429fc3e123c5c4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_controller.PlotController.on_key_release","kind":"method","src_hash":"a3d37d6e34e92f5f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"on_key_release(sym)","rhs":"on_key_release produces the expected output","over":{"base":"Any"},"name":"on_key_release_correct"},"guarantee":"on_key_release produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_controller.PlotController.on_key_release_correct","statement":"Path(on_key_release(x), on_key_release produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1429fc3e123c5c4"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_controller.PlotController.on_key_release","kind":"method","src_hash":"a3d37d6e34e92f5f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"on_key_release(symbol, modifiers)","rhs":"<unspecified:on_key_release>","over":{"base":"Any"},"name":"on_key_release_correct"},"guarantee":"on_key_release produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_controller.PlotController.on_key_release_correct","statement":"Path(on_key_release(x), on_key_release produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1429fc3e123c5c4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.action","self.keymap"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def on_key_release(self, symbol, modifiers):
         if symbol in self.keymap:
             self.action[self.keymap[symbol]] = False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(on_mouse_drag(x, ), on_mouse_drag produces the expected output) over Any ║
+# ║ Path(on_mouse_drag(x, y, dx), <unspecified:on_mouse_drag>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ on_mouse_drag : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d9697df746a3b89f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_controller.PlotController.on_mouse_drag","kind":"method","src_hash":"5c9ac1a413630c19","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"on_mouse_drag(x, )","rhs":"on_mouse_drag produces the expected output","over":{"base":"Any"},"name":"on_mouse_drag_correct"},"guarantee":"on_mouse_drag produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_controller.PlotController.on_mouse_drag_correct","statement":"Path(on_mouse_drag(x), on_mouse_drag produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9697df746a3b89f"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_controller.PlotController.on_mouse_drag","kind":"method","src_hash":"5c9ac1a413630c19","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"on_mouse_drag(x, y, dx)","rhs":"<unspecified:on_mouse_drag>","over":{"base":"Any"},"name":"on_mouse_drag_correct"},"guarantee":"on_mouse_drag produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_controller.PlotController.on_mouse_drag_correct","statement":"Path(on_mouse_drag(x), on_mouse_drag produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9697df746a3b89f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.camera","self.get_mouse_sensitivity","self.invert_mouse_zoom","self.is_2D"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
         if buttons & LEFT:
             if self.is_2D():
@@ -312,31 +367,43 @@ class PlotController:
             self.camera.mouse_translate(x, y, dx, dy)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(on_mouse_scroll(x, ), on_mouse_scroll produces the expected output) over Any ║
+# ║ Path(on_mouse_scroll(x, y, dx), <unspecified:on_mouse_scroll>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ on_mouse_scroll : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 321aced253783388  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_controller.PlotController.on_mouse_scroll","kind":"method","src_hash":"670095a0e59db035","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"on_mouse_scroll(x, )","rhs":"on_mouse_scroll produces the expected output","over":{"base":"Any"},"name":"on_mouse_scroll_correct"},"guarantee":"on_mouse_scroll produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_controller.PlotController.on_mouse_scroll_correct","statement":"Path(on_mouse_scroll(x), on_mouse_scroll produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"321aced253783388"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_controller.PlotController.on_mouse_scroll","kind":"method","src_hash":"670095a0e59db035","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"on_mouse_scroll(x, y, dx)","rhs":"<unspecified:on_mouse_scroll>","over":{"base":"Any"},"name":"on_mouse_scroll_correct"},"guarantee":"on_mouse_scroll produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_controller.PlotController.on_mouse_scroll_correct","statement":"Path(on_mouse_scroll(x), on_mouse_scroll produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"321aced253783388","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.camera","self.get_mouse_sensitivity","self.invert_mouse_zoom"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def on_mouse_scroll(self, x, y, dx, dy):
         self.camera.zoom_relative([1, -1][self.invert_mouse_zoom]*dy,
                                   self.get_mouse_sensitivity())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_2D(), is_2D produces the expected output) over Any ║
+# ║ Path(is_2D(), <unspecified:is_2D>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_2D : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e98c8ffa3996e5f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_controller.PlotController.is_2D","kind":"method","src_hash":"e21bff6162b0ed53","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_2D()","rhs":"is_2D produces the expected output","over":{"base":"Any"},"name":"is_2D_correct"},"guarantee":"is_2D produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_controller.PlotController.is_2D_correct","statement":"Path(is_2D(x), is_2D produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e98c8ffa3996e5f"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_controller.PlotController.is_2D","kind":"method","src_hash":"e21bff6162b0ed53","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_2D()","rhs":"<unspecified:is_2D>","over":{"base":"Any"},"name":"is_2D_correct"},"guarantee":"is_2D produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_controller.PlotController.is_2D_correct","statement":"Path(is_2D(x), is_2D produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e98c8ffa3996e5f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.window"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_2D(self):
         functions = self.window.plot._functions
         for i in functions:

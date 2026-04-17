@@ -18,14 +18,20 @@
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(PlotObject(*args), correctly constructs a PlotObject instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ PlotObject : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b6b247da06aa77c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_object.PlotObject","kind":"class","src_hash":"ae89a01d3ef490ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PlotObject(*args)","rhs":"correctly constructs a PlotObject instance","over":{"base":"Any"},"name":"PlotObject_class_invariant"},"guarantee":"correctly constructs a PlotObject instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6b247da06aa77c2"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_object.PlotObject","kind":"class","src_hash":"ae89a01d3ef490ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PlotObject(*args)","rhs":"correctly constructs a PlotObject instance","over":{"base":"Any"},"name":"PlotObject_class_invariant"},"guarantee":"correctly constructs a PlotObject instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6b247da06aa77c2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function PlotObject not found in source"]}}
 class PlotObject:
     """
     Base class for objects which can be displayed in
@@ -34,31 +40,43 @@ class PlotObject:
     visible = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_draw(), internal helper behaves correctly) over Any  ║
+# ║ Path(_draw(), <unspecified:_draw>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _draw : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f406ce129330526c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_object.PlotObject._draw","kind":"method","src_hash":"8972a59e763a7a2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_draw()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_draw_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_object.PlotObject._draw_correct","statement":"Path(_draw(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f406ce129330526c"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_object.PlotObject._draw","kind":"method","src_hash":"8972a59e763a7a2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_draw()","rhs":"<unspecified:_draw>","over":{"base":"Any"},"name":"_draw_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_object.PlotObject._draw_correct","statement":"Path(_draw(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f406ce129330526c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.draw","self.visible"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _draw(self):
         if self.visible:
             self.draw()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(draw(), opengl rendering code for the plot object. override in base class) over Any ║
+# ║ Path(draw(), <unspecified:draw>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ draw : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7fd79fdda66d27db           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_object.PlotObject.draw","kind":"method","src_hash":"af8275552a4d65f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw()","rhs":"opengl rendering code for the plot object. override in base class","over":{"base":"Any"},"name":"draw_correct"},"guarantee":"opengl rendering code for the plot object. override in base class","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7fd79fdda66d27db"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_object.PlotObject.draw","kind":"method","src_hash":"af8275552a4d65f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw()","rhs":"<unspecified:draw>","over":{"base":"Any"},"name":"draw_correct"},"guarantee":"opengl rendering code for the plot object. override in base class","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7fd79fdda66d27db","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def draw(self):
         """
         OpenGL rendering code for the plot object.

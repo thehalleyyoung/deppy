@@ -26,15 +26,21 @@ S = [Symbol('A%i' % i) for i in range(N)]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_linsolve_trivial(), timeit_linsolve_trivial produces the expected output) over Any ║
+# ║ Path(timeit_linsolve_trivial(), <unspecified:timeit_linsolve_trivial>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_linsolve_trivial : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f7c956744b4af91e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.benchmarks.bench_solvers.timeit_linsolve_trivial","kind":"function","src_hash":"7ed90fc70dcb4bf2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_linsolve_trivial()","rhs":"timeit_linsolve_trivial produces the expected output","over":{"base":"Any"},"name":"timeit_linsolve_trivial_correct"},"guarantee":"timeit_linsolve_trivial produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.benchmarks.bench_solvers.timeit_linsolve_trivial_correct","statement":"Path(timeit_linsolve_trivial(x), timeit_linsolve_trivial produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7c956744b4af91e"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.benchmarks.bench_solvers.timeit_linsolve_trivial","kind":"function","src_hash":"7ed90fc70dcb4bf2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_linsolve_trivial()","rhs":"<unspecified:timeit_linsolve_trivial>","over":{"base":"Any"},"name":"timeit_linsolve_trivial_correct"},"guarantee":"timeit_linsolve_trivial produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.benchmarks.bench_solvers.timeit_linsolve_trivial_correct","statement":"Path(timeit_linsolve_trivial(x), timeit_linsolve_trivial produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7c956744b4af91e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_linsolve_trivial():
     solve_linear_system(M, *S)

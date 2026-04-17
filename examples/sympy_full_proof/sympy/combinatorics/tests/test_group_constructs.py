@@ -20,16 +20,24 @@ from sympy.combinatorics.named_groups import CyclicGroup, DihedralGroup
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_direct_product_n(), test_direct_product_n produces the expected output) over Any ║
+# ║ Path(test_direct_product_n(), G.order() == 64 and G.degree == 12 and len(G.orbits()) == 3 and G.is_abelian is True and H.order() == 32 and H.is_abelian is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_direct_product_n : Any → {Any | G.order() == 64 ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  G.order() == 64                                ║
+# ║   ensures:  G.degree == 12                                 ║
+# ║   ensures:  len(G.orbits()) == 3                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_direct_product_n : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99c93b1363a7c162  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc262ed2a0475f83  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_group_constructs.test_direct_product_n","kind":"function","src_hash":"a8a93a1292f50675","in":{"base":"Any"},"out":{"base":"Any","pred":"G.order() == 64 and G.degree == 12 and len(G.orbits()) == 3 and G.is_abelian is True and H.order() == 32 and H.is_abelian is False"},"spec":{"lhs":"test_direct_product_n()","rhs":"test_direct_product_n produces the expected output","over":{"base":"Any"},"name":"test_direct_product_n_correct"},"guarantee":"test_direct_product_n produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_group_constructs.test_direct_product_n_correct","statement":"Path(test_direct_product_n(x), test_direct_product_n produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99c93b1363a7c162"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_group_constructs.test_direct_product_n","kind":"function","src_hash":"a8a93a1292f50675","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: G.order() == 64 and G.degree == 12 and len(G.orbits()) == 3 and G.is_abelian is True and H.order() == 32 and H.is_abelian is False"},"spec":{"lhs":"test_direct_product_n()","rhs":"G.order() == 64 and G.degree == 12 and len(G.orbits()) == 3 and G.is_abelian is True and H.order() == 32 and H.is_abelian is False","over":{"base":"Any"},"name":"test_direct_product_n_correct"},"guarantee":"G.order() == 64; G.degree == 12; len(G.orbits()) == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_group_constructs.test_direct_product_n_correct","statement":"Path(test_direct_product_n(x), G.order() == 64; G.degree == 12; len(G.orbits()) == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc262ed2a0475f83","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["G.order() == 64","G.degree == 12","len(G.orbits()) == 3","G.is_abelian is True","H.order() == 32","H.is_abelian is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_direct_product_n():
     C = CyclicGroup(4)
     D = DihedralGroup(4)

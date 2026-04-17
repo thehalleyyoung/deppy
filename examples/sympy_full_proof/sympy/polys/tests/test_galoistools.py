@@ -56,16 +56,24 @@ from sympy.testing.pytest import raises
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gf_crt(), test_gf_crt produces the expected output) over Any ║
+# ║ Path(test_gf_crt(), gf_crt(U, M, ZZ) == u and gf_crt1(M, ZZ) == (p, E, S) and gf_crt2(U, M, p, E, S, ZZ) == u) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gf_crt : Any → {Any | gf_crt(U, M, ZZ) == u and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gf_crt(U, M, ZZ) == u                          ║
+# ║   ensures:  gf_crt1(M, ZZ) == (p, E, S)                    ║
+# ║   ensures:  gf_crt2(U, M, p, E, S, ZZ) == u                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gf_crt : Any → {Any | result satisfies: gf_crt(U...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 70cd185a0e7b97cf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b2650f2f5548180  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_crt","kind":"function","src_hash":"4c4963a0660f8b20","in":{"base":"Any"},"out":{"base":"Any","pred":"gf_crt(U, M, ZZ) == u and gf_crt1(M, ZZ) == (p, E, S) and gf_crt2(U, M, p, E, S, ZZ) == u"},"spec":{"lhs":"test_gf_crt()","rhs":"test_gf_crt produces the expected output","over":{"base":"Any"},"name":"test_gf_crt_correct"},"guarantee":"test_gf_crt produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_crt_correct","statement":"Path(test_gf_crt(x), test_gf_crt produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70cd185a0e7b97cf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_crt","kind":"function","src_hash":"4c4963a0660f8b20","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gf_crt(U, M, ZZ) == u and gf_crt1(M, ZZ) == (p, E, S) and gf_crt2(U, M, p, E, S, ZZ) == u"},"spec":{"lhs":"test_gf_crt()","rhs":"gf_crt(U, M, ZZ) == u and gf_crt1(M, ZZ) == (p, E, S) and gf_crt2(U, M, p, E, S, ZZ) == u","over":{"base":"Any"},"name":"test_gf_crt_correct"},"guarantee":"gf_crt(U, M, ZZ) == u; gf_crt1(M, ZZ) == (p, E, S); gf_crt2(U, M, p, E, S, ZZ) == u","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_crt_correct","statement":"Path(test_gf_crt(x), gf_crt(U, M, ZZ) == u; gf_crt1(M, ZZ) == (p, E, S); gf_crt2(U, M, p, E, S, ZZ) == u)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b2650f2f5548180","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gf_crt(U, M, ZZ) == u","gf_crt1(M, ZZ) == (p, E, S)","gf_crt2(U, M, p, E, S, ZZ) == u"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_gf_crt():
     U = [49, 76, 65]
     M = [99, 97, 95]
@@ -83,16 +91,24 @@ def test_gf_crt():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gf_int(), test_gf_int produces the expected output) over Any ║
+# ║ Path(test_gf_int(), gf_int(0, 5) == 0 and gf_int(1, 5) == 1 and gf_int(2, 5) == 2 and gf_int(3, 5) == -2 and gf_int(4, 5) == -1 and gf_int(5, 5) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gf_int : Any → {Any | gf_int(0, 5) == 0 and gf_i...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gf_int(0, 5) == 0                              ║
+# ║   ensures:  gf_int(1, 5) == 1                              ║
+# ║   ensures:  gf_int(2, 5) == 2                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gf_int : Any → {Any | result satisfies: gf_int(0...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c9964f6b213655e9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6dc9f2ca0721512e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_int","kind":"function","src_hash":"adbbec37f2694c4e","in":{"base":"Any"},"out":{"base":"Any","pred":"gf_int(0, 5) == 0 and gf_int(1, 5) == 1 and gf_int(2, 5) == 2 and gf_int(3, 5) == -2 and gf_int(4, 5) == -1 and gf_int(5, 5) == 0"},"spec":{"lhs":"test_gf_int()","rhs":"test_gf_int produces the expected output","over":{"base":"Any"},"name":"test_gf_int_correct"},"guarantee":"test_gf_int produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_int_correct","statement":"Path(test_gf_int(x), test_gf_int produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9964f6b213655e9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_int","kind":"function","src_hash":"adbbec37f2694c4e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gf_int(0, 5) == 0 and gf_int(1, 5) == 1 and gf_int(2, 5) == 2 and gf_int(3, 5) == -2 and gf_int(4, 5) == -1 and gf_int(5, 5) == 0"},"spec":{"lhs":"test_gf_int()","rhs":"gf_int(0, 5) == 0 and gf_int(1, 5) == 1 and gf_int(2, 5) == 2 and gf_int(3, 5) == -2 and gf_int(4, 5) == -1 and gf_int(5, 5) == 0","over":{"base":"Any"},"name":"test_gf_int_correct"},"guarantee":"gf_int(0, 5) == 0; gf_int(1, 5) == 1; gf_int(2, 5) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_int_correct","statement":"Path(test_gf_int(x), gf_int(0, 5) == 0; gf_int(1, 5) == 1; gf_int(2, 5) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6dc9f2ca0721512e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gf_int(0, 5) == 0","gf_int(1, 5) == 1","gf_int(2, 5) == 2","gf_int(3, 5) == -2","gf_int(4, 5) == -1","gf_int(5, 5) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_gf_int():
     assert gf_int(0, 5) == 0
     assert gf_int(1, 5) == 1
@@ -103,16 +119,24 @@ def test_gf_int():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gf_degree(), test_gf_degree produces the expected output) over Any ║
+# ║ Path(test_gf_degree(), gf_degree([]) == -1 and gf_degree([1]) == 0 and gf_degree([1, 0]) == 1 and gf_degree([1, 0, 0, 0, 1]) == 4) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gf_degree : Any → {Any | gf_degree([]) == -1 and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gf_degree([]) == -1                            ║
+# ║   ensures:  gf_degree([1]) == 0                            ║
+# ║   ensures:  gf_degree([1, 0]) == 1                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gf_degree : Any → {Any | result satisfies: gf_de...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb6f79047430aafd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c005a96d3d5ef077  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_degree","kind":"function","src_hash":"6bb669ae2c6f987e","in":{"base":"Any"},"out":{"base":"Any","pred":"gf_degree([]) == -1 and gf_degree([1]) == 0 and gf_degree([1, 0]) == 1 and gf_degree([1, 0, 0, 0, 1]) == 4"},"spec":{"lhs":"test_gf_degree()","rhs":"test_gf_degree produces the expected output","over":{"base":"Any"},"name":"test_gf_degree_correct"},"guarantee":"test_gf_degree produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_degree_correct","statement":"Path(test_gf_degree(x), test_gf_degree produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb6f79047430aafd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_degree","kind":"function","src_hash":"6bb669ae2c6f987e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gf_degree([]) == -1 and gf_degree([1]) == 0 and gf_degree([1, 0]) == 1 and gf_degree([1, 0, 0, 0, 1]) == 4"},"spec":{"lhs":"test_gf_degree()","rhs":"gf_degree([]) == -1 and gf_degree([1]) == 0 and gf_degree([1, 0]) == 1 and gf_degree([1, 0, 0, 0, 1]) == 4","over":{"base":"Any"},"name":"test_gf_degree_correct"},"guarantee":"gf_degree([]) == -1; gf_degree([1]) == 0; gf_degree([1, 0]) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_degree_correct","statement":"Path(test_gf_degree(x), gf_degree([]) == -1; gf_degree([1]) == 0; gf_degree([1, 0]) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c005a96d3d5ef077","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gf_degree([]) == -1","gf_degree([1]) == 0","gf_degree([1, 0]) == 1","gf_degree([1, 0, 0, 0, 1]) == 4"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_gf_degree():
     assert gf_degree([]) == -1
     assert gf_degree([1]) == 0
@@ -121,16 +145,24 @@ def test_gf_degree():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gf_strip(), test_gf_strip produces the expected output) over Any ║
+# ║ Path(test_gf_strip(), gf_strip([]) == [] and gf_strip([0]) == [] and gf_strip([0, 0, 0]) == [] and gf_strip([1]) == [1] and gf_strip([0, 1]) == [1] and gf_strip([0, 0, 0, 1]) == [1] and gf_strip([1, 2, 0]) == [1, 2, 0] and gf_strip([0, 1, 2, 0]) == [1, 2, 0] and gf_strip([0, 0, 0, 1, 2, 0]) == [1, 2, 0]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gf_strip : Any → {Any | gf_strip([]) == [] and g...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gf_strip([]) == []                             ║
+# ║   ensures:  gf_strip([0]) == []                            ║
+# ║   ensures:  gf_strip([0, 0, 0]) == []                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gf_strip : Any → {Any | result satisfies: gf_str...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 14eca8d941f39e06  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e1a49e65865606c0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_strip","kind":"function","src_hash":"8e1bb2bb85f36ec6","in":{"base":"Any"},"out":{"base":"Any","pred":"gf_strip([]) == [] and gf_strip([0]) == [] and gf_strip([0, 0, 0]) == [] and gf_strip([1]) == [1] and gf_strip([0, 1]) == [1] and gf_strip([0, 0, 0, 1]) == [1] and gf_strip([1, 2, 0]) == [1, 2, 0] and gf_strip([0, 1, 2, 0]) == [1, 2, 0] and gf_strip([0, 0, 0, 1, 2, 0]) == [1, 2, 0]"},"spec":{"lhs":"test_gf_strip()","rhs":"test_gf_strip produces the expected output","over":{"base":"Any"},"name":"test_gf_strip_correct"},"guarantee":"test_gf_strip produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_strip_correct","statement":"Path(test_gf_strip(x), test_gf_strip produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14eca8d941f39e06"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_strip","kind":"function","src_hash":"8e1bb2bb85f36ec6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gf_strip([]) == [] and gf_strip([0]) == [] and gf_strip([0, 0, 0]) == [] and gf_strip([1]) == [1] and gf_strip([0, 1]) == [1] and gf_strip([0, 0, 0, 1]) == [1] and gf_strip([1, 2, 0]) == [1, 2, 0] and gf_strip([0, 1, 2, 0]) == [1, 2, 0] and gf_strip([0, 0, 0, 1, 2, 0]) == [1, 2, 0]"},"spec":{"lhs":"test_gf_strip()","rhs":"gf_strip([]) == [] and gf_strip([0]) == [] and gf_strip([0, 0, 0]) == [] and gf_strip([1]) == [1] and gf_strip([0, 1]) == [1] and gf_strip([0, 0, 0, 1]) == [1] and gf_strip([1, 2, 0]) == [1, 2, 0] and gf_strip([0, 1, 2, 0]) == [1, 2, 0] and gf_strip([0, 0, 0, 1, 2, 0]) == [1, 2, 0]","over":{"base":"Any"},"name":"test_gf_strip_correct"},"guarantee":"gf_strip([]) == []; gf_strip([0]) == []; gf_strip([0, 0, 0]) == []","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_strip_correct","statement":"Path(test_gf_strip(x), gf_strip([]) == []; gf_strip([0]) == []; gf_strip([0, 0, 0]) == [])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1a49e65865606c0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gf_strip([]) == []","gf_strip([0]) == []","gf_strip([0, 0, 0]) == []","gf_strip([1]) == [1]","gf_strip([0, 1]) == [1]","gf_strip([0, 0, 0, 1]) == [1]","gf_strip([1, 2, 0]) == [1, 2, 0]","gf_strip([0, 1, 2, 0]) == [1, 2, 0]","gf_strip([0, 0, 0, 1, 2, 0]) == [1, 2, 0]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_gf_strip():
     assert gf_strip([]) == []
     assert gf_strip([0]) == []
@@ -146,16 +178,24 @@ def test_gf_strip():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gf_trunc(), test_gf_trunc produces the expected output) over Any ║
+# ║ Path(test_gf_trunc(), gf_trunc([], 11) == [] and gf_trunc([1], 11) == [1] and gf_trunc([22], 11) == [] and gf_trunc([12], 11) == [1] and gf_trunc([11, 22, 17, 1, 0], 11) == [6, 1, 0] and gf_trunc([12, 23, 17, 1, 0], 11) == [1, 1, 6, 1, 0]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gf_trunc : Any → {Any | gf_trunc([], 11) == [] a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gf_trunc([], 11) == []                         ║
+# ║   ensures:  gf_trunc([1], 11) == [1]                       ║
+# ║   ensures:  gf_trunc([22], 11) == []                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gf_trunc : Any → {Any | result satisfies: gf_tru...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 320d0ad8f08c3dd3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af201ccce4cd9c65  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_trunc","kind":"function","src_hash":"22d500e5a6a520c8","in":{"base":"Any"},"out":{"base":"Any","pred":"gf_trunc([], 11) == [] and gf_trunc([1], 11) == [1] and gf_trunc([22], 11) == [] and gf_trunc([12], 11) == [1] and gf_trunc([11, 22, 17, 1, 0], 11) == [6, 1, 0] and gf_trunc([12, 23, 17, 1, 0], 11) == [1, 1, 6, 1, 0]"},"spec":{"lhs":"test_gf_trunc()","rhs":"test_gf_trunc produces the expected output","over":{"base":"Any"},"name":"test_gf_trunc_correct"},"guarantee":"test_gf_trunc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_trunc_correct","statement":"Path(test_gf_trunc(x), test_gf_trunc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"320d0ad8f08c3dd3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_trunc","kind":"function","src_hash":"22d500e5a6a520c8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gf_trunc([], 11) == [] and gf_trunc([1], 11) == [1] and gf_trunc([22], 11) == [] and gf_trunc([12], 11) == [1] and gf_trunc([11, 22, 17, 1, 0], 11) == [6, 1, 0] and gf_trunc([12, 23, 17, 1, 0], 11) == [1, 1, 6, 1, 0]"},"spec":{"lhs":"test_gf_trunc()","rhs":"gf_trunc([], 11) == [] and gf_trunc([1], 11) == [1] and gf_trunc([22], 11) == [] and gf_trunc([12], 11) == [1] and gf_trunc([11, 22, 17, 1, 0], 11) == [6, 1, 0] and gf_trunc([12, 23, 17, 1, 0], 11) == [1, 1, 6, 1, 0]","over":{"base":"Any"},"name":"test_gf_trunc_correct"},"guarantee":"gf_trunc([], 11) == []; gf_trunc([1], 11) == [1]; gf_trunc([22], 11) == []","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_trunc_correct","statement":"Path(test_gf_trunc(x), gf_trunc([], 11) == []; gf_trunc([1], 11) == [1]; gf_trunc([22], 11) == [])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af201ccce4cd9c65","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gf_trunc([], 11) == []","gf_trunc([1], 11) == [1]","gf_trunc([22], 11) == []","gf_trunc([12], 11) == [1]","gf_trunc([11, 22, 17, 1, 0], 11) == [6, 1, 0]","gf_trunc([12, 23, 17, 1, 0], 11) == [1, 1, 6, 1, 0]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_gf_trunc():
     assert gf_trunc([], 11) == []
     assert gf_trunc([1], 11) == [1]
@@ -167,31 +207,45 @@ def test_gf_trunc():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gf_normal(), test_gf_normal produces the expected output) over Any ║
+# ║ Path(test_gf_normal(), gf_normal([11, 22, 17, 1, 0], 11, ZZ) == [6, 1, 0]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gf_normal : Any → {Any | gf_normal([11, 22, 17, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gf_normal([11, 22, 17, 1, 0], 11, ZZ) == ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gf_normal : Any → {Any | result satisfies: gf_no...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b2994241a9713c3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c6e699dc43eb7874  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_normal","kind":"function","src_hash":"8b4d27d3ed06245f","in":{"base":"Any"},"out":{"base":"Any","pred":"gf_normal([11, 22, 17, 1, 0], 11, ZZ) == [6, 1, 0]"},"spec":{"lhs":"test_gf_normal()","rhs":"test_gf_normal produces the expected output","over":{"base":"Any"},"name":"test_gf_normal_correct"},"guarantee":"test_gf_normal produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_normal_correct","statement":"Path(test_gf_normal(x), test_gf_normal produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b2994241a9713c3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_normal","kind":"function","src_hash":"8b4d27d3ed06245f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gf_normal([11, 22, 17, 1, 0], 11, ZZ) == [6, 1, 0]"},"spec":{"lhs":"test_gf_normal()","rhs":"gf_normal([11, 22, 17, 1, 0], 11, ZZ) == [6, 1, 0]","over":{"base":"Any"},"name":"test_gf_normal_correct"},"guarantee":"gf_normal([11, 22, 17, 1, 0], 11, ZZ) == [6, 1, 0]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_normal_correct","statement":"Path(test_gf_normal(x), gf_normal([11, 22, 17, 1, 0], 11, ZZ) == [6, 1, 0])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6e699dc43eb7874","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gf_normal([11, 22, 17, 1, 0], 11, ZZ) == [6, 1, 0]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_gf_normal():
     assert gf_normal([11, 22, 17, 1, 0], 11, ZZ) == [6, 1, 0]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gf_from_to_dict(), test_gf_from_to_dict produces the expected output) over Any ║
+# ║ Path(test_gf_from_to_dict(), gf_from_dict(f, 11, ZZ) == g and gf_to_dict(g, 11) == F and gf_to_dict([10], 11, symmetric=True) == {0: -1} and gf_to_dict([10], 11, symmetric=False) == {0: 10}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gf_from_to_dict : Any → {Any | gf_from_dict(f, 1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gf_from_dict(f, 11, ZZ) == g                   ║
+# ║   ensures:  gf_to_dict(g, 11) == F                         ║
+# ║   ensures:  gf_to_dict([10], 11, symmetric=True) == {...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gf_from_to_dict : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c0dd0049ea7ac2eb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 620a2345d499ef24  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_from_to_dict","kind":"function","src_hash":"242e17ebb79e9b83","in":{"base":"Any"},"out":{"base":"Any","pred":"gf_from_dict(f, 11, ZZ) == g and gf_to_dict(g, 11) == F and gf_from_dict(f, 11, ZZ) == g and gf_to_dict(g, 11) == F and gf_to_dict([10], 11, symmetric=True) == {0: -1} and gf_to_dict([10], 11, symmetric=False) == {0: 10}"},"spec":{"lhs":"test_gf_from_to_dict()","rhs":"test_gf_from_to_dict produces the expected output","over":{"base":"Any"},"name":"test_gf_from_to_dict_correct"},"guarantee":"test_gf_from_to_dict produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_from_to_dict_correct","statement":"Path(test_gf_from_to_dict(x), test_gf_from_to_dict produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c0dd0049ea7ac2eb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_from_to_dict","kind":"function","src_hash":"242e17ebb79e9b83","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gf_from_dict(f, 11, ZZ) == g and gf_to_dict(g, 11) == F and gf_to_dict([10], 11, symmetric=True) == {0: -1} and gf_to_dict([10], 11, symmetric=False) == {0: 10}"},"spec":{"lhs":"test_gf_from_to_dict()","rhs":"gf_from_dict(f, 11, ZZ) == g and gf_to_dict(g, 11) == F and gf_to_dict([10], 11, symmetric=True) == {0: -1} and gf_to_dict([10], 11, symmetric=False) == {0: 10}","over":{"base":"Any"},"name":"test_gf_from_to_dict_correct"},"guarantee":"gf_from_dict(f, 11, ZZ) == g; gf_to_dict(g, 11) == F; gf_to_dict([10], 11, symmetric=True) == {0: -1}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_from_to_dict_correct","statement":"Path(test_gf_from_to_dict(x), gf_from_dict(f, 11, ZZ) == g; gf_to_dict(g, 11) == F; gf_to_dict([10], 11, symmetric=True) == {0: -1})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"620a2345d499ef24","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gf_from_dict(f, 11, ZZ) == g","gf_to_dict(g, 11) == F","gf_to_dict([10], 11, symmetric=True) == {0: -1}","gf_to_dict([10], 11, symmetric=False) == {0: 10}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_gf_from_to_dict():
     f = {11: 12, 6: 2, 0: 25}
     F = {11: 1, 6: 2, 0: 3}
@@ -212,16 +266,24 @@ def test_gf_from_to_dict():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gf_from_to_int_poly(), test_gf_from_to_int_poly produces the expected output) over Any ║
+# ║ Path(test_gf_from_to_int_poly(), gf_from_int_poly([1, 0, 7, 2, 20], 5) == [1, 0, 2, 2, 0] and gf_to_int_poly([1, 0, 4, 2, 3], 5) == [1, 0, -1, 2, -2] and gf_to_int_poly([10], 11, symmetric=True) == [-1] and gf_to_int_poly([10], 11, symmetric=False) == [10]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gf_from_to_int_poly : Any → {Any | gf_from_int_p...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gf_from_int_poly([1, 0, 7, 2, 20], 5) == ...   ║
+# ║   ensures:  gf_to_int_poly([1, 0, 4, 2, 3], 5) == [1,...   ║
+# ║   ensures:  gf_to_int_poly([10], 11, symmetric=True) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gf_from_to_int_poly : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 11cd9f0ecf3b9f88  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 350e4c473b78ff1f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_from_to_int_poly","kind":"function","src_hash":"e30d51e14fa1aa64","in":{"base":"Any"},"out":{"base":"Any","pred":"gf_from_int_poly([1, 0, 7, 2, 20], 5) == [1, 0, 2, 2, 0] and gf_to_int_poly([1, 0, 4, 2, 3], 5) == [1, 0, -1, 2, -2] and gf_to_int_poly([10], 11, symmetric=True) == [-1] and gf_to_int_poly([10], 11, symmetric=False) == [10]"},"spec":{"lhs":"test_gf_from_to_int_poly()","rhs":"test_gf_from_to_int_poly produces the expected output","over":{"base":"Any"},"name":"test_gf_from_to_int_poly_correct"},"guarantee":"test_gf_from_to_int_poly produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_from_to_int_poly_correct","statement":"Path(test_gf_from_to_int_poly(x), test_gf_from_to_int_poly produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11cd9f0ecf3b9f88"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_from_to_int_poly","kind":"function","src_hash":"e30d51e14fa1aa64","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gf_from_int_poly([1, 0, 7, 2, 20], 5) == [1, 0, 2, 2, 0] and gf_to_int_poly([1, 0, 4, 2, 3], 5) == [1, 0, -1, 2, -2] and gf_to_int_poly([10], 11, symmetric=True) == [-1] and gf_to_int_poly([10], 11, symmetric=False) == [10]"},"spec":{"lhs":"test_gf_from_to_int_poly()","rhs":"gf_from_int_poly([1, 0, 7, 2, 20], 5) == [1, 0, 2, 2, 0] and gf_to_int_poly([1, 0, 4, 2, 3], 5) == [1, 0, -1, 2, -2] and gf_to_int_poly([10], 11, symmetric=True) == [-1] and gf_to_int_poly([10], 11, symmetric=False) == [10]","over":{"base":"Any"},"name":"test_gf_from_to_int_poly_correct"},"guarantee":"gf_from_int_poly([1, 0, 7, 2, 20], 5) == [1, 0, 2, 2, 0]; gf_to_int_poly([1, 0, 4, 2, 3], 5) == [1, 0, -1, 2, -2]; gf_to_int_poly([10], 11, symmetric=True) == [-1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_from_to_int_poly_correct","statement":"Path(test_gf_from_to_int_poly(x), gf_from_int_poly([1, 0, 7, 2, 20], 5) == [1, 0, 2, 2, 0]; gf_to_int_poly([1, 0, 4, 2, 3], 5) == [1, 0, -1, 2, -2]; gf_to_int_poly([10], 11, symmetric=True) == [-1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"350e4c473b78ff1f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gf_from_int_poly([1, 0, 7, 2, 20], 5) == [1, 0, 2, 2, 0]","gf_to_int_poly([1, 0, 4, 2, 3], 5) == [1, 0, -1, 2, -2]","gf_to_int_poly([10], 11, symmetric=True) == [-1]","gf_to_int_poly([10], 11, symmetric=False) == [10]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_gf_from_to_int_poly():
     assert gf_from_int_poly([1, 0, 7, 2, 20], 5) == [1, 0, 2, 2, 0]
     assert gf_to_int_poly([1, 0, 4, 2, 3], 5) == [1, 0, -1, 2, -2]
@@ -231,16 +293,24 @@ def test_gf_from_to_int_poly():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gf_LC(), test_gf_LC produces the expected output) over Any ║
+# ║ Path(test_gf_LC(), gf_LC([], ZZ) == 0 and gf_LC([1], ZZ) == 1 and gf_LC([1, 2], ZZ) == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gf_LC : Any → {Any | gf_LC([], ZZ) == 0 and gf_L...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gf_LC([], ZZ) == 0                             ║
+# ║   ensures:  gf_LC([1], ZZ) == 1                            ║
+# ║   ensures:  gf_LC([1, 2], ZZ) == 1                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gf_LC : Any → {Any | result satisfies: gf_LC([],...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 20dc579bb65a1400  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b58088422ff32e1d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_LC","kind":"function","src_hash":"fa333ad568b18ca0","in":{"base":"Any"},"out":{"base":"Any","pred":"gf_LC([], ZZ) == 0 and gf_LC([1], ZZ) == 1 and gf_LC([1, 2], ZZ) == 1"},"spec":{"lhs":"test_gf_LC()","rhs":"test_gf_LC produces the expected output","over":{"base":"Any"},"name":"test_gf_LC_correct"},"guarantee":"test_gf_LC produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_LC_correct","statement":"Path(test_gf_LC(x), test_gf_LC produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20dc579bb65a1400"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_LC","kind":"function","src_hash":"fa333ad568b18ca0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gf_LC([], ZZ) == 0 and gf_LC([1], ZZ) == 1 and gf_LC([1, 2], ZZ) == 1"},"spec":{"lhs":"test_gf_LC()","rhs":"gf_LC([], ZZ) == 0 and gf_LC([1], ZZ) == 1 and gf_LC([1, 2], ZZ) == 1","over":{"base":"Any"},"name":"test_gf_LC_correct"},"guarantee":"gf_LC([], ZZ) == 0; gf_LC([1], ZZ) == 1; gf_LC([1, 2], ZZ) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_LC_correct","statement":"Path(test_gf_LC(x), gf_LC([], ZZ) == 0; gf_LC([1], ZZ) == 1; gf_LC([1, 2], ZZ) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b58088422ff32e1d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gf_LC([], ZZ) == 0","gf_LC([1], ZZ) == 1","gf_LC([1, 2], ZZ) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_gf_LC():
     assert gf_LC([], ZZ) == 0
     assert gf_LC([1], ZZ) == 1
@@ -248,16 +318,24 @@ def test_gf_LC():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gf_TC(), test_gf_TC produces the expected output) over Any ║
+# ║ Path(test_gf_TC(), gf_TC([], ZZ) == 0 and gf_TC([1], ZZ) == 1 and gf_TC([1, 2], ZZ) == 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gf_TC : Any → {Any | gf_TC([], ZZ) == 0 and gf_T...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gf_TC([], ZZ) == 0                             ║
+# ║   ensures:  gf_TC([1], ZZ) == 1                            ║
+# ║   ensures:  gf_TC([1, 2], ZZ) == 2                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gf_TC : Any → {Any | result satisfies: gf_TC([],...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 74f151c2a572719f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 17b5dd12d55fe5cd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_TC","kind":"function","src_hash":"209445c843a3b446","in":{"base":"Any"},"out":{"base":"Any","pred":"gf_TC([], ZZ) == 0 and gf_TC([1], ZZ) == 1 and gf_TC([1, 2], ZZ) == 2"},"spec":{"lhs":"test_gf_TC()","rhs":"test_gf_TC produces the expected output","over":{"base":"Any"},"name":"test_gf_TC_correct"},"guarantee":"test_gf_TC produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_TC_correct","statement":"Path(test_gf_TC(x), test_gf_TC produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"74f151c2a572719f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_TC","kind":"function","src_hash":"209445c843a3b446","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gf_TC([], ZZ) == 0 and gf_TC([1], ZZ) == 1 and gf_TC([1, 2], ZZ) == 2"},"spec":{"lhs":"test_gf_TC()","rhs":"gf_TC([], ZZ) == 0 and gf_TC([1], ZZ) == 1 and gf_TC([1, 2], ZZ) == 2","over":{"base":"Any"},"name":"test_gf_TC_correct"},"guarantee":"gf_TC([], ZZ) == 0; gf_TC([1], ZZ) == 1; gf_TC([1, 2], ZZ) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_TC_correct","statement":"Path(test_gf_TC(x), gf_TC([], ZZ) == 0; gf_TC([1], ZZ) == 1; gf_TC([1, 2], ZZ) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17b5dd12d55fe5cd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gf_TC([], ZZ) == 0","gf_TC([1], ZZ) == 1","gf_TC([1, 2], ZZ) == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_gf_TC():
     assert gf_TC([], ZZ) == 0
     assert gf_TC([1], ZZ) == 1
@@ -265,16 +343,24 @@ def test_gf_TC():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gf_monic(), test_gf_monic produces the expected output) over Any ║
+# ║ Path(test_gf_monic(), gf_monic(ZZ.map([]), 11, ZZ) == (0, []) and gf_monic(ZZ.map([1]), 11, ZZ) == (1, [1]) and gf_monic(ZZ.map([2]), 11, ZZ) == (2, [1]) and gf_monic(ZZ.map([1, 2, 3, 4]), 11, ZZ) == (1, [1, 2, 3, 4]) and gf_monic(ZZ.map([2, 3, 4, 5]), 11, ZZ) == (2, [1, 7, 2, 8])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gf_monic : Any → {Any | gf_monic(ZZ.map([]), 11,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gf_monic(ZZ.map([]), 11, ZZ) == (0, [])        ║
+# ║   ensures:  gf_monic(ZZ.map([1]), 11, ZZ) == (1, [1])      ║
+# ║   ensures:  gf_monic(ZZ.map([2]), 11, ZZ) == (2, [1])      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gf_monic : Any → {Any | result satisfies: gf_mon...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ca6d7f74648848c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0190442d6ca8b906  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_monic","kind":"function","src_hash":"65babf6b64b9ce63","in":{"base":"Any"},"out":{"base":"Any","pred":"gf_monic(ZZ.map([]), 11, ZZ) == (0, []) and gf_monic(ZZ.map([1]), 11, ZZ) == (1, [1]) and gf_monic(ZZ.map([2]), 11, ZZ) == (2, [1]) and gf_monic(ZZ.map([1, 2, 3, 4]), 11, ZZ) == (1, [1, 2, 3, 4]) and gf_monic(ZZ.map([2, 3, 4, 5]), 11, ZZ) == (2, [1, 7, 2, 8])"},"spec":{"lhs":"test_gf_monic()","rhs":"test_gf_monic produces the expected output","over":{"base":"Any"},"name":"test_gf_monic_correct"},"guarantee":"test_gf_monic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_monic_correct","statement":"Path(test_gf_monic(x), test_gf_monic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ca6d7f74648848c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_monic","kind":"function","src_hash":"65babf6b64b9ce63","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gf_monic(ZZ.map([]), 11, ZZ) == (0, []) and gf_monic(ZZ.map([1]), 11, ZZ) == (1, [1]) and gf_monic(ZZ.map([2]), 11, ZZ) == (2, [1]) and gf_monic(ZZ.map([1, 2, 3, 4]), 11, ZZ) == (1, [1, 2, 3, 4]) and gf_monic(ZZ.map([2, 3, 4, 5]), 11, ZZ) == (2, [1, 7, 2, 8])"},"spec":{"lhs":"test_gf_monic()","rhs":"gf_monic(ZZ.map([]), 11, ZZ) == (0, []) and gf_monic(ZZ.map([1]), 11, ZZ) == (1, [1]) and gf_monic(ZZ.map([2]), 11, ZZ) == (2, [1]) and gf_monic(ZZ.map([1, 2, 3, 4]), 11, ZZ) == (1, [1, 2, 3, 4]) and gf_monic(ZZ.map([2, 3, 4, 5]), 11, ZZ) == (2, [1, 7, 2, 8])","over":{"base":"Any"},"name":"test_gf_monic_correct"},"guarantee":"gf_monic(ZZ.map([]), 11, ZZ) == (0, []); gf_monic(ZZ.map([1]), 11, ZZ) == (1, [1]); gf_monic(ZZ.map([2]), 11, ZZ) == (2, [1])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_monic_correct","statement":"Path(test_gf_monic(x), gf_monic(ZZ.map([]), 11, ZZ) == (0, []); gf_monic(ZZ.map([1]), 11, ZZ) == (1, [1]); gf_monic(ZZ.map([2]), 11, ZZ) == (2, [1]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0190442d6ca8b906","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gf_monic(ZZ.map([]), 11, ZZ) == (0, [])","gf_monic(ZZ.map([1]), 11, ZZ) == (1, [1])","gf_monic(ZZ.map([2]), 11, ZZ) == (2, [1])","gf_monic(ZZ.map([1, 2, 3, 4]), 11, ZZ) == (1, [1, 2, 3, 4])","gf_monic(ZZ.map([2, 3, 4, 5]), 11, ZZ) == (2, [1, 7, 2, 8])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_gf_monic():
     assert gf_monic(ZZ.map([]), 11, ZZ) == (0, [])
 
@@ -286,16 +372,24 @@ def test_gf_monic():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gf_arith(), test_gf_arith produces the expected output) over Any ║
+# ║ Path(test_gf_arith(), gf_neg([], 11, ZZ) == [] and gf_neg([1], 11, ZZ) == [10] and gf_neg([1, 2, 3], 11, ZZ) == [10, 9, 8] and gf_add_ground([], 0, 11, ZZ) == [] and gf_sub_ground([], 0, 11, ZZ) == [] and gf_add_ground([], 3, 11, ZZ) == [3] and gf_sub_ground([], 3, 11, ZZ) == [8] and gf_add_ground([1], 3, 11, ZZ) == [4] and gf_sub_ground([1], 3, 11, ZZ) == [9] and gf_add_ground([8], 3, 11, ZZ) == [] and gf_sub_ground([3], 3, 11, ZZ) == [] and gf_add_ground([1, 2, 3], 3, 11, ZZ) == [1, 2, 6] and gf_sub_ground([1, 2, 3], 3, 11, ZZ) == [1, 2, 0] and gf_mul_ground([], 0, 11, ZZ) == [] and gf_mul_ground([], 1, 11, ZZ) == [] and gf_mul_ground([1], 0, 11, ZZ) == [] and gf_mul_ground([1], 1, 11, ZZ) == [1] and gf_mul_ground([1, 2, 3], 0, 11, ZZ) == [] and gf_mul_ground([1, 2, 3], 1, 11, ZZ) == [1, 2, 3] and gf_mul_ground([1, 2, 3], 7, 11, ZZ) == [7, 3, 10] and gf_add([], [], 11, ZZ) == [] and gf_add([1], [], 11, ZZ) == [1] and gf_add([], [1], 11, ZZ) == [1] and gf_add([1], [1], 11, ZZ) == [2] and gf_add([1], [2], 11, ZZ) == [3] and gf_add([1, 2], [1], 11, ZZ) == [1, 3] and gf_add([1], [1, 2], 11, ZZ) == [1, 3] and gf_add([1, 2, 3], [8, 9, 10], 11, ZZ) == [9, 0, 2] and gf_sub([], [], 11, ZZ) == [] and gf_sub([1], [], 11, ZZ) == [1] and gf_sub([], [1], 11, ZZ) == [10] and gf_sub([1], [1], 11, ZZ) == [] and gf_sub([1], [2], 11, ZZ) == [10] and gf_sub([1, 2], [1], 11, ZZ) == [1, 1] and gf_sub([1], [1, 2], 11, ZZ) == [10, 10] and gf_sub([3, 2, 1], [8, 9, 10], 11, ZZ) == [6, 4, 2] and gf_add_mul([1, 5, 6], [7, 3], [8, 0, 6, 1], 11, ZZ) == [1, 2, 10, 8, 9] and gf_sub_mul([1, 5, 6], [7, 3], [8, 0, 6, 1], 11, ZZ) == [10, 9, 3, 2, 3] and gf_mul([], [], 11, ZZ) == [] and gf_mul([], [1], 11, ZZ) == [] and gf_mul([1], [], 11, ZZ) == [] and gf_mul([1], [1], 11, ZZ) == [1] and gf_mul([5], [7], 11, ZZ) == [2] and gf_mul([3, 0, 0, 6, 1, 2], [4, 0, 1, 0], 11, ZZ) == [1, 0, 3, 2, 4, 3, 1, 2, 0] and gf_mul([4, 0, 1, 0], [3, 0, 0, 6, 1, 2], 11, ZZ) == [1, 0, 3, 2, 4, 3, 1, 2, 0] and gf_mul([2, 0, 0, 1, 7], [2, 0, 0, 1, 7], 11, ZZ) == [4, 0, 0, 4, 6, 0, 1, 3, 5] and gf_sqr([], 11, ZZ) == [] and gf_sqr([2], 11, ZZ) == [4] and gf_sqr([1, 2], 11, ZZ) == [1, 4, 4] and gf_sqr([2, 0, 0, 1, 7], 11, ZZ) == [4, 0, 0, 4, 6, 0, 1, 3, 5]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gf_arith : Any → {Any | gf_neg([], 11, ZZ) == []...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gf_neg([], 11, ZZ) == []                       ║
+# ║   ensures:  gf_neg([1], 11, ZZ) == [10]                    ║
+# ║   ensures:  gf_neg([1, 2, 3], 11, ZZ) == [10, 9, 8]        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gf_arith : Any → {Any | result satisfies: gf_neg...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 832ff3cdb285ec7d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3cce1b0c7df9c7e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_arith","kind":"function","src_hash":"64c183d474424440","in":{"base":"Any"},"out":{"base":"Any","pred":"gf_neg([], 11, ZZ) == [] and gf_neg([1], 11, ZZ) == [10] and gf_neg([1, 2, 3], 11, ZZ) == [10, 9, 8] and gf_add_ground([], 0, 11, ZZ) == [] and gf_sub_ground([], 0, 11, ZZ) == [] and gf_add_ground([], 3, 11, ZZ) == [3] and gf_sub_ground([], 3, 11, ZZ) == [8] and gf_add_ground([1], 3, 11, ZZ) == [4] and gf_sub_ground([1], 3, 11, ZZ) == [9] and gf_add_ground([8], 3, 11, ZZ) == [] and gf_sub_ground([3], 3, 11, ZZ) == [] and gf_add_ground([1, 2, 3], 3, 11, ZZ) == [1, 2, 6] and gf_sub_ground([1, 2, 3], 3, 11, ZZ) == [1, 2, 0] and gf_mul_ground([], 0, 11, ZZ) == [] and gf_mul_ground([], 1, 11, ZZ) == [] and gf_mul_ground([1], 0, 11, ZZ) == [] and gf_mul_ground([1], 1, 11, ZZ) == [1] and gf_mul_ground([1, 2, 3], 0, 11, ZZ) == [] and gf_mul_ground([1, 2, 3], 1, 11, ZZ) == [1, 2, 3] and gf_mul_ground([1, 2, 3], 7, 11, ZZ) == [7, 3, 10] and gf_add([], [], 11, ZZ) == [] and gf_add([1], [], 11, ZZ) == [1] and gf_add([], [1], 11, ZZ) == [1] and gf_add([1], [1], 11, ZZ) == [2] and gf_add([1], [2], 11, ZZ) == [3] and gf_add([1, 2], [1], 11, ZZ) == [1, 3] and gf_add([1], [1, 2], 11, ZZ) == [1, 3] and gf_add([1, 2, 3], [8, 9, 10], 11, ZZ) == [9, 0, 2] and gf_sub([], [], 11, ZZ) == [] and gf_sub([1], [], 11, ZZ) == [1] and gf_sub([], [1], 11, ZZ) == [10] and gf_sub([1], [1], 11, ZZ) == [] and gf_sub([1], [2], 11, ZZ) == [10] and gf_sub([1, 2], [1], 11, ZZ) == [1, 1] and gf_sub([1], [1, 2], 11, ZZ) == [10, 10] and gf_sub([3, 2, 1], [8, 9, 10], 11, ZZ) == [6, 4, 2] and gf_add_mul([1, 5, 6], [7, 3], [8, 0, 6, 1], 11, ZZ) == [1, 2, 10, 8, 9] and gf_sub_mul([1, 5, 6], [7, 3], [8, 0, 6, 1], 11, ZZ) == [10, 9, 3, 2, 3] and gf_mul([], [], 11, ZZ) == [] and gf_mul([], [1], 11, ZZ) == [] and gf_mul([1], [], 11, ZZ) == [] and gf_mul([1], [1], 11, ZZ) == [1] and gf_mul([5], [7], 11, ZZ) == [2] and gf_mul([3, 0, 0, 6, 1, 2], [4, 0, 1, 0], 11, ZZ) == [1, 0, 3, 2, 4, 3, 1, 2, 0] and gf_mul([4, 0, 1, 0], [3, 0, 0, 6, 1, 2], 11, ZZ) == [1, 0, 3, 2, 4, 3, 1, 2, 0] and gf_mul([2, 0, 0, 1, 7], [2, 0, 0, 1, 7], 11, ZZ) == [4, 0, 0, 4, 6, 0, 1, 3, 5] and gf_sqr([], 11, ZZ) == [] and gf_sqr([2], 11, ZZ) == [4] and gf_sqr([1, 2], 11, ZZ) == [1, 4, 4] and gf_sqr([2, 0, 0, 1, 7], 11, ZZ) == [4, 0, 0, 4, 6, 0, 1, 3, 5]"},"spec":{"lhs":"test_gf_arith()","rhs":"test_gf_arith produces the expected output","over":{"base":"Any"},"name":"test_gf_arith_correct"},"guarantee":"test_gf_arith produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_arith_correct","statement":"Path(test_gf_arith(x), test_gf_arith produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"832ff3cdb285ec7d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_arith","kind":"function","src_hash":"64c183d474424440","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gf_neg([], 11, ZZ) == [] and gf_neg([1], 11, ZZ) == [10] and gf_neg([1, 2, 3], 11, ZZ) == [10, 9, 8] and gf_add_ground([], 0, 11, ZZ) == [] and gf_sub_ground([], 0, 11, ZZ) == [] and gf_add_ground([], 3, 11, ZZ) == [3] and gf_sub_ground([], 3, 11, ZZ) == [8] and gf_add_ground([1], 3, 11, ZZ) == [4] and gf_sub_ground([1], 3, 11, ZZ) == [9] and gf_add_ground([8], 3, 11, ZZ) == [] and gf_sub_ground([3], 3, 11, ZZ) == [] and gf_add_ground([1, 2, 3], 3, 11, ZZ) == [1, 2, 6] and gf_sub_ground([1, 2, 3], 3, 11, ZZ) == [1, 2, 0] and gf_mul_ground([], 0, 11, ZZ) == [] and gf_mul_ground([], 1, 11, ZZ) == [] and gf_mul_ground([1], 0, 11, ZZ) == [] and gf_mul_ground([1], 1, 11, ZZ) == [1] and gf_mul_ground([1, 2, 3], 0, 11, ZZ) == [] and gf_mul_ground([1, 2, 3], 1, 11, ZZ) == [1, 2, 3] and gf_mul_ground([1, 2, 3], 7, 11, ZZ) == [7, 3, 10] and gf_add([], [], 11, ZZ) == [] and gf_add([1], [], 11, ZZ) == [1] and gf_add([], [1], 11, ZZ) == [1] and gf_add([1], [1], 11, ZZ) == [2] and gf_add([1], [2], 11, ZZ) == [3] and gf_add([1, 2], [1], 11, ZZ) == [1, 3] and gf_add([1], [1, 2], 11, ZZ) == [1, 3] and gf_add([1, 2, 3], [8, 9, 10], 11, ZZ) == [9, 0, 2] and gf_sub([], [], 11, ZZ) == [] and gf_sub([1], [], 11, ZZ) == [1] and gf_sub([], [1], 11, ZZ) == [10] and gf_sub([1], [1], 11, ZZ) == [] and gf_sub([1], [2], 11, ZZ) == [10] and gf_sub([1, 2], [1], 11, ZZ) == [1, 1] and gf_sub([1], [1, 2], 11, ZZ) == [10, 10] and gf_sub([3, 2, 1], [8, 9, 10], 11, ZZ) == [6, 4, 2] and gf_add_mul([1, 5, 6], [7, 3], [8, 0, 6, 1], 11, ZZ) == [1, 2, 10, 8, 9] and gf_sub_mul([1, 5, 6], [7, 3], [8, 0, 6, 1], 11, ZZ) == [10, 9, 3, 2, 3] and gf_mul([], [], 11, ZZ) == [] and gf_mul([], [1], 11, ZZ) == [] and gf_mul([1], [], 11, ZZ) == [] and gf_mul([1], [1], 11, ZZ) == [1] and gf_mul([5], [7], 11, ZZ) == [2] and gf_mul([3, 0, 0, 6, 1, 2], [4, 0, 1, 0], 11, ZZ) == [1, 0, 3, 2, 4, 3, 1, 2, 0] and gf_mul([4, 0, 1, 0], [3, 0, 0, 6, 1, 2], 11, ZZ) == [1, 0, 3, 2, 4, 3, 1, 2, 0] and gf_mul([2, 0, 0, 1, 7], [2, 0, 0, 1, 7], 11, ZZ) == [4, 0, 0, 4, 6, 0, 1, 3, 5] and gf_sqr([], 11, ZZ) == [] and gf_sqr([2], 11, ZZ) == [4] and gf_sqr([1, 2], 11, ZZ) == [1, 4, 4] and gf_sqr([2, 0, 0, 1, 7], 11, ZZ) == [4, 0, 0, 4, 6, 0, 1, 3, 5]"},"spec":{"lhs":"test_gf_arith()","rhs":"gf_neg([], 11, ZZ) == [] and gf_neg([1], 11, ZZ) == [10] and gf_neg([1, 2, 3], 11, ZZ) == [10, 9, 8] and gf_add_ground([], 0, 11, ZZ) == [] and gf_sub_ground([], 0, 11, ZZ) == [] and gf_add_ground([], 3, 11, ZZ) == [3] and gf_sub_ground([], 3, 11, ZZ) == [8] and gf_add_ground([1], 3, 11, ZZ) == [4] and gf_sub_ground([1], 3, 11, ZZ) == [9] and gf_add_ground([8], 3, 11, ZZ) == [] and gf_sub_ground([3], 3, 11, ZZ) == [] and gf_add_ground([1, 2, 3], 3, 11, ZZ) == [1, 2, 6] and gf_sub_ground([1, 2, 3], 3, 11, ZZ) == [1, 2, 0] and gf_mul_ground([], 0, 11, ZZ) == [] and gf_mul_ground([], 1, 11, ZZ) == [] and gf_mul_ground([1], 0, 11, ZZ) == [] and gf_mul_ground([1], 1, 11, ZZ) == [1] and gf_mul_ground([1, 2, 3], 0, 11, ZZ) == [] and gf_mul_ground([1, 2, 3], 1, 11, ZZ) == [1, 2, 3] and gf_mul_ground([1, 2, 3], 7, 11, ZZ) == [7, 3, 10] and gf_add([], [], 11, ZZ) == [] and gf_add([1], [], 11, ZZ) == [1] and gf_add([], [1], 11, ZZ) == [1] and gf_add([1], [1], 11, ZZ) == [2] and gf_add([1], [2], 11, ZZ) == [3] and gf_add([1, 2], [1], 11, ZZ) == [1, 3] and gf_add([1], [1, 2], 11, ZZ) == [1, 3] and gf_add([1, 2, 3], [8, 9, 10], 11, ZZ) == [9, 0, 2] and gf_sub([], [], 11, ZZ) == [] and gf_sub([1], [], 11, ZZ) == [1] and gf_sub([], [1], 11, ZZ) == [10] and gf_sub([1], [1], 11, ZZ) == [] and gf_sub([1], [2], 11, ZZ) == [10] and gf_sub([1, 2], [1], 11, ZZ) == [1, 1] and gf_sub([1], [1, 2], 11, ZZ) == [10, 10] and gf_sub([3, 2, 1], [8, 9, 10], 11, ZZ) == [6, 4, 2] and gf_add_mul([1, 5, 6], [7, 3], [8, 0, 6, 1], 11, ZZ) == [1, 2, 10, 8, 9] and gf_sub_mul([1, 5, 6], [7, 3], [8, 0, 6, 1], 11, ZZ) == [10, 9, 3, 2, 3] and gf_mul([], [], 11, ZZ) == [] and gf_mul([], [1], 11, ZZ) == [] and gf_mul([1], [], 11, ZZ) == [] and gf_mul([1], [1], 11, ZZ) == [1] and gf_mul([5], [7], 11, ZZ) == [2] and gf_mul([3, 0, 0, 6, 1, 2], [4, 0, 1, 0], 11, ZZ) == [1, 0, 3, 2, 4, 3, 1, 2, 0] and gf_mul([4, 0, 1, 0], [3, 0, 0, 6, 1, 2], 11, ZZ) == [1, 0, 3, 2, 4, 3, 1, 2, 0] and gf_mul([2, 0, 0, 1, 7], [2, 0, 0, 1, 7], 11, ZZ) == [4, 0, 0, 4, 6, 0, 1, 3, 5] and gf_sqr([], 11, ZZ) == [] and gf_sqr([2], 11, ZZ) == [4] and gf_sqr([1, 2], 11, ZZ) == [1, 4, 4] and gf_sqr([2, 0, 0, 1, 7], 11, ZZ) == [4, 0, 0, 4, 6, 0, 1, 3, 5]","over":{"base":"Any"},"name":"test_gf_arith_correct"},"guarantee":"gf_neg([], 11, ZZ) == []; gf_neg([1], 11, ZZ) == [10]; gf_neg([1, 2, 3], 11, ZZ) == [10, 9, 8]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_arith_correct","statement":"Path(test_gf_arith(x), gf_neg([], 11, ZZ) == []; gf_neg([1], 11, ZZ) == [10]; gf_neg([1, 2, 3], 11, ZZ) == [10, 9, 8])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3cce1b0c7df9c7e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gf_neg([], 11, ZZ) == []","gf_neg([1], 11, ZZ) == [10]","gf_neg([1, 2, 3], 11, ZZ) == [10, 9, 8]","gf_add_ground([], 0, 11, ZZ) == []","gf_sub_ground([], 0, 11, ZZ) == []","gf_add_ground([], 3, 11, ZZ) == [3]","gf_sub_ground([], 3, 11, ZZ) == [8]","gf_add_ground([1], 3, 11, ZZ) == [4]","gf_sub_ground([1], 3, 11, ZZ) == [9]","gf_add_ground([8], 3, 11, ZZ) == []","gf_sub_ground([3], 3, 11, ZZ) == []","gf_add_ground([1, 2, 3], 3, 11, ZZ) == [1, 2, 6]","gf_sub_ground([1, 2, 3], 3, 11, ZZ) == [1, 2, 0]","gf_mul_ground([], 0, 11, ZZ) == []","gf_mul_ground([], 1, 11, ZZ) == []","gf_mul_ground([1], 0, 11, ZZ) == []","gf_mul_ground([1], 1, 11, ZZ) == [1]","gf_mul_ground([1, 2, 3], 0, 11, ZZ) == []","gf_mul_ground([1, 2, 3], 1, 11, ZZ) == [1, 2, 3]","gf_mul_ground([1, 2, 3], 7, 11, ZZ) == [7, 3, 10]","gf_add([], [], 11, ZZ) == []","gf_add([1], [], 11, ZZ) == [1]","gf_add([], [1], 11, ZZ) == [1]","gf_add([1], [1], 11, ZZ) == [2]","gf_add([1], [2], 11, ZZ) == [3]","gf_add([1, 2], [1], 11, ZZ) == [1, 3]","gf_add([1], [1, 2], 11, ZZ) == [1, 3]","gf_add([1, 2, 3], [8, 9, 10], 11, ZZ) == [9, 0, 2]","gf_sub([], [], 11, ZZ) == []","gf_sub([1], [], 11, ZZ) == [1]","gf_sub([], [1], 11, ZZ) == [10]","gf_sub([1], [1], 11, ZZ) == []","gf_sub([1], [2], 11, ZZ) == [10]","gf_sub([1, 2], [1], 11, ZZ) == [1, 1]","gf_sub([1], [1, 2], 11, ZZ) == [10, 10]","gf_sub([3, 2, 1], [8, 9, 10], 11, ZZ) == [6, 4, 2]","gf_add_mul([1, 5, 6], [7, 3], [8, 0, 6, 1], 11, ZZ) == [1, 2, 10, 8, 9]","gf_sub_mul([1, 5, 6], [7, 3], [8, 0, 6, 1], 11, ZZ) == [10, 9, 3, 2, 3]","gf_mul([], [], 11, ZZ) == []","gf_mul([], [1], 11, ZZ) == []","gf_mul([1], [], 11, ZZ) == []","gf_mul([1], [1], 11, ZZ) == [1]","gf_mul([5], [7], 11, ZZ) == [2]","gf_mul([3, 0, 0, 6, 1, 2], [4, 0, 1, 0], 11, ZZ) == [1, 0, 3, 2, 4, 3, 1, 2, 0]","gf_mul([4, 0, 1, 0], [3, 0, 0, 6, 1, 2], 11, ZZ) == [1, 0, 3, 2, 4, 3, 1, 2, 0]","gf_mul([2, 0, 0, 1, 7], [2, 0, 0, 1, 7], 11, ZZ) == [4, 0, 0, 4, 6, 0, 1, 3, 5]","gf_sqr([], 11, ZZ) == []","gf_sqr([2], 11, ZZ) == [4]","gf_sqr([1, 2], 11, ZZ) == [1, 4, 4]","gf_sqr([2, 0, 0, 1, 7], 11, ZZ) == [4, 0, 0, 4, 6, 0, 1, 3, 5]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":true}}
 def test_gf_arith():
     assert gf_neg([], 11, ZZ) == []
     assert gf_neg([1], 11, ZZ) == [10]
@@ -375,16 +469,24 @@ def test_gf_arith():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gf_division(), test_gf_division produces the expected output) over Any ║
+# ║ Path(test_gf_division(), gf_div([1], [1, 2, 3], 7, ZZ) == ([], [1]) and gf_rem([1], [1, 2, 3], 7, ZZ) == [1] and gf_quo([1], [1, 2, 3], 7, ZZ) == [] and gf_div(f, g, 7, ZZ) == (q, r) and gf_rem(f, g, 7, ZZ) == r and gf_quo(f, g, 7, ZZ) == q and gf_quo(ZZ.map([1, 2, 1]), ZZ.map([1, 1]), 11, ZZ) == [1, 1]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gf_division : Any → {Any | gf_div([1], [1, 2, 3]...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gf_div([1], [1, 2, 3], 7, ZZ) == ([], [1])     ║
+# ║   ensures:  gf_rem([1], [1, 2, 3], 7, ZZ) == [1]           ║
+# ║   ensures:  gf_quo([1], [1, 2, 3], 7, ZZ) == []            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gf_division : Any → {Any | result satisfies: gf_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc553e0cd83c4796  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d45fa1c96e766a16  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_division","kind":"function","src_hash":"7c625dddda67db4a","in":{"base":"Any"},"out":{"base":"Any","pred":"gf_div([1], [1, 2, 3], 7, ZZ) == ([], [1]) and gf_rem([1], [1, 2, 3], 7, ZZ) == [1] and gf_quo([1], [1, 2, 3], 7, ZZ) == [] and gf_div(f, g, 7, ZZ) == (q, r) and gf_rem(f, g, 7, ZZ) == r and gf_quo(f, g, 7, ZZ) == q and gf_div(f, g, 7, ZZ) == (q, r) and gf_rem(f, g, 7, ZZ) == r and gf_quo(f, g, 7, ZZ) == q and gf_quo(ZZ.map([1, 2, 1]), ZZ.map([1, 1]), 11, ZZ) == [1, 1]"},"spec":{"lhs":"test_gf_division()","rhs":"test_gf_division produces the expected output","over":{"base":"Any"},"name":"test_gf_division_correct"},"guarantee":"test_gf_division produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_division_correct","statement":"Path(test_gf_division(x), test_gf_division produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc553e0cd83c4796"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_division","kind":"function","src_hash":"7c625dddda67db4a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gf_div([1], [1, 2, 3], 7, ZZ) == ([], [1]) and gf_rem([1], [1, 2, 3], 7, ZZ) == [1] and gf_quo([1], [1, 2, 3], 7, ZZ) == [] and gf_div(f, g, 7, ZZ) == (q, r) and gf_rem(f, g, 7, ZZ) == r and gf_quo(f, g, 7, ZZ) == q and gf_quo(ZZ.map([1, 2, 1]), ZZ.map([1, 1]), 11, ZZ) == [1, 1]"},"spec":{"lhs":"test_gf_division()","rhs":"gf_div([1], [1, 2, 3], 7, ZZ) == ([], [1]) and gf_rem([1], [1, 2, 3], 7, ZZ) == [1] and gf_quo([1], [1, 2, 3], 7, ZZ) == [] and gf_div(f, g, 7, ZZ) == (q, r) and gf_rem(f, g, 7, ZZ) == r and gf_quo(f, g, 7, ZZ) == q and gf_quo(ZZ.map([1, 2, 1]), ZZ.map([1, 1]), 11, ZZ) == [1, 1]","over":{"base":"Any"},"name":"test_gf_division_correct"},"guarantee":"gf_div([1], [1, 2, 3], 7, ZZ) == ([], [1]); gf_rem([1], [1, 2, 3], 7, ZZ) == [1]; gf_quo([1], [1, 2, 3], 7, ZZ) == []","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_division_correct","statement":"Path(test_gf_division(x), gf_div([1], [1, 2, 3], 7, ZZ) == ([], [1]); gf_rem([1], [1, 2, 3], 7, ZZ) == [1]; gf_quo([1], [1, 2, 3], 7, ZZ) == [])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d45fa1c96e766a16","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gf_div([1], [1, 2, 3], 7, ZZ) == ([], [1])","gf_rem([1], [1, 2, 3], 7, ZZ) == [1]","gf_quo([1], [1, 2, 3], 7, ZZ) == []","gf_div(f, g, 7, ZZ) == (q, r)","gf_rem(f, g, 7, ZZ) == r","gf_quo(f, g, 7, ZZ) == q","gf_quo(ZZ.map([1, 2, 1]), ZZ.map([1, 1]), 11, ZZ) == [1, 1]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_gf_division():
     raises(ZeroDivisionError, lambda: gf_div([1, 2, 3], [], 11, ZZ))
     raises(ZeroDivisionError, lambda: gf_rem([1, 2, 3], [], 11, ZZ))
@@ -421,16 +523,24 @@ def test_gf_division():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gf_shift(), test_gf_shift produces the expected output) over Any ║
+# ║ Path(test_gf_shift(), gf_lshift([], 5, ZZ) == [] and gf_rshift([], 5, ZZ) == ([], []) and gf_lshift(f, 1, ZZ) == [1, 2, 3, 4, 5, 0] and gf_lshift(f, 2, ZZ) == [1, 2, 3, 4, 5, 0, 0] and gf_rshift(f, 0, ZZ) == (f, []) and gf_rshift(f, 1, ZZ) == ([1, 2, 3, 4], [5]) and gf_rshift(f, 3, ZZ) == ([1, 2], [3, 4, 5]) and gf_rshift(f, 5, ZZ) == ([], f)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gf_shift : Any → {Any | gf_lshift([], 5, ZZ) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gf_lshift([], 5, ZZ) == []                     ║
+# ║   ensures:  gf_rshift([], 5, ZZ) == ([], [])               ║
+# ║   ensures:  gf_lshift(f, 1, ZZ) == [1, 2, 3, 4, 5, 0]      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gf_shift : Any → {Any | result satisfies: gf_lsh...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 19a16d826600fb21  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b8d6a75c6a9a9a21  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_shift","kind":"function","src_hash":"2e5118a8babbdbcd","in":{"base":"Any"},"out":{"base":"Any","pred":"gf_lshift([], 5, ZZ) == [] and gf_rshift([], 5, ZZ) == ([], []) and gf_lshift(f, 1, ZZ) == [1, 2, 3, 4, 5, 0] and gf_lshift(f, 2, ZZ) == [1, 2, 3, 4, 5, 0, 0] and gf_rshift(f, 0, ZZ) == (f, []) and gf_rshift(f, 1, ZZ) == ([1, 2, 3, 4], [5]) and gf_rshift(f, 3, ZZ) == ([1, 2], [3, 4, 5]) and gf_rshift(f, 5, ZZ) == ([], f)"},"spec":{"lhs":"test_gf_shift()","rhs":"test_gf_shift produces the expected output","over":{"base":"Any"},"name":"test_gf_shift_correct"},"guarantee":"test_gf_shift produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_shift_correct","statement":"Path(test_gf_shift(x), test_gf_shift produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19a16d826600fb21"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_shift","kind":"function","src_hash":"2e5118a8babbdbcd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gf_lshift([], 5, ZZ) == [] and gf_rshift([], 5, ZZ) == ([], []) and gf_lshift(f, 1, ZZ) == [1, 2, 3, 4, 5, 0] and gf_lshift(f, 2, ZZ) == [1, 2, 3, 4, 5, 0, 0] and gf_rshift(f, 0, ZZ) == (f, []) and gf_rshift(f, 1, ZZ) == ([1, 2, 3, 4], [5]) and gf_rshift(f, 3, ZZ) == ([1, 2], [3, 4, 5]) and gf_rshift(f, 5, ZZ) == ([], f)"},"spec":{"lhs":"test_gf_shift()","rhs":"gf_lshift([], 5, ZZ) == [] and gf_rshift([], 5, ZZ) == ([], []) and gf_lshift(f, 1, ZZ) == [1, 2, 3, 4, 5, 0] and gf_lshift(f, 2, ZZ) == [1, 2, 3, 4, 5, 0, 0] and gf_rshift(f, 0, ZZ) == (f, []) and gf_rshift(f, 1, ZZ) == ([1, 2, 3, 4], [5]) and gf_rshift(f, 3, ZZ) == ([1, 2], [3, 4, 5]) and gf_rshift(f, 5, ZZ) == ([], f)","over":{"base":"Any"},"name":"test_gf_shift_correct"},"guarantee":"gf_lshift([], 5, ZZ) == []; gf_rshift([], 5, ZZ) == ([], []); gf_lshift(f, 1, ZZ) == [1, 2, 3, 4, 5, 0]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_shift_correct","statement":"Path(test_gf_shift(x), gf_lshift([], 5, ZZ) == []; gf_rshift([], 5, ZZ) == ([], []); gf_lshift(f, 1, ZZ) == [1, 2, 3, 4, 5, 0])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8d6a75c6a9a9a21","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gf_lshift([], 5, ZZ) == []","gf_rshift([], 5, ZZ) == ([], [])","gf_lshift(f, 1, ZZ) == [1, 2, 3, 4, 5, 0]","gf_lshift(f, 2, ZZ) == [1, 2, 3, 4, 5, 0, 0]","gf_rshift(f, 0, ZZ) == (f, [])","gf_rshift(f, 1, ZZ) == ([1, 2, 3, 4], [5])","gf_rshift(f, 3, ZZ) == ([1, 2], [3, 4, 5])","gf_rshift(f, 5, ZZ) == ([], f)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_gf_shift():
     f = [1, 2, 3, 4, 5]
 
@@ -447,16 +557,23 @@ def test_gf_shift():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gf_expand(), test_gf_expand produces the expected output) over Any ║
+# ║ Path(test_gf_expand(), gf_expand(F, 11, ZZ) == [1, 8, 3, 5, 6, 8] and gf_expand((4, F), 11, ZZ) == [4, 10, 1, 9, 2, 10]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gf_expand : Any → {Any | gf_expand(F, 11, ZZ) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gf_expand(F, 11, ZZ) == [1, 8, 3, 5, 6, 8]     ║
+# ║   ensures:  gf_expand((4, F), 11, ZZ) == [4, 10, 1, 9...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gf_expand : Any → {Any | result satisfies: gf_ex...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a18b68de4d7382d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd1116347e55c444  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_expand","kind":"function","src_hash":"4e5164bcc735f452","in":{"base":"Any"},"out":{"base":"Any","pred":"gf_expand(F, 11, ZZ) == [1, 8, 3, 5, 6, 8] and gf_expand((4, F), 11, ZZ) == [4, 10, 1, 9, 2, 10]"},"spec":{"lhs":"test_gf_expand()","rhs":"test_gf_expand produces the expected output","over":{"base":"Any"},"name":"test_gf_expand_correct"},"guarantee":"test_gf_expand produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_expand_correct","statement":"Path(test_gf_expand(x), test_gf_expand produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a18b68de4d7382d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_expand","kind":"function","src_hash":"4e5164bcc735f452","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gf_expand(F, 11, ZZ) == [1, 8, 3, 5, 6, 8] and gf_expand((4, F), 11, ZZ) == [4, 10, 1, 9, 2, 10]"},"spec":{"lhs":"test_gf_expand()","rhs":"gf_expand(F, 11, ZZ) == [1, 8, 3, 5, 6, 8] and gf_expand((4, F), 11, ZZ) == [4, 10, 1, 9, 2, 10]","over":{"base":"Any"},"name":"test_gf_expand_correct"},"guarantee":"gf_expand(F, 11, ZZ) == [1, 8, 3, 5, 6, 8]; gf_expand((4, F), 11, ZZ) == [4, 10, 1, 9, 2, 10]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_expand_correct","statement":"Path(test_gf_expand(x), gf_expand(F, 11, ZZ) == [1, 8, 3, 5, 6, 8]; gf_expand((4, F), 11, ZZ) == [4, 10, 1, 9, 2, 10])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd1116347e55c444","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gf_expand(F, 11, ZZ) == [1, 8, 3, 5, 6, 8]","gf_expand((4, F), 11, ZZ) == [4, 10, 1, 9, 2, 10]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_gf_expand():
     F = [([1, 1], 2), ([1, 2], 3)]
 
@@ -465,16 +582,24 @@ def test_gf_expand():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gf_powering(), test_gf_powering produces the expected output) over Any ║
+# ║ Path(test_gf_powering(), gf_pow([1, 0, 0, 1, 8], 0, 11, ZZ) == [1] and gf_pow([1, 0, 0, 1, 8], 1, 11, ZZ) == [1, 0, 0, 1, 8] and gf_pow([1, 0, 0, 1, 8], 2, 11, ZZ) == [1, 0, 0, 2, 5, 0, 1, 5, 9] and gf_pow([1, 0, 0, 1, 8], 5, 11, ZZ) == [1, 0, 0, 5, 7, 0, 10, 6, 2, 10, 9, 6, 10, 6, 6, 0, 5, 2, 5, 9, 10] and gf_pow([1, 0, 0, 1, 8], 8, 11, ZZ) == [1, 0, 0, 8, 9, 0, 6, 8, 10, 1, 2, 5, 10, 7, 7, 9, 1, 2, 0, 0, 6, 2, 5, 2, 5, 7, 7, 9, 10, 10, 7, 5, 5] and gf_pow([1, 0, 0, 1, 8], 45, 11, ZZ) == [1, 0, 0, 1, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 4, 10, 0, 0, 0, 0, 0, 0, 10, 0, 0, 10, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 6, 4, 0, 0, 0, 0, 0, 0, 8, 0, 0, 8, 9, 0, 0, 0, 0, 0, 0, 10, 0, 0, 10, 3, 0, 0, 0, 0, 0, 0, 4, 0, 0, 4, 10, 0, 0, 0, 0, 0, 0, 8, 0, 0, 8, 9, 0, 0, 0, 0, 0, 0, 9, 0, 0, 9, 6, 0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 2, 0, 0, 0, 0, 0, 0, 10, 0, 0, 10, 3, 0, 0, 0, 0, 0, 0, 10, 0, 0, 10, 3, 0, 0, 0, 0, 0, 0, 2, 0, 0, 2, 5, 0, 0, 0, 0, 0, 0, 4, 0, 0, 4, 10] and gf_pow_mod(ZZ.map([1, 0, 0, 1, 8]), 0, ZZ.map([2, 0, 7]), 11, ZZ) == [1] and gf_pow_mod(ZZ.map([1, 0, 0, 1, 8]), 1, ZZ.map([2, 0, 7]), 11, ZZ) == [1, 1] and gf_pow_mod(ZZ.map([1, 0, 0, 1, 8]), 2, ZZ.map([2, 0, 7]), 11, ZZ) == [2, 3] and gf_pow_mod(ZZ.map([1, 0, 0, 1, 8]), 5, ZZ.map([2, 0, 7]), 11, ZZ) == [7, 8] and gf_pow_mod(ZZ.map([1, 0, 0, 1, 8]), 8, ZZ.map([2, 0, 7]), 11, ZZ) == [1, 5] and gf_pow_mod(ZZ.map([1, 0, 0, 1, 8]), 45, ZZ.map([2, 0, 7]), 11, ZZ) == [5, 4]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gf_powering : Any → {Any | gf_pow([1, 0, 0, 1, 8...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gf_pow([1, 0, 0, 1, 8], 0, 11, ZZ) == [1]      ║
+# ║   ensures:  gf_pow([1, 0, 0, 1, 8], 1, 11, ZZ) == [1,...   ║
+# ║   ensures:  gf_pow([1, 0, 0, 1, 8], 2, 11, ZZ) == [1,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gf_powering : Any → {Any | result satisfies: gf_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c165fae13cc50b98  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ed261d87fcdf032  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_powering","kind":"function","src_hash":"70bf2262684ce173","in":{"base":"Any"},"out":{"base":"Any","pred":"gf_pow([1, 0, 0, 1, 8], 0, 11, ZZ) == [1] and gf_pow([1, 0, 0, 1, 8], 1, 11, ZZ) == [1, 0, 0, 1, 8] and gf_pow([1, 0, 0, 1, 8], 2, 11, ZZ) == [1, 0, 0, 2, 5, 0, 1, 5, 9] and gf_pow_mod(ZZ.map([1, 0, 0, 1, 8]), 0, ZZ.map([2, 0, 7]), 11, ZZ) == [1] and gf_pow_mod(ZZ.map([1, 0, 0, 1, 8]), 1, ZZ.map([2, 0, 7]), 11, ZZ) == [1, 1] and gf_pow_mod(ZZ.map([1, 0, 0, 1, 8]), 2, ZZ.map([2, 0, 7]), 11, ZZ) == [2, 3] and gf_pow_mod(ZZ.map([1, 0, 0, 1, 8]), 5, ZZ.map([2, 0, 7]), 11, ZZ) == [7, 8] and gf_pow_mod(ZZ.map([1, 0, 0, 1, 8]), 8, ZZ.map([2, 0, 7]), 11, ZZ) == [1, 5] and gf_pow_mod(ZZ.map([1, 0, 0, 1, 8]), 45, ZZ.map([2, 0, 7]), 11, ZZ) == [5, 4]"},"spec":{"lhs":"test_gf_powering()","rhs":"test_gf_powering produces the expected output","over":{"base":"Any"},"name":"test_gf_powering_correct"},"guarantee":"test_gf_powering produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_powering_correct","statement":"Path(test_gf_powering(x), test_gf_powering produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c165fae13cc50b98"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_powering","kind":"function","src_hash":"70bf2262684ce173","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gf_pow([1, 0, 0, 1, 8], 0, 11, ZZ) == [1] and gf_pow([1, 0, 0, 1, 8], 1, 11, ZZ) == [1, 0, 0, 1, 8] and gf_pow([1, 0, 0, 1, 8], 2, 11, ZZ) == [1, 0, 0, 2, 5, 0, 1, 5, 9] and gf_pow([1, 0, 0, 1, 8], 5, 11, ZZ) == [1, 0, 0, 5, 7, 0, 10, 6, 2, 10, 9, 6, 10, 6, 6, 0, 5, 2, 5, 9, 10] and gf_pow([1, 0, 0, 1, 8], 8, 11, ZZ) == [1, 0, 0, 8, 9, 0, 6, 8, 10, 1, 2, 5, 10, 7, 7, 9, 1, 2, 0, 0, 6, 2, 5, 2, 5, 7, 7, 9, 10, 10, 7, 5, 5] and gf_pow([1, 0, 0, 1, 8], 45, 11, ZZ) == [1, 0, 0, 1, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 4, 10, 0, 0, 0, 0, 0, 0, 10, 0, 0, 10, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 6, 4, 0, 0, 0, 0, 0, 0, 8, 0, 0, 8, 9, 0, 0, 0, 0, 0, 0, 10, 0, 0, 10, 3, 0, 0, 0, 0, 0, 0, 4, 0, 0, 4, 10, 0, 0, 0, 0, 0, 0, 8, 0, 0, 8, 9, 0, 0, 0, 0, 0, 0, 9, 0, 0, 9, 6, 0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 2, 0, 0, 0, 0, 0, 0, 10, 0, 0, 10, 3, 0, 0, 0, 0, 0, 0, 10, 0, 0, 10, 3, 0, 0, 0, 0, 0, 0, 2, 0, 0, 2, 5, 0, 0, 0, 0, 0, 0, 4, 0, 0, 4, 10] and gf_pow_mod(ZZ.map([1, 0, 0, 1, 8]), 0, ZZ.map([2, 0, 7]), 11, ZZ) == [1] and gf_pow_mod(ZZ.map([1, 0, 0, 1, 8]), 1, ZZ.map([2, 0, 7]), 11, ZZ) == [1, 1] and gf_pow_mod(ZZ.map([1, 0, 0, 1, 8]), 2, ZZ.map([2, 0, 7]), 11, ZZ) == [2, 3] and gf_pow_mod(ZZ.map([1, 0, 0, 1, 8]), 5, ZZ.map([2, 0, 7]), 11, ZZ) == [7, 8] and gf_pow_mod(ZZ.map([1, 0, 0, 1, 8]), 8, ZZ.map([2, 0, 7]), 11, ZZ) == [1, 5] and gf_pow_mod(ZZ.map([1, 0, 0, 1, 8]), 45, ZZ.map([2, 0, 7]), 11, ZZ) == [5, 4]"},"spec":{"lhs":"test_gf_powering()","rhs":"gf_pow([1, 0, 0, 1, 8], 0, 11, ZZ) == [1] and gf_pow([1, 0, 0, 1, 8], 1, 11, ZZ) == [1, 0, 0, 1, 8] and gf_pow([1, 0, 0, 1, 8], 2, 11, ZZ) == [1, 0, 0, 2, 5, 0, 1, 5, 9] and gf_pow([1, 0, 0, 1, 8], 5, 11, ZZ) == [1, 0, 0, 5, 7, 0, 10, 6, 2, 10, 9, 6, 10, 6, 6, 0, 5, 2, 5, 9, 10] and gf_pow([1, 0, 0, 1, 8], 8, 11, ZZ) == [1, 0, 0, 8, 9, 0, 6, 8, 10, 1, 2, 5, 10, 7, 7, 9, 1, 2, 0, 0, 6, 2, 5, 2, 5, 7, 7, 9, 10, 10, 7, 5, 5] and gf_pow([1, 0, 0, 1, 8], 45, 11, ZZ) == [1, 0, 0, 1, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 4, 10, 0, 0, 0, 0, 0, 0, 10, 0, 0, 10, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 6, 4, 0, 0, 0, 0, 0, 0, 8, 0, 0, 8, 9, 0, 0, 0, 0, 0, 0, 10, 0, 0, 10, 3, 0, 0, 0, 0, 0, 0, 4, 0, 0, 4, 10, 0, 0, 0, 0, 0, 0, 8, 0, 0, 8, 9, 0, 0, 0, 0, 0, 0, 9, 0, 0, 9, 6, 0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 2, 0, 0, 0, 0, 0, 0, 10, 0, 0, 10, 3, 0, 0, 0, 0, 0, 0, 10, 0, 0, 10, 3, 0, 0, 0, 0, 0, 0, 2, 0, 0, 2, 5, 0, 0, 0, 0, 0, 0, 4, 0, 0, 4, 10] and gf_pow_mod(ZZ.map([1, 0, 0, 1, 8]), 0, ZZ.map([2, 0, 7]), 11, ZZ) == [1] and gf_pow_mod(ZZ.map([1, 0, 0, 1, 8]), 1, ZZ.map([2, 0, 7]), 11, ZZ) == [1, 1] and gf_pow_mod(ZZ.map([1, 0, 0, 1, 8]), 2, ZZ.map([2, 0, 7]), 11, ZZ) == [2, 3] and gf_pow_mod(ZZ.map([1, 0, 0, 1, 8]), 5, ZZ.map([2, 0, 7]), 11, ZZ) == [7, 8] and gf_pow_mod(ZZ.map([1, 0, 0, 1, 8]), 8, ZZ.map([2, 0, 7]), 11, ZZ) == [1, 5] and gf_pow_mod(ZZ.map([1, 0, 0, 1, 8]), 45, ZZ.map([2, 0, 7]), 11, ZZ) == [5, 4]","over":{"base":"Any"},"name":"test_gf_powering_correct"},"guarantee":"gf_pow([1, 0, 0, 1, 8], 0, 11, ZZ) == [1]; gf_pow([1, 0, 0, 1, 8], 1, 11, ZZ) == [1, 0, 0, 1, 8]; gf_pow([1, 0, 0, 1, 8], 2, 11, ZZ) == [1, 0, 0, 2, 5, 0, 1, 5, 9]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_powering_correct","statement":"Path(test_gf_powering(x), gf_pow([1, 0, 0, 1, 8], 0, 11, ZZ) == [1]; gf_pow([1, 0, 0, 1, 8], 1, 11, ZZ) == [1, 0, 0, 1, 8]; gf_pow([1, 0, 0, 1, 8], 2, 11, ZZ) == [1, 0, 0, 2, 5, 0, 1, 5, 9])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ed261d87fcdf032","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gf_pow([1, 0, 0, 1, 8], 0, 11, ZZ) == [1]","gf_pow([1, 0, 0, 1, 8], 1, 11, ZZ) == [1, 0, 0, 1, 8]","gf_pow([1, 0, 0, 1, 8], 2, 11, ZZ) == [1, 0, 0, 2, 5, 0, 1, 5, 9]","gf_pow([1, 0, 0, 1, 8], 5, 11, ZZ) == [1, 0, 0, 5, 7, 0, 10, 6, 2, 10, 9, 6, 10, 6, 6, 0, 5, 2, 5, 9, 10]","gf_pow([1, 0, 0, 1, 8], 8, 11, ZZ) == [1, 0, 0, 8, 9, 0, 6, 8, 10, 1, 2, 5, 10, 7, 7, 9, 1, 2, 0, 0, 6, 2, 5, 2, 5, 7, 7, 9, 10, 10, 7, 5, 5]","gf_pow([1, 0, 0, 1, 8], 45, 11, ZZ) == [1, 0, 0, 1, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 4, 10, 0, 0, 0, 0, 0, 0, 10, 0, 0, 10, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 6, 4, 0, 0, 0, 0, 0, 0, 8, 0, 0, 8, 9, 0, 0, 0, 0, 0, 0, 10, 0, 0, 10, 3, 0, 0, 0, 0, 0, 0, 4, 0, 0, 4, 10, 0, 0, 0, 0, 0, 0, 8, 0, 0, 8, 9, 0, 0, 0, 0, 0, 0, 9, 0, 0, 9, 6, 0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 2, 0, 0, 0, 0, 0, 0, 10, 0, 0, 10, 3, 0, 0, 0, 0, 0, 0, 10, 0, 0, 10, 3, 0, 0, 0, 0, 0, 0, 2, 0, 0, 2, 5, 0, 0, 0, 0, 0, 0, 4, 0, 0, 4, 10]","gf_pow_mod(ZZ.map([1, 0, 0, 1, 8]), 0, ZZ.map([2, 0, 7]), 11, ZZ) == [1]","gf_pow_mod(ZZ.map([1, 0, 0, 1, 8]), 1, ZZ.map([2, 0, 7]), 11, ZZ) == [1, 1]","gf_pow_mod(ZZ.map([1, 0, 0, 1, 8]), 2, ZZ.map([2, 0, 7]), 11, ZZ) == [2, 3]","gf_pow_mod(ZZ.map([1, 0, 0, 1, 8]), 5, ZZ.map([2, 0, 7]), 11, ZZ) == [7, 8]","gf_pow_mod(ZZ.map([1, 0, 0, 1, 8]), 8, ZZ.map([2, 0, 7]), 11, ZZ) == [1, 5]","gf_pow_mod(ZZ.map([1, 0, 0, 1, 8]), 45, ZZ.map([2, 0, 7]), 11, ZZ) == [5, 4]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def test_gf_powering():
     assert gf_pow([1, 0, 0, 1, 8], 0, 11, ZZ) == [1]
     assert gf_pow([1, 0, 0, 1, 8], 1, 11, ZZ) == [1, 0, 0, 1, 8]
@@ -507,16 +632,24 @@ def test_gf_powering():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gf_gcdex(), test_gf_gcdex produces the expected output) over Any ║
+# ║ Path(test_gf_gcdex(), gf_gcdex(ZZ.map([]), ZZ.map([]), 11, ZZ) == ([1], [], []) and gf_gcdex(ZZ.map([2]), ZZ.map([]), 11, ZZ) == ([6], [], [1]) and gf_gcdex(ZZ.map([]), ZZ.map([2]), 11, ZZ) == ([], [6], [1]) and gf_gcdex(ZZ.map([2]), ZZ.map([2]), 11, ZZ) == ([], [6], [1]) and gf_gcdex(ZZ.map([]), ZZ.map([3, 0]), 11, ZZ) == ([], [4], [1, 0]) and gf_gcdex(ZZ.map([3, 0]), ZZ.map([]), 11, ZZ) == ([4], [], [1, 0]) and gf_gcdex(ZZ.map([3, 0]), ZZ.map([3, 0]), 11, ZZ) == ([], [4], [1, 0]) and gf_gcdex(ZZ.map([1, 8, 7]), ZZ.map([1, 7, 1, 7]), 11, ZZ) == ([5, 6], [6], [1, 7])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gf_gcdex : Any → {Any | gf_gcdex(ZZ.map([]), ZZ....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gf_gcdex(ZZ.map([]), ZZ.map([]), 11, ZZ) ...   ║
+# ║   ensures:  gf_gcdex(ZZ.map([2]), ZZ.map([]), 11, ZZ)...   ║
+# ║   ensures:  gf_gcdex(ZZ.map([]), ZZ.map([2]), 11, ZZ)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gf_gcdex : Any → {Any | result satisfies: gf_gcd...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78bc590401638469  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4af1c92bcc7c5e14  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_gcdex","kind":"function","src_hash":"1e6549ea4ed38431","in":{"base":"Any"},"out":{"base":"Any","pred":"gf_gcdex(ZZ.map([]), ZZ.map([]), 11, ZZ) == ([1], [], []) and gf_gcdex(ZZ.map([2]), ZZ.map([]), 11, ZZ) == ([6], [], [1]) and gf_gcdex(ZZ.map([]), ZZ.map([2]), 11, ZZ) == ([], [6], [1]) and gf_gcdex(ZZ.map([2]), ZZ.map([2]), 11, ZZ) == ([], [6], [1]) and gf_gcdex(ZZ.map([]), ZZ.map([3, 0]), 11, ZZ) == ([], [4], [1, 0]) and gf_gcdex(ZZ.map([3, 0]), ZZ.map([]), 11, ZZ) == ([4], [], [1, 0]) and gf_gcdex(ZZ.map([3, 0]), ZZ.map([3, 0]), 11, ZZ) == ([], [4], [1, 0])"},"spec":{"lhs":"test_gf_gcdex()","rhs":"test_gf_gcdex produces the expected output","over":{"base":"Any"},"name":"test_gf_gcdex_correct"},"guarantee":"test_gf_gcdex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_gcdex_correct","statement":"Path(test_gf_gcdex(x), test_gf_gcdex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78bc590401638469"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_gcdex","kind":"function","src_hash":"1e6549ea4ed38431","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gf_gcdex(ZZ.map([]), ZZ.map([]), 11, ZZ) == ([1], [], []) and gf_gcdex(ZZ.map([2]), ZZ.map([]), 11, ZZ) == ([6], [], [1]) and gf_gcdex(ZZ.map([]), ZZ.map([2]), 11, ZZ) == ([], [6], [1]) and gf_gcdex(ZZ.map([2]), ZZ.map([2]), 11, ZZ) == ([], [6], [1]) and gf_gcdex(ZZ.map([]), ZZ.map([3, 0]), 11, ZZ) == ([], [4], [1, 0]) and gf_gcdex(ZZ.map([3, 0]), ZZ.map([]), 11, ZZ) == ([4], [], [1, 0]) and gf_gcdex(ZZ.map([3, 0]), ZZ.map([3, 0]), 11, ZZ) == ([], [4], [1, 0]) and gf_gcdex(ZZ.map([1, 8, 7]), ZZ.map([1, 7, 1, 7]), 11, ZZ) == ([5, 6], [6], [1, 7])"},"spec":{"lhs":"test_gf_gcdex()","rhs":"gf_gcdex(ZZ.map([]), ZZ.map([]), 11, ZZ) == ([1], [], []) and gf_gcdex(ZZ.map([2]), ZZ.map([]), 11, ZZ) == ([6], [], [1]) and gf_gcdex(ZZ.map([]), ZZ.map([2]), 11, ZZ) == ([], [6], [1]) and gf_gcdex(ZZ.map([2]), ZZ.map([2]), 11, ZZ) == ([], [6], [1]) and gf_gcdex(ZZ.map([]), ZZ.map([3, 0]), 11, ZZ) == ([], [4], [1, 0]) and gf_gcdex(ZZ.map([3, 0]), ZZ.map([]), 11, ZZ) == ([4], [], [1, 0]) and gf_gcdex(ZZ.map([3, 0]), ZZ.map([3, 0]), 11, ZZ) == ([], [4], [1, 0]) and gf_gcdex(ZZ.map([1, 8, 7]), ZZ.map([1, 7, 1, 7]), 11, ZZ) == ([5, 6], [6], [1, 7])","over":{"base":"Any"},"name":"test_gf_gcdex_correct"},"guarantee":"gf_gcdex(ZZ.map([]), ZZ.map([]), 11, ZZ) == ([1], [], []); gf_gcdex(ZZ.map([2]), ZZ.map([]), 11, ZZ) == ([6], [], [1]); gf_gcdex(ZZ.map([]), ZZ.map([2]), 11, ZZ) == ([], [6], [1])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_gcdex_correct","statement":"Path(test_gf_gcdex(x), gf_gcdex(ZZ.map([]), ZZ.map([]), 11, ZZ) == ([1], [], []); gf_gcdex(ZZ.map([2]), ZZ.map([]), 11, ZZ) == ([6], [], [1]); gf_gcdex(ZZ.map([]), ZZ.map([2]), 11, ZZ) == ([], [6], [1]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4af1c92bcc7c5e14","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gf_gcdex(ZZ.map([]), ZZ.map([]), 11, ZZ) == ([1], [], [])","gf_gcdex(ZZ.map([2]), ZZ.map([]), 11, ZZ) == ([6], [], [1])","gf_gcdex(ZZ.map([]), ZZ.map([2]), 11, ZZ) == ([], [6], [1])","gf_gcdex(ZZ.map([2]), ZZ.map([2]), 11, ZZ) == ([], [6], [1])","gf_gcdex(ZZ.map([]), ZZ.map([3, 0]), 11, ZZ) == ([], [4], [1, 0])","gf_gcdex(ZZ.map([3, 0]), ZZ.map([]), 11, ZZ) == ([4], [], [1, 0])","gf_gcdex(ZZ.map([3, 0]), ZZ.map([3, 0]), 11, ZZ) == ([], [4], [1, 0])","gf_gcdex(ZZ.map([1, 8, 7]), ZZ.map([1, 7, 1, 7]), 11, ZZ) == ([5, 6], [6], [1, 7])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_gf_gcdex():
     assert gf_gcdex(ZZ.map([]), ZZ.map([]), 11, ZZ) == ([1], [], [])
     assert gf_gcdex(ZZ.map([2]), ZZ.map([]), 11, ZZ) == ([6], [], [1])
@@ -532,16 +665,24 @@ def test_gf_gcdex():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gf_gcd(), test_gf_gcd produces the expected output) over Any ║
+# ║ Path(test_gf_gcd(), gf_gcd(ZZ.map([]), ZZ.map([]), 11, ZZ) == [] and gf_gcd(ZZ.map([2]), ZZ.map([]), 11, ZZ) == [1] and gf_gcd(ZZ.map([]), ZZ.map([2]), 11, ZZ) == [1] and gf_gcd(ZZ.map([2]), ZZ.map([2]), 11, ZZ) == [1] and gf_gcd(ZZ.map([]), ZZ.map([1, 0]), 11, ZZ) == [1, 0] and gf_gcd(ZZ.map([1, 0]), ZZ.map([]), 11, ZZ) == [1, 0] and gf_gcd(ZZ.map([3, 0]), ZZ.map([3, 0]), 11, ZZ) == [1, 0] and gf_gcd(ZZ.map([1, 8, 7]), ZZ.map([1, 7, 1, 7]), 11, ZZ) == [1, 7]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gf_gcd : Any → {Any | gf_gcd(ZZ.map([]), ZZ.map(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gf_gcd(ZZ.map([]), ZZ.map([]), 11, ZZ) == []   ║
+# ║   ensures:  gf_gcd(ZZ.map([2]), ZZ.map([]), 11, ZZ) =...   ║
+# ║   ensures:  gf_gcd(ZZ.map([]), ZZ.map([2]), 11, ZZ) =...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gf_gcd : Any → {Any | result satisfies: gf_gcd(Z...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f2b9edb39e72d5a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b24d3a24889a5af  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_gcd","kind":"function","src_hash":"9113cf8cd2198d1c","in":{"base":"Any"},"out":{"base":"Any","pred":"gf_gcd(ZZ.map([]), ZZ.map([]), 11, ZZ) == [] and gf_gcd(ZZ.map([2]), ZZ.map([]), 11, ZZ) == [1] and gf_gcd(ZZ.map([]), ZZ.map([2]), 11, ZZ) == [1] and gf_gcd(ZZ.map([2]), ZZ.map([2]), 11, ZZ) == [1] and gf_gcd(ZZ.map([]), ZZ.map([1, 0]), 11, ZZ) == [1, 0] and gf_gcd(ZZ.map([1, 0]), ZZ.map([]), 11, ZZ) == [1, 0] and gf_gcd(ZZ.map([3, 0]), ZZ.map([3, 0]), 11, ZZ) == [1, 0] and gf_gcd(ZZ.map([1, 8, 7]), ZZ.map([1, 7, 1, 7]), 11, ZZ) == [1, 7]"},"spec":{"lhs":"test_gf_gcd()","rhs":"test_gf_gcd produces the expected output","over":{"base":"Any"},"name":"test_gf_gcd_correct"},"guarantee":"test_gf_gcd produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_gcd_correct","statement":"Path(test_gf_gcd(x), test_gf_gcd produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f2b9edb39e72d5a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_gcd","kind":"function","src_hash":"9113cf8cd2198d1c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gf_gcd(ZZ.map([]), ZZ.map([]), 11, ZZ) == [] and gf_gcd(ZZ.map([2]), ZZ.map([]), 11, ZZ) == [1] and gf_gcd(ZZ.map([]), ZZ.map([2]), 11, ZZ) == [1] and gf_gcd(ZZ.map([2]), ZZ.map([2]), 11, ZZ) == [1] and gf_gcd(ZZ.map([]), ZZ.map([1, 0]), 11, ZZ) == [1, 0] and gf_gcd(ZZ.map([1, 0]), ZZ.map([]), 11, ZZ) == [1, 0] and gf_gcd(ZZ.map([3, 0]), ZZ.map([3, 0]), 11, ZZ) == [1, 0] and gf_gcd(ZZ.map([1, 8, 7]), ZZ.map([1, 7, 1, 7]), 11, ZZ) == [1, 7]"},"spec":{"lhs":"test_gf_gcd()","rhs":"gf_gcd(ZZ.map([]), ZZ.map([]), 11, ZZ) == [] and gf_gcd(ZZ.map([2]), ZZ.map([]), 11, ZZ) == [1] and gf_gcd(ZZ.map([]), ZZ.map([2]), 11, ZZ) == [1] and gf_gcd(ZZ.map([2]), ZZ.map([2]), 11, ZZ) == [1] and gf_gcd(ZZ.map([]), ZZ.map([1, 0]), 11, ZZ) == [1, 0] and gf_gcd(ZZ.map([1, 0]), ZZ.map([]), 11, ZZ) == [1, 0] and gf_gcd(ZZ.map([3, 0]), ZZ.map([3, 0]), 11, ZZ) == [1, 0] and gf_gcd(ZZ.map([1, 8, 7]), ZZ.map([1, 7, 1, 7]), 11, ZZ) == [1, 7]","over":{"base":"Any"},"name":"test_gf_gcd_correct"},"guarantee":"gf_gcd(ZZ.map([]), ZZ.map([]), 11, ZZ) == []; gf_gcd(ZZ.map([2]), ZZ.map([]), 11, ZZ) == [1]; gf_gcd(ZZ.map([]), ZZ.map([2]), 11, ZZ) == [1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_gcd_correct","statement":"Path(test_gf_gcd(x), gf_gcd(ZZ.map([]), ZZ.map([]), 11, ZZ) == []; gf_gcd(ZZ.map([2]), ZZ.map([]), 11, ZZ) == [1]; gf_gcd(ZZ.map([]), ZZ.map([2]), 11, ZZ) == [1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b24d3a24889a5af","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gf_gcd(ZZ.map([]), ZZ.map([]), 11, ZZ) == []","gf_gcd(ZZ.map([2]), ZZ.map([]), 11, ZZ) == [1]","gf_gcd(ZZ.map([]), ZZ.map([2]), 11, ZZ) == [1]","gf_gcd(ZZ.map([2]), ZZ.map([2]), 11, ZZ) == [1]","gf_gcd(ZZ.map([]), ZZ.map([1, 0]), 11, ZZ) == [1, 0]","gf_gcd(ZZ.map([1, 0]), ZZ.map([]), 11, ZZ) == [1, 0]","gf_gcd(ZZ.map([3, 0]), ZZ.map([3, 0]), 11, ZZ) == [1, 0]","gf_gcd(ZZ.map([1, 8, 7]), ZZ.map([1, 7, 1, 7]), 11, ZZ) == [1, 7]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_gf_gcd():
     assert gf_gcd(ZZ.map([]), ZZ.map([]), 11, ZZ) == []
     assert gf_gcd(ZZ.map([2]), ZZ.map([]), 11, ZZ) == [1]
@@ -556,16 +697,24 @@ def test_gf_gcd():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gf_lcm(), test_gf_lcm produces the expected output) over Any ║
+# ║ Path(test_gf_lcm(), gf_lcm(ZZ.map([]), ZZ.map([]), 11, ZZ) == [] and gf_lcm(ZZ.map([2]), ZZ.map([]), 11, ZZ) == [] and gf_lcm(ZZ.map([]), ZZ.map([2]), 11, ZZ) == [] and gf_lcm(ZZ.map([2]), ZZ.map([2]), 11, ZZ) == [1] and gf_lcm(ZZ.map([]), ZZ.map([1, 0]), 11, ZZ) == [] and gf_lcm(ZZ.map([1, 0]), ZZ.map([]), 11, ZZ) == [] and gf_lcm(ZZ.map([3, 0]), ZZ.map([3, 0]), 11, ZZ) == [1, 0] and gf_lcm(ZZ.map([1, 8, 7]), ZZ.map([1, 7, 1, 7]), 11, ZZ) == [1, 8, 8, 8, 7]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gf_lcm : Any → {Any | gf_lcm(ZZ.map([]), ZZ.map(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gf_lcm(ZZ.map([]), ZZ.map([]), 11, ZZ) == []   ║
+# ║   ensures:  gf_lcm(ZZ.map([2]), ZZ.map([]), 11, ZZ) =...   ║
+# ║   ensures:  gf_lcm(ZZ.map([]), ZZ.map([2]), 11, ZZ) =...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gf_lcm : Any → {Any | result satisfies: gf_lcm(Z...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b7c765f1611f60c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea3c38d311b44c08  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_lcm","kind":"function","src_hash":"11fa622fdc4336be","in":{"base":"Any"},"out":{"base":"Any","pred":"gf_lcm(ZZ.map([]), ZZ.map([]), 11, ZZ) == [] and gf_lcm(ZZ.map([2]), ZZ.map([]), 11, ZZ) == [] and gf_lcm(ZZ.map([]), ZZ.map([2]), 11, ZZ) == [] and gf_lcm(ZZ.map([2]), ZZ.map([2]), 11, ZZ) == [1] and gf_lcm(ZZ.map([]), ZZ.map([1, 0]), 11, ZZ) == [] and gf_lcm(ZZ.map([1, 0]), ZZ.map([]), 11, ZZ) == [] and gf_lcm(ZZ.map([3, 0]), ZZ.map([3, 0]), 11, ZZ) == [1, 0] and gf_lcm(ZZ.map([1, 8, 7]), ZZ.map([1, 7, 1, 7]), 11, ZZ) == [1, 8, 8, 8, 7]"},"spec":{"lhs":"test_gf_lcm()","rhs":"test_gf_lcm produces the expected output","over":{"base":"Any"},"name":"test_gf_lcm_correct"},"guarantee":"test_gf_lcm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_lcm_correct","statement":"Path(test_gf_lcm(x), test_gf_lcm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b7c765f1611f60c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_lcm","kind":"function","src_hash":"11fa622fdc4336be","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gf_lcm(ZZ.map([]), ZZ.map([]), 11, ZZ) == [] and gf_lcm(ZZ.map([2]), ZZ.map([]), 11, ZZ) == [] and gf_lcm(ZZ.map([]), ZZ.map([2]), 11, ZZ) == [] and gf_lcm(ZZ.map([2]), ZZ.map([2]), 11, ZZ) == [1] and gf_lcm(ZZ.map([]), ZZ.map([1, 0]), 11, ZZ) == [] and gf_lcm(ZZ.map([1, 0]), ZZ.map([]), 11, ZZ) == [] and gf_lcm(ZZ.map([3, 0]), ZZ.map([3, 0]), 11, ZZ) == [1, 0] and gf_lcm(ZZ.map([1, 8, 7]), ZZ.map([1, 7, 1, 7]), 11, ZZ) == [1, 8, 8, 8, 7]"},"spec":{"lhs":"test_gf_lcm()","rhs":"gf_lcm(ZZ.map([]), ZZ.map([]), 11, ZZ) == [] and gf_lcm(ZZ.map([2]), ZZ.map([]), 11, ZZ) == [] and gf_lcm(ZZ.map([]), ZZ.map([2]), 11, ZZ) == [] and gf_lcm(ZZ.map([2]), ZZ.map([2]), 11, ZZ) == [1] and gf_lcm(ZZ.map([]), ZZ.map([1, 0]), 11, ZZ) == [] and gf_lcm(ZZ.map([1, 0]), ZZ.map([]), 11, ZZ) == [] and gf_lcm(ZZ.map([3, 0]), ZZ.map([3, 0]), 11, ZZ) == [1, 0] and gf_lcm(ZZ.map([1, 8, 7]), ZZ.map([1, 7, 1, 7]), 11, ZZ) == [1, 8, 8, 8, 7]","over":{"base":"Any"},"name":"test_gf_lcm_correct"},"guarantee":"gf_lcm(ZZ.map([]), ZZ.map([]), 11, ZZ) == []; gf_lcm(ZZ.map([2]), ZZ.map([]), 11, ZZ) == []; gf_lcm(ZZ.map([]), ZZ.map([2]), 11, ZZ) == []","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_lcm_correct","statement":"Path(test_gf_lcm(x), gf_lcm(ZZ.map([]), ZZ.map([]), 11, ZZ) == []; gf_lcm(ZZ.map([2]), ZZ.map([]), 11, ZZ) == []; gf_lcm(ZZ.map([]), ZZ.map([2]), 11, ZZ) == [])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea3c38d311b44c08","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gf_lcm(ZZ.map([]), ZZ.map([]), 11, ZZ) == []","gf_lcm(ZZ.map([2]), ZZ.map([]), 11, ZZ) == []","gf_lcm(ZZ.map([]), ZZ.map([2]), 11, ZZ) == []","gf_lcm(ZZ.map([2]), ZZ.map([2]), 11, ZZ) == [1]","gf_lcm(ZZ.map([]), ZZ.map([1, 0]), 11, ZZ) == []","gf_lcm(ZZ.map([1, 0]), ZZ.map([]), 11, ZZ) == []","gf_lcm(ZZ.map([3, 0]), ZZ.map([3, 0]), 11, ZZ) == [1, 0]","gf_lcm(ZZ.map([1, 8, 7]), ZZ.map([1, 7, 1, 7]), 11, ZZ) == [1, 8, 8, 8, 7]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_gf_lcm():
     assert gf_lcm(ZZ.map([]), ZZ.map([]), 11, ZZ) == []
     assert gf_lcm(ZZ.map([2]), ZZ.map([]), 11, ZZ) == []
@@ -580,16 +729,24 @@ def test_gf_lcm():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gf_cofactors(), test_gf_cofactors produces the expected output) over Any ║
+# ║ Path(test_gf_cofactors(), gf_cofactors(ZZ.map([]), ZZ.map([]), 11, ZZ) == ([], [], []) and gf_cofactors(ZZ.map([2]), ZZ.map([]), 11, ZZ) == ([1], [2], []) and gf_cofactors(ZZ.map([]), ZZ.map([2]), 11, ZZ) == ([1], [], [2]) and gf_cofactors(ZZ.map([2]), ZZ.map([2]), 11, ZZ) == ([1], [2], [2]) and gf_cofactors(ZZ.map([]), ZZ.map([1, 0]), 11, ZZ) == ([1, 0], [], [1]) and gf_cofactors(ZZ.map([1, 0]), ZZ.map([]), 11, ZZ) == ([1, 0], [1], []) and gf_cofactors(ZZ.map([3, 0]), ZZ.map([3, 0]), 11, ZZ) == ([1, 0], [3], [3]) and gf_cofactors(ZZ.map([1, 8, 7]), ZZ.map([1, 7, 1, 7]), 11, ZZ) == ([1, 7], [1, 1], [1, 0, 1])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gf_cofactors : Any → {Any | gf_cofactors(ZZ.map(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gf_cofactors(ZZ.map([]), ZZ.map([]), 11, ...   ║
+# ║   ensures:  gf_cofactors(ZZ.map([2]), ZZ.map([]), 11,...   ║
+# ║   ensures:  gf_cofactors(ZZ.map([]), ZZ.map([2]), 11,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gf_cofactors : Any → {Any | result satisfies: gf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a5d3b3bf7ea79f95  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 10ae2fd8b40c8c84  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_cofactors","kind":"function","src_hash":"d85b0919193ff046","in":{"base":"Any"},"out":{"base":"Any","pred":"gf_cofactors(ZZ.map([]), ZZ.map([]), 11, ZZ) == ([], [], []) and gf_cofactors(ZZ.map([2]), ZZ.map([]), 11, ZZ) == ([1], [2], []) and gf_cofactors(ZZ.map([]), ZZ.map([2]), 11, ZZ) == ([1], [], [2]) and gf_cofactors(ZZ.map([2]), ZZ.map([2]), 11, ZZ) == ([1], [2], [2]) and gf_cofactors(ZZ.map([]), ZZ.map([1, 0]), 11, ZZ) == ([1, 0], [], [1]) and gf_cofactors(ZZ.map([1, 0]), ZZ.map([]), 11, ZZ) == ([1, 0], [1], []) and gf_cofactors(ZZ.map([3, 0]), ZZ.map([3, 0]), 11, ZZ) == ([1, 0], [3], [3])"},"spec":{"lhs":"test_gf_cofactors()","rhs":"test_gf_cofactors produces the expected output","over":{"base":"Any"},"name":"test_gf_cofactors_correct"},"guarantee":"test_gf_cofactors produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_cofactors_correct","statement":"Path(test_gf_cofactors(x), test_gf_cofactors produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a5d3b3bf7ea79f95"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_cofactors","kind":"function","src_hash":"d85b0919193ff046","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gf_cofactors(ZZ.map([]), ZZ.map([]), 11, ZZ) == ([], [], []) and gf_cofactors(ZZ.map([2]), ZZ.map([]), 11, ZZ) == ([1], [2], []) and gf_cofactors(ZZ.map([]), ZZ.map([2]), 11, ZZ) == ([1], [], [2]) and gf_cofactors(ZZ.map([2]), ZZ.map([2]), 11, ZZ) == ([1], [2], [2]) and gf_cofactors(ZZ.map([]), ZZ.map([1, 0]), 11, ZZ) == ([1, 0], [], [1]) and gf_cofactors(ZZ.map([1, 0]), ZZ.map([]), 11, ZZ) == ([1, 0], [1], []) and gf_cofactors(ZZ.map([3, 0]), ZZ.map([3, 0]), 11, ZZ) == ([1, 0], [3], [3]) and gf_cofactors(ZZ.map([1, 8, 7]), ZZ.map([1, 7, 1, 7]), 11, ZZ) == ([1, 7], [1, 1], [1, 0, 1])"},"spec":{"lhs":"test_gf_cofactors()","rhs":"gf_cofactors(ZZ.map([]), ZZ.map([]), 11, ZZ) == ([], [], []) and gf_cofactors(ZZ.map([2]), ZZ.map([]), 11, ZZ) == ([1], [2], []) and gf_cofactors(ZZ.map([]), ZZ.map([2]), 11, ZZ) == ([1], [], [2]) and gf_cofactors(ZZ.map([2]), ZZ.map([2]), 11, ZZ) == ([1], [2], [2]) and gf_cofactors(ZZ.map([]), ZZ.map([1, 0]), 11, ZZ) == ([1, 0], [], [1]) and gf_cofactors(ZZ.map([1, 0]), ZZ.map([]), 11, ZZ) == ([1, 0], [1], []) and gf_cofactors(ZZ.map([3, 0]), ZZ.map([3, 0]), 11, ZZ) == ([1, 0], [3], [3]) and gf_cofactors(ZZ.map([1, 8, 7]), ZZ.map([1, 7, 1, 7]), 11, ZZ) == ([1, 7], [1, 1], [1, 0, 1])","over":{"base":"Any"},"name":"test_gf_cofactors_correct"},"guarantee":"gf_cofactors(ZZ.map([]), ZZ.map([]), 11, ZZ) == ([], [], []); gf_cofactors(ZZ.map([2]), ZZ.map([]), 11, ZZ) == ([1], [2], []); gf_cofactors(ZZ.map([]), ZZ.map([2]), 11, ZZ) == ([1], [], [2])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_cofactors_correct","statement":"Path(test_gf_cofactors(x), gf_cofactors(ZZ.map([]), ZZ.map([]), 11, ZZ) == ([], [], []); gf_cofactors(ZZ.map([2]), ZZ.map([]), 11, ZZ) == ([1], [2], []); gf_cofactors(ZZ.map([]), ZZ.map([2]), 11, ZZ) == ([1], [], [2]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10ae2fd8b40c8c84","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gf_cofactors(ZZ.map([]), ZZ.map([]), 11, ZZ) == ([], [], [])","gf_cofactors(ZZ.map([2]), ZZ.map([]), 11, ZZ) == ([1], [2], [])","gf_cofactors(ZZ.map([]), ZZ.map([2]), 11, ZZ) == ([1], [], [2])","gf_cofactors(ZZ.map([2]), ZZ.map([2]), 11, ZZ) == ([1], [2], [2])","gf_cofactors(ZZ.map([]), ZZ.map([1, 0]), 11, ZZ) == ([1, 0], [], [1])","gf_cofactors(ZZ.map([1, 0]), ZZ.map([]), 11, ZZ) == ([1, 0], [1], [])","gf_cofactors(ZZ.map([3, 0]), ZZ.map([3, 0]), 11, ZZ) == ([1, 0], [3], [3])","gf_cofactors(ZZ.map([1, 8, 7]), ZZ.map([1, 7, 1, 7]), 11, ZZ) == ([1, 7], [1, 1], [1, 0, 1])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_gf_cofactors():
     assert gf_cofactors(ZZ.map([]), ZZ.map([]), 11, ZZ) == ([], [], [])
     assert gf_cofactors(ZZ.map([2]), ZZ.map([]), 11, ZZ) == ([1], [2], [])
@@ -606,16 +763,24 @@ def test_gf_cofactors():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gf_diff(), test_gf_diff produces the expected output) over Any ║
+# ║ Path(test_gf_diff(), gf_diff([], 11, ZZ) == [] and gf_diff([7], 11, ZZ) == [] and gf_diff([7, 3], 11, ZZ) == [7] and gf_diff([7, 3, 1], 11, ZZ) == [3, 3] and gf_diff([1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], 11, ZZ) == []) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gf_diff : Any → {Any | gf_diff([], 11, ZZ) == []...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gf_diff([], 11, ZZ) == []                      ║
+# ║   ensures:  gf_diff([7], 11, ZZ) == []                     ║
+# ║   ensures:  gf_diff([7, 3], 11, ZZ) == [7]                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gf_diff : Any → {Any | result satisfies: gf_diff...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3d4f5848ef2fe50  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd48f8fbcfc5fa14  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_diff","kind":"function","src_hash":"b8bc45db42d78226","in":{"base":"Any"},"out":{"base":"Any","pred":"gf_diff([], 11, ZZ) == [] and gf_diff([7], 11, ZZ) == [] and gf_diff([7, 3], 11, ZZ) == [7] and gf_diff([7, 3, 1], 11, ZZ) == [3, 3] and gf_diff([1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], 11, ZZ) == []"},"spec":{"lhs":"test_gf_diff()","rhs":"test_gf_diff produces the expected output","over":{"base":"Any"},"name":"test_gf_diff_correct"},"guarantee":"test_gf_diff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_diff_correct","statement":"Path(test_gf_diff(x), test_gf_diff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3d4f5848ef2fe50"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_diff","kind":"function","src_hash":"b8bc45db42d78226","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gf_diff([], 11, ZZ) == [] and gf_diff([7], 11, ZZ) == [] and gf_diff([7, 3], 11, ZZ) == [7] and gf_diff([7, 3, 1], 11, ZZ) == [3, 3] and gf_diff([1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], 11, ZZ) == []"},"spec":{"lhs":"test_gf_diff()","rhs":"gf_diff([], 11, ZZ) == [] and gf_diff([7], 11, ZZ) == [] and gf_diff([7, 3], 11, ZZ) == [7] and gf_diff([7, 3, 1], 11, ZZ) == [3, 3] and gf_diff([1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], 11, ZZ) == []","over":{"base":"Any"},"name":"test_gf_diff_correct"},"guarantee":"gf_diff([], 11, ZZ) == []; gf_diff([7], 11, ZZ) == []; gf_diff([7, 3], 11, ZZ) == [7]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_diff_correct","statement":"Path(test_gf_diff(x), gf_diff([], 11, ZZ) == []; gf_diff([7], 11, ZZ) == []; gf_diff([7, 3], 11, ZZ) == [7])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd48f8fbcfc5fa14","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gf_diff([], 11, ZZ) == []","gf_diff([7], 11, ZZ) == []","gf_diff([7, 3], 11, ZZ) == [7]","gf_diff([7, 3, 1], 11, ZZ) == [3, 3]","gf_diff([1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], 11, ZZ) == []"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_gf_diff():
     assert gf_diff([], 11, ZZ) == []
     assert gf_diff([7], 11, ZZ) == []
@@ -627,16 +792,24 @@ def test_gf_diff():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gf_eval(), test_gf_eval produces the expected output) over Any ║
+# ║ Path(test_gf_eval(), gf_eval([], 4, 11, ZZ) == 0 and gf_eval([], 27, 11, ZZ) == 0 and gf_eval([7], 4, 11, ZZ) == 7 and gf_eval([7], 27, 11, ZZ) == 7 and gf_eval([1, 0, 3, 2, 4, 3, 1, 2, 0], 0, 11, ZZ) == 0 and gf_eval([1, 0, 3, 2, 4, 3, 1, 2, 0], 4, 11, ZZ) == 9 and gf_eval([1, 0, 3, 2, 4, 3, 1, 2, 0], 27, 11, ZZ) == 5 and gf_eval([4, 0, 0, 4, 6, 0, 1, 3, 5], 0, 11, ZZ) == 5 and gf_eval([4, 0, 0, 4, 6, 0, 1, 3, 5], 4, 11, ZZ) == 3 and gf_eval([4, 0, 0, 4, 6, 0, 1, 3, 5], 27, 11, ZZ) == 9 and gf_multi_eval([3, 2, 1], [0, 1, 2, 3], 11, ZZ) == [1, 6, 6, 1]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gf_eval : Any → {Any | gf_eval([], 4, 11, ZZ) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gf_eval([], 4, 11, ZZ) == 0                    ║
+# ║   ensures:  gf_eval([], 27, 11, ZZ) == 0                   ║
+# ║   ensures:  gf_eval([7], 4, 11, ZZ) == 7                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gf_eval : Any → {Any | result satisfies: gf_eval...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6057839260024d1f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a7e23f05ce643b8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_eval","kind":"function","src_hash":"0bed9e79829cdf1f","in":{"base":"Any"},"out":{"base":"Any","pred":"gf_eval([], 4, 11, ZZ) == 0 and gf_eval([], 27, 11, ZZ) == 0 and gf_eval([7], 4, 11, ZZ) == 7 and gf_eval([7], 27, 11, ZZ) == 7 and gf_eval([1, 0, 3, 2, 4, 3, 1, 2, 0], 0, 11, ZZ) == 0 and gf_eval([1, 0, 3, 2, 4, 3, 1, 2, 0], 4, 11, ZZ) == 9 and gf_eval([1, 0, 3, 2, 4, 3, 1, 2, 0], 27, 11, ZZ) == 5 and gf_eval([4, 0, 0, 4, 6, 0, 1, 3, 5], 0, 11, ZZ) == 5 and gf_eval([4, 0, 0, 4, 6, 0, 1, 3, 5], 4, 11, ZZ) == 3 and gf_eval([4, 0, 0, 4, 6, 0, 1, 3, 5], 27, 11, ZZ) == 9 and gf_multi_eval([3, 2, 1], [0, 1, 2, 3], 11, ZZ) == [1, 6, 6, 1]"},"spec":{"lhs":"test_gf_eval()","rhs":"test_gf_eval produces the expected output","over":{"base":"Any"},"name":"test_gf_eval_correct"},"guarantee":"test_gf_eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_eval_correct","statement":"Path(test_gf_eval(x), test_gf_eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6057839260024d1f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_eval","kind":"function","src_hash":"0bed9e79829cdf1f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gf_eval([], 4, 11, ZZ) == 0 and gf_eval([], 27, 11, ZZ) == 0 and gf_eval([7], 4, 11, ZZ) == 7 and gf_eval([7], 27, 11, ZZ) == 7 and gf_eval([1, 0, 3, 2, 4, 3, 1, 2, 0], 0, 11, ZZ) == 0 and gf_eval([1, 0, 3, 2, 4, 3, 1, 2, 0], 4, 11, ZZ) == 9 and gf_eval([1, 0, 3, 2, 4, 3, 1, 2, 0], 27, 11, ZZ) == 5 and gf_eval([4, 0, 0, 4, 6, 0, 1, 3, 5], 0, 11, ZZ) == 5 and gf_eval([4, 0, 0, 4, 6, 0, 1, 3, 5], 4, 11, ZZ) == 3 and gf_eval([4, 0, 0, 4, 6, 0, 1, 3, 5], 27, 11, ZZ) == 9 and gf_multi_eval([3, 2, 1], [0, 1, 2, 3], 11, ZZ) == [1, 6, 6, 1]"},"spec":{"lhs":"test_gf_eval()","rhs":"gf_eval([], 4, 11, ZZ) == 0 and gf_eval([], 27, 11, ZZ) == 0 and gf_eval([7], 4, 11, ZZ) == 7 and gf_eval([7], 27, 11, ZZ) == 7 and gf_eval([1, 0, 3, 2, 4, 3, 1, 2, 0], 0, 11, ZZ) == 0 and gf_eval([1, 0, 3, 2, 4, 3, 1, 2, 0], 4, 11, ZZ) == 9 and gf_eval([1, 0, 3, 2, 4, 3, 1, 2, 0], 27, 11, ZZ) == 5 and gf_eval([4, 0, 0, 4, 6, 0, 1, 3, 5], 0, 11, ZZ) == 5 and gf_eval([4, 0, 0, 4, 6, 0, 1, 3, 5], 4, 11, ZZ) == 3 and gf_eval([4, 0, 0, 4, 6, 0, 1, 3, 5], 27, 11, ZZ) == 9 and gf_multi_eval([3, 2, 1], [0, 1, 2, 3], 11, ZZ) == [1, 6, 6, 1]","over":{"base":"Any"},"name":"test_gf_eval_correct"},"guarantee":"gf_eval([], 4, 11, ZZ) == 0; gf_eval([], 27, 11, ZZ) == 0; gf_eval([7], 4, 11, ZZ) == 7","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_eval_correct","statement":"Path(test_gf_eval(x), gf_eval([], 4, 11, ZZ) == 0; gf_eval([], 27, 11, ZZ) == 0; gf_eval([7], 4, 11, ZZ) == 7)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a7e23f05ce643b8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gf_eval([], 4, 11, ZZ) == 0","gf_eval([], 27, 11, ZZ) == 0","gf_eval([7], 4, 11, ZZ) == 7","gf_eval([7], 27, 11, ZZ) == 7","gf_eval([1, 0, 3, 2, 4, 3, 1, 2, 0], 0, 11, ZZ) == 0","gf_eval([1, 0, 3, 2, 4, 3, 1, 2, 0], 4, 11, ZZ) == 9","gf_eval([1, 0, 3, 2, 4, 3, 1, 2, 0], 27, 11, ZZ) == 5","gf_eval([4, 0, 0, 4, 6, 0, 1, 3, 5], 0, 11, ZZ) == 5","gf_eval([4, 0, 0, 4, 6, 0, 1, 3, 5], 4, 11, ZZ) == 3","gf_eval([4, 0, 0, 4, 6, 0, 1, 3, 5], 27, 11, ZZ) == 9","gf_multi_eval([3, 2, 1], [0, 1, 2, 3], 11, ZZ) == [1, 6, 6, 1]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_gf_eval():
     assert gf_eval([], 4, 11, ZZ) == 0
     assert gf_eval([], 27, 11, ZZ) == 0
@@ -655,16 +828,24 @@ def test_gf_eval():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gf_compose(), test_gf_compose produces the expected output) over Any ║
+# ║ Path(test_gf_compose(), gf_compose([], [1, 0], 11, ZZ) == [] and gf_compose_mod([], [1, 0], [1, 0], 11, ZZ) == [] and gf_compose([1], [], 11, ZZ) == [1] and gf_compose([1, 0], [], 11, ZZ) == [] and gf_compose([1, 0], [1, 0], 11, ZZ) == [1, 0] and gf_compose(g, h, 11, ZZ) == [1, 0, 0, 5, 0, 0, 7] and gf_compose_mod(g, h, f, 11, ZZ) == [3, 9, 6, 10]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gf_compose : Any → {Any | gf_compose([], [1, 0],...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gf_compose([], [1, 0], 11, ZZ) == []           ║
+# ║   ensures:  gf_compose_mod([], [1, 0], [1, 0], 11, ZZ...   ║
+# ║   ensures:  gf_compose([1], [], 11, ZZ) == [1]             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gf_compose : Any → {Any | result satisfies: gf_c...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e1864a888fa77e4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ebf5ce4810936c6d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_compose","kind":"function","src_hash":"a3c2b61c8afc4e8f","in":{"base":"Any"},"out":{"base":"Any","pred":"gf_compose([], [1, 0], 11, ZZ) == [] and gf_compose_mod([], [1, 0], [1, 0], 11, ZZ) == [] and gf_compose([1], [], 11, ZZ) == [1] and gf_compose([1, 0], [], 11, ZZ) == [] and gf_compose([1, 0], [1, 0], 11, ZZ) == [1, 0] and gf_compose(g, h, 11, ZZ) == [1, 0, 0, 5, 0, 0, 7] and gf_compose_mod(g, h, f, 11, ZZ) == [3, 9, 6, 10]"},"spec":{"lhs":"test_gf_compose()","rhs":"test_gf_compose produces the expected output","over":{"base":"Any"},"name":"test_gf_compose_correct"},"guarantee":"test_gf_compose produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_compose_correct","statement":"Path(test_gf_compose(x), test_gf_compose produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e1864a888fa77e4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_compose","kind":"function","src_hash":"a3c2b61c8afc4e8f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gf_compose([], [1, 0], 11, ZZ) == [] and gf_compose_mod([], [1, 0], [1, 0], 11, ZZ) == [] and gf_compose([1], [], 11, ZZ) == [1] and gf_compose([1, 0], [], 11, ZZ) == [] and gf_compose([1, 0], [1, 0], 11, ZZ) == [1, 0] and gf_compose(g, h, 11, ZZ) == [1, 0, 0, 5, 0, 0, 7] and gf_compose_mod(g, h, f, 11, ZZ) == [3, 9, 6, 10]"},"spec":{"lhs":"test_gf_compose()","rhs":"gf_compose([], [1, 0], 11, ZZ) == [] and gf_compose_mod([], [1, 0], [1, 0], 11, ZZ) == [] and gf_compose([1], [], 11, ZZ) == [1] and gf_compose([1, 0], [], 11, ZZ) == [] and gf_compose([1, 0], [1, 0], 11, ZZ) == [1, 0] and gf_compose(g, h, 11, ZZ) == [1, 0, 0, 5, 0, 0, 7] and gf_compose_mod(g, h, f, 11, ZZ) == [3, 9, 6, 10]","over":{"base":"Any"},"name":"test_gf_compose_correct"},"guarantee":"gf_compose([], [1, 0], 11, ZZ) == []; gf_compose_mod([], [1, 0], [1, 0], 11, ZZ) == []; gf_compose([1], [], 11, ZZ) == [1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_compose_correct","statement":"Path(test_gf_compose(x), gf_compose([], [1, 0], 11, ZZ) == []; gf_compose_mod([], [1, 0], [1, 0], 11, ZZ) == []; gf_compose([1], [], 11, ZZ) == [1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ebf5ce4810936c6d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gf_compose([], [1, 0], 11, ZZ) == []","gf_compose_mod([], [1, 0], [1, 0], 11, ZZ) == []","gf_compose([1], [], 11, ZZ) == [1]","gf_compose([1, 0], [], 11, ZZ) == []","gf_compose([1, 0], [1, 0], 11, ZZ) == [1, 0]","gf_compose(g, h, 11, ZZ) == [1, 0, 0, 5, 0, 0, 7]","gf_compose_mod(g, h, f, 11, ZZ) == [3, 9, 6, 10]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_gf_compose():
     assert gf_compose([], [1, 0], 11, ZZ) == []
     assert gf_compose_mod([], [1, 0], [1, 0], 11, ZZ) == []
@@ -682,16 +863,24 @@ def test_gf_compose():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gf_trace_map(), test_gf_trace_map produces the expected output) over Any ║
+# ║ Path(test_gf_trace_map(), gf_trace_map(a, b, c, 0, f, 11, ZZ) == ([1, 1, 1], [1, 1, 1]) and gf_trace_map(a, b, c, 1, f, 11, ZZ) == ([5, 2, 10, 3], [5, 3, 0, 4]) and gf_trace_map(a, b, c, 2, f, 11, ZZ) == ([5, 9, 5, 3], [10, 1, 5, 7]) and gf_trace_map(a, b, c, 3, f, 11, ZZ) == ([1, 10, 6, 0], [7]) and gf_trace_map(a, b, c, 4, f, 11, ZZ) == ([1, 1, 1], [1, 1, 8]) and gf_trace_map(a, b, c, 5, f, 11, ZZ) == ([5, 2, 10, 3], [5, 3, 0, 0]) and gf_trace_map(a, b, c, 11, f, 11, ZZ) == ([1, 10, 6, 0], [10])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gf_trace_map : Any → {Any | gf_trace_map(a, b, c...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gf_trace_map(a, b, c, 0, f, 11, ZZ) == ([...   ║
+# ║   ensures:  gf_trace_map(a, b, c, 1, f, 11, ZZ) == ([...   ║
+# ║   ensures:  gf_trace_map(a, b, c, 2, f, 11, ZZ) == ([...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gf_trace_map : Any → {Any | result satisfies: gf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 91fb7b1559ff04c9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a15083e3d42a814c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_trace_map","kind":"function","src_hash":"bbd47991c987f41f","in":{"base":"Any"},"out":{"base":"Any","pred":"gf_trace_map(a, b, c, 0, f, 11, ZZ) == ([1, 1, 1], [1, 1, 1]) and gf_trace_map(a, b, c, 1, f, 11, ZZ) == ([5, 2, 10, 3], [5, 3, 0, 4]) and gf_trace_map(a, b, c, 2, f, 11, ZZ) == ([5, 9, 5, 3], [10, 1, 5, 7]) and gf_trace_map(a, b, c, 3, f, 11, ZZ) == ([1, 10, 6, 0], [7]) and gf_trace_map(a, b, c, 4, f, 11, ZZ) == ([1, 1, 1], [1, 1, 8]) and gf_trace_map(a, b, c, 5, f, 11, ZZ) == ([5, 2, 10, 3], [5, 3, 0, 0]) and gf_trace_map(a, b, c, 11, f, 11, ZZ) == ([1, 10, 6, 0], [10])"},"spec":{"lhs":"test_gf_trace_map()","rhs":"test_gf_trace_map produces the expected output","over":{"base":"Any"},"name":"test_gf_trace_map_correct"},"guarantee":"test_gf_trace_map produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_trace_map_correct","statement":"Path(test_gf_trace_map(x), test_gf_trace_map produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91fb7b1559ff04c9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_trace_map","kind":"function","src_hash":"bbd47991c987f41f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gf_trace_map(a, b, c, 0, f, 11, ZZ) == ([1, 1, 1], [1, 1, 1]) and gf_trace_map(a, b, c, 1, f, 11, ZZ) == ([5, 2, 10, 3], [5, 3, 0, 4]) and gf_trace_map(a, b, c, 2, f, 11, ZZ) == ([5, 9, 5, 3], [10, 1, 5, 7]) and gf_trace_map(a, b, c, 3, f, 11, ZZ) == ([1, 10, 6, 0], [7]) and gf_trace_map(a, b, c, 4, f, 11, ZZ) == ([1, 1, 1], [1, 1, 8]) and gf_trace_map(a, b, c, 5, f, 11, ZZ) == ([5, 2, 10, 3], [5, 3, 0, 0]) and gf_trace_map(a, b, c, 11, f, 11, ZZ) == ([1, 10, 6, 0], [10])"},"spec":{"lhs":"test_gf_trace_map()","rhs":"gf_trace_map(a, b, c, 0, f, 11, ZZ) == ([1, 1, 1], [1, 1, 1]) and gf_trace_map(a, b, c, 1, f, 11, ZZ) == ([5, 2, 10, 3], [5, 3, 0, 4]) and gf_trace_map(a, b, c, 2, f, 11, ZZ) == ([5, 9, 5, 3], [10, 1, 5, 7]) and gf_trace_map(a, b, c, 3, f, 11, ZZ) == ([1, 10, 6, 0], [7]) and gf_trace_map(a, b, c, 4, f, 11, ZZ) == ([1, 1, 1], [1, 1, 8]) and gf_trace_map(a, b, c, 5, f, 11, ZZ) == ([5, 2, 10, 3], [5, 3, 0, 0]) and gf_trace_map(a, b, c, 11, f, 11, ZZ) == ([1, 10, 6, 0], [10])","over":{"base":"Any"},"name":"test_gf_trace_map_correct"},"guarantee":"gf_trace_map(a, b, c, 0, f, 11, ZZ) == ([1, 1, 1], [1, 1, 1]); gf_trace_map(a, b, c, 1, f, 11, ZZ) == ([5, 2, 10, 3], [5, 3, 0, 4]); gf_trace_map(a, b, c, 2, f, 11, ZZ) == ([5, 9, 5, 3], [10, 1, 5, 7])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_trace_map_correct","statement":"Path(test_gf_trace_map(x), gf_trace_map(a, b, c, 0, f, 11, ZZ) == ([1, 1, 1], [1, 1, 1]); gf_trace_map(a, b, c, 1, f, 11, ZZ) == ([5, 2, 10, 3], [5, 3, 0, 4]); gf_trace_map(a, b, c, 2, f, 11, ZZ) == ([5, 9, 5, 3], [10, 1, 5, 7]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a15083e3d42a814c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gf_trace_map(a, b, c, 0, f, 11, ZZ) == ([1, 1, 1], [1, 1, 1])","gf_trace_map(a, b, c, 1, f, 11, ZZ) == ([5, 2, 10, 3], [5, 3, 0, 4])","gf_trace_map(a, b, c, 2, f, 11, ZZ) == ([5, 9, 5, 3], [10, 1, 5, 7])","gf_trace_map(a, b, c, 3, f, 11, ZZ) == ([1, 10, 6, 0], [7])","gf_trace_map(a, b, c, 4, f, 11, ZZ) == ([1, 1, 1], [1, 1, 8])","gf_trace_map(a, b, c, 5, f, 11, ZZ) == ([5, 2, 10, 3], [5, 3, 0, 0])","gf_trace_map(a, b, c, 11, f, 11, ZZ) == ([1, 10, 6, 0], [10])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_gf_trace_map():
     f = ZZ.map([1, 1, 4, 9, 1])
     a = [1, 1, 1]
@@ -715,16 +904,24 @@ def test_gf_trace_map():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gf_irreducible(), test_gf_irreducible produces the expected output) over Any ║
+# ║ Path(test_gf_irreducible(), gf_irreducible_p(gf_irreducible(1, 11, ZZ), 11, ZZ) is True and gf_irreducible_p(gf_irreducible(2, 11, ZZ), 11, ZZ) is True and gf_irreducible_p(gf_irreducible(3, 11, ZZ), 11, ZZ) is True and gf_irreducible_p(gf_irreducible(4, 11, ZZ), 11, ZZ) is True and gf_irreducible_p(gf_irreducible(5, 11, ZZ), 11, ZZ) is True and gf_irreducible_p(gf_irreducible(6, 11, ZZ), 11, ZZ) is True and gf_irreducible_p(gf_irreducible(7, 11, ZZ), 11, ZZ) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gf_irreducible : Any → {Any | gf_irreducible_p(g...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gf_irreducible_p(gf_irreducible(1, 11, ZZ...   ║
+# ║   ensures:  gf_irreducible_p(gf_irreducible(2, 11, ZZ...   ║
+# ║   ensures:  gf_irreducible_p(gf_irreducible(3, 11, ZZ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gf_irreducible : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d6062c6354310d3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 143219a035f01cc2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_irreducible","kind":"function","src_hash":"327609f6f4bdad49","in":{"base":"Any"},"out":{"base":"Any","pred":"gf_irreducible_p(gf_irreducible(1, 11, ZZ), 11, ZZ) is True and gf_irreducible_p(gf_irreducible(2, 11, ZZ), 11, ZZ) is True and gf_irreducible_p(gf_irreducible(3, 11, ZZ), 11, ZZ) is True and gf_irreducible_p(gf_irreducible(4, 11, ZZ), 11, ZZ) is True and gf_irreducible_p(gf_irreducible(5, 11, ZZ), 11, ZZ) is True and gf_irreducible_p(gf_irreducible(6, 11, ZZ), 11, ZZ) is True and gf_irreducible_p(gf_irreducible(7, 11, ZZ), 11, ZZ) is True"},"spec":{"lhs":"test_gf_irreducible()","rhs":"test_gf_irreducible produces the expected output","over":{"base":"Any"},"name":"test_gf_irreducible_correct"},"guarantee":"test_gf_irreducible produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_irreducible_correct","statement":"Path(test_gf_irreducible(x), test_gf_irreducible produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d6062c6354310d3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_irreducible","kind":"function","src_hash":"327609f6f4bdad49","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gf_irreducible_p(gf_irreducible(1, 11, ZZ), 11, ZZ) is True and gf_irreducible_p(gf_irreducible(2, 11, ZZ), 11, ZZ) is True and gf_irreducible_p(gf_irreducible(3, 11, ZZ), 11, ZZ) is True and gf_irreducible_p(gf_irreducible(4, 11, ZZ), 11, ZZ) is True and gf_irreducible_p(gf_irreducible(5, 11, ZZ), 11, ZZ) is True and gf_irreducible_p(gf_irreducible(6, 11, ZZ), 11, ZZ) is True and gf_irreducible_p(gf_irreducible(7, 11, ZZ), 11, ZZ) is True"},"spec":{"lhs":"test_gf_irreducible()","rhs":"gf_irreducible_p(gf_irreducible(1, 11, ZZ), 11, ZZ) is True and gf_irreducible_p(gf_irreducible(2, 11, ZZ), 11, ZZ) is True and gf_irreducible_p(gf_irreducible(3, 11, ZZ), 11, ZZ) is True and gf_irreducible_p(gf_irreducible(4, 11, ZZ), 11, ZZ) is True and gf_irreducible_p(gf_irreducible(5, 11, ZZ), 11, ZZ) is True and gf_irreducible_p(gf_irreducible(6, 11, ZZ), 11, ZZ) is True and gf_irreducible_p(gf_irreducible(7, 11, ZZ), 11, ZZ) is True","over":{"base":"Any"},"name":"test_gf_irreducible_correct"},"guarantee":"gf_irreducible_p(gf_irreducible(1, 11, ZZ), 11, ZZ) is True; gf_irreducible_p(gf_irreducible(2, 11, ZZ), 11, ZZ) is True; gf_irreducible_p(gf_irreducible(3, 11, ZZ), 11, ZZ) is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_irreducible_correct","statement":"Path(test_gf_irreducible(x), gf_irreducible_p(gf_irreducible(1, 11, ZZ), 11, ZZ) is True; gf_irreducible_p(gf_irreducible(2, 11, ZZ), 11, ZZ) is True; gf_irreducible_p(gf_irreducible(3, 11, ZZ), 11, ZZ) is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"143219a035f01cc2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gf_irreducible_p(gf_irreducible(1, 11, ZZ), 11, ZZ) is True","gf_irreducible_p(gf_irreducible(2, 11, ZZ), 11, ZZ) is True","gf_irreducible_p(gf_irreducible(3, 11, ZZ), 11, ZZ) is True","gf_irreducible_p(gf_irreducible(4, 11, ZZ), 11, ZZ) is True","gf_irreducible_p(gf_irreducible(5, 11, ZZ), 11, ZZ) is True","gf_irreducible_p(gf_irreducible(6, 11, ZZ), 11, ZZ) is True","gf_irreducible_p(gf_irreducible(7, 11, ZZ), 11, ZZ) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_gf_irreducible():
     assert gf_irreducible_p(gf_irreducible(1, 11, ZZ), 11, ZZ) is True
     assert gf_irreducible_p(gf_irreducible(2, 11, ZZ), 11, ZZ) is True
@@ -736,16 +933,24 @@ def test_gf_irreducible():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gf_irreducible_p(), test_gf_irreducible_p produces the expected output) over Any ║
+# ║ Path(test_gf_irreducible_p(), gf_irred_p_ben_or(ZZ.map([7]), 11, ZZ) is True and gf_irred_p_ben_or(ZZ.map([7, 3]), 11, ZZ) is True and gf_irred_p_ben_or(ZZ.map([7, 3, 1]), 11, ZZ) is False and gf_irred_p_rabin(ZZ.map([7]), 11, ZZ) is True and gf_irred_p_rabin(ZZ.map([7, 3]), 11, ZZ) is True and gf_irred_p_rabin(ZZ.map([7, 3, 1]), 11, ZZ) is False and gf_irreducible_p(ZZ.map([7]), 11, ZZ) is True and gf_irreducible_p(ZZ.map([7, 3]), 11, ZZ) is True and gf_irreducible_p(ZZ.map([7, 3, 1]), 11, ZZ) is False and gf_irred_p_ben_or(f, 17, ZZ) is True and gf_irred_p_ben_or(g, 17, ZZ) is True and gf_irred_p_ben_or(h, 17, ZZ) is False and gf_irred_p_rabin(f, 17, ZZ) is True and gf_irred_p_rabin(g, 17, ZZ) is True and gf_irred_p_rabin(h, 17, ZZ) is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gf_irreducible_p : Any → {Any | gf_irred_p_ben_o...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gf_irred_p_ben_or(ZZ.map([7]), 11, ZZ) is...   ║
+# ║   ensures:  gf_irred_p_ben_or(ZZ.map([7, 3]), 11, ZZ)...   ║
+# ║   ensures:  gf_irred_p_ben_or(ZZ.map([7, 3, 1]), 11, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gf_irreducible_p : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 23ba2a9f570e6dfc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 61328a702a1cf569  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_irreducible_p","kind":"function","src_hash":"8a46bfc5b2348d37","in":{"base":"Any"},"out":{"base":"Any","pred":"gf_irred_p_ben_or(ZZ.map([7]), 11, ZZ) is True and gf_irred_p_ben_or(ZZ.map([7, 3]), 11, ZZ) is True and gf_irred_p_ben_or(ZZ.map([7, 3, 1]), 11, ZZ) is False and gf_irred_p_rabin(ZZ.map([7]), 11, ZZ) is True and gf_irred_p_rabin(ZZ.map([7, 3]), 11, ZZ) is True and gf_irred_p_rabin(ZZ.map([7, 3, 1]), 11, ZZ) is False and gf_irreducible_p(ZZ.map([7]), 11, ZZ) is True and gf_irreducible_p(ZZ.map([7, 3]), 11, ZZ) is True and gf_irreducible_p(ZZ.map([7, 3, 1]), 11, ZZ) is False and gf_irreducible_p(ZZ.map([7]), 11, ZZ) is True and gf_irreducible_p(ZZ.map([7, 3]), 11, ZZ) is True and gf_irreducible_p(ZZ.map([7, 3, 1]), 11, ZZ) is False and gf_irred_p_ben_or(f, 17, ZZ) is True and gf_irred_p_ben_or(g, 17, ZZ) is True and gf_irred_p_ben_or(h, 17, ZZ) is False and gf_irred_p_rabin(f, 17, ZZ) is True and gf_irred_p_rabin(g, 17, ZZ) is True and gf_irred_p_rabin(h, 17, ZZ) is False"},"spec":{"lhs":"test_gf_irreducible_p()","rhs":"test_gf_irreducible_p produces the expected output","over":{"base":"Any"},"name":"test_gf_irreducible_p_correct"},"guarantee":"test_gf_irreducible_p produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_irreducible_p_correct","statement":"Path(test_gf_irreducible_p(x), test_gf_irreducible_p produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23ba2a9f570e6dfc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_irreducible_p","kind":"function","src_hash":"8a46bfc5b2348d37","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gf_irred_p_ben_or(ZZ.map([7]), 11, ZZ) is True and gf_irred_p_ben_or(ZZ.map([7, 3]), 11, ZZ) is True and gf_irred_p_ben_or(ZZ.map([7, 3, 1]), 11, ZZ) is False and gf_irred_p_rabin(ZZ.map([7]), 11, ZZ) is True and gf_irred_p_rabin(ZZ.map([7, 3]), 11, ZZ) is True and gf_irred_p_rabin(ZZ.map([7, 3, 1]), 11, ZZ) is False and gf_irreducible_p(ZZ.map([7]), 11, ZZ) is True and gf_irreducible_p(ZZ.map([7, 3]), 11, ZZ) is True and gf_irreducible_p(ZZ.map([7, 3, 1]), 11, ZZ) is False and gf_irred_p_ben_or(f, 17, ZZ) is True and gf_irred_p_ben_or(g, 17, ZZ) is True and gf_irred_p_ben_or(h, 17, ZZ) is False and gf_irred_p_rabin(f, 17, ZZ) is True and gf_irred_p_rabin(g, 17, ZZ) is True and gf_irred_p_rabin(h, 17, ZZ) is False"},"spec":{"lhs":"test_gf_irreducible_p()","rhs":"gf_irred_p_ben_or(ZZ.map([7]), 11, ZZ) is True and gf_irred_p_ben_or(ZZ.map([7, 3]), 11, ZZ) is True and gf_irred_p_ben_or(ZZ.map([7, 3, 1]), 11, ZZ) is False and gf_irred_p_rabin(ZZ.map([7]), 11, ZZ) is True and gf_irred_p_rabin(ZZ.map([7, 3]), 11, ZZ) is True and gf_irred_p_rabin(ZZ.map([7, 3, 1]), 11, ZZ) is False and gf_irreducible_p(ZZ.map([7]), 11, ZZ) is True and gf_irreducible_p(ZZ.map([7, 3]), 11, ZZ) is True and gf_irreducible_p(ZZ.map([7, 3, 1]), 11, ZZ) is False and gf_irred_p_ben_or(f, 17, ZZ) is True and gf_irred_p_ben_or(g, 17, ZZ) is True and gf_irred_p_ben_or(h, 17, ZZ) is False and gf_irred_p_rabin(f, 17, ZZ) is True and gf_irred_p_rabin(g, 17, ZZ) is True and gf_irred_p_rabin(h, 17, ZZ) is False","over":{"base":"Any"},"name":"test_gf_irreducible_p_correct"},"guarantee":"gf_irred_p_ben_or(ZZ.map([7]), 11, ZZ) is True; gf_irred_p_ben_or(ZZ.map([7, 3]), 11, ZZ) is True; gf_irred_p_ben_or(ZZ.map([7, 3, 1]), 11, ZZ) is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_irreducible_p_correct","statement":"Path(test_gf_irreducible_p(x), gf_irred_p_ben_or(ZZ.map([7]), 11, ZZ) is True; gf_irred_p_ben_or(ZZ.map([7, 3]), 11, ZZ) is True; gf_irred_p_ben_or(ZZ.map([7, 3, 1]), 11, ZZ) is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61328a702a1cf569","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gf_irred_p_ben_or(ZZ.map([7]), 11, ZZ) is True","gf_irred_p_ben_or(ZZ.map([7, 3]), 11, ZZ) is True","gf_irred_p_ben_or(ZZ.map([7, 3, 1]), 11, ZZ) is False","gf_irred_p_rabin(ZZ.map([7]), 11, ZZ) is True","gf_irred_p_rabin(ZZ.map([7, 3]), 11, ZZ) is True","gf_irred_p_rabin(ZZ.map([7, 3, 1]), 11, ZZ) is False","gf_irreducible_p(ZZ.map([7]), 11, ZZ) is True","gf_irreducible_p(ZZ.map([7, 3]), 11, ZZ) is True","gf_irreducible_p(ZZ.map([7, 3, 1]), 11, ZZ) is False","gf_irred_p_ben_or(f, 17, ZZ) is True","gf_irred_p_ben_or(g, 17, ZZ) is True","gf_irred_p_ben_or(h, 17, ZZ) is False","gf_irred_p_rabin(f, 17, ZZ) is True","gf_irred_p_rabin(g, 17, ZZ) is True","gf_irred_p_rabin(h, 17, ZZ) is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_gf_irreducible_p():
     assert gf_irred_p_ben_or(ZZ.map([7]), 11, ZZ) is True
     assert gf_irred_p_ben_or(ZZ.map([7, 3]), 11, ZZ) is True
@@ -788,16 +993,24 @@ def test_gf_irreducible_p():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gf_squarefree(), test_gf_squarefree produces the expected output) over Any ║
+# ║ Path(test_gf_squarefree(), gf_sqf_list([], 11, ZZ) == (0, []) and gf_sqf_list([1], 11, ZZ) == (1, []) and gf_sqf_list([1, 1], 11, ZZ) == (1, [([1, 1], 1)]) and gf_sqf_p([], 11, ZZ) is True and gf_sqf_p([1], 11, ZZ) is True and gf_sqf_p([1, 1], 11, ZZ) is True and gf_sqf_p(f, 11, ZZ) is False and gf_sqf_list(f, 11, ZZ) == (1, [([1, 1], 11)]) and gf_sqf_list(f, 11, ZZ) == (1, [([1, 1], 1), ([1, 2], 2)]) and gf_sqf_part(f, 11, ZZ) == [1, 3, 2] and gf_sqf_list(f, 3, ZZ) == (1, [([1, 0], 1), ([1, 1], 3), ([1, 2], 6)])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gf_squarefree : Any → {Any | gf_sqf_list([], 11,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gf_sqf_list([], 11, ZZ) == (0, [])             ║
+# ║   ensures:  gf_sqf_list([1], 11, ZZ) == (1, [])            ║
+# ║   ensures:  gf_sqf_list([1, 1], 11, ZZ) == (1, [([1, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gf_squarefree : Any → {Any | result satisfies: g...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 27e68fc3783c02f2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77b2e29986fe0983  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_squarefree","kind":"function","src_hash":"fba2f0f5bdefa3d9","in":{"base":"Any"},"out":{"base":"Any","pred":"gf_sqf_list([], 11, ZZ) == (0, []) and gf_sqf_list([1], 11, ZZ) == (1, []) and gf_sqf_list([1, 1], 11, ZZ) == (1, [([1, 1], 1)]) and gf_sqf_p([], 11, ZZ) is True and gf_sqf_p([1], 11, ZZ) is True and gf_sqf_p([1, 1], 11, ZZ) is True and gf_sqf_p(f, 11, ZZ) is False and gf_sqf_list(f, 11, ZZ) == (1, [([1, 1], 11)]) and gf_sqf_p(f, 11, ZZ) is False and gf_sqf_list(f, 11, ZZ) == (1, [([1, 1], 1), ([1, 2], 2)]) and gf_sqf_part(f, 11, ZZ) == [1, 3, 2] and gf_sqf_list(f, 3, ZZ) == (1, [([1, 0], 1), ([1, 1], 3), ([1, 2], 6)])"},"spec":{"lhs":"test_gf_squarefree()","rhs":"test_gf_squarefree produces the expected output","over":{"base":"Any"},"name":"test_gf_squarefree_correct"},"guarantee":"test_gf_squarefree produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_squarefree_correct","statement":"Path(test_gf_squarefree(x), test_gf_squarefree produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27e68fc3783c02f2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_squarefree","kind":"function","src_hash":"fba2f0f5bdefa3d9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gf_sqf_list([], 11, ZZ) == (0, []) and gf_sqf_list([1], 11, ZZ) == (1, []) and gf_sqf_list([1, 1], 11, ZZ) == (1, [([1, 1], 1)]) and gf_sqf_p([], 11, ZZ) is True and gf_sqf_p([1], 11, ZZ) is True and gf_sqf_p([1, 1], 11, ZZ) is True and gf_sqf_p(f, 11, ZZ) is False and gf_sqf_list(f, 11, ZZ) == (1, [([1, 1], 11)]) and gf_sqf_list(f, 11, ZZ) == (1, [([1, 1], 1), ([1, 2], 2)]) and gf_sqf_part(f, 11, ZZ) == [1, 3, 2] and gf_sqf_list(f, 3, ZZ) == (1, [([1, 0], 1), ([1, 1], 3), ([1, 2], 6)])"},"spec":{"lhs":"test_gf_squarefree()","rhs":"gf_sqf_list([], 11, ZZ) == (0, []) and gf_sqf_list([1], 11, ZZ) == (1, []) and gf_sqf_list([1, 1], 11, ZZ) == (1, [([1, 1], 1)]) and gf_sqf_p([], 11, ZZ) is True and gf_sqf_p([1], 11, ZZ) is True and gf_sqf_p([1, 1], 11, ZZ) is True and gf_sqf_p(f, 11, ZZ) is False and gf_sqf_list(f, 11, ZZ) == (1, [([1, 1], 11)]) and gf_sqf_list(f, 11, ZZ) == (1, [([1, 1], 1), ([1, 2], 2)]) and gf_sqf_part(f, 11, ZZ) == [1, 3, 2] and gf_sqf_list(f, 3, ZZ) == (1, [([1, 0], 1), ([1, 1], 3), ([1, 2], 6)])","over":{"base":"Any"},"name":"test_gf_squarefree_correct"},"guarantee":"gf_sqf_list([], 11, ZZ) == (0, []); gf_sqf_list([1], 11, ZZ) == (1, []); gf_sqf_list([1, 1], 11, ZZ) == (1, [([1, 1], 1)])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_squarefree_correct","statement":"Path(test_gf_squarefree(x), gf_sqf_list([], 11, ZZ) == (0, []); gf_sqf_list([1], 11, ZZ) == (1, []); gf_sqf_list([1, 1], 11, ZZ) == (1, [([1, 1], 1)]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77b2e29986fe0983","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gf_sqf_list([], 11, ZZ) == (0, [])","gf_sqf_list([1], 11, ZZ) == (1, [])","gf_sqf_list([1, 1], 11, ZZ) == (1, [([1, 1], 1)])","gf_sqf_p([], 11, ZZ) is True","gf_sqf_p([1], 11, ZZ) is True","gf_sqf_p([1, 1], 11, ZZ) is True","gf_sqf_p(f, 11, ZZ) is False","gf_sqf_list(f, 11, ZZ) == (1, [([1, 1], 11)])","gf_sqf_list(f, 11, ZZ) == (1, [([1, 1], 1), ([1, 2], 2)])","gf_sqf_part(f, 11, ZZ) == [1, 3, 2]","gf_sqf_list(f, 3, ZZ) == (1, [([1, 0], 1), ([1, 1], 3), ([1, 2], 6)])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_gf_squarefree():
     assert gf_sqf_list([], 11, ZZ) == (0, [])
     assert gf_sqf_list([1], 11, ZZ) == (1, [])
@@ -832,16 +1045,22 @@ def test_gf_squarefree():
              ([1, 2], 6)])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gf_frobenius_map(), test_gf_frobenius_map produces the expected output) over Any ║
+# ║ Path(test_gf_frobenius_map(), h == h1) over Any            ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gf_frobenius_map : Any → {Any | h == h1}              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  h == h1                                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gf_frobenius_map : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f5ce664e95933a1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8da6df7b2a44952  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_frobenius_map","kind":"function","src_hash":"eeeb5798b8cc7679","in":{"base":"Any"},"out":{"base":"Any","pred":"h == h1"},"spec":{"lhs":"test_gf_frobenius_map()","rhs":"test_gf_frobenius_map produces the expected output","over":{"base":"Any"},"name":"test_gf_frobenius_map_correct"},"guarantee":"test_gf_frobenius_map produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_frobenius_map_correct","statement":"Path(test_gf_frobenius_map(x), test_gf_frobenius_map produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f5ce664e95933a1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_frobenius_map","kind":"function","src_hash":"eeeb5798b8cc7679","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: h == h1"},"spec":{"lhs":"test_gf_frobenius_map()","rhs":"h == h1","over":{"base":"Any"},"name":"test_gf_frobenius_map_correct"},"guarantee":"h == h1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_frobenius_map_correct","statement":"Path(test_gf_frobenius_map(x), h == h1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8da6df7b2a44952","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["h == h1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_gf_frobenius_map():
     f = ZZ.map([2, 0, 1, 0, 2, 2, 0, 2, 2, 2])
     g = ZZ.map([1,1,0,2,0,1,0,2,0,1])
@@ -853,16 +1072,24 @@ def test_gf_frobenius_map():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gf_berlekamp(), test_gf_berlekamp produces the expected output) over Any ║
+# ║ Path(test_gf_berlekamp(), gf_Qmatrix(f, 11, ZZ) == Q and gf_Qbasis(Q, 11, ZZ) == V and gf_berlekamp(f, 11, ZZ) == [[1, 1], [1, 5, 3], [1, 2, 3, 4]] and gf_Qmatrix(f, 13, ZZ) == Q and gf_Qbasis(Q, 13, ZZ) == V and gf_berlekamp(f, 13, ZZ) == [[1, 3], [1, 8, 4, 12], [1, 2, 3, 4, 6]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gf_berlekamp : Any → {Any | gf_Qmatrix(f, 11, ZZ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gf_Qmatrix(f, 11, ZZ) == Q                     ║
+# ║   ensures:  gf_Qbasis(Q, 11, ZZ) == V                      ║
+# ║   ensures:  gf_berlekamp(f, 11, ZZ) == [[1, 1], [1, 5...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gf_berlekamp : Any → {Any | result satisfies: gf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 67a0d9bf0e333f8d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 56b713ba18ab68ed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_berlekamp","kind":"function","src_hash":"03d905d06e1a8621","in":{"base":"Any"},"out":{"base":"Any","pred":"gf_Qmatrix(f, 11, ZZ) == Q and gf_Qbasis(Q, 11, ZZ) == V and gf_berlekamp(f, 11, ZZ) == [[1, 1], [1, 5, 3], [1, 2, 3, 4]] and gf_Qmatrix(f, 13, ZZ) == Q and gf_Qbasis(Q, 13, ZZ) == V and gf_berlekamp(f, 13, ZZ) == [[1, 3], [1, 8, 4, 12], [1, 2, 3, 4, 6]]"},"spec":{"lhs":"test_gf_berlekamp()","rhs":"test_gf_berlekamp produces the expected output","over":{"base":"Any"},"name":"test_gf_berlekamp_correct"},"guarantee":"test_gf_berlekamp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_berlekamp_correct","statement":"Path(test_gf_berlekamp(x), test_gf_berlekamp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67a0d9bf0e333f8d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_berlekamp","kind":"function","src_hash":"03d905d06e1a8621","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gf_Qmatrix(f, 11, ZZ) == Q and gf_Qbasis(Q, 11, ZZ) == V and gf_berlekamp(f, 11, ZZ) == [[1, 1], [1, 5, 3], [1, 2, 3, 4]] and gf_Qmatrix(f, 13, ZZ) == Q and gf_Qbasis(Q, 13, ZZ) == V and gf_berlekamp(f, 13, ZZ) == [[1, 3], [1, 8, 4, 12], [1, 2, 3, 4, 6]]"},"spec":{"lhs":"test_gf_berlekamp()","rhs":"gf_Qmatrix(f, 11, ZZ) == Q and gf_Qbasis(Q, 11, ZZ) == V and gf_berlekamp(f, 11, ZZ) == [[1, 1], [1, 5, 3], [1, 2, 3, 4]] and gf_Qmatrix(f, 13, ZZ) == Q and gf_Qbasis(Q, 13, ZZ) == V and gf_berlekamp(f, 13, ZZ) == [[1, 3], [1, 8, 4, 12], [1, 2, 3, 4, 6]]","over":{"base":"Any"},"name":"test_gf_berlekamp_correct"},"guarantee":"gf_Qmatrix(f, 11, ZZ) == Q; gf_Qbasis(Q, 11, ZZ) == V; gf_berlekamp(f, 11, ZZ) == [[1, 1], [1, 5, 3], [1, 2, 3, 4]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_berlekamp_correct","statement":"Path(test_gf_berlekamp(x), gf_Qmatrix(f, 11, ZZ) == Q; gf_Qbasis(Q, 11, ZZ) == V; gf_berlekamp(f, 11, ZZ) == [[1, 1], [1, 5, 3], [1, 2, 3, 4]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56b713ba18ab68ed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gf_Qmatrix(f, 11, ZZ) == Q","gf_Qbasis(Q, 11, ZZ) == V","gf_berlekamp(f, 11, ZZ) == [[1, 1], [1, 5, 3], [1, 2, 3, 4]]","gf_Qmatrix(f, 13, ZZ) == Q","gf_Qbasis(Q, 13, ZZ) == V","gf_berlekamp(f, 13, ZZ) == [[1, 3], [1, 8, 4, 12], [1, 2, 3, 4, 6]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_gf_berlekamp():
     f = gf_from_int_poly([1, -3, 1, -3, -1, -3, 1], 11)
 
@@ -906,16 +1133,24 @@ def test_gf_berlekamp():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gf_ddf(), test_gf_ddf produces the expected output) over Any ║
+# ║ Path(test_gf_ddf(), gf_ddf_zassenhaus(f, 11, ZZ) == g and gf_ddf_shoup(f, 11, ZZ) == g and gf_ddf_zassenhaus(f, 2, ZZ) == g and gf_ddf_shoup(f, 2, ZZ) == g and gf_ddf_zassenhaus(f, 3, ZZ) == g and gf_ddf_shoup(f, 3, ZZ) == g and gf_ddf_zassenhaus(f, 809, ZZ) == g and gf_ddf_shoup(f, 809, ZZ) == g and gf_ddf_zassenhaus(f, p, ZZ) == g and gf_ddf_shoup(f, p, ZZ) == g) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gf_ddf : Any → {Any | gf_ddf_zassenhaus(f, 11, Z...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gf_ddf_zassenhaus(f, 11, ZZ) == g              ║
+# ║   ensures:  gf_ddf_shoup(f, 11, ZZ) == g                   ║
+# ║   ensures:  gf_ddf_zassenhaus(f, 2, ZZ) == g               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gf_ddf : Any → {Any | result satisfies: gf_ddf_z...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8abdfceca039c6d3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec9b593c235d4386  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_ddf","kind":"function","src_hash":"b934107c56a4382c","in":{"base":"Any"},"out":{"base":"Any","pred":"gf_ddf_zassenhaus(f, 11, ZZ) == g and gf_ddf_shoup(f, 11, ZZ) == g and gf_ddf_zassenhaus(f, 2, ZZ) == g and gf_ddf_shoup(f, 2, ZZ) == g and gf_ddf_zassenhaus(f, 3, ZZ) == g and gf_ddf_shoup(f, 3, ZZ) == g and gf_ddf_zassenhaus(f, 809, ZZ) == g and gf_ddf_shoup(f, 809, ZZ) == g and gf_ddf_zassenhaus(f, p, ZZ) == g and gf_ddf_shoup(f, p, ZZ) == g"},"spec":{"lhs":"test_gf_ddf()","rhs":"test_gf_ddf produces the expected output","over":{"base":"Any"},"name":"test_gf_ddf_correct"},"guarantee":"test_gf_ddf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_ddf_correct","statement":"Path(test_gf_ddf(x), test_gf_ddf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8abdfceca039c6d3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_ddf","kind":"function","src_hash":"b934107c56a4382c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gf_ddf_zassenhaus(f, 11, ZZ) == g and gf_ddf_shoup(f, 11, ZZ) == g and gf_ddf_zassenhaus(f, 2, ZZ) == g and gf_ddf_shoup(f, 2, ZZ) == g and gf_ddf_zassenhaus(f, 3, ZZ) == g and gf_ddf_shoup(f, 3, ZZ) == g and gf_ddf_zassenhaus(f, 809, ZZ) == g and gf_ddf_shoup(f, 809, ZZ) == g and gf_ddf_zassenhaus(f, p, ZZ) == g and gf_ddf_shoup(f, p, ZZ) == g"},"spec":{"lhs":"test_gf_ddf()","rhs":"gf_ddf_zassenhaus(f, 11, ZZ) == g and gf_ddf_shoup(f, 11, ZZ) == g and gf_ddf_zassenhaus(f, 2, ZZ) == g and gf_ddf_shoup(f, 2, ZZ) == g and gf_ddf_zassenhaus(f, 3, ZZ) == g and gf_ddf_shoup(f, 3, ZZ) == g and gf_ddf_zassenhaus(f, 809, ZZ) == g and gf_ddf_shoup(f, 809, ZZ) == g and gf_ddf_zassenhaus(f, p, ZZ) == g and gf_ddf_shoup(f, p, ZZ) == g","over":{"base":"Any"},"name":"test_gf_ddf_correct"},"guarantee":"gf_ddf_zassenhaus(f, 11, ZZ) == g; gf_ddf_shoup(f, 11, ZZ) == g; gf_ddf_zassenhaus(f, 2, ZZ) == g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_ddf_correct","statement":"Path(test_gf_ddf(x), gf_ddf_zassenhaus(f, 11, ZZ) == g; gf_ddf_shoup(f, 11, ZZ) == g; gf_ddf_zassenhaus(f, 2, ZZ) == g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec9b593c235d4386","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gf_ddf_zassenhaus(f, 11, ZZ) == g","gf_ddf_shoup(f, 11, ZZ) == g","gf_ddf_zassenhaus(f, 2, ZZ) == g","gf_ddf_shoup(f, 2, ZZ) == g","gf_ddf_zassenhaus(f, 3, ZZ) == g","gf_ddf_shoup(f, 3, ZZ) == g","gf_ddf_zassenhaus(f, 809, ZZ) == g","gf_ddf_shoup(f, 809, ZZ) == g","gf_ddf_zassenhaus(f, p, ZZ) == g","gf_ddf_shoup(f, p, ZZ) == g"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_gf_ddf():
     f = gf_from_dict({15: ZZ(1), 0: ZZ(-1)}, 11, ZZ)
     g = [([1, 0, 0, 0, 0, 10], 1),
@@ -960,16 +1195,23 @@ def test_gf_ddf():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gf_edf(), test_gf_edf produces the expected output) over Any ║
+# ║ Path(test_gf_edf(), gf_edf_zassenhaus(f, 2, 3, ZZ) == g and gf_edf_shoup(f, 2, 3, ZZ) == g) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gf_edf : Any → {Any | gf_edf_zassenhaus(f, 2, 3,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gf_edf_zassenhaus(f, 2, 3, ZZ) == g            ║
+# ║   ensures:  gf_edf_shoup(f, 2, 3, ZZ) == g                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gf_edf : Any → {Any | result satisfies: gf_edf_z...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0f0c2afbf570692b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 46d06cd95f77b478  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_edf","kind":"function","src_hash":"d18d3f8295e0f5a6","in":{"base":"Any"},"out":{"base":"Any","pred":"gf_edf_zassenhaus(f, 2, 3, ZZ) == g and gf_edf_shoup(f, 2, 3, ZZ) == g"},"spec":{"lhs":"test_gf_edf()","rhs":"test_gf_edf produces the expected output","over":{"base":"Any"},"name":"test_gf_edf_correct"},"guarantee":"test_gf_edf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_edf_correct","statement":"Path(test_gf_edf(x), test_gf_edf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f0c2afbf570692b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_edf","kind":"function","src_hash":"d18d3f8295e0f5a6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gf_edf_zassenhaus(f, 2, 3, ZZ) == g and gf_edf_shoup(f, 2, 3, ZZ) == g"},"spec":{"lhs":"test_gf_edf()","rhs":"gf_edf_zassenhaus(f, 2, 3, ZZ) == g and gf_edf_shoup(f, 2, 3, ZZ) == g","over":{"base":"Any"},"name":"test_gf_edf_correct"},"guarantee":"gf_edf_zassenhaus(f, 2, 3, ZZ) == g; gf_edf_shoup(f, 2, 3, ZZ) == g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_edf_correct","statement":"Path(test_gf_edf(x), gf_edf_zassenhaus(f, 2, 3, ZZ) == g; gf_edf_shoup(f, 2, 3, ZZ) == g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46d06cd95f77b478","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gf_edf_zassenhaus(f, 2, 3, ZZ) == g","gf_edf_shoup(f, 2, 3, ZZ) == g"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_gf_edf():
     f = ZZ.map([1, 1, 0, 1, 2])
     g = ZZ.map([[1, 0, 1], [1, 1, 2]])
@@ -979,16 +1221,22 @@ def test_gf_edf():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_23174(), test_issue_23174 produces the expected output) over Any ║
+# ║ Path(test_issue_23174(), gf_edf_zassenhaus(f, 8, 2, ZZ) == g) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_23174 : Any → {Any | gf_edf_zassenhaus(f, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gf_edf_zassenhaus(f, 8, 2, ZZ) == g            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_23174 : Any → {Any | result satisfies: gf_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c97aeab0787d808  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c902bf490a03cd6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_issue_23174","kind":"function","src_hash":"dcd9a7c707f86f1a","in":{"base":"Any"},"out":{"base":"Any","pred":"gf_edf_zassenhaus(f, 8, 2, ZZ) == g"},"spec":{"lhs":"test_issue_23174()","rhs":"test_issue_23174 produces the expected output","over":{"base":"Any"},"name":"test_issue_23174_correct"},"guarantee":"test_issue_23174 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_issue_23174_correct","statement":"Path(test_issue_23174(x), test_issue_23174 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c97aeab0787d808"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_issue_23174","kind":"function","src_hash":"dcd9a7c707f86f1a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gf_edf_zassenhaus(f, 8, 2, ZZ) == g"},"spec":{"lhs":"test_issue_23174()","rhs":"gf_edf_zassenhaus(f, 8, 2, ZZ) == g","over":{"base":"Any"},"name":"test_issue_23174_correct"},"guarantee":"gf_edf_zassenhaus(f, 8, 2, ZZ) == g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_issue_23174_correct","statement":"Path(test_issue_23174(x), gf_edf_zassenhaus(f, 8, 2, ZZ) == g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c902bf490a03cd6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gf_edf_zassenhaus(f, 8, 2, ZZ) == g"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_23174():
     f = ZZ.map([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
     g = ZZ.map([[1, 0, 0, 1, 1, 1, 0, 0, 1], [1, 1, 1, 0, 1, 0, 1, 1, 1]])
@@ -997,16 +1245,24 @@ def test_issue_23174():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gf_factor(), test_gf_factor produces the expected output) over Any ║
+# ║ Path(test_gf_factor(), gf_factor([], 11, ZZ) == (0, []) and gf_factor([1], 11, ZZ) == (1, []) and gf_factor([1, 1], 11, ZZ) == (1, [([1, 1], 1)]) and gf_factor_sqf([], 11, ZZ) == (0, []) and gf_factor_sqf([1], 11, ZZ) == (1, []) and gf_factor_sqf([1, 1], 11, ZZ) == (1, [[1, 1]]) and gf_factor_sqf(ZZ.map([]), 11, ZZ) == (0, []) and gf_factor_sqf(ZZ.map([1]), 11, ZZ) == (1, []) and gf_factor_sqf(ZZ.map([1, 1]), 11, ZZ) == (1, [[1, 1]]) and gf_factor(f, p, ZZ) == g and gf_factor_sqf(f, p, ZZ) == g and gf_sqf_p(f, p, ZZ) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gf_factor : Any → {Any | gf_factor([], 11, ZZ) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gf_factor([], 11, ZZ) == (0, [])               ║
+# ║   ensures:  gf_factor([1], 11, ZZ) == (1, [])              ║
+# ║   ensures:  gf_factor([1, 1], 11, ZZ) == (1, [([1, 1]...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gf_factor : Any → {Any | result satisfies: gf_fa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f39d2c7c00a81a6e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45f152b99c7c69ae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_factor","kind":"function","src_hash":"0cebc7056179e82a","in":{"base":"Any"},"out":{"base":"Any","pred":"gf_factor([], 11, ZZ) == (0, []) and gf_factor([1], 11, ZZ) == (1, []) and gf_factor([1, 1], 11, ZZ) == (1, [([1, 1], 1)]) and gf_factor_sqf([], 11, ZZ) == (0, []) and gf_factor_sqf([1], 11, ZZ) == (1, []) and gf_factor_sqf([1, 1], 11, ZZ) == (1, [[1, 1]]) and gf_factor_sqf([], 11, ZZ) == (0, []) and gf_factor_sqf([1], 11, ZZ) == (1, []) and gf_factor_sqf([1, 1], 11, ZZ) == (1, [[1, 1]]) and gf_factor_sqf([], 11, ZZ) == (0, []) and gf_factor_sqf([1], 11, ZZ) == (1, []) and gf_factor_sqf([1, 1], 11, ZZ) == (1, [[1, 1]]) and gf_factor_sqf(ZZ.map([]), 11, ZZ) == (0, []) and gf_factor_sqf(ZZ.map([1]), 11, ZZ) == (1, []) and gf_factor_sqf(ZZ.map([1, 1]), 11, ZZ) == (1, [[1, 1]]) and gf_factor(f, p, ZZ) == g and gf_factor(f, p, ZZ) == g and gf_factor(f, p, ZZ) == g and gf_factor_sqf(f, p, ZZ) == g and gf_factor_sqf(f, p, ZZ) == g and gf_factor_sqf(f, p, ZZ) == g and gf_factor(f, p, ZZ) == g and gf_factor(f, p, ZZ) == g and gf_factor(f, p, ZZ) == g and gf_factor(f, p, ZZ) == g and gf_factor(f, p, ZZ) == g and gf_factor(f, p, ZZ) == g and gf_factor(f, p, ZZ) == g and gf_factor(f, p, ZZ) == g and gf_factor(f, p, ZZ) == g and gf_factor(f, p, ZZ) == g and gf_factor(f, p, ZZ) == g and gf_factor(f, p, ZZ) == g and gf_factor(f, p, ZZ) == g and gf_factor(f, p, ZZ) == g and gf_factor(f, p, ZZ) == g and gf_factor(f, p, ZZ) == g and gf_factor(f, p, ZZ) == g and gf_factor(f, p, ZZ) == g and gf_sqf_p(f, p, ZZ) is True and gf_factor(f, p, ZZ) == g and gf_factor(f, p, ZZ) == g and gf_factor_sqf(f, p, ZZ) == g and gf_factor_sqf(f, p, ZZ) == g and gf_sqf_p(f, p, ZZ) is True and gf_factor(f, p, ZZ) == g and gf_factor(f, p, ZZ) == g and gf_factor_sqf(f, p, ZZ) == g and gf_factor_sqf(f, p, ZZ) == g"},"spec":{"lhs":"test_gf_factor()","rhs":"test_gf_factor produces the expected output","over":{"base":"Any"},"name":"test_gf_factor_correct"},"guarantee":"test_gf_factor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_factor_correct","statement":"Path(test_gf_factor(x), test_gf_factor produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f39d2c7c00a81a6e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_factor","kind":"function","src_hash":"0cebc7056179e82a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gf_factor([], 11, ZZ) == (0, []) and gf_factor([1], 11, ZZ) == (1, []) and gf_factor([1, 1], 11, ZZ) == (1, [([1, 1], 1)]) and gf_factor_sqf([], 11, ZZ) == (0, []) and gf_factor_sqf([1], 11, ZZ) == (1, []) and gf_factor_sqf([1, 1], 11, ZZ) == (1, [[1, 1]]) and gf_factor_sqf(ZZ.map([]), 11, ZZ) == (0, []) and gf_factor_sqf(ZZ.map([1]), 11, ZZ) == (1, []) and gf_factor_sqf(ZZ.map([1, 1]), 11, ZZ) == (1, [[1, 1]]) and gf_factor(f, p, ZZ) == g and gf_factor_sqf(f, p, ZZ) == g and gf_sqf_p(f, p, ZZ) is True"},"spec":{"lhs":"test_gf_factor()","rhs":"gf_factor([], 11, ZZ) == (0, []) and gf_factor([1], 11, ZZ) == (1, []) and gf_factor([1, 1], 11, ZZ) == (1, [([1, 1], 1)]) and gf_factor_sqf([], 11, ZZ) == (0, []) and gf_factor_sqf([1], 11, ZZ) == (1, []) and gf_factor_sqf([1, 1], 11, ZZ) == (1, [[1, 1]]) and gf_factor_sqf(ZZ.map([]), 11, ZZ) == (0, []) and gf_factor_sqf(ZZ.map([1]), 11, ZZ) == (1, []) and gf_factor_sqf(ZZ.map([1, 1]), 11, ZZ) == (1, [[1, 1]]) and gf_factor(f, p, ZZ) == g and gf_factor_sqf(f, p, ZZ) == g and gf_sqf_p(f, p, ZZ) is True","over":{"base":"Any"},"name":"test_gf_factor_correct"},"guarantee":"gf_factor([], 11, ZZ) == (0, []); gf_factor([1], 11, ZZ) == (1, []); gf_factor([1, 1], 11, ZZ) == (1, [([1, 1], 1)])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_factor_correct","statement":"Path(test_gf_factor(x), gf_factor([], 11, ZZ) == (0, []); gf_factor([1], 11, ZZ) == (1, []); gf_factor([1, 1], 11, ZZ) == (1, [([1, 1], 1)]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45f152b99c7c69ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gf_factor([], 11, ZZ) == (0, [])","gf_factor([1], 11, ZZ) == (1, [])","gf_factor([1, 1], 11, ZZ) == (1, [([1, 1], 1)])","gf_factor_sqf([], 11, ZZ) == (0, [])","gf_factor_sqf([1], 11, ZZ) == (1, [])","gf_factor_sqf([1, 1], 11, ZZ) == (1, [[1, 1]])","gf_factor_sqf(ZZ.map([]), 11, ZZ) == (0, [])","gf_factor_sqf(ZZ.map([1]), 11, ZZ) == (1, [])","gf_factor_sqf(ZZ.map([1, 1]), 11, ZZ) == (1, [[1, 1]])","gf_factor(f, p, ZZ) == g","gf_factor_sqf(f, p, ZZ) == g","gf_sqf_p(f, p, ZZ) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.2,"verdict_class":"assumed","binding":true}}
 def test_gf_factor():
     assert gf_factor([], 11, ZZ) == (0, [])
     assert gf_factor([1], 11, ZZ) == (1, [])
@@ -1224,16 +1480,24 @@ def test_gf_factor():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gf_csolve(), test_gf_csolve produces the expected output) over Any ║
+# ║ Path(test_gf_csolve(), gf_value([1, 7, 2, 4], 11) == 2204 and linear_congruence(4, 3, 5) == [2] and linear_congruence(0, 3, 5) == [] and linear_congruence(6, 1, 4) == [] and linear_congruence(0, 5, 5) == [0, 1, 2, 3, 4] and linear_congruence(3, 12, 15) == [4, 9, 14] and linear_congruence(6, 0, 18) == [0, 3, 6, 9, 12, 15] and _csolve_prime_las_vegas([2, 3, 1], 5) == [2, 4] and _csolve_prime_las_vegas([2, 0, 1], 5) == [] and csolve_prime([1, 3, 2, 17], 7) == [3] and csolve_prime([1, 3, 1, 5], 5) == [0, 1] and csolve_prime([3, 6, 9, 3], 3) == [0, 1, 2] and csolve_prime([1, 1, 223], 3, 4) == [4, 13, 22, 31, 40, 49, 58, 67, 76] and csolve_prime([3, 5, 2, 25], 5, 3) == [16, 50, 99] and csolve_prime([3, 2, 2, 49], 7, 3) == [147, 190, 234] and gf_csolve([1, 1, 7], 189) == [13, 49, 76, 112, 139, 175] and gf_csolve([1, 3, 4, 1, 30], 60) == [10, 30] and gf_csolve([1, 1, 7], 15) == []) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gf_csolve : Any → {Any | gf_value([1, 7, 2, 4], ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gf_value([1, 7, 2, 4], 11) == 2204             ║
+# ║   ensures:  linear_congruence(4, 3, 5) == [2]              ║
+# ║   ensures:  linear_congruence(0, 3, 5) == []               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gf_csolve : Any → {Any | result satisfies: gf_va...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5b637870c46af15  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 363cf2ee4b49242e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_csolve","kind":"function","src_hash":"75aff0deed4e2fbc","in":{"base":"Any"},"out":{"base":"Any","pred":"gf_value([1, 7, 2, 4], 11) == 2204 and linear_congruence(4, 3, 5) == [2] and linear_congruence(0, 3, 5) == [] and linear_congruence(6, 1, 4) == [] and linear_congruence(0, 5, 5) == [0, 1, 2, 3, 4] and linear_congruence(3, 12, 15) == [4, 9, 14] and linear_congruence(6, 0, 18) == [0, 3, 6, 9, 12, 15] and _csolve_prime_las_vegas([2, 3, 1], 5) == [2, 4] and _csolve_prime_las_vegas([2, 0, 1], 5) == [] and csolve_prime([1, 3, 2, 17], 7) == [3] and csolve_prime([1, 3, 1, 5], 5) == [0, 1] and csolve_prime([3, 6, 9, 3], 3) == [0, 1, 2] and csolve_prime([1, 1, 223], 3, 4) == [4, 13, 22, 31, 40, 49, 58, 67, 76] and csolve_prime([3, 5, 2, 25], 5, 3) == [16, 50, 99] and csolve_prime([3, 2, 2, 49], 7, 3) == [147, 190, 234] and gf_csolve([1, 1, 7], 189) == [13, 49, 76, 112, 139, 175] and gf_csolve([1, 3, 4, 1, 30], 60) == [10, 30] and gf_csolve([1, 1, 7], 15) == [] and _csolve_prime_las_vegas(f, p) == list(range(1, p))"},"spec":{"lhs":"test_gf_csolve()","rhs":"test_gf_csolve produces the expected output","over":{"base":"Any"},"name":"test_gf_csolve_correct"},"guarantee":"test_gf_csolve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_csolve_correct","statement":"Path(test_gf_csolve(x), test_gf_csolve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5b637870c46af15"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_galoistools.test_gf_csolve","kind":"function","src_hash":"75aff0deed4e2fbc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gf_value([1, 7, 2, 4], 11) == 2204 and linear_congruence(4, 3, 5) == [2] and linear_congruence(0, 3, 5) == [] and linear_congruence(6, 1, 4) == [] and linear_congruence(0, 5, 5) == [0, 1, 2, 3, 4] and linear_congruence(3, 12, 15) == [4, 9, 14] and linear_congruence(6, 0, 18) == [0, 3, 6, 9, 12, 15] and _csolve_prime_las_vegas([2, 3, 1], 5) == [2, 4] and _csolve_prime_las_vegas([2, 0, 1], 5) == [] and csolve_prime([1, 3, 2, 17], 7) == [3] and csolve_prime([1, 3, 1, 5], 5) == [0, 1] and csolve_prime([3, 6, 9, 3], 3) == [0, 1, 2] and csolve_prime([1, 1, 223], 3, 4) == [4, 13, 22, 31, 40, 49, 58, 67, 76] and csolve_prime([3, 5, 2, 25], 5, 3) == [16, 50, 99] and csolve_prime([3, 2, 2, 49], 7, 3) == [147, 190, 234] and gf_csolve([1, 1, 7], 189) == [13, 49, 76, 112, 139, 175] and gf_csolve([1, 3, 4, 1, 30], 60) == [10, 30] and gf_csolve([1, 1, 7], 15) == []"},"spec":{"lhs":"test_gf_csolve()","rhs":"gf_value([1, 7, 2, 4], 11) == 2204 and linear_congruence(4, 3, 5) == [2] and linear_congruence(0, 3, 5) == [] and linear_congruence(6, 1, 4) == [] and linear_congruence(0, 5, 5) == [0, 1, 2, 3, 4] and linear_congruence(3, 12, 15) == [4, 9, 14] and linear_congruence(6, 0, 18) == [0, 3, 6, 9, 12, 15] and _csolve_prime_las_vegas([2, 3, 1], 5) == [2, 4] and _csolve_prime_las_vegas([2, 0, 1], 5) == [] and csolve_prime([1, 3, 2, 17], 7) == [3] and csolve_prime([1, 3, 1, 5], 5) == [0, 1] and csolve_prime([3, 6, 9, 3], 3) == [0, 1, 2] and csolve_prime([1, 1, 223], 3, 4) == [4, 13, 22, 31, 40, 49, 58, 67, 76] and csolve_prime([3, 5, 2, 25], 5, 3) == [16, 50, 99] and csolve_prime([3, 2, 2, 49], 7, 3) == [147, 190, 234] and gf_csolve([1, 1, 7], 189) == [13, 49, 76, 112, 139, 175] and gf_csolve([1, 3, 4, 1, 30], 60) == [10, 30] and gf_csolve([1, 1, 7], 15) == []","over":{"base":"Any"},"name":"test_gf_csolve_correct"},"guarantee":"gf_value([1, 7, 2, 4], 11) == 2204; linear_congruence(4, 3, 5) == [2]; linear_congruence(0, 3, 5) == []","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_galoistools.test_gf_csolve_correct","statement":"Path(test_gf_csolve(x), gf_value([1, 7, 2, 4], 11) == 2204; linear_congruence(4, 3, 5) == [2]; linear_congruence(0, 3, 5) == [])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"363cf2ee4b49242e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gf_value([1, 7, 2, 4], 11) == 2204","linear_congruence(4, 3, 5) == [2]","linear_congruence(0, 3, 5) == []","linear_congruence(6, 1, 4) == []","linear_congruence(0, 5, 5) == [0, 1, 2, 3, 4]","linear_congruence(3, 12, 15) == [4, 9, 14]","linear_congruence(6, 0, 18) == [0, 3, 6, 9, 12, 15]","_csolve_prime_las_vegas([2, 3, 1], 5) == [2, 4]","_csolve_prime_las_vegas([2, 0, 1], 5) == []","csolve_prime([1, 3, 2, 17], 7) == [3]","csolve_prime([1, 3, 1, 5], 5) == [0, 1]","csolve_prime([3, 6, 9, 3], 3) == [0, 1, 2]","csolve_prime([1, 1, 223], 3, 4) == [4, 13, 22, 31, 40, 49, 58, 67, 76]","csolve_prime([3, 5, 2, 25], 5, 3) == [16, 50, 99]","csolve_prime([3, 2, 2, 49], 7, 3) == [147, 190, 234]","gf_csolve([1, 1, 7], 189) == [13, 49, 76, 112, 139, 175]","gf_csolve([1, 3, 4, 1, 30], 60) == [10, 30]","gf_csolve([1, 1, 7], 15) == []"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_gf_csolve():
     assert gf_value([1, 7, 2, 4], 11) == 2204
 

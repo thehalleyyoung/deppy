@@ -40,16 +40,23 @@ from sympy.functions.combinatorial.factorials import factorial, subfactorial
     (Matrix([[5]]), 5),
 ])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_eval_determinant(met), test_eval_determinant produces the expected output) over Any ║
+# ║ Path(test_eval_determinant(method, M, sol), <unspecified:test_eval_determinant>) over {Any | method(M) == sol} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_eval_determinant : Any → {Any | method(M) == sol}     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: method(M) == sol                               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_eval_determinant : {Any | method(M) == sol} → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e68bf816ded65f9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_determinant.test_eval_determinant","kind":"function","src_hash":"7d763a177c36faca","in":{"base":"Any"},"out":{"base":"Any","pred":"method(M) == sol"},"spec":{"lhs":"test_eval_determinant(met)","rhs":"test_eval_determinant produces the expected output","over":{"base":"Any"},"name":"test_eval_determinant_correct"},"guarantee":"test_eval_determinant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_determinant.test_eval_determinant_correct","statement":"Path(test_eval_determinant(x), test_eval_determinant produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e68bf816ded65f9"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_determinant.test_eval_determinant","kind":"function","src_hash":"7d763a177c36faca","in":{"base":"Any","pred":"method(M) == sol"},"out":{"base":"Any","pred":"method(M) == sol"},"spec":{"lhs":"test_eval_determinant(method, M, sol)","rhs":"<unspecified:test_eval_determinant>","over":{"base":"Any","pred":"method(M) == sol"},"name":"test_eval_determinant_correct"},"guarantee":"test_eval_determinant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_determinant.test_eval_determinant_correct","statement":"Path(test_eval_determinant(x), test_eval_determinant produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e68bf816ded65f9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["method(M) == sol"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_eval_determinant(method, M, sol):
     assert method(M) == sol
 
@@ -110,31 +117,47 @@ def test_eval_determinant(method, M, sol):
               (y, z, x) )), z**2 - x*y),
 ])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_determinant(met), test_determinant produces the expected output) over Any ║
+# ║ Path(test_determinant(method, M, sol), <unspecified:test_determinant>) over {Any | M.det(method=method) == sol and hasattr(M, 'det')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_determinant : Any → {Any | M.det(method=method) ...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: M.det(method=method) == sol                    ║
+# ║   requires: hasattr(M, 'det')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_determinant : {Any | M.det(method=method) == sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69afc392beb86fd1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_determinant.test_determinant","kind":"function","src_hash":"07bc8cfbc9584c2d","in":{"base":"Any"},"out":{"base":"Any","pred":"M.det(method=method) == sol"},"spec":{"lhs":"test_determinant(met)","rhs":"test_determinant produces the expected output","over":{"base":"Any"},"name":"test_determinant_correct"},"guarantee":"test_determinant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_determinant.test_determinant_correct","statement":"Path(test_determinant(x), test_determinant produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69afc392beb86fd1"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_determinant.test_determinant","kind":"function","src_hash":"07bc8cfbc9584c2d","in":{"base":"Any","pred":"M.det(method=method) == sol and hasattr(M, 'det')"},"out":{"base":"Any","pred":"M.det(method=method) == sol"},"spec":{"lhs":"test_determinant(method, M, sol)","rhs":"<unspecified:test_determinant>","over":{"base":"Any","pred":"M.det(method=method) == sol and hasattr(M, 'det')"},"name":"test_determinant_correct"},"guarantee":"test_determinant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_determinant.test_determinant_correct","statement":"Path(test_determinant(x), test_determinant produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69afc392beb86fd1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["M.det(method=method) == sol","hasattr(M, 'det')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.det"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_determinant(method, M, sol):
     assert M.det(method=method) == sol
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_13835(), test_issue_13835 produces the expected output) over Any ║
+# ║ Path(test_issue_13835(), M(5).det() == 0 and M(6).det() == 0 and M(7).det() == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_13835 : Any → {Any | M(5).det() == 0 and M...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  M(5).det() == 0                                ║
+# ║   ensures:  M(6).det() == 0                                ║
+# ║   ensures:  M(7).det() == 0                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_13835 : Any → {Any | result satisfies: M(5...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0686beed178cf6c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e487d804bac8295a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_determinant.test_issue_13835","kind":"function","src_hash":"ee0e22f0631a2809","in":{"base":"Any"},"out":{"base":"Any","pred":"M(5).det() == 0 and M(6).det() == 0 and M(7).det() == 0"},"spec":{"lhs":"test_issue_13835()","rhs":"test_issue_13835 produces the expected output","over":{"base":"Any"},"name":"test_issue_13835_correct"},"guarantee":"test_issue_13835 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_determinant.test_issue_13835_correct","statement":"Path(test_issue_13835(x), test_issue_13835 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0686beed178cf6c"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_determinant.test_issue_13835","kind":"function","src_hash":"ee0e22f0631a2809","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: M(5).det() == 0 and M(6).det() == 0 and M(7).det() == 0"},"spec":{"lhs":"test_issue_13835()","rhs":"M(5).det() == 0 and M(6).det() == 0 and M(7).det() == 0","over":{"base":"Any"},"name":"test_issue_13835_correct"},"guarantee":"M(5).det() == 0; M(6).det() == 0; M(7).det() == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_determinant.test_issue_13835_correct","statement":"Path(test_issue_13835(x), M(5).det() == 0; M(6).det() == 0; M(7).det() == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e487d804bac8295a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["M(5).det() == 0","M(6).det() == 0","M(7).det() == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_13835():
     a = symbols('a')
     M = lambda n: Matrix([[i + a*j for i in range(n)]
@@ -145,16 +168,22 @@ def test_issue_13835():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_14517(), test_issue_14517 produces the expected output) over Any ║
+# ║ Path(test_issue_14517(), (M - test_ev * eye(4)).det() == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_14517 : Any → {Any | (M - test_ev * eye(4)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (M - test_ev * eye(4)).det() == 0              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_14517 : Any → {Any | result satisfies: (M ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c8d46e9fdaf65d2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b02d0f383fa6872f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_determinant.test_issue_14517","kind":"function","src_hash":"9bdff767a9ff2db5","in":{"base":"Any"},"out":{"base":"Any","pred":"(M - test_ev * eye(4)).det() == 0"},"spec":{"lhs":"test_issue_14517()","rhs":"test_issue_14517 produces the expected output","over":{"base":"Any"},"name":"test_issue_14517_correct"},"guarantee":"test_issue_14517 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_determinant.test_issue_14517_correct","statement":"Path(test_issue_14517(x), test_issue_14517 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c8d46e9fdaf65d2"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_determinant.test_issue_14517","kind":"function","src_hash":"9bdff767a9ff2db5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (M - test_ev * eye(4)).det() == 0"},"spec":{"lhs":"test_issue_14517()","rhs":"(M - test_ev * eye(4)).det() == 0","over":{"base":"Any"},"name":"test_issue_14517_correct"},"guarantee":"(M - test_ev * eye(4)).det() == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_determinant.test_issue_14517_correct","statement":"Path(test_issue_14517(x), (M - test_ev * eye(4)).det() == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b02d0f383fa6872f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(M - test_ev * eye(4)).det() == 0"],"pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["random.choice"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_14517():
     M = Matrix([
         [   0, 10*I,    10*I,       0],
@@ -181,16 +210,24 @@ def test_issue_14517():
               ( 1,  2,  3,  4, -1) )), 11664),
 ])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_legacy_det(met), test_legacy_det produces the expected output) over Any ║
+# ║ Path(test_legacy_det(method, M, sol), <unspecified:test_legacy_det>) over {Any | M.det(method=method) == sol and hasattr(M, 'det')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_legacy_det : Any → {Any | M.det(method=method) =...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: M.det(method=method) == sol                    ║
+# ║   requires: hasattr(M, 'det')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_legacy_det : {Any | M.det(method=method) == sol ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0595f8fd6227e3b5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_determinant.test_legacy_det","kind":"function","src_hash":"72ce98da31f78944","in":{"base":"Any"},"out":{"base":"Any","pred":"M.det(method=method) == sol"},"spec":{"lhs":"test_legacy_det(met)","rhs":"test_legacy_det produces the expected output","over":{"base":"Any"},"name":"test_legacy_det_correct"},"guarantee":"test_legacy_det produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_determinant.test_legacy_det_correct","statement":"Path(test_legacy_det(x), test_legacy_det produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0595f8fd6227e3b5"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_determinant.test_legacy_det","kind":"function","src_hash":"72ce98da31f78944","in":{"base":"Any","pred":"M.det(method=method) == sol and hasattr(M, 'det')"},"out":{"base":"Any","pred":"M.det(method=method) == sol"},"spec":{"lhs":"test_legacy_det(method, M, sol)","rhs":"<unspecified:test_legacy_det>","over":{"base":"Any","pred":"M.det(method=method) == sol and hasattr(M, 'det')"},"name":"test_legacy_det_correct"},"guarantee":"test_legacy_det produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_determinant.test_legacy_det_correct","statement":"Path(test_legacy_det(x), test_legacy_det produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0595f8fd6227e3b5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["M.det(method=method) == sol","hasattr(M, 'det')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.det"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_legacy_det(method, M, sol):
     # Minimal support for legacy keys for 'method' in det()
     # Partially copied from test_determinant()
@@ -198,44 +235,64 @@ def test_legacy_det(method, M, sol):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eye_Determinant(n), eye_Determinant produces the expected output) over Any ║
+# ║ Path(eye_Determinant(n), Matrix(n, n, lambda i, j: int(i == j))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix(n, n, lambda i, j: int(i == j))         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eye_Determinant : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f6abc18c31e40661           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_determinant.eye_Determinant","kind":"function","src_hash":"929a99e4f4b4c945","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eye_Determinant(n)","rhs":"eye_Determinant produces the expected output","over":{"base":"Any"},"name":"eye_Determinant_correct"},"guarantee":"eye_Determinant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f6abc18c31e40661"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_determinant.eye_Determinant","kind":"function","src_hash":"929a99e4f4b4c945","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eye_Determinant(n)","rhs":"Matrix(n, n, lambda i, j: int(i == j))","over":{"base":"Any"},"name":"eye_Determinant_correct"},"guarantee":"returns Matrix(n, n, lambda i, j: int(i == j))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f6abc18c31e40661","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix(n, n, lambda i, j: int(i == j))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def eye_Determinant(n):
     return Matrix(n, n, lambda i, j: int(i == j))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(zeros_Determinant(n), zeros_Determinant produces the expected output) over Any ║
+# ║ Path(zeros_Determinant(n), Matrix(n, n, lambda i, j: 0)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix(n, n, lambda i, j: 0)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ zeros_Determinant : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1636083309b9c261           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_determinant.zeros_Determinant","kind":"function","src_hash":"4cf2460f1191d88d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zeros_Determinant(n)","rhs":"zeros_Determinant produces the expected output","over":{"base":"Any"},"name":"zeros_Determinant_correct"},"guarantee":"zeros_Determinant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1636083309b9c261"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_determinant.zeros_Determinant","kind":"function","src_hash":"4cf2460f1191d88d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zeros_Determinant(n)","rhs":"Matrix(n, n, lambda i, j: 0)","over":{"base":"Any"},"name":"zeros_Determinant_correct"},"guarantee":"returns Matrix(n, n, lambda i, j: 0)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1636083309b9c261","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix(n, n, lambda i, j: 0)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def zeros_Determinant(n):
     return Matrix(n, n, lambda i, j: 0)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_det(), test_det produces the expected output) over Any ║
+# ║ Path(test_det(), z.det() == 0 and ey.det() == 1 and a.det() == 1 and b.det() == 5 and c.det() == -2 and d.det() == 3 and e.det() == 4 * x - 24 and e.det(method='domain-ge') == 4 * x - 24 and e.det(method='bareiss') == 4 * x - 24 and e.det(method='berkowitz') == 4 * x - 24 and f.det() == i * j * k and g.det() == i * j * k and h.det() == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_det : Any → {Any | z.det() == 0 and ey.det() == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  z.det() == 0                                   ║
+# ║   ensures:  ey.det() == 1                                  ║
+# ║   ensures:  a.det() == 1                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_det : Any → {Any | result satisfies: z.det() == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba725a71f2e17056  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7545870b9bb20721  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_determinant.test_det","kind":"function","src_hash":"1fb3fc642ea94801","in":{"base":"Any"},"out":{"base":"Any","pred":"z.det() == 0 and ey.det() == 1 and a.det() == 1 and b.det() == 5 and c.det() == -2 and d.det() == 3 and e.det() == 4 * x - 24 and e.det(method='domain-ge') == 4 * x - 24 and e.det(method='bareiss') == 4 * x - 24 and e.det(method='berkowitz') == 4 * x - 24 and f.det() == i * j * k and g.det() == i * j * k and h.det() == 1"},"spec":{"lhs":"test_det()","rhs":"test_det produces the expected output","over":{"base":"Any"},"name":"test_det_correct"},"guarantee":"test_det produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_determinant.test_det_correct","statement":"Path(test_det(x), test_det produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba725a71f2e17056"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_determinant.test_det","kind":"function","src_hash":"1fb3fc642ea94801","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: z.det() == 0 and ey.det() == 1 and a.det() == 1 and b.det() == 5 and c.det() == -2 and d.det() == 3 and e.det() == 4 * x - 24 and e.det(method='domain-ge') == 4 * x - 24 and e.det(method='bareiss') == 4 * x - 24 and e.det(method='berkowitz') == 4 * x - 24 and f.det() == i * j * k and g.det() == i * j * k and h.det() == 1"},"spec":{"lhs":"test_det()","rhs":"z.det() == 0 and ey.det() == 1 and a.det() == 1 and b.det() == 5 and c.det() == -2 and d.det() == 3 and e.det() == 4 * x - 24 and e.det(method='domain-ge') == 4 * x - 24 and e.det(method='bareiss') == 4 * x - 24 and e.det(method='berkowitz') == 4 * x - 24 and f.det() == i * j * k and g.det() == i * j * k and h.det() == 1","over":{"base":"Any"},"name":"test_det_correct"},"guarantee":"z.det() == 0; ey.det() == 1; a.det() == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_determinant.test_det_correct","statement":"Path(test_det(x), z.det() == 0; ey.det() == 1; a.det() == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7545870b9bb20721","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["z.det() == 0","ey.det() == 1","a.det() == 1","b.det() == 5","c.det() == -2","d.det() == 3","e.det() == 4 * x - 24","e.det(method='domain-ge') == 4 * x - 24","e.det(method='bareiss') == 4 * x - 24","e.det(method='berkowitz') == 4 * x - 24","f.det() == i * j * k","g.det() == i * j * k","h.det() == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_det():
     a = Matrix(2, 3, [1, 2, 3, 4, 5, 6])
     raises(NonSquareMatrixError, lambda: a.det())
@@ -273,16 +330,23 @@ def test_det():
     raises(ValueError, lambda: e.det(iszerofunc="test"))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_permanent(), test_permanent produces the expected output) over Any ║
+# ║ Path(test_permanent(), M.per() == 450 and M.per() == M.T.per() == a1 + a2 + a3 + a4 + a5) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_permanent : Any → {Any | M.per() == 450 and M.pe...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  M.per() == 450                                 ║
+# ║   ensures:  M.per() == M.T.per() == a1 + a2 + a3 + a4...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_permanent : Any → {Any | result satisfies: M.per...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc0dfc5dd61ac288  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7572a643272accb9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_determinant.test_permanent","kind":"function","src_hash":"d9c78c772fcc89da","in":{"base":"Any"},"out":{"base":"Any","pred":"M.per() == 450 and M.per() == M.T.per() == a1 + a2 + a3 + a4 + a5 and ones(i, i).per() == ones(i, i).T.per() == factorial(i) and (ones(i, i) - eye(i)).per() == (ones(i, i) - eye(i)).T.per() == subfactorial(i)"},"spec":{"lhs":"test_permanent()","rhs":"test_permanent produces the expected output","over":{"base":"Any"},"name":"test_permanent_correct"},"guarantee":"test_permanent produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_determinant.test_permanent_correct","statement":"Path(test_permanent(x), test_permanent produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc0dfc5dd61ac288"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_determinant.test_permanent","kind":"function","src_hash":"d9c78c772fcc89da","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: M.per() == 450 and M.per() == M.T.per() == a1 + a2 + a3 + a4 + a5"},"spec":{"lhs":"test_permanent()","rhs":"M.per() == 450 and M.per() == M.T.per() == a1 + a2 + a3 + a4 + a5","over":{"base":"Any"},"name":"test_permanent_correct"},"guarantee":"M.per() == 450; M.per() == M.T.per() == a1 + a2 + a3 + a4 + a5","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_determinant.test_permanent_correct","statement":"Path(test_permanent(x), M.per() == 450; M.per() == M.T.per() == a1 + a2 + a3 + a4 + a5)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7572a643272accb9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["M.per() == 450","M.per() == M.T.per() == a1 + a2 + a3 + a4 + a5"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_permanent():
     M = Matrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
     assert M.per() == 450
@@ -295,16 +359,24 @@ def test_permanent():
     assert M.per() == M.T.per() == a1 + a2 + a3 + a4 + a5
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_adjugate(), test_adjugate produces the expected output) over Any ║
+# ║ Path(test_adjugate(), e.adjugate() == adj and e.adjugate(method='bareiss') == adj and e.adjugate(method='berkowitz') == adj and e.adjugate(method='bird') == adj and e.adjugate(method='laplace') == adj) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_adjugate : Any → {Any | e.adjugate() == adj and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.adjugate() == adj                            ║
+# ║   ensures:  e.adjugate(method='bareiss') == adj            ║
+# ║   ensures:  e.adjugate(method='berkowitz') == adj          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_adjugate : Any → {Any | result satisfies: e.adju...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 390e77b1c7e8f03d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da51fa88895feb5d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_determinant.test_adjugate","kind":"function","src_hash":"fa14be94df115191","in":{"base":"Any"},"out":{"base":"Any","pred":"e.adjugate() == adj and e.adjugate(method='bareiss') == adj and e.adjugate(method='berkowitz') == adj and e.adjugate(method='bird') == adj and e.adjugate(method='laplace') == adj"},"spec":{"lhs":"test_adjugate()","rhs":"test_adjugate produces the expected output","over":{"base":"Any"},"name":"test_adjugate_correct"},"guarantee":"test_adjugate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_determinant.test_adjugate_correct","statement":"Path(test_adjugate(x), test_adjugate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"390e77b1c7e8f03d"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_determinant.test_adjugate","kind":"function","src_hash":"fa14be94df115191","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.adjugate() == adj and e.adjugate(method='bareiss') == adj and e.adjugate(method='berkowitz') == adj and e.adjugate(method='bird') == adj and e.adjugate(method='laplace') == adj"},"spec":{"lhs":"test_adjugate()","rhs":"e.adjugate() == adj and e.adjugate(method='bareiss') == adj and e.adjugate(method='berkowitz') == adj and e.adjugate(method='bird') == adj and e.adjugate(method='laplace') == adj","over":{"base":"Any"},"name":"test_adjugate_correct"},"guarantee":"e.adjugate() == adj; e.adjugate(method='bareiss') == adj; e.adjugate(method='berkowitz') == adj","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_determinant.test_adjugate_correct","statement":"Path(test_adjugate(x), e.adjugate() == adj; e.adjugate(method='bareiss') == adj; e.adjugate(method='berkowitz') == adj)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da51fa88895feb5d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.adjugate() == adj","e.adjugate(method='bareiss') == adj","e.adjugate(method='berkowitz') == adj","e.adjugate(method='bird') == adj","e.adjugate(method='laplace') == adj"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_adjugate():
     x = Symbol('x')
     e = Matrix(4, 4,
@@ -325,16 +397,24 @@ def test_adjugate():
     raises(NonSquareMatrixError, lambda: a.adjugate())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_util(), test_util produces the expected output) over Any ║
+# ║ Path(test_util(), v1.norm() == sqrt(14) and v1.project(v2) == Matrix(1, 3, [R(39) / 25, R(52) / 25, R(13) / 5]) and Matrix.zeros(1, 2) == Matrix(1, 2, [0, 0]) and ones(1, 2) == Matrix(1, 2, [1, 1]) and v1.copy() == v1 and eye(3) == eye(3).cofactor_matrix() and test.cofactor_matrix() == Matrix([[27, -6, -6], [-12, 2, 3], [-3, 1, 0]]) and test.cofactor_matrix() == Matrix([[-3, 6, -3], [6, -12, 6], [-3, 6, -3]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_util : Any → {Any | v1.norm() == sqrt(14) and v1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  v1.norm() == sqrt(14)                          ║
+# ║   ensures:  v1.project(v2) == Matrix(1, 3, [R(39) / 2...   ║
+# ║   ensures:  Matrix.zeros(1, 2) == Matrix(1, 2, [0, 0])     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_util : Any → {Any | result satisfies: v1.norm() ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2abcb4bd2096d2b5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54f592e4379e4c63  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_determinant.test_util","kind":"function","src_hash":"ea74351a55a4184a","in":{"base":"Any"},"out":{"base":"Any","pred":"v1.norm() == sqrt(14) and v1.project(v2) == Matrix(1, 3, [R(39) / 25, R(52) / 25, R(13) / 5]) and Matrix.zeros(1, 2) == Matrix(1, 2, [0, 0]) and ones(1, 2) == Matrix(1, 2, [1, 1]) and v1.copy() == v1 and eye(3) == eye(3).cofactor_matrix() and test.cofactor_matrix() == Matrix([[27, -6, -6], [-12, 2, 3], [-3, 1, 0]]) and test.cofactor_matrix() == Matrix([[-3, 6, -3], [6, -12, 6], [-3, 6, -3]])"},"spec":{"lhs":"test_util()","rhs":"test_util produces the expected output","over":{"base":"Any"},"name":"test_util_correct"},"guarantee":"test_util produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_determinant.test_util_correct","statement":"Path(test_util(x), test_util produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2abcb4bd2096d2b5"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_determinant.test_util","kind":"function","src_hash":"ea74351a55a4184a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: v1.norm() == sqrt(14) and v1.project(v2) == Matrix(1, 3, [R(39) / 25, R(52) / 25, R(13) / 5]) and Matrix.zeros(1, 2) == Matrix(1, 2, [0, 0]) and ones(1, 2) == Matrix(1, 2, [1, 1]) and v1.copy() == v1 and eye(3) == eye(3).cofactor_matrix() and test.cofactor_matrix() == Matrix([[27, -6, -6], [-12, 2, 3], [-3, 1, 0]]) and test.cofactor_matrix() == Matrix([[-3, 6, -3], [6, -12, 6], [-3, 6, -3]])"},"spec":{"lhs":"test_util()","rhs":"v1.norm() == sqrt(14) and v1.project(v2) == Matrix(1, 3, [R(39) / 25, R(52) / 25, R(13) / 5]) and Matrix.zeros(1, 2) == Matrix(1, 2, [0, 0]) and ones(1, 2) == Matrix(1, 2, [1, 1]) and v1.copy() == v1 and eye(3) == eye(3).cofactor_matrix() and test.cofactor_matrix() == Matrix([[27, -6, -6], [-12, 2, 3], [-3, 1, 0]]) and test.cofactor_matrix() == Matrix([[-3, 6, -3], [6, -12, 6], [-3, 6, -3]])","over":{"base":"Any"},"name":"test_util_correct"},"guarantee":"v1.norm() == sqrt(14); v1.project(v2) == Matrix(1, 3, [R(39) / 25, R(52) / 25, R(13) / 5]); Matrix.zeros(1, 2) == Matrix(1, 2, [0, 0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_determinant.test_util_correct","statement":"Path(test_util(x), v1.norm() == sqrt(14); v1.project(v2) == Matrix(1, 3, [R(39) / 25, R(52) / 25, R(13) / 5]); Matrix.zeros(1, 2) == Matrix(1, 2, [0, 0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54f592e4379e4c63","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["v1.norm() == sqrt(14)","v1.project(v2) == Matrix(1, 3, [R(39) / 25, R(52) / 25, R(13) / 5])","Matrix.zeros(1, 2) == Matrix(1, 2, [0, 0])","ones(1, 2) == Matrix(1, 2, [1, 1])","v1.copy() == v1","eye(3) == eye(3).cofactor_matrix()","test.cofactor_matrix() == Matrix([[27, -6, -6], [-12, 2, 3], [-3, 1, 0]])","test.cofactor_matrix() == Matrix([[-3, 6, -3], [6, -12, 6], [-3, 6, -3]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_util():
     R = Rational
 
@@ -355,16 +435,24 @@ def test_util():
         Matrix([[-3, 6, -3], [6, -12, 6], [-3, 6, -3]])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cofactor_and_minors(), test_cofactor_and_minors produces the expected output) over Any ║
+# ║ Path(test_cofactor_and_minors(), e.minor_submatrix(1, 2) == m and e.minor_submatrix(-1, -1) == sub and e.minor(1, 2) == -17 * x - 142 and e.cofactor(1, 2) == 17 * x + 142 and e.cofactor_matrix() == cm and e.cofactor_matrix(method='bareiss') == cm and e.cofactor_matrix(method='berkowitz') == cm and e.cofactor_matrix(method='bird') == cm and e.cofactor_matrix(method='laplace') == cm and a.minor_submatrix(0, 0) == Matrix([[5, 6]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cofactor_and_minors : Any → {Any | e.minor_subma...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.minor_submatrix(1, 2) == m                   ║
+# ║   ensures:  e.minor_submatrix(-1, -1) == sub               ║
+# ║   ensures:  e.minor(1, 2) == -17 * x - 142                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cofactor_and_minors : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 42f54bff97f5f357  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fd1f49808c721621  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_determinant.test_cofactor_and_minors","kind":"function","src_hash":"25fee48ca89fbb2b","in":{"base":"Any"},"out":{"base":"Any","pred":"e.minor_submatrix(1, 2) == m and e.minor_submatrix(-1, -1) == sub and e.minor(1, 2) == -17 * x - 142 and e.cofactor(1, 2) == 17 * x + 142 and e.cofactor_matrix() == cm and e.cofactor_matrix(method='bareiss') == cm and e.cofactor_matrix(method='berkowitz') == cm and e.cofactor_matrix(method='bird') == cm and e.cofactor_matrix(method='laplace') == cm and a.minor_submatrix(0, 0) == Matrix([[5, 6]])"},"spec":{"lhs":"test_cofactor_and_minors()","rhs":"test_cofactor_and_minors produces the expected output","over":{"base":"Any"},"name":"test_cofactor_and_minors_correct"},"guarantee":"test_cofactor_and_minors produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_determinant.test_cofactor_and_minors_correct","statement":"Path(test_cofactor_and_minors(x), test_cofactor_and_minors produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42f54bff97f5f357"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_determinant.test_cofactor_and_minors","kind":"function","src_hash":"25fee48ca89fbb2b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.minor_submatrix(1, 2) == m and e.minor_submatrix(-1, -1) == sub and e.minor(1, 2) == -17 * x - 142 and e.cofactor(1, 2) == 17 * x + 142 and e.cofactor_matrix() == cm and e.cofactor_matrix(method='bareiss') == cm and e.cofactor_matrix(method='berkowitz') == cm and e.cofactor_matrix(method='bird') == cm and e.cofactor_matrix(method='laplace') == cm and a.minor_submatrix(0, 0) == Matrix([[5, 6]])"},"spec":{"lhs":"test_cofactor_and_minors()","rhs":"e.minor_submatrix(1, 2) == m and e.minor_submatrix(-1, -1) == sub and e.minor(1, 2) == -17 * x - 142 and e.cofactor(1, 2) == 17 * x + 142 and e.cofactor_matrix() == cm and e.cofactor_matrix(method='bareiss') == cm and e.cofactor_matrix(method='berkowitz') == cm and e.cofactor_matrix(method='bird') == cm and e.cofactor_matrix(method='laplace') == cm and a.minor_submatrix(0, 0) == Matrix([[5, 6]])","over":{"base":"Any"},"name":"test_cofactor_and_minors_correct"},"guarantee":"e.minor_submatrix(1, 2) == m; e.minor_submatrix(-1, -1) == sub; e.minor(1, 2) == -17 * x - 142","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_determinant.test_cofactor_and_minors_correct","statement":"Path(test_cofactor_and_minors(x), e.minor_submatrix(1, 2) == m; e.minor_submatrix(-1, -1) == sub; e.minor(1, 2) == -17 * x - 142)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd1f49808c721621","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.minor_submatrix(1, 2) == m","e.minor_submatrix(-1, -1) == sub","e.minor(1, 2) == -17 * x - 142","e.cofactor(1, 2) == 17 * x + 142","e.cofactor_matrix() == cm","e.cofactor_matrix(method='bareiss') == cm","e.cofactor_matrix(method='berkowitz') == cm","e.cofactor_matrix(method='bird') == cm","e.cofactor_matrix(method='laplace') == cm","a.minor_submatrix(0, 0) == Matrix([[5, 6]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_cofactor_and_minors():
     x = Symbol('x')
     e = Matrix(4, 4,
@@ -408,16 +496,24 @@ def test_cofactor_and_minors():
     raises(NonSquareMatrixError, lambda: a.cofactor_matrix())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_charpoly(), test_charpoly produces the expected output) over Any ║
+# ║ Path(test_charpoly(), eye_Determinant(3).charpoly(x) == Poly((x - 1) ** 3, x) and eye_Determinant(3).charpoly(y) == Poly((y - 1) ** 3, y) and m.charpoly() == Poly(x ** 3 - 15 * x ** 2 - 18 * x, x) and n.charpoly() == Poly(x ** 4, x) and n.charpoly() == Poly(x ** 4 - 167 * x ** 3 + 8811 * x ** 2 - 173457 * x + 1080540, x) and n.charpoly() == Poly(t ** 3 - (x + y + z) * t ** 2 + t * (x * y + y * z + x * z) - x * y * z, t)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_charpoly : Any → {Any | eye_Determinant(3).charp...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  eye_Determinant(3).charpoly(x) == Poly((x...   ║
+# ║   ensures:  eye_Determinant(3).charpoly(y) == Poly((y...   ║
+# ║   ensures:  m.charpoly() == Poly(x ** 3 - 15 * x ** 2...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_charpoly : Any → {Any | result satisfies: eye_De...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e96a75a89ca5f33  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5fde6131a2bc75d1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_determinant.test_charpoly","kind":"function","src_hash":"0f4d62407a4985fd","in":{"base":"Any"},"out":{"base":"Any","pred":"eye_Determinant(3).charpoly(x) == Poly((x - 1) ** 3, x) and eye_Determinant(3).charpoly(y) == Poly((y - 1) ** 3, y) and m.charpoly() == Poly(x ** 3 - 15 * x ** 2 - 18 * x, x) and n.charpoly() == Poly(x ** 4, x)"},"spec":{"lhs":"test_charpoly()","rhs":"test_charpoly produces the expected output","over":{"base":"Any"},"name":"test_charpoly_correct"},"guarantee":"test_charpoly produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_determinant.test_charpoly_correct","statement":"Path(test_charpoly(x), test_charpoly produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e96a75a89ca5f33"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_determinant.test_charpoly","kind":"function","src_hash":"0f4d62407a4985fd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: eye_Determinant(3).charpoly(x) == Poly((x - 1) ** 3, x) and eye_Determinant(3).charpoly(y) == Poly((y - 1) ** 3, y) and m.charpoly() == Poly(x ** 3 - 15 * x ** 2 - 18 * x, x) and n.charpoly() == Poly(x ** 4, x) and n.charpoly() == Poly(x ** 4 - 167 * x ** 3 + 8811 * x ** 2 - 173457 * x + 1080540, x) and n.charpoly() == Poly(t ** 3 - (x + y + z) * t ** 2 + t * (x * y + y * z + x * z) - x * y * z, t)"},"spec":{"lhs":"test_charpoly()","rhs":"eye_Determinant(3).charpoly(x) == Poly((x - 1) ** 3, x) and eye_Determinant(3).charpoly(y) == Poly((y - 1) ** 3, y) and m.charpoly() == Poly(x ** 3 - 15 * x ** 2 - 18 * x, x) and n.charpoly() == Poly(x ** 4, x) and n.charpoly() == Poly(x ** 4 - 167 * x ** 3 + 8811 * x ** 2 - 173457 * x + 1080540, x) and n.charpoly() == Poly(t ** 3 - (x + y + z) * t ** 2 + t * (x * y + y * z + x * z) - x * y * z, t)","over":{"base":"Any"},"name":"test_charpoly_correct"},"guarantee":"eye_Determinant(3).charpoly(x) == Poly((x - 1) ** 3, x); eye_Determinant(3).charpoly(y) == Poly((y - 1) ** 3, y); m.charpoly() == Poly(x ** 3 - 15 * x ** 2 - 18 * x, x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_determinant.test_charpoly_correct","statement":"Path(test_charpoly(x), eye_Determinant(3).charpoly(x) == Poly((x - 1) ** 3, x); eye_Determinant(3).charpoly(y) == Poly((y - 1) ** 3, y); m.charpoly() == Poly(x ** 3 - 15 * x ** 2 - 18 * x, x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5fde6131a2bc75d1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["eye_Determinant(3).charpoly(x) == Poly((x - 1) ** 3, x)","eye_Determinant(3).charpoly(y) == Poly((y - 1) ** 3, y)","m.charpoly() == Poly(x ** 3 - 15 * x ** 2 - 18 * x, x)","n.charpoly() == Poly(x ** 4, x)","n.charpoly() == Poly(x ** 4 - 167 * x ** 3 + 8811 * x ** 2 - 173457 * x + 1080540, x)","n.charpoly() == Poly(t ** 3 - (x + y + z) * t ** 2 + t * (x * y + y * z + x * z) - x * y * z, t)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_charpoly():
     x, y = Symbol('x'), Symbol('y')
     z, t = Symbol('z'), Symbol('t')

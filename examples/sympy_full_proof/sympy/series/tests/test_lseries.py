@@ -25,16 +25,24 @@ from sympy.abc import x, y
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sin(), test_sin produces the expected output) over Any ║
+# ║ Path(test_sin(), next(e) == x and next(e) == -x ** 3 / 6 and next(e) == x ** 5 / 120) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sin : Any → {Any | next(e) == x and next(e) == -...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  next(e) == x                                   ║
+# ║   ensures:  next(e) == -x ** 3 / 6                         ║
+# ║   ensures:  next(e) == x ** 5 / 120                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sin : Any → {Any | result satisfies: next(e) == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75e7aef4488af9c5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4713f972db895ab8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_lseries.test_sin","kind":"function","src_hash":"1013cd9742e394fd","in":{"base":"Any"},"out":{"base":"Any","pred":"next(e) == x and next(e) == -x ** 3 / 6 and next(e) == x ** 5 / 120"},"spec":{"lhs":"test_sin()","rhs":"test_sin produces the expected output","over":{"base":"Any"},"name":"test_sin_correct"},"guarantee":"test_sin produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_lseries.test_sin_correct","statement":"Path(test_sin(x), test_sin produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75e7aef4488af9c5"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_lseries.test_sin","kind":"function","src_hash":"1013cd9742e394fd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: next(e) == x and next(e) == -x ** 3 / 6 and next(e) == x ** 5 / 120"},"spec":{"lhs":"test_sin()","rhs":"next(e) == x and next(e) == -x ** 3 / 6 and next(e) == x ** 5 / 120","over":{"base":"Any"},"name":"test_sin_correct"},"guarantee":"next(e) == x; next(e) == -x ** 3 / 6; next(e) == x ** 5 / 120","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_lseries.test_sin_correct","statement":"Path(test_sin(x), next(e) == x; next(e) == -x ** 3 / 6; next(e) == x ** 5 / 120)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4713f972db895ab8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["next(e) == x","next(e) == -x ** 3 / 6","next(e) == x ** 5 / 120"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sin():
     e = sin(x).lseries(x)
     assert next(e) == x
@@ -43,16 +51,24 @@ def test_sin():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cos(), test_cos produces the expected output) over Any ║
+# ║ Path(test_cos(), next(e) == 1 and next(e) == -x ** 2 / 2 and next(e) == x ** 4 / 24) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cos : Any → {Any | next(e) == 1 and next(e) == -...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  next(e) == 1                                   ║
+# ║   ensures:  next(e) == -x ** 2 / 2                         ║
+# ║   ensures:  next(e) == x ** 4 / 24                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cos : Any → {Any | result satisfies: next(e) == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a34f482b1266c05  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fbd438ec2cce0b8c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_lseries.test_cos","kind":"function","src_hash":"6280562bae709428","in":{"base":"Any"},"out":{"base":"Any","pred":"next(e) == 1 and next(e) == -x ** 2 / 2 and next(e) == x ** 4 / 24"},"spec":{"lhs":"test_cos()","rhs":"test_cos produces the expected output","over":{"base":"Any"},"name":"test_cos_correct"},"guarantee":"test_cos produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_lseries.test_cos_correct","statement":"Path(test_cos(x), test_cos produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a34f482b1266c05"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_lseries.test_cos","kind":"function","src_hash":"6280562bae709428","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: next(e) == 1 and next(e) == -x ** 2 / 2 and next(e) == x ** 4 / 24"},"spec":{"lhs":"test_cos()","rhs":"next(e) == 1 and next(e) == -x ** 2 / 2 and next(e) == x ** 4 / 24","over":{"base":"Any"},"name":"test_cos_correct"},"guarantee":"next(e) == 1; next(e) == -x ** 2 / 2; next(e) == x ** 4 / 24","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_lseries.test_cos_correct","statement":"Path(test_cos(x), next(e) == 1; next(e) == -x ** 2 / 2; next(e) == x ** 4 / 24)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbd438ec2cce0b8c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["next(e) == 1","next(e) == -x ** 2 / 2","next(e) == x ** 4 / 24"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cos():
     e = cos(x).lseries(x)
     assert next(e) == 1
@@ -61,16 +77,24 @@ def test_cos():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exp(), test_exp produces the expected output) over Any ║
+# ║ Path(test_exp(), next(e) == 1 and next(e) == x and next(e) == x ** 2 / 2 and next(e) == x ** 3 / 6) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exp : Any → {Any | next(e) == 1 and next(e) == x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  next(e) == 1                                   ║
+# ║   ensures:  next(e) == x                                   ║
+# ║   ensures:  next(e) == x ** 2 / 2                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exp : Any → {Any | result satisfies: next(e) == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da2b353f0f302601  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be257fa3651756d4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_lseries.test_exp","kind":"function","src_hash":"d12f68a1c8d98ed2","in":{"base":"Any"},"out":{"base":"Any","pred":"next(e) == 1 and next(e) == x and next(e) == x ** 2 / 2 and next(e) == x ** 3 / 6"},"spec":{"lhs":"test_exp()","rhs":"test_exp produces the expected output","over":{"base":"Any"},"name":"test_exp_correct"},"guarantee":"test_exp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_lseries.test_exp_correct","statement":"Path(test_exp(x), test_exp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da2b353f0f302601"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_lseries.test_exp","kind":"function","src_hash":"d12f68a1c8d98ed2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: next(e) == 1 and next(e) == x and next(e) == x ** 2 / 2 and next(e) == x ** 3 / 6"},"spec":{"lhs":"test_exp()","rhs":"next(e) == 1 and next(e) == x and next(e) == x ** 2 / 2 and next(e) == x ** 3 / 6","over":{"base":"Any"},"name":"test_exp_correct"},"guarantee":"next(e) == 1; next(e) == x; next(e) == x ** 2 / 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_lseries.test_exp_correct","statement":"Path(test_exp(x), next(e) == 1; next(e) == x; next(e) == x ** 2 / 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be257fa3651756d4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["next(e) == 1","next(e) == x","next(e) == x ** 2 / 2","next(e) == x ** 3 / 6"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_exp():
     e = exp(x).lseries(x)
     assert next(e) == 1
@@ -80,16 +104,24 @@ def test_exp():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exp2(), test_exp2 produces the expected output) over Any ║
+# ║ Path(test_exp2(), next(e) == E and next(e) == -E * x ** 2 / 2 and next(e) == E * x ** 4 / 6 and next(e) == -31 * E * x ** 6 / 720) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exp2 : Any → {Any | next(e) == E and next(e) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  next(e) == E                                   ║
+# ║   ensures:  next(e) == -E * x ** 2 / 2                     ║
+# ║   ensures:  next(e) == E * x ** 4 / 6                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exp2 : Any → {Any | result satisfies: next(e) ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac874bd330d807b9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22b5be7a547eb438  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_lseries.test_exp2","kind":"function","src_hash":"b9c98e3e8f26d8f9","in":{"base":"Any"},"out":{"base":"Any","pred":"next(e) == E and next(e) == -E * x ** 2 / 2 and next(e) == E * x ** 4 / 6 and next(e) == -31 * E * x ** 6 / 720"},"spec":{"lhs":"test_exp2()","rhs":"test_exp2 produces the expected output","over":{"base":"Any"},"name":"test_exp2_correct"},"guarantee":"test_exp2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_lseries.test_exp2_correct","statement":"Path(test_exp2(x), test_exp2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac874bd330d807b9"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_lseries.test_exp2","kind":"function","src_hash":"b9c98e3e8f26d8f9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: next(e) == E and next(e) == -E * x ** 2 / 2 and next(e) == E * x ** 4 / 6 and next(e) == -31 * E * x ** 6 / 720"},"spec":{"lhs":"test_exp2()","rhs":"next(e) == E and next(e) == -E * x ** 2 / 2 and next(e) == E * x ** 4 / 6 and next(e) == -31 * E * x ** 6 / 720","over":{"base":"Any"},"name":"test_exp2_correct"},"guarantee":"next(e) == E; next(e) == -E * x ** 2 / 2; next(e) == E * x ** 4 / 6","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_lseries.test_exp2_correct","statement":"Path(test_exp2(x), next(e) == E; next(e) == -E * x ** 2 / 2; next(e) == E * x ** 4 / 6)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22b5be7a547eb438","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["next(e) == E","next(e) == -E * x ** 2 / 2","next(e) == E * x ** 4 / 6","next(e) == -31 * E * x ** 6 / 720"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_exp2():
     e = exp(cos(x)).lseries(x)
     assert next(e) == E
@@ -99,16 +131,24 @@ def test_exp2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_simple(), test_simple produces the expected output) over Any ║
+# ║ Path(test_simple(), list(x.lseries()) == [x] and list(S.One.lseries(x)) == [1] and not next((x / (x + y)).lseries(y)).has(Order)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_simple : Any → {Any | list(x.lseries()) == [x] a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(x.lseries()) == [x]                       ║
+# ║   ensures:  list(S.One.lseries(x)) == [1]                  ║
+# ║   ensures:  not next((x / (x + y)).lseries(y)).has(Or...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_simple : Any → {Any | result satisfies: list(x.l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 505d91ec31b80cd9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b7acbbee287c47a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_lseries.test_simple","kind":"function","src_hash":"f9376c94f06365a8","in":{"base":"Any"},"out":{"base":"Any","pred":"list(x.lseries()) == [x] and list(S.One.lseries(x)) == [1] and not next((x / (x + y)).lseries(y)).has(Order)"},"spec":{"lhs":"test_simple()","rhs":"test_simple produces the expected output","over":{"base":"Any"},"name":"test_simple_correct"},"guarantee":"test_simple produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_lseries.test_simple_correct","statement":"Path(test_simple(x), test_simple produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"505d91ec31b80cd9"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_lseries.test_simple","kind":"function","src_hash":"f9376c94f06365a8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(x.lseries()) == [x] and list(S.One.lseries(x)) == [1] and not next((x / (x + y)).lseries(y)).has(Order)"},"spec":{"lhs":"test_simple()","rhs":"list(x.lseries()) == [x] and list(S.One.lseries(x)) == [1] and not next((x / (x + y)).lseries(y)).has(Order)","over":{"base":"Any"},"name":"test_simple_correct"},"guarantee":"list(x.lseries()) == [x]; list(S.One.lseries(x)) == [1]; not next((x / (x + y)).lseries(y)).has(Order)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_lseries.test_simple_correct","statement":"Path(test_simple(x), list(x.lseries()) == [x]; list(S.One.lseries(x)) == [1]; not next((x / (x + y)).lseries(y)).has(Order))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b7acbbee287c47a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(x.lseries()) == [x]","list(S.One.lseries(x)) == [1]","not next((x / (x + y)).lseries(y)).has(Order)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_simple():
     assert list(x.lseries()) == [x]
     assert list(S.One.lseries(x)) == [1]
@@ -116,16 +156,24 @@ def test_simple():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5183(), test_issue_5183 produces the expected output) over Any ║
+# ║ Path(test_issue_5183(), list(s) == [1 / x, x] and next((x + x ** 2).lseries()) == x and next(((1 + x) ** 7).lseries(x)) == 1 and next(sin(x + y).series(x, n=3).lseries(y)) == x and [next(s) for i in range(2)] == [128, -448 + 448 * x]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5183 : Any → {Any | list(s) == [1 / x, x] ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(s) == [1 / x, x]                          ║
+# ║   ensures:  next((x + x ** 2).lseries()) == x              ║
+# ║   ensures:  next(((1 + x) ** 7).lseries(x)) == 1           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5183 : Any → {Any | result satisfies: list...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 91f691410f9c534f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43bd001972c8c8df  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_lseries.test_issue_5183","kind":"function","src_hash":"e16439d93b76de3d","in":{"base":"Any"},"out":{"base":"Any","pred":"list(s) == [1 / x, x] and next((x + x ** 2).lseries()) == x and next(((1 + x) ** 7).lseries(x)) == 1 and next(sin(x + y).series(x, n=3).lseries(y)) == x and [next(s) for i in range(2)] == [128, -448 + 448 * x]"},"spec":{"lhs":"test_issue_5183()","rhs":"test_issue_5183 produces the expected output","over":{"base":"Any"},"name":"test_issue_5183_correct"},"guarantee":"test_issue_5183 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_lseries.test_issue_5183_correct","statement":"Path(test_issue_5183(x), test_issue_5183 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91f691410f9c534f"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_lseries.test_issue_5183","kind":"function","src_hash":"e16439d93b76de3d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(s) == [1 / x, x] and next((x + x ** 2).lseries()) == x and next(((1 + x) ** 7).lseries(x)) == 1 and next(sin(x + y).series(x, n=3).lseries(y)) == x and [next(s) for i in range(2)] == [128, -448 + 448 * x]"},"spec":{"lhs":"test_issue_5183()","rhs":"list(s) == [1 / x, x] and next((x + x ** 2).lseries()) == x and next(((1 + x) ** 7).lseries(x)) == 1 and next(sin(x + y).series(x, n=3).lseries(y)) == x and [next(s) for i in range(2)] == [128, -448 + 448 * x]","over":{"base":"Any"},"name":"test_issue_5183_correct"},"guarantee":"list(s) == [1 / x, x]; next((x + x ** 2).lseries()) == x; next(((1 + x) ** 7).lseries(x)) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_lseries.test_issue_5183_correct","statement":"Path(test_issue_5183(x), list(s) == [1 / x, x]; next((x + x ** 2).lseries()) == x; next(((1 + x) ** 7).lseries(x)) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43bd001972c8c8df","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(s) == [1 / x, x]","next((x + x ** 2).lseries()) == x","next(((1 + x) ** 7).lseries(x)) == 1","next(sin(x + y).series(x, n=3).lseries(y)) == x","[next(s) for i in range(2)] == [128, -448 + 448 * x]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_5183():
     s = (x + 1/x).lseries()
     assert list(s) == [1/x, x]
@@ -140,16 +188,24 @@ def test_issue_5183():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6999(), test_issue_6999 produces the expected output) over Any ║
+# ║ Path(test_issue_6999(), next(s) == tanh(1) and next(s) == x - (x - 1) * tanh(1) ** 2 - 1 and next(s) == -(x - 1) ** 2 * tanh(1) + (x - 1) ** 2 * tanh(1) ** 3 and next(s) == -(x - 1) ** 3 * tanh(1) ** 4 - (x - 1) ** 3 / 3 + 4 * (x - 1) ** 3 * tanh(1) ** 2 / 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6999 : Any → {Any | next(s) == tanh(1) and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  next(s) == tanh(1)                             ║
+# ║   ensures:  next(s) == x - (x - 1) * tanh(1) ** 2 - 1      ║
+# ║   ensures:  next(s) == -(x - 1) ** 2 * tanh(1) + (x -...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6999 : Any → {Any | result satisfies: next...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7539b06636cd4caf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7fa7fc13195413dc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_lseries.test_issue_6999","kind":"function","src_hash":"5ca66a43d74b1637","in":{"base":"Any"},"out":{"base":"Any","pred":"next(s) == tanh(1) and next(s) == x - (x - 1) * tanh(1) ** 2 - 1 and next(s) == -(x - 1) ** 2 * tanh(1) + (x - 1) ** 2 * tanh(1) ** 3"},"spec":{"lhs":"test_issue_6999()","rhs":"test_issue_6999 produces the expected output","over":{"base":"Any"},"name":"test_issue_6999_correct"},"guarantee":"test_issue_6999 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_lseries.test_issue_6999_correct","statement":"Path(test_issue_6999(x), test_issue_6999 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7539b06636cd4caf"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_lseries.test_issue_6999","kind":"function","src_hash":"5ca66a43d74b1637","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: next(s) == tanh(1) and next(s) == x - (x - 1) * tanh(1) ** 2 - 1 and next(s) == -(x - 1) ** 2 * tanh(1) + (x - 1) ** 2 * tanh(1) ** 3 and next(s) == -(x - 1) ** 3 * tanh(1) ** 4 - (x - 1) ** 3 / 3 + 4 * (x - 1) ** 3 * tanh(1) ** 2 / 3"},"spec":{"lhs":"test_issue_6999()","rhs":"next(s) == tanh(1) and next(s) == x - (x - 1) * tanh(1) ** 2 - 1 and next(s) == -(x - 1) ** 2 * tanh(1) + (x - 1) ** 2 * tanh(1) ** 3 and next(s) == -(x - 1) ** 3 * tanh(1) ** 4 - (x - 1) ** 3 / 3 + 4 * (x - 1) ** 3 * tanh(1) ** 2 / 3","over":{"base":"Any"},"name":"test_issue_6999_correct"},"guarantee":"next(s) == tanh(1); next(s) == x - (x - 1) * tanh(1) ** 2 - 1; next(s) == -(x - 1) ** 2 * tanh(1) + (x - 1) ** 2 * tanh(1) ** 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_lseries.test_issue_6999_correct","statement":"Path(test_issue_6999(x), next(s) == tanh(1); next(s) == x - (x - 1) * tanh(1) ** 2 - 1; next(s) == -(x - 1) ** 2 * tanh(1) + (x - 1) ** 2 * tanh(1) ** 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7fa7fc13195413dc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["next(s) == tanh(1)","next(s) == x - (x - 1) * tanh(1) ** 2 - 1","next(s) == -(x - 1) ** 2 * tanh(1) + (x - 1) ** 2 * tanh(1) ** 3","next(s) == -(x - 1) ** 3 * tanh(1) ** 4 - (x - 1) ** 3 / 3 + 4 * (x - 1) ** 3 * tanh(1) ** 2 / 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_6999():
     s = tanh(x).lseries(x, 1)
     assert next(s) == tanh(1)

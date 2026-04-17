@@ -596,7 +596,16 @@ RREF_EXAMPLES = [
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_to_DM(A, ), convert the answer to domainmatrix) over {Any | isinstance(A, DomainMatrix) and isinstance(A, (DDM, list)) and isinstance(A, Matrix)} ║
+# ║ Path(_to_DM(A, ans), result == (A.to_dense() if isinstance(A, DomainMatrix) else A.to_DM(ans.domain).to_dense()) and result == A.to_dense() or result == A.to_DM(ans.domain).to_dense()) over {Any | isinstance(A, DomainMatrix) and isinstance(A, (DDM, list)) and isinstance(A, Matrix) and hasattr(A, 'to_dense') and hasattr(ans, 'shape') and hasattr(ans, 'domain') and hasattr(A, 'shape') and hasattr(A, 'domain') and hasattr(A, 'to_DM')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(A, 'to_dense')                         ║
+# ║   requires: hasattr(ans, 'shape')                          ║
+# ║   requires: hasattr(ans, 'domain')                         ║
+# ║   ensures:  result == (A.to_dense() if isinstance(A, ...   ║
+# ║   ensures:  result == A.to_dense() or result == A.to_...   ║
+# ║   fiber[DomainMatrix]: isinstance(A, DomainMatrix) =>...   ║
+# ║   fiber[Matrix]: isinstance(A, Matrix) => A.to_DM(ans...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _to_DM : {Any | isinstance(A, DomainMatrix) and isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -611,9 +620,12 @@ RREF_EXAMPLES = [
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓7 ?4 ✗1 VCs | 4.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 26d752ce...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref._to_DM","kind":"function","src_hash":"b59119e29fd56522","in":{"base":"Any","pred":"isinstance(A, DomainMatrix) and isinstance(A, (DDM, list)) and isinstance(A, Matrix)"},"out":{"base":"Any","pred":"False"},"spec":{"lhs":"_to_DM(A, )","rhs":"convert the answer to domainmatrix","over":{"base":"Any","pred":"isinstance(A, DomainMatrix) and isinstance(A, (DDM, list)) and isinstance(A, Matrix)"},"name":"_to_DM_correct"},"guarantee":"convert the answer to domainmatrix","fibers":[{"name":"DomainMatrix","pred":"isinstance(A, DomainMatrix)","path":{"lhs":"_to_DM(x)","rhs":"convert the answer to domainmatrix","over":{"base":"DomainMatrix","pred":"isinstance(A, DomainMatrix)"},"name":"_to_DM_DomainMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref._to_DM_DomainMatrix_correct","statement":"_to_DM satisfies spec on DomainMatrix inputs"},"trust":"LIBRARY"},{"name":"(DDM","pred":"isinstance(A, (DDM, list))","path":{"lhs":"_to_DM(x)","rhs":"convert the answer to domainmatrix","over":{"base":"(DDM","pred":"isinstance(A, (DDM, list))"},"name":"_to_DM_(DDM_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref._to_DM_(DDM_correct","statement":"_to_DM satisfies spec on (DDM inputs"},"trust":"LIBRARY"},{"name":"Matrix","pred":"isinstance(A, Matrix)","path":{"lhs":"_to_DM(x)","rhs":"convert the answer to domainmatrix","over":{"base":"Matrix","pred":"isinstance(A, Matrix)"},"name":"_to_DM_Matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref._to_DM_Matrix_correct","statement":"_to_DM satisfies spec on Matrix inputs"},"trust":"LIBRARY"},{"name":"(SDM","pred":"isinstance(A, (SDM, dict))","path":{"lhs":"_to_DM(x)","rhs":"convert the answer to domainmatrix","over":{"base":"(SDM","pred":"isinstance(A, (SDM, dict))"},"name":"_to_DM_(SDM_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref._to_DM_(SDM_correct","statement":"_to_DM satisfies spec on (SDM inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"26d752ce6df15c6b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref._to_DM","kind":"function","src_hash":"b59119e29fd56522","in":{"base":"Any","pred":"isinstance(A, DomainMatrix) and isinstance(A, (DDM, list)) and isinstance(A, Matrix) and hasattr(A, 'to_dense') and hasattr(ans, 'shape') and hasattr(ans, 'domain') and hasattr(A, 'shape') and hasattr(A, 'domain') and hasattr(A, 'to_DM')"},"out":{"base":"Any","pred":"result satisfies: result == (A.to_dense() if isinstance(A, DomainMatrix) else A.to_DM(ans.domain).to_dense()) and result == A.to_dense() or result == A.to_DM(ans.domain).to_dense()"},"spec":{"lhs":"_to_DM(A, ans)","rhs":"result == (A.to_dense() if isinstance(A, DomainMatrix) else A.to_DM(ans.domain).to_dense()) and result == A.to_dense() or result == A.to_DM(ans.domain).to_dense()","over":{"base":"Any","pred":"isinstance(A, DomainMatrix) and isinstance(A, (DDM, list)) and isinstance(A, Matrix) and hasattr(A, 'to_dense') and hasattr(ans, 'shape') and hasattr(ans, 'domain') and hasattr(A, 'shape') and hasattr(A, 'domain') and hasattr(A, 'to_DM')"},"name":"_to_DM_correct"},"guarantee":"result == (A.to_dense() if isinstance(A, DomainMatrix) else A.to_DM(ans.domain).to_dense()); result == A.to_dense() or result == A.to_DM(ans.domain).to_dense(); 2-fiber decomposition","fibers":[{"name":"DomainMatrix","pred":"isinstance(A, DomainMatrix)","path":{"lhs":"_to_DM(x)","rhs":"result == (A.to_dense() if isinstance(A, DomainMatrix) else A.to_DM(ans.domain).to_dense()); result == A.to_dense() or result == A.to_DM(ans.domain).to_dense(); 2-fiber decomposition","over":{"base":"DomainMatrix","pred":"isinstance(A, DomainMatrix)"},"name":"_to_DM_DomainMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref._to_DM_DomainMatrix_correct","statement":"_to_DM satisfies spec on DomainMatrix inputs"},"trust":"LIBRARY"},{"name":"(DDM","pred":"isinstance(A, (DDM, list))","path":{"lhs":"_to_DM(x)","rhs":"result == (A.to_dense() if isinstance(A, DomainMatrix) else A.to_DM(ans.domain).to_dense()); result == A.to_dense() or result == A.to_DM(ans.domain).to_dense(); 2-fiber decomposition","over":{"base":"(DDM","pred":"isinstance(A, (DDM, list))"},"name":"_to_DM_(DDM_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref._to_DM_(DDM_correct","statement":"_to_DM satisfies spec on (DDM inputs"},"trust":"LIBRARY"},{"name":"Matrix","pred":"isinstance(A, Matrix)","path":{"lhs":"_to_DM(x)","rhs":"result == (A.to_dense() if isinstance(A, DomainMatrix) else A.to_DM(ans.domain).to_dense()); result == A.to_dense() or result == A.to_DM(ans.domain).to_dense(); 2-fiber decomposition","over":{"base":"Matrix","pred":"isinstance(A, Matrix)"},"name":"_to_DM_Matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref._to_DM_Matrix_correct","statement":"_to_DM satisfies spec on Matrix inputs"},"trust":"LIBRARY"},{"name":"(SDM","pred":"isinstance(A, (SDM, dict))","path":{"lhs":"_to_DM(x)","rhs":"result == (A.to_dense() if isinstance(A, DomainMatrix) else A.to_DM(ans.domain).to_dense()); result == A.to_dense() or result == A.to_DM(ans.domain).to_dense(); 2-fiber decomposition","over":{"base":"(SDM","pred":"isinstance(A, (SDM, dict))"},"name":"_to_DM_(SDM_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref._to_DM_(SDM_correct","statement":"_to_DM satisfies spec on (SDM inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"26d752ce6df15c6b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(A, 'to_dense')","hasattr(ans, 'shape')","hasattr(ans, 'domain')","hasattr(A, 'shape')","hasattr(A, 'domain')","hasattr(A, 'to_DM')"],"ensures":["result == (A.to_dense() if isinstance(A, DomainMatrix) else A.to_DM(ans.domain).to_dense())","result == A.to_dense() or result == A.to_DM(ans.domain).to_dense()"],"fibers":[{"name":"DomainMatrix","guard":"isinstance(A, DomainMatrix)","ensures":["result == A.to_dense()"],"decidability":"structural","returns_expr":"A.to_dense()"},{"name":"Matrix","guard":"isinstance(A, Matrix)","ensures":["result == A.to_DM(ans.domain).to_dense()"],"decidability":"structural","returns_expr":"A.to_DM(ans.domain).to_dense()"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.domain","A.shape","A.to_DM","A.to_dense","ans.domain","ans.shape"]}},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":7,"n_assumed":4,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(A, (SDM, dict))', 'isinstance(A, (DDM, list))', 'isinstance(A, DomainMatrix)', 'isinstance(A, Matrix)'}, fibers={'(DDM', 'DomainMatrix', 'Matrix', '(SDM'})"]}}
 def _to_DM(A, ans):
     """Convert the answer to DomainMatrix."""
     if isinstance(A, DomainMatrix):
@@ -635,23 +647,35 @@ def _to_DM(A, ans):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pivots(A_r), return the pivots from the rref of a) over Any ║
+# ║ Path(_pivots(A_rref), tuple(sorted(map(min, A_rref.to_sdm().values())))) over {Any | hasattr(A_rref, 'to_sdm')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _pivots : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(A_rref, 'to_sdm')                      ║
+# ║   returns:  tuple(sorted(map(min, A_rref.to_sdm().val...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _pivots : {Any | hasattr(A_rref, 'to_sdm')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aae1980ddde854ce           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref._pivots","kind":"function","src_hash":"218f2b5cd0b84f79","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pivots(A_r)","rhs":"return the pivots from the rref of a","over":{"base":"Any"},"name":"_pivots_correct"},"guarantee":"return the pivots from the rref of a","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aae1980ddde854ce"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref._pivots","kind":"function","src_hash":"218f2b5cd0b84f79","in":{"base":"Any","pred":"hasattr(A_rref, 'to_sdm')"},"out":{"base":"Any"},"spec":{"lhs":"_pivots(A_rref)","rhs":"tuple(sorted(map(min, A_rref.to_sdm().values())))","over":{"base":"Any","pred":"hasattr(A_rref, 'to_sdm')"},"name":"_pivots_correct"},"guarantee":"returns tuple(sorted(map(min, A_rref.to_sdm().values())))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aae1980ddde854ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(A_rref, 'to_sdm')"],"returns_expr":"tuple(sorted(map(min, A_rref.to_sdm().values())))","pure":false,"effects":{"effect_type":"reads_state","reads":["A_rref.to_sdm"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _pivots(A_rref):
     """Return the pivots from the rref of A."""
     return tuple(sorted(map(min, A_rref.to_sdm().values())))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_cancel(res), check the cancelled result) over {Any | isinstance(rref, (DDM, SDM, list, dict))} ║
+# ║ Path(_check_cancel(result, rref_ans, den_ans), rref2 == rref_ans and den2 == den_ans and pivots == _pivots(rref)) over {Any | isinstance(rref, (DDM, SDM, list, dict))} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rref2 == rref_ans                              ║
+# ║   ensures:  den2 == den_ans                                ║
+# ║   ensures:  pivots == _pivots(rref)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _check_cancel : {Any | isinstance(rref, (DDM, SDM, li...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -663,9 +687,12 @@ def _pivots(A_rref):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 98c5d014...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref._check_cancel","kind":"function","src_hash":"0afd813b3a84a78b","in":{"base":"Any","pred":"isinstance(rref, (DDM, SDM, list, dict))"},"out":{"base":"Any","pred":"rref2 == rref_ans and den2 == den_ans and pivots == _pivots(rref) and type(pivots) is list"},"spec":{"lhs":"_check_cancel(res)","rhs":"check the cancelled result","over":{"base":"Any","pred":"isinstance(rref, (DDM, SDM, list, dict))"},"name":"_check_cancel_correct"},"guarantee":"check the cancelled result","fibers":[{"name":"(DDM","pred":"isinstance(rref, (DDM, SDM, list, dict))","path":{"lhs":"_check_cancel(x)","rhs":"check the cancelled result","over":{"base":"(DDM","pred":"isinstance(rref, (DDM, SDM, list, dict))"},"name":"_check_cancel_(DDM_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref._check_cancel_(DDM_correct","statement":"_check_cancel satisfies spec on (DDM inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"98c5d0144cb6144a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref._check_cancel","kind":"function","src_hash":"0afd813b3a84a78b","in":{"base":"Any","pred":"isinstance(rref, (DDM, SDM, list, dict))"},"out":{"base":"Any","pred":"result satisfies: rref2 == rref_ans and den2 == den_ans and pivots == _pivots(rref)"},"spec":{"lhs":"_check_cancel(result, rref_ans, den_ans)","rhs":"rref2 == rref_ans and den2 == den_ans and pivots == _pivots(rref)","over":{"base":"Any","pred":"isinstance(rref, (DDM, SDM, list, dict))"},"name":"_check_cancel_correct"},"guarantee":"rref2 == rref_ans; den2 == den_ans; pivots == _pivots(rref)","fibers":[{"name":"(DDM","pred":"isinstance(rref, (DDM, SDM, list, dict))","path":{"lhs":"_check_cancel(x)","rhs":"rref2 == rref_ans; den2 == den_ans; pivots == _pivots(rref)","over":{"base":"(DDM","pred":"isinstance(rref, (DDM, SDM, list, dict))"},"name":"_check_cancel_(DDM_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref._check_cancel_(DDM_correct","statement":"_check_cancel satisfies spec on (DDM inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"98c5d0144cb6144a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rref2 == rref_ans","den2 == den_ans","pivots == _pivots(rref)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(rref, (DDM, SDM, list, dict))'}, fibers={'(DDM'})"]}}
 def _check_cancel(result, rref_ans, den_ans):
     """Check the cancelled result."""
     rref, den, pivots = result
@@ -680,7 +707,12 @@ def _check_cancel(result, rref_ans, den_ans):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_divide(res), check the divided result) over {Any | isinstance(rref, (DDM, SDM, list, dict))} ║
+# ║ Path(_check_divide(result, rref_ans, den_ans), rref == rref_ans and _pivots(rref) == pivots) over {Any | isinstance(rref, (DDM, SDM, list, dict)) and hasattr(rref_ans, 'to_field')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(rref_ans, 'to_field')                  ║
+# ║   ensures:  rref == rref_ans                               ║
+# ║   ensures:  _pivots(rref) == pivots                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _check_divide : {Any | isinstance(rref, (DDM, SDM, li...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -692,9 +724,12 @@ def _check_cancel(result, rref_ans, den_ans):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 650656bb...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref._check_divide","kind":"function","src_hash":"9f274885adeb82f6","in":{"base":"Any","pred":"isinstance(rref, (DDM, SDM, list, dict))"},"out":{"base":"Any","pred":"rref == rref_ans and _pivots(rref) == pivots and type(pivots) is list"},"spec":{"lhs":"_check_divide(res)","rhs":"check the divided result","over":{"base":"Any","pred":"isinstance(rref, (DDM, SDM, list, dict))"},"name":"_check_divide_correct"},"guarantee":"check the divided result","fibers":[{"name":"(DDM","pred":"isinstance(rref, (DDM, SDM, list, dict))","path":{"lhs":"_check_divide(x)","rhs":"check the divided result","over":{"base":"(DDM","pred":"isinstance(rref, (DDM, SDM, list, dict))"},"name":"_check_divide_(DDM_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref._check_divide_(DDM_correct","statement":"_check_divide satisfies spec on (DDM inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"650656bb211ac9b5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref._check_divide","kind":"function","src_hash":"9f274885adeb82f6","in":{"base":"Any","pred":"isinstance(rref, (DDM, SDM, list, dict)) and hasattr(rref_ans, 'to_field')"},"out":{"base":"Any","pred":"result satisfies: rref == rref_ans and _pivots(rref) == pivots"},"spec":{"lhs":"_check_divide(result, rref_ans, den_ans)","rhs":"rref == rref_ans and _pivots(rref) == pivots","over":{"base":"Any","pred":"isinstance(rref, (DDM, SDM, list, dict)) and hasattr(rref_ans, 'to_field')"},"name":"_check_divide_correct"},"guarantee":"rref == rref_ans; _pivots(rref) == pivots","fibers":[{"name":"(DDM","pred":"isinstance(rref, (DDM, SDM, list, dict))","path":{"lhs":"_check_divide(x)","rhs":"rref == rref_ans; _pivots(rref) == pivots","over":{"base":"(DDM","pred":"isinstance(rref, (DDM, SDM, list, dict))"},"name":"_check_divide_(DDM_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref._check_divide_(DDM_correct","statement":"_check_divide satisfies spec on (DDM inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"650656bb211ac9b5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(rref_ans, 'to_field')"],"ensures":["rref == rref_ans","_pivots(rref) == pivots"],"pure":false,"effects":{"effect_type":"reads_state","reads":["rref_ans.to_field"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(rref, (DDM, SDM, list, dict))'}, fibers={'(DDM'})"]}}
 def _check_divide(result, rref_ans, den_ans):
     """Check the divided result."""
     rref, pivots = result
@@ -709,16 +744,25 @@ def _check_divide(result, rref_ans, den_ans):
 
 @pytest.mark.parametrize('name, A, A_rref, den', RREF_EXAMPLES)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Matrix_rref(nam), test_Matrix_rref produces the expected output) over Any ║
+# ║ Path(test_Matrix_rref(name, A, A_rref), <unspecified:test_Matrix_rref>) over {Any | hasattr(A, 'domain') and hasattr(A, 'to_Matrix') and hasattr(A, 'rref')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Matrix_rref : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'domain')                           ║
+# ║   requires: hasattr(A, 'to_Matrix')                        ║
+# ║   requires: hasattr(A, 'rref')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Matrix_rref : {Any | hasattr(A, 'domain') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee098f68787dc9ec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref.test_Matrix_rref","kind":"function","src_hash":"a573bff75c6793c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Matrix_rref(nam)","rhs":"test_Matrix_rref produces the expected output","over":{"base":"Any"},"name":"test_Matrix_rref_correct"},"guarantee":"test_Matrix_rref produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref.test_Matrix_rref_correct","statement":"Path(test_Matrix_rref(x), test_Matrix_rref produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee098f68787dc9ec"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref.test_Matrix_rref","kind":"function","src_hash":"a573bff75c6793c1","in":{"base":"Any","pred":"hasattr(A, 'domain') and hasattr(A, 'to_Matrix') and hasattr(A, 'rref')"},"out":{"base":"Any"},"spec":{"lhs":"test_Matrix_rref(name, A, A_rref)","rhs":"<unspecified:test_Matrix_rref>","over":{"base":"Any","pred":"hasattr(A, 'domain') and hasattr(A, 'to_Matrix') and hasattr(A, 'rref')"},"name":"test_Matrix_rref_correct"},"guarantee":"test_Matrix_rref produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref.test_Matrix_rref_correct","statement":"Path(test_Matrix_rref(x), test_Matrix_rref produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee098f68787dc9ec","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'domain')","hasattr(A, 'to_Matrix')","hasattr(A, 'rref')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.domain","A.rref","A.to_Matrix"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Matrix_rref(name, A, A_rref, den):
     K = A.domain
     A = A.to_Matrix()
@@ -730,16 +774,24 @@ def test_Matrix_rref(name, A, A_rref, den):
 
 @pytest.mark.parametrize('name, A, A_rref, den', RREF_EXAMPLES)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dm_dense_rref(nam), test_dm_dense_rref produces the expected output) over Any ║
+# ║ Path(test_dm_dense_rref(name, A, A_rref), <unspecified:test_dm_dense_rref>) over {Any | hasattr(A, 'to_field') and hasattr(A, 'rref')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dm_dense_rref : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'to_field')                         ║
+# ║   requires: hasattr(A, 'rref')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dm_dense_rref : {Any | hasattr(A, 'to_field') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09ba9b1134787ff4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref.test_dm_dense_rref","kind":"function","src_hash":"99468eb958e7692c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_dm_dense_rref(nam)","rhs":"test_dm_dense_rref produces the expected output","over":{"base":"Any"},"name":"test_dm_dense_rref_correct"},"guarantee":"test_dm_dense_rref produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref.test_dm_dense_rref_correct","statement":"Path(test_dm_dense_rref(x), test_dm_dense_rref produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09ba9b1134787ff4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref.test_dm_dense_rref","kind":"function","src_hash":"99468eb958e7692c","in":{"base":"Any","pred":"hasattr(A, 'to_field') and hasattr(A, 'rref')"},"out":{"base":"Any"},"spec":{"lhs":"test_dm_dense_rref(name, A, A_rref)","rhs":"<unspecified:test_dm_dense_rref>","over":{"base":"Any","pred":"hasattr(A, 'to_field') and hasattr(A, 'rref')"},"name":"test_dm_dense_rref_correct"},"guarantee":"test_dm_dense_rref produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref.test_dm_dense_rref_correct","statement":"Path(test_dm_dense_rref(x), test_dm_dense_rref produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09ba9b1134787ff4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'to_field')","hasattr(A, 'rref')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.rref","A.to_field"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_dm_dense_rref(name, A, A_rref, den):
     A = A.to_field()
     _check_divide(A.rref(), A_rref, den)
@@ -747,32 +799,47 @@ def test_dm_dense_rref(name, A, A_rref, den):
 
 @pytest.mark.parametrize('name, A, A_rref, den', RREF_EXAMPLES)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dm_dense_rref_den(nam), test_dm_dense_rref_den produces the expected output) over Any ║
+# ║ Path(test_dm_dense_rref_den(name, A, A_rref), <unspecified:test_dm_dense_rref_den>) over {Any | hasattr(A, 'rref_den')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dm_dense_rref_den : Any → Any                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'rref_den')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dm_dense_rref_den : {Any | hasattr(A, 'rref_den'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e4d4150252a10a2d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref.test_dm_dense_rref_den","kind":"function","src_hash":"55ec541abbbe1ec0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_dm_dense_rref_den(nam)","rhs":"test_dm_dense_rref_den produces the expected output","over":{"base":"Any"},"name":"test_dm_dense_rref_den_correct"},"guarantee":"test_dm_dense_rref_den produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref.test_dm_dense_rref_den_correct","statement":"Path(test_dm_dense_rref_den(x), test_dm_dense_rref_den produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4d4150252a10a2d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref.test_dm_dense_rref_den","kind":"function","src_hash":"55ec541abbbe1ec0","in":{"base":"Any","pred":"hasattr(A, 'rref_den')"},"out":{"base":"Any"},"spec":{"lhs":"test_dm_dense_rref_den(name, A, A_rref)","rhs":"<unspecified:test_dm_dense_rref_den>","over":{"base":"Any","pred":"hasattr(A, 'rref_den')"},"name":"test_dm_dense_rref_den_correct"},"guarantee":"test_dm_dense_rref_den produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref.test_dm_dense_rref_den_correct","statement":"Path(test_dm_dense_rref_den(x), test_dm_dense_rref_den produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4d4150252a10a2d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'rref_den')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.rref_den"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_dm_dense_rref_den(name, A, A_rref, den):
     _check_cancel(A.rref_den(), A_rref, den)
 
 
 @pytest.mark.parametrize('name, A, A_rref, den', RREF_EXAMPLES)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dm_sparse_rref(nam), test_dm_sparse_rref produces the expected output) over Any ║
+# ║ Path(test_dm_sparse_rref(name, A, A_rref), <unspecified:test_dm_sparse_rref>) over {Any | hasattr(A, 'rref') and hasattr(A, 'to_field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dm_sparse_rref : Any → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'rref')                             ║
+# ║   requires: hasattr(A, 'to_field')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dm_sparse_rref : {Any | hasattr(A, 'rref') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 380aa1211f3fca27  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref.test_dm_sparse_rref","kind":"function","src_hash":"32d9e1dbad6d3bfa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_dm_sparse_rref(nam)","rhs":"test_dm_sparse_rref produces the expected output","over":{"base":"Any"},"name":"test_dm_sparse_rref_correct"},"guarantee":"test_dm_sparse_rref produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref.test_dm_sparse_rref_correct","statement":"Path(test_dm_sparse_rref(x), test_dm_sparse_rref produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"380aa1211f3fca27"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref.test_dm_sparse_rref","kind":"function","src_hash":"32d9e1dbad6d3bfa","in":{"base":"Any","pred":"hasattr(A, 'rref') and hasattr(A, 'to_field')"},"out":{"base":"Any"},"spec":{"lhs":"test_dm_sparse_rref(name, A, A_rref)","rhs":"<unspecified:test_dm_sparse_rref>","over":{"base":"Any","pred":"hasattr(A, 'rref') and hasattr(A, 'to_field')"},"name":"test_dm_sparse_rref_correct"},"guarantee":"test_dm_sparse_rref produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref.test_dm_sparse_rref_correct","statement":"Path(test_dm_sparse_rref(x), test_dm_sparse_rref produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"380aa1211f3fca27","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'rref')","hasattr(A, 'to_field')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.rref","A.to_field"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_dm_sparse_rref(name, A, A_rref, den):
     A = A.to_field().to_sparse()
     _check_divide(A.rref(), A_rref, den)
@@ -780,16 +847,24 @@ def test_dm_sparse_rref(name, A, A_rref, den):
 
 @pytest.mark.parametrize('name, A, A_rref, den', RREF_EXAMPLES)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dm_sparse_rref_den(nam), test_dm_sparse_rref_den produces the expected output) over Any ║
+# ║ Path(test_dm_sparse_rref_den(name, A, A_rref), <unspecified:test_dm_sparse_rref_den>) over {Any | hasattr(A, 'to_sparse') and hasattr(A, 'rref_den')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dm_sparse_rref_den : Any → Any                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'to_sparse')                        ║
+# ║   requires: hasattr(A, 'rref_den')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dm_sparse_rref_den : {Any | hasattr(A, 'to_spars...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b43bae308cdf0966  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref.test_dm_sparse_rref_den","kind":"function","src_hash":"24215d3ebbc1a3b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_dm_sparse_rref_den(nam)","rhs":"test_dm_sparse_rref_den produces the expected output","over":{"base":"Any"},"name":"test_dm_sparse_rref_den_correct"},"guarantee":"test_dm_sparse_rref_den produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref.test_dm_sparse_rref_den_correct","statement":"Path(test_dm_sparse_rref_den(x), test_dm_sparse_rref_den produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b43bae308cdf0966"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref.test_dm_sparse_rref_den","kind":"function","src_hash":"24215d3ebbc1a3b2","in":{"base":"Any","pred":"hasattr(A, 'to_sparse') and hasattr(A, 'rref_den')"},"out":{"base":"Any"},"spec":{"lhs":"test_dm_sparse_rref_den(name, A, A_rref)","rhs":"<unspecified:test_dm_sparse_rref_den>","over":{"base":"Any","pred":"hasattr(A, 'to_sparse') and hasattr(A, 'rref_den')"},"name":"test_dm_sparse_rref_den_correct"},"guarantee":"test_dm_sparse_rref_den produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref.test_dm_sparse_rref_den_correct","statement":"Path(test_dm_sparse_rref_den(x), test_dm_sparse_rref_den produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b43bae308cdf0966","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'to_sparse')","hasattr(A, 'rref_den')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.rref_den","A.to_sparse"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_dm_sparse_rref_den(name, A, A_rref, den):
     A = A.to_sparse()
     _check_cancel(A.rref_den(), A_rref, den)
@@ -797,16 +872,24 @@ def test_dm_sparse_rref_den(name, A, A_rref, den):
 
 @pytest.mark.parametrize('name, A, A_rref, den', RREF_EXAMPLES)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dm_sparse_rref_den_keep_domain(nam), test_dm_sparse_rref_den_keep_domain produces the expected output) over Any ║
+# ║ Path(test_dm_sparse_rref_den_keep_domain(name, A, A_rref), <unspecified:test_dm_sparse_rref_den_keep_domain>) over {Any | hasattr(A, 'to_sparse') and hasattr(A, 'rref_den')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dm_sparse_rref_den_keep_domain : Any → Any            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'to_sparse')                        ║
+# ║   requires: hasattr(A, 'rref_den')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dm_sparse_rref_den_keep_domain : {Any | hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac0bbae129576304  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref.test_dm_sparse_rref_den_keep_domain","kind":"function","src_hash":"a1e74cd5ae92581b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_dm_sparse_rref_den_keep_domain(nam)","rhs":"test_dm_sparse_rref_den_keep_domain produces the expected output","over":{"base":"Any"},"name":"test_dm_sparse_rref_den_keep_domain_correct"},"guarantee":"test_dm_sparse_rref_den_keep_domain produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref.test_dm_sparse_rref_den_keep_domain_correct","statement":"Path(test_dm_sparse_rref_den_keep_domain(x), test_dm_sparse_rref_den_keep_domain produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac0bbae129576304"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref.test_dm_sparse_rref_den_keep_domain","kind":"function","src_hash":"a1e74cd5ae92581b","in":{"base":"Any","pred":"hasattr(A, 'to_sparse') and hasattr(A, 'rref_den')"},"out":{"base":"Any"},"spec":{"lhs":"test_dm_sparse_rref_den_keep_domain(name, A, A_rref)","rhs":"<unspecified:test_dm_sparse_rref_den_keep_domain>","over":{"base":"Any","pred":"hasattr(A, 'to_sparse') and hasattr(A, 'rref_den')"},"name":"test_dm_sparse_rref_den_keep_domain_correct"},"guarantee":"test_dm_sparse_rref_den_keep_domain produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref.test_dm_sparse_rref_den_keep_domain_correct","statement":"Path(test_dm_sparse_rref_den_keep_domain(x), test_dm_sparse_rref_den_keep_domain produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac0bbae129576304","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'to_sparse')","hasattr(A, 'rref_den')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.rref_den","A.to_sparse"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dm_sparse_rref_den_keep_domain(name, A, A_rref, den):
     A = A.to_sparse()
     A_rref_f, den_f, pivots_f = A.rref_den(keep_domain=False)
@@ -816,16 +899,24 @@ def test_dm_sparse_rref_den_keep_domain(name, A, A_rref, den):
 
 @pytest.mark.parametrize('name, A, A_rref, den', RREF_EXAMPLES)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dm_sparse_rref_den_keep_domain_CD(nam), test_dm_sparse_rref_den_keep_domain_CD produces the expected output) over Any ║
+# ║ Path(test_dm_sparse_rref_den_keep_domain_CD(name, A, A_rref), <unspecified:test_dm_sparse_rref_den_keep_domain_CD>) over {Any | hasattr(A, 'to_sparse') and hasattr(A, 'rref_den')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dm_sparse_rref_den_keep_domain_CD : Any → Any         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'to_sparse')                        ║
+# ║   requires: hasattr(A, 'rref_den')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dm_sparse_rref_den_keep_domain_CD : {Any | hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2781e72e2143fc1c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref.test_dm_sparse_rref_den_keep_domain_CD","kind":"function","src_hash":"21e1f737a2443d8f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_dm_sparse_rref_den_keep_domain_CD(nam)","rhs":"test_dm_sparse_rref_den_keep_domain_CD produces the expected output","over":{"base":"Any"},"name":"test_dm_sparse_rref_den_keep_domain_CD_correct"},"guarantee":"test_dm_sparse_rref_den_keep_domain_CD produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref.test_dm_sparse_rref_den_keep_domain_CD_correct","statement":"Path(test_dm_sparse_rref_den_keep_domain_CD(x), test_dm_sparse_rref_den_keep_domain_CD produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2781e72e2143fc1c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref.test_dm_sparse_rref_den_keep_domain_CD","kind":"function","src_hash":"21e1f737a2443d8f","in":{"base":"Any","pred":"hasattr(A, 'to_sparse') and hasattr(A, 'rref_den')"},"out":{"base":"Any"},"spec":{"lhs":"test_dm_sparse_rref_den_keep_domain_CD(name, A, A_rref)","rhs":"<unspecified:test_dm_sparse_rref_den_keep_domain_CD>","over":{"base":"Any","pred":"hasattr(A, 'to_sparse') and hasattr(A, 'rref_den')"},"name":"test_dm_sparse_rref_den_keep_domain_CD_correct"},"guarantee":"test_dm_sparse_rref_den_keep_domain_CD produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref.test_dm_sparse_rref_den_keep_domain_CD_correct","statement":"Path(test_dm_sparse_rref_den_keep_domain_CD(x), test_dm_sparse_rref_den_keep_domain_CD produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2781e72e2143fc1c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'to_sparse')","hasattr(A, 'rref_den')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.rref_den","A.to_sparse"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dm_sparse_rref_den_keep_domain_CD(name, A, A_rref, den):
     A = A.to_sparse()
     A_rref_f, den_f, pivots_f = A.rref_den(keep_domain=False, method='CD')
@@ -835,16 +926,24 @@ def test_dm_sparse_rref_den_keep_domain_CD(name, A, A_rref, den):
 
 @pytest.mark.parametrize('name, A, A_rref, den', RREF_EXAMPLES)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dm_sparse_rref_den_keep_domain_GJ(nam), test_dm_sparse_rref_den_keep_domain_GJ produces the expected output) over Any ║
+# ║ Path(test_dm_sparse_rref_den_keep_domain_GJ(name, A, A_rref), <unspecified:test_dm_sparse_rref_den_keep_domain_GJ>) over {Any | hasattr(A, 'to_sparse') and hasattr(A, 'rref_den')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dm_sparse_rref_den_keep_domain_GJ : Any → Any         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'to_sparse')                        ║
+# ║   requires: hasattr(A, 'rref_den')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dm_sparse_rref_den_keep_domain_GJ : {Any | hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f6b6a46a0d6869e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref.test_dm_sparse_rref_den_keep_domain_GJ","kind":"function","src_hash":"276c91ad22a19d3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_dm_sparse_rref_den_keep_domain_GJ(nam)","rhs":"test_dm_sparse_rref_den_keep_domain_GJ produces the expected output","over":{"base":"Any"},"name":"test_dm_sparse_rref_den_keep_domain_GJ_correct"},"guarantee":"test_dm_sparse_rref_den_keep_domain_GJ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref.test_dm_sparse_rref_den_keep_domain_GJ_correct","statement":"Path(test_dm_sparse_rref_den_keep_domain_GJ(x), test_dm_sparse_rref_den_keep_domain_GJ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f6b6a46a0d6869e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref.test_dm_sparse_rref_den_keep_domain_GJ","kind":"function","src_hash":"276c91ad22a19d3f","in":{"base":"Any","pred":"hasattr(A, 'to_sparse') and hasattr(A, 'rref_den')"},"out":{"base":"Any"},"spec":{"lhs":"test_dm_sparse_rref_den_keep_domain_GJ(name, A, A_rref)","rhs":"<unspecified:test_dm_sparse_rref_den_keep_domain_GJ>","over":{"base":"Any","pred":"hasattr(A, 'to_sparse') and hasattr(A, 'rref_den')"},"name":"test_dm_sparse_rref_den_keep_domain_GJ_correct"},"guarantee":"test_dm_sparse_rref_den_keep_domain_GJ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref.test_dm_sparse_rref_den_keep_domain_GJ_correct","statement":"Path(test_dm_sparse_rref_den_keep_domain_GJ(x), test_dm_sparse_rref_den_keep_domain_GJ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f6b6a46a0d6869e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'to_sparse')","hasattr(A, 'rref_den')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.rref_den","A.to_sparse"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dm_sparse_rref_den_keep_domain_GJ(name, A, A_rref, den):
     A = A.to_sparse()
     A_rref_f, den_f, pivots_f = A.rref_den(keep_domain=False, method='GJ')
@@ -854,16 +953,24 @@ def test_dm_sparse_rref_den_keep_domain_GJ(name, A, A_rref, den):
 
 @pytest.mark.parametrize('name, A, A_rref, den', RREF_EXAMPLES)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ddm_rref_den(nam), test_ddm_rref_den produces the expected output) over Any ║
+# ║ Path(test_ddm_rref_den(name, A, A_rref), <unspecified:test_ddm_rref_den>) over {Any | hasattr(A, 'to_ddm') and hasattr(A, 'rref_den')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ddm_rref_den : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'to_ddm')                           ║
+# ║   requires: hasattr(A, 'rref_den')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ddm_rref_den : {Any | hasattr(A, 'to_ddm') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 70f852aa495bf50b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref.test_ddm_rref_den","kind":"function","src_hash":"ce75a3e4d7284510","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_ddm_rref_den(nam)","rhs":"test_ddm_rref_den produces the expected output","over":{"base":"Any"},"name":"test_ddm_rref_den_correct"},"guarantee":"test_ddm_rref_den produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref.test_ddm_rref_den_correct","statement":"Path(test_ddm_rref_den(x), test_ddm_rref_den produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70f852aa495bf50b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref.test_ddm_rref_den","kind":"function","src_hash":"ce75a3e4d7284510","in":{"base":"Any","pred":"hasattr(A, 'to_ddm') and hasattr(A, 'rref_den')"},"out":{"base":"Any"},"spec":{"lhs":"test_ddm_rref_den(name, A, A_rref)","rhs":"<unspecified:test_ddm_rref_den>","over":{"base":"Any","pred":"hasattr(A, 'to_ddm') and hasattr(A, 'rref_den')"},"name":"test_ddm_rref_den_correct"},"guarantee":"test_ddm_rref_den produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref.test_ddm_rref_den_correct","statement":"Path(test_ddm_rref_den(x), test_ddm_rref_den produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70f852aa495bf50b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'to_ddm')","hasattr(A, 'rref_den')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.rref_den","A.to_ddm"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_ddm_rref_den(name, A, A_rref, den):
     A = A.to_ddm()
     _check_cancel(A.rref_den(), A_rref, den)
@@ -871,16 +978,24 @@ def test_ddm_rref_den(name, A, A_rref, den):
 
 @pytest.mark.parametrize('name, A, A_rref, den', RREF_EXAMPLES)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sdm_rref_den(nam), test_sdm_rref_den produces the expected output) over Any ║
+# ║ Path(test_sdm_rref_den(name, A, A_rref), <unspecified:test_sdm_rref_den>) over {Any | hasattr(A, 'to_sdm') and hasattr(A, 'rref_den')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sdm_rref_den : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'to_sdm')                           ║
+# ║   requires: hasattr(A, 'rref_den')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sdm_rref_den : {Any | hasattr(A, 'to_sdm') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e274d07c82a621db  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref.test_sdm_rref_den","kind":"function","src_hash":"2bd452ce505c2c11","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_sdm_rref_den(nam)","rhs":"test_sdm_rref_den produces the expected output","over":{"base":"Any"},"name":"test_sdm_rref_den_correct"},"guarantee":"test_sdm_rref_den produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref.test_sdm_rref_den_correct","statement":"Path(test_sdm_rref_den(x), test_sdm_rref_den produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e274d07c82a621db"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref.test_sdm_rref_den","kind":"function","src_hash":"2bd452ce505c2c11","in":{"base":"Any","pred":"hasattr(A, 'to_sdm') and hasattr(A, 'rref_den')"},"out":{"base":"Any"},"spec":{"lhs":"test_sdm_rref_den(name, A, A_rref)","rhs":"<unspecified:test_sdm_rref_den>","over":{"base":"Any","pred":"hasattr(A, 'to_sdm') and hasattr(A, 'rref_den')"},"name":"test_sdm_rref_den_correct"},"guarantee":"test_sdm_rref_den produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref.test_sdm_rref_den_correct","statement":"Path(test_sdm_rref_den(x), test_sdm_rref_den produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e274d07c82a621db","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'to_sdm')","hasattr(A, 'rref_den')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.rref_den","A.to_sdm"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_sdm_rref_den(name, A, A_rref, den):
     A = A.to_sdm()
     _check_cancel(A.rref_den(), A_rref, den)
@@ -888,16 +1003,24 @@ def test_sdm_rref_den(name, A, A_rref, den):
 
 @pytest.mark.parametrize('name, A, A_rref, den', RREF_EXAMPLES)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ddm_rref(nam), test_ddm_rref produces the expected output) over Any ║
+# ║ Path(test_ddm_rref(name, A, A_rref), <unspecified:test_ddm_rref>) over {Any | hasattr(A, 'rref') and hasattr(A, 'to_field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ddm_rref : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'rref')                             ║
+# ║   requires: hasattr(A, 'to_field')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ddm_rref : {Any | hasattr(A, 'rref') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c6e1b2368e8615e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref.test_ddm_rref","kind":"function","src_hash":"16054b52ee03fa8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_ddm_rref(nam)","rhs":"test_ddm_rref produces the expected output","over":{"base":"Any"},"name":"test_ddm_rref_correct"},"guarantee":"test_ddm_rref produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref.test_ddm_rref_correct","statement":"Path(test_ddm_rref(x), test_ddm_rref produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c6e1b2368e8615e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref.test_ddm_rref","kind":"function","src_hash":"16054b52ee03fa8a","in":{"base":"Any","pred":"hasattr(A, 'rref') and hasattr(A, 'to_field')"},"out":{"base":"Any"},"spec":{"lhs":"test_ddm_rref(name, A, A_rref)","rhs":"<unspecified:test_ddm_rref>","over":{"base":"Any","pred":"hasattr(A, 'rref') and hasattr(A, 'to_field')"},"name":"test_ddm_rref_correct"},"guarantee":"test_ddm_rref produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref.test_ddm_rref_correct","statement":"Path(test_ddm_rref(x), test_ddm_rref produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c6e1b2368e8615e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'rref')","hasattr(A, 'to_field')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.rref","A.to_field"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_ddm_rref(name, A, A_rref, den):
     A = A.to_field().to_ddm()
     _check_divide(A.rref(), A_rref, den)
@@ -905,16 +1028,24 @@ def test_ddm_rref(name, A, A_rref, den):
 
 @pytest.mark.parametrize('name, A, A_rref, den', RREF_EXAMPLES)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sdm_rref(nam), test_sdm_rref produces the expected output) over Any ║
+# ║ Path(test_sdm_rref(name, A, A_rref), <unspecified:test_sdm_rref>) over {Any | hasattr(A, 'rref') and hasattr(A, 'to_field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sdm_rref : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'rref')                             ║
+# ║   requires: hasattr(A, 'to_field')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sdm_rref : {Any | hasattr(A, 'rref') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 35dca3b9008509b1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref.test_sdm_rref","kind":"function","src_hash":"47533673fa29709a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_sdm_rref(nam)","rhs":"test_sdm_rref produces the expected output","over":{"base":"Any"},"name":"test_sdm_rref_correct"},"guarantee":"test_sdm_rref produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref.test_sdm_rref_correct","statement":"Path(test_sdm_rref(x), test_sdm_rref produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35dca3b9008509b1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref.test_sdm_rref","kind":"function","src_hash":"47533673fa29709a","in":{"base":"Any","pred":"hasattr(A, 'rref') and hasattr(A, 'to_field')"},"out":{"base":"Any"},"spec":{"lhs":"test_sdm_rref(name, A, A_rref)","rhs":"<unspecified:test_sdm_rref>","over":{"base":"Any","pred":"hasattr(A, 'rref') and hasattr(A, 'to_field')"},"name":"test_sdm_rref_correct"},"guarantee":"test_sdm_rref produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref.test_sdm_rref_correct","statement":"Path(test_sdm_rref(x), test_sdm_rref produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35dca3b9008509b1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'rref')","hasattr(A, 'to_field')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.rref","A.to_field"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_sdm_rref(name, A, A_rref, den):
     A = A.to_field().to_sdm()
     _check_divide(A.rref(), A_rref, den)
@@ -922,16 +1053,23 @@ def test_sdm_rref(name, A, A_rref, den):
 
 @pytest.mark.parametrize('name, A, A_rref, den', RREF_EXAMPLES)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ddm_irref(nam), test_ddm_irref produces the expected output) over Any ║
+# ║ Path(test_ddm_irref(name, A, A_rref), <unspecified:test_ddm_irref>) over {Any | hasattr(A, 'to_field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ddm_irref : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'to_field')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ddm_irref : {Any | hasattr(A, 'to_field')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 73f6ec68831267fa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref.test_ddm_irref","kind":"function","src_hash":"fb420d0a938e9e38","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_ddm_irref(nam)","rhs":"test_ddm_irref produces the expected output","over":{"base":"Any"},"name":"test_ddm_irref_correct"},"guarantee":"test_ddm_irref produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref.test_ddm_irref_correct","statement":"Path(test_ddm_irref(x), test_ddm_irref produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73f6ec68831267fa"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref.test_ddm_irref","kind":"function","src_hash":"fb420d0a938e9e38","in":{"base":"Any","pred":"hasattr(A, 'to_field')"},"out":{"base":"Any"},"spec":{"lhs":"test_ddm_irref(name, A, A_rref)","rhs":"<unspecified:test_ddm_irref>","over":{"base":"Any","pred":"hasattr(A, 'to_field')"},"name":"test_ddm_irref_correct"},"guarantee":"test_ddm_irref produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref.test_ddm_irref_correct","statement":"Path(test_ddm_irref(x), test_ddm_irref produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73f6ec68831267fa","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'to_field')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.to_field"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_ddm_irref(name, A, A_rref, den):
     A = A.to_field().to_ddm().copy()
     pivots_found = ddm_irref(A)
@@ -940,16 +1078,24 @@ def test_ddm_irref(name, A, A_rref, den):
 
 @pytest.mark.parametrize('name, A, A_rref, den', RREF_EXAMPLES)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ddm_irref_den(nam), test_ddm_irref_den produces the expected output) over Any ║
+# ║ Path(test_ddm_irref_den(name, A, A_rref), <unspecified:test_ddm_irref_den>) over {Any | hasattr(A, 'domain') and hasattr(A, 'to_ddm')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ddm_irref_den : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'domain')                           ║
+# ║   requires: hasattr(A, 'to_ddm')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ddm_irref_den : {Any | hasattr(A, 'domain') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c6145a52b3792fd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref.test_ddm_irref_den","kind":"function","src_hash":"221058564ebb6966","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_ddm_irref_den(nam)","rhs":"test_ddm_irref_den produces the expected output","over":{"base":"Any"},"name":"test_ddm_irref_den_correct"},"guarantee":"test_ddm_irref_den produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref.test_ddm_irref_den_correct","statement":"Path(test_ddm_irref_den(x), test_ddm_irref_den produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c6145a52b3792fd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref.test_ddm_irref_den","kind":"function","src_hash":"221058564ebb6966","in":{"base":"Any","pred":"hasattr(A, 'domain') and hasattr(A, 'to_ddm')"},"out":{"base":"Any"},"spec":{"lhs":"test_ddm_irref_den(name, A, A_rref)","rhs":"<unspecified:test_ddm_irref_den>","over":{"base":"Any","pred":"hasattr(A, 'domain') and hasattr(A, 'to_ddm')"},"name":"test_ddm_irref_den_correct"},"guarantee":"test_ddm_irref_den produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref.test_ddm_irref_den_correct","statement":"Path(test_ddm_irref_den(x), test_ddm_irref_den produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c6145a52b3792fd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'domain')","hasattr(A, 'to_ddm')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.domain","A.to_ddm"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_ddm_irref_den(name, A, A_rref, den):
     A = A.to_ddm().copy()
     (den_found, pivots_found) = ddm_irref_den(A, A.domain)
@@ -959,16 +1105,23 @@ def test_ddm_irref_den(name, A, A_rref, den):
 
 @pytest.mark.parametrize('name, A, A_rref, den', RREF_EXAMPLES)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sparse_sdm_rref(nam), test_sparse_sdm_rref produces the expected output) over Any ║
+# ║ Path(test_sparse_sdm_rref(name, A, A_rref), <unspecified:test_sparse_sdm_rref>) over {Any | hasattr(A, 'to_field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sparse_sdm_rref : Any → Any                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'to_field')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sparse_sdm_rref : {Any | hasattr(A, 'to_field')}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef7768791942be29  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref.test_sparse_sdm_rref","kind":"function","src_hash":"ebf832e088531ab1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_sparse_sdm_rref(nam)","rhs":"test_sparse_sdm_rref produces the expected output","over":{"base":"Any"},"name":"test_sparse_sdm_rref_correct"},"guarantee":"test_sparse_sdm_rref produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref.test_sparse_sdm_rref_correct","statement":"Path(test_sparse_sdm_rref(x), test_sparse_sdm_rref produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef7768791942be29"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref.test_sparse_sdm_rref","kind":"function","src_hash":"ebf832e088531ab1","in":{"base":"Any","pred":"hasattr(A, 'to_field')"},"out":{"base":"Any"},"spec":{"lhs":"test_sparse_sdm_rref(name, A, A_rref)","rhs":"<unspecified:test_sparse_sdm_rref>","over":{"base":"Any","pred":"hasattr(A, 'to_field')"},"name":"test_sparse_sdm_rref_correct"},"guarantee":"test_sparse_sdm_rref produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref.test_sparse_sdm_rref_correct","statement":"Path(test_sparse_sdm_rref(x), test_sparse_sdm_rref produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef7768791942be29","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'to_field')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.to_field"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sparse_sdm_rref(name, A, A_rref, den):
     A = A.to_field().to_sdm()
     _check_divide(sdm_irref(A)[:2], A_rref, den)
@@ -976,16 +1129,24 @@ def test_sparse_sdm_rref(name, A, A_rref, den):
 
 @pytest.mark.parametrize('name, A, A_rref, den', RREF_EXAMPLES)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sparse_sdm_rref_den(nam), test_sparse_sdm_rref_den produces the expected output) over Any ║
+# ║ Path(test_sparse_sdm_rref_den(name, A, A_rref), <unspecified:test_sparse_sdm_rref_den>) over {Any | hasattr(A, 'domain') and hasattr(A, 'to_sdm')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sparse_sdm_rref_den : Any → Any                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'domain')                           ║
+# ║   requires: hasattr(A, 'to_sdm')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sparse_sdm_rref_den : {Any | hasattr(A, 'domain'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba87c0e294dc3d56  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref.test_sparse_sdm_rref_den","kind":"function","src_hash":"f355120480b6fead","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_sparse_sdm_rref_den(nam)","rhs":"test_sparse_sdm_rref_den produces the expected output","over":{"base":"Any"},"name":"test_sparse_sdm_rref_den_correct"},"guarantee":"test_sparse_sdm_rref_den produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref.test_sparse_sdm_rref_den_correct","statement":"Path(test_sparse_sdm_rref_den(x), test_sparse_sdm_rref_den produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba87c0e294dc3d56"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_rref.test_sparse_sdm_rref_den","kind":"function","src_hash":"f355120480b6fead","in":{"base":"Any","pred":"hasattr(A, 'domain') and hasattr(A, 'to_sdm')"},"out":{"base":"Any"},"spec":{"lhs":"test_sparse_sdm_rref_den(name, A, A_rref)","rhs":"<unspecified:test_sparse_sdm_rref_den>","over":{"base":"Any","pred":"hasattr(A, 'domain') and hasattr(A, 'to_sdm')"},"name":"test_sparse_sdm_rref_den_correct"},"guarantee":"test_sparse_sdm_rref_den produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_rref.test_sparse_sdm_rref_den_correct","statement":"Path(test_sparse_sdm_rref_den(x), test_sparse_sdm_rref_den produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba87c0e294dc3d56","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'domain')","hasattr(A, 'to_sdm')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.domain","A.to_sdm"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sparse_sdm_rref_den(name, A, A_rref, den):
     A = A.to_sdm().copy()
     K = A.domain

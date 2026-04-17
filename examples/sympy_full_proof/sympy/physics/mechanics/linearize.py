@@ -30,14 +30,19 @@ from collections.abc import Iterable
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Linearizer instance) preserved by Linearizer(*args) over {Any | isinstance(op_point, dict) and isinstance(op_point, Iterable)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Linearizer : {Any | isinstance(op_point, dict) and is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb131784b146bf53  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.linearize.Linearizer","kind":"class","src_hash":"1416652bdfb66e8c","in":{"base":"Any","pred":"isinstance(op_point, dict) and isinstance(op_point, Iterable)"},"out":{"base":"Any"},"spec":{"lhs":"Linearizer(*args)","rhs":"correctly constructs a Linearizer instance","over":{"base":"Any","pred":"isinstance(op_point, dict) and isinstance(op_point, Iterable)"},"name":"Linearizer_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Linearizer instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'linear_solver') and hasattr(self, 'f_0') and hasattr(self, 'f_1') and hasattr(self, 'f_2') and hasattr(self, 'f_3') and hasattr(self, 'f_4') and hasattr(self, 'f_c') and hasattr(self, 'f_v')","kind":"class","induction":"structural on linear_solver, f_0, f_1, f_2"}],"methods_preserving":["__init__","_setup","_form_permutation_matrices","_form_coefficient_matrices","_form_block_matrices","linearize"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb131784b146bf53"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.linearize.Linearizer","kind":"class","src_hash":"1416652bdfb66e8c","in":{"base":"Any","pred":"isinstance(op_point, dict) and isinstance(op_point, Iterable)"},"out":{"base":"Any"},"spec":{"lhs":"Linearizer(*args)","rhs":"correctly constructs a Linearizer instance","over":{"base":"Any","pred":"isinstance(op_point, dict) and isinstance(op_point, Iterable)"},"name":"Linearizer_class_invariant","kind":"invariant"},"guarantee":"preserves 32 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'linear_solver') and hasattr(self, 'f_0') and hasattr(self, 'f_1') and hasattr(self, 'f_2') and hasattr(self, 'f_3') and hasattr(self, 'f_4') and hasattr(self, 'f_c') and hasattr(self, 'f_v')","kind":"class","induction":"structural on linear_solver, f_0, f_1, f_2"}],"methods_preserving":["__init__","_setup","_form_permutation_matrices","_form_coefficient_matrices","_form_block_matrices","linearize"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb131784b146bf53","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'linear_solver')","hasattr(self, 'f_0')","hasattr(self, 'f_1')","hasattr(self, 'f_2')","hasattr(self, 'f_3')","hasattr(self, 'f_4')","hasattr(self, 'f_c')","hasattr(self, 'f_v')","hasattr(self, 'f_a')","hasattr(self, 'q')","hasattr(self, 'u')","hasattr(self, 'q_i')","hasattr(self, 'q_d')","hasattr(self, 'u_i')","hasattr(self, 'u_d')","hasattr(self, 'r')","hasattr(self, 'lams')","hasattr(self, '_qd')","hasattr(self, '_ud')","hasattr(self, '_qd_dup')","hasattr(self, '_dims')","hasattr(self, '_Pq')","hasattr(self, '_Pqi')","hasattr(self, '_Pqd')","hasattr(self, '_Pu')","hasattr(self, '_Pui')","hasattr(self, '_Pud')","hasattr(self, '_C_0')","hasattr(self, '_C_1')","hasattr(self, '_C_2')","hasattr(self, 'perm_mat')","hasattr(self, '_setup_done')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function Linearizer not found in source"]}}
 class Linearizer:
     """This object holds the general model form for a dynamic system. This
     model is used for computing the linearized form of the system, while
@@ -70,16 +75,22 @@ class Linearizer:
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(f_0), initializes the instance correctly) over Any ║
+# ║ Path(__init__(f_0, f_1, f_2), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e5b0c4ea43bcdc92           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.linearize.Linearizer.__init__","kind":"method","src_hash":"9a65bd0179f5f540","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(f_0)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e5b0c4ea43bcdc92"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.linearize.Linearizer.__init__","kind":"method","src_hash":"9a65bd0179f5f540","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(f_0, f_1, f_2)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e5b0c4ea43bcdc92","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, f_0, f_1, f_2, f_3, f_4, f_c, f_v, f_a, q, u, q_i=None,
                  q_d=None, u_i=None, u_d=None, r=None, lams=None,
                  linear_solver='LU'):
@@ -172,16 +183,22 @@ class Linearizer:
         self._setup_done = False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_setup(), internal helper behaves correctly) over Any ║
+# ║ Path(_setup(), <unspecified:_setup>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _setup : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 60b016d02dc00d1d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.linearize.Linearizer._setup","kind":"method","src_hash":"75259b92dfa63b36","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_setup()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_setup_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.linearize.Linearizer._setup_correct","statement":"Path(_setup(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60b016d02dc00d1d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.linearize.Linearizer._setup","kind":"method","src_hash":"75259b92dfa63b36","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_setup()","rhs":"<unspecified:_setup>","over":{"base":"Any"},"name":"_setup_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.linearize.Linearizer._setup_correct","statement":"Path(_setup(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60b016d02dc00d1d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._form_block_matrices","self._form_coefficient_matrices","self._form_permutation_matrices"],"writes":["self._setup_done"]},"state_contract":{"modifies":["self._setup_done"],"old_bindings":{"old_self__setup_done":"self._setup_done"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _setup(self):
         # Calculations here only need to be run once. They are moved out of
         # the __init__ method to increase the speed of Linearizer creation.
@@ -191,16 +208,22 @@ class Linearizer:
         self._setup_done = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_form_permutation_matrices(), form the permutation matrices pq and pu) over Any ║
+# ║ Path(_form_permutation_matrices(), <unspecified:_form_permutation_matrices>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _form_permutation_matrices : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 29cd1fb8b368a737  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.linearize.Linearizer._form_permutation_matrices","kind":"method","src_hash":"b38a533a05dfbbcb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_form_permutation_matrices()","rhs":"form the permutation matrices pq and pu","over":{"base":"Any"},"name":"_form_permutation_matrices_correct"},"guarantee":"form the permutation matrices pq and pu","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.linearize.Linearizer._form_permutation_matrices_correct","statement":"Path(_form_permutation_matrices(x), form the permutation matrices pq and pu)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29cd1fb8b368a737"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.linearize.Linearizer._form_permutation_matrices","kind":"method","src_hash":"b38a533a05dfbbcb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_form_permutation_matrices()","rhs":"<unspecified:_form_permutation_matrices>","over":{"base":"Any"},"name":"_form_permutation_matrices_correct"},"guarantee":"form the permutation matrices pq and pu","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.linearize.Linearizer._form_permutation_matrices_correct","statement":"Path(_form_permutation_matrices(x), form the permutation matrices pq and pu)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29cd1fb8b368a737","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._Pq","self._Pqi","self._Pu","self._Pui","self._dims","self.q","self.q_d","self.q_i","self.u","self.u_d","self.u_i"],"writes":["self._Pq","self._Pqd","self._Pqi","self._Pu","self._Pud","self._Pui","self.perm_mat"]},"state_contract":{"modifies":["self._Pq","self._Pqd","self._Pqi","self._Pu","self._Pud","self._Pui","self.perm_mat"],"old_bindings":{"old_self__Pq":"self._Pq","old_self__Pqd":"self._Pqd","old_self__Pqi":"self._Pqi","old_self__Pu":"self._Pu","old_self__Pud":"self._Pud","old_self__Pui":"self._Pui","old_self_perm_mat":"self.perm_mat"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _form_permutation_matrices(self):
         """Form the permutation matrices Pq and Pu."""
 
@@ -235,16 +258,22 @@ class Linearizer:
             self.perm_mat = P_col2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_form_coefficient_matrices(), form the coefficient matrices c_0, c_1, and c_2) over Any ║
+# ║ Path(_form_coefficient_matrices(), <unspecified:_form_coefficient_matrices>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _form_coefficient_matrices : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d99a431397440a6b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.linearize.Linearizer._form_coefficient_matrices","kind":"method","src_hash":"78563ec5c356ad7e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_form_coefficient_matrices()","rhs":"form the coefficient matrices c_0, c_1, and c_2","over":{"base":"Any"},"name":"_form_coefficient_matrices_correct"},"guarantee":"form the coefficient matrices c_0, c_1, and c_2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.linearize.Linearizer._form_coefficient_matrices_correct","statement":"Path(_form_coefficient_matrices(x), form the coefficient matrices c_0, c_1, and c_2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d99a431397440a6b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.linearize.Linearizer._form_coefficient_matrices","kind":"method","src_hash":"78563ec5c356ad7e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_form_coefficient_matrices()","rhs":"<unspecified:_form_coefficient_matrices>","over":{"base":"Any"},"name":"_form_coefficient_matrices_correct"},"guarantee":"form the coefficient matrices c_0, c_1, and c_2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.linearize.Linearizer._form_coefficient_matrices_correct","statement":"Path(_form_coefficient_matrices(x), form the coefficient matrices c_0, c_1, and c_2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d99a431397440a6b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._Pqd","self._Pqi","self._Pud","self._Pui","self._dims","self.f_c","self.f_v","self.linear_solver","self.q","self.u"],"writes":["self._C_0","self._C_1","self._C_2"]},"state_contract":{"modifies":["self._C_0","self._C_1","self._C_2"],"old_bindings":{"old_self__C_0":"self._C_0","old_self__C_1":"self._C_1","old_self__C_2":"self._C_2"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _form_coefficient_matrices(self):
         """Form the coefficient matrices C_0, C_1, and C_2."""
 
@@ -278,16 +307,22 @@ class Linearizer:
             self._C_2 = eye(o)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_form_block_matrices(), form the block matrices for composing m, a, and b) over Any ║
+# ║ Path(_form_block_matrices(), <unspecified:_form_block_matrices>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _form_block_matrices : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da045863fdb9e85e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.linearize.Linearizer._form_block_matrices","kind":"method","src_hash":"9681ae8ab530e5d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_form_block_matrices()","rhs":"form the block matrices for composing m, a, and b","over":{"base":"Any"},"name":"_form_block_matrices_correct"},"guarantee":"form the block matrices for composing m, a, and b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.linearize.Linearizer._form_block_matrices_correct","statement":"Path(_form_block_matrices(x), form the block matrices for composing m, a, and b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da045863fdb9e85e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.linearize.Linearizer._form_block_matrices","kind":"method","src_hash":"9681ae8ab530e5d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_form_block_matrices()","rhs":"<unspecified:_form_block_matrices>","over":{"base":"Any"},"name":"_form_block_matrices_correct"},"guarantee":"form the block matrices for composing m, a, and b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.linearize.Linearizer._form_block_matrices_correct","statement":"Path(_form_block_matrices(x), form the block matrices for composing m, a, and b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da045863fdb9e85e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._dims","self._qd","self._qd_dup","self._ud","self.f_0","self.f_1","self.f_2","self.f_3","self.f_4","self.f_a","self.lams","self.q","self.r","self.u"],"writes":["self._A_qq","self._A_qu","self._A_uqc","self._A_uqd","self._A_uuc","self._A_uud","self._B_u","self._M_qq","self._M_uld","self._M_uqc","self._M_uqd","self._M_uuc","self._M_uud"]},"state_contract":{"modifies":["self._A_qq","self._A_qu","self._A_uqc","self._A_uqd","self._A_uuc","self._A_uud","self._B_u","self._M_qq","self._M_uld","self._M_uqc","self._M_uqd","self._M_uuc","self._M_uud"],"old_bindings":{"old_self__A_qq":"self._A_qq","old_self__A_qu":"self._A_qu","old_self__A_uqc":"self._A_uqc","old_self__A_uqd":"self._A_uqd","old_self__A_uuc":"self._A_uuc","old_self__A_uud":"self._A_uud","old_self__B_u":"self._B_u","old_self__M_qq":"self._M_qq","old_self__M_uld":"self._M_uld","old_self__M_uqc":"self._M_uqc","old_self__M_uqd":"self._M_uqd","old_self__M_uuc":"self._M_uuc","old_self__M_uud":"self._M_uud"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _form_block_matrices(self):
         """Form the block matrices for composing M, A, and B."""
 
@@ -339,16 +374,22 @@ class Linearizer:
             self._B_u = Matrix()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(linearize(op_), linearize the system about the operating point) over Any ║
+# ║ Path(linearize(op_point, A_and_B, simplify), <unspecified:linearize>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ linearize : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f26c92511f1eba2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.linearize.Linearizer.linearize","kind":"method","src_hash":"901ec63ce929c5e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"linearize(op_)","rhs":"linearize the system about the operating point","over":{"base":"Any"},"name":"linearize_correct"},"guarantee":"linearize the system about the operating point","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.linearize.Linearizer.linearize_correct","statement":"Path(linearize(x), linearize the system about the operating point)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f26c92511f1eba2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.linearize.Linearizer.linearize","kind":"method","src_hash":"901ec63ce929c5e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"linearize(op_point, A_and_B, simplify)","rhs":"<unspecified:linearize>","over":{"base":"Any"},"name":"linearize_correct"},"guarantee":"linearize the system about the operating point","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.linearize.Linearizer.linearize_correct","statement":"Path(linearize(x), linearize the system about the operating point)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f26c92511f1eba2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def linearize(self, op_point=None, A_and_B=False, simplify=False):
         """Linearize the system about the operating point. Note that
         q_op, u_op, qd_op, ud_op must satisfy the equations of motion.
@@ -537,7 +578,12 @@ class Linearizer:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(permutation_matrix(ori), compute the permutation matrix to change order of orig_vec into order of per_vec) over {Any | isinstance(orig_vec, (list, tuple))} ║
+# ║ Path(permutation_matrix(orig_vec, per_vec), <unspecified:permutation_matrix>) over {Any | isinstance(orig_vec, (list, tuple)) and not (set(orig_vec) != set(per_vec)) and hasattr(orig_vec, 'index')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (set(orig_vec) != set(per_vec))            ║
+# ║   requires: hasattr(orig_vec, 'index')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ permutation_matrix : {Any | isinstance(orig_vec, (lis...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -549,9 +595,12 @@ class Linearizer:
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | f14a8434...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.linearize.permutation_matrix","kind":"function","src_hash":"ce98cec0ad315f00","in":{"base":"Any","pred":"isinstance(orig_vec, (list, tuple))"},"out":{"base":"Any"},"spec":{"lhs":"permutation_matrix(ori)","rhs":"compute the permutation matrix to change order of orig_vec into order of per_vec","over":{"base":"Any","pred":"isinstance(orig_vec, (list, tuple))"},"name":"permutation_matrix_correct"},"guarantee":"compute the permutation matrix to change order of orig_vec into order of per_vec","fibers":[{"name":"(list","pred":"isinstance(orig_vec, (list, tuple))","path":{"lhs":"permutation_matrix(x)","rhs":"compute the permutation matrix to change order of orig_vec into order of per_vec","over":{"base":"(list","pred":"isinstance(orig_vec, (list, tuple))"},"name":"permutation_matrix_(list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.linearize.permutation_matrix_(list_correct","statement":"permutation_matrix satisfies spec on (list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f14a8434b10d68eb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.linearize.permutation_matrix","kind":"function","src_hash":"ce98cec0ad315f00","in":{"base":"Any","pred":"isinstance(orig_vec, (list, tuple)) and not (set(orig_vec) != set(per_vec)) and hasattr(orig_vec, 'index')"},"out":{"base":"Any"},"spec":{"lhs":"permutation_matrix(orig_vec, per_vec)","rhs":"<unspecified:permutation_matrix>","over":{"base":"Any","pred":"isinstance(orig_vec, (list, tuple)) and not (set(orig_vec) != set(per_vec)) and hasattr(orig_vec, 'index')"},"name":"permutation_matrix_correct"},"guarantee":"compute the permutation matrix to change order of orig_vec into order of per_vec","fibers":[{"name":"(list","pred":"isinstance(orig_vec, (list, tuple))","path":{"lhs":"permutation_matrix(x)","rhs":"compute the permutation matrix to change order of orig_vec into order of per_vec","over":{"base":"(list","pred":"isinstance(orig_vec, (list, tuple))"},"name":"permutation_matrix_(list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.linearize.permutation_matrix_(list_correct","statement":"permutation_matrix satisfies spec on (list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f14a8434b10d68eb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (set(orig_vec) != set(per_vec))","hasattr(orig_vec, 'index')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["orig_vec.index"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(per_vec, (list, tuple))', 'not isinstance(orig_vec, (list, tuple))', 'set(orig_vec) != set(per_vec)'}, fibers={'(list'})"]}}
 def permutation_matrix(orig_vec, per_vec):
     """Compute the permutation matrix to change order of
     orig_vec into order of per_vec.

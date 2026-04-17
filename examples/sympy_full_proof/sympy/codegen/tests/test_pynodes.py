@@ -20,16 +20,24 @@ from sympy.codegen.pynodes import List
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_List(), test_List produces the expected output) over Any ║
+# ║ Path(test_List(), l == List(2, 3, 4) and str(l) == '[2, 3, 4]' and m == [x ** 2, y - 3, z - 4]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_List : Any → {Any | l == List(2, 3, 4) and str(l...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  l == List(2, 3, 4)                             ║
+# ║   ensures:  str(l) == '[2, 3, 4]'                          ║
+# ║   ensures:  m == [x ** 2, y - 3, z - 4]                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_List : Any → {Any | result satisfies: l == List(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 438b9390846cce79  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b55c9bb3a6a0dd5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_pynodes.test_List","kind":"function","src_hash":"dc56b7d5d848b98b","in":{"base":"Any"},"out":{"base":"Any","pred":"l == List(2, 3, 4) and str(l) == '[2, 3, 4]' and m == [x ** 2, y - 3, z - 4]"},"spec":{"lhs":"test_List()","rhs":"test_List produces the expected output","over":{"base":"Any"},"name":"test_List_correct"},"guarantee":"test_List produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_pynodes.test_List_correct","statement":"Path(test_List(x), test_List produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"438b9390846cce79"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_pynodes.test_List","kind":"function","src_hash":"dc56b7d5d848b98b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: l == List(2, 3, 4) and str(l) == '[2, 3, 4]' and m == [x ** 2, y - 3, z - 4]"},"spec":{"lhs":"test_List()","rhs":"l == List(2, 3, 4) and str(l) == '[2, 3, 4]' and m == [x ** 2, y - 3, z - 4]","over":{"base":"Any"},"name":"test_List_correct"},"guarantee":"l == List(2, 3, 4); str(l) == '[2, 3, 4]'; m == [x ** 2, y - 3, z - 4]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_pynodes.test_List_correct","statement":"Path(test_List(x), l == List(2, 3, 4); str(l) == '[2, 3, 4]'; m == [x ** 2, y - 3, z - 4])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b55c9bb3a6a0dd5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["l == List(2, 3, 4)","str(l) == '[2, 3, 4]'","m == [x ** 2, y - 3, z - 4]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_List():
     l = List(2, 3, 4)
     assert l == List(2, 3, 4)

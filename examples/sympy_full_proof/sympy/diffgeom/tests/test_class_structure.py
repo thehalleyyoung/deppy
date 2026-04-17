@@ -31,16 +31,22 @@ v1, v2 = cs.base_vectors()
 f1, f2 = cs.base_oneforms()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_point(), test_point produces the expected output) over Any ║
+# ║ Path(test_point(), point != Point(cs, [2, y])) over Any    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_point : Any → {Any | point != Point(cs, [2, y])}      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  point != Point(cs, [2, y])                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_point : Any → {Any | result satisfies: point != ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4414df2f44da9175  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ba7fa732b853c26  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.tests.test_class_structure.test_point","kind":"function","src_hash":"f90e5268dd9acdb9","in":{"base":"Any"},"out":{"base":"Any","pred":"point != Point(cs, [2, y])"},"spec":{"lhs":"test_point()","rhs":"test_point produces the expected output","over":{"base":"Any"},"name":"test_point_correct"},"guarantee":"test_point produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.tests.test_class_structure.test_point_correct","statement":"Path(test_point(x), test_point produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4414df2f44da9175"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.tests.test_class_structure.test_point","kind":"function","src_hash":"f90e5268dd9acdb9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: point != Point(cs, [2, y])"},"spec":{"lhs":"test_point()","rhs":"point != Point(cs, [2, y])","over":{"base":"Any"},"name":"test_point_correct"},"guarantee":"point != Point(cs, [2, y])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.tests.test_class_structure.test_point_correct","statement":"Path(test_point(x), point != Point(cs, [2, y]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ba7fa732b853c26","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["point != Point(cs, [2, y])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_point():
     point = Point(cs, [x, y])
     assert point != Point(cs, [2, y])
@@ -48,16 +54,24 @@ def test_point():
     #TODO assert point.free_symbols == set([x, y])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_subs(), test_subs produces the expected output) over Any ║
+# ║ Path(test_subs(), s1.subs(s1, s2) == s2 and v1.subs(v1, v2) == v2 and f1.subs(f1, f2) == f2 and (x * f(s1) + y).subs(s1, s2) == x * f(s2) + y and (f(s1) * v1).subs(v1, v2) == f(s1) * v2 and (y * f(s1) * f1).subs(f1, f2) == y * f(s1) * f2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_subs : Any → {Any | s1.subs(s1, s2) == s2 and v1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  s1.subs(s1, s2) == s2                          ║
+# ║   ensures:  v1.subs(v1, v2) == v2                          ║
+# ║   ensures:  f1.subs(f1, f2) == f2                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_subs : Any → {Any | result satisfies: s1.subs(s1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d238d3cc24b0f932  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64088ce2eb0531b8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.tests.test_class_structure.test_subs","kind":"function","src_hash":"555ac57a8c9398c5","in":{"base":"Any"},"out":{"base":"Any","pred":"s1.subs(s1, s2) == s2 and v1.subs(v1, v2) == v2 and f1.subs(f1, f2) == f2 and (x * f(s1) + y).subs(s1, s2) == x * f(s2) + y and (f(s1) * v1).subs(v1, v2) == f(s1) * v2 and (y * f(s1) * f1).subs(f1, f2) == y * f(s1) * f2"},"spec":{"lhs":"test_subs()","rhs":"test_subs produces the expected output","over":{"base":"Any"},"name":"test_subs_correct"},"guarantee":"test_subs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.tests.test_class_structure.test_subs_correct","statement":"Path(test_subs(x), test_subs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d238d3cc24b0f932"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.tests.test_class_structure.test_subs","kind":"function","src_hash":"555ac57a8c9398c5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: s1.subs(s1, s2) == s2 and v1.subs(v1, v2) == v2 and f1.subs(f1, f2) == f2 and (x * f(s1) + y).subs(s1, s2) == x * f(s2) + y and (f(s1) * v1).subs(v1, v2) == f(s1) * v2 and (y * f(s1) * f1).subs(f1, f2) == y * f(s1) * f2"},"spec":{"lhs":"test_subs()","rhs":"s1.subs(s1, s2) == s2 and v1.subs(v1, v2) == v2 and f1.subs(f1, f2) == f2 and (x * f(s1) + y).subs(s1, s2) == x * f(s2) + y and (f(s1) * v1).subs(v1, v2) == f(s1) * v2 and (y * f(s1) * f1).subs(f1, f2) == y * f(s1) * f2","over":{"base":"Any"},"name":"test_subs_correct"},"guarantee":"s1.subs(s1, s2) == s2; v1.subs(v1, v2) == v2; f1.subs(f1, f2) == f2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.tests.test_class_structure.test_subs_correct","statement":"Path(test_subs(x), s1.subs(s1, s2) == s2; v1.subs(v1, v2) == v2; f1.subs(f1, f2) == f2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64088ce2eb0531b8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["s1.subs(s1, s2) == s2","v1.subs(v1, v2) == v2","f1.subs(f1, f2) == f2","(x * f(s1) + y).subs(s1, s2) == x * f(s2) + y","(f(s1) * v1).subs(v1, v2) == f(s1) * v2","(y * f(s1) * f1).subs(f1, f2) == y * f(s1) * f2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_subs():
     assert s1.subs(s1, s2) == s2
     assert v1.subs(v1, v2) == v2
@@ -67,16 +81,22 @@ def test_subs():
     assert (y*f(s1)*f1).subs(f1, f2) == y*f(s1)*f2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_deprecated(), test_deprecated produces the expected output) over Any ║
+# ║ Path(test_deprecated(), <unspecified:test_deprecated>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_deprecated : Any → {Any | cs_wname == cs_wname.f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2514544afaf8380f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.diffgeom.tests.test_class_structure.test_deprecated","kind":"function","src_hash":"49fd7bf09d3a3557","in":{"base":"Any"},"out":{"base":"Any","pred":"cs_wname == cs_wname.func(*cs_wname.args)"},"spec":{"lhs":"test_deprecated()","rhs":"test_deprecated produces the expected output","over":{"base":"Any"},"name":"test_deprecated_correct"},"guarantee":"test_deprecated produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.tests.test_class_structure.test_deprecated_correct","statement":"Path(test_deprecated(x), test_deprecated produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2514544afaf8380f"}
+# @cctt_verify {"v":2,"sym":"sympy.diffgeom.tests.test_class_structure.test_deprecated","kind":"function","src_hash":"49fd7bf09d3a3557","in":{"base":"Any"},"out":{"base":"Any","pred":"cs_wname == cs_wname.func(*cs_wname.args)"},"spec":{"lhs":"test_deprecated()","rhs":"<unspecified:test_deprecated>","over":{"base":"Any"},"name":"test_deprecated_correct"},"guarantee":"test_deprecated produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.diffgeom.tests.test_class_structure.test_deprecated_correct","statement":"Path(test_deprecated(x), test_deprecated produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2514544afaf8380f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_deprecated():
     with warns_deprecated_sympy():
         cs_wname = CoordSystem('cs', p, ['a', 'b'])

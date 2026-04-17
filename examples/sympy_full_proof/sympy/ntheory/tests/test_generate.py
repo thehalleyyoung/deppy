@@ -27,16 +27,24 @@ from sympy.ntheory.primetest import mr
 from sympy.testing.pytest import raises
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_prime(), test_prime produces the expected output) over Any ║
+# ║ Path(test_prime(), prime(1) == 2 and prime(2) == 3 and prime(5) == 11 and prime(11) == 31 and prime(57) == 269 and prime(296) == 1949 and prime(559) == 4051 and prime(3000) == 27449 and prime(4096) == 38873 and prime(9096) == 94321 and prime(25023) == 287341 and prime(10000000) == 179424673 and prime(99999999) == 2038074739 and prime(401) == 2749) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_prime : Any → {Any | prime(1) == 2 and prime(2) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  prime(1) == 2                                  ║
+# ║   ensures:  prime(2) == 3                                  ║
+# ║   ensures:  prime(5) == 11                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_prime : Any → {Any | result satisfies: prime(1) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3a236353e126bc8f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0247be3aadfdf922  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_generate.test_prime","kind":"function","src_hash":"5e751640a7aff5a4","in":{"base":"Any"},"out":{"base":"Any","pred":"prime(1) == 2 and prime(2) == 3 and prime(5) == 11 and prime(11) == 31 and prime(57) == 269 and prime(296) == 1949 and prime(559) == 4051 and prime(3000) == 27449 and prime(4096) == 38873 and prime(9096) == 94321 and prime(25023) == 287341 and prime(10000000) == 179424673 and prime(99999999) == 2038074739 and prime(401) == 2749"},"spec":{"lhs":"test_prime()","rhs":"test_prime produces the expected output","over":{"base":"Any"},"name":"test_prime_correct"},"guarantee":"test_prime produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_generate.test_prime_correct","statement":"Path(test_prime(x), test_prime produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a236353e126bc8f"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_generate.test_prime","kind":"function","src_hash":"5e751640a7aff5a4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: prime(1) == 2 and prime(2) == 3 and prime(5) == 11 and prime(11) == 31 and prime(57) == 269 and prime(296) == 1949 and prime(559) == 4051 and prime(3000) == 27449 and prime(4096) == 38873 and prime(9096) == 94321 and prime(25023) == 287341 and prime(10000000) == 179424673 and prime(99999999) == 2038074739 and prime(401) == 2749"},"spec":{"lhs":"test_prime()","rhs":"prime(1) == 2 and prime(2) == 3 and prime(5) == 11 and prime(11) == 31 and prime(57) == 269 and prime(296) == 1949 and prime(559) == 4051 and prime(3000) == 27449 and prime(4096) == 38873 and prime(9096) == 94321 and prime(25023) == 287341 and prime(10000000) == 179424673 and prime(99999999) == 2038074739 and prime(401) == 2749","over":{"base":"Any"},"name":"test_prime_correct"},"guarantee":"prime(1) == 2; prime(2) == 3; prime(5) == 11","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_generate.test_prime_correct","statement":"Path(test_prime(x), prime(1) == 2; prime(2) == 3; prime(5) == 11)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0247be3aadfdf922","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["prime(1) == 2","prime(2) == 3","prime(5) == 11","prime(11) == 31","prime(57) == 269","prime(296) == 1949","prime(559) == 4051","prime(3000) == 27449","prime(4096) == 38873","prime(9096) == 94321","prime(25023) == 287341","prime(10000000) == 179424673","prime(99999999) == 2038074739","prime(401) == 2749"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_prime():
     assert prime(1) == 2
     assert prime(2) == 3
@@ -58,16 +66,24 @@ def test_prime():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test__primepi(), test__primepi produces the expected output) over Any ║
+# ║ Path(test__primepi(), _primepi(-1) == 0 and _primepi(1) == 0 and _primepi(2) == 1 and _primepi(5) == 3 and _primepi(11) == 5 and _primepi(57) == 16 and _primepi(296) == 62 and _primepi(559) == 102 and _primepi(3000) == 430 and _primepi(4096) == 564 and _primepi(9096) == 1128 and _primepi(25023) == 2763 and _primepi(10 ** 8) == 5761455 and _primepi(253425253) == 13856396 and _primepi(8769575643) == 401464322 and _primepi(2000) == 303) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test__primepi : Any → {Any | _primepi(-1) == 0 and _p...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _primepi(-1) == 0                              ║
+# ║   ensures:  _primepi(1) == 0                               ║
+# ║   ensures:  _primepi(2) == 1                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test__primepi : Any → {Any | result satisfies: _prime...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b30590d096eac61d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f3492ada071f8fe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_generate.test__primepi","kind":"function","src_hash":"de80a48bca139e97","in":{"base":"Any"},"out":{"base":"Any","pred":"_primepi(-1) == 0 and _primepi(1) == 0 and _primepi(2) == 1 and _primepi(5) == 3 and _primepi(11) == 5 and _primepi(57) == 16 and _primepi(296) == 62 and _primepi(559) == 102 and _primepi(3000) == 430 and _primepi(4096) == 564 and _primepi(9096) == 1128 and _primepi(25023) == 2763 and _primepi(10 ** 8) == 5761455 and _primepi(253425253) == 13856396 and _primepi(8769575643) == 401464322 and _primepi(2000) == 303"},"spec":{"lhs":"test__primepi()","rhs":"test__primepi produces the expected output","over":{"base":"Any"},"name":"test__primepi_correct"},"guarantee":"test__primepi produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_generate.test__primepi_correct","statement":"Path(test__primepi(x), test__primepi produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b30590d096eac61d"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_generate.test__primepi","kind":"function","src_hash":"de80a48bca139e97","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _primepi(-1) == 0 and _primepi(1) == 0 and _primepi(2) == 1 and _primepi(5) == 3 and _primepi(11) == 5 and _primepi(57) == 16 and _primepi(296) == 62 and _primepi(559) == 102 and _primepi(3000) == 430 and _primepi(4096) == 564 and _primepi(9096) == 1128 and _primepi(25023) == 2763 and _primepi(10 ** 8) == 5761455 and _primepi(253425253) == 13856396 and _primepi(8769575643) == 401464322 and _primepi(2000) == 303"},"spec":{"lhs":"test__primepi()","rhs":"_primepi(-1) == 0 and _primepi(1) == 0 and _primepi(2) == 1 and _primepi(5) == 3 and _primepi(11) == 5 and _primepi(57) == 16 and _primepi(296) == 62 and _primepi(559) == 102 and _primepi(3000) == 430 and _primepi(4096) == 564 and _primepi(9096) == 1128 and _primepi(25023) == 2763 and _primepi(10 ** 8) == 5761455 and _primepi(253425253) == 13856396 and _primepi(8769575643) == 401464322 and _primepi(2000) == 303","over":{"base":"Any"},"name":"test__primepi_correct"},"guarantee":"_primepi(-1) == 0; _primepi(1) == 0; _primepi(2) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_generate.test__primepi_correct","statement":"Path(test__primepi(x), _primepi(-1) == 0; _primepi(1) == 0; _primepi(2) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f3492ada071f8fe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_primepi(-1) == 0","_primepi(1) == 0","_primepi(2) == 1","_primepi(5) == 3","_primepi(11) == 5","_primepi(57) == 16","_primepi(296) == 62","_primepi(559) == 102","_primepi(3000) == 430","_primepi(4096) == 564","_primepi(9096) == 1128","_primepi(25023) == 2763","_primepi(10 ** 8) == 5761455","_primepi(253425253) == 13856396","_primepi(8769575643) == 401464322","_primepi(2000) == 303"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test__primepi():
     assert _primepi(-1) == 0
     assert _primepi(1) == 0
@@ -89,16 +105,24 @@ def test__primepi():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_composite(), test_composite produces the expected output) over Any ║
+# ║ Path(test_composite(), composite(1) == 4 and composite(2) == 6 and composite(5) == 10 and composite(11) == 20 and composite(41) == 58 and composite(57) == 80 and composite(296) == 370 and composite(559) == 684 and composite(3000) == 3488 and composite(4096) == 4736 and composite(9096) == 10368 and composite(25023) == 28088 and composite(1957) == 2300 and composite(2568) == 2998) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_composite : Any → {Any | composite(1) == 4 and c...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  composite(1) == 4                              ║
+# ║   ensures:  composite(2) == 6                              ║
+# ║   ensures:  composite(5) == 10                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_composite : Any → {Any | result satisfies: compo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eaf0553e4e6cc736  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5b3afccd9ec8fc1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_generate.test_composite","kind":"function","src_hash":"d4b9b69eda0e4820","in":{"base":"Any"},"out":{"base":"Any","pred":"composite(1) == 4 and composite(2) == 6 and composite(5) == 10 and composite(11) == 20 and composite(41) == 58 and composite(57) == 80 and composite(296) == 370 and composite(559) == 684 and composite(3000) == 3488 and composite(4096) == 4736 and composite(9096) == 10368 and composite(25023) == 28088 and composite(1957) == 2300 and composite(2568) == 2998"},"spec":{"lhs":"test_composite()","rhs":"test_composite produces the expected output","over":{"base":"Any"},"name":"test_composite_correct"},"guarantee":"test_composite produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_generate.test_composite_correct","statement":"Path(test_composite(x), test_composite produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eaf0553e4e6cc736"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_generate.test_composite","kind":"function","src_hash":"d4b9b69eda0e4820","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: composite(1) == 4 and composite(2) == 6 and composite(5) == 10 and composite(11) == 20 and composite(41) == 58 and composite(57) == 80 and composite(296) == 370 and composite(559) == 684 and composite(3000) == 3488 and composite(4096) == 4736 and composite(9096) == 10368 and composite(25023) == 28088 and composite(1957) == 2300 and composite(2568) == 2998"},"spec":{"lhs":"test_composite()","rhs":"composite(1) == 4 and composite(2) == 6 and composite(5) == 10 and composite(11) == 20 and composite(41) == 58 and composite(57) == 80 and composite(296) == 370 and composite(559) == 684 and composite(3000) == 3488 and composite(4096) == 4736 and composite(9096) == 10368 and composite(25023) == 28088 and composite(1957) == 2300 and composite(2568) == 2998","over":{"base":"Any"},"name":"test_composite_correct"},"guarantee":"composite(1) == 4; composite(2) == 6; composite(5) == 10","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_generate.test_composite_correct","statement":"Path(test_composite(x), composite(1) == 4; composite(2) == 6; composite(5) == 10)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5b3afccd9ec8fc1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["composite(1) == 4","composite(2) == 6","composite(5) == 10","composite(11) == 20","composite(41) == 58","composite(57) == 80","composite(296) == 370","composite(559) == 684","composite(3000) == 3488","composite(4096) == 4736","composite(9096) == 10368","composite(25023) == 28088","composite(1957) == 2300","composite(2568) == 2998"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_composite():
     from sympy.ntheory.generate import sieve
     sieve._reset()
@@ -121,16 +145,24 @@ def test_composite():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_compositepi(), test_compositepi produces the expected output) over Any ║
+# ║ Path(test_compositepi(), compositepi(1) == 0 and compositepi(2) == 0 and compositepi(5) == 1 and compositepi(11) == 5 and compositepi(57) == 40 and compositepi(296) == 233 and compositepi(559) == 456 and compositepi(3000) == 2569 and compositepi(4096) == 3531 and compositepi(9096) == 7967 and compositepi(25023) == 22259 and compositepi(10 ** 8) == 94238544 and compositepi(253425253) == 239568856 and compositepi(8769575643) == 8368111320 and compositepi(2321) == 1976) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_compositepi : Any → {Any | compositepi(1) == 0 a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  compositepi(1) == 0                            ║
+# ║   ensures:  compositepi(2) == 0                            ║
+# ║   ensures:  compositepi(5) == 1                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_compositepi : Any → {Any | result satisfies: com...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 12c4ed893d45674f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 489e9097d32fb6b1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_generate.test_compositepi","kind":"function","src_hash":"2127e503ea7be3a1","in":{"base":"Any"},"out":{"base":"Any","pred":"compositepi(1) == 0 and compositepi(2) == 0 and compositepi(5) == 1 and compositepi(11) == 5 and compositepi(57) == 40 and compositepi(296) == 233 and compositepi(559) == 456 and compositepi(3000) == 2569 and compositepi(4096) == 3531 and compositepi(9096) == 7967 and compositepi(25023) == 22259 and compositepi(10 ** 8) == 94238544 and compositepi(253425253) == 239568856 and compositepi(8769575643) == 8368111320 and compositepi(2321) == 1976"},"spec":{"lhs":"test_compositepi()","rhs":"test_compositepi produces the expected output","over":{"base":"Any"},"name":"test_compositepi_correct"},"guarantee":"test_compositepi produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_generate.test_compositepi_correct","statement":"Path(test_compositepi(x), test_compositepi produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12c4ed893d45674f"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_generate.test_compositepi","kind":"function","src_hash":"2127e503ea7be3a1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: compositepi(1) == 0 and compositepi(2) == 0 and compositepi(5) == 1 and compositepi(11) == 5 and compositepi(57) == 40 and compositepi(296) == 233 and compositepi(559) == 456 and compositepi(3000) == 2569 and compositepi(4096) == 3531 and compositepi(9096) == 7967 and compositepi(25023) == 22259 and compositepi(10 ** 8) == 94238544 and compositepi(253425253) == 239568856 and compositepi(8769575643) == 8368111320 and compositepi(2321) == 1976"},"spec":{"lhs":"test_compositepi()","rhs":"compositepi(1) == 0 and compositepi(2) == 0 and compositepi(5) == 1 and compositepi(11) == 5 and compositepi(57) == 40 and compositepi(296) == 233 and compositepi(559) == 456 and compositepi(3000) == 2569 and compositepi(4096) == 3531 and compositepi(9096) == 7967 and compositepi(25023) == 22259 and compositepi(10 ** 8) == 94238544 and compositepi(253425253) == 239568856 and compositepi(8769575643) == 8368111320 and compositepi(2321) == 1976","over":{"base":"Any"},"name":"test_compositepi_correct"},"guarantee":"compositepi(1) == 0; compositepi(2) == 0; compositepi(5) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_generate.test_compositepi_correct","statement":"Path(test_compositepi(x), compositepi(1) == 0; compositepi(2) == 0; compositepi(5) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"489e9097d32fb6b1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["compositepi(1) == 0","compositepi(2) == 0","compositepi(5) == 1","compositepi(11) == 5","compositepi(57) == 40","compositepi(296) == 233","compositepi(559) == 456","compositepi(3000) == 2569","compositepi(4096) == 3531","compositepi(9096) == 7967","compositepi(25023) == 22259","compositepi(10 ** 8) == 94238544","compositepi(253425253) == 239568856","compositepi(8769575643) == 8368111320","compositepi(2321) == 1976"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_compositepi():
     assert compositepi(1) == 0
     assert compositepi(2) == 0
@@ -151,16 +183,24 @@ def test_compositepi():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_generate(), test_generate produces the expected output) over Any ║
+# ║ Path(test_generate(), nextprime(-4) == 2 and nextprime(2) == 3 and nextprime(5) == 7 and nextprime(12) == 13 and prevprime(3) == 2 and prevprime(7) == 5 and prevprime(13) == 11 and prevprime(19) == 17 and prevprime(20) == 19 and sieve._list[-1] == 23 and sieve._list[-1] < 31 and 31 in sieve and nextprime(90) == 97 and nextprime(10 ** 40) == 10 ** 40 + 121 and prevprime(97) == 89 and prevprime(10 ** 40) == 10 ** 40 - 17 and list(sieve.primerange(10, 1)) == [] and list(sieve.primerange(5, 9)) == [5, 7] and list(sieve.primerange(2, 13)) == [2, 3, 5, 7, 11] and list(sieve.primerange(13)) == [2, 3, 5, 7, 11] and list(sieve.primerange(8)) == [2, 3, 5, 7] and list(sieve.primerange(-2)) == [] and list(sieve.primerange(29)) == [2, 3, 5, 7, 11, 13, 17, 19, 23] and list(sieve.primerange(34)) == [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31] and list(sieve.totientrange(5, 15)) == [4, 2, 6, 4, 6, 4, 10, 4, 12, 6] and list(sieve.totientrange(3, 13)) == [2, 2, 4, 2, 6, 4, 6, 4, 10, 4] and list(sieve.totientrange(900, 1000)) == [totient(x) for x in range(900, 1000)] and list(sieve.totientrange(0, 1)) == [] and list(sieve.totientrange(1, 2)) == [1] and list(sieve.mobiusrange(5, 15)) == [-1, 1, -1, 0, 0, 1, -1, 0, -1, 1] and list(sieve.mobiusrange(3, 13)) == [-1, 0, -1, 1, -1, 0, 0, 1, -1, 0] and list(sieve.mobiusrange(1050, 1100)) == [mobius(x) for x in range(1050, 1100)] and list(sieve.mobiusrange(0, 1)) == [] and list(sieve.mobiusrange(1, 2)) == [1] and list(primerange(10, 1)) == [] and list(primerange(2, 7)) == [2, 3, 5] and list(primerange(2, 10)) == [2, 3, 5, 7] and list(primerange(1050, 1100)) == [1051, 1061, 1063, 1069, 1087, 1091, 1093, 1097] and len(sieve._list) == len(set(sieve._list)) and s[10] == 29 and nextprime(2, 2) == 5 and mr(1, [2]) is False and next(cycle_length(func, 4)) == (6, 3) and list(cycle_length(func, 4, values=True)) == [4, 17, 35, 2, 5, 26, 14, 44, 50, 2, 5, 26, 14] and next(cycle_length(func, 4, nmax=5)) == (5, None) and list(cycle_length(func, 4, nmax=5, values=True)) == [4, 17, 35, 2, 5] and nextprime(2968) == 2969 and prevprime(2930) == 2927) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_generate : Any → {Any | nextprime(-4) == 2 and n...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  nextprime(-4) == 2                             ║
+# ║   ensures:  nextprime(2) == 3                              ║
+# ║   ensures:  nextprime(5) == 7                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_generate : Any → {Any | result satisfies: nextpr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 528f0a243f0de30e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f48fda73e38152a1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_generate.test_generate","kind":"function","src_hash":"0c41b385a29a0635","in":{"base":"Any"},"out":{"base":"Any","pred":"nextprime(-4) == 2 and nextprime(2) == 3 and nextprime(5) == 7 and nextprime(12) == 13 and prevprime(3) == 2 and prevprime(7) == 5 and prevprime(13) == 11 and prevprime(19) == 17 and prevprime(20) == 19 and sieve._list[-1] == 23 and sieve._list[-1] < 31 and 31 in sieve and nextprime(90) == 97 and nextprime(10 ** 40) == 10 ** 40 + 121 and prevprime(97) == 89 and prevprime(10 ** 40) == 10 ** 40 - 17 and list(sieve.primerange(10, 1)) == [] and list(sieve.primerange(5, 9)) == [5, 7] and list(sieve.primerange(2, 13)) == [2, 3, 5, 7, 11] and list(sieve.primerange(13)) == [2, 3, 5, 7, 11] and list(sieve.primerange(8)) == [2, 3, 5, 7] and list(sieve.primerange(-2)) == [] and list(sieve.primerange(29)) == [2, 3, 5, 7, 11, 13, 17, 19, 23] and list(sieve.primerange(34)) == [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31] and list(sieve.totientrange(5, 15)) == [4, 2, 6, 4, 6, 4, 10, 4, 12, 6] and list(sieve.totientrange(3, 13)) == [2, 2, 4, 2, 6, 4, 6, 4, 10, 4] and list(sieve.totientrange(900, 1000)) == [totient(x) for x in range(900, 1000)] and list(sieve.totientrange(0, 1)) == [] and list(sieve.totientrange(1, 2)) == [1] and list(sieve.mobiusrange(5, 15)) == [-1, 1, -1, 0, 0, 1, -1, 0, -1, 1] and list(sieve.mobiusrange(3, 13)) == [-1, 0, -1, 1, -1, 0, 0, 1, -1, 0] and list(sieve.mobiusrange(1050, 1100)) == [mobius(x) for x in range(1050, 1100)] and list(sieve.mobiusrange(0, 1)) == [] and list(sieve.mobiusrange(1, 2)) == [1] and list(primerange(10, 1)) == [] and list(primerange(2, 7)) == [2, 3, 5] and list(primerange(2, 10)) == [2, 3, 5, 7] and len(sieve._list) == len(set(sieve._list)) and s[10] == 29 and nextprime(2, 2) == 5 and mr(1, [2]) is False and next(cycle_length(func, 4)) == (6, 3) and next(cycle_length(func, 4, nmax=5)) == (5, None) and list(cycle_length(func, 4, nmax=5, values=True)) == [4, 17, 35, 2, 5] and nextprime(2968) == 2969 and prevprime(2930) == 2927 and list(primerange(a, b)) == list(s.primerange(a, b)) and nextprime(primelist[i], j) == primelist[i + j] and list(s._list) == primelist[:bisect(primelist, k)] and list(s._list) == primelist and A == B and A == B and nextprime(primelist[i] - 1, j) == primelist[i + j - 1] and A == B"},"spec":{"lhs":"test_generate()","rhs":"test_generate produces the expected output","over":{"base":"Any"},"name":"test_generate_correct"},"guarantee":"test_generate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_generate.test_generate_correct","statement":"Path(test_generate(x), test_generate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"528f0a243f0de30e"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_generate.test_generate","kind":"function","src_hash":"0c41b385a29a0635","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: nextprime(-4) == 2 and nextprime(2) == 3 and nextprime(5) == 7 and nextprime(12) == 13 and prevprime(3) == 2 and prevprime(7) == 5 and prevprime(13) == 11 and prevprime(19) == 17 and prevprime(20) == 19 and sieve._list[-1] == 23 and sieve._list[-1] < 31 and 31 in sieve and nextprime(90) == 97 and nextprime(10 ** 40) == 10 ** 40 + 121 and prevprime(97) == 89 and prevprime(10 ** 40) == 10 ** 40 - 17 and list(sieve.primerange(10, 1)) == [] and list(sieve.primerange(5, 9)) == [5, 7] and list(sieve.primerange(2, 13)) == [2, 3, 5, 7, 11] and list(sieve.primerange(13)) == [2, 3, 5, 7, 11] and list(sieve.primerange(8)) == [2, 3, 5, 7] and list(sieve.primerange(-2)) == [] and list(sieve.primerange(29)) == [2, 3, 5, 7, 11, 13, 17, 19, 23] and list(sieve.primerange(34)) == [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31] and list(sieve.totientrange(5, 15)) == [4, 2, 6, 4, 6, 4, 10, 4, 12, 6] and list(sieve.totientrange(3, 13)) == [2, 2, 4, 2, 6, 4, 6, 4, 10, 4] and list(sieve.totientrange(900, 1000)) == [totient(x) for x in range(900, 1000)] and list(sieve.totientrange(0, 1)) == [] and list(sieve.totientrange(1, 2)) == [1] and list(sieve.mobiusrange(5, 15)) == [-1, 1, -1, 0, 0, 1, -1, 0, -1, 1] and list(sieve.mobiusrange(3, 13)) == [-1, 0, -1, 1, -1, 0, 0, 1, -1, 0] and list(sieve.mobiusrange(1050, 1100)) == [mobius(x) for x in range(1050, 1100)] and list(sieve.mobiusrange(0, 1)) == [] and list(sieve.mobiusrange(1, 2)) == [1] and list(primerange(10, 1)) == [] and list(primerange(2, 7)) == [2, 3, 5] and list(primerange(2, 10)) == [2, 3, 5, 7] and list(primerange(1050, 1100)) == [1051, 1061, 1063, 1069, 1087, 1091, 1093, 1097] and len(sieve._list) == len(set(sieve._list)) and s[10] == 29 and nextprime(2, 2) == 5 and mr(1, [2]) is False and next(cycle_length(func, 4)) == (6, 3) and list(cycle_length(func, 4, values=True)) == [4, 17, 35, 2, 5, 26, 14, 44, 50, 2, 5, 26, 14] and next(cycle_length(func, 4, nmax=5)) == (5, None) and list(cycle_length(func, 4, nmax=5, values=True)) == [4, 17, 35, 2, 5] and nextprime(2968) == 2969 and prevprime(2930) == 2927"},"spec":{"lhs":"test_generate()","rhs":"nextprime(-4) == 2 and nextprime(2) == 3 and nextprime(5) == 7 and nextprime(12) == 13 and prevprime(3) == 2 and prevprime(7) == 5 and prevprime(13) == 11 and prevprime(19) == 17 and prevprime(20) == 19 and sieve._list[-1] == 23 and sieve._list[-1] < 31 and 31 in sieve and nextprime(90) == 97 and nextprime(10 ** 40) == 10 ** 40 + 121 and prevprime(97) == 89 and prevprime(10 ** 40) == 10 ** 40 - 17 and list(sieve.primerange(10, 1)) == [] and list(sieve.primerange(5, 9)) == [5, 7] and list(sieve.primerange(2, 13)) == [2, 3, 5, 7, 11] and list(sieve.primerange(13)) == [2, 3, 5, 7, 11] and list(sieve.primerange(8)) == [2, 3, 5, 7] and list(sieve.primerange(-2)) == [] and list(sieve.primerange(29)) == [2, 3, 5, 7, 11, 13, 17, 19, 23] and list(sieve.primerange(34)) == [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31] and list(sieve.totientrange(5, 15)) == [4, 2, 6, 4, 6, 4, 10, 4, 12, 6] and list(sieve.totientrange(3, 13)) == [2, 2, 4, 2, 6, 4, 6, 4, 10, 4] and list(sieve.totientrange(900, 1000)) == [totient(x) for x in range(900, 1000)] and list(sieve.totientrange(0, 1)) == [] and list(sieve.totientrange(1, 2)) == [1] and list(sieve.mobiusrange(5, 15)) == [-1, 1, -1, 0, 0, 1, -1, 0, -1, 1] and list(sieve.mobiusrange(3, 13)) == [-1, 0, -1, 1, -1, 0, 0, 1, -1, 0] and list(sieve.mobiusrange(1050, 1100)) == [mobius(x) for x in range(1050, 1100)] and list(sieve.mobiusrange(0, 1)) == [] and list(sieve.mobiusrange(1, 2)) == [1] and list(primerange(10, 1)) == [] and list(primerange(2, 7)) == [2, 3, 5] and list(primerange(2, 10)) == [2, 3, 5, 7] and list(primerange(1050, 1100)) == [1051, 1061, 1063, 1069, 1087, 1091, 1093, 1097] and len(sieve._list) == len(set(sieve._list)) and s[10] == 29 and nextprime(2, 2) == 5 and mr(1, [2]) is False and next(cycle_length(func, 4)) == (6, 3) and list(cycle_length(func, 4, values=True)) == [4, 17, 35, 2, 5, 26, 14, 44, 50, 2, 5, 26, 14] and next(cycle_length(func, 4, nmax=5)) == (5, None) and list(cycle_length(func, 4, nmax=5, values=True)) == [4, 17, 35, 2, 5] and nextprime(2968) == 2969 and prevprime(2930) == 2927","over":{"base":"Any"},"name":"test_generate_correct"},"guarantee":"nextprime(-4) == 2; nextprime(2) == 3; nextprime(5) == 7","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_generate.test_generate_correct","statement":"Path(test_generate(x), nextprime(-4) == 2; nextprime(2) == 3; nextprime(5) == 7)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f48fda73e38152a1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["nextprime(-4) == 2","nextprime(2) == 3","nextprime(5) == 7","nextprime(12) == 13","prevprime(3) == 2","prevprime(7) == 5","prevprime(13) == 11","prevprime(19) == 17","prevprime(20) == 19","sieve._list[-1] == 23","sieve._list[-1] < 31","31 in sieve","nextprime(90) == 97","nextprime(10 ** 40) == 10 ** 40 + 121","prevprime(97) == 89","prevprime(10 ** 40) == 10 ** 40 - 17","list(sieve.primerange(10, 1)) == []","list(sieve.primerange(5, 9)) == [5, 7]","list(sieve.primerange(2, 13)) == [2, 3, 5, 7, 11]","list(sieve.primerange(13)) == [2, 3, 5, 7, 11]","list(sieve.primerange(8)) == [2, 3, 5, 7]","list(sieve.primerange(-2)) == []","list(sieve.primerange(29)) == [2, 3, 5, 7, 11, 13, 17, 19, 23]","list(sieve.primerange(34)) == [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31]","list(sieve.totientrange(5, 15)) == [4, 2, 6, 4, 6, 4, 10, 4, 12, 6]","list(sieve.totientrange(3, 13)) == [2, 2, 4, 2, 6, 4, 6, 4, 10, 4]","list(sieve.totientrange(900, 1000)) == [totient(x) for x in range(900, 1000)]","list(sieve.totientrange(0, 1)) == []","list(sieve.totientrange(1, 2)) == [1]","list(sieve.mobiusrange(5, 15)) == [-1, 1, -1, 0, 0, 1, -1, 0, -1, 1]","list(sieve.mobiusrange(3, 13)) == [-1, 0, -1, 1, -1, 0, 0, 1, -1, 0]","list(sieve.mobiusrange(1050, 1100)) == [mobius(x) for x in range(1050, 1100)]","list(sieve.mobiusrange(0, 1)) == []","list(sieve.mobiusrange(1, 2)) == [1]","list(primerange(10, 1)) == []","list(primerange(2, 7)) == [2, 3, 5]","list(primerange(2, 10)) == [2, 3, 5, 7]","list(primerange(1050, 1100)) == [1051, 1061, 1063, 1069, 1087, 1091, 1093, 1097]","len(sieve._list) == len(set(sieve._list))","s[10] == 29","nextprime(2, 2) == 5","mr(1, [2]) is False","next(cycle_length(func, 4)) == (6, 3)","list(cycle_length(func, 4, values=True)) == [4, 17, 35, 2, 5, 26, 14, 44, 50, 2, 5, 26, 14]","next(cycle_length(func, 4, nmax=5)) == (5, None)","list(cycle_length(func, 4, nmax=5, values=True)) == [4, 17, 35, 2, 5]","nextprime(2968) == 2969","prevprime(2930) == 2927"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"assumed","binding":true}}
 def test_generate():
     from sympy.ntheory.generate import sieve
     sieve._reset()
@@ -295,16 +335,24 @@ def test_generate():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_randprime(), test_randprime produces the expected output) over Any ║
+# ║ Path(test_randprime(), randprime(10, 1) is None and randprime(3, -3) is None and randprime(2, 3) == 2 and randprime(1, 3) == 2 and randprime(3, 5) == 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_randprime : Any → {Any | randprime(10, 1) is Non...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  randprime(10, 1) is None                       ║
+# ║   ensures:  randprime(3, -3) is None                       ║
+# ║   ensures:  randprime(2, 3) == 2                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_randprime : Any → {Any | result satisfies: randp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c031ecb2dda1cdf6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d16a21325de5148a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_generate.test_randprime","kind":"function","src_hash":"41691321cce29eaf","in":{"base":"Any"},"out":{"base":"Any","pred":"randprime(10, 1) is None and randprime(3, -3) is None and randprime(2, 3) == 2 and randprime(1, 3) == 2 and randprime(3, 5) == 3 and a <= p < a + b and isprime(p)"},"spec":{"lhs":"test_randprime()","rhs":"test_randprime produces the expected output","over":{"base":"Any"},"name":"test_randprime_correct"},"guarantee":"test_randprime produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_generate.test_randprime_correct","statement":"Path(test_randprime(x), test_randprime produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c031ecb2dda1cdf6"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_generate.test_randprime","kind":"function","src_hash":"41691321cce29eaf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: randprime(10, 1) is None and randprime(3, -3) is None and randprime(2, 3) == 2 and randprime(1, 3) == 2 and randprime(3, 5) == 3"},"spec":{"lhs":"test_randprime()","rhs":"randprime(10, 1) is None and randprime(3, -3) is None and randprime(2, 3) == 2 and randprime(1, 3) == 2 and randprime(3, 5) == 3","over":{"base":"Any"},"name":"test_randprime_correct"},"guarantee":"randprime(10, 1) is None; randprime(3, -3) is None; randprime(2, 3) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_generate.test_randprime_correct","statement":"Path(test_randprime(x), randprime(10, 1) is None; randprime(3, -3) is None; randprime(2, 3) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d16a21325de5148a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["randprime(10, 1) is None","randprime(3, -3) is None","randprime(2, 3) == 2","randprime(1, 3) == 2","randprime(3, 5) == 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_randprime():
     assert randprime(10, 1) is None
     assert randprime(3, -3) is None
@@ -323,16 +371,24 @@ def test_randprime():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_primorial(), test_primorial produces the expected output) over Any ║
+# ║ Path(test_primorial(), primorial(1) == 2 and primorial(1, nth=0) == 1 and primorial(2) == 6 and primorial(2, nth=0) == 2 and primorial(4, nth=0) == 6) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_primorial : Any → {Any | primorial(1) == 2 and p...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  primorial(1) == 2                              ║
+# ║   ensures:  primorial(1, nth=0) == 1                       ║
+# ║   ensures:  primorial(2) == 6                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_primorial : Any → {Any | result satisfies: primo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a1b3910b69fca60f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ecc7f9714c04b11  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_generate.test_primorial","kind":"function","src_hash":"0b088e2b068f26cf","in":{"base":"Any"},"out":{"base":"Any","pred":"primorial(1) == 2 and primorial(1, nth=0) == 1 and primorial(2) == 6 and primorial(2, nth=0) == 2 and primorial(4, nth=0) == 6"},"spec":{"lhs":"test_primorial()","rhs":"test_primorial produces the expected output","over":{"base":"Any"},"name":"test_primorial_correct"},"guarantee":"test_primorial produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_generate.test_primorial_correct","statement":"Path(test_primorial(x), test_primorial produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1b3910b69fca60f"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_generate.test_primorial","kind":"function","src_hash":"0b088e2b068f26cf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: primorial(1) == 2 and primorial(1, nth=0) == 1 and primorial(2) == 6 and primorial(2, nth=0) == 2 and primorial(4, nth=0) == 6"},"spec":{"lhs":"test_primorial()","rhs":"primorial(1) == 2 and primorial(1, nth=0) == 1 and primorial(2) == 6 and primorial(2, nth=0) == 2 and primorial(4, nth=0) == 6","over":{"base":"Any"},"name":"test_primorial_correct"},"guarantee":"primorial(1) == 2; primorial(1, nth=0) == 1; primorial(2) == 6","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_generate.test_primorial_correct","statement":"Path(test_primorial(x), primorial(1) == 2; primorial(1, nth=0) == 1; primorial(2) == 6)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ecc7f9714c04b11","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["primorial(1) == 2","primorial(1, nth=0) == 1","primorial(2) == 6","primorial(2, nth=0) == 2","primorial(4, nth=0) == 6"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_primorial():
     assert primorial(1) == 2
     assert primorial(1, nth=0) == 1
@@ -342,16 +398,24 @@ def test_primorial():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_search(), test_search produces the expected output) over Any ║
+# ║ Path(test_search(), 2 in sieve and 2.1 not in sieve and 1 not in sieve and 2 ** 1000 not in sieve) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_search : Any → {Any | 2 in sieve and 2.1 not in ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  2 in sieve                                     ║
+# ║   ensures:  2.1 not in sieve                               ║
+# ║   ensures:  1 not in sieve                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_search : Any → {Any | result satisfies: 2 in sie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bf97fe8baeed3382  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4559fefd8c15346a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_generate.test_search","kind":"function","src_hash":"1ebbdd106d039ce9","in":{"base":"Any"},"out":{"base":"Any","pred":"2 in sieve and 2.1 not in sieve and 1 not in sieve and 2 ** 1000 not in sieve"},"spec":{"lhs":"test_search()","rhs":"test_search produces the expected output","over":{"base":"Any"},"name":"test_search_correct"},"guarantee":"test_search produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_generate.test_search_correct","statement":"Path(test_search(x), test_search produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf97fe8baeed3382"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_generate.test_search","kind":"function","src_hash":"1ebbdd106d039ce9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: 2 in sieve and 2.1 not in sieve and 1 not in sieve and 2 ** 1000 not in sieve"},"spec":{"lhs":"test_search()","rhs":"2 in sieve and 2.1 not in sieve and 1 not in sieve and 2 ** 1000 not in sieve","over":{"base":"Any"},"name":"test_search_correct"},"guarantee":"2 in sieve; 2.1 not in sieve; 1 not in sieve","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_generate.test_search_correct","statement":"Path(test_search(x), 2 in sieve; 2.1 not in sieve; 1 not in sieve)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4559fefd8c15346a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["2 in sieve","2.1 not in sieve","1 not in sieve","2 ** 1000 not in sieve"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_search():
     assert 2 in sieve
     assert 2.1 not in sieve
@@ -361,16 +425,24 @@ def test_search():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sieve_slice(), test_sieve_slice produces the expected output) over Any ║
+# ║ Path(test_sieve_slice(), sieve[5] == 11 and list(sieve[5:10]) == [sieve[x] for x in range(5, 10)] and list(sieve[5:10:2]) == [sieve[x] for x in range(5, 10, 2)] and list(sieve[1:5]) == [2, 3, 5, 7]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sieve_slice : Any → {Any | sieve[5] == 11 and li...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sieve[5] == 11                                 ║
+# ║   ensures:  list(sieve[5:10]) == [sieve[x] for x in r...   ║
+# ║   ensures:  list(sieve[5:10:2]) == [sieve[x] for x in...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sieve_slice : Any → {Any | result satisfies: sie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0f74816ca04e139  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 615f4b656f1cbc4d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_generate.test_sieve_slice","kind":"function","src_hash":"274b5dc25e9f0eaa","in":{"base":"Any"},"out":{"base":"Any","pred":"sieve[5] == 11 and list(sieve[5:10]) == [sieve[x] for x in range(5, 10)] and list(sieve[5:10:2]) == [sieve[x] for x in range(5, 10, 2)] and list(sieve[1:5]) == [2, 3, 5, 7]"},"spec":{"lhs":"test_sieve_slice()","rhs":"test_sieve_slice produces the expected output","over":{"base":"Any"},"name":"test_sieve_slice_correct"},"guarantee":"test_sieve_slice produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_generate.test_sieve_slice_correct","statement":"Path(test_sieve_slice(x), test_sieve_slice produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0f74816ca04e139"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_generate.test_sieve_slice","kind":"function","src_hash":"274b5dc25e9f0eaa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sieve[5] == 11 and list(sieve[5:10]) == [sieve[x] for x in range(5, 10)] and list(sieve[5:10:2]) == [sieve[x] for x in range(5, 10, 2)] and list(sieve[1:5]) == [2, 3, 5, 7]"},"spec":{"lhs":"test_sieve_slice()","rhs":"sieve[5] == 11 and list(sieve[5:10]) == [sieve[x] for x in range(5, 10)] and list(sieve[5:10:2]) == [sieve[x] for x in range(5, 10, 2)] and list(sieve[1:5]) == [2, 3, 5, 7]","over":{"base":"Any"},"name":"test_sieve_slice_correct"},"guarantee":"sieve[5] == 11; list(sieve[5:10]) == [sieve[x] for x in range(5, 10)]; list(sieve[5:10:2]) == [sieve[x] for x in range(5, 10, 2)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_generate.test_sieve_slice_correct","statement":"Path(test_sieve_slice(x), sieve[5] == 11; list(sieve[5:10]) == [sieve[x] for x in range(5, 10)]; list(sieve[5:10:2]) == [sieve[x] for x in range(5, 10, 2)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"615f4b656f1cbc4d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sieve[5] == 11","list(sieve[5:10]) == [sieve[x] for x in range(5, 10)]","list(sieve[5:10:2]) == [sieve[x] for x in range(5, 10, 2)]","list(sieve[1:5]) == [2, 3, 5, 7]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_sieve_slice():
     assert sieve[5] == 11
     assert list(sieve[5:10]) == [sieve[x] for x in range(5, 10)]
@@ -381,16 +453,22 @@ def test_sieve_slice():
     raises(IndexError, lambda: sieve[0:5])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sieve_iter(), test_sieve_iter produces the expected output) over Any ║
+# ║ Path(test_sieve_iter(), values == list(sieve[1:5])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sieve_iter : Any → {Any | values == list(sieve[1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  values == list(sieve[1:5])                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sieve_iter : Any → {Any | result satisfies: valu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4611945265c2b37f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a55c7458bf108d97  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_generate.test_sieve_iter","kind":"function","src_hash":"8d1acb8d2cec036a","in":{"base":"Any"},"out":{"base":"Any","pred":"values == list(sieve[1:5])"},"spec":{"lhs":"test_sieve_iter()","rhs":"test_sieve_iter produces the expected output","over":{"base":"Any"},"name":"test_sieve_iter_correct"},"guarantee":"test_sieve_iter produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_generate.test_sieve_iter_correct","statement":"Path(test_sieve_iter(x), test_sieve_iter produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4611945265c2b37f"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_generate.test_sieve_iter","kind":"function","src_hash":"8d1acb8d2cec036a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: values == list(sieve[1:5])"},"spec":{"lhs":"test_sieve_iter()","rhs":"values == list(sieve[1:5])","over":{"base":"Any"},"name":"test_sieve_iter_correct"},"guarantee":"values == list(sieve[1:5])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_generate.test_sieve_iter_correct","statement":"Path(test_sieve_iter(x), values == list(sieve[1:5]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a55c7458bf108d97","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["values == list(sieve[1:5])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sieve_iter():
     values = []
     for value in sieve:
@@ -401,32 +479,45 @@ def test_sieve_iter():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sieve_repr(), test_sieve_repr produces the expected output) over Any ║
+# ║ Path(test_sieve_repr(), 'sieve' in repr(sieve) and 'prime' in repr(sieve)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sieve_repr : Any → {Any | 'sieve' in repr(sieve)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  'sieve' in repr(sieve)                         ║
+# ║   ensures:  'prime' in repr(sieve)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sieve_repr : Any → {Any | result satisfies: 'sie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 526b6bacf6e91208  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 276901f302ab34fe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_generate.test_sieve_repr","kind":"function","src_hash":"a50f0666997b3b04","in":{"base":"Any"},"out":{"base":"Any","pred":"'sieve' in repr(sieve) and 'prime' in repr(sieve)"},"spec":{"lhs":"test_sieve_repr()","rhs":"test_sieve_repr produces the expected output","over":{"base":"Any"},"name":"test_sieve_repr_correct"},"guarantee":"test_sieve_repr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_generate.test_sieve_repr_correct","statement":"Path(test_sieve_repr(x), test_sieve_repr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"526b6bacf6e91208"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_generate.test_sieve_repr","kind":"function","src_hash":"a50f0666997b3b04","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: 'sieve' in repr(sieve) and 'prime' in repr(sieve)"},"spec":{"lhs":"test_sieve_repr()","rhs":"'sieve' in repr(sieve) and 'prime' in repr(sieve)","over":{"base":"Any"},"name":"test_sieve_repr_correct"},"guarantee":"'sieve' in repr(sieve); 'prime' in repr(sieve)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_generate.test_sieve_repr_correct","statement":"Path(test_sieve_repr(x), 'sieve' in repr(sieve); 'prime' in repr(sieve))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"276901f302ab34fe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["'sieve' in repr(sieve)","'prime' in repr(sieve)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_sieve_repr():
     assert "sieve" in repr(sieve)
     assert "prime" in repr(sieve)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_deprecated_ntheory_symbolic_functions(), test_deprecated_ntheory_symbolic_functions produces the expected output) over Any ║
+# ║ Path(test_deprecated_ntheory_symbolic_functions(), <unspecified:test_deprecated_ntheory_symbolic_functions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_deprecated_ntheory_symbolic_functions : Any → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e425f726471acdf6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_generate.test_deprecated_ntheory_symbolic_functions","kind":"function","src_hash":"dda72ac5d7fc324e","in":{"base":"Any"},"out":{"base":"Any","pred":"primepi(0) == 0"},"spec":{"lhs":"test_deprecated_ntheory_symbolic_functions()","rhs":"test_deprecated_ntheory_symbolic_functions produces the expected output","over":{"base":"Any"},"name":"test_deprecated_ntheory_symbolic_functions_correct"},"guarantee":"test_deprecated_ntheory_symbolic_functions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_generate.test_deprecated_ntheory_symbolic_functions_correct","statement":"Path(test_deprecated_ntheory_symbolic_functions(x), test_deprecated_ntheory_symbolic_functions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e425f726471acdf6"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_generate.test_deprecated_ntheory_symbolic_functions","kind":"function","src_hash":"dda72ac5d7fc324e","in":{"base":"Any"},"out":{"base":"Any","pred":"primepi(0) == 0"},"spec":{"lhs":"test_deprecated_ntheory_symbolic_functions()","rhs":"<unspecified:test_deprecated_ntheory_symbolic_functions>","over":{"base":"Any"},"name":"test_deprecated_ntheory_symbolic_functions_correct"},"guarantee":"test_deprecated_ntheory_symbolic_functions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_generate.test_deprecated_ntheory_symbolic_functions_correct","statement":"Path(test_deprecated_ntheory_symbolic_functions(x), test_deprecated_ntheory_symbolic_functions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e425f726471acdf6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_deprecated_ntheory_symbolic_functions():
     from sympy.testing.pytest import warns_deprecated_sympy
 

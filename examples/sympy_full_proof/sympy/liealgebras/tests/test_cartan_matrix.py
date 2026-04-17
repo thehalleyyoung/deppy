@@ -19,16 +19,23 @@ from sympy.liealgebras.cartan_matrix import CartanMatrix
 from sympy.matrices import Matrix
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_CartanMatrix(), test_CartanMatrix produces the expected output) over Any ║
+# ║ Path(test_CartanMatrix(), c == m and a == mt) over Any     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_CartanMatrix : Any → {Any | c == m and a == mt}       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c == m                                         ║
+# ║   ensures:  a == mt                                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_CartanMatrix : Any → {Any | result satisfies: c ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c9dfff75bbcfab9f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d65e1aaccf625366  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.tests.test_cartan_matrix.test_CartanMatrix","kind":"function","src_hash":"3ca7c8460a1d8d63","in":{"base":"Any"},"out":{"base":"Any","pred":"c == m and a == mt"},"spec":{"lhs":"test_CartanMatrix()","rhs":"test_CartanMatrix produces the expected output","over":{"base":"Any"},"name":"test_CartanMatrix_correct"},"guarantee":"test_CartanMatrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.tests.test_cartan_matrix.test_CartanMatrix_correct","statement":"Path(test_CartanMatrix(x), test_CartanMatrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9dfff75bbcfab9f"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.tests.test_cartan_matrix.test_CartanMatrix","kind":"function","src_hash":"3ca7c8460a1d8d63","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c == m and a == mt"},"spec":{"lhs":"test_CartanMatrix()","rhs":"c == m and a == mt","over":{"base":"Any"},"name":"test_CartanMatrix_correct"},"guarantee":"c == m; a == mt","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.tests.test_cartan_matrix.test_CartanMatrix_correct","statement":"Path(test_CartanMatrix(x), c == m; a == mt)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d65e1aaccf625366","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c == m","a == mt"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_CartanMatrix():
     c = CartanMatrix("A3")
     m = Matrix(3, 3, [2, -1, 0, -1, 2, -1, 0, -1, 2])

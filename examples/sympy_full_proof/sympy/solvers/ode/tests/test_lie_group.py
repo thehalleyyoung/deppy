@@ -38,16 +38,24 @@ eta = Function('eta')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_heuristic1(), test_heuristic1 produces the expected output) over Any ║
+# ║ Path(test_heuristic1(), i == [{eta(x, f(x)): exp(x ** 3 / 3), xi(x, f(x)): 0}, {eta(x, f(x)): f(x), xi(x, f(x)): 0}, {eta(x, f(x)): 0, xi(x, f(x)): x ** (-2)}] and i1 == [{eta(x, f(x)): exp(-a * x), xi(x, f(x)): 0}] and i2 == [{eta(x, f(x)): exp(-x ** 2), xi(x, f(x)): 0}] and i3 == [{eta(x, f(x)): 0, xi(x, f(x)): 2 * x + 1}, {eta(x, f(x)): 0, xi(x, f(x)): 1 / (exp(f(x)) - 2)}] and i4 == [{eta(x, f(x)): 1, xi(x, f(x)): 0}, {eta(x, f(x)): 0, xi(x, f(x)): sqrt(a0 + a1 * x + a2 * x ** 2 + a3 * x ** 3 + a4 * x ** 4)}] and i5 == [{xi(x, f(x)): 0, eta(x, f(x)): exp(-1 / x)}] and i == [{eta(x, f(x)): f(x) * exp(-x), xi(x, f(x)): 0}] and checkinfsol(eq6, i)[0] and checkinfsol(eq7, i)[0]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_heuristic1 : Any → {Any | i1 == [{eta(x, f(x)): ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  i == [{eta(x, f(x)): exp(x ** 3 / 3), xi(...   ║
+# ║   ensures:  i1 == [{eta(x, f(x)): exp(-a * x), xi(x, ...   ║
+# ║   ensures:  i2 == [{eta(x, f(x)): exp(-x ** 2), xi(x,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_heuristic1 : Any → {Any | result satisfies: i ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 561dc8400595d846  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b73f1361146cb5e1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_lie_group.test_heuristic1","kind":"function","src_hash":"8609d0126cd9f9ba","in":{"base":"Any"},"out":{"base":"Any","pred":"i1 == [{eta(x, f(x)): exp(-a * x), xi(x, f(x)): 0}] and i2 == [{eta(x, f(x)): exp(-x ** 2), xi(x, f(x)): 0}] and i5 == [{xi(x, f(x)): 0, eta(x, f(x)): exp(-1 / x)}] and i == [{eta(x, f(x)): f(x) * exp(-x), xi(x, f(x)): 0}] and checkinfsol(eq6, i)[0] and checkinfsol(eq7, i)[0] and check[0]"},"spec":{"lhs":"test_heuristic1()","rhs":"test_heuristic1 produces the expected output","over":{"base":"Any"},"name":"test_heuristic1_correct"},"guarantee":"test_heuristic1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_lie_group.test_heuristic1_correct","statement":"Path(test_heuristic1(x), test_heuristic1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"561dc8400595d846"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_lie_group.test_heuristic1","kind":"function","src_hash":"8609d0126cd9f9ba","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: i == [{eta(x, f(x)): exp(x ** 3 / 3), xi(x, f(x)): 0}, {eta(x, f(x)): f(x), xi(x, f(x)): 0}, {eta(x, f(x)): 0, xi(x, f(x)): x ** (-2)}] and i1 == [{eta(x, f(x)): exp(-a * x), xi(x, f(x)): 0}] and i2 == [{eta(x, f(x)): exp(-x ** 2), xi(x, f(x)): 0}] and i3 == [{eta(x, f(x)): 0, xi(x, f(x)): 2 * x + 1}, {eta(x, f(x)): 0, xi(x, f(x)): 1 / (exp(f(x)) - 2)}] and i4 == [{eta(x, f(x)): 1, xi(x, f(x)): 0}, {eta(x, f(x)): 0, xi(x, f(x)): sqrt(a0 + a1 * x + a2 * x ** 2 + a3 * x ** 3 + a4 * x ** 4)}] and i5 == [{xi(x, f(x)): 0, eta(x, f(x)): exp(-1 / x)}] and i == [{eta(x, f(x)): f(x) * exp(-x), xi(x, f(x)): 0}] and checkinfsol(eq6, i)[0] and checkinfsol(eq7, i)[0]"},"spec":{"lhs":"test_heuristic1()","rhs":"i == [{eta(x, f(x)): exp(x ** 3 / 3), xi(x, f(x)): 0}, {eta(x, f(x)): f(x), xi(x, f(x)): 0}, {eta(x, f(x)): 0, xi(x, f(x)): x ** (-2)}] and i1 == [{eta(x, f(x)): exp(-a * x), xi(x, f(x)): 0}] and i2 == [{eta(x, f(x)): exp(-x ** 2), xi(x, f(x)): 0}] and i3 == [{eta(x, f(x)): 0, xi(x, f(x)): 2 * x + 1}, {eta(x, f(x)): 0, xi(x, f(x)): 1 / (exp(f(x)) - 2)}] and i4 == [{eta(x, f(x)): 1, xi(x, f(x)): 0}, {eta(x, f(x)): 0, xi(x, f(x)): sqrt(a0 + a1 * x + a2 * x ** 2 + a3 * x ** 3 + a4 * x ** 4)}] and i5 == [{xi(x, f(x)): 0, eta(x, f(x)): exp(-1 / x)}] and i == [{eta(x, f(x)): f(x) * exp(-x), xi(x, f(x)): 0}] and checkinfsol(eq6, i)[0] and checkinfsol(eq7, i)[0]","over":{"base":"Any"},"name":"test_heuristic1_correct"},"guarantee":"i == [{eta(x, f(x)): exp(x ** 3 / 3), xi(x, f(x)): 0}, {eta(x, f(x)): f(x), xi(x, f(x)): 0}, {eta(x, f(x)): 0, xi(x, f(x)): x ** (-2)}]; i1 == [{eta(x, f(x)): exp(-a * x), xi(x, f(x)): 0}]; i2 == [{eta(x, f(x)): exp(-x ** 2), xi(x, f(x)): 0}]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_lie_group.test_heuristic1_correct","statement":"Path(test_heuristic1(x), i == [{eta(x, f(x)): exp(x ** 3 / 3), xi(x, f(x)): 0}, {eta(x, f(x)): f(x), xi(x, f(x)): 0}, {eta(x, f(x)): 0, xi(x, f(x)): x ** (-2)}]; i1 == [{eta(x, f(x)): exp(-a * x), xi(x, f(x)): 0}]; i2 == [{eta(x, f(x)): exp(-x ** 2), xi(x, f(x)): 0}])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b73f1361146cb5e1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["i == [{eta(x, f(x)): exp(x ** 3 / 3), xi(x, f(x)): 0}, {eta(x, f(x)): f(x), xi(x, f(x)): 0}, {eta(x, f(x)): 0, xi(x, f(x)): x ** (-2)}]","i1 == [{eta(x, f(x)): exp(-a * x), xi(x, f(x)): 0}]","i2 == [{eta(x, f(x)): exp(-x ** 2), xi(x, f(x)): 0}]","i3 == [{eta(x, f(x)): 0, xi(x, f(x)): 2 * x + 1}, {eta(x, f(x)): 0, xi(x, f(x)): 1 / (exp(f(x)) - 2)}]","i4 == [{eta(x, f(x)): 1, xi(x, f(x)): 0}, {eta(x, f(x)): 0, xi(x, f(x)): sqrt(a0 + a1 * x + a2 * x ** 2 + a3 * x ** 3 + a4 * x ** 4)}]","i5 == [{xi(x, f(x)): 0, eta(x, f(x)): exp(-1 / x)}]","i == [{eta(x, f(x)): f(x) * exp(-x), xi(x, f(x)): 0}]","checkinfsol(eq6, i)[0]","checkinfsol(eq7, i)[0]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def test_heuristic1():
     a, b, c, a4, a3, a2, a1, a0 = symbols("a b c a4 a3 a2 a1 a0")
     df = f(x).diff(x)
@@ -95,16 +103,23 @@ def test_heuristic1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_heuristic3(), test_heuristic3 produces the expected output) over Any ║
+# ║ Path(test_heuristic3(), i == [{eta(x, f(x)): f(x), xi(x, f(x)): x}] and checkinfsol(eq, i)[0]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_heuristic3 : Any → {Any | i == [{eta(x, f(x)): f...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  i == [{eta(x, f(x)): f(x), xi(x, f(x)): x}]    ║
+# ║   ensures:  checkinfsol(eq, i)[0]                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_heuristic3 : Any → {Any | result satisfies: i ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5be17839576b01a7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 190186a3373f793a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_lie_group.test_heuristic3","kind":"function","src_hash":"319351a410e2c569","in":{"base":"Any"},"out":{"base":"Any","pred":"i == [{eta(x, f(x)): f(x), xi(x, f(x)): x}] and checkinfsol(eq, i)[0] and checkinfsol(eq, i)[0]"},"spec":{"lhs":"test_heuristic3()","rhs":"test_heuristic3 produces the expected output","over":{"base":"Any"},"name":"test_heuristic3_correct"},"guarantee":"test_heuristic3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_lie_group.test_heuristic3_correct","statement":"Path(test_heuristic3(x), test_heuristic3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5be17839576b01a7"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_lie_group.test_heuristic3","kind":"function","src_hash":"319351a410e2c569","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: i == [{eta(x, f(x)): f(x), xi(x, f(x)): x}] and checkinfsol(eq, i)[0]"},"spec":{"lhs":"test_heuristic3()","rhs":"i == [{eta(x, f(x)): f(x), xi(x, f(x)): x}] and checkinfsol(eq, i)[0]","over":{"base":"Any"},"name":"test_heuristic3_correct"},"guarantee":"i == [{eta(x, f(x)): f(x), xi(x, f(x)): x}]; checkinfsol(eq, i)[0]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_lie_group.test_heuristic3_correct","statement":"Path(test_heuristic3(x), i == [{eta(x, f(x)): f(x), xi(x, f(x)): x}]; checkinfsol(eq, i)[0])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"190186a3373f793a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["i == [{eta(x, f(x)): f(x), xi(x, f(x)): x}]","checkinfsol(eq, i)[0]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_heuristic3():
     a, b = symbols("a b")
     df = f(x).diff(x)
@@ -120,16 +135,23 @@ def test_heuristic3():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_heuristic_function_sum(), test_heuristic_function_sum produces the expected output) over Any ║
+# ║ Path(test_heuristic_function_sum(), i == [{eta(x, f(x)): f(x) ** (-2) + x ** (-2), xi(x, f(x)): 0}] and checkinfsol(eq, i)[0]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_heuristic_function_sum : Any → {Any | i == [{eta...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  i == [{eta(x, f(x)): f(x) ** (-2) + x ** ...   ║
+# ║   ensures:  checkinfsol(eq, i)[0]                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_heuristic_function_sum : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f74e784b4dea879  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f5bad5e016d9d5d1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_lie_group.test_heuristic_function_sum","kind":"function","src_hash":"d234f01585a57206","in":{"base":"Any"},"out":{"base":"Any","pred":"i == [{eta(x, f(x)): f(x) ** (-2) + x ** (-2), xi(x, f(x)): 0}] and checkinfsol(eq, i)[0]"},"spec":{"lhs":"test_heuristic_function_sum()","rhs":"test_heuristic_function_sum produces the expected output","over":{"base":"Any"},"name":"test_heuristic_function_sum_correct"},"guarantee":"test_heuristic_function_sum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_lie_group.test_heuristic_function_sum_correct","statement":"Path(test_heuristic_function_sum(x), test_heuristic_function_sum produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f74e784b4dea879"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_lie_group.test_heuristic_function_sum","kind":"function","src_hash":"d234f01585a57206","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: i == [{eta(x, f(x)): f(x) ** (-2) + x ** (-2), xi(x, f(x)): 0}] and checkinfsol(eq, i)[0]"},"spec":{"lhs":"test_heuristic_function_sum()","rhs":"i == [{eta(x, f(x)): f(x) ** (-2) + x ** (-2), xi(x, f(x)): 0}] and checkinfsol(eq, i)[0]","over":{"base":"Any"},"name":"test_heuristic_function_sum_correct"},"guarantee":"i == [{eta(x, f(x)): f(x) ** (-2) + x ** (-2), xi(x, f(x)): 0}]; checkinfsol(eq, i)[0]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_lie_group.test_heuristic_function_sum_correct","statement":"Path(test_heuristic_function_sum(x), i == [{eta(x, f(x)): f(x) ** (-2) + x ** (-2), xi(x, f(x)): 0}]; checkinfsol(eq, i)[0])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f5bad5e016d9d5d1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["i == [{eta(x, f(x)): f(x) ** (-2) + x ** (-2), xi(x, f(x)): 0}]","checkinfsol(eq, i)[0]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_heuristic_function_sum():
     eq = f(x).diff(x) - (3*(1 + x**2/f(x)**2)*atan(f(x)/x) + (1 - 2*f(x))/x +
        (1 - 3*f(x))*(x/f(x)**2))
@@ -139,16 +161,24 @@ def test_heuristic_function_sum():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_heuristic_abaco2_similar(), test_heuristic_abaco2_similar produces the expected output) over Any ║
+# ║ Path(test_heuristic_abaco2_similar(), i == [{eta(x, f(x)): -a / b, xi(x, f(x)): 1}] and checkinfsol(eq, i)[0] and i == [{eta(x, f(x)): f(x) ** 2, xi(x, f(x)): f(x) ** 2}]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_heuristic_abaco2_similar : Any → {Any | i == [{e...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  i == [{eta(x, f(x)): -a / b, xi(x, f(x)):...   ║
+# ║   ensures:  checkinfsol(eq, i)[0]                          ║
+# ║   ensures:  i == [{eta(x, f(x)): f(x) ** 2, xi(x, f(x...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_heuristic_abaco2_similar : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 02eb12f311e6e0e6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2cda515c1b608607  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_lie_group.test_heuristic_abaco2_similar","kind":"function","src_hash":"0c0baa3c7a1ffcea","in":{"base":"Any"},"out":{"base":"Any","pred":"i == [{eta(x, f(x)): -a / b, xi(x, f(x)): 1}] and checkinfsol(eq, i)[0] and i == [{eta(x, f(x)): f(x) ** 2, xi(x, f(x)): f(x) ** 2}] and checkinfsol(eq, i)[0]"},"spec":{"lhs":"test_heuristic_abaco2_similar()","rhs":"test_heuristic_abaco2_similar produces the expected output","over":{"base":"Any"},"name":"test_heuristic_abaco2_similar_correct"},"guarantee":"test_heuristic_abaco2_similar produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_lie_group.test_heuristic_abaco2_similar_correct","statement":"Path(test_heuristic_abaco2_similar(x), test_heuristic_abaco2_similar produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"02eb12f311e6e0e6"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_lie_group.test_heuristic_abaco2_similar","kind":"function","src_hash":"0c0baa3c7a1ffcea","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: i == [{eta(x, f(x)): -a / b, xi(x, f(x)): 1}] and checkinfsol(eq, i)[0] and i == [{eta(x, f(x)): f(x) ** 2, xi(x, f(x)): f(x) ** 2}]"},"spec":{"lhs":"test_heuristic_abaco2_similar()","rhs":"i == [{eta(x, f(x)): -a / b, xi(x, f(x)): 1}] and checkinfsol(eq, i)[0] and i == [{eta(x, f(x)): f(x) ** 2, xi(x, f(x)): f(x) ** 2}]","over":{"base":"Any"},"name":"test_heuristic_abaco2_similar_correct"},"guarantee":"i == [{eta(x, f(x)): -a / b, xi(x, f(x)): 1}]; checkinfsol(eq, i)[0]; i == [{eta(x, f(x)): f(x) ** 2, xi(x, f(x)): f(x) ** 2}]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_lie_group.test_heuristic_abaco2_similar_correct","statement":"Path(test_heuristic_abaco2_similar(x), i == [{eta(x, f(x)): -a / b, xi(x, f(x)): 1}]; checkinfsol(eq, i)[0]; i == [{eta(x, f(x)): f(x) ** 2, xi(x, f(x)): f(x) ** 2}])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2cda515c1b608607","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["i == [{eta(x, f(x)): -a / b, xi(x, f(x)): 1}]","checkinfsol(eq, i)[0]","i == [{eta(x, f(x)): f(x) ** 2, xi(x, f(x)): f(x) ** 2}]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_heuristic_abaco2_similar():
     a, b = symbols("a b")
     F = Function('F')
@@ -164,16 +194,24 @@ def test_heuristic_abaco2_similar():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_heuristic_abaco2_unique_unknown(), test_heuristic_abaco2_unique_unknown produces the expected output) over Any ║
+# ║ Path(test_heuristic_abaco2_unique_unknown(), i == [{eta(x, f(x)): -f(x) * f(x) ** (-b), xi(x, f(x)): x * x ** (-a)}] and checkinfsol(eq, i)[0] and i == [{eta(x, f(x)): x, xi(x, f(x)): -f(x)}]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_heuristic_abaco2_unique_unknown : Any → {Any | i...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  i == [{eta(x, f(x)): -f(x) * f(x) ** (-b)...   ║
+# ║   ensures:  checkinfsol(eq, i)[0]                          ║
+# ║   ensures:  i == [{eta(x, f(x)): x, xi(x, f(x)): -f(x)}]   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_heuristic_abaco2_unique_unknown : Any → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 27c74a0f286abebb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1dd7aea9b48715ec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_lie_group.test_heuristic_abaco2_unique_unknown","kind":"function","src_hash":"b4039902a707f450","in":{"base":"Any"},"out":{"base":"Any","pred":"i == [{eta(x, f(x)): -f(x) * f(x) ** (-b), xi(x, f(x)): x * x ** (-a)}] and checkinfsol(eq, i)[0] and i == [{eta(x, f(x)): x, xi(x, f(x)): -f(x)}] and checkinfsol(eq, i)[0] and checkinfsol(eq, i)[0]"},"spec":{"lhs":"test_heuristic_abaco2_unique_unknown()","rhs":"test_heuristic_abaco2_unique_unknown produces the expected output","over":{"base":"Any"},"name":"test_heuristic_abaco2_unique_unknown_correct"},"guarantee":"test_heuristic_abaco2_unique_unknown produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_lie_group.test_heuristic_abaco2_unique_unknown_correct","statement":"Path(test_heuristic_abaco2_unique_unknown(x), test_heuristic_abaco2_unique_unknown produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27c74a0f286abebb"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_lie_group.test_heuristic_abaco2_unique_unknown","kind":"function","src_hash":"b4039902a707f450","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: i == [{eta(x, f(x)): -f(x) * f(x) ** (-b), xi(x, f(x)): x * x ** (-a)}] and checkinfsol(eq, i)[0] and i == [{eta(x, f(x)): x, xi(x, f(x)): -f(x)}]"},"spec":{"lhs":"test_heuristic_abaco2_unique_unknown()","rhs":"i == [{eta(x, f(x)): -f(x) * f(x) ** (-b), xi(x, f(x)): x * x ** (-a)}] and checkinfsol(eq, i)[0] and i == [{eta(x, f(x)): x, xi(x, f(x)): -f(x)}]","over":{"base":"Any"},"name":"test_heuristic_abaco2_unique_unknown_correct"},"guarantee":"i == [{eta(x, f(x)): -f(x) * f(x) ** (-b), xi(x, f(x)): x * x ** (-a)}]; checkinfsol(eq, i)[0]; i == [{eta(x, f(x)): x, xi(x, f(x)): -f(x)}]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_lie_group.test_heuristic_abaco2_unique_unknown_correct","statement":"Path(test_heuristic_abaco2_unique_unknown(x), i == [{eta(x, f(x)): -f(x) * f(x) ** (-b), xi(x, f(x)): x * x ** (-a)}]; checkinfsol(eq, i)[0]; i == [{eta(x, f(x)): x, xi(x, f(x)): -f(x)}])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1dd7aea9b48715ec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["i == [{eta(x, f(x)): -f(x) * f(x) ** (-b), xi(x, f(x)): x * x ** (-a)}]","checkinfsol(eq, i)[0]","i == [{eta(x, f(x)): x, xi(x, f(x)): -f(x)}]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_heuristic_abaco2_unique_unknown():
 
     a, b = symbols("a b")
@@ -194,16 +232,22 @@ def test_heuristic_abaco2_unique_unknown():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_heuristic_linear(), test_heuristic_linear produces the expected output) over Any ║
+# ║ Path(test_heuristic_linear(), checkinfsol(eq, i)[0]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_heuristic_linear : Any → {Any | checkinfsol(eq, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  checkinfsol(eq, i)[0]                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_heuristic_linear : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09dc2c9ae964c6da  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b157e613cfa52cfd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_lie_group.test_heuristic_linear","kind":"function","src_hash":"1bc07736148b5400","in":{"base":"Any"},"out":{"base":"Any","pred":"checkinfsol(eq, i)[0]"},"spec":{"lhs":"test_heuristic_linear()","rhs":"test_heuristic_linear produces the expected output","over":{"base":"Any"},"name":"test_heuristic_linear_correct"},"guarantee":"test_heuristic_linear produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_lie_group.test_heuristic_linear_correct","statement":"Path(test_heuristic_linear(x), test_heuristic_linear produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09dc2c9ae964c6da"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_lie_group.test_heuristic_linear","kind":"function","src_hash":"1bc07736148b5400","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: checkinfsol(eq, i)[0]"},"spec":{"lhs":"test_heuristic_linear()","rhs":"checkinfsol(eq, i)[0]","over":{"base":"Any"},"name":"test_heuristic_linear_correct"},"guarantee":"checkinfsol(eq, i)[0]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_lie_group.test_heuristic_linear_correct","statement":"Path(test_heuristic_linear(x), checkinfsol(eq, i)[0])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b157e613cfa52cfd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["checkinfsol(eq, i)[0]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_heuristic_linear():
     a, b, m, n = symbols("a b m n")
 
@@ -214,16 +258,22 @@ def test_heuristic_linear():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_kamke(), test_kamke produces the expected output) over Any ║
+# ║ Path(test_kamke(), checkinfsol(eq, i)[0]) over Any         ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_kamke : Any → {Any | checkinfsol(eq, i)[0]}           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  checkinfsol(eq, i)[0]                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_kamke : Any → {Any | result satisfies: checkinfs...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b18fe6eccf3c3deb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c7ef00d0fee4a6ab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_lie_group.test_kamke","kind":"function","src_hash":"a9b54f14a8ba194f","in":{"base":"Any"},"out":{"base":"Any","pred":"checkinfsol(eq, i)[0]"},"spec":{"lhs":"test_kamke()","rhs":"test_kamke produces the expected output","over":{"base":"Any"},"name":"test_kamke_correct"},"guarantee":"test_kamke produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_lie_group.test_kamke_correct","statement":"Path(test_kamke(x), test_kamke produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b18fe6eccf3c3deb"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_lie_group.test_kamke","kind":"function","src_hash":"a9b54f14a8ba194f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: checkinfsol(eq, i)[0]"},"spec":{"lhs":"test_kamke()","rhs":"checkinfsol(eq, i)[0]","over":{"base":"Any"},"name":"test_kamke_correct"},"guarantee":"checkinfsol(eq, i)[0]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_lie_group.test_kamke_correct","statement":"Path(test_kamke(x), checkinfsol(eq, i)[0])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7ef00d0fee4a6ab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["checkinfsol(eq, i)[0]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_kamke():
     a, b, alpha, c = symbols("a b alpha c")
     eq = x**2*(a*f(x)**2+(f(x).diff(x))) + b*x**alpha + c
@@ -232,16 +282,23 @@ def test_kamke():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_user_infinitesimals(), test_user_infinitesimals produces the expected output) over Any ║
+# ║ Path(test_user_infinitesimals(), dsolve(eq, hint='lie_group', **infinitesimals) == sol and checkodesol(eq, sol) == (True, 0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_user_infinitesimals : Any → {Any | dsolve(eq, hi...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dsolve(eq, hint='lie_group', **infinitesi...   ║
+# ║   ensures:  checkodesol(eq, sol) == (True, 0)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_user_infinitesimals : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 625c0f2aaf3d19a2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f4bab2519d062f79  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_lie_group.test_user_infinitesimals","kind":"function","src_hash":"7ec434fddaf59bb4","in":{"base":"Any"},"out":{"base":"Any","pred":"dsolve(eq, hint='lie_group', **infinitesimals) == sol and checkodesol(eq, sol) == (True, 0)"},"spec":{"lhs":"test_user_infinitesimals()","rhs":"test_user_infinitesimals produces the expected output","over":{"base":"Any"},"name":"test_user_infinitesimals_correct"},"guarantee":"test_user_infinitesimals produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_lie_group.test_user_infinitesimals_correct","statement":"Path(test_user_infinitesimals(x), test_user_infinitesimals produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"625c0f2aaf3d19a2"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_lie_group.test_user_infinitesimals","kind":"function","src_hash":"7ec434fddaf59bb4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dsolve(eq, hint='lie_group', **infinitesimals) == sol and checkodesol(eq, sol) == (True, 0)"},"spec":{"lhs":"test_user_infinitesimals()","rhs":"dsolve(eq, hint='lie_group', **infinitesimals) == sol and checkodesol(eq, sol) == (True, 0)","over":{"base":"Any"},"name":"test_user_infinitesimals_correct"},"guarantee":"dsolve(eq, hint='lie_group', **infinitesimals) == sol; checkodesol(eq, sol) == (True, 0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_lie_group.test_user_infinitesimals_correct","statement":"Path(test_user_infinitesimals(x), dsolve(eq, hint='lie_group', **infinitesimals) == sol; checkodesol(eq, sol) == (True, 0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4bab2519d062f79","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dsolve(eq, hint='lie_group', **infinitesimals) == sol","checkodesol(eq, sol) == (True, 0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_user_infinitesimals():
     x = Symbol("x") # assuming x is real generates an error
     eq = x*(f(x).diff(x)) + 1 - f(x)**2
@@ -253,16 +310,22 @@ def test_user_infinitesimals():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lie_group_issue15219(), test_lie_group_issue15219 produces the expected output) over Any ║
+# ║ Path(test_lie_group_issue15219(), 'lie_group' not in classify_ode(eqn, f(x))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lie_group_issue15219 : Any → {Any | 'lie_group' ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  'lie_group' not in classify_ode(eqn, f(x))     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lie_group_issue15219 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 874ccd4e45f3c11d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b67b699c588245c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_lie_group.test_lie_group_issue15219","kind":"function","src_hash":"34c02709a7b26eeb","in":{"base":"Any"},"out":{"base":"Any","pred":"'lie_group' not in classify_ode(eqn, f(x))"},"spec":{"lhs":"test_lie_group_issue15219()","rhs":"test_lie_group_issue15219 produces the expected output","over":{"base":"Any"},"name":"test_lie_group_issue15219_correct"},"guarantee":"test_lie_group_issue15219 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_lie_group.test_lie_group_issue15219_correct","statement":"Path(test_lie_group_issue15219(x), test_lie_group_issue15219 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"874ccd4e45f3c11d"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_lie_group.test_lie_group_issue15219","kind":"function","src_hash":"34c02709a7b26eeb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: 'lie_group' not in classify_ode(eqn, f(x))"},"spec":{"lhs":"test_lie_group_issue15219()","rhs":"'lie_group' not in classify_ode(eqn, f(x))","over":{"base":"Any"},"name":"test_lie_group_issue15219_correct"},"guarantee":"'lie_group' not in classify_ode(eqn, f(x))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_lie_group.test_lie_group_issue15219_correct","statement":"Path(test_lie_group_issue15219(x), 'lie_group' not in classify_ode(eqn, f(x)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b67b699c588245c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["'lie_group' not in classify_ode(eqn, f(x))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_lie_group_issue15219():
     eqn = exp(f(x).diff(x)-f(x))
     assert 'lie_group' not in classify_ode(eqn, f(x))

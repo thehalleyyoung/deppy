@@ -134,14 +134,19 @@ __all__ = [
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Routine instance) preserved by Routine(*args) over {Any | isinstance(arg, OutputArgument) and isinstance(r, Result) and isinstance(arg, InputArgument)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Routine : {Any | isinstance(arg, OutputArgument) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0bc1f4fecac63cf0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.Routine","kind":"class","src_hash":"437f5f9f0404f0f1","in":{"base":"Any","pred":"isinstance(arg, OutputArgument) and isinstance(r, Result) and isinstance(arg, InputArgument)"},"out":{"base":"Any"},"spec":{"lhs":"Routine(*args)","rhs":"correctly constructs a Routine instance","over":{"base":"Any","pred":"isinstance(arg, OutputArgument) and isinstance(r, Result) and isinstance(arg, InputArgument)"},"name":"Routine_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Routine instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'name') and hasattr(self, 'arguments') and hasattr(self, 'results') and hasattr(self, 'local_vars') and hasattr(self, 'global_vars')","kind":"class","induction":"structural on name, arguments, results, local_vars"}],"methods_preserving":["__init__","__str__","variables","result_variables"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0bc1f4fecac63cf0"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.Routine","kind":"class","src_hash":"437f5f9f0404f0f1","in":{"base":"Any","pred":"isinstance(arg, OutputArgument) and isinstance(r, Result) and isinstance(arg, InputArgument)"},"out":{"base":"Any"},"spec":{"lhs":"Routine(*args)","rhs":"correctly constructs a Routine instance","over":{"base":"Any","pred":"isinstance(arg, OutputArgument) and isinstance(r, Result) and isinstance(arg, InputArgument)"},"name":"Routine_class_invariant","kind":"invariant"},"guarantee":"preserves 5 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'name') and hasattr(self, 'arguments') and hasattr(self, 'results') and hasattr(self, 'local_vars') and hasattr(self, 'global_vars')","kind":"class","induction":"structural on name, arguments, results, local_vars"}],"methods_preserving":["__init__","__str__","variables","result_variables"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0bc1f4fecac63cf0","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'name')","hasattr(self, 'arguments')","hasattr(self, 'results')","hasattr(self, 'local_vars')","hasattr(self, 'global_vars')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function Routine not found in source"]}}
 class Routine:
     """Generic description of evaluation routine for set of expressions.
 
@@ -156,16 +161,24 @@ class Routine:
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(nam), initializes the instance correctly) over Any ║
+# ║ Path(__init__(name, arguments, results), self.name == name and self.arguments == arguments and self.results == results and self.local_vars == local_vars and self.global_vars == global_vars) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.name == name                              ║
+# ║   ensures:  self.arguments == arguments                    ║
+# ║   ensures:  self.results == results                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.name =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ee0ce3c57a6a163e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.Routine.__init__","kind":"method","src_hash":"3a369e418d8e6329","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(nam)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ee0ce3c57a6a163e"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.Routine.__init__","kind":"method","src_hash":"3a369e418d8e6329","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.name == name and self.arguments == arguments and self.results == results and self.local_vars == local_vars and self.global_vars == global_vars"},"spec":{"lhs":"__init__(name, arguments, results)","rhs":"self.name == name and self.arguments == arguments and self.results == results and self.local_vars == local_vars and self.global_vars == global_vars","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.name == name; self.arguments == arguments; self.results == results","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ee0ce3c57a6a163e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.name == name","self.arguments == arguments","self.results == results","self.local_vars == local_vars","self.global_vars == global_vars"],"pure":false,"effects":{"effect_type":"reads_state","writes":["self.arguments","self.global_vars","self.local_vars","self.name","self.results"],"calls_mutating":["input_symbols.add","local_symbols.add","symbols.update"],"raises":["ValueError"]},"state_contract":{"modifies":["input_symbols.*","local_symbols.*","self.arguments","self.global_vars","self.local_vars","self.name","self.results","symbols.*"],"old_bindings":{"old_self_arguments":"self.arguments","old_self_global_vars":"self.global_vars","old_self_local_vars":"self.local_vars","old_self_name":"self.name","old_self_results":"self.results","old_len_symbols":"len(symbols)"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, name, arguments, results, local_vars, global_vars):
         """Initialize a Routine instance.
 
@@ -242,16 +255,22 @@ class Routine:
         self.global_vars = global_vars
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), self.__class__.__name__ + '({name!r}, {arguments}, {results}, {local_vars}, {global_vars})'.format(**self.__dict__)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__class__.__name__ + '({name!r}, {ar...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 713a8c5dedd04831           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.Routine.__str__","kind":"method","src_hash":"6a197afb4286f984","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"713a8c5dedd04831"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.Routine.__str__","kind":"method","src_hash":"6a197afb4286f984","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"self.__class__.__name__ + '({name!r}, {arguments}, {results}, {local_vars}, {global_vars})'.format(**self.__dict__)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns self.__class__.__name__ + '({name!r}, {arguments}, {results}, {local_vars}, {global_vars})'.format(**self.__dict__)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"713a8c5dedd04831","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__class__.__name__ + '({name!r}, {arguments}, {results}, {local_vars}, {global_vars})'.format(**self.__dict__)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","*.__dict__","self.__class__","self.__dict__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return self.__class__.__name__ + "({name!r}, {arguments}, {results}, {local_vars}, {global_vars})".format(**self.__dict__)
 
@@ -259,16 +278,22 @@ class Routine:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(variables(), returns the variables attribute) over Any ║
+# ║ Path(variables(), <unspecified:variables>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ variables : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d449c99c786a2348           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.Routine.variables","kind":"property","src_hash":"3369feef216d9ec4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"variables()","rhs":"returns the variables attribute","over":{"base":"Any"},"name":"variables_correct"},"guarantee":"returns the variables attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d449c99c786a2348"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.Routine.variables","kind":"property","src_hash":"3369feef216d9ec4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"variables()","rhs":"<unspecified:variables>","over":{"base":"Any"},"name":"variables_correct"},"guarantee":"returns the variables attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d449c99c786a2348","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def variables(self):
         """Returns a set of all variables possibly used in the routine.
 
@@ -283,16 +308,22 @@ class Routine:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(result_variables(), returns the result_variables attribute) over Any ║
+# ║ Path(result_variables(), <unspecified:result_variables>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ result_variables : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e70a2e2b1aa34cd3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.Routine.result_variables","kind":"property","src_hash":"e9f51a29f751f3dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"result_variables()","rhs":"returns the result_variables attribute","over":{"base":"Any"},"name":"result_variables_correct"},"guarantee":"returns the result_variables attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e70a2e2b1aa34cd3"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.Routine.result_variables","kind":"property","src_hash":"e9f51a29f751f3dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"result_variables()","rhs":"<unspecified:result_variables>","over":{"base":"Any"},"name":"result_variables_correct"},"guarantee":"returns the result_variables attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e70a2e2b1aa34cd3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def result_variables(self):
         """Returns a list of OutputArgument, InOutArgument and Result.
 
@@ -307,27 +338,40 @@ class Routine:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a DataType instance) preserved by DataType(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ DataType : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e4db9f3b9adcabec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.DataType","kind":"class","src_hash":"72531d53eebf8596","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DataType(*args)","rhs":"correctly constructs a DataType instance","over":{"base":"Any"},"name":"DataType_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a DataType instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'cname') and hasattr(self, 'fname') and hasattr(self, 'pyname') and hasattr(self, 'jlname') and hasattr(self, 'octname') and hasattr(self, 'rsname')","kind":"class","induction":"structural on cname, fname, pyname, jlname"}],"methods_preserving":["__init__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4db9f3b9adcabec"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.DataType","kind":"class","src_hash":"72531d53eebf8596","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DataType(*args)","rhs":"correctly constructs a DataType instance","over":{"base":"Any"},"name":"DataType_class_invariant","kind":"invariant"},"guarantee":"preserves 6 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'cname') and hasattr(self, 'fname') and hasattr(self, 'pyname') and hasattr(self, 'jlname') and hasattr(self, 'octname') and hasattr(self, 'rsname')","kind":"class","induction":"structural on cname, fname, pyname, jlname"}],"methods_preserving":["__init__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4db9f3b9adcabec","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'cname')","hasattr(self, 'fname')","hasattr(self, 'pyname')","hasattr(self, 'jlname')","hasattr(self, 'octname')","hasattr(self, 'rsname')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function DataType not found in source"]}}
 class DataType:
     """Holds strings for a certain datatype in different languages."""
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(cna), initializes the instance correctly) over Any ║
+# ║ Path(__init__(cname, fname, pyname), self.cname == cname and self.fname == fname and self.pyname == pyname and self.jlname == jlname and self.octname == octname) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.cname == cname                            ║
+# ║   ensures:  self.fname == fname                            ║
+# ║   ensures:  self.pyname == pyname                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.cname ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fd5dfcbdda63748f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.DataType.__init__","kind":"method","src_hash":"db423fccddd991ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(cna)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fd5dfcbdda63748f"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.DataType.__init__","kind":"method","src_hash":"db423fccddd991ad","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.cname == cname and self.fname == fname and self.pyname == pyname and self.jlname == jlname and self.octname == octname"},"spec":{"lhs":"__init__(cname, fname, pyname)","rhs":"self.cname == cname and self.fname == fname and self.pyname == pyname and self.jlname == jlname and self.octname == octname","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.cname == cname; self.fname == fname; self.pyname == pyname","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fd5dfcbdda63748f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.cname == cname","self.fname == fname","self.pyname == pyname","self.jlname == jlname","self.octname == octname"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, cname, fname, pyname, jlname, octname, rsname):
         self.cname = cname
         self.fname = fname
@@ -350,7 +394,12 @@ default_datatypes = {
 
 COMPLEX_ALLOWED = False
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_default_datatype(exp), derives an appropriate datatype based on the expression) over {Any | isinstance(expr, MatrixBase)} ║
+# ║ Path(get_default_datatype(expr, complex_allowed), <unspecified:get_default_datatype>) over {Any | isinstance(expr, MatrixBase) and hasattr(expr, 'is_integer') and hasattr(expr, 'is_real')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'is_integer')                    ║
+# ║   requires: hasattr(expr, 'is_real')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_default_datatype : {Any | isinstance(expr, Matrix...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -362,9 +411,12 @@ COMPLEX_ALLOWED = False
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 210dbed0...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.get_default_datatype","kind":"function","src_hash":"1dc45e672f0eb324","in":{"base":"Any","pred":"isinstance(expr, MatrixBase)"},"out":{"base":"Any"},"spec":{"lhs":"get_default_datatype(exp)","rhs":"derives an appropriate datatype based on the expression","over":{"base":"Any","pred":"isinstance(expr, MatrixBase)"},"name":"get_default_datatype_correct"},"guarantee":"derives an appropriate datatype based on the expression","fibers":[{"name":"MatrixBase","pred":"isinstance(expr, MatrixBase)","path":{"lhs":"get_default_datatype(x)","rhs":"derives an appropriate datatype based on the expression","over":{"base":"MatrixBase","pred":"isinstance(expr, MatrixBase)"},"name":"get_default_datatype_MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.get_default_datatype_MatrixBase_correct","statement":"get_default_datatype satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"210dbed0d6ebb749"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.get_default_datatype","kind":"function","src_hash":"1dc45e672f0eb324","in":{"base":"Any","pred":"isinstance(expr, MatrixBase) and hasattr(expr, 'is_integer') and hasattr(expr, 'is_real')"},"out":{"base":"Any"},"spec":{"lhs":"get_default_datatype(expr, complex_allowed)","rhs":"<unspecified:get_default_datatype>","over":{"base":"Any","pred":"isinstance(expr, MatrixBase) and hasattr(expr, 'is_integer') and hasattr(expr, 'is_real')"},"name":"get_default_datatype_correct"},"guarantee":"derives an appropriate datatype based on the expression","fibers":[{"name":"MatrixBase","pred":"isinstance(expr, MatrixBase)","path":{"lhs":"get_default_datatype(x)","rhs":"derives an appropriate datatype based on the expression","over":{"base":"MatrixBase","pred":"isinstance(expr, MatrixBase)"},"name":"get_default_datatype_MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.get_default_datatype_MatrixBase_correct","statement":"get_default_datatype satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"210dbed0d6ebb749","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'is_integer')","hasattr(expr, 'is_real')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.is_integer","expr.is_real"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={\"dt == 'int' and (not element.is_integer)\", \"dt == 'float' and (not element.is_real)\", 'isinstance(expr, MatrixBase)', 'complex_allowed is None'}, fibers={'MatrixBase'})"]}}
 def get_default_datatype(expr, complex_allowed=None):
     """Derives an appropriate datatype based on the expression."""
     if complex_allowed is None:
@@ -393,28 +445,44 @@ def get_default_datatype(expr, complex_allowed=None):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Variable instance) preserved by Variable(*args) over {Any | isinstance(name, (Symbol, MatrixSymbol)) and isinstance(datatype, DataType) and isinstance(dimensions, (tuple, list))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Variable : {Any | isinstance(name, (Symbol, MatrixSym...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db738120ad55c024  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.Variable","kind":"class","src_hash":"f7448d33497ebed6","in":{"base":"Any","pred":"isinstance(name, (Symbol, MatrixSymbol)) and isinstance(datatype, DataType) and isinstance(dimensions, (tuple, list))"},"out":{"base":"Any"},"spec":{"lhs":"Variable(*args)","rhs":"correctly constructs a Variable instance","over":{"base":"Any","pred":"isinstance(name, (Symbol, MatrixSymbol)) and isinstance(datatype, DataType) and isinstance(dimensions, (tuple, list))"},"name":"Variable_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Variable instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_name') and hasattr(self, '_datatype') and hasattr(self, 'dimensions') and hasattr(self, 'precision')","kind":"class","induction":"structural on _name, _datatype, dimensions, precision"}],"methods_preserving":["__init__","__str__","name","get_datatype"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db738120ad55c024"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.Variable","kind":"class","src_hash":"f7448d33497ebed6","in":{"base":"Any","pred":"isinstance(name, (Symbol, MatrixSymbol)) and isinstance(datatype, DataType) and isinstance(dimensions, (tuple, list))"},"out":{"base":"Any"},"spec":{"lhs":"Variable(*args)","rhs":"correctly constructs a Variable instance","over":{"base":"Any","pred":"isinstance(name, (Symbol, MatrixSymbol)) and isinstance(datatype, DataType) and isinstance(dimensions, (tuple, list))"},"name":"Variable_class_invariant","kind":"invariant"},"guarantee":"preserves 4 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_name') and hasattr(self, '_datatype') and hasattr(self, 'dimensions') and hasattr(self, 'precision')","kind":"class","induction":"structural on _name, _datatype, dimensions, precision"}],"methods_preserving":["__init__","__str__","name","get_datatype"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db738120ad55c024","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, '_name')","hasattr(self, '_datatype')","hasattr(self, 'dimensions')","hasattr(self, 'precision')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function Variable not found in source"]}}
 class Variable:
     """Represents a typed variable."""
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(nam), initializes the instance correctly) over Any ║
+# ║ Path(__init__(name, datatype, dimensions), self._name == name and self.dimensions == dimensions and self.precision == precision) over {Any | isinstance(name, (Symbol, MatrixSymbol)) and not (dimensions and (not isinstance(dimensions, (tuple, list)))) and hasattr(datatype, 'cname') and hasattr(datatype, 'fname') and hasattr(datatype, 'jlname') and hasattr(datatype, 'octname') and hasattr(datatype, 'pyname') and hasattr(datatype, 'rsname')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(name, (Symbol, MatrixSymbol))       ║
+# ║   requires: not (dimensions and (not isinstance(dimen...   ║
+# ║   requires: hasattr(datatype, 'cname')                     ║
+# ║   ensures:  self._name == name                             ║
+# ║   ensures:  self.dimensions == dimensions                  ║
+# ║   ensures:  self.precision == precision                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | isinstance(name, (Symbol, MatrixSym...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2d5e2c4d13740093           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.Variable.__init__","kind":"method","src_hash":"443f3b6c2bc87dd6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(nam)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2d5e2c4d13740093"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.Variable.__init__","kind":"method","src_hash":"443f3b6c2bc87dd6","in":{"base":"Any","pred":"isinstance(name, (Symbol, MatrixSymbol)) and not (dimensions and (not isinstance(dimensions, (tuple, list)))) and hasattr(datatype, 'cname') and hasattr(datatype, 'fname') and hasattr(datatype, 'jlname') and hasattr(datatype, 'octname') and hasattr(datatype, 'pyname') and hasattr(datatype, 'rsname')"},"out":{"base":"Any","pred":"result satisfies: self._name == name and self.dimensions == dimensions and self.precision == precision"},"spec":{"lhs":"__init__(name, datatype, dimensions)","rhs":"self._name == name and self.dimensions == dimensions and self.precision == precision","over":{"base":"Any","pred":"isinstance(name, (Symbol, MatrixSymbol)) and not (dimensions and (not isinstance(dimensions, (tuple, list)))) and hasattr(datatype, 'cname') and hasattr(datatype, 'fname') and hasattr(datatype, 'jlname') and hasattr(datatype, 'octname') and hasattr(datatype, 'pyname') and hasattr(datatype, 'rsname')"},"name":"__init___correct"},"guarantee":"self._name == name; self.dimensions == dimensions; self.precision == precision","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2d5e2c4d13740093","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(name, (Symbol, MatrixSymbol))","not (dimensions and (not isinstance(dimensions, (tuple, list))))","hasattr(datatype, 'cname')","hasattr(datatype, 'fname')","hasattr(datatype, 'jlname')","hasattr(datatype, 'octname')","hasattr(datatype, 'pyname')","hasattr(datatype, 'rsname')"],"ensures":["self._name == name","self.dimensions == dimensions","self.precision == precision"],"pure":false,"effects":{"effect_type":"reads_state","reads":["datatype.cname","datatype.fname","datatype.jlname","datatype.octname","datatype.pyname","datatype.rsname"],"writes":["self._datatype","self._name","self.dimensions","self.precision"],"raises":["TypeError"]},"state_contract":{"modifies":["self._datatype","self._name","self.dimensions","self.precision"],"old_bindings":{"old_self__datatype":"self._datatype","old_self__name":"self._name","old_self_dimensions":"self.dimensions","old_self_precision":"self.precision"},"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, name, datatype=None, dimensions=None, precision=None):
         """Return a new variable.
 
@@ -460,16 +528,22 @@ class Variable:
         self.precision = precision
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), '%s(%r)' % (self.__class__.__name__, self.name)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '%s(%r)' % (self.__class__.__name__, self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 925abd3417fff631           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.Variable.__str__","kind":"method","src_hash":"849730a2ada690cb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"925abd3417fff631"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.Variable.__str__","kind":"method","src_hash":"849730a2ada690cb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'%s(%r)' % (self.__class__.__name__, self.name)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns '%s(%r)' % (self.__class__.__name__, self.name)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"925abd3417fff631","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'%s(%r)' % (self.__class__.__name__, self.name)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return "%s(%r)" % (self.__class__.__name__, self.name)
 
@@ -477,30 +551,43 @@ class Variable:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(name(), returns the name attribute) over Any          ║
+# ║ Path(name(), self._name) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._name                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ name : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 502e2a91d7967963           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.Variable.name","kind":"property","src_hash":"ffdfa4a4b030c060","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"name()","rhs":"returns the name attribute","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns the name attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"502e2a91d7967963"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.Variable.name","kind":"property","src_hash":"ffdfa4a4b030c060","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"name()","rhs":"self._name","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns self._name","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"502e2a91d7967963","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._name","pure":false,"effects":{"effect_type":"reads_state","reads":["self._name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def name(self):
         return self._name
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_datatype(lan), returns the datatype string for the requested language) over Any ║
+# ║ Path(get_datatype(language), self._datatype[language.upper()]) over {Any | hasattr(language, 'upper')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_datatype : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(language, 'upper')                     ║
+# ║   returns:  self._datatype[language.upper()]               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_datatype : {Any | hasattr(language, 'upper')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3c6ea6d5302f1dc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 44b643c4996387f3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.Variable.get_datatype","kind":"method","src_hash":"4eb9a5060d71073d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_datatype(lan)","rhs":"returns the datatype string for the requested language","over":{"base":"Any"},"name":"get_datatype_correct"},"guarantee":"returns the datatype string for the requested language","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.Variable.get_datatype_correct","statement":"Path(get_datatype(x), returns the datatype string for the requested language)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3c6ea6d5302f1dc"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.Variable.get_datatype","kind":"method","src_hash":"4eb9a5060d71073d","in":{"base":"Any","pred":"hasattr(language, 'upper')"},"out":{"base":"Any"},"spec":{"lhs":"get_datatype(language)","rhs":"self._datatype[language.upper()]","over":{"base":"Any","pred":"hasattr(language, 'upper')"},"name":"get_datatype_correct"},"guarantee":"returns self._datatype[language.upper()]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.Variable.get_datatype_correct","statement":"Path(get_datatype(x), returns self._datatype[language.upper()])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"44b643c4996387f3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(language, 'upper')"],"returns_expr":"self._datatype[language.upper()]","pure":false,"effects":{"effect_type":"reads_state","reads":["language.upper","self._datatype"],"raises":["CodeGenError"],"catches":["KeyError"]},"state_contract":{"exceptional_post":{"CodeGenError":["isinstance(raised, CodeGenError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_datatype(self, language):
         """Returns the datatype string for the requested language.
 
@@ -524,16 +611,22 @@ class Variable:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Argument(), correctly constructs a Argument instance) over Any ║
+# ║ Path(Argument(), isinstance(self, Variable)) over Any      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Argument : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Variable)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Argument : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 017ac1fc14cd4f5f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.Argument","kind":"class","src_hash":"3ef2345746aa9f74","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Argument()","rhs":"correctly constructs a Argument instance","over":{"base":"Any"},"name":"Argument_correct"},"guarantee":"correctly constructs a Argument instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"017ac1fc14cd4f5f"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.Argument","kind":"class","src_hash":"3ef2345746aa9f74","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Variable)"},"spec":{"lhs":"Argument()","rhs":"isinstance(self, Variable)","over":{"base":"Any"},"name":"Argument_correct"},"guarantee":"isinstance(self, Variable)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"017ac1fc14cd4f5f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Variable)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function Argument not found in source"]}}
 class Argument(Variable):
     """An abstract Argument data structure: a name and a data type.
 
@@ -544,16 +637,22 @@ class Argument(Variable):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(InputArgument(), correctly constructs a InputArgument instance) over Any ║
+# ║ Path(InputArgument(), isinstance(self, Argument)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ InputArgument : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Argument)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ InputArgument : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ed8ff4064a67f3f6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.InputArgument","kind":"class","src_hash":"2d64fc4d8333796b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"InputArgument()","rhs":"correctly constructs a InputArgument instance","over":{"base":"Any"},"name":"InputArgument_correct"},"guarantee":"correctly constructs a InputArgument instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ed8ff4064a67f3f6"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.InputArgument","kind":"class","src_hash":"2d64fc4d8333796b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Argument)"},"spec":{"lhs":"InputArgument()","rhs":"isinstance(self, Argument)","over":{"base":"Any"},"name":"InputArgument_correct"},"guarantee":"isinstance(self, Argument)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ed8ff4064a67f3f6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Argument)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function InputArgument not found in source"]}}
 class InputArgument(Argument):
     pass
 
@@ -561,14 +660,19 @@ class InputArgument(Argument):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a ResultBase instance) preserved by ResultBase(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ ResultBase : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c9701c579aebd05  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.ResultBase","kind":"class","src_hash":"b9147c33c6a5557f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ResultBase(*args)","rhs":"correctly constructs a ResultBase instance","over":{"base":"Any"},"name":"ResultBase_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a ResultBase instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'expr') and hasattr(self, 'result_var')","kind":"class","induction":"structural on expr, result_var"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c9701c579aebd05"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.ResultBase","kind":"class","src_hash":"b9147c33c6a5557f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ResultBase(*args)","rhs":"correctly constructs a ResultBase instance","over":{"base":"Any"},"name":"ResultBase_class_invariant","kind":"invariant"},"guarantee":"preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'expr') and hasattr(self, 'result_var')","kind":"class","induction":"structural on expr, result_var"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c9701c579aebd05","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'expr')","hasattr(self, 'result_var')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function ResultBase not found in source"]}}
 class ResultBase:
     """Base class for all "outgoing" information from a routine.
 
@@ -578,31 +682,44 @@ class ResultBase:
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(exp), initializes the instance correctly) over Any ║
+# ║ Path(__init__(expr, result_var), self.expr == expr and self.result_var == result_var) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.expr == expr                              ║
+# ║   ensures:  self.result_var == result_var                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.expr =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8b04342f30651290           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.ResultBase.__init__","kind":"method","src_hash":"6017d6259e082c99","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(exp)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8b04342f30651290"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.ResultBase.__init__","kind":"method","src_hash":"6017d6259e082c99","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.expr == expr and self.result_var == result_var"},"spec":{"lhs":"__init__(expr, result_var)","rhs":"self.expr == expr and self.result_var == result_var","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.expr == expr; self.result_var == result_var","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8b04342f30651290","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.expr == expr","self.result_var == result_var"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, expr, result_var):
         self.expr = expr
         self.result_var = result_var
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), '%s(%r, %r)' % (self.__class__.__name__, self.expr, self.result_var)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '%s(%r, %r)' % (self.__class__.__name__, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aec3929dd409619c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.ResultBase.__str__","kind":"method","src_hash":"0f21fd7ab22e73df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aec3929dd409619c"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.ResultBase.__str__","kind":"method","src_hash":"0f21fd7ab22e73df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'%s(%r, %r)' % (self.__class__.__name__, self.expr, self.result_var)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns '%s(%r, %r)' % (self.__class__.__name__, self.expr, self.result_var)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aec3929dd409619c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'%s(%r, %r)' % (self.__class__.__name__, self.expr, self.result_var)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.expr","self.result_var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return "%s(%r, %r)" % (self.__class__.__name__, self.expr,
             self.result_var)
@@ -613,28 +730,41 @@ class ResultBase:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(OutputArgument(*args), correctly constructs a OutputArgument instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ OutputArgument : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Argument)                     ║
+# ║   ensures:  isinstance(self, ResultBase)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ OutputArgument : Any → {Any | result satisfies: isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13c6432e352e6afb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.OutputArgument","kind":"class","src_hash":"1b9a518daf400479","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"OutputArgument(*args)","rhs":"correctly constructs a OutputArgument instance","over":{"base":"Any"},"name":"OutputArgument_class_invariant"},"guarantee":"correctly constructs a OutputArgument instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13c6432e352e6afb"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.OutputArgument","kind":"class","src_hash":"1b9a518daf400479","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Argument) and isinstance(self, ResultBase)"},"spec":{"lhs":"OutputArgument(*args)","rhs":"correctly constructs a OutputArgument instance","over":{"base":"Any"},"name":"OutputArgument_class_invariant"},"guarantee":"isinstance(self, Argument); isinstance(self, ResultBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13c6432e352e6afb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Argument)","isinstance(self, ResultBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function OutputArgument not found in source"]}}
 class OutputArgument(Argument, ResultBase):
     """OutputArgument are always initialized in the routine."""
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(nam), initializes the instance correctly) over Any ║
+# ║ Path(__init__(name, result_var, expr), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9de7e1fd49890228           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.OutputArgument.__init__","kind":"method","src_hash":"20d497348fa6e6ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(nam)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9de7e1fd49890228"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.OutputArgument.__init__","kind":"method","src_hash":"20d497348fa6e6ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(name, result_var, expr)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9de7e1fd49890228","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, name, result_var, expr, datatype=None, dimensions=None, precision=None):
         """Return a new variable.
 
@@ -673,16 +803,22 @@ class OutputArgument(Argument, ResultBase):
         ResultBase.__init__(self, expr, result_var)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), '%s(%r, %r, %r)' % (self.__class__.__name__, self.name, self.result_var, self.expr)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '%s(%r, %r, %r)' % (self.__class__.__name...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3c7d7da07bf7e4ad           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.OutputArgument.__str__","kind":"method","src_hash":"1f3d9a08943cfe1d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3c7d7da07bf7e4ad"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.OutputArgument.__str__","kind":"method","src_hash":"1f3d9a08943cfe1d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'%s(%r, %r, %r)' % (self.__class__.__name__, self.name, self.result_var, self.expr)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns '%s(%r, %r, %r)' % (self.__class__.__name__, self.name, self.result_var, self.expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3c7d7da07bf7e4ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'%s(%r, %r, %r)' % (self.__class__.__name__, self.name, self.result_var, self.expr)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.expr","self.name","self.result_var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return "%s(%r, %r, %r)" % (self.__class__.__name__, self.name, self.result_var, self.expr)
 
@@ -692,28 +828,41 @@ class OutputArgument(Argument, ResultBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(InOutArgument(*args), correctly constructs a InOutArgument instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ InOutArgument : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Argument)                     ║
+# ║   ensures:  isinstance(self, ResultBase)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ InOutArgument : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55ff723c08eecc99  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.InOutArgument","kind":"class","src_hash":"5a78c1619cae6d82","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"InOutArgument(*args)","rhs":"correctly constructs a InOutArgument instance","over":{"base":"Any"},"name":"InOutArgument_class_invariant"},"guarantee":"correctly constructs a InOutArgument instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55ff723c08eecc99"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.InOutArgument","kind":"class","src_hash":"5a78c1619cae6d82","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Argument) and isinstance(self, ResultBase)"},"spec":{"lhs":"InOutArgument(*args)","rhs":"correctly constructs a InOutArgument instance","over":{"base":"Any"},"name":"InOutArgument_class_invariant"},"guarantee":"isinstance(self, Argument); isinstance(self, ResultBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55ff723c08eecc99","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Argument)","isinstance(self, ResultBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function InOutArgument not found in source"]}}
 class InOutArgument(Argument, ResultBase):
     """InOutArgument are never initialized in the routine."""
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(nam), initializes the instance correctly) over Any ║
+# ║ Path(__init__(name, result_var, expr), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f58013d3d81b1e65           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.InOutArgument.__init__","kind":"method","src_hash":"f85be4b32d32ee68","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(nam)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f58013d3d81b1e65"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.InOutArgument.__init__","kind":"method","src_hash":"f85be4b32d32ee68","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(name, result_var, expr)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f58013d3d81b1e65","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, name, result_var, expr, datatype=None, dimensions=None, precision=None):
         if not datatype:
             datatype = get_default_datatype(expr)
@@ -723,16 +872,22 @@ class InOutArgument(Argument, ResultBase):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), '%s(%r, %r, %r)' % (self.__class__.__name__, self.name, self.expr, self.result_var)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '%s(%r, %r, %r)' % (self.__class__.__name...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4b448f07e2858ab2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.InOutArgument.__str__","kind":"method","src_hash":"06d56165dbbbe5a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4b448f07e2858ab2"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.InOutArgument.__str__","kind":"method","src_hash":"06d56165dbbbe5a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'%s(%r, %r, %r)' % (self.__class__.__name__, self.name, self.expr, self.result_var)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns '%s(%r, %r, %r)' % (self.__class__.__name__, self.name, self.expr, self.result_var)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4b448f07e2858ab2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'%s(%r, %r, %r)' % (self.__class__.__name__, self.name, self.expr, self.result_var)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.expr","self.name","self.result_var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return "%s(%r, %r, %r)" % (self.__class__.__name__, self.name, self.expr,
             self.result_var)
@@ -743,14 +898,21 @@ class InOutArgument(Argument, ResultBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Result(*args), correctly constructs a Result instance) over {Any | isinstance(name, str) and isinstance(expr, (Basic, MatrixBase)) and isinstance(expr, (MatrixBase, MatrixExpr))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Variable)                     ║
+# ║   ensures:  isinstance(self, ResultBase)                   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Result : {Any | isinstance(name, str) and isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d5c0614afc79c0a9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.Result","kind":"class","src_hash":"c09dc64a574f591f","in":{"base":"Any","pred":"isinstance(name, str) and isinstance(expr, (Basic, MatrixBase)) and isinstance(expr, (MatrixBase, MatrixExpr))"},"out":{"base":"Any"},"spec":{"lhs":"Result(*args)","rhs":"correctly constructs a Result instance","over":{"base":"Any","pred":"isinstance(name, str) and isinstance(expr, (Basic, MatrixBase)) and isinstance(expr, (MatrixBase, MatrixExpr))"},"name":"Result_class_invariant"},"guarantee":"correctly constructs a Result instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5c0614afc79c0a9"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.Result","kind":"class","src_hash":"c09dc64a574f591f","in":{"base":"Any","pred":"isinstance(name, str) and isinstance(expr, (Basic, MatrixBase)) and isinstance(expr, (MatrixBase, MatrixExpr))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Variable) and isinstance(self, ResultBase)"},"spec":{"lhs":"Result(*args)","rhs":"correctly constructs a Result instance","over":{"base":"Any","pred":"isinstance(name, str) and isinstance(expr, (Basic, MatrixBase)) and isinstance(expr, (MatrixBase, MatrixExpr))"},"name":"Result_class_invariant"},"guarantee":"isinstance(self, Variable); isinstance(self, ResultBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5c0614afc79c0a9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Variable)","isinstance(self, ResultBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function Result not found in source"]}}
 class Result(Variable, ResultBase):
     """An expression for a return value.
 
@@ -763,16 +925,24 @@ class Result(Variable, ResultBase):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(exp), initializes the instance correctly) over Any ║
+# ║ Path(__init__(expr, name, result_var), <unspecified:__init__>) over {Any | isinstance(expr, (Basic, MatrixBase)) and hasattr(expr, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(expr, (Basic, MatrixBase))          ║
+# ║   requires: hasattr(expr, 'shape')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | isinstance(expr, (Basic, MatrixBase...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 35e2dc2f68de0d7f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.Result.__init__","kind":"method","src_hash":"f38b43b32d800998","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(exp)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"35e2dc2f68de0d7f"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.Result.__init__","kind":"method","src_hash":"f38b43b32d800998","in":{"base":"Any","pred":"isinstance(expr, (Basic, MatrixBase)) and hasattr(expr, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"__init__(expr, name, result_var)","rhs":"<unspecified:__init__>","over":{"base":"Any","pred":"isinstance(expr, (Basic, MatrixBase)) and hasattr(expr, 'shape')"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"35e2dc2f68de0d7f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(expr, (Basic, MatrixBase))","hasattr(expr, 'shape')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.shape"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, expr, name=None, result_var=None, datatype=None,
                  dimensions=None, precision=None):
         """Initialize a return value.
@@ -831,16 +1001,22 @@ class Result(Variable, ResultBase):
         ResultBase.__init__(self, expr, result_var)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), '%s(%r, %r, %r)' % (self.__class__.__name__, self.expr, self.name, self.result_var)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '%s(%r, %r, %r)' % (self.__class__.__name...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aab6aa0552ea4886           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.Result.__str__","kind":"method","src_hash":"d85e4ae5f689c4ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aab6aa0552ea4886"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.Result.__str__","kind":"method","src_hash":"d85e4ae5f689c4ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'%s(%r, %r, %r)' % (self.__class__.__name__, self.expr, self.name, self.result_var)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns '%s(%r, %r, %r)' % (self.__class__.__name__, self.expr, self.name, self.result_var)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aab6aa0552ea4886","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'%s(%r, %r, %r)' % (self.__class__.__name__, self.expr, self.name, self.result_var)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.expr","self.name","self.result_var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return "%s(%r, %r, %r)" % (self.__class__.__name__, self.expr, self.name,
             self.result_var)
@@ -855,44 +1031,62 @@ class Result(Variable, ResultBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a CodeGen instance) preserved by CodeGen(*args) over {Any | isinstance(symbol, Idx) and isinstance(symbol, Indexed) and isinstance(expr, Equality)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ CodeGen : {Any | isinstance(symbol, Idx) and isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 976d0cdc493034ba  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CodeGen","kind":"class","src_hash":"aa1f77155536bd98","in":{"base":"Any","pred":"isinstance(symbol, Idx) and isinstance(symbol, Indexed) and isinstance(expr, Equality)"},"out":{"base":"Any"},"spec":{"lhs":"CodeGen(*args)","rhs":"correctly constructs a CodeGen instance","over":{"base":"Any","pred":"isinstance(symbol, Idx) and isinstance(symbol, Indexed) and isinstance(expr, Equality)"},"name":"CodeGen_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a CodeGen instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'project') and hasattr(self, 'cse')","kind":"class","induction":"structural on project, cse"}],"methods_preserving":["_indent_code","_printer_method_with_settings","_get_symbol","__init__","routine","write","dump_code"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"976d0cdc493034ba"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CodeGen","kind":"class","src_hash":"aa1f77155536bd98","in":{"base":"Any","pred":"isinstance(symbol, Idx) and isinstance(symbol, Indexed) and isinstance(expr, Equality)"},"out":{"base":"Any"},"spec":{"lhs":"CodeGen(*args)","rhs":"correctly constructs a CodeGen instance","over":{"base":"Any","pred":"isinstance(symbol, Idx) and isinstance(symbol, Indexed) and isinstance(expr, Equality)"},"name":"CodeGen_class_invariant","kind":"invariant"},"guarantee":"preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'project') and hasattr(self, 'cse')","kind":"class","induction":"structural on project, cse"}],"methods_preserving":["_indent_code","_printer_method_with_settings","_get_symbol","__init__","routine","write","dump_code"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"976d0cdc493034ba","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'project')","hasattr(self, 'cse')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function CodeGen not found in source"]}}
 class CodeGen:
     """Abstract class for the code generators."""
 
     printer = None  # will be set to an instance of a CodePrinter subclass
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_indent_code(cod), internal helper behaves correctly) over Any ║
+# ║ Path(_indent_code(codelines), self.printer.indent_code(codelines)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.printer.indent_code(codelines)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _indent_code : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e8b8048f720a117a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CodeGen._indent_code","kind":"method","src_hash":"56aca195dbb508cb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_indent_code(cod)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_indent_code_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e8b8048f720a117a"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CodeGen._indent_code","kind":"method","src_hash":"56aca195dbb508cb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_indent_code(codelines)","rhs":"self.printer.indent_code(codelines)","over":{"base":"Any"},"name":"_indent_code_correct"},"guarantee":"returns self.printer.indent_code(codelines)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e8b8048f720a117a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.printer.indent_code(codelines)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.printer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _indent_code(self, codelines):
         return self.printer.indent_code(codelines)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_printer_method_with_settings(met), internal helper behaves correctly) over Any ║
+# ║ Path(_printer_method_with_settings(method, settings, *args), <unspecified:_printer_method_with_settings>) over {Any | hasattr(settings, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _printer_method_with_settings : Any → Any                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(settings, 'items')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _printer_method_with_settings : {Any | hasattr(settin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d8e18607d4c0c5d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CodeGen._printer_method_with_settings","kind":"method","src_hash":"58aa160c873bb7df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_printer_method_with_settings(met)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_printer_method_with_settings_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.CodeGen._printer_method_with_settings_correct","statement":"Path(_printer_method_with_settings(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d8e18607d4c0c5d"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CodeGen._printer_method_with_settings","kind":"method","src_hash":"58aa160c873bb7df","in":{"base":"Any","pred":"hasattr(settings, 'items')"},"out":{"base":"Any"},"spec":{"lhs":"_printer_method_with_settings(method, settings, *args)","rhs":"<unspecified:_printer_method_with_settings>","over":{"base":"Any","pred":"hasattr(settings, 'items')"},"name":"_printer_method_with_settings_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.CodeGen._printer_method_with_settings_correct","statement":"Path(_printer_method_with_settings(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d8e18607d4c0c5d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(settings, 'items')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.printer","settings.items"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _printer_method_with_settings(self, method, settings=None, *args, **kwargs):
         settings = settings or {}
         ori = {k: self.printer._settings[k] for k in settings}
@@ -904,16 +1098,22 @@ class CodeGen:
         return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_symbol(s), returns the symbol as fcode prints it) over Any ║
+# ║ Path(_get_symbol(s), expr_str.strip()) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  expr_str.strip()                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_symbol : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c883087abef9e748  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 479fa2a5e9484652  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CodeGen._get_symbol","kind":"method","src_hash":"46539b765102eb57","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_symbol(s)","rhs":"returns the symbol as fcode prints it","over":{"base":"Any"},"name":"_get_symbol_correct"},"guarantee":"returns the symbol as fcode prints it","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.CodeGen._get_symbol_correct","statement":"Path(_get_symbol(x), returns the symbol as fcode prints it)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c883087abef9e748"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CodeGen._get_symbol","kind":"method","src_hash":"46539b765102eb57","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_symbol(s)","rhs":"expr_str.strip()","over":{"base":"Any"},"name":"_get_symbol_correct"},"guarantee":"returns expr_str.strip()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.CodeGen._get_symbol_correct","statement":"Path(_get_symbol(x), returns expr_str.strip())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"479fa2a5e9484652","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"expr_str.strip()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.printer"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_symbol(self, s):
         """Returns the symbol as fcode prints it."""
         if self.printer._settings['human']:
@@ -925,16 +1125,23 @@ class CodeGen:
         return expr_str.strip()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(pro), initializes the instance correctly) over Any ║
+# ║ Path(__init__(project, cse), self.project == project and self.cse == cse) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.project == project                        ║
+# ║   ensures:  self.cse == cse                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.projec...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e8724b07244893a0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CodeGen.__init__","kind":"method","src_hash":"7533ba380d7f5e91","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(pro)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e8724b07244893a0"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CodeGen.__init__","kind":"method","src_hash":"7533ba380d7f5e91","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.project == project and self.cse == cse"},"spec":{"lhs":"__init__(project, cse)","rhs":"self.project == project and self.cse == cse","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.project == project; self.cse == cse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e8724b07244893a0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.project == project","self.cse == cse"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, project="project", cse=False):
         """Initialize a code generator.
 
@@ -946,16 +1153,27 @@ class CodeGen:
         self.cse = cse
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(routine(nam), creates an routine object that is appropriate for this language) over Any ║
+# ║ Path(routine(name, expr, argument_sequence), len(arg_list) == old_len_arg_list + 1 and len(new_args) == old_len_new_args + 1 and len(new_sequence) == old_len_new_sequence + 1 and len(output_args) == old_len_output_args + 1 and len(output_args) == old_len_output_args and len(return_val) == old_len_return_val + 1) over {Any | hasattr(expr, 'lhs') and hasattr(expr, 'rhs') and hasattr(expr, 'has') and hasattr(expr, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ routine : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'lhs')                           ║
+# ║   requires: hasattr(expr, 'rhs')                           ║
+# ║   requires: hasattr(expr, 'has')                           ║
+# ║   ensures:  len(arg_list) == old_len_arg_list + 1          ║
+# ║   ensures:  len(new_args) == old_len_new_args + 1          ║
+# ║   ensures:  len(new_sequence) == old_len_new_sequence...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ routine : {Any | hasattr(expr, 'lhs') and hasattr(exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dfaf29a8647d586a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f6a4cc2e026754f4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CodeGen.routine","kind":"method","src_hash":"2f436badd9af2fb7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"routine(nam)","rhs":"creates an routine object that is appropriate for this language","over":{"base":"Any"},"name":"routine_correct"},"guarantee":"creates an routine object that is appropriate for this language","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.CodeGen.routine_correct","statement":"Path(routine(x), creates an routine object that is appropriate for this language)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfaf29a8647d586a"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CodeGen.routine","kind":"method","src_hash":"2f436badd9af2fb7","in":{"base":"Any","pred":"hasattr(expr, 'lhs') and hasattr(expr, 'rhs') and hasattr(expr, 'has') and hasattr(expr, 'shape')"},"out":{"base":"Any","pred":"result satisfies: len(arg_list) == old_len_arg_list + 1 and len(new_args) == old_len_new_args + 1 and len(new_sequence) == old_len_new_sequence + 1 and len(output_args) == old_len_output_args + 1 and len(output_args) == old_len_output_args and len(return_val) == old_len_return_val + 1"},"spec":{"lhs":"routine(name, expr, argument_sequence)","rhs":"len(arg_list) == old_len_arg_list + 1 and len(new_args) == old_len_new_args + 1 and len(new_sequence) == old_len_new_sequence + 1 and len(output_args) == old_len_output_args + 1 and len(output_args) == old_len_output_args and len(return_val) == old_len_return_val + 1","over":{"base":"Any","pred":"hasattr(expr, 'lhs') and hasattr(expr, 'rhs') and hasattr(expr, 'has') and hasattr(expr, 'shape')"},"name":"routine_correct"},"guarantee":"len(arg_list) == old_len_arg_list + 1; len(new_args) == old_len_new_args + 1; len(new_sequence) == old_len_new_sequence + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.CodeGen.routine_correct","statement":"Path(routine(x), len(arg_list) == old_len_arg_list + 1; len(new_args) == old_len_new_args + 1; len(new_sequence) == old_len_new_sequence + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6a4cc2e026754f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'lhs')","hasattr(expr, 'rhs')","hasattr(expr, 'has')","hasattr(expr, 'shape')"],"ensures":["len(arg_list) == old_len_arg_list + 1","len(new_args) == old_len_new_args + 1","len(new_sequence) == old_len_new_sequence + 1","len(output_args) == old_len_output_args + 1","len(output_args) == old_len_output_args","len(return_val) == old_len_return_val + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.has","expr.lhs","expr.rhs","expr.shape","self.cse"],"calls_mutating":["arg_list.append","arg_list.extend","new_args.append","new_sequence.append","new_symbols.remove","new_symbols.update","output_args.append","output_args.sort","return_val.append","symbols.remove"],"raises":["CodeGenArgumentListError","CodeGenError","ValueError"],"catches":["KeyError"]},"state_contract":{"modifies":["arg_list.*","new_args.*","new_sequence.*","new_symbols.*","output_args.*","return_val.*","symbols.*"],"old_bindings":{"old_len_arg_list":"len(arg_list)","old_len_new_args":"len(new_args)","old_len_new_sequence":"len(new_sequence)","old_len_new_symbols":"len(new_symbols)","old_len_output_args":"len(output_args)","old_len_return_val":"len(return_val)"},"post_ensures":["len(arg_list) == old_len_arg_list + 1","len(new_args) == old_len_new_args + 1","len(new_sequence) == old_len_new_sequence + 1","len(output_args) == old_len_output_args + 1","len(output_args) == old_len_output_args","len(return_val) == old_len_return_val + 1"],"exceptional_post":{"CodeGenArgumentListError":["isinstance(raised, CodeGenArgumentListError)"],"CodeGenError":["isinstance(raised, CodeGenError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def routine(self, name, expr, argument_sequence=None, global_vars=None):
         """Creates an Routine object that is appropriate for this language.
 
@@ -1131,16 +1349,24 @@ class CodeGen:
         return Routine(name, arg_list, return_val, local_vars, global_vars)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(write(rou), writes all the source code files for the given routines) over Any ║
+# ║ Path(write(routines, prefix, to_files), len(result) == old_len_result + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ write : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(result) == old_len_result + 1              ║
+# ║   fiber[case_0]: to_files                                  ║
+# ║   fiber[case_1]: not (to_files) => result                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ write : Any → {Any | result satisfies: len(result) ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd99bedf0fcaebc2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a3f952debb51605  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CodeGen.write","kind":"method","src_hash":"6133ca80f88a55da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"write(rou)","rhs":"writes all the source code files for the given routines","over":{"base":"Any"},"name":"write_correct"},"guarantee":"writes all the source code files for the given routines","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.CodeGen.write_correct","statement":"Path(write(x), writes all the source code files for the given routines)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd99bedf0fcaebc2"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CodeGen.write","kind":"method","src_hash":"6133ca80f88a55da","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(result) == old_len_result + 1"},"spec":{"lhs":"write(routines, prefix, to_files)","rhs":"len(result) == old_len_result + 1","over":{"base":"Any"},"name":"write_correct"},"guarantee":"len(result) == old_len_result + 1; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.CodeGen.write_correct","statement":"Path(write(x), len(result) == old_len_result + 1; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a3f952debb51605","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(result) == old_len_result + 1"],"fibers":[{"name":"case_0","guard":"to_files","ensures":[],"decidability":"library"},{"name":"case_1","guard":"not (to_files)","ensures":["result == result"],"decidability":"library","returns_expr":"result"}],"pure":false,"effects":{"effect_type":"io","reads":["self.dump_fns"],"calls_mutating":["result.append"],"io_operations":["open"]},"state_contract":{"modifies":["result.*"],"old_bindings":{"old_len_result":"len(result)"},"post_ensures":["len(result) == old_len_result + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def write(self, routines, prefix, to_files=False, header=True, empty=True):
         """Writes all the source code files for the given routines.
 
@@ -1185,16 +1411,23 @@ class CodeGen:
             return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dump_code(rou), write the code by calling language specific methods) over Any ║
+# ║ Path(dump_code(routines, f, prefix), len(code_lines) == old_len_code_lines + 1) over {Any | hasattr(f, 'write')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dump_code : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'write')                            ║
+# ║   ensures:  len(code_lines) == old_len_code_lines + 1      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dump_code : {Any | hasattr(f, 'write')} → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fcd0b841a23456bf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0ddfa0f2a55d2fd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CodeGen.dump_code","kind":"method","src_hash":"0a50b2136e4ca586","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dump_code(rou)","rhs":"write the code by calling language specific methods","over":{"base":"Any"},"name":"dump_code_correct"},"guarantee":"write the code by calling language specific methods","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.CodeGen.dump_code_correct","statement":"Path(dump_code(x), write the code by calling language specific methods)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fcd0b841a23456bf"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CodeGen.dump_code","kind":"method","src_hash":"0a50b2136e4ca586","in":{"base":"Any","pred":"hasattr(f, 'write')"},"out":{"base":"Any","pred":"result satisfies: len(code_lines) == old_len_code_lines + 1"},"spec":{"lhs":"dump_code(routines, f, prefix)","rhs":"len(code_lines) == old_len_code_lines + 1","over":{"base":"Any","pred":"hasattr(f, 'write')"},"name":"dump_code_correct"},"guarantee":"len(code_lines) == old_len_code_lines + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.CodeGen.dump_code_correct","statement":"Path(dump_code(x), len(code_lines) == old_len_code_lines + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0ddfa0f2a55d2fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'write')"],"ensures":["len(code_lines) == old_len_code_lines + 1"],"pure":false,"effects":{"effect_type":"io","reads":["f.write","self._call_printer","self._declare_arguments","self._declare_globals","self._declare_locals","self._get_header","self._get_routine_ending","self._get_routine_opening","self._indent_code","self._preprocessor_statements"],"calls_mutating":["code_lines.append","code_lines.extend","f.write"],"io_operations":["f.write"]},"state_contract":{"modifies":["code_lines.*","f.*"],"old_bindings":{"old_len_code_lines":"len(code_lines)"},"post_ensures":["len(code_lines) == old_len_code_lines + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dump_code(self, routines, f, prefix, header=True, empty=True):
         """Write the code by calling language specific methods.
 
@@ -1250,16 +1483,22 @@ class CodeGen:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(CodeGenError(), correctly constructs a CodeGenError instance) over Any ║
+# ║ Path(CodeGenError(), isinstance(self, Exception)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CodeGenError : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Exception)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CodeGenError : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 78ab55a5a7dbde3c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CodeGenError","kind":"class","src_hash":"67bccd898d5224a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CodeGenError()","rhs":"correctly constructs a CodeGenError instance","over":{"base":"Any"},"name":"CodeGenError_correct"},"guarantee":"correctly constructs a CodeGenError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"78ab55a5a7dbde3c"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CodeGenError","kind":"class","src_hash":"67bccd898d5224a2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Exception)"},"spec":{"lhs":"CodeGenError()","rhs":"isinstance(self, Exception)","over":{"base":"Any"},"name":"CodeGenError_correct"},"guarantee":"isinstance(self, Exception)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"78ab55a5a7dbde3c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Exception)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function CodeGenError not found in source"]}}
 class CodeGenError(Exception):
     pass
 
@@ -1267,27 +1506,39 @@ class CodeGenError(Exception):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(CodeGenArgumentListError(*args), correctly constructs a CodeGenArgumentListError instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CodeGenArgumentListError : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Exception)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CodeGenArgumentListError : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9c007f04c460ad2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CodeGenArgumentListError","kind":"class","src_hash":"ef25b525782a040b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CodeGenArgumentListError(*args)","rhs":"correctly constructs a CodeGenArgumentListError instance","over":{"base":"Any"},"name":"CodeGenArgumentListError_class_invariant"},"guarantee":"correctly constructs a CodeGenArgumentListError instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9c007f04c460ad2"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CodeGenArgumentListError","kind":"class","src_hash":"ef25b525782a040b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Exception)"},"spec":{"lhs":"CodeGenArgumentListError(*args)","rhs":"correctly constructs a CodeGenArgumentListError instance","over":{"base":"Any"},"name":"CodeGenArgumentListError_class_invariant"},"guarantee":"isinstance(self, Exception)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9c007f04c460ad2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Exception)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function CodeGenArgumentListError not found in source"]}}
 class CodeGenArgumentListError(Exception):
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(missing_args(), returns the missing_args attribute) over Any ║
+# ║ Path(missing_args(), self.args[1]) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ missing_args : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5f5326e09facdc51           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CodeGenArgumentListError.missing_args","kind":"property","src_hash":"7e4c3e47f1e28f17","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"missing_args()","rhs":"returns the missing_args attribute","over":{"base":"Any"},"name":"missing_args_correct"},"guarantee":"returns the missing_args attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5f5326e09facdc51"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CodeGenArgumentListError.missing_args","kind":"property","src_hash":"7e4c3e47f1e28f17","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"missing_args()","rhs":"self.args[1]","over":{"base":"Any"},"name":"missing_args_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5f5326e09facdc51","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def missing_args(self):
         return self.args[1]
 
@@ -1303,14 +1554,20 @@ This file is part of '%(project)s'
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a CCodeGen instance) preserved by CCodeGen(*args) over {Any | isinstance(result.expr, (MatrixBase, MatrixExpr)) and isinstance(result, Result) and isinstance(arg, ResultBase)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CodeGen)                      ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ CCodeGen : {Any | isinstance(result.expr, (MatrixBase...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e8432e0bd8ee8821  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CCodeGen","kind":"class","src_hash":"4349efa77d885706","in":{"base":"Any","pred":"isinstance(result.expr, (MatrixBase, MatrixExpr)) and isinstance(result, Result) and isinstance(arg, ResultBase)"},"out":{"base":"Any"},"spec":{"lhs":"CCodeGen(*args)","rhs":"correctly constructs a CCodeGen instance","over":{"base":"Any","pred":"isinstance(result.expr, (MatrixBase, MatrixExpr)) and isinstance(result, Result) and isinstance(arg, ResultBase)"},"name":"CCodeGen_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a CCodeGen instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'printer') and hasattr(self, 'preprocessor_statements') and hasattr(self, 'preprocessor_statements')","kind":"class","induction":"structural on printer, preprocessor_statements, preprocessor_statements"}],"methods_preserving":["__init__","_get_header","get_prototype","_preprocessor_statements","_get_routine_opening","_declare_arguments","_declare_globals","_declare_locals","_call_printer","_get_routine_ending","dump_c","dump_h"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8432e0bd8ee8821"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CCodeGen","kind":"class","src_hash":"4349efa77d885706","in":{"base":"Any","pred":"isinstance(result.expr, (MatrixBase, MatrixExpr)) and isinstance(result, Result) and isinstance(arg, ResultBase)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CodeGen)"},"spec":{"lhs":"CCodeGen(*args)","rhs":"correctly constructs a CCodeGen instance","over":{"base":"Any","pred":"isinstance(result.expr, (MatrixBase, MatrixExpr)) and isinstance(result, Result) and isinstance(arg, ResultBase)"},"name":"CCodeGen_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, CodeGen); preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'printer') and hasattr(self, 'preprocessor_statements') and hasattr(self, 'preprocessor_statements')","kind":"class","induction":"structural on printer, preprocessor_statements, preprocessor_statements"}],"methods_preserving":["__init__","_get_header","get_prototype","_preprocessor_statements","_get_routine_opening","_declare_arguments","_declare_globals","_declare_locals","_call_printer","_get_routine_ending","dump_c","dump_h"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8432e0bd8ee8821","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CodeGen)"],"invariants":["hasattr(self, 'printer')","hasattr(self, 'preprocessor_statements')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function CCodeGen not found in source"]}}
 class CCodeGen(CodeGen):
     """Generator for C code.
 
@@ -1324,16 +1581,22 @@ class CCodeGen(CodeGen):
     standard = 'c99'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(pro), initializes the instance correctly) over Any ║
+# ║ Path(__init__(project, printer, preprocessor_statements), self.preprocessor_statements == preprocessor_statements) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.preprocessor_statements == preproces...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.prepro...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 01da86cf2863b55f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CCodeGen.__init__","kind":"method","src_hash":"86be3dbf3ef6871b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(pro)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"01da86cf2863b55f"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CCodeGen.__init__","kind":"method","src_hash":"86be3dbf3ef6871b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.preprocessor_statements == preprocessor_statements"},"spec":{"lhs":"__init__(project, printer, preprocessor_statements)","rhs":"self.preprocessor_statements == preprocessor_statements","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.preprocessor_statements == preprocessor_statements","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"01da86cf2863b55f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.preprocessor_statements == preprocessor_statements"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, project="project", printer=None,
                  preprocessor_statements=None, cse=False):
         super().__init__(project=project, cse=cse)
@@ -1344,16 +1607,22 @@ class CCodeGen(CodeGen):
             self.preprocessor_statements = ['#include <math.h>']
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_header(), writes a common header for the generated files) over Any ║
+# ║ Path(_get_header(), <unspecified:_get_header>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_header : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eaa82081750c765b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CCodeGen._get_header","kind":"method","src_hash":"d7f15cd86e27a474","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_header()","rhs":"writes a common header for the generated files","over":{"base":"Any"},"name":"_get_header_correct"},"guarantee":"writes a common header for the generated files","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.CCodeGen._get_header_correct","statement":"Path(_get_header(x), writes a common header for the generated files)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eaa82081750c765b"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CCodeGen._get_header","kind":"method","src_hash":"d7f15cd86e27a474","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_header()","rhs":"<unspecified:_get_header>","over":{"base":"Any"},"name":"_get_header_correct"},"guarantee":"writes a common header for the generated files","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.CCodeGen._get_header_correct","statement":"Path(_get_header(x), writes a common header for the generated files)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eaa82081750c765b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_header(self):
         """Writes a common header for the generated files."""
         code_lines = []
@@ -1366,16 +1635,26 @@ class CCodeGen(CodeGen):
         return code_lines
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_prototype(rou), returns a string for the function prototype of the routine) over Any ║
+# ║ Path(get_prototype(routine), '%s %s(%s)' % (ctype, routine.name, arguments)) over {Any | not (len(routine.results) > 1) and hasattr(routine, 'arguments') and hasattr(routine, 'results') and hasattr(routine, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_prototype : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(routine.results) > 1)                 ║
+# ║   requires: hasattr(routine, 'arguments')                  ║
+# ║   requires: hasattr(routine, 'results')                    ║
+# ║   ensures:  len(type_args) == old_len_type_args + 1        ║
+# ║   returns:  '%s %s(%s)' % (ctype, routine.name, argum...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_prototype : {Any | not (len(routine.results) > 1)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d75cb4aae86358e1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af6a54553150255b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CCodeGen.get_prototype","kind":"method","src_hash":"9c2254e2e507b5a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_prototype(rou)","rhs":"returns a string for the function prototype of the routine","over":{"base":"Any"},"name":"get_prototype_correct"},"guarantee":"returns a string for the function prototype of the routine","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.CCodeGen.get_prototype_correct","statement":"Path(get_prototype(x), returns a string for the function prototype of the routine)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d75cb4aae86358e1"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CCodeGen.get_prototype","kind":"method","src_hash":"9c2254e2e507b5a4","in":{"base":"Any","pred":"not (len(routine.results) > 1) and hasattr(routine, 'arguments') and hasattr(routine, 'results') and hasattr(routine, 'name')"},"out":{"base":"Any","pred":"result satisfies: result == ('%s %s(%s)' % (ctype, routine.name, arguments))"},"spec":{"lhs":"get_prototype(routine)","rhs":"'%s %s(%s)' % (ctype, routine.name, arguments)","over":{"base":"Any","pred":"not (len(routine.results) > 1) and hasattr(routine, 'arguments') and hasattr(routine, 'results') and hasattr(routine, 'name')"},"name":"get_prototype_correct"},"guarantee":"returns '%s %s(%s)' % (ctype, routine.name, arguments); len(type_args) == old_len_type_args + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.CCodeGen.get_prototype_correct","statement":"Path(get_prototype(x), returns '%s %s(%s)' % (ctype, routine.name, arguments); len(type_args) == old_len_type_args + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af6a54553150255b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(routine.results) > 1)","hasattr(routine, 'arguments')","hasattr(routine, 'results')","hasattr(routine, 'name')"],"ensures":["len(type_args) == old_len_type_args + 1"],"returns_expr":"'%s %s(%s)' % (ctype, routine.name, arguments)","pure":false,"effects":{"effect_type":"reads_state","reads":["routine.arguments","routine.name","routine.results","self.printer"],"calls_mutating":["type_args.append"],"raises":["CodeGenError"]},"state_contract":{"modifies":["type_args.*"],"old_bindings":{"old_len_type_args":"len(type_args)"},"post_ensures":["len(type_args) == old_len_type_args + 1"],"exceptional_post":{"CodeGenError":["isinstance(raised, CodeGenError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_prototype(self, routine):
         """Returns a string for the function prototype of the routine.
 
@@ -1403,16 +1682,22 @@ class CCodeGen(CodeGen):
         return "%s %s(%s)" % (ctype, routine.name, arguments)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_preprocessor_statements(pre), internal helper behaves correctly) over Any ║
+# ║ Path(_preprocessor_statements(prefix), <unspecified:_preprocessor_statements>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _preprocessor_statements : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83e6c468e45d9f36  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CCodeGen._preprocessor_statements","kind":"method","src_hash":"221aa27644ed834f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_preprocessor_statements(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_preprocessor_statements_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.CCodeGen._preprocessor_statements_correct","statement":"Path(_preprocessor_statements(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83e6c468e45d9f36"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CCodeGen._preprocessor_statements","kind":"method","src_hash":"221aa27644ed834f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_preprocessor_statements(prefix)","rhs":"<unspecified:_preprocessor_statements>","over":{"base":"Any"},"name":"_preprocessor_statements_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.CCodeGen._preprocessor_statements_correct","statement":"Path(_preprocessor_statements(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83e6c468e45d9f36","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _preprocessor_statements(self, prefix):
         code_lines = []
         code_lines.append('#include "{}.h"'.format(os.path.basename(prefix)))
@@ -1421,61 +1706,88 @@ class CCodeGen(CodeGen):
         return code_lines
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_routine_opening(rou), internal helper behaves correctly) over Any ║
+# ║ Path(_get_routine_opening(routine), ['%s {\n' % prototype]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ['%s {\n' % prototype]                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_routine_opening : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9dd105e029456467  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7021d09eb4643981  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CCodeGen._get_routine_opening","kind":"method","src_hash":"8519d66dc3b42621","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_routine_opening(rou)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_routine_opening_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.CCodeGen._get_routine_opening_correct","statement":"Path(_get_routine_opening(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9dd105e029456467"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CCodeGen._get_routine_opening","kind":"method","src_hash":"8519d66dc3b42621","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_routine_opening(routine)","rhs":"['%s {\\n' % prototype]","over":{"base":"Any"},"name":"_get_routine_opening_correct"},"guarantee":"returns ['%s {\\n' % prototype]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.CCodeGen._get_routine_opening_correct","statement":"Path(_get_routine_opening(x), returns ['%s {\\n' % prototype])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7021d09eb4643981","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"['%s {\\n' % prototype]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.get_prototype"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_routine_opening(self, routine):
         prototype = self.get_prototype(routine)
         return ["%s {\n" % prototype]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_declare_arguments(rou), internal helper behaves correctly) over Any ║
+# ║ Path(_declare_arguments(routine), []) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  []                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _declare_arguments : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d72c8c04a73b9cc0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CCodeGen._declare_arguments","kind":"method","src_hash":"d4baa61c9458d202","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_declare_arguments(rou)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_declare_arguments_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d72c8c04a73b9cc0"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CCodeGen._declare_arguments","kind":"method","src_hash":"d4baa61c9458d202","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_declare_arguments(routine)","rhs":"[]","over":{"base":"Any"},"name":"_declare_arguments_correct"},"guarantee":"returns []","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d72c8c04a73b9cc0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _declare_arguments(self, routine):
         # arguments are declared in prototype
         return []
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_declare_globals(rou), internal helper behaves correctly) over Any ║
+# ║ Path(_declare_globals(routine), []) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  []                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _declare_globals : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c05467759dfe7923           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CCodeGen._declare_globals","kind":"method","src_hash":"ccf73499142e17fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_declare_globals(rou)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_declare_globals_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c05467759dfe7923"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CCodeGen._declare_globals","kind":"method","src_hash":"ccf73499142e17fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_declare_globals(routine)","rhs":"[]","over":{"base":"Any"},"name":"_declare_globals_correct"},"guarantee":"returns []","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c05467759dfe7923","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _declare_globals(self, routine):
         # global variables are not explicitly declared within C functions
         return []
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_declare_locals(rou), internal helper behaves correctly) over Any ║
+# ║ Path(_declare_locals(routine), len(code_lines) == old_len_code_lines + 1 and len(dereference) == old_len_dereference + 1) over {Any | hasattr(routine, 'arguments') and hasattr(routine, 'local_vars')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _declare_locals : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(routine, 'arguments')                  ║
+# ║   requires: hasattr(routine, 'local_vars')                 ║
+# ║   ensures:  len(code_lines) == old_len_code_lines + 1      ║
+# ║   ensures:  len(dereference) == old_len_dereference + 1    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _declare_locals : {Any | hasattr(routine, 'arguments'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | adb093534d163347  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e98216a02cf6a26  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CCodeGen._declare_locals","kind":"method","src_hash":"121dc06eadf18b7c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_declare_locals(rou)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_declare_locals_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.CCodeGen._declare_locals_correct","statement":"Path(_declare_locals(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"adb093534d163347"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CCodeGen._declare_locals","kind":"method","src_hash":"121dc06eadf18b7c","in":{"base":"Any","pred":"hasattr(routine, 'arguments') and hasattr(routine, 'local_vars')"},"out":{"base":"Any","pred":"result satisfies: len(code_lines) == old_len_code_lines + 1 and len(dereference) == old_len_dereference + 1"},"spec":{"lhs":"_declare_locals(routine)","rhs":"len(code_lines) == old_len_code_lines + 1 and len(dereference) == old_len_dereference + 1","over":{"base":"Any","pred":"hasattr(routine, 'arguments') and hasattr(routine, 'local_vars')"},"name":"_declare_locals_correct"},"guarantee":"len(code_lines) == old_len_code_lines + 1; len(dereference) == old_len_dereference + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.CCodeGen._declare_locals_correct","statement":"Path(_declare_locals(x), len(code_lines) == old_len_code_lines + 1; len(dereference) == old_len_dereference + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e98216a02cf6a26","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(routine, 'arguments')","hasattr(routine, 'local_vars')"],"ensures":["len(code_lines) == old_len_code_lines + 1","len(dereference) == old_len_dereference + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["routine.arguments","routine.local_vars","self._printer_method_with_settings"],"calls_mutating":["code_lines.append","dereference.append"],"raises":["CodeGen"]},"state_contract":{"modifies":["code_lines.*","dereference.*"],"old_bindings":{"old_len_code_lines":"len(code_lines)","old_len_dereference":"len(dereference)"},"post_ensures":["len(code_lines) == old_len_code_lines + 1","len(dereference) == old_len_dereference + 1"],"exceptional_post":{"CodeGen":["isinstance(raised, CodeGen)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _declare_locals(self, routine):
 
         # Compose a list of symbols to be dereferenced in the function
@@ -1517,16 +1829,25 @@ class CCodeGen(CodeGen):
         return code_lines
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_call_printer(rou), internal helper behaves correctly) over Any ║
+# ║ Path(_call_printer(routine), <unspecified:_call_printer>) over {Any | hasattr(routine, 'arguments') and hasattr(routine, 'result_variables') and hasattr(routine, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _call_printer : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(routine, 'arguments')                  ║
+# ║   requires: hasattr(routine, 'result_variables')           ║
+# ║   requires: hasattr(routine, 'name')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _call_printer : {Any | hasattr(routine, 'arguments') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e34f05d781097c1d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CCodeGen._call_printer","kind":"method","src_hash":"61ca9d0b548fe8f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_call_printer(rou)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_call_printer_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.CCodeGen._call_printer_correct","statement":"Path(_call_printer(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e34f05d781097c1d"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CCodeGen._call_printer","kind":"method","src_hash":"61ca9d0b548fe8f6","in":{"base":"Any","pred":"hasattr(routine, 'arguments') and hasattr(routine, 'result_variables') and hasattr(routine, 'name')"},"out":{"base":"Any"},"spec":{"lhs":"_call_printer(routine)","rhs":"<unspecified:_call_printer>","over":{"base":"Any","pred":"hasattr(routine, 'arguments') and hasattr(routine, 'result_variables') and hasattr(routine, 'name')"},"name":"_call_printer_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.CCodeGen._call_printer_correct","statement":"Path(_call_printer(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e34f05d781097c1d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(routine, 'arguments')","hasattr(routine, 'result_variables')","hasattr(routine, 'name')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _call_printer(self, routine):
         code_lines = []
 
@@ -1569,46 +1890,65 @@ class CCodeGen(CodeGen):
         return code_lines
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_routine_ending(rou), internal helper behaves correctly) over Any ║
+# ║ Path(_get_routine_ending(routine), ['}\n']) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ['}\n']                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_routine_ending : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 36a7e3dbdd25aa9e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CCodeGen._get_routine_ending","kind":"method","src_hash":"56b60f0205d0eeb9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_routine_ending(rou)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_routine_ending_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"36a7e3dbdd25aa9e"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CCodeGen._get_routine_ending","kind":"method","src_hash":"56b60f0205d0eeb9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_routine_ending(routine)","rhs":"['}\\n']","over":{"base":"Any"},"name":"_get_routine_ending_correct"},"guarantee":"returns ['}\\n']","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"36a7e3dbdd25aa9e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"['}\\n']","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_routine_ending(self, routine):
         return ["}\n"]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dump_c(rou), dump_c produces the expected output) over Any ║
+# ║ Path(dump_c(routines, f, prefix), <unspecified:dump_c>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dump_c : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28af5d55439fa5e9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CCodeGen.dump_c","kind":"method","src_hash":"02fb41ea4e8cc5f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dump_c(rou)","rhs":"dump_c produces the expected output","over":{"base":"Any"},"name":"dump_c_correct"},"guarantee":"dump_c produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.CCodeGen.dump_c_correct","statement":"Path(dump_c(x), dump_c produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28af5d55439fa5e9"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CCodeGen.dump_c","kind":"method","src_hash":"02fb41ea4e8cc5f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dump_c(routines, f, prefix)","rhs":"<unspecified:dump_c>","over":{"base":"Any"},"name":"dump_c_correct"},"guarantee":"dump_c produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.CCodeGen.dump_c_correct","statement":"Path(dump_c(x), dump_c produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28af5d55439fa5e9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dump_code"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dump_c(self, routines, f, prefix, header=True, empty=True):
         self.dump_code(routines, f, prefix, header, empty)
     dump_c.extension = code_extension  # type: ignore
     dump_c.__doc__ = CodeGen.dump_code.__doc__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dump_h(rou), writes the c header file) over Any       ║
+# ║ Path(dump_h(routines, f, prefix), <unspecified:dump_h>) over {Any | hasattr(prefix, 'replace')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dump_h : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(prefix, 'replace')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dump_h : {Any | hasattr(prefix, 'replace')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a902c397e88ac8f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CCodeGen.dump_h","kind":"method","src_hash":"367545626e1d741d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dump_h(rou)","rhs":"writes the c header file","over":{"base":"Any"},"name":"dump_h_correct"},"guarantee":"writes the c header file","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.CCodeGen.dump_h_correct","statement":"Path(dump_h(x), writes the c header file)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a902c397e88ac8f"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.CCodeGen.dump_h","kind":"method","src_hash":"367545626e1d741d","in":{"base":"Any","pred":"hasattr(prefix, 'replace')"},"out":{"base":"Any"},"spec":{"lhs":"dump_h(routines, f, prefix)","rhs":"<unspecified:dump_h>","over":{"base":"Any","pred":"hasattr(prefix, 'replace')"},"name":"dump_h_correct"},"guarantee":"writes the c header file","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.CCodeGen.dump_h_correct","statement":"Path(dump_h(x), writes the c header file)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a902c397e88ac8f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(prefix, 'replace')"],"pure":false,"effects":{"effect_type":"io","reads":["prefix.replace","self._get_header","self.get_prototype","self.project"],"io_operations":["print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dump_h(self, routines, f, prefix, header=True, empty=True):
         """Writes the C header file.
 
@@ -1664,44 +2004,62 @@ class CCodeGen(CodeGen):
     dump_fns = [dump_c, dump_h]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(C89CodeGen(), correctly constructs a C89CodeGen instance) over Any ║
+# ║ Path(C89CodeGen(), isinstance(self, CCodeGen)) over Any    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ C89CodeGen : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CCodeGen)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C89CodeGen : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f1e7701073b626c6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.C89CodeGen","kind":"class","src_hash":"9b60b90746b6527c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"C89CodeGen()","rhs":"correctly constructs a C89CodeGen instance","over":{"base":"Any"},"name":"C89CodeGen_correct"},"guarantee":"correctly constructs a C89CodeGen instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f1e7701073b626c6"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.C89CodeGen","kind":"class","src_hash":"9b60b90746b6527c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CCodeGen)"},"spec":{"lhs":"C89CodeGen()","rhs":"isinstance(self, CCodeGen)","over":{"base":"Any"},"name":"C89CodeGen_correct"},"guarantee":"isinstance(self, CCodeGen)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f1e7701073b626c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CCodeGen)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function C89CodeGen not found in source"]}}
 class C89CodeGen(CCodeGen):
     standard = 'C89'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(C99CodeGen(), correctly constructs a C99CodeGen instance) over Any ║
+# ║ Path(C99CodeGen(), isinstance(self, CCodeGen)) over Any    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ C99CodeGen : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CCodeGen)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C99CodeGen : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 87c3bb646e84a985           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.C99CodeGen","kind":"class","src_hash":"ade33c651a4a04d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"C99CodeGen()","rhs":"correctly constructs a C99CodeGen instance","over":{"base":"Any"},"name":"C99CodeGen_correct"},"guarantee":"correctly constructs a C99CodeGen instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"87c3bb646e84a985"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.C99CodeGen","kind":"class","src_hash":"ade33c651a4a04d2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CCodeGen)"},"spec":{"lhs":"C99CodeGen()","rhs":"isinstance(self, CCodeGen)","over":{"base":"Any"},"name":"C99CodeGen_correct"},"guarantee":"isinstance(self, CCodeGen)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"87c3bb646e84a985","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CCodeGen)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function C99CodeGen not found in source"]}}
 class C99CodeGen(CCodeGen):
     standard = 'C99'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a FCodeGen instance) preserved by FCodeGen(*args) over {Any | isinstance(arg, InputArgument) and isinstance(result, Result) and isinstance(arg, InOutArgument)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CodeGen)                      ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ FCodeGen : {Any | isinstance(arg, InputArgument) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bf806b46a3d7df1d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.FCodeGen","kind":"class","src_hash":"e54e15a792eeb9c4","in":{"base":"Any","pred":"isinstance(arg, InputArgument) and isinstance(result, Result) and isinstance(arg, InOutArgument)"},"out":{"base":"Any"},"spec":{"lhs":"FCodeGen(*args)","rhs":"correctly constructs a FCodeGen instance","over":{"base":"Any","pred":"isinstance(arg, InputArgument) and isinstance(result, Result) and isinstance(arg, InOutArgument)"},"name":"FCodeGen_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a FCodeGen instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'printer')","kind":"class","induction":"structural on printer"}],"methods_preserving":["__init__","_get_header","_preprocessor_statements","_get_routine_opening","_declare_arguments","_declare_globals","_declare_locals","_get_routine_ending","get_interface","_call_printer","_indent_code","dump_f95","dump_h"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf806b46a3d7df1d"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.FCodeGen","kind":"class","src_hash":"e54e15a792eeb9c4","in":{"base":"Any","pred":"isinstance(arg, InputArgument) and isinstance(result, Result) and isinstance(arg, InOutArgument)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CodeGen)"},"spec":{"lhs":"FCodeGen(*args)","rhs":"correctly constructs a FCodeGen instance","over":{"base":"Any","pred":"isinstance(arg, InputArgument) and isinstance(result, Result) and isinstance(arg, InOutArgument)"},"name":"FCodeGen_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, CodeGen); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'printer')","kind":"class","induction":"structural on printer"}],"methods_preserving":["__init__","_get_header","_preprocessor_statements","_get_routine_opening","_declare_arguments","_declare_globals","_declare_locals","_get_routine_ending","get_interface","_call_printer","_indent_code","dump_f95","dump_h"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf806b46a3d7df1d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CodeGen)"],"invariants":["hasattr(self, 'printer')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function FCodeGen not found in source"]}}
 class FCodeGen(CodeGen):
     """Generator for Fortran 95 code
 
@@ -1714,31 +2072,43 @@ class FCodeGen(CodeGen):
     interface_extension = "h"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(pro), initializes the instance correctly) over Any ║
+# ║ Path(__init__(project, printer), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b94d731ab073cbd9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.FCodeGen.__init__","kind":"method","src_hash":"bd8d65521e048e71","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(pro)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b94d731ab073cbd9"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.FCodeGen.__init__","kind":"method","src_hash":"bd8d65521e048e71","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(project, printer)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b94d731ab073cbd9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, project='project', printer=None):
         super().__init__(project)
         self.printer = printer or FCodePrinter()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_header(), writes a common header for the generated files) over Any ║
+# ║ Path(_get_header(), <unspecified:_get_header>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_header : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 124c321b3fc90acc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.FCodeGen._get_header","kind":"method","src_hash":"b0ee2094f4341046","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_header()","rhs":"writes a common header for the generated files","over":{"base":"Any"},"name":"_get_header_correct"},"guarantee":"writes a common header for the generated files","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.FCodeGen._get_header_correct","statement":"Path(_get_header(x), writes a common header for the generated files)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"124c321b3fc90acc"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.FCodeGen._get_header","kind":"method","src_hash":"b0ee2094f4341046","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_header()","rhs":"<unspecified:_get_header>","over":{"base":"Any"},"name":"_get_header_correct"},"guarantee":"writes a common header for the generated files","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.FCodeGen._get_header_correct","statement":"Path(_get_header(x), writes a common header for the generated files)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"124c321b3fc90acc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_header(self):
         """Writes a common header for the generated files."""
         code_lines = []
@@ -1751,30 +2121,45 @@ class FCodeGen(CodeGen):
         return code_lines
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_preprocessor_statements(pre), internal helper behaves correctly) over Any ║
+# ║ Path(_preprocessor_statements(prefix), []) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  []                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _preprocessor_statements : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | abf81dc555848b1f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.FCodeGen._preprocessor_statements","kind":"method","src_hash":"683ecee6416621de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_preprocessor_statements(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_preprocessor_statements_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"abf81dc555848b1f"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.FCodeGen._preprocessor_statements","kind":"method","src_hash":"683ecee6416621de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_preprocessor_statements(prefix)","rhs":"[]","over":{"base":"Any"},"name":"_preprocessor_statements_correct"},"guarantee":"returns []","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"abf81dc555848b1f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _preprocessor_statements(self, prefix):
         return []
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_routine_opening(rou), returns the opening statements of the fortran routine) over Any ║
+# ║ Path(_get_routine_opening(routine), len(code_list) == old_len_code_list + 1) over {Any | not (len(routine.results) > 1) and hasattr(routine, 'name') and hasattr(routine, 'results') and hasattr(routine, 'arguments')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_routine_opening : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(routine.results) > 1)                 ║
+# ║   requires: hasattr(routine, 'name')                       ║
+# ║   requires: hasattr(routine, 'results')                    ║
+# ║   ensures:  len(code_list) == old_len_code_list + 1        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_routine_opening : {Any | not (len(routine.result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a4ba9b78efec8646  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef4548c99f6d744a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.FCodeGen._get_routine_opening","kind":"method","src_hash":"583654084fbe4da0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_routine_opening(rou)","rhs":"returns the opening statements of the fortran routine","over":{"base":"Any"},"name":"_get_routine_opening_correct"},"guarantee":"returns the opening statements of the fortran routine","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.FCodeGen._get_routine_opening_correct","statement":"Path(_get_routine_opening(x), returns the opening statements of the fortran routine)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4ba9b78efec8646"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.FCodeGen._get_routine_opening","kind":"method","src_hash":"583654084fbe4da0","in":{"base":"Any","pred":"not (len(routine.results) > 1) and hasattr(routine, 'name') and hasattr(routine, 'results') and hasattr(routine, 'arguments')"},"out":{"base":"Any","pred":"result satisfies: len(code_list) == old_len_code_list + 1"},"spec":{"lhs":"_get_routine_opening(routine)","rhs":"len(code_list) == old_len_code_list + 1","over":{"base":"Any","pred":"not (len(routine.results) > 1) and hasattr(routine, 'name') and hasattr(routine, 'results') and hasattr(routine, 'arguments')"},"name":"_get_routine_opening_correct"},"guarantee":"len(code_list) == old_len_code_list + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.FCodeGen._get_routine_opening_correct","statement":"Path(_get_routine_opening(x), len(code_list) == old_len_code_list + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef4548c99f6d744a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(routine.results) > 1)","hasattr(routine, 'name')","hasattr(routine, 'results')","hasattr(routine, 'arguments')"],"ensures":["len(code_list) == old_len_code_list + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["routine.arguments","routine.name","routine.results","self._get_symbol"],"calls_mutating":["code_list.append"],"raises":["CodeGenError"]},"state_contract":{"modifies":["code_list.*"],"old_bindings":{"old_len_code_list":"len(code_list)"},"post_ensures":["len(code_list) == old_len_code_list + 1"],"exceptional_post":{"CodeGenError":["isinstance(raised, CodeGenError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_routine_opening(self, routine):
         """Returns the opening statements of the fortran routine."""
         code_list = []
@@ -1803,16 +2188,24 @@ class FCodeGen(CodeGen):
         return code_list
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_declare_arguments(rou), internal helper behaves correctly) over Any ║
+# ║ Path(_declare_arguments(routine), len(array_list) == old_len_array_list + 1 and len(scalar_list) == old_len_scalar_list + 1) over {Any | hasattr(routine, 'arguments')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _declare_arguments : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(routine, 'arguments')                  ║
+# ║   ensures:  len(array_list) == old_len_array_list + 1      ║
+# ║   ensures:  len(scalar_list) == old_len_scalar_list + 1    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _declare_arguments : {Any | hasattr(routine, 'argumen...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fbcf9003f45cefbf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9b1162dbe48d157  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.FCodeGen._declare_arguments","kind":"method","src_hash":"e520a847f1b689bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_declare_arguments(rou)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_declare_arguments_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.FCodeGen._declare_arguments_correct","statement":"Path(_declare_arguments(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbcf9003f45cefbf"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.FCodeGen._declare_arguments","kind":"method","src_hash":"e520a847f1b689bf","in":{"base":"Any","pred":"hasattr(routine, 'arguments')"},"out":{"base":"Any","pred":"result satisfies: len(array_list) == old_len_array_list + 1 and len(scalar_list) == old_len_scalar_list + 1"},"spec":{"lhs":"_declare_arguments(routine)","rhs":"len(array_list) == old_len_array_list + 1 and len(scalar_list) == old_len_scalar_list + 1","over":{"base":"Any","pred":"hasattr(routine, 'arguments')"},"name":"_declare_arguments_correct"},"guarantee":"len(array_list) == old_len_array_list + 1; len(scalar_list) == old_len_scalar_list + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.FCodeGen._declare_arguments_correct","statement":"Path(_declare_arguments(x), len(array_list) == old_len_array_list + 1; len(scalar_list) == old_len_scalar_list + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9b1162dbe48d157","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(routine, 'arguments')"],"ensures":["len(array_list) == old_len_array_list + 1","len(scalar_list) == old_len_scalar_list + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["routine.arguments","self._get_symbol"],"calls_mutating":["array_list.append","code_list.extend","scalar_list.append"],"raises":["CodeGenError"]},"state_contract":{"modifies":["array_list.*","code_list.*","scalar_list.*"],"old_bindings":{"old_len_array_list":"len(array_list)","old_len_code_list":"len(code_list)","old_len_scalar_list":"len(scalar_list)"},"post_ensures":["len(array_list) == old_len_array_list + 1","len(scalar_list) == old_len_scalar_list + 1"],"exceptional_post":{"CodeGenError":["isinstance(raised, CodeGenError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _declare_arguments(self, routine):
         # argument type declarations
         code_list = []
@@ -1848,32 +2241,45 @@ class FCodeGen(CodeGen):
         return code_list
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_declare_globals(rou), internal helper behaves correctly) over Any ║
+# ║ Path(_declare_globals(routine), []) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  []                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _declare_globals : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 21b100431937e1eb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.FCodeGen._declare_globals","kind":"method","src_hash":"5d250d7bc25dec12","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_declare_globals(rou)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_declare_globals_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"21b100431937e1eb"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.FCodeGen._declare_globals","kind":"method","src_hash":"5d250d7bc25dec12","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_declare_globals(routine)","rhs":"[]","over":{"base":"Any"},"name":"_declare_globals_correct"},"guarantee":"returns []","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"21b100431937e1eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _declare_globals(self, routine):
         # Global variables not explicitly declared within Fortran 90 functions.
         # Note: a future F77 mode may need to generate "common" blocks.
         return []
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_declare_locals(rou), internal helper behaves correctly) over Any ║
+# ║ Path(_declare_locals(routine), <unspecified:_declare_locals>) over {Any | hasattr(routine, 'local_vars')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _declare_locals : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(routine, 'local_vars')                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _declare_locals : {Any | hasattr(routine, 'local_vars...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aeb5881d3b21d2e2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.FCodeGen._declare_locals","kind":"method","src_hash":"89e214a10439af3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_declare_locals(rou)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_declare_locals_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.FCodeGen._declare_locals_correct","statement":"Path(_declare_locals(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aeb5881d3b21d2e2"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.FCodeGen._declare_locals","kind":"method","src_hash":"89e214a10439af3a","in":{"base":"Any","pred":"hasattr(routine, 'local_vars')"},"out":{"base":"Any"},"spec":{"lhs":"_declare_locals(routine)","rhs":"<unspecified:_declare_locals>","over":{"base":"Any","pred":"hasattr(routine, 'local_vars')"},"name":"_declare_locals_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.FCodeGen._declare_locals_correct","statement":"Path(_declare_locals(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aeb5881d3b21d2e2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(routine, 'local_vars')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _declare_locals(self, routine):
         code_list = []
         for var in sorted(routine.local_vars, key=str):
@@ -1883,16 +2289,26 @@ class FCodeGen(CodeGen):
         return code_list
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_routine_ending(rou), returns the closing statements of the fortran routine) over Any ║
+# ║ Path(_get_routine_ending(routine), result == (['end function\n'] if len(routine.results) == 1 else ['end subroutine\n']) and result == ['end function\n'] or result == ['end subroutine\n']) over {Any | hasattr(routine, 'results')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_routine_ending : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(routine, 'results')                    ║
+# ║   ensures:  result == (['end function\n'] if len(rout...   ║
+# ║   ensures:  result == ['end function\n'] or result ==...   ║
+# ║   fiber[case_0]: len(routine.results) == 1 => ['end f...   ║
+# ║   fiber[case_1]: not (len(routine.results) == 1) => [...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_routine_ending : {Any | hasattr(routine, 'result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f117226970637ffa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65fd0423c923f4bb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.FCodeGen._get_routine_ending","kind":"method","src_hash":"06cabb8d0c376264","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_routine_ending(rou)","rhs":"returns the closing statements of the fortran routine","over":{"base":"Any"},"name":"_get_routine_ending_correct"},"guarantee":"returns the closing statements of the fortran routine","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.FCodeGen._get_routine_ending_correct","statement":"Path(_get_routine_ending(x), returns the closing statements of the fortran routine)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f117226970637ffa"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.FCodeGen._get_routine_ending","kind":"method","src_hash":"06cabb8d0c376264","in":{"base":"Any","pred":"hasattr(routine, 'results')"},"out":{"base":"Any","pred":"result satisfies: result == (['end function\\n'] if len(routine.results) == 1 else ['end subroutine\\n']) and result == ['end function\\n'] or result == ['end subroutine\\n']"},"spec":{"lhs":"_get_routine_ending(routine)","rhs":"result == (['end function\\n'] if len(routine.results) == 1 else ['end subroutine\\n']) and result == ['end function\\n'] or result == ['end subroutine\\n']","over":{"base":"Any","pred":"hasattr(routine, 'results')"},"name":"_get_routine_ending_correct"},"guarantee":"result == (['end function\\n'] if len(routine.results) == 1 else ['end subroutine\\n']); result == ['end function\\n'] or result == ['end subroutine\\n']; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.FCodeGen._get_routine_ending_correct","statement":"Path(_get_routine_ending(x), result == (['end function\\n'] if len(routine.results) == 1 else ['end subroutine\\n']); result == ['end function\\n'] or result == ['end subroutine\\n']; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65fd0423c923f4bb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(routine, 'results')"],"ensures":["result == (['end function\\n'] if len(routine.results) == 1 else ['end subroutine\\n'])","result == ['end function\\n'] or result == ['end subroutine\\n']"],"fibers":[{"name":"case_0","guard":"len(routine.results) == 1","ensures":["result == ['end function\\n']"],"decidability":"z3","returns_expr":"['end function\\n']"},{"name":"case_1","guard":"not (len(routine.results) == 1)","ensures":["result == ['end subroutine\\n']"],"decidability":"z3","returns_expr":"['end subroutine\\n']"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["routine.results"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_routine_ending(self, routine):
         """Returns the closing statements of the fortran routine."""
         if len(routine.results) == 1:
@@ -1901,16 +2317,22 @@ class FCodeGen(CodeGen):
             return ["end subroutine\n"]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_interface(rou), returns a string for the function interface) over Any ║
+# ║ Path(get_interface(routine), ''.join(prototype)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ''.join(prototype)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_interface : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 17ae343ad931519a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b6f922ae68988ec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.FCodeGen.get_interface","kind":"method","src_hash":"5d56fe0f0ced4e13","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_interface(rou)","rhs":"returns a string for the function interface","over":{"base":"Any"},"name":"get_interface_correct"},"guarantee":"returns a string for the function interface","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.FCodeGen.get_interface_correct","statement":"Path(get_interface(x), returns a string for the function interface)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17ae343ad931519a"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.FCodeGen.get_interface","kind":"method","src_hash":"5d56fe0f0ced4e13","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_interface(routine)","rhs":"''.join(prototype)","over":{"base":"Any"},"name":"get_interface_correct"},"guarantee":"returns ''.join(prototype)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.FCodeGen.get_interface_correct","statement":"Path(get_interface(x), returns ''.join(prototype))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b6f922ae68988ec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"''.join(prototype)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_interface(self, routine):
         """Returns a string for the function interface.
 
@@ -1930,16 +2352,24 @@ class FCodeGen(CodeGen):
         return "".join(prototype)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_call_printer(rou), internal helper behaves correctly) over Any ║
+# ║ Path(_call_printer(routine), declarations + code_lines) over {Any | hasattr(routine, 'result_variables') and hasattr(routine, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _call_printer : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(routine, 'result_variables')           ║
+# ║   requires: hasattr(routine, 'name')                       ║
+# ║   returns:  declarations + code_lines                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _call_printer : {Any | hasattr(routine, 'result_varia...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22e33c1eb7f56351  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e39843b71b694238  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.FCodeGen._call_printer","kind":"method","src_hash":"099a18a82fc6c920","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_call_printer(rou)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_call_printer_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.FCodeGen._call_printer_correct","statement":"Path(_call_printer(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22e33c1eb7f56351"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.FCodeGen._call_printer","kind":"method","src_hash":"099a18a82fc6c920","in":{"base":"Any","pred":"hasattr(routine, 'result_variables') and hasattr(routine, 'name')"},"out":{"base":"Any"},"spec":{"lhs":"_call_printer(routine)","rhs":"declarations + code_lines","over":{"base":"Any","pred":"hasattr(routine, 'result_variables') and hasattr(routine, 'name')"},"name":"_call_printer_correct"},"guarantee":"returns declarations + code_lines","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.FCodeGen._call_printer_correct","statement":"Path(_call_printer(x), returns declarations + code_lines)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e39843b71b694238","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(routine, 'result_variables')","hasattr(routine, 'name')"],"returns_expr":"declarations + code_lines","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _call_printer(self, routine):
         declarations = []
         code_lines = []
@@ -1969,31 +2399,43 @@ class FCodeGen(CodeGen):
         return declarations + code_lines
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_indent_code(cod), internal helper behaves correctly) over Any ║
+# ║ Path(_indent_code(codelines), self._printer_method_with_settings('indent_code', {'human': False, 'source_format': 'free', 'strict': False}, codelines)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._printer_method_with_settings('inden...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _indent_code : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2af48b7f2073a4a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa17c958f86ed58d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.FCodeGen._indent_code","kind":"method","src_hash":"7c265eb23cc2c2cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_indent_code(cod)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_indent_code_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.FCodeGen._indent_code_correct","statement":"Path(_indent_code(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2af48b7f2073a4a"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.FCodeGen._indent_code","kind":"method","src_hash":"7c265eb23cc2c2cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_indent_code(codelines)","rhs":"self._printer_method_with_settings('indent_code', {'human': False, 'source_format': 'free', 'strict': False}, codelines)","over":{"base":"Any"},"name":"_indent_code_correct"},"guarantee":"returns self._printer_method_with_settings('indent_code', {'human': False, 'source_format': 'free', 'strict': False}, codelines)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.FCodeGen._indent_code_correct","statement":"Path(_indent_code(x), returns self._printer_method_with_settings('indent_code', {'human': False, 'source_format': 'free', 'strict': False}, codelines))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa17c958f86ed58d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._printer_method_with_settings('indent_code', {'human': False, 'source_format': 'free', 'strict': False}, codelines)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._printer_method_with_settings"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _indent_code(self, codelines):
         return self._printer_method_with_settings(
             'indent_code', {"human": False, "source_format": 'free', "strict": False}, codelines)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dump_f95(rou), dump_f95 produces the expected output) over Any ║
+# ║ Path(dump_f95(routines, f, prefix), <unspecified:dump_f95>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dump_f95 : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 138cb6c310b39c9e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.FCodeGen.dump_f95","kind":"method","src_hash":"e8c099803f814b93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dump_f95(rou)","rhs":"dump_f95 produces the expected output","over":{"base":"Any"},"name":"dump_f95_correct"},"guarantee":"dump_f95 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.FCodeGen.dump_f95_correct","statement":"Path(dump_f95(x), dump_f95 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"138cb6c310b39c9e"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.FCodeGen.dump_f95","kind":"method","src_hash":"e8c099803f814b93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dump_f95(routines, f, prefix)","rhs":"<unspecified:dump_f95>","over":{"base":"Any"},"name":"dump_f95_correct"},"guarantee":"dump_f95 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.FCodeGen.dump_f95_correct","statement":"Path(dump_f95(x), dump_f95 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"138cb6c310b39c9e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dump_code"],"raises":["CodeGenError"]},"state_contract":{"exceptional_post":{"CodeGenError":["isinstance(raised, CodeGenError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dump_f95(self, routines, f, prefix, header=True, empty=True):
         # check that symbols are unique with ignorecase
         for r in routines:
@@ -2007,16 +2449,23 @@ class FCodeGen(CodeGen):
     dump_f95.__doc__ = CodeGen.dump_code.__doc__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dump_h(rou), writes the interface to a header file) over Any ║
+# ║ Path(dump_h(routines, f, prefix), <unspecified:dump_h>) over {Any | hasattr(f, 'write')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dump_h : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'write')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dump_h : {Any | hasattr(f, 'write')} → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c25de6551e26ac3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.FCodeGen.dump_h","kind":"method","src_hash":"a1c0565889a85939","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dump_h(rou)","rhs":"writes the interface to a header file","over":{"base":"Any"},"name":"dump_h_correct"},"guarantee":"writes the interface to a header file","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.FCodeGen.dump_h_correct","statement":"Path(dump_h(x), writes the interface to a header file)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c25de6551e26ac3"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.FCodeGen.dump_h","kind":"method","src_hash":"a1c0565889a85939","in":{"base":"Any","pred":"hasattr(f, 'write')"},"out":{"base":"Any"},"spec":{"lhs":"dump_h(routines, f, prefix)","rhs":"<unspecified:dump_h>","over":{"base":"Any","pred":"hasattr(f, 'write')"},"name":"dump_h_correct"},"guarantee":"writes the interface to a header file","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.FCodeGen.dump_h_correct","statement":"Path(dump_h(x), writes the interface to a header file)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c25de6551e26ac3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'write')"],"pure":false,"effects":{"effect_type":"io","reads":["f.write","self._get_header","self.get_interface"],"calls_mutating":["f.write"],"io_operations":["f.write","print"]},"state_contract":{"modifies":["f.*"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dump_h(self, routines, f, prefix, header=True, empty=True):
         """Writes the interface to a header file.
 
@@ -2063,14 +2512,20 @@ class FCodeGen(CodeGen):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a JuliaCodeGen instance) preserved by JuliaCodeGen(*args) over {Any | isinstance(s, Idx) and isinstance(expr, Equality) and isinstance(arg, OutputArgument)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CodeGen)                      ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ JuliaCodeGen : {Any | isinstance(s, Idx) and isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 39c47f46ca40f350  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.JuliaCodeGen","kind":"class","src_hash":"a3b90ffe4aecd962","in":{"base":"Any","pred":"isinstance(s, Idx) and isinstance(expr, Equality) and isinstance(arg, OutputArgument)"},"out":{"base":"Any"},"spec":{"lhs":"JuliaCodeGen(*args)","rhs":"correctly constructs a JuliaCodeGen instance","over":{"base":"Any","pred":"isinstance(s, Idx) and isinstance(expr, Equality) and isinstance(arg, OutputArgument)"},"name":"JuliaCodeGen_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a JuliaCodeGen instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'printer')","kind":"class","induction":"structural on printer"}],"methods_preserving":["__init__","routine","_get_header","_preprocessor_statements","_get_routine_opening","_declare_arguments","_declare_globals","_declare_locals","_get_routine_ending","_call_printer","_indent_code","dump_jl"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39c47f46ca40f350"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.JuliaCodeGen","kind":"class","src_hash":"a3b90ffe4aecd962","in":{"base":"Any","pred":"isinstance(s, Idx) and isinstance(expr, Equality) and isinstance(arg, OutputArgument)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CodeGen)"},"spec":{"lhs":"JuliaCodeGen(*args)","rhs":"correctly constructs a JuliaCodeGen instance","over":{"base":"Any","pred":"isinstance(s, Idx) and isinstance(expr, Equality) and isinstance(arg, OutputArgument)"},"name":"JuliaCodeGen_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, CodeGen); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'printer')","kind":"class","induction":"structural on printer"}],"methods_preserving":["__init__","routine","_get_header","_preprocessor_statements","_get_routine_opening","_declare_arguments","_declare_globals","_declare_locals","_get_routine_ending","_call_printer","_indent_code","dump_jl"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39c47f46ca40f350","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CodeGen)"],"invariants":["hasattr(self, 'printer')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function JuliaCodeGen not found in source"]}}
 class JuliaCodeGen(CodeGen):
     """Generator for Julia code.
 
@@ -2082,31 +2537,49 @@ class JuliaCodeGen(CodeGen):
     code_extension = "jl"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(pro), initializes the instance correctly) over Any ║
+# ║ Path(__init__(project, printer), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 418dd3274bdba178           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.JuliaCodeGen.__init__","kind":"method","src_hash":"d59a4681bbe701ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(pro)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"418dd3274bdba178"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.JuliaCodeGen.__init__","kind":"method","src_hash":"d59a4681bbe701ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(project, printer)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"418dd3274bdba178","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, project='project', printer=None):
         super().__init__(project)
         self.printer = printer or JuliaCodePrinter()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(routine(nam), specialized routine creation for julia) over Any ║
+# ║ Path(routine(name, expr, argument_sequence), Routine(name, arg_list, return_vals, local_vars, global_vars)) over {Any | hasattr(expr, 'lhs') and hasattr(expr, 'rhs') and hasattr(expr, 'has')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ routine : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'lhs')                           ║
+# ║   requires: hasattr(expr, 'rhs')                           ║
+# ║   requires: hasattr(expr, 'has')                           ║
+# ║   ensures:  len(arg_list) == old_len_arg_list + 1          ║
+# ║   ensures:  len(new_args) == old_len_new_args + 1          ║
+# ║   ensures:  len(new_sequence) == old_len_new_sequence...   ║
+# ║   returns:  Routine(name, arg_list, return_vals, loca...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ routine : {Any | hasattr(expr, 'lhs') and hasattr(exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7fb6c4551cc1b3c9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7cc56ac1268cd02b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.JuliaCodeGen.routine","kind":"method","src_hash":"ad5f2d042e51f11e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"routine(nam)","rhs":"specialized routine creation for julia","over":{"base":"Any"},"name":"routine_correct"},"guarantee":"specialized routine creation for julia","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.JuliaCodeGen.routine_correct","statement":"Path(routine(x), specialized routine creation for julia)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7fb6c4551cc1b3c9"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.JuliaCodeGen.routine","kind":"method","src_hash":"ad5f2d042e51f11e","in":{"base":"Any","pred":"hasattr(expr, 'lhs') and hasattr(expr, 'rhs') and hasattr(expr, 'has')"},"out":{"base":"Any","pred":"result satisfies: result == (Routine(name, arg_list, return_vals, local_vars, global_vars))"},"spec":{"lhs":"routine(name, expr, argument_sequence)","rhs":"Routine(name, arg_list, return_vals, local_vars, global_vars)","over":{"base":"Any","pred":"hasattr(expr, 'lhs') and hasattr(expr, 'rhs') and hasattr(expr, 'has')"},"name":"routine_correct"},"guarantee":"returns Routine(name, arg_list, return_vals, local_vars, global_vars); len(arg_list) == old_len_arg_list + 1; len(new_args) == old_len_new_args + 1; len(new_sequence) == old_len_new_sequence + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.JuliaCodeGen.routine_correct","statement":"Path(routine(x), returns Routine(name, arg_list, return_vals, local_vars, global_vars); len(arg_list) == old_len_arg_list + 1; len(new_args) == old_len_new_args + 1; len(new_sequence) == old_len_new_sequence + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7cc56ac1268cd02b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'lhs')","hasattr(expr, 'rhs')","hasattr(expr, 'has')"],"ensures":["len(arg_list) == old_len_arg_list + 1","len(new_args) == old_len_new_args + 1","len(new_sequence) == old_len_new_sequence + 1","len(output_args) == old_len_output_args + 1","len(output_args) == old_len_output_args","len(return_vals) == old_len_return_vals + 1"],"returns_expr":"Routine(name, arg_list, return_vals, local_vars, global_vars)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.has","expr.lhs","expr.rhs"],"calls_mutating":["arg_list.append","new_args.append","new_sequence.append","output_args.append","output_args.sort","return_vals.append","symbols.add","symbols.remove","symbols.update"],"raises":["CodeGenArgumentListError","CodeGenError","ValueError"],"catches":["KeyError"]},"state_contract":{"modifies":["arg_list.*","new_args.*","new_sequence.*","output_args.*","return_vals.*","symbols.*"],"old_bindings":{"old_len_arg_list":"len(arg_list)","old_len_new_args":"len(new_args)","old_len_new_sequence":"len(new_sequence)","old_len_output_args":"len(output_args)","old_len_return_vals":"len(return_vals)","old_len_symbols":"len(symbols)"},"post_ensures":["len(arg_list) == old_len_arg_list + 1","len(new_args) == old_len_new_args + 1","len(new_sequence) == old_len_new_sequence + 1","len(output_args) == old_len_output_args + 1","len(output_args) == old_len_output_args","len(return_vals) == old_len_return_vals + 1"],"exceptional_post":{"CodeGenArgumentListError":["isinstance(raised, CodeGenArgumentListError)"],"CodeGenError":["isinstance(raised, CodeGenError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def routine(self, name, expr, argument_sequence, global_vars):
         """Specialized Routine creation for Julia."""
 
@@ -2199,16 +2672,22 @@ class JuliaCodeGen(CodeGen):
         return Routine(name, arg_list, return_vals, local_vars, global_vars)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_header(), writes a common header for the generated files) over Any ║
+# ║ Path(_get_header(), <unspecified:_get_header>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_header : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 87e555aa2946b8ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.JuliaCodeGen._get_header","kind":"method","src_hash":"a3261eb9ccb140a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_header()","rhs":"writes a common header for the generated files","over":{"base":"Any"},"name":"_get_header_correct"},"guarantee":"writes a common header for the generated files","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.JuliaCodeGen._get_header_correct","statement":"Path(_get_header(x), writes a common header for the generated files)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87e555aa2946b8ac"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.JuliaCodeGen._get_header","kind":"method","src_hash":"a3261eb9ccb140a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_header()","rhs":"<unspecified:_get_header>","over":{"base":"Any"},"name":"_get_header_correct"},"guarantee":"writes a common header for the generated files","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.JuliaCodeGen._get_header_correct","statement":"Path(_get_header(x), writes a common header for the generated files)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87e555aa2946b8ac","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_header(self):
         """Writes a common header for the generated files."""
         code_lines = []
@@ -2222,30 +2701,45 @@ class JuliaCodeGen(CodeGen):
         return code_lines
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_preprocessor_statements(pre), internal helper behaves correctly) over Any ║
+# ║ Path(_preprocessor_statements(prefix), []) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  []                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _preprocessor_statements : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4ac0ee8f5b128e73           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.JuliaCodeGen._preprocessor_statements","kind":"method","src_hash":"683ecee6416621de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_preprocessor_statements(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_preprocessor_statements_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4ac0ee8f5b128e73"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.JuliaCodeGen._preprocessor_statements","kind":"method","src_hash":"683ecee6416621de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_preprocessor_statements(prefix)","rhs":"[]","over":{"base":"Any"},"name":"_preprocessor_statements_correct"},"guarantee":"returns []","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4ac0ee8f5b128e73","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _preprocessor_statements(self, prefix):
         return []
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_routine_opening(rou), returns the opening statements of the routine) over Any ║
+# ║ Path(_get_routine_opening(routine), len(args) == old_len_args + 1 and len(code_list) == old_len_code_list + 1) over {Any | hasattr(routine, 'arguments') and hasattr(routine, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_routine_opening : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(routine, 'arguments')                  ║
+# ║   requires: hasattr(routine, 'name')                       ║
+# ║   ensures:  len(args) == old_len_args + 1                  ║
+# ║   ensures:  len(code_list) == old_len_code_list + 1        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_routine_opening : {Any | hasattr(routine, 'argum...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d5e2ab495793f4ea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d4f0ac332e384f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.JuliaCodeGen._get_routine_opening","kind":"method","src_hash":"e9d7c5792176342d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_routine_opening(rou)","rhs":"returns the opening statements of the routine","over":{"base":"Any"},"name":"_get_routine_opening_correct"},"guarantee":"returns the opening statements of the routine","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.JuliaCodeGen._get_routine_opening_correct","statement":"Path(_get_routine_opening(x), returns the opening statements of the routine)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5e2ab495793f4ea"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.JuliaCodeGen._get_routine_opening","kind":"method","src_hash":"e9d7c5792176342d","in":{"base":"Any","pred":"hasattr(routine, 'arguments') and hasattr(routine, 'name')"},"out":{"base":"Any","pred":"result satisfies: len(args) == old_len_args + 1 and len(code_list) == old_len_code_list + 1"},"spec":{"lhs":"_get_routine_opening(routine)","rhs":"len(args) == old_len_args + 1 and len(code_list) == old_len_code_list + 1","over":{"base":"Any","pred":"hasattr(routine, 'arguments') and hasattr(routine, 'name')"},"name":"_get_routine_opening_correct"},"guarantee":"len(args) == old_len_args + 1; len(code_list) == old_len_code_list + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.JuliaCodeGen._get_routine_opening_correct","statement":"Path(_get_routine_opening(x), len(args) == old_len_args + 1; len(code_list) == old_len_code_list + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d4f0ac332e384f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(routine, 'arguments')","hasattr(routine, 'name')"],"ensures":["len(args) == old_len_args + 1","len(code_list) == old_len_code_list + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["routine.arguments","routine.name","self._get_symbol"],"calls_mutating":["args.append","code_list.append"],"raises":["CodeGenError"]},"state_contract":{"modifies":["args.*","code_list.*"],"old_bindings":{"old_len_args":"len(args)","old_len_code_list":"len(code_list)"},"post_ensures":["len(args) == old_len_args + 1","len(code_list) == old_len_code_list + 1"],"exceptional_post":{"CodeGenError":["isinstance(raised, CodeGenError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_routine_opening(self, routine):
         """Returns the opening statements of the routine."""
         code_list = []
@@ -2266,58 +2760,84 @@ class JuliaCodeGen(CodeGen):
         return code_list
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_declare_arguments(rou), internal helper behaves correctly) over Any ║
+# ║ Path(_declare_arguments(routine), []) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  []                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _declare_arguments : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 81d6402362a9de70           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.JuliaCodeGen._declare_arguments","kind":"method","src_hash":"4219264a4df4f759","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_declare_arguments(rou)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_declare_arguments_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"81d6402362a9de70"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.JuliaCodeGen._declare_arguments","kind":"method","src_hash":"4219264a4df4f759","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_declare_arguments(routine)","rhs":"[]","over":{"base":"Any"},"name":"_declare_arguments_correct"},"guarantee":"returns []","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"81d6402362a9de70","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _declare_arguments(self, routine):
         return []
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_declare_globals(rou), internal helper behaves correctly) over Any ║
+# ║ Path(_declare_globals(routine), []) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  []                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _declare_globals : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3801bb639fde9a91           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.JuliaCodeGen._declare_globals","kind":"method","src_hash":"4d08b187056f088b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_declare_globals(rou)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_declare_globals_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3801bb639fde9a91"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.JuliaCodeGen._declare_globals","kind":"method","src_hash":"4d08b187056f088b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_declare_globals(routine)","rhs":"[]","over":{"base":"Any"},"name":"_declare_globals_correct"},"guarantee":"returns []","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3801bb639fde9a91","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _declare_globals(self, routine):
         return []
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_declare_locals(rou), internal helper behaves correctly) over Any ║
+# ║ Path(_declare_locals(routine), []) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  []                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _declare_locals : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 428e66f9d5cec498           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.JuliaCodeGen._declare_locals","kind":"method","src_hash":"354a6dacf016e913","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_declare_locals(rou)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_declare_locals_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"428e66f9d5cec498"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.JuliaCodeGen._declare_locals","kind":"method","src_hash":"354a6dacf016e913","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_declare_locals(routine)","rhs":"[]","over":{"base":"Any"},"name":"_declare_locals_correct"},"guarantee":"returns []","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"428e66f9d5cec498","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _declare_locals(self, routine):
         return []
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_routine_ending(rou), internal helper behaves correctly) over Any ║
+# ║ Path(_get_routine_ending(routine), ['return ' + ', '.join(outs) + '\nend\n']) over {Any | hasattr(routine, 'results')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_routine_ending : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(routine, 'results')                    ║
+# ║   ensures:  len(outs) == old_len_outs + 1                  ║
+# ║   returns:  ['return ' + ', '.join(outs) + '\nend\n']      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_routine_ending : {Any | hasattr(routine, 'result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1761d3575ec103ea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b2838b8bbc52ed2f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.JuliaCodeGen._get_routine_ending","kind":"method","src_hash":"87024a7802aee373","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_routine_ending(rou)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_routine_ending_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.JuliaCodeGen._get_routine_ending_correct","statement":"Path(_get_routine_ending(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1761d3575ec103ea"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.JuliaCodeGen._get_routine_ending","kind":"method","src_hash":"87024a7802aee373","in":{"base":"Any","pred":"hasattr(routine, 'results')"},"out":{"base":"Any","pred":"result satisfies: result == (['return ' + ', '.join(outs) + '\\nend\\n'])"},"spec":{"lhs":"_get_routine_ending(routine)","rhs":"['return ' + ', '.join(outs) + '\\nend\\n']","over":{"base":"Any","pred":"hasattr(routine, 'results')"},"name":"_get_routine_ending_correct"},"guarantee":"returns ['return ' + ', '.join(outs) + '\\nend\\n']; len(outs) == old_len_outs + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.JuliaCodeGen._get_routine_ending_correct","statement":"Path(_get_routine_ending(x), returns ['return ' + ', '.join(outs) + '\\nend\\n']; len(outs) == old_len_outs + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2838b8bbc52ed2f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(routine, 'results')"],"ensures":["len(outs) == old_len_outs + 1"],"returns_expr":"['return ' + ', '.join(outs) + '\\nend\\n']","pure":false,"effects":{"effect_type":"reads_state","reads":["routine.results","self._get_symbol"],"calls_mutating":["outs.append"],"raises":["CodeGenError"]},"state_contract":{"modifies":["outs.*"],"old_bindings":{"old_len_outs":"len(outs)"},"post_ensures":["len(outs) == old_len_outs + 1"],"exceptional_post":{"CodeGenError":["isinstance(raised, CodeGenError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_routine_ending(self, routine):
         outs = []
         for result in routine.results:
@@ -2330,16 +2850,25 @@ class JuliaCodeGen(CodeGen):
         return ["return " + ", ".join(outs) + "\nend\n"]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_call_printer(rou), internal helper behaves correctly) over Any ║
+# ║ Path(_call_printer(routine), declarations + code_lines) over {Any | hasattr(routine, 'results')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _call_printer : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(routine, 'results')                    ║
+# ║   ensures:  len(code_lines) == old_len_code_lines + 1      ║
+# ║   ensures:  len(declarations) == old_len_declarations...   ║
+# ║   returns:  declarations + code_lines                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _call_printer : {Any | hasattr(routine, 'results')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e0f3c905956a39ae  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a76412109b07543  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.JuliaCodeGen._call_printer","kind":"method","src_hash":"b5e3392a56e751a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_call_printer(rou)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_call_printer_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.JuliaCodeGen._call_printer_correct","statement":"Path(_call_printer(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0f3c905956a39ae"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.JuliaCodeGen._call_printer","kind":"method","src_hash":"b5e3392a56e751a8","in":{"base":"Any","pred":"hasattr(routine, 'results')"},"out":{"base":"Any","pred":"result satisfies: result == (declarations + code_lines)"},"spec":{"lhs":"_call_printer(routine)","rhs":"declarations + code_lines","over":{"base":"Any","pred":"hasattr(routine, 'results')"},"name":"_call_printer_correct"},"guarantee":"returns declarations + code_lines; len(code_lines) == old_len_code_lines + 1; len(declarations) == old_len_declarations + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.JuliaCodeGen._call_printer_correct","statement":"Path(_call_printer(x), returns declarations + code_lines; len(code_lines) == old_len_code_lines + 1; len(declarations) == old_len_declarations + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a76412109b07543","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(routine, 'results')"],"ensures":["len(code_lines) == old_len_code_lines + 1","len(declarations) == old_len_declarations + 1"],"returns_expr":"declarations + code_lines","pure":false,"effects":{"effect_type":"reads_state","reads":["routine.results","self._printer_method_with_settings"],"calls_mutating":["code_lines.append","declarations.append"],"raises":["CodeGenError"]},"state_contract":{"modifies":["code_lines.*","declarations.*"],"old_bindings":{"old_len_code_lines":"len(code_lines)","old_len_declarations":"len(declarations)"},"post_ensures":["len(code_lines) == old_len_code_lines + 1","len(declarations) == old_len_declarations + 1"],"exceptional_post":{"CodeGenError":["isinstance(raised, CodeGenError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _call_printer(self, routine):
         declarations = []
         code_lines = []
@@ -2366,16 +2895,22 @@ class JuliaCodeGen(CodeGen):
         return declarations + code_lines
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_indent_code(cod), internal helper behaves correctly) over Any ║
+# ║ Path(_indent_code(codelines), p.indent_code(codelines)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  p.indent_code(codelines)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _indent_code : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 438c67f5ae28984d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a21de760486114a8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.JuliaCodeGen._indent_code","kind":"method","src_hash":"b53897646efe50f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_indent_code(cod)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_indent_code_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.JuliaCodeGen._indent_code_correct","statement":"Path(_indent_code(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"438c67f5ae28984d"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.JuliaCodeGen._indent_code","kind":"method","src_hash":"b53897646efe50f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_indent_code(codelines)","rhs":"p.indent_code(codelines)","over":{"base":"Any"},"name":"_indent_code_correct"},"guarantee":"returns p.indent_code(codelines)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.JuliaCodeGen._indent_code_correct","statement":"Path(_indent_code(x), returns p.indent_code(codelines))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a21de760486114a8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"p.indent_code(codelines)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _indent_code(self, codelines):
         # Note that indenting seems to happen twice, first
         # statement-by-statement by JuliaPrinter then again here.
@@ -2383,16 +2918,22 @@ class JuliaCodeGen(CodeGen):
         return p.indent_code(codelines)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dump_jl(rou), dump_jl produces the expected output) over Any ║
+# ║ Path(dump_jl(routines, f, prefix), <unspecified:dump_jl>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dump_jl : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dfcba881e376d407  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.JuliaCodeGen.dump_jl","kind":"method","src_hash":"0a8fc38afc5d8227","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dump_jl(rou)","rhs":"dump_jl produces the expected output","over":{"base":"Any"},"name":"dump_jl_correct"},"guarantee":"dump_jl produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.JuliaCodeGen.dump_jl_correct","statement":"Path(dump_jl(x), dump_jl produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfcba881e376d407"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.JuliaCodeGen.dump_jl","kind":"method","src_hash":"0a8fc38afc5d8227","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dump_jl(routines, f, prefix)","rhs":"<unspecified:dump_jl>","over":{"base":"Any"},"name":"dump_jl_correct"},"guarantee":"dump_jl produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.JuliaCodeGen.dump_jl_correct","statement":"Path(dump_jl(x), dump_jl produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfcba881e376d407","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dump_code"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dump_jl(self, routines, f, prefix, header=True, empty=True):
         self.dump_code(routines, f, prefix, header, empty)
 
@@ -2407,14 +2948,20 @@ class JuliaCodeGen(CodeGen):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a OctaveCodeGen instance) preserved by OctaveCodeGen(*args) over {Any | isinstance(s, Idx) and isinstance(expr, Equality) and isinstance(result, Result)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CodeGen)                      ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ OctaveCodeGen : {Any | isinstance(s, Idx) and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05f7a358d9410f0f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.OctaveCodeGen","kind":"class","src_hash":"6ed90a52baf56b3d","in":{"base":"Any","pred":"isinstance(s, Idx) and isinstance(expr, Equality) and isinstance(result, Result)"},"out":{"base":"Any"},"spec":{"lhs":"OctaveCodeGen(*args)","rhs":"correctly constructs a OctaveCodeGen instance","over":{"base":"Any","pred":"isinstance(s, Idx) and isinstance(expr, Equality) and isinstance(result, Result)"},"name":"OctaveCodeGen_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a OctaveCodeGen instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'printer')","kind":"class","induction":"structural on printer"}],"methods_preserving":["__init__","routine","_get_header","_preprocessor_statements","_get_routine_opening","_declare_arguments","_declare_globals","_declare_locals","_get_routine_ending","_call_printer","_indent_code","dump_m"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05f7a358d9410f0f"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.OctaveCodeGen","kind":"class","src_hash":"6ed90a52baf56b3d","in":{"base":"Any","pred":"isinstance(s, Idx) and isinstance(expr, Equality) and isinstance(result, Result)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CodeGen)"},"spec":{"lhs":"OctaveCodeGen(*args)","rhs":"correctly constructs a OctaveCodeGen instance","over":{"base":"Any","pred":"isinstance(s, Idx) and isinstance(expr, Equality) and isinstance(result, Result)"},"name":"OctaveCodeGen_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, CodeGen); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'printer')","kind":"class","induction":"structural on printer"}],"methods_preserving":["__init__","routine","_get_header","_preprocessor_statements","_get_routine_opening","_declare_arguments","_declare_globals","_declare_locals","_get_routine_ending","_call_printer","_indent_code","dump_m"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05f7a358d9410f0f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CodeGen)"],"invariants":["hasattr(self, 'printer')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function OctaveCodeGen not found in source"]}}
 class OctaveCodeGen(CodeGen):
     """Generator for Octave code.
 
@@ -2434,31 +2981,49 @@ class OctaveCodeGen(CodeGen):
     code_extension = "m"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(pro), initializes the instance correctly) over Any ║
+# ║ Path(__init__(project, printer), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6039786b27b0a509           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.OctaveCodeGen.__init__","kind":"method","src_hash":"29807ac8a399fabe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(pro)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6039786b27b0a509"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.OctaveCodeGen.__init__","kind":"method","src_hash":"29807ac8a399fabe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(project, printer)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6039786b27b0a509","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, project='project', printer=None):
         super().__init__(project)
         self.printer = printer or OctaveCodePrinter()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(routine(nam), specialized routine creation for octave) over Any ║
+# ║ Path(routine(name, expr, argument_sequence), Routine(name, arg_list, return_vals, local_vars, global_vars)) over {Any | hasattr(expr, 'lhs') and hasattr(expr, 'rhs') and hasattr(expr, 'has')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ routine : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'lhs')                           ║
+# ║   requires: hasattr(expr, 'rhs')                           ║
+# ║   requires: hasattr(expr, 'has')                           ║
+# ║   ensures:  len(arg_list) == old_len_arg_list + 1          ║
+# ║   ensures:  len(new_args) == old_len_new_args + 1          ║
+# ║   ensures:  len(new_sequence) == old_len_new_sequence...   ║
+# ║   returns:  Routine(name, arg_list, return_vals, loca...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ routine : {Any | hasattr(expr, 'lhs') and hasattr(exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1db6f605f744fca9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a37a12fe39ab6f4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.OctaveCodeGen.routine","kind":"method","src_hash":"83c9eadca6ca1d88","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"routine(nam)","rhs":"specialized routine creation for octave","over":{"base":"Any"},"name":"routine_correct"},"guarantee":"specialized routine creation for octave","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.OctaveCodeGen.routine_correct","statement":"Path(routine(x), specialized routine creation for octave)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1db6f605f744fca9"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.OctaveCodeGen.routine","kind":"method","src_hash":"83c9eadca6ca1d88","in":{"base":"Any","pred":"hasattr(expr, 'lhs') and hasattr(expr, 'rhs') and hasattr(expr, 'has')"},"out":{"base":"Any","pred":"result satisfies: result == (Routine(name, arg_list, return_vals, local_vars, global_vars))"},"spec":{"lhs":"routine(name, expr, argument_sequence)","rhs":"Routine(name, arg_list, return_vals, local_vars, global_vars)","over":{"base":"Any","pred":"hasattr(expr, 'lhs') and hasattr(expr, 'rhs') and hasattr(expr, 'has')"},"name":"routine_correct"},"guarantee":"returns Routine(name, arg_list, return_vals, local_vars, global_vars); len(arg_list) == old_len_arg_list + 1; len(new_args) == old_len_new_args + 1; len(new_sequence) == old_len_new_sequence + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.OctaveCodeGen.routine_correct","statement":"Path(routine(x), returns Routine(name, arg_list, return_vals, local_vars, global_vars); len(arg_list) == old_len_arg_list + 1; len(new_args) == old_len_new_args + 1; len(new_sequence) == old_len_new_sequence + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a37a12fe39ab6f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'lhs')","hasattr(expr, 'rhs')","hasattr(expr, 'has')"],"ensures":["len(arg_list) == old_len_arg_list + 1","len(new_args) == old_len_new_args + 1","len(new_sequence) == old_len_new_sequence + 1","len(return_vals) == old_len_return_vals + 1"],"returns_expr":"Routine(name, arg_list, return_vals, local_vars, global_vars)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.has","expr.lhs","expr.rhs"],"calls_mutating":["arg_list.append","new_args.append","new_sequence.append","return_vals.append","symbols.add","symbols.remove","symbols.update"],"raises":["CodeGenArgumentListError","CodeGenError","ValueError"],"catches":["KeyError"]},"state_contract":{"modifies":["arg_list.*","new_args.*","new_sequence.*","return_vals.*","symbols.*"],"old_bindings":{"old_len_arg_list":"len(arg_list)","old_len_new_args":"len(new_args)","old_len_new_sequence":"len(new_sequence)","old_len_return_vals":"len(return_vals)","old_len_symbols":"len(symbols)"},"post_ensures":["len(arg_list) == old_len_arg_list + 1","len(new_args) == old_len_new_args + 1","len(new_sequence) == old_len_new_sequence + 1","len(return_vals) == old_len_return_vals + 1"],"exceptional_post":{"CodeGenArgumentListError":["isinstance(raised, CodeGenArgumentListError)"],"CodeGenError":["isinstance(raised, CodeGenError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def routine(self, name, expr, argument_sequence, global_vars):
         """Specialized Routine creation for Octave."""
 
@@ -2550,16 +3115,22 @@ class OctaveCodeGen(CodeGen):
         return Routine(name, arg_list, return_vals, local_vars, global_vars)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_header(), writes a common header for the generated files) over Any ║
+# ║ Path(_get_header(), <unspecified:_get_header>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_header : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2da6e3f40efeda26  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.OctaveCodeGen._get_header","kind":"method","src_hash":"d7f02ce9c127735c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_header()","rhs":"writes a common header for the generated files","over":{"base":"Any"},"name":"_get_header_correct"},"guarantee":"writes a common header for the generated files","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.OctaveCodeGen._get_header_correct","statement":"Path(_get_header(x), writes a common header for the generated files)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2da6e3f40efeda26"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.OctaveCodeGen._get_header","kind":"method","src_hash":"d7f02ce9c127735c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_header()","rhs":"<unspecified:_get_header>","over":{"base":"Any"},"name":"_get_header_correct"},"guarantee":"writes a common header for the generated files","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.OctaveCodeGen._get_header_correct","statement":"Path(_get_header(x), writes a common header for the generated files)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2da6e3f40efeda26","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_header(self):
         """Writes a common header for the generated files."""
         code_lines = []
@@ -2573,30 +3144,47 @@ class OctaveCodeGen(CodeGen):
         return code_lines
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_preprocessor_statements(pre), internal helper behaves correctly) over Any ║
+# ║ Path(_preprocessor_statements(prefix), []) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  []                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _preprocessor_statements : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d2a22b7c933db361           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.OctaveCodeGen._preprocessor_statements","kind":"method","src_hash":"683ecee6416621de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_preprocessor_statements(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_preprocessor_statements_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d2a22b7c933db361"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.OctaveCodeGen._preprocessor_statements","kind":"method","src_hash":"683ecee6416621de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_preprocessor_statements(prefix)","rhs":"[]","over":{"base":"Any"},"name":"_preprocessor_statements_correct"},"guarantee":"returns []","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d2a22b7c933db361","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _preprocessor_statements(self, prefix):
         return []
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_routine_opening(rou), returns the opening statements of the routine) over Any ║
+# ║ Path(_get_routine_opening(routine), len(args) == old_len_args + 1 and len(code_list) == old_len_code_list + 1 and len(outs) == old_len_outs + 1) over {Any | hasattr(routine, 'results') and hasattr(routine, 'arguments') and hasattr(routine, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_routine_opening : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(routine, 'results')                    ║
+# ║   requires: hasattr(routine, 'arguments')                  ║
+# ║   requires: hasattr(routine, 'name')                       ║
+# ║   ensures:  len(args) == old_len_args + 1                  ║
+# ║   ensures:  len(code_list) == old_len_code_list + 1        ║
+# ║   ensures:  len(outs) == old_len_outs + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_routine_opening : {Any | hasattr(routine, 'resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f706e4bb3400c3b7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3c4914e08b79eec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.OctaveCodeGen._get_routine_opening","kind":"method","src_hash":"02651afb214608ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_routine_opening(rou)","rhs":"returns the opening statements of the routine","over":{"base":"Any"},"name":"_get_routine_opening_correct"},"guarantee":"returns the opening statements of the routine","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.OctaveCodeGen._get_routine_opening_correct","statement":"Path(_get_routine_opening(x), returns the opening statements of the routine)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f706e4bb3400c3b7"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.OctaveCodeGen._get_routine_opening","kind":"method","src_hash":"02651afb214608ca","in":{"base":"Any","pred":"hasattr(routine, 'results') and hasattr(routine, 'arguments') and hasattr(routine, 'name')"},"out":{"base":"Any","pred":"result satisfies: len(args) == old_len_args + 1 and len(code_list) == old_len_code_list + 1 and len(outs) == old_len_outs + 1"},"spec":{"lhs":"_get_routine_opening(routine)","rhs":"len(args) == old_len_args + 1 and len(code_list) == old_len_code_list + 1 and len(outs) == old_len_outs + 1","over":{"base":"Any","pred":"hasattr(routine, 'results') and hasattr(routine, 'arguments') and hasattr(routine, 'name')"},"name":"_get_routine_opening_correct"},"guarantee":"len(args) == old_len_args + 1; len(code_list) == old_len_code_list + 1; len(outs) == old_len_outs + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.OctaveCodeGen._get_routine_opening_correct","statement":"Path(_get_routine_opening(x), len(args) == old_len_args + 1; len(code_list) == old_len_code_list + 1; len(outs) == old_len_outs + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3c4914e08b79eec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(routine, 'results')","hasattr(routine, 'arguments')","hasattr(routine, 'name')"],"ensures":["len(args) == old_len_args + 1","len(code_list) == old_len_code_list + 1","len(outs) == old_len_outs + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["routine.arguments","routine.name","routine.results","self._get_symbol"],"calls_mutating":["args.append","code_list.append","outs.append"],"raises":["CodeGenError"]},"state_contract":{"modifies":["args.*","code_list.*","outs.*"],"old_bindings":{"old_len_args":"len(args)","old_len_code_list":"len(code_list)","old_len_outs":"len(outs)"},"post_ensures":["len(args) == old_len_args + 1","len(code_list) == old_len_code_list + 1","len(outs) == old_len_outs + 1"],"exceptional_post":{"CodeGenError":["isinstance(raised, CodeGenError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_routine_opening(self, routine):
         """Returns the opening statements of the routine."""
         code_list = []
@@ -2632,30 +3220,43 @@ class OctaveCodeGen(CodeGen):
         return code_list
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_declare_arguments(rou), internal helper behaves correctly) over Any ║
+# ║ Path(_declare_arguments(routine), []) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  []                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _declare_arguments : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e5ce2eb77ef10160           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.OctaveCodeGen._declare_arguments","kind":"method","src_hash":"4219264a4df4f759","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_declare_arguments(rou)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_declare_arguments_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e5ce2eb77ef10160"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.OctaveCodeGen._declare_arguments","kind":"method","src_hash":"4219264a4df4f759","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_declare_arguments(routine)","rhs":"[]","over":{"base":"Any"},"name":"_declare_arguments_correct"},"guarantee":"returns []","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e5ce2eb77ef10160","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _declare_arguments(self, routine):
         return []
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_declare_globals(rou), internal helper behaves correctly) over Any ║
+# ║ Path(_declare_globals(routine), <unspecified:_declare_globals>) over {Any | hasattr(routine, 'global_vars')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _declare_globals : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(routine, 'global_vars')                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _declare_globals : {Any | hasattr(routine, 'global_va...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 648c760671c029b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.OctaveCodeGen._declare_globals","kind":"method","src_hash":"0c527b1c87345b0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_declare_globals(rou)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_declare_globals_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.OctaveCodeGen._declare_globals_correct","statement":"Path(_declare_globals(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"648c760671c029b4"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.OctaveCodeGen._declare_globals","kind":"method","src_hash":"0c527b1c87345b0d","in":{"base":"Any","pred":"hasattr(routine, 'global_vars')"},"out":{"base":"Any"},"spec":{"lhs":"_declare_globals(routine)","rhs":"<unspecified:_declare_globals>","over":{"base":"Any","pred":"hasattr(routine, 'global_vars')"},"name":"_declare_globals_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.OctaveCodeGen._declare_globals_correct","statement":"Path(_declare_globals(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"648c760671c029b4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(routine, 'global_vars')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["routine.global_vars","self._get_symbol"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _declare_globals(self, routine):
         if not routine.global_vars:
             return []
@@ -2663,44 +3264,65 @@ class OctaveCodeGen(CodeGen):
         return ["global " + s + "\n"]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_declare_locals(rou), internal helper behaves correctly) over Any ║
+# ║ Path(_declare_locals(routine), []) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  []                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _declare_locals : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 23a56c6400de7002           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.OctaveCodeGen._declare_locals","kind":"method","src_hash":"354a6dacf016e913","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_declare_locals(rou)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_declare_locals_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"23a56c6400de7002"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.OctaveCodeGen._declare_locals","kind":"method","src_hash":"354a6dacf016e913","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_declare_locals(routine)","rhs":"[]","over":{"base":"Any"},"name":"_declare_locals_correct"},"guarantee":"returns []","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"23a56c6400de7002","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _declare_locals(self, routine):
         return []
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_routine_ending(rou), internal helper behaves correctly) over Any ║
+# ║ Path(_get_routine_ending(routine), ['end\n']) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ['end\n']                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_routine_ending : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | eed342f8b2e01a1e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.OctaveCodeGen._get_routine_ending","kind":"method","src_hash":"fd965036ad912bdd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_routine_ending(rou)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_routine_ending_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eed342f8b2e01a1e"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.OctaveCodeGen._get_routine_ending","kind":"method","src_hash":"fd965036ad912bdd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_routine_ending(routine)","rhs":"['end\\n']","over":{"base":"Any"},"name":"_get_routine_ending_correct"},"guarantee":"returns ['end\\n']","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eed342f8b2e01a1e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"['end\\n']","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_routine_ending(self, routine):
         return ["end\n"]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_call_printer(rou), internal helper behaves correctly) over Any ║
+# ║ Path(_call_printer(routine), declarations + code_lines) over {Any | hasattr(routine, 'results')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _call_printer : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(routine, 'results')                    ║
+# ║   ensures:  len(code_lines) == old_len_code_lines + 1      ║
+# ║   ensures:  len(declarations) == old_len_declarations...   ║
+# ║   returns:  declarations + code_lines                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _call_printer : {Any | hasattr(routine, 'results')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d9e6b96412f16703  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f783c202a571c641  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.OctaveCodeGen._call_printer","kind":"method","src_hash":"b687a5388b700536","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_call_printer(rou)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_call_printer_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.OctaveCodeGen._call_printer_correct","statement":"Path(_call_printer(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9e6b96412f16703"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.OctaveCodeGen._call_printer","kind":"method","src_hash":"b687a5388b700536","in":{"base":"Any","pred":"hasattr(routine, 'results')"},"out":{"base":"Any","pred":"result satisfies: result == (declarations + code_lines)"},"spec":{"lhs":"_call_printer(routine)","rhs":"declarations + code_lines","over":{"base":"Any","pred":"hasattr(routine, 'results')"},"name":"_call_printer_correct"},"guarantee":"returns declarations + code_lines; len(code_lines) == old_len_code_lines + 1; len(declarations) == old_len_declarations + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.OctaveCodeGen._call_printer_correct","statement":"Path(_call_printer(x), returns declarations + code_lines; len(code_lines) == old_len_code_lines + 1; len(declarations) == old_len_declarations + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f783c202a571c641","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(routine, 'results')"],"ensures":["len(code_lines) == old_len_code_lines + 1","len(declarations) == old_len_declarations + 1"],"returns_expr":"declarations + code_lines","pure":false,"effects":{"effect_type":"reads_state","reads":["routine.results","self._printer_method_with_settings"],"calls_mutating":["code_lines.append","declarations.append"],"raises":["CodeGenError"]},"state_contract":{"modifies":["code_lines.*","declarations.*"],"old_bindings":{"old_len_code_lines":"len(code_lines)","old_len_declarations":"len(declarations)"},"post_ensures":["len(code_lines) == old_len_code_lines + 1","len(declarations) == old_len_declarations + 1"],"exceptional_post":{"CodeGenError":["isinstance(raised, CodeGenError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _call_printer(self, routine):
         declarations = []
         code_lines = []
@@ -2727,31 +3349,45 @@ class OctaveCodeGen(CodeGen):
         return declarations + code_lines
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_indent_code(cod), internal helper behaves correctly) over Any ║
+# ║ Path(_indent_code(codelines), self._printer_method_with_settings('indent_code', {'human': False, 'strict': False}, codelines)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._printer_method_with_settings('inden...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _indent_code : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f562fe66ce199358  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b40578160585222  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.OctaveCodeGen._indent_code","kind":"method","src_hash":"994272f71f2ad628","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_indent_code(cod)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_indent_code_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.OctaveCodeGen._indent_code_correct","statement":"Path(_indent_code(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f562fe66ce199358"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.OctaveCodeGen._indent_code","kind":"method","src_hash":"994272f71f2ad628","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_indent_code(codelines)","rhs":"self._printer_method_with_settings('indent_code', {'human': False, 'strict': False}, codelines)","over":{"base":"Any"},"name":"_indent_code_correct"},"guarantee":"returns self._printer_method_with_settings('indent_code', {'human': False, 'strict': False}, codelines)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.OctaveCodeGen._indent_code_correct","statement":"Path(_indent_code(x), returns self._printer_method_with_settings('indent_code', {'human': False, 'strict': False}, codelines))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b40578160585222","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._printer_method_with_settings('indent_code', {'human': False, 'strict': False}, codelines)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._printer_method_with_settings"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _indent_code(self, codelines):
         return self._printer_method_with_settings(
             'indent_code', {"human": False, "strict": False}, codelines)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dump_m(rou), dump_m produces the expected output) over Any ║
+# ║ Path(dump_m(routines, f, prefix), len(code_lines) == old_len_code_lines + 1) over {Any | hasattr(f, 'write') and hasattr(prefix, 'upper')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dump_m : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'write')                            ║
+# ║   requires: hasattr(prefix, 'upper')                       ║
+# ║   ensures:  len(code_lines) == old_len_code_lines + 1      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dump_m : {Any | hasattr(f, 'write') and hasattr(prefi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5ad351c55e97ee4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fce95dd41dcfe685  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.OctaveCodeGen.dump_m","kind":"method","src_hash":"57a3bc0d1d55b1cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dump_m(rou)","rhs":"dump_m produces the expected output","over":{"base":"Any"},"name":"dump_m_correct"},"guarantee":"dump_m produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.OctaveCodeGen.dump_m_correct","statement":"Path(dump_m(x), dump_m produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5ad351c55e97ee4"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.OctaveCodeGen.dump_m","kind":"method","src_hash":"57a3bc0d1d55b1cd","in":{"base":"Any","pred":"hasattr(f, 'write') and hasattr(prefix, 'upper')"},"out":{"base":"Any","pred":"result satisfies: len(code_lines) == old_len_code_lines + 1"},"spec":{"lhs":"dump_m(routines, f, prefix)","rhs":"len(code_lines) == old_len_code_lines + 1","over":{"base":"Any","pred":"hasattr(f, 'write') and hasattr(prefix, 'upper')"},"name":"dump_m_correct"},"guarantee":"len(code_lines) == old_len_code_lines + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.OctaveCodeGen.dump_m_correct","statement":"Path(dump_m(x), len(code_lines) == old_len_code_lines + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fce95dd41dcfe685","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'write')","hasattr(prefix, 'upper')"],"ensures":["len(code_lines) == old_len_code_lines + 1"],"pure":false,"effects":{"effect_type":"io","reads":["f.write","prefix.upper","self._call_printer","self._declare_arguments","self._declare_globals","self._declare_locals","self._get_header","self._get_routine_ending","self._get_routine_opening","self._indent_code","self._preprocessor_statements"],"calls_mutating":["code_lines.append","code_lines.extend","f.write"],"raises":["ValueError"],"io_operations":["f.write"]},"state_contract":{"modifies":["code_lines.*","f.*"],"old_bindings":{"old_len_code_lines":"len(code_lines)"},"post_ensures":["len(code_lines) == old_len_code_lines + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dump_m(self, routines, f, prefix, header=True, empty=True, inline=True):
         # Note used to call self.dump_code() but we need more control for header
 
@@ -2794,14 +3430,20 @@ class OctaveCodeGen(CodeGen):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a RustCodeGen instance) preserved by RustCodeGen(*args) over {Any | isinstance(expr, Equality) and isinstance(result, Result) and isinstance(expr, (MatrixBase, MatrixExpr))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CodeGen)                      ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ RustCodeGen : {Any | isinstance(expr, Equality) and i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 797528141e99d3e0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.RustCodeGen","kind":"class","src_hash":"83282b9699374354","in":{"base":"Any","pred":"isinstance(expr, Equality) and isinstance(result, Result) and isinstance(expr, (MatrixBase, MatrixExpr))"},"out":{"base":"Any"},"spec":{"lhs":"RustCodeGen(*args)","rhs":"correctly constructs a RustCodeGen instance","over":{"base":"Any","pred":"isinstance(expr, Equality) and isinstance(result, Result) and isinstance(expr, (MatrixBase, MatrixExpr))"},"name":"RustCodeGen_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a RustCodeGen instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'printer')","kind":"class","induction":"structural on printer"}],"methods_preserving":["__init__","routine","_get_header","get_prototype","_preprocessor_statements","_get_routine_opening","_declare_arguments","_declare_globals","_declare_locals","_call_printer","_get_routine_ending","dump_rs"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"797528141e99d3e0"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.RustCodeGen","kind":"class","src_hash":"83282b9699374354","in":{"base":"Any","pred":"isinstance(expr, Equality) and isinstance(result, Result) and isinstance(expr, (MatrixBase, MatrixExpr))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CodeGen)"},"spec":{"lhs":"RustCodeGen(*args)","rhs":"correctly constructs a RustCodeGen instance","over":{"base":"Any","pred":"isinstance(expr, Equality) and isinstance(result, Result) and isinstance(expr, (MatrixBase, MatrixExpr))"},"name":"RustCodeGen_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, CodeGen); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'printer')","kind":"class","induction":"structural on printer"}],"methods_preserving":["__init__","routine","_get_header","get_prototype","_preprocessor_statements","_get_routine_opening","_declare_arguments","_declare_globals","_declare_locals","_call_printer","_get_routine_ending","dump_rs"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"797528141e99d3e0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CodeGen)"],"invariants":["hasattr(self, 'printer')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function RustCodeGen not found in source"]}}
 class RustCodeGen(CodeGen):
     """Generator for Rust code.
 
@@ -2813,31 +3455,49 @@ class RustCodeGen(CodeGen):
     code_extension = "rs"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(pro), initializes the instance correctly) over Any ║
+# ║ Path(__init__(project, printer), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bef3b06a28d4dccc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.RustCodeGen.__init__","kind":"method","src_hash":"c342a0d5654fc541","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(pro)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bef3b06a28d4dccc"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.RustCodeGen.__init__","kind":"method","src_hash":"c342a0d5654fc541","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(project, printer)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bef3b06a28d4dccc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, project="project", printer=None):
         super().__init__(project=project)
         self.printer = printer or RustCodePrinter()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(routine(nam), specialized routine creation for rust) over Any ║
+# ║ Path(routine(name, expr, argument_sequence), Routine(name, arg_list, return_vals, local_vars, global_vars)) over {Any | hasattr(expr, 'lhs') and hasattr(expr, 'rhs') and hasattr(expr, 'has')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ routine : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'lhs')                           ║
+# ║   requires: hasattr(expr, 'rhs')                           ║
+# ║   requires: hasattr(expr, 'has')                           ║
+# ║   ensures:  len(arg_list) == old_len_arg_list + 1          ║
+# ║   ensures:  len(new_args) == old_len_new_args + 1          ║
+# ║   ensures:  len(new_sequence) == old_len_new_sequence...   ║
+# ║   returns:  Routine(name, arg_list, return_vals, loca...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ routine : {Any | hasattr(expr, 'lhs') and hasattr(exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4aa63149ebe54887  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 256fe3f278b21782  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.RustCodeGen.routine","kind":"method","src_hash":"553c1e603353a9a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"routine(nam)","rhs":"specialized routine creation for rust","over":{"base":"Any"},"name":"routine_correct"},"guarantee":"specialized routine creation for rust","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.RustCodeGen.routine_correct","statement":"Path(routine(x), specialized routine creation for rust)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4aa63149ebe54887"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.RustCodeGen.routine","kind":"method","src_hash":"553c1e603353a9a3","in":{"base":"Any","pred":"hasattr(expr, 'lhs') and hasattr(expr, 'rhs') and hasattr(expr, 'has')"},"out":{"base":"Any","pred":"result satisfies: result == (Routine(name, arg_list, return_vals, local_vars, global_vars))"},"spec":{"lhs":"routine(name, expr, argument_sequence)","rhs":"Routine(name, arg_list, return_vals, local_vars, global_vars)","over":{"base":"Any","pred":"hasattr(expr, 'lhs') and hasattr(expr, 'rhs') and hasattr(expr, 'has')"},"name":"routine_correct"},"guarantee":"returns Routine(name, arg_list, return_vals, local_vars, global_vars); len(arg_list) == old_len_arg_list + 1; len(new_args) == old_len_new_args + 1; len(new_sequence) == old_len_new_sequence + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.RustCodeGen.routine_correct","statement":"Path(routine(x), returns Routine(name, arg_list, return_vals, local_vars, global_vars); len(arg_list) == old_len_arg_list + 1; len(new_args) == old_len_new_args + 1; len(new_sequence) == old_len_new_sequence + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"256fe3f278b21782","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'lhs')","hasattr(expr, 'rhs')","hasattr(expr, 'has')"],"ensures":["len(arg_list) == old_len_arg_list + 1","len(new_args) == old_len_new_args + 1","len(new_sequence) == old_len_new_sequence + 1","len(output_args) == old_len_output_args + 1","len(output_args) == old_len_output_args","len(return_vals) == old_len_return_vals + 1"],"returns_expr":"Routine(name, arg_list, return_vals, local_vars, global_vars)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.has","expr.lhs","expr.rhs"],"calls_mutating":["arg_list.append","new_args.append","new_sequence.append","output_args.append","output_args.sort","return_vals.append","symbols.remove"],"raises":["CodeGenArgumentListError","CodeGenError","ValueError"],"catches":["KeyError"]},"state_contract":{"modifies":["arg_list.*","new_args.*","new_sequence.*","output_args.*","return_vals.*","symbols.*"],"old_bindings":{"old_len_arg_list":"len(arg_list)","old_len_new_args":"len(new_args)","old_len_new_sequence":"len(new_sequence)","old_len_output_args":"len(output_args)","old_len_return_vals":"len(return_vals)"},"post_ensures":["len(arg_list) == old_len_arg_list + 1","len(new_args) == old_len_new_args + 1","len(new_sequence) == old_len_new_sequence + 1","len(output_args) == old_len_output_args + 1","len(output_args) == old_len_output_args","len(return_vals) == old_len_return_vals + 1"],"exceptional_post":{"CodeGenArgumentListError":["isinstance(raised, CodeGenArgumentListError)"],"CodeGenError":["isinstance(raised, CodeGenError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def routine(self, name, expr, argument_sequence, global_vars):
         """Specialized Routine creation for Rust."""
 
@@ -2925,16 +3585,22 @@ class RustCodeGen(CodeGen):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_header(), writes a common header for the generated files) over Any ║
+# ║ Path(_get_header(), <unspecified:_get_header>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_header : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c7ee3ef39114658  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.RustCodeGen._get_header","kind":"method","src_hash":"d1d162df72faa8ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_header()","rhs":"writes a common header for the generated files","over":{"base":"Any"},"name":"_get_header_correct"},"guarantee":"writes a common header for the generated files","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.RustCodeGen._get_header_correct","statement":"Path(_get_header(x), writes a common header for the generated files)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c7ee3ef39114658"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.RustCodeGen._get_header","kind":"method","src_hash":"d1d162df72faa8ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_header()","rhs":"<unspecified:_get_header>","over":{"base":"Any"},"name":"_get_header_correct"},"guarantee":"writes a common header for the generated files","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.RustCodeGen._get_header_correct","statement":"Path(_get_header(x), writes a common header for the generated files)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c7ee3ef39114658","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_header(self):
         """Writes a common header for the generated files."""
         code_lines = []
@@ -2947,16 +3613,25 @@ class RustCodeGen(CodeGen):
         return code_lines
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_prototype(rou), returns a string for the function prototype of the routine) over Any ║
+# ║ Path(get_prototype(routine), 'fn %s(%s)%s' % (routine.name, arguments, rstype)) over {Any | hasattr(routine, 'arguments') and hasattr(routine, 'results') and hasattr(routine, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_prototype : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(routine, 'arguments')                  ║
+# ║   requires: hasattr(routine, 'results')                    ║
+# ║   requires: hasattr(routine, 'name')                       ║
+# ║   returns:  'fn %s(%s)%s' % (routine.name, arguments,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_prototype : {Any | hasattr(routine, 'arguments') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa00ad668b845e87  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bdf7a9ffa32371bf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.RustCodeGen.get_prototype","kind":"method","src_hash":"2f72a6c9b1139ef1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_prototype(rou)","rhs":"returns a string for the function prototype of the routine","over":{"base":"Any"},"name":"get_prototype_correct"},"guarantee":"returns a string for the function prototype of the routine","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.RustCodeGen.get_prototype_correct","statement":"Path(get_prototype(x), returns a string for the function prototype of the routine)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa00ad668b845e87"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.RustCodeGen.get_prototype","kind":"method","src_hash":"2f72a6c9b1139ef1","in":{"base":"Any","pred":"hasattr(routine, 'arguments') and hasattr(routine, 'results') and hasattr(routine, 'name')"},"out":{"base":"Any"},"spec":{"lhs":"get_prototype(routine)","rhs":"'fn %s(%s)%s' % (routine.name, arguments, rstype)","over":{"base":"Any","pred":"hasattr(routine, 'arguments') and hasattr(routine, 'results') and hasattr(routine, 'name')"},"name":"get_prototype_correct"},"guarantee":"returns 'fn %s(%s)%s' % (routine.name, arguments, rstype)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.RustCodeGen.get_prototype_correct","statement":"Path(get_prototype(x), returns 'fn %s(%s)%s' % (routine.name, arguments, rstype))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bdf7a9ffa32371bf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(routine, 'arguments')","hasattr(routine, 'results')","hasattr(routine, 'name')"],"returns_expr":"'fn %s(%s)%s' % (routine.name, arguments, rstype)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_prototype(self, routine):
         """Returns a string for the function prototype of the routine.
 
@@ -2986,92 +3661,133 @@ class RustCodeGen(CodeGen):
         return "fn %s(%s)%s" % (routine.name, arguments, rstype)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_preprocessor_statements(pre), internal helper behaves correctly) over Any ║
+# ║ Path(_preprocessor_statements(prefix), <unspecified:_preprocessor_statements>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _preprocessor_statements : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb0292de87160701  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.RustCodeGen._preprocessor_statements","kind":"method","src_hash":"45614d83c80adb0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_preprocessor_statements(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_preprocessor_statements_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.RustCodeGen._preprocessor_statements_correct","statement":"Path(_preprocessor_statements(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb0292de87160701"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.RustCodeGen._preprocessor_statements","kind":"method","src_hash":"45614d83c80adb0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_preprocessor_statements(prefix)","rhs":"<unspecified:_preprocessor_statements>","over":{"base":"Any"},"name":"_preprocessor_statements_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.RustCodeGen._preprocessor_statements_correct","statement":"Path(_preprocessor_statements(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb0292de87160701","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _preprocessor_statements(self, prefix):
         code_lines = []
         # code_lines.append("use std::f64::consts::*;\n")
         return code_lines
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_routine_opening(rou), internal helper behaves correctly) over Any ║
+# ║ Path(_get_routine_opening(routine), ['%s {\n' % prototype]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ['%s {\n' % prototype]                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_routine_opening : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ad05beba4457f21  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0dfca5bfd4a8fa2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.RustCodeGen._get_routine_opening","kind":"method","src_hash":"8519d66dc3b42621","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_routine_opening(rou)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_routine_opening_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.RustCodeGen._get_routine_opening_correct","statement":"Path(_get_routine_opening(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ad05beba4457f21"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.RustCodeGen._get_routine_opening","kind":"method","src_hash":"8519d66dc3b42621","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_routine_opening(routine)","rhs":"['%s {\\n' % prototype]","over":{"base":"Any"},"name":"_get_routine_opening_correct"},"guarantee":"returns ['%s {\\n' % prototype]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.RustCodeGen._get_routine_opening_correct","statement":"Path(_get_routine_opening(x), returns ['%s {\\n' % prototype])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0dfca5bfd4a8fa2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"['%s {\\n' % prototype]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.get_prototype"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_routine_opening(self, routine):
         prototype = self.get_prototype(routine)
         return ["%s {\n" % prototype]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_declare_arguments(rou), internal helper behaves correctly) over Any ║
+# ║ Path(_declare_arguments(routine), []) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  []                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _declare_arguments : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8e7ccbee388c9488           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.RustCodeGen._declare_arguments","kind":"method","src_hash":"d4baa61c9458d202","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_declare_arguments(rou)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_declare_arguments_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8e7ccbee388c9488"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.RustCodeGen._declare_arguments","kind":"method","src_hash":"d4baa61c9458d202","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_declare_arguments(routine)","rhs":"[]","over":{"base":"Any"},"name":"_declare_arguments_correct"},"guarantee":"returns []","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8e7ccbee388c9488","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _declare_arguments(self, routine):
         # arguments are declared in prototype
         return []
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_declare_globals(rou), internal helper behaves correctly) over Any ║
+# ║ Path(_declare_globals(routine), []) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  []                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _declare_globals : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b628e0eeac07ad2e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.RustCodeGen._declare_globals","kind":"method","src_hash":"ccf73499142e17fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_declare_globals(rou)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_declare_globals_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b628e0eeac07ad2e"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.RustCodeGen._declare_globals","kind":"method","src_hash":"ccf73499142e17fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_declare_globals(routine)","rhs":"[]","over":{"base":"Any"},"name":"_declare_globals_correct"},"guarantee":"returns []","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b628e0eeac07ad2e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _declare_globals(self, routine):
         # global variables are not explicitly declared within C functions
         return []
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_declare_locals(rou), internal helper behaves correctly) over Any ║
+# ║ Path(_declare_locals(routine), []) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  []                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _declare_locals : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6ee57b5fa91d5b6c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.RustCodeGen._declare_locals","kind":"method","src_hash":"aeec322ed2da751d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_declare_locals(rou)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_declare_locals_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6ee57b5fa91d5b6c"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.RustCodeGen._declare_locals","kind":"method","src_hash":"aeec322ed2da751d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_declare_locals(routine)","rhs":"[]","over":{"base":"Any"},"name":"_declare_locals_correct"},"guarantee":"returns []","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6ee57b5fa91d5b6c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _declare_locals(self, routine):
         # loop variables are declared in loop statement
         return []
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_call_printer(rou), internal helper behaves correctly) over Any ║
+# ║ Path(_call_printer(routine), declarations + code_lines + returns) over {Any | hasattr(routine, 'arguments') and hasattr(routine, 'results')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _call_printer : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(routine, 'arguments')                  ║
+# ║   requires: hasattr(routine, 'results')                    ║
+# ║   ensures:  len(code_lines) == old_len_code_lines + 1      ║
+# ║   ensures:  len(declarations) == old_len_declarations...   ║
+# ║   ensures:  len(dereference) == old_len_dereference + 1    ║
+# ║   returns:  declarations + code_lines + returns            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _call_printer : {Any | hasattr(routine, 'arguments') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be0b7621015daee9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 025c670124c93ae6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.RustCodeGen._call_printer","kind":"method","src_hash":"1f8fd1f185c4c691","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_call_printer(rou)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_call_printer_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.RustCodeGen._call_printer_correct","statement":"Path(_call_printer(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be0b7621015daee9"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.RustCodeGen._call_printer","kind":"method","src_hash":"1f8fd1f185c4c691","in":{"base":"Any","pred":"hasattr(routine, 'arguments') and hasattr(routine, 'results')"},"out":{"base":"Any","pred":"result satisfies: result == (declarations + code_lines + returns)"},"spec":{"lhs":"_call_printer(routine)","rhs":"declarations + code_lines + returns","over":{"base":"Any","pred":"hasattr(routine, 'arguments') and hasattr(routine, 'results')"},"name":"_call_printer_correct"},"guarantee":"returns declarations + code_lines + returns; len(code_lines) == old_len_code_lines + 1; len(declarations) == old_len_declarations + 1; len(dereference) == old_len_dereference + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.RustCodeGen._call_printer_correct","statement":"Path(_call_printer(x), returns declarations + code_lines + returns; len(code_lines) == old_len_code_lines + 1; len(declarations) == old_len_declarations + 1; len(dereference) == old_len_dereference + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"025c670124c93ae6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(routine, 'arguments')","hasattr(routine, 'results')"],"ensures":["len(code_lines) == old_len_code_lines + 1","len(declarations) == old_len_declarations + 1","len(dereference) == old_len_dereference + 1","len(returns) == old_len_returns + 1"],"returns_expr":"declarations + code_lines + returns","pure":false,"effects":{"effect_type":"reads_state","reads":["routine.arguments","routine.results","self._printer_method_with_settings"],"calls_mutating":["code_lines.append","declarations.append","dereference.append","returns.append"],"raises":["CodeGenError"]},"state_contract":{"modifies":["code_lines.*","declarations.*","dereference.*","returns.*"],"old_bindings":{"old_len_code_lines":"len(code_lines)","old_len_declarations":"len(declarations)","old_len_dereference":"len(dereference)","old_len_returns":"len(returns)"},"post_ensures":["len(code_lines) == old_len_code_lines + 1","len(declarations) == old_len_declarations + 1","len(dereference) == old_len_dereference + 1","len(returns) == old_len_returns + 1"],"exceptional_post":{"CodeGenError":["isinstance(raised, CodeGenError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _call_printer(self, routine):
 
         code_lines = []
@@ -3116,30 +3832,42 @@ class RustCodeGen(CodeGen):
         return declarations + code_lines + returns
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_routine_ending(rou), internal helper behaves correctly) over Any ║
+# ║ Path(_get_routine_ending(routine), ['}\n']) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ['}\n']                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_routine_ending : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 657523f4df804b7c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.RustCodeGen._get_routine_ending","kind":"method","src_hash":"56b60f0205d0eeb9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_routine_ending(rou)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_routine_ending_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"657523f4df804b7c"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.RustCodeGen._get_routine_ending","kind":"method","src_hash":"56b60f0205d0eeb9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_routine_ending(routine)","rhs":"['}\\n']","over":{"base":"Any"},"name":"_get_routine_ending_correct"},"guarantee":"returns ['}\\n']","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"657523f4df804b7c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"['}\\n']","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_routine_ending(self, routine):
         return ["}\n"]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dump_rs(rou), dump_rs produces the expected output) over Any ║
+# ║ Path(dump_rs(routines, f, prefix), <unspecified:dump_rs>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dump_rs : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45fdb5617afbf4c7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.RustCodeGen.dump_rs","kind":"method","src_hash":"bbf08fb6be0d689d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dump_rs(rou)","rhs":"dump_rs produces the expected output","over":{"base":"Any"},"name":"dump_rs_correct"},"guarantee":"dump_rs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.RustCodeGen.dump_rs_correct","statement":"Path(dump_rs(x), dump_rs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45fdb5617afbf4c7"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.RustCodeGen.dump_rs","kind":"method","src_hash":"bbf08fb6be0d689d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dump_rs(routines, f, prefix)","rhs":"<unspecified:dump_rs>","over":{"base":"Any"},"name":"dump_rs_correct"},"guarantee":"dump_rs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.RustCodeGen.dump_rs_correct","statement":"Path(dump_rs(x), dump_rs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45fdb5617afbf4c7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dump_code"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dump_rs(self, routines, f, prefix, header=True, empty=True):
         self.dump_code(routines, f, prefix, header, empty)
 
@@ -3154,16 +3882,25 @@ class RustCodeGen(CodeGen):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_code_generator(lan), get_code_generator produces the expected output) over Any ║
+# ║ Path(get_code_generator(language, project, standard), CodeGenClass(project, printer)) over {Any | not (CodeGenClass is None) and hasattr(language, 'upper') and hasattr(standard, 'lower')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_code_generator : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (CodeGenClass is None)                     ║
+# ║   requires: hasattr(language, 'upper')                     ║
+# ║   requires: hasattr(standard, 'lower')                     ║
+# ║   returns:  CodeGenClass(project, printer)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_code_generator : {Any | not (CodeGenClass is None...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a83275b41967d84  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7dc0cf4478b4c436  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.get_code_generator","kind":"function","src_hash":"cf3b62b99a8dba6b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_code_generator(lan)","rhs":"get_code_generator produces the expected output","over":{"base":"Any"},"name":"get_code_generator_correct"},"guarantee":"get_code_generator produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.get_code_generator_correct","statement":"Path(get_code_generator(x), get_code_generator produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a83275b41967d84"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.get_code_generator","kind":"function","src_hash":"cf3b62b99a8dba6b","in":{"base":"Any","pred":"not (CodeGenClass is None) and hasattr(language, 'upper') and hasattr(standard, 'lower')"},"out":{"base":"Any"},"spec":{"lhs":"get_code_generator(language, project, standard)","rhs":"CodeGenClass(project, printer)","over":{"base":"Any","pred":"not (CodeGenClass is None) and hasattr(language, 'upper') and hasattr(standard, 'lower')"},"name":"get_code_generator_correct"},"guarantee":"returns CodeGenClass(project, printer)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.get_code_generator_correct","statement":"Path(get_code_generator(x), returns CodeGenClass(project, printer))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7dc0cf4478b4c436","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (CodeGenClass is None)","hasattr(language, 'upper')","hasattr(standard, 'lower')"],"returns_expr":"CodeGenClass(project, printer)","pure":false,"effects":{"effect_type":"reads_state","reads":["language.upper","standard.lower"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def get_code_generator(language, project=None, standard=None, printer = None):
     if language == 'C':
         if standard is None:
@@ -3187,9 +3924,13 @@ def get_code_generator(language, project=None, standard=None, printer = None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(codegen(nam), generate source code for expressions in a given language) over {Any | isinstance(name_expr[0], str)} ║
+# ║ Path(codegen(name_expr, language, prefix), code_gen.write(routines, prefix, to_files, header, empty)) over {Any | isinstance(name_expr[0], str)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ codegen : {Any | isinstance(name_expr[0], str)} → Any      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(routines) == old_len_routines + 1          ║
+# ║   returns:  code_gen.write(routines, prefix, to_files...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ codegen : {Any | isinstance(name_expr[0], str)} → {An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   str: {isinstance(name_expr[0], str)} → library_axiom     ║
@@ -3199,9 +3940,12 @@ def get_code_generator(language, project=None, standard=None, printer = None):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 2f39b04a...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.codegen","kind":"function","src_hash":"4afa6e564d899c7f","in":{"base":"Any","pred":"isinstance(name_expr[0], str)"},"out":{"base":"Any"},"spec":{"lhs":"codegen(nam)","rhs":"generate source code for expressions in a given language","over":{"base":"Any","pred":"isinstance(name_expr[0], str)"},"name":"codegen_correct"},"guarantee":"generate source code for expressions in a given language","fibers":[{"name":"str","pred":"isinstance(name_expr[0], str)","path":{"lhs":"codegen(x)","rhs":"generate source code for expressions in a given language","over":{"base":"str","pred":"isinstance(name_expr[0], str)"},"name":"codegen_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.codegen_str_correct","statement":"codegen satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"2f39b04acff78a5d"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.codegen","kind":"function","src_hash":"4afa6e564d899c7f","in":{"base":"Any","pred":"isinstance(name_expr[0], str)"},"out":{"base":"Any","pred":"result satisfies: result == (code_gen.write(routines, prefix, to_files, header, empty))"},"spec":{"lhs":"codegen(name_expr, language, prefix)","rhs":"code_gen.write(routines, prefix, to_files, header, empty)","over":{"base":"Any","pred":"isinstance(name_expr[0], str)"},"name":"codegen_correct"},"guarantee":"returns code_gen.write(routines, prefix, to_files, header, empty); len(routines) == old_len_routines + 1","fibers":[{"name":"str","pred":"isinstance(name_expr[0], str)","path":{"lhs":"codegen(x)","rhs":"returns code_gen.write(routines, prefix, to_files, header, empty); len(routines) == old_len_routines + 1","over":{"base":"str","pred":"isinstance(name_expr[0], str)"},"name":"codegen_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.codegen_str_correct","statement":"codegen satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"2f39b04acff78a5d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(routines) == old_len_routines + 1"],"returns_expr":"code_gen.write(routines, prefix, to_files, header, empty)","pure":false,"effects":{"effect_type":"io","reads":["code_gen.routine","code_gen.write"],"calls_mutating":["code_gen.write","routines.append"],"raises":["ValueError"],"io_operations":["code_gen.write"]},"state_contract":{"modifies":["code_gen.*","routines.*"],"old_bindings":{"old_len_routines":"len(routines)"},"post_ensures":["len(routines) == old_len_routines + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'language is None', 'isinstance(name_expr[0], str)', 'prefix is None', 'code_gen is None'}, fibers={'str'})"]}}
 def codegen(name_expr, language=None, prefix=None, project="project",
             to_files=False, header=True, empty=True, argument_sequence=None,
             global_vars=None, standard=None, code_gen=None, printer=None):
@@ -3361,16 +4105,22 @@ def codegen(name_expr, language=None, prefix=None, project="project",
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(make_routine(nam), a factory that makes an appropriate routine from an expression) over Any ║
+# ║ Path(make_routine(name, expr, argument_sequence), code_gen.routine(name, expr, argument_sequence, global_vars)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  code_gen.routine(name, expr, argument_seq...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ make_routine : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c80488745d3bca62  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad9e3bbb6698ba5a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.make_routine","kind":"function","src_hash":"72b4c426373aca71","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"make_routine(nam)","rhs":"a factory that makes an appropriate routine from an expression","over":{"base":"Any"},"name":"make_routine_correct"},"guarantee":"a factory that makes an appropriate routine from an expression","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.make_routine_correct","statement":"Path(make_routine(x), a factory that makes an appropriate routine from an expression)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c80488745d3bca62"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.codegen.make_routine","kind":"function","src_hash":"72b4c426373aca71","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"make_routine(name, expr, argument_sequence)","rhs":"code_gen.routine(name, expr, argument_sequence, global_vars)","over":{"base":"Any"},"name":"make_routine_correct"},"guarantee":"returns code_gen.routine(name, expr, argument_sequence, global_vars)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.codegen.make_routine_correct","statement":"Path(make_routine(x), returns code_gen.routine(name, expr, argument_sequence, global_vars))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad9e3bbb6698ba5a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"code_gen.routine(name, expr, argument_sequence, global_vars)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def make_routine(name, expr, argument_sequence=None,
                  global_vars=None, language="F95"):
     """A factory that makes an appropriate Routine from an expression.

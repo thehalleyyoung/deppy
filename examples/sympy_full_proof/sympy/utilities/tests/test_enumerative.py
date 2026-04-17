@@ -31,16 +31,22 @@ from sympy.utilities.iterables import _set_partitions
 # different versions are giving identical results.
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(part_range_filter(par), filters (on the number of parts) a multiset partition enumeration) over Any ║
+# ║ Path(part_range_filter(partition_iterator, lb, ub), <unspecified:part_range_filter>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ part_range_filter : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa06e76e2a651e12  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_enumerative.part_range_filter","kind":"function","src_hash":"c09a8d84561043e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"part_range_filter(par)","rhs":"filters (on the number of parts) a multiset partition enumeration","over":{"base":"Any"},"name":"part_range_filter_correct"},"guarantee":"filters (on the number of parts) a multiset partition enumeration","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_enumerative.part_range_filter_correct","statement":"Path(part_range_filter(x), filters (on the number of parts) a multiset partition enumeration)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa06e76e2a651e12"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_enumerative.part_range_filter","kind":"function","src_hash":"c09a8d84561043e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"part_range_filter(partition_iterator, lb, ub)","rhs":"<unspecified:part_range_filter>","over":{"base":"Any"},"name":"part_range_filter_correct"},"guarantee":"filters (on the number of parts) a multiset partition enumeration","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_enumerative.part_range_filter_correct","statement":"Path(part_range_filter(x), filters (on the number of parts) a multiset partition enumeration)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa06e76e2a651e12","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def part_range_filter(partition_iterator, lb, ub):
     """
     Filters (on the number of parts) a multiset partition enumeration
@@ -60,16 +66,22 @@ def part_range_filter(partition_iterator, lb, ub):
             yield state
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(multiset_partitions_baseline(mul), enumerates partitions of a multiset) over Any ║
+# ║ Path(multiset_partitions_baseline(multiplicities, components), <unspecified:multiset_partitions_baseline>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ multiset_partitions_baseline : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d25f580f909b6932  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_enumerative.multiset_partitions_baseline","kind":"function","src_hash":"241cacf4ac8aebdb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"multiset_partitions_baseline(mul)","rhs":"enumerates partitions of a multiset","over":{"base":"Any"},"name":"multiset_partitions_baseline_correct"},"guarantee":"enumerates partitions of a multiset","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_enumerative.multiset_partitions_baseline_correct","statement":"Path(multiset_partitions_baseline(x), enumerates partitions of a multiset)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d25f580f909b6932"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_enumerative.multiset_partitions_baseline","kind":"function","src_hash":"241cacf4ac8aebdb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"multiset_partitions_baseline(multiplicities, components)","rhs":"<unspecified:multiset_partitions_baseline>","over":{"base":"Any"},"name":"multiset_partitions_baseline_correct"},"guarantee":"enumerates partitions of a multiset","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_enumerative.multiset_partitions_baseline_correct","statement":"Path(multiset_partitions_baseline(x), enumerates partitions of a multiset)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d25f580f909b6932","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def multiset_partitions_baseline(multiplicities, components):
     """Enumerates partitions of a multiset
 
@@ -120,16 +132,22 @@ def multiset_partitions_baseline(multiplicities, components):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(compare_multiset_w_baseline(mul), enumerates the partitions of multiset with aocp algorithm and baseline implementation, and compare the results) over Any ║
+# ║ Path(compare_multiset_w_baseline(multiplicities), bl_partitions == aocp_partitions) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ compare_multiset_w_baseline : Any → {Any | bl_partiti...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  bl_partitions == aocp_partitions               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ compare_multiset_w_baseline : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 931c4430a5045099  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a9a200ca4e610a74  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_enumerative.compare_multiset_w_baseline","kind":"function","src_hash":"377464fab083fa44","in":{"base":"Any"},"out":{"base":"Any","pred":"bl_partitions == aocp_partitions"},"spec":{"lhs":"compare_multiset_w_baseline(mul)","rhs":"enumerates the partitions of multiset with aocp algorithm and baseline implementation, and compare the results","over":{"base":"Any"},"name":"compare_multiset_w_baseline_correct"},"guarantee":"enumerates the partitions of multiset with aocp algorithm and baseline implementation, and compare the results","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_enumerative.compare_multiset_w_baseline_correct","statement":"Path(compare_multiset_w_baseline(x), enumerates the partitions of multiset with aocp algorithm and baseline implementation, and compare the results)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"931c4430a5045099"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_enumerative.compare_multiset_w_baseline","kind":"function","src_hash":"377464fab083fa44","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: bl_partitions == aocp_partitions"},"spec":{"lhs":"compare_multiset_w_baseline(multiplicities)","rhs":"bl_partitions == aocp_partitions","over":{"base":"Any"},"name":"compare_multiset_w_baseline_correct"},"guarantee":"bl_partitions == aocp_partitions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_enumerative.compare_multiset_w_baseline_correct","statement":"Path(compare_multiset_w_baseline(x), bl_partitions == aocp_partitions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9a200ca4e610a74","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["bl_partitions == aocp_partitions"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def compare_multiset_w_baseline(multiplicities):
     """
     Enumerates the partitions of multiset with AOCP algorithm and
@@ -152,16 +170,22 @@ def compare_multiset_w_baseline(multiplicities):
     assert bl_partitions == aocp_partitions
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(compare_multiset_states(s1,), compare for equality two instances of multiset partition states) over Any ║
+# ║ Path(compare_multiset_states(s1, s2), <unspecified:compare_multiset_states>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ compare_multiset_states : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d3fcd6f6bf16cb9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_enumerative.compare_multiset_states","kind":"function","src_hash":"c7b6de78a470ae5a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compare_multiset_states(s1,)","rhs":"compare for equality two instances of multiset partition states","over":{"base":"Any"},"name":"compare_multiset_states_correct"},"guarantee":"compare for equality two instances of multiset partition states","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_enumerative.compare_multiset_states_correct","statement":"Path(compare_multiset_states(x), compare for equality two instances of multiset partition states)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d3fcd6f6bf16cb9"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_enumerative.compare_multiset_states","kind":"function","src_hash":"c7b6de78a470ae5a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compare_multiset_states(s1, s2)","rhs":"<unspecified:compare_multiset_states>","over":{"base":"Any"},"name":"compare_multiset_states_correct"},"guarantee":"compare for equality two instances of multiset partition states","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_enumerative.compare_multiset_states_correct","statement":"Path(compare_multiset_states(x), compare for equality two instances of multiset partition states)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d3fcd6f6bf16cb9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def compare_multiset_states(s1, s2):
     """compare for equality two instances of multiset partition states
 
@@ -178,16 +202,22 @@ def compare_multiset_states(s1, s2):
     return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_multiset_partitions_taocp(), compares the output of multiset_partitions_taocp with a baseline (set partition based) implementation) over Any ║
+# ║ Path(test_multiset_partitions_taocp(), <unspecified:test_multiset_partitions_taocp>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_multiset_partitions_taocp : Any → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 49cb56b64430f447  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_enumerative.test_multiset_partitions_taocp","kind":"function","src_hash":"67e174555914fb30","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_multiset_partitions_taocp()","rhs":"compares the output of multiset_partitions_taocp with a baseline (set partition based) implementation","over":{"base":"Any"},"name":"test_multiset_partitions_taocp_correct"},"guarantee":"compares the output of multiset_partitions_taocp with a baseline (set partition based) implementation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_enumerative.test_multiset_partitions_taocp_correct","statement":"Path(test_multiset_partitions_taocp(x), compares the output of multiset_partitions_taocp with a baseline (set partition based) implementation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49cb56b64430f447"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_enumerative.test_multiset_partitions_taocp","kind":"function","src_hash":"67e174555914fb30","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_multiset_partitions_taocp()","rhs":"<unspecified:test_multiset_partitions_taocp>","over":{"base":"Any"},"name":"test_multiset_partitions_taocp_correct"},"guarantee":"compares the output of multiset_partitions_taocp with a baseline (set partition based) implementation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_enumerative.test_multiset_partitions_taocp_correct","statement":"Path(test_multiset_partitions_taocp(x), compares the output of multiset_partitions_taocp with a baseline (set partition based) implementation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49cb56b64430f447","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_multiset_partitions_taocp():
     """Compares the output of multiset_partitions_taocp with a baseline
     (set partition based) implementation."""
@@ -201,16 +231,22 @@ def test_multiset_partitions_taocp():
     compare_multiset_w_baseline(multiplicities)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_multiset_partitions_versions(), compares knuth-based versions of multiset_partitions) over Any ║
+# ║ Path(test_multiset_partitions_versions(), <unspecified:test_multiset_partitions_versions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_multiset_partitions_versions : Any → {Any | comp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 66f5164b535e446d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_enumerative.test_multiset_partitions_versions","kind":"function","src_hash":"d70e443cd20f4563","in":{"base":"Any"},"out":{"base":"Any","pred":"compare_multiset_states(s1, s2)"},"spec":{"lhs":"test_multiset_partitions_versions()","rhs":"compares knuth-based versions of multiset_partitions","over":{"base":"Any"},"name":"test_multiset_partitions_versions_correct"},"guarantee":"compares knuth-based versions of multiset_partitions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_enumerative.test_multiset_partitions_versions_correct","statement":"Path(test_multiset_partitions_versions(x), compares knuth-based versions of multiset_partitions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66f5164b535e446d"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_enumerative.test_multiset_partitions_versions","kind":"function","src_hash":"d70e443cd20f4563","in":{"base":"Any"},"out":{"base":"Any","pred":"compare_multiset_states(s1, s2)"},"spec":{"lhs":"test_multiset_partitions_versions()","rhs":"<unspecified:test_multiset_partitions_versions>","over":{"base":"Any"},"name":"test_multiset_partitions_versions_correct"},"guarantee":"compares knuth-based versions of multiset_partitions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_enumerative.test_multiset_partitions_versions_correct","statement":"Path(test_multiset_partitions_versions(x), compares knuth-based versions of multiset_partitions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66f5164b535e446d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_multiset_partitions_versions():
     """Compares Knuth-based versions of multiset_partitions"""
     multiplicities = [5,2,2,1]
@@ -220,16 +256,22 @@ def test_multiset_partitions_versions():
         assert compare_multiset_states(s1, s2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(subrange_exercise(mul), compare filter-based and more optimized subrange implementations) over Any ║
+# ║ Path(subrange_exercise(mult, lb, ub), m.count_partitions(mult) == m.count_partitions_slow(mult)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ subrange_exercise : Any → {Any | m.count_partitions(m...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  m.count_partitions(mult) == m.count_parti...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ subrange_exercise : Any → {Any | result satisfies: m....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb0deea270986814  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0865f39815a95f26  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_enumerative.subrange_exercise","kind":"function","src_hash":"d4c2ccae9137db9c","in":{"base":"Any"},"out":{"base":"Any","pred":"m.count_partitions(mult) == m.count_partitions_slow(mult) and compare_multiset_states(sa, sb) and compare_multiset_states(sa, sc) and compare_multiset_states(sa, sd)"},"spec":{"lhs":"subrange_exercise(mul)","rhs":"compare filter-based and more optimized subrange implementations","over":{"base":"Any"},"name":"subrange_exercise_correct"},"guarantee":"compare filter-based and more optimized subrange implementations","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_enumerative.subrange_exercise_correct","statement":"Path(subrange_exercise(x), compare filter-based and more optimized subrange implementations)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb0deea270986814"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_enumerative.subrange_exercise","kind":"function","src_hash":"d4c2ccae9137db9c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: m.count_partitions(mult) == m.count_partitions_slow(mult)"},"spec":{"lhs":"subrange_exercise(mult, lb, ub)","rhs":"m.count_partitions(mult) == m.count_partitions_slow(mult)","over":{"base":"Any"},"name":"subrange_exercise_correct"},"guarantee":"m.count_partitions(mult) == m.count_partitions_slow(mult)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_enumerative.subrange_exercise_correct","statement":"Path(subrange_exercise(x), m.count_partitions(mult) == m.count_partitions_slow(mult))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0865f39815a95f26","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["m.count_partitions(mult) == m.count_partitions_slow(mult)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def subrange_exercise(mult, lb, ub):
     """Compare filter-based and more optimized subrange implementations
 
@@ -258,16 +300,22 @@ def subrange_exercise(mult, lb, ub):
         assert compare_multiset_states(sa, sd)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_subrange(), test_subrange produces the expected output) over Any ║
+# ║ Path(test_subrange(), <unspecified:test_subrange>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_subrange : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 904ebc06d00b868c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_enumerative.test_subrange","kind":"function","src_hash":"fb37602180d0a6a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_subrange()","rhs":"test_subrange produces the expected output","over":{"base":"Any"},"name":"test_subrange_correct"},"guarantee":"test_subrange produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_enumerative.test_subrange_correct","statement":"Path(test_subrange(x), test_subrange produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"904ebc06d00b868c"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_enumerative.test_subrange","kind":"function","src_hash":"fb37602180d0a6a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_subrange()","rhs":"<unspecified:test_subrange>","over":{"base":"Any"},"name":"test_subrange_correct"},"guarantee":"test_subrange produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_enumerative.test_subrange_correct","statement":"Path(test_subrange(x), test_subrange produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"904ebc06d00b868c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_subrange():
     # Quick, but doesn't hit some of the corner cases
     mult = [4,4,2,1] # mississippi
@@ -277,16 +325,22 @@ def test_subrange():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_subrange_large(), test_subrange_large produces the expected output) over Any ║
+# ║ Path(test_subrange_large(), <unspecified:test_subrange_large>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_subrange_large : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a122472a09659ea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_enumerative.test_subrange_large","kind":"function","src_hash":"7c83861a91527581","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_subrange_large()","rhs":"test_subrange_large produces the expected output","over":{"base":"Any"},"name":"test_subrange_large_correct"},"guarantee":"test_subrange_large produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_enumerative.test_subrange_large_correct","statement":"Path(test_subrange_large(x), test_subrange_large produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a122472a09659ea"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_enumerative.test_subrange_large","kind":"function","src_hash":"7c83861a91527581","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_subrange_large()","rhs":"<unspecified:test_subrange_large>","over":{"base":"Any"},"name":"test_subrange_large_correct"},"guarantee":"test_subrange_large produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_enumerative.test_subrange_large_correct","statement":"Path(test_subrange_large(x), test_subrange_large produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a122472a09659ea","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_subrange_large():
     # takes a second or so, depending on cpu, Python version, etc.
     mult = [6,3,2,1]

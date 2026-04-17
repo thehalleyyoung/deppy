@@ -32,16 +32,24 @@ from sympy.polys.domains import QQ, ZZ
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(smith_normal_form(m), return the smith normal form of a matrix `m` over the ring `domain`. this will only work if the ring is a principal ideal domain) over Any ║
+# ║ Path(smith_normal_form(m), <unspecified:smith_normal_form>) over {Any | hasattr(m, 'domain') and hasattr(m, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ smith_normal_form : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(m, 'domain')                           ║
+# ║   requires: hasattr(m, 'shape')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ smith_normal_form : {Any | hasattr(m, 'domain') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80f5e451a687e258  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.normalforms.smith_normal_form","kind":"function","src_hash":"c4563b2c10fe7e01","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"smith_normal_form(m)","rhs":"return the smith normal form of a matrix `m` over the ring `domain`. this will only work if the ring is a principal ideal domain","over":{"base":"Any"},"name":"smith_normal_form_correct"},"guarantee":"return the smith normal form of a matrix `m` over the ring `domain`. this will only work if the ring is a principal ideal domain","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.normalforms.smith_normal_form_correct","statement":"Path(smith_normal_form(x), return the smith normal form of a matrix `m` over the ring `domain`. this will only work if the ring is a principal ideal domain)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80f5e451a687e258"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.normalforms.smith_normal_form","kind":"function","src_hash":"c4563b2c10fe7e01","in":{"base":"Any","pred":"hasattr(m, 'domain') and hasattr(m, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"smith_normal_form(m)","rhs":"<unspecified:smith_normal_form>","over":{"base":"Any","pred":"hasattr(m, 'domain') and hasattr(m, 'shape')"},"name":"smith_normal_form_correct"},"guarantee":"return the smith normal form of a matrix `m` over the ring `domain`. this will only work if the ring is a principal ideal domain","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.normalforms.smith_normal_form_correct","statement":"Path(smith_normal_form(x), return the smith normal form of a matrix `m` over the ring `domain`. this will only work if the ring is a principal ideal domain)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80f5e451a687e258","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(m, 'domain')","hasattr(m, 'shape')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["m.domain","m.shape"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def smith_normal_form(m):
     '''
     Return the Smith Normal Form of a matrix `m` over the ring `domain`.
@@ -66,16 +74,25 @@ def smith_normal_form(m):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_smith_normal_form(m), checks that the matrix is in smith normal form) over Any ║
+# ║ Path(is_smith_normal_form(m), <unspecified:is_smith_normal_form>) over {Any | hasattr(m, 'domain') and hasattr(m, 'shape') and hasattr(m, 'to_list')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_smith_normal_form : Any → Any                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(m, 'domain')                           ║
+# ║   requires: hasattr(m, 'shape')                            ║
+# ║   requires: hasattr(m, 'to_list')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_smith_normal_form : {Any | hasattr(m, 'domain') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e0de79b12bb4acb5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.normalforms.is_smith_normal_form","kind":"function","src_hash":"5ea49033c9e9b13f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_smith_normal_form(m)","rhs":"checks that the matrix is in smith normal form","over":{"base":"Any"},"name":"is_smith_normal_form_correct"},"guarantee":"checks that the matrix is in smith normal form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.normalforms.is_smith_normal_form_correct","statement":"Path(is_smith_normal_form(x), checks that the matrix is in smith normal form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0de79b12bb4acb5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.normalforms.is_smith_normal_form","kind":"function","src_hash":"5ea49033c9e9b13f","in":{"base":"Any","pred":"hasattr(m, 'domain') and hasattr(m, 'shape') and hasattr(m, 'to_list')"},"out":{"base":"Any"},"spec":{"lhs":"is_smith_normal_form(m)","rhs":"<unspecified:is_smith_normal_form>","over":{"base":"Any","pred":"hasattr(m, 'domain') and hasattr(m, 'shape') and hasattr(m, 'to_list')"},"name":"is_smith_normal_form_correct"},"guarantee":"checks that the matrix is in smith normal form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.normalforms.is_smith_normal_form_correct","statement":"Path(is_smith_normal_form(x), checks that the matrix is in smith normal form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0de79b12bb4acb5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(m, 'domain')","hasattr(m, 'shape')","hasattr(m, 'to_list')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["m.domain","m.shape","m.to_list"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def is_smith_normal_form(m):
     '''
     Checks that the matrix is in Smith Normal Form
@@ -106,16 +123,22 @@ def is_smith_normal_form(m):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(add_columns(m, ), add_columns produces the expected output) over Any ║
+# ║ Path(add_columns(m, i, j), <unspecified:add_columns>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ add_columns : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 233f10ddaae81b4b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.normalforms.add_columns","kind":"function","src_hash":"9edf09f9410f1981","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"add_columns(m, )","rhs":"add_columns produces the expected output","over":{"base":"Any"},"name":"add_columns_correct"},"guarantee":"add_columns produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.normalforms.add_columns_correct","statement":"Path(add_columns(x), add_columns produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"233f10ddaae81b4b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.normalforms.add_columns","kind":"function","src_hash":"9edf09f9410f1981","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"add_columns(m, i, j)","rhs":"<unspecified:add_columns>","over":{"base":"Any"},"name":"add_columns_correct"},"guarantee":"add_columns produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.normalforms.add_columns_correct","statement":"Path(add_columns(x), add_columns produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"233f10ddaae81b4b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def add_columns(m, i, j, a, b, c, d):
     # replace m[:, i] by a*m[:, i] + b*m[:, j]
     # and m[:, j] by c*m[:, i] + d*m[:, j]
@@ -126,16 +149,25 @@ def add_columns(m, i, j, a, b, c, d):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(invariant_factors(m), return the tuple of abelian invariants for a matrix `m` (as in the smith-normal form)) over Any ║
+# ║ Path(invariant_factors(m), _smith_normal_decomp(m, domain, shape=shape, full=False)) over {Any | hasattr(m, 'domain') and hasattr(m, 'shape') and hasattr(m, 'to_list')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ invariant_factors : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(m, 'domain')                           ║
+# ║   requires: hasattr(m, 'shape')                            ║
+# ║   requires: hasattr(m, 'to_list')                          ║
+# ║   returns:  _smith_normal_decomp(m, domain, shape=sha...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ invariant_factors : {Any | hasattr(m, 'domain') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e40506cea31a47f8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea5841646754c313  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.normalforms.invariant_factors","kind":"function","src_hash":"df20c0c79debbadd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"invariant_factors(m)","rhs":"return the tuple of abelian invariants for a matrix `m` (as in the smith-normal form)","over":{"base":"Any"},"name":"invariant_factors_correct"},"guarantee":"return the tuple of abelian invariants for a matrix `m` (as in the smith-normal form)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.normalforms.invariant_factors_correct","statement":"Path(invariant_factors(x), return the tuple of abelian invariants for a matrix `m` (as in the smith-normal form))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e40506cea31a47f8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.normalforms.invariant_factors","kind":"function","src_hash":"df20c0c79debbadd","in":{"base":"Any","pred":"hasattr(m, 'domain') and hasattr(m, 'shape') and hasattr(m, 'to_list')"},"out":{"base":"Any"},"spec":{"lhs":"invariant_factors(m)","rhs":"_smith_normal_decomp(m, domain, shape=shape, full=False)","over":{"base":"Any","pred":"hasattr(m, 'domain') and hasattr(m, 'shape') and hasattr(m, 'to_list')"},"name":"invariant_factors_correct"},"guarantee":"returns _smith_normal_decomp(m, domain, shape=shape, full=False)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.normalforms.invariant_factors_correct","statement":"Path(invariant_factors(x), returns _smith_normal_decomp(m, domain, shape=shape, full=False))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea5841646754c313","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(m, 'domain')","hasattr(m, 'shape')","hasattr(m, 'to_list')"],"returns_expr":"_smith_normal_decomp(m, domain, shape=shape, full=False)","pure":false,"effects":{"effect_type":"reads_state","reads":["m.domain","m.shape","m.to_list"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def invariant_factors(m):
     '''
     Return the tuple of abelian invariants for a matrix `m`
@@ -155,16 +187,25 @@ def invariant_factors(m):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(smith_normal_decomp(m), return the smith-normal form decomposition of matrix `m`) over Any ║
+# ║ Path(smith_normal_decomp(m), (smf, s, t)) over {Any | hasattr(m, 'domain') and hasattr(m, 'shape') and hasattr(m, 'to_list')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ smith_normal_decomp : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(m, 'domain')                           ║
+# ║   requires: hasattr(m, 'shape')                            ║
+# ║   requires: hasattr(m, 'to_list')                          ║
+# ║   returns:  (smf, s, t)                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ smith_normal_decomp : {Any | hasattr(m, 'domain') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b8a0e7ab52ab0bb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 190771f0b2d5131a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.normalforms.smith_normal_decomp","kind":"function","src_hash":"d96f7e8defb196b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"smith_normal_decomp(m)","rhs":"return the smith-normal form decomposition of matrix `m`","over":{"base":"Any"},"name":"smith_normal_decomp_correct"},"guarantee":"return the smith-normal form decomposition of matrix `m`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.normalforms.smith_normal_decomp_correct","statement":"Path(smith_normal_decomp(x), return the smith-normal form decomposition of matrix `m`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b8a0e7ab52ab0bb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.normalforms.smith_normal_decomp","kind":"function","src_hash":"d96f7e8defb196b7","in":{"base":"Any","pred":"hasattr(m, 'domain') and hasattr(m, 'shape') and hasattr(m, 'to_list')"},"out":{"base":"Any"},"spec":{"lhs":"smith_normal_decomp(m)","rhs":"(smf, s, t)","over":{"base":"Any","pred":"hasattr(m, 'domain') and hasattr(m, 'shape') and hasattr(m, 'to_list')"},"name":"smith_normal_decomp_correct"},"guarantee":"returns (smf, s, t)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.normalforms.smith_normal_decomp_correct","statement":"Path(smith_normal_decomp(x), returns (smf, s, t))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"190771f0b2d5131a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(m, 'domain')","hasattr(m, 'shape')","hasattr(m, 'to_list')"],"returns_expr":"(smf, s, t)","pure":false,"effects":{"effect_type":"reads_state","reads":["m.domain","m.shape","m.to_list"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def smith_normal_decomp(m):
     '''
     Return the Smith-Normal form decomposition of matrix `m`.
@@ -194,16 +235,25 @@ def smith_normal_decomp(m):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_smith_normal_decomp(m, ), id) over Any               ║
+# ║ Path(_smith_normal_decomp(m, domain, shape), id) over {Any | hasattr(domain, 'zero') and hasattr(domain, 'one') and hasattr(domain, 'is_PID') and hasattr(domain, 'is_Field') and hasattr(domain, 'canonical_unit') and hasattr(domain, 'div') and hasattr(domain, 'gcdex') and hasattr(domain, 'exquo') and hasattr(domain, 'gcd')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _smith_normal_decomp : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(domain, 'zero')                        ║
+# ║   requires: hasattr(domain, 'one')                         ║
+# ║   requires: hasattr(domain, 'is_PID')                      ║
+# ║   ensures:  # HINT: _smith_normal_decomp may be idemp...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _smith_normal_decomp : {Any | hasattr(domain, 'zero')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 50e2c77792092998   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.normalforms._smith_normal_decomp","kind":"function","src_hash":"47c20663544d2962","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_smith_normal_decomp(m, )","rhs":"return the tuple of abelian invariants for a matrix `m` (as in the smith-normal form)","over":{"base":"Any"},"name":"_smith_normal_decomp_correct","kind":"composition"},"guarantee":"return the tuple of abelian invariants for a matrix `m` (as in the smith-normal form)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"range","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50e2c77792092998"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.normalforms._smith_normal_decomp","kind":"function","src_hash":"47c20663544d2962","in":{"base":"Any","pred":"hasattr(domain, 'zero') and hasattr(domain, 'one') and hasattr(domain, 'is_PID') and hasattr(domain, 'is_Field') and hasattr(domain, 'canonical_unit') and hasattr(domain, 'div') and hasattr(domain, 'gcdex') and hasattr(domain, 'exquo') and hasattr(domain, 'gcd')"},"out":{"base":"Any","pred":"result satisfies: # HINT: _smith_normal_decomp may be idempotent: _smith_normal_decomp(_smith_normal_decomp(x)) == _smith_normal_decomp(x)"},"spec":{"lhs":"_smith_normal_decomp(m, domain, shape)","rhs":"# HINT: _smith_normal_decomp may be idempotent: _smith_normal_decomp(_smith_normal_decomp(x)) == _smith_normal_decomp(x)","over":{"base":"Any","pred":"hasattr(domain, 'zero') and hasattr(domain, 'one') and hasattr(domain, 'is_PID') and hasattr(domain, 'is_Field') and hasattr(domain, 'canonical_unit') and hasattr(domain, 'div') and hasattr(domain, 'gcdex') and hasattr(domain, 'exquo') and hasattr(domain, 'gcd')"},"name":"_smith_normal_decomp_correct","kind":"composition"},"guarantee":"# HINT: _smith_normal_decomp may be idempotent: _smith_normal_decomp(_smith_normal_decomp(x)) == _smith_normal_decomp(x)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"range","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50e2c77792092998","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(domain, 'zero')","hasattr(domain, 'one')","hasattr(domain, 'is_PID')","hasattr(domain, 'is_Field')","hasattr(domain, 'canonical_unit')","hasattr(domain, 'div')","hasattr(domain, 'gcdex')","hasattr(domain, 'exquo')","hasattr(domain, 'gcd')"],"ensures":["# HINT: _smith_normal_decomp may be idempotent: _smith_normal_decomp(_smith_normal_decomp(x)) == _smith_normal_decomp(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["domain.canonical_unit","domain.div","domain.exquo","domain.gcd","domain.gcdex","domain.is_Field","domain.is_PID","domain.one","domain.zero"],"calls_mutating":["result.extend"],"raises":["ValueError"]},"state_contract":{"modifies":["result.*"],"old_bindings":{"old_len_result":"len(result)"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"assumed","binding":true}}
 def _smith_normal_decomp(m, domain, shape, full):
     '''
     Return the tuple of abelian invariants for a matrix `m`
@@ -371,16 +421,22 @@ def _smith_normal_decomp(m, domain, shape, full):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_gcdex(a, ), this supports the functions that compute hermite normal form) over Any ║
+# ║ Path(_gcdex(a, b), (x, y, g)) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (x, y, g)                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _gcdex : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b38ed2cc3847472  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a52e14dc8609a3b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.normalforms._gcdex","kind":"function","src_hash":"589a85726bcdc016","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_gcdex(a, )","rhs":"this supports the functions that compute hermite normal form","over":{"base":"Any"},"name":"_gcdex_correct"},"guarantee":"this supports the functions that compute hermite normal form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.normalforms._gcdex_correct","statement":"Path(_gcdex(x), this supports the functions that compute hermite normal form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b38ed2cc3847472"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.normalforms._gcdex","kind":"function","src_hash":"589a85726bcdc016","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_gcdex(a, b)","rhs":"(x, y, g)","over":{"base":"Any"},"name":"_gcdex_correct"},"guarantee":"returns (x, y, g)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.normalforms._gcdex_correct","statement":"Path(_gcdex(x), returns (x, y, g))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a52e14dc8609a3b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(x, y, g)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _gcdex(a, b):
     r"""
     This supports the functions that compute Hermite Normal Form.
@@ -403,16 +459,25 @@ def _gcdex(a, b):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_hermite_normal_form(A), id) over Any                 ║
+# ║ Path(_hermite_normal_form(A), id) over {Any | A.domain.is_ZZ and hasattr(A, 'shape') and hasattr(A, 'domain') and hasattr(A, 'to_ddm') and hasattr(A, 'to_dfm_or_ddm')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _hermite_normal_form : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: A.domain.is_ZZ                                 ║
+# ║   requires: hasattr(A, 'shape')                            ║
+# ║   requires: hasattr(A, 'domain')                           ║
+# ║   returns:  DomainMatrix.from_rep(A.to_dfm_or_ddm())[...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _hermite_normal_form : {Any | A.domain.is_ZZ and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 70c7fdb1cba47ddb   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.normalforms._hermite_normal_form","kind":"function","src_hash":"fd3a18fe86c232df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_hermite_normal_form(A)","rhs":"compute the hermite normal form of domainmatrix *a* over :ref:`zz`","over":{"base":"Any"},"name":"_hermite_normal_form_correct","kind":"composition"},"guarantee":"compute the hermite normal form of domainmatrix *a* over :ref:`zz`","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_rep","by":"library_axiom"},{"fn":"to_dfm_or_ddm","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70c7fdb1cba47ddb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.normalforms._hermite_normal_form","kind":"function","src_hash":"fd3a18fe86c232df","in":{"base":"Any","pred":"A.domain.is_ZZ and hasattr(A, 'shape') and hasattr(A, 'domain') and hasattr(A, 'to_ddm') and hasattr(A, 'to_dfm_or_ddm')"},"out":{"base":"Any"},"spec":{"lhs":"_hermite_normal_form(A)","rhs":"DomainMatrix.from_rep(A.to_dfm_or_ddm())[:, k:]","over":{"base":"Any","pred":"A.domain.is_ZZ and hasattr(A, 'shape') and hasattr(A, 'domain') and hasattr(A, 'to_ddm') and hasattr(A, 'to_dfm_or_ddm')"},"name":"_hermite_normal_form_correct","kind":"composition"},"guarantee":"returns DomainMatrix.from_rep(A.to_dfm_or_ddm())[:, k:]","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_rep","by":"library_axiom"},{"fn":"to_dfm_or_ddm","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70c7fdb1cba47ddb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["A.domain.is_ZZ","hasattr(A, 'shape')","hasattr(A, 'domain')","hasattr(A, 'to_ddm')","hasattr(A, 'to_dfm_or_ddm')"],"returns_expr":"DomainMatrix.from_rep(A.to_dfm_or_ddm())[:, k:]","pure":false,"effects":{"effect_type":"reads_state","reads":["A.domain","A.shape","A.to_ddm","A.to_dfm_or_ddm"],"raises":["DMDomainError"]},"state_contract":{"exceptional_post":{"DMDomainError":["isinstance(raised, DMDomainError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _hermite_normal_form(A):
     r"""
     Compute the Hermite Normal Form of DomainMatrix *A* over :ref:`ZZ`.
@@ -491,16 +556,25 @@ def _hermite_normal_form(A):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_hermite_normal_form_modulo_D(A, ), id) over Any      ║
+# ║ Path(_hermite_normal_form_modulo_D(A, D), id) over {Any | A.domain.is_ZZ and not (not ZZ.of_type(D) or D < 1) and hasattr(A, 'shape') and hasattr(A, 'to_list') and hasattr(A, 'domain')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _hermite_normal_form_modulo_D : Any → Any                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: A.domain.is_ZZ                                 ║
+# ║   requires: not (not ZZ.of_type(D) or D < 1)               ║
+# ║   requires: hasattr(A, 'shape')                            ║
+# ║   returns:  DomainMatrix(W, (m, m), ZZ).to_dense()         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _hermite_normal_form_modulo_D : {Any | A.domain.is_ZZ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f9d99cee832465ad   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.normalforms._hermite_normal_form_modulo_D","kind":"function","src_hash":"3c17b98c1b90bfee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_hermite_normal_form_modulo_D(A, )","rhs":"perform the mod *d* hermite normal form reduction algorithm on :py:class:`~.domainmatrix` *a*","over":{"base":"Any"},"name":"_hermite_normal_form_modulo_D_correct","kind":"composition"},"guarantee":"perform the mod *d* hermite normal form reduction algorithm on :py:class:`~.domainmatrix` *a*","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"DomainMatrix","by":"library_axiom"},{"fn":"to_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9d99cee832465ad"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.normalforms._hermite_normal_form_modulo_D","kind":"function","src_hash":"3c17b98c1b90bfee","in":{"base":"Any","pred":"A.domain.is_ZZ and not (not ZZ.of_type(D) or D < 1) and hasattr(A, 'shape') and hasattr(A, 'to_list') and hasattr(A, 'domain')"},"out":{"base":"Any"},"spec":{"lhs":"_hermite_normal_form_modulo_D(A, D)","rhs":"DomainMatrix(W, (m, m), ZZ).to_dense()","over":{"base":"Any","pred":"A.domain.is_ZZ and not (not ZZ.of_type(D) or D < 1) and hasattr(A, 'shape') and hasattr(A, 'to_list') and hasattr(A, 'domain')"},"name":"_hermite_normal_form_modulo_D_correct","kind":"composition"},"guarantee":"returns DomainMatrix(W, (m, m), ZZ).to_dense()","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"DomainMatrix","by":"library_axiom"},{"fn":"to_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9d99cee832465ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["A.domain.is_ZZ","not (not ZZ.of_type(D) or D < 1)","hasattr(A, 'shape')","hasattr(A, 'to_list')","hasattr(A, 'domain')"],"returns_expr":"DomainMatrix(W, (m, m), ZZ).to_dense()","pure":false,"effects":{"effect_type":"reads_state","reads":["A.domain","A.shape","A.to_list"],"raises":["DMDomainError","DMShapeError"]},"state_contract":{"exceptional_post":{"DMDomainError":["isinstance(raised, DMDomainError)"],"DMShapeError":["isinstance(raised, DMShapeError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def _hermite_normal_form_modulo_D(A, D):
     r"""
     Perform the mod *D* Hermite Normal Form reduction algorithm on
@@ -590,16 +664,25 @@ def _hermite_normal_form_modulo_D(A, D):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(hermite_normal_form(A, ), compute the hermite normal form of :py:class:`~.domainmatrix` *a* over :ref:`zz`) over Any ║
+# ║ Path(hermite_normal_form(A, D, check_rank), <unspecified:hermite_normal_form>) over {Any | A.domain.is_ZZ and hasattr(A, 'domain') and hasattr(A, 'shape') and hasattr(A, 'convert_to')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ hermite_normal_form : Any → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: A.domain.is_ZZ                                 ║
+# ║   requires: hasattr(A, 'domain')                           ║
+# ║   requires: hasattr(A, 'shape')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ hermite_normal_form : {Any | A.domain.is_ZZ and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38dc1abcdea3e9a0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.normalforms.hermite_normal_form","kind":"function","src_hash":"32ba2e4497dbcacb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hermite_normal_form(A, )","rhs":"compute the hermite normal form of :py:class:`~.domainmatrix` *a* over :ref:`zz`","over":{"base":"Any"},"name":"hermite_normal_form_correct"},"guarantee":"compute the hermite normal form of :py:class:`~.domainmatrix` *a* over :ref:`zz`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.normalforms.hermite_normal_form_correct","statement":"Path(hermite_normal_form(x), compute the hermite normal form of :py:class:`~.domainmatrix` *a* over :ref:`zz`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38dc1abcdea3e9a0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.normalforms.hermite_normal_form","kind":"function","src_hash":"32ba2e4497dbcacb","in":{"base":"Any","pred":"A.domain.is_ZZ and hasattr(A, 'domain') and hasattr(A, 'shape') and hasattr(A, 'convert_to')"},"out":{"base":"Any"},"spec":{"lhs":"hermite_normal_form(A, D, check_rank)","rhs":"<unspecified:hermite_normal_form>","over":{"base":"Any","pred":"A.domain.is_ZZ and hasattr(A, 'domain') and hasattr(A, 'shape') and hasattr(A, 'convert_to')"},"name":"hermite_normal_form_correct"},"guarantee":"compute the hermite normal form of :py:class:`~.domainmatrix` *a* over :ref:`zz`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.normalforms.hermite_normal_form_correct","statement":"Path(hermite_normal_form(x), compute the hermite normal form of :py:class:`~.domainmatrix` *a* over :ref:`zz`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38dc1abcdea3e9a0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["A.domain.is_ZZ","hasattr(A, 'domain')","hasattr(A, 'shape')","hasattr(A, 'convert_to')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.convert_to","A.domain","A.shape"],"raises":["DMDomainError"]},"state_contract":{"exceptional_post":{"DMDomainError":["isinstance(raised, DMDomainError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['A'], spec=['A', 'D', 'check_rank']"]}}
 def hermite_normal_form(A, *, D=None, check_rank=False):
     r"""
     Compute the Hermite Normal Form of :py:class:`~.DomainMatrix` *A* over

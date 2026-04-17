@@ -34,16 +34,22 @@ from sympy.testing.pytest import raises
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_check_formal_conditions_for_maximal_order(), test_check_formal_conditions_for_maximal_order produces the expected output) over Any ║
+# ║ Path(test_check_formal_conditions_for_maximal_order(), <unspecified:test_check_formal_conditions_for_maximal_order>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_check_formal_conditions_for_maximal_order : Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8576f7f45703283  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_primes.test_check_formal_conditions_for_maximal_order","kind":"function","src_hash":"aafc463a1c7b2dad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_check_formal_conditions_for_maximal_order()","rhs":"test_check_formal_conditions_for_maximal_order produces the expected output","over":{"base":"Any"},"name":"test_check_formal_conditions_for_maximal_order_correct"},"guarantee":"test_check_formal_conditions_for_maximal_order produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_primes.test_check_formal_conditions_for_maximal_order_correct","statement":"Path(test_check_formal_conditions_for_maximal_order(x), test_check_formal_conditions_for_maximal_order produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8576f7f45703283"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_primes.test_check_formal_conditions_for_maximal_order","kind":"function","src_hash":"aafc463a1c7b2dad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_check_formal_conditions_for_maximal_order()","rhs":"<unspecified:test_check_formal_conditions_for_maximal_order>","over":{"base":"Any"},"name":"test_check_formal_conditions_for_maximal_order_correct"},"guarantee":"test_check_formal_conditions_for_maximal_order produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_primes.test_check_formal_conditions_for_maximal_order_correct","statement":"Path(test_check_formal_conditions_for_maximal_order(x), test_check_formal_conditions_for_maximal_order produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8576f7f45703283","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_check_formal_conditions_for_maximal_order():
     T = Poly(cyclotomic_poly(5, x))
     A = PowerBasis(T)
@@ -59,16 +65,22 @@ def test_check_formal_conditions_for_maximal_order():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_two_elt_rep(), test_two_elt_rep produces the expected output) over Any ║
+# ║ Path(test_two_elt_rep(), <unspecified:test_two_elt_rep>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_two_elt_rep : Any → {Any | H2 == H}                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3898029838ff20ea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_primes.test_two_elt_rep","kind":"function","src_hash":"8f7dd84e96178429","in":{"base":"Any"},"out":{"base":"Any","pred":"H2 == H"},"spec":{"lhs":"test_two_elt_rep()","rhs":"test_two_elt_rep produces the expected output","over":{"base":"Any"},"name":"test_two_elt_rep_correct"},"guarantee":"test_two_elt_rep produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_primes.test_two_elt_rep_correct","statement":"Path(test_two_elt_rep(x), test_two_elt_rep produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3898029838ff20ea"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_primes.test_two_elt_rep","kind":"function","src_hash":"8f7dd84e96178429","in":{"base":"Any"},"out":{"base":"Any","pred":"H2 == H"},"spec":{"lhs":"test_two_elt_rep()","rhs":"<unspecified:test_two_elt_rep>","over":{"base":"Any"},"name":"test_two_elt_rep_correct"},"guarantee":"test_two_elt_rep produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_primes.test_two_elt_rep_correct","statement":"Path(test_two_elt_rep(x), test_two_elt_rep produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3898029838ff20ea","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_two_elt_rep():
     ell = 7
     T = Poly(cyclotomic_poly(ell))
@@ -92,16 +104,24 @@ def test_two_elt_rep():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_valuation_at_prime_ideal(), test_valuation_at_prime_ideal produces the expected output) over Any ║
+# ║ Path(test_valuation_at_prime_ideal(), len(P) == 1 and v == P0.e and P0.valuation(5 * ZK) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_valuation_at_prime_ideal : Any → {Any | len(P) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(P) == 1                                    ║
+# ║   ensures:  v == P0.e                                      ║
+# ║   ensures:  P0.valuation(5 * ZK) == 0                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_valuation_at_prime_ideal : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 02eb8a8dd9cd2234  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d4f8f46482cad36b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_primes.test_valuation_at_prime_ideal","kind":"function","src_hash":"33164b02cc3871cc","in":{"base":"Any"},"out":{"base":"Any","pred":"len(P) == 1 and v == P0.e and P0.valuation(5 * ZK) == 0"},"spec":{"lhs":"test_valuation_at_prime_ideal()","rhs":"test_valuation_at_prime_ideal produces the expected output","over":{"base":"Any"},"name":"test_valuation_at_prime_ideal_correct"},"guarantee":"test_valuation_at_prime_ideal produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_primes.test_valuation_at_prime_ideal_correct","statement":"Path(test_valuation_at_prime_ideal(x), test_valuation_at_prime_ideal produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"02eb8a8dd9cd2234"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_primes.test_valuation_at_prime_ideal","kind":"function","src_hash":"33164b02cc3871cc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(P) == 1 and v == P0.e and P0.valuation(5 * ZK) == 0"},"spec":{"lhs":"test_valuation_at_prime_ideal()","rhs":"len(P) == 1 and v == P0.e and P0.valuation(5 * ZK) == 0","over":{"base":"Any"},"name":"test_valuation_at_prime_ideal_correct"},"guarantee":"len(P) == 1; v == P0.e; P0.valuation(5 * ZK) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_primes.test_valuation_at_prime_ideal_correct","statement":"Path(test_valuation_at_prime_ideal(x), len(P) == 1; v == P0.e; P0.valuation(5 * ZK) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4f8f46482cad36b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(P) == 1","v == P0.e","P0.valuation(5 * ZK) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_valuation_at_prime_ideal():
     p = 7
     T = Poly(cyclotomic_poly(p))
@@ -116,16 +136,24 @@ def test_valuation_at_prime_ideal():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_decomp_1(), test_decomp_1 produces the expected output) over Any ║
+# ║ Path(test_decomp_1(), len(P) == 1 and P0.e == 6 and P0.f == 1 and P0 ** 0 == P0.ZK and P0 ** 1 == P0 and P0 ** 6 == 7 * P0.ZK) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_decomp_1 : Any → {Any | len(P) == 1 and P0.e == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(P) == 1                                    ║
+# ║   ensures:  P0.e == 6                                      ║
+# ║   ensures:  P0.f == 1                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_decomp_1 : Any → {Any | result satisfies: len(P)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c97a469d8eb6063d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5cd295a4ebfb5b22  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_primes.test_decomp_1","kind":"function","src_hash":"31b09efbbfedd4ef","in":{"base":"Any"},"out":{"base":"Any","pred":"len(P) == 1 and P0.e == 6 and P0.f == 1 and P0 ** 0 == P0.ZK and P0 ** 1 == P0 and P0 ** 6 == 7 * P0.ZK"},"spec":{"lhs":"test_decomp_1()","rhs":"test_decomp_1 produces the expected output","over":{"base":"Any"},"name":"test_decomp_1_correct"},"guarantee":"test_decomp_1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_primes.test_decomp_1_correct","statement":"Path(test_decomp_1(x), test_decomp_1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c97a469d8eb6063d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_primes.test_decomp_1","kind":"function","src_hash":"31b09efbbfedd4ef","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(P) == 1 and P0.e == 6 and P0.f == 1 and P0 ** 0 == P0.ZK and P0 ** 1 == P0 and P0 ** 6 == 7 * P0.ZK"},"spec":{"lhs":"test_decomp_1()","rhs":"len(P) == 1 and P0.e == 6 and P0.f == 1 and P0 ** 0 == P0.ZK and P0 ** 1 == P0 and P0 ** 6 == 7 * P0.ZK","over":{"base":"Any"},"name":"test_decomp_1_correct"},"guarantee":"len(P) == 1; P0.e == 6; P0.f == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_primes.test_decomp_1_correct","statement":"Path(test_decomp_1(x), len(P) == 1; P0.e == 6; P0.f == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5cd295a4ebfb5b22","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(P) == 1","P0.e == 6","P0.f == 1","P0 ** 0 == P0.ZK","P0 ** 1 == P0","P0 ** 6 == 7 * P0.ZK"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_decomp_1():
     # All prime decompositions in cyclotomic fields are in the "easy case,"
     # since the index is unity.
@@ -144,16 +172,22 @@ def test_decomp_1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_decomp_2(), test_decomp_2 produces the expected output) over Any ║
+# ║ Path(test_decomp_2(), <unspecified:test_decomp_2>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_decomp_2 : Any → {Any | len(P) == g_exp and Pi.e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c78286a5f32a97cd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_primes.test_decomp_2","kind":"function","src_hash":"5b2e2ca0a133f815","in":{"base":"Any"},"out":{"base":"Any","pred":"len(P) == g_exp and Pi.e == 1 and Pi.f == f_exp"},"spec":{"lhs":"test_decomp_2()","rhs":"test_decomp_2 produces the expected output","over":{"base":"Any"},"name":"test_decomp_2_correct"},"guarantee":"test_decomp_2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_primes.test_decomp_2_correct","statement":"Path(test_decomp_2(x), test_decomp_2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c78286a5f32a97cd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_primes.test_decomp_2","kind":"function","src_hash":"5b2e2ca0a133f815","in":{"base":"Any"},"out":{"base":"Any","pred":"len(P) == g_exp and Pi.e == 1 and Pi.f == f_exp"},"spec":{"lhs":"test_decomp_2()","rhs":"<unspecified:test_decomp_2>","over":{"base":"Any"},"name":"test_decomp_2_correct"},"guarantee":"test_decomp_2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_primes.test_decomp_2_correct","statement":"Path(test_decomp_2(x), test_decomp_2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c78286a5f32a97cd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_decomp_2():
     # More easy cyclotomic cases, but here we check unramified primes.
     ell = 7
@@ -169,16 +203,22 @@ def test_decomp_2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_decomp_3(), test_decomp_3 produces the expected output) over Any ║
+# ║ Path(test_decomp_3(), <unspecified:test_decomp_3>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_decomp_3 : Any → {Any | len(P) == 1 and P[0].e =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7496d003dc037ac8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_primes.test_decomp_3","kind":"function","src_hash":"2434db94c1839a86","in":{"base":"Any"},"out":{"base":"Any","pred":"len(P) == 1 and P[0].e == 2 and P[0] ** 2 == p * ZK"},"spec":{"lhs":"test_decomp_3()","rhs":"test_decomp_3 produces the expected output","over":{"base":"Any"},"name":"test_decomp_3_correct"},"guarantee":"test_decomp_3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_primes.test_decomp_3_correct","statement":"Path(test_decomp_3(x), test_decomp_3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7496d003dc037ac8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_primes.test_decomp_3","kind":"function","src_hash":"2434db94c1839a86","in":{"base":"Any"},"out":{"base":"Any","pred":"len(P) == 1 and P[0].e == 2 and P[0] ** 2 == p * ZK"},"spec":{"lhs":"test_decomp_3()","rhs":"<unspecified:test_decomp_3>","over":{"base":"Any"},"name":"test_decomp_3_correct"},"guarantee":"test_decomp_3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_primes.test_decomp_3_correct","statement":"Path(test_decomp_3(x), test_decomp_3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7496d003dc037ac8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_decomp_3():
     T = Poly(x ** 2 - 35)
     rad = {}
@@ -193,16 +233,22 @@ def test_decomp_3():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_decomp_4(), test_decomp_4 produces the expected output) over Any ║
+# ║ Path(test_decomp_4(), <unspecified:test_decomp_4>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_decomp_4 : Any → {Any | len(P) == 1 and P[0].e =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f700a3e63eeb5e5d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_primes.test_decomp_4","kind":"function","src_hash":"980bfb796698d6b7","in":{"base":"Any"},"out":{"base":"Any","pred":"len(P) == 1 and P[0].e == 2 and P[0] ** 2 == p * ZK"},"spec":{"lhs":"test_decomp_4()","rhs":"test_decomp_4 produces the expected output","over":{"base":"Any"},"name":"test_decomp_4_correct"},"guarantee":"test_decomp_4 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_primes.test_decomp_4_correct","statement":"Path(test_decomp_4(x), test_decomp_4 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f700a3e63eeb5e5d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_primes.test_decomp_4","kind":"function","src_hash":"980bfb796698d6b7","in":{"base":"Any"},"out":{"base":"Any","pred":"len(P) == 1 and P[0].e == 2 and P[0] ** 2 == p * ZK"},"spec":{"lhs":"test_decomp_4()","rhs":"<unspecified:test_decomp_4>","over":{"base":"Any"},"name":"test_decomp_4_correct"},"guarantee":"test_decomp_4 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_primes.test_decomp_4_correct","statement":"Path(test_decomp_4(x), test_decomp_4 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f700a3e63eeb5e5d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_decomp_4():
     T = Poly(x ** 2 - 21)
     rad = {}
@@ -217,16 +263,22 @@ def test_decomp_4():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_decomp_5(), test_decomp_5 produces the expected output) over Any ║
+# ║ Path(test_decomp_5(), <unspecified:test_decomp_5>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_decomp_5 : Any → {Any | len(P) == 2 and all((P[i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d28aaa69bbdfa98  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_primes.test_decomp_5","kind":"function","src_hash":"8affa03e7a99710c","in":{"base":"Any"},"out":{"base":"Any","pred":"len(P) == 2 and all((P[i].e == 1 and P[i].f == 1 for i in range(2))) and prod((Pi ** Pi.e for Pi in P)) == p * ZK and d % 8 == 5 and len(P) == 1 and P[0].e == 1 and P[0].f == 2 and P[0].as_submodule() == p * ZK"},"spec":{"lhs":"test_decomp_5()","rhs":"test_decomp_5 produces the expected output","over":{"base":"Any"},"name":"test_decomp_5_correct"},"guarantee":"test_decomp_5 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_primes.test_decomp_5_correct","statement":"Path(test_decomp_5(x), test_decomp_5 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d28aaa69bbdfa98"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_primes.test_decomp_5","kind":"function","src_hash":"8affa03e7a99710c","in":{"base":"Any"},"out":{"base":"Any","pred":"len(P) == 2 and all((P[i].e == 1 and P[i].f == 1 for i in range(2))) and prod((Pi ** Pi.e for Pi in P)) == p * ZK and d % 8 == 5 and len(P) == 1 and P[0].e == 1 and P[0].f == 2 and P[0].as_submodule() == p * ZK"},"spec":{"lhs":"test_decomp_5()","rhs":"<unspecified:test_decomp_5>","over":{"base":"Any"},"name":"test_decomp_5_correct"},"guarantee":"test_decomp_5 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_primes.test_decomp_5_correct","statement":"Path(test_decomp_5(x), test_decomp_5 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d28aaa69bbdfa98","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_decomp_5():
     # Here is our first test of the "hard case" of prime decomposition.
     # We work in a quadratic extension Q(sqrt(d)) where d is 1 mod 4, and
@@ -253,16 +305,24 @@ def test_decomp_5():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_decomp_6(), test_decomp_6 produces the expected output) over Any ║
+# ║ Path(test_decomp_6(), len(P) == 3 and all((Pi.e == Pi.f == 1 for Pi in P)) and prod((Pi ** Pi.e for Pi in P)) == p * ZK) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_decomp_6 : Any → {Any | len(P) == 3 and all((Pi....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(P) == 3                                    ║
+# ║   ensures:  all((Pi.e == Pi.f == 1 for Pi in P))           ║
+# ║   ensures:  prod((Pi ** Pi.e for Pi in P)) == p * ZK       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_decomp_6 : Any → {Any | result satisfies: len(P)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 177f85add22b7a04  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 70e646104e063f81  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_primes.test_decomp_6","kind":"function","src_hash":"6dfa8bc3422bd150","in":{"base":"Any"},"out":{"base":"Any","pred":"len(P) == 3 and all((Pi.e == Pi.f == 1 for Pi in P)) and prod((Pi ** Pi.e for Pi in P)) == p * ZK"},"spec":{"lhs":"test_decomp_6()","rhs":"test_decomp_6 produces the expected output","over":{"base":"Any"},"name":"test_decomp_6_correct"},"guarantee":"test_decomp_6 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_primes.test_decomp_6_correct","statement":"Path(test_decomp_6(x), test_decomp_6 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"177f85add22b7a04"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_primes.test_decomp_6","kind":"function","src_hash":"6dfa8bc3422bd150","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(P) == 3 and all((Pi.e == Pi.f == 1 for Pi in P)) and prod((Pi ** Pi.e for Pi in P)) == p * ZK"},"spec":{"lhs":"test_decomp_6()","rhs":"len(P) == 3 and all((Pi.e == Pi.f == 1 for Pi in P)) and prod((Pi ** Pi.e for Pi in P)) == p * ZK","over":{"base":"Any"},"name":"test_decomp_6_correct"},"guarantee":"len(P) == 3; all((Pi.e == Pi.f == 1 for Pi in P)); prod((Pi ** Pi.e for Pi in P)) == p * ZK","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_primes.test_decomp_6_correct","statement":"Path(test_decomp_6(x), len(P) == 3; all((Pi.e == Pi.f == 1 for Pi in P)); prod((Pi ** Pi.e for Pi in P)) == p * ZK)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70e646104e063f81","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(P) == 3","all((Pi.e == Pi.f == 1 for Pi in P))","prod((Pi ** Pi.e for Pi in P)) == p * ZK"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_decomp_6():
     # Another case where 2 divides the index. This is Dedekind's example of
     # an essential discriminant divisor. (See Cohen, Exercise 6.10.)
@@ -277,16 +337,24 @@ def test_decomp_6():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_decomp_7(), test_decomp_7 produces the expected output) over Any ║
+# ║ Path(test_decomp_7(), len(P) == 3 and all((Pi.e == Pi.f == 1 for Pi in P)) and prod((Pi ** Pi.e for Pi in P)) == p * ZK) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_decomp_7 : Any → {Any | len(P) == 3 and all((Pi....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(P) == 3                                    ║
+# ║   ensures:  all((Pi.e == Pi.f == 1 for Pi in P))           ║
+# ║   ensures:  prod((Pi ** Pi.e for Pi in P)) == p * ZK       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_decomp_7 : Any → {Any | result satisfies: len(P)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00384772e0f9959c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9bea7e09e1700761  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_primes.test_decomp_7","kind":"function","src_hash":"ece4e90f3334b751","in":{"base":"Any"},"out":{"base":"Any","pred":"len(P) == 3 and all((Pi.e == Pi.f == 1 for Pi in P)) and prod((Pi ** Pi.e for Pi in P)) == p * ZK"},"spec":{"lhs":"test_decomp_7()","rhs":"test_decomp_7 produces the expected output","over":{"base":"Any"},"name":"test_decomp_7_correct"},"guarantee":"test_decomp_7 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_primes.test_decomp_7_correct","statement":"Path(test_decomp_7(x), test_decomp_7 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00384772e0f9959c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_primes.test_decomp_7","kind":"function","src_hash":"ece4e90f3334b751","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(P) == 3 and all((Pi.e == Pi.f == 1 for Pi in P)) and prod((Pi ** Pi.e for Pi in P)) == p * ZK"},"spec":{"lhs":"test_decomp_7()","rhs":"len(P) == 3 and all((Pi.e == Pi.f == 1 for Pi in P)) and prod((Pi ** Pi.e for Pi in P)) == p * ZK","over":{"base":"Any"},"name":"test_decomp_7_correct"},"guarantee":"len(P) == 3; all((Pi.e == Pi.f == 1 for Pi in P)); prod((Pi ** Pi.e for Pi in P)) == p * ZK","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_primes.test_decomp_7_correct","statement":"Path(test_decomp_7(x), len(P) == 3; all((Pi.e == Pi.f == 1 for Pi in P)); prod((Pi ** Pi.e for Pi in P)) == p * ZK)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9bea7e09e1700761","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(P) == 3","all((Pi.e == Pi.f == 1 for Pi in P))","prod((Pi ** Pi.e for Pi in P)) == p * ZK"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_decomp_7():
     # Try working through an AlgebraicField
     T = Poly(x ** 3 + x ** 2 - 2 * x + 8)
@@ -300,16 +368,22 @@ def test_decomp_7():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_decomp_8(), test_decomp_8 produces the expected output) over Any ║
+# ║ Path(test_decomp_8(), <unspecified:test_decomp_8>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_decomp_8 : Any → {Any | I == J}                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 796ed7964dc2c4a2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_primes.test_decomp_8","kind":"function","src_hash":"cf5835c53cc01768","in":{"base":"Any"},"out":{"base":"Any","pred":"I == J"},"spec":{"lhs":"test_decomp_8()","rhs":"test_decomp_8 produces the expected output","over":{"base":"Any"},"name":"test_decomp_8_correct"},"guarantee":"test_decomp_8 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_primes.test_decomp_8_correct","statement":"Path(test_decomp_8(x), test_decomp_8 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"796ed7964dc2c4a2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_primes.test_decomp_8","kind":"function","src_hash":"cf5835c53cc01768","in":{"base":"Any"},"out":{"base":"Any","pred":"I == J"},"spec":{"lhs":"test_decomp_8()","rhs":"<unspecified:test_decomp_8>","over":{"base":"Any"},"name":"test_decomp_8_correct"},"guarantee":"test_decomp_8 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_primes.test_decomp_8_correct","statement":"Path(test_decomp_8(x), test_decomp_8 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"796ed7964dc2c4a2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","io_operations":["print"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_decomp_8():
     # This time we consider various cubics, and try factoring all primes
     # dividing the index.
@@ -359,16 +433,24 @@ def test_decomp_8():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PrimeIdeal_eq(), test_PrimeIdeal_eq produces the expected output) over Any ║
+# ║ Path(test_PrimeIdeal_eq(), P0.f == 6 and P0.as_submodule() == 5 * P0.ZK and P0 != 5) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PrimeIdeal_eq : Any → {Any | P0.f == 6 and P0.as...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  P0.f == 6                                      ║
+# ║   ensures:  P0.as_submodule() == 5 * P0.ZK                 ║
+# ║   ensures:  P0 != 5                                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PrimeIdeal_eq : Any → {Any | result satisfies: P...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e457d332d3cd4bcb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ece3e613501c1e3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_primes.test_PrimeIdeal_eq","kind":"function","src_hash":"ff7bd6186c6a0e06","in":{"base":"Any"},"out":{"base":"Any","pred":"P0.f == 6 and P0.as_submodule() == 5 * P0.ZK and P0 != 5"},"spec":{"lhs":"test_PrimeIdeal_eq()","rhs":"test_PrimeIdeal_eq produces the expected output","over":{"base":"Any"},"name":"test_PrimeIdeal_eq_correct"},"guarantee":"test_PrimeIdeal_eq produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_primes.test_PrimeIdeal_eq_correct","statement":"Path(test_PrimeIdeal_eq(x), test_PrimeIdeal_eq produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e457d332d3cd4bcb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_primes.test_PrimeIdeal_eq","kind":"function","src_hash":"ff7bd6186c6a0e06","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: P0.f == 6 and P0.as_submodule() == 5 * P0.ZK and P0 != 5"},"spec":{"lhs":"test_PrimeIdeal_eq()","rhs":"P0.f == 6 and P0.as_submodule() == 5 * P0.ZK and P0 != 5","over":{"base":"Any"},"name":"test_PrimeIdeal_eq_correct"},"guarantee":"P0.f == 6; P0.as_submodule() == 5 * P0.ZK; P0 != 5","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_primes.test_PrimeIdeal_eq_correct","statement":"Path(test_PrimeIdeal_eq(x), P0.f == 6; P0.as_submodule() == 5 * P0.ZK; P0 != 5)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ece3e613501c1e3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["P0.f == 6","P0.as_submodule() == 5 * P0.ZK","P0 != 5"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_PrimeIdeal_eq():
     # `==` should fail on objects of different types, so even a completely
     # inert PrimeIdeal should test unequal to the rational prime it divides.
@@ -380,16 +462,22 @@ def test_PrimeIdeal_eq():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PrimeIdeal_add(), test_PrimeIdeal_add produces the expected output) over Any ║
+# ║ Path(test_PrimeIdeal_add(), P0 + 7 * P0.ZK == P0.as_submodule()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PrimeIdeal_add : Any → {Any | P0 + 7 * P0.ZK == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  P0 + 7 * P0.ZK == P0.as_submodule()            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PrimeIdeal_add : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d517c930b4d6bc25  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a6c367109cc50984  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_primes.test_PrimeIdeal_add","kind":"function","src_hash":"0cdffc46793e8e2f","in":{"base":"Any"},"out":{"base":"Any","pred":"P0 + 7 * P0.ZK == P0.as_submodule()"},"spec":{"lhs":"test_PrimeIdeal_add()","rhs":"test_PrimeIdeal_add produces the expected output","over":{"base":"Any"},"name":"test_PrimeIdeal_add_correct"},"guarantee":"test_PrimeIdeal_add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_primes.test_PrimeIdeal_add_correct","statement":"Path(test_PrimeIdeal_add(x), test_PrimeIdeal_add produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d517c930b4d6bc25"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_primes.test_PrimeIdeal_add","kind":"function","src_hash":"0cdffc46793e8e2f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: P0 + 7 * P0.ZK == P0.as_submodule()"},"spec":{"lhs":"test_PrimeIdeal_add()","rhs":"P0 + 7 * P0.ZK == P0.as_submodule()","over":{"base":"Any"},"name":"test_PrimeIdeal_add_correct"},"guarantee":"P0 + 7 * P0.ZK == P0.as_submodule()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_primes.test_PrimeIdeal_add_correct","statement":"Path(test_PrimeIdeal_add(x), P0 + 7 * P0.ZK == P0.as_submodule())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6c367109cc50984","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["P0 + 7 * P0.ZK == P0.as_submodule()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_PrimeIdeal_add():
     T = Poly(cyclotomic_poly(7))
     P0 = prime_decomp(7, T)[0]
@@ -399,16 +487,24 @@ def test_PrimeIdeal_add():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_str(), test_str produces the expected output) over Any ║
+# ║ Path(test_str(), str(frp) == '(2, 3*_x/2 + 1/2)' and str(frp) == '(3)' and str(frp) == '(2, 3*alpha/2 + 1/2)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_str : Any → {Any | str(frp) == '(2, 3*_x/2 + 1/2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(frp) == '(2, 3*_x/2 + 1/2)'                ║
+# ║   ensures:  str(frp) == '(3)'                              ║
+# ║   ensures:  str(frp) == '(2, 3*alpha/2 + 1/2)'             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_str : Any → {Any | result satisfies: str(frp) ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 66db03f7bf5a61b0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e70cc9f3eae7fbb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_primes.test_str","kind":"function","src_hash":"c97d0bb7f8bfb181","in":{"base":"Any"},"out":{"base":"Any","pred":"str(frp) == '(2, 3*_x/2 + 1/2)' and str(frp) == '(3)' and str(frp) == '(2, 3*alpha/2 + 1/2)' and str(frp) == '(3)'"},"spec":{"lhs":"test_str()","rhs":"test_str produces the expected output","over":{"base":"Any"},"name":"test_str_correct"},"guarantee":"test_str produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_primes.test_str_correct","statement":"Path(test_str(x), test_str produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66db03f7bf5a61b0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_primes.test_str","kind":"function","src_hash":"c97d0bb7f8bfb181","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(frp) == '(2, 3*_x/2 + 1/2)' and str(frp) == '(3)' and str(frp) == '(2, 3*alpha/2 + 1/2)'"},"spec":{"lhs":"test_str()","rhs":"str(frp) == '(2, 3*_x/2 + 1/2)' and str(frp) == '(3)' and str(frp) == '(2, 3*alpha/2 + 1/2)'","over":{"base":"Any"},"name":"test_str_correct"},"guarantee":"str(frp) == '(2, 3*_x/2 + 1/2)'; str(frp) == '(3)'; str(frp) == '(2, 3*alpha/2 + 1/2)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_primes.test_str_correct","statement":"Path(test_str(x), str(frp) == '(2, 3*_x/2 + 1/2)'; str(frp) == '(3)'; str(frp) == '(2, 3*alpha/2 + 1/2)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e70cc9f3eae7fbb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(frp) == '(2, 3*_x/2 + 1/2)'","str(frp) == '(3)'","str(frp) == '(2, 3*alpha/2 + 1/2)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_str():
     # Without alias:
     k = QQ.alg_field_from_poly(Poly(x**2 + 7))
@@ -428,16 +524,24 @@ def test_str():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_repr(), test_repr produces the expected output) over Any ║
+# ║ Path(test_repr(), repr(P[0]) == '[ (2, (3*x + 1)/2) e=1, f=1 ]' and P[0].repr(field_gen=theta) == '[ (2, (3*theta + 1)/2) e=1, f=1 ]' and P[0].repr(field_gen=theta, just_gens=True) == '(2, (3*theta + 1)/2)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_repr : Any → {Any | repr(P[0]) == '[ (2, (3*x + ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  repr(P[0]) == '[ (2, (3*x + 1)/2) e=1, f=...   ║
+# ║   ensures:  P[0].repr(field_gen=theta) == '[ (2, (3*t...   ║
+# ║   ensures:  P[0].repr(field_gen=theta, just_gens=True...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_repr : Any → {Any | result satisfies: repr(P[0])...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f7b85448fe5f860f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a3b6dea854ac00d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_primes.test_repr","kind":"function","src_hash":"1eaa3d3c1ffab078","in":{"base":"Any"},"out":{"base":"Any","pred":"repr(P[0]) == '[ (2, (3*x + 1)/2) e=1, f=1 ]' and P[0].repr(field_gen=theta) == '[ (2, (3*theta + 1)/2) e=1, f=1 ]' and P[0].repr(field_gen=theta, just_gens=True) == '(2, (3*theta + 1)/2)'"},"spec":{"lhs":"test_repr()","rhs":"test_repr produces the expected output","over":{"base":"Any"},"name":"test_repr_correct"},"guarantee":"test_repr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_primes.test_repr_correct","statement":"Path(test_repr(x), test_repr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7b85448fe5f860f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_primes.test_repr","kind":"function","src_hash":"1eaa3d3c1ffab078","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: repr(P[0]) == '[ (2, (3*x + 1)/2) e=1, f=1 ]' and P[0].repr(field_gen=theta) == '[ (2, (3*theta + 1)/2) e=1, f=1 ]' and P[0].repr(field_gen=theta, just_gens=True) == '(2, (3*theta + 1)/2)'"},"spec":{"lhs":"test_repr()","rhs":"repr(P[0]) == '[ (2, (3*x + 1)/2) e=1, f=1 ]' and P[0].repr(field_gen=theta) == '[ (2, (3*theta + 1)/2) e=1, f=1 ]' and P[0].repr(field_gen=theta, just_gens=True) == '(2, (3*theta + 1)/2)'","over":{"base":"Any"},"name":"test_repr_correct"},"guarantee":"repr(P[0]) == '[ (2, (3*x + 1)/2) e=1, f=1 ]'; P[0].repr(field_gen=theta) == '[ (2, (3*theta + 1)/2) e=1, f=1 ]'; P[0].repr(field_gen=theta, just_gens=True) == '(2, (3*theta + 1)/2)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_primes.test_repr_correct","statement":"Path(test_repr(x), repr(P[0]) == '[ (2, (3*x + 1)/2) e=1, f=1 ]'; P[0].repr(field_gen=theta) == '[ (2, (3*theta + 1)/2) e=1, f=1 ]'; P[0].repr(field_gen=theta, just_gens=True) == '(2, (3*theta + 1)/2)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a3b6dea854ac00d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["repr(P[0]) == '[ (2, (3*x + 1)/2) e=1, f=1 ]'","P[0].repr(field_gen=theta) == '[ (2, (3*theta + 1)/2) e=1, f=1 ]'","P[0].repr(field_gen=theta, just_gens=True) == '(2, (3*theta + 1)/2)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_repr():
     T = Poly(x**2 + 7)
     ZK, dK = round_two(T)
@@ -448,16 +552,22 @@ def test_repr():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PrimeIdeal_reduce(), test_PrimeIdeal_reduce produces the expected output) over Any ║
+# ║ Path(test_PrimeIdeal_reduce(), a_bar == a_bar_expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PrimeIdeal_reduce : Any → {Any | a_bar == a_bar_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a_bar == a_bar_expected                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PrimeIdeal_reduce : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22b930daf468a1bf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 31182c12d592f8e0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_primes.test_PrimeIdeal_reduce","kind":"function","src_hash":"2039b42e72eccb2f","in":{"base":"Any"},"out":{"base":"Any","pred":"a_bar == a_bar_expected and a_bar == a_bar_expected and a_bar == a_bar_expected"},"spec":{"lhs":"test_PrimeIdeal_reduce()","rhs":"test_PrimeIdeal_reduce produces the expected output","over":{"base":"Any"},"name":"test_PrimeIdeal_reduce_correct"},"guarantee":"test_PrimeIdeal_reduce produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_primes.test_PrimeIdeal_reduce_correct","statement":"Path(test_PrimeIdeal_reduce(x), test_PrimeIdeal_reduce produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22b930daf468a1bf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_primes.test_PrimeIdeal_reduce","kind":"function","src_hash":"2039b42e72eccb2f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a_bar == a_bar_expected"},"spec":{"lhs":"test_PrimeIdeal_reduce()","rhs":"a_bar == a_bar_expected","over":{"base":"Any"},"name":"test_PrimeIdeal_reduce_correct"},"guarantee":"a_bar == a_bar_expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_primes.test_PrimeIdeal_reduce_correct","statement":"Path(test_PrimeIdeal_reduce(x), a_bar == a_bar_expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31182c12d592f8e0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a_bar == a_bar_expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_PrimeIdeal_reduce():
     k = QQ.alg_field_from_poly(Poly(x ** 3 + x ** 2 - 2 * x + 8))
     Zk = k.maximal_order()
@@ -484,16 +594,22 @@ def test_PrimeIdeal_reduce():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_23402(), test_issue_23402 produces the expected output) over Any ║
+# ║ Path(test_issue_23402(), P[0].alpha.equiv(0)) over Any     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_23402 : Any → {Any | P[0].alpha.equiv(0)}       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  P[0].alpha.equiv(0)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_23402 : Any → {Any | result satisfies: P[0...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 306827432fbc1b3e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec244c8de08d9108  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_primes.test_issue_23402","kind":"function","src_hash":"ddb2c0ccd1d4dcd1","in":{"base":"Any"},"out":{"base":"Any","pred":"P[0].alpha.equiv(0)"},"spec":{"lhs":"test_issue_23402()","rhs":"test_issue_23402 produces the expected output","over":{"base":"Any"},"name":"test_issue_23402_correct"},"guarantee":"test_issue_23402 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_primes.test_issue_23402_correct","statement":"Path(test_issue_23402(x), test_issue_23402 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"306827432fbc1b3e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.tests.test_primes.test_issue_23402","kind":"function","src_hash":"ddb2c0ccd1d4dcd1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: P[0].alpha.equiv(0)"},"spec":{"lhs":"test_issue_23402()","rhs":"P[0].alpha.equiv(0)","over":{"base":"Any"},"name":"test_issue_23402_correct"},"guarantee":"P[0].alpha.equiv(0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.tests.test_primes.test_issue_23402_correct","statement":"Path(test_issue_23402(x), P[0].alpha.equiv(0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec244c8de08d9108","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["P[0].alpha.equiv(0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_23402():
     k = QQ.alg_field_from_poly(Poly(x ** 3 + x ** 2 - 2 * x + 8))
     P = k.primes_above(3)

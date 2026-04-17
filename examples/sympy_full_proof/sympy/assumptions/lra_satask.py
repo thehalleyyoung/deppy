@@ -28,16 +28,24 @@ from sympy.core.singleton import S
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lra_satask(pro), function to evaluate the proposition with assumptions using sat algorithm in conjunction with an linear real arithmetic theory solver) over Any ║
+# ║ Path(lra_satask(proposition, assumptions, context), check_satisfiability(props, _props, assumptions)) over {Any | hasattr(assumptions, 'from_cnf') and hasattr(assumptions, 'add_from_cnf')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ lra_satask : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(assumptions, 'from_cnf')               ║
+# ║   requires: hasattr(assumptions, 'add_from_cnf')           ║
+# ║   returns:  check_satisfiability(props, _props, assum...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ lra_satask : {Any | hasattr(assumptions, 'from_cnf') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5dd5fe7d7c565707  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 327b792768960448  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.lra_satask.lra_satask","kind":"function","src_hash":"f38427970ba326be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lra_satask(pro)","rhs":"function to evaluate the proposition with assumptions using sat algorithm in conjunction with an linear real arithmetic theory solver","over":{"base":"Any"},"name":"lra_satask_correct"},"guarantee":"function to evaluate the proposition with assumptions using sat algorithm in conjunction with an linear real arithmetic theory solver","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.lra_satask.lra_satask_correct","statement":"Path(lra_satask(x), function to evaluate the proposition with assumptions using sat algorithm in conjunction with an linear real arithmetic theory solver)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5dd5fe7d7c565707"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.lra_satask.lra_satask","kind":"function","src_hash":"f38427970ba326be","in":{"base":"Any","pred":"hasattr(assumptions, 'from_cnf') and hasattr(assumptions, 'add_from_cnf')"},"out":{"base":"Any"},"spec":{"lhs":"lra_satask(proposition, assumptions, context)","rhs":"check_satisfiability(props, _props, assumptions)","over":{"base":"Any","pred":"hasattr(assumptions, 'from_cnf') and hasattr(assumptions, 'add_from_cnf')"},"name":"lra_satask_correct"},"guarantee":"returns check_satisfiability(props, _props, assumptions)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.lra_satask.lra_satask_correct","statement":"Path(lra_satask(x), returns check_satisfiability(props, _props, assumptions))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"327b792768960448","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(assumptions, 'from_cnf')","hasattr(assumptions, 'add_from_cnf')"],"returns_expr":"check_satisfiability(props, _props, assumptions)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def lra_satask(proposition, assumptions=True, context=global_assumptions):
     """
     Function to evaluate the proposition with assumptions using SAT algorithm
@@ -72,16 +80,24 @@ WHITE_LIST = ALLOWED_PRED | {Q.positive, Q.negative, Q.zero, Q.nonzero, Q.nonpos
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check_satisfiability(pro), check_satisfiability produces the expected output) over Any ║
+# ║ Path(check_satisfiability(prop, _prop, factbase), len(sat_false) == old_len_sat_false + 1 and len(sat_true) == old_len_sat_true + 1) over {Any | hasattr(factbase, 'copy')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ check_satisfiability : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(factbase, 'copy')                      ║
+# ║   ensures:  len(sat_false) == old_len_sat_false + 1        ║
+# ║   ensures:  len(sat_true) == old_len_sat_true + 1          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ check_satisfiability : {Any | hasattr(factbase, 'copy...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab10924966a54ca0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 089db73b89a76fbb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.lra_satask.check_satisfiability","kind":"function","src_hash":"fcf61a270c5b8057","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check_satisfiability(pro)","rhs":"check_satisfiability produces the expected output","over":{"base":"Any"},"name":"check_satisfiability_correct"},"guarantee":"check_satisfiability produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.lra_satask.check_satisfiability_correct","statement":"Path(check_satisfiability(x), check_satisfiability produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab10924966a54ca0"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.lra_satask.check_satisfiability","kind":"function","src_hash":"fcf61a270c5b8057","in":{"base":"Any","pred":"hasattr(factbase, 'copy')"},"out":{"base":"Any","pred":"result satisfies: len(sat_false) == old_len_sat_false + 1 and len(sat_true) == old_len_sat_true + 1"},"spec":{"lhs":"check_satisfiability(prop, _prop, factbase)","rhs":"len(sat_false) == old_len_sat_false + 1 and len(sat_true) == old_len_sat_true + 1","over":{"base":"Any","pred":"hasattr(factbase, 'copy')"},"name":"check_satisfiability_correct"},"guarantee":"len(sat_false) == old_len_sat_false + 1; len(sat_true) == old_len_sat_true + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.lra_satask.check_satisfiability_correct","statement":"Path(check_satisfiability(x), len(sat_false) == old_len_sat_false + 1; len(sat_true) == old_len_sat_true + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"089db73b89a76fbb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(factbase, 'copy')"],"ensures":["len(sat_false) == old_len_sat_false + 1","len(sat_true) == old_len_sat_true + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["factbase.copy"],"calls_mutating":["sat_false.data.append","sat_true.data.append"],"raises":["UnhandledInput","ValueError"]},"state_contract":{"modifies":["sat_false.*","sat_true.*"],"old_bindings":{"old_len_sat_false":"len(sat_false)","old_len_sat_true":"len(sat_true)"},"post_ensures":["len(sat_false) == old_len_sat_false + 1","len(sat_true) == old_len_sat_true + 1"],"exceptional_post":{"UnhandledInput":["isinstance(raised, UnhandledInput)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def check_satisfiability(prop, _prop, factbase):
     sat_true = factbase.copy()
     sat_false = factbase.copy()
@@ -133,7 +149,13 @@ def check_satisfiability(prop, _prop, factbase):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_preprocess(enc), returns an encoded cnf with only q.eq, q.gt, q.lt, q.ge, and q.le predicate) over {Any | isinstance(prop, AppliedPredicate)} ║
+# ║ Path(_preprocess(enc_cnf), len(new_encoding) >= cur_enc - 1) over {Any | isinstance(prop, AppliedPredicate) and hasattr(enc_cnf, 'data') and hasattr(enc_cnf, 'copy') and hasattr(enc_cnf, 'encoding')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(enc_cnf, 'data')                       ║
+# ║   requires: hasattr(enc_cnf, 'copy')                       ║
+# ║   requires: hasattr(enc_cnf, 'encoding')                   ║
+# ║   ensures:  len(new_encoding) >= cur_enc - 1               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _preprocess : {Any | isinstance(prop, AppliedPredicat...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -145,9 +167,12 @@ def check_satisfiability(prop, _prop, factbase):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ba77ee11...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.lra_satask._preprocess","kind":"function","src_hash":"d7f0331d3bbf3cf0","in":{"base":"Any","pred":"isinstance(prop, AppliedPredicate)"},"out":{"base":"Any","pred":"len(new_encoding) >= cur_enc - 1 and False"},"spec":{"lhs":"_preprocess(enc)","rhs":"returns an encoded cnf with only q.eq, q.gt, q.lt, q.ge, and q.le predicate","over":{"base":"Any","pred":"isinstance(prop, AppliedPredicate)"},"name":"_preprocess_correct"},"guarantee":"returns an encoded cnf with only q.eq, q.gt, q.lt, q.ge, and q.le predicate","fibers":[{"name":"AppliedPredicate","pred":"isinstance(prop, AppliedPredicate)","path":{"lhs":"_preprocess(x)","rhs":"returns an encoded cnf with only q.eq, q.gt, q.lt, q.ge, and q.le predicate","over":{"base":"AppliedPredicate","pred":"isinstance(prop, AppliedPredicate)"},"name":"_preprocess_AppliedPredicate_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.lra_satask._preprocess_AppliedPredicate_correct","statement":"_preprocess satisfies spec on AppliedPredicate inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ba77ee110bf41138"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.lra_satask._preprocess","kind":"function","src_hash":"d7f0331d3bbf3cf0","in":{"base":"Any","pred":"isinstance(prop, AppliedPredicate) and hasattr(enc_cnf, 'data') and hasattr(enc_cnf, 'copy') and hasattr(enc_cnf, 'encoding')"},"out":{"base":"Any","pred":"result satisfies: len(new_encoding) >= cur_enc - 1"},"spec":{"lhs":"_preprocess(enc_cnf)","rhs":"len(new_encoding) >= cur_enc - 1","over":{"base":"Any","pred":"isinstance(prop, AppliedPredicate) and hasattr(enc_cnf, 'data') and hasattr(enc_cnf, 'copy') and hasattr(enc_cnf, 'encoding')"},"name":"_preprocess_correct"},"guarantee":"len(new_encoding) >= cur_enc - 1","fibers":[{"name":"AppliedPredicate","pred":"isinstance(prop, AppliedPredicate)","path":{"lhs":"_preprocess(x)","rhs":"len(new_encoding) >= cur_enc - 1","over":{"base":"AppliedPredicate","pred":"isinstance(prop, AppliedPredicate)"},"name":"_preprocess_AppliedPredicate_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.lra_satask._preprocess_AppliedPredicate_correct","statement":"_preprocess satisfies spec on AppliedPredicate inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ba77ee110bf41138","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(enc_cnf, 'data')","hasattr(enc_cnf, 'copy')","hasattr(enc_cnf, 'encoding')"],"ensures":["len(new_encoding) >= cur_enc - 1"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(prop, AppliedPredicate)', 'lit == 0', 'prop.function == Q.eq and negated', 'negated and prop.function == Q.eq', 'prop.function == Q.ne'}, fibers={'AppliedPredicate'})"]}}
 def _preprocess(enc_cnf):
     """
     Returns an encoded cnf with only Q.eq, Q.gt, Q.lt,
@@ -234,7 +259,12 @@ def _preprocess(enc_cnf):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pred_to_binrel(pre), internal helper behaves correctly) over {Any | isinstance(pred, AppliedPredicate)} ║
+# ║ Path(_pred_to_binrel(pred), <unspecified:_pred_to_binrel>) over {Any | isinstance(pred, AppliedPredicate) and hasattr(pred, 'function') and hasattr(pred, 'arguments')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(pred, 'function')                      ║
+# ║   requires: hasattr(pred, 'arguments')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _pred_to_binrel : {Any | isinstance(pred, AppliedPred...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -246,9 +276,12 @@ def _preprocess(enc_cnf):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | bf441b9f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.lra_satask._pred_to_binrel","kind":"function","src_hash":"1aeb1d0674cfd2b8","in":{"base":"Any","pred":"isinstance(pred, AppliedPredicate)"},"out":{"base":"Any"},"spec":{"lhs":"_pred_to_binrel(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(pred, AppliedPredicate)"},"name":"_pred_to_binrel_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"AppliedPredicate","pred":"isinstance(pred, AppliedPredicate)","path":{"lhs":"_pred_to_binrel(x)","rhs":"internal helper behaves correctly","over":{"base":"AppliedPredicate","pred":"isinstance(pred, AppliedPredicate)"},"name":"_pred_to_binrel_AppliedPredicate_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.lra_satask._pred_to_binrel_AppliedPredicate_correct","statement":"_pred_to_binrel satisfies spec on AppliedPredicate inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"bf441b9f4e4167c5"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.lra_satask._pred_to_binrel","kind":"function","src_hash":"1aeb1d0674cfd2b8","in":{"base":"Any","pred":"isinstance(pred, AppliedPredicate) and hasattr(pred, 'function') and hasattr(pred, 'arguments')"},"out":{"base":"Any"},"spec":{"lhs":"_pred_to_binrel(pred)","rhs":"<unspecified:_pred_to_binrel>","over":{"base":"Any","pred":"isinstance(pred, AppliedPredicate) and hasattr(pred, 'function') and hasattr(pred, 'arguments')"},"name":"_pred_to_binrel_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"AppliedPredicate","pred":"isinstance(pred, AppliedPredicate)","path":{"lhs":"_pred_to_binrel(x)","rhs":"internal helper behaves correctly","over":{"base":"AppliedPredicate","pred":"isinstance(pred, AppliedPredicate)"},"name":"_pred_to_binrel_AppliedPredicate_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.lra_satask._pred_to_binrel_AppliedPredicate_correct","statement":"_pred_to_binrel satisfies spec on AppliedPredicate inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"bf441b9f4e4167c5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(pred, 'function')","hasattr(pred, 'arguments')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["pred.arguments","pred.function"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'pred.function == Q.nonzero', 'not isinstance(pred, AppliedPredicate)', 'pred.function == Q.nonnegative', 'pred.function == Q.nonpositive', 'pred.function == Q.negative', 'pred.function == Q.zero', 'pred.function == Q.positive'}, fibers={'AppliedPredicate'})"]}}
 def _pred_to_binrel(pred):
     if not isinstance(pred, AppliedPredicate):
         return pred
@@ -285,7 +318,11 @@ pred_to_pos_neg_zero = {
 }
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_all_pred_and_expr_from_enc_cnf(enc), get_all_pred_and_expr_from_enc_cnf produces the expected output) over {Any | isinstance(pred, AppliedPredicate)} ║
+# ║ Path(get_all_pred_and_expr_from_enc_cnf(enc_cnf), (all_pred, all_exprs)) over {Any | isinstance(pred, AppliedPredicate) and hasattr(enc_cnf, 'encoding')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(enc_cnf, 'encoding')                   ║
+# ║   returns:  (all_pred, all_exprs)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_all_pred_and_expr_from_enc_cnf : {Any | isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -297,9 +334,12 @@ pred_to_pos_neg_zero = {
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | bdeb868f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.lra_satask.get_all_pred_and_expr_from_enc_cnf","kind":"function","src_hash":"5fa62097d6778704","in":{"base":"Any","pred":"isinstance(pred, AppliedPredicate)"},"out":{"base":"Any"},"spec":{"lhs":"get_all_pred_and_expr_from_enc_cnf(enc)","rhs":"get_all_pred_and_expr_from_enc_cnf produces the expected output","over":{"base":"Any","pred":"isinstance(pred, AppliedPredicate)"},"name":"get_all_pred_and_expr_from_enc_cnf_correct"},"guarantee":"get_all_pred_and_expr_from_enc_cnf produces the expected output","fibers":[{"name":"AppliedPredicate","pred":"isinstance(pred, AppliedPredicate)","path":{"lhs":"get_all_pred_and_expr_from_enc_cnf(x)","rhs":"get_all_pred_and_expr_from_enc_cnf produces the expected output","over":{"base":"AppliedPredicate","pred":"isinstance(pred, AppliedPredicate)"},"name":"get_all_pred_and_expr_from_enc_cnf_AppliedPredicate_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.lra_satask.get_all_pred_and_expr_from_enc_cnf_AppliedPredicate_correct","statement":"get_all_pred_and_expr_from_enc_cnf satisfies spec on AppliedPredicate inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"bdeb868fff018a55"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.lra_satask.get_all_pred_and_expr_from_enc_cnf","kind":"function","src_hash":"5fa62097d6778704","in":{"base":"Any","pred":"isinstance(pred, AppliedPredicate) and hasattr(enc_cnf, 'encoding')"},"out":{"base":"Any"},"spec":{"lhs":"get_all_pred_and_expr_from_enc_cnf(enc_cnf)","rhs":"(all_pred, all_exprs)","over":{"base":"Any","pred":"isinstance(pred, AppliedPredicate) and hasattr(enc_cnf, 'encoding')"},"name":"get_all_pred_and_expr_from_enc_cnf_correct"},"guarantee":"returns (all_pred, all_exprs)","fibers":[{"name":"AppliedPredicate","pred":"isinstance(pred, AppliedPredicate)","path":{"lhs":"get_all_pred_and_expr_from_enc_cnf(x)","rhs":"returns (all_pred, all_exprs)","over":{"base":"AppliedPredicate","pred":"isinstance(pred, AppliedPredicate)"},"name":"get_all_pred_and_expr_from_enc_cnf_AppliedPredicate_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.lra_satask.get_all_pred_and_expr_from_enc_cnf_AppliedPredicate_correct","statement":"get_all_pred_and_expr_from_enc_cnf satisfies spec on AppliedPredicate inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"bdeb868fff018a55","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(enc_cnf, 'encoding')"],"returns_expr":"(all_pred, all_exprs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(pred, AppliedPredicate)'}, fibers={'AppliedPredicate'})"]}}
 def get_all_pred_and_expr_from_enc_cnf(enc_cnf):
     all_exprs = set()
     all_pred = set()
@@ -311,7 +351,10 @@ def get_all_pred_and_expr_from_enc_cnf(enc_cnf):
     return all_pred, all_exprs
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(extract_pred_from_old_assum(all), returns a list of relevant new assumption predicate based on any old assumptions) over {Any | isinstance(expr, Mul)} ║
+# ║ Path(extract_pred_from_old_assum(all_exprs), len(ret) == old_len_ret + 1) over {Any | isinstance(expr, Mul)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(ret) == old_len_ret + 1                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ extract_pred_from_old_assum : {Any | isinstance(expr,...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -323,9 +366,12 @@ def get_all_pred_and_expr_from_enc_cnf(enc_cnf):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 8b6094eb...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.lra_satask.extract_pred_from_old_assum","kind":"function","src_hash":"59056680b105a153","in":{"base":"Any","pred":"isinstance(expr, Mul)"},"out":{"base":"Any"},"spec":{"lhs":"extract_pred_from_old_assum(all)","rhs":"returns a list of relevant new assumption predicate based on any old assumptions","over":{"base":"Any","pred":"isinstance(expr, Mul)"},"name":"extract_pred_from_old_assum_correct"},"guarantee":"returns a list of relevant new assumption predicate based on any old assumptions","fibers":[{"name":"Mul","pred":"isinstance(expr, Mul)","path":{"lhs":"extract_pred_from_old_assum(x)","rhs":"returns a list of relevant new assumption predicate based on any old assumptions","over":{"base":"Mul","pred":"isinstance(expr, Mul)"},"name":"extract_pred_from_old_assum_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.lra_satask.extract_pred_from_old_assum_Mul_correct","statement":"extract_pred_from_old_assum satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8b6094ebec8c87d5"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.lra_satask.extract_pred_from_old_assum","kind":"function","src_hash":"59056680b105a153","in":{"base":"Any","pred":"isinstance(expr, Mul)"},"out":{"base":"Any","pred":"result satisfies: len(ret) == old_len_ret + 1"},"spec":{"lhs":"extract_pred_from_old_assum(all_exprs)","rhs":"len(ret) == old_len_ret + 1","over":{"base":"Any","pred":"isinstance(expr, Mul)"},"name":"extract_pred_from_old_assum_correct"},"guarantee":"len(ret) == old_len_ret + 1","fibers":[{"name":"Mul","pred":"isinstance(expr, Mul)","path":{"lhs":"extract_pred_from_old_assum(x)","rhs":"len(ret) == old_len_ret + 1","over":{"base":"Mul","pred":"isinstance(expr, Mul)"},"name":"extract_pred_from_old_assum_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.lra_satask.extract_pred_from_old_assum_Mul_correct","statement":"extract_pred_from_old_assum satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8b6094ebec8c87d5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(ret) == old_len_ret + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["ret.append"],"raises":["UnhandledInput"]},"state_contract":{"modifies":["ret.*"],"old_bindings":{"old_len_ret":"len(ret)"},"post_ensures":["len(ret) == old_len_ret + 1"],"exceptional_post":{"UnhandledInput":["isinstance(raised, UnhandledInput)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'len(expr.free_symbols) == 0', 'expr.is_rational == False', 'expr.is_integer == False', 'expr.is_integer == True and expr.is_zero != True', 'isinstance(expr, Mul) and any((arg.is_real is not True for arg in expr.args))'}, fibers={'Mul'})"]}}
 def extract_pred_from_old_assum(all_exprs):
     """
     Returns a list of relevant new assumption predicate

@@ -49,16 +49,24 @@ x = Symbol('x')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PoissonDistribution(), test_PoissonDistribution produces the expected output) over Any ║
+# ║ Path(test_PoissonDistribution(), abs(p.cdf(10).evalf() - 1) < 0.001 and abs(p.cdf(10.4).evalf() - 1) < 0.001 and p.expectation(x, x) == l and p.expectation(x ** 2, x) - p.expectation(x, x) ** 2 == l) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PoissonDistribution : Any → {Any | abs(p.cdf(10)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(p.cdf(10).evalf() - 1) < 0.001             ║
+# ║   ensures:  abs(p.cdf(10.4).evalf() - 1) < 0.001           ║
+# ║   ensures:  p.expectation(x, x) == l                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PoissonDistribution : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3229a2dc64e906f0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c8e959f31591e34  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_discrete_rv.test_PoissonDistribution","kind":"function","src_hash":"99d4d187e7a2dd77","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(p.cdf(10).evalf() - 1) < 0.001 and abs(p.cdf(10.4).evalf() - 1) < 0.001 and p.expectation(x, x) == l and p.expectation(x ** 2, x) - p.expectation(x, x) ** 2 == l"},"spec":{"lhs":"test_PoissonDistribution()","rhs":"test_PoissonDistribution produces the expected output","over":{"base":"Any"},"name":"test_PoissonDistribution_correct"},"guarantee":"test_PoissonDistribution produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_discrete_rv.test_PoissonDistribution_correct","statement":"Path(test_PoissonDistribution(x), test_PoissonDistribution produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3229a2dc64e906f0"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_discrete_rv.test_PoissonDistribution","kind":"function","src_hash":"99d4d187e7a2dd77","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(p.cdf(10).evalf() - 1) < 0.001 and abs(p.cdf(10.4).evalf() - 1) < 0.001 and p.expectation(x, x) == l and p.expectation(x ** 2, x) - p.expectation(x, x) ** 2 == l"},"spec":{"lhs":"test_PoissonDistribution()","rhs":"abs(p.cdf(10).evalf() - 1) < 0.001 and abs(p.cdf(10.4).evalf() - 1) < 0.001 and p.expectation(x, x) == l and p.expectation(x ** 2, x) - p.expectation(x, x) ** 2 == l","over":{"base":"Any"},"name":"test_PoissonDistribution_correct"},"guarantee":"abs(p.cdf(10).evalf() - 1) < 0.001; abs(p.cdf(10.4).evalf() - 1) < 0.001; p.expectation(x, x) == l","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_discrete_rv.test_PoissonDistribution_correct","statement":"Path(test_PoissonDistribution(x), abs(p.cdf(10).evalf() - 1) < 0.001; abs(p.cdf(10.4).evalf() - 1) < 0.001; p.expectation(x, x) == l)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c8e959f31591e34","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(p.cdf(10).evalf() - 1) < 0.001","abs(p.cdf(10.4).evalf() - 1) < 0.001","p.expectation(x, x) == l","p.expectation(x ** 2, x) - p.expectation(x, x) ** 2 == l"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_PoissonDistribution():
     l = 3
     p = PoissonDistribution(l)
@@ -69,7 +77,12 @@ def test_PoissonDistribution():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Poisson(), test_Poisson produces the expected output) over {Any | isinstance(E(x, evaluate=False), Expectation)} ║
+# ║ Path(test_Poisson(), E(x) == l and E(2 * x) == 2 * l and variance(x) == l and density(x) == PoissonDistribution(l) and isinstance(E(x, evaluate=False), Expectation) and isinstance(E(2 * x, evaluate=False), Expectation) and x.pspace.compute_expectation(1) == 1 and E(y) == 4.72544290380919e-11 and E(y) == 4.725442903809197e-11 and E(z) == l2 and E(FallingFactorial(z, 3)) == l2 ** 3 and E(z ** 2) == l2 + l2 ** 2) over {Any | isinstance(E(x, evaluate=False), Expectation)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  E(x) == l                                      ║
+# ║   ensures:  E(2 * x) == 2 * l                              ║
+# ║   ensures:  variance(x) == l                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Poisson : {Any | isinstance(E(x, evaluate=False)...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -81,9 +94,12 @@ def test_PoissonDistribution():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.3ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ef76d1c5...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_discrete_rv.test_Poisson","kind":"function","src_hash":"317c7ed0a9cee83d","in":{"base":"Any","pred":"isinstance(E(x, evaluate=False), Expectation)"},"out":{"base":"Any","pred":"E(x) == l and E(2 * x) == 2 * l and variance(x) == l and density(x) == PoissonDistribution(l) and isinstance(E(x, evaluate=False), Expectation) and isinstance(E(2 * x, evaluate=False), Expectation) and x.pspace.compute_expectation(1) == 1 and E(y) == 4.72544290380919e-11 and E(y) == 4.725442903809197e-11 and E(z) == l2 and E(FallingFactorial(z, 3)) == l2 ** 3 and E(z ** 2) == l2 + l2 ** 2"},"spec":{"lhs":"test_Poisson()","rhs":"test_Poisson produces the expected output","over":{"base":"Any","pred":"isinstance(E(x, evaluate=False), Expectation)"},"name":"test_Poisson_correct"},"guarantee":"test_Poisson produces the expected output","fibers":[{"name":"evaluate=False","pred":"isinstance(E(x, evaluate=False), Expectation)","path":{"lhs":"test_Poisson(x)","rhs":"test_Poisson produces the expected output","over":{"base":"evaluate=False","pred":"isinstance(E(x, evaluate=False), Expectation)"},"name":"test_Poisson_evaluate=False_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_discrete_rv.test_Poisson_evaluate=False_correct","statement":"test_Poisson satisfies spec on evaluate=False inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ef76d1c5fb97ec14"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_discrete_rv.test_Poisson","kind":"function","src_hash":"317c7ed0a9cee83d","in":{"base":"Any","pred":"isinstance(E(x, evaluate=False), Expectation)"},"out":{"base":"Any","pred":"result satisfies: E(x) == l and E(2 * x) == 2 * l and variance(x) == l and density(x) == PoissonDistribution(l) and isinstance(E(x, evaluate=False), Expectation) and isinstance(E(2 * x, evaluate=False), Expectation) and x.pspace.compute_expectation(1) == 1 and E(y) == 4.72544290380919e-11 and E(y) == 4.725442903809197e-11 and E(z) == l2 and E(FallingFactorial(z, 3)) == l2 ** 3 and E(z ** 2) == l2 + l2 ** 2"},"spec":{"lhs":"test_Poisson()","rhs":"E(x) == l and E(2 * x) == 2 * l and variance(x) == l and density(x) == PoissonDistribution(l) and isinstance(E(x, evaluate=False), Expectation) and isinstance(E(2 * x, evaluate=False), Expectation) and x.pspace.compute_expectation(1) == 1 and E(y) == 4.72544290380919e-11 and E(y) == 4.725442903809197e-11 and E(z) == l2 and E(FallingFactorial(z, 3)) == l2 ** 3 and E(z ** 2) == l2 + l2 ** 2","over":{"base":"Any","pred":"isinstance(E(x, evaluate=False), Expectation)"},"name":"test_Poisson_correct"},"guarantee":"E(x) == l; E(2 * x) == 2 * l; variance(x) == l","fibers":[{"name":"evaluate=False","pred":"isinstance(E(x, evaluate=False), Expectation)","path":{"lhs":"test_Poisson(x)","rhs":"E(x) == l; E(2 * x) == 2 * l; variance(x) == l","over":{"base":"evaluate=False","pred":"isinstance(E(x, evaluate=False), Expectation)"},"name":"test_Poisson_evaluate=False_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_discrete_rv.test_Poisson_evaluate=False_correct","statement":"test_Poisson satisfies spec on evaluate=False inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ef76d1c5fb97ec14","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["E(x) == l","E(2 * x) == 2 * l","variance(x) == l","density(x) == PoissonDistribution(l)","isinstance(E(x, evaluate=False), Expectation)","isinstance(E(2 * x, evaluate=False), Expectation)","x.pspace.compute_expectation(1) == 1","E(y) == 4.72544290380919e-11","E(y) == 4.725442903809197e-11","E(z) == l2","E(FallingFactorial(z, 3)) == l2 ** 3","E(z ** 2) == l2 + l2 ** 2"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.3,"verdict_class":"failed","binding":true}}
 def test_Poisson():
     l = 3
     x = Poisson('x', l)
@@ -112,16 +128,24 @@ def test_Poisson():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FlorySchulz(), test_FlorySchulz produces the expected output) over Any ║
+# ║ Path(test_FlorySchulz(), E(x) == (2 - a) / a and (variance(x) - 2 * (1 - a) / a ** 2).simplify() == S(0) and density(x)(z) == a ** 2 * z * (1 - a) ** (z - 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FlorySchulz : Any → {Any | E(x) == (2 - a) / a a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  E(x) == (2 - a) / a                            ║
+# ║   ensures:  (variance(x) - 2 * (1 - a) / a ** 2).simp...   ║
+# ║   ensures:  density(x)(z) == a ** 2 * z * (1 - a) ** ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FlorySchulz : Any → {Any | result satisfies: E(x...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a1a71ba0ed9a87d4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 351826ce45329fa7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_discrete_rv.test_FlorySchulz","kind":"function","src_hash":"558724054f386154","in":{"base":"Any"},"out":{"base":"Any","pred":"E(x) == (2 - a) / a and (variance(x) - 2 * (1 - a) / a ** 2).simplify() == S(0) and density(x)(z) == a ** 2 * z * (1 - a) ** (z - 1)"},"spec":{"lhs":"test_FlorySchulz()","rhs":"test_FlorySchulz produces the expected output","over":{"base":"Any"},"name":"test_FlorySchulz_correct"},"guarantee":"test_FlorySchulz produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_discrete_rv.test_FlorySchulz_correct","statement":"Path(test_FlorySchulz(x), test_FlorySchulz produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1a71ba0ed9a87d4"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_discrete_rv.test_FlorySchulz","kind":"function","src_hash":"558724054f386154","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: E(x) == (2 - a) / a and (variance(x) - 2 * (1 - a) / a ** 2).simplify() == S(0) and density(x)(z) == a ** 2 * z * (1 - a) ** (z - 1)"},"spec":{"lhs":"test_FlorySchulz()","rhs":"E(x) == (2 - a) / a and (variance(x) - 2 * (1 - a) / a ** 2).simplify() == S(0) and density(x)(z) == a ** 2 * z * (1 - a) ** (z - 1)","over":{"base":"Any"},"name":"test_FlorySchulz_correct"},"guarantee":"E(x) == (2 - a) / a; (variance(x) - 2 * (1 - a) / a ** 2).simplify() == S(0); density(x)(z) == a ** 2 * z * (1 - a) ** (z - 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_discrete_rv.test_FlorySchulz_correct","statement":"Path(test_FlorySchulz(x), E(x) == (2 - a) / a; (variance(x) - 2 * (1 - a) / a ** 2).simplify() == S(0); density(x)(z) == a ** 2 * z * (1 - a) ** (z - 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"351826ce45329fa7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["E(x) == (2 - a) / a","(variance(x) - 2 * (1 - a) / a ** 2).simplify() == S(0)","density(x)(z) == a ** 2 * z * (1 - a) ** (z - 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_FlorySchulz():
     a = Symbol("a")
     z = Symbol("z")
@@ -133,16 +157,24 @@ def test_FlorySchulz():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_GeometricDistribution(), test_GeometricDistribution produces the expected output) over Any ║
+# ║ Path(test_GeometricDistribution(), d.expectation(x, x) == 1 / p and d.expectation(x ** 2, x) - d.expectation(x, x) ** 2 == (1 - p) / p ** 2 and abs(d.cdf(20000).evalf() - 1) < 0.001 and abs(d.cdf(20000.8).evalf() - 1) < 0.001 and cdf(G)(S(7) / 2) == P(G <= S(7) / 2) and coskewness(X, X + Y, X + 2 * Y).simplify() == sqrt(230) * Rational(81, 1150)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_GeometricDistribution : Any → {Any | d.expectati...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  d.expectation(x, x) == 1 / p                   ║
+# ║   ensures:  d.expectation(x ** 2, x) - d.expectation(...   ║
+# ║   ensures:  abs(d.cdf(20000).evalf() - 1) < 0.001          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_GeometricDistribution : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee5a70577333edf9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 733ddd32c87e61e7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_discrete_rv.test_GeometricDistribution","kind":"function","src_hash":"798014493a3c8c86","in":{"base":"Any"},"out":{"base":"Any","pred":"d.expectation(x, x) == 1 / p and d.expectation(x ** 2, x) - d.expectation(x, x) ** 2 == (1 - p) / p ** 2 and abs(d.cdf(20000).evalf() - 1) < 0.001 and abs(d.cdf(20000.8).evalf() - 1) < 0.001 and cdf(G)(S(7) / 2) == P(G <= S(7) / 2) and coskewness(X, X + Y, X + 2 * Y).simplify() == sqrt(230) * Rational(81, 1150)"},"spec":{"lhs":"test_GeometricDistribution()","rhs":"test_GeometricDistribution produces the expected output","over":{"base":"Any"},"name":"test_GeometricDistribution_correct"},"guarantee":"test_GeometricDistribution produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_discrete_rv.test_GeometricDistribution_correct","statement":"Path(test_GeometricDistribution(x), test_GeometricDistribution produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee5a70577333edf9"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_discrete_rv.test_GeometricDistribution","kind":"function","src_hash":"798014493a3c8c86","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: d.expectation(x, x) == 1 / p and d.expectation(x ** 2, x) - d.expectation(x, x) ** 2 == (1 - p) / p ** 2 and abs(d.cdf(20000).evalf() - 1) < 0.001 and abs(d.cdf(20000.8).evalf() - 1) < 0.001 and cdf(G)(S(7) / 2) == P(G <= S(7) / 2) and coskewness(X, X + Y, X + 2 * Y).simplify() == sqrt(230) * Rational(81, 1150)"},"spec":{"lhs":"test_GeometricDistribution()","rhs":"d.expectation(x, x) == 1 / p and d.expectation(x ** 2, x) - d.expectation(x, x) ** 2 == (1 - p) / p ** 2 and abs(d.cdf(20000).evalf() - 1) < 0.001 and abs(d.cdf(20000.8).evalf() - 1) < 0.001 and cdf(G)(S(7) / 2) == P(G <= S(7) / 2) and coskewness(X, X + Y, X + 2 * Y).simplify() == sqrt(230) * Rational(81, 1150)","over":{"base":"Any"},"name":"test_GeometricDistribution_correct"},"guarantee":"d.expectation(x, x) == 1 / p; d.expectation(x ** 2, x) - d.expectation(x, x) ** 2 == (1 - p) / p ** 2; abs(d.cdf(20000).evalf() - 1) < 0.001","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_discrete_rv.test_GeometricDistribution_correct","statement":"Path(test_GeometricDistribution(x), d.expectation(x, x) == 1 / p; d.expectation(x ** 2, x) - d.expectation(x, x) ** 2 == (1 - p) / p ** 2; abs(d.cdf(20000).evalf() - 1) < 0.001)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"733ddd32c87e61e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["d.expectation(x, x) == 1 / p","d.expectation(x ** 2, x) - d.expectation(x, x) ** 2 == (1 - p) / p ** 2","abs(d.cdf(20000).evalf() - 1) < 0.001","abs(d.cdf(20000.8).evalf() - 1) < 0.001","cdf(G)(S(7) / 2) == P(G <= S(7) / 2)","coskewness(X, X + Y, X + 2 * Y).simplify() == sqrt(230) * Rational(81, 1150)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_GeometricDistribution():
     p = S.One / 5
     d = GeometricDistribution(p)
@@ -159,16 +191,24 @@ def test_GeometricDistribution():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Hermite(), test_Hermite produces the expected output) over Any ║
+# ║ Path(test_Hermite(), moment_generating_function(H)(x) == exp(a1 * (exp(x) - 1) + a2 * (exp(2 * x) - 1)) and characteristic_function(H)(x) == exp(a1 * (exp(I * x) - 1) + a2 * (exp(2 * I * x) - 1)) and E(H) == a1 + 2 * a2 and density(H)(2) == 33 * exp(-9) / 2 and E(H) == 13 and variance(H) == 21 and kurtosis(H) == Rational(464, 147) and skewness(H) == 37 * sqrt(21) / 441) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Hermite : Any → {Any | E(H) == a1 + 2 * a2 and d...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  moment_generating_function(H)(x) == exp(a...   ║
+# ║   ensures:  characteristic_function(H)(x) == exp(a1 *...   ║
+# ║   ensures:  E(H) == a1 + 2 * a2                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Hermite : Any → {Any | result satisfies: moment_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ef7283163c81e5a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 594c70ff46c27747  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_discrete_rv.test_Hermite","kind":"function","src_hash":"a7eeb1bfe0656391","in":{"base":"Any"},"out":{"base":"Any","pred":"E(H) == a1 + 2 * a2 and density(H)(2) == 33 * exp(-9) / 2 and E(H) == 13 and variance(H) == 21 and kurtosis(H) == Rational(464, 147) and skewness(H) == 37 * sqrt(21) / 441"},"spec":{"lhs":"test_Hermite()","rhs":"test_Hermite produces the expected output","over":{"base":"Any"},"name":"test_Hermite_correct"},"guarantee":"test_Hermite produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_discrete_rv.test_Hermite_correct","statement":"Path(test_Hermite(x), test_Hermite produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ef7283163c81e5a"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_discrete_rv.test_Hermite","kind":"function","src_hash":"a7eeb1bfe0656391","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: moment_generating_function(H)(x) == exp(a1 * (exp(x) - 1) + a2 * (exp(2 * x) - 1)) and characteristic_function(H)(x) == exp(a1 * (exp(I * x) - 1) + a2 * (exp(2 * I * x) - 1)) and E(H) == a1 + 2 * a2 and density(H)(2) == 33 * exp(-9) / 2 and E(H) == 13 and variance(H) == 21 and kurtosis(H) == Rational(464, 147) and skewness(H) == 37 * sqrt(21) / 441"},"spec":{"lhs":"test_Hermite()","rhs":"moment_generating_function(H)(x) == exp(a1 * (exp(x) - 1) + a2 * (exp(2 * x) - 1)) and characteristic_function(H)(x) == exp(a1 * (exp(I * x) - 1) + a2 * (exp(2 * I * x) - 1)) and E(H) == a1 + 2 * a2 and density(H)(2) == 33 * exp(-9) / 2 and E(H) == 13 and variance(H) == 21 and kurtosis(H) == Rational(464, 147) and skewness(H) == 37 * sqrt(21) / 441","over":{"base":"Any"},"name":"test_Hermite_correct"},"guarantee":"moment_generating_function(H)(x) == exp(a1 * (exp(x) - 1) + a2 * (exp(2 * x) - 1)); characteristic_function(H)(x) == exp(a1 * (exp(I * x) - 1) + a2 * (exp(2 * I * x) - 1)); E(H) == a1 + 2 * a2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_discrete_rv.test_Hermite_correct","statement":"Path(test_Hermite(x), moment_generating_function(H)(x) == exp(a1 * (exp(x) - 1) + a2 * (exp(2 * x) - 1)); characteristic_function(H)(x) == exp(a1 * (exp(I * x) - 1) + a2 * (exp(2 * I * x) - 1)); E(H) == a1 + 2 * a2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"594c70ff46c27747","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["moment_generating_function(H)(x) == exp(a1 * (exp(x) - 1) + a2 * (exp(2 * x) - 1))","characteristic_function(H)(x) == exp(a1 * (exp(I * x) - 1) + a2 * (exp(2 * I * x) - 1))","E(H) == a1 + 2 * a2","density(H)(2) == 33 * exp(-9) / 2","E(H) == 13","variance(H) == 21","kurtosis(H) == Rational(464, 147)","skewness(H) == 37 * sqrt(21) / 441"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_Hermite():
     a1 = Symbol("a1", positive=True)
     a2 = Symbol("a2", negative=True)
@@ -195,7 +235,12 @@ def test_Hermite():
     assert skewness(H) == 37*sqrt(21)/441
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Logarithmic(), test_Logarithmic produces the expected output) over {Any | isinstance(E(x, evaluate=False), Expectation)} ║
+# ║ Path(test_Logarithmic(), E(x) == -p / ((1 - p) * log(1 - p)) and variance(x) == -1 / log(2) ** 2 + 2 / log(2) and E(2 * x ** 2 + 3 * x + 4) == 4 + 7 / log(2) and isinstance(E(x, evaluate=False), Expectation)) over {Any | isinstance(E(x, evaluate=False), Expectation)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  E(x) == -p / ((1 - p) * log(1 - p))            ║
+# ║   ensures:  variance(x) == -1 / log(2) ** 2 + 2 / log(2)   ║
+# ║   ensures:  E(2 * x ** 2 + 3 * x + 4) == 4 + 7 / log(2)    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Logarithmic : {Any | isinstance(E(x, evaluate=Fa...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -207,9 +252,12 @@ def test_Hermite():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.7ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 31c86814...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_discrete_rv.test_Logarithmic","kind":"function","src_hash":"11c13c0cbdde7f21","in":{"base":"Any","pred":"isinstance(E(x, evaluate=False), Expectation)"},"out":{"base":"Any","pred":"E(x) == -p / ((1 - p) * log(1 - p)) and variance(x) == -1 / log(2) ** 2 + 2 / log(2) and E(2 * x ** 2 + 3 * x + 4) == 4 + 7 / log(2) and isinstance(E(x, evaluate=False), Expectation)"},"spec":{"lhs":"test_Logarithmic()","rhs":"test_Logarithmic produces the expected output","over":{"base":"Any","pred":"isinstance(E(x, evaluate=False), Expectation)"},"name":"test_Logarithmic_correct"},"guarantee":"test_Logarithmic produces the expected output","fibers":[{"name":"evaluate=False","pred":"isinstance(E(x, evaluate=False), Expectation)","path":{"lhs":"test_Logarithmic(x)","rhs":"test_Logarithmic produces the expected output","over":{"base":"evaluate=False","pred":"isinstance(E(x, evaluate=False), Expectation)"},"name":"test_Logarithmic_evaluate=False_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_discrete_rv.test_Logarithmic_evaluate=False_correct","statement":"test_Logarithmic satisfies spec on evaluate=False inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"31c868146bdad78e"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_discrete_rv.test_Logarithmic","kind":"function","src_hash":"11c13c0cbdde7f21","in":{"base":"Any","pred":"isinstance(E(x, evaluate=False), Expectation)"},"out":{"base":"Any","pred":"result satisfies: E(x) == -p / ((1 - p) * log(1 - p)) and variance(x) == -1 / log(2) ** 2 + 2 / log(2) and E(2 * x ** 2 + 3 * x + 4) == 4 + 7 / log(2) and isinstance(E(x, evaluate=False), Expectation)"},"spec":{"lhs":"test_Logarithmic()","rhs":"E(x) == -p / ((1 - p) * log(1 - p)) and variance(x) == -1 / log(2) ** 2 + 2 / log(2) and E(2 * x ** 2 + 3 * x + 4) == 4 + 7 / log(2) and isinstance(E(x, evaluate=False), Expectation)","over":{"base":"Any","pred":"isinstance(E(x, evaluate=False), Expectation)"},"name":"test_Logarithmic_correct"},"guarantee":"E(x) == -p / ((1 - p) * log(1 - p)); variance(x) == -1 / log(2) ** 2 + 2 / log(2); E(2 * x ** 2 + 3 * x + 4) == 4 + 7 / log(2)","fibers":[{"name":"evaluate=False","pred":"isinstance(E(x, evaluate=False), Expectation)","path":{"lhs":"test_Logarithmic(x)","rhs":"E(x) == -p / ((1 - p) * log(1 - p)); variance(x) == -1 / log(2) ** 2 + 2 / log(2); E(2 * x ** 2 + 3 * x + 4) == 4 + 7 / log(2)","over":{"base":"evaluate=False","pred":"isinstance(E(x, evaluate=False), Expectation)"},"name":"test_Logarithmic_evaluate=False_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_discrete_rv.test_Logarithmic_evaluate=False_correct","statement":"test_Logarithmic satisfies spec on evaluate=False inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"31c868146bdad78e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["E(x) == -p / ((1 - p) * log(1 - p))","variance(x) == -1 / log(2) ** 2 + 2 / log(2)","E(2 * x ** 2 + 3 * x + 4) == 4 + 7 / log(2)","isinstance(E(x, evaluate=False), Expectation)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"failed","binding":true}}
 def test_Logarithmic():
     p = S.Half
     x = Logarithmic('x', p)
@@ -221,7 +269,12 @@ def test_Logarithmic():
 
 @nocache_fail
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_negative_binomial(), test_negative_binomial produces the expected output) over {Any | isinstance(E(x, evaluate=False), Expectation)} ║
+# ║ Path(test_negative_binomial(), E(x) == r * (1 - p) / p and variance(x) == r * (1 - p) / p ** 2 and E(x ** 5 + 2 * x + 3) == E(x ** 5) + 2 * E(x) + 3 == Rational(796473, 1) and isinstance(E(x, evaluate=False), Expectation)) over {Any | isinstance(E(x, evaluate=False), Expectation)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  E(x) == r * (1 - p) / p                        ║
+# ║   ensures:  variance(x) == r * (1 - p) / p ** 2            ║
+# ║   ensures:  E(x ** 5 + 2 * x + 3) == E(x ** 5) + 2 * ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_negative_binomial : {Any | isinstance(E(x, evalu...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -233,9 +286,12 @@ def test_Logarithmic():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b5426f9a...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_discrete_rv.test_negative_binomial","kind":"function","src_hash":"95e4900100c6a987","in":{"base":"Any","pred":"isinstance(E(x, evaluate=False), Expectation)"},"out":{"base":"Any","pred":"E(x) == r * (1 - p) / p and variance(x) == r * (1 - p) / p ** 2 and E(x ** 5 + 2 * x + 3) == E(x ** 5) + 2 * E(x) + 3 == Rational(796473, 1) and isinstance(E(x, evaluate=False), Expectation)"},"spec":{"lhs":"test_negative_binomial()","rhs":"test_negative_binomial produces the expected output","over":{"base":"Any","pred":"isinstance(E(x, evaluate=False), Expectation)"},"name":"test_negative_binomial_correct"},"guarantee":"test_negative_binomial produces the expected output","fibers":[{"name":"evaluate=False","pred":"isinstance(E(x, evaluate=False), Expectation)","path":{"lhs":"test_negative_binomial(x)","rhs":"test_negative_binomial produces the expected output","over":{"base":"evaluate=False","pred":"isinstance(E(x, evaluate=False), Expectation)"},"name":"test_negative_binomial_evaluate=False_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_discrete_rv.test_negative_binomial_evaluate=False_correct","statement":"test_negative_binomial satisfies spec on evaluate=False inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b5426f9aab838da8"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_discrete_rv.test_negative_binomial","kind":"function","src_hash":"95e4900100c6a987","in":{"base":"Any","pred":"isinstance(E(x, evaluate=False), Expectation)"},"out":{"base":"Any","pred":"result satisfies: E(x) == r * (1 - p) / p and variance(x) == r * (1 - p) / p ** 2 and E(x ** 5 + 2 * x + 3) == E(x ** 5) + 2 * E(x) + 3 == Rational(796473, 1) and isinstance(E(x, evaluate=False), Expectation)"},"spec":{"lhs":"test_negative_binomial()","rhs":"E(x) == r * (1 - p) / p and variance(x) == r * (1 - p) / p ** 2 and E(x ** 5 + 2 * x + 3) == E(x ** 5) + 2 * E(x) + 3 == Rational(796473, 1) and isinstance(E(x, evaluate=False), Expectation)","over":{"base":"Any","pred":"isinstance(E(x, evaluate=False), Expectation)"},"name":"test_negative_binomial_correct"},"guarantee":"E(x) == r * (1 - p) / p; variance(x) == r * (1 - p) / p ** 2; E(x ** 5 + 2 * x + 3) == E(x ** 5) + 2 * E(x) + 3 == Rational(796473, 1)","fibers":[{"name":"evaluate=False","pred":"isinstance(E(x, evaluate=False), Expectation)","path":{"lhs":"test_negative_binomial(x)","rhs":"E(x) == r * (1 - p) / p; variance(x) == r * (1 - p) / p ** 2; E(x ** 5 + 2 * x + 3) == E(x ** 5) + 2 * E(x) + 3 == Rational(796473, 1)","over":{"base":"evaluate=False","pred":"isinstance(E(x, evaluate=False), Expectation)"},"name":"test_negative_binomial_evaluate=False_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_discrete_rv.test_negative_binomial_evaluate=False_correct","statement":"test_negative_binomial satisfies spec on evaluate=False inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b5426f9aab838da8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["E(x) == r * (1 - p) / p","variance(x) == r * (1 - p) / p ** 2","E(x ** 5 + 2 * x + 3) == E(x ** 5) + 2 * E(x) + 3 == Rational(796473, 1)","isinstance(E(x, evaluate=False), Expectation)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":true}}
 def test_negative_binomial():
     r = 5
     p = S.One / 3
@@ -248,16 +304,24 @@ def test_negative_binomial():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_skellam(), test_skellam produces the expected output) over Any ║
+# ║ Path(test_skellam(), density(X)(z) == (mu1 / mu2) ** (z / 2) * exp(-mu1 - mu2) * besseli(z, 2 * sqrt(mu1 * mu2)) and skewness(X).expand() == mu1 / (mu1 * sqrt(mu1 + mu2) + mu2 * sqrt(mu1 + mu2)) - mu2 / (mu1 * sqrt(mu1 + mu2) + mu2 * sqrt(mu1 + mu2)) and variance(X).expand() == mu1 + mu2 and E(X) == mu1 - mu2 and characteristic_function(X)(z) == exp(mu1 * exp(I * z) - mu1 - mu2 + mu2 * exp(-I * z)) and moment_generating_function(X)(z) == exp(mu1 * exp(z) - mu1 - mu2 + mu2 * exp(-z))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_skellam : Any → {Any | variance(X).expand() == m...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  density(X)(z) == (mu1 / mu2) ** (z / 2) *...   ║
+# ║   ensures:  skewness(X).expand() == mu1 / (mu1 * sqrt...   ║
+# ║   ensures:  variance(X).expand() == mu1 + mu2              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_skellam : Any → {Any | result satisfies: density...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ed08b5ad2747504  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc9a10a67e959db6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_discrete_rv.test_skellam","kind":"function","src_hash":"9920eec3f0cf1564","in":{"base":"Any"},"out":{"base":"Any","pred":"variance(X).expand() == mu1 + mu2 and E(X) == mu1 - mu2"},"spec":{"lhs":"test_skellam()","rhs":"test_skellam produces the expected output","over":{"base":"Any"},"name":"test_skellam_correct"},"guarantee":"test_skellam produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_discrete_rv.test_skellam_correct","statement":"Path(test_skellam(x), test_skellam produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ed08b5ad2747504"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_discrete_rv.test_skellam","kind":"function","src_hash":"9920eec3f0cf1564","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: density(X)(z) == (mu1 / mu2) ** (z / 2) * exp(-mu1 - mu2) * besseli(z, 2 * sqrt(mu1 * mu2)) and skewness(X).expand() == mu1 / (mu1 * sqrt(mu1 + mu2) + mu2 * sqrt(mu1 + mu2)) - mu2 / (mu1 * sqrt(mu1 + mu2) + mu2 * sqrt(mu1 + mu2)) and variance(X).expand() == mu1 + mu2 and E(X) == mu1 - mu2 and characteristic_function(X)(z) == exp(mu1 * exp(I * z) - mu1 - mu2 + mu2 * exp(-I * z)) and moment_generating_function(X)(z) == exp(mu1 * exp(z) - mu1 - mu2 + mu2 * exp(-z))"},"spec":{"lhs":"test_skellam()","rhs":"density(X)(z) == (mu1 / mu2) ** (z / 2) * exp(-mu1 - mu2) * besseli(z, 2 * sqrt(mu1 * mu2)) and skewness(X).expand() == mu1 / (mu1 * sqrt(mu1 + mu2) + mu2 * sqrt(mu1 + mu2)) - mu2 / (mu1 * sqrt(mu1 + mu2) + mu2 * sqrt(mu1 + mu2)) and variance(X).expand() == mu1 + mu2 and E(X) == mu1 - mu2 and characteristic_function(X)(z) == exp(mu1 * exp(I * z) - mu1 - mu2 + mu2 * exp(-I * z)) and moment_generating_function(X)(z) == exp(mu1 * exp(z) - mu1 - mu2 + mu2 * exp(-z))","over":{"base":"Any"},"name":"test_skellam_correct"},"guarantee":"density(X)(z) == (mu1 / mu2) ** (z / 2) * exp(-mu1 - mu2) * besseli(z, 2 * sqrt(mu1 * mu2)); skewness(X).expand() == mu1 / (mu1 * sqrt(mu1 + mu2) + mu2 * sqrt(mu1 + mu2)) - mu2 / (mu1 * sqrt(mu1 + mu2) + mu2 * sqrt(mu1 + mu2)); variance(X).expand() == mu1 + mu2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_discrete_rv.test_skellam_correct","statement":"Path(test_skellam(x), density(X)(z) == (mu1 / mu2) ** (z / 2) * exp(-mu1 - mu2) * besseli(z, 2 * sqrt(mu1 * mu2)); skewness(X).expand() == mu1 / (mu1 * sqrt(mu1 + mu2) + mu2 * sqrt(mu1 + mu2)) - mu2 / (mu1 * sqrt(mu1 + mu2) + mu2 * sqrt(mu1 + mu2)); variance(X).expand() == mu1 + mu2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc9a10a67e959db6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["density(X)(z) == (mu1 / mu2) ** (z / 2) * exp(-mu1 - mu2) * besseli(z, 2 * sqrt(mu1 * mu2))","skewness(X).expand() == mu1 / (mu1 * sqrt(mu1 + mu2) + mu2 * sqrt(mu1 + mu2)) - mu2 / (mu1 * sqrt(mu1 + mu2) + mu2 * sqrt(mu1 + mu2))","variance(X).expand() == mu1 + mu2","E(X) == mu1 - mu2","characteristic_function(X)(z) == exp(mu1 * exp(I * z) - mu1 - mu2 + mu2 * exp(-I * z))","moment_generating_function(X)(z) == exp(mu1 * exp(z) - mu1 - mu2 + mu2 * exp(-z))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_skellam():
     mu1 = Symbol('mu1')
     mu2 = Symbol('mu2')
@@ -277,7 +341,12 @@ def test_skellam():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_yule_simon(), test_yule_simon produces the expected output) over {Any | isinstance(E(x, evaluate=False), Expectation)} ║
+# ║ Path(test_yule_simon(), simplify(E(x)) == rho / (rho - 1) and simplify(variance(x)) == rho ** 2 / ((rho - 1) ** 2 * (rho - 2)) and isinstance(E(x, evaluate=False), Expectation) and cdf(x)(x) == Piecewise((-beta(floor(x), 4) * floor(x) + 1, x >= 1), (0, True))) over {Any | isinstance(E(x, evaluate=False), Expectation)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(E(x)) == rho / (rho - 1)              ║
+# ║   ensures:  simplify(variance(x)) == rho ** 2 / ((rho...   ║
+# ║   ensures:  isinstance(E(x, evaluate=False), Expectat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_yule_simon : {Any | isinstance(E(x, evaluate=Fal...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -289,9 +358,12 @@ def test_skellam():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.2ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | e7f03e17...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_discrete_rv.test_yule_simon","kind":"function","src_hash":"d9c4ec78cb8d973c","in":{"base":"Any","pred":"isinstance(E(x, evaluate=False), Expectation)"},"out":{"base":"Any","pred":"simplify(E(x)) == rho / (rho - 1) and simplify(variance(x)) == rho ** 2 / ((rho - 1) ** 2 * (rho - 2)) and isinstance(E(x, evaluate=False), Expectation) and cdf(x)(x) == Piecewise((-beta(floor(x), 4) * floor(x) + 1, x >= 1), (0, True))"},"spec":{"lhs":"test_yule_simon()","rhs":"test_yule_simon produces the expected output","over":{"base":"Any","pred":"isinstance(E(x, evaluate=False), Expectation)"},"name":"test_yule_simon_correct"},"guarantee":"test_yule_simon produces the expected output","fibers":[{"name":"evaluate=False","pred":"isinstance(E(x, evaluate=False), Expectation)","path":{"lhs":"test_yule_simon(x)","rhs":"test_yule_simon produces the expected output","over":{"base":"evaluate=False","pred":"isinstance(E(x, evaluate=False), Expectation)"},"name":"test_yule_simon_evaluate=False_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_discrete_rv.test_yule_simon_evaluate=False_correct","statement":"test_yule_simon satisfies spec on evaluate=False inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e7f03e1751d37139"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_discrete_rv.test_yule_simon","kind":"function","src_hash":"d9c4ec78cb8d973c","in":{"base":"Any","pred":"isinstance(E(x, evaluate=False), Expectation)"},"out":{"base":"Any","pred":"result satisfies: simplify(E(x)) == rho / (rho - 1) and simplify(variance(x)) == rho ** 2 / ((rho - 1) ** 2 * (rho - 2)) and isinstance(E(x, evaluate=False), Expectation) and cdf(x)(x) == Piecewise((-beta(floor(x), 4) * floor(x) + 1, x >= 1), (0, True))"},"spec":{"lhs":"test_yule_simon()","rhs":"simplify(E(x)) == rho / (rho - 1) and simplify(variance(x)) == rho ** 2 / ((rho - 1) ** 2 * (rho - 2)) and isinstance(E(x, evaluate=False), Expectation) and cdf(x)(x) == Piecewise((-beta(floor(x), 4) * floor(x) + 1, x >= 1), (0, True))","over":{"base":"Any","pred":"isinstance(E(x, evaluate=False), Expectation)"},"name":"test_yule_simon_correct"},"guarantee":"simplify(E(x)) == rho / (rho - 1); simplify(variance(x)) == rho ** 2 / ((rho - 1) ** 2 * (rho - 2)); isinstance(E(x, evaluate=False), Expectation)","fibers":[{"name":"evaluate=False","pred":"isinstance(E(x, evaluate=False), Expectation)","path":{"lhs":"test_yule_simon(x)","rhs":"simplify(E(x)) == rho / (rho - 1); simplify(variance(x)) == rho ** 2 / ((rho - 1) ** 2 * (rho - 2)); isinstance(E(x, evaluate=False), Expectation)","over":{"base":"evaluate=False","pred":"isinstance(E(x, evaluate=False), Expectation)"},"name":"test_yule_simon_evaluate=False_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_discrete_rv.test_yule_simon_evaluate=False_correct","statement":"test_yule_simon satisfies spec on evaluate=False inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e7f03e1751d37139","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(E(x)) == rho / (rho - 1)","simplify(variance(x)) == rho ** 2 / ((rho - 1) ** 2 * (rho - 2))","isinstance(E(x, evaluate=False), Expectation)","cdf(x)(x) == Piecewise((-beta(floor(x), 4) * floor(x) + 1, x >= 1), (0, True))"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.2,"verdict_class":"failed","binding":true}}
 def test_yule_simon():
     from sympy.core.singleton import S
     rho = S(3)
@@ -304,16 +376,23 @@ def test_yule_simon():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_zeta(), test_zeta produces the expected output) over Any ║
+# ║ Path(test_zeta(), E(x) == zeta(s - 1) / zeta(s) and simplify(variance(x)) == (zeta(s) * zeta(s - 2) - zeta(s - 1) ** 2) / zeta(s) ** 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_zeta : Any → {Any | E(x) == zeta(s - 1) / zeta(s)}    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  E(x) == zeta(s - 1) / zeta(s)                  ║
+# ║   ensures:  simplify(variance(x)) == (zeta(s) * zeta(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_zeta : Any → {Any | result satisfies: E(x) == ze...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2bb51bb99d388803  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 546970813792c783  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_discrete_rv.test_zeta","kind":"function","src_hash":"f1dca812a790c6c9","in":{"base":"Any"},"out":{"base":"Any","pred":"E(x) == zeta(s - 1) / zeta(s)"},"spec":{"lhs":"test_zeta()","rhs":"test_zeta produces the expected output","over":{"base":"Any"},"name":"test_zeta_correct"},"guarantee":"test_zeta produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_discrete_rv.test_zeta_correct","statement":"Path(test_zeta(x), test_zeta produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2bb51bb99d388803"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_discrete_rv.test_zeta","kind":"function","src_hash":"f1dca812a790c6c9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: E(x) == zeta(s - 1) / zeta(s) and simplify(variance(x)) == (zeta(s) * zeta(s - 2) - zeta(s - 1) ** 2) / zeta(s) ** 2"},"spec":{"lhs":"test_zeta()","rhs":"E(x) == zeta(s - 1) / zeta(s) and simplify(variance(x)) == (zeta(s) * zeta(s - 2) - zeta(s - 1) ** 2) / zeta(s) ** 2","over":{"base":"Any"},"name":"test_zeta_correct"},"guarantee":"E(x) == zeta(s - 1) / zeta(s); simplify(variance(x)) == (zeta(s) * zeta(s - 2) - zeta(s - 1) ** 2) / zeta(s) ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_discrete_rv.test_zeta_correct","statement":"Path(test_zeta(x), E(x) == zeta(s - 1) / zeta(s); simplify(variance(x)) == (zeta(s) * zeta(s - 2) - zeta(s - 1) ** 2) / zeta(s) ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"546970813792c783","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["E(x) == zeta(s - 1) / zeta(s)","simplify(variance(x)) == (zeta(s) * zeta(s - 2) - zeta(s - 1) ** 2) / zeta(s) ** 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_zeta():
     s = S(5)
     x = Zeta('x', s)
@@ -323,16 +402,24 @@ def test_zeta():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_discrete_probability(), test_discrete_probability produces the expected output) over Any ║
+# ║ Path(test_discrete_probability(), P(Eq(X, 3)) == Rational(16, 125) and P(X < 3) == Rational(9, 25) and P(X > 3) == Rational(64, 125) and P(X >= 3) == Rational(16, 25) and P(X <= 3) == Rational(61, 125) and P(Ne(X, 3)) == Rational(109, 125) and P(Eq(Y, 3)) == 32 * exp(-4) / 3 and P(Y < 3) == 13 * exp(-4) and P(Y > 3).equals(32 * (Rational(-71, 32) + 3 * exp(4) / 32) * exp(-4) / 3) and P(Y >= 3).equals(32 * (Rational(-39, 32) + 3 * exp(4) / 32) * exp(-4) / 3) and P(Y <= 3) == 71 * exp(-4) / 3 and P(Ne(Y, 3)).equals(13 * exp(-4) + 32 * (Rational(-71, 32) + 3 * exp(4) / 32) * exp(-4) / 3) and P(X < S.Infinity) is S.One and P(X > S.Infinity) is S.Zero and P(G < 3) == x * (2 - x) and P(Eq(G, 3)) == x * (-x + 1) ** 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_discrete_probability : Any → {Any | P(Eq(X, 3)) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  P(Eq(X, 3)) == Rational(16, 125)               ║
+# ║   ensures:  P(X < 3) == Rational(9, 25)                    ║
+# ║   ensures:  P(X > 3) == Rational(64, 125)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_discrete_probability : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e76074109b2eb1e5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 303690a832f8be5c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_discrete_rv.test_discrete_probability","kind":"function","src_hash":"d4687b6d443a4b4e","in":{"base":"Any"},"out":{"base":"Any","pred":"P(Eq(X, 3)) == Rational(16, 125) and P(X < 3) == Rational(9, 25) and P(X > 3) == Rational(64, 125) and P(X >= 3) == Rational(16, 25) and P(X <= 3) == Rational(61, 125) and P(Ne(X, 3)) == Rational(109, 125) and P(Eq(Y, 3)) == 32 * exp(-4) / 3 and P(Y < 3) == 13 * exp(-4) and P(Y > 3).equals(32 * (Rational(-71, 32) + 3 * exp(4) / 32) * exp(-4) / 3) and P(Y >= 3).equals(32 * (Rational(-39, 32) + 3 * exp(4) / 32) * exp(-4) / 3) and P(Y <= 3) == 71 * exp(-4) / 3 and P(X < S.Infinity) is S.One and P(X > S.Infinity) is S.Zero and P(G < 3) == x * (2 - x) and P(Eq(G, 3)) == x * (-x + 1) ** 2"},"spec":{"lhs":"test_discrete_probability()","rhs":"test_discrete_probability produces the expected output","over":{"base":"Any"},"name":"test_discrete_probability_correct"},"guarantee":"test_discrete_probability produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_discrete_rv.test_discrete_probability_correct","statement":"Path(test_discrete_probability(x), test_discrete_probability produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e76074109b2eb1e5"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_discrete_rv.test_discrete_probability","kind":"function","src_hash":"d4687b6d443a4b4e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: P(Eq(X, 3)) == Rational(16, 125) and P(X < 3) == Rational(9, 25) and P(X > 3) == Rational(64, 125) and P(X >= 3) == Rational(16, 25) and P(X <= 3) == Rational(61, 125) and P(Ne(X, 3)) == Rational(109, 125) and P(Eq(Y, 3)) == 32 * exp(-4) / 3 and P(Y < 3) == 13 * exp(-4) and P(Y > 3).equals(32 * (Rational(-71, 32) + 3 * exp(4) / 32) * exp(-4) / 3) and P(Y >= 3).equals(32 * (Rational(-39, 32) + 3 * exp(4) / 32) * exp(-4) / 3) and P(Y <= 3) == 71 * exp(-4) / 3 and P(Ne(Y, 3)).equals(13 * exp(-4) + 32 * (Rational(-71, 32) + 3 * exp(4) / 32) * exp(-4) / 3) and P(X < S.Infinity) is S.One and P(X > S.Infinity) is S.Zero and P(G < 3) == x * (2 - x) and P(Eq(G, 3)) == x * (-x + 1) ** 2"},"spec":{"lhs":"test_discrete_probability()","rhs":"P(Eq(X, 3)) == Rational(16, 125) and P(X < 3) == Rational(9, 25) and P(X > 3) == Rational(64, 125) and P(X >= 3) == Rational(16, 25) and P(X <= 3) == Rational(61, 125) and P(Ne(X, 3)) == Rational(109, 125) and P(Eq(Y, 3)) == 32 * exp(-4) / 3 and P(Y < 3) == 13 * exp(-4) and P(Y > 3).equals(32 * (Rational(-71, 32) + 3 * exp(4) / 32) * exp(-4) / 3) and P(Y >= 3).equals(32 * (Rational(-39, 32) + 3 * exp(4) / 32) * exp(-4) / 3) and P(Y <= 3) == 71 * exp(-4) / 3 and P(Ne(Y, 3)).equals(13 * exp(-4) + 32 * (Rational(-71, 32) + 3 * exp(4) / 32) * exp(-4) / 3) and P(X < S.Infinity) is S.One and P(X > S.Infinity) is S.Zero and P(G < 3) == x * (2 - x) and P(Eq(G, 3)) == x * (-x + 1) ** 2","over":{"base":"Any"},"name":"test_discrete_probability_correct"},"guarantee":"P(Eq(X, 3)) == Rational(16, 125); P(X < 3) == Rational(9, 25); P(X > 3) == Rational(64, 125)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_discrete_rv.test_discrete_probability_correct","statement":"Path(test_discrete_probability(x), P(Eq(X, 3)) == Rational(16, 125); P(X < 3) == Rational(9, 25); P(X > 3) == Rational(64, 125))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"303690a832f8be5c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["P(Eq(X, 3)) == Rational(16, 125)","P(X < 3) == Rational(9, 25)","P(X > 3) == Rational(64, 125)","P(X >= 3) == Rational(16, 25)","P(X <= 3) == Rational(61, 125)","P(Ne(X, 3)) == Rational(109, 125)","P(Eq(Y, 3)) == 32 * exp(-4) / 3","P(Y < 3) == 13 * exp(-4)","P(Y > 3).equals(32 * (Rational(-71, 32) + 3 * exp(4) / 32) * exp(-4) / 3)","P(Y >= 3).equals(32 * (Rational(-39, 32) + 3 * exp(4) / 32) * exp(-4) / 3)","P(Y <= 3) == 71 * exp(-4) / 3","P(Ne(Y, 3)).equals(13 * exp(-4) + 32 * (Rational(-71, 32) + 3 * exp(4) / 32) * exp(-4) / 3)","P(X < S.Infinity) is S.One","P(X > S.Infinity) is S.Zero","P(G < 3) == x * (2 - x)","P(Eq(G, 3)) == x * (-x + 1) ** 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_discrete_probability():
     X = Geometric('X', Rational(1, 5))
     Y = Poisson('Y', 4)
@@ -357,16 +444,24 @@ def test_discrete_probability():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DiscreteRV(), test_DiscreteRV produces the expected output) over Any ║
+# ║ Path(test_DiscreteRV(), E(D) == E(Geometric('G', S(1) / 2)) == 2 and P(D > 3) == S(1) / 8 and D.pspace.domain.set == S.Naturals and P(X < 2) == 1 and E(X) == oo) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DiscreteRV : Any → {Any | E(D) == E(Geometric('G...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  E(D) == E(Geometric('G', S(1) / 2)) == 2       ║
+# ║   ensures:  P(D > 3) == S(1) / 8                           ║
+# ║   ensures:  D.pspace.domain.set == S.Naturals              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DiscreteRV : Any → {Any | result satisfies: E(D)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d8768b618f2c97b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93bff169f527ee0f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_discrete_rv.test_DiscreteRV","kind":"function","src_hash":"688e4a1398b37510","in":{"base":"Any"},"out":{"base":"Any","pred":"E(D) == E(Geometric('G', S(1) / 2)) == 2 and P(D > 3) == S(1) / 8 and D.pspace.domain.set == S.Naturals and P(X < 2) == 1 and E(X) == oo"},"spec":{"lhs":"test_DiscreteRV()","rhs":"test_DiscreteRV produces the expected output","over":{"base":"Any"},"name":"test_DiscreteRV_correct"},"guarantee":"test_DiscreteRV produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_discrete_rv.test_DiscreteRV_correct","statement":"Path(test_DiscreteRV(x), test_DiscreteRV produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d8768b618f2c97b"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_discrete_rv.test_DiscreteRV","kind":"function","src_hash":"688e4a1398b37510","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: E(D) == E(Geometric('G', S(1) / 2)) == 2 and P(D > 3) == S(1) / 8 and D.pspace.domain.set == S.Naturals and P(X < 2) == 1 and E(X) == oo"},"spec":{"lhs":"test_DiscreteRV()","rhs":"E(D) == E(Geometric('G', S(1) / 2)) == 2 and P(D > 3) == S(1) / 8 and D.pspace.domain.set == S.Naturals and P(X < 2) == 1 and E(X) == oo","over":{"base":"Any"},"name":"test_DiscreteRV_correct"},"guarantee":"E(D) == E(Geometric('G', S(1) / 2)) == 2; P(D > 3) == S(1) / 8; D.pspace.domain.set == S.Naturals","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_discrete_rv.test_DiscreteRV_correct","statement":"Path(test_DiscreteRV(x), E(D) == E(Geometric('G', S(1) / 2)) == 2; P(D > 3) == S(1) / 8; D.pspace.domain.set == S.Naturals)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93bff169f527ee0f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["E(D) == E(Geometric('G', S(1) / 2)) == 2","P(D > 3) == S(1) / 8","D.pspace.domain.set == S.Naturals","P(X < 2) == 1","E(X) == oo"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_DiscreteRV():
     p = S(1)/2
     x = Symbol('x', integer=True, positive=True)
@@ -384,16 +479,22 @@ def test_DiscreteRV():
     assert E(X) == oo
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_precomputed_characteristic_functions(), test_precomputed_characteristic_functions produces the expected output) over Any ║
+# ║ Path(test_precomputed_characteristic_functions(), <unspecified:test_precomputed_characteristic_functions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_precomputed_characteristic_functions : Any → {An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   mpmath.__module__                                        ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 97be1d9e074a...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_discrete_rv.test_precomputed_characteristic_functions","kind":"function","src_hash":"bd6ce92daefdcda0","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(re(n1) - re(n2)) < 1e-12 and abs(im(n1) - im(n2)) < 1e-12"},"spec":{"lhs":"test_precomputed_characteristic_functions()","rhs":"test_precomputed_characteristic_functions produces the expected output","over":{"base":"Any"},"name":"test_precomputed_characteristic_functions_correct"},"guarantee":"test_precomputed_characteristic_functions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_discrete_rv.test_precomputed_characteristic_functions_correct","statement":"Path(test_precomputed_characteristic_functions(x), test_precomputed_characteristic_functions produces the expected output)"},"assumes":[],"trust":["mpmath.__module__"],"compiled":true,"vhash":"97be1d9e074a08b4"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_discrete_rv.test_precomputed_characteristic_functions","kind":"function","src_hash":"bd6ce92daefdcda0","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(re(n1) - re(n2)) < 1e-12 and abs(im(n1) - im(n2)) < 1e-12"},"spec":{"lhs":"test_precomputed_characteristic_functions()","rhs":"<unspecified:test_precomputed_characteristic_functions>","over":{"base":"Any"},"name":"test_precomputed_characteristic_functions_correct"},"guarantee":"test_precomputed_characteristic_functions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_discrete_rv.test_precomputed_characteristic_functions_correct","statement":"Path(test_precomputed_characteristic_functions(x), test_precomputed_characteristic_functions produces the expected output)"},"assumes":[],"trust":["mpmath.__module__"],"compiled":true,"vhash":"97be1d9e074a08b4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_precomputed_characteristic_functions():
     import mpmath
 
@@ -427,16 +528,24 @@ def test_precomputed_characteristic_functions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_moment_generating_functions(), test_moment_generating_functions produces the expected output) over Any ║
+# ║ Path(test_moment_generating_functions(), geometric_mgf.diff(t).subs(t, 0) == 2 and logarithmic_mgf.diff(t).subs(t, 0) == 1 / log(2) and negative_binomial_mgf.diff(t).subs(t, 0) == Rational(10, 1) and poisson_mgf.diff(t).subs(t, 0) == 5 and skellam_mgf.diff(t).subs(t, 2) == (-exp(-2) + exp(2)) * exp(-2 + exp(-2) + exp(2)) and simplify(yule_simon_mgf.diff(t).subs(t, 0)) == Rational(3, 2) and zeta_mgf.diff(t).subs(t, 0) == pi ** 4 / (90 * zeta(5))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_moment_generating_functions : Any → {Any | geome...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  geometric_mgf.diff(t).subs(t, 0) == 2          ║
+# ║   ensures:  logarithmic_mgf.diff(t).subs(t, 0) == 1 /...   ║
+# ║   ensures:  negative_binomial_mgf.diff(t).subs(t, 0) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_moment_generating_functions : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d0953ccb5bf46b3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 295bbe64e4e4ae8e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_discrete_rv.test_moment_generating_functions","kind":"function","src_hash":"fd245c3e1769f4ea","in":{"base":"Any"},"out":{"base":"Any","pred":"geometric_mgf.diff(t).subs(t, 0) == 2 and logarithmic_mgf.diff(t).subs(t, 0) == 1 / log(2) and negative_binomial_mgf.diff(t).subs(t, 0) == Rational(10, 1) and poisson_mgf.diff(t).subs(t, 0) == 5 and simplify(yule_simon_mgf.diff(t).subs(t, 0)) == Rational(3, 2) and zeta_mgf.diff(t).subs(t, 0) == pi ** 4 / (90 * zeta(5))"},"spec":{"lhs":"test_moment_generating_functions()","rhs":"test_moment_generating_functions produces the expected output","over":{"base":"Any"},"name":"test_moment_generating_functions_correct"},"guarantee":"test_moment_generating_functions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_discrete_rv.test_moment_generating_functions_correct","statement":"Path(test_moment_generating_functions(x), test_moment_generating_functions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d0953ccb5bf46b3"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_discrete_rv.test_moment_generating_functions","kind":"function","src_hash":"fd245c3e1769f4ea","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: geometric_mgf.diff(t).subs(t, 0) == 2 and logarithmic_mgf.diff(t).subs(t, 0) == 1 / log(2) and negative_binomial_mgf.diff(t).subs(t, 0) == Rational(10, 1) and poisson_mgf.diff(t).subs(t, 0) == 5 and skellam_mgf.diff(t).subs(t, 2) == (-exp(-2) + exp(2)) * exp(-2 + exp(-2) + exp(2)) and simplify(yule_simon_mgf.diff(t).subs(t, 0)) == Rational(3, 2) and zeta_mgf.diff(t).subs(t, 0) == pi ** 4 / (90 * zeta(5))"},"spec":{"lhs":"test_moment_generating_functions()","rhs":"geometric_mgf.diff(t).subs(t, 0) == 2 and logarithmic_mgf.diff(t).subs(t, 0) == 1 / log(2) and negative_binomial_mgf.diff(t).subs(t, 0) == Rational(10, 1) and poisson_mgf.diff(t).subs(t, 0) == 5 and skellam_mgf.diff(t).subs(t, 2) == (-exp(-2) + exp(2)) * exp(-2 + exp(-2) + exp(2)) and simplify(yule_simon_mgf.diff(t).subs(t, 0)) == Rational(3, 2) and zeta_mgf.diff(t).subs(t, 0) == pi ** 4 / (90 * zeta(5))","over":{"base":"Any"},"name":"test_moment_generating_functions_correct"},"guarantee":"geometric_mgf.diff(t).subs(t, 0) == 2; logarithmic_mgf.diff(t).subs(t, 0) == 1 / log(2); negative_binomial_mgf.diff(t).subs(t, 0) == Rational(10, 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_discrete_rv.test_moment_generating_functions_correct","statement":"Path(test_moment_generating_functions(x), geometric_mgf.diff(t).subs(t, 0) == 2; logarithmic_mgf.diff(t).subs(t, 0) == 1 / log(2); negative_binomial_mgf.diff(t).subs(t, 0) == Rational(10, 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"295bbe64e4e4ae8e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["geometric_mgf.diff(t).subs(t, 0) == 2","logarithmic_mgf.diff(t).subs(t, 0) == 1 / log(2)","negative_binomial_mgf.diff(t).subs(t, 0) == Rational(10, 1)","poisson_mgf.diff(t).subs(t, 0) == 5","skellam_mgf.diff(t).subs(t, 2) == (-exp(-2) + exp(2)) * exp(-2 + exp(-2) + exp(2))","simplify(yule_simon_mgf.diff(t).subs(t, 0)) == Rational(3, 2)","zeta_mgf.diff(t).subs(t, 0) == pi ** 4 / (90 * zeta(5))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_moment_generating_functions():
     t = S('t')
 
@@ -465,16 +574,24 @@ def test_moment_generating_functions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Or(), test_Or produces the expected output) over Any ║
+# ║ Path(test_Or(), P(Or(X < 3, X > 4)) == Rational(13, 16) and P(Or(X > 2, X > 1)) == P(X > 1) and P(Or(X >= 3, X < 3)) == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Or : Any → {Any | P(Or(X < 3, X > 4)) == Rationa...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  P(Or(X < 3, X > 4)) == Rational(13, 16)        ║
+# ║   ensures:  P(Or(X > 2, X > 1)) == P(X > 1)                ║
+# ║   ensures:  P(Or(X >= 3, X < 3)) == 1                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Or : Any → {Any | result satisfies: P(Or(X < 3, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c7b8b776b142cea3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fbd0e94ae3afce7d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_discrete_rv.test_Or","kind":"function","src_hash":"db032b3dbf5a127d","in":{"base":"Any"},"out":{"base":"Any","pred":"P(Or(X < 3, X > 4)) == Rational(13, 16) and P(Or(X > 2, X > 1)) == P(X > 1) and P(Or(X >= 3, X < 3)) == 1"},"spec":{"lhs":"test_Or()","rhs":"test_Or produces the expected output","over":{"base":"Any"},"name":"test_Or_correct"},"guarantee":"test_Or produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_discrete_rv.test_Or_correct","statement":"Path(test_Or(x), test_Or produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7b8b776b142cea3"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_discrete_rv.test_Or","kind":"function","src_hash":"db032b3dbf5a127d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: P(Or(X < 3, X > 4)) == Rational(13, 16) and P(Or(X > 2, X > 1)) == P(X > 1) and P(Or(X >= 3, X < 3)) == 1"},"spec":{"lhs":"test_Or()","rhs":"P(Or(X < 3, X > 4)) == Rational(13, 16) and P(Or(X > 2, X > 1)) == P(X > 1) and P(Or(X >= 3, X < 3)) == 1","over":{"base":"Any"},"name":"test_Or_correct"},"guarantee":"P(Or(X < 3, X > 4)) == Rational(13, 16); P(Or(X > 2, X > 1)) == P(X > 1); P(Or(X >= 3, X < 3)) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_discrete_rv.test_Or_correct","statement":"Path(test_Or(x), P(Or(X < 3, X > 4)) == Rational(13, 16); P(Or(X > 2, X > 1)) == P(X > 1); P(Or(X >= 3, X < 3)) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbd0e94ae3afce7d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["P(Or(X < 3, X > 4)) == Rational(13, 16)","P(Or(X > 2, X > 1)) == P(X > 1)","P(Or(X >= 3, X < 3)) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Or():
     X = Geometric('X', S.Half)
     assert P(Or(X < 3, X > 4)) == Rational(13, 16)
@@ -483,16 +600,24 @@ def test_Or():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_where(), test_where produces the expected output) over Any ║
+# ║ Path(test_where(), where(X ** 2 > 4).set == Range(3, S.Infinity, 1) and where(X ** 2 >= 4).set == Range(2, S.Infinity, 1) and where(Y ** 2 < 9).set == Range(0, 3, 1) and where(Y ** 2 <= 9).set == Range(0, 4, 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_where : Any → {Any | where(X ** 2 > 4).set == Ra...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  where(X ** 2 > 4).set == Range(3, S.Infin...   ║
+# ║   ensures:  where(X ** 2 >= 4).set == Range(2, S.Infi...   ║
+# ║   ensures:  where(Y ** 2 < 9).set == Range(0, 3, 1)        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_where : Any → {Any | result satisfies: where(X *...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c5414c1e2bc5b6e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa6cbdeeca62d547  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_discrete_rv.test_where","kind":"function","src_hash":"ecdd17d6fed520a1","in":{"base":"Any"},"out":{"base":"Any","pred":"where(X ** 2 > 4).set == Range(3, S.Infinity, 1) and where(X ** 2 >= 4).set == Range(2, S.Infinity, 1) and where(Y ** 2 < 9).set == Range(0, 3, 1) and where(Y ** 2 <= 9).set == Range(0, 4, 1)"},"spec":{"lhs":"test_where()","rhs":"test_where produces the expected output","over":{"base":"Any"},"name":"test_where_correct"},"guarantee":"test_where produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_discrete_rv.test_where_correct","statement":"Path(test_where(x), test_where produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c5414c1e2bc5b6e"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_discrete_rv.test_where","kind":"function","src_hash":"ecdd17d6fed520a1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: where(X ** 2 > 4).set == Range(3, S.Infinity, 1) and where(X ** 2 >= 4).set == Range(2, S.Infinity, 1) and where(Y ** 2 < 9).set == Range(0, 3, 1) and where(Y ** 2 <= 9).set == Range(0, 4, 1)"},"spec":{"lhs":"test_where()","rhs":"where(X ** 2 > 4).set == Range(3, S.Infinity, 1) and where(X ** 2 >= 4).set == Range(2, S.Infinity, 1) and where(Y ** 2 < 9).set == Range(0, 3, 1) and where(Y ** 2 <= 9).set == Range(0, 4, 1)","over":{"base":"Any"},"name":"test_where_correct"},"guarantee":"where(X ** 2 > 4).set == Range(3, S.Infinity, 1); where(X ** 2 >= 4).set == Range(2, S.Infinity, 1); where(Y ** 2 < 9).set == Range(0, 3, 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_discrete_rv.test_where_correct","statement":"Path(test_where(x), where(X ** 2 > 4).set == Range(3, S.Infinity, 1); where(X ** 2 >= 4).set == Range(2, S.Infinity, 1); where(Y ** 2 < 9).set == Range(0, 3, 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa6cbdeeca62d547","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["where(X ** 2 > 4).set == Range(3, S.Infinity, 1)","where(X ** 2 >= 4).set == Range(2, S.Infinity, 1)","where(Y ** 2 < 9).set == Range(0, 3, 1)","where(Y ** 2 <= 9).set == Range(0, 4, 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_where():
     X = Geometric('X', Rational(1, 5))
     Y = Poisson('Y', 4)
@@ -503,16 +628,24 @@ def test_where():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_conditional(), test_conditional produces the expected output) over Any ║
+# ║ Path(test_conditional(), P(X > 2, X > 3) == 1 and P(X > 3, X > 2) == Rational(1, 3) and P(Y > 2, Y < 2) == 0 and P(Eq(Y, 3), Y >= 0) == 9 * exp(-3) / 2 and P(Eq(Y, 3), Eq(Y, 2)) == 0 and P(X < 2, Eq(X, 2)) == 0 and P(X > 2, Eq(X, 3)) == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_conditional : Any → {Any | P(X > 2, X > 3) == 1 ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  P(X > 2, X > 3) == 1                           ║
+# ║   ensures:  P(X > 3, X > 2) == Rational(1, 3)              ║
+# ║   ensures:  P(Y > 2, Y < 2) == 0                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_conditional : Any → {Any | result satisfies: P(X...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d44688bd4352559  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4da8ee2b7ad61372  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_discrete_rv.test_conditional","kind":"function","src_hash":"484069f4941edd73","in":{"base":"Any"},"out":{"base":"Any","pred":"P(X > 2, X > 3) == 1 and P(X > 3, X > 2) == Rational(1, 3) and P(Y > 2, Y < 2) == 0 and P(Eq(Y, 3), Y >= 0) == 9 * exp(-3) / 2 and P(Eq(Y, 3), Eq(Y, 2)) == 0 and P(X < 2, Eq(X, 2)) == 0 and P(X > 2, Eq(X, 3)) == 1"},"spec":{"lhs":"test_conditional()","rhs":"test_conditional produces the expected output","over":{"base":"Any"},"name":"test_conditional_correct"},"guarantee":"test_conditional produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_discrete_rv.test_conditional_correct","statement":"Path(test_conditional(x), test_conditional produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d44688bd4352559"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_discrete_rv.test_conditional","kind":"function","src_hash":"484069f4941edd73","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: P(X > 2, X > 3) == 1 and P(X > 3, X > 2) == Rational(1, 3) and P(Y > 2, Y < 2) == 0 and P(Eq(Y, 3), Y >= 0) == 9 * exp(-3) / 2 and P(Eq(Y, 3), Eq(Y, 2)) == 0 and P(X < 2, Eq(X, 2)) == 0 and P(X > 2, Eq(X, 3)) == 1"},"spec":{"lhs":"test_conditional()","rhs":"P(X > 2, X > 3) == 1 and P(X > 3, X > 2) == Rational(1, 3) and P(Y > 2, Y < 2) == 0 and P(Eq(Y, 3), Y >= 0) == 9 * exp(-3) / 2 and P(Eq(Y, 3), Eq(Y, 2)) == 0 and P(X < 2, Eq(X, 2)) == 0 and P(X > 2, Eq(X, 3)) == 1","over":{"base":"Any"},"name":"test_conditional_correct"},"guarantee":"P(X > 2, X > 3) == 1; P(X > 3, X > 2) == Rational(1, 3); P(Y > 2, Y < 2) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_discrete_rv.test_conditional_correct","statement":"Path(test_conditional(x), P(X > 2, X > 3) == 1; P(X > 3, X > 2) == Rational(1, 3); P(Y > 2, Y < 2) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4da8ee2b7ad61372","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["P(X > 2, X > 3) == 1","P(X > 3, X > 2) == Rational(1, 3)","P(Y > 2, Y < 2) == 0","P(Eq(Y, 3), Y >= 0) == 9 * exp(-3) / 2","P(Eq(Y, 3), Eq(Y, 2)) == 0","P(X < 2, Eq(X, 2)) == 0","P(X > 2, Eq(X, 3)) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_conditional():
     X = Geometric('X', Rational(2, 3))
     Y = Poisson('Y', 3)
@@ -526,16 +659,24 @@ def test_conditional():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_product_spaces(), test_product_spaces produces the expected output) over Any ║
+# ║ Path(test_product_spaces(), str(P(X1 + X2 < 3).rewrite(Sum)) == 'Sum(Piecewise((1/(4*2**n), n >= -1), (0, True)), (n, -oo, -1))/3' and str(P(X1 + X2 > 3).rewrite(Sum)) == 'Sum(Piecewise((2**(X2 - n - 2)*(2/3)**(X2 - 1)/6, X2 - n <= 2), (0, True)), (X2, 1, oo), (n, 1, oo))' and P(Eq(X1 + X2, 3)) == Rational(1, 12)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_product_spaces : Any → {Any | P(Eq(X1 + X2, 3)) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(P(X1 + X2 < 3).rewrite(Sum)) == 'Sum(...   ║
+# ║   ensures:  str(P(X1 + X2 > 3).rewrite(Sum)) == 'Sum(...   ║
+# ║   ensures:  P(Eq(X1 + X2, 3)) == Rational(1, 12)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_product_spaces : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f4c54a75a9eeb56  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e8e445af27ababa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_discrete_rv.test_product_spaces","kind":"function","src_hash":"abe45245dd7cc3c5","in":{"base":"Any"},"out":{"base":"Any","pred":"P(Eq(X1 + X2, 3)) == Rational(1, 12)"},"spec":{"lhs":"test_product_spaces()","rhs":"test_product_spaces produces the expected output","over":{"base":"Any"},"name":"test_product_spaces_correct"},"guarantee":"test_product_spaces produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_discrete_rv.test_product_spaces_correct","statement":"Path(test_product_spaces(x), test_product_spaces produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f4c54a75a9eeb56"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_discrete_rv.test_product_spaces","kind":"function","src_hash":"abe45245dd7cc3c5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(P(X1 + X2 < 3).rewrite(Sum)) == 'Sum(Piecewise((1/(4*2**n), n >= -1), (0, True)), (n, -oo, -1))/3' and str(P(X1 + X2 > 3).rewrite(Sum)) == 'Sum(Piecewise((2**(X2 - n - 2)*(2/3)**(X2 - 1)/6, X2 - n <= 2), (0, True)), (X2, 1, oo), (n, 1, oo))' and P(Eq(X1 + X2, 3)) == Rational(1, 12)"},"spec":{"lhs":"test_product_spaces()","rhs":"str(P(X1 + X2 < 3).rewrite(Sum)) == 'Sum(Piecewise((1/(4*2**n), n >= -1), (0, True)), (n, -oo, -1))/3' and str(P(X1 + X2 > 3).rewrite(Sum)) == 'Sum(Piecewise((2**(X2 - n - 2)*(2/3)**(X2 - 1)/6, X2 - n <= 2), (0, True)), (X2, 1, oo), (n, 1, oo))' and P(Eq(X1 + X2, 3)) == Rational(1, 12)","over":{"base":"Any"},"name":"test_product_spaces_correct"},"guarantee":"str(P(X1 + X2 < 3).rewrite(Sum)) == 'Sum(Piecewise((1/(4*2**n), n >= -1), (0, True)), (n, -oo, -1))/3'; str(P(X1 + X2 > 3).rewrite(Sum)) == 'Sum(Piecewise((2**(X2 - n - 2)*(2/3)**(X2 - 1)/6, X2 - n <= 2), (0, True)), (X2, 1, oo), (n, 1, oo))'; P(Eq(X1 + X2, 3)) == Rational(1, 12)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_discrete_rv.test_product_spaces_correct","statement":"Path(test_product_spaces(x), str(P(X1 + X2 < 3).rewrite(Sum)) == 'Sum(Piecewise((1/(4*2**n), n >= -1), (0, True)), (n, -oo, -1))/3'; str(P(X1 + X2 > 3).rewrite(Sum)) == 'Sum(Piecewise((2**(X2 - n - 2)*(2/3)**(X2 - 1)/6, X2 - n <= 2), (0, True)), (X2, 1, oo), (n, 1, oo))'; P(Eq(X1 + X2, 3)) == Rational(1, 12))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e8e445af27ababa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(P(X1 + X2 < 3).rewrite(Sum)) == 'Sum(Piecewise((1/(4*2**n), n >= -1), (0, True)), (n, -oo, -1))/3'","str(P(X1 + X2 > 3).rewrite(Sum)) == 'Sum(Piecewise((2**(X2 - n - 2)*(2/3)**(X2 - 1)/6, X2 - n <= 2), (0, True)), (X2, 1, oo), (n, 1, oo))'","P(Eq(X1 + X2, 3)) == Rational(1, 12)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_product_spaces():
     X1 = Geometric('X1', S.Half)
     X2 = Geometric('X2', Rational(1, 3))

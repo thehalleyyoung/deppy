@@ -63,14 +63,20 @@ known_functions = {
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a JavascriptCodePrinter instance) preserved by JavascriptCodePrinter(*args) over {Any | isinstance(code, str)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CodePrinter)                  ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ JavascriptCodePrinter : {Any | isinstance(code, str)}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 805964c146760c81  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter","kind":"class","src_hash":"8ca7676c2ad7d916","in":{"base":"Any","pred":"isinstance(code, str)"},"out":{"base":"Any"},"spec":{"lhs":"JavascriptCodePrinter(*args)","rhs":"correctly constructs a JavascriptCodePrinter instance","over":{"base":"Any","pred":"isinstance(code, str)"},"name":"JavascriptCodePrinter_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a JavascriptCodePrinter instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'known_functions')","kind":"class","induction":"structural on known_functions"}],"methods_preserving":["__init__","_rate_index_position","_get_statement","_get_comment","_declare_number_const","_format_code","_traverse_matrix_indices","_get_loop_opening_ending","_print_Pow","_print_Rational","_print_Mod","_print_Relational","_print_Indexed","_print_Exp1","_print_Pi","_print_Infinity","_print_NegativeInfinity","_print_Piecewise","_print_MatrixElement","indent_code"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"805964c146760c81"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter","kind":"class","src_hash":"8ca7676c2ad7d916","in":{"base":"Any","pred":"isinstance(code, str)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CodePrinter)"},"spec":{"lhs":"JavascriptCodePrinter(*args)","rhs":"correctly constructs a JavascriptCodePrinter instance","over":{"base":"Any","pred":"isinstance(code, str)"},"name":"JavascriptCodePrinter_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, CodePrinter); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'known_functions')","kind":"class","induction":"structural on known_functions"}],"methods_preserving":["__init__","_rate_index_position","_get_statement","_get_comment","_declare_number_const","_format_code","_traverse_matrix_indices","_get_loop_opening_ending","_print_Pow","_print_Rational","_print_Mod","_print_Relational","_print_Indexed","_print_Exp1","_print_Pi","_print_Infinity","_print_NegativeInfinity","_print_Piecewise","_print_MatrixElement","indent_code"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"805964c146760c81","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CodePrinter)"],"invariants":["hasattr(self, 'known_functions')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function JavascriptCodePrinter not found in source"]}}
 class JavascriptCodePrinter(CodePrinter):
     """"A Printer to convert Python expressions to strings of JavaScript code
     """
@@ -84,16 +90,23 @@ class JavascriptCodePrinter(CodePrinter):
     })
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(set), initializes the instance correctly) over Any ║
+# ║ Path(__init__(settings), <unspecified:__init__>) over {Any | hasattr(settings, 'get')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(settings, 'get')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | hasattr(settings, 'get')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b3f77474d9043a10           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter.__init__","kind":"method","src_hash":"8821e8eb92623b8b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(set)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b3f77474d9043a10"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter.__init__","kind":"method","src_hash":"8821e8eb92623b8b","in":{"base":"Any","pred":"hasattr(settings, 'get')"},"out":{"base":"Any"},"spec":{"lhs":"__init__(settings)","rhs":"<unspecified:__init__>","over":{"base":"Any","pred":"hasattr(settings, 'get')"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b3f77474d9043a10","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(settings, 'get')"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.known_functions","settings.get"],"writes":["self.known_functions"],"calls_mutating":["self.known_functions.update"]},"state_contract":{"modifies":["self.*","self.known_functions"],"old_bindings":{"old_self_known_functions":"self.known_functions"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, settings={}):
         CodePrinter.__init__(self, settings)
         self.known_functions = dict(known_functions)
@@ -101,101 +114,145 @@ class JavascriptCodePrinter(CodePrinter):
         self.known_functions.update(userfuncs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rate_index_position(p), internal helper behaves correctly) over Any ║
+# ║ Path(_rate_index_position(p), p * 5) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  p * 5                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _rate_index_position : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f99901717b5b95e2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter._rate_index_position","kind":"method","src_hash":"b056d20fa49cff81","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rate_index_position(p)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_rate_index_position_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f99901717b5b95e2"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter._rate_index_position","kind":"method","src_hash":"b056d20fa49cff81","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rate_index_position(p)","rhs":"p * 5","over":{"base":"Any"},"name":"_rate_index_position_correct"},"guarantee":"returns p * 5","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f99901717b5b95e2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"p * 5","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _rate_index_position(self, p):
         return p*5
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_statement(cod), internal helper behaves correctly) over Any ║
+# ║ Path(_get_statement(codestring), '%s;' % codestring) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '%s;' % codestring                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_statement : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fa2d545056f12ca9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter._get_statement","kind":"method","src_hash":"a36c898509962ccc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_statement(cod)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_statement_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fa2d545056f12ca9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter._get_statement","kind":"method","src_hash":"a36c898509962ccc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_statement(codestring)","rhs":"'%s;' % codestring","over":{"base":"Any"},"name":"_get_statement_correct"},"guarantee":"returns '%s;' % codestring","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fa2d545056f12ca9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'%s;' % codestring","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_statement(self, codestring):
         return "%s;" % codestring
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_comment(tex), internal helper behaves correctly) over Any ║
+# ║ Path(_get_comment(text), '// {}'.format(text)) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '// {}'.format(text)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_comment : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b081793f4332559c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter._get_comment","kind":"method","src_hash":"bf061ea09fed8216","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_comment(tex)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_comment_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b081793f4332559c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter._get_comment","kind":"method","src_hash":"bf061ea09fed8216","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_comment(text)","rhs":"'// {}'.format(text)","over":{"base":"Any"},"name":"_get_comment_correct"},"guarantee":"returns '// {}'.format(text)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b081793f4332559c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'// {}'.format(text)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_comment(self, text):
         return "// {}".format(text)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_declare_number_const(nam), internal helper behaves correctly) over Any ║
+# ║ Path(_declare_number_const(name, value), 'var {} = {};'.format(name, value.evalf(self._settings['precision']))) over {Any | hasattr(value, 'evalf')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _declare_number_const : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(value, 'evalf')                        ║
+# ║   returns:  'var {} = {};'.format(name, value.evalf(s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _declare_number_const : {Any | hasattr(value, 'evalf'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f3b74f897b6a4623           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter._declare_number_const","kind":"method","src_hash":"1858912f0f98e01b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_declare_number_const(nam)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_declare_number_const_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f3b74f897b6a4623"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter._declare_number_const","kind":"method","src_hash":"1858912f0f98e01b","in":{"base":"Any","pred":"hasattr(value, 'evalf')"},"out":{"base":"Any"},"spec":{"lhs":"_declare_number_const(name, value)","rhs":"'var {} = {};'.format(name, value.evalf(self._settings['precision']))","over":{"base":"Any","pred":"hasattr(value, 'evalf')"},"name":"_declare_number_const_correct"},"guarantee":"returns 'var {} = {};'.format(name, value.evalf(self._settings['precision']))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f3b74f897b6a4623","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(value, 'evalf')"],"returns_expr":"'var {} = {};'.format(name, value.evalf(self._settings['precision']))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._settings","value.evalf"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _declare_number_const(self, name, value):
         return "var {} = {};".format(name, value.evalf(self._settings['precision']))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_format_code(lin), internal helper behaves correctly) over Any ║
+# ║ Path(_format_code(lines), self.indent_code(lines)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.indent_code(lines)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _format_code : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e1db83e436890a18           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter._format_code","kind":"method","src_hash":"7bd71f7b561c870b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_format_code(lin)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_format_code_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e1db83e436890a18"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter._format_code","kind":"method","src_hash":"7bd71f7b561c870b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_format_code(lines)","rhs":"self.indent_code(lines)","over":{"base":"Any"},"name":"_format_code_correct"},"guarantee":"returns self.indent_code(lines)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e1db83e436890a18","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.indent_code(lines)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.indent_code"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _format_code(self, lines):
         return self.indent_code(lines)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_traverse_matrix_indices(mat), id) over Any           ║
+# ║ Path(_traverse_matrix_indices(mat), id) over {Any | hasattr(mat, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _traverse_matrix_indices : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(mat, 'shape')                          ║
+# ║   returns:  ((i, j) for i in range(rows) for j in ran...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _traverse_matrix_indices : {Any | hasattr(mat, 'shape...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 35a4aa20f9e05229   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter._traverse_matrix_indices","kind":"method","src_hash":"7b97ef82679caaae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_traverse_matrix_indices(mat)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_traverse_matrix_indices_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"range","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35a4aa20f9e05229"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter._traverse_matrix_indices","kind":"method","src_hash":"7b97ef82679caaae","in":{"base":"Any","pred":"hasattr(mat, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"_traverse_matrix_indices(mat)","rhs":"((i, j) for i in range(rows) for j in range(cols))","over":{"base":"Any","pred":"hasattr(mat, 'shape')"},"name":"_traverse_matrix_indices_correct","kind":"composition"},"guarantee":"returns ((i, j) for i in range(rows) for j in range(cols))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"range","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35a4aa20f9e05229","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(mat, 'shape')"],"returns_expr":"((i, j) for i in range(rows) for j in range(cols))","pure":false,"effects":{"effect_type":"reads_state","reads":["mat.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _traverse_matrix_indices(self, mat):
         rows, cols = mat.shape
         return ((i, j) for i in range(rows) for j in range(cols))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_loop_opening_ending(ind), internal helper behaves correctly) over Any ║
+# ║ Path(_get_loop_opening_ending(indices), (open_lines, close_lines)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (open_lines, close_lines)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_loop_opening_ending : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a78d7c9d4b8964b4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 485d3a16b2ac5c0f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter._get_loop_opening_ending","kind":"method","src_hash":"84e859a7d33652a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_loop_opening_ending(ind)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_loop_opening_ending_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.jscode.JavascriptCodePrinter._get_loop_opening_ending_correct","statement":"Path(_get_loop_opening_ending(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a78d7c9d4b8964b4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter._get_loop_opening_ending","kind":"method","src_hash":"84e859a7d33652a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_loop_opening_ending(indices)","rhs":"(open_lines, close_lines)","over":{"base":"Any"},"name":"_get_loop_opening_ending_correct"},"guarantee":"returns (open_lines, close_lines)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.jscode.JavascriptCodePrinter._get_loop_opening_ending_correct","statement":"Path(_get_loop_opening_ending(x), returns (open_lines, close_lines))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"485d3a16b2ac5c0f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(open_lines, close_lines)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_loop_opening_ending(self, indices):
         open_lines = []
         close_lines = []
@@ -210,16 +267,28 @@ class JavascriptCodePrinter(CodePrinter):
         return open_lines, close_lines
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Pow(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Pow(expr), result == ('1/%s' % self.parenthesize(expr.base, PREC) if equal_valued(expr.exp, -1) else 'Math.sqrt(%s)' % self._print(expr.base) if equal_valued(expr.exp, 0.5) else 'Math.cbrt(%s)' % self._print(expr.base) if expr.exp == S.One / 3 else 'Math.pow(%s, %s)' % (self._print(expr.base), self._print(expr.exp))) and result == '1/%s' % self.parenthesize(expr.base, PREC) or result == 'Math.sqrt(%s)' % self._print(expr.base) or result == 'Math.cbrt(%s)' % self._print(expr.base) or result == 'Math.pow(%s, %s)' % (self._print(expr.base), self._print(expr.exp))) over {Any | hasattr(expr, 'exp') and hasattr(expr, 'base')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Pow : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'exp')                           ║
+# ║   requires: hasattr(expr, 'base')                          ║
+# ║   ensures:  result == ('1/%s' % self.parenthesize(exp...   ║
+# ║   ensures:  result == '1/%s' % self.parenthesize(expr...   ║
+# ║   fiber[case_0]: equal_valued(expr.exp, -1) => '1/%s'...   ║
+# ║   fiber[case_1]: equal_valued(expr.exp, 0.5) => 'Math...   ║
+# ║   fiber[case_2]: expr.exp == S.One / 3 => 'Math.cbrt(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Pow : {Any | hasattr(expr, 'exp') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b0430ed666343ab1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8f636f3956527a4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter._print_Pow","kind":"method","src_hash":"57c2d5a0419052c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Pow(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Pow_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.jscode.JavascriptCodePrinter._print_Pow_correct","statement":"Path(_print_Pow(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0430ed666343ab1"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter._print_Pow","kind":"method","src_hash":"57c2d5a0419052c5","in":{"base":"Any","pred":"hasattr(expr, 'exp') and hasattr(expr, 'base')"},"out":{"base":"Any","pred":"result satisfies: result == ('1/%s' % self.parenthesize(expr.base, PREC) if equal_valued(expr.exp, -1) else 'Math.sqrt(%s)' % self._print(expr.base) if equal_valued(expr.exp, 0.5) else 'Math.cbrt(%s)' % self._print(expr.base) if expr.exp == S.One / 3 else 'Math.pow(%s, %s)' % (self._print(expr.base), self._print(expr.exp))) and result == '1/%s' % self.parenthesize(expr.base, PREC) or result == 'Math.sqrt(%s)' % self._print(expr.base) or result == 'Math.cbrt(%s)' % self._print(expr.base) or result == 'Math.pow(%s, %s)' % (self._print(expr.base), self._print(expr.exp))"},"spec":{"lhs":"_print_Pow(expr)","rhs":"result == ('1/%s' % self.parenthesize(expr.base, PREC) if equal_valued(expr.exp, -1) else 'Math.sqrt(%s)' % self._print(expr.base) if equal_valued(expr.exp, 0.5) else 'Math.cbrt(%s)' % self._print(expr.base) if expr.exp == S.One / 3 else 'Math.pow(%s, %s)' % (self._print(expr.base), self._print(expr.exp))) and result == '1/%s' % self.parenthesize(expr.base, PREC) or result == 'Math.sqrt(%s)' % self._print(expr.base) or result == 'Math.cbrt(%s)' % self._print(expr.base) or result == 'Math.pow(%s, %s)' % (self._print(expr.base), self._print(expr.exp))","over":{"base":"Any","pred":"hasattr(expr, 'exp') and hasattr(expr, 'base')"},"name":"_print_Pow_correct"},"guarantee":"result == ('1/%s' % self.parenthesize(expr.base, PREC) if equal_valued(expr.exp, -1) else 'Math.sqrt(%s)' % self._print(expr.base) if equal_valued(expr.exp, 0.5) else 'Math.cbrt(%s)' % self._print(expr.base) if expr.exp == S.One / 3 else 'Math.pow(%s, %s)' % (self._print(expr.base), self._print(expr.exp))); result == '1/%s' % self.parenthesize(expr.base, PREC) or result == 'Math.sqrt(%s)' % self._print(expr.base) or result == 'Math.cbrt(%s)' % self._print(expr.base) or result == 'Math.pow(%s, %s)' % (self._print(expr.base), self._print(expr.exp)); 4-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.jscode.JavascriptCodePrinter._print_Pow_correct","statement":"Path(_print_Pow(x), result == ('1/%s' % self.parenthesize(expr.base, PREC) if equal_valued(expr.exp, -1) else 'Math.sqrt(%s)' % self._print(expr.base) if equal_valued(expr.exp, 0.5) else 'Math.cbrt(%s)' % self._print(expr.base) if expr.exp == S.One / 3 else 'Math.pow(%s, %s)' % (self._print(expr.base), self._print(expr.exp))); result == '1/%s' % self.parenthesize(expr.base, PREC) or result == 'Math.sqrt(%s)' % self._print(expr.base) or result == 'Math.cbrt(%s)' % self._print(expr.base) or result == 'Math.pow(%s, %s)' % (self._print(expr.base), self._print(expr.exp)); 4-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8f636f3956527a4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'exp')","hasattr(expr, 'base')"],"ensures":["result == ('1/%s' % self.parenthesize(expr.base, PREC) if equal_valued(expr.exp, -1) else 'Math.sqrt(%s)' % self._print(expr.base) if equal_valued(expr.exp, 0.5) else 'Math.cbrt(%s)' % self._print(expr.base) if expr.exp == S.One / 3 else 'Math.pow(%s, %s)' % (self._print(expr.base), self._print(expr.exp)))","result == '1/%s' % self.parenthesize(expr.base, PREC) or result == 'Math.sqrt(%s)' % self._print(expr.base) or result == 'Math.cbrt(%s)' % self._print(expr.base) or result == 'Math.pow(%s, %s)' % (self._print(expr.base), self._print(expr.exp))"],"fibers":[{"name":"case_0","guard":"equal_valued(expr.exp, -1)","ensures":["result == '1/%s' % self.parenthesize(expr.base, PREC)"],"decidability":"library","returns_expr":"'1/%s' % self.parenthesize(expr.base, PREC)"},{"name":"case_1","guard":"equal_valued(expr.exp, 0.5)","ensures":["result == 'Math.sqrt(%s)' % self._print(expr.base)"],"decidability":"library","returns_expr":"'Math.sqrt(%s)' % self._print(expr.base)"},{"name":"case_2","guard":"expr.exp == S.One / 3","ensures":["result == 'Math.cbrt(%s)' % self._print(expr.base)"],"decidability":"z3","returns_expr":"'Math.cbrt(%s)' % self._print(expr.base)"},{"name":"case_3","guard":"not (equal_valued(expr.exp, -1)) and not (equal_valued(expr.exp, 0.5)) and not (expr.exp == S.One / 3)","ensures":["result == 'Math.pow(%s, %s)' % (self._print(expr.base), self._print(expr.exp))"],"decidability":"z3","returns_expr":"'Math.pow(%s, %s)' % (self._print(expr.base), self._print(expr.exp))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.base","expr.exp","self._print","self.parenthesize"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Pow(self, expr):
         PREC = precedence(expr)
         if equal_valued(expr.exp, -1):
@@ -233,31 +302,46 @@ class JavascriptCodePrinter(CodePrinter):
                                  self._print(expr.exp))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Rational(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Rational(expr), '%d/%d' % (p, q)) over {Any | hasattr(expr, 'p') and hasattr(expr, 'q')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Rational : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'p')                             ║
+# ║   requires: hasattr(expr, 'q')                             ║
+# ║   returns:  '%d/%d' % (p, q)                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Rational : {Any | hasattr(expr, 'p') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2833cbb829d624c9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e3ce511d7689fb1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter._print_Rational","kind":"method","src_hash":"8b7629012e6ca8ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Rational(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Rational_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.jscode.JavascriptCodePrinter._print_Rational_correct","statement":"Path(_print_Rational(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2833cbb829d624c9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter._print_Rational","kind":"method","src_hash":"8b7629012e6ca8ca","in":{"base":"Any","pred":"hasattr(expr, 'p') and hasattr(expr, 'q')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Rational(expr)","rhs":"'%d/%d' % (p, q)","over":{"base":"Any","pred":"hasattr(expr, 'p') and hasattr(expr, 'q')"},"name":"_print_Rational_correct"},"guarantee":"returns '%d/%d' % (p, q)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.jscode.JavascriptCodePrinter._print_Rational_correct","statement":"Path(_print_Rational(x), returns '%d/%d' % (p, q))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e3ce511d7689fb1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'p')","hasattr(expr, 'q')"],"returns_expr":"'%d/%d' % (p, q)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.p","expr.q"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Rational(self, expr):
         p, q = int(expr.p), int(expr.q)
         return '%d/%d' % (p, q)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Mod(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Mod(expr), <unspecified:_print_Mod>) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Mod : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Mod : {Any | hasattr(expr, 'args')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b5d758b0f07ad7f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter._print_Mod","kind":"method","src_hash":"71335f499b6a6e55","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Mod(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Mod_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.jscode.JavascriptCodePrinter._print_Mod_correct","statement":"Path(_print_Mod(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b5d758b0f07ad7f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter._print_Mod","kind":"method","src_hash":"71335f499b6a6e55","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Mod(expr)","rhs":"<unspecified:_print_Mod>","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_Mod_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.jscode.JavascriptCodePrinter._print_Mod_correct","statement":"Path(_print_Mod(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b5d758b0f07ad7f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self.parenthesize"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Mod(self, expr):
         num, den = expr.args
         PREC = precedence(expr)
@@ -271,16 +355,25 @@ class JavascriptCodePrinter(CodePrinter):
         return f"(({snum} % {sden}) + {sden}) % {sden}"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Relational(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Relational(expr), '{} {} {}'.format(lhs_code, op, rhs_code)) over {Any | hasattr(expr, 'rel_op') and hasattr(expr, 'lhs') and hasattr(expr, 'rhs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Relational : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'rel_op')                        ║
+# ║   requires: hasattr(expr, 'lhs')                           ║
+# ║   requires: hasattr(expr, 'rhs')                           ║
+# ║   returns:  '{} {} {}'.format(lhs_code, op, rhs_code)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Relational : {Any | hasattr(expr, 'rel_op') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45fe9215450b25dd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ec2d51007af35c8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter._print_Relational","kind":"method","src_hash":"1c926c8323695775","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Relational(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Relational_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.jscode.JavascriptCodePrinter._print_Relational_correct","statement":"Path(_print_Relational(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45fe9215450b25dd"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter._print_Relational","kind":"method","src_hash":"1c926c8323695775","in":{"base":"Any","pred":"hasattr(expr, 'rel_op') and hasattr(expr, 'lhs') and hasattr(expr, 'rhs')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Relational(expr)","rhs":"'{} {} {}'.format(lhs_code, op, rhs_code)","over":{"base":"Any","pred":"hasattr(expr, 'rel_op') and hasattr(expr, 'lhs') and hasattr(expr, 'rhs')"},"name":"_print_Relational_correct"},"guarantee":"returns '{} {} {}'.format(lhs_code, op, rhs_code)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.jscode.JavascriptCodePrinter._print_Relational_correct","statement":"Path(_print_Relational(x), returns '{} {} {}'.format(lhs_code, op, rhs_code))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ec2d51007af35c8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'rel_op')","hasattr(expr, 'lhs')","hasattr(expr, 'rhs')"],"returns_expr":"'{} {} {}'.format(lhs_code, op, rhs_code)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.lhs","expr.rel_op","expr.rhs","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Relational(self, expr):
         lhs_code = self._print(expr.lhs)
         rhs_code = self._print(expr.rhs)
@@ -288,16 +381,25 @@ class JavascriptCodePrinter(CodePrinter):
         return "{} {} {}".format(lhs_code, op, rhs_code)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Indexed(exp), id) over Any                     ║
+# ║ Path(_print_Indexed(expr), id) over {Any | hasattr(expr, 'shape') and hasattr(expr, 'rank') and hasattr(expr, 'indices') and hasattr(expr, 'base')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Indexed : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'shape')                         ║
+# ║   requires: hasattr(expr, 'rank')                          ║
+# ║   requires: hasattr(expr, 'indices')                       ║
+# ║   returns:  '%s[%s]' % (self._print(expr.base.label),...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Indexed : {Any | hasattr(expr, 'shape') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | eb9fc154a407982a   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter._print_Indexed","kind":"method","src_hash":"8277309a18374ac4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Indexed(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Indexed_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb9fc154a407982a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter._print_Indexed","kind":"method","src_hash":"8277309a18374ac4","in":{"base":"Any","pred":"hasattr(expr, 'shape') and hasattr(expr, 'rank') and hasattr(expr, 'indices') and hasattr(expr, 'base')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Indexed(expr)","rhs":"'%s[%s]' % (self._print(expr.base.label), self._print(elem))","over":{"base":"Any","pred":"hasattr(expr, 'shape') and hasattr(expr, 'rank') and hasattr(expr, 'indices') and hasattr(expr, 'base')"},"name":"_print_Indexed_correct","kind":"composition"},"guarantee":"returns '%s[%s]' % (self._print(expr.base.label), self._print(elem))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb9fc154a407982a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'shape')","hasattr(expr, 'rank')","hasattr(expr, 'indices')","hasattr(expr, 'base')"],"returns_expr":"'%s[%s]' % (self._print(expr.base.label), self._print(elem))","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.base","expr.indices","expr.rank","expr.shape","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Indexed(self, expr):
         # calculate index for 1d array
         dims = expr.shape
@@ -309,72 +411,105 @@ class JavascriptCodePrinter(CodePrinter):
         return "%s[%s]" % (self._print(expr.base.label), self._print(elem))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Exp1(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Exp1(expr), 'Math.E') over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'Math.E'                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_Exp1 : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bc832ebf8a62f59d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter._print_Exp1","kind":"method","src_hash":"5231e6c6580675d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Exp1(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Exp1_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bc832ebf8a62f59d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter._print_Exp1","kind":"method","src_hash":"5231e6c6580675d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Exp1(expr)","rhs":"'Math.E'","over":{"base":"Any"},"name":"_print_Exp1_correct"},"guarantee":"returns 'Math.E'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bc832ebf8a62f59d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'Math.E'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Exp1(self, expr):
         return "Math.E"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Pi(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Pi(expr), 'Math.PI') over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'Math.PI'                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_Pi : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ae1474d0fc06ee00           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter._print_Pi","kind":"method","src_hash":"f4cc9b8b043e1387","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Pi(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Pi_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ae1474d0fc06ee00"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter._print_Pi","kind":"method","src_hash":"f4cc9b8b043e1387","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Pi(expr)","rhs":"'Math.PI'","over":{"base":"Any"},"name":"_print_Pi_correct"},"guarantee":"returns 'Math.PI'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ae1474d0fc06ee00","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'Math.PI'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Pi(self, expr):
         return 'Math.PI'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Infinity(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Infinity(expr), 'Number.POSITIVE_INFINITY') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'Number.POSITIVE_INFINITY'                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_Infinity : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7ad12ce4db2c6c01           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter._print_Infinity","kind":"method","src_hash":"1b72a814066ef382","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Infinity(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Infinity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7ad12ce4db2c6c01"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter._print_Infinity","kind":"method","src_hash":"1b72a814066ef382","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Infinity(expr)","rhs":"'Number.POSITIVE_INFINITY'","over":{"base":"Any"},"name":"_print_Infinity_correct"},"guarantee":"returns 'Number.POSITIVE_INFINITY'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7ad12ce4db2c6c01","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'Number.POSITIVE_INFINITY'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Infinity(self, expr):
         return 'Number.POSITIVE_INFINITY'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_NegativeInfinity(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_NegativeInfinity(expr), 'Number.NEGATIVE_INFINITY') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'Number.NEGATIVE_INFINITY'                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_NegativeInfinity : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3e9b21a2466d0e2f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter._print_NegativeInfinity","kind":"method","src_hash":"fe45d730727e6e17","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_NegativeInfinity(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_NegativeInfinity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e9b21a2466d0e2f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter._print_NegativeInfinity","kind":"method","src_hash":"fe45d730727e6e17","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_NegativeInfinity(expr)","rhs":"'Number.NEGATIVE_INFINITY'","over":{"base":"Any"},"name":"_print_NegativeInfinity_correct"},"guarantee":"returns 'Number.NEGATIVE_INFINITY'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e9b21a2466d0e2f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'Number.NEGATIVE_INFINITY'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_NegativeInfinity(self, expr):
         return 'Number.NEGATIVE_INFINITY'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Piecewise(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Piecewise(expr), len(lines) == old_len_lines + 1) over {Any | not (expr.args[-1].cond != True) and hasattr(expr, 'has') and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Piecewise : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (expr.args[-1].cond != True)               ║
+# ║   requires: hasattr(expr, 'has')                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ensures:  len(lines) == old_len_lines + 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Piecewise : {Any | not (expr.args[-1].cond != ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c181c9f228128e4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dbcef2f99c5fd8b6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter._print_Piecewise","kind":"method","src_hash":"8e9c13441c5da59d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Piecewise(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Piecewise_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.jscode.JavascriptCodePrinter._print_Piecewise_correct","statement":"Path(_print_Piecewise(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c181c9f228128e4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter._print_Piecewise","kind":"method","src_hash":"8e9c13441c5da59d","in":{"base":"Any","pred":"not (expr.args[-1].cond != True) and hasattr(expr, 'has') and hasattr(expr, 'args')"},"out":{"base":"Any","pred":"result satisfies: len(lines) == old_len_lines + 1"},"spec":{"lhs":"_print_Piecewise(expr)","rhs":"len(lines) == old_len_lines + 1","over":{"base":"Any","pred":"not (expr.args[-1].cond != True) and hasattr(expr, 'has') and hasattr(expr, 'args')"},"name":"_print_Piecewise_correct"},"guarantee":"len(lines) == old_len_lines + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.jscode.JavascriptCodePrinter._print_Piecewise_correct","statement":"Path(_print_Piecewise(x), len(lines) == old_len_lines + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbcef2f99c5fd8b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (expr.args[-1].cond != True)","hasattr(expr, 'has')","hasattr(expr, 'args')"],"ensures":["len(lines) == old_len_lines + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.has","self._print"],"calls_mutating":["lines.append"],"raises":["ValueError"]},"state_contract":{"modifies":["lines.*"],"old_bindings":{"old_len_lines":"len(lines)"},"post_ensures":["len(lines) == old_len_lines + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Piecewise(self, expr):
         from sympy.codegen.ast import Assignment
         if expr.args[-1].cond != True:
@@ -409,32 +544,48 @@ class JavascriptCodePrinter(CodePrinter):
             return ": ".join(ecpairs) + last_line + " ".join([")"*len(ecpairs)])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MatrixElement(exp), id) over Any               ║
+# ║ Path(_print_MatrixElement(expr), id) over {Any | hasattr(expr, 'parent') and hasattr(expr, 'j') and hasattr(expr, 'i')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_MatrixElement : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'parent')                        ║
+# ║   requires: hasattr(expr, 'j')                             ║
+# ║   requires: hasattr(expr, 'i')                             ║
+# ║   returns:  '{}[{}]'.format(self.parenthesize(expr.pa...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_MatrixElement : {Any | hasattr(expr, 'parent')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 7c90bf4b63fd7e76   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter._print_MatrixElement","kind":"method","src_hash":"0cad797e136504f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixElement(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MatrixElement_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"format","by":"library_axiom"},{"fn":"parenthesize","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c90bf4b63fd7e76"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter._print_MatrixElement","kind":"method","src_hash":"0cad797e136504f1","in":{"base":"Any","pred":"hasattr(expr, 'parent') and hasattr(expr, 'j') and hasattr(expr, 'i')"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixElement(expr)","rhs":"'{}[{}]'.format(self.parenthesize(expr.parent, PRECEDENCE['Atom'], strict=True), expr.j + expr.i * expr.parent.shape[1])","over":{"base":"Any","pred":"hasattr(expr, 'parent') and hasattr(expr, 'j') and hasattr(expr, 'i')"},"name":"_print_MatrixElement_correct","kind":"composition"},"guarantee":"returns '{}[{}]'.format(self.parenthesize(expr.parent, PRECEDENCE['Atom'], strict=True), expr.j + expr.i * expr.parent.shape[1])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"format","by":"library_axiom"},{"fn":"parenthesize","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c90bf4b63fd7e76","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'parent')","hasattr(expr, 'j')","hasattr(expr, 'i')"],"returns_expr":"'{}[{}]'.format(self.parenthesize(expr.parent, PRECEDENCE['Atom'], strict=True), expr.j + expr.i * expr.parent.shape[1])","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.i","expr.j","expr.parent","self.parenthesize"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MatrixElement(self, expr):
         return "{}[{}]".format(self.parenthesize(expr.parent,
             PRECEDENCE["Atom"], strict=True),
             expr.j + expr.i*expr.parent.shape[1])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(indent_code(cod), accepts a string of code or a list of code lines) over Any ║
+# ║ Path(indent_code(code), <unspecified:indent_code>) over {Any | hasattr(code, 'splitlines')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ indent_code : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(code, 'splitlines')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ indent_code : {Any | hasattr(code, 'splitlines')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de9aee0b5424a378  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter.indent_code","kind":"method","src_hash":"cffb274b86ad1bcc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"indent_code(cod)","rhs":"accepts a string of code or a list of code lines","over":{"base":"Any"},"name":"indent_code_correct"},"guarantee":"accepts a string of code or a list of code lines","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.jscode.JavascriptCodePrinter.indent_code_correct","statement":"Path(indent_code(x), accepts a string of code or a list of code lines)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de9aee0b5424a378"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.JavascriptCodePrinter.indent_code","kind":"method","src_hash":"cffb274b86ad1bcc","in":{"base":"Any","pred":"hasattr(code, 'splitlines')"},"out":{"base":"Any"},"spec":{"lhs":"indent_code(code)","rhs":"<unspecified:indent_code>","over":{"base":"Any","pred":"hasattr(code, 'splitlines')"},"name":"indent_code_correct"},"guarantee":"accepts a string of code or a list of code lines","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.jscode.JavascriptCodePrinter.indent_code_correct","statement":"Path(indent_code(x), accepts a string of code or a list of code lines)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de9aee0b5424a378","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(code, 'splitlines')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def indent_code(self, code):
         """Accepts a string of code or a list of code lines"""
 
@@ -465,16 +616,22 @@ class JavascriptCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(jscode(exp), converts an expr to a string of javascript code) over Any ║
+# ║ Path(jscode(expr, assign_to, **settings), JavascriptCodePrinter(settings).doprint(expr, assign_to)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  JavascriptCodePrinter(settings).doprint(e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ jscode : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f7c5eac60a9f42f6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.jscode","kind":"function","src_hash":"67c264119ecfb67a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"jscode(exp)","rhs":"converts an expr to a string of javascript code","over":{"base":"Any"},"name":"jscode_correct"},"guarantee":"converts an expr to a string of javascript code","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f7c5eac60a9f42f6"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.jscode","kind":"function","src_hash":"67c264119ecfb67a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"jscode(expr, assign_to, **settings)","rhs":"JavascriptCodePrinter(settings).doprint(expr, assign_to)","over":{"base":"Any"},"name":"jscode_correct"},"guarantee":"returns JavascriptCodePrinter(settings).doprint(expr, assign_to)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f7c5eac60a9f42f6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"JavascriptCodePrinter(settings).doprint(expr, assign_to)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['expr', 'assign_to'], spec=['expr', 'assign_to', '**settings']"]}}
 def jscode(expr, assign_to=None, **settings):
     """Converts an expr to a string of javascript code
 
@@ -584,16 +741,22 @@ def jscode(expr, assign_to=None, **settings):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(print_jscode(exp), prints the javascript representation of the given expression) over Any ║
+# ║ Path(print_jscode(expr, **settings), <unspecified:print_jscode>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ print_jscode : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee3a4e0b81d5fa10  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.print_jscode","kind":"function","src_hash":"827404d6e9b049d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"print_jscode(exp)","rhs":"prints the javascript representation of the given expression","over":{"base":"Any"},"name":"print_jscode_correct"},"guarantee":"prints the javascript representation of the given expression","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.jscode.print_jscode_correct","statement":"Path(print_jscode(x), prints the javascript representation of the given expression)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee3a4e0b81d5fa10"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.jscode.print_jscode","kind":"function","src_hash":"827404d6e9b049d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"print_jscode(expr, **settings)","rhs":"<unspecified:print_jscode>","over":{"base":"Any"},"name":"print_jscode_correct"},"guarantee":"prints the javascript representation of the given expression","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.jscode.print_jscode_correct","statement":"Path(print_jscode(x), prints the javascript representation of the given expression)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee3a4e0b81d5fa10","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","io_operations":["print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', '**settings']"]}}
 def print_jscode(expr, **settings):
     """Prints the Javascript representation of the given expression.
 

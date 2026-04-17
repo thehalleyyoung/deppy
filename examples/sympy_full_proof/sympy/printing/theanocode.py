@@ -102,14 +102,20 @@ if theano:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a TheanoPrinter instance) preserved by TheanoPrinter(*args) over {Any | isinstance(children[1], int) and isinstance(i, sympy.Basic)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Printer)                      ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TheanoPrinter : {Any | isinstance(children[1], int) a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d6ed98f12838bba  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter","kind":"class","src_hash":"2771ef63a9c12846","in":{"base":"Any","pred":"isinstance(children[1], int) and isinstance(i, sympy.Basic)"},"out":{"base":"Any"},"spec":{"lhs":"TheanoPrinter(*args)","rhs":"correctly constructs a TheanoPrinter instance","over":{"base":"Any","pred":"isinstance(children[1], int) and isinstance(i, sympy.Basic)"},"name":"TheanoPrinter_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a TheanoPrinter instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'cache')","kind":"class","induction":"structural on cache"}],"methods_preserving":["__init__","_get_key","_get_or_create","_print_Symbol","_print_AppliedUndef","_print_Basic","_print_Number","_print_MatrixSymbol","_print_DenseMatrix","_print_MatMul","_print_MatPow","_print_MatrixSlice","_print_BlockMatrix","_print_slice","_print_Pi","_print_Exp1","_print_Piecewise","_print_Rational","_print_Integer","_print_factorial","_print_Derivative","emptyPrinter","doprint"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d6ed98f12838bba"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter","kind":"class","src_hash":"2771ef63a9c12846","in":{"base":"Any","pred":"isinstance(children[1], int) and isinstance(i, sympy.Basic)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Printer)"},"spec":{"lhs":"TheanoPrinter(*args)","rhs":"correctly constructs a TheanoPrinter instance","over":{"base":"Any","pred":"isinstance(children[1], int) and isinstance(i, sympy.Basic)"},"name":"TheanoPrinter_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Printer); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'cache')","kind":"class","induction":"structural on cache"}],"methods_preserving":["__init__","_get_key","_get_or_create","_print_Symbol","_print_AppliedUndef","_print_Basic","_print_Number","_print_MatrixSymbol","_print_DenseMatrix","_print_MatMul","_print_MatPow","_print_MatrixSlice","_print_BlockMatrix","_print_slice","_print_Pi","_print_Exp1","_print_Piecewise","_print_Rational","_print_Integer","_print_factorial","_print_Derivative","emptyPrinter","doprint"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d6ed98f12838bba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Printer)"],"invariants":["hasattr(self, 'cache')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function TheanoPrinter not found in source"]}}
 class TheanoPrinter(Printer):
     """ Code printer which creates Theano symbolic expression graphs.
 
@@ -140,31 +146,45 @@ class TheanoPrinter(Printer):
     printmethod = "_theano"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(*ar), initializes the instance correctly) over Any ║
+# ║ Path(__init__(*args, **kwargs), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f2424ce6d9ad2ed9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter.__init__","kind":"method","src_hash":"134f101aead9d193","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*ar)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2424ce6d9ad2ed9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter.__init__","kind":"method","src_hash":"134f101aead9d193","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*args, **kwargs)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2424ce6d9ad2ed9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, *args, **kwargs):
         self.cache = kwargs.pop('cache', {})
         super().__init__(*args, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_key(s, ), get the cache key for a sympy object) over Any ║
+# ║ Path(_get_key(s, name, dtype), (name, type(s), s.args, dtype, broadcastable)) over {Any | hasattr(s, 'name') and hasattr(s, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_key : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(s, 'name')                             ║
+# ║   requires: hasattr(s, 'args')                             ║
+# ║   returns:  (name, type(s), s.args, dtype, broadcasta...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_key : {Any | hasattr(s, 'name') and hasattr(s, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f16622871084eafe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7cbc1fd40d304cfd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._get_key","kind":"method","src_hash":"cfb26a6127ec9a8d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_key(s, )","rhs":"get the cache key for a sympy object","over":{"base":"Any"},"name":"_get_key_correct"},"guarantee":"get the cache key for a sympy object","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.theanocode.TheanoPrinter._get_key_correct","statement":"Path(_get_key(x), get the cache key for a sympy object)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f16622871084eafe"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._get_key","kind":"method","src_hash":"cfb26a6127ec9a8d","in":{"base":"Any","pred":"hasattr(s, 'name') and hasattr(s, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_get_key(s, name, dtype)","rhs":"(name, type(s), s.args, dtype, broadcastable)","over":{"base":"Any","pred":"hasattr(s, 'name') and hasattr(s, 'args')"},"name":"_get_key_correct"},"guarantee":"returns (name, type(s), s.args, dtype, broadcastable)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.theanocode.TheanoPrinter._get_key_correct","statement":"Path(_get_key(x), returns (name, type(s), s.args, dtype, broadcastable))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7cbc1fd40d304cfd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(s, 'name')","hasattr(s, 'args')"],"returns_expr":"(name, type(s), s.args, dtype, broadcastable)","pure":false,"effects":{"effect_type":"reads_state","reads":["s.args","s.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_key(self, s, name=None, dtype=None, broadcastable=None):
         """ Get the cache key for a SymPy object.
 
@@ -184,16 +204,23 @@ class TheanoPrinter(Printer):
         return (name, type(s), s.args, dtype, broadcastable)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_or_create(s, ), get the theano variable for a sympy symbol from the cache, or create it if it does not exist) over Any ║
+# ║ Path(_get_or_create(s, name, dtype), <unspecified:_get_or_create>) over {Any | hasattr(s, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_or_create : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(s, 'name')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_or_create : {Any | hasattr(s, 'name')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb987cd58ff18d2e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._get_or_create","kind":"method","src_hash":"c885ca14fca0b0a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_or_create(s, )","rhs":"get the theano variable for a sympy symbol from the cache, or create it if it does not exist","over":{"base":"Any"},"name":"_get_or_create_correct"},"guarantee":"get the theano variable for a sympy symbol from the cache, or create it if it does not exist","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.theanocode.TheanoPrinter._get_or_create_correct","statement":"Path(_get_or_create(x), get the theano variable for a sympy symbol from the cache, or create it if it does not exist)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb987cd58ff18d2e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._get_or_create","kind":"method","src_hash":"c885ca14fca0b0a5","in":{"base":"Any","pred":"hasattr(s, 'name')"},"out":{"base":"Any"},"spec":{"lhs":"_get_or_create(s, name, dtype)","rhs":"<unspecified:_get_or_create>","over":{"base":"Any","pred":"hasattr(s, 'name')"},"name":"_get_or_create_correct"},"guarantee":"get the theano variable for a sympy symbol from the cache, or create it if it does not exist","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.theanocode.TheanoPrinter._get_or_create_correct","statement":"Path(_get_or_create(x), get the theano variable for a sympy symbol from the cache, or create it if it does not exist)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb987cd58ff18d2e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(s, 'name')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["s.name","self._get_key","self.cache"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_or_create(self, s, name=None, dtype=None, broadcastable=None):
         """
         Get the Theano variable for a SymPy symbol from the cache, or create it
@@ -218,32 +245,45 @@ class TheanoPrinter(Printer):
         return value
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Symbol(s, ), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Symbol(s, **kwargs), self._get_or_create(s, dtype=dtype, broadcastable=bc)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._get_or_create(s, dtype=dtype, broad...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_Symbol : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da2d311b254d376f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 357603441375582d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._print_Symbol","kind":"method","src_hash":"66ac38a29ceb8e4f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Symbol(s, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Symbol_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.theanocode.TheanoPrinter._print_Symbol_correct","statement":"Path(_print_Symbol(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da2d311b254d376f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._print_Symbol","kind":"method","src_hash":"66ac38a29ceb8e4f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Symbol(s, **kwargs)","rhs":"self._get_or_create(s, dtype=dtype, broadcastable=bc)","over":{"base":"Any"},"name":"_print_Symbol_correct"},"guarantee":"returns self._get_or_create(s, dtype=dtype, broadcastable=bc)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.theanocode.TheanoPrinter._print_Symbol_correct","statement":"Path(_print_Symbol(x), returns self._get_or_create(s, dtype=dtype, broadcastable=bc))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"357603441375582d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._get_or_create(s, dtype=dtype, broadcastable=bc)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._get_or_create"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Symbol(self, s, **kwargs):
         dtype = kwargs.get('dtypes', {}).get(s)
         bc = kwargs.get('broadcastables', {}).get(s)
         return self._get_or_create(s, dtype=dtype, broadcastable=bc)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_AppliedUndef(s, ), internal helper behaves correctly) over Any ║
+# ║ Path(_print_AppliedUndef(s, **kwargs), self._get_or_create(s, name=name, dtype=dtype, broadcastable=bc)) over {Any | hasattr(s, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_AppliedUndef : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(s, 'args')                             ║
+# ║   returns:  self._get_or_create(s, name=name, dtype=d...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_AppliedUndef : {Any | hasattr(s, 'args')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 432e6b13c158b6b3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3458ff2393640364  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._print_AppliedUndef","kind":"method","src_hash":"9e2dd8a11c7af92b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_AppliedUndef(s, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_AppliedUndef_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.theanocode.TheanoPrinter._print_AppliedUndef_correct","statement":"Path(_print_AppliedUndef(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"432e6b13c158b6b3"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._print_AppliedUndef","kind":"method","src_hash":"9e2dd8a11c7af92b","in":{"base":"Any","pred":"hasattr(s, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_AppliedUndef(s, **kwargs)","rhs":"self._get_or_create(s, name=name, dtype=dtype, broadcastable=bc)","over":{"base":"Any","pred":"hasattr(s, 'args')"},"name":"_print_AppliedUndef_correct"},"guarantee":"returns self._get_or_create(s, name=name, dtype=dtype, broadcastable=bc)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.theanocode.TheanoPrinter._print_AppliedUndef_correct","statement":"Path(_print_AppliedUndef(x), returns self._get_or_create(s, name=name, dtype=dtype, broadcastable=bc))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3458ff2393640364","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(s, 'args')"],"returns_expr":"self._get_or_create(s, name=name, dtype=dtype, broadcastable=bc)","pure":false,"effects":{"effect_type":"reads_state","reads":["s.args","self._get_or_create"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_AppliedUndef(self, s, **kwargs):
         name = str(type(s)) + '_' + str(s.args[0])
         dtype = kwargs.get('dtypes', {}).get(s)
@@ -251,62 +291,90 @@ class TheanoPrinter(Printer):
         return self._get_or_create(s, name=name, dtype=dtype, broadcastable=bc)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Basic(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Basic(expr, **kwargs), op(*children)) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Basic : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  op(*children)                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Basic : {Any | hasattr(expr, 'args')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fe946956bd27cef6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ba512ede1159ff1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._print_Basic","kind":"method","src_hash":"07a64dec0f59876c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Basic(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Basic_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.theanocode.TheanoPrinter._print_Basic_correct","statement":"Path(_print_Basic(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe946956bd27cef6"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._print_Basic","kind":"method","src_hash":"07a64dec0f59876c","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Basic(expr, **kwargs)","rhs":"op(*children)","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_Basic_correct"},"guarantee":"returns op(*children)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.theanocode.TheanoPrinter._print_Basic_correct","statement":"Path(_print_Basic(x), returns op(*children))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ba512ede1159ff1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"op(*children)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Basic(self, expr, **kwargs):
         op = mapping[type(expr)]
         children = [self._print(arg, **kwargs) for arg in expr.args]
         return op(*children)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Number(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Number(n, **kwargs), float(n.evalf())) over {Any | hasattr(n, 'evalf')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Number : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(n, 'evalf')                            ║
+# ║   returns:  float(n.evalf())                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Number : {Any | hasattr(n, 'evalf')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 248fd3a2b81bda79           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._print_Number","kind":"method","src_hash":"d8cd65d605b3875d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Number(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Number_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"248fd3a2b81bda79"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._print_Number","kind":"method","src_hash":"d8cd65d605b3875d","in":{"base":"Any","pred":"hasattr(n, 'evalf')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Number(n, **kwargs)","rhs":"float(n.evalf())","over":{"base":"Any","pred":"hasattr(n, 'evalf')"},"name":"_print_Number_correct"},"guarantee":"returns float(n.evalf())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"248fd3a2b81bda79","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(n, 'evalf')"],"returns_expr":"float(n.evalf())","pure":false,"effects":{"effect_type":"reads_state","reads":["n.evalf"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Number(self, n, **kwargs):
         # Integers already taken care of below, interpret as float
         return float(n.evalf())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MatrixSymbol(X, ), internal helper behaves correctly) over Any ║
+# ║ Path(_print_MatrixSymbol(X, **kwargs), self._get_or_create(X, dtype=dtype, broadcastable=(None, None))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._get_or_create(X, dtype=dtype, broad...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_MatrixSymbol : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 91c1554ea28cf908  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d3d04da41e52b5c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._print_MatrixSymbol","kind":"method","src_hash":"b12b06c132cd3f3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixSymbol(X, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MatrixSymbol_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.theanocode.TheanoPrinter._print_MatrixSymbol_correct","statement":"Path(_print_MatrixSymbol(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91c1554ea28cf908"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._print_MatrixSymbol","kind":"method","src_hash":"b12b06c132cd3f3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixSymbol(X, **kwargs)","rhs":"self._get_or_create(X, dtype=dtype, broadcastable=(None, None))","over":{"base":"Any"},"name":"_print_MatrixSymbol_correct"},"guarantee":"returns self._get_or_create(X, dtype=dtype, broadcastable=(None, None))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.theanocode.TheanoPrinter._print_MatrixSymbol_correct","statement":"Path(_print_MatrixSymbol(x), returns self._get_or_create(X, dtype=dtype, broadcastable=(None, None)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d3d04da41e52b5c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._get_or_create(X, dtype=dtype, broadcastable=(None, None))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._get_or_create"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MatrixSymbol(self, X, **kwargs):
         dtype = kwargs.get('dtypes', {}).get(X)
         return self._get_or_create(X, dtype=dtype, broadcastable=(None, None))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_DenseMatrix(X, ), internal helper behaves correctly) over Any ║
+# ║ Path(_print_DenseMatrix(X, **kwargs), tt.stacklists([[self._print(arg, **kwargs) for arg in L] for L in X.tolist()])) over {Any | hasattr(tt, 'stacklists') and hasattr(X, 'tolist')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_DenseMatrix : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(tt, 'stacklists')                      ║
+# ║   requires: hasattr(X, 'tolist')                           ║
+# ║   returns:  tt.stacklists([[self._print(arg, **kwargs...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_DenseMatrix : {Any | hasattr(tt, 'stacklists')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82ca43fa2757fc89  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f47926bf2f4ff28  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._print_DenseMatrix","kind":"method","src_hash":"c8606e39bfe09718","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_DenseMatrix(X, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_DenseMatrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.theanocode.TheanoPrinter._print_DenseMatrix_correct","statement":"Path(_print_DenseMatrix(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82ca43fa2757fc89"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._print_DenseMatrix","kind":"method","src_hash":"c8606e39bfe09718","in":{"base":"Any","pred":"hasattr(tt, 'stacklists') and hasattr(X, 'tolist')"},"out":{"base":"Any"},"spec":{"lhs":"_print_DenseMatrix(X, **kwargs)","rhs":"tt.stacklists([[self._print(arg, **kwargs) for arg in L] for L in X.tolist()])","over":{"base":"Any","pred":"hasattr(tt, 'stacklists') and hasattr(X, 'tolist')"},"name":"_print_DenseMatrix_correct"},"guarantee":"returns tt.stacklists([[self._print(arg, **kwargs) for arg in L] for L in X.tolist()])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.theanocode.TheanoPrinter._print_DenseMatrix_correct","statement":"Path(_print_DenseMatrix(x), returns tt.stacklists([[self._print(arg, **kwargs) for arg in L] for L in X.tolist()]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f47926bf2f4ff28","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(tt, 'stacklists')","hasattr(X, 'tolist')"],"returns_expr":"tt.stacklists([[self._print(arg, **kwargs) for arg in L] for L in X.tolist()])","pure":false,"effects":{"effect_type":"reads_state","reads":["X.tolist","self._print"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_DenseMatrix(self, X, **kwargs):
         if not hasattr(tt, 'stacklists'):
             raise NotImplementedError(
@@ -320,16 +388,23 @@ class TheanoPrinter(Printer):
     _print_ImmutableMatrix = _print_ImmutableDenseMatrix = _print_DenseMatrix
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MatMul(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_MatMul(expr, **kwargs), <unspecified:_print_MatMul>) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_MatMul : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_MatMul : {Any | hasattr(expr, 'args')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | acdbdb9e84673178  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._print_MatMul","kind":"method","src_hash":"4330e444288c75f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatMul(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MatMul_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.theanocode.TheanoPrinter._print_MatMul_correct","statement":"Path(_print_MatMul(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"acdbdb9e84673178"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._print_MatMul","kind":"method","src_hash":"4330e444288c75f5","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatMul(expr, **kwargs)","rhs":"<unspecified:_print_MatMul>","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_MatMul_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.theanocode.TheanoPrinter._print_MatMul_correct","statement":"Path(_print_MatMul(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"acdbdb9e84673178","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MatMul(self, expr, **kwargs):
         children = [self._print(arg, **kwargs) for arg in expr.args]
         result = children[0]
@@ -338,16 +413,23 @@ class TheanoPrinter(Printer):
         return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MatPow(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_MatPow(expr, **kwargs), <unspecified:_print_MatPow>) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_MatPow : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_MatPow : {Any | hasattr(expr, 'args')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d7565249d6fa7064  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._print_MatPow","kind":"method","src_hash":"07b39869002358e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatPow(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MatPow_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.theanocode.TheanoPrinter._print_MatPow_correct","statement":"Path(_print_MatPow(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7565249d6fa7064"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._print_MatPow","kind":"method","src_hash":"07b39869002358e3","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatPow(expr, **kwargs)","rhs":"<unspecified:_print_MatPow>","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_MatPow_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.theanocode.TheanoPrinter._print_MatPow_correct","statement":"Path(_print_MatPow(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7565249d6fa7064","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MatPow(self, expr, **kwargs):
         children = [self._print(arg, **kwargs) for arg in expr.args]
         result = 1
@@ -360,16 +442,25 @@ class TheanoPrinter(Printer):
         return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MatrixSlice(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_MatrixSlice(expr, **kwargs), parent[rowslice, colslice]) over {Any | hasattr(expr, 'parent') and hasattr(expr, 'rowslice') and hasattr(expr, 'colslice')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_MatrixSlice : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'parent')                        ║
+# ║   requires: hasattr(expr, 'rowslice')                      ║
+# ║   requires: hasattr(expr, 'colslice')                      ║
+# ║   returns:  parent[rowslice, colslice]                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_MatrixSlice : {Any | hasattr(expr, 'parent') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb8cad0ce1f6dab4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69e2ff96152f9e35  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._print_MatrixSlice","kind":"method","src_hash":"c7b4f0be23cfd7a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixSlice(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MatrixSlice_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.theanocode.TheanoPrinter._print_MatrixSlice_correct","statement":"Path(_print_MatrixSlice(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb8cad0ce1f6dab4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._print_MatrixSlice","kind":"method","src_hash":"c7b4f0be23cfd7a0","in":{"base":"Any","pred":"hasattr(expr, 'parent') and hasattr(expr, 'rowslice') and hasattr(expr, 'colslice')"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixSlice(expr, **kwargs)","rhs":"parent[rowslice, colslice]","over":{"base":"Any","pred":"hasattr(expr, 'parent') and hasattr(expr, 'rowslice') and hasattr(expr, 'colslice')"},"name":"_print_MatrixSlice_correct"},"guarantee":"returns parent[rowslice, colslice]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.theanocode.TheanoPrinter._print_MatrixSlice_correct","statement":"Path(_print_MatrixSlice(x), returns parent[rowslice, colslice])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69e2ff96152f9e35","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'parent')","hasattr(expr, 'rowslice')","hasattr(expr, 'colslice')"],"returns_expr":"parent[rowslice, colslice]","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.colslice","expr.parent","expr.rowslice","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MatrixSlice(self, expr, **kwargs):
         parent = self._print(expr.parent, **kwargs)
         rowslice = self._print(slice(*expr.rowslice), **kwargs)
@@ -377,16 +468,23 @@ class TheanoPrinter(Printer):
         return parent[rowslice, colslice]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_BlockMatrix(exp), id) over Any                 ║
+# ║ Path(_print_BlockMatrix(expr, **kwargs), id) over {Any | hasattr(expr, 'blocks')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_BlockMatrix : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'blocks')                        ║
+# ║   returns:  tt.join(0, *[tt.join(1, *row) for row in ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_BlockMatrix : {Any | hasattr(expr, 'blocks')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 6b84aba2d113a291   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._print_BlockMatrix","kind":"method","src_hash":"23b0c91de4479fcf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_BlockMatrix(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_BlockMatrix_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"join","by":"library_axiom"},{"fn":"join","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b84aba2d113a291"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._print_BlockMatrix","kind":"method","src_hash":"23b0c91de4479fcf","in":{"base":"Any","pred":"hasattr(expr, 'blocks')"},"out":{"base":"Any"},"spec":{"lhs":"_print_BlockMatrix(expr, **kwargs)","rhs":"tt.join(0, *[tt.join(1, *row) for row in blocks])","over":{"base":"Any","pred":"hasattr(expr, 'blocks')"},"name":"_print_BlockMatrix_correct","kind":"composition"},"guarantee":"returns tt.join(0, *[tt.join(1, *row) for row in blocks])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"join","by":"library_axiom"},{"fn":"join","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b84aba2d113a291","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'blocks')"],"returns_expr":"tt.join(0, *[tt.join(1, *row) for row in blocks])","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.blocks","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_BlockMatrix(self, expr, **kwargs):
         nrows, ncols = expr.blocks.shape
         blocks = [[self._print(expr.blocks[r, c], **kwargs)
@@ -396,60 +494,88 @@ class TheanoPrinter(Printer):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_slice(exp), id) over Any                       ║
+# ║ Path(_print_slice(expr, **kwargs), id) over {Any | hasattr(expr, 'start') and hasattr(expr, 'stop') and hasattr(expr, 'step')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_slice : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'start')                         ║
+# ║   requires: hasattr(expr, 'stop')                          ║
+# ║   requires: hasattr(expr, 'step')                          ║
+# ║   returns:  slice(*[self._print(i, **kwargs) if isins...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_slice : {Any | hasattr(expr, 'start') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 6f3d0a6425fe8616   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._print_slice","kind":"method","src_hash":"bb10bc81238f117f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_slice(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_slice_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"slice","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f3d0a6425fe8616"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._print_slice","kind":"method","src_hash":"bb10bc81238f117f","in":{"base":"Any","pred":"hasattr(expr, 'start') and hasattr(expr, 'stop') and hasattr(expr, 'step')"},"out":{"base":"Any"},"spec":{"lhs":"_print_slice(expr, **kwargs)","rhs":"slice(*[self._print(i, **kwargs) if isinstance(i, sympy.Basic) else i for i in (expr.start, expr.stop, expr.step)])","over":{"base":"Any","pred":"hasattr(expr, 'start') and hasattr(expr, 'stop') and hasattr(expr, 'step')"},"name":"_print_slice_correct","kind":"composition"},"guarantee":"returns slice(*[self._print(i, **kwargs) if isinstance(i, sympy.Basic) else i for i in (expr.start, expr.stop, expr.step)])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"slice","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f3d0a6425fe8616","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'start')","hasattr(expr, 'stop')","hasattr(expr, 'step')"],"returns_expr":"slice(*[self._print(i, **kwargs) if isinstance(i, sympy.Basic) else i for i in (expr.start, expr.stop, expr.step)])","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.start","expr.step","expr.stop","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_slice(self, expr, **kwargs):
         return slice(*[self._print(i, **kwargs)
                         if isinstance(i, sympy.Basic) else i
                         for i in (expr.start, expr.stop, expr.step)])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Pi(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Pi(expr, **kwargs), math.pi) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  math.pi                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_Pi : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bb6973394cda6200           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._print_Pi","kind":"method","src_hash":"442d4d66c7aea32c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Pi(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Pi_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bb6973394cda6200"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._print_Pi","kind":"method","src_hash":"442d4d66c7aea32c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Pi(expr, **kwargs)","rhs":"math.pi","over":{"base":"Any"},"name":"_print_Pi_correct"},"guarantee":"returns math.pi","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bb6973394cda6200","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"math.pi","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Pi(self, expr, **kwargs):
         return math.pi
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Exp1(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Exp1(expr, **kwargs), ts.exp(1)) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ts.exp(1)                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_Exp1 : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a4621812e7be8788           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._print_Exp1","kind":"method","src_hash":"3eb96be49005ee3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Exp1(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Exp1_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a4621812e7be8788"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._print_Exp1","kind":"method","src_hash":"3eb96be49005ee3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Exp1(expr, **kwargs)","rhs":"ts.exp(1)","over":{"base":"Any"},"name":"_print_Exp1_correct"},"guarantee":"returns ts.exp(1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a4621812e7be8788","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ts.exp(1)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Exp1(self, expr, **kwargs):
         return ts.exp(1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Piecewise(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Piecewise(expr, **kwargs), <unspecified:_print_Piecewise>) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Piecewise : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Piecewise : {Any | hasattr(expr, 'args')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b446f3e6b12c0b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._print_Piecewise","kind":"method","src_hash":"12cf24e31a9b471e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Piecewise(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Piecewise_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.theanocode.TheanoPrinter._print_Piecewise_correct","statement":"Path(_print_Piecewise(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b446f3e6b12c0b4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._print_Piecewise","kind":"method","src_hash":"12cf24e31a9b471e","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Piecewise(expr, **kwargs)","rhs":"<unspecified:_print_Piecewise>","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_Piecewise_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.theanocode.TheanoPrinter._print_Piecewise_correct","statement":"Path(_print_Piecewise(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b446f3e6b12c0b4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Piecewise(self, expr, **kwargs):
         import numpy as np
         e, cond = expr.args[0].args  # First condition and corresponding value
@@ -468,59 +594,89 @@ class TheanoPrinter(Printer):
         return tt.switch(p_cond, p_e, p_remaining)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Rational(exp), id) over Any                    ║
+# ║ Path(_print_Rational(expr, **kwargs), id) over {Any | hasattr(expr, 'p') and hasattr(expr, 'q')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Rational : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'p')                             ║
+# ║   requires: hasattr(expr, 'q')                             ║
+# ║   returns:  tt.true_div(self._print(expr.p, **kwargs)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Rational : {Any | hasattr(expr, 'p') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 37d6e2993fbdbfa5   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._print_Rational","kind":"method","src_hash":"a6d96eaeaeecdaff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Rational(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Rational_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"true_div","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37d6e2993fbdbfa5"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._print_Rational","kind":"method","src_hash":"a6d96eaeaeecdaff","in":{"base":"Any","pred":"hasattr(expr, 'p') and hasattr(expr, 'q')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Rational(expr, **kwargs)","rhs":"tt.true_div(self._print(expr.p, **kwargs), self._print(expr.q, **kwargs))","over":{"base":"Any","pred":"hasattr(expr, 'p') and hasattr(expr, 'q')"},"name":"_print_Rational_correct","kind":"composition"},"guarantee":"returns tt.true_div(self._print(expr.p, **kwargs), self._print(expr.q, **kwargs))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"true_div","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37d6e2993fbdbfa5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'p')","hasattr(expr, 'q')"],"returns_expr":"tt.true_div(self._print(expr.p, **kwargs), self._print(expr.q, **kwargs))","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.p","expr.q","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Rational(self, expr, **kwargs):
         return tt.true_div(self._print(expr.p, **kwargs),
                            self._print(expr.q, **kwargs))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Integer(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Integer(expr, **kwargs), expr.p) over {Any | hasattr(expr, 'p')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Integer : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'p')                             ║
+# ║   returns:  expr.p                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Integer : {Any | hasattr(expr, 'p')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 21d8adaea13cb3c9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._print_Integer","kind":"method","src_hash":"6335b04ed726ba53","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Integer(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Integer_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"21d8adaea13cb3c9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._print_Integer","kind":"method","src_hash":"6335b04ed726ba53","in":{"base":"Any","pred":"hasattr(expr, 'p')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Integer(expr, **kwargs)","rhs":"expr.p","over":{"base":"Any","pred":"hasattr(expr, 'p')"},"name":"_print_Integer_correct"},"guarantee":"returns expr.p","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"21d8adaea13cb3c9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'p')"],"returns_expr":"expr.p","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.p"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Integer(self, expr, **kwargs):
         return expr.p
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_factorial(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_factorial(expr, **kwargs), self._print(sympy.gamma(expr.args[0] + 1), **kwargs)) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_factorial : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  self._print(sympy.gamma(expr.args[0] + 1)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_factorial : {Any | hasattr(expr, 'args')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d6c8131dab767127           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._print_factorial","kind":"method","src_hash":"da4e3019d5353d18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_factorial(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_factorial_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d6c8131dab767127"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._print_factorial","kind":"method","src_hash":"da4e3019d5353d18","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_factorial(expr, **kwargs)","rhs":"self._print(sympy.gamma(expr.args[0] + 1), **kwargs)","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_factorial_correct"},"guarantee":"returns self._print(sympy.gamma(expr.args[0] + 1), **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d6c8131dab767127","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"self._print(sympy.gamma(expr.args[0] + 1), **kwargs)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_factorial(self, expr, **kwargs):
         return self._print(sympy.gamma(expr.args[0] + 1), **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Derivative(der), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Derivative(deriv, **kwargs), <unspecified:_print_Derivative>) over {Any | hasattr(deriv, 'variables') and hasattr(deriv, 'expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Derivative : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(deriv, 'variables')                    ║
+# ║   requires: hasattr(deriv, 'expr')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Derivative : {Any | hasattr(deriv, 'variables'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5adbf5332d369fc8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._print_Derivative","kind":"method","src_hash":"69ace0885783cd23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Derivative(der)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Derivative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.theanocode.TheanoPrinter._print_Derivative_correct","statement":"Path(_print_Derivative(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5adbf5332d369fc8"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter._print_Derivative","kind":"method","src_hash":"69ace0885783cd23","in":{"base":"Any","pred":"hasattr(deriv, 'variables') and hasattr(deriv, 'expr')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Derivative(deriv, **kwargs)","rhs":"<unspecified:_print_Derivative>","over":{"base":"Any","pred":"hasattr(deriv, 'variables') and hasattr(deriv, 'expr')"},"name":"_print_Derivative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.theanocode.TheanoPrinter._print_Derivative_correct","statement":"Path(_print_Derivative(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5adbf5332d369fc8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(deriv, 'variables')","hasattr(deriv, 'expr')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["deriv.expr","deriv.variables","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Derivative(self, deriv, **kwargs):
         rv = self._print(deriv.expr, **kwargs)
         for var in deriv.variables:
@@ -529,30 +685,43 @@ class TheanoPrinter(Printer):
         return rv
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(emptyPrinter(exp), emptyPrinter produces the expected output) over Any ║
+# ║ Path(emptyPrinter(expr), expr) over Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ emptyPrinter : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == expr                                 ║
+# ║   returns:  expr                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ emptyPrinter : Any → {Any | result satisfies: result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 09637dc07aafc895           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter.emptyPrinter","kind":"method","src_hash":"99cd6809cf46d6a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"emptyPrinter(exp)","rhs":"emptyPrinter produces the expected output","over":{"base":"Any"},"name":"emptyPrinter_correct"},"guarantee":"emptyPrinter produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"09637dc07aafc895"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter.emptyPrinter","kind":"method","src_hash":"99cd6809cf46d6a3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (expr)"},"spec":{"lhs":"emptyPrinter(expr)","rhs":"expr","over":{"base":"Any"},"name":"emptyPrinter_correct"},"guarantee":"returns expr; result == expr","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"09637dc07aafc895","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == expr"],"returns_expr":"expr","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def emptyPrinter(self, expr):
         return expr
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doprint(exp), convert a sympy expression to a theano graph variable) over Any ║
+# ║ Path(doprint(expr, dtypes, broadcastables), self._print(expr, dtypes=dtypes, broadcastables=broadcastables)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print(expr, dtypes=dtypes, broadcas...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doprint : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a9b9d1d3404c6de  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e375e3b5a77a1752  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter.doprint","kind":"method","src_hash":"2042db3798ba9450","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doprint(exp)","rhs":"convert a sympy expression to a theano graph variable","over":{"base":"Any"},"name":"doprint_correct"},"guarantee":"convert a sympy expression to a theano graph variable","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.theanocode.TheanoPrinter.doprint_correct","statement":"Path(doprint(x), convert a sympy expression to a theano graph variable)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a9b9d1d3404c6de"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.TheanoPrinter.doprint","kind":"method","src_hash":"2042db3798ba9450","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doprint(expr, dtypes, broadcastables)","rhs":"self._print(expr, dtypes=dtypes, broadcastables=broadcastables)","over":{"base":"Any"},"name":"doprint_correct"},"guarantee":"returns self._print(expr, dtypes=dtypes, broadcastables=broadcastables)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.theanocode.TheanoPrinter.doprint_correct","statement":"Path(doprint(x), returns self._print(expr, dtypes=dtypes, broadcastables=broadcastables))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e375e3b5a77a1752","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print(expr, dtypes=dtypes, broadcastables=broadcastables)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doprint(self, expr, dtypes=None, broadcastables=None):
         """ Convert a SymPy expression to a Theano graph variable.
 
@@ -605,16 +774,23 @@ global_cache: dict[Any, Any] = {}
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(theano_code(exp), id) over Any                        ║
+# ║ Path(theano_code(expr, cache, **kwargs), id) over {Any | theano} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ theano_code : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: theano                                         ║
+# ║   returns:  TheanoPrinter(cache=cache, settings={}).d...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ theano_code : {Any | theano} → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | fc9bd7e1433c86f5   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.theano_code","kind":"function","src_hash":"3596b27f31179dda","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"theano_code(exp)","rhs":"convert a sympy expression into a theano graph variable","over":{"base":"Any"},"name":"theano_code_correct","kind":"composition"},"guarantee":"convert a sympy expression into a theano graph variable","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"TheanoPrinter","by":"library_axiom"},{"fn":"doprint","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc9bd7e1433c86f5"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.theano_code","kind":"function","src_hash":"3596b27f31179dda","in":{"base":"Any","pred":"theano"},"out":{"base":"Any"},"spec":{"lhs":"theano_code(expr, cache, **kwargs)","rhs":"TheanoPrinter(cache=cache, settings={}).doprint(expr, **kwargs)","over":{"base":"Any","pred":"theano"},"name":"theano_code_correct","kind":"composition"},"guarantee":"returns TheanoPrinter(cache=cache, settings={}).doprint(expr, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"TheanoPrinter","by":"library_axiom"},{"fn":"doprint","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc9bd7e1433c86f5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["theano"],"returns_expr":"TheanoPrinter(cache=cache, settings={}).doprint(expr, **kwargs)","pure":false,"effects":{"effect_type":"reads_state","raises":["ImportError"]},"state_contract":{"exceptional_post":{"ImportError":["isinstance(raised, ImportError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['expr', 'cache'], spec=['expr', 'cache', '**kwargs']"]}}
 def theano_code(expr, cache=None, **kwargs):
     """
     Convert a SymPy expression into a Theano graph variable.
@@ -666,16 +842,24 @@ def theano_code(expr, cache=None, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dim_handling(inp), get value of ``broadcastables`` argument to :func:`.theano_code` from keyword arguments to :func:`.theano_function`) over Any ║
+# ║ Path(dim_handling(inputs, dim, dims), <unspecified:dim_handling>) over {Any | hasattr(dims, 'values') and hasattr(dims, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dim_handling : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(dims, 'values')                        ║
+# ║   requires: hasattr(dims, 'items')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dim_handling : {Any | hasattr(dims, 'values') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80be9eab3bc7c91c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.dim_handling","kind":"function","src_hash":"fadd2a2dd44805d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dim_handling(inp)","rhs":"get value of ``broadcastables`` argument to :func:`.theano_code` from keyword arguments to :func:`.theano_function`","over":{"base":"Any"},"name":"dim_handling_correct"},"guarantee":"get value of ``broadcastables`` argument to :func:`.theano_code` from keyword arguments to :func:`.theano_function`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.theanocode.dim_handling_correct","statement":"Path(dim_handling(x), get value of ``broadcastables`` argument to :func:`.theano_code` from keyword arguments to :func:`.theano_function`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80be9eab3bc7c91c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.dim_handling","kind":"function","src_hash":"fadd2a2dd44805d4","in":{"base":"Any","pred":"hasattr(dims, 'values') and hasattr(dims, 'items')"},"out":{"base":"Any"},"spec":{"lhs":"dim_handling(inputs, dim, dims)","rhs":"<unspecified:dim_handling>","over":{"base":"Any","pred":"hasattr(dims, 'values') and hasattr(dims, 'items')"},"name":"dim_handling_correct"},"guarantee":"get value of ``broadcastables`` argument to :func:`.theano_code` from keyword arguments to :func:`.theano_function`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.theanocode.dim_handling_correct","statement":"Path(dim_handling(x), get value of ``broadcastables`` argument to :func:`.theano_code` from keyword arguments to :func:`.theano_function`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80be9eab3bc7c91c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(dims, 'values')","hasattr(dims, 'items')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["dims.items","dims.values"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dim_handling(inputs, dim=None, dims=None, broadcastables=None):
     r"""
     Get value of ``broadcastables`` argument to :func:`.theano_code` from
@@ -725,7 +909,12 @@ def dim_handling(inputs, dim=None, dims=None, broadcastables=None):
 
 @doctest_depends_on(modules=('theano',))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(theano_function(inp), create a theano function from sympy expressions) over {Any | isinstance(output, theano.Variable)} ║
+# ║ Path(theano_function(inputs, outputs, scalar), len(kwargs) == old_len_kwargs - 1) over {Any | isinstance(output, theano.Variable) and theano and len(kwargs) > 0} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: theano                                         ║
+# ║   requires: len(kwargs) > 0                                ║
+# ║   ensures:  len(kwargs) == old_len_kwargs - 1              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ theano_function : {Any | isinstance(output, theano.Va...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -737,9 +926,12 @@ def dim_handling(inputs, dim=None, dims=None, broadcastables=None):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 18cfbf59...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.theano_function","kind":"function","src_hash":"be47adb012e914c6","in":{"base":"Any","pred":"isinstance(output, theano.Variable)"},"out":{"base":"Any"},"spec":{"lhs":"theano_function(inp)","rhs":"create a theano function from sympy expressions","over":{"base":"Any","pred":"isinstance(output, theano.Variable)"},"name":"theano_function_correct"},"guarantee":"create a theano function from sympy expressions","fibers":[{"name":"theano_Variable","pred":"isinstance(output, theano.Variable)","path":{"lhs":"theano_function(x)","rhs":"create a theano function from sympy expressions","over":{"base":"theano.Variable","pred":"isinstance(output, theano.Variable)"},"name":"theano_function_theano.Variable_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.theanocode.theano_function_theano.Variable_correct","statement":"theano_function satisfies spec on theano.Variable inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"18cfbf593d805975"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.theanocode.theano_function","kind":"function","src_hash":"be47adb012e914c6","in":{"base":"Any","pred":"isinstance(output, theano.Variable) and theano and len(kwargs) > 0"},"out":{"base":"Any","pred":"result satisfies: len(kwargs) == old_len_kwargs - 1"},"spec":{"lhs":"theano_function(inputs, outputs, scalar)","rhs":"len(kwargs) == old_len_kwargs - 1","over":{"base":"Any","pred":"isinstance(output, theano.Variable) and theano and len(kwargs) > 0"},"name":"theano_function_correct"},"guarantee":"len(kwargs) == old_len_kwargs - 1","fibers":[{"name":"theano_Variable","pred":"isinstance(output, theano.Variable)","path":{"lhs":"theano_function(x)","rhs":"len(kwargs) == old_len_kwargs - 1","over":{"base":"theano.Variable","pred":"isinstance(output, theano.Variable)"},"name":"theano_function_theano.Variable_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.theanocode.theano_function_theano.Variable_correct","statement":"theano_function satisfies spec on theano.Variable inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"18cfbf593d805975","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["theano","len(kwargs) > 0"],"ensures":["len(kwargs) == old_len_kwargs - 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["kwargs.pop"],"raises":["ImportError"]},"state_contract":{"modifies":["kwargs.*"],"old_bindings":{"old_len_kwargs":"len(kwargs)"},"pre_requires":["len(kwargs) > 0"],"post_ensures":["len(kwargs) == old_len_kwargs - 1"],"exceptional_post":{"ImportError":["isinstance(raised, ImportError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['inputs', 'outputs', 'scalar'], spec=['inputs', 'outputs', 'scalar', 'dim', 'dims', 'broadcastables', '**kwargs']","Poor branch-fiber coverage: 0% (branches={'len(toutputs) == 1'}, fibers={'theano_Variable'})"]}}
 def theano_function(inputs, outputs, scalar=False, *,
         dim=None, dims=None, broadcastables=None, **kwargs):
     """

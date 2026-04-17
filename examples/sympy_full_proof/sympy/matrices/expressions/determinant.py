@@ -26,14 +26,20 @@ from sympy.matrices.matrixbase import MatrixBase
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Determinant(*args), correctly constructs a Determinant instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Determinant : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Determinant : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | deea9e2f338bba2d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.determinant.Determinant","kind":"class","src_hash":"440db8dd88bfbeec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Determinant(*args)","rhs":"correctly constructs a Determinant instance","over":{"base":"Any"},"name":"Determinant_class_invariant"},"guarantee":"correctly constructs a Determinant instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"deea9e2f338bba2d"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.determinant.Determinant","kind":"class","src_hash":"440db8dd88bfbeec","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"Determinant(*args)","rhs":"correctly constructs a Determinant instance","over":{"base":"Any"},"name":"Determinant_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"deea9e2f338bba2d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function Determinant not found in source"]}}
 class Determinant(Expr):
     """Matrix Determinant
 
@@ -52,16 +58,25 @@ class Determinant(Expr):
     is_commutative = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, mat), Basic.__new__(cls, mat)) over {Any | mat.is_Matrix and not (mat.is_square is False) and hasattr(mat, 'is_Matrix') and hasattr(mat, 'is_square')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: mat.is_Matrix                                  ║
+# ║   requires: not (mat.is_square is False)                   ║
+# ║   requires: hasattr(mat, 'is_Matrix')                      ║
+# ║   returns:  Basic.__new__(cls, mat)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | mat.is_Matrix and not (mat.is_square...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 787a9a80f7563a72           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.determinant.Determinant.__new__","kind":"method","src_hash":"d88de9433383bfd6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"787a9a80f7563a72"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.determinant.Determinant.__new__","kind":"method","src_hash":"d88de9433383bfd6","in":{"base":"Any","pred":"mat.is_Matrix and not (mat.is_square is False) and hasattr(mat, 'is_Matrix') and hasattr(mat, 'is_square')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, mat)","rhs":"Basic.__new__(cls, mat)","over":{"base":"Any","pred":"mat.is_Matrix and not (mat.is_square is False) and hasattr(mat, 'is_Matrix') and hasattr(mat, 'is_square')"},"name":"__new___correct"},"guarantee":"returns Basic.__new__(cls, mat)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"787a9a80f7563a72","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["mat.is_Matrix","not (mat.is_square is False)","hasattr(mat, 'is_Matrix')","hasattr(mat, 'is_square')"],"returns_expr":"Basic.__new__(cls, mat)","pure":false,"effects":{"effect_type":"reads_state","reads":["mat.is_Matrix","mat.is_square"],"raises":["NonSquareMatrixError","TypeError"]},"state_contract":{"exceptional_post":{"NonSquareMatrixError":["isinstance(raised, NonSquareMatrixError)"],"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, mat):
         mat = sympify(mat)
         if not mat.is_Matrix:
@@ -74,45 +89,63 @@ class Determinant(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(arg(), returns the arg attribute) over Any            ║
+# ║ Path(arg(), self.args[0]) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ arg : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fe2ea7f97b802814           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.determinant.Determinant.arg","kind":"property","src_hash":"da33fbb8a9ee644c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"arg()","rhs":"returns the arg attribute","over":{"base":"Any"},"name":"arg_correct"},"guarantee":"returns the arg attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fe2ea7f97b802814"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.determinant.Determinant.arg","kind":"property","src_hash":"da33fbb8a9ee644c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"arg()","rhs":"self.args[0]","over":{"base":"Any"},"name":"arg_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fe2ea7f97b802814","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def arg(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(kind(), returns the kind attribute) over Any          ║
+# ║ Path(kind(), self.arg.kind.element_kind) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.arg.kind.element_kind                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ kind : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f2579c812759a3f4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.determinant.Determinant.kind","kind":"property","src_hash":"0fa235f6e84e4b45","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kind()","rhs":"returns the kind attribute","over":{"base":"Any"},"name":"kind_correct"},"guarantee":"returns the kind attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2579c812759a3f4"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.determinant.Determinant.kind","kind":"property","src_hash":"0fa235f6e84e4b45","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kind()","rhs":"self.arg.kind.element_kind","over":{"base":"Any"},"name":"kind_correct"},"guarantee":"returns self.arg.kind.element_kind","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2579c812759a3f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.arg.kind.element_kind","pure":false,"effects":{"effect_type":"reads_state","reads":["self.arg"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def kind(self):
         return self.arg.kind.element_kind
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), doit produces the expected output) over Any ║
+# ║ Path(doit(**hints), <unspecified:doit>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07549e02abc0e8dd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.determinant.Determinant.doit","kind":"method","src_hash":"7cddf4d711feea12","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"doit produces the expected output","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.determinant.Determinant.doit_correct","statement":"Path(doit(x), doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07549e02abc0e8dd"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.determinant.Determinant.doit","kind":"method","src_hash":"7cddf4d711feea12","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**hints)","rhs":"<unspecified:doit>","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.determinant.Determinant.doit_correct","statement":"Path(doit(x), doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07549e02abc0e8dd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.arg"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         arg = self.arg
         if hints.get('deep', True):
@@ -126,16 +159,22 @@ class Determinant(Expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(det(mat), matrix determinant) over Any                ║
+# ║ Path(det(matexpr), Determinant(matexpr).doit()) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Determinant(matexpr).doit()                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ det : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e704a659fda205cb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.determinant.det","kind":"function","src_hash":"f40fecd72b275e63","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"det(mat)","rhs":"matrix determinant","over":{"base":"Any"},"name":"det_correct"},"guarantee":"matrix determinant","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e704a659fda205cb"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.determinant.det","kind":"function","src_hash":"f40fecd72b275e63","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"det(matexpr)","rhs":"Determinant(matexpr).doit()","over":{"base":"Any"},"name":"det_correct"},"guarantee":"returns Determinant(matexpr).doit()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e704a659fda205cb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Determinant(matexpr).doit()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def det(matexpr):
     """ Matrix Determinant
 
@@ -155,14 +194,20 @@ def det(matexpr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Permanent(*args), correctly constructs a Permanent instance) over {Any | isinstance(self.arg, MatrixBase)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Permanent : {Any | isinstance(self.arg, MatrixBase)} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed1d698b85f41b74  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.determinant.Permanent","kind":"class","src_hash":"205a0db6ea45c256","in":{"base":"Any","pred":"isinstance(self.arg, MatrixBase)"},"out":{"base":"Any"},"spec":{"lhs":"Permanent(*args)","rhs":"correctly constructs a Permanent instance","over":{"base":"Any","pred":"isinstance(self.arg, MatrixBase)"},"name":"Permanent_class_invariant"},"guarantee":"correctly constructs a Permanent instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed1d698b85f41b74"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.determinant.Permanent","kind":"class","src_hash":"205a0db6ea45c256","in":{"base":"Any","pred":"isinstance(self.arg, MatrixBase)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"Permanent(*args)","rhs":"correctly constructs a Permanent instance","over":{"base":"Any","pred":"isinstance(self.arg, MatrixBase)"},"name":"Permanent_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed1d698b85f41b74","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Permanent not found in source"]}}
 class Permanent(Expr):
     """Matrix Permanent
 
@@ -180,16 +225,24 @@ class Permanent(Expr):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, mat), Basic.__new__(cls, mat)) over {Any | mat.is_Matrix and hasattr(mat, 'is_Matrix')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: mat.is_Matrix                                  ║
+# ║   requires: hasattr(mat, 'is_Matrix')                      ║
+# ║   returns:  Basic.__new__(cls, mat)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | mat.is_Matrix and hasattr(mat, 'is_M...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ad722fa223eb03d9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.determinant.Permanent.__new__","kind":"method","src_hash":"5943219ad6ab430f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ad722fa223eb03d9"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.determinant.Permanent.__new__","kind":"method","src_hash":"5943219ad6ab430f","in":{"base":"Any","pred":"mat.is_Matrix and hasattr(mat, 'is_Matrix')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, mat)","rhs":"Basic.__new__(cls, mat)","over":{"base":"Any","pred":"mat.is_Matrix and hasattr(mat, 'is_Matrix')"},"name":"__new___correct"},"guarantee":"returns Basic.__new__(cls, mat)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ad722fa223eb03d9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["mat.is_Matrix","hasattr(mat, 'is_Matrix')"],"returns_expr":"Basic.__new__(cls, mat)","pure":false,"effects":{"effect_type":"reads_state","reads":["mat.is_Matrix"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, mat):
         mat = sympify(mat)
         if not mat.is_Matrix:
@@ -199,30 +252,45 @@ class Permanent(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(arg(), returns the arg attribute) over Any            ║
+# ║ Path(arg(), self.args[0]) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ arg : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 567eefca045e0ebe           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.determinant.Permanent.arg","kind":"property","src_hash":"da33fbb8a9ee644c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"arg()","rhs":"returns the arg attribute","over":{"base":"Any"},"name":"arg_correct"},"guarantee":"returns the arg attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"567eefca045e0ebe"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.determinant.Permanent.arg","kind":"property","src_hash":"da33fbb8a9ee644c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"arg()","rhs":"self.args[0]","over":{"base":"Any"},"name":"arg_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"567eefca045e0ebe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def arg(self):
         return self.args[0]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(exp), doit produces the expected output) over Any ║
+# ║ Path(doit(expand, **hints), result == (self.arg.per() if isinstance(self.arg, MatrixBase) else self) and result == self.arg.per() or result == self) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ doit : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self.arg.per() if isinstance(s...   ║
+# ║   ensures:  result == self.arg.per() or result == self     ║
+# ║   fiber[case_0]: isinstance(self.arg, MatrixBase) => ...   ║
+# ║   fiber[case_1]: not (isinstance(self.arg, MatrixBase...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ doit : Any → {Any | result satisfies: result == (self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b36b2cf392866f3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 402e3f5c16fd55dc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.determinant.Permanent.doit","kind":"method","src_hash":"415a8602544700bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(exp)","rhs":"doit produces the expected output","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.determinant.Permanent.doit_correct","statement":"Path(doit(x), doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b36b2cf392866f3"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.determinant.Permanent.doit","kind":"method","src_hash":"415a8602544700bf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self.arg.per() if isinstance(self.arg, MatrixBase) else self) and result == self.arg.per() or result == self"},"spec":{"lhs":"doit(expand, **hints)","rhs":"result == (self.arg.per() if isinstance(self.arg, MatrixBase) else self) and result == self.arg.per() or result == self","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"result == (self.arg.per() if isinstance(self.arg, MatrixBase) else self); result == self.arg.per() or result == self; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.determinant.Permanent.doit_correct","statement":"Path(doit(x), result == (self.arg.per() if isinstance(self.arg, MatrixBase) else self); result == self.arg.per() or result == self; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"402e3f5c16fd55dc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self.arg.per() if isinstance(self.arg, MatrixBase) else self)","result == self.arg.per() or result == self"],"fibers":[{"name":"case_0","guard":"isinstance(self.arg, MatrixBase)","ensures":["result == self.arg.per()"],"decidability":"structural","returns_expr":"self.arg.per()"},{"name":"case_1","guard":"not (isinstance(self.arg, MatrixBase))","ensures":["result == self"],"decidability":"structural","returns_expr":"self"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.arg"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, expand=False, **hints):
         if isinstance(self.arg, MatrixBase):
             return self.arg.per()
@@ -230,16 +298,22 @@ class Permanent(Expr):
             return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(per(mat), matrix permanent) over Any                  ║
+# ║ Path(per(matexpr), Permanent(matexpr).doit()) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Permanent(matexpr).doit()                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ per : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2632b583f5671880           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.determinant.per","kind":"function","src_hash":"07206d076470483f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"per(mat)","rhs":"matrix permanent","over":{"base":"Any"},"name":"per_correct"},"guarantee":"matrix permanent","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2632b583f5671880"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.determinant.per","kind":"function","src_hash":"07206d076470483f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"per(matexpr)","rhs":"Permanent(matexpr).doit()","over":{"base":"Any"},"name":"per_correct"},"guarantee":"returns Permanent(matexpr).doit()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2632b583f5671880","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Permanent(matexpr).doit()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def per(matexpr):
     """ Matrix Permanent
 
@@ -264,16 +338,27 @@ from sympy.assumptions.refine import handlers_dict
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(refine_Determinant(exp), >>> from sympy import matrixsymbol, q, assuming, refine, det >>> x = matrixsymbol('x', 2, 2) >>> det(x) determinant(x) >>> with assuming(q.orthogonal(x)): ) over Any ║
+# ║ Path(refine_Determinant(expr, assumptions), result == (S.One if ask(Q.orthogonal(expr.arg), assumptions) else S.Zero if ask(Q.singular(expr.arg), assumptions) else S.One) and result == S.One or result == S.Zero) over {Any | hasattr(expr, 'arg')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ refine_Determinant : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'arg')                           ║
+# ║   ensures:  result == (S.One if ask(Q.orthogonal(expr...   ║
+# ║   ensures:  result == S.One or result == S.Zero            ║
+# ║   fiber[case_0]: ask(Q.orthogonal(expr.arg), assumpti...   ║
+# ║   fiber[case_1]: ask(Q.singular(expr.arg), assumption...   ║
+# ║   fiber[case_2]: ask(Q.unit_triangular(expr.arg), ass...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ refine_Determinant : {Any | hasattr(expr, 'arg')} → {...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d4e7b371dc86f283  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 100fd782e1791c74  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.determinant.refine_Determinant","kind":"function","src_hash":"8c1e5d5b82475445","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"refine_Determinant(exp)","rhs":">>> from sympy import matrixsymbol, q, assuming, refine, det >>> x = matrixsymbol('x', 2, 2) >>> det(x) determinant(x) >>> with assuming(q.orthogonal(x)): ","over":{"base":"Any"},"name":"refine_Determinant_correct"},"guarantee":">>> from sympy import matrixsymbol, q, assuming, refine, det >>> x = matrixsymbol('x', 2, 2) >>> det(x) determinant(x) >>> with assuming(q.orthogonal(x)): ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.determinant.refine_Determinant_correct","statement":"Path(refine_Determinant(x), >>> from sympy import matrixsymbol, q, assuming, refine, det >>> x = matrixsymbol('x', 2, 2) >>> det(x) determinant(x) >>> with assuming(q.orthogonal(x)): )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4e7b371dc86f283"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.determinant.refine_Determinant","kind":"function","src_hash":"8c1e5d5b82475445","in":{"base":"Any","pred":"hasattr(expr, 'arg')"},"out":{"base":"Any","pred":"result satisfies: result == (S.One if ask(Q.orthogonal(expr.arg), assumptions) else S.Zero if ask(Q.singular(expr.arg), assumptions) else S.One) and result == S.One or result == S.Zero"},"spec":{"lhs":"refine_Determinant(expr, assumptions)","rhs":"result == (S.One if ask(Q.orthogonal(expr.arg), assumptions) else S.Zero if ask(Q.singular(expr.arg), assumptions) else S.One) and result == S.One or result == S.Zero","over":{"base":"Any","pred":"hasattr(expr, 'arg')"},"name":"refine_Determinant_correct"},"guarantee":"result == (S.One if ask(Q.orthogonal(expr.arg), assumptions) else S.Zero if ask(Q.singular(expr.arg), assumptions) else S.One); result == S.One or result == S.Zero; 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.determinant.refine_Determinant_correct","statement":"Path(refine_Determinant(x), result == (S.One if ask(Q.orthogonal(expr.arg), assumptions) else S.Zero if ask(Q.singular(expr.arg), assumptions) else S.One); result == S.One or result == S.Zero; 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"100fd782e1791c74","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'arg')"],"ensures":["result == (S.One if ask(Q.orthogonal(expr.arg), assumptions) else S.Zero if ask(Q.singular(expr.arg), assumptions) else S.One)","result == S.One or result == S.Zero"],"fibers":[{"name":"case_0","guard":"ask(Q.orthogonal(expr.arg), assumptions)","ensures":["result == S.One"],"decidability":"library","returns_expr":"S.One"},{"name":"case_1","guard":"ask(Q.singular(expr.arg), assumptions)","ensures":["result == S.Zero"],"decidability":"library","returns_expr":"S.Zero"},{"name":"case_2","guard":"ask(Q.unit_triangular(expr.arg), assumptions)","ensures":["result == S.One"],"decidability":"library","returns_expr":"S.One"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.arg"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def refine_Determinant(expr, assumptions):
     """
     >>> from sympy import MatrixSymbol, Q, assuming, refine, det

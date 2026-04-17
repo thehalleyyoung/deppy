@@ -24,16 +24,23 @@ from sympy.ntheory.primetest import is_square
 
 @given(n=st.integers(1, 10**10))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tau_hypothesis(n), test_tau_hypothesis produces the expected output) over Any ║
+# ║ Path(test_tau_hypothesis(n), is_square(n) == (tau_n % 2 == 1) and n * tau_n == sum(mul)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_tau_hypothesis : Any → {Any | is_square(n) == (t...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  is_square(n) == (tau_n % 2 == 1)               ║
+# ║   ensures:  n * tau_n == sum(mul)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_tau_hypothesis : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e02cecbeeb6b315  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d37e33bedbe8208  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_hypothesis.test_tau_hypothesis","kind":"function","src_hash":"2d2ef200c928ee1f","in":{"base":"Any"},"out":{"base":"Any","pred":"is_square(n) == (tau_n % 2 == 1) and n * tau_n == sum(mul)"},"spec":{"lhs":"test_tau_hypothesis(n)","rhs":"test_tau_hypothesis produces the expected output","over":{"base":"Any"},"name":"test_tau_hypothesis_correct"},"guarantee":"test_tau_hypothesis produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_hypothesis.test_tau_hypothesis_correct","statement":"Path(test_tau_hypothesis(x), test_tau_hypothesis produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e02cecbeeb6b315"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_hypothesis.test_tau_hypothesis","kind":"function","src_hash":"2d2ef200c928ee1f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: is_square(n) == (tau_n % 2 == 1) and n * tau_n == sum(mul)"},"spec":{"lhs":"test_tau_hypothesis(n)","rhs":"is_square(n) == (tau_n % 2 == 1) and n * tau_n == sum(mul)","over":{"base":"Any"},"name":"test_tau_hypothesis_correct"},"guarantee":"is_square(n) == (tau_n % 2 == 1); n * tau_n == sum(mul)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_hypothesis.test_tau_hypothesis_correct","statement":"Path(test_tau_hypothesis(x), is_square(n) == (tau_n % 2 == 1); n * tau_n == sum(mul))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d37e33bedbe8208","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["is_square(n) == (tau_n % 2 == 1)","n * tau_n == sum(mul)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_tau_hypothesis(n):
     div = divisors(n)
     tau_n = len(div)
@@ -46,16 +53,23 @@ def test_tau_hypothesis(n):
 
 @given(n=st.integers(1, 10**10))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_totient_hypothesis(n), test_totient_hypothesis produces the expected output) over Any ║
+# ║ Path(test_totient_hypothesis(n), totient(n) <= n and n == sum(totients)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_totient_hypothesis : Any → {Any | totient(n) <= ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  totient(n) <= n                                ║
+# ║   ensures:  n == sum(totients)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_totient_hypothesis : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c4dd935efeb2844d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95c544f9f6c72cf8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_hypothesis.test_totient_hypothesis","kind":"function","src_hash":"40288a561ab6d1df","in":{"base":"Any"},"out":{"base":"Any","pred":"totient(n) <= n and n == sum(totients)"},"spec":{"lhs":"test_totient_hypothesis(n)","rhs":"test_totient_hypothesis produces the expected output","over":{"base":"Any"},"name":"test_totient_hypothesis_correct"},"guarantee":"test_totient_hypothesis produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_hypothesis.test_totient_hypothesis_correct","statement":"Path(test_totient_hypothesis(x), test_totient_hypothesis produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4dd935efeb2844d"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_hypothesis.test_totient_hypothesis","kind":"function","src_hash":"40288a561ab6d1df","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: totient(n) <= n and n == sum(totients)"},"spec":{"lhs":"test_totient_hypothesis(n)","rhs":"totient(n) <= n and n == sum(totients)","over":{"base":"Any"},"name":"test_totient_hypothesis_correct"},"guarantee":"totient(n) <= n; n == sum(totients)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_hypothesis.test_totient_hypothesis_correct","statement":"Path(test_totient_hypothesis(x), totient(n) <= n; n == sum(totients))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95c544f9f6c72cf8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["totient(n) <= n","n == sum(totients)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_totient_hypothesis(n):
     assert totient(n) <= n
     div = divisors(n)

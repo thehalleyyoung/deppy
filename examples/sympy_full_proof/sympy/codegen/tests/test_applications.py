@@ -35,16 +35,22 @@ cython = import_module('cython')
 np = import_module('numpy')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_mk_func1(), internal helper behaves correctly) over Any ║
+# ║ Path(_mk_func1(), FunctionDefinition(void, 'our_test_function', declars, body)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  FunctionDefinition(void, 'our_test_functi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _mk_func1 : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09f1d4201162a4aa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1edc7b66ae7f3ab1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_applications._mk_func1","kind":"function","src_hash":"c3c8fecd321674f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_mk_func1()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_mk_func1_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_applications._mk_func1_correct","statement":"Path(_mk_func1(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09f1d4201162a4aa"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_applications._mk_func1","kind":"function","src_hash":"c3c8fecd321674f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_mk_func1()","rhs":"FunctionDefinition(void, 'our_test_function', declars, body)","over":{"base":"Any"},"name":"_mk_func1_correct"},"guarantee":"returns FunctionDefinition(void, 'our_test_function', declars, body)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_applications._mk_func1_correct","statement":"Path(_mk_func1(x), returns FunctionDefinition(void, 'our_test_function', declars, body))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1edc7b66ae7f3ab1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"FunctionDefinition(void, 'our_test_function', declars, body)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _mk_func1():
     declars = n, inp, out = Variable('n', integer), Pointer('inp', real), Pointer('out', real)
     i = Variable('i', integer)
@@ -54,16 +60,23 @@ def _mk_func1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_render_compile_import(fun), internal helper behaves correctly) over Any ║
+# ║ Path(_render_compile_import(funcdef, build_dir), compile_link_import_strings([('our_test_func.c', code_str), ('_our_test_func.pyx', ('#cython: language_level={}\n'.format('3') + 'cdef extern {declar}\ndef _{fname}({typ}[:] inp, {typ}[:] out):\n    {fname}(inp.size, &inp[0], &out[0])').format(declar=declar, fname=funcdef.name, typ='double'))])) over {Any | hasattr(funcdef, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _render_compile_import : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(funcdef, 'name')                       ║
+# ║   returns:  compile_link_import_strings([('our_test_f...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _render_compile_import : {Any | hasattr(funcdef, 'nam...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c614150f038bbe4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b2f7da5e0c0a984  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_applications._render_compile_import","kind":"function","src_hash":"7cfdcf85dd4dc28d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_render_compile_import(fun)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_render_compile_import_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_applications._render_compile_import_correct","statement":"Path(_render_compile_import(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c614150f038bbe4"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_applications._render_compile_import","kind":"function","src_hash":"7cfdcf85dd4dc28d","in":{"base":"Any","pred":"hasattr(funcdef, 'name')"},"out":{"base":"Any"},"spec":{"lhs":"_render_compile_import(funcdef, build_dir)","rhs":"compile_link_import_strings([('our_test_func.c', code_str), ('_our_test_func.pyx', ('#cython: language_level={}\\n'.format('3') + 'cdef extern {declar}\\ndef _{fname}({typ}[:] inp, {typ}[:] out):\\n    {fname}(inp.size, &inp[0], &out[0])').format(declar=declar, fname=funcdef.name, typ='double'))])","over":{"base":"Any","pred":"hasattr(funcdef, 'name')"},"name":"_render_compile_import_correct"},"guarantee":"returns compile_link_import_strings([('our_test_func.c', code_str), ('_our_test_func.pyx', ('#cython: language_level={}\\n'.format('3') + 'cdef extern {declar}\\ndef _{fname}({typ}[:] inp, {typ}[:] out):\\n    {fname}(inp.size, &inp[0], &out[0])').format(declar=declar, fname=funcdef.name, typ='double'))])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_applications._render_compile_import_correct","statement":"Path(_render_compile_import(x), returns compile_link_import_strings([('our_test_func.c', code_str), ('_our_test_func.pyx', ('#cython: language_level={}\\n'.format('3') + 'cdef extern {declar}\\ndef _{fname}({typ}[:] inp, {typ}[:] out):\\n    {fname}(inp.size, &inp[0], &out[0])').format(declar=declar, fname=funcdef.name, typ='double'))]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b2f7da5e0c0a984","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(funcdef, 'name')"],"returns_expr":"compile_link_import_strings([('our_test_func.c', code_str), ('_our_test_func.pyx', ('#cython: language_level={}\\n'.format('3') + 'cdef extern {declar}\\ndef _{fname}({typ}[:] inp, {typ}[:] out):\\n    {fname}(inp.size, &inp[0], &out[0])').format(declar=declar, fname=funcdef.name, typ='double'))])","pure":false,"effects":{"effect_type":"reads_state","reads":["funcdef.name"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _render_compile_import(funcdef, build_dir):
     code_str = render_as_source_file(funcdef, settings={"contract": False})
     declar = ccode(FunctionPrototype.from_FunctionDefinition(funcdef))
@@ -81,16 +94,22 @@ def _render_compile_import(funcdef, build_dir):
 @may_xfail
 @skip_under_pyodide("Emscripten does not support process spawning")
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_copying_function(), test_copying_function produces the expected output) over Any ║
+# ║ Path(test_copying_function(), <unspecified:test_copying_function>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_copying_function : Any → {Any | np.allclose(inp,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c83a05068e936c80  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_applications.test_copying_function","kind":"function","src_hash":"765c144f4b76e80f","in":{"base":"Any"},"out":{"base":"Any","pred":"np.allclose(inp, out)"},"spec":{"lhs":"test_copying_function()","rhs":"test_copying_function produces the expected output","over":{"base":"Any"},"name":"test_copying_function_correct"},"guarantee":"test_copying_function produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_applications.test_copying_function_correct","statement":"Path(test_copying_function(x), test_copying_function produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c83a05068e936c80"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_applications.test_copying_function","kind":"function","src_hash":"765c144f4b76e80f","in":{"base":"Any"},"out":{"base":"Any","pred":"np.allclose(inp, out)"},"spec":{"lhs":"test_copying_function()","rhs":"<unspecified:test_copying_function>","over":{"base":"Any"},"name":"test_copying_function_correct"},"guarantee":"test_copying_function produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_applications.test_copying_function_correct","statement":"Path(test_copying_function(x), test_copying_function produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c83a05068e936c80","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_copying_function():
     if not np:
         skip("numpy not installed.")

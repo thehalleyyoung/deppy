@@ -23,16 +23,22 @@ from sympy.core.assumptions import _assume_defined
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_all_predicates(), test_all_predicates produces the expected output) over Any ║
+# ║ Path(test_all_predicates(), <unspecified:test_all_predicates>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_all_predicates : Any → {Any | hasattr(Assumption...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ba08645638889a8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_wrapper.test_all_predicates","kind":"function","src_hash":"41a86dae3ba1cd04","in":{"base":"Any"},"out":{"base":"Any","pred":"hasattr(AssumptionsWrapper, method_name)"},"spec":{"lhs":"test_all_predicates()","rhs":"test_all_predicates produces the expected output","over":{"base":"Any"},"name":"test_all_predicates_correct"},"guarantee":"test_all_predicates produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_wrapper.test_all_predicates_correct","statement":"Path(test_all_predicates(x), test_all_predicates produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ba08645638889a8"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_wrapper.test_all_predicates","kind":"function","src_hash":"41a86dae3ba1cd04","in":{"base":"Any"},"out":{"base":"Any","pred":"hasattr(AssumptionsWrapper, method_name)"},"spec":{"lhs":"test_all_predicates()","rhs":"<unspecified:test_all_predicates>","over":{"base":"Any"},"name":"test_all_predicates_correct"},"guarantee":"test_all_predicates produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_wrapper.test_all_predicates_correct","statement":"Path(test_all_predicates(x), test_all_predicates produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ba08645638889a8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_all_predicates():
     for fact in _assume_defined:
         method_name = f'_eval_is_{fact}'
@@ -40,16 +46,24 @@ def test_all_predicates():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_AssumptionsWrapper(), test_AssumptionsWrapper produces the expected output) over Any ║
+# ║ Path(test_AssumptionsWrapper(), AssumptionsWrapper(x).is_positive and AssumptionsWrapper(y).is_positive is None and AssumptionsWrapper(y, Q.positive(y)).is_positive) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_AssumptionsWrapper : Any → {Any | AssumptionsWra...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  AssumptionsWrapper(x).is_positive              ║
+# ║   ensures:  AssumptionsWrapper(y).is_positive is None      ║
+# ║   ensures:  AssumptionsWrapper(y, Q.positive(y)).is_p...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_AssumptionsWrapper : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 952360dc8ed048ab  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88a4ee177368532c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_wrapper.test_AssumptionsWrapper","kind":"function","src_hash":"775b26d5ec949602","in":{"base":"Any"},"out":{"base":"Any","pred":"AssumptionsWrapper(x).is_positive and AssumptionsWrapper(y).is_positive is None and AssumptionsWrapper(y, Q.positive(y)).is_positive"},"spec":{"lhs":"test_AssumptionsWrapper()","rhs":"test_AssumptionsWrapper produces the expected output","over":{"base":"Any"},"name":"test_AssumptionsWrapper_correct"},"guarantee":"test_AssumptionsWrapper produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_wrapper.test_AssumptionsWrapper_correct","statement":"Path(test_AssumptionsWrapper(x), test_AssumptionsWrapper produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"952360dc8ed048ab"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_wrapper.test_AssumptionsWrapper","kind":"function","src_hash":"775b26d5ec949602","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: AssumptionsWrapper(x).is_positive and AssumptionsWrapper(y).is_positive is None and AssumptionsWrapper(y, Q.positive(y)).is_positive"},"spec":{"lhs":"test_AssumptionsWrapper()","rhs":"AssumptionsWrapper(x).is_positive and AssumptionsWrapper(y).is_positive is None and AssumptionsWrapper(y, Q.positive(y)).is_positive","over":{"base":"Any"},"name":"test_AssumptionsWrapper_correct"},"guarantee":"AssumptionsWrapper(x).is_positive; AssumptionsWrapper(y).is_positive is None; AssumptionsWrapper(y, Q.positive(y)).is_positive","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_wrapper.test_AssumptionsWrapper_correct","statement":"Path(test_AssumptionsWrapper(x), AssumptionsWrapper(x).is_positive; AssumptionsWrapper(y).is_positive is None; AssumptionsWrapper(y, Q.positive(y)).is_positive)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88a4ee177368532c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["AssumptionsWrapper(x).is_positive","AssumptionsWrapper(y).is_positive is None","AssumptionsWrapper(y, Q.positive(y)).is_positive"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_AssumptionsWrapper():
     x = Symbol('x', positive=True)
     y = Symbol('y')
@@ -59,16 +73,24 @@ def test_AssumptionsWrapper():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_infinite(), test_is_infinite produces the expected output) over Any ║
+# ║ Path(test_is_infinite(), is_infinite(x) and not is_infinite(y) and is_infinite(z) is None and is_infinite(z, Q.infinite(z))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_infinite : Any → {Any | is_infinite(x) and no...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  is_infinite(x)                                 ║
+# ║   ensures:  not is_infinite(y)                             ║
+# ║   ensures:  is_infinite(z) is None                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_infinite : Any → {Any | result satisfies: is_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a68cec72fe23e2eb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ffa1445d199516f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_wrapper.test_is_infinite","kind":"function","src_hash":"6ecdf6498054a82e","in":{"base":"Any"},"out":{"base":"Any","pred":"is_infinite(x) and not is_infinite(y) and is_infinite(z) is None and is_infinite(z, Q.infinite(z))"},"spec":{"lhs":"test_is_infinite()","rhs":"test_is_infinite produces the expected output","over":{"base":"Any"},"name":"test_is_infinite_correct"},"guarantee":"test_is_infinite produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_wrapper.test_is_infinite_correct","statement":"Path(test_is_infinite(x), test_is_infinite produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a68cec72fe23e2eb"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_wrapper.test_is_infinite","kind":"function","src_hash":"6ecdf6498054a82e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: is_infinite(x) and not is_infinite(y) and is_infinite(z) is None and is_infinite(z, Q.infinite(z))"},"spec":{"lhs":"test_is_infinite()","rhs":"is_infinite(x) and not is_infinite(y) and is_infinite(z) is None and is_infinite(z, Q.infinite(z))","over":{"base":"Any"},"name":"test_is_infinite_correct"},"guarantee":"is_infinite(x); not is_infinite(y); is_infinite(z) is None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_wrapper.test_is_infinite_correct","statement":"Path(test_is_infinite(x), is_infinite(x); not is_infinite(y); is_infinite(z) is None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ffa1445d199516f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["is_infinite(x)","not is_infinite(y)","is_infinite(z) is None","is_infinite(z, Q.infinite(z))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_is_infinite():
     x = Symbol('x', infinite=True)
     y = Symbol('y', infinite=False)
@@ -80,16 +102,24 @@ def test_is_infinite():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_extended_real(), test_is_extended_real produces the expected output) over Any ║
+# ║ Path(test_is_extended_real(), is_extended_real(x) and not is_extended_real(y) and is_extended_real(z) is None and is_extended_real(z, Q.extended_real(z))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_extended_real : Any → {Any | is_extended_real...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  is_extended_real(x)                            ║
+# ║   ensures:  not is_extended_real(y)                        ║
+# ║   ensures:  is_extended_real(z) is None                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_extended_real : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d0e4907c9d2fc47  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e8a7e83da8648ac6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_wrapper.test_is_extended_real","kind":"function","src_hash":"6bb669213206d315","in":{"base":"Any"},"out":{"base":"Any","pred":"is_extended_real(x) and not is_extended_real(y) and is_extended_real(z) is None and is_extended_real(z, Q.extended_real(z))"},"spec":{"lhs":"test_is_extended_real()","rhs":"test_is_extended_real produces the expected output","over":{"base":"Any"},"name":"test_is_extended_real_correct"},"guarantee":"test_is_extended_real produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_wrapper.test_is_extended_real_correct","statement":"Path(test_is_extended_real(x), test_is_extended_real produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d0e4907c9d2fc47"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_wrapper.test_is_extended_real","kind":"function","src_hash":"6bb669213206d315","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: is_extended_real(x) and not is_extended_real(y) and is_extended_real(z) is None and is_extended_real(z, Q.extended_real(z))"},"spec":{"lhs":"test_is_extended_real()","rhs":"is_extended_real(x) and not is_extended_real(y) and is_extended_real(z) is None and is_extended_real(z, Q.extended_real(z))","over":{"base":"Any"},"name":"test_is_extended_real_correct"},"guarantee":"is_extended_real(x); not is_extended_real(y); is_extended_real(z) is None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_wrapper.test_is_extended_real_correct","statement":"Path(test_is_extended_real(x), is_extended_real(x); not is_extended_real(y); is_extended_real(z) is None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8a7e83da8648ac6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["is_extended_real(x)","not is_extended_real(y)","is_extended_real(z) is None","is_extended_real(z, Q.extended_real(z))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_is_extended_real():
     x = Symbol('x', extended_real=True)
     y = Symbol('y', extended_real=False)

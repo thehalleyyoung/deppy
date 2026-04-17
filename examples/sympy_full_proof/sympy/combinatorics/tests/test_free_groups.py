@@ -24,16 +24,24 @@ F, x, y, z = free_group("x, y, z")
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FreeGroup__init__(), test_FreeGroup__init__ produces the expected output) over Any ║
+# ║ Path(test_FreeGroup__init__(), len(FreeGroup('x, y, z').generators) == 3 and len(FreeGroup(x).generators) == 1 and len(FreeGroup(('x', 'y', 'z'))) == 3 and len(FreeGroup((x, y, z)).generators) == 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FreeGroup__init__ : Any → {Any | len(FreeGroup('...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(FreeGroup('x, y, z').generators) == 3      ║
+# ║   ensures:  len(FreeGroup(x).generators) == 1              ║
+# ║   ensures:  len(FreeGroup(('x', 'y', 'z'))) == 3           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FreeGroup__init__ : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b695ec4662b36b18  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df8f792083c61235  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroup__init__","kind":"function","src_hash":"393a46494a099347","in":{"base":"Any"},"out":{"base":"Any","pred":"len(FreeGroup('x, y, z').generators) == 3 and len(FreeGroup(x).generators) == 1 and len(FreeGroup(('x', 'y', 'z'))) == 3 and len(FreeGroup((x, y, z)).generators) == 3"},"spec":{"lhs":"test_FreeGroup__init__()","rhs":"test_FreeGroup__init__ produces the expected output","over":{"base":"Any"},"name":"test_FreeGroup__init___correct"},"guarantee":"test_FreeGroup__init__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroup__init___correct","statement":"Path(test_FreeGroup__init__(x), test_FreeGroup__init__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b695ec4662b36b18"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroup__init__","kind":"function","src_hash":"393a46494a099347","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(FreeGroup('x, y, z').generators) == 3 and len(FreeGroup(x).generators) == 1 and len(FreeGroup(('x', 'y', 'z'))) == 3 and len(FreeGroup((x, y, z)).generators) == 3"},"spec":{"lhs":"test_FreeGroup__init__()","rhs":"len(FreeGroup('x, y, z').generators) == 3 and len(FreeGroup(x).generators) == 1 and len(FreeGroup(('x', 'y', 'z'))) == 3 and len(FreeGroup((x, y, z)).generators) == 3","over":{"base":"Any"},"name":"test_FreeGroup__init___correct"},"guarantee":"len(FreeGroup('x, y, z').generators) == 3; len(FreeGroup(x).generators) == 1; len(FreeGroup(('x', 'y', 'z'))) == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroup__init___correct","statement":"Path(test_FreeGroup__init__(x), len(FreeGroup('x, y, z').generators) == 3; len(FreeGroup(x).generators) == 1; len(FreeGroup(('x', 'y', 'z'))) == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df8f792083c61235","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(FreeGroup('x, y, z').generators) == 3","len(FreeGroup(x).generators) == 1","len(FreeGroup(('x', 'y', 'z'))) == 3","len(FreeGroup((x, y, z)).generators) == 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_FreeGroup__init__():
     x, y, z = map(Symbol, "xyz")
 
@@ -44,32 +52,46 @@ def test_FreeGroup__init__():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FreeGroup__getnewargs__(), test_FreeGroup__getnewargs__ produces the expected output) over Any ║
+# ║ Path(test_FreeGroup__getnewargs__(), FreeGroup('x, y, z').__getnewargs__() == ((x, y, z),)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FreeGroup__getnewargs__ : Any → {Any | FreeGroup...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  FreeGroup('x, y, z').__getnewargs__() == ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FreeGroup__getnewargs__ : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9feaf28072decc3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3e04360ee15205e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroup__getnewargs__","kind":"function","src_hash":"9a88ad567cea51b9","in":{"base":"Any"},"out":{"base":"Any","pred":"FreeGroup('x, y, z').__getnewargs__() == ((x, y, z),)"},"spec":{"lhs":"test_FreeGroup__getnewargs__()","rhs":"test_FreeGroup__getnewargs__ produces the expected output","over":{"base":"Any"},"name":"test_FreeGroup__getnewargs___correct"},"guarantee":"test_FreeGroup__getnewargs__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroup__getnewargs___correct","statement":"Path(test_FreeGroup__getnewargs__(x), test_FreeGroup__getnewargs__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9feaf28072decc3"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroup__getnewargs__","kind":"function","src_hash":"9a88ad567cea51b9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: FreeGroup('x, y, z').__getnewargs__() == ((x, y, z),)"},"spec":{"lhs":"test_FreeGroup__getnewargs__()","rhs":"FreeGroup('x, y, z').__getnewargs__() == ((x, y, z),)","over":{"base":"Any"},"name":"test_FreeGroup__getnewargs___correct"},"guarantee":"FreeGroup('x, y, z').__getnewargs__() == ((x, y, z),)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroup__getnewargs___correct","statement":"Path(test_FreeGroup__getnewargs__(x), FreeGroup('x, y, z').__getnewargs__() == ((x, y, z),))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3e04360ee15205e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["FreeGroup('x, y, z').__getnewargs__() == ((x, y, z),)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_FreeGroup__getnewargs__():
     x, y, z = map(Symbol, "xyz")
     assert FreeGroup("x, y, z").__getnewargs__() == ((x, y, z),)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_free_group(), test_free_group produces the expected output) over Any ║
+# ║ Path(test_free_group(), F.generators == (x, y, z) and x * z ** 2 in F and x in F and y * z ** (-1) in F and (y * z) ** 0 in F and a not in F and a ** 0 not in F and len(F) == 3 and str(F) == '<free group on the generators (x, y, z)>' and not F == G and F.order() is oo and F.is_abelian == False and F.center() == {F.identity} and e.order() == 1 and e.generators == () and e.elements == {e.identity} and e.is_abelian == True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_free_group : Any → {Any | F.generators == (x, y,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  F.generators == (x, y, z)                      ║
+# ║   ensures:  x * z ** 2 in F                                ║
+# ║   ensures:  x in F                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_free_group : Any → {Any | result satisfies: F.ge...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c5798dffec9ecf8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb7efe2f0b56f9a0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_free_group","kind":"function","src_hash":"5e0b076d8707c505","in":{"base":"Any"},"out":{"base":"Any","pred":"F.generators == (x, y, z) and x * z ** 2 in F and x in F and y * z ** (-1) in F and (y * z) ** 0 in F and a not in F and a ** 0 not in F and len(F) == 3 and str(F) == '<free group on the generators (x, y, z)>' and not F == G and F.order() is oo and F.is_abelian == False and F.center() == {F.identity} and e.order() == 1 and e.generators == () and e.elements == {e.identity} and e.is_abelian == True"},"spec":{"lhs":"test_free_group()","rhs":"test_free_group produces the expected output","over":{"base":"Any"},"name":"test_free_group_correct"},"guarantee":"test_free_group produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_free_group_correct","statement":"Path(test_free_group(x), test_free_group produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c5798dffec9ecf8"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_free_group","kind":"function","src_hash":"5e0b076d8707c505","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: F.generators == (x, y, z) and x * z ** 2 in F and x in F and y * z ** (-1) in F and (y * z) ** 0 in F and a not in F and a ** 0 not in F and len(F) == 3 and str(F) == '<free group on the generators (x, y, z)>' and not F == G and F.order() is oo and F.is_abelian == False and F.center() == {F.identity} and e.order() == 1 and e.generators == () and e.elements == {e.identity} and e.is_abelian == True"},"spec":{"lhs":"test_free_group()","rhs":"F.generators == (x, y, z) and x * z ** 2 in F and x in F and y * z ** (-1) in F and (y * z) ** 0 in F and a not in F and a ** 0 not in F and len(F) == 3 and str(F) == '<free group on the generators (x, y, z)>' and not F == G and F.order() is oo and F.is_abelian == False and F.center() == {F.identity} and e.order() == 1 and e.generators == () and e.elements == {e.identity} and e.is_abelian == True","over":{"base":"Any"},"name":"test_free_group_correct"},"guarantee":"F.generators == (x, y, z); x * z ** 2 in F; x in F","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_free_group_correct","statement":"Path(test_free_group(x), F.generators == (x, y, z); x * z ** 2 in F; x in F)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb7efe2f0b56f9a0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["F.generators == (x, y, z)","x * z ** 2 in F","x in F","y * z ** (-1) in F","(y * z) ** 0 in F","a not in F","a ** 0 not in F","len(F) == 3","str(F) == '<free group on the generators (x, y, z)>'","not F == G","F.order() is oo","F.is_abelian == False","F.center() == {F.identity}","e.order() == 1","e.generators == ()","e.elements == {e.identity}","e.is_abelian == True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_free_group():
     G, a, b, c = free_group("a, b, c")
     assert F.generators == (x, y, z)
@@ -94,31 +116,45 @@ def test_free_group():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FreeGroup__hash__(), test_FreeGroup__hash__ produces the expected output) over Any ║
+# ║ Path(test_FreeGroup__hash__(), hash(F)) over Any           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FreeGroup__hash__ : Any → {Any | hash(F)}             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hash(F)                                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FreeGroup__hash__ : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0fea4b5639ef2655  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4053d19561b377bb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroup__hash__","kind":"function","src_hash":"f9cf1db6b37076a0","in":{"base":"Any"},"out":{"base":"Any","pred":"hash(F)"},"spec":{"lhs":"test_FreeGroup__hash__()","rhs":"test_FreeGroup__hash__ produces the expected output","over":{"base":"Any"},"name":"test_FreeGroup__hash___correct"},"guarantee":"test_FreeGroup__hash__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroup__hash___correct","statement":"Path(test_FreeGroup__hash__(x), test_FreeGroup__hash__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0fea4b5639ef2655"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroup__hash__","kind":"function","src_hash":"f9cf1db6b37076a0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hash(F)"},"spec":{"lhs":"test_FreeGroup__hash__()","rhs":"hash(F)","over":{"base":"Any"},"name":"test_FreeGroup__hash___correct"},"guarantee":"hash(F)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroup__hash___correct","statement":"Path(test_FreeGroup__hash__(x), hash(F))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4053d19561b377bb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hash(F)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_FreeGroup__hash__():
     assert hash(F)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FreeGroup__eq__(), test_FreeGroup__eq__ produces the expected output) over Any ║
+# ║ Path(test_FreeGroup__eq__(), free_group('x, y, z')[0] == free_group('x, y, z')[0] and free_group('x, y, z')[0] is free_group('x, y, z')[0] and free_group('x, y, z')[0] != free_group('a, x, y')[0] and free_group('x, y, z')[0] is not free_group('a, x, y')[0] and free_group('x, y')[0] != free_group('x, y, z')[0] and free_group('x, y')[0] is not free_group('x, y, z')[0] and free_group('x, y, z')[0] != free_group('x, y')[0] and free_group('x, y, z')[0] is not free_group('x, y')[0]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FreeGroup__eq__ : Any → {Any | free_group('x, y,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  free_group('x, y, z')[0] == free_group('x...   ║
+# ║   ensures:  free_group('x, y, z')[0] is free_group('x...   ║
+# ║   ensures:  free_group('x, y, z')[0] != free_group('a...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FreeGroup__eq__ : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 389053df8fbbd825  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81f0779e1fde0116  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroup__eq__","kind":"function","src_hash":"6c734184592758b6","in":{"base":"Any"},"out":{"base":"Any","pred":"free_group('x, y, z')[0] == free_group('x, y, z')[0] and free_group('x, y, z')[0] is free_group('x, y, z')[0] and free_group('x, y, z')[0] != free_group('a, x, y')[0] and free_group('x, y, z')[0] is not free_group('a, x, y')[0] and free_group('x, y')[0] != free_group('x, y, z')[0] and free_group('x, y')[0] is not free_group('x, y, z')[0] and free_group('x, y, z')[0] != free_group('x, y')[0] and free_group('x, y, z')[0] is not free_group('x, y')[0]"},"spec":{"lhs":"test_FreeGroup__eq__()","rhs":"test_FreeGroup__eq__ produces the expected output","over":{"base":"Any"},"name":"test_FreeGroup__eq___correct"},"guarantee":"test_FreeGroup__eq__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroup__eq___correct","statement":"Path(test_FreeGroup__eq__(x), test_FreeGroup__eq__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"389053df8fbbd825"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroup__eq__","kind":"function","src_hash":"6c734184592758b6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: free_group('x, y, z')[0] == free_group('x, y, z')[0] and free_group('x, y, z')[0] is free_group('x, y, z')[0] and free_group('x, y, z')[0] != free_group('a, x, y')[0] and free_group('x, y, z')[0] is not free_group('a, x, y')[0] and free_group('x, y')[0] != free_group('x, y, z')[0] and free_group('x, y')[0] is not free_group('x, y, z')[0] and free_group('x, y, z')[0] != free_group('x, y')[0] and free_group('x, y, z')[0] is not free_group('x, y')[0]"},"spec":{"lhs":"test_FreeGroup__eq__()","rhs":"free_group('x, y, z')[0] == free_group('x, y, z')[0] and free_group('x, y, z')[0] is free_group('x, y, z')[0] and free_group('x, y, z')[0] != free_group('a, x, y')[0] and free_group('x, y, z')[0] is not free_group('a, x, y')[0] and free_group('x, y')[0] != free_group('x, y, z')[0] and free_group('x, y')[0] is not free_group('x, y, z')[0] and free_group('x, y, z')[0] != free_group('x, y')[0] and free_group('x, y, z')[0] is not free_group('x, y')[0]","over":{"base":"Any"},"name":"test_FreeGroup__eq___correct"},"guarantee":"free_group('x, y, z')[0] == free_group('x, y, z')[0]; free_group('x, y, z')[0] is free_group('x, y, z')[0]; free_group('x, y, z')[0] != free_group('a, x, y')[0]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroup__eq___correct","statement":"Path(test_FreeGroup__eq__(x), free_group('x, y, z')[0] == free_group('x, y, z')[0]; free_group('x, y, z')[0] is free_group('x, y, z')[0]; free_group('x, y, z')[0] != free_group('a, x, y')[0])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81f0779e1fde0116","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["free_group('x, y, z')[0] == free_group('x, y, z')[0]","free_group('x, y, z')[0] is free_group('x, y, z')[0]","free_group('x, y, z')[0] != free_group('a, x, y')[0]","free_group('x, y, z')[0] is not free_group('a, x, y')[0]","free_group('x, y')[0] != free_group('x, y, z')[0]","free_group('x, y')[0] is not free_group('x, y, z')[0]","free_group('x, y, z')[0] != free_group('x, y')[0]","free_group('x, y, z')[0] is not free_group('x, y')[0]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_FreeGroup__eq__():
     assert free_group("x, y, z")[0] == free_group("x, y, z")[0]
     assert free_group("x, y, z")[0] is free_group("x, y, z")[0]
@@ -134,16 +170,24 @@ def test_FreeGroup__eq__():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FreeGroup__getitem__(), test_FreeGroup__getitem__ produces the expected output) over Any ║
+# ║ Path(test_FreeGroup__getitem__(), F[0:] == FreeGroup('x, y, z') and F[1:] == FreeGroup('y, z') and F[2:] == FreeGroup('z')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FreeGroup__getitem__ : Any → {Any | F[0:] == Fre...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  F[0:] == FreeGroup('x, y, z')                  ║
+# ║   ensures:  F[1:] == FreeGroup('y, z')                     ║
+# ║   ensures:  F[2:] == FreeGroup('z')                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FreeGroup__getitem__ : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52fa3f524f5ad391  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5978cf6d07e89517  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroup__getitem__","kind":"function","src_hash":"5879224b9cfd1543","in":{"base":"Any"},"out":{"base":"Any","pred":"F[0:] == FreeGroup('x, y, z') and F[1:] == FreeGroup('y, z') and F[2:] == FreeGroup('z')"},"spec":{"lhs":"test_FreeGroup__getitem__()","rhs":"test_FreeGroup__getitem__ produces the expected output","over":{"base":"Any"},"name":"test_FreeGroup__getitem___correct"},"guarantee":"test_FreeGroup__getitem__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroup__getitem___correct","statement":"Path(test_FreeGroup__getitem__(x), test_FreeGroup__getitem__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52fa3f524f5ad391"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroup__getitem__","kind":"function","src_hash":"5879224b9cfd1543","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: F[0:] == FreeGroup('x, y, z') and F[1:] == FreeGroup('y, z') and F[2:] == FreeGroup('z')"},"spec":{"lhs":"test_FreeGroup__getitem__()","rhs":"F[0:] == FreeGroup('x, y, z') and F[1:] == FreeGroup('y, z') and F[2:] == FreeGroup('z')","over":{"base":"Any"},"name":"test_FreeGroup__getitem___correct"},"guarantee":"F[0:] == FreeGroup('x, y, z'); F[1:] == FreeGroup('y, z'); F[2:] == FreeGroup('z')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroup__getitem___correct","statement":"Path(test_FreeGroup__getitem__(x), F[0:] == FreeGroup('x, y, z'); F[1:] == FreeGroup('y, z'); F[2:] == FreeGroup('z'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5978cf6d07e89517","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["F[0:] == FreeGroup('x, y, z')","F[1:] == FreeGroup('y, z')","F[2:] == FreeGroup('z')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_FreeGroup__getitem__():
     assert F[0:] == FreeGroup("x, y, z")
     assert F[1:] == FreeGroup("y, z")
@@ -151,31 +195,44 @@ def test_FreeGroup__getitem__():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FreeGroupElm__hash__(), test_FreeGroupElm__hash__ produces the expected output) over Any ║
+# ║ Path(test_FreeGroupElm__hash__(), hash(x * y * z)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FreeGroupElm__hash__ : Any → {Any | hash(x * y *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hash(x * y * z)                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FreeGroupElm__hash__ : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df27ef77b4d006f5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 489127f281504065  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm__hash__","kind":"function","src_hash":"541d97bc19a86be7","in":{"base":"Any"},"out":{"base":"Any","pred":"hash(x * y * z)"},"spec":{"lhs":"test_FreeGroupElm__hash__()","rhs":"test_FreeGroupElm__hash__ produces the expected output","over":{"base":"Any"},"name":"test_FreeGroupElm__hash___correct"},"guarantee":"test_FreeGroupElm__hash__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm__hash___correct","statement":"Path(test_FreeGroupElm__hash__(x), test_FreeGroupElm__hash__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df27ef77b4d006f5"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm__hash__","kind":"function","src_hash":"541d97bc19a86be7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hash(x * y * z)"},"spec":{"lhs":"test_FreeGroupElm__hash__()","rhs":"hash(x * y * z)","over":{"base":"Any"},"name":"test_FreeGroupElm__hash___correct"},"guarantee":"hash(x * y * z)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm__hash___correct","statement":"Path(test_FreeGroupElm__hash__(x), hash(x * y * z))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"489127f281504065","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hash(x * y * z)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_FreeGroupElm__hash__():
     assert hash(x*y*z)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FreeGroupElm_copy(), test_FreeGroupElm_copy produces the expected output) over Any ║
+# ║ Path(test_FreeGroupElm_copy(), f == g and f != h) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FreeGroupElm_copy : Any → {Any | f == g and f != h}   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f == g                                         ║
+# ║   ensures:  f != h                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FreeGroupElm_copy : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 106445c6d431bb0f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a76434908b6f6b4a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_copy","kind":"function","src_hash":"4a4182affef7e5a8","in":{"base":"Any"},"out":{"base":"Any","pred":"f == g and f != h"},"spec":{"lhs":"test_FreeGroupElm_copy()","rhs":"test_FreeGroupElm_copy produces the expected output","over":{"base":"Any"},"name":"test_FreeGroupElm_copy_correct"},"guarantee":"test_FreeGroupElm_copy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_copy_correct","statement":"Path(test_FreeGroupElm_copy(x), test_FreeGroupElm_copy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"106445c6d431bb0f"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_copy","kind":"function","src_hash":"4a4182affef7e5a8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f == g and f != h"},"spec":{"lhs":"test_FreeGroupElm_copy()","rhs":"f == g and f != h","over":{"base":"Any"},"name":"test_FreeGroupElm_copy_correct"},"guarantee":"f == g; f != h","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_copy_correct","statement":"Path(test_FreeGroupElm_copy(x), f == g; f != h)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a76434908b6f6b4a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f == g","f != h"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_FreeGroupElm_copy():
     f = x*y*z**3
     g = f.copy()
@@ -186,16 +243,24 @@ def test_FreeGroupElm_copy():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FreeGroupElm_inverse(), test_FreeGroupElm_inverse produces the expected output) over Any ║
+# ║ Path(test_FreeGroupElm_inverse(), x.inverse() == x ** (-1) and (x * y).inverse() == y ** (-1) * x ** (-1) and (y * x * y ** (-1)).inverse() == y * x ** (-1) * y ** (-1) and (y ** 2 * x ** (-1)).inverse() == x * y ** (-2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FreeGroupElm_inverse : Any → {Any | x.inverse() ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  x.inverse() == x ** (-1)                       ║
+# ║   ensures:  (x * y).inverse() == y ** (-1) * x ** (-1)     ║
+# ║   ensures:  (y * x * y ** (-1)).inverse() == y * x **...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FreeGroupElm_inverse : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa3939eb797367bd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c79a9bd3db68453a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_inverse","kind":"function","src_hash":"f73c13f495477292","in":{"base":"Any"},"out":{"base":"Any","pred":"x.inverse() == x ** (-1) and (x * y).inverse() == y ** (-1) * x ** (-1) and (y * x * y ** (-1)).inverse() == y * x ** (-1) * y ** (-1) and (y ** 2 * x ** (-1)).inverse() == x * y ** (-2)"},"spec":{"lhs":"test_FreeGroupElm_inverse()","rhs":"test_FreeGroupElm_inverse produces the expected output","over":{"base":"Any"},"name":"test_FreeGroupElm_inverse_correct"},"guarantee":"test_FreeGroupElm_inverse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_inverse_correct","statement":"Path(test_FreeGroupElm_inverse(x), test_FreeGroupElm_inverse produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa3939eb797367bd"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_inverse","kind":"function","src_hash":"f73c13f495477292","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: x.inverse() == x ** (-1) and (x * y).inverse() == y ** (-1) * x ** (-1) and (y * x * y ** (-1)).inverse() == y * x ** (-1) * y ** (-1) and (y ** 2 * x ** (-1)).inverse() == x * y ** (-2)"},"spec":{"lhs":"test_FreeGroupElm_inverse()","rhs":"x.inverse() == x ** (-1) and (x * y).inverse() == y ** (-1) * x ** (-1) and (y * x * y ** (-1)).inverse() == y * x ** (-1) * y ** (-1) and (y ** 2 * x ** (-1)).inverse() == x * y ** (-2)","over":{"base":"Any"},"name":"test_FreeGroupElm_inverse_correct"},"guarantee":"x.inverse() == x ** (-1); (x * y).inverse() == y ** (-1) * x ** (-1); (y * x * y ** (-1)).inverse() == y * x ** (-1) * y ** (-1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_inverse_correct","statement":"Path(test_FreeGroupElm_inverse(x), x.inverse() == x ** (-1); (x * y).inverse() == y ** (-1) * x ** (-1); (y * x * y ** (-1)).inverse() == y * x ** (-1) * y ** (-1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c79a9bd3db68453a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["x.inverse() == x ** (-1)","(x * y).inverse() == y ** (-1) * x ** (-1)","(y * x * y ** (-1)).inverse() == y * x ** (-1) * y ** (-1)","(y ** 2 * x ** (-1)).inverse() == x * y ** (-2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_FreeGroupElm_inverse():
     assert x.inverse() == x**-1
     assert (x*y).inverse() == y**-1*x**-1
@@ -204,16 +269,22 @@ def test_FreeGroupElm_inverse():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FreeGroupElm_type_error(), test_FreeGroupElm_type_error produces the expected output) over Any ║
+# ║ Path(test_FreeGroupElm_type_error(), <unspecified:test_FreeGroupElm_type_error>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_FreeGroupElm_type_error : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ca9bb8256e48577  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_type_error","kind":"function","src_hash":"a6279f601682d301","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_FreeGroupElm_type_error()","rhs":"test_FreeGroupElm_type_error produces the expected output","over":{"base":"Any"},"name":"test_FreeGroupElm_type_error_correct"},"guarantee":"test_FreeGroupElm_type_error produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_type_error_correct","statement":"Path(test_FreeGroupElm_type_error(x), test_FreeGroupElm_type_error produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ca9bb8256e48577"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_type_error","kind":"function","src_hash":"a6279f601682d301","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_FreeGroupElm_type_error()","rhs":"<unspecified:test_FreeGroupElm_type_error>","over":{"base":"Any"},"name":"test_FreeGroupElm_type_error_correct"},"guarantee":"test_FreeGroupElm_type_error produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_type_error_correct","statement":"Path(test_FreeGroupElm_type_error(x), test_FreeGroupElm_type_error produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ca9bb8256e48577","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_FreeGroupElm_type_error():
     raises(TypeError, lambda: 2/x)
     raises(TypeError, lambda: x**2 + y**2)
@@ -221,16 +292,24 @@ def test_FreeGroupElm_type_error():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FreeGroupElm_methods(), test_FreeGroupElm_methods produces the expected output) over Any ║
+# ║ Path(test_FreeGroupElm_methods(), (x ** 0).order() == 1 and (y ** 2).order() is oo and (x ** (-1) * y).commutator(x) == y ** (-1) * x ** (-1) * y * x and len(x ** 2 * y ** (-1)) == 3 and len(x ** (-1) * y ** 3 * z) == 5) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FreeGroupElm_methods : Any → {Any | (x ** 0).ord...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x ** 0).order() == 1                          ║
+# ║   ensures:  (y ** 2).order() is oo                         ║
+# ║   ensures:  (x ** (-1) * y).commutator(x) == y ** (-1...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FreeGroupElm_methods : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd5046cdccf4d4fa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 534093f77bc23e69  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_methods","kind":"function","src_hash":"f23d986ad4b89058","in":{"base":"Any"},"out":{"base":"Any","pred":"(x ** 0).order() == 1 and (y ** 2).order() is oo and (x ** (-1) * y).commutator(x) == y ** (-1) * x ** (-1) * y * x and len(x ** 2 * y ** (-1)) == 3 and len(x ** (-1) * y ** 3 * z) == 5"},"spec":{"lhs":"test_FreeGroupElm_methods()","rhs":"test_FreeGroupElm_methods produces the expected output","over":{"base":"Any"},"name":"test_FreeGroupElm_methods_correct"},"guarantee":"test_FreeGroupElm_methods produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_methods_correct","statement":"Path(test_FreeGroupElm_methods(x), test_FreeGroupElm_methods produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd5046cdccf4d4fa"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_methods","kind":"function","src_hash":"f23d986ad4b89058","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (x ** 0).order() == 1 and (y ** 2).order() is oo and (x ** (-1) * y).commutator(x) == y ** (-1) * x ** (-1) * y * x and len(x ** 2 * y ** (-1)) == 3 and len(x ** (-1) * y ** 3 * z) == 5"},"spec":{"lhs":"test_FreeGroupElm_methods()","rhs":"(x ** 0).order() == 1 and (y ** 2).order() is oo and (x ** (-1) * y).commutator(x) == y ** (-1) * x ** (-1) * y * x and len(x ** 2 * y ** (-1)) == 3 and len(x ** (-1) * y ** 3 * z) == 5","over":{"base":"Any"},"name":"test_FreeGroupElm_methods_correct"},"guarantee":"(x ** 0).order() == 1; (y ** 2).order() is oo; (x ** (-1) * y).commutator(x) == y ** (-1) * x ** (-1) * y * x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_methods_correct","statement":"Path(test_FreeGroupElm_methods(x), (x ** 0).order() == 1; (y ** 2).order() is oo; (x ** (-1) * y).commutator(x) == y ** (-1) * x ** (-1) * y * x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"534093f77bc23e69","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x ** 0).order() == 1","(y ** 2).order() is oo","(x ** (-1) * y).commutator(x) == y ** (-1) * x ** (-1) * y * x","len(x ** 2 * y ** (-1)) == 3","len(x ** (-1) * y ** 3 * z) == 5"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_FreeGroupElm_methods():
     assert (x**0).order() == 1
     assert (y**2).order() is oo
@@ -240,16 +319,24 @@ def test_FreeGroupElm_methods():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FreeGroupElm_eliminate_word(), test_FreeGroupElm_eliminate_word produces the expected output) over Any ║
+# ║ Path(test_FreeGroupElm_eliminate_word(), w.eliminate_word(x, x ** 2) == x ** 10 * y * x ** 4 * y ** (-4) * x ** 2 and w3.eliminate_word(x, x ** 2) == x ** 4 * y ** 3 * x ** (-2) * y and w3.eliminate_word(x, y) == y ** 5 and w3.eliminate_word(x, y ** 4) == y ** 8 and w3.eliminate_word(y, x ** (-1)) == x ** (-3) and w3.eliminate_word(x, y * z) == y * z * y * z * y ** 3 * z ** (-1) and (y ** (-3)).eliminate_word(y, x ** (-1) * z ** (-1)) == z * x * z * x * z * x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FreeGroupElm_eliminate_word : Any → {Any | w.eli...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  w.eliminate_word(x, x ** 2) == x ** 10 * ...   ║
+# ║   ensures:  w3.eliminate_word(x, x ** 2) == x ** 4 * ...   ║
+# ║   ensures:  w3.eliminate_word(x, y) == y ** 5              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FreeGroupElm_eliminate_word : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df5752a2a1c0d446  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ca519c0f5dfa36b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_eliminate_word","kind":"function","src_hash":"c9d692e7571481b4","in":{"base":"Any"},"out":{"base":"Any","pred":"w.eliminate_word(x, x ** 2) == x ** 10 * y * x ** 4 * y ** (-4) * x ** 2 and w3.eliminate_word(x, x ** 2) == x ** 4 * y ** 3 * x ** (-2) * y and w3.eliminate_word(x, y) == y ** 5 and w3.eliminate_word(x, y ** 4) == y ** 8 and w3.eliminate_word(y, x ** (-1)) == x ** (-3) and w3.eliminate_word(x, y * z) == y * z * y * z * y ** 3 * z ** (-1) and (y ** (-3)).eliminate_word(y, x ** (-1) * z ** (-1)) == z * x * z * x * z * x"},"spec":{"lhs":"test_FreeGroupElm_eliminate_word()","rhs":"test_FreeGroupElm_eliminate_word produces the expected output","over":{"base":"Any"},"name":"test_FreeGroupElm_eliminate_word_correct"},"guarantee":"test_FreeGroupElm_eliminate_word produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_eliminate_word_correct","statement":"Path(test_FreeGroupElm_eliminate_word(x), test_FreeGroupElm_eliminate_word produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df5752a2a1c0d446"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_eliminate_word","kind":"function","src_hash":"c9d692e7571481b4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: w.eliminate_word(x, x ** 2) == x ** 10 * y * x ** 4 * y ** (-4) * x ** 2 and w3.eliminate_word(x, x ** 2) == x ** 4 * y ** 3 * x ** (-2) * y and w3.eliminate_word(x, y) == y ** 5 and w3.eliminate_word(x, y ** 4) == y ** 8 and w3.eliminate_word(y, x ** (-1)) == x ** (-3) and w3.eliminate_word(x, y * z) == y * z * y * z * y ** 3 * z ** (-1) and (y ** (-3)).eliminate_word(y, x ** (-1) * z ** (-1)) == z * x * z * x * z * x"},"spec":{"lhs":"test_FreeGroupElm_eliminate_word()","rhs":"w.eliminate_word(x, x ** 2) == x ** 10 * y * x ** 4 * y ** (-4) * x ** 2 and w3.eliminate_word(x, x ** 2) == x ** 4 * y ** 3 * x ** (-2) * y and w3.eliminate_word(x, y) == y ** 5 and w3.eliminate_word(x, y ** 4) == y ** 8 and w3.eliminate_word(y, x ** (-1)) == x ** (-3) and w3.eliminate_word(x, y * z) == y * z * y * z * y ** 3 * z ** (-1) and (y ** (-3)).eliminate_word(y, x ** (-1) * z ** (-1)) == z * x * z * x * z * x","over":{"base":"Any"},"name":"test_FreeGroupElm_eliminate_word_correct"},"guarantee":"w.eliminate_word(x, x ** 2) == x ** 10 * y * x ** 4 * y ** (-4) * x ** 2; w3.eliminate_word(x, x ** 2) == x ** 4 * y ** 3 * x ** (-2) * y; w3.eliminate_word(x, y) == y ** 5","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_eliminate_word_correct","statement":"Path(test_FreeGroupElm_eliminate_word(x), w.eliminate_word(x, x ** 2) == x ** 10 * y * x ** 4 * y ** (-4) * x ** 2; w3.eliminate_word(x, x ** 2) == x ** 4 * y ** 3 * x ** (-2) * y; w3.eliminate_word(x, y) == y ** 5)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ca519c0f5dfa36b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["w.eliminate_word(x, x ** 2) == x ** 10 * y * x ** 4 * y ** (-4) * x ** 2","w3.eliminate_word(x, x ** 2) == x ** 4 * y ** 3 * x ** (-2) * y","w3.eliminate_word(x, y) == y ** 5","w3.eliminate_word(x, y ** 4) == y ** 8","w3.eliminate_word(y, x ** (-1)) == x ** (-3)","w3.eliminate_word(x, y * z) == y * z * y * z * y ** 3 * z ** (-1)","(y ** (-3)).eliminate_word(y, x ** (-1) * z ** (-1)) == z * x * z * x * z * x"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_FreeGroupElm_eliminate_word():
     w = x**5*y*x**2*y**-4*x
     assert w.eliminate_word( x, x**2 ) == x**10*y*x**4*y**-4*x**2
@@ -265,16 +352,24 @@ def test_FreeGroupElm_eliminate_word():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FreeGroupElm_array_form(), test_FreeGroupElm_array_form produces the expected output) over Any ║
+# ║ Path(test_FreeGroupElm_array_form(), (x * z).array_form == ((Symbol('x'), 1), (Symbol('z'), 1)) and (x ** 2 * z * y * x ** (-2)).array_form == ((Symbol('x'), 2), (Symbol('z'), 1), (Symbol('y'), 1), (Symbol('x'), -2)) and (x ** (-2) * y ** (-1)).array_form == ((Symbol('x'), -2), (Symbol('y'), -1))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FreeGroupElm_array_form : Any → {Any | (x * z).a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x * z).array_form == ((Symbol('x'), 1), ...   ║
+# ║   ensures:  (x ** 2 * z * y * x ** (-2)).array_form =...   ║
+# ║   ensures:  (x ** (-2) * y ** (-1)).array_form == ((S...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FreeGroupElm_array_form : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 72fddfa14e2cef5d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb14cada4d50d626  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_array_form","kind":"function","src_hash":"3a354cc8b5bc468b","in":{"base":"Any"},"out":{"base":"Any","pred":"(x * z).array_form == ((Symbol('x'), 1), (Symbol('z'), 1)) and (x ** (-2) * y ** (-1)).array_form == ((Symbol('x'), -2), (Symbol('y'), -1))"},"spec":{"lhs":"test_FreeGroupElm_array_form()","rhs":"test_FreeGroupElm_array_form produces the expected output","over":{"base":"Any"},"name":"test_FreeGroupElm_array_form_correct"},"guarantee":"test_FreeGroupElm_array_form produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_array_form_correct","statement":"Path(test_FreeGroupElm_array_form(x), test_FreeGroupElm_array_form produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72fddfa14e2cef5d"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_array_form","kind":"function","src_hash":"3a354cc8b5bc468b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (x * z).array_form == ((Symbol('x'), 1), (Symbol('z'), 1)) and (x ** 2 * z * y * x ** (-2)).array_form == ((Symbol('x'), 2), (Symbol('z'), 1), (Symbol('y'), 1), (Symbol('x'), -2)) and (x ** (-2) * y ** (-1)).array_form == ((Symbol('x'), -2), (Symbol('y'), -1))"},"spec":{"lhs":"test_FreeGroupElm_array_form()","rhs":"(x * z).array_form == ((Symbol('x'), 1), (Symbol('z'), 1)) and (x ** 2 * z * y * x ** (-2)).array_form == ((Symbol('x'), 2), (Symbol('z'), 1), (Symbol('y'), 1), (Symbol('x'), -2)) and (x ** (-2) * y ** (-1)).array_form == ((Symbol('x'), -2), (Symbol('y'), -1))","over":{"base":"Any"},"name":"test_FreeGroupElm_array_form_correct"},"guarantee":"(x * z).array_form == ((Symbol('x'), 1), (Symbol('z'), 1)); (x ** 2 * z * y * x ** (-2)).array_form == ((Symbol('x'), 2), (Symbol('z'), 1), (Symbol('y'), 1), (Symbol('x'), -2)); (x ** (-2) * y ** (-1)).array_form == ((Symbol('x'), -2), (Symbol('y'), -1))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_array_form_correct","statement":"Path(test_FreeGroupElm_array_form(x), (x * z).array_form == ((Symbol('x'), 1), (Symbol('z'), 1)); (x ** 2 * z * y * x ** (-2)).array_form == ((Symbol('x'), 2), (Symbol('z'), 1), (Symbol('y'), 1), (Symbol('x'), -2)); (x ** (-2) * y ** (-1)).array_form == ((Symbol('x'), -2), (Symbol('y'), -1)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb14cada4d50d626","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x * z).array_form == ((Symbol('x'), 1), (Symbol('z'), 1))","(x ** 2 * z * y * x ** (-2)).array_form == ((Symbol('x'), 2), (Symbol('z'), 1), (Symbol('y'), 1), (Symbol('x'), -2))","(x ** (-2) * y ** (-1)).array_form == ((Symbol('x'), -2), (Symbol('y'), -1))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_FreeGroupElm_array_form():
     assert (x*z).array_form == ((Symbol('x'), 1), (Symbol('z'), 1))
     assert (x**2*z*y*x**-2).array_form == \
@@ -283,16 +378,23 @@ def test_FreeGroupElm_array_form():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FreeGroupElm_letter_form(), test_FreeGroupElm_letter_form produces the expected output) over Any ║
+# ║ Path(test_FreeGroupElm_letter_form(), (x ** 3).letter_form == (Symbol('x'), Symbol('x'), Symbol('x')) and (x ** 2 * z ** (-2) * x).letter_form == (Symbol('x'), Symbol('x'), -Symbol('z'), -Symbol('z'), Symbol('x'))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FreeGroupElm_letter_form : Any → {Any | (x ** 3)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x ** 3).letter_form == (Symbol('x'), Sym...   ║
+# ║   ensures:  (x ** 2 * z ** (-2) * x).letter_form == (...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FreeGroupElm_letter_form : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c24a457a7a4a61b7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 01a08fe894bffaaa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_letter_form","kind":"function","src_hash":"b85bdb7bf7687337","in":{"base":"Any"},"out":{"base":"Any","pred":"(x ** 3).letter_form == (Symbol('x'), Symbol('x'), Symbol('x'))"},"spec":{"lhs":"test_FreeGroupElm_letter_form()","rhs":"test_FreeGroupElm_letter_form produces the expected output","over":{"base":"Any"},"name":"test_FreeGroupElm_letter_form_correct"},"guarantee":"test_FreeGroupElm_letter_form produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_letter_form_correct","statement":"Path(test_FreeGroupElm_letter_form(x), test_FreeGroupElm_letter_form produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c24a457a7a4a61b7"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_letter_form","kind":"function","src_hash":"b85bdb7bf7687337","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (x ** 3).letter_form == (Symbol('x'), Symbol('x'), Symbol('x')) and (x ** 2 * z ** (-2) * x).letter_form == (Symbol('x'), Symbol('x'), -Symbol('z'), -Symbol('z'), Symbol('x'))"},"spec":{"lhs":"test_FreeGroupElm_letter_form()","rhs":"(x ** 3).letter_form == (Symbol('x'), Symbol('x'), Symbol('x')) and (x ** 2 * z ** (-2) * x).letter_form == (Symbol('x'), Symbol('x'), -Symbol('z'), -Symbol('z'), Symbol('x'))","over":{"base":"Any"},"name":"test_FreeGroupElm_letter_form_correct"},"guarantee":"(x ** 3).letter_form == (Symbol('x'), Symbol('x'), Symbol('x')); (x ** 2 * z ** (-2) * x).letter_form == (Symbol('x'), Symbol('x'), -Symbol('z'), -Symbol('z'), Symbol('x'))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_letter_form_correct","statement":"Path(test_FreeGroupElm_letter_form(x), (x ** 3).letter_form == (Symbol('x'), Symbol('x'), Symbol('x')); (x ** 2 * z ** (-2) * x).letter_form == (Symbol('x'), Symbol('x'), -Symbol('z'), -Symbol('z'), Symbol('x')))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01a08fe894bffaaa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x ** 3).letter_form == (Symbol('x'), Symbol('x'), Symbol('x'))","(x ** 2 * z ** (-2) * x).letter_form == (Symbol('x'), Symbol('x'), -Symbol('z'), -Symbol('z'), Symbol('x'))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_FreeGroupElm_letter_form():
     assert (x**3).letter_form == (Symbol('x'), Symbol('x'), Symbol('x'))
     assert (x**2*z**-2*x).letter_form == \
@@ -300,16 +402,24 @@ def test_FreeGroupElm_letter_form():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FreeGroupElm_ext_rep(), test_FreeGroupElm_ext_rep produces the expected output) over Any ║
+# ║ Path(test_FreeGroupElm_ext_rep(), (x ** 2 * z ** (-2) * x).ext_rep == (Symbol('x'), 2, Symbol('z'), -2, Symbol('x'), 1) and (x ** (-2) * y ** (-1)).ext_rep == (Symbol('x'), -2, Symbol('y'), -1) and (x * z).ext_rep == (Symbol('x'), 1, Symbol('z'), 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FreeGroupElm_ext_rep : Any → {Any | (x ** (-2) *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x ** 2 * z ** (-2) * x).ext_rep == (Symb...   ║
+# ║   ensures:  (x ** (-2) * y ** (-1)).ext_rep == (Symbo...   ║
+# ║   ensures:  (x * z).ext_rep == (Symbol('x'), 1, Symbo...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FreeGroupElm_ext_rep : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 34792899d2eb399a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b51eb0633335e58  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_ext_rep","kind":"function","src_hash":"305c7836405f8f20","in":{"base":"Any"},"out":{"base":"Any","pred":"(x ** (-2) * y ** (-1)).ext_rep == (Symbol('x'), -2, Symbol('y'), -1) and (x * z).ext_rep == (Symbol('x'), 1, Symbol('z'), 1)"},"spec":{"lhs":"test_FreeGroupElm_ext_rep()","rhs":"test_FreeGroupElm_ext_rep produces the expected output","over":{"base":"Any"},"name":"test_FreeGroupElm_ext_rep_correct"},"guarantee":"test_FreeGroupElm_ext_rep produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_ext_rep_correct","statement":"Path(test_FreeGroupElm_ext_rep(x), test_FreeGroupElm_ext_rep produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34792899d2eb399a"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_ext_rep","kind":"function","src_hash":"305c7836405f8f20","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (x ** 2 * z ** (-2) * x).ext_rep == (Symbol('x'), 2, Symbol('z'), -2, Symbol('x'), 1) and (x ** (-2) * y ** (-1)).ext_rep == (Symbol('x'), -2, Symbol('y'), -1) and (x * z).ext_rep == (Symbol('x'), 1, Symbol('z'), 1)"},"spec":{"lhs":"test_FreeGroupElm_ext_rep()","rhs":"(x ** 2 * z ** (-2) * x).ext_rep == (Symbol('x'), 2, Symbol('z'), -2, Symbol('x'), 1) and (x ** (-2) * y ** (-1)).ext_rep == (Symbol('x'), -2, Symbol('y'), -1) and (x * z).ext_rep == (Symbol('x'), 1, Symbol('z'), 1)","over":{"base":"Any"},"name":"test_FreeGroupElm_ext_rep_correct"},"guarantee":"(x ** 2 * z ** (-2) * x).ext_rep == (Symbol('x'), 2, Symbol('z'), -2, Symbol('x'), 1); (x ** (-2) * y ** (-1)).ext_rep == (Symbol('x'), -2, Symbol('y'), -1); (x * z).ext_rep == (Symbol('x'), 1, Symbol('z'), 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_ext_rep_correct","statement":"Path(test_FreeGroupElm_ext_rep(x), (x ** 2 * z ** (-2) * x).ext_rep == (Symbol('x'), 2, Symbol('z'), -2, Symbol('x'), 1); (x ** (-2) * y ** (-1)).ext_rep == (Symbol('x'), -2, Symbol('y'), -1); (x * z).ext_rep == (Symbol('x'), 1, Symbol('z'), 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b51eb0633335e58","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x ** 2 * z ** (-2) * x).ext_rep == (Symbol('x'), 2, Symbol('z'), -2, Symbol('x'), 1)","(x ** (-2) * y ** (-1)).ext_rep == (Symbol('x'), -2, Symbol('y'), -1)","(x * z).ext_rep == (Symbol('x'), 1, Symbol('z'), 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_FreeGroupElm_ext_rep():
     assert (x**2*z**-2*x).ext_rep == \
         (Symbol('x'), 2, Symbol('z'), -2, Symbol('x'), 1)
@@ -318,16 +428,24 @@ def test_FreeGroupElm_ext_rep():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FreeGroupElm__mul__pow__(), test_FreeGroupElm__mul__pow__ produces the expected output) over Any ║
+# ║ Path(test_FreeGroupElm__mul__pow__(), x ** 2 == x1 * x and (x ** 2 * y * x ** (-2)) ** 4 == x ** 2 * y ** 4 * x ** (-2) and (x ** 2) ** 2 == x ** 4 and (x ** (-1)) ** (-1) == x and (x ** (-1)) ** 0 == F.identity and (y ** 2) ** (-2) == y ** (-4) and x ** 2 * x ** (-1) == x and x ** 2 * y ** 2 * y ** (-1) == x ** 2 * y and x * x ** (-1) == F.identity and x / x == F.identity and x / x ** 2 == x ** (-1) and x ** 2 * y / (x ** 2 * y ** (-1)) == x ** 2 * y ** 2 * x ** (-2) and x ** 2 * y / (y ** (-1) * x ** 2) == x ** 2 * y * x ** (-2) * y and x * (x ** (-1) * y * z * y ** (-1)) == y * z * y ** (-1) and x ** 2 * (x ** (-2) * y ** (-1) * z ** 2 * y) == y ** (-1) * z ** 2 * y) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FreeGroupElm__mul__pow__ : Any → {Any | x ** 2 =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  x ** 2 == x1 * x                               ║
+# ║   ensures:  (x ** 2 * y * x ** (-2)) ** 4 == x ** 2 *...   ║
+# ║   ensures:  (x ** 2) ** 2 == x ** 4                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FreeGroupElm__mul__pow__ : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d79f6e44be7f0641  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81df84b59918b8ae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm__mul__pow__","kind":"function","src_hash":"a478a0c4ba95b169","in":{"base":"Any"},"out":{"base":"Any","pred":"x ** 2 == x1 * x and (x ** 2 * y * x ** (-2)) ** 4 == x ** 2 * y ** 4 * x ** (-2) and (x ** 2) ** 2 == x ** 4 and (x ** (-1)) ** (-1) == x and (x ** (-1)) ** 0 == F.identity and (y ** 2) ** (-2) == y ** (-4) and x ** 2 * x ** (-1) == x and x ** 2 * y ** 2 * y ** (-1) == x ** 2 * y and x * x ** (-1) == F.identity and x / x == F.identity and x / x ** 2 == x ** (-1) and x ** 2 * y / (x ** 2 * y ** (-1)) == x ** 2 * y ** 2 * x ** (-2) and x ** 2 * y / (y ** (-1) * x ** 2) == x ** 2 * y * x ** (-2) * y and x * (x ** (-1) * y * z * y ** (-1)) == y * z * y ** (-1) and x ** 2 * (x ** (-2) * y ** (-1) * z ** 2 * y) == y ** (-1) * z ** 2 * y and a == x ** n and a ** (-1) == x ** (-n)"},"spec":{"lhs":"test_FreeGroupElm__mul__pow__()","rhs":"test_FreeGroupElm__mul__pow__ produces the expected output","over":{"base":"Any"},"name":"test_FreeGroupElm__mul__pow___correct"},"guarantee":"test_FreeGroupElm__mul__pow__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm__mul__pow___correct","statement":"Path(test_FreeGroupElm__mul__pow__(x), test_FreeGroupElm__mul__pow__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d79f6e44be7f0641"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm__mul__pow__","kind":"function","src_hash":"a478a0c4ba95b169","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: x ** 2 == x1 * x and (x ** 2 * y * x ** (-2)) ** 4 == x ** 2 * y ** 4 * x ** (-2) and (x ** 2) ** 2 == x ** 4 and (x ** (-1)) ** (-1) == x and (x ** (-1)) ** 0 == F.identity and (y ** 2) ** (-2) == y ** (-4) and x ** 2 * x ** (-1) == x and x ** 2 * y ** 2 * y ** (-1) == x ** 2 * y and x * x ** (-1) == F.identity and x / x == F.identity and x / x ** 2 == x ** (-1) and x ** 2 * y / (x ** 2 * y ** (-1)) == x ** 2 * y ** 2 * x ** (-2) and x ** 2 * y / (y ** (-1) * x ** 2) == x ** 2 * y * x ** (-2) * y and x * (x ** (-1) * y * z * y ** (-1)) == y * z * y ** (-1) and x ** 2 * (x ** (-2) * y ** (-1) * z ** 2 * y) == y ** (-1) * z ** 2 * y"},"spec":{"lhs":"test_FreeGroupElm__mul__pow__()","rhs":"x ** 2 == x1 * x and (x ** 2 * y * x ** (-2)) ** 4 == x ** 2 * y ** 4 * x ** (-2) and (x ** 2) ** 2 == x ** 4 and (x ** (-1)) ** (-1) == x and (x ** (-1)) ** 0 == F.identity and (y ** 2) ** (-2) == y ** (-4) and x ** 2 * x ** (-1) == x and x ** 2 * y ** 2 * y ** (-1) == x ** 2 * y and x * x ** (-1) == F.identity and x / x == F.identity and x / x ** 2 == x ** (-1) and x ** 2 * y / (x ** 2 * y ** (-1)) == x ** 2 * y ** 2 * x ** (-2) and x ** 2 * y / (y ** (-1) * x ** 2) == x ** 2 * y * x ** (-2) * y and x * (x ** (-1) * y * z * y ** (-1)) == y * z * y ** (-1) and x ** 2 * (x ** (-2) * y ** (-1) * z ** 2 * y) == y ** (-1) * z ** 2 * y","over":{"base":"Any"},"name":"test_FreeGroupElm__mul__pow___correct"},"guarantee":"x ** 2 == x1 * x; (x ** 2 * y * x ** (-2)) ** 4 == x ** 2 * y ** 4 * x ** (-2); (x ** 2) ** 2 == x ** 4","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm__mul__pow___correct","statement":"Path(test_FreeGroupElm__mul__pow__(x), x ** 2 == x1 * x; (x ** 2 * y * x ** (-2)) ** 4 == x ** 2 * y ** 4 * x ** (-2); (x ** 2) ** 2 == x ** 4)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81df84b59918b8ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["x ** 2 == x1 * x","(x ** 2 * y * x ** (-2)) ** 4 == x ** 2 * y ** 4 * x ** (-2)","(x ** 2) ** 2 == x ** 4","(x ** (-1)) ** (-1) == x","(x ** (-1)) ** 0 == F.identity","(y ** 2) ** (-2) == y ** (-4)","x ** 2 * x ** (-1) == x","x ** 2 * y ** 2 * y ** (-1) == x ** 2 * y","x * x ** (-1) == F.identity","x / x == F.identity","x / x ** 2 == x ** (-1)","x ** 2 * y / (x ** 2 * y ** (-1)) == x ** 2 * y ** 2 * x ** (-2)","x ** 2 * y / (y ** (-1) * x ** 2) == x ** 2 * y * x ** (-2) * y","x * (x ** (-1) * y * z * y ** (-1)) == y * z * y ** (-1)","x ** 2 * (x ** (-2) * y ** (-1) * z ** 2 * y) == y ** (-1) * z ** 2 * y"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_FreeGroupElm__mul__pow__():
     x1 = x.group.dtype(((Symbol('x'), 1),))
     assert x**2 == x1*x
@@ -358,16 +476,24 @@ def test_FreeGroupElm__mul__pow__():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FreeGroupElm__len__(), test_FreeGroupElm__len__ produces the expected output) over Any ║
+# ║ Path(test_FreeGroupElm__len__(), len(x ** 5 * y * x ** 2 * y ** (-4) * x) == 13 and len(x ** 17) == 17 and len(y ** 0) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FreeGroupElm__len__ : Any → {Any | len(x ** 5 * ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(x ** 5 * y * x ** 2 * y ** (-4) * x) ...   ║
+# ║   ensures:  len(x ** 17) == 17                             ║
+# ║   ensures:  len(y ** 0) == 0                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FreeGroupElm__len__ : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9bb32acdb898bccc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4fee244b0f7a6604  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm__len__","kind":"function","src_hash":"2f987d9ce31f517f","in":{"base":"Any"},"out":{"base":"Any","pred":"len(x ** 5 * y * x ** 2 * y ** (-4) * x) == 13 and len(x ** 17) == 17 and len(y ** 0) == 0"},"spec":{"lhs":"test_FreeGroupElm__len__()","rhs":"test_FreeGroupElm__len__ produces the expected output","over":{"base":"Any"},"name":"test_FreeGroupElm__len___correct"},"guarantee":"test_FreeGroupElm__len__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm__len___correct","statement":"Path(test_FreeGroupElm__len__(x), test_FreeGroupElm__len__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9bb32acdb898bccc"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm__len__","kind":"function","src_hash":"2f987d9ce31f517f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(x ** 5 * y * x ** 2 * y ** (-4) * x) == 13 and len(x ** 17) == 17 and len(y ** 0) == 0"},"spec":{"lhs":"test_FreeGroupElm__len__()","rhs":"len(x ** 5 * y * x ** 2 * y ** (-4) * x) == 13 and len(x ** 17) == 17 and len(y ** 0) == 0","over":{"base":"Any"},"name":"test_FreeGroupElm__len___correct"},"guarantee":"len(x ** 5 * y * x ** 2 * y ** (-4) * x) == 13; len(x ** 17) == 17; len(y ** 0) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm__len___correct","statement":"Path(test_FreeGroupElm__len__(x), len(x ** 5 * y * x ** 2 * y ** (-4) * x) == 13; len(x ** 17) == 17; len(y ** 0) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4fee244b0f7a6604","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(x ** 5 * y * x ** 2 * y ** (-4) * x) == 13","len(x ** 17) == 17","len(y ** 0) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_FreeGroupElm__len__():
     assert len(x**5*y*x**2*y**-4*x) == 13
     assert len(x**17) == 17
@@ -375,16 +501,24 @@ def test_FreeGroupElm__len__():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FreeGroupElm_comparison(), test_FreeGroupElm_comparison produces the expected output) over Any ║
+# ║ Path(test_FreeGroupElm_comparison(), not x * y == y * x and x ** 0 == y ** 0 and x ** 2 < y ** 3 and not x ** 3 < y ** 2 and x * y < x ** 2 * y and x ** 2 * y ** 2 < y ** 4 and not y ** 4 < y ** (-4) and not y ** 4 < x ** (-4) and y ** (-2) < y ** 2 and x ** 2 <= y ** 2 and x ** 2 <= x ** 2 and not y * z > z * y and x > x ** (-1) and not x ** 2 >= y ** 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FreeGroupElm_comparison : Any → {Any | not x * y...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not x * y == y * x                             ║
+# ║   ensures:  x ** 0 == y ** 0                               ║
+# ║   ensures:  x ** 2 < y ** 3                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FreeGroupElm_comparison : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 42647862be00467c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f88615c8108164be  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_comparison","kind":"function","src_hash":"3e67f6e00f174a40","in":{"base":"Any"},"out":{"base":"Any","pred":"not x * y == y * x and x ** 0 == y ** 0 and x ** 2 < y ** 3 and not x ** 3 < y ** 2 and x * y < x ** 2 * y and x ** 2 * y ** 2 < y ** 4 and not y ** 4 < y ** (-4) and not y ** 4 < x ** (-4) and y ** (-2) < y ** 2 and x ** 2 <= y ** 2 and x ** 2 <= x ** 2 and not y * z > z * y and x > x ** (-1) and not x ** 2 >= y ** 2"},"spec":{"lhs":"test_FreeGroupElm_comparison()","rhs":"test_FreeGroupElm_comparison produces the expected output","over":{"base":"Any"},"name":"test_FreeGroupElm_comparison_correct"},"guarantee":"test_FreeGroupElm_comparison produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_comparison_correct","statement":"Path(test_FreeGroupElm_comparison(x), test_FreeGroupElm_comparison produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42647862be00467c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_comparison","kind":"function","src_hash":"3e67f6e00f174a40","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: not x * y == y * x and x ** 0 == y ** 0 and x ** 2 < y ** 3 and not x ** 3 < y ** 2 and x * y < x ** 2 * y and x ** 2 * y ** 2 < y ** 4 and not y ** 4 < y ** (-4) and not y ** 4 < x ** (-4) and y ** (-2) < y ** 2 and x ** 2 <= y ** 2 and x ** 2 <= x ** 2 and not y * z > z * y and x > x ** (-1) and not x ** 2 >= y ** 2"},"spec":{"lhs":"test_FreeGroupElm_comparison()","rhs":"not x * y == y * x and x ** 0 == y ** 0 and x ** 2 < y ** 3 and not x ** 3 < y ** 2 and x * y < x ** 2 * y and x ** 2 * y ** 2 < y ** 4 and not y ** 4 < y ** (-4) and not y ** 4 < x ** (-4) and y ** (-2) < y ** 2 and x ** 2 <= y ** 2 and x ** 2 <= x ** 2 and not y * z > z * y and x > x ** (-1) and not x ** 2 >= y ** 2","over":{"base":"Any"},"name":"test_FreeGroupElm_comparison_correct"},"guarantee":"not x * y == y * x; x ** 0 == y ** 0; x ** 2 < y ** 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_comparison_correct","statement":"Path(test_FreeGroupElm_comparison(x), not x * y == y * x; x ** 0 == y ** 0; x ** 2 < y ** 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f88615c8108164be","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not x * y == y * x","x ** 0 == y ** 0","x ** 2 < y ** 3","not x ** 3 < y ** 2","x * y < x ** 2 * y","x ** 2 * y ** 2 < y ** 4","not y ** 4 < y ** (-4)","not y ** 4 < x ** (-4)","y ** (-2) < y ** 2","x ** 2 <= y ** 2","x ** 2 <= x ** 2","not y * z > z * y","x > x ** (-1)","not x ** 2 >= y ** 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_FreeGroupElm_comparison():
     assert not (x*y == y*x)
     assert x**0 == y**0
@@ -407,16 +541,24 @@ def test_FreeGroupElm_comparison():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FreeGroupElm_syllables(), test_FreeGroupElm_syllables produces the expected output) over Any ║
+# ║ Path(test_FreeGroupElm_syllables(), w.number_syllables() == 5 and w.exponent_syllable(2) == 2 and w.generator_syllable(3) == Symbol('y') and w.sub_syllables(1, 2) == y and w.sub_syllables(3, 3) == F.identity) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FreeGroupElm_syllables : Any → {Any | w.number_s...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  w.number_syllables() == 5                      ║
+# ║   ensures:  w.exponent_syllable(2) == 2                    ║
+# ║   ensures:  w.generator_syllable(3) == Symbol('y')         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FreeGroupElm_syllables : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a5f7bd9af9bc022e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc9fbc5c943db73d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_syllables","kind":"function","src_hash":"3287d494895c785e","in":{"base":"Any"},"out":{"base":"Any","pred":"w.number_syllables() == 5 and w.exponent_syllable(2) == 2 and w.generator_syllable(3) == Symbol('y') and w.sub_syllables(1, 2) == y and w.sub_syllables(3, 3) == F.identity"},"spec":{"lhs":"test_FreeGroupElm_syllables()","rhs":"test_FreeGroupElm_syllables produces the expected output","over":{"base":"Any"},"name":"test_FreeGroupElm_syllables_correct"},"guarantee":"test_FreeGroupElm_syllables produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_syllables_correct","statement":"Path(test_FreeGroupElm_syllables(x), test_FreeGroupElm_syllables produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a5f7bd9af9bc022e"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_syllables","kind":"function","src_hash":"3287d494895c785e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: w.number_syllables() == 5 and w.exponent_syllable(2) == 2 and w.generator_syllable(3) == Symbol('y') and w.sub_syllables(1, 2) == y and w.sub_syllables(3, 3) == F.identity"},"spec":{"lhs":"test_FreeGroupElm_syllables()","rhs":"w.number_syllables() == 5 and w.exponent_syllable(2) == 2 and w.generator_syllable(3) == Symbol('y') and w.sub_syllables(1, 2) == y and w.sub_syllables(3, 3) == F.identity","over":{"base":"Any"},"name":"test_FreeGroupElm_syllables_correct"},"guarantee":"w.number_syllables() == 5; w.exponent_syllable(2) == 2; w.generator_syllable(3) == Symbol('y')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_syllables_correct","statement":"Path(test_FreeGroupElm_syllables(x), w.number_syllables() == 5; w.exponent_syllable(2) == 2; w.generator_syllable(3) == Symbol('y'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc9fbc5c943db73d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["w.number_syllables() == 5","w.exponent_syllable(2) == 2","w.generator_syllable(3) == Symbol('y')","w.sub_syllables(1, 2) == y","w.sub_syllables(3, 3) == F.identity"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_FreeGroupElm_syllables():
     w = x**5*y*x**2*y**-4*x
     assert w.number_syllables() == 5
@@ -427,16 +569,24 @@ def test_FreeGroupElm_syllables():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FreeGroup_exponents(), test_FreeGroup_exponents produces the expected output) over Any ║
+# ║ Path(test_FreeGroup_exponents(), w1.exponent_sum(x) == 2 and w1.exponent_sum(x ** (-1)) == -2 and w1.generator_count(x) == 2 and w2.exponent_sum(x) == -1 and w2.generator_count(x) == 5) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FreeGroup_exponents : Any → {Any | w1.exponent_s...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  w1.exponent_sum(x) == 2                        ║
+# ║   ensures:  w1.exponent_sum(x ** (-1)) == -2               ║
+# ║   ensures:  w1.generator_count(x) == 2                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FreeGroup_exponents : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f6f9b6d5466f8a81  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 35ad9b62907b9651  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroup_exponents","kind":"function","src_hash":"786884efe39c99b3","in":{"base":"Any"},"out":{"base":"Any","pred":"w1.exponent_sum(x) == 2 and w1.exponent_sum(x ** (-1)) == -2 and w1.generator_count(x) == 2 and w2.exponent_sum(x) == -1 and w2.generator_count(x) == 5"},"spec":{"lhs":"test_FreeGroup_exponents()","rhs":"test_FreeGroup_exponents produces the expected output","over":{"base":"Any"},"name":"test_FreeGroup_exponents_correct"},"guarantee":"test_FreeGroup_exponents produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroup_exponents_correct","statement":"Path(test_FreeGroup_exponents(x), test_FreeGroup_exponents produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6f9b6d5466f8a81"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroup_exponents","kind":"function","src_hash":"786884efe39c99b3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: w1.exponent_sum(x) == 2 and w1.exponent_sum(x ** (-1)) == -2 and w1.generator_count(x) == 2 and w2.exponent_sum(x) == -1 and w2.generator_count(x) == 5"},"spec":{"lhs":"test_FreeGroup_exponents()","rhs":"w1.exponent_sum(x) == 2 and w1.exponent_sum(x ** (-1)) == -2 and w1.generator_count(x) == 2 and w2.exponent_sum(x) == -1 and w2.generator_count(x) == 5","over":{"base":"Any"},"name":"test_FreeGroup_exponents_correct"},"guarantee":"w1.exponent_sum(x) == 2; w1.exponent_sum(x ** (-1)) == -2; w1.generator_count(x) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroup_exponents_correct","statement":"Path(test_FreeGroup_exponents(x), w1.exponent_sum(x) == 2; w1.exponent_sum(x ** (-1)) == -2; w1.generator_count(x) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35ad9b62907b9651","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["w1.exponent_sum(x) == 2","w1.exponent_sum(x ** (-1)) == -2","w1.generator_count(x) == 2","w2.exponent_sum(x) == -1","w2.generator_count(x) == 5"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_FreeGroup_exponents():
     w1 = x**2*y**3
     assert w1.exponent_sum(x) == 2
@@ -449,32 +599,47 @@ def test_FreeGroup_exponents():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FreeGroup_generators(), test_FreeGroup_generators produces the expected output) over Any ║
+# ║ Path(test_FreeGroup_generators(), (x ** 2 * y ** 4 * z ** (-1)).contains_generators() == {x, y, z} and (x ** (-1) * y ** 3).contains_generators() == {x, y}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FreeGroup_generators : Any → {Any | (x ** 2 * y ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x ** 2 * y ** 4 * z ** (-1)).contains_ge...   ║
+# ║   ensures:  (x ** (-1) * y ** 3).contains_generators(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FreeGroup_generators : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af9cde356276e3c7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa10d1f5b7410eb1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroup_generators","kind":"function","src_hash":"d1289f755c115f83","in":{"base":"Any"},"out":{"base":"Any","pred":"(x ** 2 * y ** 4 * z ** (-1)).contains_generators() == {x, y, z} and (x ** (-1) * y ** 3).contains_generators() == {x, y}"},"spec":{"lhs":"test_FreeGroup_generators()","rhs":"test_FreeGroup_generators produces the expected output","over":{"base":"Any"},"name":"test_FreeGroup_generators_correct"},"guarantee":"test_FreeGroup_generators produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroup_generators_correct","statement":"Path(test_FreeGroup_generators(x), test_FreeGroup_generators produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af9cde356276e3c7"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroup_generators","kind":"function","src_hash":"d1289f755c115f83","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (x ** 2 * y ** 4 * z ** (-1)).contains_generators() == {x, y, z} and (x ** (-1) * y ** 3).contains_generators() == {x, y}"},"spec":{"lhs":"test_FreeGroup_generators()","rhs":"(x ** 2 * y ** 4 * z ** (-1)).contains_generators() == {x, y, z} and (x ** (-1) * y ** 3).contains_generators() == {x, y}","over":{"base":"Any"},"name":"test_FreeGroup_generators_correct"},"guarantee":"(x ** 2 * y ** 4 * z ** (-1)).contains_generators() == {x, y, z}; (x ** (-1) * y ** 3).contains_generators() == {x, y}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroup_generators_correct","statement":"Path(test_FreeGroup_generators(x), (x ** 2 * y ** 4 * z ** (-1)).contains_generators() == {x, y, z}; (x ** (-1) * y ** 3).contains_generators() == {x, y})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa10d1f5b7410eb1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x ** 2 * y ** 4 * z ** (-1)).contains_generators() == {x, y, z}","(x ** (-1) * y ** 3).contains_generators() == {x, y}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_FreeGroup_generators():
     assert (x**2*y**4*z**-1).contains_generators() == {x, y, z}
     assert (x**-1*y**3).contains_generators() == {x, y}
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FreeGroupElm_words(), test_FreeGroupElm_words produces the expected output) over Any ║
+# ║ Path(test_FreeGroupElm_words(), w.subword(2, 6) == x ** 3 * y and w.subword(3, 2) == F.identity and w.subword(6, 10) == x ** 2 * y ** (-2) and w.substituted_word(0, 7, y ** (-1)) == y ** (-1) * x * y ** (-4) * x and w.substituted_word(0, 7, y ** 2 * x) == y ** 2 * x ** 2 * y ** (-4) * x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FreeGroupElm_words : Any → {Any | w.subword(2, 6...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  w.subword(2, 6) == x ** 3 * y                  ║
+# ║   ensures:  w.subword(3, 2) == F.identity                  ║
+# ║   ensures:  w.subword(6, 10) == x ** 2 * y ** (-2)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FreeGroupElm_words : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 067bfc5557d5ac73  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ace35f52550f28b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_words","kind":"function","src_hash":"8d63ecf1f2cf0359","in":{"base":"Any"},"out":{"base":"Any","pred":"w.subword(2, 6) == x ** 3 * y and w.subword(3, 2) == F.identity and w.subword(6, 10) == x ** 2 * y ** (-2) and w.substituted_word(0, 7, y ** (-1)) == y ** (-1) * x * y ** (-4) * x and w.substituted_word(0, 7, y ** 2 * x) == y ** 2 * x ** 2 * y ** (-4) * x"},"spec":{"lhs":"test_FreeGroupElm_words()","rhs":"test_FreeGroupElm_words produces the expected output","over":{"base":"Any"},"name":"test_FreeGroupElm_words_correct"},"guarantee":"test_FreeGroupElm_words produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_words_correct","statement":"Path(test_FreeGroupElm_words(x), test_FreeGroupElm_words produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"067bfc5557d5ac73"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_words","kind":"function","src_hash":"8d63ecf1f2cf0359","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: w.subword(2, 6) == x ** 3 * y and w.subword(3, 2) == F.identity and w.subword(6, 10) == x ** 2 * y ** (-2) and w.substituted_word(0, 7, y ** (-1)) == y ** (-1) * x * y ** (-4) * x and w.substituted_word(0, 7, y ** 2 * x) == y ** 2 * x ** 2 * y ** (-4) * x"},"spec":{"lhs":"test_FreeGroupElm_words()","rhs":"w.subword(2, 6) == x ** 3 * y and w.subword(3, 2) == F.identity and w.subword(6, 10) == x ** 2 * y ** (-2) and w.substituted_word(0, 7, y ** (-1)) == y ** (-1) * x * y ** (-4) * x and w.substituted_word(0, 7, y ** 2 * x) == y ** 2 * x ** 2 * y ** (-4) * x","over":{"base":"Any"},"name":"test_FreeGroupElm_words_correct"},"guarantee":"w.subword(2, 6) == x ** 3 * y; w.subword(3, 2) == F.identity; w.subword(6, 10) == x ** 2 * y ** (-2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_free_groups.test_FreeGroupElm_words_correct","statement":"Path(test_FreeGroupElm_words(x), w.subword(2, 6) == x ** 3 * y; w.subword(3, 2) == F.identity; w.subword(6, 10) == x ** 2 * y ** (-2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ace35f52550f28b4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["w.subword(2, 6) == x ** 3 * y","w.subword(3, 2) == F.identity","w.subword(6, 10) == x ** 2 * y ** (-2)","w.substituted_word(0, 7, y ** (-1)) == y ** (-1) * x * y ** (-4) * x","w.substituted_word(0, 7, y ** 2 * x) == y ** 2 * x ** 2 * y ** (-4) * x"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_FreeGroupElm_words():
     w = x**5*y*x**2*y**-4*x
     assert w.subword(2, 6) == x**3*y

@@ -40,31 +40,43 @@ __all__ = [
 #-----------------------------------------------------------------------------
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(QuantumError(), correctly constructs a QuantumError instance) over Any ║
+# ║ Path(QuantumError(), isinstance(self, Exception)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ QuantumError : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Exception)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ QuantumError : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d349885eb14e8ec9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QuantumError","kind":"class","src_hash":"f4146b3055b82a27","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"QuantumError()","rhs":"correctly constructs a QuantumError instance","over":{"base":"Any"},"name":"QuantumError_correct"},"guarantee":"correctly constructs a QuantumError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d349885eb14e8ec9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QuantumError","kind":"class","src_hash":"f4146b3055b82a27","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Exception)"},"spec":{"lhs":"QuantumError()","rhs":"isinstance(self, Exception)","over":{"base":"Any"},"name":"QuantumError_correct"},"guarantee":"isinstance(self, Exception)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d349885eb14e8ec9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Exception)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function QuantumError not found in source"]}}
 class QuantumError(Exception):
     pass
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_qsympify_sequence(seq), convert elements of a sequence to standard form) over Any ║
+# ║ Path(_qsympify_sequence(seq), tuple(__qsympify_sequence_helper(seq))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple(__qsympify_sequence_helper(seq))         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _qsympify_sequence : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e1ca29115d2725d6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr._qsympify_sequence","kind":"function","src_hash":"58f8d897f0f47508","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_qsympify_sequence(seq)","rhs":"convert elements of a sequence to standard form","over":{"base":"Any"},"name":"_qsympify_sequence_correct"},"guarantee":"convert elements of a sequence to standard form","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e1ca29115d2725d6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr._qsympify_sequence","kind":"function","src_hash":"58f8d897f0f47508","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_qsympify_sequence(seq)","rhs":"tuple(__qsympify_sequence_helper(seq))","over":{"base":"Any"},"name":"_qsympify_sequence_correct"},"guarantee":"returns tuple(__qsympify_sequence_helper(seq))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e1ca29115d2725d6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple(__qsympify_sequence_helper(seq))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _qsympify_sequence(seq):
     """Convert elements of a sequence to standard form.
 
@@ -93,16 +105,22 @@ def _qsympify_sequence(seq):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__qsympify_sequence_helper(seq), helper function for _qsympify_sequence this function does the actual work) over {Any | isinstance(seq, QExpr) and isinstance(seq, Matrix) and isinstance(seq, str)} ║
+# ║ Path(__qsympify_sequence_helper(seq), # HINT: __qsympify_sequence_helper may be idempotent: __qsympify_sequence_helper(__qsympify_sequence_helper(x)) == __qsympify_sequence_helper(x)) over {Any | isinstance(seq, QExpr) and isinstance(seq, Matrix) and isinstance(seq, str)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: __qsympify_sequence_helper may be...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __qsympify_sequence_helper : {Any | isinstance(seq, Q...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a0eb5afdba684a98           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.__qsympify_sequence_helper","kind":"function","src_hash":"de5d3dae3df3b50d","in":{"base":"Any","pred":"isinstance(seq, QExpr) and isinstance(seq, Matrix) and isinstance(seq, str)"},"out":{"base":"Any"},"spec":{"lhs":"__qsympify_sequence_helper(seq)","rhs":"helper function for _qsympify_sequence this function does the actual work","over":{"base":"Any","pred":"isinstance(seq, QExpr) and isinstance(seq, Matrix) and isinstance(seq, str)"},"name":"__qsympify_sequence_helper_correct"},"guarantee":"helper function for _qsympify_sequence this function does the actual work","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a0eb5afdba684a98"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.__qsympify_sequence_helper","kind":"function","src_hash":"de5d3dae3df3b50d","in":{"base":"Any","pred":"isinstance(seq, QExpr) and isinstance(seq, Matrix) and isinstance(seq, str)"},"out":{"base":"Any","pred":"result satisfies: # HINT: __qsympify_sequence_helper may be idempotent: __qsympify_sequence_helper(__qsympify_sequence_helper(x)) == __qsympify_sequence_helper(x)"},"spec":{"lhs":"__qsympify_sequence_helper(seq)","rhs":"# HINT: __qsympify_sequence_helper may be idempotent: __qsympify_sequence_helper(__qsympify_sequence_helper(x)) == __qsympify_sequence_helper(x)","over":{"base":"Any","pred":"isinstance(seq, QExpr) and isinstance(seq, Matrix) and isinstance(seq, str)"},"name":"__qsympify_sequence_helper_correct"},"guarantee":"# HINT: __qsympify_sequence_helper may be idempotent: __qsympify_sequence_helper(__qsympify_sequence_helper(x)) == __qsympify_sequence_helper(x)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a0eb5afdba684a98","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: __qsympify_sequence_helper may be idempotent: __qsympify_sequence_helper(__qsympify_sequence_helper(x)) == __qsympify_sequence_helper(x)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def __qsympify_sequence_helper(seq):
     """
        Helper function for _qsympify_sequence
@@ -135,14 +153,20 @@ def __qsympify_sequence_helper(seq):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a QExpr instance) preserved by QExpr(*args) over {Any | isinstance(obj, QExpr) and isinstance(result, Matrix) and isinstance(result, numpy_ndarray)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ QExpr : {Any | isinstance(obj, QExpr) and isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84aaf656ccbcae60  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr","kind":"class","src_hash":"692f5bf7d57f767d","in":{"base":"Any","pred":"isinstance(obj, QExpr) and isinstance(result, Matrix) and isinstance(result, numpy_ndarray)"},"out":{"base":"Any"},"spec":{"lhs":"QExpr(*args)","rhs":"correctly constructs a QExpr instance","over":{"base":"Any","pred":"isinstance(obj, QExpr) and isinstance(result, Matrix) and isinstance(result, numpy_ndarray)"},"name":"QExpr_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a QExpr instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_symbolic","pred":"self.is_symbolic","kind":"class"}],"methods_preserving":["label","is_symbolic","default_args","_eval_adjoint","_print_sequence","_print_sequence_pretty","_print_subscript_pretty","_print_superscript_pretty","_print_parens_pretty","_print_label","_print_label_repr","_print_label_pretty","_print_label_latex","_print_contents","_print_contents_pretty","_print_contents_latex","_sympystr","_sympyrepr","_pretty","_latex","_represent_default_basis","_represent","_represent_BasisName","_represent_Position","_format_represent"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84aaf656ccbcae60"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr","kind":"class","src_hash":"692f5bf7d57f767d","in":{"base":"Any","pred":"isinstance(obj, QExpr) and isinstance(result, Matrix) and isinstance(result, numpy_ndarray)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"QExpr(*args)","rhs":"correctly constructs a QExpr instance","over":{"base":"Any","pred":"isinstance(obj, QExpr) and isinstance(result, Matrix) and isinstance(result, numpy_ndarray)"},"name":"QExpr_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_symbolic","pred":"self.is_symbolic","kind":"class"}],"methods_preserving":["label","is_symbolic","default_args","_eval_adjoint","_print_sequence","_print_sequence_pretty","_print_subscript_pretty","_print_superscript_pretty","_print_parens_pretty","_print_label","_print_label_repr","_print_label_pretty","_print_label_latex","_print_contents","_print_contents_pretty","_print_contents_latex","_sympystr","_sympyrepr","_pretty","_latex","_represent_default_basis","_represent","_represent_BasisName","_represent_Position","_format_represent"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84aaf656ccbcae60","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function QExpr not found in source"]}}
 class QExpr(Expr):
     """A base class for all quantum object like operators and states."""
 
@@ -159,16 +183,22 @@ class QExpr(Expr):
     _label_separator = ''
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), construct a new quantum object) over Any ║
+# ║ Path(__new__(cls, *args, **kwargs), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9719e160b2ba2e10           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr.__new__","kind":"method","src_hash":"dc19200c5c91a515","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"construct a new quantum object","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"construct a new quantum object","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9719e160b2ba2e10"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr.__new__","kind":"method","src_hash":"dc19200c5c91a515","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, **kwargs)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"construct a new quantum object","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9719e160b2ba2e10","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._eval_args","cls._eval_hilbert_space","cls.default_args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, **kwargs):
         """Construct a new quantum object.
 
@@ -208,16 +238,22 @@ class QExpr(Expr):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_new_rawargs(cls), create new instance of this class with hilbert_space and args) over Any ║
+# ║ Path(_new_rawargs(cls, hilbert_space, *args), <unspecified:_new_rawargs>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _new_rawargs : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c74225b4df550add  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._new_rawargs","kind":"classmethod","src_hash":"a6276d107e255823","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_new_rawargs(cls)","rhs":"create new instance of this class with hilbert_space and args","over":{"base":"Any"},"name":"_new_rawargs_correct"},"guarantee":"create new instance of this class with hilbert_space and args","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qexpr.QExpr._new_rawargs_correct","statement":"Path(_new_rawargs(x), create new instance of this class with hilbert_space and args)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c74225b4df550add"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._new_rawargs","kind":"classmethod","src_hash":"a6276d107e255823","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_new_rawargs(cls, hilbert_space, *args)","rhs":"<unspecified:_new_rawargs>","over":{"base":"Any"},"name":"_new_rawargs_correct"},"guarantee":"create new instance of this class with hilbert_space and args","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qexpr.QExpr._new_rawargs_correct","statement":"Path(_new_rawargs(x), create new instance of this class with hilbert_space and args)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c74225b4df550add","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _new_rawargs(cls, hilbert_space, *args, **old_assumptions):
         """Create new instance of this class with hilbert_space and args.
 
@@ -238,16 +274,25 @@ class QExpr(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(label(), returns the label attribute) over Any        ║
+# ║ Path(label(), result == (self._eval_args(list(self.default_args())) if len(self.args) == 0 else self.args) and result == self._eval_args(list(self.default_args())) or result == self.args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ label : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self._eval_args(list(self.defa...   ║
+# ║   ensures:  result == self._eval_args(list(self.defau...   ║
+# ║   fiber[zero_or_none]: len(self.args) == 0 => self._e...   ║
+# ║   fiber[zero_or_none]: not (len(self.args) == 0) => s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ label : Any → {Any | result satisfies: result == (sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a5427ec8b240704b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr.label","kind":"property","src_hash":"9e5e48b54afb6b23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"label()","rhs":"returns the label attribute","over":{"base":"Any"},"name":"label_correct"},"guarantee":"returns the label attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a5427ec8b240704b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr.label","kind":"property","src_hash":"9e5e48b54afb6b23","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self._eval_args(list(self.default_args())) if len(self.args) == 0 else self.args) and result == self._eval_args(list(self.default_args())) or result == self.args"},"spec":{"lhs":"label()","rhs":"result == (self._eval_args(list(self.default_args())) if len(self.args) == 0 else self.args) and result == self._eval_args(list(self.default_args())) or result == self.args","over":{"base":"Any"},"name":"label_correct"},"guarantee":"result == (self._eval_args(list(self.default_args())) if len(self.args) == 0 else self.args); result == self._eval_args(list(self.default_args())) or result == self.args; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a5427ec8b240704b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self._eval_args(list(self.default_args())) if len(self.args) == 0 else self.args)","result == self._eval_args(list(self.default_args())) or result == self.args"],"fibers":[{"name":"zero_or_none","guard":"len(self.args) == 0","ensures":["result == self._eval_args(list(self.default_args()))"],"decidability":"z3","returns_expr":"self._eval_args(list(self.default_args()))"},{"name":"zero_or_none","guard":"not (len(self.args) == 0)","ensures":["result == self.args"],"decidability":"z3","returns_expr":"self.args"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_args","self.args","self.default_args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def label(self):
         """The label is the unique set of identifiers for the object.
 
@@ -263,31 +308,43 @@ class QExpr(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_symbolic(), returns the is_symbolic attribute) over Any ║
+# ║ Path(is_symbolic(), True) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_symbolic : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 548f9f75f84b5b1a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr.is_symbolic","kind":"property","src_hash":"6f2a578f48a1c165","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_symbolic()","rhs":"returns the is_symbolic attribute","over":{"base":"Any"},"name":"is_symbolic_correct"},"guarantee":"returns the is_symbolic attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"548f9f75f84b5b1a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr.is_symbolic","kind":"property","src_hash":"6f2a578f48a1c165","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_symbolic()","rhs":"True","over":{"base":"Any"},"name":"is_symbolic_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"548f9f75f84b5b1a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_symbolic(self):
         return True
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(default_args(), if no arguments are specified, then this will return a default set of arguments to be run through the constructor) over Any ║
+# ║ Path(default_args(), <unspecified:default_args>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ default_args : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 99dba79496110872           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr.default_args","kind":"classmethod","src_hash":"fdd9112a2aee09db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default_args()","rhs":"if no arguments are specified, then this will return a default set of arguments to be run through the constructor","over":{"base":"Any"},"name":"default_args_correct"},"guarantee":"if no arguments are specified, then this will return a default set of arguments to be run through the constructor","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"99dba79496110872"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr.default_args","kind":"classmethod","src_hash":"fdd9112a2aee09db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"default_args()","rhs":"<unspecified:default_args>","over":{"base":"Any"},"name":"default_args_correct"},"guarantee":"if no arguments are specified, then this will return a default set of arguments to be run through the constructor","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"99dba79496110872","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def default_args(self):
         """If no arguments are specified, then this will return a default set
         of arguments to be run through the constructor.
@@ -302,16 +359,22 @@ class QExpr(Expr):
     #-------------------------------------------------------------------------
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_adjoint(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_adjoint(), <unspecified:_eval_adjoint>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_adjoint : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d96d8a162c2b1f3b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._eval_adjoint","kind":"method","src_hash":"b7923b1ddaa393ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_adjoint()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_adjoint_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qexpr.QExpr._eval_adjoint_correct","statement":"Path(_eval_adjoint(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d96d8a162c2b1f3b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._eval_adjoint","kind":"method","src_hash":"b7923b1ddaa393ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_adjoint()","rhs":"<unspecified:_eval_adjoint>","over":{"base":"Any"},"name":"_eval_adjoint_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qexpr.QExpr._eval_adjoint_correct","statement":"Path(_eval_adjoint(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d96d8a162c2b1f3b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.hilbert_space"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_adjoint(self):
         obj = Expr._eval_adjoint(self)
         if obj is None:
@@ -322,16 +385,22 @@ class QExpr(Expr):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_args(cls), process the args passed to the __new__ method) over Any ║
+# ║ Path(_eval_args(cls, args), _qsympify_sequence(args)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _qsympify_sequence(args)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_args : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6b38a15ecec40d1b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._eval_args","kind":"classmethod","src_hash":"a3b7288f68e9742b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_args(cls)","rhs":"process the args passed to the __new__ method","over":{"base":"Any"},"name":"_eval_args_correct"},"guarantee":"process the args passed to the __new__ method","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6b38a15ecec40d1b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._eval_args","kind":"classmethod","src_hash":"a3b7288f68e9742b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_args(cls, args)","rhs":"_qsympify_sequence(args)","over":{"base":"Any"},"name":"_eval_args_correct"},"guarantee":"returns _qsympify_sequence(args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6b38a15ecec40d1b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_qsympify_sequence(args)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_args(cls, args):
         """Process the args passed to the __new__ method.
 
@@ -341,16 +410,22 @@ class QExpr(Expr):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_hilbert_space(cls), compute the hilbert space instance from the args) over Any ║
+# ║ Path(_eval_hilbert_space(cls, args), HilbertSpace()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  HilbertSpace()                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_hilbert_space : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c985ccf90cfffa5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5753007e253ae9a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._eval_hilbert_space","kind":"classmethod","src_hash":"0868c4658b31785e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_hilbert_space(cls)","rhs":"compute the hilbert space instance from the args","over":{"base":"Any"},"name":"_eval_hilbert_space_correct"},"guarantee":"compute the hilbert space instance from the args","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qexpr.QExpr._eval_hilbert_space_correct","statement":"Path(_eval_hilbert_space(x), compute the hilbert space instance from the args)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c985ccf90cfffa5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._eval_hilbert_space","kind":"classmethod","src_hash":"0868c4658b31785e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_hilbert_space(cls, args)","rhs":"HilbertSpace()","over":{"base":"Any"},"name":"_eval_hilbert_space_correct"},"guarantee":"returns HilbertSpace()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qexpr.QExpr._eval_hilbert_space_correct","statement":"Path(_eval_hilbert_space(x), returns HilbertSpace())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5753007e253ae9a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"HilbertSpace()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_hilbert_space(cls, args):
         """Compute the Hilbert space instance from the args.
         """
@@ -364,16 +439,24 @@ class QExpr(Expr):
     # Utilities for printing: these operate on raw SymPy objects
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_sequence(seq), internal helper behaves correctly) over Any ║
+# ║ Path(_print_sequence(seq, sep, printer), sep.join(result)) over {Any | hasattr(sep, 'join') and hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_sequence : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(sep, 'join')                           ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   returns:  sep.join(result)                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_sequence : {Any | hasattr(sep, 'join') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | afc66d79781f9ab8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5fc38ecaefb5f65b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._print_sequence","kind":"method","src_hash":"eb44b1cf1982ed8c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_sequence(seq)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_sequence_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qexpr.QExpr._print_sequence_correct","statement":"Path(_print_sequence(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afc66d79781f9ab8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._print_sequence","kind":"method","src_hash":"eb44b1cf1982ed8c","in":{"base":"Any","pred":"hasattr(sep, 'join') and hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_print_sequence(seq, sep, printer)","rhs":"sep.join(result)","over":{"base":"Any","pred":"hasattr(sep, 'join') and hasattr(printer, '_print')"},"name":"_print_sequence_correct"},"guarantee":"returns sep.join(result)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qexpr.QExpr._print_sequence_correct","statement":"Path(_print_sequence(x), returns sep.join(result))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5fc38ecaefb5f65b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(sep, 'join')","hasattr(printer, '_print')"],"returns_expr":"sep.join(result)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_sequence(self, seq, sep, printer, *args):
         result = []
         for item in seq:
@@ -381,16 +464,23 @@ class QExpr(Expr):
         return sep.join(result)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_sequence_pretty(seq), internal helper behaves correctly) over Any ║
+# ║ Path(_print_sequence_pretty(seq, sep, printer), <unspecified:_print_sequence_pretty>) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_sequence_pretty : Any → Any                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_sequence_pretty : {Any | hasattr(printer, '_pr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 912779751cf0f47b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._print_sequence_pretty","kind":"method","src_hash":"366d502b6da5aa09","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_sequence_pretty(seq)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_sequence_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qexpr.QExpr._print_sequence_pretty_correct","statement":"Path(_print_sequence_pretty(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"912779751cf0f47b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._print_sequence_pretty","kind":"method","src_hash":"366d502b6da5aa09","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_print_sequence_pretty(seq, sep, printer)","rhs":"<unspecified:_print_sequence_pretty>","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_print_sequence_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qexpr.QExpr._print_sequence_pretty_correct","statement":"Path(_print_sequence_pretty(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"912779751cf0f47b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(printer, '_print')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_sequence_pretty(self, seq, sep, printer, *args):
         pform = printer._print(seq[0], *args)
         for item in seq[1:]:
@@ -401,62 +491,90 @@ class QExpr(Expr):
     # Utilities for printing: these operate prettyForm objects
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_subscript_pretty(a, ), id) over Any            ║
+# ║ Path(_print_subscript_pretty(a, b), id) over {Any | hasattr(b, 'left') and hasattr(a, 'right') and hasattr(a, 'width') and hasattr(b, 'width')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_subscript_pretty : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(b, 'left')                             ║
+# ║   requires: hasattr(a, 'right')                            ║
+# ║   requires: hasattr(a, 'width')                            ║
+# ║   returns:  prettyForm(*bot.below(top), binding=prett...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_subscript_pretty : {Any | hasattr(b, 'left') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | cbf1068fd6639991   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._print_subscript_pretty","kind":"method","src_hash":"45ff81a2a53b4ef0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_subscript_pretty(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_subscript_pretty_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"below","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cbf1068fd6639991"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._print_subscript_pretty","kind":"method","src_hash":"45ff81a2a53b4ef0","in":{"base":"Any","pred":"hasattr(b, 'left') and hasattr(a, 'right') and hasattr(a, 'width') and hasattr(b, 'width')"},"out":{"base":"Any"},"spec":{"lhs":"_print_subscript_pretty(a, b)","rhs":"prettyForm(*bot.below(top), binding=prettyForm.POW)","over":{"base":"Any","pred":"hasattr(b, 'left') and hasattr(a, 'right') and hasattr(a, 'width') and hasattr(b, 'width')"},"name":"_print_subscript_pretty_correct","kind":"composition"},"guarantee":"returns prettyForm(*bot.below(top), binding=prettyForm.POW)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prettyForm","by":"library_axiom"},{"fn":"below","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cbf1068fd6639991","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(b, 'left')","hasattr(a, 'right')","hasattr(a, 'width')","hasattr(b, 'width')"],"returns_expr":"prettyForm(*bot.below(top), binding=prettyForm.POW)","pure":false,"effects":{"effect_type":"reads_state","reads":["a.right","a.width","b.left","b.width"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_subscript_pretty(self, a, b):
         top = prettyForm(*b.left(' '*a.width()))
         bot = prettyForm(*a.right(' '*b.width()))
         return prettyForm(binding=prettyForm.POW, *bot.below(top))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_superscript_pretty(a, ), internal helper behaves correctly) over Any ║
+# ║ Path(_print_superscript_pretty(a, b), a ** b) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  a ** b                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_superscript_pretty : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | deea3154b1371aed           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._print_superscript_pretty","kind":"method","src_hash":"c95630dff486d214","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_superscript_pretty(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_superscript_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"deea3154b1371aed"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._print_superscript_pretty","kind":"method","src_hash":"c95630dff486d214","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_superscript_pretty(a, b)","rhs":"a ** b","over":{"base":"Any"},"name":"_print_superscript_pretty_correct"},"guarantee":"returns a ** b","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"deea3154b1371aed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"a ** b","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_superscript_pretty(self, a, b):
         return a**b
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_parens_pretty(pfo), internal helper behaves correctly) over Any ║
+# ║ Path(_print_parens_pretty(pform, left, right), prettyForm(*pform.parens(left=left, right=right))) over {Any | hasattr(pform, 'parens')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_parens_pretty : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(pform, 'parens')                       ║
+# ║   returns:  prettyForm(*pform.parens(left=left, right...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_parens_pretty : {Any | hasattr(pform, 'parens'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a49c3e5589a92fc1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._print_parens_pretty","kind":"method","src_hash":"d3703a979e52a379","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_parens_pretty(pfo)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_parens_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a49c3e5589a92fc1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._print_parens_pretty","kind":"method","src_hash":"d3703a979e52a379","in":{"base":"Any","pred":"hasattr(pform, 'parens')"},"out":{"base":"Any"},"spec":{"lhs":"_print_parens_pretty(pform, left, right)","rhs":"prettyForm(*pform.parens(left=left, right=right))","over":{"base":"Any","pred":"hasattr(pform, 'parens')"},"name":"_print_parens_pretty_correct"},"guarantee":"returns prettyForm(*pform.parens(left=left, right=right))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a49c3e5589a92fc1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(pform, 'parens')"],"returns_expr":"prettyForm(*pform.parens(left=left, right=right))","pure":false,"effects":{"effect_type":"reads_state","reads":["pform.parens"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_parens_pretty(self, pform, left='(', right=')'):
         return prettyForm(*pform.parens(left=left, right=right))
 
     # Printing of labels (i.e. args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_label(pri), prints the label of the qexpr) over Any ║
+# ║ Path(_print_label(printer, *args), self._print_sequence(self.label, self._label_separator, printer, *args)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_sequence(self.label, self._la...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_label : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e0fb1b2008fb9013  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 514046e786975966  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._print_label","kind":"method","src_hash":"a0188e8370b96fc2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_label(pri)","rhs":"prints the label of the qexpr","over":{"base":"Any"},"name":"_print_label_correct"},"guarantee":"prints the label of the qexpr","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qexpr.QExpr._print_label_correct","statement":"Path(_print_label(x), prints the label of the qexpr)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0fb1b2008fb9013"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._print_label","kind":"method","src_hash":"a0188e8370b96fc2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_label(printer, *args)","rhs":"self._print_sequence(self.label, self._label_separator, printer, *args)","over":{"base":"Any"},"name":"_print_label_correct"},"guarantee":"returns self._print_sequence(self.label, self._label_separator, printer, *args)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qexpr.QExpr._print_label_correct","statement":"Path(_print_label(x), returns self._print_sequence(self.label, self._label_separator, printer, *args))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"514046e786975966","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_sequence(self.label, self._label_separator, printer, *args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._label_separator","self._print_sequence","self.label"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_label(self, printer, *args):
         """Prints the label of the QExpr
 
@@ -469,48 +587,66 @@ class QExpr(Expr):
         )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_label_repr(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_print_label_repr(printer, *args), self._print_sequence(self.label, ',', printer, *args)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_sequence(self.label, ',', pri...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_label_repr : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45fb4ae7bc6d6c70  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1dbd934366d2136e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._print_label_repr","kind":"method","src_hash":"8447f897cdfeb200","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_label_repr(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_label_repr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qexpr.QExpr._print_label_repr_correct","statement":"Path(_print_label_repr(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45fb4ae7bc6d6c70"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._print_label_repr","kind":"method","src_hash":"8447f897cdfeb200","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_label_repr(printer, *args)","rhs":"self._print_sequence(self.label, ',', printer, *args)","over":{"base":"Any"},"name":"_print_label_repr_correct"},"guarantee":"returns self._print_sequence(self.label, ',', printer, *args)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qexpr.QExpr._print_label_repr_correct","statement":"Path(_print_label_repr(x), returns self._print_sequence(self.label, ',', printer, *args))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1dbd934366d2136e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_sequence(self.label, ',', printer, *args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_sequence","self.label"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_label_repr(self, printer, *args):
         return self._print_sequence(
             self.label, ',', printer, *args
         )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_label_pretty(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_print_label_pretty(printer, *args), self._print_sequence_pretty(self.label, self._label_separator, printer, *args)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_sequence_pretty(self.label, s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_label_pretty : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 31602e57dd25be79  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc6cac1bbbfae20f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._print_label_pretty","kind":"method","src_hash":"7efe88243c46b579","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_label_pretty(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_label_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qexpr.QExpr._print_label_pretty_correct","statement":"Path(_print_label_pretty(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31602e57dd25be79"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._print_label_pretty","kind":"method","src_hash":"7efe88243c46b579","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_label_pretty(printer, *args)","rhs":"self._print_sequence_pretty(self.label, self._label_separator, printer, *args)","over":{"base":"Any"},"name":"_print_label_pretty_correct"},"guarantee":"returns self._print_sequence_pretty(self.label, self._label_separator, printer, *args)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qexpr.QExpr._print_label_pretty_correct","statement":"Path(_print_label_pretty(x), returns self._print_sequence_pretty(self.label, self._label_separator, printer, *args))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc6cac1bbbfae20f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_sequence_pretty(self.label, self._label_separator, printer, *args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._label_separator","self._print_sequence_pretty","self.label"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_label_pretty(self, printer, *args):
         return self._print_sequence_pretty(
             self.label, self._label_separator, printer, *args
         )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_label_latex(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_print_label_latex(printer, *args), self._print_sequence(self.label, self._label_separator, printer, *args)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_sequence(self.label, self._la...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_label_latex : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d769b1fd0ba56780  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9c58ab9aa897458  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._print_label_latex","kind":"method","src_hash":"0c124ecc39b0aa6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_label_latex(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_label_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qexpr.QExpr._print_label_latex_correct","statement":"Path(_print_label_latex(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d769b1fd0ba56780"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._print_label_latex","kind":"method","src_hash":"0c124ecc39b0aa6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_label_latex(printer, *args)","rhs":"self._print_sequence(self.label, self._label_separator, printer, *args)","over":{"base":"Any"},"name":"_print_label_latex_correct"},"guarantee":"returns self._print_sequence(self.label, self._label_separator, printer, *args)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qexpr.QExpr._print_label_latex_correct","statement":"Path(_print_label_latex(x), returns self._print_sequence(self.label, self._label_separator, printer, *args))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9c58ab9aa897458","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_sequence(self.label, self._label_separator, printer, *args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._label_separator","self._print_sequence","self.label"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_label_latex(self, printer, *args):
         return self._print_sequence(
             self.label, self._label_separator, printer, *args
@@ -519,16 +655,22 @@ class QExpr(Expr):
     # Printing of contents (default to label)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_contents(pri), printer for contents of qexpr) over Any ║
+# ║ Path(_print_contents(printer, *args), self._print_label(printer, *args)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_label(printer, *args)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_contents : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 08ed13a13dce4d4c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._print_contents","kind":"method","src_hash":"5f1e2fc628893c48","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_contents(pri)","rhs":"printer for contents of qexpr","over":{"base":"Any"},"name":"_print_contents_correct"},"guarantee":"printer for contents of qexpr","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"08ed13a13dce4d4c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._print_contents","kind":"method","src_hash":"5f1e2fc628893c48","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_contents(printer, *args)","rhs":"self._print_label(printer, *args)","over":{"base":"Any"},"name":"_print_contents_correct"},"guarantee":"returns self._print_label(printer, *args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"08ed13a13dce4d4c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_label(printer, *args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_label"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_contents(self, printer, *args):
         """Printer for contents of QExpr
 
@@ -540,46 +682,64 @@ class QExpr(Expr):
         return self._print_label(printer, *args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_contents_pretty(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_print_contents_pretty(printer, *args), self._print_label_pretty(printer, *args)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_label_pretty(printer, *args)       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_contents_pretty : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fe6a41ce92f0710c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._print_contents_pretty","kind":"method","src_hash":"c25bbe5e4af30ab3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_contents_pretty(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_contents_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fe6a41ce92f0710c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._print_contents_pretty","kind":"method","src_hash":"c25bbe5e4af30ab3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_contents_pretty(printer, *args)","rhs":"self._print_label_pretty(printer, *args)","over":{"base":"Any"},"name":"_print_contents_pretty_correct"},"guarantee":"returns self._print_label_pretty(printer, *args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fe6a41ce92f0710c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_label_pretty(printer, *args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_label_pretty"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_contents_pretty(self, printer, *args):
         return self._print_label_pretty(printer, *args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_contents_latex(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_print_contents_latex(printer, *args), self._print_label_latex(printer, *args)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_label_latex(printer, *args)        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_contents_latex : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a0560742d881cfce           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._print_contents_latex","kind":"method","src_hash":"96b256b560e0bdd7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_contents_latex(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_contents_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a0560742d881cfce"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._print_contents_latex","kind":"method","src_hash":"96b256b560e0bdd7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_contents_latex(printer, *args)","rhs":"self._print_label_latex(printer, *args)","over":{"base":"Any"},"name":"_print_contents_latex_correct"},"guarantee":"returns self._print_label_latex(printer, *args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a0560742d881cfce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_label_latex(printer, *args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_label_latex"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_contents_latex(self, printer, *args):
         return self._print_label_latex(printer, *args)
 
     # Main printing methods
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympystr(pri), default printing behavior of qexpr objects) over Any ║
+# ║ Path(_sympystr(printer, *args), self._print_contents(printer, *args)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_contents(printer, *args)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sympystr : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4c036026748e6906           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._sympystr","kind":"method","src_hash":"d49ef87ae022575a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(pri)","rhs":"default printing behavior of qexpr objects","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"default printing behavior of qexpr objects","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4c036026748e6906"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._sympystr","kind":"method","src_hash":"d49ef87ae022575a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(printer, *args)","rhs":"self._print_contents(printer, *args)","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"returns self._print_contents(printer, *args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4c036026748e6906","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_contents(printer, *args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_contents"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympystr(self, printer, *args):
         """Default printing behavior of QExpr objects
 
@@ -593,47 +753,65 @@ class QExpr(Expr):
         return self._print_contents(printer, *args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympyrepr(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_sympyrepr(printer, *args), '%s(%s)' % (classname, label)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '%s(%s)' % (classname, label)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sympyrepr : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8bbd3f17b0d00a85  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38c18acca82ea29a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._sympyrepr","kind":"method","src_hash":"c38dbde5343fe92a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympyrepr(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympyrepr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qexpr.QExpr._sympyrepr_correct","statement":"Path(_sympyrepr(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8bbd3f17b0d00a85"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._sympyrepr","kind":"method","src_hash":"c38dbde5343fe92a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympyrepr(printer, *args)","rhs":"'%s(%s)' % (classname, label)","over":{"base":"Any"},"name":"_sympyrepr_correct"},"guarantee":"returns '%s(%s)' % (classname, label)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qexpr.QExpr._sympyrepr_correct","statement":"Path(_sympyrepr(x), returns '%s(%s)' % (classname, label))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38c18acca82ea29a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'%s(%s)' % (classname, label)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self._print_label_repr"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympyrepr(self, printer, *args):
         classname = self.__class__.__name__
         label = self._print_label_repr(printer, *args)
         return '%s(%s)' % (classname, label)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pretty(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_pretty(printer, *args), <unspecified:_pretty>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _pretty : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c4cbaaa157e771e7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._pretty","kind":"method","src_hash":"83d6b7431b649bb5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pretty(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qexpr.QExpr._pretty_correct","statement":"Path(_pretty(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4cbaaa157e771e7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._pretty","kind":"method","src_hash":"83d6b7431b649bb5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pretty(printer, *args)","rhs":"<unspecified:_pretty>","over":{"base":"Any"},"name":"_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qexpr.QExpr._pretty_correct","statement":"Path(_pretty(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4cbaaa157e771e7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_contents_pretty"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _pretty(self, printer, *args):
         pform = self._print_contents_pretty(printer, *args)
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_latex(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_latex(printer, *args), self._print_contents_latex(printer, *args)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_contents_latex(printer, *args)     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _latex : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 975600a85f99fb4c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._latex","kind":"method","src_hash":"28ce91989f026bb6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_latex(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"975600a85f99fb4c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._latex","kind":"method","src_hash":"28ce91989f026bb6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_latex(printer, *args)","rhs":"self._print_contents_latex(printer, *args)","over":{"base":"Any"},"name":"_latex_correct"},"guarantee":"returns self._print_contents_latex(printer, *args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"975600a85f99fb4c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_contents_latex(printer, *args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_contents_latex"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _latex(self, printer, *args):
         return self._print_contents_latex(printer, *args)
 
@@ -642,30 +820,42 @@ class QExpr(Expr):
     #-------------------------------------------------------------------------
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_default_basis(**o), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_default_basis(**options), <unspecified:_represent_default_basis>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_default_basis : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b4e265b49d541278           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._represent_default_basis","kind":"method","src_hash":"c33d25182b6445c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**o)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b4e265b49d541278"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._represent_default_basis","kind":"method","src_hash":"c33d25182b6445c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**options)","rhs":"<unspecified:_represent_default_basis>","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b4e265b49d541278","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_default_basis(self, **options):
         raise NotImplementedError('This object does not have a default basis')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent(bas), represent this object in a given basis) over Any ║
+# ║ Path(_represent(basis, **options), <unspecified:_represent>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 175d14d00e506a27  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._represent","kind":"method","src_hash":"d400ac337281226e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent(bas)","rhs":"represent this object in a given basis","over":{"base":"Any"},"name":"_represent_correct"},"guarantee":"represent this object in a given basis","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qexpr.QExpr._represent_correct","statement":"Path(_represent(x), represent this object in a given basis)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"175d14d00e506a27"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._represent","kind":"method","src_hash":"d400ac337281226e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent(basis, **options)","rhs":"<unspecified:_represent>","over":{"base":"Any"},"name":"_represent_correct"},"guarantee":"represent this object in a given basis","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qexpr.QExpr._represent_correct","statement":"Path(_represent(x), represent this object in a given basis)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"175d14d00e506a27","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._format_represent","self._represent_default_basis"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent(self, *, basis=None, **options):
         """Represent this object in a given basis.
 
@@ -711,16 +901,26 @@ class QExpr(Expr):
         return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_format_represent(res), internal helper behaves correctly) over Any ║
+# ║ Path(_format_represent(result, format), result == (to_sympy(result) if format == 'sympy' and (not isinstance(result, Matrix)) else to_numpy(result) if format == 'numpy' and (not isinstance(result, numpy_ndarray)) else to_scipy_sparse(result)) and result == to_sympy(result) or result == to_numpy(result) or result == to_scipy_sparse(result)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _format_represent : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (to_sympy(result) if format == ...   ║
+# ║   ensures:  result == to_sympy(result) or result == t...   ║
+# ║   fiber[Matrix]: format == 'sympy' and (not isinstanc...   ║
+# ║   fiber[numpy_ndarray]: format == 'numpy' and (not is...   ║
+# ║   fiber[scipy_sparse_matrix]: format == 'scipy.sparse...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _format_represent : Any → {Any | result satisfies: re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d20f5d9b136d3b6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3bd929b68c8067cd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._format_represent","kind":"method","src_hash":"61fc3eea78dca28c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_format_represent(res)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_format_represent_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qexpr.QExpr._format_represent_correct","statement":"Path(_format_represent(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d20f5d9b136d3b6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.QExpr._format_represent","kind":"method","src_hash":"61fc3eea78dca28c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (to_sympy(result) if format == 'sympy' and (not isinstance(result, Matrix)) else to_numpy(result) if format == 'numpy' and (not isinstance(result, numpy_ndarray)) else to_scipy_sparse(result)) and result == to_sympy(result) or result == to_numpy(result) or result == to_scipy_sparse(result)"},"spec":{"lhs":"_format_represent(result, format)","rhs":"result == (to_sympy(result) if format == 'sympy' and (not isinstance(result, Matrix)) else to_numpy(result) if format == 'numpy' and (not isinstance(result, numpy_ndarray)) else to_scipy_sparse(result)) and result == to_sympy(result) or result == to_numpy(result) or result == to_scipy_sparse(result)","over":{"base":"Any"},"name":"_format_represent_correct"},"guarantee":"result == (to_sympy(result) if format == 'sympy' and (not isinstance(result, Matrix)) else to_numpy(result) if format == 'numpy' and (not isinstance(result, numpy_ndarray)) else to_scipy_sparse(result)); result == to_sympy(result) or result == to_numpy(result) or result == to_scipy_sparse(result); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qexpr.QExpr._format_represent_correct","statement":"Path(_format_represent(x), result == (to_sympy(result) if format == 'sympy' and (not isinstance(result, Matrix)) else to_numpy(result) if format == 'numpy' and (not isinstance(result, numpy_ndarray)) else to_scipy_sparse(result)); result == to_sympy(result) or result == to_numpy(result) or result == to_scipy_sparse(result); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3bd929b68c8067cd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (to_sympy(result) if format == 'sympy' and (not isinstance(result, Matrix)) else to_numpy(result) if format == 'numpy' and (not isinstance(result, numpy_ndarray)) else to_scipy_sparse(result))","result == to_sympy(result) or result == to_numpy(result) or result == to_scipy_sparse(result)"],"fibers":[{"name":"Matrix","guard":"format == 'sympy' and (not isinstance(result, Matrix))","ensures":["result == to_sympy(result)"],"decidability":"structural","returns_expr":"to_sympy(result)"},{"name":"numpy_ndarray","guard":"format == 'numpy' and (not isinstance(result, numpy_ndarray))","ensures":["result == to_numpy(result)"],"decidability":"structural","returns_expr":"to_numpy(result)"},{"name":"scipy_sparse_matrix","guard":"format == 'scipy.sparse' and (not isinstance(result, scipy_sparse_matrix))","ensures":["result == to_scipy_sparse(result)"],"decidability":"structural","returns_expr":"to_scipy_sparse(result)"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _format_represent(self, result, format):
         if format == 'sympy' and not isinstance(result, Matrix):
             return to_sympy(result)
@@ -734,16 +934,23 @@ class QExpr(Expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(split_commutative_parts(e), split into commutative and non-commutative parts) over Any ║
+# ║ Path(split_commutative_parts(e), (c_part, nc_part)) over {Any | hasattr(e, 'args_cnc')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ split_commutative_parts : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(e, 'args_cnc')                         ║
+# ║   returns:  (c_part, nc_part)                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ split_commutative_parts : {Any | hasattr(e, 'args_cnc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7cfa8e88ad11e22f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0cfafd5bb7a980b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.split_commutative_parts","kind":"function","src_hash":"40442a6029fe7c2a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"split_commutative_parts(e)","rhs":"split into commutative and non-commutative parts","over":{"base":"Any"},"name":"split_commutative_parts_correct"},"guarantee":"split into commutative and non-commutative parts","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qexpr.split_commutative_parts_correct","statement":"Path(split_commutative_parts(x), split into commutative and non-commutative parts)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7cfa8e88ad11e22f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.split_commutative_parts","kind":"function","src_hash":"40442a6029fe7c2a","in":{"base":"Any","pred":"hasattr(e, 'args_cnc')"},"out":{"base":"Any"},"spec":{"lhs":"split_commutative_parts(e)","rhs":"(c_part, nc_part)","over":{"base":"Any","pred":"hasattr(e, 'args_cnc')"},"name":"split_commutative_parts_correct"},"guarantee":"returns (c_part, nc_part)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qexpr.split_commutative_parts_correct","statement":"Path(split_commutative_parts(x), returns (c_part, nc_part))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0cfafd5bb7a980b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(e, 'args_cnc')"],"returns_expr":"(c_part, nc_part)","pure":false,"effects":{"effect_type":"reads_state","reads":["e.args_cnc"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def split_commutative_parts(e):
     """Split into commutative and non-commutative parts."""
     c_part, nc_part = e.args_cnc()
@@ -752,9 +959,13 @@ def split_commutative_parts(e):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(split_qexpr_parts(e), split an expression into expr and noncommutative qexpr parts) over {Any | isinstance(arg, QExpr)} ║
+# ║ Path(split_qexpr_parts(e), (expr_part, qexpr_part)) over {Any | isinstance(arg, QExpr) and hasattr(e, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ split_qexpr_parts : {Any | isinstance(arg, QExpr)} → Any   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   returns:  (expr_part, qexpr_part)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ split_qexpr_parts : {Any | isinstance(arg, QExpr) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   QExpr: {isinstance(arg, QExpr)} → library_axiom          ║
@@ -764,9 +975,12 @@ def split_commutative_parts(e):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | e41c167f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.split_qexpr_parts","kind":"function","src_hash":"4ec83467c0f00d12","in":{"base":"Any","pred":"isinstance(arg, QExpr)"},"out":{"base":"Any"},"spec":{"lhs":"split_qexpr_parts(e)","rhs":"split an expression into expr and noncommutative qexpr parts","over":{"base":"Any","pred":"isinstance(arg, QExpr)"},"name":"split_qexpr_parts_correct"},"guarantee":"split an expression into expr and noncommutative qexpr parts","fibers":[{"name":"QExpr","pred":"isinstance(arg, QExpr)","path":{"lhs":"split_qexpr_parts(x)","rhs":"split an expression into expr and noncommutative qexpr parts","over":{"base":"QExpr","pred":"isinstance(arg, QExpr)"},"name":"split_qexpr_parts_QExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qexpr.split_qexpr_parts_QExpr_correct","statement":"split_qexpr_parts satisfies spec on QExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e41c167f8845fe27"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.split_qexpr_parts","kind":"function","src_hash":"4ec83467c0f00d12","in":{"base":"Any","pred":"isinstance(arg, QExpr) and hasattr(e, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"split_qexpr_parts(e)","rhs":"(expr_part, qexpr_part)","over":{"base":"Any","pred":"isinstance(arg, QExpr) and hasattr(e, 'args')"},"name":"split_qexpr_parts_correct"},"guarantee":"returns (expr_part, qexpr_part)","fibers":[{"name":"QExpr","pred":"isinstance(arg, QExpr)","path":{"lhs":"split_qexpr_parts(x)","rhs":"returns (expr_part, qexpr_part)","over":{"base":"QExpr","pred":"isinstance(arg, QExpr)"},"name":"split_qexpr_parts_QExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qexpr.split_qexpr_parts_QExpr_correct","statement":"split_qexpr_parts satisfies spec on QExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e41c167f8845fe27","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(e, 'args')"],"returns_expr":"(expr_part, qexpr_part)","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(arg, QExpr)'}, fibers={'QExpr'})"]}}
 def split_qexpr_parts(e):
     """Split an expression into Expr and noncommutative QExpr parts."""
     expr_part = []
@@ -780,16 +994,22 @@ def split_qexpr_parts(e):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dispatch_method(bas), dispatch a method to the proper handlers) over Any ║
+# ║ Path(dispatch_method(basename, arg, **options), <unspecified:dispatch_method>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dispatch_method : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c26dd301b59a833  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.dispatch_method","kind":"function","src_hash":"3fe226955dbe8be6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dispatch_method(bas)","rhs":"dispatch a method to the proper handlers","over":{"base":"Any"},"name":"dispatch_method_correct"},"guarantee":"dispatch a method to the proper handlers","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qexpr.dispatch_method_correct","statement":"Path(dispatch_method(x), dispatch a method to the proper handlers)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c26dd301b59a833"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qexpr.dispatch_method","kind":"function","src_hash":"3fe226955dbe8be6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dispatch_method(basename, arg, **options)","rhs":"<unspecified:dispatch_method>","over":{"base":"Any"},"name":"dispatch_method_correct"},"guarantee":"dispatch a method to the proper handlers","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qexpr.dispatch_method_correct","statement":"Path(dispatch_method(x), dispatch a method to the proper handlers)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c26dd301b59a833","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","arg.__class__","self.__class__"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['basename', 'arg'], spec=['basename', 'arg', '**options']"]}}
 def dispatch_method(self, basename, arg, **options):
     """Dispatch a method to the proper handlers."""
     method_name = '%s_%s' % (basename, arg.__class__.__name__)

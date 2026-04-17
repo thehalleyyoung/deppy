@@ -28,16 +28,24 @@ from sympy.unify.usympy import (deconstruct, construct, unify, is_associative,
 from sympy.abc import x, y, z, n
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_deconstruct(), test_deconstruct produces the expected output) over Any ║
+# ║ Path(test_deconstruct(), deconstruct(expr) == expected and deconstruct(1) == 1 and deconstruct(x) == x and deconstruct(x, variables=(x,)) == Variable(x) and deconstruct(Add(1, x, evaluate=False)) == Compound(Add, (1, x)) and deconstruct(Add(1, x, evaluate=False), variables=(x,)) == Compound(Add, (1, Variable(x)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_deconstruct : Any → {Any | deconstruct(expr) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  deconstruct(expr) == expected                  ║
+# ║   ensures:  deconstruct(1) == 1                            ║
+# ║   ensures:  deconstruct(x) == x                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_deconstruct : Any → {Any | result satisfies: dec...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 163ea80df5400e5d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 403eb41e6071117e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_sympy.test_deconstruct","kind":"function","src_hash":"49f3b2c2da001b19","in":{"base":"Any"},"out":{"base":"Any","pred":"deconstruct(expr) == expected and deconstruct(1) == 1 and deconstruct(x) == x and deconstruct(x, variables=(x,)) == Variable(x) and deconstruct(Add(1, x, evaluate=False)) == Compound(Add, (1, x))"},"spec":{"lhs":"test_deconstruct()","rhs":"test_deconstruct produces the expected output","over":{"base":"Any"},"name":"test_deconstruct_correct"},"guarantee":"test_deconstruct produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_sympy.test_deconstruct_correct","statement":"Path(test_deconstruct(x), test_deconstruct produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"163ea80df5400e5d"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_sympy.test_deconstruct","kind":"function","src_hash":"49f3b2c2da001b19","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: deconstruct(expr) == expected and deconstruct(1) == 1 and deconstruct(x) == x and deconstruct(x, variables=(x,)) == Variable(x) and deconstruct(Add(1, x, evaluate=False)) == Compound(Add, (1, x)) and deconstruct(Add(1, x, evaluate=False), variables=(x,)) == Compound(Add, (1, Variable(x)))"},"spec":{"lhs":"test_deconstruct()","rhs":"deconstruct(expr) == expected and deconstruct(1) == 1 and deconstruct(x) == x and deconstruct(x, variables=(x,)) == Variable(x) and deconstruct(Add(1, x, evaluate=False)) == Compound(Add, (1, x)) and deconstruct(Add(1, x, evaluate=False), variables=(x,)) == Compound(Add, (1, Variable(x)))","over":{"base":"Any"},"name":"test_deconstruct_correct"},"guarantee":"deconstruct(expr) == expected; deconstruct(1) == 1; deconstruct(x) == x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_sympy.test_deconstruct_correct","statement":"Path(test_deconstruct(x), deconstruct(expr) == expected; deconstruct(1) == 1; deconstruct(x) == x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"403eb41e6071117e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["deconstruct(expr) == expected","deconstruct(1) == 1","deconstruct(x) == x","deconstruct(x, variables=(x,)) == Variable(x)","deconstruct(Add(1, x, evaluate=False)) == Compound(Add, (1, x))","deconstruct(Add(1, x, evaluate=False), variables=(x,)) == Compound(Add, (1, Variable(x)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_deconstruct():
     expr     = Basic(S(1), S(2), S(3))
     expected = Compound(Basic, (1, 2, 3))
@@ -51,32 +59,45 @@ def test_deconstruct():
               Compound(Add, (1, Variable(x)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_construct(), test_construct produces the expected output) over Any ║
+# ║ Path(test_construct(), construct(expr) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_construct : Any → {Any | construct(expr) == expe...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  construct(expr) == expected                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_construct : Any → {Any | result satisfies: const...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 549bbe486ecee458  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b45abf5cbde89cf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_sympy.test_construct","kind":"function","src_hash":"bfcc2596ab4d39e7","in":{"base":"Any"},"out":{"base":"Any","pred":"construct(expr) == expected"},"spec":{"lhs":"test_construct()","rhs":"test_construct produces the expected output","over":{"base":"Any"},"name":"test_construct_correct"},"guarantee":"test_construct produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_sympy.test_construct_correct","statement":"Path(test_construct(x), test_construct produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"549bbe486ecee458"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_sympy.test_construct","kind":"function","src_hash":"bfcc2596ab4d39e7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: construct(expr) == expected"},"spec":{"lhs":"test_construct()","rhs":"construct(expr) == expected","over":{"base":"Any"},"name":"test_construct_correct"},"guarantee":"construct(expr) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_sympy.test_construct_correct","statement":"Path(test_construct(x), construct(expr) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b45abf5cbde89cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["construct(expr) == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_construct():
     expr     = Compound(Basic, (S(1), S(2), S(3)))
     expected = Basic(S(1), S(2), S(3))
     assert construct(expr) == expected
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nested(), test_nested produces the expected output) over Any ║
+# ║ Path(test_nested(), deconstruct(expr) == cmpd and construct(cmpd) == expr) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_nested : Any → {Any | deconstruct(expr) == cmpd ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  deconstruct(expr) == cmpd                      ║
+# ║   ensures:  construct(cmpd) == expr                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_nested : Any → {Any | result satisfies: deconstr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 31a46936cb8a4dc2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2ab88ca5e8f446f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_sympy.test_nested","kind":"function","src_hash":"ccfb675a1cef67c4","in":{"base":"Any"},"out":{"base":"Any","pred":"deconstruct(expr) == cmpd and construct(cmpd) == expr"},"spec":{"lhs":"test_nested()","rhs":"test_nested produces the expected output","over":{"base":"Any"},"name":"test_nested_correct"},"guarantee":"test_nested produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_sympy.test_nested_correct","statement":"Path(test_nested(x), test_nested produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31a46936cb8a4dc2"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_sympy.test_nested","kind":"function","src_hash":"ccfb675a1cef67c4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: deconstruct(expr) == cmpd and construct(cmpd) == expr"},"spec":{"lhs":"test_nested()","rhs":"deconstruct(expr) == cmpd and construct(cmpd) == expr","over":{"base":"Any"},"name":"test_nested_correct"},"guarantee":"deconstruct(expr) == cmpd; construct(cmpd) == expr","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_sympy.test_nested_correct","statement":"Path(test_nested(x), deconstruct(expr) == cmpd; construct(cmpd) == expr)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2ab88ca5e8f446f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["deconstruct(expr) == cmpd","construct(cmpd) == expr"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_nested():
     expr = Basic(S(1), Basic(S(2)), S(3))
     cmpd = Compound(Basic, (S(1), Compound(Basic, Tuple(2)), S(3)))
@@ -84,16 +105,23 @@ def test_nested():
     assert construct(cmpd) == expr
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_unify(), test_unify produces the expected output) over Any ║
+# ║ Path(test_unify(), list(unify(expr, pattern, {}, (a, b, c))) == [{a: 1, b: 2, c: 3}] and list(unify(expr, pattern, variables=(a, b, c))) == [{a: 1, b: 2, c: 3}]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_unify : Any → {Any | list(unify(expr, pattern, {...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(unify(expr, pattern, {}, (a, b, c)))...   ║
+# ║   ensures:  list(unify(expr, pattern, variables=(a, b...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_unify : Any → {Any | result satisfies: list(unif...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a9c16a342a00cf22  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 401df643d95f567f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_sympy.test_unify","kind":"function","src_hash":"35ed32ada493ac9c","in":{"base":"Any"},"out":{"base":"Any","pred":"list(unify(expr, pattern, {}, (a, b, c))) == [{a: 1, b: 2, c: 3}] and list(unify(expr, pattern, variables=(a, b, c))) == [{a: 1, b: 2, c: 3}]"},"spec":{"lhs":"test_unify()","rhs":"test_unify produces the expected output","over":{"base":"Any"},"name":"test_unify_correct"},"guarantee":"test_unify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_sympy.test_unify_correct","statement":"Path(test_unify(x), test_unify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9c16a342a00cf22"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_sympy.test_unify","kind":"function","src_hash":"35ed32ada493ac9c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(unify(expr, pattern, {}, (a, b, c))) == [{a: 1, b: 2, c: 3}] and list(unify(expr, pattern, variables=(a, b, c))) == [{a: 1, b: 2, c: 3}]"},"spec":{"lhs":"test_unify()","rhs":"list(unify(expr, pattern, {}, (a, b, c))) == [{a: 1, b: 2, c: 3}] and list(unify(expr, pattern, variables=(a, b, c))) == [{a: 1, b: 2, c: 3}]","over":{"base":"Any"},"name":"test_unify_correct"},"guarantee":"list(unify(expr, pattern, {}, (a, b, c))) == [{a: 1, b: 2, c: 3}]; list(unify(expr, pattern, variables=(a, b, c))) == [{a: 1, b: 2, c: 3}]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_sympy.test_unify_correct","statement":"Path(test_unify(x), list(unify(expr, pattern, {}, (a, b, c))) == [{a: 1, b: 2, c: 3}]; list(unify(expr, pattern, variables=(a, b, c))) == [{a: 1, b: 2, c: 3}])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"401df643d95f567f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(unify(expr, pattern, {}, (a, b, c))) == [{a: 1, b: 2, c: 3}]","list(unify(expr, pattern, variables=(a, b, c))) == [{a: 1, b: 2, c: 3}]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_unify():
     expr = Basic(S(1), S(2), S(3))
     a, b, c = map(Symbol, 'abc')
@@ -103,30 +131,43 @@ def test_unify():
             [{a: 1, b: 2, c: 3}]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_unify_variables(), test_unify_variables produces the expected output) over Any ║
+# ║ Path(test_unify_variables(), list(unify(Basic(S(1), S(2)), Basic(S(1), x), {}, variables=(x,))) == [{x: 2}]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_unify_variables : Any → {Any | list(unify(Basic(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(unify(Basic(S(1), S(2)), Basic(S(1),...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_unify_variables : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 11fd47ad93fe067e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de558c5e996c6277  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_sympy.test_unify_variables","kind":"function","src_hash":"776960d577dbe4af","in":{"base":"Any"},"out":{"base":"Any","pred":"list(unify(Basic(S(1), S(2)), Basic(S(1), x), {}, variables=(x,))) == [{x: 2}]"},"spec":{"lhs":"test_unify_variables()","rhs":"test_unify_variables produces the expected output","over":{"base":"Any"},"name":"test_unify_variables_correct"},"guarantee":"test_unify_variables produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_sympy.test_unify_variables_correct","statement":"Path(test_unify_variables(x), test_unify_variables produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11fd47ad93fe067e"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_sympy.test_unify_variables","kind":"function","src_hash":"776960d577dbe4af","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(unify(Basic(S(1), S(2)), Basic(S(1), x), {}, variables=(x,))) == [{x: 2}]"},"spec":{"lhs":"test_unify_variables()","rhs":"list(unify(Basic(S(1), S(2)), Basic(S(1), x), {}, variables=(x,))) == [{x: 2}]","over":{"base":"Any"},"name":"test_unify_variables_correct"},"guarantee":"list(unify(Basic(S(1), S(2)), Basic(S(1), x), {}, variables=(x,))) == [{x: 2}]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_sympy.test_unify_variables_correct","statement":"Path(test_unify_variables(x), list(unify(Basic(S(1), S(2)), Basic(S(1), x), {}, variables=(x,))) == [{x: 2}])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de558c5e996c6277","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(unify(Basic(S(1), S(2)), Basic(S(1), x), {}, variables=(x,))) == [{x: 2}]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_unify_variables():
     assert list(unify(Basic(S(1), S(2)), Basic(S(1), x), {}, variables=(x,))) == [{x: 2}]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_s_input(), test_s_input produces the expected output) over Any ║
+# ║ Path(test_s_input(), list(unify(expr, pattern, {}, (a, b))) == [{a: 1, b: 2}] and list(unify(expr, pattern, {a: 5}, (a, b))) == []) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_s_input : Any → {Any | list(unify(expr, pattern,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(unify(expr, pattern, {}, (a, b))) ==...   ║
+# ║   ensures:  list(unify(expr, pattern, {a: 5}, (a, b))...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_s_input : Any → {Any | result satisfies: list(un...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e13b9b5aebf5e87  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b2188cdeb86df52  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_sympy.test_s_input","kind":"function","src_hash":"352804c3c9544b4e","in":{"base":"Any"},"out":{"base":"Any","pred":"list(unify(expr, pattern, {}, (a, b))) == [{a: 1, b: 2}] and list(unify(expr, pattern, {a: 5}, (a, b))) == []"},"spec":{"lhs":"test_s_input()","rhs":"test_s_input produces the expected output","over":{"base":"Any"},"name":"test_s_input_correct"},"guarantee":"test_s_input produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_sympy.test_s_input_correct","statement":"Path(test_s_input(x), test_s_input produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e13b9b5aebf5e87"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_sympy.test_s_input","kind":"function","src_hash":"352804c3c9544b4e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(unify(expr, pattern, {}, (a, b))) == [{a: 1, b: 2}] and list(unify(expr, pattern, {a: 5}, (a, b))) == []"},"spec":{"lhs":"test_s_input()","rhs":"list(unify(expr, pattern, {}, (a, b))) == [{a: 1, b: 2}] and list(unify(expr, pattern, {a: 5}, (a, b))) == []","over":{"base":"Any"},"name":"test_s_input_correct"},"guarantee":"list(unify(expr, pattern, {}, (a, b))) == [{a: 1, b: 2}]; list(unify(expr, pattern, {a: 5}, (a, b))) == []","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_sympy.test_s_input_correct","statement":"Path(test_s_input(x), list(unify(expr, pattern, {}, (a, b))) == [{a: 1, b: 2}]; list(unify(expr, pattern, {a: 5}, (a, b))) == [])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b2188cdeb86df52","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(unify(expr, pattern, {}, (a, b))) == [{a: 1, b: 2}]","list(unify(expr, pattern, {a: 5}, (a, b))) == []"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_s_input():
     expr = Basic(S(1), S(2))
     a, b = map(Symbol, 'ab')
@@ -135,32 +176,44 @@ def test_s_input():
     assert list(unify(expr, pattern, {a: 5}, (a, b))) == []
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(iterdicteq(a, ), id) over Any                         ║
+# ║ Path(iterdicteq(a, b), id) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(a) == len(b) and all((x in b for x in...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ iterdicteq : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 46871d2978537e6a   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_sympy.iterdicteq","kind":"function","src_hash":"b2aace0bf60f5ff6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"iterdicteq(a, )","rhs":"iterdicteq produces the expected output","over":{"base":"Any"},"name":"iterdicteq_correct","kind":"composition"},"guarantee":"iterdicteq produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"len","by":"library_axiom"},{"fn":"len","by":"library_axiom"},{"fn":"all","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46871d2978537e6a"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_sympy.iterdicteq","kind":"function","src_hash":"b2aace0bf60f5ff6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"iterdicteq(a, b)","rhs":"len(a) == len(b) and all((x in b for x in a))","over":{"base":"Any"},"name":"iterdicteq_correct","kind":"composition"},"guarantee":"returns len(a) == len(b) and all((x in b for x in a))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"len","by":"library_axiom"},{"fn":"len","by":"library_axiom"},{"fn":"all","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46871d2978537e6a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(a) == len(b) and all((x in b for x in a))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def iterdicteq(a, b):
     a = tuple(a)
     b = tuple(b)
     return len(a) == len(b) and all(x in b for x in a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_unify_commutative(), test_unify_commutative produces the expected output) over Any ║
+# ║ Path(test_unify_commutative(), iterdicteq(result, expected)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_unify_commutative : Any → {Any | iterdicteq(resu...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  iterdicteq(result, expected)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_unify_commutative : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ed9fa645c7171ce  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77129c27a8b8693b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_sympy.test_unify_commutative","kind":"function","src_hash":"a917e354742301e7","in":{"base":"Any"},"out":{"base":"Any","pred":"iterdicteq(result, expected)"},"spec":{"lhs":"test_unify_commutative()","rhs":"test_unify_commutative produces the expected output","over":{"base":"Any"},"name":"test_unify_commutative_correct"},"guarantee":"test_unify_commutative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_sympy.test_unify_commutative_correct","statement":"Path(test_unify_commutative(x), test_unify_commutative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ed9fa645c7171ce"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_sympy.test_unify_commutative","kind":"function","src_hash":"a917e354742301e7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: iterdicteq(result, expected)"},"spec":{"lhs":"test_unify_commutative()","rhs":"iterdicteq(result, expected)","over":{"base":"Any"},"name":"test_unify_commutative_correct"},"guarantee":"iterdicteq(result, expected)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_sympy.test_unify_commutative_correct","statement":"Path(test_unify_commutative(x), iterdicteq(result, expected))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77129c27a8b8693b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["iterdicteq(result, expected)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_unify_commutative():
     expr = Add(1, 2, 3, evaluate=False)
     a, b, c = map(Symbol, 'abc')
@@ -177,16 +230,24 @@ def test_unify_commutative():
     assert iterdicteq(result, expected)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_unify_iter(), test_unify_iter produces the expected output) over Any ║
+# ║ Path(test_unify_iter(), is_associative(deconstruct(pattern)) and is_commutative(deconstruct(pattern)) and iterdicteq(result, expected)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_unify_iter : Any → {Any | is_associative(deconst...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  is_associative(deconstruct(pattern))           ║
+# ║   ensures:  is_commutative(deconstruct(pattern))           ║
+# ║   ensures:  iterdicteq(result, expected)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_unify_iter : Any → {Any | result satisfies: is_a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dff26cc4bb5eafef  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 74fa57eba1b7aaa1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_sympy.test_unify_iter","kind":"function","src_hash":"a1331bd34fc04337","in":{"base":"Any"},"out":{"base":"Any","pred":"is_associative(deconstruct(pattern)) and is_commutative(deconstruct(pattern)) and iterdicteq(result, expected)"},"spec":{"lhs":"test_unify_iter()","rhs":"test_unify_iter produces the expected output","over":{"base":"Any"},"name":"test_unify_iter_correct"},"guarantee":"test_unify_iter produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_sympy.test_unify_iter_correct","statement":"Path(test_unify_iter(x), test_unify_iter produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dff26cc4bb5eafef"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_sympy.test_unify_iter","kind":"function","src_hash":"a1331bd34fc04337","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: is_associative(deconstruct(pattern)) and is_commutative(deconstruct(pattern)) and iterdicteq(result, expected)"},"spec":{"lhs":"test_unify_iter()","rhs":"is_associative(deconstruct(pattern)) and is_commutative(deconstruct(pattern)) and iterdicteq(result, expected)","over":{"base":"Any"},"name":"test_unify_iter_correct"},"guarantee":"is_associative(deconstruct(pattern)); is_commutative(deconstruct(pattern)); iterdicteq(result, expected)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_sympy.test_unify_iter_correct","statement":"Path(test_unify_iter(x), is_associative(deconstruct(pattern)); is_commutative(deconstruct(pattern)); iterdicteq(result, expected))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"74fa57eba1b7aaa1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["is_associative(deconstruct(pattern))","is_commutative(deconstruct(pattern))","iterdicteq(result, expected)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_unify_iter():
     expr = Add(1, 2, 3, evaluate=False)
     a, b, c = map(Symbol, 'abc')
@@ -211,16 +272,22 @@ def test_unify_iter():
     assert iterdicteq(result, expected)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_hard_match(), test_hard_match produces the expected output) over Any ║
+# ║ Path(test_hard_match(), list(unify(expr, pattern, {}, (p, q))) == [{p: x}]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_hard_match : Any → {Any | list(unify(expr, patte...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(unify(expr, pattern, {}, (p, q))) ==...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_hard_match : Any → {Any | result satisfies: list...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e4703a2edcc61788  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c07e6701fb14397f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_sympy.test_hard_match","kind":"function","src_hash":"af382f72663bffe9","in":{"base":"Any"},"out":{"base":"Any","pred":"list(unify(expr, pattern, {}, (p, q))) == [{p: x}]"},"spec":{"lhs":"test_hard_match()","rhs":"test_hard_match produces the expected output","over":{"base":"Any"},"name":"test_hard_match_correct"},"guarantee":"test_hard_match produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_sympy.test_hard_match_correct","statement":"Path(test_hard_match(x), test_hard_match produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4703a2edcc61788"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_sympy.test_hard_match","kind":"function","src_hash":"af382f72663bffe9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(unify(expr, pattern, {}, (p, q))) == [{p: x}]"},"spec":{"lhs":"test_hard_match()","rhs":"list(unify(expr, pattern, {}, (p, q))) == [{p: x}]","over":{"base":"Any"},"name":"test_hard_match_correct"},"guarantee":"list(unify(expr, pattern, {}, (p, q))) == [{p: x}]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_sympy.test_hard_match_correct","statement":"Path(test_hard_match(x), list(unify(expr, pattern, {}, (p, q))) == [{p: x}])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c07e6701fb14397f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(unify(expr, pattern, {}, (p, q))) == [{p: x}]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_hard_match():
     from sympy.functions.elementary.trigonometric import (cos, sin)
     expr = sin(x) + cos(x)**2
@@ -229,16 +296,23 @@ def test_hard_match():
     assert list(unify(expr, pattern, {}, (p, q))) == [{p: x}]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_matrix(), test_matrix produces the expected output) over Any ║
+# ║ Path(test_matrix(), list(unify(X, Y, {}, variables=[n, Str('X')])) == [{Str('X'): Str('Y'), n: 2}] and list(unify(X, Z, {}, variables=[n, Str('X')])) == []) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_matrix : Any → {Any | list(unify(X, Y, {}, varia...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(unify(X, Y, {}, variables=[n, Str('X...   ║
+# ║   ensures:  list(unify(X, Z, {}, variables=[n, Str('X...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_matrix : Any → {Any | result satisfies: list(uni...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d587bf378691af2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1af92b43ef3a5431  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_sympy.test_matrix","kind":"function","src_hash":"ff46458d4f035d17","in":{"base":"Any"},"out":{"base":"Any","pred":"list(unify(X, Y, {}, variables=[n, Str('X')])) == [{Str('X'): Str('Y'), n: 2}] and list(unify(X, Z, {}, variables=[n, Str('X')])) == []"},"spec":{"lhs":"test_matrix()","rhs":"test_matrix produces the expected output","over":{"base":"Any"},"name":"test_matrix_correct"},"guarantee":"test_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_sympy.test_matrix_correct","statement":"Path(test_matrix(x), test_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d587bf378691af2"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_sympy.test_matrix","kind":"function","src_hash":"ff46458d4f035d17","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(unify(X, Y, {}, variables=[n, Str('X')])) == [{Str('X'): Str('Y'), n: 2}] and list(unify(X, Z, {}, variables=[n, Str('X')])) == []"},"spec":{"lhs":"test_matrix()","rhs":"list(unify(X, Y, {}, variables=[n, Str('X')])) == [{Str('X'): Str('Y'), n: 2}] and list(unify(X, Z, {}, variables=[n, Str('X')])) == []","over":{"base":"Any"},"name":"test_matrix_correct"},"guarantee":"list(unify(X, Y, {}, variables=[n, Str('X')])) == [{Str('X'): Str('Y'), n: 2}]; list(unify(X, Z, {}, variables=[n, Str('X')])) == []","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_sympy.test_matrix_correct","statement":"Path(test_matrix(x), list(unify(X, Y, {}, variables=[n, Str('X')])) == [{Str('X'): Str('Y'), n: 2}]; list(unify(X, Z, {}, variables=[n, Str('X')])) == [])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1af92b43ef3a5431","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(unify(X, Y, {}, variables=[n, Str('X')])) == [{Str('X'): Str('Y'), n: 2}]","list(unify(X, Z, {}, variables=[n, Str('X')])) == []"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_matrix():
     from sympy.matrices.expressions.matexpr import MatrixSymbol
     X = MatrixSymbol('X', n, n)
@@ -248,16 +322,22 @@ def test_matrix():
     assert list(unify(X, Z, {}, variables=[n, Str('X')])) == []
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_non_frankenAdds(), test_non_frankenAdds produces the expected output) over Any ║
+# ║ Path(test_non_frankenAdds(), <unspecified:test_non_frankenAdds>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_non_frankenAdds : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b06a9f5238a9c274  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_sympy.test_non_frankenAdds","kind":"function","src_hash":"e644bd1f0428216b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_non_frankenAdds()","rhs":"test_non_frankenAdds produces the expected output","over":{"base":"Any"},"name":"test_non_frankenAdds_correct"},"guarantee":"test_non_frankenAdds produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_sympy.test_non_frankenAdds_correct","statement":"Path(test_non_frankenAdds(x), test_non_frankenAdds produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b06a9f5238a9c274"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_sympy.test_non_frankenAdds","kind":"function","src_hash":"e644bd1f0428216b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_non_frankenAdds()","rhs":"<unspecified:test_non_frankenAdds>","over":{"base":"Any"},"name":"test_non_frankenAdds_correct"},"guarantee":"test_non_frankenAdds produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_sympy.test_non_frankenAdds_correct","statement":"Path(test_non_frankenAdds(x), test_non_frankenAdds produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b06a9f5238a9c274","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_non_frankenAdds():
     # the is_commutative property used to fail because of Basic.__new__
     # This caused is_commutative and str calls to fail
@@ -268,16 +348,22 @@ def test_non_frankenAdds():
     rebuilt.is_commutative
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FiniteSet_commutivity(), test_FiniteSet_commutivity produces the expected output) over Any ║
+# ║ Path(test_FiniteSet_commutivity(), {x: FiniteSet(a, c), y: b} in tuple(unify(s, t, variables=variables))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FiniteSet_commutivity : Any → {Any | {x: FiniteS...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  {x: FiniteSet(a, c), y: b} in tuple(unify...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FiniteSet_commutivity : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7fd9aebde7316682  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b7807fad93828f6f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_sympy.test_FiniteSet_commutivity","kind":"function","src_hash":"28ca8df8bc895c45","in":{"base":"Any"},"out":{"base":"Any","pred":"{x: FiniteSet(a, c), y: b} in tuple(unify(s, t, variables=variables))"},"spec":{"lhs":"test_FiniteSet_commutivity()","rhs":"test_FiniteSet_commutivity produces the expected output","over":{"base":"Any"},"name":"test_FiniteSet_commutivity_correct"},"guarantee":"test_FiniteSet_commutivity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_sympy.test_FiniteSet_commutivity_correct","statement":"Path(test_FiniteSet_commutivity(x), test_FiniteSet_commutivity produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7fd9aebde7316682"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_sympy.test_FiniteSet_commutivity","kind":"function","src_hash":"28ca8df8bc895c45","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: {x: FiniteSet(a, c), y: b} in tuple(unify(s, t, variables=variables))"},"spec":{"lhs":"test_FiniteSet_commutivity()","rhs":"{x: FiniteSet(a, c), y: b} in tuple(unify(s, t, variables=variables))","over":{"base":"Any"},"name":"test_FiniteSet_commutivity_correct"},"guarantee":"{x: FiniteSet(a, c), y: b} in tuple(unify(s, t, variables=variables))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_sympy.test_FiniteSet_commutivity_correct","statement":"Path(test_FiniteSet_commutivity(x), {x: FiniteSet(a, c), y: b} in tuple(unify(s, t, variables=variables)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7807fad93828f6f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["{x: FiniteSet(a, c), y: b} in tuple(unify(s, t, variables=variables))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_FiniteSet_commutivity():
     from sympy.sets.sets import FiniteSet
     a, b, c, x, y = symbols('a,b,c,x,y')
@@ -287,16 +373,22 @@ def test_FiniteSet_commutivity():
     assert {x: FiniteSet(a, c), y: b} in tuple(unify(s, t, variables=variables))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FiniteSet_complex(), test_FiniteSet_complex produces the expected output) over Any ║
+# ║ Path(test_FiniteSet_complex(), iterdicteq(unify(expr, pattern, variables=variables), expected)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FiniteSet_complex : Any → {Any | iterdicteq(unif...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  iterdicteq(unify(expr, pattern, variables...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FiniteSet_complex : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 283aa9d0627d1f16  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 358d71b01b56708a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_sympy.test_FiniteSet_complex","kind":"function","src_hash":"9f6597edf2dae190","in":{"base":"Any"},"out":{"base":"Any","pred":"iterdicteq(unify(expr, pattern, variables=variables), expected)"},"spec":{"lhs":"test_FiniteSet_complex()","rhs":"test_FiniteSet_complex produces the expected output","over":{"base":"Any"},"name":"test_FiniteSet_complex_correct"},"guarantee":"test_FiniteSet_complex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_sympy.test_FiniteSet_complex_correct","statement":"Path(test_FiniteSet_complex(x), test_FiniteSet_complex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"283aa9d0627d1f16"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_sympy.test_FiniteSet_complex","kind":"function","src_hash":"9f6597edf2dae190","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: iterdicteq(unify(expr, pattern, variables=variables), expected)"},"spec":{"lhs":"test_FiniteSet_complex()","rhs":"iterdicteq(unify(expr, pattern, variables=variables), expected)","over":{"base":"Any"},"name":"test_FiniteSet_complex_correct"},"guarantee":"iterdicteq(unify(expr, pattern, variables=variables), expected)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_sympy.test_FiniteSet_complex_correct","statement":"Path(test_FiniteSet_complex(x), iterdicteq(unify(expr, pattern, variables=variables), expected))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"358d71b01b56708a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["iterdicteq(unify(expr, pattern, variables=variables), expected)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_FiniteSet_complex():
     from sympy.sets.sets import FiniteSet
     a, b, c, x, y, z = symbols('a,b,c,x,y,z')
@@ -309,16 +401,22 @@ def test_FiniteSet_complex():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_and(), test_and produces the expected output) over Any ║
+# ║ Path(test_and(), iterdicteq(unify((z > 0) & (n < 3), And(x, y), variables=variables), expected)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_and : Any → {Any | iterdicteq(unify((z > 0) & (n...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  iterdicteq(unify((z > 0) & (n < 3), And(x...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_and : Any → {Any | result satisfies: iterdicteq(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1dbb6c2d73a726b3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2fc65b18adf26528  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_sympy.test_and","kind":"function","src_hash":"31eae30b28d25377","in":{"base":"Any"},"out":{"base":"Any","pred":"iterdicteq(unify((z > 0) & (n < 3), And(x, y), variables=variables), expected)"},"spec":{"lhs":"test_and()","rhs":"test_and produces the expected output","over":{"base":"Any"},"name":"test_and_correct"},"guarantee":"test_and produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_sympy.test_and_correct","statement":"Path(test_and(x), test_and produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1dbb6c2d73a726b3"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_sympy.test_and","kind":"function","src_hash":"31eae30b28d25377","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: iterdicteq(unify((z > 0) & (n < 3), And(x, y), variables=variables), expected)"},"spec":{"lhs":"test_and()","rhs":"iterdicteq(unify((z > 0) & (n < 3), And(x, y), variables=variables), expected)","over":{"base":"Any"},"name":"test_and_correct"},"guarantee":"iterdicteq(unify((z > 0) & (n < 3), And(x, y), variables=variables), expected)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_sympy.test_and_correct","statement":"Path(test_and(x), iterdicteq(unify((z > 0) & (n < 3), And(x, y), variables=variables), expected))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fc65b18adf26528","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["iterdicteq(unify((z > 0) & (n < 3), And(x, y), variables=variables), expected)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_and():
     variables = x, y
     expected = ({x: z > 0, y: n < 3},)
@@ -326,16 +424,22 @@ def test_and():
                       expected)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Union(), test_Union produces the expected output) over Any ║
+# ║ Path(test_Union(), list(unify(Interval(0, 1) + Interval(10, 11), Interval(0, 1) + Interval(12, 13), variables=(Interval(12, 13),)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Union : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(unify(Interval(0, 1) + Interval(10, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Union : Any → {Any | result satisfies: list(unif...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0360d76680e68962  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a36689fb120054eb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_sympy.test_Union","kind":"function","src_hash":"6162e21cc4dab57a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Union()","rhs":"test_Union produces the expected output","over":{"base":"Any"},"name":"test_Union_correct"},"guarantee":"test_Union produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_sympy.test_Union_correct","statement":"Path(test_Union(x), test_Union produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0360d76680e68962"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_sympy.test_Union","kind":"function","src_hash":"6162e21cc4dab57a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(unify(Interval(0, 1) + Interval(10, 11), Interval(0, 1) + Interval(12, 13), variables=(Interval(12, 13),)))"},"spec":{"lhs":"test_Union()","rhs":"list(unify(Interval(0, 1) + Interval(10, 11), Interval(0, 1) + Interval(12, 13), variables=(Interval(12, 13),)))","over":{"base":"Any"},"name":"test_Union_correct"},"guarantee":"list(unify(Interval(0, 1) + Interval(10, 11), Interval(0, 1) + Interval(12, 13), variables=(Interval(12, 13),)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_sympy.test_Union_correct","statement":"Path(test_Union(x), list(unify(Interval(0, 1) + Interval(10, 11), Interval(0, 1) + Interval(12, 13), variables=(Interval(12, 13),))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a36689fb120054eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(unify(Interval(0, 1) + Interval(10, 11), Interval(0, 1) + Interval(12, 13), variables=(Interval(12, 13),)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Union():
     from sympy.sets.sets import Interval
     assert list(unify(Interval(0, 1) + Interval(10, 11),
@@ -343,32 +447,46 @@ def test_Union():
                       variables=(Interval(12, 13),)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_commutative(), test_is_commutative produces the expected output) over Any ║
+# ║ Path(test_is_commutative(), is_commutative(deconstruct(x + y)) and is_commutative(deconstruct(x * y)) and not is_commutative(deconstruct(x ** y))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_commutative : Any → {Any | is_commutative(dec...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  is_commutative(deconstruct(x + y))             ║
+# ║   ensures:  is_commutative(deconstruct(x * y))             ║
+# ║   ensures:  not is_commutative(deconstruct(x ** y))        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_commutative : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad472fcd895e3efa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 691b5e086946d44a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_sympy.test_is_commutative","kind":"function","src_hash":"e1d64f0983b82f08","in":{"base":"Any"},"out":{"base":"Any","pred":"is_commutative(deconstruct(x + y)) and is_commutative(deconstruct(x * y)) and not is_commutative(deconstruct(x ** y))"},"spec":{"lhs":"test_is_commutative()","rhs":"test_is_commutative produces the expected output","over":{"base":"Any"},"name":"test_is_commutative_correct"},"guarantee":"test_is_commutative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_sympy.test_is_commutative_correct","statement":"Path(test_is_commutative(x), test_is_commutative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad472fcd895e3efa"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_sympy.test_is_commutative","kind":"function","src_hash":"e1d64f0983b82f08","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: is_commutative(deconstruct(x + y)) and is_commutative(deconstruct(x * y)) and not is_commutative(deconstruct(x ** y))"},"spec":{"lhs":"test_is_commutative()","rhs":"is_commutative(deconstruct(x + y)) and is_commutative(deconstruct(x * y)) and not is_commutative(deconstruct(x ** y))","over":{"base":"Any"},"name":"test_is_commutative_correct"},"guarantee":"is_commutative(deconstruct(x + y)); is_commutative(deconstruct(x * y)); not is_commutative(deconstruct(x ** y))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_sympy.test_is_commutative_correct","statement":"Path(test_is_commutative(x), is_commutative(deconstruct(x + y)); is_commutative(deconstruct(x * y)); not is_commutative(deconstruct(x ** y)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"691b5e086946d44a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["is_commutative(deconstruct(x + y))","is_commutative(deconstruct(x * y))","not is_commutative(deconstruct(x ** y))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_is_commutative():
     assert is_commutative(deconstruct(x+y))
     assert is_commutative(deconstruct(x*y))
     assert not is_commutative(deconstruct(x**y))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_commutative_in_commutative(), test_commutative_in_commutative produces the expected output) over Any ║
+# ║ Path(test_commutative_in_commutative(), next(unify(eq, pat, variables=(a, b, c, d)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_commutative_in_commutative : Any → {Any | next(u...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  next(unify(eq, pat, variables=(a, b, c, d)))   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_commutative_in_commutative : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 25d02cd867c83fa5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0eb2b46955e7c2d9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_sympy.test_commutative_in_commutative","kind":"function","src_hash":"63b61698e47fd663","in":{"base":"Any"},"out":{"base":"Any","pred":"next(unify(eq, pat, variables=(a, b, c, d)))"},"spec":{"lhs":"test_commutative_in_commutative()","rhs":"test_commutative_in_commutative produces the expected output","over":{"base":"Any"},"name":"test_commutative_in_commutative_correct"},"guarantee":"test_commutative_in_commutative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_sympy.test_commutative_in_commutative_correct","statement":"Path(test_commutative_in_commutative(x), test_commutative_in_commutative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25d02cd867c83fa5"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_sympy.test_commutative_in_commutative","kind":"function","src_hash":"63b61698e47fd663","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: next(unify(eq, pat, variables=(a, b, c, d)))"},"spec":{"lhs":"test_commutative_in_commutative()","rhs":"next(unify(eq, pat, variables=(a, b, c, d)))","over":{"base":"Any"},"name":"test_commutative_in_commutative_correct"},"guarantee":"next(unify(eq, pat, variables=(a, b, c, d)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_sympy.test_commutative_in_commutative_correct","statement":"Path(test_commutative_in_commutative(x), next(unify(eq, pat, variables=(a, b, c, d))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0eb2b46955e7c2d9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["next(unify(eq, pat, variables=(a, b, c, d)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_commutative_in_commutative():
     from sympy.abc import a,b,c,d
     from sympy.functions.elementary.trigonometric import (cos, sin)

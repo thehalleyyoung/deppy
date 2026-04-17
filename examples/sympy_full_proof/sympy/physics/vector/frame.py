@@ -30,14 +30,20 @@ __all__ = ['CoordinateSym', 'ReferenceFrame']
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(CoordinateSym(*args), correctly constructs a CoordinateSym instance) over {Any | isinstance(other, CoordinateSym)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Symbol)                       ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ CoordinateSym : {Any | isinstance(other, CoordinateSy...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65919fb4a037b7ed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.CoordinateSym","kind":"class","src_hash":"f1643b00ee17d69e","in":{"base":"Any","pred":"isinstance(other, CoordinateSym)"},"out":{"base":"Any"},"spec":{"lhs":"CoordinateSym(*args)","rhs":"correctly constructs a CoordinateSym instance","over":{"base":"Any","pred":"isinstance(other, CoordinateSym)"},"name":"CoordinateSym_class_invariant"},"guarantee":"correctly constructs a CoordinateSym instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65919fb4a037b7ed"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.CoordinateSym","kind":"class","src_hash":"f1643b00ee17d69e","in":{"base":"Any","pred":"isinstance(other, CoordinateSym)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Symbol)"},"spec":{"lhs":"CoordinateSym(*args)","rhs":"correctly constructs a CoordinateSym instance","over":{"base":"Any","pred":"isinstance(other, CoordinateSym)"},"name":"CoordinateSym_class_invariant"},"guarantee":"isinstance(self, Symbol)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65919fb4a037b7ed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Symbol)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function CoordinateSym not found in source"]}}
 class CoordinateSym(Symbol):
     """
     A coordinate symbol/base scalar associated wrt a Reference Frame.
@@ -77,16 +83,23 @@ class CoordinateSym(Symbol):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, name, frame), <unspecified:__new__>) over {Any | not (index not in range(0, 3))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (index not in range(0, 3))                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | not (index not in range(0, 3))} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 44fb1ee1119551ee           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.CoordinateSym.__new__","kind":"method","src_hash":"f4a107e5ff393463","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"44fb1ee1119551ee"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.CoordinateSym.__new__","kind":"method","src_hash":"f4a107e5ff393463","in":{"base":"Any","pred":"not (index not in range(0, 3))"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, name, frame)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"not (index not in range(0, 3))"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"44fb1ee1119551ee","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (index not in range(0, 3))"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, name, frame, index):
         # We can't use the cached Symbol.__new__ because this class depends on
         # frame and index, which are not passed to Symbol.__xnew__.
@@ -100,45 +113,64 @@ class CoordinateSym(Symbol):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getnewargs_ex__(), internal helper behaves correctly) over Any ║
+# ║ Path(__getnewargs_ex__(), ((self.name, *self._id), {})) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ((self.name, *self._id), {})                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getnewargs_ex__ : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 00edcfe1357aeade           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.CoordinateSym.__getnewargs_ex__","kind":"method","src_hash":"0883f60bc52227e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getnewargs_ex__()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__getnewargs_ex___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"00edcfe1357aeade"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.CoordinateSym.__getnewargs_ex__","kind":"method","src_hash":"0883f60bc52227e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getnewargs_ex__()","rhs":"((self.name, *self._id), {})","over":{"base":"Any"},"name":"__getnewargs_ex___correct"},"guarantee":"returns ((self.name, *self._id), {})","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"00edcfe1357aeade","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"((self.name, *self._id), {})","pure":false,"effects":{"effect_type":"reads_state","reads":["self._id","self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getnewargs_ex__(self):
         return (self.name, *self._id), {}
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(frame(), returns the frame attribute) over Any        ║
+# ║ Path(frame(), self._id[0]) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._id[0]                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ frame : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c41d168a6b3f6d29           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.CoordinateSym.frame","kind":"property","src_hash":"259b8180327fa700","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"frame()","rhs":"returns the frame attribute","over":{"base":"Any"},"name":"frame_correct"},"guarantee":"returns the frame attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c41d168a6b3f6d29"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.CoordinateSym.frame","kind":"property","src_hash":"259b8180327fa700","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"frame()","rhs":"self._id[0]","over":{"base":"Any"},"name":"frame_correct"},"guarantee":"returns self._id[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c41d168a6b3f6d29","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._id[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._id"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def frame(self):
         return self._id[0]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), <unspecified:__eq__>) over {Any | hasattr(other, '_id')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, '_id')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, '_id')} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2cf850661ad21708           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.CoordinateSym.__eq__","kind":"method","src_hash":"6ab1a3afda14aa83","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2cf850661ad21708"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.CoordinateSym.__eq__","kind":"method","src_hash":"6ab1a3afda14aa83","in":{"base":"Any","pred":"hasattr(other, '_id')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"<unspecified:__eq__>","over":{"base":"Any","pred":"hasattr(other, '_id')"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2cf850661ad21708","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, '_id')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other._id","self._id"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         # Check if the other object is a CoordinateSym of the same frame and
         # same index
@@ -148,30 +180,42 @@ class CoordinateSym(Symbol):
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__ne__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__ne__(other), not self == other) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not self == other                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __ne__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 606bb31d2e1659f4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.CoordinateSym.__ne__","kind":"method","src_hash":"3c9a6691f5a0eb67","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"606bb31d2e1659f4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.CoordinateSym.__ne__","kind":"method","src_hash":"3c9a6691f5a0eb67","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(other)","rhs":"not self == other","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"returns not self == other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"606bb31d2e1659f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not self == other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __ne__(self, other):
         return not self == other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), (self._id[0].__hash__(), self._id[1]).__hash__()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self._id[0].__hash__(), self._id[1]).__h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 45bd6b510bf2b72c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.CoordinateSym.__hash__","kind":"method","src_hash":"cecd05964f721ed0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"45bd6b510bf2b72c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.CoordinateSym.__hash__","kind":"method","src_hash":"cecd05964f721ed0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"(self._id[0].__hash__(), self._id[1]).__hash__()","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns (self._id[0].__hash__(), self._id[1]).__hash__()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"45bd6b510bf2b72c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self._id[0].__hash__(), self._id[1]).__hash__()","pure":false,"effects":{"effect_type":"reads_state","reads":["self._id"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         return (self._id[0].__hash__(), self._id[1]).__hash__()
 
@@ -179,14 +223,19 @@ class CoordinateSym(Symbol):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a ReferenceFrame instance) preserved by ReferenceFrame(*args) over {Any | isinstance(name, str) and isinstance(angle, Vector) and isinstance(dcm, MatrixBase)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ ReferenceFrame : {Any | isinstance(name, str) and isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 5.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0104f584f033afec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame","kind":"class","src_hash":"1da3740c575eb21c","in":{"base":"Any","pred":"isinstance(name, str) and isinstance(angle, Vector) and isinstance(dcm, MatrixBase)"},"out":{"base":"Any"},"spec":{"lhs":"ReferenceFrame(*args)","rhs":"correctly constructs a ReferenceFrame instance","over":{"base":"Any","pred":"isinstance(name, str) and isinstance(angle, Vector) and isinstance(dcm, MatrixBase)"},"name":"ReferenceFrame_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a ReferenceFrame instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'str_vecs') and hasattr(self, 'pretty_vecs') and hasattr(self, 'latex_vecs') and hasattr(self, 'indices') and hasattr(self, 'str_vecs') and hasattr(self, 'pretty_vecs') and hasattr(self, 'latex_vecs') and hasattr(self, 'indices')","kind":"class","induction":"structural on str_vecs, pretty_vecs, latex_vecs, indices"}],"methods_preserving":["__init__","__getitem__","__iter__","__str__","_dict_list","_w_diff_dcm","variable_map","ang_acc_in","ang_vel_in","dcm","_dcm","orient_axis","orient_explicit","orient_dcm","_rot","_parse_consecutive_rotations","orient_body_fixed","orient_space_fixed","orient_quaternion","orient","orientnew","set_ang_acc","set_ang_vel","x","y","z","xx","xy","xz","yx","yy","yz","zx","zy","zz","u","partial_velocity"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0104f584f033afec"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame","kind":"class","src_hash":"1da3740c575eb21c","in":{"base":"Any","pred":"isinstance(name, str) and isinstance(angle, Vector) and isinstance(dcm, MatrixBase)"},"out":{"base":"Any"},"spec":{"lhs":"ReferenceFrame(*args)","rhs":"correctly constructs a ReferenceFrame instance","over":{"base":"Any","pred":"isinstance(name, str) and isinstance(angle, Vector) and isinstance(dcm, MatrixBase)"},"name":"ReferenceFrame_class_invariant","kind":"invariant"},"guarantee":"preserves 17 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'str_vecs') and hasattr(self, 'pretty_vecs') and hasattr(self, 'latex_vecs') and hasattr(self, 'indices') and hasattr(self, 'str_vecs') and hasattr(self, 'pretty_vecs') and hasattr(self, 'latex_vecs') and hasattr(self, 'indices')","kind":"class","induction":"structural on str_vecs, pretty_vecs, latex_vecs, indices"}],"methods_preserving":["__init__","__getitem__","__iter__","__str__","_dict_list","_w_diff_dcm","variable_map","ang_acc_in","ang_vel_in","dcm","_dcm","orient_axis","orient_explicit","orient_dcm","_rot","_parse_consecutive_rotations","orient_body_fixed","orient_space_fixed","orient_quaternion","orient","orientnew","set_ang_acc","set_ang_vel","x","y","z","xx","xy","xz","yx","yy","yz","zx","zy","zz","u","partial_velocity"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0104f584f033afec","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'name')","hasattr(self, '_var_dict')","hasattr(self, '_dcm_dict')","hasattr(self, '_dcm_cache')","hasattr(self, '_ang_vel_dict')","hasattr(self, '_ang_acc_dict')","hasattr(self, '_dlist')","hasattr(self, '_cur')","hasattr(self, '_x')","hasattr(self, '_y')","hasattr(self, '_z')","hasattr(self, 'varlist')","hasattr(self, 'index')","hasattr(self, 'str_vecs')","hasattr(self, 'pretty_vecs')","hasattr(self, 'latex_vecs')","hasattr(self, 'indices')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":5.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function ReferenceFrame not found in source"]}}
 class ReferenceFrame:
     """A reference frame in classical mechanics.
 
@@ -203,16 +252,26 @@ class ReferenceFrame:
     _count = 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(nam), initializes the instance correctly) over Any ║
+# ║ Path(__init__(name, indices, latexs), self.name == name and self.indices == indices and self.latex_vecs == latexs) over {Any | isinstance(name, str) and hasattr(name, 'lower')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(name, str)                          ║
+# ║   requires: hasattr(name, 'lower')                         ║
+# ║   ensures:  self.name == name                              ║
+# ║   ensures:  self.indices == indices                        ║
+# ║   ensures:  self.latex_vecs == latexs                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | isinstance(name, str) and hasattr(n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 406f133fdc34f644           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.__init__","kind":"method","src_hash":"2dcc880b259ef4be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(nam)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"406f133fdc34f644"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.__init__","kind":"method","src_hash":"2dcc880b259ef4be","in":{"base":"Any","pred":"isinstance(name, str) and hasattr(name, 'lower')"},"out":{"base":"Any","pred":"result satisfies: self.name == name and self.indices == indices and self.latex_vecs == latexs"},"spec":{"lhs":"__init__(name, indices, latexs)","rhs":"self.name == name and self.indices == indices and self.latex_vecs == latexs","over":{"base":"Any","pred":"isinstance(name, str) and hasattr(name, 'lower')"},"name":"__init___correct"},"guarantee":"self.name == name; self.indices == indices; self.latex_vecs == latexs","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"406f133fdc34f644","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(name, str)","hasattr(name, 'lower')"],"ensures":["self.name == name","self.indices == indices","self.latex_vecs == latexs"],"pure":false,"effects":{"effect_type":"reads_state","reads":["name.lower","self._ang_acc_dict","self._ang_vel_dict","self._dcm_dict"],"writes":["self._ang_acc_dict","self._ang_vel_dict","self._cur","self._dcm_cache","self._dcm_dict","self._dlist","self._var_dict","self._x","self._y","self._z","self.index","self.indices","self.latex_vecs","self.name","self.pretty_vecs","self.str_vecs","self.varlist"],"raises":["TypeError","ValueError"]},"state_contract":{"modifies":["self._ang_acc_dict","self._ang_vel_dict","self._cur","self._dcm_cache","self._dcm_dict","self._dlist","self._var_dict","self._x","self._y","self._z","self.index","self.indices","self.latex_vecs","self.name","self.pretty_vecs","self.str_vecs","self.varlist"],"old_bindings":{"old_self__ang_acc_dict":"self._ang_acc_dict","old_self__ang_vel_dict":"self._ang_vel_dict","old_self__cur":"self._cur","old_self__dcm_cache":"self._dcm_cache","old_self__dcm_dict":"self._dcm_dict","old_self__dlist":"self._dlist","old_self__var_dict":"self._var_dict","old_self__x":"self._x","old_self__y":"self._y","old_self__z":"self._z","old_self_index":"self.index","old_self_indices":"self.indices","old_self_latex_vecs":"self.latex_vecs","old_self_name":"self.name","old_self_pretty_vecs":"self.pretty_vecs","old_self_str_vecs":"self.str_vecs","old_self_varlist":"self.varlist"},"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, name, indices=None, latexs=None, variables=None):
         """ReferenceFrame initialization method.
 
@@ -369,16 +428,22 @@ class ReferenceFrame:
         self.index = ReferenceFrame._count
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(ind), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(ind), <unspecified:__getitem__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2fd2946c9f75de75           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.__getitem__","kind":"method","src_hash":"ce40a12e11d3e9a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(ind)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2fd2946c9f75de75"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.__getitem__","kind":"method","src_hash":"ce40a12e11d3e9a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(ind)","rhs":"<unspecified:__getitem__>","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2fd2946c9f75de75","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.indices","self.varlist","self.x","self.y","self.z"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, ind):
         """
         Returns basis vector for the provided index, if the index is a string.
@@ -401,30 +466,42 @@ class ReferenceFrame:
             raise ValueError('Not a defined index')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__iter__(), yields all elements in order) over Any    ║
+# ║ Path(__iter__(), iter([self.x, self.y, self.z])) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  iter([self.x, self.y, self.z])                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __iter__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3e17d9e33825af25           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.__iter__","kind":"method","src_hash":"a769b173c5aa27a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"yields all elements in order","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e17d9e33825af25"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.__iter__","kind":"method","src_hash":"a769b173c5aa27a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"iter([self.x, self.y, self.z])","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"returns iter([self.x, self.y, self.z])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e17d9e33825af25","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"iter([self.x, self.y, self.z])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.x","self.y","self.z"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __iter__(self):
         return iter([self.x, self.y, self.z])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), self.name) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.name                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4161e2c2cf6df460           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.__str__","kind":"method","src_hash":"9549483e822e6101","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4161e2c2cf6df460"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.__str__","kind":"method","src_hash":"9549483e822e6101","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"self.name","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns self.name","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4161e2c2cf6df460","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.name","pure":false,"effects":{"effect_type":"reads_state","reads":["self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         """Returns the name of the frame. """
         return self.name
@@ -432,16 +509,26 @@ class ReferenceFrame:
     __repr__ = __str__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dict_list(oth), returns an inclusive list of reference frames that connect this reference frame to the provided reference frame) over Any ║
+# ║ Path(_dict_list(other, num), possible_connecting_paths[0]) over {Any | not (num not in connect_type.keys()) and hasattr(other, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _dict_list : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (num not in connect_type.keys())           ║
+# ║   requires: hasattr(other, 'name')                         ║
+# ║   ensures:  len(possible_connecting_paths) == old_len...   ║
+# ║   ensures:  len(possible_connecting_paths) == old_len...   ║
+# ║   returns:  possible_connecting_paths[0]                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _dict_list : {Any | not (num not in connect_type.keys...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab8630ac3ad3b1f1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24641112753a77fd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame._dict_list","kind":"method","src_hash":"0e3854371773a124","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dict_list(oth)","rhs":"returns an inclusive list of reference frames that connect this reference frame to the provided reference frame","over":{"base":"Any"},"name":"_dict_list_correct"},"guarantee":"returns an inclusive list of reference frames that connect this reference frame to the provided reference frame","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame.ReferenceFrame._dict_list_correct","statement":"Path(_dict_list(x), returns an inclusive list of reference frames that connect this reference frame to the provided reference frame)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab8630ac3ad3b1f1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame._dict_list","kind":"method","src_hash":"0e3854371773a124","in":{"base":"Any","pred":"not (num not in connect_type.keys()) and hasattr(other, 'name')"},"out":{"base":"Any","pred":"result satisfies: result == (possible_connecting_paths[0])"},"spec":{"lhs":"_dict_list(other, num)","rhs":"possible_connecting_paths[0]","over":{"base":"Any","pred":"not (num not in connect_type.keys()) and hasattr(other, 'name')"},"name":"_dict_list_correct"},"guarantee":"returns possible_connecting_paths[0]; len(possible_connecting_paths) == old_len_possible_connecting_paths + 1; len(possible_connecting_paths) == old_len_possible_connecting_paths","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame.ReferenceFrame._dict_list_correct","statement":"Path(_dict_list(x), returns possible_connecting_paths[0]; len(possible_connecting_paths) == old_len_possible_connecting_paths + 1; len(possible_connecting_paths) == old_len_possible_connecting_paths)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24641112753a77fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (num not in connect_type.keys())","hasattr(other, 'name')"],"ensures":["len(possible_connecting_paths) == old_len_possible_connecting_paths + 1","len(possible_connecting_paths) == old_len_possible_connecting_paths"],"returns_expr":"possible_connecting_paths[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["other.name","self.name"],"calls_mutating":["possible_connecting_paths.append","possible_connecting_paths.remove","possible_connecting_paths.sort"],"raises":["ValueError"]},"state_contract":{"modifies":["possible_connecting_paths.*"],"old_bindings":{"old_len_possible_connecting_paths":"len(possible_connecting_paths)"},"post_ensures":["len(possible_connecting_paths) == old_len_possible_connecting_paths + 1","len(possible_connecting_paths) == old_len_possible_connecting_paths"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _dict_list(self, other, num):
         """Returns an inclusive list of reference frames that connect this
         reference frame to the provided reference frame.
@@ -515,16 +602,23 @@ class ReferenceFrame:
         raise ValueError(msg.format(connect_type[num], self.name, other.name))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_w_diff_dcm(oth), id) over Any                        ║
+# ║ Path(_w_diff_dcm(otherframe), id) over {Any | hasattr(otherframe, 'dcm')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _w_diff_dcm : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(otherframe, 'dcm')                     ║
+# ║   returns:  Vector([(Matrix([w1, w2, w3]), otherframe)])   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _w_diff_dcm : {Any | hasattr(otherframe, 'dcm')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a47fda60876b9907   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame._w_diff_dcm","kind":"method","src_hash":"769f3ca9de7cba68","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_w_diff_dcm(oth)","rhs":"angular velocity from time differentiating the dcm","over":{"base":"Any"},"name":"_w_diff_dcm_correct","kind":"composition"},"guarantee":"angular velocity from time differentiating the dcm","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Vector","by":"library_axiom"},{"fn":"Matrix","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a47fda60876b9907"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame._w_diff_dcm","kind":"method","src_hash":"769f3ca9de7cba68","in":{"base":"Any","pred":"hasattr(otherframe, 'dcm')"},"out":{"base":"Any"},"spec":{"lhs":"_w_diff_dcm(otherframe)","rhs":"Vector([(Matrix([w1, w2, w3]), otherframe)])","over":{"base":"Any","pred":"hasattr(otherframe, 'dcm')"},"name":"_w_diff_dcm_correct","kind":"composition"},"guarantee":"returns Vector([(Matrix([w1, w2, w3]), otherframe)])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Vector","by":"library_axiom"},{"fn":"Matrix","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a47fda60876b9907","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(otherframe, 'dcm')"],"returns_expr":"Vector([(Matrix([w1, w2, w3]), otherframe)])","pure":false,"effects":{"effect_type":"reads_state","reads":["otherframe.dcm"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _w_diff_dcm(self, otherframe):
         """Angular velocity from time differentiating the DCM. """
         from sympy.physics.vector.functions import dynamicsymbols
@@ -537,16 +631,26 @@ class ReferenceFrame:
         return Vector([(Matrix([w1, w2, w3]), otherframe)])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(variable_map(oth), returns a dictionary which expresses the coordinate variables of this frame in terms of the variables of otherframe) over Any ║
+# ║ Path(variable_map(otherframe), result == (self._var_dict[otherframe, Vector.simp] if (otherframe, Vector.simp) in self._var_dict else mapping) and result == self._var_dict[otherframe, Vector.simp] or result == mapping) over {Any | hasattr(otherframe, 'varlist')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ variable_map : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(otherframe, 'varlist')                 ║
+# ║   ensures:  result == (self._var_dict[otherframe, Vec...   ║
+# ║   ensures:  result == self._var_dict[otherframe, Vect...   ║
+# ║   fiber[case_0]: (otherframe, Vector.simp) in self._v...   ║
+# ║   fiber[case_1]: not ((otherframe, Vector.simp) in se...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ variable_map : {Any | hasattr(otherframe, 'varlist')}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e95964d0c76e2bd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f75c01b891e795b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.variable_map","kind":"method","src_hash":"bbe75d32f21c966b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"variable_map(oth)","rhs":"returns a dictionary which expresses the coordinate variables of this frame in terms of the variables of otherframe","over":{"base":"Any"},"name":"variable_map_correct"},"guarantee":"returns a dictionary which expresses the coordinate variables of this frame in terms of the variables of otherframe","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame.ReferenceFrame.variable_map_correct","statement":"Path(variable_map(x), returns a dictionary which expresses the coordinate variables of this frame in terms of the variables of otherframe)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e95964d0c76e2bd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.variable_map","kind":"method","src_hash":"bbe75d32f21c966b","in":{"base":"Any","pred":"hasattr(otherframe, 'varlist')"},"out":{"base":"Any","pred":"result satisfies: result == (self._var_dict[otherframe, Vector.simp] if (otherframe, Vector.simp) in self._var_dict else mapping) and result == self._var_dict[otherframe, Vector.simp] or result == mapping"},"spec":{"lhs":"variable_map(otherframe)","rhs":"result == (self._var_dict[otherframe, Vector.simp] if (otherframe, Vector.simp) in self._var_dict else mapping) and result == self._var_dict[otherframe, Vector.simp] or result == mapping","over":{"base":"Any","pred":"hasattr(otherframe, 'varlist')"},"name":"variable_map_correct"},"guarantee":"result == (self._var_dict[otherframe, Vector.simp] if (otherframe, Vector.simp) in self._var_dict else mapping); result == self._var_dict[otherframe, Vector.simp] or result == mapping; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame.ReferenceFrame.variable_map_correct","statement":"Path(variable_map(x), result == (self._var_dict[otherframe, Vector.simp] if (otherframe, Vector.simp) in self._var_dict else mapping); result == self._var_dict[otherframe, Vector.simp] or result == mapping; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f75c01b891e795b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(otherframe, 'varlist')"],"ensures":["result == (self._var_dict[otherframe, Vector.simp] if (otherframe, Vector.simp) in self._var_dict else mapping)","result == self._var_dict[otherframe, Vector.simp] or result == mapping"],"fibers":[{"name":"case_0","guard":"(otherframe, Vector.simp) in self._var_dict","ensures":["result == self._var_dict[otherframe, Vector.simp]"],"decidability":"library","returns_expr":"self._var_dict[otherframe, Vector.simp]"},{"name":"case_1","guard":"not ((otherframe, Vector.simp) in self._var_dict)","ensures":["result == mapping"],"decidability":"library","returns_expr":"mapping"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["otherframe.varlist","self._var_dict","self.dcm","self.varlist"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def variable_map(self, otherframe):
         """
         Returns a dictionary which expresses the coordinate variables
@@ -591,16 +695,25 @@ class ReferenceFrame:
             return mapping
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ang_acc_in(oth), returns the angular acceleration vector of the referenceframe) over Any ║
+# ║ Path(ang_acc_in(otherframe), result == (self._ang_acc_dict[otherframe] if otherframe in self._ang_acc_dict else self.ang_vel_in(otherframe).dt(otherframe)) and result == self._ang_acc_dict[otherframe] or result == self.ang_vel_in(otherframe).dt(otherframe)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ang_acc_in : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self._ang_acc_dict[otherframe]...   ║
+# ║   ensures:  result == self._ang_acc_dict[otherframe] ...   ║
+# ║   fiber[case_0]: otherframe in self._ang_acc_dict => ...   ║
+# ║   fiber[case_1]: not (otherframe in self._ang_acc_dic...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ang_acc_in : Any → {Any | result satisfies: result ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d988ff2e7f6feac  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 06fbb892130b42cf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.ang_acc_in","kind":"method","src_hash":"4baa20f4286dee32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ang_acc_in(oth)","rhs":"returns the angular acceleration vector of the referenceframe","over":{"base":"Any"},"name":"ang_acc_in_correct"},"guarantee":"returns the angular acceleration vector of the referenceframe","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame.ReferenceFrame.ang_acc_in_correct","statement":"Path(ang_acc_in(x), returns the angular acceleration vector of the referenceframe)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d988ff2e7f6feac"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.ang_acc_in","kind":"method","src_hash":"4baa20f4286dee32","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self._ang_acc_dict[otherframe] if otherframe in self._ang_acc_dict else self.ang_vel_in(otherframe).dt(otherframe)) and result == self._ang_acc_dict[otherframe] or result == self.ang_vel_in(otherframe).dt(otherframe)"},"spec":{"lhs":"ang_acc_in(otherframe)","rhs":"result == (self._ang_acc_dict[otherframe] if otherframe in self._ang_acc_dict else self.ang_vel_in(otherframe).dt(otherframe)) and result == self._ang_acc_dict[otherframe] or result == self.ang_vel_in(otherframe).dt(otherframe)","over":{"base":"Any"},"name":"ang_acc_in_correct"},"guarantee":"result == (self._ang_acc_dict[otherframe] if otherframe in self._ang_acc_dict else self.ang_vel_in(otherframe).dt(otherframe)); result == self._ang_acc_dict[otherframe] or result == self.ang_vel_in(otherframe).dt(otherframe); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame.ReferenceFrame.ang_acc_in_correct","statement":"Path(ang_acc_in(x), result == (self._ang_acc_dict[otherframe] if otherframe in self._ang_acc_dict else self.ang_vel_in(otherframe).dt(otherframe)); result == self._ang_acc_dict[otherframe] or result == self.ang_vel_in(otherframe).dt(otherframe); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"06fbb892130b42cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self._ang_acc_dict[otherframe] if otherframe in self._ang_acc_dict else self.ang_vel_in(otherframe).dt(otherframe))","result == self._ang_acc_dict[otherframe] or result == self.ang_vel_in(otherframe).dt(otherframe)"],"fibers":[{"name":"case_0","guard":"otherframe in self._ang_acc_dict","ensures":["result == self._ang_acc_dict[otherframe]"],"decidability":"library","returns_expr":"self._ang_acc_dict[otherframe]"},{"name":"case_1","guard":"not (otherframe in self._ang_acc_dict)","ensures":["result == self.ang_vel_in(otherframe).dt(otherframe)"],"decidability":"library","returns_expr":"self.ang_vel_in(otherframe).dt(otherframe)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._ang_acc_dict","self.ang_vel_in"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ang_acc_in(self, otherframe):
         """Returns the angular acceleration Vector of the ReferenceFrame.
 
@@ -637,16 +750,22 @@ class ReferenceFrame:
             return self.ang_vel_in(otherframe).dt(otherframe)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ang_vel_in(oth), returns the angular velocity vector of the referenceframe) over Any ║
+# ║ Path(ang_vel_in(otherframe), <unspecified:ang_vel_in>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ang_vel_in : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c30e6c68b25a146e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.ang_vel_in","kind":"method","src_hash":"71a6923bb7522426","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ang_vel_in(oth)","rhs":"returns the angular velocity vector of the referenceframe","over":{"base":"Any"},"name":"ang_vel_in_correct"},"guarantee":"returns the angular velocity vector of the referenceframe","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame.ReferenceFrame.ang_vel_in_correct","statement":"Path(ang_vel_in(x), returns the angular velocity vector of the referenceframe)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c30e6c68b25a146e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.ang_vel_in","kind":"method","src_hash":"71a6923bb7522426","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ang_vel_in(otherframe)","rhs":"<unspecified:ang_vel_in>","over":{"base":"Any"},"name":"ang_vel_in_correct"},"guarantee":"returns the angular velocity vector of the referenceframe","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame.ReferenceFrame.ang_vel_in_correct","statement":"Path(ang_vel_in(x), returns the angular velocity vector of the referenceframe)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c30e6c68b25a146e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._dict_list"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ang_vel_in(self, otherframe):
         """Returns the angular velocity Vector of the ReferenceFrame.
 
@@ -684,16 +803,23 @@ class ReferenceFrame:
         return outvec
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dcm(oth), returns the direction cosine matrix of this reference frame relative to the provided reference frame) over Any ║
+# ║ Path(dcm(otherframe), <unspecified:dcm>) over {Any | hasattr(otherframe, '_dcm_cache')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dcm : Any → Any                                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(otherframe, '_dcm_cache')              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dcm : {Any | hasattr(otherframe, '_dcm_cache')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d7cd5ac6fafe0ff3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.dcm","kind":"method","src_hash":"4dfa4b106036239a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dcm(oth)","rhs":"returns the direction cosine matrix of this reference frame relative to the provided reference frame","over":{"base":"Any"},"name":"dcm_correct"},"guarantee":"returns the direction cosine matrix of this reference frame relative to the provided reference frame","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame.ReferenceFrame.dcm_correct","statement":"Path(dcm(x), returns the direction cosine matrix of this reference frame relative to the provided reference frame)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7cd5ac6fafe0ff3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.dcm","kind":"method","src_hash":"4dfa4b106036239a","in":{"base":"Any","pred":"hasattr(otherframe, '_dcm_cache')"},"out":{"base":"Any"},"spec":{"lhs":"dcm(otherframe)","rhs":"<unspecified:dcm>","over":{"base":"Any","pred":"hasattr(otherframe, '_dcm_cache')"},"name":"dcm_correct"},"guarantee":"returns the direction cosine matrix of this reference frame relative to the provided reference frame","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame.ReferenceFrame.dcm_correct","statement":"Path(dcm(x), returns the direction cosine matrix of this reference frame relative to the provided reference frame)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7cd5ac6fafe0ff3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(otherframe, '_dcm_cache')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["otherframe._dcm_cache","self._dcm_cache","self._dict_list"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dcm(self, otherframe):
         r"""Returns the direction cosine matrix of this reference frame
         relative to the provided reference frame.
@@ -781,16 +907,27 @@ class ReferenceFrame:
         return outdcm
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dcm(par), internal helper behaves correctly) over Any ║
+# ║ Path(_dcm(parent, parent_orient), len(queue) == old_len_queue + 1 and len(queue) == old_len_queue - 1 and len(visited) == old_len_visited + 1) over {Any | hasattr(parent_orient, 'T') and hasattr(parent, '_dcm_dict') and hasattr(parent, '_dcm_cache') and len(queue) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _dcm : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(parent_orient, 'T')                    ║
+# ║   requires: hasattr(parent, '_dcm_dict')                   ║
+# ║   requires: hasattr(parent, '_dcm_cache')                  ║
+# ║   ensures:  len(queue) == old_len_queue + 1                ║
+# ║   ensures:  len(queue) == old_len_queue - 1                ║
+# ║   ensures:  len(visited) == old_len_visited + 1            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _dcm : {Any | hasattr(parent_orient, 'T') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f191da7a0a47242  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba233f5fc7d5301d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame._dcm","kind":"method","src_hash":"2f20c698ba15c764","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dcm(par)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_dcm_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame.ReferenceFrame._dcm_correct","statement":"Path(_dcm(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f191da7a0a47242"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame._dcm","kind":"method","src_hash":"2f20c698ba15c764","in":{"base":"Any","pred":"hasattr(parent_orient, 'T') and hasattr(parent, '_dcm_dict') and hasattr(parent, '_dcm_cache') and len(queue) > 0"},"out":{"base":"Any","pred":"result satisfies: len(queue) == old_len_queue + 1 and len(queue) == old_len_queue - 1 and len(visited) == old_len_visited + 1"},"spec":{"lhs":"_dcm(parent, parent_orient)","rhs":"len(queue) == old_len_queue + 1 and len(queue) == old_len_queue - 1 and len(visited) == old_len_visited + 1","over":{"base":"Any","pred":"hasattr(parent_orient, 'T') and hasattr(parent, '_dcm_dict') and hasattr(parent, '_dcm_cache') and len(queue) > 0"},"name":"_dcm_correct"},"guarantee":"len(queue) == old_len_queue + 1; len(queue) == old_len_queue - 1; len(visited) == old_len_visited + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame.ReferenceFrame._dcm_correct","statement":"Path(_dcm(x), len(queue) == old_len_queue + 1; len(queue) == old_len_queue - 1; len(visited) == old_len_visited + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba233f5fc7d5301d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(parent_orient, 'T')","hasattr(parent, '_dcm_dict')","hasattr(parent, '_dcm_cache')","len(queue) > 0"],"ensures":["len(queue) == old_len_queue + 1","len(queue) == old_len_queue - 1","len(visited) == old_len_visited + 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["parent._dcm_cache","parent._dcm_dict","parent_orient.T","self._dcm_cache","self._dcm_dict","self._dlist"],"writes":["self._dcm_cache","self._dcm_dict"],"calls_mutating":["parent._dcm_cache.update","parent._dcm_dict.update","queue.append","queue.pop","self._dcm_cache.update","self._dcm_dict.update","visited.append"]},"state_contract":{"modifies":["parent.*","queue.*","self.*","self._dcm_cache","self._dcm_dict","visited.*"],"old_bindings":{"old_self__dcm_cache":"self._dcm_cache","old_self__dcm_dict":"self._dcm_dict","old_len_parent":"len(parent)","old_len_queue":"len(queue)","old_len_visited":"len(visited)"},"pre_requires":["len(queue) > 0"],"post_ensures":["len(queue) == old_len_queue + 1","len(queue) == old_len_queue - 1","len(visited) == old_len_visited + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _dcm(self, parent, parent_orient):
         # If parent.oreint(self) is already defined,then
         # update the _dcm_dict of parent while over write
@@ -845,16 +982,25 @@ class ReferenceFrame:
         parent._dcm_cache.update({self: parent_orient})
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(orient_axis(par), sets the orientation of this reference frame with respect to a parent reference frame by rotating through an angle about an axis fixed in the parent reference frame) over Any ║
+# ║ Path(orient_axis(parent, axis, angle), <unspecified:orient_axis>) over {Any | hasattr(parent, '_ang_vel_dict') and hasattr(axis, 'dt') and hasattr(axis, 'express')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ orient_axis : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(parent, '_ang_vel_dict')               ║
+# ║   requires: hasattr(axis, 'dt')                            ║
+# ║   requires: hasattr(axis, 'express')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ orient_axis : {Any | hasattr(parent, '_ang_vel_dict')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a8940d766e31eed2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.orient_axis","kind":"method","src_hash":"c833fcb40c094677","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"orient_axis(par)","rhs":"sets the orientation of this reference frame with respect to a parent reference frame by rotating through an angle about an axis fixed in the parent reference frame","over":{"base":"Any"},"name":"orient_axis_correct"},"guarantee":"sets the orientation of this reference frame with respect to a parent reference frame by rotating through an angle about an axis fixed in the parent reference frame","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame.ReferenceFrame.orient_axis_correct","statement":"Path(orient_axis(x), sets the orientation of this reference frame with respect to a parent reference frame by rotating through an angle about an axis fixed in the parent reference frame)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8940d766e31eed2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.orient_axis","kind":"method","src_hash":"c833fcb40c094677","in":{"base":"Any","pred":"hasattr(parent, '_ang_vel_dict') and hasattr(axis, 'dt') and hasattr(axis, 'express')"},"out":{"base":"Any"},"spec":{"lhs":"orient_axis(parent, axis, angle)","rhs":"<unspecified:orient_axis>","over":{"base":"Any","pred":"hasattr(parent, '_ang_vel_dict') and hasattr(axis, 'dt') and hasattr(axis, 'express')"},"name":"orient_axis_correct"},"guarantee":"sets the orientation of this reference frame with respect to a parent reference frame by rotating through an angle about an axis fixed in the parent reference frame","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame.ReferenceFrame.orient_axis_correct","statement":"Path(orient_axis(x), sets the orientation of this reference frame with respect to a parent reference frame by rotating through an angle about an axis fixed in the parent reference frame)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8940d766e31eed2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(parent, '_ang_vel_dict')","hasattr(axis, 'dt')","hasattr(axis, 'express')"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["axis.dt","axis.express","parent._ang_vel_dict","self._ang_vel_dict","self._dcm"],"writes":["self._var_dict"],"calls_mutating":["parent._ang_vel_dict.update","self._ang_vel_dict.update"],"raises":["ValueError"]},"state_contract":{"modifies":["parent.*","self.*","self._var_dict"],"old_bindings":{"old_self__var_dict":"self._var_dict","old_len_parent":"len(parent)"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def orient_axis(self, parent, axis, angle):
         """Sets the orientation of this reference frame with respect to a
         parent reference frame by rotating through an angle about an axis fixed
@@ -945,16 +1091,24 @@ class ReferenceFrame:
         self._var_dict = {}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(orient_explicit(par), sets the orientation of this reference frame relative to another (parent) reference frame using a direction cosine matrix that describes the rotation from the parent to the child) over Any ║
+# ║ Path(orient_explicit(parent, dcm), <unspecified:orient_explicit>) over {Any | isinstance(dcm, MatrixBase) and hasattr(dcm, 'T')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ orient_explicit : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(dcm, MatrixBase)                    ║
+# ║   requires: hasattr(dcm, 'T')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ orient_explicit : {Any | isinstance(dcm, MatrixBase) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab37e70b78ea444b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.orient_explicit","kind":"method","src_hash":"fe09041d81aef75a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"orient_explicit(par)","rhs":"sets the orientation of this reference frame relative to another (parent) reference frame using a direction cosine matrix that describes the rotation from the parent to the child","over":{"base":"Any"},"name":"orient_explicit_correct"},"guarantee":"sets the orientation of this reference frame relative to another (parent) reference frame using a direction cosine matrix that describes the rotation from the parent to the child","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame.ReferenceFrame.orient_explicit_correct","statement":"Path(orient_explicit(x), sets the orientation of this reference frame relative to another (parent) reference frame using a direction cosine matrix that describes the rotation from the parent to the child)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab37e70b78ea444b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.orient_explicit","kind":"method","src_hash":"fe09041d81aef75a","in":{"base":"Any","pred":"isinstance(dcm, MatrixBase) and hasattr(dcm, 'T')"},"out":{"base":"Any"},"spec":{"lhs":"orient_explicit(parent, dcm)","rhs":"<unspecified:orient_explicit>","over":{"base":"Any","pred":"isinstance(dcm, MatrixBase) and hasattr(dcm, 'T')"},"name":"orient_explicit_correct"},"guarantee":"sets the orientation of this reference frame relative to another (parent) reference frame using a direction cosine matrix that describes the rotation from the parent to the child","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame.ReferenceFrame.orient_explicit_correct","statement":"Path(orient_explicit(x), sets the orientation of this reference frame relative to another (parent) reference frame using a direction cosine matrix that describes the rotation from the parent to the child)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab37e70b78ea444b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(dcm, MatrixBase)","hasattr(dcm, 'T')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["dcm.T","self.orient_dcm"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def orient_explicit(self, parent, dcm):
         """Sets the orientation of this reference frame relative to another (parent) reference frame
         using a direction cosine matrix that describes the rotation from the parent to the child.
@@ -1030,16 +1184,25 @@ class ReferenceFrame:
         self.orient_dcm(parent, dcm.T)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(orient_dcm(par), sets the orientation of this reference frame relative to another (parent) reference frame using a direction cosine matrix that describes the rotation from the child to the parent) over Any ║
+# ║ Path(orient_dcm(parent, dcm), <unspecified:orient_dcm>) over {Any | isinstance(dcm, MatrixBase) and hasattr(dcm, 'T') and hasattr(parent, '_ang_vel_dict')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ orient_dcm : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(dcm, MatrixBase)                    ║
+# ║   requires: hasattr(dcm, 'T')                              ║
+# ║   requires: hasattr(parent, '_ang_vel_dict')               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ orient_dcm : {Any | isinstance(dcm, MatrixBase) and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e42ebaa29f70d4c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.orient_dcm","kind":"method","src_hash":"11748fa9b9f1c139","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"orient_dcm(par)","rhs":"sets the orientation of this reference frame relative to another (parent) reference frame using a direction cosine matrix that describes the rotation from the child to the parent","over":{"base":"Any"},"name":"orient_dcm_correct"},"guarantee":"sets the orientation of this reference frame relative to another (parent) reference frame using a direction cosine matrix that describes the rotation from the child to the parent","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame.ReferenceFrame.orient_dcm_correct","statement":"Path(orient_dcm(x), sets the orientation of this reference frame relative to another (parent) reference frame using a direction cosine matrix that describes the rotation from the child to the parent)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e42ebaa29f70d4c2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.orient_dcm","kind":"method","src_hash":"11748fa9b9f1c139","in":{"base":"Any","pred":"isinstance(dcm, MatrixBase) and hasattr(dcm, 'T') and hasattr(parent, '_ang_vel_dict')"},"out":{"base":"Any"},"spec":{"lhs":"orient_dcm(parent, dcm)","rhs":"<unspecified:orient_dcm>","over":{"base":"Any","pred":"isinstance(dcm, MatrixBase) and hasattr(dcm, 'T') and hasattr(parent, '_ang_vel_dict')"},"name":"orient_dcm_correct"},"guarantee":"sets the orientation of this reference frame relative to another (parent) reference frame using a direction cosine matrix that describes the rotation from the child to the parent","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame.ReferenceFrame.orient_dcm_correct","statement":"Path(orient_dcm(x), sets the orientation of this reference frame relative to another (parent) reference frame using a direction cosine matrix that describes the rotation from the child to the parent)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e42ebaa29f70d4c2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(dcm, MatrixBase)","hasattr(dcm, 'T')","hasattr(parent, '_ang_vel_dict')"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["dcm.T","parent._ang_vel_dict","self._ang_vel_dict","self._dcm","self._w_diff_dcm"],"writes":["self._var_dict"],"calls_mutating":["parent._ang_vel_dict.update","self._ang_vel_dict.update"],"raises":["TypeError"]},"state_contract":{"modifies":["parent.*","self.*","self._var_dict"],"old_bindings":{"old_self__var_dict":"self._var_dict","old_len_parent":"len(parent)"},"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def orient_dcm(self, parent, dcm):
         """Sets the orientation of this reference frame relative to another (parent) reference frame
         using a direction cosine matrix that describes the rotation from the child to the parent.
@@ -1110,16 +1273,26 @@ class ReferenceFrame:
         self._var_dict = {}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rot(axi), dcm for simple axis 1,2,or 3 rotations) over Any ║
+# ║ Path(_rot(axis, angle), result == (Matrix([[1, 0, 0], [0, cos(angle), -sin(angle)], [0, sin(angle), cos(angle)]]) if axis == 1 else Matrix([[cos(angle), 0, sin(angle)], [0, 1, 0], [-sin(angle), 0, cos(angle)]]) if axis == 2 else Matrix([[cos(angle), -sin(angle), 0], [sin(angle), cos(angle), 0], [0, 0, 1]])) and result == Matrix([[1, 0, 0], [0, cos(angle), -sin(angle)], [0, sin(angle), cos(angle)]]) or result == Matrix([[cos(angle), 0, sin(angle)], [0, 1, 0], [-sin(angle), 0, cos(angle)]]) or result == Matrix([[cos(angle), -sin(angle), 0], [sin(angle), cos(angle), 0], [0, 0, 1]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _rot : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (Matrix([[1, 0, 0], [0, cos(ang...   ║
+# ║   ensures:  result == Matrix([[1, 0, 0], [0, cos(angl...   ║
+# ║   fiber[case_0]: axis == 1 => Matrix([[1, 0, 0], [0, ...   ║
+# ║   fiber[case_1]: axis == 2 => Matrix([[cos(angle), 0,...   ║
+# ║   fiber[case_2]: axis == 3 => Matrix([[cos(angle), -s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _rot : Any → {Any | result satisfies: result == (Matr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb79ba3baa0e7098  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4d17832bd09937e3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame._rot","kind":"method","src_hash":"dda2d1484a865a2b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rot(axi)","rhs":"dcm for simple axis 1,2,or 3 rotations","over":{"base":"Any"},"name":"_rot_correct"},"guarantee":"dcm for simple axis 1,2,or 3 rotations","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame.ReferenceFrame._rot_correct","statement":"Path(_rot(x), dcm for simple axis 1,2,or 3 rotations)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb79ba3baa0e7098"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame._rot","kind":"method","src_hash":"dda2d1484a865a2b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (Matrix([[1, 0, 0], [0, cos(angle), -sin(angle)], [0, sin(angle), cos(angle)]]) if axis == 1 else Matrix([[cos(angle), 0, sin(angle)], [0, 1, 0], [-sin(angle), 0, cos(angle)]]) if axis == 2 else Matrix([[cos(angle), -sin(angle), 0], [sin(angle), cos(angle), 0], [0, 0, 1]])) and result == Matrix([[1, 0, 0], [0, cos(angle), -sin(angle)], [0, sin(angle), cos(angle)]]) or result == Matrix([[cos(angle), 0, sin(angle)], [0, 1, 0], [-sin(angle), 0, cos(angle)]]) or result == Matrix([[cos(angle), -sin(angle), 0], [sin(angle), cos(angle), 0], [0, 0, 1]])"},"spec":{"lhs":"_rot(axis, angle)","rhs":"result == (Matrix([[1, 0, 0], [0, cos(angle), -sin(angle)], [0, sin(angle), cos(angle)]]) if axis == 1 else Matrix([[cos(angle), 0, sin(angle)], [0, 1, 0], [-sin(angle), 0, cos(angle)]]) if axis == 2 else Matrix([[cos(angle), -sin(angle), 0], [sin(angle), cos(angle), 0], [0, 0, 1]])) and result == Matrix([[1, 0, 0], [0, cos(angle), -sin(angle)], [0, sin(angle), cos(angle)]]) or result == Matrix([[cos(angle), 0, sin(angle)], [0, 1, 0], [-sin(angle), 0, cos(angle)]]) or result == Matrix([[cos(angle), -sin(angle), 0], [sin(angle), cos(angle), 0], [0, 0, 1]])","over":{"base":"Any"},"name":"_rot_correct"},"guarantee":"result == (Matrix([[1, 0, 0], [0, cos(angle), -sin(angle)], [0, sin(angle), cos(angle)]]) if axis == 1 else Matrix([[cos(angle), 0, sin(angle)], [0, 1, 0], [-sin(angle), 0, cos(angle)]]) if axis == 2 else Matrix([[cos(angle), -sin(angle), 0], [sin(angle), cos(angle), 0], [0, 0, 1]])); result == Matrix([[1, 0, 0], [0, cos(angle), -sin(angle)], [0, sin(angle), cos(angle)]]) or result == Matrix([[cos(angle), 0, sin(angle)], [0, 1, 0], [-sin(angle), 0, cos(angle)]]) or result == Matrix([[cos(angle), -sin(angle), 0], [sin(angle), cos(angle), 0], [0, 0, 1]]); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame.ReferenceFrame._rot_correct","statement":"Path(_rot(x), result == (Matrix([[1, 0, 0], [0, cos(angle), -sin(angle)], [0, sin(angle), cos(angle)]]) if axis == 1 else Matrix([[cos(angle), 0, sin(angle)], [0, 1, 0], [-sin(angle), 0, cos(angle)]]) if axis == 2 else Matrix([[cos(angle), -sin(angle), 0], [sin(angle), cos(angle), 0], [0, 0, 1]])); result == Matrix([[1, 0, 0], [0, cos(angle), -sin(angle)], [0, sin(angle), cos(angle)]]) or result == Matrix([[cos(angle), 0, sin(angle)], [0, 1, 0], [-sin(angle), 0, cos(angle)]]) or result == Matrix([[cos(angle), -sin(angle), 0], [sin(angle), cos(angle), 0], [0, 0, 1]]); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d17832bd09937e3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (Matrix([[1, 0, 0], [0, cos(angle), -sin(angle)], [0, sin(angle), cos(angle)]]) if axis == 1 else Matrix([[cos(angle), 0, sin(angle)], [0, 1, 0], [-sin(angle), 0, cos(angle)]]) if axis == 2 else Matrix([[cos(angle), -sin(angle), 0], [sin(angle), cos(angle), 0], [0, 0, 1]]))","result == Matrix([[1, 0, 0], [0, cos(angle), -sin(angle)], [0, sin(angle), cos(angle)]]) or result == Matrix([[cos(angle), 0, sin(angle)], [0, 1, 0], [-sin(angle), 0, cos(angle)]]) or result == Matrix([[cos(angle), -sin(angle), 0], [sin(angle), cos(angle), 0], [0, 0, 1]])"],"fibers":[{"name":"case_0","guard":"axis == 1","ensures":["result == Matrix([[1, 0, 0], [0, cos(angle), -sin(angle)], [0, sin(angle), cos(angle)]])"],"decidability":"z3","returns_expr":"Matrix([[1, 0, 0], [0, cos(angle), -sin(angle)], [0, sin(angle), cos(angle)]])"},{"name":"case_1","guard":"axis == 2","ensures":["result == Matrix([[cos(angle), 0, sin(angle)], [0, 1, 0], [-sin(angle), 0, cos(angle)]])"],"decidability":"z3","returns_expr":"Matrix([[cos(angle), 0, sin(angle)], [0, 1, 0], [-sin(angle), 0, cos(angle)]])"},{"name":"case_2","guard":"axis == 3","ensures":["result == Matrix([[cos(angle), -sin(angle), 0], [sin(angle), cos(angle), 0], [0, 0, 1]])"],"decidability":"z3","returns_expr":"Matrix([[cos(angle), -sin(angle), 0], [sin(angle), cos(angle), 0], [0, 0, 1]])"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _rot(self, axis, angle):
         """DCM for simple axis 1,2,or 3 rotations."""
         if axis == 1:
@@ -1136,16 +1309,23 @@ class ReferenceFrame:
                            [0, 0, 1]])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_parse_consecutive_rotations(ang), helper for orient_body_fixed and orient_space_fixed) over Any ║
+# ║ Path(_parse_consecutive_rotations(angles, rotation_order), (amounts, rot_order, rot_matrices)) over {Any | not (rot_order not in approved_orders)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _parse_consecutive_rotations : Any → Any                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (rot_order not in approved_orders)         ║
+# ║   returns:  (amounts, rot_order, rot_matrices)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _parse_consecutive_rotations : {Any | not (rot_order ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 674a0eb9aa8f4bbc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d84fa9b54e9a5729  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame._parse_consecutive_rotations","kind":"method","src_hash":"b3fdb51208523925","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_parse_consecutive_rotations(ang)","rhs":"helper for orient_body_fixed and orient_space_fixed","over":{"base":"Any"},"name":"_parse_consecutive_rotations_correct"},"guarantee":"helper for orient_body_fixed and orient_space_fixed","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame.ReferenceFrame._parse_consecutive_rotations_correct","statement":"Path(_parse_consecutive_rotations(x), helper for orient_body_fixed and orient_space_fixed)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"674a0eb9aa8f4bbc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame._parse_consecutive_rotations","kind":"method","src_hash":"b3fdb51208523925","in":{"base":"Any","pred":"not (rot_order not in approved_orders)"},"out":{"base":"Any"},"spec":{"lhs":"_parse_consecutive_rotations(angles, rotation_order)","rhs":"(amounts, rot_order, rot_matrices)","over":{"base":"Any","pred":"not (rot_order not in approved_orders)"},"name":"_parse_consecutive_rotations_correct"},"guarantee":"returns (amounts, rot_order, rot_matrices)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame.ReferenceFrame._parse_consecutive_rotations_correct","statement":"Path(_parse_consecutive_rotations(x), returns (amounts, rot_order, rot_matrices))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d84fa9b54e9a5729","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (rot_order not in approved_orders)"],"returns_expr":"(amounts, rot_order, rot_matrices)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._rot"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _parse_consecutive_rotations(self, angles, rotation_order):
         """Helper for orient_body_fixed and orient_space_fixed.
 
@@ -1189,16 +1369,23 @@ class ReferenceFrame:
         return amounts, rot_order, rot_matrices
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(orient_body_fixed(par), rotates this reference frame relative to the parent reference frame by right hand rotating through three successive body fixed simple axis rotations) over Any ║
+# ║ Path(orient_body_fixed(parent, angles, rotation_order), <unspecified:orient_body_fixed>) over {Any | hasattr(parent, '_ang_vel_dict')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ orient_body_fixed : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(parent, '_ang_vel_dict')               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ orient_body_fixed : {Any | hasattr(parent, '_ang_vel_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c60c69aab367d04  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.orient_body_fixed","kind":"method","src_hash":"712b255bc4f2c502","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"orient_body_fixed(par)","rhs":"rotates this reference frame relative to the parent reference frame by right hand rotating through three successive body fixed simple axis rotations","over":{"base":"Any"},"name":"orient_body_fixed_correct"},"guarantee":"rotates this reference frame relative to the parent reference frame by right hand rotating through three successive body fixed simple axis rotations","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame.ReferenceFrame.orient_body_fixed_correct","statement":"Path(orient_body_fixed(x), rotates this reference frame relative to the parent reference frame by right hand rotating through three successive body fixed simple axis rotations)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c60c69aab367d04"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.orient_body_fixed","kind":"method","src_hash":"712b255bc4f2c502","in":{"base":"Any","pred":"hasattr(parent, '_ang_vel_dict')"},"out":{"base":"Any"},"spec":{"lhs":"orient_body_fixed(parent, angles, rotation_order)","rhs":"<unspecified:orient_body_fixed>","over":{"base":"Any","pred":"hasattr(parent, '_ang_vel_dict')"},"name":"orient_body_fixed_correct"},"guarantee":"rotates this reference frame relative to the parent reference frame by right hand rotating through three successive body fixed simple axis rotations","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame.ReferenceFrame.orient_body_fixed_correct","statement":"Path(orient_body_fixed(x), rotates this reference frame relative to the parent reference frame by right hand rotating through three successive body fixed simple axis rotations)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c60c69aab367d04","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(parent, '_ang_vel_dict')"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["parent._ang_vel_dict","self._ang_vel_dict","self._dcm","self._parse_consecutive_rotations","self.x","self.y","self.z"],"writes":["self._var_dict"],"calls_mutating":["parent._ang_vel_dict.update","self._ang_vel_dict.update"]},"state_contract":{"modifies":["parent.*","self.*","self._var_dict"],"old_bindings":{"old_self__var_dict":"self._var_dict","old_len_parent":"len(parent)"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def orient_body_fixed(self, parent, angles, rotation_order):
         """Rotates this reference frame relative to the parent reference frame
         by right hand rotating through three successive body fixed simple axis
@@ -1300,16 +1487,23 @@ class ReferenceFrame:
         self._var_dict = {}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(orient_space_fixed(par), rotates this reference frame relative to the parent reference frame by right hand rotating through three successive space fixed simple axis rotations) over Any ║
+# ║ Path(orient_space_fixed(parent, angles, rotation_order), <unspecified:orient_space_fixed>) over {Any | hasattr(parent, '_ang_vel_dict')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ orient_space_fixed : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(parent, '_ang_vel_dict')               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ orient_space_fixed : {Any | hasattr(parent, '_ang_vel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4bcda878fdbc8ed3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.orient_space_fixed","kind":"method","src_hash":"529ee9d772253fc7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"orient_space_fixed(par)","rhs":"rotates this reference frame relative to the parent reference frame by right hand rotating through three successive space fixed simple axis rotations","over":{"base":"Any"},"name":"orient_space_fixed_correct"},"guarantee":"rotates this reference frame relative to the parent reference frame by right hand rotating through three successive space fixed simple axis rotations","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame.ReferenceFrame.orient_space_fixed_correct","statement":"Path(orient_space_fixed(x), rotates this reference frame relative to the parent reference frame by right hand rotating through three successive space fixed simple axis rotations)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4bcda878fdbc8ed3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.orient_space_fixed","kind":"method","src_hash":"529ee9d772253fc7","in":{"base":"Any","pred":"hasattr(parent, '_ang_vel_dict')"},"out":{"base":"Any"},"spec":{"lhs":"orient_space_fixed(parent, angles, rotation_order)","rhs":"<unspecified:orient_space_fixed>","over":{"base":"Any","pred":"hasattr(parent, '_ang_vel_dict')"},"name":"orient_space_fixed_correct"},"guarantee":"rotates this reference frame relative to the parent reference frame by right hand rotating through three successive space fixed simple axis rotations","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame.ReferenceFrame.orient_space_fixed_correct","statement":"Path(orient_space_fixed(x), rotates this reference frame relative to the parent reference frame by right hand rotating through three successive space fixed simple axis rotations)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4bcda878fdbc8ed3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(parent, '_ang_vel_dict')"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["parent._ang_vel_dict","self._ang_vel_dict","self._dcm","self._parse_consecutive_rotations","self.x","self.y","self.z"],"writes":["self._var_dict"],"calls_mutating":["parent._ang_vel_dict.update","self._ang_vel_dict.update"]},"state_contract":{"modifies":["parent.*","self.*","self._var_dict"],"old_bindings":{"old_self__var_dict":"self._var_dict","old_len_parent":"len(parent)"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def orient_space_fixed(self, parent, angles, rotation_order):
         """Rotates this reference frame relative to the parent reference frame
         by right hand rotating through three successive space fixed simple axis
@@ -1409,16 +1603,24 @@ class ReferenceFrame:
         self._var_dict = {}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(orient_quaternion(par), sets the orientation of this reference frame relative to a parent reference frame via an orientation quaternion) over Any ║
+# ║ Path(orient_quaternion(parent, numbers), <unspecified:orient_quaternion>) over {Any | isinstance(numbers, (list, tuple)) & (len(numbers) == 4) and hasattr(parent, '_ang_vel_dict')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ orient_quaternion : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(numbers, (list, tuple)) & (len...   ║
+# ║   requires: hasattr(parent, '_ang_vel_dict')               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ orient_quaternion : {Any | isinstance(numbers, (list,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 74ee9464ed3a892d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.orient_quaternion","kind":"method","src_hash":"34a3982e44c8536c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"orient_quaternion(par)","rhs":"sets the orientation of this reference frame relative to a parent reference frame via an orientation quaternion","over":{"base":"Any"},"name":"orient_quaternion_correct"},"guarantee":"sets the orientation of this reference frame relative to a parent reference frame via an orientation quaternion","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame.ReferenceFrame.orient_quaternion_correct","statement":"Path(orient_quaternion(x), sets the orientation of this reference frame relative to a parent reference frame via an orientation quaternion)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"74ee9464ed3a892d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.orient_quaternion","kind":"method","src_hash":"34a3982e44c8536c","in":{"base":"Any","pred":"isinstance(numbers, (list, tuple)) & (len(numbers) == 4) and hasattr(parent, '_ang_vel_dict')"},"out":{"base":"Any"},"spec":{"lhs":"orient_quaternion(parent, numbers)","rhs":"<unspecified:orient_quaternion>","over":{"base":"Any","pred":"isinstance(numbers, (list, tuple)) & (len(numbers) == 4) and hasattr(parent, '_ang_vel_dict')"},"name":"orient_quaternion_correct"},"guarantee":"sets the orientation of this reference frame relative to a parent reference frame via an orientation quaternion","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame.ReferenceFrame.orient_quaternion_correct","statement":"Path(orient_quaternion(x), sets the orientation of this reference frame relative to a parent reference frame via an orientation quaternion)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"74ee9464ed3a892d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(numbers, (list, tuple)) & (len(numbers) == 4)","hasattr(parent, '_ang_vel_dict')"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["parent._ang_vel_dict","self._ang_vel_dict","self._dcm"],"writes":["numbers[*]","self._var_dict"],"calls_mutating":["parent._ang_vel_dict.update","self._ang_vel_dict.update"],"raises":["TypeError"]},"state_contract":{"modifies":["numbers[*]","parent.*","self.*","self._var_dict"],"old_bindings":{"old_numbers_star":"numbers[*]","old_self__var_dict":"self._var_dict","old_len_parent":"len(parent)"},"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def orient_quaternion(self, parent, numbers):
         """Sets the orientation of this reference frame relative to a parent
         reference frame via an orientation quaternion. An orientation
@@ -1512,16 +1714,24 @@ class ReferenceFrame:
         self._var_dict = {}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(orient(par), sets the orientation of this reference frame relative to another (parent) reference frame) over Any ║
+# ║ Path(orient(parent, rot_type, amounts), <unspecified:orient>) over {Any | not (rot_order not in approved_orders) and hasattr(rot_type, 'upper')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ orient : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (rot_order not in approved_orders)         ║
+# ║   requires: hasattr(rot_type, 'upper')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ orient : {Any | not (rot_order not in approved_orders...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 190ab7769377c9f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.orient","kind":"method","src_hash":"432ea52e806e3f9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"orient(par)","rhs":"sets the orientation of this reference frame relative to another (parent) reference frame","over":{"base":"Any"},"name":"orient_correct"},"guarantee":"sets the orientation of this reference frame relative to another (parent) reference frame","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame.ReferenceFrame.orient_correct","statement":"Path(orient(x), sets the orientation of this reference frame relative to another (parent) reference frame)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"190ab7769377c9f8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.orient","kind":"method","src_hash":"432ea52e806e3f9e","in":{"base":"Any","pred":"not (rot_order not in approved_orders) and hasattr(rot_type, 'upper')"},"out":{"base":"Any"},"spec":{"lhs":"orient(parent, rot_type, amounts)","rhs":"<unspecified:orient>","over":{"base":"Any","pred":"not (rot_order not in approved_orders) and hasattr(rot_type, 'upper')"},"name":"orient_correct"},"guarantee":"sets the orientation of this reference frame relative to another (parent) reference frame","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame.ReferenceFrame.orient_correct","statement":"Path(orient(x), sets the orientation of this reference frame relative to another (parent) reference frame)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"190ab7769377c9f8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (rot_order not in approved_orders)","hasattr(rot_type, 'upper')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["rot_type.upper","self.orient_axis","self.orient_body_fixed","self.orient_explicit","self.orient_quaternion","self.orient_space_fixed"],"raises":["NotImplementedError","TypeError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def orient(self, parent, rot_type, amounts, rot_order=''):
         """Sets the orientation of this reference frame relative to another
         (parent) reference frame.
@@ -1603,16 +1813,24 @@ class ReferenceFrame:
             raise NotImplementedError('That is not an implemented rotation')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(orientnew(new), returns a new reference frame oriented with respect to this reference frame) over Any ║
+# ║ Path(orientnew(newname, rot_type, amounts), <unspecified:orientnew>) over {Any | not (rot_order not in approved_orders) and hasattr(rot_type, 'upper')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ orientnew : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (rot_order not in approved_orders)         ║
+# ║   requires: hasattr(rot_type, 'upper')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ orientnew : {Any | not (rot_order not in approved_ord...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3b607d653eb0dfe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.orientnew","kind":"method","src_hash":"ab411a28de19114b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"orientnew(new)","rhs":"returns a new reference frame oriented with respect to this reference frame","over":{"base":"Any"},"name":"orientnew_correct"},"guarantee":"returns a new reference frame oriented with respect to this reference frame","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame.ReferenceFrame.orientnew_correct","statement":"Path(orientnew(x), returns a new reference frame oriented with respect to this reference frame)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3b607d653eb0dfe"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.orientnew","kind":"method","src_hash":"ab411a28de19114b","in":{"base":"Any","pred":"not (rot_order not in approved_orders) and hasattr(rot_type, 'upper')"},"out":{"base":"Any"},"spec":{"lhs":"orientnew(newname, rot_type, amounts)","rhs":"<unspecified:orientnew>","over":{"base":"Any","pred":"not (rot_order not in approved_orders) and hasattr(rot_type, 'upper')"},"name":"orientnew_correct"},"guarantee":"returns a new reference frame oriented with respect to this reference frame","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame.ReferenceFrame.orientnew_correct","statement":"Path(orientnew(x), returns a new reference frame oriented with respect to this reference frame)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3b607d653eb0dfe","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (rot_order not in approved_orders)","hasattr(rot_type, 'upper')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","rot_type.upper","self.__class__"],"raises":["NotImplementedError","TypeError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def orientnew(self, newname, rot_type, amounts, rot_order='',
                   variables=None, indices=None, latexs=None):
         r"""Returns a new reference frame oriented with respect to this
@@ -1726,16 +1944,23 @@ class ReferenceFrame:
         return newframe
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set_ang_acc(oth), define the angular acceleration vector in a referenceframe) over Any ║
+# ║ Path(set_ang_acc(otherframe, value), <unspecified:set_ang_acc>) over {Any | hasattr(otherframe, '_ang_acc_dict')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ set_ang_acc : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(otherframe, '_ang_acc_dict')           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ set_ang_acc : {Any | hasattr(otherframe, '_ang_acc_di...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86a48e4f43406a9a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.set_ang_acc","kind":"method","src_hash":"88fdc4ceca7372cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_ang_acc(oth)","rhs":"define the angular acceleration vector in a referenceframe","over":{"base":"Any"},"name":"set_ang_acc_correct"},"guarantee":"define the angular acceleration vector in a referenceframe","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame.ReferenceFrame.set_ang_acc_correct","statement":"Path(set_ang_acc(x), define the angular acceleration vector in a referenceframe)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86a48e4f43406a9a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.set_ang_acc","kind":"method","src_hash":"88fdc4ceca7372cd","in":{"base":"Any","pred":"hasattr(otherframe, '_ang_acc_dict')"},"out":{"base":"Any"},"spec":{"lhs":"set_ang_acc(otherframe, value)","rhs":"<unspecified:set_ang_acc>","over":{"base":"Any","pred":"hasattr(otherframe, '_ang_acc_dict')"},"name":"set_ang_acc_correct"},"guarantee":"define the angular acceleration vector in a referenceframe","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame.ReferenceFrame.set_ang_acc_correct","statement":"Path(set_ang_acc(x), define the angular acceleration vector in a referenceframe)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86a48e4f43406a9a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(otherframe, '_ang_acc_dict')"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["otherframe._ang_acc_dict","self._ang_acc_dict"],"calls_mutating":["otherframe._ang_acc_dict.update","self._ang_acc_dict.update"]},"state_contract":{"modifies":["otherframe.*","self.*"],"old_bindings":{"old_len_otherframe":"len(otherframe)"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set_ang_acc(self, otherframe, value):
         """Define the angular acceleration Vector in a ReferenceFrame.
 
@@ -1773,16 +1998,23 @@ class ReferenceFrame:
         otherframe._ang_acc_dict.update({self: -value})
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set_ang_vel(oth), define the angular velocity vector in a referenceframe) over Any ║
+# ║ Path(set_ang_vel(otherframe, value), <unspecified:set_ang_vel>) over {Any | hasattr(otherframe, '_ang_vel_dict')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ set_ang_vel : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(otherframe, '_ang_vel_dict')           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ set_ang_vel : {Any | hasattr(otherframe, '_ang_vel_di...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ec5a7bb8093ecfd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.set_ang_vel","kind":"method","src_hash":"d21d1254d4216f38","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_ang_vel(oth)","rhs":"define the angular velocity vector in a referenceframe","over":{"base":"Any"},"name":"set_ang_vel_correct"},"guarantee":"define the angular velocity vector in a referenceframe","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame.ReferenceFrame.set_ang_vel_correct","statement":"Path(set_ang_vel(x), define the angular velocity vector in a referenceframe)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ec5a7bb8093ecfd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.set_ang_vel","kind":"method","src_hash":"d21d1254d4216f38","in":{"base":"Any","pred":"hasattr(otherframe, '_ang_vel_dict')"},"out":{"base":"Any"},"spec":{"lhs":"set_ang_vel(otherframe, value)","rhs":"<unspecified:set_ang_vel>","over":{"base":"Any","pred":"hasattr(otherframe, '_ang_vel_dict')"},"name":"set_ang_vel_correct"},"guarantee":"define the angular velocity vector in a referenceframe","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame.ReferenceFrame.set_ang_vel_correct","statement":"Path(set_ang_vel(x), define the angular velocity vector in a referenceframe)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ec5a7bb8093ecfd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(otherframe, '_ang_vel_dict')"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["otherframe._ang_vel_dict","self._ang_vel_dict"],"calls_mutating":["otherframe._ang_vel_dict.update","self._ang_vel_dict.update"]},"state_contract":{"modifies":["otherframe.*","self.*"],"old_bindings":{"old_len_otherframe":"len(otherframe)"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set_ang_vel(self, otherframe, value):
         """Define the angular velocity vector in a ReferenceFrame.
 
@@ -1821,223 +2053,310 @@ class ReferenceFrame:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(x(), returns the x attribute) over Any                ║
+# ║ Path(x(), self._x) over Any                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._x                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ x : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a189e3368ffd2371           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.x","kind":"property","src_hash":"c2b82a96169dd859","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"x()","rhs":"returns the x attribute","over":{"base":"Any"},"name":"x_correct"},"guarantee":"returns the x attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a189e3368ffd2371"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.x","kind":"property","src_hash":"c2b82a96169dd859","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"x()","rhs":"self._x","over":{"base":"Any"},"name":"x_correct"},"guarantee":"returns self._x","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a189e3368ffd2371","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._x","pure":false,"effects":{"effect_type":"reads_state","reads":["self._x"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def x(self):
         """The basis Vector for the ReferenceFrame, in the x direction. """
         return self._x
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(y(), returns the y attribute) over Any                ║
+# ║ Path(y(), self._y) over Any                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._y                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ y : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3bc8ad346ecc36ee           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.y","kind":"property","src_hash":"69f0848377d534e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"y()","rhs":"returns the y attribute","over":{"base":"Any"},"name":"y_correct"},"guarantee":"returns the y attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3bc8ad346ecc36ee"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.y","kind":"property","src_hash":"69f0848377d534e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"y()","rhs":"self._y","over":{"base":"Any"},"name":"y_correct"},"guarantee":"returns self._y","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3bc8ad346ecc36ee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._y","pure":false,"effects":{"effect_type":"reads_state","reads":["self._y"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def y(self):
         """The basis Vector for the ReferenceFrame, in the y direction. """
         return self._y
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(z(), returns the z attribute) over Any                ║
+# ║ Path(z(), self._z) over Any                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._z                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ z : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d377421f9c2ecaaa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.z","kind":"property","src_hash":"eee961de1818d231","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"z()","rhs":"returns the z attribute","over":{"base":"Any"},"name":"z_correct"},"guarantee":"returns the z attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d377421f9c2ecaaa"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.z","kind":"property","src_hash":"eee961de1818d231","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"z()","rhs":"self._z","over":{"base":"Any"},"name":"z_correct"},"guarantee":"returns self._z","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d377421f9c2ecaaa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._z","pure":false,"effects":{"effect_type":"reads_state","reads":["self._z"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def z(self):
         """The basis Vector for the ReferenceFrame, in the z direction. """
         return self._z
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(xx(), returns the xx attribute) over Any              ║
+# ║ Path(xx(), Vector.outer(self.x, self.x)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Vector.outer(self.x, self.x)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ xx : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 500b2dfec3962347           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.xx","kind":"property","src_hash":"45d25beae82b865a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"xx()","rhs":"returns the xx attribute","over":{"base":"Any"},"name":"xx_correct"},"guarantee":"returns the xx attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"500b2dfec3962347"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.xx","kind":"property","src_hash":"45d25beae82b865a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"xx()","rhs":"Vector.outer(self.x, self.x)","over":{"base":"Any"},"name":"xx_correct"},"guarantee":"returns Vector.outer(self.x, self.x)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"500b2dfec3962347","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Vector.outer(self.x, self.x)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.x"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def xx(self):
         """Unit dyad of basis Vectors x and x for the ReferenceFrame."""
         return Vector.outer(self.x, self.x)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(xy(), returns the xy attribute) over Any              ║
+# ║ Path(xy(), Vector.outer(self.x, self.y)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Vector.outer(self.x, self.y)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ xy : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 785dc3e5c5a20d31           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.xy","kind":"property","src_hash":"c4b4006c01824edb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"xy()","rhs":"returns the xy attribute","over":{"base":"Any"},"name":"xy_correct"},"guarantee":"returns the xy attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"785dc3e5c5a20d31"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.xy","kind":"property","src_hash":"c4b4006c01824edb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"xy()","rhs":"Vector.outer(self.x, self.y)","over":{"base":"Any"},"name":"xy_correct"},"guarantee":"returns Vector.outer(self.x, self.y)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"785dc3e5c5a20d31","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Vector.outer(self.x, self.y)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.x","self.y"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def xy(self):
         """Unit dyad of basis Vectors x and y for the ReferenceFrame."""
         return Vector.outer(self.x, self.y)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(xz(), returns the xz attribute) over Any              ║
+# ║ Path(xz(), Vector.outer(self.x, self.z)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Vector.outer(self.x, self.z)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ xz : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e26660a587d4132e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.xz","kind":"property","src_hash":"659b114aa49950ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"xz()","rhs":"returns the xz attribute","over":{"base":"Any"},"name":"xz_correct"},"guarantee":"returns the xz attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e26660a587d4132e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.xz","kind":"property","src_hash":"659b114aa49950ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"xz()","rhs":"Vector.outer(self.x, self.z)","over":{"base":"Any"},"name":"xz_correct"},"guarantee":"returns Vector.outer(self.x, self.z)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e26660a587d4132e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Vector.outer(self.x, self.z)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.x","self.z"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def xz(self):
         """Unit dyad of basis Vectors x and z for the ReferenceFrame."""
         return Vector.outer(self.x, self.z)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(yx(), returns the yx attribute) over Any              ║
+# ║ Path(yx(), Vector.outer(self.y, self.x)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Vector.outer(self.y, self.x)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ yx : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e905f3668d521456           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.yx","kind":"property","src_hash":"56c76c6f14a5f5db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"yx()","rhs":"returns the yx attribute","over":{"base":"Any"},"name":"yx_correct"},"guarantee":"returns the yx attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e905f3668d521456"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.yx","kind":"property","src_hash":"56c76c6f14a5f5db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"yx()","rhs":"Vector.outer(self.y, self.x)","over":{"base":"Any"},"name":"yx_correct"},"guarantee":"returns Vector.outer(self.y, self.x)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e905f3668d521456","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Vector.outer(self.y, self.x)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.x","self.y"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def yx(self):
         """Unit dyad of basis Vectors y and x for the ReferenceFrame."""
         return Vector.outer(self.y, self.x)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(yy(), returns the yy attribute) over Any              ║
+# ║ Path(yy(), Vector.outer(self.y, self.y)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Vector.outer(self.y, self.y)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ yy : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 53f2a46569233e99           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.yy","kind":"property","src_hash":"6d980d35cc24f3f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"yy()","rhs":"returns the yy attribute","over":{"base":"Any"},"name":"yy_correct"},"guarantee":"returns the yy attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"53f2a46569233e99"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.yy","kind":"property","src_hash":"6d980d35cc24f3f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"yy()","rhs":"Vector.outer(self.y, self.y)","over":{"base":"Any"},"name":"yy_correct"},"guarantee":"returns Vector.outer(self.y, self.y)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"53f2a46569233e99","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Vector.outer(self.y, self.y)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.y"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def yy(self):
         """Unit dyad of basis Vectors y and y for the ReferenceFrame."""
         return Vector.outer(self.y, self.y)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(yz(), returns the yz attribute) over Any              ║
+# ║ Path(yz(), Vector.outer(self.y, self.z)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Vector.outer(self.y, self.z)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ yz : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 265755247a05d727           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.yz","kind":"property","src_hash":"0ca7227a28935929","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"yz()","rhs":"returns the yz attribute","over":{"base":"Any"},"name":"yz_correct"},"guarantee":"returns the yz attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"265755247a05d727"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.yz","kind":"property","src_hash":"0ca7227a28935929","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"yz()","rhs":"Vector.outer(self.y, self.z)","over":{"base":"Any"},"name":"yz_correct"},"guarantee":"returns Vector.outer(self.y, self.z)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"265755247a05d727","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Vector.outer(self.y, self.z)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.y","self.z"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def yz(self):
         """Unit dyad of basis Vectors y and z for the ReferenceFrame."""
         return Vector.outer(self.y, self.z)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(zx(), returns the zx attribute) over Any              ║
+# ║ Path(zx(), Vector.outer(self.z, self.x)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Vector.outer(self.z, self.x)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ zx : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 15c322718a48e238           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.zx","kind":"property","src_hash":"c83040c02cf0b955","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zx()","rhs":"returns the zx attribute","over":{"base":"Any"},"name":"zx_correct"},"guarantee":"returns the zx attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"15c322718a48e238"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.zx","kind":"property","src_hash":"c83040c02cf0b955","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zx()","rhs":"Vector.outer(self.z, self.x)","over":{"base":"Any"},"name":"zx_correct"},"guarantee":"returns Vector.outer(self.z, self.x)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"15c322718a48e238","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Vector.outer(self.z, self.x)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.x","self.z"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def zx(self):
         """Unit dyad of basis Vectors z and x for the ReferenceFrame."""
         return Vector.outer(self.z, self.x)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(zy(), returns the zy attribute) over Any              ║
+# ║ Path(zy(), Vector.outer(self.z, self.y)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Vector.outer(self.z, self.y)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ zy : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f15d790ecc7bfb2f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.zy","kind":"property","src_hash":"521f480df11ead22","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zy()","rhs":"returns the zy attribute","over":{"base":"Any"},"name":"zy_correct"},"guarantee":"returns the zy attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f15d790ecc7bfb2f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.zy","kind":"property","src_hash":"521f480df11ead22","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zy()","rhs":"Vector.outer(self.z, self.y)","over":{"base":"Any"},"name":"zy_correct"},"guarantee":"returns Vector.outer(self.z, self.y)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f15d790ecc7bfb2f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Vector.outer(self.z, self.y)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.y","self.z"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def zy(self):
         """Unit dyad of basis Vectors z and y for the ReferenceFrame."""
         return Vector.outer(self.z, self.y)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(zz(), returns the zz attribute) over Any              ║
+# ║ Path(zz(), Vector.outer(self.z, self.z)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Vector.outer(self.z, self.z)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ zz : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5a80bed091bcbcc1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.zz","kind":"property","src_hash":"fe70dd27ee99cd41","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zz()","rhs":"returns the zz attribute","over":{"base":"Any"},"name":"zz_correct"},"guarantee":"returns the zz attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5a80bed091bcbcc1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.zz","kind":"property","src_hash":"fe70dd27ee99cd41","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zz()","rhs":"Vector.outer(self.z, self.z)","over":{"base":"Any"},"name":"zz_correct"},"guarantee":"returns Vector.outer(self.z, self.z)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5a80bed091bcbcc1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Vector.outer(self.z, self.z)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.z"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def zz(self):
         """Unit dyad of basis Vectors z and z for the ReferenceFrame."""
         return Vector.outer(self.z, self.z)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(u(), returns the u attribute) over Any                ║
+# ║ Path(u(), self.xx + self.yy + self.zz) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.xx + self.yy + self.zz                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ u : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 050afde2f3036b5f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.u","kind":"property","src_hash":"d8077e8db0dd7afa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"u()","rhs":"returns the u attribute","over":{"base":"Any"},"name":"u_correct"},"guarantee":"returns the u attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"050afde2f3036b5f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.u","kind":"property","src_hash":"d8077e8db0dd7afa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"u()","rhs":"self.xx + self.yy + self.zz","over":{"base":"Any"},"name":"u_correct"},"guarantee":"returns self.xx + self.yy + self.zz","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"050afde2f3036b5f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.xx + self.yy + self.zz","pure":false,"effects":{"effect_type":"reads_state","reads":["self.xx","self.yy","self.zz"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def u(self):
         """Unit dyadic for the ReferenceFrame."""
         return self.xx + self.yy + self.zz
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(partial_velocity(fra), returns the partial angular velocities of this frame in the given frame with respect to one or more provided generalized speeds) over Any ║
+# ║ Path(partial_velocity(frame, *gen_speeds), result == (partials[0] if len(partials) == 1 else tuple(partials)) and result == partials[0] or result == tuple(partials)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ partial_velocity : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (partials[0] if len(partials) =...   ║
+# ║   ensures:  result == partials[0] or result == tuple(...   ║
+# ║   fiber[case_0]: len(partials) == 1 => partials[0]         ║
+# ║   fiber[case_1]: not (len(partials) == 1) => tuple(pa...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ partial_velocity : Any → {Any | result satisfies: res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ee94b9edbc8fd4b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6140258a969993ca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.partial_velocity","kind":"method","src_hash":"6f12ddcac0513376","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"partial_velocity(fra)","rhs":"returns the partial angular velocities of this frame in the given frame with respect to one or more provided generalized speeds","over":{"base":"Any"},"name":"partial_velocity_correct"},"guarantee":"returns the partial angular velocities of this frame in the given frame with respect to one or more provided generalized speeds","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame.ReferenceFrame.partial_velocity_correct","statement":"Path(partial_velocity(x), returns the partial angular velocities of this frame in the given frame with respect to one or more provided generalized speeds)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ee94b9edbc8fd4b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame.ReferenceFrame.partial_velocity","kind":"method","src_hash":"6f12ddcac0513376","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (partials[0] if len(partials) == 1 else tuple(partials)) and result == partials[0] or result == tuple(partials)"},"spec":{"lhs":"partial_velocity(frame, *gen_speeds)","rhs":"result == (partials[0] if len(partials) == 1 else tuple(partials)) and result == partials[0] or result == tuple(partials)","over":{"base":"Any"},"name":"partial_velocity_correct"},"guarantee":"result == (partials[0] if len(partials) == 1 else tuple(partials)); result == partials[0] or result == tuple(partials); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame.ReferenceFrame.partial_velocity_correct","statement":"Path(partial_velocity(x), result == (partials[0] if len(partials) == 1 else tuple(partials)); result == partials[0] or result == tuple(partials); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6140258a969993ca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (partials[0] if len(partials) == 1 else tuple(partials))","result == partials[0] or result == tuple(partials)"],"fibers":[{"name":"case_0","guard":"len(partials) == 1","ensures":["result == partials[0]"],"decidability":"z3","returns_expr":"partials[0]"},{"name":"case_1","guard":"not (len(partials) == 1)","ensures":["result == tuple(partials)"],"decidability":"z3","returns_expr":"tuple(partials)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.ang_vel_in"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def partial_velocity(self, frame, *gen_speeds):
         """Returns the partial angular velocities of this frame in the given
         frame with respect to one or more provided generalized speeds.
@@ -2082,7 +2401,11 @@ class ReferenceFrame:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_frame(oth), internal helper behaves correctly) over {Any | isinstance(other, ReferenceFrame)} ║
+# ║ Path(_check_frame(other), <unspecified:_check_frame>) over {Any | isinstance(other, ReferenceFrame) and isinstance(other, ReferenceFrame)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(other, ReferenceFrame)              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _check_frame : {Any | isinstance(other, ReferenceFram...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2094,9 +2417,12 @@ class ReferenceFrame:
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 982b3bed...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame._check_frame","kind":"function","src_hash":"b185a34b4c5a350b","in":{"base":"Any","pred":"isinstance(other, ReferenceFrame)"},"out":{"base":"Any"},"spec":{"lhs":"_check_frame(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(other, ReferenceFrame)"},"name":"_check_frame_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"ReferenceFrame","pred":"isinstance(other, ReferenceFrame)","path":{"lhs":"_check_frame(x)","rhs":"internal helper behaves correctly","over":{"base":"ReferenceFrame","pred":"isinstance(other, ReferenceFrame)"},"name":"_check_frame_ReferenceFrame_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame._check_frame_ReferenceFrame_correct","statement":"_check_frame satisfies spec on ReferenceFrame inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"982b3bedde9d2734"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.frame._check_frame","kind":"function","src_hash":"b185a34b4c5a350b","in":{"base":"Any","pred":"isinstance(other, ReferenceFrame) and isinstance(other, ReferenceFrame)"},"out":{"base":"Any"},"spec":{"lhs":"_check_frame(other)","rhs":"<unspecified:_check_frame>","over":{"base":"Any","pred":"isinstance(other, ReferenceFrame) and isinstance(other, ReferenceFrame)"},"name":"_check_frame_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"ReferenceFrame","pred":"isinstance(other, ReferenceFrame)","path":{"lhs":"_check_frame(x)","rhs":"internal helper behaves correctly","over":{"base":"ReferenceFrame","pred":"isinstance(other, ReferenceFrame)"},"name":"_check_frame_ReferenceFrame_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.frame._check_frame_ReferenceFrame_correct","statement":"_check_frame satisfies spec on ReferenceFrame inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"982b3bedde9d2734","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(other, ReferenceFrame)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["VectorTypeError"]},"state_contract":{"exceptional_post":{"VectorTypeError":["isinstance(raised, VectorTypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(other, ReferenceFrame)'}, fibers={'ReferenceFrame'})"]}}
 def _check_frame(other):
     from .vector import VectorTypeError
     if not isinstance(other, ReferenceFrame):

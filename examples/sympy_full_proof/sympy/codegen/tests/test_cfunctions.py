@@ -26,16 +26,24 @@ from sympy.core.function import expand_log
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_expm1(), test_expm1 produces the expected output) over Any ║
+# ║ Path(test_expm1(), expm1(0) == 0 and expm1(x).expand(func=True) - exp(x) == -1 and expm1(x).rewrite('tractable') - exp(x) == -1 and expm1(x).rewrite('exp') - exp(x) == -1 and not exp(1e-10).evalf() - 1 - 1e-10 - 5e-21 < 1e-22 and abs(expm1(1e-10).evalf() - 1e-10 - 5e-21) < 1e-22 and expm1(x).is_real and expm1(x).is_finite and expm1(42 * x).diff(x) - 42 * exp(42 * x) == 0 and expm1(42 * x).diff(x) - expm1(42 * x).expand(func=True).diff(x) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_expm1 : Any → {Any | expm1(0) == 0 and expm1(x)....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expm1(0) == 0                                  ║
+# ║   ensures:  expm1(x).expand(func=True) - exp(x) == -1      ║
+# ║   ensures:  expm1(x).rewrite('tractable') - exp(x) == -1   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_expm1 : Any → {Any | result satisfies: expm1(0) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb9ccc9ac7389687  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52401284e6ed5185  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cfunctions.test_expm1","kind":"function","src_hash":"2138186c622d1b6f","in":{"base":"Any"},"out":{"base":"Any","pred":"expm1(0) == 0 and expm1(x).expand(func=True) - exp(x) == -1 and expm1(x).rewrite('tractable') - exp(x) == -1 and expm1(x).rewrite('exp') - exp(x) == -1 and not exp(1e-10).evalf() - 1 - 1e-10 - 5e-21 < 1e-22 and abs(expm1(1e-10).evalf() - 1e-10 - 5e-21) < 1e-22 and expm1(x).is_real and expm1(x).is_finite and expm1(42 * x).diff(x) - 42 * exp(42 * x) == 0 and expm1(42 * x).diff(x) - expm1(42 * x).expand(func=True).diff(x) == 0"},"spec":{"lhs":"test_expm1()","rhs":"test_expm1 produces the expected output","over":{"base":"Any"},"name":"test_expm1_correct"},"guarantee":"test_expm1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cfunctions.test_expm1_correct","statement":"Path(test_expm1(x), test_expm1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb9ccc9ac7389687"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cfunctions.test_expm1","kind":"function","src_hash":"2138186c622d1b6f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expm1(0) == 0 and expm1(x).expand(func=True) - exp(x) == -1 and expm1(x).rewrite('tractable') - exp(x) == -1 and expm1(x).rewrite('exp') - exp(x) == -1 and not exp(1e-10).evalf() - 1 - 1e-10 - 5e-21 < 1e-22 and abs(expm1(1e-10).evalf() - 1e-10 - 5e-21) < 1e-22 and expm1(x).is_real and expm1(x).is_finite and expm1(42 * x).diff(x) - 42 * exp(42 * x) == 0 and expm1(42 * x).diff(x) - expm1(42 * x).expand(func=True).diff(x) == 0"},"spec":{"lhs":"test_expm1()","rhs":"expm1(0) == 0 and expm1(x).expand(func=True) - exp(x) == -1 and expm1(x).rewrite('tractable') - exp(x) == -1 and expm1(x).rewrite('exp') - exp(x) == -1 and not exp(1e-10).evalf() - 1 - 1e-10 - 5e-21 < 1e-22 and abs(expm1(1e-10).evalf() - 1e-10 - 5e-21) < 1e-22 and expm1(x).is_real and expm1(x).is_finite and expm1(42 * x).diff(x) - 42 * exp(42 * x) == 0 and expm1(42 * x).diff(x) - expm1(42 * x).expand(func=True).diff(x) == 0","over":{"base":"Any"},"name":"test_expm1_correct"},"guarantee":"expm1(0) == 0; expm1(x).expand(func=True) - exp(x) == -1; expm1(x).rewrite('tractable') - exp(x) == -1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cfunctions.test_expm1_correct","statement":"Path(test_expm1(x), expm1(0) == 0; expm1(x).expand(func=True) - exp(x) == -1; expm1(x).rewrite('tractable') - exp(x) == -1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52401284e6ed5185","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expm1(0) == 0","expm1(x).expand(func=True) - exp(x) == -1","expm1(x).rewrite('tractable') - exp(x) == -1","expm1(x).rewrite('exp') - exp(x) == -1","not exp(1e-10).evalf() - 1 - 1e-10 - 5e-21 < 1e-22","abs(expm1(1e-10).evalf() - 1e-10 - 5e-21) < 1e-22","expm1(x).is_real","expm1(x).is_finite","expm1(42 * x).diff(x) - 42 * exp(42 * x) == 0","expm1(42 * x).diff(x) - expm1(42 * x).expand(func=True).diff(x) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_expm1():
     # Eval
     assert expm1(0) == 0
@@ -61,16 +69,24 @@ def test_expm1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_log1p(), test_log1p produces the expected output) over Any ║
+# ║ Path(test_log1p(), log1p(0) == 0 and expand_log(log1p(d ** (-1000)) - log(d ** 1000 + 1) + log(d ** 1000)) == 0 and log1p(x).expand(func=True) - log(x + 1) == 0 and log1p(x).rewrite('tractable') - log(x + 1) == 0 and log1p(x).rewrite('log') - log(x + 1) == 0 and not abs(log(1e-99 + 1).evalf() - 1e-99) < 1e-100 and abs(expand_log(log1p(1e-99)).evalf() - 1e-99) < 1e-100 and log1p(-2 ** Rational(-1, 2)).is_real and not log1p(-1).is_finite and log1p(pi).is_finite and not log1p(x).is_positive and log1p(Symbol('y', positive=True)).is_positive and not log1p(x).is_zero and log1p(Symbol('z', zero=True)).is_zero and not log1p(x).is_nonnegative and log1p(Symbol('o', nonnegative=True)).is_nonnegative and log1p(42 * x).diff(x) - 42 / (42 * x + 1) == 0 and log1p(42 * x).diff(x) - log1p(42 * x).expand(func=True).diff(x) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_log1p : Any → {Any | log1p(0) == 0 and expand_lo...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  log1p(0) == 0                                  ║
+# ║   ensures:  expand_log(log1p(d ** (-1000)) - log(d **...   ║
+# ║   ensures:  log1p(x).expand(func=True) - log(x + 1) == 0   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_log1p : Any → {Any | result satisfies: log1p(0) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd29c319f3606e3c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb8d2c16e2ba9533  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cfunctions.test_log1p","kind":"function","src_hash":"8d5605f5bad3e7dd","in":{"base":"Any"},"out":{"base":"Any","pred":"log1p(0) == 0 and expand_log(log1p(d ** (-1000)) - log(d ** 1000 + 1) + log(d ** 1000)) == 0 and log1p(x).expand(func=True) - log(x + 1) == 0 and log1p(x).rewrite('tractable') - log(x + 1) == 0 and log1p(x).rewrite('log') - log(x + 1) == 0 and not abs(log(1e-99 + 1).evalf() - 1e-99) < 1e-100 and abs(expand_log(log1p(1e-99)).evalf() - 1e-99) < 1e-100 and log1p(-2 ** Rational(-1, 2)).is_real and not log1p(-1).is_finite and log1p(pi).is_finite and not log1p(x).is_positive and log1p(Symbol('y', positive=True)).is_positive and not log1p(x).is_zero and log1p(Symbol('z', zero=True)).is_zero and not log1p(x).is_nonnegative and log1p(Symbol('o', nonnegative=True)).is_nonnegative and log1p(42 * x).diff(x) - 42 / (42 * x + 1) == 0 and log1p(42 * x).diff(x) - log1p(42 * x).expand(func=True).diff(x) == 0"},"spec":{"lhs":"test_log1p()","rhs":"test_log1p produces the expected output","over":{"base":"Any"},"name":"test_log1p_correct"},"guarantee":"test_log1p produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cfunctions.test_log1p_correct","statement":"Path(test_log1p(x), test_log1p produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd29c319f3606e3c"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cfunctions.test_log1p","kind":"function","src_hash":"8d5605f5bad3e7dd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: log1p(0) == 0 and expand_log(log1p(d ** (-1000)) - log(d ** 1000 + 1) + log(d ** 1000)) == 0 and log1p(x).expand(func=True) - log(x + 1) == 0 and log1p(x).rewrite('tractable') - log(x + 1) == 0 and log1p(x).rewrite('log') - log(x + 1) == 0 and not abs(log(1e-99 + 1).evalf() - 1e-99) < 1e-100 and abs(expand_log(log1p(1e-99)).evalf() - 1e-99) < 1e-100 and log1p(-2 ** Rational(-1, 2)).is_real and not log1p(-1).is_finite and log1p(pi).is_finite and not log1p(x).is_positive and log1p(Symbol('y', positive=True)).is_positive and not log1p(x).is_zero and log1p(Symbol('z', zero=True)).is_zero and not log1p(x).is_nonnegative and log1p(Symbol('o', nonnegative=True)).is_nonnegative and log1p(42 * x).diff(x) - 42 / (42 * x + 1) == 0 and log1p(42 * x).diff(x) - log1p(42 * x).expand(func=True).diff(x) == 0"},"spec":{"lhs":"test_log1p()","rhs":"log1p(0) == 0 and expand_log(log1p(d ** (-1000)) - log(d ** 1000 + 1) + log(d ** 1000)) == 0 and log1p(x).expand(func=True) - log(x + 1) == 0 and log1p(x).rewrite('tractable') - log(x + 1) == 0 and log1p(x).rewrite('log') - log(x + 1) == 0 and not abs(log(1e-99 + 1).evalf() - 1e-99) < 1e-100 and abs(expand_log(log1p(1e-99)).evalf() - 1e-99) < 1e-100 and log1p(-2 ** Rational(-1, 2)).is_real and not log1p(-1).is_finite and log1p(pi).is_finite and not log1p(x).is_positive and log1p(Symbol('y', positive=True)).is_positive and not log1p(x).is_zero and log1p(Symbol('z', zero=True)).is_zero and not log1p(x).is_nonnegative and log1p(Symbol('o', nonnegative=True)).is_nonnegative and log1p(42 * x).diff(x) - 42 / (42 * x + 1) == 0 and log1p(42 * x).diff(x) - log1p(42 * x).expand(func=True).diff(x) == 0","over":{"base":"Any"},"name":"test_log1p_correct"},"guarantee":"log1p(0) == 0; expand_log(log1p(d ** (-1000)) - log(d ** 1000 + 1) + log(d ** 1000)) == 0; log1p(x).expand(func=True) - log(x + 1) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cfunctions.test_log1p_correct","statement":"Path(test_log1p(x), log1p(0) == 0; expand_log(log1p(d ** (-1000)) - log(d ** 1000 + 1) + log(d ** 1000)) == 0; log1p(x).expand(func=True) - log(x + 1) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb8d2c16e2ba9533","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["log1p(0) == 0","expand_log(log1p(d ** (-1000)) - log(d ** 1000 + 1) + log(d ** 1000)) == 0","log1p(x).expand(func=True) - log(x + 1) == 0","log1p(x).rewrite('tractable') - log(x + 1) == 0","log1p(x).rewrite('log') - log(x + 1) == 0","not abs(log(1e-99 + 1).evalf() - 1e-99) < 1e-100","abs(expand_log(log1p(1e-99)).evalf() - 1e-99) < 1e-100","log1p(-2 ** Rational(-1, 2)).is_real","not log1p(-1).is_finite","log1p(pi).is_finite","not log1p(x).is_positive","log1p(Symbol('y', positive=True)).is_positive","not log1p(x).is_zero","log1p(Symbol('z', zero=True)).is_zero","not log1p(x).is_nonnegative","log1p(Symbol('o', nonnegative=True)).is_nonnegative","log1p(42 * x).diff(x) - 42 / (42 * x + 1) == 0","log1p(42 * x).diff(x) - log1p(42 * x).expand(func=True).diff(x) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_log1p():
     # Eval
     assert log1p(0) == 0
@@ -109,16 +125,24 @@ def test_log1p():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exp2(), test_exp2 produces the expected output) over Any ║
+# ║ Path(test_exp2(), exp2(2) == 4 and exp2(x).expand(func=True) - 2 ** x == 0 and exp2(42 * x).diff(x) - 42 * exp2(42 * x) * log(2) == 0 and exp2(42 * x).diff(x) - exp2(42 * x).diff(x) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exp2 : Any → {Any | exp2(2) == 4 and exp2(x).exp...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  exp2(2) == 4                                   ║
+# ║   ensures:  exp2(x).expand(func=True) - 2 ** x == 0        ║
+# ║   ensures:  exp2(42 * x).diff(x) - 42 * exp2(42 * x) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exp2 : Any → {Any | result satisfies: exp2(2) ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a198e5e2efe09c42  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7486d6c7b8e865c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cfunctions.test_exp2","kind":"function","src_hash":"ea1a678804e0968c","in":{"base":"Any"},"out":{"base":"Any","pred":"exp2(2) == 4 and exp2(x).expand(func=True) - 2 ** x == 0 and exp2(42 * x).diff(x) - 42 * exp2(42 * x) * log(2) == 0 and exp2(42 * x).diff(x) - exp2(42 * x).diff(x) == 0"},"spec":{"lhs":"test_exp2()","rhs":"test_exp2 produces the expected output","over":{"base":"Any"},"name":"test_exp2_correct"},"guarantee":"test_exp2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cfunctions.test_exp2_correct","statement":"Path(test_exp2(x), test_exp2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a198e5e2efe09c42"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cfunctions.test_exp2","kind":"function","src_hash":"ea1a678804e0968c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: exp2(2) == 4 and exp2(x).expand(func=True) - 2 ** x == 0 and exp2(42 * x).diff(x) - 42 * exp2(42 * x) * log(2) == 0 and exp2(42 * x).diff(x) - exp2(42 * x).diff(x) == 0"},"spec":{"lhs":"test_exp2()","rhs":"exp2(2) == 4 and exp2(x).expand(func=True) - 2 ** x == 0 and exp2(42 * x).diff(x) - 42 * exp2(42 * x) * log(2) == 0 and exp2(42 * x).diff(x) - exp2(42 * x).diff(x) == 0","over":{"base":"Any"},"name":"test_exp2_correct"},"guarantee":"exp2(2) == 4; exp2(x).expand(func=True) - 2 ** x == 0; exp2(42 * x).diff(x) - 42 * exp2(42 * x) * log(2) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cfunctions.test_exp2_correct","statement":"Path(test_exp2(x), exp2(2) == 4; exp2(x).expand(func=True) - 2 ** x == 0; exp2(42 * x).diff(x) - 42 * exp2(42 * x) * log(2) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7486d6c7b8e865c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["exp2(2) == 4","exp2(x).expand(func=True) - 2 ** x == 0","exp2(42 * x).diff(x) - 42 * exp2(42 * x) * log(2) == 0","exp2(42 * x).diff(x) - exp2(42 * x).diff(x) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_exp2():
     # Eval
     assert exp2(2) == 4
@@ -134,16 +158,24 @@ def test_exp2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_log2(), test_log2 produces the expected output) over Any ║
+# ║ Path(test_log2(), log2(8) == 3 and log2(pi) != log(pi) / log(2) and log2(x) != log(x) / log(2) and log2(2 ** x) == x and log2(x).expand(func=True) - log(x) / log(2) == 0 and log2(42 * x).diff() - 1 / (log(2) * x) == 0 and log2(42 * x).diff() - log2(42 * x).expand(func=True).diff(x) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_log2 : Any → {Any | log2(8) == 3 and log2(pi) !=...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  log2(8) == 3                                   ║
+# ║   ensures:  log2(pi) != log(pi) / log(2)                   ║
+# ║   ensures:  log2(x) != log(x) / log(2)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_log2 : Any → {Any | result satisfies: log2(8) ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 819ca6fdc9dda585  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03ff53f0cf9b1ea8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cfunctions.test_log2","kind":"function","src_hash":"07d595e0993f2843","in":{"base":"Any"},"out":{"base":"Any","pred":"log2(8) == 3 and log2(pi) != log(pi) / log(2) and log2(x) != log(x) / log(2) and log2(2 ** x) == x and log2(x).expand(func=True) - log(x) / log(2) == 0 and log2(42 * x).diff() - 1 / (log(2) * x) == 0 and log2(42 * x).diff() - log2(42 * x).expand(func=True).diff(x) == 0"},"spec":{"lhs":"test_log2()","rhs":"test_log2 produces the expected output","over":{"base":"Any"},"name":"test_log2_correct"},"guarantee":"test_log2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cfunctions.test_log2_correct","statement":"Path(test_log2(x), test_log2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"819ca6fdc9dda585"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cfunctions.test_log2","kind":"function","src_hash":"07d595e0993f2843","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: log2(8) == 3 and log2(pi) != log(pi) / log(2) and log2(x) != log(x) / log(2) and log2(2 ** x) == x and log2(x).expand(func=True) - log(x) / log(2) == 0 and log2(42 * x).diff() - 1 / (log(2) * x) == 0 and log2(42 * x).diff() - log2(42 * x).expand(func=True).diff(x) == 0"},"spec":{"lhs":"test_log2()","rhs":"log2(8) == 3 and log2(pi) != log(pi) / log(2) and log2(x) != log(x) / log(2) and log2(2 ** x) == x and log2(x).expand(func=True) - log(x) / log(2) == 0 and log2(42 * x).diff() - 1 / (log(2) * x) == 0 and log2(42 * x).diff() - log2(42 * x).expand(func=True).diff(x) == 0","over":{"base":"Any"},"name":"test_log2_correct"},"guarantee":"log2(8) == 3; log2(pi) != log(pi) / log(2); log2(x) != log(x) / log(2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cfunctions.test_log2_correct","statement":"Path(test_log2(x), log2(8) == 3; log2(pi) != log(pi) / log(2); log2(x) != log(x) / log(2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03ff53f0cf9b1ea8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["log2(8) == 3","log2(pi) != log(pi) / log(2)","log2(x) != log(x) / log(2)","log2(2 ** x) == x","log2(x).expand(func=True) - log(x) / log(2) == 0","log2(42 * x).diff() - 1 / (log(2) * x) == 0","log2(42 * x).diff() - log2(42 * x).expand(func=True).diff(x) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_log2():
     # Eval
     assert log2(8) == 3
@@ -162,16 +194,24 @@ def test_log2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_fma(), test_fma produces the expected output) over Any ║
+# ║ Path(test_fma(), fma(x, y, z).expand(func=True) - x * y - z == 0 and expr.diff(x) - expr.expand(func=True).diff(x) == 0 and expr.diff(y) - expr.expand(func=True).diff(y) == 0 and expr.diff(z) - expr.expand(func=True).diff(z) == 0 and expr.diff(x) - 17 * 42 * y == 0 and expr.diff(y) - 17 * 42 * x == 0 and expr.diff(z) - 101 == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_fma : Any → {Any | fma(x, y, z).expand(func=True...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fma(x, y, z).expand(func=True) - x * y - ...   ║
+# ║   ensures:  expr.diff(x) - expr.expand(func=True).dif...   ║
+# ║   ensures:  expr.diff(y) - expr.expand(func=True).dif...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_fma : Any → {Any | result satisfies: fma(x, y, z...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c52e68096f6af2c8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3f8dcc84efb7ed8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cfunctions.test_fma","kind":"function","src_hash":"ca635ee331321b7c","in":{"base":"Any"},"out":{"base":"Any","pred":"fma(x, y, z).expand(func=True) - x * y - z == 0 and expr.diff(x) - expr.expand(func=True).diff(x) == 0 and expr.diff(y) - expr.expand(func=True).diff(y) == 0 and expr.diff(z) - expr.expand(func=True).diff(z) == 0 and expr.diff(x) - 17 * 42 * y == 0 and expr.diff(y) - 17 * 42 * x == 0 and expr.diff(z) - 101 == 0"},"spec":{"lhs":"test_fma()","rhs":"test_fma produces the expected output","over":{"base":"Any"},"name":"test_fma_correct"},"guarantee":"test_fma produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cfunctions.test_fma_correct","statement":"Path(test_fma(x), test_fma produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c52e68096f6af2c8"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cfunctions.test_fma","kind":"function","src_hash":"ca635ee331321b7c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fma(x, y, z).expand(func=True) - x * y - z == 0 and expr.diff(x) - expr.expand(func=True).diff(x) == 0 and expr.diff(y) - expr.expand(func=True).diff(y) == 0 and expr.diff(z) - expr.expand(func=True).diff(z) == 0 and expr.diff(x) - 17 * 42 * y == 0 and expr.diff(y) - 17 * 42 * x == 0 and expr.diff(z) - 101 == 0"},"spec":{"lhs":"test_fma()","rhs":"fma(x, y, z).expand(func=True) - x * y - z == 0 and expr.diff(x) - expr.expand(func=True).diff(x) == 0 and expr.diff(y) - expr.expand(func=True).diff(y) == 0 and expr.diff(z) - expr.expand(func=True).diff(z) == 0 and expr.diff(x) - 17 * 42 * y == 0 and expr.diff(y) - 17 * 42 * x == 0 and expr.diff(z) - 101 == 0","over":{"base":"Any"},"name":"test_fma_correct"},"guarantee":"fma(x, y, z).expand(func=True) - x * y - z == 0; expr.diff(x) - expr.expand(func=True).diff(x) == 0; expr.diff(y) - expr.expand(func=True).diff(y) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cfunctions.test_fma_correct","statement":"Path(test_fma(x), fma(x, y, z).expand(func=True) - x * y - z == 0; expr.diff(x) - expr.expand(func=True).diff(x) == 0; expr.diff(y) - expr.expand(func=True).diff(y) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3f8dcc84efb7ed8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fma(x, y, z).expand(func=True) - x * y - z == 0","expr.diff(x) - expr.expand(func=True).diff(x) == 0","expr.diff(y) - expr.expand(func=True).diff(y) == 0","expr.diff(z) - expr.expand(func=True).diff(z) == 0","expr.diff(x) - 17 * 42 * y == 0","expr.diff(y) - 17 * 42 * x == 0","expr.diff(z) - 101 == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_fma():
     x, y, z = symbols('x y z')
 
@@ -191,16 +231,24 @@ def test_fma():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_log10(), test_log10 produces the expected output) over Any ║
+# ║ Path(test_log10(), log10(x).expand(func=True) - log(x) / log(10) == 0 and log10(42 * x).diff(x) - 1 / (log(10) * x) == 0 and log10(42 * x).diff(x) - log10(42 * x).expand(func=True).diff(x) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_log10 : Any → {Any | log10(x).expand(func=True) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  log10(x).expand(func=True) - log(x) / log...   ║
+# ║   ensures:  log10(42 * x).diff(x) - 1 / (log(10) * x)...   ║
+# ║   ensures:  log10(42 * x).diff(x) - log10(42 * x).exp...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_log10 : Any → {Any | result satisfies: log10(x)....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | acde58038c10edc8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8614cc922edde353  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cfunctions.test_log10","kind":"function","src_hash":"4d065a18d517858a","in":{"base":"Any"},"out":{"base":"Any","pred":"log10(x).expand(func=True) - log(x) / log(10) == 0 and log10(42 * x).diff(x) - 1 / (log(10) * x) == 0 and log10(42 * x).diff(x) - log10(42 * x).expand(func=True).diff(x) == 0"},"spec":{"lhs":"test_log10()","rhs":"test_log10 produces the expected output","over":{"base":"Any"},"name":"test_log10_correct"},"guarantee":"test_log10 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cfunctions.test_log10_correct","statement":"Path(test_log10(x), test_log10 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"acde58038c10edc8"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cfunctions.test_log10","kind":"function","src_hash":"4d065a18d517858a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: log10(x).expand(func=True) - log(x) / log(10) == 0 and log10(42 * x).diff(x) - 1 / (log(10) * x) == 0 and log10(42 * x).diff(x) - log10(42 * x).expand(func=True).diff(x) == 0"},"spec":{"lhs":"test_log10()","rhs":"log10(x).expand(func=True) - log(x) / log(10) == 0 and log10(42 * x).diff(x) - 1 / (log(10) * x) == 0 and log10(42 * x).diff(x) - log10(42 * x).expand(func=True).diff(x) == 0","over":{"base":"Any"},"name":"test_log10_correct"},"guarantee":"log10(x).expand(func=True) - log(x) / log(10) == 0; log10(42 * x).diff(x) - 1 / (log(10) * x) == 0; log10(42 * x).diff(x) - log10(42 * x).expand(func=True).diff(x) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cfunctions.test_log10_correct","statement":"Path(test_log10(x), log10(x).expand(func=True) - log(x) / log(10) == 0; log10(42 * x).diff(x) - 1 / (log(10) * x) == 0; log10(42 * x).diff(x) - log10(42 * x).expand(func=True).diff(x) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8614cc922edde353","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["log10(x).expand(func=True) - log(x) / log(10) == 0","log10(42 * x).diff(x) - 1 / (log(10) * x) == 0","log10(42 * x).diff(x) - log10(42 * x).expand(func=True).diff(x) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_log10():
     x = Symbol('x')
 
@@ -213,16 +261,24 @@ def test_log10():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Cbrt(), test_Cbrt produces the expected output) over Any ║
+# ║ Path(test_Cbrt(), Cbrt(x).expand(func=True) - x ** Rational(1, 3) == 0 and Cbrt(42 * x).diff(x) - 42 * (42 * x) ** (Rational(1, 3) - 1) / 3 == 0 and Cbrt(42 * x).diff(x) - Cbrt(42 * x).expand(func=True).diff(x) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Cbrt : Any → {Any | Cbrt(x).expand(func=True) - ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Cbrt(x).expand(func=True) - x ** Rational...   ║
+# ║   ensures:  Cbrt(42 * x).diff(x) - 42 * (42 * x) ** (...   ║
+# ║   ensures:  Cbrt(42 * x).diff(x) - Cbrt(42 * x).expan...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Cbrt : Any → {Any | result satisfies: Cbrt(x).ex...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82e1e71f0c674f50  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 04dc7abb4a44e0d4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cfunctions.test_Cbrt","kind":"function","src_hash":"f4595d0eed4336a2","in":{"base":"Any"},"out":{"base":"Any","pred":"Cbrt(x).expand(func=True) - x ** Rational(1, 3) == 0 and Cbrt(42 * x).diff(x) - 42 * (42 * x) ** (Rational(1, 3) - 1) / 3 == 0 and Cbrt(42 * x).diff(x) - Cbrt(42 * x).expand(func=True).diff(x) == 0"},"spec":{"lhs":"test_Cbrt()","rhs":"test_Cbrt produces the expected output","over":{"base":"Any"},"name":"test_Cbrt_correct"},"guarantee":"test_Cbrt produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cfunctions.test_Cbrt_correct","statement":"Path(test_Cbrt(x), test_Cbrt produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82e1e71f0c674f50"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cfunctions.test_Cbrt","kind":"function","src_hash":"f4595d0eed4336a2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Cbrt(x).expand(func=True) - x ** Rational(1, 3) == 0 and Cbrt(42 * x).diff(x) - 42 * (42 * x) ** (Rational(1, 3) - 1) / 3 == 0 and Cbrt(42 * x).diff(x) - Cbrt(42 * x).expand(func=True).diff(x) == 0"},"spec":{"lhs":"test_Cbrt()","rhs":"Cbrt(x).expand(func=True) - x ** Rational(1, 3) == 0 and Cbrt(42 * x).diff(x) - 42 * (42 * x) ** (Rational(1, 3) - 1) / 3 == 0 and Cbrt(42 * x).diff(x) - Cbrt(42 * x).expand(func=True).diff(x) == 0","over":{"base":"Any"},"name":"test_Cbrt_correct"},"guarantee":"Cbrt(x).expand(func=True) - x ** Rational(1, 3) == 0; Cbrt(42 * x).diff(x) - 42 * (42 * x) ** (Rational(1, 3) - 1) / 3 == 0; Cbrt(42 * x).diff(x) - Cbrt(42 * x).expand(func=True).diff(x) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cfunctions.test_Cbrt_correct","statement":"Path(test_Cbrt(x), Cbrt(x).expand(func=True) - x ** Rational(1, 3) == 0; Cbrt(42 * x).diff(x) - 42 * (42 * x) ** (Rational(1, 3) - 1) / 3 == 0; Cbrt(42 * x).diff(x) - Cbrt(42 * x).expand(func=True).diff(x) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04dc7abb4a44e0d4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Cbrt(x).expand(func=True) - x ** Rational(1, 3) == 0","Cbrt(42 * x).diff(x) - 42 * (42 * x) ** (Rational(1, 3) - 1) / 3 == 0","Cbrt(42 * x).diff(x) - Cbrt(42 * x).expand(func=True).diff(x) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Cbrt():
     x = Symbol('x')
 
@@ -235,16 +291,24 @@ def test_Cbrt():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Sqrt(), test_Sqrt produces the expected output) over Any ║
+# ║ Path(test_Sqrt(), Sqrt(x).expand(func=True) - x ** S.Half == 0 and Sqrt(42 * x).diff(x) - 42 * (42 * x) ** (S.Half - 1) / 2 == 0 and Sqrt(42 * x).diff(x) - Sqrt(42 * x).expand(func=True).diff(x) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Sqrt : Any → {Any | Sqrt(x).expand(func=True) - ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Sqrt(x).expand(func=True) - x ** S.Half == 0   ║
+# ║   ensures:  Sqrt(42 * x).diff(x) - 42 * (42 * x) ** (...   ║
+# ║   ensures:  Sqrt(42 * x).diff(x) - Sqrt(42 * x).expan...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Sqrt : Any → {Any | result satisfies: Sqrt(x).ex...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa51d8f180ebd156  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 85d78c5464769bba  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cfunctions.test_Sqrt","kind":"function","src_hash":"e96bedf5553c5efc","in":{"base":"Any"},"out":{"base":"Any","pred":"Sqrt(x).expand(func=True) - x ** S.Half == 0 and Sqrt(42 * x).diff(x) - 42 * (42 * x) ** (S.Half - 1) / 2 == 0 and Sqrt(42 * x).diff(x) - Sqrt(42 * x).expand(func=True).diff(x) == 0"},"spec":{"lhs":"test_Sqrt()","rhs":"test_Sqrt produces the expected output","over":{"base":"Any"},"name":"test_Sqrt_correct"},"guarantee":"test_Sqrt produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cfunctions.test_Sqrt_correct","statement":"Path(test_Sqrt(x), test_Sqrt produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa51d8f180ebd156"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cfunctions.test_Sqrt","kind":"function","src_hash":"e96bedf5553c5efc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Sqrt(x).expand(func=True) - x ** S.Half == 0 and Sqrt(42 * x).diff(x) - 42 * (42 * x) ** (S.Half - 1) / 2 == 0 and Sqrt(42 * x).diff(x) - Sqrt(42 * x).expand(func=True).diff(x) == 0"},"spec":{"lhs":"test_Sqrt()","rhs":"Sqrt(x).expand(func=True) - x ** S.Half == 0 and Sqrt(42 * x).diff(x) - 42 * (42 * x) ** (S.Half - 1) / 2 == 0 and Sqrt(42 * x).diff(x) - Sqrt(42 * x).expand(func=True).diff(x) == 0","over":{"base":"Any"},"name":"test_Sqrt_correct"},"guarantee":"Sqrt(x).expand(func=True) - x ** S.Half == 0; Sqrt(42 * x).diff(x) - 42 * (42 * x) ** (S.Half - 1) / 2 == 0; Sqrt(42 * x).diff(x) - Sqrt(42 * x).expand(func=True).diff(x) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cfunctions.test_Sqrt_correct","statement":"Path(test_Sqrt(x), Sqrt(x).expand(func=True) - x ** S.Half == 0; Sqrt(42 * x).diff(x) - 42 * (42 * x) ** (S.Half - 1) / 2 == 0; Sqrt(42 * x).diff(x) - Sqrt(42 * x).expand(func=True).diff(x) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85d78c5464769bba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Sqrt(x).expand(func=True) - x ** S.Half == 0","Sqrt(42 * x).diff(x) - 42 * (42 * x) ** (S.Half - 1) / 2 == 0","Sqrt(42 * x).diff(x) - Sqrt(42 * x).expand(func=True).diff(x) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Sqrt():
     x = Symbol('x')
 
@@ -257,16 +321,24 @@ def test_Sqrt():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_hypot(), test_hypot produces the expected output) over Any ║
+# ║ Path(test_hypot(), hypot(x, y).expand(func=True) - (x ** 2 + y ** 2) ** S.Half == 0 and hypot(17 * x, 42 * y).diff(x).expand(func=True) - hypot(17 * x, 42 * y).expand(func=True).diff(x) == 0 and hypot(17 * x, 42 * y).diff(y).expand(func=True) - hypot(17 * x, 42 * y).expand(func=True).diff(y) == 0 and hypot(17 * x, 42 * y).diff(x).expand(func=True) - 2 * 17 * 17 * x * ((17 * x) ** 2 + (42 * y) ** 2) ** Rational(-1, 2) / 2 == 0 and hypot(17 * x, 42 * y).diff(y).expand(func=True) - 2 * 42 * 42 * y * ((17 * x) ** 2 + (42 * y) ** 2) ** Rational(-1, 2) / 2 == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_hypot : Any → {Any | hypot(x, y).expand(func=Tru...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hypot(x, y).expand(func=True) - (x ** 2 +...   ║
+# ║   ensures:  hypot(17 * x, 42 * y).diff(x).expand(func...   ║
+# ║   ensures:  hypot(17 * x, 42 * y).diff(y).expand(func...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_hypot : Any → {Any | result satisfies: hypot(x, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ddd366054856683f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b400f2e3fe8086e0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cfunctions.test_hypot","kind":"function","src_hash":"a211e06d3e23f78f","in":{"base":"Any"},"out":{"base":"Any","pred":"hypot(x, y).expand(func=True) - (x ** 2 + y ** 2) ** S.Half == 0"},"spec":{"lhs":"test_hypot()","rhs":"test_hypot produces the expected output","over":{"base":"Any"},"name":"test_hypot_correct"},"guarantee":"test_hypot produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cfunctions.test_hypot_correct","statement":"Path(test_hypot(x), test_hypot produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ddd366054856683f"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cfunctions.test_hypot","kind":"function","src_hash":"a211e06d3e23f78f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hypot(x, y).expand(func=True) - (x ** 2 + y ** 2) ** S.Half == 0 and hypot(17 * x, 42 * y).diff(x).expand(func=True) - hypot(17 * x, 42 * y).expand(func=True).diff(x) == 0 and hypot(17 * x, 42 * y).diff(y).expand(func=True) - hypot(17 * x, 42 * y).expand(func=True).diff(y) == 0 and hypot(17 * x, 42 * y).diff(x).expand(func=True) - 2 * 17 * 17 * x * ((17 * x) ** 2 + (42 * y) ** 2) ** Rational(-1, 2) / 2 == 0 and hypot(17 * x, 42 * y).diff(y).expand(func=True) - 2 * 42 * 42 * y * ((17 * x) ** 2 + (42 * y) ** 2) ** Rational(-1, 2) / 2 == 0"},"spec":{"lhs":"test_hypot()","rhs":"hypot(x, y).expand(func=True) - (x ** 2 + y ** 2) ** S.Half == 0 and hypot(17 * x, 42 * y).diff(x).expand(func=True) - hypot(17 * x, 42 * y).expand(func=True).diff(x) == 0 and hypot(17 * x, 42 * y).diff(y).expand(func=True) - hypot(17 * x, 42 * y).expand(func=True).diff(y) == 0 and hypot(17 * x, 42 * y).diff(x).expand(func=True) - 2 * 17 * 17 * x * ((17 * x) ** 2 + (42 * y) ** 2) ** Rational(-1, 2) / 2 == 0 and hypot(17 * x, 42 * y).diff(y).expand(func=True) - 2 * 42 * 42 * y * ((17 * x) ** 2 + (42 * y) ** 2) ** Rational(-1, 2) / 2 == 0","over":{"base":"Any"},"name":"test_hypot_correct"},"guarantee":"hypot(x, y).expand(func=True) - (x ** 2 + y ** 2) ** S.Half == 0; hypot(17 * x, 42 * y).diff(x).expand(func=True) - hypot(17 * x, 42 * y).expand(func=True).diff(x) == 0; hypot(17 * x, 42 * y).diff(y).expand(func=True) - hypot(17 * x, 42 * y).expand(func=True).diff(y) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cfunctions.test_hypot_correct","statement":"Path(test_hypot(x), hypot(x, y).expand(func=True) - (x ** 2 + y ** 2) ** S.Half == 0; hypot(17 * x, 42 * y).diff(x).expand(func=True) - hypot(17 * x, 42 * y).expand(func=True).diff(x) == 0; hypot(17 * x, 42 * y).diff(y).expand(func=True) - hypot(17 * x, 42 * y).expand(func=True).diff(y) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b400f2e3fe8086e0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hypot(x, y).expand(func=True) - (x ** 2 + y ** 2) ** S.Half == 0","hypot(17 * x, 42 * y).diff(x).expand(func=True) - hypot(17 * x, 42 * y).expand(func=True).diff(x) == 0","hypot(17 * x, 42 * y).diff(y).expand(func=True) - hypot(17 * x, 42 * y).expand(func=True).diff(y) == 0","hypot(17 * x, 42 * y).diff(x).expand(func=True) - 2 * 17 * 17 * x * ((17 * x) ** 2 + (42 * y) ** 2) ** Rational(-1, 2) / 2 == 0","hypot(17 * x, 42 * y).diff(y).expand(func=True) - 2 * 42 * 42 * y * ((17 * x) ** 2 + (42 * y) ** 2) ** Rational(-1, 2) / 2 == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_hypot():
     x, y = symbols('x y')
 
@@ -282,16 +354,24 @@ def test_hypot():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_isnan_isinf(), test_isnan_isinf produces the expected output) over Any ║
+# ║ Path(test_isnan_isinf(), isinf(+S.Infinity) == True and isinf(-S.Infinity) == True and isinf(S.Pi) == False and isinfx not in (False, True) and isinfx.func is isinf and isinfx.args == (x,) and isnan(S.NaN) == True and isnan(S.Pi) == False and isnanx not in (False, True) and isnanx.func is isnan and isnanx.args == (x,)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_isnan_isinf : Any → {Any | isinf(+S.Infinity) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinf(+S.Infinity) == True                     ║
+# ║   ensures:  isinf(-S.Infinity) == True                     ║
+# ║   ensures:  isinf(S.Pi) == False                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_isnan_isinf : Any → {Any | result satisfies: isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be9b06aed31f51a4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78f7c45368c227ca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cfunctions.test_isnan_isinf","kind":"function","src_hash":"8617f4827e4da61c","in":{"base":"Any"},"out":{"base":"Any","pred":"isinf(+S.Infinity) == True and isinf(-S.Infinity) == True and isinf(S.Pi) == False and isinfx not in (False, True) and isinfx.func is isinf and isinfx.args == (x,) and isnan(S.NaN) == True and isnan(S.Pi) == False and isnanx not in (False, True) and isnanx.func is isnan and isnanx.args == (x,)"},"spec":{"lhs":"test_isnan_isinf()","rhs":"test_isnan_isinf produces the expected output","over":{"base":"Any"},"name":"test_isnan_isinf_correct"},"guarantee":"test_isnan_isinf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cfunctions.test_isnan_isinf_correct","statement":"Path(test_isnan_isinf(x), test_isnan_isinf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be9b06aed31f51a4"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_cfunctions.test_isnan_isinf","kind":"function","src_hash":"8617f4827e4da61c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinf(+S.Infinity) == True and isinf(-S.Infinity) == True and isinf(S.Pi) == False and isinfx not in (False, True) and isinfx.func is isinf and isinfx.args == (x,) and isnan(S.NaN) == True and isnan(S.Pi) == False and isnanx not in (False, True) and isnanx.func is isnan and isnanx.args == (x,)"},"spec":{"lhs":"test_isnan_isinf()","rhs":"isinf(+S.Infinity) == True and isinf(-S.Infinity) == True and isinf(S.Pi) == False and isinfx not in (False, True) and isinfx.func is isinf and isinfx.args == (x,) and isnan(S.NaN) == True and isnan(S.Pi) == False and isnanx not in (False, True) and isnanx.func is isnan and isnanx.args == (x,)","over":{"base":"Any"},"name":"test_isnan_isinf_correct"},"guarantee":"isinf(+S.Infinity) == True; isinf(-S.Infinity) == True; isinf(S.Pi) == False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_cfunctions.test_isnan_isinf_correct","statement":"Path(test_isnan_isinf(x), isinf(+S.Infinity) == True; isinf(-S.Infinity) == True; isinf(S.Pi) == False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78f7c45368c227ca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinf(+S.Infinity) == True","isinf(-S.Infinity) == True","isinf(S.Pi) == False","isinfx not in (False, True)","isinfx.func is isinf","isinfx.args == (x,)","isnan(S.NaN) == True","isnan(S.Pi) == False","isnanx not in (False, True)","isnanx.func is isnan","isnanx.args == (x,)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_isnan_isinf():
     x = Symbol('x')
 

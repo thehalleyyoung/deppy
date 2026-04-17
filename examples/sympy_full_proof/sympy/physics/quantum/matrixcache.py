@@ -30,14 +30,19 @@ from sympy.physics.quantum.matrixutils import (
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a MatrixCache instance) preserved by MatrixCache(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ MatrixCache : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a1ee298c1523bca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixcache.MatrixCache","kind":"class","src_hash":"ada6ef0478ccf773","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MatrixCache(*args)","rhs":"correctly constructs a MatrixCache instance","over":{"base":"Any"},"name":"MatrixCache_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a MatrixCache instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_cache') and hasattr(self, 'dtype')","kind":"class","induction":"structural on _cache, dtype"}],"methods_preserving":["__init__","cache_matrix","get_matrix","_store_matrix","_sympy_matrix","_numpy_matrix","_scipy_sparse_matrix"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a1ee298c1523bca"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixcache.MatrixCache","kind":"class","src_hash":"ada6ef0478ccf773","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MatrixCache(*args)","rhs":"correctly constructs a MatrixCache instance","over":{"base":"Any"},"name":"MatrixCache_class_invariant","kind":"invariant"},"guarantee":"preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_cache') and hasattr(self, 'dtype')","kind":"class","induction":"structural on _cache, dtype"}],"methods_preserving":["__init__","cache_matrix","get_matrix","_store_matrix","_sympy_matrix","_numpy_matrix","_scipy_sparse_matrix"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a1ee298c1523bca","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, '_cache')","hasattr(self, 'dtype')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function MatrixCache not found in source"]}}
 class MatrixCache:
     """A cache for small matrices in different formats.
 
@@ -48,31 +53,43 @@ class MatrixCache:
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(dty), initializes the instance correctly) over Any ║
+# ║ Path(__init__(dtype), self.dtype == dtype) over Any        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.dtype == dtype                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.dtype ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c1e845c5fbe6ec22           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixcache.MatrixCache.__init__","kind":"method","src_hash":"1c4c81b8848e55b9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(dty)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c1e845c5fbe6ec22"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixcache.MatrixCache.__init__","kind":"method","src_hash":"1c4c81b8848e55b9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.dtype == dtype"},"spec":{"lhs":"__init__(dtype)","rhs":"self.dtype == dtype","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.dtype == dtype","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c1e845c5fbe6ec22","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.dtype == dtype"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, dtype='complex'):
         self._cache = {}
         self.dtype = dtype
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cache_matrix(nam), cache a matrix by its name) over Any ║
+# ║ Path(cache_matrix(name, m), <unspecified:cache_matrix>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cache_matrix : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 42cc3afbd3f8fe22  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixcache.MatrixCache.cache_matrix","kind":"method","src_hash":"601159cecfcd167e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cache_matrix(nam)","rhs":"cache a matrix by its name","over":{"base":"Any"},"name":"cache_matrix_correct"},"guarantee":"cache a matrix by its name","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixcache.MatrixCache.cache_matrix_correct","statement":"Path(cache_matrix(x), cache a matrix by its name)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42cc3afbd3f8fe22"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixcache.MatrixCache.cache_matrix","kind":"method","src_hash":"601159cecfcd167e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cache_matrix(name, m)","rhs":"<unspecified:cache_matrix>","over":{"base":"Any"},"name":"cache_matrix_correct"},"guarantee":"cache a matrix by its name","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixcache.MatrixCache.cache_matrix_correct","statement":"Path(cache_matrix(x), cache a matrix by its name)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42cc3afbd3f8fe22","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._numpy_matrix","self._scipy_sparse_matrix","self._sympy_matrix"],"catches":["ImportError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cache_matrix(self, name, m):
         """Cache a matrix by its name.
 
@@ -97,16 +114,22 @@ class MatrixCache:
             pass
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_matrix(nam), get a cached matrix by name and format) over Any ║
+# ║ Path(get_matrix(name, format), <unspecified:get_matrix>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_matrix : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d6fab2296800b1be  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixcache.MatrixCache.get_matrix","kind":"method","src_hash":"f6ecc2725f65b2f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_matrix(nam)","rhs":"get a cached matrix by name and format","over":{"base":"Any"},"name":"get_matrix_correct"},"guarantee":"get a cached matrix by name and format","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixcache.MatrixCache.get_matrix_correct","statement":"Path(get_matrix(x), get a cached matrix by name and format)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6fab2296800b1be"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixcache.MatrixCache.get_matrix","kind":"method","src_hash":"f6ecc2725f65b2f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_matrix(name, format)","rhs":"<unspecified:get_matrix>","over":{"base":"Any"},"name":"get_matrix_correct"},"guarantee":"get a cached matrix by name and format","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixcache.MatrixCache.get_matrix_correct","statement":"Path(get_matrix(x), get a cached matrix by name and format)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6fab2296800b1be","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._cache"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_matrix(self, name, format):
         """Get a cached matrix by name and format.
 
@@ -126,59 +149,83 @@ class MatrixCache:
         )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_store_matrix(nam), internal helper behaves correctly) over Any ║
+# ║ Path(_store_matrix(name, format, m), <unspecified:_store_matrix>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _store_matrix : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80180610f07d9e1f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixcache.MatrixCache._store_matrix","kind":"method","src_hash":"eda96c0f10ee1230","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_store_matrix(nam)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_store_matrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixcache.MatrixCache._store_matrix_correct","statement":"Path(_store_matrix(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80180610f07d9e1f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixcache.MatrixCache._store_matrix","kind":"method","src_hash":"eda96c0f10ee1230","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_store_matrix(name, format, m)","rhs":"<unspecified:_store_matrix>","over":{"base":"Any"},"name":"_store_matrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixcache.MatrixCache._store_matrix_correct","statement":"Path(_store_matrix(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80180610f07d9e1f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._cache"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _store_matrix(self, name, format, m):
         self._cache[(name, format)] = m
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympy_matrix(nam), internal helper behaves correctly) over Any ║
+# ║ Path(_sympy_matrix(name, m), <unspecified:_sympy_matrix>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sympy_matrix : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d8edc18ffbffdf3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixcache.MatrixCache._sympy_matrix","kind":"method","src_hash":"38916931ce83928e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympy_matrix(nam)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympy_matrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixcache.MatrixCache._sympy_matrix_correct","statement":"Path(_sympy_matrix(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d8edc18ffbffdf3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixcache.MatrixCache._sympy_matrix","kind":"method","src_hash":"38916931ce83928e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympy_matrix(name, m)","rhs":"<unspecified:_sympy_matrix>","over":{"base":"Any"},"name":"_sympy_matrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixcache.MatrixCache._sympy_matrix_correct","statement":"Path(_sympy_matrix(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d8edc18ffbffdf3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._store_matrix"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympy_matrix(self, name, m):
         self._store_matrix(name, 'sympy', to_sympy(m))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_numpy_matrix(nam), internal helper behaves correctly) over Any ║
+# ║ Path(_numpy_matrix(name, m), <unspecified:_numpy_matrix>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _numpy_matrix : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fac93e1fde81b51f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixcache.MatrixCache._numpy_matrix","kind":"method","src_hash":"1ef70218a556e592","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_numpy_matrix(nam)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_numpy_matrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixcache.MatrixCache._numpy_matrix_correct","statement":"Path(_numpy_matrix(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fac93e1fde81b51f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixcache.MatrixCache._numpy_matrix","kind":"method","src_hash":"1ef70218a556e592","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_numpy_matrix(name, m)","rhs":"<unspecified:_numpy_matrix>","over":{"base":"Any"},"name":"_numpy_matrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixcache.MatrixCache._numpy_matrix_correct","statement":"Path(_numpy_matrix(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fac93e1fde81b51f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._store_matrix","self.dtype"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _numpy_matrix(self, name, m):
         m = to_numpy(m, dtype=self.dtype)
         self._store_matrix(name, 'numpy', m)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_scipy_sparse_matrix(nam), internal helper behaves correctly) over Any ║
+# ║ Path(_scipy_sparse_matrix(name, m), <unspecified:_scipy_sparse_matrix>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _scipy_sparse_matrix : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13effa1a4f1f782b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixcache.MatrixCache._scipy_sparse_matrix","kind":"method","src_hash":"c5b9e660917e0a40","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_scipy_sparse_matrix(nam)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_scipy_sparse_matrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixcache.MatrixCache._scipy_sparse_matrix_correct","statement":"Path(_scipy_sparse_matrix(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13effa1a4f1f782b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.matrixcache.MatrixCache._scipy_sparse_matrix","kind":"method","src_hash":"c5b9e660917e0a40","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_scipy_sparse_matrix(name, m)","rhs":"<unspecified:_scipy_sparse_matrix>","over":{"base":"Any"},"name":"_scipy_sparse_matrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.matrixcache.MatrixCache._scipy_sparse_matrix_correct","statement":"Path(_scipy_sparse_matrix(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13effa1a4f1f782b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._store_matrix","self.dtype"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _scipy_sparse_matrix(self, name, m):
         # TODO: explore different sparse formats. But sparse.kron will use
         # coo in most cases, so we use that here.

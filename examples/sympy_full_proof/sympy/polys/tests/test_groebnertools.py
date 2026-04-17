@@ -36,16 +36,24 @@ from sympy.testing.pytest import slow
 from sympy.polys import polyconfig as config
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_do_test_groebner(), internal helper behaves correctly) over Any ║
+# ║ Path(_do_test_groebner(), groebner([f, g], R) == [x, y ** 3 - QQ(1, 2)] and groebner([f, g], R) == [y, x ** 3 - QQ(1, 2)] and groebner([f, g], R) == [f, g] and groebner([f, g], R) == [x ** 2, x * y, -QQ(1, 2) * x + y ** 2] and groebner([f, g], R) == [x ** 2 - y, x * y - z, x * z - y ** 2, y ** 3 - z ** 2] and groebner([f, g], R) == [y ** 3 - z ** 2, x ** 2 - y, x * y - z, x * z - y ** 2] and groebner([f, g], R) == [x ** 2 - z, x * y - z ** 2, x * z - y, y ** 2 - z ** 3] and groebner([f, g], R) == [-y ** 2 + z ** 3, x ** 2 - z, x * y - z ** 2, x * z - y] and groebner([f, g], R) == [x - y ** 2, y ** 3 - z] and groebner([f, g], R) == [x ** 2 - y * z, x * y - z, -x + y ** 2] and groebner([f, g], R) == [x - z ** 2, y - z ** 3] and groebner([f, g], R) == [x ** 2 - y * z, x * z - y, -x + z ** 2] and groebner([f, g], R) == [x - y * z, y ** 2 - z] and groebner([f, g], R) == [-x ** 2 + z ** 3, x * y - z ** 2, y ** 2 - z, -x + y * z] and groebner([f, g], R) == [x - z ** 3, y - z ** 2] and groebner([f, g], R) == [-x ** 2 + y ** 3, x * z - y ** 2, -x + y * z, -y + z ** 2] and groebner([f, g], R) == [x - 4 * y ** 7 + 8 * y ** 5 - 7 * y ** 3 + 3 * y, y ** 8 - 2 * y ** 6 + QQ(3, 2) * y ** 4 - QQ(1, 2) * y ** 2 + QQ(1, 16)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _do_test_groebner : Any → {Any | groebner([f, g], R) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  groebner([f, g], R) == [x, y ** 3 - QQ(1,...   ║
+# ║   ensures:  groebner([f, g], R) == [y, x ** 3 - QQ(1,...   ║
+# ║   ensures:  groebner([f, g], R) == [f, g]                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _do_test_groebner : Any → {Any | result satisfies: gr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 305984ad553549a3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb56d96030c0b3e8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools._do_test_groebner","kind":"function","src_hash":"e17f863c6eef6348","in":{"base":"Any"},"out":{"base":"Any","pred":"groebner([f, g], R) == [x, y ** 3 - QQ(1, 2)] and groebner([f, g], R) == [y, x ** 3 - QQ(1, 2)] and groebner([f, g], R) == [f, g] and groebner([f, g], R) == [x ** 2, x * y, -QQ(1, 2) * x + y ** 2] and groebner([f, g], R) == [x ** 2 - y, x * y - z, x * z - y ** 2, y ** 3 - z ** 2] and groebner([f, g], R) == [y ** 3 - z ** 2, x ** 2 - y, x * y - z, x * z - y ** 2] and groebner([f, g], R) == [x ** 2 - z, x * y - z ** 2, x * z - y, y ** 2 - z ** 3] and groebner([f, g], R) == [x - y ** 2, y ** 3 - z] and groebner([f, g], R) == [x ** 2 - y * z, x * y - z, -x + y ** 2] and groebner([f, g], R) == [x - z ** 2, y - z ** 3] and groebner([f, g], R) == [x ** 2 - y * z, x * z - y, -x + z ** 2] and groebner([f, g], R) == [x - y * z, y ** 2 - z] and groebner([f, g], R) == [x - z ** 3, y - z ** 2]"},"spec":{"lhs":"_do_test_groebner()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_do_test_groebner_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools._do_test_groebner_correct","statement":"Path(_do_test_groebner(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"305984ad553549a3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools._do_test_groebner","kind":"function","src_hash":"e17f863c6eef6348","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: groebner([f, g], R) == [x, y ** 3 - QQ(1, 2)] and groebner([f, g], R) == [y, x ** 3 - QQ(1, 2)] and groebner([f, g], R) == [f, g] and groebner([f, g], R) == [x ** 2, x * y, -QQ(1, 2) * x + y ** 2] and groebner([f, g], R) == [x ** 2 - y, x * y - z, x * z - y ** 2, y ** 3 - z ** 2] and groebner([f, g], R) == [y ** 3 - z ** 2, x ** 2 - y, x * y - z, x * z - y ** 2] and groebner([f, g], R) == [x ** 2 - z, x * y - z ** 2, x * z - y, y ** 2 - z ** 3] and groebner([f, g], R) == [-y ** 2 + z ** 3, x ** 2 - z, x * y - z ** 2, x * z - y] and groebner([f, g], R) == [x - y ** 2, y ** 3 - z] and groebner([f, g], R) == [x ** 2 - y * z, x * y - z, -x + y ** 2] and groebner([f, g], R) == [x - z ** 2, y - z ** 3] and groebner([f, g], R) == [x ** 2 - y * z, x * z - y, -x + z ** 2] and groebner([f, g], R) == [x - y * z, y ** 2 - z] and groebner([f, g], R) == [-x ** 2 + z ** 3, x * y - z ** 2, y ** 2 - z, -x + y * z] and groebner([f, g], R) == [x - z ** 3, y - z ** 2] and groebner([f, g], R) == [-x ** 2 + y ** 3, x * z - y ** 2, -x + y * z, -y + z ** 2] and groebner([f, g], R) == [x - 4 * y ** 7 + 8 * y ** 5 - 7 * y ** 3 + 3 * y, y ** 8 - 2 * y ** 6 + QQ(3, 2) * y ** 4 - QQ(1, 2) * y ** 2 + QQ(1, 16)]"},"spec":{"lhs":"_do_test_groebner()","rhs":"groebner([f, g], R) == [x, y ** 3 - QQ(1, 2)] and groebner([f, g], R) == [y, x ** 3 - QQ(1, 2)] and groebner([f, g], R) == [f, g] and groebner([f, g], R) == [x ** 2, x * y, -QQ(1, 2) * x + y ** 2] and groebner([f, g], R) == [x ** 2 - y, x * y - z, x * z - y ** 2, y ** 3 - z ** 2] and groebner([f, g], R) == [y ** 3 - z ** 2, x ** 2 - y, x * y - z, x * z - y ** 2] and groebner([f, g], R) == [x ** 2 - z, x * y - z ** 2, x * z - y, y ** 2 - z ** 3] and groebner([f, g], R) == [-y ** 2 + z ** 3, x ** 2 - z, x * y - z ** 2, x * z - y] and groebner([f, g], R) == [x - y ** 2, y ** 3 - z] and groebner([f, g], R) == [x ** 2 - y * z, x * y - z, -x + y ** 2] and groebner([f, g], R) == [x - z ** 2, y - z ** 3] and groebner([f, g], R) == [x ** 2 - y * z, x * z - y, -x + z ** 2] and groebner([f, g], R) == [x - y * z, y ** 2 - z] and groebner([f, g], R) == [-x ** 2 + z ** 3, x * y - z ** 2, y ** 2 - z, -x + y * z] and groebner([f, g], R) == [x - z ** 3, y - z ** 2] and groebner([f, g], R) == [-x ** 2 + y ** 3, x * z - y ** 2, -x + y * z, -y + z ** 2] and groebner([f, g], R) == [x - 4 * y ** 7 + 8 * y ** 5 - 7 * y ** 3 + 3 * y, y ** 8 - 2 * y ** 6 + QQ(3, 2) * y ** 4 - QQ(1, 2) * y ** 2 + QQ(1, 16)]","over":{"base":"Any"},"name":"_do_test_groebner_correct"},"guarantee":"groebner([f, g], R) == [x, y ** 3 - QQ(1, 2)]; groebner([f, g], R) == [y, x ** 3 - QQ(1, 2)]; groebner([f, g], R) == [f, g]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools._do_test_groebner_correct","statement":"Path(_do_test_groebner(x), groebner([f, g], R) == [x, y ** 3 - QQ(1, 2)]; groebner([f, g], R) == [y, x ** 3 - QQ(1, 2)]; groebner([f, g], R) == [f, g])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb56d96030c0b3e8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["groebner([f, g], R) == [x, y ** 3 - QQ(1, 2)]","groebner([f, g], R) == [y, x ** 3 - QQ(1, 2)]","groebner([f, g], R) == [f, g]","groebner([f, g], R) == [x ** 2, x * y, -QQ(1, 2) * x + y ** 2]","groebner([f, g], R) == [x ** 2 - y, x * y - z, x * z - y ** 2, y ** 3 - z ** 2]","groebner([f, g], R) == [y ** 3 - z ** 2, x ** 2 - y, x * y - z, x * z - y ** 2]","groebner([f, g], R) == [x ** 2 - z, x * y - z ** 2, x * z - y, y ** 2 - z ** 3]","groebner([f, g], R) == [-y ** 2 + z ** 3, x ** 2 - z, x * y - z ** 2, x * z - y]","groebner([f, g], R) == [x - y ** 2, y ** 3 - z]","groebner([f, g], R) == [x ** 2 - y * z, x * y - z, -x + y ** 2]","groebner([f, g], R) == [x - z ** 2, y - z ** 3]","groebner([f, g], R) == [x ** 2 - y * z, x * z - y, -x + z ** 2]","groebner([f, g], R) == [x - y * z, y ** 2 - z]","groebner([f, g], R) == [-x ** 2 + z ** 3, x * y - z ** 2, y ** 2 - z, -x + y * z]","groebner([f, g], R) == [x - z ** 3, y - z ** 2]","groebner([f, g], R) == [-x ** 2 + y ** 3, x * z - y ** 2, -x + y * z, -y + z ** 2]","groebner([f, g], R) == [x - 4 * y ** 7 + 8 * y ** 5 - 7 * y ** 3 + 3 * y, y ** 8 - 2 * y ** 6 + QQ(3, 2) * y ** 4 - QQ(1, 2) * y ** 2 + QQ(1, 16)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"assumed","binding":true}}
 def _do_test_groebner():
     R, x,y = ring("x,y", QQ, lex)
     f = x**2 + 2*x*y**2
@@ -153,46 +161,64 @@ def _do_test_groebner():
     ]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_groebner_buchberger(), test_groebner_buchberger produces the expected output) over Any ║
+# ║ Path(test_groebner_buchberger(), <unspecified:test_groebner_buchberger>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_groebner_buchberger : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c56d843f08421433  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_groebner_buchberger","kind":"function","src_hash":"b59a948c8680d805","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_groebner_buchberger()","rhs":"test_groebner_buchberger produces the expected output","over":{"base":"Any"},"name":"test_groebner_buchberger_correct"},"guarantee":"test_groebner_buchberger produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_groebner_buchberger_correct","statement":"Path(test_groebner_buchberger(x), test_groebner_buchberger produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c56d843f08421433"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_groebner_buchberger","kind":"function","src_hash":"b59a948c8680d805","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_groebner_buchberger()","rhs":"<unspecified:test_groebner_buchberger>","over":{"base":"Any"},"name":"test_groebner_buchberger_correct"},"guarantee":"test_groebner_buchberger produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_groebner_buchberger_correct","statement":"Path(test_groebner_buchberger(x), test_groebner_buchberger produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c56d843f08421433","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_groebner_buchberger():
     with config.using(groebner='buchberger'):
         _do_test_groebner()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_groebner_f5b(), test_groebner_f5b produces the expected output) over Any ║
+# ║ Path(test_groebner_f5b(), <unspecified:test_groebner_f5b>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_groebner_f5b : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da667a3985132309  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_groebner_f5b","kind":"function","src_hash":"ea4c01c7e9fbafdd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_groebner_f5b()","rhs":"test_groebner_f5b produces the expected output","over":{"base":"Any"},"name":"test_groebner_f5b_correct"},"guarantee":"test_groebner_f5b produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_groebner_f5b_correct","statement":"Path(test_groebner_f5b(x), test_groebner_f5b produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da667a3985132309"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_groebner_f5b","kind":"function","src_hash":"ea4c01c7e9fbafdd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_groebner_f5b()","rhs":"<unspecified:test_groebner_f5b>","over":{"base":"Any"},"name":"test_groebner_f5b_correct"},"guarantee":"test_groebner_f5b produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_groebner_f5b_correct","statement":"Path(test_groebner_f5b(x), test_groebner_f5b produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da667a3985132309","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_groebner_f5b():
     with config.using(groebner='f5b'):
         _do_test_groebner()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_do_test_benchmark_minpoly(), internal helper behaves correctly) over Any ║
+# ║ Path(_do_test_benchmark_minpoly(), groebner(F, R) == G) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _do_test_benchmark_minpoly : Any → {Any | groebner(F,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  groebner(F, R) == G                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _do_test_benchmark_minpoly : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7df238df9fe646c8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52014b3cdbd47bb7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools._do_test_benchmark_minpoly","kind":"function","src_hash":"1dc6562bc46da030","in":{"base":"Any"},"out":{"base":"Any","pred":"groebner(F, R) == G"},"spec":{"lhs":"_do_test_benchmark_minpoly()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_do_test_benchmark_minpoly_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools._do_test_benchmark_minpoly_correct","statement":"Path(_do_test_benchmark_minpoly(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7df238df9fe646c8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools._do_test_benchmark_minpoly","kind":"function","src_hash":"1dc6562bc46da030","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: groebner(F, R) == G"},"spec":{"lhs":"_do_test_benchmark_minpoly()","rhs":"groebner(F, R) == G","over":{"base":"Any"},"name":"_do_test_benchmark_minpoly_correct"},"guarantee":"groebner(F, R) == G","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools._do_test_benchmark_minpoly_correct","statement":"Path(_do_test_benchmark_minpoly(x), groebner(F, R) == G)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52014b3cdbd47bb7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["groebner(F, R) == G"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _do_test_benchmark_minpoly():
     R, x,y,z = ring("x,y,z", QQ, lex)
 
@@ -204,47 +230,66 @@ def _do_test_benchmark_minpoly():
     assert groebner(F, R) == G
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_benchmark_minpoly_buchberger(), test_benchmark_minpoly_buchberger produces the expected output) over Any ║
+# ║ Path(test_benchmark_minpoly_buchberger(), <unspecified:test_benchmark_minpoly_buchberger>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_benchmark_minpoly_buchberger : Any → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0450a373290d3aec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_benchmark_minpoly_buchberger","kind":"function","src_hash":"1f55084d3fea5bc1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_benchmark_minpoly_buchberger()","rhs":"test_benchmark_minpoly_buchberger produces the expected output","over":{"base":"Any"},"name":"test_benchmark_minpoly_buchberger_correct"},"guarantee":"test_benchmark_minpoly_buchberger produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_benchmark_minpoly_buchberger_correct","statement":"Path(test_benchmark_minpoly_buchberger(x), test_benchmark_minpoly_buchberger produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0450a373290d3aec"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_benchmark_minpoly_buchberger","kind":"function","src_hash":"1f55084d3fea5bc1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_benchmark_minpoly_buchberger()","rhs":"<unspecified:test_benchmark_minpoly_buchberger>","over":{"base":"Any"},"name":"test_benchmark_minpoly_buchberger_correct"},"guarantee":"test_benchmark_minpoly_buchberger produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_benchmark_minpoly_buchberger_correct","statement":"Path(test_benchmark_minpoly_buchberger(x), test_benchmark_minpoly_buchberger produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0450a373290d3aec","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_benchmark_minpoly_buchberger():
     with config.using(groebner='buchberger'):
         _do_test_benchmark_minpoly()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_benchmark_minpoly_f5b(), test_benchmark_minpoly_f5b produces the expected output) over Any ║
+# ║ Path(test_benchmark_minpoly_f5b(), <unspecified:test_benchmark_minpoly_f5b>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_benchmark_minpoly_f5b : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cdf4a19e70af769f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_benchmark_minpoly_f5b","kind":"function","src_hash":"c9aa2de2f5e471a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_benchmark_minpoly_f5b()","rhs":"test_benchmark_minpoly_f5b produces the expected output","over":{"base":"Any"},"name":"test_benchmark_minpoly_f5b_correct"},"guarantee":"test_benchmark_minpoly_f5b produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_benchmark_minpoly_f5b_correct","statement":"Path(test_benchmark_minpoly_f5b(x), test_benchmark_minpoly_f5b produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cdf4a19e70af769f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_benchmark_minpoly_f5b","kind":"function","src_hash":"c9aa2de2f5e471a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_benchmark_minpoly_f5b()","rhs":"<unspecified:test_benchmark_minpoly_f5b>","over":{"base":"Any"},"name":"test_benchmark_minpoly_f5b_correct"},"guarantee":"test_benchmark_minpoly_f5b produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_benchmark_minpoly_f5b_correct","statement":"Path(test_benchmark_minpoly_f5b(x), test_benchmark_minpoly_f5b produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cdf4a19e70af769f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_benchmark_minpoly_f5b():
     with config.using(groebner='f5b'):
         _do_test_benchmark_minpoly()
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_benchmark_coloring(), test_benchmark_coloring produces the expected output) over Any ║
+# ║ Path(test_benchmark_coloring(), groebner(I[:-1], R) == [x1 + x11 + x12, x2 - x11, x3 - x12, x4 - x12, x5 + x11 + x12, x6 - x11, x7 - x12, x8 + x11 + x12, x9 - x11, x10 + x11 + x12, x11 ** 2 + x11 * x12 + x12 ** 2, x12 ** 3 - 1] and groebner(I, R) == [1]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_benchmark_coloring : Any → {Any | groebner(I, R)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  groebner(I[:-1], R) == [x1 + x11 + x12, x...   ║
+# ║   ensures:  groebner(I, R) == [1]                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_benchmark_coloring : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1937d9b2e6c91306  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 655acd2e7a1b303e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_benchmark_coloring","kind":"function","src_hash":"eb1e5a6d01a86c78","in":{"base":"Any"},"out":{"base":"Any","pred":"groebner(I, R) == [1]"},"spec":{"lhs":"test_benchmark_coloring()","rhs":"test_benchmark_coloring produces the expected output","over":{"base":"Any"},"name":"test_benchmark_coloring_correct"},"guarantee":"test_benchmark_coloring produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_benchmark_coloring_correct","statement":"Path(test_benchmark_coloring(x), test_benchmark_coloring produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1937d9b2e6c91306"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_benchmark_coloring","kind":"function","src_hash":"eb1e5a6d01a86c78","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: groebner(I[:-1], R) == [x1 + x11 + x12, x2 - x11, x3 - x12, x4 - x12, x5 + x11 + x12, x6 - x11, x7 - x12, x8 + x11 + x12, x9 - x11, x10 + x11 + x12, x11 ** 2 + x11 * x12 + x12 ** 2, x12 ** 3 - 1] and groebner(I, R) == [1]"},"spec":{"lhs":"test_benchmark_coloring()","rhs":"groebner(I[:-1], R) == [x1 + x11 + x12, x2 - x11, x3 - x12, x4 - x12, x5 + x11 + x12, x6 - x11, x7 - x12, x8 + x11 + x12, x9 - x11, x10 + x11 + x12, x11 ** 2 + x11 * x12 + x12 ** 2, x12 ** 3 - 1] and groebner(I, R) == [1]","over":{"base":"Any"},"name":"test_benchmark_coloring_correct"},"guarantee":"groebner(I[:-1], R) == [x1 + x11 + x12, x2 - x11, x3 - x12, x4 - x12, x5 + x11 + x12, x6 - x11, x7 - x12, x8 + x11 + x12, x9 - x11, x10 + x11 + x12, x11 ** 2 + x11 * x12 + x12 ** 2, x12 ** 3 - 1]; groebner(I, R) == [1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_benchmark_coloring_correct","statement":"Path(test_benchmark_coloring(x), groebner(I[:-1], R) == [x1 + x11 + x12, x2 - x11, x3 - x12, x4 - x12, x5 + x11 + x12, x6 - x11, x7 - x12, x8 + x11 + x12, x9 - x11, x10 + x11 + x12, x11 ** 2 + x11 * x12 + x12 ** 2, x12 ** 3 - 1]; groebner(I, R) == [1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"655acd2e7a1b303e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["groebner(I[:-1], R) == [x1 + x11 + x12, x2 - x11, x3 - x12, x4 - x12, x5 + x11 + x12, x6 - x11, x7 - x12, x8 + x11 + x12, x9 - x11, x10 + x11 + x12, x11 ** 2 + x11 * x12 + x12 ** 2, x12 ** 3 - 1]","groebner(I, R) == [1]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_benchmark_coloring():
     V = range(1, 12 + 1)
     E = [(1, 2), (2, 3), (1, 4), (1, 6), (1, 12), (2, 5), (2, 7), (3, 8), (3, 10),
@@ -280,16 +325,23 @@ def test_benchmark_coloring():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_do_test_benchmark_katsura_3(), internal helper behaves correctly) over Any ║
+# ║ Path(_do_test_benchmark_katsura_3(), groebner(I, R) == [-7 + 7 * x0 + 8 * x2 + 158 * x2 ** 2 - 420 * x2 ** 3, 7 * x1 + 3 * x2 - 79 * x2 ** 2 + 210 * x2 ** 3, x2 + x2 ** 2 - 40 * x2 ** 3 + 84 * x2 ** 4] and groebner(I, R) == [7 * x1 + 3 * x2 - 79 * x2 ** 2 + 210 * x2 ** 3, -x1 + x2 - 3 * x2 ** 2 + 5 * x1 ** 2, -x1 - 4 * x2 + 10 * x1 * x2 + 12 * x2 ** 2, -1 + x0 + 2 * x1 + 2 * x2]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _do_test_benchmark_katsura_3 : Any → Any                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  groebner(I, R) == [-7 + 7 * x0 + 8 * x2 +...   ║
+# ║   ensures:  groebner(I, R) == [7 * x1 + 3 * x2 - 79 *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _do_test_benchmark_katsura_3 : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b66a8e1ca14ba7c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0162b86cf1315d77  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools._do_test_benchmark_katsura_3","kind":"function","src_hash":"7ef7af04f6844a5b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_do_test_benchmark_katsura_3()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_do_test_benchmark_katsura_3_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools._do_test_benchmark_katsura_3_correct","statement":"Path(_do_test_benchmark_katsura_3(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b66a8e1ca14ba7c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools._do_test_benchmark_katsura_3","kind":"function","src_hash":"7ef7af04f6844a5b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: groebner(I, R) == [-7 + 7 * x0 + 8 * x2 + 158 * x2 ** 2 - 420 * x2 ** 3, 7 * x1 + 3 * x2 - 79 * x2 ** 2 + 210 * x2 ** 3, x2 + x2 ** 2 - 40 * x2 ** 3 + 84 * x2 ** 4] and groebner(I, R) == [7 * x1 + 3 * x2 - 79 * x2 ** 2 + 210 * x2 ** 3, -x1 + x2 - 3 * x2 ** 2 + 5 * x1 ** 2, -x1 - 4 * x2 + 10 * x1 * x2 + 12 * x2 ** 2, -1 + x0 + 2 * x1 + 2 * x2]"},"spec":{"lhs":"_do_test_benchmark_katsura_3()","rhs":"groebner(I, R) == [-7 + 7 * x0 + 8 * x2 + 158 * x2 ** 2 - 420 * x2 ** 3, 7 * x1 + 3 * x2 - 79 * x2 ** 2 + 210 * x2 ** 3, x2 + x2 ** 2 - 40 * x2 ** 3 + 84 * x2 ** 4] and groebner(I, R) == [7 * x1 + 3 * x2 - 79 * x2 ** 2 + 210 * x2 ** 3, -x1 + x2 - 3 * x2 ** 2 + 5 * x1 ** 2, -x1 - 4 * x2 + 10 * x1 * x2 + 12 * x2 ** 2, -1 + x0 + 2 * x1 + 2 * x2]","over":{"base":"Any"},"name":"_do_test_benchmark_katsura_3_correct"},"guarantee":"groebner(I, R) == [-7 + 7 * x0 + 8 * x2 + 158 * x2 ** 2 - 420 * x2 ** 3, 7 * x1 + 3 * x2 - 79 * x2 ** 2 + 210 * x2 ** 3, x2 + x2 ** 2 - 40 * x2 ** 3 + 84 * x2 ** 4]; groebner(I, R) == [7 * x1 + 3 * x2 - 79 * x2 ** 2 + 210 * x2 ** 3, -x1 + x2 - 3 * x2 ** 2 + 5 * x1 ** 2, -x1 - 4 * x2 + 10 * x1 * x2 + 12 * x2 ** 2, -1 + x0 + 2 * x1 + 2 * x2]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools._do_test_benchmark_katsura_3_correct","statement":"Path(_do_test_benchmark_katsura_3(x), groebner(I, R) == [-7 + 7 * x0 + 8 * x2 + 158 * x2 ** 2 - 420 * x2 ** 3, 7 * x1 + 3 * x2 - 79 * x2 ** 2 + 210 * x2 ** 3, x2 + x2 ** 2 - 40 * x2 ** 3 + 84 * x2 ** 4]; groebner(I, R) == [7 * x1 + 3 * x2 - 79 * x2 ** 2 + 210 * x2 ** 3, -x1 + x2 - 3 * x2 ** 2 + 5 * x1 ** 2, -x1 - 4 * x2 + 10 * x1 * x2 + 12 * x2 ** 2, -1 + x0 + 2 * x1 + 2 * x2])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0162b86cf1315d77","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["groebner(I, R) == [-7 + 7 * x0 + 8 * x2 + 158 * x2 ** 2 - 420 * x2 ** 3, 7 * x1 + 3 * x2 - 79 * x2 ** 2 + 210 * x2 ** 3, x2 + x2 ** 2 - 40 * x2 ** 3 + 84 * x2 ** 4]","groebner(I, R) == [7 * x1 + 3 * x2 - 79 * x2 ** 2 + 210 * x2 ** 3, -x1 + x2 - 3 * x2 ** 2 + 5 * x1 ** 2, -x1 - 4 * x2 + 10 * x1 * x2 + 12 * x2 ** 2, -1 + x0 + 2 * x1 + 2 * x2]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _do_test_benchmark_katsura_3():
     R, x0,x1,x2 = ring("x:3", ZZ, lex)
     I = [x0 + 2*x1 + 2*x2 - 1,
@@ -313,46 +365,65 @@ def _do_test_benchmark_katsura_3():
     ]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_benchmark_katsura3_buchberger(), test_benchmark_katsura3_buchberger produces the expected output) over Any ║
+# ║ Path(test_benchmark_katsura3_buchberger(), <unspecified:test_benchmark_katsura3_buchberger>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_benchmark_katsura3_buchberger : Any → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 270d23c15c4a9bbe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_benchmark_katsura3_buchberger","kind":"function","src_hash":"c4385d006538a88f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_benchmark_katsura3_buchberger()","rhs":"test_benchmark_katsura3_buchberger produces the expected output","over":{"base":"Any"},"name":"test_benchmark_katsura3_buchberger_correct"},"guarantee":"test_benchmark_katsura3_buchberger produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_benchmark_katsura3_buchberger_correct","statement":"Path(test_benchmark_katsura3_buchberger(x), test_benchmark_katsura3_buchberger produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"270d23c15c4a9bbe"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_benchmark_katsura3_buchberger","kind":"function","src_hash":"c4385d006538a88f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_benchmark_katsura3_buchberger()","rhs":"<unspecified:test_benchmark_katsura3_buchberger>","over":{"base":"Any"},"name":"test_benchmark_katsura3_buchberger_correct"},"guarantee":"test_benchmark_katsura3_buchberger produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_benchmark_katsura3_buchberger_correct","statement":"Path(test_benchmark_katsura3_buchberger(x), test_benchmark_katsura3_buchberger produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"270d23c15c4a9bbe","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_benchmark_katsura3_buchberger():
     with config.using(groebner='buchberger'):
         _do_test_benchmark_katsura_3()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_benchmark_katsura3_f5b(), test_benchmark_katsura3_f5b produces the expected output) over Any ║
+# ║ Path(test_benchmark_katsura3_f5b(), <unspecified:test_benchmark_katsura3_f5b>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_benchmark_katsura3_f5b : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9bf7c60739c9d28e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_benchmark_katsura3_f5b","kind":"function","src_hash":"beb0f1173e0bdada","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_benchmark_katsura3_f5b()","rhs":"test_benchmark_katsura3_f5b produces the expected output","over":{"base":"Any"},"name":"test_benchmark_katsura3_f5b_correct"},"guarantee":"test_benchmark_katsura3_f5b produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_benchmark_katsura3_f5b_correct","statement":"Path(test_benchmark_katsura3_f5b(x), test_benchmark_katsura3_f5b produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9bf7c60739c9d28e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_benchmark_katsura3_f5b","kind":"function","src_hash":"beb0f1173e0bdada","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_benchmark_katsura3_f5b()","rhs":"<unspecified:test_benchmark_katsura3_f5b>","over":{"base":"Any"},"name":"test_benchmark_katsura3_f5b_correct"},"guarantee":"test_benchmark_katsura3_f5b produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_benchmark_katsura3_f5b_correct","statement":"Path(test_benchmark_katsura3_f5b(x), test_benchmark_katsura3_f5b produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9bf7c60739c9d28e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_benchmark_katsura3_f5b():
     with config.using(groebner='f5b'):
         _do_test_benchmark_katsura_3()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_do_test_benchmark_katsura_4(), internal helper behaves correctly) over Any ║
+# ║ Path(_do_test_benchmark_katsura_4(), groebner(I, R) == [5913075 * x0 - 159690237696 * x3 ** 7 + 31246269696 * x3 ** 6 + 27439610544 * x3 ** 5 - 6475723368 * x3 ** 4 - 838935856 * x3 ** 3 + 275119624 * x3 ** 2 + 4884038 * x3 - 5913075, 1971025 * x1 - 97197721632 * x3 ** 7 + 73975630752 * x3 ** 6 - 12121915032 * x3 ** 5 - 2760941496 * x3 ** 4 + 814792828 * x3 ** 3 - 1678512 * x3 ** 2 - 9158924 * x3, 5913075 * x2 + 371438283744 * x3 ** 7 - 237550027104 * x3 ** 6 + 22645939824 * x3 ** 5 + 11520686172 * x3 ** 4 - 2024910556 * x3 ** 3 - 132524276 * x3 ** 2 + 30947828 * x3, 128304 * x3 ** 8 - 93312 * x3 ** 7 + 15552 * x3 ** 6 + 3144 * x3 ** 5 - 1120 * x3 ** 4 + 36 * x3 ** 3 + 15 * x3 ** 2 - x3] and groebner(I, R) == [393 * x1 - 4662 * x2 ** 2 + 4462 * x2 * x3 - 59 * x2 + 224532 * x3 ** 4 - 91224 * x3 ** 3 - 678 * x3 ** 2 + 2046 * x3, -x1 + 196 * x2 ** 3 - 21 * x2 ** 2 + 60 * x2 * x3 - 18 * x2 - 168 * x3 ** 3 + 83 * x3 ** 2 - 9 * x3, -6 * x1 + 1134 * x2 ** 2 * x3 - 189 * x2 ** 2 - 466 * x2 * x3 + 32 * x2 - 630 * x3 ** 3 + 57 * x3 ** 2 + 51 * x3, 33 * x1 + 63 * x2 ** 2 + 2268 * x2 * x3 ** 2 - 188 * x2 * x3 + 34 * x2 + 2520 * x3 ** 3 - 849 * x3 ** 2 + 3 * x3, 7 * x1 ** 2 - x1 - 7 * x2 ** 2 - 24 * x2 * x3 + 3 * x2 - 15 * x3 ** 2 + 5 * x3, 14 * x1 * x2 - x1 + 14 * x2 ** 2 + 18 * x2 * x3 - 4 * x2 + 6 * x3 ** 2 - 2 * x3, 14 * x1 * x3 - x1 + 7 * x2 ** 2 + 32 * x2 * x3 - 4 * x2 + 27 * x3 ** 2 - 9 * x3, x0 + 2 * x1 + 2 * x2 + 2 * x3 - 1]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _do_test_benchmark_katsura_4 : Any → Any                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  groebner(I, R) == [5913075 * x0 - 1596902...   ║
+# ║   ensures:  groebner(I, R) == [393 * x1 - 4662 * x2 *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _do_test_benchmark_katsura_4 : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d4e0a06c54834b5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 17f3cc7ae0f8b6f6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools._do_test_benchmark_katsura_4","kind":"function","src_hash":"d0b02a3abf06a554","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_do_test_benchmark_katsura_4()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_do_test_benchmark_katsura_4_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools._do_test_benchmark_katsura_4_correct","statement":"Path(_do_test_benchmark_katsura_4(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d4e0a06c54834b5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools._do_test_benchmark_katsura_4","kind":"function","src_hash":"d0b02a3abf06a554","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: groebner(I, R) == [5913075 * x0 - 159690237696 * x3 ** 7 + 31246269696 * x3 ** 6 + 27439610544 * x3 ** 5 - 6475723368 * x3 ** 4 - 838935856 * x3 ** 3 + 275119624 * x3 ** 2 + 4884038 * x3 - 5913075, 1971025 * x1 - 97197721632 * x3 ** 7 + 73975630752 * x3 ** 6 - 12121915032 * x3 ** 5 - 2760941496 * x3 ** 4 + 814792828 * x3 ** 3 - 1678512 * x3 ** 2 - 9158924 * x3, 5913075 * x2 + 371438283744 * x3 ** 7 - 237550027104 * x3 ** 6 + 22645939824 * x3 ** 5 + 11520686172 * x3 ** 4 - 2024910556 * x3 ** 3 - 132524276 * x3 ** 2 + 30947828 * x3, 128304 * x3 ** 8 - 93312 * x3 ** 7 + 15552 * x3 ** 6 + 3144 * x3 ** 5 - 1120 * x3 ** 4 + 36 * x3 ** 3 + 15 * x3 ** 2 - x3] and groebner(I, R) == [393 * x1 - 4662 * x2 ** 2 + 4462 * x2 * x3 - 59 * x2 + 224532 * x3 ** 4 - 91224 * x3 ** 3 - 678 * x3 ** 2 + 2046 * x3, -x1 + 196 * x2 ** 3 - 21 * x2 ** 2 + 60 * x2 * x3 - 18 * x2 - 168 * x3 ** 3 + 83 * x3 ** 2 - 9 * x3, -6 * x1 + 1134 * x2 ** 2 * x3 - 189 * x2 ** 2 - 466 * x2 * x3 + 32 * x2 - 630 * x3 ** 3 + 57 * x3 ** 2 + 51 * x3, 33 * x1 + 63 * x2 ** 2 + 2268 * x2 * x3 ** 2 - 188 * x2 * x3 + 34 * x2 + 2520 * x3 ** 3 - 849 * x3 ** 2 + 3 * x3, 7 * x1 ** 2 - x1 - 7 * x2 ** 2 - 24 * x2 * x3 + 3 * x2 - 15 * x3 ** 2 + 5 * x3, 14 * x1 * x2 - x1 + 14 * x2 ** 2 + 18 * x2 * x3 - 4 * x2 + 6 * x3 ** 2 - 2 * x3, 14 * x1 * x3 - x1 + 7 * x2 ** 2 + 32 * x2 * x3 - 4 * x2 + 27 * x3 ** 2 - 9 * x3, x0 + 2 * x1 + 2 * x2 + 2 * x3 - 1]"},"spec":{"lhs":"_do_test_benchmark_katsura_4()","rhs":"groebner(I, R) == [5913075 * x0 - 159690237696 * x3 ** 7 + 31246269696 * x3 ** 6 + 27439610544 * x3 ** 5 - 6475723368 * x3 ** 4 - 838935856 * x3 ** 3 + 275119624 * x3 ** 2 + 4884038 * x3 - 5913075, 1971025 * x1 - 97197721632 * x3 ** 7 + 73975630752 * x3 ** 6 - 12121915032 * x3 ** 5 - 2760941496 * x3 ** 4 + 814792828 * x3 ** 3 - 1678512 * x3 ** 2 - 9158924 * x3, 5913075 * x2 + 371438283744 * x3 ** 7 - 237550027104 * x3 ** 6 + 22645939824 * x3 ** 5 + 11520686172 * x3 ** 4 - 2024910556 * x3 ** 3 - 132524276 * x3 ** 2 + 30947828 * x3, 128304 * x3 ** 8 - 93312 * x3 ** 7 + 15552 * x3 ** 6 + 3144 * x3 ** 5 - 1120 * x3 ** 4 + 36 * x3 ** 3 + 15 * x3 ** 2 - x3] and groebner(I, R) == [393 * x1 - 4662 * x2 ** 2 + 4462 * x2 * x3 - 59 * x2 + 224532 * x3 ** 4 - 91224 * x3 ** 3 - 678 * x3 ** 2 + 2046 * x3, -x1 + 196 * x2 ** 3 - 21 * x2 ** 2 + 60 * x2 * x3 - 18 * x2 - 168 * x3 ** 3 + 83 * x3 ** 2 - 9 * x3, -6 * x1 + 1134 * x2 ** 2 * x3 - 189 * x2 ** 2 - 466 * x2 * x3 + 32 * x2 - 630 * x3 ** 3 + 57 * x3 ** 2 + 51 * x3, 33 * x1 + 63 * x2 ** 2 + 2268 * x2 * x3 ** 2 - 188 * x2 * x3 + 34 * x2 + 2520 * x3 ** 3 - 849 * x3 ** 2 + 3 * x3, 7 * x1 ** 2 - x1 - 7 * x2 ** 2 - 24 * x2 * x3 + 3 * x2 - 15 * x3 ** 2 + 5 * x3, 14 * x1 * x2 - x1 + 14 * x2 ** 2 + 18 * x2 * x3 - 4 * x2 + 6 * x3 ** 2 - 2 * x3, 14 * x1 * x3 - x1 + 7 * x2 ** 2 + 32 * x2 * x3 - 4 * x2 + 27 * x3 ** 2 - 9 * x3, x0 + 2 * x1 + 2 * x2 + 2 * x3 - 1]","over":{"base":"Any"},"name":"_do_test_benchmark_katsura_4_correct"},"guarantee":"groebner(I, R) == [5913075 * x0 - 159690237696 * x3 ** 7 + 31246269696 * x3 ** 6 + 27439610544 * x3 ** 5 - 6475723368 * x3 ** 4 - 838935856 * x3 ** 3 + 275119624 * x3 ** 2 + 4884038 * x3 - 5913075, 1971025 * x1 - 97197721632 * x3 ** 7 + 73975630752 * x3 ** 6 - 12121915032 * x3 ** 5 - 2760941496 * x3 ** 4 + 814792828 * x3 ** 3 - 1678512 * x3 ** 2 - 9158924 * x3, 5913075 * x2 + 371438283744 * x3 ** 7 - 237550027104 * x3 ** 6 + 22645939824 * x3 ** 5 + 11520686172 * x3 ** 4 - 2024910556 * x3 ** 3 - 132524276 * x3 ** 2 + 30947828 * x3, 128304 * x3 ** 8 - 93312 * x3 ** 7 + 15552 * x3 ** 6 + 3144 * x3 ** 5 - 1120 * x3 ** 4 + 36 * x3 ** 3 + 15 * x3 ** 2 - x3]; groebner(I, R) == [393 * x1 - 4662 * x2 ** 2 + 4462 * x2 * x3 - 59 * x2 + 224532 * x3 ** 4 - 91224 * x3 ** 3 - 678 * x3 ** 2 + 2046 * x3, -x1 + 196 * x2 ** 3 - 21 * x2 ** 2 + 60 * x2 * x3 - 18 * x2 - 168 * x3 ** 3 + 83 * x3 ** 2 - 9 * x3, -6 * x1 + 1134 * x2 ** 2 * x3 - 189 * x2 ** 2 - 466 * x2 * x3 + 32 * x2 - 630 * x3 ** 3 + 57 * x3 ** 2 + 51 * x3, 33 * x1 + 63 * x2 ** 2 + 2268 * x2 * x3 ** 2 - 188 * x2 * x3 + 34 * x2 + 2520 * x3 ** 3 - 849 * x3 ** 2 + 3 * x3, 7 * x1 ** 2 - x1 - 7 * x2 ** 2 - 24 * x2 * x3 + 3 * x2 - 15 * x3 ** 2 + 5 * x3, 14 * x1 * x2 - x1 + 14 * x2 ** 2 + 18 * x2 * x3 - 4 * x2 + 6 * x3 ** 2 - 2 * x3, 14 * x1 * x3 - x1 + 7 * x2 ** 2 + 32 * x2 * x3 - 4 * x2 + 27 * x3 ** 2 - 9 * x3, x0 + 2 * x1 + 2 * x2 + 2 * x3 - 1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools._do_test_benchmark_katsura_4_correct","statement":"Path(_do_test_benchmark_katsura_4(x), groebner(I, R) == [5913075 * x0 - 159690237696 * x3 ** 7 + 31246269696 * x3 ** 6 + 27439610544 * x3 ** 5 - 6475723368 * x3 ** 4 - 838935856 * x3 ** 3 + 275119624 * x3 ** 2 + 4884038 * x3 - 5913075, 1971025 * x1 - 97197721632 * x3 ** 7 + 73975630752 * x3 ** 6 - 12121915032 * x3 ** 5 - 2760941496 * x3 ** 4 + 814792828 * x3 ** 3 - 1678512 * x3 ** 2 - 9158924 * x3, 5913075 * x2 + 371438283744 * x3 ** 7 - 237550027104 * x3 ** 6 + 22645939824 * x3 ** 5 + 11520686172 * x3 ** 4 - 2024910556 * x3 ** 3 - 132524276 * x3 ** 2 + 30947828 * x3, 128304 * x3 ** 8 - 93312 * x3 ** 7 + 15552 * x3 ** 6 + 3144 * x3 ** 5 - 1120 * x3 ** 4 + 36 * x3 ** 3 + 15 * x3 ** 2 - x3]; groebner(I, R) == [393 * x1 - 4662 * x2 ** 2 + 4462 * x2 * x3 - 59 * x2 + 224532 * x3 ** 4 - 91224 * x3 ** 3 - 678 * x3 ** 2 + 2046 * x3, -x1 + 196 * x2 ** 3 - 21 * x2 ** 2 + 60 * x2 * x3 - 18 * x2 - 168 * x3 ** 3 + 83 * x3 ** 2 - 9 * x3, -6 * x1 + 1134 * x2 ** 2 * x3 - 189 * x2 ** 2 - 466 * x2 * x3 + 32 * x2 - 630 * x3 ** 3 + 57 * x3 ** 2 + 51 * x3, 33 * x1 + 63 * x2 ** 2 + 2268 * x2 * x3 ** 2 - 188 * x2 * x3 + 34 * x2 + 2520 * x3 ** 3 - 849 * x3 ** 2 + 3 * x3, 7 * x1 ** 2 - x1 - 7 * x2 ** 2 - 24 * x2 * x3 + 3 * x2 - 15 * x3 ** 2 + 5 * x3, 14 * x1 * x2 - x1 + 14 * x2 ** 2 + 18 * x2 * x3 - 4 * x2 + 6 * x3 ** 2 - 2 * x3, 14 * x1 * x3 - x1 + 7 * x2 ** 2 + 32 * x2 * x3 - 4 * x2 + 27 * x3 ** 2 - 9 * x3, x0 + 2 * x1 + 2 * x2 + 2 * x3 - 1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17f3cc7ae0f8b6f6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["groebner(I, R) == [5913075 * x0 - 159690237696 * x3 ** 7 + 31246269696 * x3 ** 6 + 27439610544 * x3 ** 5 - 6475723368 * x3 ** 4 - 838935856 * x3 ** 3 + 275119624 * x3 ** 2 + 4884038 * x3 - 5913075, 1971025 * x1 - 97197721632 * x3 ** 7 + 73975630752 * x3 ** 6 - 12121915032 * x3 ** 5 - 2760941496 * x3 ** 4 + 814792828 * x3 ** 3 - 1678512 * x3 ** 2 - 9158924 * x3, 5913075 * x2 + 371438283744 * x3 ** 7 - 237550027104 * x3 ** 6 + 22645939824 * x3 ** 5 + 11520686172 * x3 ** 4 - 2024910556 * x3 ** 3 - 132524276 * x3 ** 2 + 30947828 * x3, 128304 * x3 ** 8 - 93312 * x3 ** 7 + 15552 * x3 ** 6 + 3144 * x3 ** 5 - 1120 * x3 ** 4 + 36 * x3 ** 3 + 15 * x3 ** 2 - x3]","groebner(I, R) == [393 * x1 - 4662 * x2 ** 2 + 4462 * x2 * x3 - 59 * x2 + 224532 * x3 ** 4 - 91224 * x3 ** 3 - 678 * x3 ** 2 + 2046 * x3, -x1 + 196 * x2 ** 3 - 21 * x2 ** 2 + 60 * x2 * x3 - 18 * x2 - 168 * x3 ** 3 + 83 * x3 ** 2 - 9 * x3, -6 * x1 + 1134 * x2 ** 2 * x3 - 189 * x2 ** 2 - 466 * x2 * x3 + 32 * x2 - 630 * x3 ** 3 + 57 * x3 ** 2 + 51 * x3, 33 * x1 + 63 * x2 ** 2 + 2268 * x2 * x3 ** 2 - 188 * x2 * x3 + 34 * x2 + 2520 * x3 ** 3 - 849 * x3 ** 2 + 3 * x3, 7 * x1 ** 2 - x1 - 7 * x2 ** 2 - 24 * x2 * x3 + 3 * x2 - 15 * x3 ** 2 + 5 * x3, 14 * x1 * x2 - x1 + 14 * x2 ** 2 + 18 * x2 * x3 - 4 * x2 + 6 * x3 ** 2 - 2 * x3, 14 * x1 * x3 - x1 + 7 * x2 ** 2 + 32 * x2 * x3 - 4 * x2 + 27 * x3 ** 2 - 9 * x3, x0 + 2 * x1 + 2 * x2 + 2 * x3 - 1]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def _do_test_benchmark_katsura_4():
     R, x0,x1,x2,x3 = ring("x:4", ZZ, lex)
     I = [x0 + 2*x1 + 2*x2 + 2*x3 - 1,
@@ -383,46 +454,65 @@ def _do_test_benchmark_katsura_4():
     ]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_benchmark_kastura_4_buchberger(), test_benchmark_kastura_4_buchberger produces the expected output) over Any ║
+# ║ Path(test_benchmark_kastura_4_buchberger(), <unspecified:test_benchmark_kastura_4_buchberger>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_benchmark_kastura_4_buchberger : Any → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3ff0421625adf42  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_benchmark_kastura_4_buchberger","kind":"function","src_hash":"e7acb3193dcd0cad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_benchmark_kastura_4_buchberger()","rhs":"test_benchmark_kastura_4_buchberger produces the expected output","over":{"base":"Any"},"name":"test_benchmark_kastura_4_buchberger_correct"},"guarantee":"test_benchmark_kastura_4_buchberger produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_benchmark_kastura_4_buchberger_correct","statement":"Path(test_benchmark_kastura_4_buchberger(x), test_benchmark_kastura_4_buchberger produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3ff0421625adf42"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_benchmark_kastura_4_buchberger","kind":"function","src_hash":"e7acb3193dcd0cad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_benchmark_kastura_4_buchberger()","rhs":"<unspecified:test_benchmark_kastura_4_buchberger>","over":{"base":"Any"},"name":"test_benchmark_kastura_4_buchberger_correct"},"guarantee":"test_benchmark_kastura_4_buchberger produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_benchmark_kastura_4_buchberger_correct","statement":"Path(test_benchmark_kastura_4_buchberger(x), test_benchmark_kastura_4_buchberger produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3ff0421625adf42","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_benchmark_kastura_4_buchberger():
     with config.using(groebner='buchberger'):
         _do_test_benchmark_katsura_4()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_benchmark_kastura_4_f5b(), test_benchmark_kastura_4_f5b produces the expected output) over Any ║
+# ║ Path(test_benchmark_kastura_4_f5b(), <unspecified:test_benchmark_kastura_4_f5b>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_benchmark_kastura_4_f5b : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 762dff790bdde6f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_benchmark_kastura_4_f5b","kind":"function","src_hash":"f100d4c95fa141a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_benchmark_kastura_4_f5b()","rhs":"test_benchmark_kastura_4_f5b produces the expected output","over":{"base":"Any"},"name":"test_benchmark_kastura_4_f5b_correct"},"guarantee":"test_benchmark_kastura_4_f5b produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_benchmark_kastura_4_f5b_correct","statement":"Path(test_benchmark_kastura_4_f5b(x), test_benchmark_kastura_4_f5b produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"762dff790bdde6f0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_benchmark_kastura_4_f5b","kind":"function","src_hash":"f100d4c95fa141a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_benchmark_kastura_4_f5b()","rhs":"<unspecified:test_benchmark_kastura_4_f5b>","over":{"base":"Any"},"name":"test_benchmark_kastura_4_f5b_correct"},"guarantee":"test_benchmark_kastura_4_f5b produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_benchmark_kastura_4_f5b_correct","statement":"Path(test_benchmark_kastura_4_f5b(x), test_benchmark_kastura_4_f5b produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"762dff790bdde6f0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_benchmark_kastura_4_f5b():
     with config.using(groebner='f5b'):
         _do_test_benchmark_katsura_4()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_do_test_benchmark_czichowski(), internal helper behaves correctly) over Any ║
+# ║ Path(_do_test_benchmark_czichowski(), groebner(I, R) == [3725588592068034903797967297424801242396746870413359539263038139343329273586196480000 * x - 160420835591776763325581422211936558925462474417709511019228211783493866564923546661604487873 * t ** 7 - 1406108495478033395547109582678806497509499966197028487131115097902188374051595011248311352864 * t ** 6 - 5241326875850889518164640374668786338033653548841427557880599579174438246266263602956254030352 * t ** 5 - 10758917262823299139373269714910672770004760114329943852726887632013485035262879510837043892416 * t ** 4 - 13119383576444715672578819534846747735372132018341964647712009275306635391456880068261130581248 * t ** 3 - 9491412317016197146080450036267011389660653495578680036574753839055748080962214787557853941760 * t ** 2 - 3767520915562795326943800040277726397326609797172964377014046018280260848046603967211258368000 * t - 632314652371226552085897259159210286886724229880266931574701654721512325555116066073245696000, 610733380717522355121 * t ** 8 + 6243748742141230639968 * t ** 7 + 27761407182086143225024 * t ** 6 + 70066148869420956398592 * t ** 5 + 109701225644313784229376 * t ** 4 + 109009005495588442152960 * t ** 3 + 67072101084384786432000 * t ** 2 + 23339979742629593088000 * t + 3513592776846090240000] and groebner(I, R) == [16996618586000601590732959134095643086442 * t ** 3 * x - 32936701459297092865176560282688198064839 * t ** 3 + 78592411049800639484139414821529525782364 * t ** 2 * x - 120753953358671750165454009478961405619916 * t ** 2 + 120988399875140799712152158915653654637280 * t * x - 144576390266626470824138354942076045758736 * t + 60017634054270480831259316163620768960 * x ** 2 + 61976058033571109604821862786675242894400 * x - 56266268491293858791834120380427754600960, 576689018321912327136790519059646508441672750656050290242749 * t ** 4 + 2326673103677477425562248201573604572527893938459296513327336 * t ** 3 + 110743790416688497407826310048520299245819959064297990236000 * t ** 2 * x + 3308669114229100853338245486174247752683277925010505284338016 * t ** 2 + 323150205645687941261103426627818874426097912639158572428800 * t * x + 1914335199925152083917206349978534224695445819017286960055680 * t + 861662882561803377986838989464278045397192862768588480000 * x ** 2 + 235296483281783440197069672204341465480107019878814196672000 * x + 361850798943225141738895123621685122544503614946436727532800, -117584925286448670474763406733005510014188341867 * t ** 3 + 68566565876066068463853874568722190223721653044 * t ** 2 * x - 435970731348366266878180788833437896139920683940 * t ** 2 + 196297602447033751918195568051376792491869233408 * t * x - 525011527660010557871349062870980202067479780112 * t + 517905853447200553360289634770487684447317120 * x ** 3 + 569119014870778921949288951688799397569321920 * x ** 2 + 138877356748142786670127389526667463202210102080 * x - 205109210539096046121625447192779783475018619520, -3725142681462373002731339445216700112264527 * t ** 3 + 583711207282060457652784180668273817487940 * t ** 2 * x - 12381382393074485225164741437227437062814908 * t ** 2 + 151081054097783125250959636747516827435040 * t * x ** 2 + 1814103857455163948531448580501928933873280 * t * x - 13353115629395094645843682074271212731433648 * t + 236415091385250007660606958022544983766080 * x ** 2 + 1390443278862804663728298060085399578417600 * x - 4716885828494075789338754454248931750698880]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _do_test_benchmark_czichowski : Any → Any                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  groebner(I, R) == [3725588592068034903797...   ║
+# ║   ensures:  groebner(I, R) == [1699661858600060159073...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _do_test_benchmark_czichowski : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07a624a855c99e6b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86e5368575ff5c5a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools._do_test_benchmark_czichowski","kind":"function","src_hash":"84ac8a2581fc8d51","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_do_test_benchmark_czichowski()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_do_test_benchmark_czichowski_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools._do_test_benchmark_czichowski_correct","statement":"Path(_do_test_benchmark_czichowski(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07a624a855c99e6b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools._do_test_benchmark_czichowski","kind":"function","src_hash":"84ac8a2581fc8d51","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: groebner(I, R) == [3725588592068034903797967297424801242396746870413359539263038139343329273586196480000 * x - 160420835591776763325581422211936558925462474417709511019228211783493866564923546661604487873 * t ** 7 - 1406108495478033395547109582678806497509499966197028487131115097902188374051595011248311352864 * t ** 6 - 5241326875850889518164640374668786338033653548841427557880599579174438246266263602956254030352 * t ** 5 - 10758917262823299139373269714910672770004760114329943852726887632013485035262879510837043892416 * t ** 4 - 13119383576444715672578819534846747735372132018341964647712009275306635391456880068261130581248 * t ** 3 - 9491412317016197146080450036267011389660653495578680036574753839055748080962214787557853941760 * t ** 2 - 3767520915562795326943800040277726397326609797172964377014046018280260848046603967211258368000 * t - 632314652371226552085897259159210286886724229880266931574701654721512325555116066073245696000, 610733380717522355121 * t ** 8 + 6243748742141230639968 * t ** 7 + 27761407182086143225024 * t ** 6 + 70066148869420956398592 * t ** 5 + 109701225644313784229376 * t ** 4 + 109009005495588442152960 * t ** 3 + 67072101084384786432000 * t ** 2 + 23339979742629593088000 * t + 3513592776846090240000] and groebner(I, R) == [16996618586000601590732959134095643086442 * t ** 3 * x - 32936701459297092865176560282688198064839 * t ** 3 + 78592411049800639484139414821529525782364 * t ** 2 * x - 120753953358671750165454009478961405619916 * t ** 2 + 120988399875140799712152158915653654637280 * t * x - 144576390266626470824138354942076045758736 * t + 60017634054270480831259316163620768960 * x ** 2 + 61976058033571109604821862786675242894400 * x - 56266268491293858791834120380427754600960, 576689018321912327136790519059646508441672750656050290242749 * t ** 4 + 2326673103677477425562248201573604572527893938459296513327336 * t ** 3 + 110743790416688497407826310048520299245819959064297990236000 * t ** 2 * x + 3308669114229100853338245486174247752683277925010505284338016 * t ** 2 + 323150205645687941261103426627818874426097912639158572428800 * t * x + 1914335199925152083917206349978534224695445819017286960055680 * t + 861662882561803377986838989464278045397192862768588480000 * x ** 2 + 235296483281783440197069672204341465480107019878814196672000 * x + 361850798943225141738895123621685122544503614946436727532800, -117584925286448670474763406733005510014188341867 * t ** 3 + 68566565876066068463853874568722190223721653044 * t ** 2 * x - 435970731348366266878180788833437896139920683940 * t ** 2 + 196297602447033751918195568051376792491869233408 * t * x - 525011527660010557871349062870980202067479780112 * t + 517905853447200553360289634770487684447317120 * x ** 3 + 569119014870778921949288951688799397569321920 * x ** 2 + 138877356748142786670127389526667463202210102080 * x - 205109210539096046121625447192779783475018619520, -3725142681462373002731339445216700112264527 * t ** 3 + 583711207282060457652784180668273817487940 * t ** 2 * x - 12381382393074485225164741437227437062814908 * t ** 2 + 151081054097783125250959636747516827435040 * t * x ** 2 + 1814103857455163948531448580501928933873280 * t * x - 13353115629395094645843682074271212731433648 * t + 236415091385250007660606958022544983766080 * x ** 2 + 1390443278862804663728298060085399578417600 * x - 4716885828494075789338754454248931750698880]"},"spec":{"lhs":"_do_test_benchmark_czichowski()","rhs":"groebner(I, R) == [3725588592068034903797967297424801242396746870413359539263038139343329273586196480000 * x - 160420835591776763325581422211936558925462474417709511019228211783493866564923546661604487873 * t ** 7 - 1406108495478033395547109582678806497509499966197028487131115097902188374051595011248311352864 * t ** 6 - 5241326875850889518164640374668786338033653548841427557880599579174438246266263602956254030352 * t ** 5 - 10758917262823299139373269714910672770004760114329943852726887632013485035262879510837043892416 * t ** 4 - 13119383576444715672578819534846747735372132018341964647712009275306635391456880068261130581248 * t ** 3 - 9491412317016197146080450036267011389660653495578680036574753839055748080962214787557853941760 * t ** 2 - 3767520915562795326943800040277726397326609797172964377014046018280260848046603967211258368000 * t - 632314652371226552085897259159210286886724229880266931574701654721512325555116066073245696000, 610733380717522355121 * t ** 8 + 6243748742141230639968 * t ** 7 + 27761407182086143225024 * t ** 6 + 70066148869420956398592 * t ** 5 + 109701225644313784229376 * t ** 4 + 109009005495588442152960 * t ** 3 + 67072101084384786432000 * t ** 2 + 23339979742629593088000 * t + 3513592776846090240000] and groebner(I, R) == [16996618586000601590732959134095643086442 * t ** 3 * x - 32936701459297092865176560282688198064839 * t ** 3 + 78592411049800639484139414821529525782364 * t ** 2 * x - 120753953358671750165454009478961405619916 * t ** 2 + 120988399875140799712152158915653654637280 * t * x - 144576390266626470824138354942076045758736 * t + 60017634054270480831259316163620768960 * x ** 2 + 61976058033571109604821862786675242894400 * x - 56266268491293858791834120380427754600960, 576689018321912327136790519059646508441672750656050290242749 * t ** 4 + 2326673103677477425562248201573604572527893938459296513327336 * t ** 3 + 110743790416688497407826310048520299245819959064297990236000 * t ** 2 * x + 3308669114229100853338245486174247752683277925010505284338016 * t ** 2 + 323150205645687941261103426627818874426097912639158572428800 * t * x + 1914335199925152083917206349978534224695445819017286960055680 * t + 861662882561803377986838989464278045397192862768588480000 * x ** 2 + 235296483281783440197069672204341465480107019878814196672000 * x + 361850798943225141738895123621685122544503614946436727532800, -117584925286448670474763406733005510014188341867 * t ** 3 + 68566565876066068463853874568722190223721653044 * t ** 2 * x - 435970731348366266878180788833437896139920683940 * t ** 2 + 196297602447033751918195568051376792491869233408 * t * x - 525011527660010557871349062870980202067479780112 * t + 517905853447200553360289634770487684447317120 * x ** 3 + 569119014870778921949288951688799397569321920 * x ** 2 + 138877356748142786670127389526667463202210102080 * x - 205109210539096046121625447192779783475018619520, -3725142681462373002731339445216700112264527 * t ** 3 + 583711207282060457652784180668273817487940 * t ** 2 * x - 12381382393074485225164741437227437062814908 * t ** 2 + 151081054097783125250959636747516827435040 * t * x ** 2 + 1814103857455163948531448580501928933873280 * t * x - 13353115629395094645843682074271212731433648 * t + 236415091385250007660606958022544983766080 * x ** 2 + 1390443278862804663728298060085399578417600 * x - 4716885828494075789338754454248931750698880]","over":{"base":"Any"},"name":"_do_test_benchmark_czichowski_correct"},"guarantee":"groebner(I, R) == [3725588592068034903797967297424801242396746870413359539263038139343329273586196480000 * x - 160420835591776763325581422211936558925462474417709511019228211783493866564923546661604487873 * t ** 7 - 1406108495478033395547109582678806497509499966197028487131115097902188374051595011248311352864 * t ** 6 - 5241326875850889518164640374668786338033653548841427557880599579174438246266263602956254030352 * t ** 5 - 10758917262823299139373269714910672770004760114329943852726887632013485035262879510837043892416 * t ** 4 - 13119383576444715672578819534846747735372132018341964647712009275306635391456880068261130581248 * t ** 3 - 9491412317016197146080450036267011389660653495578680036574753839055748080962214787557853941760 * t ** 2 - 3767520915562795326943800040277726397326609797172964377014046018280260848046603967211258368000 * t - 632314652371226552085897259159210286886724229880266931574701654721512325555116066073245696000, 610733380717522355121 * t ** 8 + 6243748742141230639968 * t ** 7 + 27761407182086143225024 * t ** 6 + 70066148869420956398592 * t ** 5 + 109701225644313784229376 * t ** 4 + 109009005495588442152960 * t ** 3 + 67072101084384786432000 * t ** 2 + 23339979742629593088000 * t + 3513592776846090240000]; groebner(I, R) == [16996618586000601590732959134095643086442 * t ** 3 * x - 32936701459297092865176560282688198064839 * t ** 3 + 78592411049800639484139414821529525782364 * t ** 2 * x - 120753953358671750165454009478961405619916 * t ** 2 + 120988399875140799712152158915653654637280 * t * x - 144576390266626470824138354942076045758736 * t + 60017634054270480831259316163620768960 * x ** 2 + 61976058033571109604821862786675242894400 * x - 56266268491293858791834120380427754600960, 576689018321912327136790519059646508441672750656050290242749 * t ** 4 + 2326673103677477425562248201573604572527893938459296513327336 * t ** 3 + 110743790416688497407826310048520299245819959064297990236000 * t ** 2 * x + 3308669114229100853338245486174247752683277925010505284338016 * t ** 2 + 323150205645687941261103426627818874426097912639158572428800 * t * x + 1914335199925152083917206349978534224695445819017286960055680 * t + 861662882561803377986838989464278045397192862768588480000 * x ** 2 + 235296483281783440197069672204341465480107019878814196672000 * x + 361850798943225141738895123621685122544503614946436727532800, -117584925286448670474763406733005510014188341867 * t ** 3 + 68566565876066068463853874568722190223721653044 * t ** 2 * x - 435970731348366266878180788833437896139920683940 * t ** 2 + 196297602447033751918195568051376792491869233408 * t * x - 525011527660010557871349062870980202067479780112 * t + 517905853447200553360289634770487684447317120 * x ** 3 + 569119014870778921949288951688799397569321920 * x ** 2 + 138877356748142786670127389526667463202210102080 * x - 205109210539096046121625447192779783475018619520, -3725142681462373002731339445216700112264527 * t ** 3 + 583711207282060457652784180668273817487940 * t ** 2 * x - 12381382393074485225164741437227437062814908 * t ** 2 + 151081054097783125250959636747516827435040 * t * x ** 2 + 1814103857455163948531448580501928933873280 * t * x - 13353115629395094645843682074271212731433648 * t + 236415091385250007660606958022544983766080 * x ** 2 + 1390443278862804663728298060085399578417600 * x - 4716885828494075789338754454248931750698880]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools._do_test_benchmark_czichowski_correct","statement":"Path(_do_test_benchmark_czichowski(x), groebner(I, R) == [3725588592068034903797967297424801242396746870413359539263038139343329273586196480000 * x - 160420835591776763325581422211936558925462474417709511019228211783493866564923546661604487873 * t ** 7 - 1406108495478033395547109582678806497509499966197028487131115097902188374051595011248311352864 * t ** 6 - 5241326875850889518164640374668786338033653548841427557880599579174438246266263602956254030352 * t ** 5 - 10758917262823299139373269714910672770004760114329943852726887632013485035262879510837043892416 * t ** 4 - 13119383576444715672578819534846747735372132018341964647712009275306635391456880068261130581248 * t ** 3 - 9491412317016197146080450036267011389660653495578680036574753839055748080962214787557853941760 * t ** 2 - 3767520915562795326943800040277726397326609797172964377014046018280260848046603967211258368000 * t - 632314652371226552085897259159210286886724229880266931574701654721512325555116066073245696000, 610733380717522355121 * t ** 8 + 6243748742141230639968 * t ** 7 + 27761407182086143225024 * t ** 6 + 70066148869420956398592 * t ** 5 + 109701225644313784229376 * t ** 4 + 109009005495588442152960 * t ** 3 + 67072101084384786432000 * t ** 2 + 23339979742629593088000 * t + 3513592776846090240000]; groebner(I, R) == [16996618586000601590732959134095643086442 * t ** 3 * x - 32936701459297092865176560282688198064839 * t ** 3 + 78592411049800639484139414821529525782364 * t ** 2 * x - 120753953358671750165454009478961405619916 * t ** 2 + 120988399875140799712152158915653654637280 * t * x - 144576390266626470824138354942076045758736 * t + 60017634054270480831259316163620768960 * x ** 2 + 61976058033571109604821862786675242894400 * x - 56266268491293858791834120380427754600960, 576689018321912327136790519059646508441672750656050290242749 * t ** 4 + 2326673103677477425562248201573604572527893938459296513327336 * t ** 3 + 110743790416688497407826310048520299245819959064297990236000 * t ** 2 * x + 3308669114229100853338245486174247752683277925010505284338016 * t ** 2 + 323150205645687941261103426627818874426097912639158572428800 * t * x + 1914335199925152083917206349978534224695445819017286960055680 * t + 861662882561803377986838989464278045397192862768588480000 * x ** 2 + 235296483281783440197069672204341465480107019878814196672000 * x + 361850798943225141738895123621685122544503614946436727532800, -117584925286448670474763406733005510014188341867 * t ** 3 + 68566565876066068463853874568722190223721653044 * t ** 2 * x - 435970731348366266878180788833437896139920683940 * t ** 2 + 196297602447033751918195568051376792491869233408 * t * x - 525011527660010557871349062870980202067479780112 * t + 517905853447200553360289634770487684447317120 * x ** 3 + 569119014870778921949288951688799397569321920 * x ** 2 + 138877356748142786670127389526667463202210102080 * x - 205109210539096046121625447192779783475018619520, -3725142681462373002731339445216700112264527 * t ** 3 + 583711207282060457652784180668273817487940 * t ** 2 * x - 12381382393074485225164741437227437062814908 * t ** 2 + 151081054097783125250959636747516827435040 * t * x ** 2 + 1814103857455163948531448580501928933873280 * t * x - 13353115629395094645843682074271212731433648 * t + 236415091385250007660606958022544983766080 * x ** 2 + 1390443278862804663728298060085399578417600 * x - 4716885828494075789338754454248931750698880])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86e5368575ff5c5a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["groebner(I, R) == [3725588592068034903797967297424801242396746870413359539263038139343329273586196480000 * x - 160420835591776763325581422211936558925462474417709511019228211783493866564923546661604487873 * t ** 7 - 1406108495478033395547109582678806497509499966197028487131115097902188374051595011248311352864 * t ** 6 - 5241326875850889518164640374668786338033653548841427557880599579174438246266263602956254030352 * t ** 5 - 10758917262823299139373269714910672770004760114329943852726887632013485035262879510837043892416 * t ** 4 - 13119383576444715672578819534846747735372132018341964647712009275306635391456880068261130581248 * t ** 3 - 9491412317016197146080450036267011389660653495578680036574753839055748080962214787557853941760 * t ** 2 - 3767520915562795326943800040277726397326609797172964377014046018280260848046603967211258368000 * t - 632314652371226552085897259159210286886724229880266931574701654721512325555116066073245696000, 610733380717522355121 * t ** 8 + 6243748742141230639968 * t ** 7 + 27761407182086143225024 * t ** 6 + 70066148869420956398592 * t ** 5 + 109701225644313784229376 * t ** 4 + 109009005495588442152960 * t ** 3 + 67072101084384786432000 * t ** 2 + 23339979742629593088000 * t + 3513592776846090240000]","groebner(I, R) == [16996618586000601590732959134095643086442 * t ** 3 * x - 32936701459297092865176560282688198064839 * t ** 3 + 78592411049800639484139414821529525782364 * t ** 2 * x - 120753953358671750165454009478961405619916 * t ** 2 + 120988399875140799712152158915653654637280 * t * x - 144576390266626470824138354942076045758736 * t + 60017634054270480831259316163620768960 * x ** 2 + 61976058033571109604821862786675242894400 * x - 56266268491293858791834120380427754600960, 576689018321912327136790519059646508441672750656050290242749 * t ** 4 + 2326673103677477425562248201573604572527893938459296513327336 * t ** 3 + 110743790416688497407826310048520299245819959064297990236000 * t ** 2 * x + 3308669114229100853338245486174247752683277925010505284338016 * t ** 2 + 323150205645687941261103426627818874426097912639158572428800 * t * x + 1914335199925152083917206349978534224695445819017286960055680 * t + 861662882561803377986838989464278045397192862768588480000 * x ** 2 + 235296483281783440197069672204341465480107019878814196672000 * x + 361850798943225141738895123621685122544503614946436727532800, -117584925286448670474763406733005510014188341867 * t ** 3 + 68566565876066068463853874568722190223721653044 * t ** 2 * x - 435970731348366266878180788833437896139920683940 * t ** 2 + 196297602447033751918195568051376792491869233408 * t * x - 525011527660010557871349062870980202067479780112 * t + 517905853447200553360289634770487684447317120 * x ** 3 + 569119014870778921949288951688799397569321920 * x ** 2 + 138877356748142786670127389526667463202210102080 * x - 205109210539096046121625447192779783475018619520, -3725142681462373002731339445216700112264527 * t ** 3 + 583711207282060457652784180668273817487940 * t ** 2 * x - 12381382393074485225164741437227437062814908 * t ** 2 + 151081054097783125250959636747516827435040 * t * x ** 2 + 1814103857455163948531448580501928933873280 * t * x - 13353115629395094645843682074271212731433648 * t + 236415091385250007660606958022544983766080 * x ** 2 + 1390443278862804663728298060085399578417600 * x - 4716885828494075789338754454248931750698880]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def _do_test_benchmark_czichowski():
     R, x,t = ring("x,t", ZZ, lex)
     I = [9*x**8 + 36*x**7 - 32*x**6 - 252*x**5 - 78*x**4 + 468*x**3 + 288*x**2 - 108*x + 9,
@@ -494,46 +584,65 @@ def _do_test_benchmark_czichowski():
 # NOTE: This is very slow (> 2 minutes on 3.4 GHz) without GMPY
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_benchmark_czichowski_buchberger(), test_benchmark_czichowski_buchberger produces the expected output) over Any ║
+# ║ Path(test_benchmark_czichowski_buchberger(), <unspecified:test_benchmark_czichowski_buchberger>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_benchmark_czichowski_buchberger : Any → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c46ca1f70457ea6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_benchmark_czichowski_buchberger","kind":"function","src_hash":"8e6820577cf5b31d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_benchmark_czichowski_buchberger()","rhs":"test_benchmark_czichowski_buchberger produces the expected output","over":{"base":"Any"},"name":"test_benchmark_czichowski_buchberger_correct"},"guarantee":"test_benchmark_czichowski_buchberger produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_benchmark_czichowski_buchberger_correct","statement":"Path(test_benchmark_czichowski_buchberger(x), test_benchmark_czichowski_buchberger produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c46ca1f70457ea6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_benchmark_czichowski_buchberger","kind":"function","src_hash":"8e6820577cf5b31d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_benchmark_czichowski_buchberger()","rhs":"<unspecified:test_benchmark_czichowski_buchberger>","over":{"base":"Any"},"name":"test_benchmark_czichowski_buchberger_correct"},"guarantee":"test_benchmark_czichowski_buchberger produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_benchmark_czichowski_buchberger_correct","statement":"Path(test_benchmark_czichowski_buchberger(x), test_benchmark_czichowski_buchberger produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c46ca1f70457ea6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_benchmark_czichowski_buchberger():
     with config.using(groebner='buchberger'):
         _do_test_benchmark_czichowski()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_benchmark_czichowski_f5b(), test_benchmark_czichowski_f5b produces the expected output) over Any ║
+# ║ Path(test_benchmark_czichowski_f5b(), <unspecified:test_benchmark_czichowski_f5b>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_benchmark_czichowski_f5b : Any → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f6a170885ebee2f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_benchmark_czichowski_f5b","kind":"function","src_hash":"65046b136f9ef73b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_benchmark_czichowski_f5b()","rhs":"test_benchmark_czichowski_f5b produces the expected output","over":{"base":"Any"},"name":"test_benchmark_czichowski_f5b_correct"},"guarantee":"test_benchmark_czichowski_f5b produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_benchmark_czichowski_f5b_correct","statement":"Path(test_benchmark_czichowski_f5b(x), test_benchmark_czichowski_f5b produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f6a170885ebee2f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_benchmark_czichowski_f5b","kind":"function","src_hash":"65046b136f9ef73b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_benchmark_czichowski_f5b()","rhs":"<unspecified:test_benchmark_czichowski_f5b>","over":{"base":"Any"},"name":"test_benchmark_czichowski_f5b_correct"},"guarantee":"test_benchmark_czichowski_f5b produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_benchmark_czichowski_f5b_correct","statement":"Path(test_benchmark_czichowski_f5b(x), test_benchmark_czichowski_f5b produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f6a170885ebee2f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_benchmark_czichowski_f5b():
     with config.using(groebner='f5b'):
         _do_test_benchmark_czichowski()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_do_test_benchmark_cyclic_4(), internal helper behaves correctly) over Any ║
+# ║ Path(_do_test_benchmark_cyclic_4(), groebner(I, R) == [4 * a + 3 * d ** 9 - 4 * d ** 5 - 3 * d, 4 * b + 4 * c - 3 * d ** 9 + 4 * d ** 5 + 7 * d, 4 * c ** 2 + 3 * d ** 10 - 4 * d ** 6 - 3 * d ** 2, 4 * c * d ** 4 + 4 * c - d ** 9 + 4 * d ** 5 + 5 * d, d ** 12 - d ** 8 - d ** 4 + 1] and groebner(I, R) == [3 * b * c - c ** 2 + d ** 6 - 3 * d ** 2, -b + 3 * c ** 2 * d ** 3 - c - d ** 5 - 4 * d, -b + 3 * c * d ** 4 + 2 * c + 2 * d ** 5 + 2 * d, c ** 4 + 2 * c ** 2 * d ** 2 - d ** 4 - 2, c ** 3 * d + c * d ** 3 + d ** 4 + 1, b * c ** 2 - c ** 3 - c ** 2 * d - 2 * c * d ** 2 - d ** 3, b ** 2 - c ** 2, b * d + c ** 2 + c * d + d ** 2, a + b + c + d]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _do_test_benchmark_cyclic_4 : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  groebner(I, R) == [4 * a + 3 * d ** 9 - 4...   ║
+# ║   ensures:  groebner(I, R) == [3 * b * c - c ** 2 + d...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _do_test_benchmark_cyclic_4 : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 966ea137a1db3338  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ea693904efa41d6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools._do_test_benchmark_cyclic_4","kind":"function","src_hash":"f2d3c662e982f672","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_do_test_benchmark_cyclic_4()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_do_test_benchmark_cyclic_4_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools._do_test_benchmark_cyclic_4_correct","statement":"Path(_do_test_benchmark_cyclic_4(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"966ea137a1db3338"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools._do_test_benchmark_cyclic_4","kind":"function","src_hash":"f2d3c662e982f672","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: groebner(I, R) == [4 * a + 3 * d ** 9 - 4 * d ** 5 - 3 * d, 4 * b + 4 * c - 3 * d ** 9 + 4 * d ** 5 + 7 * d, 4 * c ** 2 + 3 * d ** 10 - 4 * d ** 6 - 3 * d ** 2, 4 * c * d ** 4 + 4 * c - d ** 9 + 4 * d ** 5 + 5 * d, d ** 12 - d ** 8 - d ** 4 + 1] and groebner(I, R) == [3 * b * c - c ** 2 + d ** 6 - 3 * d ** 2, -b + 3 * c ** 2 * d ** 3 - c - d ** 5 - 4 * d, -b + 3 * c * d ** 4 + 2 * c + 2 * d ** 5 + 2 * d, c ** 4 + 2 * c ** 2 * d ** 2 - d ** 4 - 2, c ** 3 * d + c * d ** 3 + d ** 4 + 1, b * c ** 2 - c ** 3 - c ** 2 * d - 2 * c * d ** 2 - d ** 3, b ** 2 - c ** 2, b * d + c ** 2 + c * d + d ** 2, a + b + c + d]"},"spec":{"lhs":"_do_test_benchmark_cyclic_4()","rhs":"groebner(I, R) == [4 * a + 3 * d ** 9 - 4 * d ** 5 - 3 * d, 4 * b + 4 * c - 3 * d ** 9 + 4 * d ** 5 + 7 * d, 4 * c ** 2 + 3 * d ** 10 - 4 * d ** 6 - 3 * d ** 2, 4 * c * d ** 4 + 4 * c - d ** 9 + 4 * d ** 5 + 5 * d, d ** 12 - d ** 8 - d ** 4 + 1] and groebner(I, R) == [3 * b * c - c ** 2 + d ** 6 - 3 * d ** 2, -b + 3 * c ** 2 * d ** 3 - c - d ** 5 - 4 * d, -b + 3 * c * d ** 4 + 2 * c + 2 * d ** 5 + 2 * d, c ** 4 + 2 * c ** 2 * d ** 2 - d ** 4 - 2, c ** 3 * d + c * d ** 3 + d ** 4 + 1, b * c ** 2 - c ** 3 - c ** 2 * d - 2 * c * d ** 2 - d ** 3, b ** 2 - c ** 2, b * d + c ** 2 + c * d + d ** 2, a + b + c + d]","over":{"base":"Any"},"name":"_do_test_benchmark_cyclic_4_correct"},"guarantee":"groebner(I, R) == [4 * a + 3 * d ** 9 - 4 * d ** 5 - 3 * d, 4 * b + 4 * c - 3 * d ** 9 + 4 * d ** 5 + 7 * d, 4 * c ** 2 + 3 * d ** 10 - 4 * d ** 6 - 3 * d ** 2, 4 * c * d ** 4 + 4 * c - d ** 9 + 4 * d ** 5 + 5 * d, d ** 12 - d ** 8 - d ** 4 + 1]; groebner(I, R) == [3 * b * c - c ** 2 + d ** 6 - 3 * d ** 2, -b + 3 * c ** 2 * d ** 3 - c - d ** 5 - 4 * d, -b + 3 * c * d ** 4 + 2 * c + 2 * d ** 5 + 2 * d, c ** 4 + 2 * c ** 2 * d ** 2 - d ** 4 - 2, c ** 3 * d + c * d ** 3 + d ** 4 + 1, b * c ** 2 - c ** 3 - c ** 2 * d - 2 * c * d ** 2 - d ** 3, b ** 2 - c ** 2, b * d + c ** 2 + c * d + d ** 2, a + b + c + d]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools._do_test_benchmark_cyclic_4_correct","statement":"Path(_do_test_benchmark_cyclic_4(x), groebner(I, R) == [4 * a + 3 * d ** 9 - 4 * d ** 5 - 3 * d, 4 * b + 4 * c - 3 * d ** 9 + 4 * d ** 5 + 7 * d, 4 * c ** 2 + 3 * d ** 10 - 4 * d ** 6 - 3 * d ** 2, 4 * c * d ** 4 + 4 * c - d ** 9 + 4 * d ** 5 + 5 * d, d ** 12 - d ** 8 - d ** 4 + 1]; groebner(I, R) == [3 * b * c - c ** 2 + d ** 6 - 3 * d ** 2, -b + 3 * c ** 2 * d ** 3 - c - d ** 5 - 4 * d, -b + 3 * c * d ** 4 + 2 * c + 2 * d ** 5 + 2 * d, c ** 4 + 2 * c ** 2 * d ** 2 - d ** 4 - 2, c ** 3 * d + c * d ** 3 + d ** 4 + 1, b * c ** 2 - c ** 3 - c ** 2 * d - 2 * c * d ** 2 - d ** 3, b ** 2 - c ** 2, b * d + c ** 2 + c * d + d ** 2, a + b + c + d])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ea693904efa41d6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["groebner(I, R) == [4 * a + 3 * d ** 9 - 4 * d ** 5 - 3 * d, 4 * b + 4 * c - 3 * d ** 9 + 4 * d ** 5 + 7 * d, 4 * c ** 2 + 3 * d ** 10 - 4 * d ** 6 - 3 * d ** 2, 4 * c * d ** 4 + 4 * c - d ** 9 + 4 * d ** 5 + 5 * d, d ** 12 - d ** 8 - d ** 4 + 1]","groebner(I, R) == [3 * b * c - c ** 2 + d ** 6 - 3 * d ** 2, -b + 3 * c ** 2 * d ** 3 - c - d ** 5 - 4 * d, -b + 3 * c * d ** 4 + 2 * c + 2 * d ** 5 + 2 * d, c ** 4 + 2 * c ** 2 * d ** 2 - d ** 4 - 2, c ** 3 * d + c * d ** 3 + d ** 4 + 1, b * c ** 2 - c ** 3 - c ** 2 * d - 2 * c * d ** 2 - d ** 3, b ** 2 - c ** 2, b * d + c ** 2 + c * d + d ** 2, a + b + c + d]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def _do_test_benchmark_cyclic_4():
     R, a,b,c,d = ring("a,b,c,d", ZZ, lex)
 
@@ -564,46 +673,65 @@ def _do_test_benchmark_cyclic_4():
     ]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_benchmark_cyclic_4_buchberger(), test_benchmark_cyclic_4_buchberger produces the expected output) over Any ║
+# ║ Path(test_benchmark_cyclic_4_buchberger(), <unspecified:test_benchmark_cyclic_4_buchberger>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_benchmark_cyclic_4_buchberger : Any → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 49278b6e649f5697  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_benchmark_cyclic_4_buchberger","kind":"function","src_hash":"97518f6bc6b45e0e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_benchmark_cyclic_4_buchberger()","rhs":"test_benchmark_cyclic_4_buchberger produces the expected output","over":{"base":"Any"},"name":"test_benchmark_cyclic_4_buchberger_correct"},"guarantee":"test_benchmark_cyclic_4_buchberger produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_benchmark_cyclic_4_buchberger_correct","statement":"Path(test_benchmark_cyclic_4_buchberger(x), test_benchmark_cyclic_4_buchberger produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49278b6e649f5697"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_benchmark_cyclic_4_buchberger","kind":"function","src_hash":"97518f6bc6b45e0e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_benchmark_cyclic_4_buchberger()","rhs":"<unspecified:test_benchmark_cyclic_4_buchberger>","over":{"base":"Any"},"name":"test_benchmark_cyclic_4_buchberger_correct"},"guarantee":"test_benchmark_cyclic_4_buchberger produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_benchmark_cyclic_4_buchberger_correct","statement":"Path(test_benchmark_cyclic_4_buchberger(x), test_benchmark_cyclic_4_buchberger produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49278b6e649f5697","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_benchmark_cyclic_4_buchberger():
     with config.using(groebner='buchberger'):
         _do_test_benchmark_cyclic_4()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_benchmark_cyclic_4_f5b(), test_benchmark_cyclic_4_f5b produces the expected output) over Any ║
+# ║ Path(test_benchmark_cyclic_4_f5b(), <unspecified:test_benchmark_cyclic_4_f5b>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_benchmark_cyclic_4_f5b : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8a448ed0fb66c59  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_benchmark_cyclic_4_f5b","kind":"function","src_hash":"c8ebb72ceddcac46","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_benchmark_cyclic_4_f5b()","rhs":"test_benchmark_cyclic_4_f5b produces the expected output","over":{"base":"Any"},"name":"test_benchmark_cyclic_4_f5b_correct"},"guarantee":"test_benchmark_cyclic_4_f5b produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_benchmark_cyclic_4_f5b_correct","statement":"Path(test_benchmark_cyclic_4_f5b(x), test_benchmark_cyclic_4_f5b produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8a448ed0fb66c59"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_benchmark_cyclic_4_f5b","kind":"function","src_hash":"c8ebb72ceddcac46","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_benchmark_cyclic_4_f5b()","rhs":"<unspecified:test_benchmark_cyclic_4_f5b>","over":{"base":"Any"},"name":"test_benchmark_cyclic_4_f5b_correct"},"guarantee":"test_benchmark_cyclic_4_f5b produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_benchmark_cyclic_4_f5b_correct","statement":"Path(test_benchmark_cyclic_4_f5b(x), test_benchmark_cyclic_4_f5b produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8a448ed0fb66c59","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_benchmark_cyclic_4_f5b():
     with config.using(groebner='f5b'):
         _do_test_benchmark_cyclic_4()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sig_key(), test_sig_key produces the expected output) over Any ║
+# ║ Path(test_sig_key(), sig_key(s1, lex) > sig_key(s2, lex) and sig_key(s2, lex) < sig_key(s3, lex)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sig_key : Any → {Any | sig_key(s1, lex) > sig_ke...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sig_key(s1, lex) > sig_key(s2, lex)            ║
+# ║   ensures:  sig_key(s2, lex) < sig_key(s3, lex)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sig_key : Any → {Any | result satisfies: sig_key...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6243368dc549d10c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e08369e064242480  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_sig_key","kind":"function","src_hash":"5582ec5a36caed80","in":{"base":"Any"},"out":{"base":"Any","pred":"sig_key(s1, lex) > sig_key(s2, lex) and sig_key(s2, lex) < sig_key(s3, lex)"},"spec":{"lhs":"test_sig_key()","rhs":"test_sig_key produces the expected output","over":{"base":"Any"},"name":"test_sig_key_correct"},"guarantee":"test_sig_key produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_sig_key_correct","statement":"Path(test_sig_key(x), test_sig_key produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6243368dc549d10c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_sig_key","kind":"function","src_hash":"5582ec5a36caed80","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sig_key(s1, lex) > sig_key(s2, lex) and sig_key(s2, lex) < sig_key(s3, lex)"},"spec":{"lhs":"test_sig_key()","rhs":"sig_key(s1, lex) > sig_key(s2, lex) and sig_key(s2, lex) < sig_key(s3, lex)","over":{"base":"Any"},"name":"test_sig_key_correct"},"guarantee":"sig_key(s1, lex) > sig_key(s2, lex); sig_key(s2, lex) < sig_key(s3, lex)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_sig_key_correct","statement":"Path(test_sig_key(x), sig_key(s1, lex) > sig_key(s2, lex); sig_key(s2, lex) < sig_key(s3, lex))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e08369e064242480","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sig_key(s1, lex) > sig_key(s2, lex)","sig_key(s2, lex) < sig_key(s3, lex)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sig_key():
     s1 = sig((0,) * 3, 2)
     s2 = sig((1,) * 3, 4)
@@ -614,16 +742,23 @@ def test_sig_key():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lbp_key(), test_lbp_key produces the expected output) over Any ║
+# ║ Path(test_lbp_key(), lbp_key(p1) > lbp_key(p2) and lbp_key(p2) < lbp_key(p3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lbp_key : Any → {Any | lbp_key(p1) > lbp_key(p2)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  lbp_key(p1) > lbp_key(p2)                      ║
+# ║   ensures:  lbp_key(p2) < lbp_key(p3)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lbp_key : Any → {Any | result satisfies: lbp_key...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bced59d054953755  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 092ef6eb436a58bc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_lbp_key","kind":"function","src_hash":"5bf99a59c98e4658","in":{"base":"Any"},"out":{"base":"Any","pred":"lbp_key(p1) > lbp_key(p2) and lbp_key(p2) < lbp_key(p3)"},"spec":{"lhs":"test_lbp_key()","rhs":"test_lbp_key produces the expected output","over":{"base":"Any"},"name":"test_lbp_key_correct"},"guarantee":"test_lbp_key produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_lbp_key_correct","statement":"Path(test_lbp_key(x), test_lbp_key produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bced59d054953755"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_lbp_key","kind":"function","src_hash":"5bf99a59c98e4658","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: lbp_key(p1) > lbp_key(p2) and lbp_key(p2) < lbp_key(p3)"},"spec":{"lhs":"test_lbp_key()","rhs":"lbp_key(p1) > lbp_key(p2) and lbp_key(p2) < lbp_key(p3)","over":{"base":"Any"},"name":"test_lbp_key_correct"},"guarantee":"lbp_key(p1) > lbp_key(p2); lbp_key(p2) < lbp_key(p3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_lbp_key_correct","statement":"Path(test_lbp_key(x), lbp_key(p1) > lbp_key(p2); lbp_key(p2) < lbp_key(p3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"092ef6eb436a58bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["lbp_key(p1) > lbp_key(p2)","lbp_key(p2) < lbp_key(p3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_lbp_key():
     R, x,y,z,t = ring("x,y,z,t", ZZ, lex)
 
@@ -636,16 +771,23 @@ def test_lbp_key():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_critical_pair(), test_critical_pair produces the expected output) over Any ║
+# ║ Path(test_critical_pair(), critical_pair(p1, q1, R) == (((0, 0, 1, 2), 2), ((0, 0, 1, 2), QQ(-1, 1)), (((0, 0, 0, 0), 2), -y ** 2 - y * t - z * t - t ** 2, 2), ((0, 1, 0, 0), 4), ((0, 1, 0, 0), QQ(1, 1)), (((0, 0, 0, 0), 4), y * z * t ** 2 + z ** 2 * t ** 2 - t ** 4 - 1, 4)) and critical_pair(p2, q2, R) == (((0, 0, 4, 2), 2), ((0, 0, 2, 0), QQ(1, 1)), (((0, 0, 2, 2), 2), y * z + z * t ** 5 + z * t + t ** 6, 13), ((0, 0, 0, 5), 3), ((0, 0, 0, 3), QQ(1, 1)), (((0, 0, 0, 2), 3), z ** 3 * t ** 2 + z ** 2 * t ** 3 - z - t, 5))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_critical_pair : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  critical_pair(p1, q1, R) == (((0, 0, 1, 2...   ║
+# ║   ensures:  critical_pair(p2, q2, R) == (((0, 0, 4, 2...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_critical_pair : Any → {Any | result satisfies: c...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b5b24016c097bd9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 463f6e30cc0bf423  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_critical_pair","kind":"function","src_hash":"a4bdefbfa402d43f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_critical_pair()","rhs":"test_critical_pair produces the expected output","over":{"base":"Any"},"name":"test_critical_pair_correct"},"guarantee":"test_critical_pair produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_critical_pair_correct","statement":"Path(test_critical_pair(x), test_critical_pair produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b5b24016c097bd9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_critical_pair","kind":"function","src_hash":"a4bdefbfa402d43f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: critical_pair(p1, q1, R) == (((0, 0, 1, 2), 2), ((0, 0, 1, 2), QQ(-1, 1)), (((0, 0, 0, 0), 2), -y ** 2 - y * t - z * t - t ** 2, 2), ((0, 1, 0, 0), 4), ((0, 1, 0, 0), QQ(1, 1)), (((0, 0, 0, 0), 4), y * z * t ** 2 + z ** 2 * t ** 2 - t ** 4 - 1, 4)) and critical_pair(p2, q2, R) == (((0, 0, 4, 2), 2), ((0, 0, 2, 0), QQ(1, 1)), (((0, 0, 2, 2), 2), y * z + z * t ** 5 + z * t + t ** 6, 13), ((0, 0, 0, 5), 3), ((0, 0, 0, 3), QQ(1, 1)), (((0, 0, 0, 2), 3), z ** 3 * t ** 2 + z ** 2 * t ** 3 - z - t, 5))"},"spec":{"lhs":"test_critical_pair()","rhs":"critical_pair(p1, q1, R) == (((0, 0, 1, 2), 2), ((0, 0, 1, 2), QQ(-1, 1)), (((0, 0, 0, 0), 2), -y ** 2 - y * t - z * t - t ** 2, 2), ((0, 1, 0, 0), 4), ((0, 1, 0, 0), QQ(1, 1)), (((0, 0, 0, 0), 4), y * z * t ** 2 + z ** 2 * t ** 2 - t ** 4 - 1, 4)) and critical_pair(p2, q2, R) == (((0, 0, 4, 2), 2), ((0, 0, 2, 0), QQ(1, 1)), (((0, 0, 2, 2), 2), y * z + z * t ** 5 + z * t + t ** 6, 13), ((0, 0, 0, 5), 3), ((0, 0, 0, 3), QQ(1, 1)), (((0, 0, 0, 2), 3), z ** 3 * t ** 2 + z ** 2 * t ** 3 - z - t, 5))","over":{"base":"Any"},"name":"test_critical_pair_correct"},"guarantee":"critical_pair(p1, q1, R) == (((0, 0, 1, 2), 2), ((0, 0, 1, 2), QQ(-1, 1)), (((0, 0, 0, 0), 2), -y ** 2 - y * t - z * t - t ** 2, 2), ((0, 1, 0, 0), 4), ((0, 1, 0, 0), QQ(1, 1)), (((0, 0, 0, 0), 4), y * z * t ** 2 + z ** 2 * t ** 2 - t ** 4 - 1, 4)); critical_pair(p2, q2, R) == (((0, 0, 4, 2), 2), ((0, 0, 2, 0), QQ(1, 1)), (((0, 0, 2, 2), 2), y * z + z * t ** 5 + z * t + t ** 6, 13), ((0, 0, 0, 5), 3), ((0, 0, 0, 3), QQ(1, 1)), (((0, 0, 0, 2), 3), z ** 3 * t ** 2 + z ** 2 * t ** 3 - z - t, 5))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_critical_pair_correct","statement":"Path(test_critical_pair(x), critical_pair(p1, q1, R) == (((0, 0, 1, 2), 2), ((0, 0, 1, 2), QQ(-1, 1)), (((0, 0, 0, 0), 2), -y ** 2 - y * t - z * t - t ** 2, 2), ((0, 1, 0, 0), 4), ((0, 1, 0, 0), QQ(1, 1)), (((0, 0, 0, 0), 4), y * z * t ** 2 + z ** 2 * t ** 2 - t ** 4 - 1, 4)); critical_pair(p2, q2, R) == (((0, 0, 4, 2), 2), ((0, 0, 2, 0), QQ(1, 1)), (((0, 0, 2, 2), 2), y * z + z * t ** 5 + z * t + t ** 6, 13), ((0, 0, 0, 5), 3), ((0, 0, 0, 3), QQ(1, 1)), (((0, 0, 0, 2), 3), z ** 3 * t ** 2 + z ** 2 * t ** 3 - z - t, 5)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"463f6e30cc0bf423","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["critical_pair(p1, q1, R) == (((0, 0, 1, 2), 2), ((0, 0, 1, 2), QQ(-1, 1)), (((0, 0, 0, 0), 2), -y ** 2 - y * t - z * t - t ** 2, 2), ((0, 1, 0, 0), 4), ((0, 1, 0, 0), QQ(1, 1)), (((0, 0, 0, 0), 4), y * z * t ** 2 + z ** 2 * t ** 2 - t ** 4 - 1, 4))","critical_pair(p2, q2, R) == (((0, 0, 4, 2), 2), ((0, 0, 2, 0), QQ(1, 1)), (((0, 0, 2, 2), 2), y * z + z * t ** 5 + z * t + t ** 6, 13), ((0, 0, 0, 5), 3), ((0, 0, 0, 3), QQ(1, 1)), (((0, 0, 0, 2), 3), z ** 3 * t ** 2 + z ** 2 * t ** 3 - z - t, 5))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_critical_pair():
     # from cyclic4 with grlex
     R, x,y,z,t = ring("x,y,z,t", QQ, grlex)
@@ -666,16 +808,22 @@ def test_critical_pair():
     )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cp_key(), test_cp_key produces the expected output) over Any ║
+# ║ Path(test_cp_key(), cp_key(cp1, R) < cp_key(cp2, R)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cp_key : Any → {Any | cp_key(cp1, R) < cp_key(cp...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  cp_key(cp1, R) < cp_key(cp2, R)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cp_key : Any → {Any | result satisfies: cp_key(c...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a56b596a07a4a87  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1d5dcc521f819ce3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_cp_key","kind":"function","src_hash":"4f7a50cf8031b94f","in":{"base":"Any"},"out":{"base":"Any","pred":"cp_key(cp1, R) < cp_key(cp2, R) and cp_key(cp1, R) < cp_key(cp2, R)"},"spec":{"lhs":"test_cp_key()","rhs":"test_cp_key produces the expected output","over":{"base":"Any"},"name":"test_cp_key_correct"},"guarantee":"test_cp_key produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_cp_key_correct","statement":"Path(test_cp_key(x), test_cp_key produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a56b596a07a4a87"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_cp_key","kind":"function","src_hash":"4f7a50cf8031b94f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: cp_key(cp1, R) < cp_key(cp2, R)"},"spec":{"lhs":"test_cp_key()","rhs":"cp_key(cp1, R) < cp_key(cp2, R)","over":{"base":"Any"},"name":"test_cp_key_correct"},"guarantee":"cp_key(cp1, R) < cp_key(cp2, R)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_cp_key_correct","statement":"Path(test_cp_key(x), cp_key(cp1, R) < cp_key(cp2, R))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d5dcc521f819ce3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["cp_key(cp1, R) < cp_key(cp2, R)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_cp_key():
     # from cyclic4 with grlex
     R, x,y,z,t = ring("x,y,z,t", QQ, grlex)
@@ -698,16 +846,22 @@ def test_cp_key():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_rewritable_or_comparable(), test_is_rewritable_or_comparable produces the expected output) over Any ║
+# ║ Path(test_is_rewritable_or_comparable(), is_rewritable_or_comparable(Sign(p), Num(p), B) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_rewritable_or_comparable : Any → {Any | is_re...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  is_rewritable_or_comparable(Sign(p), Num(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_rewritable_or_comparable : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0760ae4f88ef6e84  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 723819e03345e362  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_is_rewritable_or_comparable","kind":"function","src_hash":"63580909274978b0","in":{"base":"Any"},"out":{"base":"Any","pred":"is_rewritable_or_comparable(Sign(p), Num(p), B) is True and is_rewritable_or_comparable(Sign(p), Num(p), B) is True"},"spec":{"lhs":"test_is_rewritable_or_comparable()","rhs":"test_is_rewritable_or_comparable produces the expected output","over":{"base":"Any"},"name":"test_is_rewritable_or_comparable_correct"},"guarantee":"test_is_rewritable_or_comparable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_is_rewritable_or_comparable_correct","statement":"Path(test_is_rewritable_or_comparable(x), test_is_rewritable_or_comparable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0760ae4f88ef6e84"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_is_rewritable_or_comparable","kind":"function","src_hash":"63580909274978b0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: is_rewritable_or_comparable(Sign(p), Num(p), B) is True"},"spec":{"lhs":"test_is_rewritable_or_comparable()","rhs":"is_rewritable_or_comparable(Sign(p), Num(p), B) is True","over":{"base":"Any"},"name":"test_is_rewritable_or_comparable_correct"},"guarantee":"is_rewritable_or_comparable(Sign(p), Num(p), B) is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_is_rewritable_or_comparable_correct","statement":"Path(test_is_rewritable_or_comparable(x), is_rewritable_or_comparable(Sign(p), Num(p), B) is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"723819e03345e362","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["is_rewritable_or_comparable(Sign(p), Num(p), B) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_is_rewritable_or_comparable():
     # from katsura4 with grlex
     R, x,y,z,t = ring("x,y,z,t", QQ, grlex)
@@ -726,16 +880,23 @@ def test_is_rewritable_or_comparable():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_f5_reduce(), test_f5_reduce produces the expected output) over Any ║
+# ║ Path(test_f5_reduce(), f5_reduce(s, F) == (((0, 2, 0), 1), R.zero, 1) and f5_reduce(s, F) == s) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_f5_reduce : Any → {Any | f5_reduce(s, F) == (((0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f5_reduce(s, F) == (((0, 2, 0), 1), R.zer...   ║
+# ║   ensures:  f5_reduce(s, F) == s                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_f5_reduce : Any → {Any | result satisfies: f5_re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95f73ca0c656a448  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 643295489bf2f7a8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_f5_reduce","kind":"function","src_hash":"424eaa41a6f858a6","in":{"base":"Any"},"out":{"base":"Any","pred":"f5_reduce(s, F) == (((0, 2, 0), 1), R.zero, 1) and f5_reduce(s, F) == s"},"spec":{"lhs":"test_f5_reduce()","rhs":"test_f5_reduce produces the expected output","over":{"base":"Any"},"name":"test_f5_reduce_correct"},"guarantee":"test_f5_reduce produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_f5_reduce_correct","statement":"Path(test_f5_reduce(x), test_f5_reduce produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95f73ca0c656a448"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_f5_reduce","kind":"function","src_hash":"424eaa41a6f858a6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f5_reduce(s, F) == (((0, 2, 0), 1), R.zero, 1) and f5_reduce(s, F) == s"},"spec":{"lhs":"test_f5_reduce()","rhs":"f5_reduce(s, F) == (((0, 2, 0), 1), R.zero, 1) and f5_reduce(s, F) == s","over":{"base":"Any"},"name":"test_f5_reduce_correct"},"guarantee":"f5_reduce(s, F) == (((0, 2, 0), 1), R.zero, 1); f5_reduce(s, F) == s","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_f5_reduce_correct","statement":"Path(test_f5_reduce(x), f5_reduce(s, F) == (((0, 2, 0), 1), R.zero, 1); f5_reduce(s, F) == s)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"643295489bf2f7a8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f5_reduce(s, F) == (((0, 2, 0), 1), R.zero, 1)","f5_reduce(s, F) == s"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_f5_reduce():
     # katsura3 with lex
     R, x,y,z = ring("x,y,z", QQ, lex)
@@ -756,16 +917,22 @@ def test_f5_reduce():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_representing_matrices(), test_representing_matrices produces the expected output) over Any ║
+# ║ Path(test_representing_matrices(), _representing_matrices(basis, F, R) == [[[QQ(0, 1), QQ(0, 1), -QQ(1, 1), QQ(3, 1)], [QQ(0, 1), QQ(0, 1), QQ(3, 1), -QQ(4, 1)], [QQ(1, 1), QQ(0, 1), QQ(1, 1), QQ(6, 1)], [QQ(0, 1), QQ(1, 1), QQ(0, 1), QQ(1, 1)]], [[QQ(0, 1), QQ(1, 1), QQ(0, 1), -QQ(2, 1)], [QQ(1, 1), -QQ(1, 1), QQ(0, 1), QQ(6, 1)], [QQ(0, 1), QQ(2, 1), QQ(0, 1), QQ(3, 1)], [QQ(0, 1), QQ(0, 1), QQ(1, 1), -QQ(1, 1)]]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_representing_matrices : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _representing_matrices(basis, F, R) == [[...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_representing_matrices : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 275882a6b2f3f11c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eef35c08d15830a4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_representing_matrices","kind":"function","src_hash":"ac8aadcd9023e55f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_representing_matrices()","rhs":"test_representing_matrices produces the expected output","over":{"base":"Any"},"name":"test_representing_matrices_correct"},"guarantee":"test_representing_matrices produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_representing_matrices_correct","statement":"Path(test_representing_matrices(x), test_representing_matrices produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"275882a6b2f3f11c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_representing_matrices","kind":"function","src_hash":"ac8aadcd9023e55f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _representing_matrices(basis, F, R) == [[[QQ(0, 1), QQ(0, 1), -QQ(1, 1), QQ(3, 1)], [QQ(0, 1), QQ(0, 1), QQ(3, 1), -QQ(4, 1)], [QQ(1, 1), QQ(0, 1), QQ(1, 1), QQ(6, 1)], [QQ(0, 1), QQ(1, 1), QQ(0, 1), QQ(1, 1)]], [[QQ(0, 1), QQ(1, 1), QQ(0, 1), -QQ(2, 1)], [QQ(1, 1), -QQ(1, 1), QQ(0, 1), QQ(6, 1)], [QQ(0, 1), QQ(2, 1), QQ(0, 1), QQ(3, 1)], [QQ(0, 1), QQ(0, 1), QQ(1, 1), -QQ(1, 1)]]]"},"spec":{"lhs":"test_representing_matrices()","rhs":"_representing_matrices(basis, F, R) == [[[QQ(0, 1), QQ(0, 1), -QQ(1, 1), QQ(3, 1)], [QQ(0, 1), QQ(0, 1), QQ(3, 1), -QQ(4, 1)], [QQ(1, 1), QQ(0, 1), QQ(1, 1), QQ(6, 1)], [QQ(0, 1), QQ(1, 1), QQ(0, 1), QQ(1, 1)]], [[QQ(0, 1), QQ(1, 1), QQ(0, 1), -QQ(2, 1)], [QQ(1, 1), -QQ(1, 1), QQ(0, 1), QQ(6, 1)], [QQ(0, 1), QQ(2, 1), QQ(0, 1), QQ(3, 1)], [QQ(0, 1), QQ(0, 1), QQ(1, 1), -QQ(1, 1)]]]","over":{"base":"Any"},"name":"test_representing_matrices_correct"},"guarantee":"_representing_matrices(basis, F, R) == [[[QQ(0, 1), QQ(0, 1), -QQ(1, 1), QQ(3, 1)], [QQ(0, 1), QQ(0, 1), QQ(3, 1), -QQ(4, 1)], [QQ(1, 1), QQ(0, 1), QQ(1, 1), QQ(6, 1)], [QQ(0, 1), QQ(1, 1), QQ(0, 1), QQ(1, 1)]], [[QQ(0, 1), QQ(1, 1), QQ(0, 1), -QQ(2, 1)], [QQ(1, 1), -QQ(1, 1), QQ(0, 1), QQ(6, 1)], [QQ(0, 1), QQ(2, 1), QQ(0, 1), QQ(3, 1)], [QQ(0, 1), QQ(0, 1), QQ(1, 1), -QQ(1, 1)]]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_representing_matrices_correct","statement":"Path(test_representing_matrices(x), _representing_matrices(basis, F, R) == [[[QQ(0, 1), QQ(0, 1), -QQ(1, 1), QQ(3, 1)], [QQ(0, 1), QQ(0, 1), QQ(3, 1), -QQ(4, 1)], [QQ(1, 1), QQ(0, 1), QQ(1, 1), QQ(6, 1)], [QQ(0, 1), QQ(1, 1), QQ(0, 1), QQ(1, 1)]], [[QQ(0, 1), QQ(1, 1), QQ(0, 1), -QQ(2, 1)], [QQ(1, 1), -QQ(1, 1), QQ(0, 1), QQ(6, 1)], [QQ(0, 1), QQ(2, 1), QQ(0, 1), QQ(3, 1)], [QQ(0, 1), QQ(0, 1), QQ(1, 1), -QQ(1, 1)]]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eef35c08d15830a4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_representing_matrices(basis, F, R) == [[[QQ(0, 1), QQ(0, 1), -QQ(1, 1), QQ(3, 1)], [QQ(0, 1), QQ(0, 1), QQ(3, 1), -QQ(4, 1)], [QQ(1, 1), QQ(0, 1), QQ(1, 1), QQ(6, 1)], [QQ(0, 1), QQ(1, 1), QQ(0, 1), QQ(1, 1)]], [[QQ(0, 1), QQ(1, 1), QQ(0, 1), -QQ(2, 1)], [QQ(1, 1), -QQ(1, 1), QQ(0, 1), QQ(6, 1)], [QQ(0, 1), QQ(2, 1), QQ(0, 1), QQ(3, 1)], [QQ(0, 1), QQ(0, 1), QQ(1, 1), -QQ(1, 1)]]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_representing_matrices():
     R, x,y = ring("x,y", QQ, grlex)
 
@@ -783,16 +950,24 @@ def test_representing_matrices():
          [QQ(0, 1), QQ(0, 1), QQ(1, 1),-QQ(1, 1)]]]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_groebner_lcm(), test_groebner_lcm produces the expected output) over Any ║
+# ║ Path(test_groebner_lcm(), groebner_lcm(x ** 2 - y ** 2, x - y) == x ** 2 - y ** 2 and groebner_lcm(2 * x ** 2 - 2 * y ** 2, 2 * x - 2 * y) == 2 * x ** 2 - 2 * y ** 2 and groebner_lcm(x ** 2 * y, x * y ** 2) == x ** 2 * y ** 2 and groebner_lcm(f, g) == h) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_groebner_lcm : Any → {Any | groebner_lcm(x ** 2 ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  groebner_lcm(x ** 2 - y ** 2, x - y) == x...   ║
+# ║   ensures:  groebner_lcm(2 * x ** 2 - 2 * y ** 2, 2 *...   ║
+# ║   ensures:  groebner_lcm(x ** 2 * y, x * y ** 2) == x...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_groebner_lcm : Any → {Any | result satisfies: gr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d6e61044cf590e0e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a8ac2ba807645d71  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_groebner_lcm","kind":"function","src_hash":"0af4e5fe809adc93","in":{"base":"Any"},"out":{"base":"Any","pred":"groebner_lcm(x ** 2 - y ** 2, x - y) == x ** 2 - y ** 2 and groebner_lcm(2 * x ** 2 - 2 * y ** 2, 2 * x - 2 * y) == 2 * x ** 2 - 2 * y ** 2 and groebner_lcm(x ** 2 - y ** 2, x - y) == x ** 2 - y ** 2 and groebner_lcm(2 * x ** 2 - 2 * y ** 2, 2 * x - 2 * y) == 2 * x ** 2 - 2 * y ** 2 and groebner_lcm(x ** 2 * y, x * y ** 2) == x ** 2 * y ** 2 and groebner_lcm(f, g) == h and groebner_lcm(f, g) == h"},"spec":{"lhs":"test_groebner_lcm()","rhs":"test_groebner_lcm produces the expected output","over":{"base":"Any"},"name":"test_groebner_lcm_correct"},"guarantee":"test_groebner_lcm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_groebner_lcm_correct","statement":"Path(test_groebner_lcm(x), test_groebner_lcm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6e61044cf590e0e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_groebner_lcm","kind":"function","src_hash":"0af4e5fe809adc93","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: groebner_lcm(x ** 2 - y ** 2, x - y) == x ** 2 - y ** 2 and groebner_lcm(2 * x ** 2 - 2 * y ** 2, 2 * x - 2 * y) == 2 * x ** 2 - 2 * y ** 2 and groebner_lcm(x ** 2 * y, x * y ** 2) == x ** 2 * y ** 2 and groebner_lcm(f, g) == h"},"spec":{"lhs":"test_groebner_lcm()","rhs":"groebner_lcm(x ** 2 - y ** 2, x - y) == x ** 2 - y ** 2 and groebner_lcm(2 * x ** 2 - 2 * y ** 2, 2 * x - 2 * y) == 2 * x ** 2 - 2 * y ** 2 and groebner_lcm(x ** 2 * y, x * y ** 2) == x ** 2 * y ** 2 and groebner_lcm(f, g) == h","over":{"base":"Any"},"name":"test_groebner_lcm_correct"},"guarantee":"groebner_lcm(x ** 2 - y ** 2, x - y) == x ** 2 - y ** 2; groebner_lcm(2 * x ** 2 - 2 * y ** 2, 2 * x - 2 * y) == 2 * x ** 2 - 2 * y ** 2; groebner_lcm(x ** 2 * y, x * y ** 2) == x ** 2 * y ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_groebner_lcm_correct","statement":"Path(test_groebner_lcm(x), groebner_lcm(x ** 2 - y ** 2, x - y) == x ** 2 - y ** 2; groebner_lcm(2 * x ** 2 - 2 * y ** 2, 2 * x - 2 * y) == 2 * x ** 2 - 2 * y ** 2; groebner_lcm(x ** 2 * y, x * y ** 2) == x ** 2 * y ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8ac2ba807645d71","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["groebner_lcm(x ** 2 - y ** 2, x - y) == x ** 2 - y ** 2","groebner_lcm(2 * x ** 2 - 2 * y ** 2, 2 * x - 2 * y) == 2 * x ** 2 - 2 * y ** 2","groebner_lcm(x ** 2 * y, x * y ** 2) == x ** 2 * y ** 2","groebner_lcm(f, g) == h"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_groebner_lcm():
     R, x,y,z = ring("x,y,z", ZZ)
 
@@ -821,16 +996,24 @@ def test_groebner_lcm():
     assert groebner_lcm(f, g) == h
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_groebner_gcd(), test_groebner_gcd produces the expected output) over Any ║
+# ║ Path(test_groebner_gcd(), groebner_gcd(x ** 2 - y ** 2, x - y) == x - y and groebner_gcd(2 * x ** 2 - 2 * y ** 2, 2 * x - 2 * y) == 2 * x - 2 * y and groebner_gcd(2 * x ** 2 - 2 * y ** 2, 2 * x - 2 * y) == x - y) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_groebner_gcd : Any → {Any | groebner_gcd(x ** 2 ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  groebner_gcd(x ** 2 - y ** 2, x - y) == x...   ║
+# ║   ensures:  groebner_gcd(2 * x ** 2 - 2 * y ** 2, 2 *...   ║
+# ║   ensures:  groebner_gcd(2 * x ** 2 - 2 * y ** 2, 2 *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_groebner_gcd : Any → {Any | result satisfies: gr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b6eca86bf407b524  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3570de947c4865da  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_groebner_gcd","kind":"function","src_hash":"a2736dc4504020f7","in":{"base":"Any"},"out":{"base":"Any","pred":"groebner_gcd(x ** 2 - y ** 2, x - y) == x - y and groebner_gcd(2 * x ** 2 - 2 * y ** 2, 2 * x - 2 * y) == 2 * x - 2 * y and groebner_gcd(x ** 2 - y ** 2, x - y) == x - y and groebner_gcd(2 * x ** 2 - 2 * y ** 2, 2 * x - 2 * y) == x - y"},"spec":{"lhs":"test_groebner_gcd()","rhs":"test_groebner_gcd produces the expected output","over":{"base":"Any"},"name":"test_groebner_gcd_correct"},"guarantee":"test_groebner_gcd produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_groebner_gcd_correct","statement":"Path(test_groebner_gcd(x), test_groebner_gcd produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6eca86bf407b524"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_groebner_gcd","kind":"function","src_hash":"a2736dc4504020f7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: groebner_gcd(x ** 2 - y ** 2, x - y) == x - y and groebner_gcd(2 * x ** 2 - 2 * y ** 2, 2 * x - 2 * y) == 2 * x - 2 * y and groebner_gcd(2 * x ** 2 - 2 * y ** 2, 2 * x - 2 * y) == x - y"},"spec":{"lhs":"test_groebner_gcd()","rhs":"groebner_gcd(x ** 2 - y ** 2, x - y) == x - y and groebner_gcd(2 * x ** 2 - 2 * y ** 2, 2 * x - 2 * y) == 2 * x - 2 * y and groebner_gcd(2 * x ** 2 - 2 * y ** 2, 2 * x - 2 * y) == x - y","over":{"base":"Any"},"name":"test_groebner_gcd_correct"},"guarantee":"groebner_gcd(x ** 2 - y ** 2, x - y) == x - y; groebner_gcd(2 * x ** 2 - 2 * y ** 2, 2 * x - 2 * y) == 2 * x - 2 * y; groebner_gcd(2 * x ** 2 - 2 * y ** 2, 2 * x - 2 * y) == x - y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_groebner_gcd_correct","statement":"Path(test_groebner_gcd(x), groebner_gcd(x ** 2 - y ** 2, x - y) == x - y; groebner_gcd(2 * x ** 2 - 2 * y ** 2, 2 * x - 2 * y) == 2 * x - 2 * y; groebner_gcd(2 * x ** 2 - 2 * y ** 2, 2 * x - 2 * y) == x - y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3570de947c4865da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["groebner_gcd(x ** 2 - y ** 2, x - y) == x - y","groebner_gcd(2 * x ** 2 - 2 * y ** 2, 2 * x - 2 * y) == 2 * x - 2 * y","groebner_gcd(2 * x ** 2 - 2 * y ** 2, 2 * x - 2 * y) == x - y"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_groebner_gcd():
     R, x,y,z = ring("x,y,z", ZZ)
 
@@ -843,16 +1026,23 @@ def test_groebner_gcd():
     assert groebner_gcd(2*x**2 - 2*y**2, 2*x - 2*y) == x - y
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_groebner(), test_is_groebner produces the expected output) over Any ║
+# ║ Path(test_is_groebner(), is_groebner(valid_groebner, R) is True and is_groebner(invalid_groebner, R) is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_groebner : Any → {Any | is_groebner(valid_gro...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  is_groebner(valid_groebner, R) is True         ║
+# ║   ensures:  is_groebner(invalid_groebner, R) is False      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_groebner : Any → {Any | result satisfies: is_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 60edbc1cb40f3ae3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cee0323ade72f538  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_is_groebner","kind":"function","src_hash":"c811874b0047357c","in":{"base":"Any"},"out":{"base":"Any","pred":"is_groebner(valid_groebner, R) is True and is_groebner(invalid_groebner, R) is False"},"spec":{"lhs":"test_is_groebner()","rhs":"test_is_groebner produces the expected output","over":{"base":"Any"},"name":"test_is_groebner_correct"},"guarantee":"test_is_groebner produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_is_groebner_correct","statement":"Path(test_is_groebner(x), test_is_groebner produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60edbc1cb40f3ae3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_is_groebner","kind":"function","src_hash":"c811874b0047357c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: is_groebner(valid_groebner, R) is True and is_groebner(invalid_groebner, R) is False"},"spec":{"lhs":"test_is_groebner()","rhs":"is_groebner(valid_groebner, R) is True and is_groebner(invalid_groebner, R) is False","over":{"base":"Any"},"name":"test_is_groebner_correct"},"guarantee":"is_groebner(valid_groebner, R) is True; is_groebner(invalid_groebner, R) is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_is_groebner_correct","statement":"Path(test_is_groebner(x), is_groebner(valid_groebner, R) is True; is_groebner(invalid_groebner, R) is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cee0323ade72f538","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["is_groebner(valid_groebner, R) is True","is_groebner(invalid_groebner, R) is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_is_groebner():
     R, x,y = ring("x,y", QQ, grlex)
     valid_groebner = [x**2, x*y, -QQ(1,2)*x + y**2]
@@ -861,16 +1051,23 @@ def test_is_groebner():
     assert is_groebner(invalid_groebner, R) is False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_reduced(), test_is_reduced produces the expected output) over Any ║
+# ║ Path(test_is_reduced(), is_reduced([f, g], R) == False and is_reduced(G, R) == True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_reduced : Any → {Any | is_reduced([f, g], R) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  is_reduced([f, g], R) == False                 ║
+# ║   ensures:  is_reduced(G, R) == True                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_reduced : Any → {Any | result satisfies: is_r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6efeb01554931d73  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 896435c91133fb2b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_is_reduced","kind":"function","src_hash":"2054d02900560205","in":{"base":"Any"},"out":{"base":"Any","pred":"is_reduced([f, g], R) == False and is_reduced(G, R) == True"},"spec":{"lhs":"test_is_reduced()","rhs":"test_is_reduced produces the expected output","over":{"base":"Any"},"name":"test_is_reduced_correct"},"guarantee":"test_is_reduced produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_is_reduced_correct","statement":"Path(test_is_reduced(x), test_is_reduced produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6efeb01554931d73"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_groebnertools.test_is_reduced","kind":"function","src_hash":"2054d02900560205","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: is_reduced([f, g], R) == False and is_reduced(G, R) == True"},"spec":{"lhs":"test_is_reduced()","rhs":"is_reduced([f, g], R) == False and is_reduced(G, R) == True","over":{"base":"Any"},"name":"test_is_reduced_correct"},"guarantee":"is_reduced([f, g], R) == False; is_reduced(G, R) == True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_groebnertools.test_is_reduced_correct","statement":"Path(test_is_reduced(x), is_reduced([f, g], R) == False; is_reduced(G, R) == True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"896435c91133fb2b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["is_reduced([f, g], R) == False","is_reduced(G, R) == True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_is_reduced():
     R, x, y = ring("x,y", QQ, lex)
     f = x**2 + 2*x*y**2

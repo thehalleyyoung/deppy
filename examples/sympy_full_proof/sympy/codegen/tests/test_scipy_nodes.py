@@ -27,16 +27,24 @@ x, y, z = symbols('x y z')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cosm1(), test_cosm1 produces the expected output) over Any ║
+# ║ Path(test_cosm1(), expr_minus2.rewrite(cos) == -2 and cosm1(3.14).simplify() == cosm1(3.14) and cosm1(pi / 2).simplify() == -1 and (1 / cos(x) - 1 + cosm1(x) / cos(x)).simplify() == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cosm1 : Any → {Any | expr_minus2.rewrite(cos) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expr_minus2.rewrite(cos) == -2                 ║
+# ║   ensures:  cosm1(3.14).simplify() == cosm1(3.14)          ║
+# ║   ensures:  cosm1(pi / 2).simplify() == -1                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cosm1 : Any → {Any | result satisfies: expr_minu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f27f5428e8188f58  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ff2a6e4643dfcf8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_scipy_nodes.test_cosm1","kind":"function","src_hash":"fe26e572e94c49b3","in":{"base":"Any"},"out":{"base":"Any","pred":"expr_minus2.rewrite(cos) == -2 and cosm1(3.14).simplify() == cosm1(3.14) and cosm1(pi / 2).simplify() == -1 and (1 / cos(x) - 1 + cosm1(x) / cos(x)).simplify() == 0"},"spec":{"lhs":"test_cosm1()","rhs":"test_cosm1 produces the expected output","over":{"base":"Any"},"name":"test_cosm1_correct"},"guarantee":"test_cosm1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_scipy_nodes.test_cosm1_correct","statement":"Path(test_cosm1(x), test_cosm1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f27f5428e8188f58"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_scipy_nodes.test_cosm1","kind":"function","src_hash":"fe26e572e94c49b3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expr_minus2.rewrite(cos) == -2 and cosm1(3.14).simplify() == cosm1(3.14) and cosm1(pi / 2).simplify() == -1 and (1 / cos(x) - 1 + cosm1(x) / cos(x)).simplify() == 0"},"spec":{"lhs":"test_cosm1()","rhs":"expr_minus2.rewrite(cos) == -2 and cosm1(3.14).simplify() == cosm1(3.14) and cosm1(pi / 2).simplify() == -1 and (1 / cos(x) - 1 + cosm1(x) / cos(x)).simplify() == 0","over":{"base":"Any"},"name":"test_cosm1_correct"},"guarantee":"expr_minus2.rewrite(cos) == -2; cosm1(3.14).simplify() == cosm1(3.14); cosm1(pi / 2).simplify() == -1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_scipy_nodes.test_cosm1_correct","statement":"Path(test_cosm1(x), expr_minus2.rewrite(cos) == -2; cosm1(3.14).simplify() == cosm1(3.14); cosm1(pi / 2).simplify() == -1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ff2a6e4643dfcf8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expr_minus2.rewrite(cos) == -2","cosm1(3.14).simplify() == cosm1(3.14)","cosm1(pi / 2).simplify() == -1","(1 / cos(x) - 1 + cosm1(x) / cos(x)).simplify() == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_cosm1():
     cm1_xy = cosm1(x*y)
     ref_xy = cos(x*y) - 1
@@ -54,16 +62,23 @@ def test_cosm1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_powm1(), test_powm1 produces the expected output) over Any ║
+# ║ Path(test_powm1(), eulers_constant_m1.rewrite(Pow) == exp(1) - 1 and eulers_constant_m1.simplify() == exp(1) - 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_powm1 : Any → {Any | eulers_constant_m1.rewrite(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  eulers_constant_m1.rewrite(Pow) == exp(1)...   ║
+# ║   ensures:  eulers_constant_m1.simplify() == exp(1) - 1    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_powm1 : Any → {Any | result satisfies: eulers_co...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e0baefab506b6ca0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d18ca518630cd1f6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_scipy_nodes.test_powm1","kind":"function","src_hash":"8dc7c411dac12aa2","in":{"base":"Any"},"out":{"base":"Any","pred":"eulers_constant_m1.rewrite(Pow) == exp(1) - 1 and eulers_constant_m1.simplify() == exp(1) - 1 and delta.simplify() == 0"},"spec":{"lhs":"test_powm1()","rhs":"test_powm1 produces the expected output","over":{"base":"Any"},"name":"test_powm1_correct"},"guarantee":"test_powm1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_scipy_nodes.test_powm1_correct","statement":"Path(test_powm1(x), test_powm1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0baefab506b6ca0"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_scipy_nodes.test_powm1","kind":"function","src_hash":"8dc7c411dac12aa2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: eulers_constant_m1.rewrite(Pow) == exp(1) - 1 and eulers_constant_m1.simplify() == exp(1) - 1"},"spec":{"lhs":"test_powm1()","rhs":"eulers_constant_m1.rewrite(Pow) == exp(1) - 1 and eulers_constant_m1.simplify() == exp(1) - 1","over":{"base":"Any"},"name":"test_powm1_correct"},"guarantee":"eulers_constant_m1.rewrite(Pow) == exp(1) - 1; eulers_constant_m1.simplify() == exp(1) - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_scipy_nodes.test_powm1_correct","statement":"Path(test_powm1(x), eulers_constant_m1.rewrite(Pow) == exp(1) - 1; eulers_constant_m1.simplify() == exp(1) - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d18ca518630cd1f6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["eulers_constant_m1.rewrite(Pow) == exp(1) - 1","eulers_constant_m1.simplify() == exp(1) - 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_powm1():
     cases = {
             powm1(x, y): x**y - 1,

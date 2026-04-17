@@ -23,16 +23,24 @@ from sympy.core.sympify import SympifyError
 import warnings
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_parse_expr(), test_parse_expr produces the expected output) over Any ║
+# ║ Path(test_parse_expr(), parse_expr('a + b', {}) == a + b and parse_expr('1 + 2', {}) == S(3) and parse_expr('1 + 2.0', {}) == S(3.0) and parse_expr('Rational(1, 2)', {}) == S(1) / 2 and parse_expr('a', {'a': a}) == a) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_parse_expr : Any → {Any | parse_expr('a + b', {}...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  parse_expr('a + b', {}) == a + b               ║
+# ║   ensures:  parse_expr('1 + 2', {}) == S(3)                ║
+# ║   ensures:  parse_expr('1 + 2.0', {}) == S(3.0)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_parse_expr : Any → {Any | result satisfies: pars...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de374361633ba96a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cbd6b72296c6ee80  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_ast_parser.test_parse_expr","kind":"function","src_hash":"c38d9b834f660c8c","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_expr('a + b', {}) == a + b and parse_expr('1 + 2', {}) == S(3) and parse_expr('1 + 2.0', {}) == S(3.0) and parse_expr('Rational(1, 2)', {}) == S(1) / 2 and parse_expr('a', {'a': a}) == a and parse_expr('6 * 7', {}) == S(42)"},"spec":{"lhs":"test_parse_expr()","rhs":"test_parse_expr produces the expected output","over":{"base":"Any"},"name":"test_parse_expr_correct"},"guarantee":"test_parse_expr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_ast_parser.test_parse_expr_correct","statement":"Path(test_parse_expr(x), test_parse_expr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de374361633ba96a"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_ast_parser.test_parse_expr","kind":"function","src_hash":"c38d9b834f660c8c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: parse_expr('a + b', {}) == a + b and parse_expr('1 + 2', {}) == S(3) and parse_expr('1 + 2.0', {}) == S(3.0) and parse_expr('Rational(1, 2)', {}) == S(1) / 2 and parse_expr('a', {'a': a}) == a"},"spec":{"lhs":"test_parse_expr()","rhs":"parse_expr('a + b', {}) == a + b and parse_expr('1 + 2', {}) == S(3) and parse_expr('1 + 2.0', {}) == S(3.0) and parse_expr('Rational(1, 2)', {}) == S(1) / 2 and parse_expr('a', {'a': a}) == a","over":{"base":"Any"},"name":"test_parse_expr_correct"},"guarantee":"parse_expr('a + b', {}) == a + b; parse_expr('1 + 2', {}) == S(3); parse_expr('1 + 2.0', {}) == S(3.0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_ast_parser.test_parse_expr_correct","statement":"Path(test_parse_expr(x), parse_expr('a + b', {}) == a + b; parse_expr('1 + 2', {}) == S(3); parse_expr('1 + 2.0', {}) == S(3.0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cbd6b72296c6ee80","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["parse_expr('a + b', {}) == a + b","parse_expr('1 + 2', {}) == S(3)","parse_expr('1 + 2.0', {}) == S(3.0)","parse_expr('Rational(1, 2)', {}) == S(1) / 2","parse_expr('a', {'a': a}) == a"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_parse_expr():
     a, b = symbols('a, b')
     # tests issue_16393

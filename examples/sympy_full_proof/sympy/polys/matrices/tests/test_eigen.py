@@ -33,16 +33,23 @@ from sympy.polys.matrices.eigen import dom_eigenvects, dom_eigenvects_to_sympy
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dom_eigenvects_rational(), test_dom_eigenvects_rational produces the expected output) over Any ║
+# ║ Path(test_dom_eigenvects_rational(), dom_eigenvects(A) == (rational_eigenvects, []) and dom_eigenvects_to_sympy(rational_eigenvects, [], Matrix) == sympy_eigenvects) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dom_eigenvects_rational : Any → {Any | dom_eigen...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dom_eigenvects(A) == (rational_eigenvects...   ║
+# ║   ensures:  dom_eigenvects_to_sympy(rational_eigenvec...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dom_eigenvects_rational : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1afbd0bfe4b1b45d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80fdda1ffc4856fa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_eigen.test_dom_eigenvects_rational","kind":"function","src_hash":"a56ba4d7c71a0ade","in":{"base":"Any"},"out":{"base":"Any","pred":"dom_eigenvects(A) == (rational_eigenvects, []) and dom_eigenvects_to_sympy(rational_eigenvects, [], Matrix) == sympy_eigenvects"},"spec":{"lhs":"test_dom_eigenvects_rational()","rhs":"test_dom_eigenvects_rational produces the expected output","over":{"base":"Any"},"name":"test_dom_eigenvects_rational_correct"},"guarantee":"test_dom_eigenvects_rational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_eigen.test_dom_eigenvects_rational_correct","statement":"Path(test_dom_eigenvects_rational(x), test_dom_eigenvects_rational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1afbd0bfe4b1b45d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_eigen.test_dom_eigenvects_rational","kind":"function","src_hash":"a56ba4d7c71a0ade","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dom_eigenvects(A) == (rational_eigenvects, []) and dom_eigenvects_to_sympy(rational_eigenvects, [], Matrix) == sympy_eigenvects"},"spec":{"lhs":"test_dom_eigenvects_rational()","rhs":"dom_eigenvects(A) == (rational_eigenvects, []) and dom_eigenvects_to_sympy(rational_eigenvects, [], Matrix) == sympy_eigenvects","over":{"base":"Any"},"name":"test_dom_eigenvects_rational_correct"},"guarantee":"dom_eigenvects(A) == (rational_eigenvects, []); dom_eigenvects_to_sympy(rational_eigenvects, [], Matrix) == sympy_eigenvects","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_eigen.test_dom_eigenvects_rational_correct","statement":"Path(test_dom_eigenvects_rational(x), dom_eigenvects(A) == (rational_eigenvects, []); dom_eigenvects_to_sympy(rational_eigenvects, [], Matrix) == sympy_eigenvects)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80fdda1ffc4856fa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dom_eigenvects(A) == (rational_eigenvects, [])","dom_eigenvects_to_sympy(rational_eigenvects, [], Matrix) == sympy_eigenvects"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_dom_eigenvects_rational():
     # Rational eigenvalues
     A = DomainMatrix([[QQ(1), QQ(2)], [QQ(1), QQ(2)]], (2, 2), QQ)
@@ -61,16 +68,23 @@ def test_dom_eigenvects_rational():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dom_eigenvects_algebraic(), test_dom_eigenvects_algebraic produces the expected output) over Any ║
+# ║ Path(test_dom_eigenvects_algebraic(), Avects == ([], algebraic_eigenvects) and dom_eigenvects_to_sympy([], algebraic_eigenvects, Matrix) == sympy_eigenvects) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dom_eigenvects_algebraic : Any → {Any | Avects =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Avects == ([], algebraic_eigenvects)           ║
+# ║   ensures:  dom_eigenvects_to_sympy([], algebraic_eig...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dom_eigenvects_algebraic : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b3ff5e11b7058da  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 46de4be28b0b3811  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_eigen.test_dom_eigenvects_algebraic","kind":"function","src_hash":"32b2ec79db137c2b","in":{"base":"Any"},"out":{"base":"Any","pred":"Avects == ([], algebraic_eigenvects) and dom_eigenvects_to_sympy([], algebraic_eigenvects, Matrix) == sympy_eigenvects"},"spec":{"lhs":"test_dom_eigenvects_algebraic()","rhs":"test_dom_eigenvects_algebraic produces the expected output","over":{"base":"Any"},"name":"test_dom_eigenvects_algebraic_correct"},"guarantee":"test_dom_eigenvects_algebraic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_eigen.test_dom_eigenvects_algebraic_correct","statement":"Path(test_dom_eigenvects_algebraic(x), test_dom_eigenvects_algebraic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b3ff5e11b7058da"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_eigen.test_dom_eigenvects_algebraic","kind":"function","src_hash":"32b2ec79db137c2b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Avects == ([], algebraic_eigenvects) and dom_eigenvects_to_sympy([], algebraic_eigenvects, Matrix) == sympy_eigenvects"},"spec":{"lhs":"test_dom_eigenvects_algebraic()","rhs":"Avects == ([], algebraic_eigenvects) and dom_eigenvects_to_sympy([], algebraic_eigenvects, Matrix) == sympy_eigenvects","over":{"base":"Any"},"name":"test_dom_eigenvects_algebraic_correct"},"guarantee":"Avects == ([], algebraic_eigenvects); dom_eigenvects_to_sympy([], algebraic_eigenvects, Matrix) == sympy_eigenvects","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_eigen.test_dom_eigenvects_algebraic_correct","statement":"Path(test_dom_eigenvects_algebraic(x), Avects == ([], algebraic_eigenvects); dom_eigenvects_to_sympy([], algebraic_eigenvects, Matrix) == sympy_eigenvects)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46de4be28b0b3811","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Avects == ([], algebraic_eigenvects)","dom_eigenvects_to_sympy([], algebraic_eigenvects, Matrix) == sympy_eigenvects"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_dom_eigenvects_algebraic():
     # Algebraic eigenvalues
     A = DomainMatrix([[QQ(1), QQ(2)], [QQ(3), QQ(4)]], (2, 2), QQ)
@@ -95,16 +109,23 @@ def test_dom_eigenvects_algebraic():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dom_eigenvects_rootof(), test_dom_eigenvects_rootof produces the expected output) over Any ║
+# ║ Path(test_dom_eigenvects_rootof(), Avects == ([], algebraic_eigenvects) and dom_eigenvects_to_sympy([], algebraic_eigenvects, Matrix) == sympy_eigenvects) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dom_eigenvects_rootof : Any → {Any | Avects == (...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Avects == ([], algebraic_eigenvects)           ║
+# ║   ensures:  dom_eigenvects_to_sympy([], algebraic_eig...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dom_eigenvects_rootof : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1d732ce0c0c65ea6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dec6b4c87603208f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_eigen.test_dom_eigenvects_rootof","kind":"function","src_hash":"201a92d60ef537ef","in":{"base":"Any"},"out":{"base":"Any","pred":"Avects == ([], algebraic_eigenvects) and dom_eigenvects_to_sympy([], algebraic_eigenvects, Matrix) == sympy_eigenvects"},"spec":{"lhs":"test_dom_eigenvects_rootof()","rhs":"test_dom_eigenvects_rootof produces the expected output","over":{"base":"Any"},"name":"test_dom_eigenvects_rootof_correct"},"guarantee":"test_dom_eigenvects_rootof produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_eigen.test_dom_eigenvects_rootof_correct","statement":"Path(test_dom_eigenvects_rootof(x), test_dom_eigenvects_rootof produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d732ce0c0c65ea6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_eigen.test_dom_eigenvects_rootof","kind":"function","src_hash":"201a92d60ef537ef","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Avects == ([], algebraic_eigenvects) and dom_eigenvects_to_sympy([], algebraic_eigenvects, Matrix) == sympy_eigenvects"},"spec":{"lhs":"test_dom_eigenvects_rootof()","rhs":"Avects == ([], algebraic_eigenvects) and dom_eigenvects_to_sympy([], algebraic_eigenvects, Matrix) == sympy_eigenvects","over":{"base":"Any"},"name":"test_dom_eigenvects_rootof_correct"},"guarantee":"Avects == ([], algebraic_eigenvects); dom_eigenvects_to_sympy([], algebraic_eigenvects, Matrix) == sympy_eigenvects","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_eigen.test_dom_eigenvects_rootof_correct","statement":"Path(test_dom_eigenvects_rootof(x), Avects == ([], algebraic_eigenvects); dom_eigenvects_to_sympy([], algebraic_eigenvects, Matrix) == sympy_eigenvects)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dec6b4c87603208f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Avects == ([], algebraic_eigenvects)","dom_eigenvects_to_sympy([], algebraic_eigenvects, Matrix) == sympy_eigenvects"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_dom_eigenvects_rootof():
     # Algebraic eigenvalues
     A = DomainMatrix([

@@ -36,16 +36,24 @@ from itertools import product
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(n_order(a, ), returns the order of ``a`` modulo ``n``) over Any ║
+# ║ Path(n_order(a, n), <unspecified:n_order>) over {Any | not (n <= 1) and not (gcd(a, n) != 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ n_order : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (n <= 1)                                   ║
+# ║   requires: not (gcd(a, n) != 1)                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ n_order : {Any | not (n <= 1) and not (gcd(a, n) != 1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 31dcb234d0ce4b63  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory.n_order","kind":"function","src_hash":"a7a6825554b4f3f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"n_order(a, )","rhs":"returns the order of ``a`` modulo ``n``","over":{"base":"Any"},"name":"n_order_correct"},"guarantee":"returns the order of ``a`` modulo ``n``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory.n_order_correct","statement":"Path(n_order(x), returns the order of ``a`` modulo ``n``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31dcb234d0ce4b63"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory.n_order","kind":"function","src_hash":"a7a6825554b4f3f9","in":{"base":"Any","pred":"not (n <= 1) and not (gcd(a, n) != 1)"},"out":{"base":"Any"},"spec":{"lhs":"n_order(a, n)","rhs":"<unspecified:n_order>","over":{"base":"Any","pred":"not (n <= 1) and not (gcd(a, n) != 1)"},"name":"n_order_correct"},"guarantee":"returns the order of ``a`` modulo ``n``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory.n_order_correct","statement":"Path(n_order(x), returns the order of ``a`` modulo ``n``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31dcb234d0ce4b63","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (n <= 1)","not (gcd(a, n) != 1)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def n_order(a, n):
     r""" Returns the order of ``a`` modulo ``n``.
 
@@ -117,16 +125,22 @@ def n_order(a, n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_primitive_root_prime_iter(p), generates the primitive roots for a prime ``p``) over Any ║
+# ║ Path(_primitive_root_prime_iter(p), <unspecified:_primitive_root_prime_iter>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _primitive_root_prime_iter : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3dd8cb4d7a87ca1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory._primitive_root_prime_iter","kind":"function","src_hash":"d686fa57c4587b95","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_primitive_root_prime_iter(p)","rhs":"generates the primitive roots for a prime ``p``","over":{"base":"Any"},"name":"_primitive_root_prime_iter_correct"},"guarantee":"generates the primitive roots for a prime ``p``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory._primitive_root_prime_iter_correct","statement":"Path(_primitive_root_prime_iter(x), generates the primitive roots for a prime ``p``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3dd8cb4d7a87ca1"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory._primitive_root_prime_iter","kind":"function","src_hash":"d686fa57c4587b95","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_primitive_root_prime_iter(p)","rhs":"<unspecified:_primitive_root_prime_iter>","over":{"base":"Any"},"name":"_primitive_root_prime_iter_correct"},"guarantee":"generates the primitive roots for a prime ``p``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory._primitive_root_prime_iter_correct","statement":"Path(_primitive_root_prime_iter(x), generates the primitive roots for a prime ``p``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3dd8cb4d7a87ca1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _primitive_root_prime_iter(p):
     r""" Generates the primitive roots for a prime ``p``.
 
@@ -192,16 +206,22 @@ def _primitive_root_prime_iter(p):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_primitive_root_prime_power_iter(p, ), generates the primitive roots of `p^e`) over Any ║
+# ║ Path(_primitive_root_prime_power_iter(p, e), <unspecified:_primitive_root_prime_power_iter>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _primitive_root_prime_power_iter : Any → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d817e76c1f0c5879  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory._primitive_root_prime_power_iter","kind":"function","src_hash":"e26cb21f7e671b9c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_primitive_root_prime_power_iter(p, )","rhs":"generates the primitive roots of `p^e`","over":{"base":"Any"},"name":"_primitive_root_prime_power_iter_correct"},"guarantee":"generates the primitive roots of `p^e`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory._primitive_root_prime_power_iter_correct","statement":"Path(_primitive_root_prime_power_iter(x), generates the primitive roots of `p^e`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d817e76c1f0c5879"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory._primitive_root_prime_power_iter","kind":"function","src_hash":"e26cb21f7e671b9c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_primitive_root_prime_power_iter(p, e)","rhs":"<unspecified:_primitive_root_prime_power_iter>","over":{"base":"Any"},"name":"_primitive_root_prime_power_iter_correct"},"guarantee":"generates the primitive roots of `p^e`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory._primitive_root_prime_power_iter_correct","statement":"Path(_primitive_root_prime_power_iter(x), generates the primitive roots of `p^e`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d817e76c1f0c5879","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _primitive_root_prime_power_iter(p, e):
     r""" Generates the primitive roots of `p^e`.
 
@@ -248,16 +268,22 @@ def _primitive_root_prime_power_iter(p, e):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_primitive_root_prime_power2_iter(p, ), generates the primitive roots of `2p^e`) over Any ║
+# ║ Path(_primitive_root_prime_power2_iter(p, e), <unspecified:_primitive_root_prime_power2_iter>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _primitive_root_prime_power2_iter : Any → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 274b46809a1fd09e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory._primitive_root_prime_power2_iter","kind":"function","src_hash":"22c28cce3fa96ada","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_primitive_root_prime_power2_iter(p, )","rhs":"generates the primitive roots of `2p^e`","over":{"base":"Any"},"name":"_primitive_root_prime_power2_iter_correct"},"guarantee":"generates the primitive roots of `2p^e`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory._primitive_root_prime_power2_iter_correct","statement":"Path(_primitive_root_prime_power2_iter(x), generates the primitive roots of `2p^e`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"274b46809a1fd09e"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory._primitive_root_prime_power2_iter","kind":"function","src_hash":"22c28cce3fa96ada","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_primitive_root_prime_power2_iter(p, e)","rhs":"<unspecified:_primitive_root_prime_power2_iter>","over":{"base":"Any"},"name":"_primitive_root_prime_power2_iter_correct"},"guarantee":"generates the primitive roots of `2p^e`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory._primitive_root_prime_power2_iter_correct","statement":"Path(_primitive_root_prime_power2_iter(x), generates the primitive roots of `2p^e`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"274b46809a1fd09e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _primitive_root_prime_power2_iter(p, e):
     r""" Generates the primitive roots of `2p^e`.
 
@@ -295,16 +321,23 @@ def _primitive_root_prime_power2_iter(p, e):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(primitive_root(p, ), returns a primitive root of ``p`` or none) over Any ║
+# ║ Path(primitive_root(p, smallest), <unspecified:primitive_root>) over {Any | not (p <= 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ primitive_root : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (p <= 1)                                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ primitive_root : {Any | not (p <= 1)} → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf3b1bb92c94f272  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory.primitive_root","kind":"function","src_hash":"a56fa7d7278f5503","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"primitive_root(p, )","rhs":"returns a primitive root of ``p`` or none","over":{"base":"Any"},"name":"primitive_root_correct"},"guarantee":"returns a primitive root of ``p`` or none","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory.primitive_root_correct","statement":"Path(primitive_root(x), returns a primitive root of ``p`` or none)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf3b1bb92c94f272"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory.primitive_root","kind":"function","src_hash":"a56fa7d7278f5503","in":{"base":"Any","pred":"not (p <= 1)"},"out":{"base":"Any"},"spec":{"lhs":"primitive_root(p, smallest)","rhs":"<unspecified:primitive_root>","over":{"base":"Any","pred":"not (p <= 1)"},"name":"primitive_root_correct"},"guarantee":"returns a primitive root of ``p`` or none","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory.primitive_root_correct","statement":"Path(primitive_root(x), returns a primitive root of ``p`` or none)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf3b1bb92c94f272","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (p <= 1)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def primitive_root(p, smallest=True):
     r""" Returns a primitive root of ``p`` or None.
 
@@ -405,16 +438,24 @@ def primitive_root(p, smallest=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_primitive_root(a, ), returns true if ``a`` is a primitive root of ``p``) over Any ║
+# ║ Path(is_primitive_root(a, p), <unspecified:is_primitive_root>) over {Any | not (p <= 1) and not (gcd(a, p) != 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_primitive_root : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (p <= 1)                                   ║
+# ║   requires: not (gcd(a, p) != 1)                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_primitive_root : {Any | not (p <= 1) and not (gcd(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ada42dadabcfd83d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory.is_primitive_root","kind":"function","src_hash":"ff014607f879051f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_primitive_root(a, )","rhs":"returns true if ``a`` is a primitive root of ``p``","over":{"base":"Any"},"name":"is_primitive_root_correct"},"guarantee":"returns true if ``a`` is a primitive root of ``p``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory.is_primitive_root_correct","statement":"Path(is_primitive_root(x), returns true if ``a`` is a primitive root of ``p``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ada42dadabcfd83d"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory.is_primitive_root","kind":"function","src_hash":"ff014607f879051f","in":{"base":"Any","pred":"not (p <= 1) and not (gcd(a, p) != 1)"},"out":{"base":"Any"},"spec":{"lhs":"is_primitive_root(a, p)","rhs":"<unspecified:is_primitive_root>","over":{"base":"Any","pred":"not (p <= 1) and not (gcd(a, p) != 1)"},"name":"is_primitive_root_correct"},"guarantee":"returns true if ``a`` is a primitive root of ``p``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory.is_primitive_root_correct","statement":"Path(is_primitive_root(x), returns true if ``a`` is a primitive root of ``p``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ada42dadabcfd83d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (p <= 1)","not (gcd(a, p) != 1)"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["factors.add"],"raises":["ValueError"]},"state_contract":{"modifies":["factors.*"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def is_primitive_root(a, p):
     r""" Returns True if ``a`` is a primitive root of ``p``.
 
@@ -507,16 +548,22 @@ def is_primitive_root(a, p):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sqrt_mod_tonelli_shanks(a, ), returns the square root in the case of ``p`` prime with ``p == 1 (mod 8)``) over Any ║
+# ║ Path(_sqrt_mod_tonelli_shanks(a, p), <unspecified:_sqrt_mod_tonelli_shanks>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sqrt_mod_tonelli_shanks : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b57ef0a4a4cec80e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory._sqrt_mod_tonelli_shanks","kind":"function","src_hash":"654972b37fc26c5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sqrt_mod_tonelli_shanks(a, )","rhs":"returns the square root in the case of ``p`` prime with ``p == 1 (mod 8)``","over":{"base":"Any"},"name":"_sqrt_mod_tonelli_shanks_correct"},"guarantee":"returns the square root in the case of ``p`` prime with ``p == 1 (mod 8)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory._sqrt_mod_tonelli_shanks_correct","statement":"Path(_sqrt_mod_tonelli_shanks(x), returns the square root in the case of ``p`` prime with ``p == 1 (mod 8)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b57ef0a4a4cec80e"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory._sqrt_mod_tonelli_shanks","kind":"function","src_hash":"654972b37fc26c5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sqrt_mod_tonelli_shanks(a, p)","rhs":"<unspecified:_sqrt_mod_tonelli_shanks>","over":{"base":"Any"},"name":"_sqrt_mod_tonelli_shanks_correct"},"guarantee":"returns the square root in the case of ``p`` prime with ``p == 1 (mod 8)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory._sqrt_mod_tonelli_shanks_correct","statement":"Path(_sqrt_mod_tonelli_shanks(x), returns the square root in the case of ``p`` prime with ``p == 1 (mod 8)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b57ef0a4a4cec80e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["randint"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _sqrt_mod_tonelli_shanks(a, p):
     """
     Returns the square root in the case of ``p`` prime with ``p == 1 (mod 8)``
@@ -579,16 +626,22 @@ def _sqrt_mod_tonelli_shanks(a, p):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sqrt_mod(a, ), id) over Any                           ║
+# ║ Path(sqrt_mod(a, p, all_roots), id) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sqrt_mod : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5f68114d688eda0f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory.sqrt_mod","kind":"function","src_hash":"9a7981864deeaa2c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sqrt_mod(a, )","rhs":"find a root of ``x**2 = a mod p``","over":{"base":"Any"},"name":"sqrt_mod_correct","kind":"composition"},"guarantee":"find a root of ``x**2 = a mod p``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sorted","by":"library_axiom"},{"fn":"sqrt_mod_iter","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f68114d688eda0f"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory.sqrt_mod","kind":"function","src_hash":"9a7981864deeaa2c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sqrt_mod(a, p, all_roots)","rhs":"<unspecified:sqrt_mod>","over":{"base":"Any"},"name":"sqrt_mod_correct","kind":"composition"},"guarantee":"find a root of ``x**2 = a mod p``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sorted","by":"library_axiom"},{"fn":"sqrt_mod_iter","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f68114d688eda0f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def sqrt_mod(a, p, all_roots=False):
     """
     Find a root of ``x**2 = a mod p``.
@@ -635,16 +688,22 @@ def sqrt_mod(a, p, all_roots=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sqrt_mod_iter(a, ), iterate over solutions to ``x**2 = a mod p``) over Any ║
+# ║ Path(sqrt_mod_iter(a, p, domain), <unspecified:sqrt_mod_iter>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sqrt_mod_iter : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d9b74137dca3669  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory.sqrt_mod_iter","kind":"function","src_hash":"58e6e047bbb8f7fa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sqrt_mod_iter(a, )","rhs":"iterate over solutions to ``x**2 = a mod p``","over":{"base":"Any"},"name":"sqrt_mod_iter_correct"},"guarantee":"iterate over solutions to ``x**2 = a mod p``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory.sqrt_mod_iter_correct","statement":"Path(sqrt_mod_iter(x), iterate over solutions to ``x**2 = a mod p``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d9b74137dca3669"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory.sqrt_mod_iter","kind":"function","src_hash":"58e6e047bbb8f7fa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sqrt_mod_iter(a, p, domain)","rhs":"<unspecified:sqrt_mod_iter>","over":{"base":"Any"},"name":"sqrt_mod_iter_correct"},"guarantee":"iterate over solutions to ``x**2 = a mod p``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory.sqrt_mod_iter_correct","statement":"Path(sqrt_mod_iter(x), iterate over solutions to ``x**2 = a mod p``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d9b74137dca3669","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def sqrt_mod_iter(a, p, domain=int):
     """
     Iterate over solutions to ``x**2 = a mod p``.
@@ -696,16 +755,23 @@ def sqrt_mod_iter(a, p, domain=int):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sqrt_mod_prime_power(a, ), find the solutions to ``x**2 = a mod p**k`` when ``a % p != 0``. if no solution exists, return ``none``. solutions are returned in an ascending list) over Any ║
+# ║ Path(_sqrt_mod_prime_power(a, p, k), <unspecified:_sqrt_mod_prime_power>) over {Any | hasattr(k, 'bit_length')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sqrt_mod_prime_power : Any → Any                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(k, 'bit_length')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sqrt_mod_prime_power : {Any | hasattr(k, 'bit_length...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 433114fc85f8f97f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory._sqrt_mod_prime_power","kind":"function","src_hash":"3f4c70df8a755be9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sqrt_mod_prime_power(a, )","rhs":"find the solutions to ``x**2 = a mod p**k`` when ``a % p != 0``. if no solution exists, return ``none``. solutions are returned in an ascending list","over":{"base":"Any"},"name":"_sqrt_mod_prime_power_correct"},"guarantee":"find the solutions to ``x**2 = a mod p**k`` when ``a % p != 0``. if no solution exists, return ``none``. solutions are returned in an ascending list","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory._sqrt_mod_prime_power_correct","statement":"Path(_sqrt_mod_prime_power(x), find the solutions to ``x**2 = a mod p**k`` when ``a % p != 0``. if no solution exists, return ``none``. solutions are returned in an ascending list)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"433114fc85f8f97f"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory._sqrt_mod_prime_power","kind":"function","src_hash":"3f4c70df8a755be9","in":{"base":"Any","pred":"hasattr(k, 'bit_length')"},"out":{"base":"Any"},"spec":{"lhs":"_sqrt_mod_prime_power(a, p, k)","rhs":"<unspecified:_sqrt_mod_prime_power>","over":{"base":"Any","pred":"hasattr(k, 'bit_length')"},"name":"_sqrt_mod_prime_power_correct"},"guarantee":"find the solutions to ``x**2 = a mod p**k`` when ``a % p != 0``. if no solution exists, return ``none``. solutions are returned in an ascending list","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory._sqrt_mod_prime_power_correct","statement":"Path(_sqrt_mod_prime_power(x), find the solutions to ``x**2 = a mod p**k`` when ``a % p != 0``. if no solution exists, return ``none``. solutions are returned in an ascending list)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"433114fc85f8f97f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(k, 'bit_length')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["k.bit_length"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def _sqrt_mod_prime_power(a, p, k):
     """
     Find the solutions to ``x**2 = a mod p**k`` when ``a % p != 0``.
@@ -782,16 +848,22 @@ def _sqrt_mod_prime_power(a, p, k):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sqrt_mod1(a, ), find solution to ``x**2 == a mod p**n`` when ``a % p == 0``. if no solution exists, return ``none``) over Any ║
+# ║ Path(_sqrt_mod1(a, p, n), <unspecified:_sqrt_mod1>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sqrt_mod1 : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4dc748371c506f60  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory._sqrt_mod1","kind":"function","src_hash":"99c85649f533a2c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sqrt_mod1(a, )","rhs":"find solution to ``x**2 == a mod p**n`` when ``a % p == 0``. if no solution exists, return ``none``","over":{"base":"Any"},"name":"_sqrt_mod1_correct"},"guarantee":"find solution to ``x**2 == a mod p**n`` when ``a % p == 0``. if no solution exists, return ``none``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory._sqrt_mod1_correct","statement":"Path(_sqrt_mod1(x), find solution to ``x**2 == a mod p**n`` when ``a % p == 0``. if no solution exists, return ``none``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4dc748371c506f60"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory._sqrt_mod1","kind":"function","src_hash":"99c85649f533a2c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sqrt_mod1(a, p, n)","rhs":"<unspecified:_sqrt_mod1>","over":{"base":"Any"},"name":"_sqrt_mod1_correct"},"guarantee":"find solution to ``x**2 == a mod p**n`` when ``a % p == 0``. if no solution exists, return ``none``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory._sqrt_mod1_correct","statement":"Path(_sqrt_mod1(x), find solution to ``x**2 == a mod p**n`` when ``a % p == 0``. if no solution exists, return ``none``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4dc748371c506f60","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","io_operations":["remove"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _sqrt_mod1(a, p, n):
     """
     Find solution to ``x**2 == a mod p**n`` when ``a % p == 0``.
@@ -826,16 +898,23 @@ def _sqrt_mod1(a, p, n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_quad_residue(a, ), returns true if ``a`` (mod ``p``) is in the set of squares mod ``p``, i.e a % p in set([i**2 % p for i in range(p)])) over Any ║
+# ║ Path(is_quad_residue(a, p), <unspecified:is_quad_residue>) over {Any | not (p < 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_quad_residue : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (p < 1)                                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_quad_residue : {Any | not (p < 1)} → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5bf576988b5216b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory.is_quad_residue","kind":"function","src_hash":"a1b35c1c4d3acc03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_quad_residue(a, )","rhs":"returns true if ``a`` (mod ``p``) is in the set of squares mod ``p``, i.e a % p in set([i**2 % p for i in range(p)])","over":{"base":"Any"},"name":"is_quad_residue_correct"},"guarantee":"returns true if ``a`` (mod ``p``) is in the set of squares mod ``p``, i.e a % p in set([i**2 % p for i in range(p)])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory.is_quad_residue_correct","statement":"Path(is_quad_residue(x), returns true if ``a`` (mod ``p``) is in the set of squares mod ``p``, i.e a % p in set([i**2 % p for i in range(p)]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5bf576988b5216b4"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory.is_quad_residue","kind":"function","src_hash":"a1b35c1c4d3acc03","in":{"base":"Any","pred":"not (p < 1)"},"out":{"base":"Any"},"spec":{"lhs":"is_quad_residue(a, p)","rhs":"<unspecified:is_quad_residue>","over":{"base":"Any","pred":"not (p < 1)"},"name":"is_quad_residue_correct"},"guarantee":"returns true if ``a`` (mod ``p``) is in the set of squares mod ``p``, i.e a % p in set([i**2 % p for i in range(p)])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory.is_quad_residue_correct","statement":"Path(is_quad_residue(x), returns true if ``a`` (mod ``p``) is in the set of squares mod ``p``, i.e a % p in set([i**2 % p for i in range(p)]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5bf576988b5216b4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (p < 1)"],"pure":false,"effects":{"effect_type":"io","raises":["ValueError"],"io_operations":["remove"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def is_quad_residue(a, p):
     """
     Returns True if ``a`` (mod ``p``) is in the set of squares mod ``p``,
@@ -928,16 +1007,24 @@ def is_quad_residue(a, p):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_nthpow_residue(a, ), returns true if ``x**n == a (mod m)`` has solutions) over Any ║
+# ║ Path(is_nthpow_residue(a, n, m), <unspecified:is_nthpow_residue>) over {Any | not (m <= 0) and not (n < 0)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_nthpow_residue : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (m <= 0)                                   ║
+# ║   requires: not (n < 0)                                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_nthpow_residue : {Any | not (m <= 0) and not (n < ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f4717ba2edb5ac6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory.is_nthpow_residue","kind":"function","src_hash":"2c28e51a5e284821","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_nthpow_residue(a, )","rhs":"returns true if ``x**n == a (mod m)`` has solutions","over":{"base":"Any"},"name":"is_nthpow_residue_correct"},"guarantee":"returns true if ``x**n == a (mod m)`` has solutions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory.is_nthpow_residue_correct","statement":"Path(is_nthpow_residue(x), returns true if ``x**n == a (mod m)`` has solutions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f4717ba2edb5ac6"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory.is_nthpow_residue","kind":"function","src_hash":"2c28e51a5e284821","in":{"base":"Any","pred":"not (m <= 0) and not (n < 0)"},"out":{"base":"Any"},"spec":{"lhs":"is_nthpow_residue(a, n, m)","rhs":"<unspecified:is_nthpow_residue>","over":{"base":"Any","pred":"not (m <= 0) and not (n < 0)"},"name":"is_nthpow_residue_correct"},"guarantee":"returns true if ``x**n == a (mod m)`` has solutions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory.is_nthpow_residue_correct","statement":"Path(is_nthpow_residue(x), returns true if ``x**n == a (mod m)`` has solutions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f4717ba2edb5ac6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (m <= 0)","not (n < 0)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def is_nthpow_residue(a, n, m):
     """
     Returns True if ``x**n == a (mod m)`` has solutions.
@@ -969,16 +1056,22 @@ def is_nthpow_residue(a, n, m):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_nthpow_residue_bign_prime_power(a, ), returns true if `x^n = a \pmod{p^k}` has solutions for `n > 2`) over Any ║
+# ║ Path(_is_nthpow_residue_bign_prime_power(a, n, p), <unspecified:_is_nthpow_residue_bign_prime_power>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _is_nthpow_residue_bign_prime_power : Any → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95800385d99331d9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory._is_nthpow_residue_bign_prime_power","kind":"function","src_hash":"4d982eaab7620ceb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_nthpow_residue_bign_prime_power(a, )","rhs":"returns true if `x^n = a \\pmod{p^k}` has solutions for `n > 2`","over":{"base":"Any"},"name":"_is_nthpow_residue_bign_prime_power_correct"},"guarantee":"returns true if `x^n = a \\pmod{p^k}` has solutions for `n > 2`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory._is_nthpow_residue_bign_prime_power_correct","statement":"Path(_is_nthpow_residue_bign_prime_power(x), returns true if `x^n = a \\pmod{p^k}` has solutions for `n > 2`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95800385d99331d9"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory._is_nthpow_residue_bign_prime_power","kind":"function","src_hash":"4d982eaab7620ceb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_nthpow_residue_bign_prime_power(a, n, p)","rhs":"<unspecified:_is_nthpow_residue_bign_prime_power>","over":{"base":"Any"},"name":"_is_nthpow_residue_bign_prime_power_correct"},"guarantee":"returns true if `x^n = a \\pmod{p^k}` has solutions for `n > 2`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory._is_nthpow_residue_bign_prime_power_correct","statement":"Path(_is_nthpow_residue_bign_prime_power(x), returns true if `x^n = a \\pmod{p^k}` has solutions for `n > 2`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95800385d99331d9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","io_operations":["remove"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _is_nthpow_residue_bign_prime_power(a, n, p, k):
     r"""
     Returns True if `x^n = a \pmod{p^k}` has solutions for `n > 2`.
@@ -1010,16 +1103,22 @@ def _is_nthpow_residue_bign_prime_power(a, n, p, k):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_nthroot_mod1(s, ), root of ``x**q = s mod p``, ``p`` prime and ``q`` divides ``p - 1``. assume that the root exists) over Any ║
+# ║ Path(_nthroot_mod1(s, q, p), <unspecified:_nthroot_mod1>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _nthroot_mod1 : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b1d111ecc57ce69  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory._nthroot_mod1","kind":"function","src_hash":"5b754db3173225cf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_nthroot_mod1(s, )","rhs":"root of ``x**q = s mod p``, ``p`` prime and ``q`` divides ``p - 1``. assume that the root exists","over":{"base":"Any"},"name":"_nthroot_mod1_correct"},"guarantee":"root of ``x**q = s mod p``, ``p`` prime and ``q`` divides ``p - 1``. assume that the root exists","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory._nthroot_mod1_correct","statement":"Path(_nthroot_mod1(x), root of ``x**q = s mod p``, ``p`` prime and ``q`` divides ``p - 1``. assume that the root exists)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b1d111ecc57ce69"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory._nthroot_mod1","kind":"function","src_hash":"5b754db3173225cf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_nthroot_mod1(s, q, p)","rhs":"<unspecified:_nthroot_mod1>","over":{"base":"Any"},"name":"_nthroot_mod1_correct"},"guarantee":"root of ``x**q = s mod p``, ``p`` prime and ``q`` divides ``p - 1``. assume that the root exists","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory._nthroot_mod1_correct","statement":"Path(_nthroot_mod1(x), root of ``x**q = s mod p``, ``p`` prime and ``q`` divides ``p - 1``. assume that the root exists)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b1d111ecc57ce69","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _nthroot_mod1(s, q, p, all_roots):
     """
     Root of ``x**q = s mod p``, ``p`` prime and ``q`` divides ``p - 1``.
@@ -1083,16 +1182,22 @@ def _nthroot_mod1(s, q, p, all_roots):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_nthroot_mod_prime_power(a, ), root of ``x**n = a mod p**k``) over Any ║
+# ║ Path(_nthroot_mod_prime_power(a, n, p), <unspecified:_nthroot_mod_prime_power>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _nthroot_mod_prime_power : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2f62cecdd109806  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory._nthroot_mod_prime_power","kind":"function","src_hash":"dc39c80731a7e6f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_nthroot_mod_prime_power(a, )","rhs":"root of ``x**n = a mod p**k``","over":{"base":"Any"},"name":"_nthroot_mod_prime_power_correct"},"guarantee":"root of ``x**n = a mod p**k``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory._nthroot_mod_prime_power_correct","statement":"Path(_nthroot_mod_prime_power(x), root of ``x**n = a mod p**k``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2f62cecdd109806"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory._nthroot_mod_prime_power","kind":"function","src_hash":"dc39c80731a7e6f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_nthroot_mod_prime_power(a, n, p)","rhs":"<unspecified:_nthroot_mod_prime_power>","over":{"base":"Any"},"name":"_nthroot_mod_prime_power_correct"},"guarantee":"root of ``x**n = a mod p**k``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory._nthroot_mod_prime_power_correct","statement":"Path(_nthroot_mod_prime_power(x), root of ``x**n = a mod p**k``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2f62cecdd109806","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def _nthroot_mod_prime_power(a, n, p, k):
     """ Root of ``x**n = a mod p**k``.
 
@@ -1172,16 +1277,25 @@ def _nthroot_mod_prime_power(a, n, p, k):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nthroot_mod(a, ), find the solutions to ``x**n = a mod p``) over Any ║
+# ║ Path(nthroot_mod(a, n, p), len(base) == old_len_base + 1 and len(prime_power) == old_len_prime_power + 1) over {Any | not (n < 1) and not (p < 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ nthroot_mod : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (n < 1)                                    ║
+# ║   requires: not (p < 1)                                    ║
+# ║   ensures:  len(base) == old_len_base + 1                  ║
+# ║   ensures:  len(prime_power) == old_len_prime_power + 1    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ nthroot_mod : {Any | not (n < 1) and not (p < 1)} → {...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 575541cb8c952080  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2355596af8e96472  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory.nthroot_mod","kind":"function","src_hash":"6ebd040db03c0784","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nthroot_mod(a, )","rhs":"find the solutions to ``x**n = a mod p``","over":{"base":"Any"},"name":"nthroot_mod_correct"},"guarantee":"find the solutions to ``x**n = a mod p``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory.nthroot_mod_correct","statement":"Path(nthroot_mod(x), find the solutions to ``x**n = a mod p``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"575541cb8c952080"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory.nthroot_mod","kind":"function","src_hash":"6ebd040db03c0784","in":{"base":"Any","pred":"not (n < 1) and not (p < 1)"},"out":{"base":"Any","pred":"result satisfies: len(base) == old_len_base + 1 and len(prime_power) == old_len_prime_power + 1"},"spec":{"lhs":"nthroot_mod(a, n, p)","rhs":"len(base) == old_len_base + 1 and len(prime_power) == old_len_prime_power + 1","over":{"base":"Any","pred":"not (n < 1) and not (p < 1)"},"name":"nthroot_mod_correct"},"guarantee":"len(base) == old_len_base + 1; len(prime_power) == old_len_prime_power + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory.nthroot_mod_correct","statement":"Path(nthroot_mod(x), len(base) == old_len_base + 1; len(prime_power) == old_len_prime_power + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2355596af8e96472","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (n < 1)","not (p < 1)"],"ensures":["len(base) == old_len_base + 1","len(prime_power) == old_len_prime_power + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["base.append","prime_power.append"],"raises":["ValueError"]},"state_contract":{"modifies":["base.*","prime_power.*"],"old_bindings":{"old_len_base":"len(base)","old_len_prime_power":"len(prime_power)"},"post_ensures":["len(base) == old_len_base + 1","len(prime_power) == old_len_prime_power + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def nthroot_mod(a, n, p, all_roots=False):
     """
     Find the solutions to ``x**n = a mod p``.
@@ -1263,16 +1377,24 @@ def nthroot_mod(a, n, p, all_roots=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(quadratic_residues(p), returns the list of quadratic residues) over Any ║
+# ║ Path(quadratic_residues(p), sorted(r)) over Any            ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ quadratic_residues : Any → list[int]                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, list)                       ║
+# ║   ensures:  all(isinstance(x, int) for x in result)        ║
+# ║   returns:  sorted(r)                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ quadratic_residues : Any → {list[int] | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88141caf0608a197  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc85550f5af109da  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory.quadratic_residues","kind":"function","src_hash":"4d39afb1c3285d02","in":{"base":"Any"},"out":{"base":"list[int]"},"spec":{"lhs":"quadratic_residues(p)","rhs":"returns the list of quadratic residues","over":{"base":"Any"},"name":"quadratic_residues_correct"},"guarantee":"returns the list of quadratic residues","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory.quadratic_residues_correct","statement":"Path(quadratic_residues(x), returns the list of quadratic residues)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88141caf0608a197"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory.quadratic_residues","kind":"function","src_hash":"4d39afb1c3285d02","in":{"base":"Any"},"out":{"base":"list[int]","pred":"result satisfies: result == (sorted(r))"},"spec":{"lhs":"quadratic_residues(p)","rhs":"sorted(r)","over":{"base":"Any"},"name":"quadratic_residues_correct"},"guarantee":"returns sorted(r); isinstance(result, list); all(isinstance(x, int) for x in result)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory.quadratic_residues_correct","statement":"Path(quadratic_residues(x), returns sorted(r); isinstance(result, list); all(isinstance(x, int) for x in result))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc85550f5af109da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, list)","all(isinstance(x, int) for x in result)"],"returns_expr":"sorted(r)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def quadratic_residues(p) -> list[int]:
     """
     Returns the list of quadratic residues.
@@ -1294,16 +1416,22 @@ The `sympy.ntheory.residue_ntheory.legendre_symbol` has been moved to `sympy.fun
 deprecated_since_version="1.13",
 active_deprecations_target='deprecated-ntheory-symbolic-functions')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(legendre_symbol(a, ), returns the legendre symbol `(a / p)`) over Any ║
+# ║ Path(legendre_symbol(a, p), _legendre_symbol(a, p)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _legendre_symbol(a, p)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ legendre_symbol : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9565b32caf10e322  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1941c1e8924fcee7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory.legendre_symbol","kind":"function","src_hash":"609120e081947d81","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"legendre_symbol(a, )","rhs":"returns the legendre symbol `(a / p)`","over":{"base":"Any"},"name":"legendre_symbol_correct"},"guarantee":"returns the legendre symbol `(a / p)`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory.legendre_symbol_correct","statement":"Path(legendre_symbol(x), returns the legendre symbol `(a / p)`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9565b32caf10e322"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory.legendre_symbol","kind":"function","src_hash":"609120e081947d81","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"legendre_symbol(a, p)","rhs":"_legendre_symbol(a, p)","over":{"base":"Any"},"name":"legendre_symbol_correct"},"guarantee":"returns _legendre_symbol(a, p)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory.legendre_symbol_correct","statement":"Path(legendre_symbol(x), returns _legendre_symbol(a, p))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1941c1e8924fcee7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_legendre_symbol(a, p)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def legendre_symbol(a, p):
     r"""
     Returns the Legendre symbol `(a / p)`.
@@ -1354,16 +1482,22 @@ The `sympy.ntheory.residue_ntheory.jacobi_symbol` has been moved to `sympy.funct
 deprecated_since_version="1.13",
 active_deprecations_target='deprecated-ntheory-symbolic-functions')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(jacobi_symbol(m, ), returns the jacobi symbol `(m / n)`) over Any ║
+# ║ Path(jacobi_symbol(m, n), _jacobi_symbol(m, n)) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _jacobi_symbol(m, n)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ jacobi_symbol : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ff13787513439a3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a08c5adca32ea6d9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory.jacobi_symbol","kind":"function","src_hash":"5c66b64d096469cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"jacobi_symbol(m, )","rhs":"returns the jacobi symbol `(m / n)`","over":{"base":"Any"},"name":"jacobi_symbol_correct"},"guarantee":"returns the jacobi symbol `(m / n)`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory.jacobi_symbol_correct","statement":"Path(jacobi_symbol(x), returns the jacobi symbol `(m / n)`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ff13787513439a3"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory.jacobi_symbol","kind":"function","src_hash":"5c66b64d096469cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"jacobi_symbol(m, n)","rhs":"_jacobi_symbol(m, n)","over":{"base":"Any"},"name":"jacobi_symbol_correct"},"guarantee":"returns _jacobi_symbol(m, n)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory.jacobi_symbol_correct","statement":"Path(jacobi_symbol(x), returns _jacobi_symbol(m, n))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a08c5adca32ea6d9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_jacobi_symbol(m, n)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def jacobi_symbol(m, n):
     r"""
     Returns the Jacobi symbol `(m / n)`.
@@ -1436,16 +1570,22 @@ The `sympy.ntheory.residue_ntheory.mobius` has been moved to `sympy.functions.co
 deprecated_since_version="1.13",
 active_deprecations_target='deprecated-ntheory-symbolic-functions')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mobius(n), mobius function maps natural number to {-1, 0, 1}) over Any ║
+# ║ Path(mobius(n), _mobius(n)) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _mobius(n)                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ mobius : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a6fac500cce8b8b1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5c8139ee3765d03  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory.mobius","kind":"function","src_hash":"c1b3aa1122cc9f6e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mobius(n)","rhs":"mobius function maps natural number to {-1, 0, 1}","over":{"base":"Any"},"name":"mobius_correct"},"guarantee":"mobius function maps natural number to {-1, 0, 1}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory.mobius_correct","statement":"Path(mobius(x), mobius function maps natural number to {-1, 0, 1})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6fac500cce8b8b1"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory.mobius","kind":"function","src_hash":"c1b3aa1122cc9f6e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mobius(n)","rhs":"_mobius(n)","over":{"base":"Any"},"name":"mobius_correct"},"guarantee":"returns _mobius(n)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory.mobius_correct","statement":"Path(mobius(x), returns _mobius(n))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5c8139ee3765d03","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_mobius(n)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def mobius(n):
     """
     Mobius function maps natural number to {-1, 0, 1}
@@ -1497,16 +1637,22 @@ def mobius(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_discrete_log_trial_mul(n, ), trial multiplication algorithm for computing the discrete logarithm of ``a`` to the base ``b`` modulo ``n``) over Any ║
+# ║ Path(_discrete_log_trial_mul(n, a, b), <unspecified:_discrete_log_trial_mul>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _discrete_log_trial_mul : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 091159b3b49e4453  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory._discrete_log_trial_mul","kind":"function","src_hash":"c5fa384317e45a0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_discrete_log_trial_mul(n, )","rhs":"trial multiplication algorithm for computing the discrete logarithm of ``a`` to the base ``b`` modulo ``n``","over":{"base":"Any"},"name":"_discrete_log_trial_mul_correct"},"guarantee":"trial multiplication algorithm for computing the discrete logarithm of ``a`` to the base ``b`` modulo ``n``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory._discrete_log_trial_mul_correct","statement":"Path(_discrete_log_trial_mul(x), trial multiplication algorithm for computing the discrete logarithm of ``a`` to the base ``b`` modulo ``n``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"091159b3b49e4453"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory._discrete_log_trial_mul","kind":"function","src_hash":"c5fa384317e45a0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_discrete_log_trial_mul(n, a, b)","rhs":"<unspecified:_discrete_log_trial_mul>","over":{"base":"Any"},"name":"_discrete_log_trial_mul_correct"},"guarantee":"trial multiplication algorithm for computing the discrete logarithm of ``a`` to the base ``b`` modulo ``n``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory._discrete_log_trial_mul_correct","statement":"Path(_discrete_log_trial_mul(x), trial multiplication algorithm for computing the discrete logarithm of ``a`` to the base ``b`` modulo ``n``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"091159b3b49e4453","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _discrete_log_trial_mul(n, a, b, order=None):
     """
     Trial multiplication algorithm for computing the discrete logarithm of
@@ -1547,16 +1693,22 @@ def _discrete_log_trial_mul(n, a, b, order=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_discrete_log_shanks_steps(n, ), baby-step giant-step algorithm for computing the discrete logarithm of ``a`` to the base ``b`` modulo ``n``) over Any ║
+# ║ Path(_discrete_log_shanks_steps(n, a, b), i * m + T[x]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  i * m + T[x]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _discrete_log_shanks_steps : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b3409a90658ffa7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c61a4c609edb235  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory._discrete_log_shanks_steps","kind":"function","src_hash":"9769d45bffc738a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_discrete_log_shanks_steps(n, )","rhs":"baby-step giant-step algorithm for computing the discrete logarithm of ``a`` to the base ``b`` modulo ``n``","over":{"base":"Any"},"name":"_discrete_log_shanks_steps_correct"},"guarantee":"baby-step giant-step algorithm for computing the discrete logarithm of ``a`` to the base ``b`` modulo ``n``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory._discrete_log_shanks_steps_correct","statement":"Path(_discrete_log_shanks_steps(x), baby-step giant-step algorithm for computing the discrete logarithm of ``a`` to the base ``b`` modulo ``n``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b3409a90658ffa7"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory._discrete_log_shanks_steps","kind":"function","src_hash":"9769d45bffc738a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_discrete_log_shanks_steps(n, a, b)","rhs":"i * m + T[x]","over":{"base":"Any"},"name":"_discrete_log_shanks_steps_correct"},"guarantee":"returns i * m + T[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory._discrete_log_shanks_steps_correct","statement":"Path(_discrete_log_shanks_steps(x), returns i * m + T[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c61a4c609edb235","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"i * m + T[x]","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _discrete_log_shanks_steps(n, a, b, order=None):
     """
     Baby-step giant-step algorithm for computing the discrete logarithm of
@@ -1603,16 +1755,22 @@ def _discrete_log_shanks_steps(n, a, b, order=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_discrete_log_pollard_rho(n, ), pollard's rho algorithm for computing the discrete logarithm of ``a`` to the base ``b`` modulo ``n``) over Any ║
+# ║ Path(_discrete_log_pollard_rho(n, a, b), <unspecified:_discrete_log_pollard_rho>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _discrete_log_pollard_rho : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16e69bbca9963a9b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory._discrete_log_pollard_rho","kind":"function","src_hash":"14b06798bf49449a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_discrete_log_pollard_rho(n, )","rhs":"pollard's rho algorithm for computing the discrete logarithm of ``a`` to the base ``b`` modulo ``n``","over":{"base":"Any"},"name":"_discrete_log_pollard_rho_correct"},"guarantee":"pollard's rho algorithm for computing the discrete logarithm of ``a`` to the base ``b`` modulo ``n``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory._discrete_log_pollard_rho_correct","statement":"Path(_discrete_log_pollard_rho(x), pollard's rho algorithm for computing the discrete logarithm of ``a`` to the base ``b`` modulo ``n``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16e69bbca9963a9b"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory._discrete_log_pollard_rho","kind":"function","src_hash":"14b06798bf49449a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_discrete_log_pollard_rho(n, a, b)","rhs":"<unspecified:_discrete_log_pollard_rho>","over":{"base":"Any"},"name":"_discrete_log_pollard_rho_correct"},"guarantee":"pollard's rho algorithm for computing the discrete logarithm of ``a`` to the base ``b`` modulo ``n``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory._discrete_log_pollard_rho_correct","statement":"Path(_discrete_log_pollard_rho(x), pollard's rho algorithm for computing the discrete logarithm of ``a`` to the base ``b`` modulo ``n``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16e69bbca9963a9b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"nondeterministic","raises":["ValueError"],"catches":["ZeroDivisionError"],"nondeterministic_sources":["randint"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def _discrete_log_pollard_rho(n, a, b, order=None, retries=10, rseed=None):
     """
     Pollard's Rho algorithm for computing the discrete logarithm of ``a`` to
@@ -1715,16 +1873,24 @@ def _discrete_log_pollard_rho(n, a, b, order=None, retries=10, rseed=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_discrete_log_is_smooth(n, ), try to factor n with respect to a given factorbase. upon success a list of exponents with respect to the factorbase is returned. otherwise none) over int ║
+# ║ Path(_discrete_log_is_smooth(n, factorbase), <unspecified:_discrete_log_is_smooth>) over {int | isinstance(n, int) and isinstance(factorbase, list)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _discrete_log_is_smooth : int → Any                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(n, int)                             ║
+# ║   requires: isinstance(factorbase, list)                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _discrete_log_is_smooth : {int | isinstance(n, int) a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e21108d1e3d587cc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory._discrete_log_is_smooth","kind":"function","src_hash":"ab95ad029bfda9e5","in":{"base":"int"},"out":{"base":"Any"},"spec":{"lhs":"_discrete_log_is_smooth(n, )","rhs":"try to factor n with respect to a given factorbase. upon success a list of exponents with respect to the factorbase is returned. otherwise none","over":{"base":"int"},"name":"_discrete_log_is_smooth_correct"},"guarantee":"try to factor n with respect to a given factorbase. upon success a list of exponents with respect to the factorbase is returned. otherwise none","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory._discrete_log_is_smooth_correct","statement":"Path(_discrete_log_is_smooth(x), try to factor n with respect to a given factorbase. upon success a list of exponents with respect to the factorbase is returned. otherwise none)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e21108d1e3d587cc"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory._discrete_log_is_smooth","kind":"function","src_hash":"ab95ad029bfda9e5","in":{"base":"int","pred":"isinstance(n, int) and isinstance(factorbase, list)"},"out":{"base":"Any"},"spec":{"lhs":"_discrete_log_is_smooth(n, factorbase)","rhs":"<unspecified:_discrete_log_is_smooth>","over":{"base":"int","pred":"isinstance(n, int) and isinstance(factorbase, list)"},"name":"_discrete_log_is_smooth_correct"},"guarantee":"try to factor n with respect to a given factorbase. upon success a list of exponents with respect to the factorbase is returned. otherwise none","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory._discrete_log_is_smooth_correct","statement":"Path(_discrete_log_is_smooth(x), try to factor n with respect to a given factorbase. upon success a list of exponents with respect to the factorbase is returned. otherwise none)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e21108d1e3d587cc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(n, int)","isinstance(factorbase, list)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _discrete_log_is_smooth(n: int, factorbase: list):
     """Try to factor n with respect to a given factorbase.
     Upon success a list of exponents with respect to the factorbase is returned.
@@ -1740,16 +1906,22 @@ def _discrete_log_is_smooth(n: int, factorbase: list):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_discrete_log_index_calculus(n, ), index calculus algorithm for computing the discrete logarithm of ``a`` to the base ``b`` modulo ``n``) over Any ║
+# ║ Path(_discrete_log_index_calculus(n, a, b), <unspecified:_discrete_log_index_calculus>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _discrete_log_index_calculus : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 49f652d0f250d6c4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory._discrete_log_index_calculus","kind":"function","src_hash":"028a34daf0341408","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_discrete_log_index_calculus(n, )","rhs":"index calculus algorithm for computing the discrete logarithm of ``a`` to the base ``b`` modulo ``n``","over":{"base":"Any"},"name":"_discrete_log_index_calculus_correct"},"guarantee":"index calculus algorithm for computing the discrete logarithm of ``a`` to the base ``b`` modulo ``n``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory._discrete_log_index_calculus_correct","statement":"Path(_discrete_log_index_calculus(x), index calculus algorithm for computing the discrete logarithm of ``a`` to the base ``b`` modulo ``n``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49f652d0f250d6c4"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory._discrete_log_index_calculus","kind":"function","src_hash":"028a34daf0341408","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_discrete_log_index_calculus(n, a, b)","rhs":"<unspecified:_discrete_log_index_calculus>","over":{"base":"Any"},"name":"_discrete_log_index_calculus_correct"},"guarantee":"index calculus algorithm for computing the discrete logarithm of ``a`` to the base ``b`` modulo ``n``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory._discrete_log_index_calculus_correct","statement":"Path(_discrete_log_index_calculus(x), index calculus algorithm for computing the discrete logarithm of ``a`` to the base ``b`` modulo ``n``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49f652d0f250d6c4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"nondeterministic","raises":["ValueError"],"nondeterministic_sources":["randint"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def _discrete_log_index_calculus(n, a, b, order, rseed=None):
     """
     Index Calculus algorithm for computing the discrete logarithm of ``a`` to
@@ -1848,16 +2020,23 @@ def _discrete_log_index_calculus(n, a, b, order, rseed=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_discrete_log_pohlig_hellman(n, ), pohlig-hellman algorithm for computing the discrete logarithm of ``a`` to the base ``b`` modulo ``n``) over Any ║
+# ║ Path(_discrete_log_pohlig_hellman(n, a, b), <unspecified:_discrete_log_pohlig_hellman>) over {Any | hasattr(order_factors, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _discrete_log_pohlig_hellman : Any → Any                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(order_factors, 'items')                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _discrete_log_pohlig_hellman : {Any | hasattr(order_f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 673c7779c5555b11  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory._discrete_log_pohlig_hellman","kind":"function","src_hash":"aad6f99bfcb02949","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_discrete_log_pohlig_hellman(n, )","rhs":"pohlig-hellman algorithm for computing the discrete logarithm of ``a`` to the base ``b`` modulo ``n``","over":{"base":"Any"},"name":"_discrete_log_pohlig_hellman_correct"},"guarantee":"pohlig-hellman algorithm for computing the discrete logarithm of ``a`` to the base ``b`` modulo ``n``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory._discrete_log_pohlig_hellman_correct","statement":"Path(_discrete_log_pohlig_hellman(x), pohlig-hellman algorithm for computing the discrete logarithm of ``a`` to the base ``b`` modulo ``n``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"673c7779c5555b11"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory._discrete_log_pohlig_hellman","kind":"function","src_hash":"aad6f99bfcb02949","in":{"base":"Any","pred":"hasattr(order_factors, 'items')"},"out":{"base":"Any"},"spec":{"lhs":"_discrete_log_pohlig_hellman(n, a, b)","rhs":"<unspecified:_discrete_log_pohlig_hellman>","over":{"base":"Any","pred":"hasattr(order_factors, 'items')"},"name":"_discrete_log_pohlig_hellman_correct"},"guarantee":"pohlig-hellman algorithm for computing the discrete logarithm of ``a`` to the base ``b`` modulo ``n``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory._discrete_log_pohlig_hellman_correct","statement":"Path(_discrete_log_pohlig_hellman(x), pohlig-hellman algorithm for computing the discrete logarithm of ``a`` to the base ``b`` modulo ``n``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"673c7779c5555b11","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(order_factors, 'items')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["order_factors.items"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _discrete_log_pohlig_hellman(n, a, b, order=None, order_factors=None):
     """
     Pohlig-Hellman algorithm for computing the discrete logarithm of ``a`` to
@@ -1907,16 +2086,23 @@ def _discrete_log_pohlig_hellman(n, a, b, order=None, order_factors=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(discrete_log(n, ), compute the discrete logarithm of ``a`` to the base ``b`` modulo ``n``) over Any ║
+# ║ Path(discrete_log(n, a, b), <unspecified:discrete_log>) over {Any | not (n < 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ discrete_log : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (n < 1)                                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ discrete_log : {Any | not (n < 1)} → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd3962dea1421fe0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory.discrete_log","kind":"function","src_hash":"b7e2a20f9f0fddd3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"discrete_log(n, )","rhs":"compute the discrete logarithm of ``a`` to the base ``b`` modulo ``n``","over":{"base":"Any"},"name":"discrete_log_correct"},"guarantee":"compute the discrete logarithm of ``a`` to the base ``b`` modulo ``n``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory.discrete_log_correct","statement":"Path(discrete_log(x), compute the discrete logarithm of ``a`` to the base ``b`` modulo ``n``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd3962dea1421fe0"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory.discrete_log","kind":"function","src_hash":"b7e2a20f9f0fddd3","in":{"base":"Any","pred":"not (n < 1)"},"out":{"base":"Any"},"spec":{"lhs":"discrete_log(n, a, b)","rhs":"<unspecified:discrete_log>","over":{"base":"Any","pred":"not (n < 1)"},"name":"discrete_log_correct"},"guarantee":"compute the discrete logarithm of ``a`` to the base ``b`` modulo ``n``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory.discrete_log_correct","statement":"Path(discrete_log(x), compute the discrete logarithm of ``a`` to the base ``b`` modulo ``n``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd3962dea1421fe0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (n < 1)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def discrete_log(n, a, b, order=None, prime_order=None):
     """
     Compute the discrete logarithm of ``a`` to the base ``b`` modulo ``n``.
@@ -2009,16 +2195,23 @@ def discrete_log(n, a, b, order=None, prime_order=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(quadratic_congruence(a, ), find the solutions to `a x^2 + b x + c \equiv 0 \pmod{n}`) over Any ║
+# ║ Path(quadratic_congruence(a, b, c), len(roots) == old_len_roots + 1) over {Any | not (n <= 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ quadratic_congruence : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (n <= 1)                                   ║
+# ║   ensures:  len(roots) == old_len_roots + 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ quadratic_congruence : {Any | not (n <= 1)} → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9244ad45641c154  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f27b870c5c238918  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory.quadratic_congruence","kind":"function","src_hash":"69ed480b0be1498c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quadratic_congruence(a, )","rhs":"find the solutions to `a x^2 + b x + c \\equiv 0 \\pmod{n}`","over":{"base":"Any"},"name":"quadratic_congruence_correct"},"guarantee":"find the solutions to `a x^2 + b x + c \\equiv 0 \\pmod{n}`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory.quadratic_congruence_correct","statement":"Path(quadratic_congruence(x), find the solutions to `a x^2 + b x + c \\equiv 0 \\pmod{n}`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9244ad45641c154"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory.quadratic_congruence","kind":"function","src_hash":"69ed480b0be1498c","in":{"base":"Any","pred":"not (n <= 1)"},"out":{"base":"Any","pred":"result satisfies: len(roots) == old_len_roots + 1"},"spec":{"lhs":"quadratic_congruence(a, b, c)","rhs":"len(roots) == old_len_roots + 1","over":{"base":"Any","pred":"not (n <= 1)"},"name":"quadratic_congruence_correct"},"guarantee":"len(roots) == old_len_roots + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory.quadratic_congruence_correct","statement":"Path(quadratic_congruence(x), len(roots) == old_len_roots + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f27b870c5c238918","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (n <= 1)"],"ensures":["len(roots) == old_len_roots + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["res.add","roots.append"],"raises":["ValueError"]},"state_contract":{"modifies":["res.*","roots.*"],"old_bindings":{"old_len_roots":"len(roots)"},"post_ensures":["len(roots) == old_len_roots + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def quadratic_congruence(a, b, c, n):
     r"""
     Find the solutions to `a x^2 + b x + c \equiv 0 \pmod{n}`.
@@ -2091,16 +2284,25 @@ def quadratic_congruence(a, b, c, n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_valid_expr(exp), return coefficients of expr if it is a univariate polynomial with integer coefficients else raise a valueerror) over Any ║
+# ║ Path(_valid_expr(expr), polynomial.all_coeffs()) over {Any | expr.is_polynomial() and polynomial.is_univariate and polynomial.domain == ZZ and hasattr(expr, 'is_polynomial')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _valid_expr : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: expr.is_polynomial()                           ║
+# ║   requires: polynomial.is_univariate                       ║
+# ║   requires: polynomial.domain == ZZ                        ║
+# ║   returns:  polynomial.all_coeffs()                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _valid_expr : {Any | expr.is_polynomial() and polynom...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b2f471e01d086ad  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 59440074f787ac5e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory._valid_expr","kind":"function","src_hash":"9feff78d0bcca79d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_valid_expr(exp)","rhs":"return coefficients of expr if it is a univariate polynomial with integer coefficients else raise a valueerror","over":{"base":"Any"},"name":"_valid_expr_correct"},"guarantee":"return coefficients of expr if it is a univariate polynomial with integer coefficients else raise a valueerror","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory._valid_expr_correct","statement":"Path(_valid_expr(x), return coefficients of expr if it is a univariate polynomial with integer coefficients else raise a valueerror)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b2f471e01d086ad"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory._valid_expr","kind":"function","src_hash":"9feff78d0bcca79d","in":{"base":"Any","pred":"expr.is_polynomial() and polynomial.is_univariate and polynomial.domain == ZZ and hasattr(expr, 'is_polynomial')"},"out":{"base":"Any"},"spec":{"lhs":"_valid_expr(expr)","rhs":"polynomial.all_coeffs()","over":{"base":"Any","pred":"expr.is_polynomial() and polynomial.is_univariate and polynomial.domain == ZZ and hasattr(expr, 'is_polynomial')"},"name":"_valid_expr_correct"},"guarantee":"returns polynomial.all_coeffs()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory._valid_expr_correct","statement":"Path(_valid_expr(x), returns polynomial.all_coeffs())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59440074f787ac5e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["expr.is_polynomial()","polynomial.is_univariate","polynomial.domain == ZZ","hasattr(expr, 'is_polynomial')"],"returns_expr":"polynomial.all_coeffs()","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.is_polynomial"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _valid_expr(expr):
     """
     return coefficients of expr if it is a univariate polynomial
@@ -2118,16 +2320,22 @@ def _valid_expr(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(polynomial_congruence(exp), find the solutions to a polynomial congruence equation modulo m) over Any ║
+# ║ Path(polynomial_congruence(expr, m), <unspecified:polynomial_congruence>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ polynomial_congruence : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b58fffa61e6bfb8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory.polynomial_congruence","kind":"function","src_hash":"9c21b49ab9c59d1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"polynomial_congruence(exp)","rhs":"find the solutions to a polynomial congruence equation modulo m","over":{"base":"Any"},"name":"polynomial_congruence_correct"},"guarantee":"find the solutions to a polynomial congruence equation modulo m","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory.polynomial_congruence_correct","statement":"Path(polynomial_congruence(x), find the solutions to a polynomial congruence equation modulo m)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b58fffa61e6bfb8"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory.polynomial_congruence","kind":"function","src_hash":"9c21b49ab9c59d1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"polynomial_congruence(expr, m)","rhs":"<unspecified:polynomial_congruence>","over":{"base":"Any"},"name":"polynomial_congruence_correct"},"guarantee":"find the solutions to a polynomial congruence equation modulo m","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory.polynomial_congruence_correct","statement":"Path(polynomial_congruence(x), find the solutions to a polynomial congruence equation modulo m)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b58fffa61e6bfb8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def polynomial_congruence(expr, m):
     """
     Find the solutions to a polynomial congruence equation modulo m.
@@ -2166,16 +2374,23 @@ def polynomial_congruence(expr, m):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(binomial_mod(n, ), compute ``binomial(n, m) % k``) over Any ║
+# ║ Path(binomial_mod(n, m, k), <unspecified:binomial_mod>) over {Any | not (k < 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ binomial_mod : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (k < 1)                                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ binomial_mod : {Any | not (k < 1)} → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a9708fddc12cd48b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory.binomial_mod","kind":"function","src_hash":"2bf63ea907b37b82","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"binomial_mod(n, )","rhs":"compute ``binomial(n, m) % k``","over":{"base":"Any"},"name":"binomial_mod_correct"},"guarantee":"compute ``binomial(n, m) % k``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory.binomial_mod_correct","statement":"Path(binomial_mod(x), compute ``binomial(n, m) % k``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9708fddc12cd48b"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory.binomial_mod","kind":"function","src_hash":"2bf63ea907b37b82","in":{"base":"Any","pred":"not (k < 1)"},"out":{"base":"Any"},"spec":{"lhs":"binomial_mod(n, m, k)","rhs":"<unspecified:binomial_mod>","over":{"base":"Any","pred":"not (k < 1)"},"name":"binomial_mod_correct"},"guarantee":"compute ``binomial(n, m) % k``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory.binomial_mod_correct","statement":"Path(binomial_mod(x), compute ``binomial(n, m) % k``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9708fddc12cd48b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (k < 1)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def binomial_mod(n, m, k):
     """Compute ``binomial(n, m) % k``.
 
@@ -2221,16 +2436,22 @@ def binomial_mod(n, m, k):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_binomial_mod_prime_power(n, ), compute ``binomial(n, m) % p**q`` for a prime ``p``) over Any ║
+# ║ Path(_binomial_mod_prime_power(n, m, p), <unspecified:_binomial_mod_prime_power>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _binomial_mod_prime_power : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 70efe941197973e2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory._binomial_mod_prime_power","kind":"function","src_hash":"acc74b84072ecb14","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_binomial_mod_prime_power(n, )","rhs":"compute ``binomial(n, m) % p**q`` for a prime ``p``","over":{"base":"Any"},"name":"_binomial_mod_prime_power_correct"},"guarantee":"compute ``binomial(n, m) % p**q`` for a prime ``p``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory._binomial_mod_prime_power_correct","statement":"Path(_binomial_mod_prime_power(x), compute ``binomial(n, m) % p**q`` for a prime ``p``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70efe941197973e2"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.residue_ntheory._binomial_mod_prime_power","kind":"function","src_hash":"acc74b84072ecb14","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_binomial_mod_prime_power(n, m, p)","rhs":"<unspecified:_binomial_mod_prime_power>","over":{"base":"Any"},"name":"_binomial_mod_prime_power_correct"},"guarantee":"compute ``binomial(n, m) % p**q`` for a prime ``p``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.residue_ntheory._binomial_mod_prime_power_correct","statement":"Path(_binomial_mod_prime_power(x), compute ``binomial(n, m) % p**q`` for a prime ``p``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70efe941197973e2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def _binomial_mod_prime_power(n, m, p, q):
     """Compute ``binomial(n, m) % p**q`` for a prime ``p``.
 

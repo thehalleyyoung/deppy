@@ -26,16 +26,24 @@ from sympy.abc import x, y, z, t, a, b, c, d, e
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ratsimp(), test_ratsimp produces the expected output) over Any ║
+# ║ Path(test_ratsimp(), f != g and ratsimp(f) == g and f != g and ratsimp(f) in G and ratsimp(f) == A * B / 8 - A * C / 8 - A / (4 * erf(x) - 4)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ratsimp : Any → {Any | f != g and ratsimp(f) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f != g and ratsimp(f) == g                     ║
+# ║   ensures:  f != g and ratsimp(f) in G                     ║
+# ║   ensures:  ratsimp(f) == A * B / 8 - A * C / 8 - A /...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ratsimp : Any → {Any | result satisfies: f != g ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09d2ec2939622664  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a10a6953dee60777  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_ratsimp.test_ratsimp","kind":"function","src_hash":"0a2e774617101216","in":{"base":"Any"},"out":{"base":"Any","pred":"f != g and ratsimp(f) == g and f != g and ratsimp(f) == g and f != g and ratsimp(f) == g and f != g and ratsimp(f) == g and f != g and ratsimp(f) in G and ratsimp(f) == A * B / 8 - A * C / 8 - A / (4 * erf(x) - 4)"},"spec":{"lhs":"test_ratsimp()","rhs":"test_ratsimp produces the expected output","over":{"base":"Any"},"name":"test_ratsimp_correct"},"guarantee":"test_ratsimp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_ratsimp.test_ratsimp_correct","statement":"Path(test_ratsimp(x), test_ratsimp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09d2ec2939622664"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_ratsimp.test_ratsimp","kind":"function","src_hash":"0a2e774617101216","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f != g and ratsimp(f) == g and f != g and ratsimp(f) in G and ratsimp(f) == A * B / 8 - A * C / 8 - A / (4 * erf(x) - 4)"},"spec":{"lhs":"test_ratsimp()","rhs":"f != g and ratsimp(f) == g and f != g and ratsimp(f) in G and ratsimp(f) == A * B / 8 - A * C / 8 - A / (4 * erf(x) - 4)","over":{"base":"Any"},"name":"test_ratsimp_correct"},"guarantee":"f != g and ratsimp(f) == g; f != g and ratsimp(f) in G; ratsimp(f) == A * B / 8 - A * C / 8 - A / (4 * erf(x) - 4)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_ratsimp.test_ratsimp_correct","statement":"Path(test_ratsimp(x), f != g and ratsimp(f) == g; f != g and ratsimp(f) in G; ratsimp(f) == A * B / 8 - A * C / 8 - A / (4 * erf(x) - 4))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a10a6953dee60777","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f != g and ratsimp(f) == g","f != g and ratsimp(f) in G","ratsimp(f) == A * B / 8 - A * C / 8 - A / (4 * erf(x) - 4)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_ratsimp():
     f, g = 1/x + 1/y, (x + y)/(x*y)
 
@@ -73,16 +81,24 @@ def test_ratsimp():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ratsimpmodprime(), test_ratsimpmodprime produces the expected output) over Any ║
+# ║ Path(test_ratsimpmodprime(), ratsimpmodprime(a / b, F, x, y, order='lex') == (-x ** 2 - x * y - x - y) / (-x ** 2 + x * y) and ratsimpmodprime(a / b, F, x, y, order='lex') == (1 + y - x) / (y - x) and ratsimpmodprime(a / b, F, x, y, order='lex') == (1 + 5 * y - 5 * x) / (8 * y - 6 * x) and ratsimpmodprime(a / b, F, x, y, order='lex') == Rational(2, 5) and ratsimpmodprime(x, [y - 2 * x], order='lex') == y / 2 and ratsimpmodprime(a, [x + 1], domain=GF(2)) == 1 and ratsimpmodprime(a, [x + 1], domain=GF(3)) == -1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ratsimpmodprime : Any → {Any | ratsimpmodprime(a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ratsimpmodprime(a / b, F, x, y, order='le...   ║
+# ║   ensures:  ratsimpmodprime(a / b, F, x, y, order='le...   ║
+# ║   ensures:  ratsimpmodprime(a / b, F, x, y, order='le...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ratsimpmodprime : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ca418d00fe55810  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4307e78e4e999290  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_ratsimp.test_ratsimpmodprime","kind":"function","src_hash":"e357c62e403ce99b","in":{"base":"Any"},"out":{"base":"Any","pred":"ratsimpmodprime(a / b, F, x, y, order='lex') == (1 + y - x) / (y - x) and ratsimpmodprime(a / b, F, x, y, order='lex') == Rational(2, 5) and ratsimpmodprime(x, [y - 2 * x], order='lex') == y / 2 and ratsimpmodprime(a, [x + 1], domain=GF(2)) == 1 and ratsimpmodprime(a, [x + 1], domain=GF(3)) == -1"},"spec":{"lhs":"test_ratsimpmodprime()","rhs":"test_ratsimpmodprime produces the expected output","over":{"base":"Any"},"name":"test_ratsimpmodprime_correct"},"guarantee":"test_ratsimpmodprime produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_ratsimp.test_ratsimpmodprime_correct","statement":"Path(test_ratsimpmodprime(x), test_ratsimpmodprime produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ca418d00fe55810"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_ratsimp.test_ratsimpmodprime","kind":"function","src_hash":"e357c62e403ce99b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ratsimpmodprime(a / b, F, x, y, order='lex') == (-x ** 2 - x * y - x - y) / (-x ** 2 + x * y) and ratsimpmodprime(a / b, F, x, y, order='lex') == (1 + y - x) / (y - x) and ratsimpmodprime(a / b, F, x, y, order='lex') == (1 + 5 * y - 5 * x) / (8 * y - 6 * x) and ratsimpmodprime(a / b, F, x, y, order='lex') == Rational(2, 5) and ratsimpmodprime(x, [y - 2 * x], order='lex') == y / 2 and ratsimpmodprime(a, [x + 1], domain=GF(2)) == 1 and ratsimpmodprime(a, [x + 1], domain=GF(3)) == -1"},"spec":{"lhs":"test_ratsimpmodprime()","rhs":"ratsimpmodprime(a / b, F, x, y, order='lex') == (-x ** 2 - x * y - x - y) / (-x ** 2 + x * y) and ratsimpmodprime(a / b, F, x, y, order='lex') == (1 + y - x) / (y - x) and ratsimpmodprime(a / b, F, x, y, order='lex') == (1 + 5 * y - 5 * x) / (8 * y - 6 * x) and ratsimpmodprime(a / b, F, x, y, order='lex') == Rational(2, 5) and ratsimpmodprime(x, [y - 2 * x], order='lex') == y / 2 and ratsimpmodprime(a, [x + 1], domain=GF(2)) == 1 and ratsimpmodprime(a, [x + 1], domain=GF(3)) == -1","over":{"base":"Any"},"name":"test_ratsimpmodprime_correct"},"guarantee":"ratsimpmodprime(a / b, F, x, y, order='lex') == (-x ** 2 - x * y - x - y) / (-x ** 2 + x * y); ratsimpmodprime(a / b, F, x, y, order='lex') == (1 + y - x) / (y - x); ratsimpmodprime(a / b, F, x, y, order='lex') == (1 + 5 * y - 5 * x) / (8 * y - 6 * x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_ratsimp.test_ratsimpmodprime_correct","statement":"Path(test_ratsimpmodprime(x), ratsimpmodprime(a / b, F, x, y, order='lex') == (-x ** 2 - x * y - x - y) / (-x ** 2 + x * y); ratsimpmodprime(a / b, F, x, y, order='lex') == (1 + y - x) / (y - x); ratsimpmodprime(a / b, F, x, y, order='lex') == (1 + 5 * y - 5 * x) / (8 * y - 6 * x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4307e78e4e999290","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ratsimpmodprime(a / b, F, x, y, order='lex') == (-x ** 2 - x * y - x - y) / (-x ** 2 + x * y)","ratsimpmodprime(a / b, F, x, y, order='lex') == (1 + y - x) / (y - x)","ratsimpmodprime(a / b, F, x, y, order='lex') == (1 + 5 * y - 5 * x) / (8 * y - 6 * x)","ratsimpmodprime(a / b, F, x, y, order='lex') == Rational(2, 5)","ratsimpmodprime(x, [y - 2 * x], order='lex') == y / 2","ratsimpmodprime(a, [x + 1], domain=GF(2)) == 1","ratsimpmodprime(a, [x + 1], domain=GF(3)) == -1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_ratsimpmodprime():
     a = y**5 + x + y
     b = x - y

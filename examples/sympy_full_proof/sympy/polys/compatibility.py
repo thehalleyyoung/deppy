@@ -258,14 +258,20 @@ from sympy.utilities import public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(IPolys(*args), correctly constructs a IPolys instance) over {Any | isinstance(element, PolyElement) and isinstance(LC, list)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ IPolys : {Any | isinstance(element, PolyElement) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 13.9ms                        ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d7a362211124cbb0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys","kind":"class","src_hash":"8f4793e21d585ed2","in":{"base":"Any","pred":"isinstance(element, PolyElement) and isinstance(LC, list)"},"out":{"base":"Any"},"spec":{"lhs":"IPolys(*args)","rhs":"correctly constructs a IPolys instance","over":{"base":"Any","pred":"isinstance(element, PolyElement) and isinstance(LC, list)"},"name":"IPolys_class_invariant"},"guarantee":"correctly constructs a IPolys instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7a362211124cbb0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys","kind":"class","src_hash":"8f4793e21d585ed2","in":{"base":"Any","pred":"isinstance(element, PolyElement) and isinstance(LC, list)"},"out":{"base":"Any"},"spec":{"lhs":"IPolys(*args)","rhs":"correctly constructs a IPolys instance","over":{"base":"Any","pred":"isinstance(element, PolyElement) and isinstance(LC, list)"},"name":"IPolys_class_invariant"},"guarantee":"correctly constructs a IPolys instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7a362211124cbb0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":13.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function IPolys not found in source"]}}
 class IPolys:
 
     gens: tuple[PolyElement, ...]
@@ -275,100 +281,144 @@ class IPolys:
     order: MonomialOrder
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(drop(gen), drop produces the expected output) over Any ║
+# ║ Path(drop(gen), <unspecified:drop>) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ drop : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0df896691e99365b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.drop","kind":"method","src_hash":"454a6122ce832bec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"drop(gen)","rhs":"drop produces the expected output","over":{"base":"Any"},"name":"drop_correct"},"guarantee":"drop produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0df896691e99365b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.drop","kind":"method","src_hash":"454a6122ce832bec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"drop(gen)","rhs":"<unspecified:drop>","over":{"base":"Any"},"name":"drop_correct"},"guarantee":"drop produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0df896691e99365b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def drop(self, gen):
         pass
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(clone(sym), clone produces the expected output) over Any ║
+# ║ Path(clone(symbols, domain, order), <unspecified:clone>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ clone : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 14bafd227fbfcfa1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.clone","kind":"method","src_hash":"4878cf65494aa087","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"clone(sym)","rhs":"clone produces the expected output","over":{"base":"Any"},"name":"clone_correct"},"guarantee":"clone produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"14bafd227fbfcfa1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.clone","kind":"method","src_hash":"4878cf65494aa087","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"clone(symbols, domain, order)","rhs":"<unspecified:clone>","over":{"base":"Any"},"name":"clone_correct"},"guarantee":"clone produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"14bafd227fbfcfa1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def clone(self, symbols=None, domain=None, order=None):
         pass
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_ground(), to_ground produces the expected output) over Any ║
+# ║ Path(to_ground(), <unspecified:to_ground>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_ground : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9afad9c7464ba172           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.to_ground","kind":"method","src_hash":"8c5e27c2ebb74dc8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_ground()","rhs":"to_ground produces the expected output","over":{"base":"Any"},"name":"to_ground_correct"},"guarantee":"to_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9afad9c7464ba172"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.to_ground","kind":"method","src_hash":"8c5e27c2ebb74dc8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_ground()","rhs":"<unspecified:to_ground>","over":{"base":"Any"},"name":"to_ground_correct"},"guarantee":"to_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9afad9c7464ba172","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_ground(self):
         pass
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ground_new(ele), ground_new produces the expected output) over Any ║
+# ║ Path(ground_new(element), <unspecified:ground_new>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ground_new : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 144e171ec30facef           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.ground_new","kind":"method","src_hash":"3cef52dc1d35915c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ground_new(ele)","rhs":"ground_new produces the expected output","over":{"base":"Any"},"name":"ground_new_correct"},"guarantee":"ground_new produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"144e171ec30facef"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.ground_new","kind":"method","src_hash":"3cef52dc1d35915c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ground_new(element)","rhs":"<unspecified:ground_new>","over":{"base":"Any"},"name":"ground_new_correct"},"guarantee":"ground_new produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"144e171ec30facef","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ground_new(self, element):
         pass
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(domain_new(ele), domain_new produces the expected output) over Any ║
+# ║ Path(domain_new(element), <unspecified:domain_new>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ domain_new : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4ea19fbe8b1e27e9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.domain_new","kind":"method","src_hash":"38b4df30653d9b73","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"domain_new(ele)","rhs":"domain_new produces the expected output","over":{"base":"Any"},"name":"domain_new_correct"},"guarantee":"domain_new produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4ea19fbe8b1e27e9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.domain_new","kind":"method","src_hash":"38b4df30653d9b73","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"domain_new(element)","rhs":"<unspecified:domain_new>","over":{"base":"Any"},"name":"domain_new_correct"},"guarantee":"domain_new produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4ea19fbe8b1e27e9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def domain_new(self, element):
         pass
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_dict(d), from_dict produces the expected output) over Any ║
+# ║ Path(from_dict(d), <unspecified:from_dict>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_dict : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bb8d63d370d00a87           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.from_dict","kind":"method","src_hash":"53544485a58e6d1c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_dict(d)","rhs":"from_dict produces the expected output","over":{"base":"Any"},"name":"from_dict_correct"},"guarantee":"from_dict produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bb8d63d370d00a87"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.from_dict","kind":"method","src_hash":"53544485a58e6d1c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_dict(d)","rhs":"<unspecified:from_dict>","over":{"base":"Any"},"name":"from_dict_correct"},"guarantee":"from_dict produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bb8d63d370d00a87","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_dict(self, d):
         pass
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(wrap(ele), wrap produces the expected output) over Any ║
+# ║ Path(wrap(element), <unspecified:wrap>) over {Any | hasattr(element, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ wrap : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(element, 'ring')                       ║
+# ║   fiber[PolyElement]: isinstance(element, PolyElement)     ║
+# ║   fiber[PolyElement]: not (isinstance(element, PolyEl...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ wrap : {Any | hasattr(element, 'ring')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6866d1ab70bf8979  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 47e5055e84b31be5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.wrap","kind":"method","src_hash":"d4815e450c84f87d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"wrap(ele)","rhs":"wrap produces the expected output","over":{"base":"Any"},"name":"wrap_correct"},"guarantee":"wrap produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.wrap_correct","statement":"Path(wrap(x), wrap produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6866d1ab70bf8979"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.wrap","kind":"method","src_hash":"d4815e450c84f87d","in":{"base":"Any","pred":"hasattr(element, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"wrap(element)","rhs":"<unspecified:wrap>","over":{"base":"Any","pred":"hasattr(element, 'ring')"},"name":"wrap_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.wrap_correct","statement":"Path(wrap(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47e5055e84b31be5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(element, 'ring')"],"fibers":[{"name":"PolyElement","guard":"isinstance(element, PolyElement)","ensures":[],"decidability":"structural"},{"name":"PolyElement","guard":"not (isinstance(element, PolyElement))","ensures":["result == self.ground_new(element)"],"decidability":"structural","returns_expr":"self.ground_new(element)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["element.ring","self.ground_new"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def wrap(self, element):
         from sympy.polys.rings import PolyElement
         if isinstance(element, PolyElement):
@@ -380,916 +430,1327 @@ class IPolys:
             return self.ground_new(element)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_dense(ele), to_dense produces the expected output) over Any ║
+# ║ Path(to_dense(element), self.wrap(element).to_dense()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.wrap(element).to_dense()                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_dense : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 08c808bf87a3767e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.to_dense","kind":"method","src_hash":"5df12b2477b0af57","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_dense(ele)","rhs":"to_dense produces the expected output","over":{"base":"Any"},"name":"to_dense_correct"},"guarantee":"to_dense produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"08c808bf87a3767e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.to_dense","kind":"method","src_hash":"5df12b2477b0af57","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_dense(element)","rhs":"self.wrap(element).to_dense()","over":{"base":"Any"},"name":"to_dense_correct"},"guarantee":"returns self.wrap(element).to_dense()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"08c808bf87a3767e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.wrap(element).to_dense()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.wrap"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_dense(self, element):
         return self.wrap(element).to_dense()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_dense(ele), from_dense produces the expected output) over Any ║
+# ║ Path(from_dense(element), self.from_dict(dmp_to_dict(element, self.ngens - 1, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dict(dmp_to_dict(element, self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_dense : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7de55ce53ad23f6b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.from_dense","kind":"method","src_hash":"6b7fd2d2c3ebbaec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_dense(ele)","rhs":"from_dense produces the expected output","over":{"base":"Any"},"name":"from_dense_correct"},"guarantee":"from_dense produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7de55ce53ad23f6b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.from_dense","kind":"method","src_hash":"6b7fd2d2c3ebbaec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_dense(element)","rhs":"self.from_dict(dmp_to_dict(element, self.ngens - 1, self.domain))","over":{"base":"Any"},"name":"from_dense_correct"},"guarantee":"returns self.from_dict(dmp_to_dict(element, self.ngens - 1, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7de55ce53ad23f6b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dict(dmp_to_dict(element, self.ngens - 1, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dict","self.ngens"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_dense(self, element):
         return self.from_dict(dmp_to_dict(element, self.ngens-1, self.domain))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_add_term(f, ), dup_add_term produces the expected output) over Any ║
+# ║ Path(dup_add_term(f, c, i), self.from_dense(dup_add_term(self.to_dense(f), c, i, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_add_term(self.to_dens...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_add_term : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 037d2890ca027b96           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_add_term","kind":"method","src_hash":"0cc74b9d7d11f6ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_add_term(f, )","rhs":"dup_add_term produces the expected output","over":{"base":"Any"},"name":"dup_add_term_correct"},"guarantee":"dup_add_term produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"037d2890ca027b96"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_add_term","kind":"method","src_hash":"0cc74b9d7d11f6ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_add_term(f, c, i)","rhs":"self.from_dense(dup_add_term(self.to_dense(f), c, i, self.domain))","over":{"base":"Any"},"name":"dup_add_term_correct"},"guarantee":"returns self.from_dense(dup_add_term(self.to_dense(f), c, i, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"037d2890ca027b96","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_add_term(self.to_dense(f), c, i, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_add_term(self, f, c, i):
         return self.from_dense(dup_add_term(self.to_dense(f), c, i, self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_add_term(f, ), dmp_add_term produces the expected output) over Any ║
+# ║ Path(dmp_add_term(f, c, i), self.from_dense(dmp_add_term(self.to_dense(f), self.wrap(c).drop(0).to_dense(), i, self.ngens - 1, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dmp_add_term(self.to_dens...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_add_term : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d0f6c186b6b4ac49           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_add_term","kind":"method","src_hash":"93ea151e98c23056","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_add_term(f, )","rhs":"dmp_add_term produces the expected output","over":{"base":"Any"},"name":"dmp_add_term_correct"},"guarantee":"dmp_add_term produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d0f6c186b6b4ac49"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_add_term","kind":"method","src_hash":"93ea151e98c23056","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_add_term(f, c, i)","rhs":"self.from_dense(dmp_add_term(self.to_dense(f), self.wrap(c).drop(0).to_dense(), i, self.ngens - 1, self.domain))","over":{"base":"Any"},"name":"dmp_add_term_correct"},"guarantee":"returns self.from_dense(dmp_add_term(self.to_dense(f), self.wrap(c).drop(0).to_dense(), i, self.ngens - 1, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d0f6c186b6b4ac49","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dmp_add_term(self.to_dense(f), self.wrap(c).drop(0).to_dense(), i, self.ngens - 1, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense","self.wrap"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_add_term(self, f, c, i):
         return self.from_dense(dmp_add_term(self.to_dense(f), self.wrap(c).drop(0).to_dense(), i, self.ngens-1, self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_sub_term(f, ), dup_sub_term produces the expected output) over Any ║
+# ║ Path(dup_sub_term(f, c, i), self.from_dense(dup_sub_term(self.to_dense(f), c, i, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_sub_term(self.to_dens...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_sub_term : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 32b0c1327bab67f1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_sub_term","kind":"method","src_hash":"6c3018f6164dcba6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_sub_term(f, )","rhs":"dup_sub_term produces the expected output","over":{"base":"Any"},"name":"dup_sub_term_correct"},"guarantee":"dup_sub_term produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"32b0c1327bab67f1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_sub_term","kind":"method","src_hash":"6c3018f6164dcba6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_sub_term(f, c, i)","rhs":"self.from_dense(dup_sub_term(self.to_dense(f), c, i, self.domain))","over":{"base":"Any"},"name":"dup_sub_term_correct"},"guarantee":"returns self.from_dense(dup_sub_term(self.to_dense(f), c, i, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"32b0c1327bab67f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_sub_term(self.to_dense(f), c, i, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_sub_term(self, f, c, i):
         return self.from_dense(dup_sub_term(self.to_dense(f), c, i, self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_sub_term(f, ), dmp_sub_term produces the expected output) over Any ║
+# ║ Path(dmp_sub_term(f, c, i), self.from_dense(dmp_sub_term(self.to_dense(f), self.wrap(c).drop(0).to_dense(), i, self.ngens - 1, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dmp_sub_term(self.to_dens...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_sub_term : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9f71eff13e9d6533           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_sub_term","kind":"method","src_hash":"3653bb3a4d878fa6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_sub_term(f, )","rhs":"dmp_sub_term produces the expected output","over":{"base":"Any"},"name":"dmp_sub_term_correct"},"guarantee":"dmp_sub_term produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9f71eff13e9d6533"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_sub_term","kind":"method","src_hash":"3653bb3a4d878fa6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_sub_term(f, c, i)","rhs":"self.from_dense(dmp_sub_term(self.to_dense(f), self.wrap(c).drop(0).to_dense(), i, self.ngens - 1, self.domain))","over":{"base":"Any"},"name":"dmp_sub_term_correct"},"guarantee":"returns self.from_dense(dmp_sub_term(self.to_dense(f), self.wrap(c).drop(0).to_dense(), i, self.ngens - 1, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9f71eff13e9d6533","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dmp_sub_term(self.to_dense(f), self.wrap(c).drop(0).to_dense(), i, self.ngens - 1, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense","self.wrap"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_sub_term(self, f, c, i):
         return self.from_dense(dmp_sub_term(self.to_dense(f), self.wrap(c).drop(0).to_dense(), i, self.ngens-1, self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_mul_term(f, ), dup_mul_term produces the expected output) over Any ║
+# ║ Path(dup_mul_term(f, c, i), self.from_dense(dup_mul_term(self.to_dense(f), c, i, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_mul_term(self.to_dens...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_mul_term : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0ffe1a881f0c8e9f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_mul_term","kind":"method","src_hash":"7fb23b620cc541f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_mul_term(f, )","rhs":"dup_mul_term produces the expected output","over":{"base":"Any"},"name":"dup_mul_term_correct"},"guarantee":"dup_mul_term produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0ffe1a881f0c8e9f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_mul_term","kind":"method","src_hash":"7fb23b620cc541f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_mul_term(f, c, i)","rhs":"self.from_dense(dup_mul_term(self.to_dense(f), c, i, self.domain))","over":{"base":"Any"},"name":"dup_mul_term_correct"},"guarantee":"returns self.from_dense(dup_mul_term(self.to_dense(f), c, i, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0ffe1a881f0c8e9f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_mul_term(self.to_dense(f), c, i, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_mul_term(self, f, c, i):
         return self.from_dense(dup_mul_term(self.to_dense(f), c, i, self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_mul_term(f, ), dmp_mul_term produces the expected output) over Any ║
+# ║ Path(dmp_mul_term(f, c, i), self.from_dense(dmp_mul_term(self.to_dense(f), self.wrap(c).drop(0).to_dense(), i, self.ngens - 1, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dmp_mul_term(self.to_dens...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_mul_term : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 94c41b97208558f5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_mul_term","kind":"method","src_hash":"fb6205aca895b545","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_mul_term(f, )","rhs":"dmp_mul_term produces the expected output","over":{"base":"Any"},"name":"dmp_mul_term_correct"},"guarantee":"dmp_mul_term produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"94c41b97208558f5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_mul_term","kind":"method","src_hash":"fb6205aca895b545","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_mul_term(f, c, i)","rhs":"self.from_dense(dmp_mul_term(self.to_dense(f), self.wrap(c).drop(0).to_dense(), i, self.ngens - 1, self.domain))","over":{"base":"Any"},"name":"dmp_mul_term_correct"},"guarantee":"returns self.from_dense(dmp_mul_term(self.to_dense(f), self.wrap(c).drop(0).to_dense(), i, self.ngens - 1, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"94c41b97208558f5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dmp_mul_term(self.to_dense(f), self.wrap(c).drop(0).to_dense(), i, self.ngens - 1, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense","self.wrap"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_mul_term(self, f, c, i):
         return self.from_dense(dmp_mul_term(self.to_dense(f), self.wrap(c).drop(0).to_dense(), i, self.ngens-1, self.domain))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_add_ground(f, ), dup_add_ground produces the expected output) over Any ║
+# ║ Path(dup_add_ground(f, c), self.from_dense(dup_add_ground(self.to_dense(f), c, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_add_ground(self.to_de...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_add_ground : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | edaa0814f75094f6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_add_ground","kind":"method","src_hash":"ad67a233196666d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_add_ground(f, )","rhs":"dup_add_ground produces the expected output","over":{"base":"Any"},"name":"dup_add_ground_correct"},"guarantee":"dup_add_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"edaa0814f75094f6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_add_ground","kind":"method","src_hash":"ad67a233196666d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_add_ground(f, c)","rhs":"self.from_dense(dup_add_ground(self.to_dense(f), c, self.domain))","over":{"base":"Any"},"name":"dup_add_ground_correct"},"guarantee":"returns self.from_dense(dup_add_ground(self.to_dense(f), c, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"edaa0814f75094f6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_add_ground(self.to_dense(f), c, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_add_ground(self, f, c):
         return self.from_dense(dup_add_ground(self.to_dense(f), c, self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_add_ground(f, ), dmp_add_ground produces the expected output) over Any ║
+# ║ Path(dmp_add_ground(f, c), self.from_dense(dmp_add_ground(self.to_dense(f), c, self.ngens - 1, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dmp_add_ground(self.to_de...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_add_ground : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 81e62d47f08083c1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_add_ground","kind":"method","src_hash":"07e57deb8db9ba54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_add_ground(f, )","rhs":"dmp_add_ground produces the expected output","over":{"base":"Any"},"name":"dmp_add_ground_correct"},"guarantee":"dmp_add_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"81e62d47f08083c1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_add_ground","kind":"method","src_hash":"07e57deb8db9ba54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_add_ground(f, c)","rhs":"self.from_dense(dmp_add_ground(self.to_dense(f), c, self.ngens - 1, self.domain))","over":{"base":"Any"},"name":"dmp_add_ground_correct"},"guarantee":"returns self.from_dense(dmp_add_ground(self.to_dense(f), c, self.ngens - 1, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"81e62d47f08083c1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dmp_add_ground(self.to_dense(f), c, self.ngens - 1, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_add_ground(self, f, c):
         return self.from_dense(dmp_add_ground(self.to_dense(f), c, self.ngens-1, self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_sub_ground(f, ), dup_sub_ground produces the expected output) over Any ║
+# ║ Path(dup_sub_ground(f, c), self.from_dense(dup_sub_ground(self.to_dense(f), c, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_sub_ground(self.to_de...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_sub_ground : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a1cacea040572a99           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_sub_ground","kind":"method","src_hash":"638f2741416e5fe4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_sub_ground(f, )","rhs":"dup_sub_ground produces the expected output","over":{"base":"Any"},"name":"dup_sub_ground_correct"},"guarantee":"dup_sub_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a1cacea040572a99"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_sub_ground","kind":"method","src_hash":"638f2741416e5fe4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_sub_ground(f, c)","rhs":"self.from_dense(dup_sub_ground(self.to_dense(f), c, self.domain))","over":{"base":"Any"},"name":"dup_sub_ground_correct"},"guarantee":"returns self.from_dense(dup_sub_ground(self.to_dense(f), c, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a1cacea040572a99","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_sub_ground(self.to_dense(f), c, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_sub_ground(self, f, c):
         return self.from_dense(dup_sub_ground(self.to_dense(f), c, self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_sub_ground(f, ), dmp_sub_ground produces the expected output) over Any ║
+# ║ Path(dmp_sub_ground(f, c), self.from_dense(dmp_sub_ground(self.to_dense(f), c, self.ngens - 1, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dmp_sub_ground(self.to_de...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_sub_ground : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 748775934140b62b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_sub_ground","kind":"method","src_hash":"116751a604d5e968","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_sub_ground(f, )","rhs":"dmp_sub_ground produces the expected output","over":{"base":"Any"},"name":"dmp_sub_ground_correct"},"guarantee":"dmp_sub_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"748775934140b62b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_sub_ground","kind":"method","src_hash":"116751a604d5e968","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_sub_ground(f, c)","rhs":"self.from_dense(dmp_sub_ground(self.to_dense(f), c, self.ngens - 1, self.domain))","over":{"base":"Any"},"name":"dmp_sub_ground_correct"},"guarantee":"returns self.from_dense(dmp_sub_ground(self.to_dense(f), c, self.ngens - 1, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"748775934140b62b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dmp_sub_ground(self.to_dense(f), c, self.ngens - 1, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_sub_ground(self, f, c):
         return self.from_dense(dmp_sub_ground(self.to_dense(f), c, self.ngens-1, self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_mul_ground(f, ), dup_mul_ground produces the expected output) over Any ║
+# ║ Path(dup_mul_ground(f, c), self.from_dense(dup_mul_ground(self.to_dense(f), c, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_mul_ground(self.to_de...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_mul_ground : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e515c5f0ef4bf720           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_mul_ground","kind":"method","src_hash":"72a8c735e51b1fb8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_mul_ground(f, )","rhs":"dup_mul_ground produces the expected output","over":{"base":"Any"},"name":"dup_mul_ground_correct"},"guarantee":"dup_mul_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e515c5f0ef4bf720"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_mul_ground","kind":"method","src_hash":"72a8c735e51b1fb8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_mul_ground(f, c)","rhs":"self.from_dense(dup_mul_ground(self.to_dense(f), c, self.domain))","over":{"base":"Any"},"name":"dup_mul_ground_correct"},"guarantee":"returns self.from_dense(dup_mul_ground(self.to_dense(f), c, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e515c5f0ef4bf720","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_mul_ground(self.to_dense(f), c, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_mul_ground(self, f, c):
         return self.from_dense(dup_mul_ground(self.to_dense(f), c, self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_mul_ground(f, ), dmp_mul_ground produces the expected output) over Any ║
+# ║ Path(dmp_mul_ground(f, c), self.from_dense(dmp_mul_ground(self.to_dense(f), c, self.ngens - 1, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dmp_mul_ground(self.to_de...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_mul_ground : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f7578096de4b2395           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_mul_ground","kind":"method","src_hash":"c4bbf7c358a30236","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_mul_ground(f, )","rhs":"dmp_mul_ground produces the expected output","over":{"base":"Any"},"name":"dmp_mul_ground_correct"},"guarantee":"dmp_mul_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f7578096de4b2395"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_mul_ground","kind":"method","src_hash":"c4bbf7c358a30236","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_mul_ground(f, c)","rhs":"self.from_dense(dmp_mul_ground(self.to_dense(f), c, self.ngens - 1, self.domain))","over":{"base":"Any"},"name":"dmp_mul_ground_correct"},"guarantee":"returns self.from_dense(dmp_mul_ground(self.to_dense(f), c, self.ngens - 1, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f7578096de4b2395","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dmp_mul_ground(self.to_dense(f), c, self.ngens - 1, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_mul_ground(self, f, c):
         return self.from_dense(dmp_mul_ground(self.to_dense(f), c, self.ngens-1, self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_quo_ground(f, ), dup_quo_ground produces the expected output) over Any ║
+# ║ Path(dup_quo_ground(f, c), self.from_dense(dup_quo_ground(self.to_dense(f), c, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_quo_ground(self.to_de...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_quo_ground : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b9a60f3c9f57cbd2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_quo_ground","kind":"method","src_hash":"fbd20c21c4626a58","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_quo_ground(f, )","rhs":"dup_quo_ground produces the expected output","over":{"base":"Any"},"name":"dup_quo_ground_correct"},"guarantee":"dup_quo_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b9a60f3c9f57cbd2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_quo_ground","kind":"method","src_hash":"fbd20c21c4626a58","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_quo_ground(f, c)","rhs":"self.from_dense(dup_quo_ground(self.to_dense(f), c, self.domain))","over":{"base":"Any"},"name":"dup_quo_ground_correct"},"guarantee":"returns self.from_dense(dup_quo_ground(self.to_dense(f), c, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b9a60f3c9f57cbd2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_quo_ground(self.to_dense(f), c, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_quo_ground(self, f, c):
         return self.from_dense(dup_quo_ground(self.to_dense(f), c, self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_quo_ground(f, ), dmp_quo_ground produces the expected output) over Any ║
+# ║ Path(dmp_quo_ground(f, c), self.from_dense(dmp_quo_ground(self.to_dense(f), c, self.ngens - 1, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dmp_quo_ground(self.to_de...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_quo_ground : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 57e80bccee00418c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_quo_ground","kind":"method","src_hash":"1ef793f5478bc35a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_quo_ground(f, )","rhs":"dmp_quo_ground produces the expected output","over":{"base":"Any"},"name":"dmp_quo_ground_correct"},"guarantee":"dmp_quo_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"57e80bccee00418c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_quo_ground","kind":"method","src_hash":"1ef793f5478bc35a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_quo_ground(f, c)","rhs":"self.from_dense(dmp_quo_ground(self.to_dense(f), c, self.ngens - 1, self.domain))","over":{"base":"Any"},"name":"dmp_quo_ground_correct"},"guarantee":"returns self.from_dense(dmp_quo_ground(self.to_dense(f), c, self.ngens - 1, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"57e80bccee00418c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dmp_quo_ground(self.to_dense(f), c, self.ngens - 1, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_quo_ground(self, f, c):
         return self.from_dense(dmp_quo_ground(self.to_dense(f), c, self.ngens-1, self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_exquo_ground(f, ), dup_exquo_ground produces the expected output) over Any ║
+# ║ Path(dup_exquo_ground(f, c), self.from_dense(dup_exquo_ground(self.to_dense(f), c, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_exquo_ground(self.to_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_exquo_ground : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4c0eab9d1031376e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_exquo_ground","kind":"method","src_hash":"2d8b07a6d8038023","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_exquo_ground(f, )","rhs":"dup_exquo_ground produces the expected output","over":{"base":"Any"},"name":"dup_exquo_ground_correct"},"guarantee":"dup_exquo_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4c0eab9d1031376e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_exquo_ground","kind":"method","src_hash":"2d8b07a6d8038023","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_exquo_ground(f, c)","rhs":"self.from_dense(dup_exquo_ground(self.to_dense(f), c, self.domain))","over":{"base":"Any"},"name":"dup_exquo_ground_correct"},"guarantee":"returns self.from_dense(dup_exquo_ground(self.to_dense(f), c, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4c0eab9d1031376e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_exquo_ground(self.to_dense(f), c, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_exquo_ground(self, f, c):
         return self.from_dense(dup_exquo_ground(self.to_dense(f), c, self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_exquo_ground(f, ), dmp_exquo_ground produces the expected output) over Any ║
+# ║ Path(dmp_exquo_ground(f, c), self.from_dense(dmp_exquo_ground(self.to_dense(f), c, self.ngens - 1, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dmp_exquo_ground(self.to_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_exquo_ground : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 78f8c60fca134681           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_exquo_ground","kind":"method","src_hash":"24704374de186eba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_exquo_ground(f, )","rhs":"dmp_exquo_ground produces the expected output","over":{"base":"Any"},"name":"dmp_exquo_ground_correct"},"guarantee":"dmp_exquo_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"78f8c60fca134681"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_exquo_ground","kind":"method","src_hash":"24704374de186eba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_exquo_ground(f, c)","rhs":"self.from_dense(dmp_exquo_ground(self.to_dense(f), c, self.ngens - 1, self.domain))","over":{"base":"Any"},"name":"dmp_exquo_ground_correct"},"guarantee":"returns self.from_dense(dmp_exquo_ground(self.to_dense(f), c, self.ngens - 1, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"78f8c60fca134681","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dmp_exquo_ground(self.to_dense(f), c, self.ngens - 1, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_exquo_ground(self, f, c):
         return self.from_dense(dmp_exquo_ground(self.to_dense(f), c, self.ngens-1, self.domain))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_lshift(f, ), dup_lshift produces the expected output) over Any ║
+# ║ Path(dup_lshift(f, n), self.from_dense(dup_lshift(self.to_dense(f), n, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_lshift(self.to_dense(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_lshift : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e951c966b3ffbb91           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_lshift","kind":"method","src_hash":"2942f5f49f2986ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_lshift(f, )","rhs":"dup_lshift produces the expected output","over":{"base":"Any"},"name":"dup_lshift_correct"},"guarantee":"dup_lshift produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e951c966b3ffbb91"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_lshift","kind":"method","src_hash":"2942f5f49f2986ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_lshift(f, n)","rhs":"self.from_dense(dup_lshift(self.to_dense(f), n, self.domain))","over":{"base":"Any"},"name":"dup_lshift_correct"},"guarantee":"returns self.from_dense(dup_lshift(self.to_dense(f), n, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e951c966b3ffbb91","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_lshift(self.to_dense(f), n, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_lshift(self, f, n):
         return self.from_dense(dup_lshift(self.to_dense(f), n, self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_rshift(f, ), dup_rshift produces the expected output) over Any ║
+# ║ Path(dup_rshift(f, n), self.from_dense(dup_rshift(self.to_dense(f), n, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_rshift(self.to_dense(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_rshift : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4fcc69cdad7f0a04           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_rshift","kind":"method","src_hash":"c54d85594106cb58","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_rshift(f, )","rhs":"dup_rshift produces the expected output","over":{"base":"Any"},"name":"dup_rshift_correct"},"guarantee":"dup_rshift produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4fcc69cdad7f0a04"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_rshift","kind":"method","src_hash":"c54d85594106cb58","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_rshift(f, n)","rhs":"self.from_dense(dup_rshift(self.to_dense(f), n, self.domain))","over":{"base":"Any"},"name":"dup_rshift_correct"},"guarantee":"returns self.from_dense(dup_rshift(self.to_dense(f), n, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4fcc69cdad7f0a04","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_rshift(self.to_dense(f), n, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_rshift(self, f, n):
         return self.from_dense(dup_rshift(self.to_dense(f), n, self.domain))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_abs(f), dup_abs produces the expected output) over Any ║
+# ║ Path(dup_abs(f), self.from_dense(dup_abs(self.to_dense(f), self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_abs(self.to_dense(f),...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_abs : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | baac73a8df122b1a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_abs","kind":"method","src_hash":"b547e8659d6b330a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_abs(f)","rhs":"dup_abs produces the expected output","over":{"base":"Any"},"name":"dup_abs_correct"},"guarantee":"dup_abs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"baac73a8df122b1a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_abs","kind":"method","src_hash":"b547e8659d6b330a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_abs(f)","rhs":"self.from_dense(dup_abs(self.to_dense(f), self.domain))","over":{"base":"Any"},"name":"dup_abs_correct"},"guarantee":"returns self.from_dense(dup_abs(self.to_dense(f), self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"baac73a8df122b1a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_abs(self.to_dense(f), self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_abs(self, f):
         return self.from_dense(dup_abs(self.to_dense(f), self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_abs(f), dmp_abs produces the expected output) over Any ║
+# ║ Path(dmp_abs(f), self.from_dense(dmp_abs(self.to_dense(f), self.ngens - 1, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dmp_abs(self.to_dense(f),...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_abs : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 59660910e074464a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_abs","kind":"method","src_hash":"a4d43b00c1ecef69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_abs(f)","rhs":"dmp_abs produces the expected output","over":{"base":"Any"},"name":"dmp_abs_correct"},"guarantee":"dmp_abs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"59660910e074464a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_abs","kind":"method","src_hash":"a4d43b00c1ecef69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_abs(f)","rhs":"self.from_dense(dmp_abs(self.to_dense(f), self.ngens - 1, self.domain))","over":{"base":"Any"},"name":"dmp_abs_correct"},"guarantee":"returns self.from_dense(dmp_abs(self.to_dense(f), self.ngens - 1, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"59660910e074464a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dmp_abs(self.to_dense(f), self.ngens - 1, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_abs(self, f):
         return self.from_dense(dmp_abs(self.to_dense(f), self.ngens-1, self.domain))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_neg(f), dup_neg produces the expected output) over Any ║
+# ║ Path(dup_neg(f), self.from_dense(dup_neg(self.to_dense(f), self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_neg(self.to_dense(f),...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_neg : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c3689368602af14f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_neg","kind":"method","src_hash":"3855c6074f603c4b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_neg(f)","rhs":"dup_neg produces the expected output","over":{"base":"Any"},"name":"dup_neg_correct"},"guarantee":"dup_neg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c3689368602af14f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_neg","kind":"method","src_hash":"3855c6074f603c4b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_neg(f)","rhs":"self.from_dense(dup_neg(self.to_dense(f), self.domain))","over":{"base":"Any"},"name":"dup_neg_correct"},"guarantee":"returns self.from_dense(dup_neg(self.to_dense(f), self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c3689368602af14f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_neg(self.to_dense(f), self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_neg(self, f):
         return self.from_dense(dup_neg(self.to_dense(f), self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_neg(f), dmp_neg produces the expected output) over Any ║
+# ║ Path(dmp_neg(f), self.from_dense(dmp_neg(self.to_dense(f), self.ngens - 1, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dmp_neg(self.to_dense(f),...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_neg : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 360a0cc2e0f8b498           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_neg","kind":"method","src_hash":"dfdcf2dcb3eff191","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_neg(f)","rhs":"dmp_neg produces the expected output","over":{"base":"Any"},"name":"dmp_neg_correct"},"guarantee":"dmp_neg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"360a0cc2e0f8b498"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_neg","kind":"method","src_hash":"dfdcf2dcb3eff191","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_neg(f)","rhs":"self.from_dense(dmp_neg(self.to_dense(f), self.ngens - 1, self.domain))","over":{"base":"Any"},"name":"dmp_neg_correct"},"guarantee":"returns self.from_dense(dmp_neg(self.to_dense(f), self.ngens - 1, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"360a0cc2e0f8b498","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dmp_neg(self.to_dense(f), self.ngens - 1, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_neg(self, f):
         return self.from_dense(dmp_neg(self.to_dense(f), self.ngens-1, self.domain))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_add(f, ), dup_add produces the expected output) over Any ║
+# ║ Path(dup_add(f, g), self.from_dense(dup_add(self.to_dense(f), self.to_dense(g), self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_add(self.to_dense(f),...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_add : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 83144452dece7149           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_add","kind":"method","src_hash":"2096a56a5999a76d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_add(f, )","rhs":"dup_add produces the expected output","over":{"base":"Any"},"name":"dup_add_correct"},"guarantee":"dup_add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"83144452dece7149"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_add","kind":"method","src_hash":"2096a56a5999a76d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_add(f, g)","rhs":"self.from_dense(dup_add(self.to_dense(f), self.to_dense(g), self.domain))","over":{"base":"Any"},"name":"dup_add_correct"},"guarantee":"returns self.from_dense(dup_add(self.to_dense(f), self.to_dense(g), self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"83144452dece7149","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_add(self.to_dense(f), self.to_dense(g), self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_add(self, f, g):
         return self.from_dense(dup_add(self.to_dense(f), self.to_dense(g), self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_add(f, ), dmp_add produces the expected output) over Any ║
+# ║ Path(dmp_add(f, g), self.from_dense(dmp_add(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dmp_add(self.to_dense(f),...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_add : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e2d0d5dd68347ac8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_add","kind":"method","src_hash":"0eaaf77cf7c6c5a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_add(f, )","rhs":"dmp_add produces the expected output","over":{"base":"Any"},"name":"dmp_add_correct"},"guarantee":"dmp_add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e2d0d5dd68347ac8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_add","kind":"method","src_hash":"0eaaf77cf7c6c5a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_add(f, g)","rhs":"self.from_dense(dmp_add(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))","over":{"base":"Any"},"name":"dmp_add_correct"},"guarantee":"returns self.from_dense(dmp_add(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e2d0d5dd68347ac8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dmp_add(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_add(self, f, g):
         return self.from_dense(dmp_add(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_sub(f, ), dup_sub produces the expected output) over Any ║
+# ║ Path(dup_sub(f, g), self.from_dense(dup_sub(self.to_dense(f), self.to_dense(g), self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_sub(self.to_dense(f),...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_sub : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d450885ab697c65c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_sub","kind":"method","src_hash":"2d100988d41af258","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_sub(f, )","rhs":"dup_sub produces the expected output","over":{"base":"Any"},"name":"dup_sub_correct"},"guarantee":"dup_sub produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d450885ab697c65c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_sub","kind":"method","src_hash":"2d100988d41af258","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_sub(f, g)","rhs":"self.from_dense(dup_sub(self.to_dense(f), self.to_dense(g), self.domain))","over":{"base":"Any"},"name":"dup_sub_correct"},"guarantee":"returns self.from_dense(dup_sub(self.to_dense(f), self.to_dense(g), self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d450885ab697c65c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_sub(self.to_dense(f), self.to_dense(g), self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_sub(self, f, g):
         return self.from_dense(dup_sub(self.to_dense(f), self.to_dense(g), self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_sub(f, ), dmp_sub produces the expected output) over Any ║
+# ║ Path(dmp_sub(f, g), self.from_dense(dmp_sub(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dmp_sub(self.to_dense(f),...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_sub : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f9fa61e0ff995d1d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_sub","kind":"method","src_hash":"71c785294c5b7086","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_sub(f, )","rhs":"dmp_sub produces the expected output","over":{"base":"Any"},"name":"dmp_sub_correct"},"guarantee":"dmp_sub produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f9fa61e0ff995d1d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_sub","kind":"method","src_hash":"71c785294c5b7086","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_sub(f, g)","rhs":"self.from_dense(dmp_sub(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))","over":{"base":"Any"},"name":"dmp_sub_correct"},"guarantee":"returns self.from_dense(dmp_sub(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f9fa61e0ff995d1d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dmp_sub(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_sub(self, f, g):
         return self.from_dense(dmp_sub(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_add_mul(f, ), dup_add_mul produces the expected output) over Any ║
+# ║ Path(dup_add_mul(f, g, h), self.from_dense(dup_add_mul(self.to_dense(f), self.to_dense(g), self.to_dense(h), self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_add_mul(self.to_dense...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_add_mul : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b03833269e137450           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_add_mul","kind":"method","src_hash":"4d4c176d2b39a7e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_add_mul(f, )","rhs":"dup_add_mul produces the expected output","over":{"base":"Any"},"name":"dup_add_mul_correct"},"guarantee":"dup_add_mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b03833269e137450"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_add_mul","kind":"method","src_hash":"4d4c176d2b39a7e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_add_mul(f, g, h)","rhs":"self.from_dense(dup_add_mul(self.to_dense(f), self.to_dense(g), self.to_dense(h), self.domain))","over":{"base":"Any"},"name":"dup_add_mul_correct"},"guarantee":"returns self.from_dense(dup_add_mul(self.to_dense(f), self.to_dense(g), self.to_dense(h), self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b03833269e137450","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_add_mul(self.to_dense(f), self.to_dense(g), self.to_dense(h), self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_add_mul(self, f, g, h):
         return self.from_dense(dup_add_mul(self.to_dense(f), self.to_dense(g), self.to_dense(h), self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_add_mul(f, ), dmp_add_mul produces the expected output) over Any ║
+# ║ Path(dmp_add_mul(f, g, h), self.from_dense(dmp_add_mul(self.to_dense(f), self.to_dense(g), self.to_dense(h), self.ngens - 1, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dmp_add_mul(self.to_dense...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_add_mul : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 776794113a3b47a7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_add_mul","kind":"method","src_hash":"3c10ab5afaed253a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_add_mul(f, )","rhs":"dmp_add_mul produces the expected output","over":{"base":"Any"},"name":"dmp_add_mul_correct"},"guarantee":"dmp_add_mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"776794113a3b47a7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_add_mul","kind":"method","src_hash":"3c10ab5afaed253a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_add_mul(f, g, h)","rhs":"self.from_dense(dmp_add_mul(self.to_dense(f), self.to_dense(g), self.to_dense(h), self.ngens - 1, self.domain))","over":{"base":"Any"},"name":"dmp_add_mul_correct"},"guarantee":"returns self.from_dense(dmp_add_mul(self.to_dense(f), self.to_dense(g), self.to_dense(h), self.ngens - 1, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"776794113a3b47a7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dmp_add_mul(self.to_dense(f), self.to_dense(g), self.to_dense(h), self.ngens - 1, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_add_mul(self, f, g, h):
         return self.from_dense(dmp_add_mul(self.to_dense(f), self.to_dense(g), self.to_dense(h), self.ngens-1, self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_sub_mul(f, ), dup_sub_mul produces the expected output) over Any ║
+# ║ Path(dup_sub_mul(f, g, h), self.from_dense(dup_sub_mul(self.to_dense(f), self.to_dense(g), self.to_dense(h), self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_sub_mul(self.to_dense...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_sub_mul : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d508cc582ac95e9d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_sub_mul","kind":"method","src_hash":"e8166978b7490875","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_sub_mul(f, )","rhs":"dup_sub_mul produces the expected output","over":{"base":"Any"},"name":"dup_sub_mul_correct"},"guarantee":"dup_sub_mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d508cc582ac95e9d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_sub_mul","kind":"method","src_hash":"e8166978b7490875","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_sub_mul(f, g, h)","rhs":"self.from_dense(dup_sub_mul(self.to_dense(f), self.to_dense(g), self.to_dense(h), self.domain))","over":{"base":"Any"},"name":"dup_sub_mul_correct"},"guarantee":"returns self.from_dense(dup_sub_mul(self.to_dense(f), self.to_dense(g), self.to_dense(h), self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d508cc582ac95e9d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_sub_mul(self.to_dense(f), self.to_dense(g), self.to_dense(h), self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_sub_mul(self, f, g, h):
         return self.from_dense(dup_sub_mul(self.to_dense(f), self.to_dense(g), self.to_dense(h), self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_sub_mul(f, ), dmp_sub_mul produces the expected output) over Any ║
+# ║ Path(dmp_sub_mul(f, g, h), self.from_dense(dmp_sub_mul(self.to_dense(f), self.to_dense(g), self.to_dense(h), self.ngens - 1, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dmp_sub_mul(self.to_dense...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_sub_mul : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 295695fea998534c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_sub_mul","kind":"method","src_hash":"9ae21ed0c1be5026","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_sub_mul(f, )","rhs":"dmp_sub_mul produces the expected output","over":{"base":"Any"},"name":"dmp_sub_mul_correct"},"guarantee":"dmp_sub_mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"295695fea998534c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_sub_mul","kind":"method","src_hash":"9ae21ed0c1be5026","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_sub_mul(f, g, h)","rhs":"self.from_dense(dmp_sub_mul(self.to_dense(f), self.to_dense(g), self.to_dense(h), self.ngens - 1, self.domain))","over":{"base":"Any"},"name":"dmp_sub_mul_correct"},"guarantee":"returns self.from_dense(dmp_sub_mul(self.to_dense(f), self.to_dense(g), self.to_dense(h), self.ngens - 1, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"295695fea998534c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dmp_sub_mul(self.to_dense(f), self.to_dense(g), self.to_dense(h), self.ngens - 1, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_sub_mul(self, f, g, h):
         return self.from_dense(dmp_sub_mul(self.to_dense(f), self.to_dense(g), self.to_dense(h), self.ngens-1, self.domain))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_mul(f, ), dup_mul produces the expected output) over Any ║
+# ║ Path(dup_mul(f, g), self.from_dense(dup_mul(self.to_dense(f), self.to_dense(g), self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_mul(self.to_dense(f),...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_mul : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 73f0dabc4e4628fd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_mul","kind":"method","src_hash":"92e53d3ec6bb51de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_mul(f, )","rhs":"dup_mul produces the expected output","over":{"base":"Any"},"name":"dup_mul_correct"},"guarantee":"dup_mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"73f0dabc4e4628fd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_mul","kind":"method","src_hash":"92e53d3ec6bb51de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_mul(f, g)","rhs":"self.from_dense(dup_mul(self.to_dense(f), self.to_dense(g), self.domain))","over":{"base":"Any"},"name":"dup_mul_correct"},"guarantee":"returns self.from_dense(dup_mul(self.to_dense(f), self.to_dense(g), self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"73f0dabc4e4628fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_mul(self.to_dense(f), self.to_dense(g), self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_mul(self, f, g):
         return self.from_dense(dup_mul(self.to_dense(f), self.to_dense(g), self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_mul(f, ), dmp_mul produces the expected output) over Any ║
+# ║ Path(dmp_mul(f, g), self.from_dense(dmp_mul(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dmp_mul(self.to_dense(f),...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_mul : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1c65277fbb2d3a94           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_mul","kind":"method","src_hash":"1d18251911b7ebd9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_mul(f, )","rhs":"dmp_mul produces the expected output","over":{"base":"Any"},"name":"dmp_mul_correct"},"guarantee":"dmp_mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1c65277fbb2d3a94"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_mul","kind":"method","src_hash":"1d18251911b7ebd9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_mul(f, g)","rhs":"self.from_dense(dmp_mul(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))","over":{"base":"Any"},"name":"dmp_mul_correct"},"guarantee":"returns self.from_dense(dmp_mul(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1c65277fbb2d3a94","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dmp_mul(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_mul(self, f, g):
         return self.from_dense(dmp_mul(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_sqr(f), dup_sqr produces the expected output) over Any ║
+# ║ Path(dup_sqr(f), self.from_dense(dup_sqr(self.to_dense(f), self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_sqr(self.to_dense(f),...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_sqr : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 00487875c39e474b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_sqr","kind":"method","src_hash":"38766fbe17cb1040","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_sqr(f)","rhs":"dup_sqr produces the expected output","over":{"base":"Any"},"name":"dup_sqr_correct"},"guarantee":"dup_sqr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"00487875c39e474b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_sqr","kind":"method","src_hash":"38766fbe17cb1040","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_sqr(f)","rhs":"self.from_dense(dup_sqr(self.to_dense(f), self.domain))","over":{"base":"Any"},"name":"dup_sqr_correct"},"guarantee":"returns self.from_dense(dup_sqr(self.to_dense(f), self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"00487875c39e474b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_sqr(self.to_dense(f), self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_sqr(self, f):
         return self.from_dense(dup_sqr(self.to_dense(f), self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_sqr(f), dmp_sqr produces the expected output) over Any ║
+# ║ Path(dmp_sqr(f), self.from_dense(dmp_sqr(self.to_dense(f), self.ngens - 1, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dmp_sqr(self.to_dense(f),...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_sqr : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4195c05de605f4cd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_sqr","kind":"method","src_hash":"e4ba238e03035f8d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_sqr(f)","rhs":"dmp_sqr produces the expected output","over":{"base":"Any"},"name":"dmp_sqr_correct"},"guarantee":"dmp_sqr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4195c05de605f4cd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_sqr","kind":"method","src_hash":"e4ba238e03035f8d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_sqr(f)","rhs":"self.from_dense(dmp_sqr(self.to_dense(f), self.ngens - 1, self.domain))","over":{"base":"Any"},"name":"dmp_sqr_correct"},"guarantee":"returns self.from_dense(dmp_sqr(self.to_dense(f), self.ngens - 1, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4195c05de605f4cd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dmp_sqr(self.to_dense(f), self.ngens - 1, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_sqr(self, f):
         return self.from_dense(dmp_sqr(self.to_dense(f), self.ngens-1, self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_pow(f, ), dup_pow produces the expected output) over Any ║
+# ║ Path(dup_pow(f, n), self.from_dense(dup_pow(self.to_dense(f), n, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_pow(self.to_dense(f),...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_pow : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f8124bad9baacd0b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_pow","kind":"method","src_hash":"d61041adac9b22ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_pow(f, )","rhs":"dup_pow produces the expected output","over":{"base":"Any"},"name":"dup_pow_correct"},"guarantee":"dup_pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f8124bad9baacd0b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_pow","kind":"method","src_hash":"d61041adac9b22ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_pow(f, n)","rhs":"self.from_dense(dup_pow(self.to_dense(f), n, self.domain))","over":{"base":"Any"},"name":"dup_pow_correct"},"guarantee":"returns self.from_dense(dup_pow(self.to_dense(f), n, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f8124bad9baacd0b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_pow(self.to_dense(f), n, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_pow(self, f, n):
         return self.from_dense(dup_pow(self.to_dense(f), n, self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_pow(f, ), dmp_pow produces the expected output) over Any ║
+# ║ Path(dmp_pow(f, n), self.from_dense(dmp_pow(self.to_dense(f), n, self.ngens - 1, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dmp_pow(self.to_dense(f),...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_pow : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8a0a31f82b0868e2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_pow","kind":"method","src_hash":"8cb38b2f4af2e6b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_pow(f, )","rhs":"dmp_pow produces the expected output","over":{"base":"Any"},"name":"dmp_pow_correct"},"guarantee":"dmp_pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8a0a31f82b0868e2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_pow","kind":"method","src_hash":"8cb38b2f4af2e6b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_pow(f, n)","rhs":"self.from_dense(dmp_pow(self.to_dense(f), n, self.ngens - 1, self.domain))","over":{"base":"Any"},"name":"dmp_pow_correct"},"guarantee":"returns self.from_dense(dmp_pow(self.to_dense(f), n, self.ngens - 1, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8a0a31f82b0868e2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dmp_pow(self.to_dense(f), n, self.ngens - 1, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_pow(self, f, n):
         return self.from_dense(dmp_pow(self.to_dense(f), n, self.ngens-1, self.domain))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_pdiv(f, ), id) over Any                           ║
+# ║ Path(dup_pdiv(f, g), id) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.from_dense(q), self.from_dense(r))       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_pdiv : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | cd59fbed6ab42917   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_pdiv","kind":"method","src_hash":"90cf71e20b85bfc5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_pdiv(f, )","rhs":"dup_pdiv produces the expected output","over":{"base":"Any"},"name":"dup_pdiv_correct","kind":"composition"},"guarantee":"dup_pdiv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd59fbed6ab42917"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_pdiv","kind":"method","src_hash":"90cf71e20b85bfc5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_pdiv(f, g)","rhs":"(self.from_dense(q), self.from_dense(r))","over":{"base":"Any"},"name":"dup_pdiv_correct","kind":"composition"},"guarantee":"returns (self.from_dense(q), self.from_dense(r))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd59fbed6ab42917","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.from_dense(q), self.from_dense(r))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_pdiv(self, f, g):
         q, r = dup_pdiv(self.to_dense(f), self.to_dense(g), self.domain)
         return (self.from_dense(q), self.from_dense(r))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_prem(f, ), dup_prem produces the expected output) over Any ║
+# ║ Path(dup_prem(f, g), self.from_dense(dup_prem(self.to_dense(f), self.to_dense(g), self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_prem(self.to_dense(f)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_prem : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 79cdbf47f650d127           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_prem","kind":"method","src_hash":"0baa254bc5b644c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_prem(f, )","rhs":"dup_prem produces the expected output","over":{"base":"Any"},"name":"dup_prem_correct"},"guarantee":"dup_prem produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"79cdbf47f650d127"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_prem","kind":"method","src_hash":"0baa254bc5b644c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_prem(f, g)","rhs":"self.from_dense(dup_prem(self.to_dense(f), self.to_dense(g), self.domain))","over":{"base":"Any"},"name":"dup_prem_correct"},"guarantee":"returns self.from_dense(dup_prem(self.to_dense(f), self.to_dense(g), self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"79cdbf47f650d127","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_prem(self.to_dense(f), self.to_dense(g), self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_prem(self, f, g):
         return self.from_dense(dup_prem(self.to_dense(f), self.to_dense(g), self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_pquo(f, ), dup_pquo produces the expected output) over Any ║
+# ║ Path(dup_pquo(f, g), self.from_dense(dup_pquo(self.to_dense(f), self.to_dense(g), self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_pquo(self.to_dense(f)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_pquo : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bbc5fa42dc9acb27           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_pquo","kind":"method","src_hash":"334a41d81f98a64a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_pquo(f, )","rhs":"dup_pquo produces the expected output","over":{"base":"Any"},"name":"dup_pquo_correct"},"guarantee":"dup_pquo produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bbc5fa42dc9acb27"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_pquo","kind":"method","src_hash":"334a41d81f98a64a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_pquo(f, g)","rhs":"self.from_dense(dup_pquo(self.to_dense(f), self.to_dense(g), self.domain))","over":{"base":"Any"},"name":"dup_pquo_correct"},"guarantee":"returns self.from_dense(dup_pquo(self.to_dense(f), self.to_dense(g), self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bbc5fa42dc9acb27","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_pquo(self.to_dense(f), self.to_dense(g), self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_pquo(self, f, g):
         return self.from_dense(dup_pquo(self.to_dense(f), self.to_dense(g), self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_pexquo(f, ), dup_pexquo produces the expected output) over Any ║
+# ║ Path(dup_pexquo(f, g), self.from_dense(dup_pexquo(self.to_dense(f), self.to_dense(g), self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_pexquo(self.to_dense(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_pexquo : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b086e36efcf6404f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_pexquo","kind":"method","src_hash":"9cdc116319ed2a62","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_pexquo(f, )","rhs":"dup_pexquo produces the expected output","over":{"base":"Any"},"name":"dup_pexquo_correct"},"guarantee":"dup_pexquo produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b086e36efcf6404f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_pexquo","kind":"method","src_hash":"9cdc116319ed2a62","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_pexquo(f, g)","rhs":"self.from_dense(dup_pexquo(self.to_dense(f), self.to_dense(g), self.domain))","over":{"base":"Any"},"name":"dup_pexquo_correct"},"guarantee":"returns self.from_dense(dup_pexquo(self.to_dense(f), self.to_dense(g), self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b086e36efcf6404f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_pexquo(self.to_dense(f), self.to_dense(g), self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_pexquo(self, f, g):
         return self.from_dense(dup_pexquo(self.to_dense(f), self.to_dense(g), self.domain))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_pdiv(f, ), id) over Any                           ║
+# ║ Path(dmp_pdiv(f, g), id) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.from_dense(q), self.from_dense(r))       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_pdiv : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 418aea6980643ca8   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_pdiv","kind":"method","src_hash":"6e22aea661011147","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_pdiv(f, )","rhs":"dmp_pdiv produces the expected output","over":{"base":"Any"},"name":"dmp_pdiv_correct","kind":"composition"},"guarantee":"dmp_pdiv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"418aea6980643ca8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_pdiv","kind":"method","src_hash":"6e22aea661011147","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_pdiv(f, g)","rhs":"(self.from_dense(q), self.from_dense(r))","over":{"base":"Any"},"name":"dmp_pdiv_correct","kind":"composition"},"guarantee":"returns (self.from_dense(q), self.from_dense(r))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"418aea6980643ca8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.from_dense(q), self.from_dense(r))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_pdiv(self, f, g):
         q, r = dmp_pdiv(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain)
         return (self.from_dense(q), self.from_dense(r))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_prem(f, ), dmp_prem produces the expected output) over Any ║
+# ║ Path(dmp_prem(f, g), self.from_dense(dmp_prem(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dmp_prem(self.to_dense(f)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_prem : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b052c60cbe09a935           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_prem","kind":"method","src_hash":"d609af4cb05c5dba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_prem(f, )","rhs":"dmp_prem produces the expected output","over":{"base":"Any"},"name":"dmp_prem_correct"},"guarantee":"dmp_prem produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b052c60cbe09a935"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_prem","kind":"method","src_hash":"d609af4cb05c5dba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_prem(f, g)","rhs":"self.from_dense(dmp_prem(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))","over":{"base":"Any"},"name":"dmp_prem_correct"},"guarantee":"returns self.from_dense(dmp_prem(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b052c60cbe09a935","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dmp_prem(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_prem(self, f, g):
         return self.from_dense(dmp_prem(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_pquo(f, ), dmp_pquo produces the expected output) over Any ║
+# ║ Path(dmp_pquo(f, g), self.from_dense(dmp_pquo(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dmp_pquo(self.to_dense(f)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_pquo : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 171e165d15d4e5c8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_pquo","kind":"method","src_hash":"1713ce5561beef54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_pquo(f, )","rhs":"dmp_pquo produces the expected output","over":{"base":"Any"},"name":"dmp_pquo_correct"},"guarantee":"dmp_pquo produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"171e165d15d4e5c8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_pquo","kind":"method","src_hash":"1713ce5561beef54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_pquo(f, g)","rhs":"self.from_dense(dmp_pquo(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))","over":{"base":"Any"},"name":"dmp_pquo_correct"},"guarantee":"returns self.from_dense(dmp_pquo(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"171e165d15d4e5c8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dmp_pquo(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_pquo(self, f, g):
         return self.from_dense(dmp_pquo(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_pexquo(f, ), dmp_pexquo produces the expected output) over Any ║
+# ║ Path(dmp_pexquo(f, g), self.from_dense(dmp_pexquo(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dmp_pexquo(self.to_dense(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_pexquo : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 991bad241859269f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_pexquo","kind":"method","src_hash":"484ea2b10ecb73dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_pexquo(f, )","rhs":"dmp_pexquo produces the expected output","over":{"base":"Any"},"name":"dmp_pexquo_correct"},"guarantee":"dmp_pexquo produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"991bad241859269f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_pexquo","kind":"method","src_hash":"484ea2b10ecb73dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_pexquo(f, g)","rhs":"self.from_dense(dmp_pexquo(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))","over":{"base":"Any"},"name":"dmp_pexquo_correct"},"guarantee":"returns self.from_dense(dmp_pexquo(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"991bad241859269f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dmp_pexquo(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_pexquo(self, f, g):
         return self.from_dense(dmp_pexquo(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_rr_div(f, ), id) over Any                         ║
+# ║ Path(dup_rr_div(f, g), id) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.from_dense(q), self.from_dense(r))       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_rr_div : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 943b1e4bb74d1a56   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_rr_div","kind":"method","src_hash":"2f4cb0f9986d6846","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_rr_div(f, )","rhs":"dup_rr_div produces the expected output","over":{"base":"Any"},"name":"dup_rr_div_correct","kind":"composition"},"guarantee":"dup_rr_div produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"943b1e4bb74d1a56"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_rr_div","kind":"method","src_hash":"2f4cb0f9986d6846","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_rr_div(f, g)","rhs":"(self.from_dense(q), self.from_dense(r))","over":{"base":"Any"},"name":"dup_rr_div_correct","kind":"composition"},"guarantee":"returns (self.from_dense(q), self.from_dense(r))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"943b1e4bb74d1a56","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.from_dense(q), self.from_dense(r))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_rr_div(self, f, g):
         q, r = dup_rr_div(self.to_dense(f), self.to_dense(g), self.domain)
         return (self.from_dense(q), self.from_dense(r))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_rr_div(f, ), id) over Any                         ║
+# ║ Path(dmp_rr_div(f, g), id) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.from_dense(q), self.from_dense(r))       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_rr_div : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 42be654dbd6aadc3   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_rr_div","kind":"method","src_hash":"f5012c708afed86d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_rr_div(f, )","rhs":"dmp_rr_div produces the expected output","over":{"base":"Any"},"name":"dmp_rr_div_correct","kind":"composition"},"guarantee":"dmp_rr_div produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42be654dbd6aadc3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_rr_div","kind":"method","src_hash":"f5012c708afed86d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_rr_div(f, g)","rhs":"(self.from_dense(q), self.from_dense(r))","over":{"base":"Any"},"name":"dmp_rr_div_correct","kind":"composition"},"guarantee":"returns (self.from_dense(q), self.from_dense(r))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42be654dbd6aadc3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.from_dense(q), self.from_dense(r))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_rr_div(self, f, g):
         q, r = dmp_rr_div(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain)
         return (self.from_dense(q), self.from_dense(r))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_ff_div(f, ), id) over Any                         ║
+# ║ Path(dup_ff_div(f, g), id) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.from_dense(q), self.from_dense(r))       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_ff_div : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 54d334175ce634ab   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_ff_div","kind":"method","src_hash":"110ef60350e75dea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_ff_div(f, )","rhs":"dup_ff_div produces the expected output","over":{"base":"Any"},"name":"dup_ff_div_correct","kind":"composition"},"guarantee":"dup_ff_div produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54d334175ce634ab"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_ff_div","kind":"method","src_hash":"110ef60350e75dea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_ff_div(f, g)","rhs":"(self.from_dense(q), self.from_dense(r))","over":{"base":"Any"},"name":"dup_ff_div_correct","kind":"composition"},"guarantee":"returns (self.from_dense(q), self.from_dense(r))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54d334175ce634ab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.from_dense(q), self.from_dense(r))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_ff_div(self, f, g):
         q, r = dup_ff_div(self.to_dense(f), self.to_dense(g), self.domain)
         return (self.from_dense(q), self.from_dense(r))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_ff_div(f, ), id) over Any                         ║
+# ║ Path(dmp_ff_div(f, g), id) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.from_dense(q), self.from_dense(r))       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_ff_div : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 1d2ec63c55b83756   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_ff_div","kind":"method","src_hash":"4940987a0c6ec4be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_ff_div(f, )","rhs":"dmp_ff_div produces the expected output","over":{"base":"Any"},"name":"dmp_ff_div_correct","kind":"composition"},"guarantee":"dmp_ff_div produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d2ec63c55b83756"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_ff_div","kind":"method","src_hash":"4940987a0c6ec4be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_ff_div(f, g)","rhs":"(self.from_dense(q), self.from_dense(r))","over":{"base":"Any"},"name":"dmp_ff_div_correct","kind":"composition"},"guarantee":"returns (self.from_dense(q), self.from_dense(r))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d2ec63c55b83756","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.from_dense(q), self.from_dense(r))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_ff_div(self, f, g):
         q, r = dmp_ff_div(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain)
         return (self.from_dense(q), self.from_dense(r))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_div(f, ), id) over Any                            ║
+# ║ Path(dup_div(f, g), id) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.from_dense(q), self.from_dense(r))       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_div : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5f82b825f41fe800   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_div","kind":"method","src_hash":"a6bfd6117fd419de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_div(f, )","rhs":"dup_div produces the expected output","over":{"base":"Any"},"name":"dup_div_correct","kind":"composition"},"guarantee":"dup_div produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f82b825f41fe800"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_div","kind":"method","src_hash":"a6bfd6117fd419de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_div(f, g)","rhs":"(self.from_dense(q), self.from_dense(r))","over":{"base":"Any"},"name":"dup_div_correct","kind":"composition"},"guarantee":"returns (self.from_dense(q), self.from_dense(r))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f82b825f41fe800","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.from_dense(q), self.from_dense(r))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_div(self, f, g):
         q, r = dup_div(self.to_dense(f), self.to_dense(g), self.domain)
         return (self.from_dense(q), self.from_dense(r))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_rem(f, ), dup_rem produces the expected output) over Any ║
+# ║ Path(dup_rem(f, g), self.from_dense(dup_rem(self.to_dense(f), self.to_dense(g), self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_rem(self.to_dense(f),...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_rem : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b416368538d4b670           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_rem","kind":"method","src_hash":"15276cf6842321bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_rem(f, )","rhs":"dup_rem produces the expected output","over":{"base":"Any"},"name":"dup_rem_correct"},"guarantee":"dup_rem produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b416368538d4b670"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_rem","kind":"method","src_hash":"15276cf6842321bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_rem(f, g)","rhs":"self.from_dense(dup_rem(self.to_dense(f), self.to_dense(g), self.domain))","over":{"base":"Any"},"name":"dup_rem_correct"},"guarantee":"returns self.from_dense(dup_rem(self.to_dense(f), self.to_dense(g), self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b416368538d4b670","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_rem(self.to_dense(f), self.to_dense(g), self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_rem(self, f, g):
         return self.from_dense(dup_rem(self.to_dense(f), self.to_dense(g), self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_quo(f, ), dup_quo produces the expected output) over Any ║
+# ║ Path(dup_quo(f, g), self.from_dense(dup_quo(self.to_dense(f), self.to_dense(g), self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_quo(self.to_dense(f),...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_quo : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3529c8109cd235a0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_quo","kind":"method","src_hash":"b8f238a909ce3ab0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_quo(f, )","rhs":"dup_quo produces the expected output","over":{"base":"Any"},"name":"dup_quo_correct"},"guarantee":"dup_quo produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3529c8109cd235a0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_quo","kind":"method","src_hash":"b8f238a909ce3ab0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_quo(f, g)","rhs":"self.from_dense(dup_quo(self.to_dense(f), self.to_dense(g), self.domain))","over":{"base":"Any"},"name":"dup_quo_correct"},"guarantee":"returns self.from_dense(dup_quo(self.to_dense(f), self.to_dense(g), self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3529c8109cd235a0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_quo(self.to_dense(f), self.to_dense(g), self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_quo(self, f, g):
         return self.from_dense(dup_quo(self.to_dense(f), self.to_dense(g), self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_exquo(f, ), dup_exquo produces the expected output) over Any ║
+# ║ Path(dup_exquo(f, g), self.from_dense(dup_exquo(self.to_dense(f), self.to_dense(g), self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_exquo(self.to_dense(f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_exquo : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d48f607404f05869           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_exquo","kind":"method","src_hash":"2e79054e2dc40580","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_exquo(f, )","rhs":"dup_exquo produces the expected output","over":{"base":"Any"},"name":"dup_exquo_correct"},"guarantee":"dup_exquo produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d48f607404f05869"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_exquo","kind":"method","src_hash":"2e79054e2dc40580","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_exquo(f, g)","rhs":"self.from_dense(dup_exquo(self.to_dense(f), self.to_dense(g), self.domain))","over":{"base":"Any"},"name":"dup_exquo_correct"},"guarantee":"returns self.from_dense(dup_exquo(self.to_dense(f), self.to_dense(g), self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d48f607404f05869","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_exquo(self.to_dense(f), self.to_dense(g), self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_exquo(self, f, g):
         return self.from_dense(dup_exquo(self.to_dense(f), self.to_dense(g), self.domain))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_div(f, ), id) over Any                            ║
+# ║ Path(dmp_div(f, g), id) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.from_dense(q), self.from_dense(r))       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_div : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c4ddb473b7d4931b   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_div","kind":"method","src_hash":"4f61b8bf2e4cc519","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_div(f, )","rhs":"dmp_div produces the expected output","over":{"base":"Any"},"name":"dmp_div_correct","kind":"composition"},"guarantee":"dmp_div produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4ddb473b7d4931b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_div","kind":"method","src_hash":"4f61b8bf2e4cc519","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_div(f, g)","rhs":"(self.from_dense(q), self.from_dense(r))","over":{"base":"Any"},"name":"dmp_div_correct","kind":"composition"},"guarantee":"returns (self.from_dense(q), self.from_dense(r))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4ddb473b7d4931b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.from_dense(q), self.from_dense(r))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_div(self, f, g):
         q, r = dmp_div(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain)
         return (self.from_dense(q), self.from_dense(r))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_rem(f, ), dmp_rem produces the expected output) over Any ║
+# ║ Path(dmp_rem(f, g), self.from_dense(dmp_rem(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dmp_rem(self.to_dense(f),...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_rem : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3d84e39da9438364           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_rem","kind":"method","src_hash":"9e9f13dd3f233037","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_rem(f, )","rhs":"dmp_rem produces the expected output","over":{"base":"Any"},"name":"dmp_rem_correct"},"guarantee":"dmp_rem produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3d84e39da9438364"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_rem","kind":"method","src_hash":"9e9f13dd3f233037","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_rem(f, g)","rhs":"self.from_dense(dmp_rem(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))","over":{"base":"Any"},"name":"dmp_rem_correct"},"guarantee":"returns self.from_dense(dmp_rem(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3d84e39da9438364","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dmp_rem(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_rem(self, f, g):
         return self.from_dense(dmp_rem(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_quo(f, ), dmp_quo produces the expected output) over Any ║
+# ║ Path(dmp_quo(f, g), self.from_dense(dmp_quo(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dmp_quo(self.to_dense(f),...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_quo : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0d9fa7682e8d0aef           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_quo","kind":"method","src_hash":"48c54e5629f3561d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_quo(f, )","rhs":"dmp_quo produces the expected output","over":{"base":"Any"},"name":"dmp_quo_correct"},"guarantee":"dmp_quo produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0d9fa7682e8d0aef"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_quo","kind":"method","src_hash":"48c54e5629f3561d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_quo(f, g)","rhs":"self.from_dense(dmp_quo(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))","over":{"base":"Any"},"name":"dmp_quo_correct"},"guarantee":"returns self.from_dense(dmp_quo(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0d9fa7682e8d0aef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dmp_quo(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_quo(self, f, g):
         return self.from_dense(dmp_quo(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_exquo(f, ), dmp_exquo produces the expected output) over Any ║
+# ║ Path(dmp_exquo(f, g), self.from_dense(dmp_exquo(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dmp_exquo(self.to_dense(f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_exquo : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 516cb686d1e423e4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_exquo","kind":"method","src_hash":"d7d61d2517e19ee7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_exquo(f, )","rhs":"dmp_exquo produces the expected output","over":{"base":"Any"},"name":"dmp_exquo_correct"},"guarantee":"dmp_exquo produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"516cb686d1e423e4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_exquo","kind":"method","src_hash":"d7d61d2517e19ee7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_exquo(f, g)","rhs":"self.from_dense(dmp_exquo(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))","over":{"base":"Any"},"name":"dmp_exquo_correct"},"guarantee":"returns self.from_dense(dmp_exquo(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"516cb686d1e423e4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dmp_exquo(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_exquo(self, f, g):
         return self.from_dense(dmp_exquo(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_max_norm(f), dup_max_norm produces the expected output) over Any ║
+# ║ Path(dup_max_norm(f), dup_max_norm(self.to_dense(f), self.domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dup_max_norm(self.to_dense(f), self.domain)    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_max_norm : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 429fa4e176a9098b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_max_norm","kind":"method","src_hash":"7e5c4890345e2fec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_max_norm(f)","rhs":"dup_max_norm produces the expected output","over":{"base":"Any"},"name":"dup_max_norm_correct"},"guarantee":"dup_max_norm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"429fa4e176a9098b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_max_norm","kind":"method","src_hash":"7e5c4890345e2fec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_max_norm(f)","rhs":"dup_max_norm(self.to_dense(f), self.domain)","over":{"base":"Any"},"name":"dup_max_norm_correct"},"guarantee":"returns dup_max_norm(self.to_dense(f), self.domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"429fa4e176a9098b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dup_max_norm(self.to_dense(f), self.domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_max_norm(self, f):
         return dup_max_norm(self.to_dense(f), self.domain)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_max_norm(f), dmp_max_norm produces the expected output) over Any ║
+# ║ Path(dmp_max_norm(f), dmp_max_norm(self.to_dense(f), self.ngens - 1, self.domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dmp_max_norm(self.to_dense(f), self.ngens...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_max_norm : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ebda539d360d0e5d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_max_norm","kind":"method","src_hash":"5d6e86f551387d3e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_max_norm(f)","rhs":"dmp_max_norm produces the expected output","over":{"base":"Any"},"name":"dmp_max_norm_correct"},"guarantee":"dmp_max_norm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ebda539d360d0e5d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_max_norm","kind":"method","src_hash":"5d6e86f551387d3e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_max_norm(f)","rhs":"dmp_max_norm(self.to_dense(f), self.ngens - 1, self.domain)","over":{"base":"Any"},"name":"dmp_max_norm_correct"},"guarantee":"returns dmp_max_norm(self.to_dense(f), self.ngens - 1, self.domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ebda539d360d0e5d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dmp_max_norm(self.to_dense(f), self.ngens - 1, self.domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_max_norm(self, f):
         return dmp_max_norm(self.to_dense(f), self.ngens-1, self.domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_l1_norm(f), dup_l1_norm produces the expected output) over Any ║
+# ║ Path(dup_l1_norm(f), dup_l1_norm(self.to_dense(f), self.domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dup_l1_norm(self.to_dense(f), self.domain)     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_l1_norm : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 098dcb7e85524e58           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_l1_norm","kind":"method","src_hash":"4c744b1e9e9c68f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_l1_norm(f)","rhs":"dup_l1_norm produces the expected output","over":{"base":"Any"},"name":"dup_l1_norm_correct"},"guarantee":"dup_l1_norm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"098dcb7e85524e58"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_l1_norm","kind":"method","src_hash":"4c744b1e9e9c68f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_l1_norm(f)","rhs":"dup_l1_norm(self.to_dense(f), self.domain)","over":{"base":"Any"},"name":"dup_l1_norm_correct"},"guarantee":"returns dup_l1_norm(self.to_dense(f), self.domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"098dcb7e85524e58","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dup_l1_norm(self.to_dense(f), self.domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_l1_norm(self, f):
         return dup_l1_norm(self.to_dense(f), self.domain)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_l1_norm(f), dmp_l1_norm produces the expected output) over Any ║
+# ║ Path(dmp_l1_norm(f), dmp_l1_norm(self.to_dense(f), self.ngens - 1, self.domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dmp_l1_norm(self.to_dense(f), self.ngens ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_l1_norm : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c9391049a6552f40           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_l1_norm","kind":"method","src_hash":"d7afb57cbc5c56a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_l1_norm(f)","rhs":"dmp_l1_norm produces the expected output","over":{"base":"Any"},"name":"dmp_l1_norm_correct"},"guarantee":"dmp_l1_norm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c9391049a6552f40"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_l1_norm","kind":"method","src_hash":"d7afb57cbc5c56a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_l1_norm(f)","rhs":"dmp_l1_norm(self.to_dense(f), self.ngens - 1, self.domain)","over":{"base":"Any"},"name":"dmp_l1_norm_correct"},"guarantee":"returns dmp_l1_norm(self.to_dense(f), self.ngens - 1, self.domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c9391049a6552f40","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dmp_l1_norm(self.to_dense(f), self.ngens - 1, self.domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_l1_norm(self, f):
         return dmp_l1_norm(self.to_dense(f), self.ngens-1, self.domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_l2_norm_squared(f), dup_l2_norm_squared produces the expected output) over Any ║
+# ║ Path(dup_l2_norm_squared(f), dup_l2_norm_squared(self.to_dense(f), self.domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dup_l2_norm_squared(self.to_dense(f), sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_l2_norm_squared : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7ca8a01f9ee4e6f9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_l2_norm_squared","kind":"method","src_hash":"8b1ae59ceee51e2f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_l2_norm_squared(f)","rhs":"dup_l2_norm_squared produces the expected output","over":{"base":"Any"},"name":"dup_l2_norm_squared_correct"},"guarantee":"dup_l2_norm_squared produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7ca8a01f9ee4e6f9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_l2_norm_squared","kind":"method","src_hash":"8b1ae59ceee51e2f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_l2_norm_squared(f)","rhs":"dup_l2_norm_squared(self.to_dense(f), self.domain)","over":{"base":"Any"},"name":"dup_l2_norm_squared_correct"},"guarantee":"returns dup_l2_norm_squared(self.to_dense(f), self.domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7ca8a01f9ee4e6f9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dup_l2_norm_squared(self.to_dense(f), self.domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_l2_norm_squared(self, f):
         return dup_l2_norm_squared(self.to_dense(f), self.domain)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_l2_norm_squared(f), dmp_l2_norm_squared produces the expected output) over Any ║
+# ║ Path(dmp_l2_norm_squared(f), dmp_l2_norm_squared(self.to_dense(f), self.ngens - 1, self.domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dmp_l2_norm_squared(self.to_dense(f), sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_l2_norm_squared : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 096bd9ecb3cff640           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_l2_norm_squared","kind":"method","src_hash":"5f99d13ae8239617","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_l2_norm_squared(f)","rhs":"dmp_l2_norm_squared produces the expected output","over":{"base":"Any"},"name":"dmp_l2_norm_squared_correct"},"guarantee":"dmp_l2_norm_squared produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"096bd9ecb3cff640"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_l2_norm_squared","kind":"method","src_hash":"5f99d13ae8239617","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_l2_norm_squared(f)","rhs":"dmp_l2_norm_squared(self.to_dense(f), self.ngens - 1, self.domain)","over":{"base":"Any"},"name":"dmp_l2_norm_squared_correct"},"guarantee":"returns dmp_l2_norm_squared(self.to_dense(f), self.ngens - 1, self.domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"096bd9ecb3cff640","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dmp_l2_norm_squared(self.to_dense(f), self.ngens - 1, self.domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_l2_norm_squared(self, f):
         return dmp_l2_norm_squared(self.to_dense(f), self.ngens-1, self.domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_expand(pol), dup_expand produces the expected output) over Any ║
+# ║ Path(dup_expand(polys), self.from_dense(dup_expand(list(map(self.to_dense, polys)), self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_expand(list(map(self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_expand : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 96c89d235db09003           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_expand","kind":"method","src_hash":"7fbbe82f4297035b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_expand(pol)","rhs":"dup_expand produces the expected output","over":{"base":"Any"},"name":"dup_expand_correct"},"guarantee":"dup_expand produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"96c89d235db09003"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_expand","kind":"method","src_hash":"7fbbe82f4297035b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_expand(polys)","rhs":"self.from_dense(dup_expand(list(map(self.to_dense, polys)), self.domain))","over":{"base":"Any"},"name":"dup_expand_correct"},"guarantee":"returns self.from_dense(dup_expand(list(map(self.to_dense, polys)), self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"96c89d235db09003","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_expand(list(map(self.to_dense, polys)), self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_expand(self, polys):
         return self.from_dense(dup_expand(list(map(self.to_dense, polys)), self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_expand(pol), dmp_expand produces the expected output) over Any ║
+# ║ Path(dmp_expand(polys), self.from_dense(dmp_expand(list(map(self.to_dense, polys)), self.ngens - 1, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dmp_expand(list(map(self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_expand : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4efbead66796b35e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_expand","kind":"method","src_hash":"9fdbe255b0041534","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_expand(pol)","rhs":"dmp_expand produces the expected output","over":{"base":"Any"},"name":"dmp_expand_correct"},"guarantee":"dmp_expand produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4efbead66796b35e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_expand","kind":"method","src_hash":"9fdbe255b0041534","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_expand(polys)","rhs":"self.from_dense(dmp_expand(list(map(self.to_dense, polys)), self.ngens - 1, self.domain))","over":{"base":"Any"},"name":"dmp_expand_correct"},"guarantee":"returns self.from_dense(dmp_expand(list(map(self.to_dense, polys)), self.ngens - 1, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4efbead66796b35e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dmp_expand(list(map(self.to_dense, polys)), self.ngens - 1, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_expand(self, polys):
         return self.from_dense(dmp_expand(list(map(self.to_dense, polys)), self.ngens-1, self.domain))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_LC(f), dup_LC produces the expected output) over Any ║
+# ║ Path(dup_LC(f), dup_LC(self.to_dense(f), self.domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dup_LC(self.to_dense(f), self.domain)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_LC : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 82aef752ef0c935d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_LC","kind":"method","src_hash":"9892b0b0a826d231","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_LC(f)","rhs":"dup_LC produces the expected output","over":{"base":"Any"},"name":"dup_LC_correct"},"guarantee":"dup_LC produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"82aef752ef0c935d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_LC","kind":"method","src_hash":"9892b0b0a826d231","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_LC(f)","rhs":"dup_LC(self.to_dense(f), self.domain)","over":{"base":"Any"},"name":"dup_LC_correct"},"guarantee":"returns dup_LC(self.to_dense(f), self.domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"82aef752ef0c935d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dup_LC(self.to_dense(f), self.domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_LC(self, f):
         return dup_LC(self.to_dense(f), self.domain)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_LC(f), dmp_LC produces the expected output) over Any ║
+# ║ Path(dmp_LC(f), result == (self[1:].from_dense(LC) if isinstance(LC, list) else LC) and result == self[1:].from_dense(LC) or result == LC) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_LC : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self[1:].from_dense(LC) if isi...   ║
+# ║   ensures:  result == self[1:].from_dense(LC) or resu...   ║
+# ║   fiber[list]: isinstance(LC, list) => self[1:].from_...   ║
+# ║   fiber[list]: not (isinstance(LC, list)) => LC            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_LC : Any → {Any | result satisfies: result == (se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38ba49e470fda7e8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69250c3e7b6e6acf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_LC","kind":"method","src_hash":"de92c29f23fbbd70","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_LC(f)","rhs":"dmp_LC produces the expected output","over":{"base":"Any"},"name":"dmp_LC_correct"},"guarantee":"dmp_LC produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_LC_correct","statement":"Path(dmp_LC(x), dmp_LC produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38ba49e470fda7e8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_LC","kind":"method","src_hash":"de92c29f23fbbd70","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self[1:].from_dense(LC) if isinstance(LC, list) else LC) and result == self[1:].from_dense(LC) or result == LC"},"spec":{"lhs":"dmp_LC(f)","rhs":"result == (self[1:].from_dense(LC) if isinstance(LC, list) else LC) and result == self[1:].from_dense(LC) or result == LC","over":{"base":"Any"},"name":"dmp_LC_correct"},"guarantee":"result == (self[1:].from_dense(LC) if isinstance(LC, list) else LC); result == self[1:].from_dense(LC) or result == LC; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_LC_correct","statement":"Path(dmp_LC(x), result == (self[1:].from_dense(LC) if isinstance(LC, list) else LC); result == self[1:].from_dense(LC) or result == LC; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69250c3e7b6e6acf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self[1:].from_dense(LC) if isinstance(LC, list) else LC)","result == self[1:].from_dense(LC) or result == LC"],"fibers":[{"name":"list","guard":"isinstance(LC, list)","ensures":["result == self[1:].from_dense(LC)"],"decidability":"structural","returns_expr":"self[1:].from_dense(LC)"},{"name":"list","guard":"not (isinstance(LC, list))","ensures":["result == LC"],"decidability":"structural","returns_expr":"LC"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_LC(self, f):
         LC = dmp_LC(self.to_dense(f), self.domain)
         if isinstance(LC, list):
@@ -1297,29 +1758,44 @@ class IPolys:
         else:
             return LC
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_TC(f), dup_TC produces the expected output) over Any ║
+# ║ Path(dup_TC(f), dup_TC(self.to_dense(f), self.domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dup_TC(self.to_dense(f), self.domain)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_TC : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0343246c323e5f11           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_TC","kind":"method","src_hash":"f5736e1747de1c84","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_TC(f)","rhs":"dup_TC produces the expected output","over":{"base":"Any"},"name":"dup_TC_correct"},"guarantee":"dup_TC produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0343246c323e5f11"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_TC","kind":"method","src_hash":"f5736e1747de1c84","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_TC(f)","rhs":"dup_TC(self.to_dense(f), self.domain)","over":{"base":"Any"},"name":"dup_TC_correct"},"guarantee":"returns dup_TC(self.to_dense(f), self.domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0343246c323e5f11","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dup_TC(self.to_dense(f), self.domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_TC(self, f):
         return dup_TC(self.to_dense(f), self.domain)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_TC(f), dmp_TC produces the expected output) over Any ║
+# ║ Path(dmp_TC(f), result == (self[1:].from_dense(TC) if isinstance(TC, list) else TC) and result == self[1:].from_dense(TC) or result == TC) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_TC : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self[1:].from_dense(TC) if isi...   ║
+# ║   ensures:  result == self[1:].from_dense(TC) or resu...   ║
+# ║   fiber[list]: isinstance(TC, list) => self[1:].from_...   ║
+# ║   fiber[list]: not (isinstance(TC, list)) => TC            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_TC : Any → {Any | result satisfies: result == (se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9df0c052f4e23328  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c90f09977975098  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_TC","kind":"method","src_hash":"56de070364e1c47e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_TC(f)","rhs":"dmp_TC produces the expected output","over":{"base":"Any"},"name":"dmp_TC_correct"},"guarantee":"dmp_TC produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_TC_correct","statement":"Path(dmp_TC(x), dmp_TC produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9df0c052f4e23328"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_TC","kind":"method","src_hash":"56de070364e1c47e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self[1:].from_dense(TC) if isinstance(TC, list) else TC) and result == self[1:].from_dense(TC) or result == TC"},"spec":{"lhs":"dmp_TC(f)","rhs":"result == (self[1:].from_dense(TC) if isinstance(TC, list) else TC) and result == self[1:].from_dense(TC) or result == TC","over":{"base":"Any"},"name":"dmp_TC_correct"},"guarantee":"result == (self[1:].from_dense(TC) if isinstance(TC, list) else TC); result == self[1:].from_dense(TC) or result == TC; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_TC_correct","statement":"Path(dmp_TC(x), result == (self[1:].from_dense(TC) if isinstance(TC, list) else TC); result == self[1:].from_dense(TC) or result == TC; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c90f09977975098","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self[1:].from_dense(TC) if isinstance(TC, list) else TC)","result == self[1:].from_dense(TC) or result == TC"],"fibers":[{"name":"list","guard":"isinstance(TC, list)","ensures":["result == self[1:].from_dense(TC)"],"decidability":"structural","returns_expr":"self[1:].from_dense(TC)"},{"name":"list","guard":"not (isinstance(TC, list))","ensures":["result == TC"],"decidability":"structural","returns_expr":"TC"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_TC(self, f):
         TC = dmp_TC(self.to_dense(f), self.domain)
         if isinstance(TC, list):
@@ -1328,220 +1804,319 @@ class IPolys:
             return TC
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_ground_LC(f), dmp_ground_LC produces the expected output) over Any ║
+# ║ Path(dmp_ground_LC(f), dmp_ground_LC(self.to_dense(f), self.ngens - 1, self.domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dmp_ground_LC(self.to_dense(f), self.ngen...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_ground_LC : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b2b9d23b24918759           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_ground_LC","kind":"method","src_hash":"ce3eb22319b12226","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_ground_LC(f)","rhs":"dmp_ground_LC produces the expected output","over":{"base":"Any"},"name":"dmp_ground_LC_correct"},"guarantee":"dmp_ground_LC produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b2b9d23b24918759"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_ground_LC","kind":"method","src_hash":"ce3eb22319b12226","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_ground_LC(f)","rhs":"dmp_ground_LC(self.to_dense(f), self.ngens - 1, self.domain)","over":{"base":"Any"},"name":"dmp_ground_LC_correct"},"guarantee":"returns dmp_ground_LC(self.to_dense(f), self.ngens - 1, self.domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b2b9d23b24918759","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dmp_ground_LC(self.to_dense(f), self.ngens - 1, self.domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_ground_LC(self, f):
         return dmp_ground_LC(self.to_dense(f), self.ngens-1, self.domain)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_ground_TC(f), dmp_ground_TC produces the expected output) over Any ║
+# ║ Path(dmp_ground_TC(f), dmp_ground_TC(self.to_dense(f), self.ngens - 1, self.domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dmp_ground_TC(self.to_dense(f), self.ngen...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_ground_TC : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 668a266664a9475d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_ground_TC","kind":"method","src_hash":"4ca4b3d1815e32a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_ground_TC(f)","rhs":"dmp_ground_TC produces the expected output","over":{"base":"Any"},"name":"dmp_ground_TC_correct"},"guarantee":"dmp_ground_TC produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"668a266664a9475d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_ground_TC","kind":"method","src_hash":"4ca4b3d1815e32a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_ground_TC(f)","rhs":"dmp_ground_TC(self.to_dense(f), self.ngens - 1, self.domain)","over":{"base":"Any"},"name":"dmp_ground_TC_correct"},"guarantee":"returns dmp_ground_TC(self.to_dense(f), self.ngens - 1, self.domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"668a266664a9475d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dmp_ground_TC(self.to_dense(f), self.ngens - 1, self.domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_ground_TC(self, f):
         return dmp_ground_TC(self.to_dense(f), self.ngens-1, self.domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_degree(f), dup_degree produces the expected output) over Any ║
+# ║ Path(dup_degree(f), dup_degree(self.to_dense(f))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dup_degree(self.to_dense(f))                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_degree : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4ca424b62600d1c0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_degree","kind":"method","src_hash":"1d338d4ed83c9676","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_degree(f)","rhs":"dup_degree produces the expected output","over":{"base":"Any"},"name":"dup_degree_correct"},"guarantee":"dup_degree produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4ca424b62600d1c0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_degree","kind":"method","src_hash":"1d338d4ed83c9676","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_degree(f)","rhs":"dup_degree(self.to_dense(f))","over":{"base":"Any"},"name":"dup_degree_correct"},"guarantee":"returns dup_degree(self.to_dense(f))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4ca424b62600d1c0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dup_degree(self.to_dense(f))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_degree(self, f):
         return dup_degree(self.to_dense(f))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_degree(f), dmp_degree produces the expected output) over Any ║
+# ║ Path(dmp_degree(f), dmp_degree(self.to_dense(f), self.ngens - 1)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dmp_degree(self.to_dense(f), self.ngens - 1)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_degree : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a77d0204dddc2fab           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_degree","kind":"method","src_hash":"68f5fda349ad9ebc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_degree(f)","rhs":"dmp_degree produces the expected output","over":{"base":"Any"},"name":"dmp_degree_correct"},"guarantee":"dmp_degree produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a77d0204dddc2fab"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_degree","kind":"method","src_hash":"68f5fda349ad9ebc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_degree(f)","rhs":"dmp_degree(self.to_dense(f), self.ngens - 1)","over":{"base":"Any"},"name":"dmp_degree_correct"},"guarantee":"returns dmp_degree(self.to_dense(f), self.ngens - 1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a77d0204dddc2fab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dmp_degree(self.to_dense(f), self.ngens - 1)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_degree(self, f):
         return dmp_degree(self.to_dense(f), self.ngens-1)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_degree_in(f, ), dmp_degree_in produces the expected output) over Any ║
+# ║ Path(dmp_degree_in(f, j), dmp_degree_in(self.to_dense(f), j, self.ngens - 1)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dmp_degree_in(self.to_dense(f), j, self.n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_degree_in : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ad54bdc18f76777d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_degree_in","kind":"method","src_hash":"7453fb56cb481620","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_degree_in(f, )","rhs":"dmp_degree_in produces the expected output","over":{"base":"Any"},"name":"dmp_degree_in_correct"},"guarantee":"dmp_degree_in produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ad54bdc18f76777d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_degree_in","kind":"method","src_hash":"7453fb56cb481620","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_degree_in(f, j)","rhs":"dmp_degree_in(self.to_dense(f), j, self.ngens - 1)","over":{"base":"Any"},"name":"dmp_degree_in_correct"},"guarantee":"returns dmp_degree_in(self.to_dense(f), j, self.ngens - 1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ad54bdc18f76777d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dmp_degree_in(self.to_dense(f), j, self.ngens - 1)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_degree_in(self, f, j):
         return dmp_degree_in(self.to_dense(f), j, self.ngens-1)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_integrate(f, ), dup_integrate produces the expected output) over Any ║
+# ║ Path(dup_integrate(f, m), self.from_dense(dup_integrate(self.to_dense(f), m, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_integrate(self.to_den...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_integrate : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6ce83b20c8a116b0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_integrate","kind":"method","src_hash":"0ff9c566a85eba3b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_integrate(f, )","rhs":"dup_integrate produces the expected output","over":{"base":"Any"},"name":"dup_integrate_correct"},"guarantee":"dup_integrate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6ce83b20c8a116b0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_integrate","kind":"method","src_hash":"0ff9c566a85eba3b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_integrate(f, m)","rhs":"self.from_dense(dup_integrate(self.to_dense(f), m, self.domain))","over":{"base":"Any"},"name":"dup_integrate_correct"},"guarantee":"returns self.from_dense(dup_integrate(self.to_dense(f), m, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6ce83b20c8a116b0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_integrate(self.to_dense(f), m, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_integrate(self, f, m):
         return self.from_dense(dup_integrate(self.to_dense(f), m, self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_integrate(f, ), dmp_integrate produces the expected output) over Any ║
+# ║ Path(dmp_integrate(f, m), self.from_dense(dmp_integrate(self.to_dense(f), m, self.ngens - 1, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dmp_integrate(self.to_den...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_integrate : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8441a3bc566d29d8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_integrate","kind":"method","src_hash":"788f16a1f04c65db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_integrate(f, )","rhs":"dmp_integrate produces the expected output","over":{"base":"Any"},"name":"dmp_integrate_correct"},"guarantee":"dmp_integrate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8441a3bc566d29d8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_integrate","kind":"method","src_hash":"788f16a1f04c65db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_integrate(f, m)","rhs":"self.from_dense(dmp_integrate(self.to_dense(f), m, self.ngens - 1, self.domain))","over":{"base":"Any"},"name":"dmp_integrate_correct"},"guarantee":"returns self.from_dense(dmp_integrate(self.to_dense(f), m, self.ngens - 1, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8441a3bc566d29d8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dmp_integrate(self.to_dense(f), m, self.ngens - 1, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_integrate(self, f, m):
         return self.from_dense(dmp_integrate(self.to_dense(f), m, self.ngens-1, self.domain))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_diff(f, ), dup_diff produces the expected output) over Any ║
+# ║ Path(dup_diff(f, m), self.from_dense(dup_diff(self.to_dense(f), m, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_diff(self.to_dense(f)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_diff : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6c2f8ace7675c39f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_diff","kind":"method","src_hash":"a7d18a8d96407df7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_diff(f, )","rhs":"dup_diff produces the expected output","over":{"base":"Any"},"name":"dup_diff_correct"},"guarantee":"dup_diff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6c2f8ace7675c39f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_diff","kind":"method","src_hash":"a7d18a8d96407df7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_diff(f, m)","rhs":"self.from_dense(dup_diff(self.to_dense(f), m, self.domain))","over":{"base":"Any"},"name":"dup_diff_correct"},"guarantee":"returns self.from_dense(dup_diff(self.to_dense(f), m, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6c2f8ace7675c39f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_diff(self.to_dense(f), m, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_diff(self, f, m):
         return self.from_dense(dup_diff(self.to_dense(f), m, self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_diff(f, ), dmp_diff produces the expected output) over Any ║
+# ║ Path(dmp_diff(f, m), self.from_dense(dmp_diff(self.to_dense(f), m, self.ngens - 1, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dmp_diff(self.to_dense(f)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_diff : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f20d869063db012e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_diff","kind":"method","src_hash":"904dfd5b11b7537a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_diff(f, )","rhs":"dmp_diff produces the expected output","over":{"base":"Any"},"name":"dmp_diff_correct"},"guarantee":"dmp_diff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f20d869063db012e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_diff","kind":"method","src_hash":"904dfd5b11b7537a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_diff(f, m)","rhs":"self.from_dense(dmp_diff(self.to_dense(f), m, self.ngens - 1, self.domain))","over":{"base":"Any"},"name":"dmp_diff_correct"},"guarantee":"returns self.from_dense(dmp_diff(self.to_dense(f), m, self.ngens - 1, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f20d869063db012e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dmp_diff(self.to_dense(f), m, self.ngens - 1, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_diff(self, f, m):
         return self.from_dense(dmp_diff(self.to_dense(f), m, self.ngens-1, self.domain))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_diff_in(f, ), dmp_diff_in produces the expected output) over Any ║
+# ║ Path(dmp_diff_in(f, m, j), self.from_dense(dmp_diff_in(self.to_dense(f), m, j, self.ngens - 1, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dmp_diff_in(self.to_dense...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_diff_in : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3660a602ee03574f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_diff_in","kind":"method","src_hash":"bb4599f52690ff5e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_diff_in(f, )","rhs":"dmp_diff_in produces the expected output","over":{"base":"Any"},"name":"dmp_diff_in_correct"},"guarantee":"dmp_diff_in produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3660a602ee03574f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_diff_in","kind":"method","src_hash":"bb4599f52690ff5e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_diff_in(f, m, j)","rhs":"self.from_dense(dmp_diff_in(self.to_dense(f), m, j, self.ngens - 1, self.domain))","over":{"base":"Any"},"name":"dmp_diff_in_correct"},"guarantee":"returns self.from_dense(dmp_diff_in(self.to_dense(f), m, j, self.ngens - 1, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3660a602ee03574f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dmp_diff_in(self.to_dense(f), m, j, self.ngens - 1, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_diff_in(self, f, m, j):
         return self.from_dense(dmp_diff_in(self.to_dense(f), m, j, self.ngens-1, self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_integrate_in(f, ), dmp_integrate_in produces the expected output) over Any ║
+# ║ Path(dmp_integrate_in(f, m, j), self.from_dense(dmp_integrate_in(self.to_dense(f), m, j, self.ngens - 1, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dmp_integrate_in(self.to_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_integrate_in : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 994c88247dde8ef8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_integrate_in","kind":"method","src_hash":"c886ca064a85ea50","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_integrate_in(f, )","rhs":"dmp_integrate_in produces the expected output","over":{"base":"Any"},"name":"dmp_integrate_in_correct"},"guarantee":"dmp_integrate_in produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"994c88247dde8ef8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_integrate_in","kind":"method","src_hash":"c886ca064a85ea50","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_integrate_in(f, m, j)","rhs":"self.from_dense(dmp_integrate_in(self.to_dense(f), m, j, self.ngens - 1, self.domain))","over":{"base":"Any"},"name":"dmp_integrate_in_correct"},"guarantee":"returns self.from_dense(dmp_integrate_in(self.to_dense(f), m, j, self.ngens - 1, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"994c88247dde8ef8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dmp_integrate_in(self.to_dense(f), m, j, self.ngens - 1, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_integrate_in(self, f, m, j):
         return self.from_dense(dmp_integrate_in(self.to_dense(f), m, j, self.ngens-1, self.domain))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_eval(f, ), dup_eval produces the expected output) over Any ║
+# ║ Path(dup_eval(f, a), dup_eval(self.to_dense(f), a, self.domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dup_eval(self.to_dense(f), a, self.domain)     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_eval : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7ab872a748725c15           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_eval","kind":"method","src_hash":"c085f29d5b0ac6de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_eval(f, )","rhs":"dup_eval produces the expected output","over":{"base":"Any"},"name":"dup_eval_correct"},"guarantee":"dup_eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7ab872a748725c15"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_eval","kind":"method","src_hash":"c085f29d5b0ac6de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_eval(f, a)","rhs":"dup_eval(self.to_dense(f), a, self.domain)","over":{"base":"Any"},"name":"dup_eval_correct"},"guarantee":"returns dup_eval(self.to_dense(f), a, self.domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7ab872a748725c15","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dup_eval(self.to_dense(f), a, self.domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_eval(self, f, a):
         return dup_eval(self.to_dense(f), a, self.domain)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_eval(f, ), dmp_eval produces the expected output) over Any ║
+# ║ Path(dmp_eval(f, a), self[1:].from_dense(result)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self[1:].from_dense(result)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_eval : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 470a806e843f93c1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2111576b949045f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_eval","kind":"method","src_hash":"5a1f64be241205cc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_eval(f, )","rhs":"dmp_eval produces the expected output","over":{"base":"Any"},"name":"dmp_eval_correct"},"guarantee":"dmp_eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_eval_correct","statement":"Path(dmp_eval(x), dmp_eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"470a806e843f93c1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_eval","kind":"method","src_hash":"5a1f64be241205cc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_eval(f, a)","rhs":"self[1:].from_dense(result)","over":{"base":"Any"},"name":"dmp_eval_correct"},"guarantee":"returns self[1:].from_dense(result)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_eval_correct","statement":"Path(dmp_eval(x), returns self[1:].from_dense(result))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2111576b949045f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self[1:].from_dense(result)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_eval(self, f, a):
         result = dmp_eval(self.to_dense(f), a, self.ngens-1, self.domain)
         return self[1:].from_dense(result)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_eval_in(f, ), id) over Any                        ║
+# ║ Path(dmp_eval_in(f, a, j), id) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.drop(j).from_dense(result)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_eval_in : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f61f51b5bf3b2bf0   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_eval_in","kind":"method","src_hash":"795b1ba709fa1802","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_eval_in(f, )","rhs":"dmp_eval_in produces the expected output","over":{"base":"Any"},"name":"dmp_eval_in_correct","kind":"composition"},"guarantee":"dmp_eval_in produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"drop","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f61f51b5bf3b2bf0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_eval_in","kind":"method","src_hash":"795b1ba709fa1802","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_eval_in(f, a, j)","rhs":"self.drop(j).from_dense(result)","over":{"base":"Any"},"name":"dmp_eval_in_correct","kind":"composition"},"guarantee":"returns self.drop(j).from_dense(result)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"drop","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f61f51b5bf3b2bf0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.drop(j).from_dense(result)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.drop","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_eval_in(self, f, a, j):
         result = dmp_eval_in(self.to_dense(f), a, j, self.ngens-1, self.domain)
         return self.drop(j).from_dense(result)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_diff_eval_in(f, ), id) over Any                   ║
+# ║ Path(dmp_diff_eval_in(f, m, a), id) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.drop(j).from_dense(result)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_diff_eval_in : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f20f579e798b4045   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_diff_eval_in","kind":"method","src_hash":"88eccccb6e493caa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_diff_eval_in(f, )","rhs":"dmp_diff_eval_in produces the expected output","over":{"base":"Any"},"name":"dmp_diff_eval_in_correct","kind":"composition"},"guarantee":"dmp_diff_eval_in produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"drop","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f20f579e798b4045"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_diff_eval_in","kind":"method","src_hash":"88eccccb6e493caa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_diff_eval_in(f, m, a)","rhs":"self.drop(j).from_dense(result)","over":{"base":"Any"},"name":"dmp_diff_eval_in_correct","kind":"composition"},"guarantee":"returns self.drop(j).from_dense(result)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"drop","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f20f579e798b4045","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.drop(j).from_dense(result)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.drop","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_diff_eval_in(self, f, m, a, j):
         result = dmp_diff_eval_in(self.to_dense(f), m, a, j, self.ngens-1, self.domain)
         return self.drop(j).from_dense(result)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_eval_tail(f, ), id) over Any                      ║
+# ║ Path(dmp_eval_tail(f, A), id) over Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_eval_tail : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self[:-len(A)].from_dense(resu...   ║
+# ║   ensures:  result == self[:-len(A)].from_dense(resul...   ║
+# ║   fiber[list]: isinstance(result, list) => self[:-len...   ║
+# ║   fiber[list]: not (isinstance(result, list)) => result    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_eval_tail : Any → {Any | result satisfies: result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | abc2fb93cc726649   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_eval_tail","kind":"method","src_hash":"73fe23f76f114b72","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_eval_tail(f, )","rhs":"dmp_eval_tail produces the expected output","over":{"base":"Any"},"name":"dmp_eval_tail_correct","kind":"composition"},"guarantee":"dmp_eval_tail produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"len","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"abc2fb93cc726649"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_eval_tail","kind":"method","src_hash":"73fe23f76f114b72","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self[:-len(A)].from_dense(result) if isinstance(result, list) else result) and result == self[:-len(A)].from_dense(result) or result == result"},"spec":{"lhs":"dmp_eval_tail(f, A)","rhs":"result == (self[:-len(A)].from_dense(result) if isinstance(result, list) else result) and result == self[:-len(A)].from_dense(result) or result == result","over":{"base":"Any"},"name":"dmp_eval_tail_correct","kind":"composition"},"guarantee":"result == (self[:-len(A)].from_dense(result) if isinstance(result, list) else result); result == self[:-len(A)].from_dense(result) or result == result; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"len","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"abc2fb93cc726649","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self[:-len(A)].from_dense(result) if isinstance(result, list) else result)","result == self[:-len(A)].from_dense(result) or result == result"],"fibers":[{"name":"list","guard":"isinstance(result, list)","ensures":["result == self[:-len(A)].from_dense(result)"],"decidability":"structural","returns_expr":"self[:-len(A)].from_dense(result)"},{"name":"list","guard":"not (isinstance(result, list))","ensures":["result == result"],"decidability":"structural","returns_expr":"result"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_eval_tail(self, f, A):
         result = dmp_eval_tail(self.to_dense(f), A, self.ngens-1, self.domain)
         if isinstance(result, list):
@@ -1550,97 +2125,139 @@ class IPolys:
             return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_trunc(f, ), dup_trunc produces the expected output) over Any ║
+# ║ Path(dup_trunc(f, p), self.from_dense(dup_trunc(self.to_dense(f), p, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_trunc(self.to_dense(f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_trunc : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0340e78d275da7fc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_trunc","kind":"method","src_hash":"509075fce2ee673f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_trunc(f, )","rhs":"dup_trunc produces the expected output","over":{"base":"Any"},"name":"dup_trunc_correct"},"guarantee":"dup_trunc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0340e78d275da7fc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_trunc","kind":"method","src_hash":"509075fce2ee673f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_trunc(f, p)","rhs":"self.from_dense(dup_trunc(self.to_dense(f), p, self.domain))","over":{"base":"Any"},"name":"dup_trunc_correct"},"guarantee":"returns self.from_dense(dup_trunc(self.to_dense(f), p, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0340e78d275da7fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_trunc(self.to_dense(f), p, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_trunc(self, f, p):
         return self.from_dense(dup_trunc(self.to_dense(f), p, self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_trunc(f, ), dmp_trunc produces the expected output) over Any ║
+# ║ Path(dmp_trunc(f, g), self.from_dense(dmp_trunc(self.to_dense(f), self[1:].to_dense(g), self.ngens - 1, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dmp_trunc(self.to_dense(f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_trunc : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6d85aab077262ddf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_trunc","kind":"method","src_hash":"c4cfa001a5a5f0c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_trunc(f, )","rhs":"dmp_trunc produces the expected output","over":{"base":"Any"},"name":"dmp_trunc_correct"},"guarantee":"dmp_trunc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6d85aab077262ddf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_trunc","kind":"method","src_hash":"c4cfa001a5a5f0c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_trunc(f, g)","rhs":"self.from_dense(dmp_trunc(self.to_dense(f), self[1:].to_dense(g), self.ngens - 1, self.domain))","over":{"base":"Any"},"name":"dmp_trunc_correct"},"guarantee":"returns self.from_dense(dmp_trunc(self.to_dense(f), self[1:].to_dense(g), self.ngens - 1, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6d85aab077262ddf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dmp_trunc(self.to_dense(f), self[1:].to_dense(g), self.ngens - 1, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_trunc(self, f, g):
         return self.from_dense(dmp_trunc(self.to_dense(f), self[1:].to_dense(g), self.ngens-1, self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_ground_trunc(f, ), dmp_ground_trunc produces the expected output) over Any ║
+# ║ Path(dmp_ground_trunc(f, p), self.from_dense(dmp_ground_trunc(self.to_dense(f), p, self.ngens - 1, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dmp_ground_trunc(self.to_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_ground_trunc : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 25c41df60addaf85           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_ground_trunc","kind":"method","src_hash":"b91e2cf5eea39e98","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_ground_trunc(f, )","rhs":"dmp_ground_trunc produces the expected output","over":{"base":"Any"},"name":"dmp_ground_trunc_correct"},"guarantee":"dmp_ground_trunc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"25c41df60addaf85"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_ground_trunc","kind":"method","src_hash":"b91e2cf5eea39e98","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_ground_trunc(f, p)","rhs":"self.from_dense(dmp_ground_trunc(self.to_dense(f), p, self.ngens - 1, self.domain))","over":{"base":"Any"},"name":"dmp_ground_trunc_correct"},"guarantee":"returns self.from_dense(dmp_ground_trunc(self.to_dense(f), p, self.ngens - 1, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"25c41df60addaf85","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dmp_ground_trunc(self.to_dense(f), p, self.ngens - 1, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_ground_trunc(self, f, p):
         return self.from_dense(dmp_ground_trunc(self.to_dense(f), p, self.ngens-1, self.domain))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_monic(f), dup_monic produces the expected output) over Any ║
+# ║ Path(dup_monic(f), self.from_dense(dup_monic(self.to_dense(f), self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_monic(self.to_dense(f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_monic : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 468f038430921306           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_monic","kind":"method","src_hash":"35cfd9f1dda9de92","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_monic(f)","rhs":"dup_monic produces the expected output","over":{"base":"Any"},"name":"dup_monic_correct"},"guarantee":"dup_monic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"468f038430921306"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_monic","kind":"method","src_hash":"35cfd9f1dda9de92","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_monic(f)","rhs":"self.from_dense(dup_monic(self.to_dense(f), self.domain))","over":{"base":"Any"},"name":"dup_monic_correct"},"guarantee":"returns self.from_dense(dup_monic(self.to_dense(f), self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"468f038430921306","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_monic(self.to_dense(f), self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_monic(self, f):
         return self.from_dense(dup_monic(self.to_dense(f), self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_ground_monic(f), dmp_ground_monic produces the expected output) over Any ║
+# ║ Path(dmp_ground_monic(f), self.from_dense(dmp_ground_monic(self.to_dense(f), self.ngens - 1, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dmp_ground_monic(self.to_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_ground_monic : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ec0e25ba06888309           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_ground_monic","kind":"method","src_hash":"3b734d1ba0efda63","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_ground_monic(f)","rhs":"dmp_ground_monic produces the expected output","over":{"base":"Any"},"name":"dmp_ground_monic_correct"},"guarantee":"dmp_ground_monic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ec0e25ba06888309"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_ground_monic","kind":"method","src_hash":"3b734d1ba0efda63","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_ground_monic(f)","rhs":"self.from_dense(dmp_ground_monic(self.to_dense(f), self.ngens - 1, self.domain))","over":{"base":"Any"},"name":"dmp_ground_monic_correct"},"guarantee":"returns self.from_dense(dmp_ground_monic(self.to_dense(f), self.ngens - 1, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ec0e25ba06888309","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dmp_ground_monic(self.to_dense(f), self.ngens - 1, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_ground_monic(self, f):
         return self.from_dense(dmp_ground_monic(self.to_dense(f), self.ngens-1, self.domain))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_extract(f, ), id) over Any                        ║
+# ║ Path(dup_extract(f, g), id) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (c, self.from_dense(F), self.from_dense(G))    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_extract : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | cddf366037bc70f9   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_extract","kind":"method","src_hash":"3e5f18f542af41be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_extract(f, )","rhs":"dup_extract produces the expected output","over":{"base":"Any"},"name":"dup_extract_correct","kind":"composition"},"guarantee":"dup_extract produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cddf366037bc70f9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_extract","kind":"method","src_hash":"3e5f18f542af41be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_extract(f, g)","rhs":"(c, self.from_dense(F), self.from_dense(G))","over":{"base":"Any"},"name":"dup_extract_correct","kind":"composition"},"guarantee":"returns (c, self.from_dense(F), self.from_dense(G))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cddf366037bc70f9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(c, self.from_dense(F), self.from_dense(G))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_extract(self, f, g):
         c, F, G = dup_extract(self.to_dense(f), self.to_dense(g), self.domain)
         return (c, self.from_dense(F), self.from_dense(G))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_ground_extract(f, ), id) over Any                 ║
+# ║ Path(dmp_ground_extract(f, g), id) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (c, self.from_dense(F), self.from_dense(G))    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_ground_extract : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f5ca5351c3467459   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_ground_extract","kind":"method","src_hash":"1118033a4ccc7133","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_ground_extract(f, )","rhs":"dmp_ground_extract produces the expected output","over":{"base":"Any"},"name":"dmp_ground_extract_correct","kind":"composition"},"guarantee":"dmp_ground_extract produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f5ca5351c3467459"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_ground_extract","kind":"method","src_hash":"1118033a4ccc7133","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_ground_extract(f, g)","rhs":"(c, self.from_dense(F), self.from_dense(G))","over":{"base":"Any"},"name":"dmp_ground_extract_correct","kind":"composition"},"guarantee":"returns (c, self.from_dense(F), self.from_dense(G))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f5ca5351c3467459","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(c, self.from_dense(F), self.from_dense(G))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_ground_extract(self, f, g):
         c, F, G = dmp_ground_extract(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain)
         return (c, self.from_dense(F), self.from_dense(G))
@@ -1648,122 +2265,176 @@ class IPolys:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(dup_real_imag(f), id) over Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.from_dense(p), self.from_dense(q))       ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ dup_real_imag : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 9d508b8f7bb8ea9f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_real_imag","kind":"method","src_hash":"86ce863bfa415590","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_real_imag(f)","rhs":"dup_real_imag produces the expected output","over":{"base":"Any"},"name":"dup_real_imag_correct","kind":"composition"},"guarantee":"dup_real_imag produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d508b8f7bb8ea9f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_real_imag","kind":"method","src_hash":"86ce863bfa415590","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_real_imag(f)","rhs":"(self.from_dense(p), self.from_dense(q))","over":{"base":"Any"},"name":"dup_real_imag_correct","kind":"composition"},"guarantee":"returns (self.from_dense(p), self.from_dense(q))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d508b8f7bb8ea9f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.from_dense(p), self.from_dense(q))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.wrap"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_real_imag(self, f):
         p, q = dup_real_imag(self.wrap(f).drop(1).to_dense(), self.domain)
         return (self.from_dense(p), self.from_dense(q))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_mirror(f), dup_mirror produces the expected output) over Any ║
+# ║ Path(dup_mirror(f), self.from_dense(dup_mirror(self.to_dense(f), self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_mirror(self.to_dense(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_mirror : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a2693f15e98e6d89           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_mirror","kind":"method","src_hash":"106bb43b034d98de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_mirror(f)","rhs":"dup_mirror produces the expected output","over":{"base":"Any"},"name":"dup_mirror_correct"},"guarantee":"dup_mirror produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a2693f15e98e6d89"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_mirror","kind":"method","src_hash":"106bb43b034d98de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_mirror(f)","rhs":"self.from_dense(dup_mirror(self.to_dense(f), self.domain))","over":{"base":"Any"},"name":"dup_mirror_correct"},"guarantee":"returns self.from_dense(dup_mirror(self.to_dense(f), self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a2693f15e98e6d89","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_mirror(self.to_dense(f), self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_mirror(self, f):
         return self.from_dense(dup_mirror(self.to_dense(f), self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_scale(f, ), dup_scale produces the expected output) over Any ║
+# ║ Path(dup_scale(f, a), self.from_dense(dup_scale(self.to_dense(f), a, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_scale(self.to_dense(f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_scale : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 47fbf436e76bb8d2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_scale","kind":"method","src_hash":"b1c4cf3441731886","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_scale(f, )","rhs":"dup_scale produces the expected output","over":{"base":"Any"},"name":"dup_scale_correct"},"guarantee":"dup_scale produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"47fbf436e76bb8d2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_scale","kind":"method","src_hash":"b1c4cf3441731886","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_scale(f, a)","rhs":"self.from_dense(dup_scale(self.to_dense(f), a, self.domain))","over":{"base":"Any"},"name":"dup_scale_correct"},"guarantee":"returns self.from_dense(dup_scale(self.to_dense(f), a, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"47fbf436e76bb8d2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_scale(self.to_dense(f), a, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_scale(self, f, a):
         return self.from_dense(dup_scale(self.to_dense(f), a, self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_shift(f, ), dup_shift produces the expected output) over Any ║
+# ║ Path(dup_shift(f, a), self.from_dense(dup_shift(self.to_dense(f), a, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_shift(self.to_dense(f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_shift : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a6d47540e9e82cff           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_shift","kind":"method","src_hash":"cc9fe20b191a1605","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_shift(f, )","rhs":"dup_shift produces the expected output","over":{"base":"Any"},"name":"dup_shift_correct"},"guarantee":"dup_shift produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a6d47540e9e82cff"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_shift","kind":"method","src_hash":"cc9fe20b191a1605","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_shift(f, a)","rhs":"self.from_dense(dup_shift(self.to_dense(f), a, self.domain))","over":{"base":"Any"},"name":"dup_shift_correct"},"guarantee":"returns self.from_dense(dup_shift(self.to_dense(f), a, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a6d47540e9e82cff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_shift(self.to_dense(f), a, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_shift(self, f, a):
         return self.from_dense(dup_shift(self.to_dense(f), a, self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_shift(f, ), dmp_shift produces the expected output) over Any ║
+# ║ Path(dmp_shift(f, a), self.from_dense(dmp_shift(self.to_dense(f), a, self.ngens - 1, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dmp_shift(self.to_dense(f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_shift : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3ce7f3fab7908b4e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_shift","kind":"method","src_hash":"9b2eaa9574db52f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_shift(f, )","rhs":"dmp_shift produces the expected output","over":{"base":"Any"},"name":"dmp_shift_correct"},"guarantee":"dmp_shift produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3ce7f3fab7908b4e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_shift","kind":"method","src_hash":"9b2eaa9574db52f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_shift(f, a)","rhs":"self.from_dense(dmp_shift(self.to_dense(f), a, self.ngens - 1, self.domain))","over":{"base":"Any"},"name":"dmp_shift_correct"},"guarantee":"returns self.from_dense(dmp_shift(self.to_dense(f), a, self.ngens - 1, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3ce7f3fab7908b4e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dmp_shift(self.to_dense(f), a, self.ngens - 1, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_shift(self, f, a):
         return self.from_dense(dmp_shift(self.to_dense(f), a, self.ngens-1, self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_transform(f, ), dup_transform produces the expected output) over Any ║
+# ║ Path(dup_transform(f, p, q), self.from_dense(dup_transform(self.to_dense(f), self.to_dense(p), self.to_dense(q), self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_transform(self.to_den...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_transform : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cdbc804d317593dc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_transform","kind":"method","src_hash":"7eb06cedb5e81def","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_transform(f, )","rhs":"dup_transform produces the expected output","over":{"base":"Any"},"name":"dup_transform_correct"},"guarantee":"dup_transform produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cdbc804d317593dc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_transform","kind":"method","src_hash":"7eb06cedb5e81def","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_transform(f, p, q)","rhs":"self.from_dense(dup_transform(self.to_dense(f), self.to_dense(p), self.to_dense(q), self.domain))","over":{"base":"Any"},"name":"dup_transform_correct"},"guarantee":"returns self.from_dense(dup_transform(self.to_dense(f), self.to_dense(p), self.to_dense(q), self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cdbc804d317593dc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_transform(self.to_dense(f), self.to_dense(p), self.to_dense(q), self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_transform(self, f, p, q):
         return self.from_dense(dup_transform(self.to_dense(f), self.to_dense(p), self.to_dense(q), self.domain))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_compose(f, ), dup_compose produces the expected output) over Any ║
+# ║ Path(dup_compose(f, g), self.from_dense(dup_compose(self.to_dense(f), self.to_dense(g), self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_compose(self.to_dense...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_compose : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0b0469f0fae3567a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_compose","kind":"method","src_hash":"258a76931b8e9871","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_compose(f, )","rhs":"dup_compose produces the expected output","over":{"base":"Any"},"name":"dup_compose_correct"},"guarantee":"dup_compose produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0b0469f0fae3567a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_compose","kind":"method","src_hash":"258a76931b8e9871","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_compose(f, g)","rhs":"self.from_dense(dup_compose(self.to_dense(f), self.to_dense(g), self.domain))","over":{"base":"Any"},"name":"dup_compose_correct"},"guarantee":"returns self.from_dense(dup_compose(self.to_dense(f), self.to_dense(g), self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0b0469f0fae3567a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_compose(self.to_dense(f), self.to_dense(g), self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_compose(self, f, g):
         return self.from_dense(dup_compose(self.to_dense(f), self.to_dense(g), self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_compose(f, ), dmp_compose produces the expected output) over Any ║
+# ║ Path(dmp_compose(f, g), self.from_dense(dmp_compose(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dmp_compose(self.to_dense...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_compose : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f40f8979eff2987f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_compose","kind":"method","src_hash":"5e365fc6d7284acc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_compose(f, )","rhs":"dmp_compose produces the expected output","over":{"base":"Any"},"name":"dmp_compose_correct"},"guarantee":"dmp_compose produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f40f8979eff2987f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_compose","kind":"method","src_hash":"5e365fc6d7284acc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_compose(f, g)","rhs":"self.from_dense(dmp_compose(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))","over":{"base":"Any"},"name":"dmp_compose_correct"},"guarantee":"returns self.from_dense(dmp_compose(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f40f8979eff2987f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dmp_compose(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_compose(self, f, g):
         return self.from_dense(dmp_compose(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(dup_decompose(f), id) over Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  list(map(self.from_dense, components))         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ dup_decompose : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | cd9bf4b5dcd3dafe   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_decompose","kind":"method","src_hash":"fe3f48d82960b1a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_decompose(f)","rhs":"dup_decompose produces the expected output","over":{"base":"Any"},"name":"dup_decompose_correct","kind":"composition"},"guarantee":"dup_decompose produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd9bf4b5dcd3dafe"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_decompose","kind":"method","src_hash":"fe3f48d82960b1a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_decompose(f)","rhs":"list(map(self.from_dense, components))","over":{"base":"Any"},"name":"dup_decompose_correct","kind":"composition"},"guarantee":"returns list(map(self.from_dense, components))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd9bf4b5dcd3dafe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"list(map(self.from_dense, components))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_decompose(self, f):
         components = dup_decompose(self.to_dense(f), self.domain)
         return list(map(self.from_dense, components))
@@ -1771,43 +2442,61 @@ class IPolys:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(dmp_lift(f), id) over Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.to_ground().from_dense(result)            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_lift : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 15c416de05eb66b3   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_lift","kind":"method","src_hash":"f62752e76888510e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_lift(f)","rhs":"dmp_lift produces the expected output","over":{"base":"Any"},"name":"dmp_lift_correct","kind":"composition"},"guarantee":"dmp_lift produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"to_ground","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15c416de05eb66b3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_lift","kind":"method","src_hash":"f62752e76888510e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_lift(f)","rhs":"self.to_ground().from_dense(result)","over":{"base":"Any"},"name":"dmp_lift_correct","kind":"composition"},"guarantee":"returns self.to_ground().from_dense(result)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"to_ground","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15c416de05eb66b3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.to_ground().from_dense(result)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.ngens","self.to_dense","self.to_ground"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_lift(self, f):
         result = dmp_lift(self.to_dense(f), self.ngens-1, self.domain)
         return self.to_ground().from_dense(result)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_sign_variations(f), dup_sign_variations produces the expected output) over Any ║
+# ║ Path(dup_sign_variations(f), dup_sign_variations(self.to_dense(f), self.domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dup_sign_variations(self.to_dense(f), sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_sign_variations : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cb70a4dddaf78bab           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_sign_variations","kind":"method","src_hash":"652fcb6fe1f3e491","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_sign_variations(f)","rhs":"dup_sign_variations produces the expected output","over":{"base":"Any"},"name":"dup_sign_variations_correct"},"guarantee":"dup_sign_variations produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cb70a4dddaf78bab"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_sign_variations","kind":"method","src_hash":"652fcb6fe1f3e491","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_sign_variations(f)","rhs":"dup_sign_variations(self.to_dense(f), self.domain)","over":{"base":"Any"},"name":"dup_sign_variations_correct"},"guarantee":"returns dup_sign_variations(self.to_dense(f), self.domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cb70a4dddaf78bab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dup_sign_variations(self.to_dense(f), self.domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_sign_variations(self, f):
         return dup_sign_variations(self.to_dense(f), self.domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_clear_denoms(f, ), dup_clear_denoms produces the expected output) over Any ║
+# ║ Path(dup_clear_denoms(f, convert), (c, ring.from_dense(F))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (c, ring.from_dense(F))                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_clear_denoms : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4453c78cc614a99d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09a52662a195e4ed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_clear_denoms","kind":"method","src_hash":"298a13af54a96ca5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_clear_denoms(f, )","rhs":"dup_clear_denoms produces the expected output","over":{"base":"Any"},"name":"dup_clear_denoms_correct"},"guarantee":"dup_clear_denoms produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_clear_denoms_correct","statement":"Path(dup_clear_denoms(x), dup_clear_denoms produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4453c78cc614a99d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_clear_denoms","kind":"method","src_hash":"298a13af54a96ca5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_clear_denoms(f, convert)","rhs":"(c, ring.from_dense(F))","over":{"base":"Any"},"name":"dup_clear_denoms_correct"},"guarantee":"returns (c, ring.from_dense(F))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_clear_denoms_correct","statement":"Path(dup_clear_denoms(x), returns (c, ring.from_dense(F)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09a52662a195e4ed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(c, ring.from_dense(F))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.clone","self.domain","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_clear_denoms(self, f, convert=False):
         c, F = dup_clear_denoms(self.to_dense(f), self.domain, convert=convert)
         if convert:
@@ -1816,16 +2505,22 @@ class IPolys:
             ring = self
         return (c, ring.from_dense(F))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_clear_denoms(f, ), dmp_clear_denoms produces the expected output) over Any ║
+# ║ Path(dmp_clear_denoms(f, convert), (c, ring.from_dense(F))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (c, ring.from_dense(F))                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_clear_denoms : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a1c880f94f373db6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2fc0ad597cc16414  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_clear_denoms","kind":"method","src_hash":"c47faca46712056f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_clear_denoms(f, )","rhs":"dmp_clear_denoms produces the expected output","over":{"base":"Any"},"name":"dmp_clear_denoms_correct"},"guarantee":"dmp_clear_denoms produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_clear_denoms_correct","statement":"Path(dmp_clear_denoms(x), dmp_clear_denoms produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1c880f94f373db6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_clear_denoms","kind":"method","src_hash":"c47faca46712056f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_clear_denoms(f, convert)","rhs":"(c, ring.from_dense(F))","over":{"base":"Any"},"name":"dmp_clear_denoms_correct"},"guarantee":"returns (c, ring.from_dense(F))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_clear_denoms_correct","statement":"Path(dmp_clear_denoms(x), returns (c, ring.from_dense(F)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fc0ad597cc16414","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(c, ring.from_dense(F))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.clone","self.domain","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_clear_denoms(self, f, convert=False):
         c, F = dmp_clear_denoms(self.to_dense(f), self.ngens-1, self.domain, convert=convert)
         if convert:
@@ -1835,314 +2530,449 @@ class IPolys:
         return (c, ring.from_dense(F))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_revert(f, ), dup_revert produces the expected output) over Any ║
+# ║ Path(dup_revert(f, n), self.from_dense(dup_revert(self.to_dense(f), n, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_revert(self.to_dense(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_revert : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 12dade70d44d4626           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_revert","kind":"method","src_hash":"b2744bf33bbdef6c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_revert(f, )","rhs":"dup_revert produces the expected output","over":{"base":"Any"},"name":"dup_revert_correct"},"guarantee":"dup_revert produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"12dade70d44d4626"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_revert","kind":"method","src_hash":"b2744bf33bbdef6c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_revert(f, n)","rhs":"self.from_dense(dup_revert(self.to_dense(f), n, self.domain))","over":{"base":"Any"},"name":"dup_revert_correct"},"guarantee":"returns self.from_dense(dup_revert(self.to_dense(f), n, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"12dade70d44d4626","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_revert(self.to_dense(f), n, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_revert(self, f, n):
         return self.from_dense(dup_revert(self.to_dense(f), n, self.domain))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_half_gcdex(f, ), id) over Any                     ║
+# ║ Path(dup_half_gcdex(f, g), id) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.from_dense(s), self.from_dense(h))       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_half_gcdex : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 20f9402518ed2a77   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_half_gcdex","kind":"method","src_hash":"8adaf1bb1a3e9be4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_half_gcdex(f, )","rhs":"dup_half_gcdex produces the expected output","over":{"base":"Any"},"name":"dup_half_gcdex_correct","kind":"composition"},"guarantee":"dup_half_gcdex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20f9402518ed2a77"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_half_gcdex","kind":"method","src_hash":"8adaf1bb1a3e9be4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_half_gcdex(f, g)","rhs":"(self.from_dense(s), self.from_dense(h))","over":{"base":"Any"},"name":"dup_half_gcdex_correct","kind":"composition"},"guarantee":"returns (self.from_dense(s), self.from_dense(h))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20f9402518ed2a77","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.from_dense(s), self.from_dense(h))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_half_gcdex(self, f, g):
         s, h = dup_half_gcdex(self.to_dense(f), self.to_dense(g), self.domain)
         return (self.from_dense(s), self.from_dense(h))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_half_gcdex(f, ), id) over Any                     ║
+# ║ Path(dmp_half_gcdex(f, g), id) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.from_dense(s), self.from_dense(h))       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_half_gcdex : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 947f9de406b1b8ce   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_half_gcdex","kind":"method","src_hash":"df7c0cf727a810a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_half_gcdex(f, )","rhs":"dmp_half_gcdex produces the expected output","over":{"base":"Any"},"name":"dmp_half_gcdex_correct","kind":"composition"},"guarantee":"dmp_half_gcdex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"947f9de406b1b8ce"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_half_gcdex","kind":"method","src_hash":"df7c0cf727a810a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_half_gcdex(f, g)","rhs":"(self.from_dense(s), self.from_dense(h))","over":{"base":"Any"},"name":"dmp_half_gcdex_correct","kind":"composition"},"guarantee":"returns (self.from_dense(s), self.from_dense(h))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"947f9de406b1b8ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.from_dense(s), self.from_dense(h))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_half_gcdex(self, f, g):
         s, h = dmp_half_gcdex(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain)
         return (self.from_dense(s), self.from_dense(h))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_gcdex(f, ), id) over Any                          ║
+# ║ Path(dup_gcdex(f, g), id) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.from_dense(s), self.from_dense(t), ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_gcdex : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c6695006ed6ec301   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_gcdex","kind":"method","src_hash":"5e76bbe70da205a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_gcdex(f, )","rhs":"dup_gcdex produces the expected output","over":{"base":"Any"},"name":"dup_gcdex_correct","kind":"composition"},"guarantee":"dup_gcdex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6695006ed6ec301"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_gcdex","kind":"method","src_hash":"5e76bbe70da205a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_gcdex(f, g)","rhs":"(self.from_dense(s), self.from_dense(t), self.from_dense(h))","over":{"base":"Any"},"name":"dup_gcdex_correct","kind":"composition"},"guarantee":"returns (self.from_dense(s), self.from_dense(t), self.from_dense(h))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6695006ed6ec301","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.from_dense(s), self.from_dense(t), self.from_dense(h))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_gcdex(self, f, g):
         s, t, h = dup_gcdex(self.to_dense(f), self.to_dense(g), self.domain)
         return (self.from_dense(s), self.from_dense(t), self.from_dense(h))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_gcdex(f, ), id) over Any                          ║
+# ║ Path(dmp_gcdex(f, g), id) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.from_dense(s), self.from_dense(t), ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_gcdex : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 46ea067231573c69   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_gcdex","kind":"method","src_hash":"4e5beac7738fe67f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_gcdex(f, )","rhs":"dmp_gcdex produces the expected output","over":{"base":"Any"},"name":"dmp_gcdex_correct","kind":"composition"},"guarantee":"dmp_gcdex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46ea067231573c69"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_gcdex","kind":"method","src_hash":"4e5beac7738fe67f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_gcdex(f, g)","rhs":"(self.from_dense(s), self.from_dense(t), self.from_dense(h))","over":{"base":"Any"},"name":"dmp_gcdex_correct","kind":"composition"},"guarantee":"returns (self.from_dense(s), self.from_dense(t), self.from_dense(h))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46ea067231573c69","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.from_dense(s), self.from_dense(t), self.from_dense(h))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_gcdex(self, f, g):
         s, t, h = dmp_gcdex(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain)
         return (self.from_dense(s), self.from_dense(t), self.from_dense(h))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_invert(f, ), dup_invert produces the expected output) over Any ║
+# ║ Path(dup_invert(f, g), self.from_dense(dup_invert(self.to_dense(f), self.to_dense(g), self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_invert(self.to_dense(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_invert : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4626ae5460b27d5e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_invert","kind":"method","src_hash":"326990a7d674ba69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_invert(f, )","rhs":"dup_invert produces the expected output","over":{"base":"Any"},"name":"dup_invert_correct"},"guarantee":"dup_invert produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4626ae5460b27d5e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_invert","kind":"method","src_hash":"326990a7d674ba69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_invert(f, g)","rhs":"self.from_dense(dup_invert(self.to_dense(f), self.to_dense(g), self.domain))","over":{"base":"Any"},"name":"dup_invert_correct"},"guarantee":"returns self.from_dense(dup_invert(self.to_dense(f), self.to_dense(g), self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4626ae5460b27d5e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_invert(self.to_dense(f), self.to_dense(g), self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_invert(self, f, g):
         return self.from_dense(dup_invert(self.to_dense(f), self.to_dense(g), self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_invert(f, ), dmp_invert produces the expected output) over Any ║
+# ║ Path(dmp_invert(f, g), self.from_dense(dmp_invert(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dmp_invert(self.to_dense(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_invert : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a431df57ca499031           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_invert","kind":"method","src_hash":"5330e0487fdbdf4f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_invert(f, )","rhs":"dmp_invert produces the expected output","over":{"base":"Any"},"name":"dmp_invert_correct"},"guarantee":"dmp_invert produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a431df57ca499031"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_invert","kind":"method","src_hash":"5330e0487fdbdf4f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_invert(f, g)","rhs":"self.from_dense(dmp_invert(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))","over":{"base":"Any"},"name":"dmp_invert_correct"},"guarantee":"returns self.from_dense(dmp_invert(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a431df57ca499031","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dmp_invert(self.to_dense(f), self.to_dense(g), self.ngens - 1, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_invert(self, f, g):
         return self.from_dense(dmp_invert(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_euclidean_prs(f, ), id) over Any                  ║
+# ║ Path(dup_euclidean_prs(f, g), id) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  list(map(self.from_dense, prs))                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_euclidean_prs : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5703864c19713bc6   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_euclidean_prs","kind":"method","src_hash":"cd87cabe6d17587e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_euclidean_prs(f, )","rhs":"dup_euclidean_prs produces the expected output","over":{"base":"Any"},"name":"dup_euclidean_prs_correct","kind":"composition"},"guarantee":"dup_euclidean_prs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5703864c19713bc6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_euclidean_prs","kind":"method","src_hash":"cd87cabe6d17587e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_euclidean_prs(f, g)","rhs":"list(map(self.from_dense, prs))","over":{"base":"Any"},"name":"dup_euclidean_prs_correct","kind":"composition"},"guarantee":"returns list(map(self.from_dense, prs))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5703864c19713bc6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"list(map(self.from_dense, prs))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_euclidean_prs(self, f, g):
         prs = dup_euclidean_prs(self.to_dense(f), self.to_dense(g), self.domain)
         return list(map(self.from_dense, prs))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_euclidean_prs(f, ), id) over Any                  ║
+# ║ Path(dmp_euclidean_prs(f, g), id) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  list(map(self.from_dense, prs))                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_euclidean_prs : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 2ea1426653824d68   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_euclidean_prs","kind":"method","src_hash":"b5050dbf88248ac8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_euclidean_prs(f, )","rhs":"dmp_euclidean_prs produces the expected output","over":{"base":"Any"},"name":"dmp_euclidean_prs_correct","kind":"composition"},"guarantee":"dmp_euclidean_prs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ea1426653824d68"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_euclidean_prs","kind":"method","src_hash":"b5050dbf88248ac8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_euclidean_prs(f, g)","rhs":"list(map(self.from_dense, prs))","over":{"base":"Any"},"name":"dmp_euclidean_prs_correct","kind":"composition"},"guarantee":"returns list(map(self.from_dense, prs))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ea1426653824d68","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"list(map(self.from_dense, prs))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_euclidean_prs(self, f, g):
         prs = dmp_euclidean_prs(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain)
         return list(map(self.from_dense, prs))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_primitive_prs(f, ), id) over Any                  ║
+# ║ Path(dup_primitive_prs(f, g), id) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  list(map(self.from_dense, prs))                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_primitive_prs : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 312ede947629f201   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_primitive_prs","kind":"method","src_hash":"a0884cebb5e80517","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_primitive_prs(f, )","rhs":"dup_primitive_prs produces the expected output","over":{"base":"Any"},"name":"dup_primitive_prs_correct","kind":"composition"},"guarantee":"dup_primitive_prs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"312ede947629f201"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_primitive_prs","kind":"method","src_hash":"a0884cebb5e80517","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_primitive_prs(f, g)","rhs":"list(map(self.from_dense, prs))","over":{"base":"Any"},"name":"dup_primitive_prs_correct","kind":"composition"},"guarantee":"returns list(map(self.from_dense, prs))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"312ede947629f201","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"list(map(self.from_dense, prs))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_primitive_prs(self, f, g):
         prs = dup_primitive_prs(self.to_dense(f), self.to_dense(g), self.domain)
         return list(map(self.from_dense, prs))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_primitive_prs(f, ), id) over Any                  ║
+# ║ Path(dmp_primitive_prs(f, g), id) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  list(map(self.from_dense, prs))                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_primitive_prs : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 10bea1f28ba52d0c   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_primitive_prs","kind":"method","src_hash":"5d1db3f890e9fff1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_primitive_prs(f, )","rhs":"dmp_primitive_prs produces the expected output","over":{"base":"Any"},"name":"dmp_primitive_prs_correct","kind":"composition"},"guarantee":"dmp_primitive_prs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10bea1f28ba52d0c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_primitive_prs","kind":"method","src_hash":"5d1db3f890e9fff1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_primitive_prs(f, g)","rhs":"list(map(self.from_dense, prs))","over":{"base":"Any"},"name":"dmp_primitive_prs_correct","kind":"composition"},"guarantee":"returns list(map(self.from_dense, prs))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10bea1f28ba52d0c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"list(map(self.from_dense, prs))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_primitive_prs(self, f, g):
         prs = dmp_primitive_prs(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain)
         return list(map(self.from_dense, prs))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_inner_subresultants(f, ), id) over Any            ║
+# ║ Path(dup_inner_subresultants(f, g), id) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (list(map(self.from_dense, prs)), sres)        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_inner_subresultants : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 3935225763ec23c9   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_inner_subresultants","kind":"method","src_hash":"6cdd0edb9be10989","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_inner_subresultants(f, )","rhs":"dup_inner_subresultants produces the expected output","over":{"base":"Any"},"name":"dup_inner_subresultants_correct","kind":"composition"},"guarantee":"dup_inner_subresultants produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3935225763ec23c9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_inner_subresultants","kind":"method","src_hash":"6cdd0edb9be10989","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_inner_subresultants(f, g)","rhs":"(list(map(self.from_dense, prs)), sres)","over":{"base":"Any"},"name":"dup_inner_subresultants_correct","kind":"composition"},"guarantee":"returns (list(map(self.from_dense, prs)), sres)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3935225763ec23c9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(list(map(self.from_dense, prs)), sres)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_inner_subresultants(self, f, g):
         prs, sres = dup_inner_subresultants(self.to_dense(f), self.to_dense(g), self.domain)
         return (list(map(self.from_dense, prs)), sres)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_inner_subresultants(f, ), id) over Any            ║
+# ║ Path(dmp_inner_subresultants(f, g), id) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (list(map(self.from_dense, prs)), sres)        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_inner_subresultants : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a548fc250c5cd848   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_inner_subresultants","kind":"method","src_hash":"989b53dfc9c26ae3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_inner_subresultants(f, )","rhs":"dmp_inner_subresultants produces the expected output","over":{"base":"Any"},"name":"dmp_inner_subresultants_correct","kind":"composition"},"guarantee":"dmp_inner_subresultants produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a548fc250c5cd848"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_inner_subresultants","kind":"method","src_hash":"989b53dfc9c26ae3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_inner_subresultants(f, g)","rhs":"(list(map(self.from_dense, prs)), sres)","over":{"base":"Any"},"name":"dmp_inner_subresultants_correct","kind":"composition"},"guarantee":"returns (list(map(self.from_dense, prs)), sres)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a548fc250c5cd848","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(list(map(self.from_dense, prs)), sres)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_inner_subresultants(self, f, g):
         prs, sres  = dmp_inner_subresultants(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain)
         return (list(map(self.from_dense, prs)), sres)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_subresultants(f, ), id) over Any                  ║
+# ║ Path(dup_subresultants(f, g), id) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  list(map(self.from_dense, prs))                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_subresultants : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d4d8dcf31c67d33b   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_subresultants","kind":"method","src_hash":"a50521da7b307b5c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_subresultants(f, )","rhs":"dup_subresultants produces the expected output","over":{"base":"Any"},"name":"dup_subresultants_correct","kind":"composition"},"guarantee":"dup_subresultants produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4d8dcf31c67d33b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_subresultants","kind":"method","src_hash":"a50521da7b307b5c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_subresultants(f, g)","rhs":"list(map(self.from_dense, prs))","over":{"base":"Any"},"name":"dup_subresultants_correct","kind":"composition"},"guarantee":"returns list(map(self.from_dense, prs))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4d8dcf31c67d33b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"list(map(self.from_dense, prs))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_subresultants(self, f, g):
         prs = dup_subresultants(self.to_dense(f), self.to_dense(g), self.domain)
         return list(map(self.from_dense, prs))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_subresultants(f, ), id) over Any                  ║
+# ║ Path(dmp_subresultants(f, g), id) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  list(map(self.from_dense, prs))                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_subresultants : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4759eefc26c7b229   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_subresultants","kind":"method","src_hash":"226d5f6e7b90bf7e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_subresultants(f, )","rhs":"dmp_subresultants produces the expected output","over":{"base":"Any"},"name":"dmp_subresultants_correct","kind":"composition"},"guarantee":"dmp_subresultants produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4759eefc26c7b229"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_subresultants","kind":"method","src_hash":"226d5f6e7b90bf7e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_subresultants(f, g)","rhs":"list(map(self.from_dense, prs))","over":{"base":"Any"},"name":"dmp_subresultants_correct","kind":"composition"},"guarantee":"returns list(map(self.from_dense, prs))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4759eefc26c7b229","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"list(map(self.from_dense, prs))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_subresultants(self, f, g):
         prs = dmp_subresultants(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain)
         return list(map(self.from_dense, prs))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_prs_resultant(f, ), id) over Any                  ║
+# ║ Path(dup_prs_resultant(f, g), id) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (res, list(map(self.from_dense, prs)))         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_prs_resultant : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 14159c326c5f315f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_prs_resultant","kind":"method","src_hash":"c46aaca0728d42ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_prs_resultant(f, )","rhs":"dup_prs_resultant produces the expected output","over":{"base":"Any"},"name":"dup_prs_resultant_correct","kind":"composition"},"guarantee":"dup_prs_resultant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14159c326c5f315f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_prs_resultant","kind":"method","src_hash":"c46aaca0728d42ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_prs_resultant(f, g)","rhs":"(res, list(map(self.from_dense, prs)))","over":{"base":"Any"},"name":"dup_prs_resultant_correct","kind":"composition"},"guarantee":"returns (res, list(map(self.from_dense, prs)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14159c326c5f315f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(res, list(map(self.from_dense, prs)))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_prs_resultant(self, f, g):
         res, prs = dup_prs_resultant(self.to_dense(f), self.to_dense(g), self.domain)
         return (res, list(map(self.from_dense, prs)))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_prs_resultant(f, ), id) over Any                  ║
+# ║ Path(dmp_prs_resultant(f, g), id) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self[1:].from_dense(res), list(map(self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_prs_resultant : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b22200752a4c8802   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_prs_resultant","kind":"method","src_hash":"845f65604948dcc8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_prs_resultant(f, )","rhs":"dmp_prs_resultant produces the expected output","over":{"base":"Any"},"name":"dmp_prs_resultant_correct","kind":"composition"},"guarantee":"dmp_prs_resultant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b22200752a4c8802"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_prs_resultant","kind":"method","src_hash":"845f65604948dcc8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_prs_resultant(f, g)","rhs":"(self[1:].from_dense(res), list(map(self.from_dense, prs)))","over":{"base":"Any"},"name":"dmp_prs_resultant_correct","kind":"composition"},"guarantee":"returns (self[1:].from_dense(res), list(map(self.from_dense, prs)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b22200752a4c8802","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self[1:].from_dense(res), list(map(self.from_dense, prs)))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_prs_resultant(self, f, g):
         res, prs = dmp_prs_resultant(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain)
         return (self[1:].from_dense(res), list(map(self.from_dense, prs)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_zz_modular_resultant(f, ), dmp_zz_modular_resultant produces the expected output) over Any ║
+# ║ Path(dmp_zz_modular_resultant(f, g, p), self[1:].from_dense(res)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self[1:].from_dense(res)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_zz_modular_resultant : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 25cd6a2de361f03e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2840b13eada9ee10  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_zz_modular_resultant","kind":"method","src_hash":"6ab8ddc42eaefcdd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_modular_resultant(f, )","rhs":"dmp_zz_modular_resultant produces the expected output","over":{"base":"Any"},"name":"dmp_zz_modular_resultant_correct"},"guarantee":"dmp_zz_modular_resultant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_zz_modular_resultant_correct","statement":"Path(dmp_zz_modular_resultant(x), dmp_zz_modular_resultant produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25cd6a2de361f03e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_zz_modular_resultant","kind":"method","src_hash":"6ab8ddc42eaefcdd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_modular_resultant(f, g, p)","rhs":"self[1:].from_dense(res)","over":{"base":"Any"},"name":"dmp_zz_modular_resultant_correct"},"guarantee":"returns self[1:].from_dense(res)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_zz_modular_resultant_correct","statement":"Path(dmp_zz_modular_resultant(x), returns self[1:].from_dense(res))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2840b13eada9ee10","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self[1:].from_dense(res)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.domain_new","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_zz_modular_resultant(self, f, g, p):
         res = dmp_zz_modular_resultant(self.to_dense(f), self.to_dense(g), self.domain_new(p), self.ngens-1, self.domain)
         return self[1:].from_dense(res)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_zz_collins_resultant(f, ), dmp_zz_collins_resultant produces the expected output) over Any ║
+# ║ Path(dmp_zz_collins_resultant(f, g), self[1:].from_dense(res)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self[1:].from_dense(res)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_zz_collins_resultant : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00a8889ddc0c8771  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e30bbfb86b5089f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_zz_collins_resultant","kind":"method","src_hash":"3e63c08e3a015d52","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_collins_resultant(f, )","rhs":"dmp_zz_collins_resultant produces the expected output","over":{"base":"Any"},"name":"dmp_zz_collins_resultant_correct"},"guarantee":"dmp_zz_collins_resultant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_zz_collins_resultant_correct","statement":"Path(dmp_zz_collins_resultant(x), dmp_zz_collins_resultant produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00a8889ddc0c8771"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_zz_collins_resultant","kind":"method","src_hash":"3e63c08e3a015d52","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_collins_resultant(f, g)","rhs":"self[1:].from_dense(res)","over":{"base":"Any"},"name":"dmp_zz_collins_resultant_correct"},"guarantee":"returns self[1:].from_dense(res)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_zz_collins_resultant_correct","statement":"Path(dmp_zz_collins_resultant(x), returns self[1:].from_dense(res))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e30bbfb86b5089f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self[1:].from_dense(res)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_zz_collins_resultant(self, f, g):
         res = dmp_zz_collins_resultant(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain)
         return self[1:].from_dense(res)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_qq_collins_resultant(f, ), dmp_qq_collins_resultant produces the expected output) over Any ║
+# ║ Path(dmp_qq_collins_resultant(f, g), self[1:].from_dense(res)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self[1:].from_dense(res)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_qq_collins_resultant : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7595fe891ae82522  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d63f9948cbcf064  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_qq_collins_resultant","kind":"method","src_hash":"6fdb00794be48e1b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_qq_collins_resultant(f, )","rhs":"dmp_qq_collins_resultant produces the expected output","over":{"base":"Any"},"name":"dmp_qq_collins_resultant_correct"},"guarantee":"dmp_qq_collins_resultant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_qq_collins_resultant_correct","statement":"Path(dmp_qq_collins_resultant(x), dmp_qq_collins_resultant produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7595fe891ae82522"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_qq_collins_resultant","kind":"method","src_hash":"6fdb00794be48e1b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_qq_collins_resultant(f, g)","rhs":"self[1:].from_dense(res)","over":{"base":"Any"},"name":"dmp_qq_collins_resultant_correct"},"guarantee":"returns self[1:].from_dense(res)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_qq_collins_resultant_correct","statement":"Path(dmp_qq_collins_resultant(x), returns self[1:].from_dense(res))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d63f9948cbcf064","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self[1:].from_dense(res)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_qq_collins_resultant(self, f, g):
         res = dmp_qq_collins_resultant(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain)
         return self[1:].from_dense(res)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_resultant(f, ), dup_resultant produces the expected output) over Any ║
+# ║ Path(dup_resultant(f, g), dup_resultant(self.to_dense(f), self.to_dense(g), self.domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dup_resultant(self.to_dense(f), self.to_d...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_resultant : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6ee29f21d886dd38           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_resultant","kind":"method","src_hash":"61b87adeb9fafc00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_resultant(f, )","rhs":"dup_resultant produces the expected output","over":{"base":"Any"},"name":"dup_resultant_correct"},"guarantee":"dup_resultant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6ee29f21d886dd38"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_resultant","kind":"method","src_hash":"61b87adeb9fafc00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_resultant(f, g)","rhs":"dup_resultant(self.to_dense(f), self.to_dense(g), self.domain)","over":{"base":"Any"},"name":"dup_resultant_correct"},"guarantee":"returns dup_resultant(self.to_dense(f), self.to_dense(g), self.domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6ee29f21d886dd38","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dup_resultant(self.to_dense(f), self.to_dense(g), self.domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_resultant(self, f, g): #, includePRS=False):
         return dup_resultant(self.to_dense(f), self.to_dense(g), self.domain) #, includePRS=includePRS)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_resultant(f, ), dmp_resultant produces the expected output) over Any ║
+# ║ Path(dmp_resultant(f, g), result == (self[1:].from_dense(res) if isinstance(res, list) else res) and result == self[1:].from_dense(res) or result == res) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_resultant : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self[1:].from_dense(res) if is...   ║
+# ║   ensures:  result == self[1:].from_dense(res) or res...   ║
+# ║   fiber[list]: isinstance(res, list) => self[1:].from...   ║
+# ║   fiber[list]: not (isinstance(res, list)) => res          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_resultant : Any → {Any | result satisfies: result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e9738f3675b5bd5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3369b8bf26431ff8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_resultant","kind":"method","src_hash":"fc030dc043cc3670","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_resultant(f, )","rhs":"dmp_resultant produces the expected output","over":{"base":"Any"},"name":"dmp_resultant_correct"},"guarantee":"dmp_resultant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_resultant_correct","statement":"Path(dmp_resultant(x), dmp_resultant produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e9738f3675b5bd5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_resultant","kind":"method","src_hash":"fc030dc043cc3670","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self[1:].from_dense(res) if isinstance(res, list) else res) and result == self[1:].from_dense(res) or result == res"},"spec":{"lhs":"dmp_resultant(f, g)","rhs":"result == (self[1:].from_dense(res) if isinstance(res, list) else res) and result == self[1:].from_dense(res) or result == res","over":{"base":"Any"},"name":"dmp_resultant_correct"},"guarantee":"result == (self[1:].from_dense(res) if isinstance(res, list) else res); result == self[1:].from_dense(res) or result == res; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_resultant_correct","statement":"Path(dmp_resultant(x), result == (self[1:].from_dense(res) if isinstance(res, list) else res); result == self[1:].from_dense(res) or result == res; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3369b8bf26431ff8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self[1:].from_dense(res) if isinstance(res, list) else res)","result == self[1:].from_dense(res) or result == res"],"fibers":[{"name":"list","guard":"isinstance(res, list)","ensures":["result == self[1:].from_dense(res)"],"decidability":"structural","returns_expr":"self[1:].from_dense(res)"},{"name":"list","guard":"not (isinstance(res, list))","ensures":["result == res"],"decidability":"structural","returns_expr":"res"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_resultant(self, f, g): #, includePRS=False):
         res = dmp_resultant(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain) #, includePRS=includePRS)
         if isinstance(res, list):
@@ -2151,29 +2981,44 @@ class IPolys:
             return res
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_discriminant(f), dup_discriminant produces the expected output) over Any ║
+# ║ Path(dup_discriminant(f), dup_discriminant(self.to_dense(f), self.domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dup_discriminant(self.to_dense(f), self.d...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_discriminant : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5e4f5988295c99fc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_discriminant","kind":"method","src_hash":"9f77c83fbbd57c64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_discriminant(f)","rhs":"dup_discriminant produces the expected output","over":{"base":"Any"},"name":"dup_discriminant_correct"},"guarantee":"dup_discriminant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5e4f5988295c99fc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_discriminant","kind":"method","src_hash":"9f77c83fbbd57c64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_discriminant(f)","rhs":"dup_discriminant(self.to_dense(f), self.domain)","over":{"base":"Any"},"name":"dup_discriminant_correct"},"guarantee":"returns dup_discriminant(self.to_dense(f), self.domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5e4f5988295c99fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dup_discriminant(self.to_dense(f), self.domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_discriminant(self, f):
         return dup_discriminant(self.to_dense(f), self.domain)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_discriminant(f), dmp_discriminant produces the expected output) over Any ║
+# ║ Path(dmp_discriminant(f), result == (self[1:].from_dense(disc) if isinstance(disc, list) else disc) and result == self[1:].from_dense(disc) or result == disc) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_discriminant : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self[1:].from_dense(disc) if i...   ║
+# ║   ensures:  result == self[1:].from_dense(disc) or re...   ║
+# ║   fiber[list]: isinstance(disc, list) => self[1:].fro...   ║
+# ║   fiber[list]: not (isinstance(disc, list)) => disc        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_discriminant : Any → {Any | result satisfies: res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af26171a4ccee15b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7da41ea32c34fb4c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_discriminant","kind":"method","src_hash":"10b6c1e85a1e0a05","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_discriminant(f)","rhs":"dmp_discriminant produces the expected output","over":{"base":"Any"},"name":"dmp_discriminant_correct"},"guarantee":"dmp_discriminant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_discriminant_correct","statement":"Path(dmp_discriminant(x), dmp_discriminant produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af26171a4ccee15b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_discriminant","kind":"method","src_hash":"10b6c1e85a1e0a05","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self[1:].from_dense(disc) if isinstance(disc, list) else disc) and result == self[1:].from_dense(disc) or result == disc"},"spec":{"lhs":"dmp_discriminant(f)","rhs":"result == (self[1:].from_dense(disc) if isinstance(disc, list) else disc) and result == self[1:].from_dense(disc) or result == disc","over":{"base":"Any"},"name":"dmp_discriminant_correct"},"guarantee":"result == (self[1:].from_dense(disc) if isinstance(disc, list) else disc); result == self[1:].from_dense(disc) or result == disc; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_discriminant_correct","statement":"Path(dmp_discriminant(x), result == (self[1:].from_dense(disc) if isinstance(disc, list) else disc); result == self[1:].from_dense(disc) or result == disc; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7da41ea32c34fb4c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self[1:].from_dense(disc) if isinstance(disc, list) else disc)","result == self[1:].from_dense(disc) or result == disc"],"fibers":[{"name":"list","guard":"isinstance(disc, list)","ensures":["result == self[1:].from_dense(disc)"],"decidability":"structural","returns_expr":"self[1:].from_dense(disc)"},{"name":"list","guard":"not (isinstance(disc, list))","ensures":["result == disc"],"decidability":"structural","returns_expr":"disc"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_discriminant(self, f):
         disc = dmp_discriminant(self.to_dense(f), self.ngens-1, self.domain)
         if isinstance(disc, list):
@@ -2182,298 +3027,427 @@ class IPolys:
             return disc
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_rr_prs_gcd(f, ), id) over Any                     ║
+# ║ Path(dup_rr_prs_gcd(f, g), id) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.from_dense(H), self.from_dense(F), ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_rr_prs_gcd : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 91a2c1dd39970fb3   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_rr_prs_gcd","kind":"method","src_hash":"75eca835b8c2f68b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_rr_prs_gcd(f, )","rhs":"dup_rr_prs_gcd produces the expected output","over":{"base":"Any"},"name":"dup_rr_prs_gcd_correct","kind":"composition"},"guarantee":"dup_rr_prs_gcd produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91a2c1dd39970fb3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_rr_prs_gcd","kind":"method","src_hash":"75eca835b8c2f68b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_rr_prs_gcd(f, g)","rhs":"(self.from_dense(H), self.from_dense(F), self.from_dense(G))","over":{"base":"Any"},"name":"dup_rr_prs_gcd_correct","kind":"composition"},"guarantee":"returns (self.from_dense(H), self.from_dense(F), self.from_dense(G))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91a2c1dd39970fb3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.from_dense(H), self.from_dense(F), self.from_dense(G))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_rr_prs_gcd(self, f, g):
         H, F, G = dup_rr_prs_gcd(self.to_dense(f), self.to_dense(g), self.domain)
         return (self.from_dense(H), self.from_dense(F), self.from_dense(G))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_ff_prs_gcd(f, ), id) over Any                     ║
+# ║ Path(dup_ff_prs_gcd(f, g), id) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.from_dense(H), self.from_dense(F), ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_ff_prs_gcd : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b2a1937a3d045073   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_ff_prs_gcd","kind":"method","src_hash":"7c879074f82c89d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_ff_prs_gcd(f, )","rhs":"dup_ff_prs_gcd produces the expected output","over":{"base":"Any"},"name":"dup_ff_prs_gcd_correct","kind":"composition"},"guarantee":"dup_ff_prs_gcd produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2a1937a3d045073"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_ff_prs_gcd","kind":"method","src_hash":"7c879074f82c89d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_ff_prs_gcd(f, g)","rhs":"(self.from_dense(H), self.from_dense(F), self.from_dense(G))","over":{"base":"Any"},"name":"dup_ff_prs_gcd_correct","kind":"composition"},"guarantee":"returns (self.from_dense(H), self.from_dense(F), self.from_dense(G))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2a1937a3d045073","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.from_dense(H), self.from_dense(F), self.from_dense(G))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_ff_prs_gcd(self, f, g):
         H, F, G = dup_ff_prs_gcd(self.to_dense(f), self.to_dense(g), self.domain)
         return (self.from_dense(H), self.from_dense(F), self.from_dense(G))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_rr_prs_gcd(f, ), id) over Any                     ║
+# ║ Path(dmp_rr_prs_gcd(f, g), id) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.from_dense(H), self.from_dense(F), ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_rr_prs_gcd : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a00761d024814ed7   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_rr_prs_gcd","kind":"method","src_hash":"831ea84efff53131","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_rr_prs_gcd(f, )","rhs":"dmp_rr_prs_gcd produces the expected output","over":{"base":"Any"},"name":"dmp_rr_prs_gcd_correct","kind":"composition"},"guarantee":"dmp_rr_prs_gcd produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a00761d024814ed7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_rr_prs_gcd","kind":"method","src_hash":"831ea84efff53131","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_rr_prs_gcd(f, g)","rhs":"(self.from_dense(H), self.from_dense(F), self.from_dense(G))","over":{"base":"Any"},"name":"dmp_rr_prs_gcd_correct","kind":"composition"},"guarantee":"returns (self.from_dense(H), self.from_dense(F), self.from_dense(G))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a00761d024814ed7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.from_dense(H), self.from_dense(F), self.from_dense(G))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_rr_prs_gcd(self, f, g):
         H, F, G = dmp_rr_prs_gcd(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain)
         return (self.from_dense(H), self.from_dense(F), self.from_dense(G))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_ff_prs_gcd(f, ), id) over Any                     ║
+# ║ Path(dmp_ff_prs_gcd(f, g), id) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.from_dense(H), self.from_dense(F), ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_ff_prs_gcd : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ba7290240470f159   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_ff_prs_gcd","kind":"method","src_hash":"86e4a80a66afd36f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_ff_prs_gcd(f, )","rhs":"dmp_ff_prs_gcd produces the expected output","over":{"base":"Any"},"name":"dmp_ff_prs_gcd_correct","kind":"composition"},"guarantee":"dmp_ff_prs_gcd produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba7290240470f159"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_ff_prs_gcd","kind":"method","src_hash":"86e4a80a66afd36f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_ff_prs_gcd(f, g)","rhs":"(self.from_dense(H), self.from_dense(F), self.from_dense(G))","over":{"base":"Any"},"name":"dmp_ff_prs_gcd_correct","kind":"composition"},"guarantee":"returns (self.from_dense(H), self.from_dense(F), self.from_dense(G))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba7290240470f159","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.from_dense(H), self.from_dense(F), self.from_dense(G))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_ff_prs_gcd(self, f, g):
         H, F, G = dmp_ff_prs_gcd(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain)
         return (self.from_dense(H), self.from_dense(F), self.from_dense(G))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_zz_heu_gcd(f, ), id) over Any                     ║
+# ║ Path(dup_zz_heu_gcd(f, g), id) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.from_dense(H), self.from_dense(F), ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_zz_heu_gcd : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | dfd028e913a9c409   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_zz_heu_gcd","kind":"method","src_hash":"e640cb559dffb67c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_heu_gcd(f, )","rhs":"dup_zz_heu_gcd produces the expected output","over":{"base":"Any"},"name":"dup_zz_heu_gcd_correct","kind":"composition"},"guarantee":"dup_zz_heu_gcd produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfd028e913a9c409"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_zz_heu_gcd","kind":"method","src_hash":"e640cb559dffb67c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_heu_gcd(f, g)","rhs":"(self.from_dense(H), self.from_dense(F), self.from_dense(G))","over":{"base":"Any"},"name":"dup_zz_heu_gcd_correct","kind":"composition"},"guarantee":"returns (self.from_dense(H), self.from_dense(F), self.from_dense(G))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfd028e913a9c409","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.from_dense(H), self.from_dense(F), self.from_dense(G))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_zz_heu_gcd(self, f, g):
         H, F, G = dup_zz_heu_gcd(self.to_dense(f), self.to_dense(g), self.domain)
         return (self.from_dense(H), self.from_dense(F), self.from_dense(G))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_zz_heu_gcd(f, ), id) over Any                     ║
+# ║ Path(dmp_zz_heu_gcd(f, g), id) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.from_dense(H), self.from_dense(F), ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_zz_heu_gcd : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5d2398cf529bf5fb   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_zz_heu_gcd","kind":"method","src_hash":"bd9ad72ab4792020","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_heu_gcd(f, )","rhs":"dmp_zz_heu_gcd produces the expected output","over":{"base":"Any"},"name":"dmp_zz_heu_gcd_correct","kind":"composition"},"guarantee":"dmp_zz_heu_gcd produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d2398cf529bf5fb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_zz_heu_gcd","kind":"method","src_hash":"bd9ad72ab4792020","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_heu_gcd(f, g)","rhs":"(self.from_dense(H), self.from_dense(F), self.from_dense(G))","over":{"base":"Any"},"name":"dmp_zz_heu_gcd_correct","kind":"composition"},"guarantee":"returns (self.from_dense(H), self.from_dense(F), self.from_dense(G))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d2398cf529bf5fb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.from_dense(H), self.from_dense(F), self.from_dense(G))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_zz_heu_gcd(self, f, g):
         H, F, G = dmp_zz_heu_gcd(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain)
         return (self.from_dense(H), self.from_dense(F), self.from_dense(G))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_qq_heu_gcd(f, ), id) over Any                     ║
+# ║ Path(dup_qq_heu_gcd(f, g), id) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.from_dense(H), self.from_dense(F), ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_qq_heu_gcd : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 7394108dfa4b1309   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_qq_heu_gcd","kind":"method","src_hash":"12f634deb2d3d4f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_qq_heu_gcd(f, )","rhs":"dup_qq_heu_gcd produces the expected output","over":{"base":"Any"},"name":"dup_qq_heu_gcd_correct","kind":"composition"},"guarantee":"dup_qq_heu_gcd produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7394108dfa4b1309"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_qq_heu_gcd","kind":"method","src_hash":"12f634deb2d3d4f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_qq_heu_gcd(f, g)","rhs":"(self.from_dense(H), self.from_dense(F), self.from_dense(G))","over":{"base":"Any"},"name":"dup_qq_heu_gcd_correct","kind":"composition"},"guarantee":"returns (self.from_dense(H), self.from_dense(F), self.from_dense(G))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7394108dfa4b1309","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.from_dense(H), self.from_dense(F), self.from_dense(G))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_qq_heu_gcd(self, f, g):
         H, F, G = dup_qq_heu_gcd(self.to_dense(f), self.to_dense(g), self.domain)
         return (self.from_dense(H), self.from_dense(F), self.from_dense(G))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_qq_heu_gcd(f, ), id) over Any                     ║
+# ║ Path(dmp_qq_heu_gcd(f, g), id) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.from_dense(H), self.from_dense(F), ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_qq_heu_gcd : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 16991f674eb0c9ef   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_qq_heu_gcd","kind":"method","src_hash":"ede7f42a4e360be0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_qq_heu_gcd(f, )","rhs":"dmp_qq_heu_gcd produces the expected output","over":{"base":"Any"},"name":"dmp_qq_heu_gcd_correct","kind":"composition"},"guarantee":"dmp_qq_heu_gcd produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16991f674eb0c9ef"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_qq_heu_gcd","kind":"method","src_hash":"ede7f42a4e360be0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_qq_heu_gcd(f, g)","rhs":"(self.from_dense(H), self.from_dense(F), self.from_dense(G))","over":{"base":"Any"},"name":"dmp_qq_heu_gcd_correct","kind":"composition"},"guarantee":"returns (self.from_dense(H), self.from_dense(F), self.from_dense(G))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16991f674eb0c9ef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.from_dense(H), self.from_dense(F), self.from_dense(G))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_qq_heu_gcd(self, f, g):
         H, F, G = dmp_qq_heu_gcd(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain)
         return (self.from_dense(H), self.from_dense(F), self.from_dense(G))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_inner_gcd(f, ), id) over Any                      ║
+# ║ Path(dup_inner_gcd(f, g), id) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.from_dense(H), self.from_dense(F), ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_inner_gcd : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 6b265f46d0dcc69b   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_inner_gcd","kind":"method","src_hash":"7816d91ec9f26c29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_inner_gcd(f, )","rhs":"dup_inner_gcd produces the expected output","over":{"base":"Any"},"name":"dup_inner_gcd_correct","kind":"composition"},"guarantee":"dup_inner_gcd produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b265f46d0dcc69b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_inner_gcd","kind":"method","src_hash":"7816d91ec9f26c29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_inner_gcd(f, g)","rhs":"(self.from_dense(H), self.from_dense(F), self.from_dense(G))","over":{"base":"Any"},"name":"dup_inner_gcd_correct","kind":"composition"},"guarantee":"returns (self.from_dense(H), self.from_dense(F), self.from_dense(G))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b265f46d0dcc69b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.from_dense(H), self.from_dense(F), self.from_dense(G))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_inner_gcd(self, f, g):
         H, F, G = dup_inner_gcd(self.to_dense(f), self.to_dense(g), self.domain)
         return (self.from_dense(H), self.from_dense(F), self.from_dense(G))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_inner_gcd(f, ), id) over Any                      ║
+# ║ Path(dmp_inner_gcd(f, g), id) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.from_dense(H), self.from_dense(F), ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_inner_gcd : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f31a64e96eb31ec3   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_inner_gcd","kind":"method","src_hash":"b1067b97600b492a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_inner_gcd(f, )","rhs":"dmp_inner_gcd produces the expected output","over":{"base":"Any"},"name":"dmp_inner_gcd_correct","kind":"composition"},"guarantee":"dmp_inner_gcd produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f31a64e96eb31ec3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_inner_gcd","kind":"method","src_hash":"b1067b97600b492a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_inner_gcd(f, g)","rhs":"(self.from_dense(H), self.from_dense(F), self.from_dense(G))","over":{"base":"Any"},"name":"dmp_inner_gcd_correct","kind":"composition"},"guarantee":"returns (self.from_dense(H), self.from_dense(F), self.from_dense(G))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f31a64e96eb31ec3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.from_dense(H), self.from_dense(F), self.from_dense(G))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_inner_gcd(self, f, g):
         H, F, G = dmp_inner_gcd(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain)
         return (self.from_dense(H), self.from_dense(F), self.from_dense(G))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_gcd(f, ), dup_gcd produces the expected output) over Any ║
+# ║ Path(dup_gcd(f, g), self.from_dense(H)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(H)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_gcd : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 335ed785b1c3eeae  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 66ccffb5b5771f3f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_gcd","kind":"method","src_hash":"654c97b84f374530","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_gcd(f, )","rhs":"dup_gcd produces the expected output","over":{"base":"Any"},"name":"dup_gcd_correct"},"guarantee":"dup_gcd produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_gcd_correct","statement":"Path(dup_gcd(x), dup_gcd produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"335ed785b1c3eeae"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_gcd","kind":"method","src_hash":"654c97b84f374530","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_gcd(f, g)","rhs":"self.from_dense(H)","over":{"base":"Any"},"name":"dup_gcd_correct"},"guarantee":"returns self.from_dense(H)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_gcd_correct","statement":"Path(dup_gcd(x), returns self.from_dense(H))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66ccffb5b5771f3f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(H)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_gcd(self, f, g):
         H = dup_gcd(self.to_dense(f), self.to_dense(g), self.domain)
         return self.from_dense(H)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_gcd(f, ), dmp_gcd produces the expected output) over Any ║
+# ║ Path(dmp_gcd(f, g), self.from_dense(H)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(H)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_gcd : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7dff1cc88870b546  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb9eabb30d5bbb81  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_gcd","kind":"method","src_hash":"57e490f7bd9f68a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_gcd(f, )","rhs":"dmp_gcd produces the expected output","over":{"base":"Any"},"name":"dmp_gcd_correct"},"guarantee":"dmp_gcd produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_gcd_correct","statement":"Path(dmp_gcd(x), dmp_gcd produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7dff1cc88870b546"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_gcd","kind":"method","src_hash":"57e490f7bd9f68a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_gcd(f, g)","rhs":"self.from_dense(H)","over":{"base":"Any"},"name":"dmp_gcd_correct"},"guarantee":"returns self.from_dense(H)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_gcd_correct","statement":"Path(dmp_gcd(x), returns self.from_dense(H))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb9eabb30d5bbb81","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(H)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_gcd(self, f, g):
         H = dmp_gcd(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain)
         return self.from_dense(H)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_rr_lcm(f, ), dup_rr_lcm produces the expected output) over Any ║
+# ║ Path(dup_rr_lcm(f, g), self.from_dense(H)) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(H)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_rr_lcm : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e96c6b939d63cfb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 49e4022731d5906f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_rr_lcm","kind":"method","src_hash":"1ec56f6e7914de9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_rr_lcm(f, )","rhs":"dup_rr_lcm produces the expected output","over":{"base":"Any"},"name":"dup_rr_lcm_correct"},"guarantee":"dup_rr_lcm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_rr_lcm_correct","statement":"Path(dup_rr_lcm(x), dup_rr_lcm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e96c6b939d63cfb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_rr_lcm","kind":"method","src_hash":"1ec56f6e7914de9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_rr_lcm(f, g)","rhs":"self.from_dense(H)","over":{"base":"Any"},"name":"dup_rr_lcm_correct"},"guarantee":"returns self.from_dense(H)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_rr_lcm_correct","statement":"Path(dup_rr_lcm(x), returns self.from_dense(H))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49e4022731d5906f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(H)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_rr_lcm(self, f, g):
         H = dup_rr_lcm(self.to_dense(f), self.to_dense(g), self.domain)
         return self.from_dense(H)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_ff_lcm(f, ), dup_ff_lcm produces the expected output) over Any ║
+# ║ Path(dup_ff_lcm(f, g), self.from_dense(H)) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(H)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_ff_lcm : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9a294b11d2f38d0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0920b2adc84750bf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_ff_lcm","kind":"method","src_hash":"19a9b2208ca54190","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_ff_lcm(f, )","rhs":"dup_ff_lcm produces the expected output","over":{"base":"Any"},"name":"dup_ff_lcm_correct"},"guarantee":"dup_ff_lcm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_ff_lcm_correct","statement":"Path(dup_ff_lcm(x), dup_ff_lcm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9a294b11d2f38d0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_ff_lcm","kind":"method","src_hash":"19a9b2208ca54190","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_ff_lcm(f, g)","rhs":"self.from_dense(H)","over":{"base":"Any"},"name":"dup_ff_lcm_correct"},"guarantee":"returns self.from_dense(H)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_ff_lcm_correct","statement":"Path(dup_ff_lcm(x), returns self.from_dense(H))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0920b2adc84750bf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(H)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_ff_lcm(self, f, g):
         H = dup_ff_lcm(self.to_dense(f), self.to_dense(g), self.domain)
         return self.from_dense(H)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_lcm(f, ), dup_lcm produces the expected output) over Any ║
+# ║ Path(dup_lcm(f, g), self.from_dense(H)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(H)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_lcm : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 29d21ee60af1b988  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28f84216c771a60e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_lcm","kind":"method","src_hash":"ff2a82ba29da3b3b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_lcm(f, )","rhs":"dup_lcm produces the expected output","over":{"base":"Any"},"name":"dup_lcm_correct"},"guarantee":"dup_lcm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_lcm_correct","statement":"Path(dup_lcm(x), dup_lcm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29d21ee60af1b988"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_lcm","kind":"method","src_hash":"ff2a82ba29da3b3b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_lcm(f, g)","rhs":"self.from_dense(H)","over":{"base":"Any"},"name":"dup_lcm_correct"},"guarantee":"returns self.from_dense(H)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_lcm_correct","statement":"Path(dup_lcm(x), returns self.from_dense(H))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28f84216c771a60e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(H)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_lcm(self, f, g):
         H = dup_lcm(self.to_dense(f), self.to_dense(g), self.domain)
         return self.from_dense(H)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_rr_lcm(f, ), dmp_rr_lcm produces the expected output) over Any ║
+# ║ Path(dmp_rr_lcm(f, g), self.from_dense(H)) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(H)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_rr_lcm : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc52a0a4c4b74a9b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e3d34dea8796f547  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_rr_lcm","kind":"method","src_hash":"f019d3ce9fd71441","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_rr_lcm(f, )","rhs":"dmp_rr_lcm produces the expected output","over":{"base":"Any"},"name":"dmp_rr_lcm_correct"},"guarantee":"dmp_rr_lcm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_rr_lcm_correct","statement":"Path(dmp_rr_lcm(x), dmp_rr_lcm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc52a0a4c4b74a9b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_rr_lcm","kind":"method","src_hash":"f019d3ce9fd71441","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_rr_lcm(f, g)","rhs":"self.from_dense(H)","over":{"base":"Any"},"name":"dmp_rr_lcm_correct"},"guarantee":"returns self.from_dense(H)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_rr_lcm_correct","statement":"Path(dmp_rr_lcm(x), returns self.from_dense(H))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3d34dea8796f547","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(H)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_rr_lcm(self, f, g):
         H = dmp_rr_lcm(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain)
         return self.from_dense(H)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_ff_lcm(f, ), dmp_ff_lcm produces the expected output) over Any ║
+# ║ Path(dmp_ff_lcm(f, g), self.from_dense(H)) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(H)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_ff_lcm : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d479ca2bc66ca10  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 94a3ab10a8f089fd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_ff_lcm","kind":"method","src_hash":"6d2e7a364c69945b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_ff_lcm(f, )","rhs":"dmp_ff_lcm produces the expected output","over":{"base":"Any"},"name":"dmp_ff_lcm_correct"},"guarantee":"dmp_ff_lcm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_ff_lcm_correct","statement":"Path(dmp_ff_lcm(x), dmp_ff_lcm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d479ca2bc66ca10"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_ff_lcm","kind":"method","src_hash":"6d2e7a364c69945b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_ff_lcm(f, g)","rhs":"self.from_dense(H)","over":{"base":"Any"},"name":"dmp_ff_lcm_correct"},"guarantee":"returns self.from_dense(H)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_ff_lcm_correct","statement":"Path(dmp_ff_lcm(x), returns self.from_dense(H))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94a3ab10a8f089fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(H)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_ff_lcm(self, f, g):
         H = dmp_ff_lcm(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain)
         return self.from_dense(H)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_lcm(f, ), dmp_lcm produces the expected output) over Any ║
+# ║ Path(dmp_lcm(f, g), self.from_dense(H)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(H)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_lcm : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7efff53bc71fe9c0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d50381eac8c849f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_lcm","kind":"method","src_hash":"b4dcdd14e5eb5734","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_lcm(f, )","rhs":"dmp_lcm produces the expected output","over":{"base":"Any"},"name":"dmp_lcm_correct"},"guarantee":"dmp_lcm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_lcm_correct","statement":"Path(dmp_lcm(x), dmp_lcm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7efff53bc71fe9c0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_lcm","kind":"method","src_hash":"b4dcdd14e5eb5734","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_lcm(f, g)","rhs":"self.from_dense(H)","over":{"base":"Any"},"name":"dmp_lcm_correct"},"guarantee":"returns self.from_dense(H)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_lcm_correct","statement":"Path(dmp_lcm(x), returns self.from_dense(H))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d50381eac8c849f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(H)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_lcm(self, f, g):
         H = dmp_lcm(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain)
         return self.from_dense(H)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_content(f), dup_content produces the expected output) over Any ║
+# ║ Path(dup_content(f), # HINT: dup_content may be idempotent: dup_content(dup_content(x)) == dup_content(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_content : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: dup_content may be idempotent: du...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_content : Any → {Any | result satisfies: # HINT: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0531419d7b8a2155  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98e656f82ce96fd7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_content","kind":"method","src_hash":"d88a7220001e8975","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_content(f)","rhs":"dup_content produces the expected output","over":{"base":"Any"},"name":"dup_content_correct"},"guarantee":"dup_content produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_content_correct","statement":"Path(dup_content(x), dup_content produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0531419d7b8a2155"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_content","kind":"method","src_hash":"d88a7220001e8975","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: dup_content may be idempotent: dup_content(dup_content(x)) == dup_content(x)"},"spec":{"lhs":"dup_content(f)","rhs":"# HINT: dup_content may be idempotent: dup_content(dup_content(x)) == dup_content(x)","over":{"base":"Any"},"name":"dup_content_correct"},"guarantee":"# HINT: dup_content may be idempotent: dup_content(dup_content(x)) == dup_content(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_content_correct","statement":"Path(dup_content(x), # HINT: dup_content may be idempotent: dup_content(dup_content(x)) == dup_content(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98e656f82ce96fd7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: dup_content may be idempotent: dup_content(dup_content(x)) == dup_content(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_content(self, f):
         cont = dup_content(self.to_dense(f), self.domain)
         return cont
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_primitive(f), dup_primitive produces the expected output) over Any ║
+# ║ Path(dup_primitive(f), (cont, self.from_dense(prim))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (cont, self.from_dense(prim))                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_primitive : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 89bfcb4fb2b2ac61  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ab02ce21f15b1a4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_primitive","kind":"method","src_hash":"81ad330a00f16eed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_primitive(f)","rhs":"dup_primitive produces the expected output","over":{"base":"Any"},"name":"dup_primitive_correct"},"guarantee":"dup_primitive produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_primitive_correct","statement":"Path(dup_primitive(x), dup_primitive produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89bfcb4fb2b2ac61"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_primitive","kind":"method","src_hash":"81ad330a00f16eed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_primitive(f)","rhs":"(cont, self.from_dense(prim))","over":{"base":"Any"},"name":"dup_primitive_correct"},"guarantee":"returns (cont, self.from_dense(prim))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_primitive_correct","statement":"Path(dup_primitive(x), returns (cont, self.from_dense(prim)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ab02ce21f15b1a4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(cont, self.from_dense(prim))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_primitive(self, f):
         cont, prim = dup_primitive(self.to_dense(f), self.domain)
         return cont, self.from_dense(prim)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_content(f), dmp_content produces the expected output) over Any ║
+# ║ Path(dmp_content(f), result == (self[1:].from_dense(cont) if isinstance(cont, list) else cont) and result == self[1:].from_dense(cont) or result == cont) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_content : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self[1:].from_dense(cont) if i...   ║
+# ║   ensures:  result == self[1:].from_dense(cont) or re...   ║
+# ║   fiber[list]: isinstance(cont, list) => self[1:].fro...   ║
+# ║   fiber[list]: not (isinstance(cont, list)) => cont        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_content : Any → {Any | result satisfies: result =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bf1e40d26226d6b7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e5c808dd2ac143c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_content","kind":"method","src_hash":"fcd5d80bdd6abb8b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_content(f)","rhs":"dmp_content produces the expected output","over":{"base":"Any"},"name":"dmp_content_correct"},"guarantee":"dmp_content produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_content_correct","statement":"Path(dmp_content(x), dmp_content produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf1e40d26226d6b7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_content","kind":"method","src_hash":"fcd5d80bdd6abb8b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self[1:].from_dense(cont) if isinstance(cont, list) else cont) and result == self[1:].from_dense(cont) or result == cont"},"spec":{"lhs":"dmp_content(f)","rhs":"result == (self[1:].from_dense(cont) if isinstance(cont, list) else cont) and result == self[1:].from_dense(cont) or result == cont","over":{"base":"Any"},"name":"dmp_content_correct"},"guarantee":"result == (self[1:].from_dense(cont) if isinstance(cont, list) else cont); result == self[1:].from_dense(cont) or result == cont; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_content_correct","statement":"Path(dmp_content(x), result == (self[1:].from_dense(cont) if isinstance(cont, list) else cont); result == self[1:].from_dense(cont) or result == cont; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e5c808dd2ac143c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self[1:].from_dense(cont) if isinstance(cont, list) else cont)","result == self[1:].from_dense(cont) or result == cont"],"fibers":[{"name":"list","guard":"isinstance(cont, list)","ensures":["result == self[1:].from_dense(cont)"],"decidability":"structural","returns_expr":"self[1:].from_dense(cont)"},{"name":"list","guard":"not (isinstance(cont, list))","ensures":["result == cont"],"decidability":"structural","returns_expr":"cont"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_content(self, f):
         cont = dmp_content(self.to_dense(f), self.ngens-1, self.domain)
         if isinstance(cont, list):
@@ -2483,14 +3457,23 @@ class IPolys:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(dmp_primitive(f), id) over Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_primitive : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ((self[1:].from_dense(cont), se...   ║
+# ║   ensures:  result == (self[1:].from_dense(cont), sel...   ║
+# ║   fiber[list]: isinstance(cont, list) => (self[1:].fr...   ║
+# ║   fiber[list]: not (isinstance(cont, list)) => (cont,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_primitive : Any → {Any | result satisfies: result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | e84e1a5cf45fcf02   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_primitive","kind":"method","src_hash":"0c07e72fff491de3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_primitive(f)","rhs":"dmp_primitive produces the expected output","over":{"base":"Any"},"name":"dmp_primitive_correct","kind":"composition"},"guarantee":"dmp_primitive produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e84e1a5cf45fcf02"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_primitive","kind":"method","src_hash":"0c07e72fff491de3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ((self[1:].from_dense(cont), self.from_dense(prim)) if isinstance(cont, list) else (cont, self.from_dense(prim))) and result == (self[1:].from_dense(cont), self.from_dense(prim)) or result == (cont, self.from_dense(prim))"},"spec":{"lhs":"dmp_primitive(f)","rhs":"result == ((self[1:].from_dense(cont), self.from_dense(prim)) if isinstance(cont, list) else (cont, self.from_dense(prim))) and result == (self[1:].from_dense(cont), self.from_dense(prim)) or result == (cont, self.from_dense(prim))","over":{"base":"Any"},"name":"dmp_primitive_correct","kind":"composition"},"guarantee":"result == ((self[1:].from_dense(cont), self.from_dense(prim)) if isinstance(cont, list) else (cont, self.from_dense(prim))); result == (self[1:].from_dense(cont), self.from_dense(prim)) or result == (cont, self.from_dense(prim)); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e84e1a5cf45fcf02","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ((self[1:].from_dense(cont), self.from_dense(prim)) if isinstance(cont, list) else (cont, self.from_dense(prim)))","result == (self[1:].from_dense(cont), self.from_dense(prim)) or result == (cont, self.from_dense(prim))"],"fibers":[{"name":"list","guard":"isinstance(cont, list)","ensures":["result == (self[1:].from_dense(cont), self.from_dense(prim))"],"decidability":"structural","returns_expr":"(self[1:].from_dense(cont), self.from_dense(prim))"},{"name":"list","guard":"not (isinstance(cont, list))","ensures":["result == (cont, self.from_dense(prim))"],"decidability":"structural","returns_expr":"(cont, self.from_dense(prim))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_primitive(self, f):
         cont, prim = dmp_primitive(self.to_dense(f), self.ngens-1, self.domain)
         if isinstance(cont, list):
@@ -2499,45 +3482,66 @@ class IPolys:
             return (cont, self.from_dense(prim))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_ground_content(f), dmp_ground_content produces the expected output) over Any ║
+# ║ Path(dmp_ground_content(f), # HINT: dmp_ground_content may be idempotent: dmp_ground_content(dmp_ground_content(x)) == dmp_ground_content(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_ground_content : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: dmp_ground_content may be idempot...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_ground_content : Any → {Any | result satisfies: #...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ae893c4c091b3a5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 681a9519cbcfccf9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_ground_content","kind":"method","src_hash":"96fb36508c7856cf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_ground_content(f)","rhs":"dmp_ground_content produces the expected output","over":{"base":"Any"},"name":"dmp_ground_content_correct"},"guarantee":"dmp_ground_content produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_ground_content_correct","statement":"Path(dmp_ground_content(x), dmp_ground_content produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ae893c4c091b3a5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_ground_content","kind":"method","src_hash":"96fb36508c7856cf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: dmp_ground_content may be idempotent: dmp_ground_content(dmp_ground_content(x)) == dmp_ground_content(x)"},"spec":{"lhs":"dmp_ground_content(f)","rhs":"# HINT: dmp_ground_content may be idempotent: dmp_ground_content(dmp_ground_content(x)) == dmp_ground_content(x)","over":{"base":"Any"},"name":"dmp_ground_content_correct"},"guarantee":"# HINT: dmp_ground_content may be idempotent: dmp_ground_content(dmp_ground_content(x)) == dmp_ground_content(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_ground_content_correct","statement":"Path(dmp_ground_content(x), # HINT: dmp_ground_content may be idempotent: dmp_ground_content(dmp_ground_content(x)) == dmp_ground_content(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"681a9519cbcfccf9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: dmp_ground_content may be idempotent: dmp_ground_content(dmp_ground_content(x)) == dmp_ground_content(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_ground_content(self, f):
         cont = dmp_ground_content(self.to_dense(f), self.ngens-1, self.domain)
         return cont
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_ground_primitive(f), dmp_ground_primitive produces the expected output) over Any ║
+# ║ Path(dmp_ground_primitive(f), (cont, self.from_dense(prim))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (cont, self.from_dense(prim))                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_ground_primitive : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e072f26f2a6d970  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8680d5fc6baf779  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_ground_primitive","kind":"method","src_hash":"4a2ecb890f6faf9a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_ground_primitive(f)","rhs":"dmp_ground_primitive produces the expected output","over":{"base":"Any"},"name":"dmp_ground_primitive_correct"},"guarantee":"dmp_ground_primitive produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_ground_primitive_correct","statement":"Path(dmp_ground_primitive(x), dmp_ground_primitive produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e072f26f2a6d970"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_ground_primitive","kind":"method","src_hash":"4a2ecb890f6faf9a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_ground_primitive(f)","rhs":"(cont, self.from_dense(prim))","over":{"base":"Any"},"name":"dmp_ground_primitive_correct"},"guarantee":"returns (cont, self.from_dense(prim))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_ground_primitive_correct","statement":"Path(dmp_ground_primitive(x), returns (cont, self.from_dense(prim)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8680d5fc6baf779","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(cont, self.from_dense(prim))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_ground_primitive(self, f):
         cont, prim = dmp_ground_primitive(self.to_dense(f), self.ngens-1, self.domain)
         return (cont, self.from_dense(prim))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_cancel(f, ), id) over Any                         ║
+# ║ Path(dup_cancel(f, g, include), id) over Any               ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_cancel : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ((cf, cg, self.from_dense(F), s...   ║
+# ║   ensures:  result == (cf, cg, self.from_dense(F), se...   ║
+# ║   fiber[case_0]: not include => (cf, cg, self.from_de...   ║
+# ║   fiber[case_1]: not (not include) => (self.from_dens...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_cancel : Any → {Any | result satisfies: result ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c7dc4269392290b2   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_cancel","kind":"method","src_hash":"57e62f4004d0cd86","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_cancel(f, )","rhs":"dup_cancel produces the expected output","over":{"base":"Any"},"name":"dup_cancel_correct","kind":"composition"},"guarantee":"dup_cancel produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7dc4269392290b2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_cancel","kind":"method","src_hash":"57e62f4004d0cd86","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ((cf, cg, self.from_dense(F), self.from_dense(G)) if not include else (self.from_dense(F), self.from_dense(G))) and result == (cf, cg, self.from_dense(F), self.from_dense(G)) or result == (self.from_dense(F), self.from_dense(G))"},"spec":{"lhs":"dup_cancel(f, g, include)","rhs":"result == ((cf, cg, self.from_dense(F), self.from_dense(G)) if not include else (self.from_dense(F), self.from_dense(G))) and result == (cf, cg, self.from_dense(F), self.from_dense(G)) or result == (self.from_dense(F), self.from_dense(G))","over":{"base":"Any"},"name":"dup_cancel_correct","kind":"composition"},"guarantee":"result == ((cf, cg, self.from_dense(F), self.from_dense(G)) if not include else (self.from_dense(F), self.from_dense(G))); result == (cf, cg, self.from_dense(F), self.from_dense(G)) or result == (self.from_dense(F), self.from_dense(G)); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7dc4269392290b2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ((cf, cg, self.from_dense(F), self.from_dense(G)) if not include else (self.from_dense(F), self.from_dense(G)))","result == (cf, cg, self.from_dense(F), self.from_dense(G)) or result == (self.from_dense(F), self.from_dense(G))"],"fibers":[{"name":"case_0","guard":"not include","ensures":["result == (cf, cg, self.from_dense(F), self.from_dense(G))"],"decidability":"library","returns_expr":"(cf, cg, self.from_dense(F), self.from_dense(G))"},{"name":"case_1","guard":"not (not include)","ensures":["result == (self.from_dense(F), self.from_dense(G))"],"decidability":"library","returns_expr":"(self.from_dense(F), self.from_dense(G))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_cancel(self, f, g, include=True):
         result = dup_cancel(self.to_dense(f), self.to_dense(g), self.domain, include=include)
         if not include:
@@ -2547,16 +3551,25 @@ class IPolys:
             F, G = result
             return (self.from_dense(F), self.from_dense(G))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_cancel(f, ), id) over Any                         ║
+# ║ Path(dmp_cancel(f, g, include), id) over Any               ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_cancel : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ((cf, cg, self.from_dense(F), s...   ║
+# ║   ensures:  result == (cf, cg, self.from_dense(F), se...   ║
+# ║   fiber[case_0]: not include => (cf, cg, self.from_de...   ║
+# ║   fiber[case_1]: not (not include) => (self.from_dens...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_cancel : Any → {Any | result satisfies: result ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 0d2c01e1eb27b3ac   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_cancel","kind":"method","src_hash":"003ed323a9d0465a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_cancel(f, )","rhs":"dmp_cancel produces the expected output","over":{"base":"Any"},"name":"dmp_cancel_correct","kind":"composition"},"guarantee":"dmp_cancel produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d2c01e1eb27b3ac"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_cancel","kind":"method","src_hash":"003ed323a9d0465a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ((cf, cg, self.from_dense(F), self.from_dense(G)) if not include else (self.from_dense(F), self.from_dense(G))) and result == (cf, cg, self.from_dense(F), self.from_dense(G)) or result == (self.from_dense(F), self.from_dense(G))"},"spec":{"lhs":"dmp_cancel(f, g, include)","rhs":"result == ((cf, cg, self.from_dense(F), self.from_dense(G)) if not include else (self.from_dense(F), self.from_dense(G))) and result == (cf, cg, self.from_dense(F), self.from_dense(G)) or result == (self.from_dense(F), self.from_dense(G))","over":{"base":"Any"},"name":"dmp_cancel_correct","kind":"composition"},"guarantee":"result == ((cf, cg, self.from_dense(F), self.from_dense(G)) if not include else (self.from_dense(F), self.from_dense(G))); result == (cf, cg, self.from_dense(F), self.from_dense(G)) or result == (self.from_dense(F), self.from_dense(G)); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d2c01e1eb27b3ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ((cf, cg, self.from_dense(F), self.from_dense(G)) if not include else (self.from_dense(F), self.from_dense(G)))","result == (cf, cg, self.from_dense(F), self.from_dense(G)) or result == (self.from_dense(F), self.from_dense(G))"],"fibers":[{"name":"case_0","guard":"not include","ensures":["result == (cf, cg, self.from_dense(F), self.from_dense(G))"],"decidability":"library","returns_expr":"(cf, cg, self.from_dense(F), self.from_dense(G))"},{"name":"case_1","guard":"not (not include)","ensures":["result == (self.from_dense(F), self.from_dense(G))"],"decidability":"library","returns_expr":"(self.from_dense(F), self.from_dense(G))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_cancel(self, f, g, include=True):
         result = dmp_cancel(self.to_dense(f), self.to_dense(g), self.ngens-1, self.domain, include=include)
         if not include:
@@ -2567,158 +3580,227 @@ class IPolys:
             return (self.from_dense(F), self.from_dense(G))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_trial_division(f, ), dup_trial_division produces the expected output) over Any ║
+# ║ Path(dup_trial_division(f, factors), [(self.from_dense(g), k) for g, k in factors]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [(self.from_dense(g), k) for g, k in fact...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_trial_division : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4d6c60bf6b0663c2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 44ec35c1e087ba9d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_trial_division","kind":"method","src_hash":"b93d2e4235a6c034","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_trial_division(f, )","rhs":"dup_trial_division produces the expected output","over":{"base":"Any"},"name":"dup_trial_division_correct"},"guarantee":"dup_trial_division produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_trial_division_correct","statement":"Path(dup_trial_division(x), dup_trial_division produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d6c60bf6b0663c2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_trial_division","kind":"method","src_hash":"b93d2e4235a6c034","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_trial_division(f, factors)","rhs":"[(self.from_dense(g), k) for g, k in factors]","over":{"base":"Any"},"name":"dup_trial_division_correct"},"guarantee":"returns [(self.from_dense(g), k) for g, k in factors]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_trial_division_correct","statement":"Path(dup_trial_division(x), returns [(self.from_dense(g), k) for g, k in factors])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"44ec35c1e087ba9d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[(self.from_dense(g), k) for g, k in factors]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_trial_division(self, f, factors):
         factors = dup_trial_division(self.to_dense(f), list(map(self.to_dense, factors)), self.domain)
         return [ (self.from_dense(g), k) for g, k in factors ]
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_trial_division(f, ), dmp_trial_division produces the expected output) over Any ║
+# ║ Path(dmp_trial_division(f, factors), [(self.from_dense(g), k) for g, k in factors]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [(self.from_dense(g), k) for g, k in fact...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_trial_division : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4863d115e0d1b3cc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3fab0ec475cf8071  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_trial_division","kind":"method","src_hash":"6afcfe2411f606c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_trial_division(f, )","rhs":"dmp_trial_division produces the expected output","over":{"base":"Any"},"name":"dmp_trial_division_correct"},"guarantee":"dmp_trial_division produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_trial_division_correct","statement":"Path(dmp_trial_division(x), dmp_trial_division produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4863d115e0d1b3cc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_trial_division","kind":"method","src_hash":"6afcfe2411f606c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_trial_division(f, factors)","rhs":"[(self.from_dense(g), k) for g, k in factors]","over":{"base":"Any"},"name":"dmp_trial_division_correct"},"guarantee":"returns [(self.from_dense(g), k) for g, k in factors]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_trial_division_correct","statement":"Path(dmp_trial_division(x), returns [(self.from_dense(g), k) for g, k in factors])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3fab0ec475cf8071","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[(self.from_dense(g), k) for g, k in factors]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_trial_division(self, f, factors):
         factors = dmp_trial_division(self.to_dense(f), list(map(self.to_dense, factors)), self.ngens-1, self.domain)
         return [ (self.from_dense(g), k) for g, k in factors ]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_zz_mignotte_bound(f), dup_zz_mignotte_bound produces the expected output) over Any ║
+# ║ Path(dup_zz_mignotte_bound(f), dup_zz_mignotte_bound(self.to_dense(f), self.domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dup_zz_mignotte_bound(self.to_dense(f), s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_zz_mignotte_bound : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ab25c2a311832eb9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_zz_mignotte_bound","kind":"method","src_hash":"b272d48e82dc0e7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_mignotte_bound(f)","rhs":"dup_zz_mignotte_bound produces the expected output","over":{"base":"Any"},"name":"dup_zz_mignotte_bound_correct"},"guarantee":"dup_zz_mignotte_bound produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ab25c2a311832eb9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_zz_mignotte_bound","kind":"method","src_hash":"b272d48e82dc0e7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_mignotte_bound(f)","rhs":"dup_zz_mignotte_bound(self.to_dense(f), self.domain)","over":{"base":"Any"},"name":"dup_zz_mignotte_bound_correct"},"guarantee":"returns dup_zz_mignotte_bound(self.to_dense(f), self.domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ab25c2a311832eb9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dup_zz_mignotte_bound(self.to_dense(f), self.domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_zz_mignotte_bound(self, f):
         return dup_zz_mignotte_bound(self.to_dense(f), self.domain)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_zz_mignotte_bound(f), dmp_zz_mignotte_bound produces the expected output) over Any ║
+# ║ Path(dmp_zz_mignotte_bound(f), dmp_zz_mignotte_bound(self.to_dense(f), self.ngens - 1, self.domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dmp_zz_mignotte_bound(self.to_dense(f), s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_zz_mignotte_bound : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6a3226a9da254379           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_zz_mignotte_bound","kind":"method","src_hash":"89a08c3ab56beda4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_mignotte_bound(f)","rhs":"dmp_zz_mignotte_bound produces the expected output","over":{"base":"Any"},"name":"dmp_zz_mignotte_bound_correct"},"guarantee":"dmp_zz_mignotte_bound produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a3226a9da254379"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_zz_mignotte_bound","kind":"method","src_hash":"89a08c3ab56beda4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_mignotte_bound(f)","rhs":"dmp_zz_mignotte_bound(self.to_dense(f), self.ngens - 1, self.domain)","over":{"base":"Any"},"name":"dmp_zz_mignotte_bound_correct"},"guarantee":"returns dmp_zz_mignotte_bound(self.to_dense(f), self.ngens - 1, self.domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a3226a9da254379","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dmp_zz_mignotte_bound(self.to_dense(f), self.ngens - 1, self.domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_zz_mignotte_bound(self, f):
         return dmp_zz_mignotte_bound(self.to_dense(f), self.ngens-1, self.domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_zz_hensel_step(m, ), id) over Any                 ║
+# ║ Path(dup_zz_hensel_step(m, f, g), id) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.from_dense(G), self.from_dense(H), ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_zz_hensel_step : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | eb80256890ac0793   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_zz_hensel_step","kind":"method","src_hash":"3c48e3a88446a1af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_hensel_step(m, )","rhs":"dup_zz_hensel_step produces the expected output","over":{"base":"Any"},"name":"dup_zz_hensel_step_correct","kind":"composition"},"guarantee":"dup_zz_hensel_step produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb80256890ac0793"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_zz_hensel_step","kind":"method","src_hash":"3c48e3a88446a1af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_hensel_step(m, f, g)","rhs":"(self.from_dense(G), self.from_dense(H), self.from_dense(S), self.from_dense(T))","over":{"base":"Any"},"name":"dup_zz_hensel_step_correct","kind":"composition"},"guarantee":"returns (self.from_dense(G), self.from_dense(H), self.from_dense(S), self.from_dense(T))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb80256890ac0793","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.from_dense(G), self.from_dense(H), self.from_dense(S), self.from_dense(T))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_zz_hensel_step(self, m, f, g, h, s, t):
         D = self.to_dense
         G, H, S, T = dup_zz_hensel_step(m, D(f), D(g), D(h), D(s), D(t), self.domain)
         return (self.from_dense(G), self.from_dense(H), self.from_dense(S), self.from_dense(T))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_zz_hensel_lift(p, ), id) over Any                 ║
+# ║ Path(dup_zz_hensel_lift(p, f, f_list), id) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  list(map(self.from_dense, polys))              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_zz_hensel_lift : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 8d1c7aa045c783c2   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_zz_hensel_lift","kind":"method","src_hash":"1bab7bf49045d29a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_hensel_lift(p, )","rhs":"dup_zz_hensel_lift produces the expected output","over":{"base":"Any"},"name":"dup_zz_hensel_lift_correct","kind":"composition"},"guarantee":"dup_zz_hensel_lift produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d1c7aa045c783c2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_zz_hensel_lift","kind":"method","src_hash":"1bab7bf49045d29a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_hensel_lift(p, f, f_list)","rhs":"list(map(self.from_dense, polys))","over":{"base":"Any"},"name":"dup_zz_hensel_lift_correct","kind":"composition"},"guarantee":"returns list(map(self.from_dense, polys))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d1c7aa045c783c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"list(map(self.from_dense, polys))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_zz_hensel_lift(self, p, f, f_list, l):
         D = self.to_dense
         polys = dup_zz_hensel_lift(p, D(f), list(map(D, f_list)), l, self.domain)
         return list(map(self.from_dense, polys))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_zz_zassenhaus(f), dup_zz_zassenhaus produces the expected output) over Any ║
+# ║ Path(dup_zz_zassenhaus(f), [(self.from_dense(g), k) for g, k in factors]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [(self.from_dense(g), k) for g, k in fact...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_zz_zassenhaus : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a8e299ad89cdc59  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0f87ac1d985d54c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_zz_zassenhaus","kind":"method","src_hash":"a12feee0460bf262","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_zassenhaus(f)","rhs":"dup_zz_zassenhaus produces the expected output","over":{"base":"Any"},"name":"dup_zz_zassenhaus_correct"},"guarantee":"dup_zz_zassenhaus produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_zz_zassenhaus_correct","statement":"Path(dup_zz_zassenhaus(x), dup_zz_zassenhaus produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a8e299ad89cdc59"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_zz_zassenhaus","kind":"method","src_hash":"a12feee0460bf262","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_zassenhaus(f)","rhs":"[(self.from_dense(g), k) for g, k in factors]","over":{"base":"Any"},"name":"dup_zz_zassenhaus_correct"},"guarantee":"returns [(self.from_dense(g), k) for g, k in factors]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_zz_zassenhaus_correct","statement":"Path(dup_zz_zassenhaus(x), returns [(self.from_dense(g), k) for g, k in factors])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f87ac1d985d54c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[(self.from_dense(g), k) for g, k in factors]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_zz_zassenhaus(self, f):
         factors = dup_zz_zassenhaus(self.to_dense(f), self.domain)
         return [ (self.from_dense(g), k) for g, k in factors ]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_zz_irreducible_p(f), dup_zz_irreducible_p produces the expected output) over Any ║
+# ║ Path(dup_zz_irreducible_p(f), dup_zz_irreducible_p(self.to_dense(f), self.domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dup_zz_irreducible_p(self.to_dense(f), se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_zz_irreducible_p : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 56556fd8652c4fe4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_zz_irreducible_p","kind":"method","src_hash":"e70e928ab2379f3c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_irreducible_p(f)","rhs":"dup_zz_irreducible_p produces the expected output","over":{"base":"Any"},"name":"dup_zz_irreducible_p_correct"},"guarantee":"dup_zz_irreducible_p produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"56556fd8652c4fe4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_zz_irreducible_p","kind":"method","src_hash":"e70e928ab2379f3c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_irreducible_p(f)","rhs":"dup_zz_irreducible_p(self.to_dense(f), self.domain)","over":{"base":"Any"},"name":"dup_zz_irreducible_p_correct"},"guarantee":"returns dup_zz_irreducible_p(self.to_dense(f), self.domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"56556fd8652c4fe4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dup_zz_irreducible_p(self.to_dense(f), self.domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_zz_irreducible_p(self, f):
         return dup_zz_irreducible_p(self.to_dense(f), self.domain)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_cyclotomic_p(f, ), dup_cyclotomic_p produces the expected output) over Any ║
+# ║ Path(dup_cyclotomic_p(f, irreducible), dup_cyclotomic_p(self.to_dense(f), self.domain, irreducible=irreducible)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dup_cyclotomic_p(self.to_dense(f), self.d...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_cyclotomic_p : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fc27ec96945e7771           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_cyclotomic_p","kind":"method","src_hash":"4c10df4f3f46febe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_cyclotomic_p(f, )","rhs":"dup_cyclotomic_p produces the expected output","over":{"base":"Any"},"name":"dup_cyclotomic_p_correct"},"guarantee":"dup_cyclotomic_p produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fc27ec96945e7771"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_cyclotomic_p","kind":"method","src_hash":"4c10df4f3f46febe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_cyclotomic_p(f, irreducible)","rhs":"dup_cyclotomic_p(self.to_dense(f), self.domain, irreducible=irreducible)","over":{"base":"Any"},"name":"dup_cyclotomic_p_correct"},"guarantee":"returns dup_cyclotomic_p(self.to_dense(f), self.domain, irreducible=irreducible)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fc27ec96945e7771","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dup_cyclotomic_p(self.to_dense(f), self.domain, irreducible=irreducible)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_cyclotomic_p(self, f, irreducible=False):
         return dup_cyclotomic_p(self.to_dense(f), self.domain, irreducible=irreducible)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_zz_cyclotomic_poly(n), dup_zz_cyclotomic_poly produces the expected output) over Any ║
+# ║ Path(dup_zz_cyclotomic_poly(n), self.from_dense(F)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(F)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_zz_cyclotomic_poly : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c95317053bafaff  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e21e67b0e30ebb8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_zz_cyclotomic_poly","kind":"method","src_hash":"a56e55ee41670a95","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_cyclotomic_poly(n)","rhs":"dup_zz_cyclotomic_poly produces the expected output","over":{"base":"Any"},"name":"dup_zz_cyclotomic_poly_correct"},"guarantee":"dup_zz_cyclotomic_poly produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_zz_cyclotomic_poly_correct","statement":"Path(dup_zz_cyclotomic_poly(x), dup_zz_cyclotomic_poly produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c95317053bafaff"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_zz_cyclotomic_poly","kind":"method","src_hash":"a56e55ee41670a95","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_cyclotomic_poly(n)","rhs":"self.from_dense(F)","over":{"base":"Any"},"name":"dup_zz_cyclotomic_poly_correct"},"guarantee":"returns self.from_dense(F)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_zz_cyclotomic_poly_correct","statement":"Path(dup_zz_cyclotomic_poly(x), returns self.from_dense(F))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e21e67b0e30ebb8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(F)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_zz_cyclotomic_poly(self, n):
         F = dup_zz_cyclotomic_poly(n, self.domain)
         return self.from_dense(F)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_zz_cyclotomic_factor(f), dup_zz_cyclotomic_factor produces the expected output) over Any ║
+# ║ Path(dup_zz_cyclotomic_factor(f), result == (result if result is None else list(map(self.from_dense, result))) and result == result or result == list(map(self.from_dense, result))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_zz_cyclotomic_factor : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (result if result is None else ...   ║
+# ║   ensures:  result == result or result == list(map(se...   ║
+# ║   fiber[zero_or_none]: result is None => result            ║
+# ║   fiber[zero_or_none]: not (result is None) => list(m...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_zz_cyclotomic_factor : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3529aaa05ded0c3a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f59bb464eee851e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_zz_cyclotomic_factor","kind":"method","src_hash":"3684d5e7ae4b3aae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_cyclotomic_factor(f)","rhs":"dup_zz_cyclotomic_factor produces the expected output","over":{"base":"Any"},"name":"dup_zz_cyclotomic_factor_correct"},"guarantee":"dup_zz_cyclotomic_factor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_zz_cyclotomic_factor_correct","statement":"Path(dup_zz_cyclotomic_factor(x), dup_zz_cyclotomic_factor produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3529aaa05ded0c3a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_zz_cyclotomic_factor","kind":"method","src_hash":"3684d5e7ae4b3aae","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (result if result is None else list(map(self.from_dense, result))) and result == result or result == list(map(self.from_dense, result))"},"spec":{"lhs":"dup_zz_cyclotomic_factor(f)","rhs":"result == (result if result is None else list(map(self.from_dense, result))) and result == result or result == list(map(self.from_dense, result))","over":{"base":"Any"},"name":"dup_zz_cyclotomic_factor_correct"},"guarantee":"result == (result if result is None else list(map(self.from_dense, result))); result == result or result == list(map(self.from_dense, result)); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_zz_cyclotomic_factor_correct","statement":"Path(dup_zz_cyclotomic_factor(x), result == (result if result is None else list(map(self.from_dense, result))); result == result or result == list(map(self.from_dense, result)); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f59bb464eee851e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (result if result is None else list(map(self.from_dense, result)))","result == result or result == list(map(self.from_dense, result))"],"fibers":[{"name":"zero_or_none","guard":"result is None","ensures":["result == result"],"decidability":"structural","returns_expr":"result"},{"name":"zero_or_none","guard":"not (result is None)","ensures":["result == list(map(self.from_dense, result))"],"decidability":"structural","returns_expr":"list(map(self.from_dense, result))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_zz_cyclotomic_factor(self, f):
         result = dup_zz_cyclotomic_factor(self.to_dense(f), self.domain)
         if result is None:
@@ -2728,16 +3810,22 @@ class IPolys:
 
     # E: List[ZZ], cs: ZZ, ct: ZZ
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_zz_wang_non_divisors(E, ), dmp_zz_wang_non_divisors produces the expected output) over Any ║
+# ║ Path(dmp_zz_wang_non_divisors(E, cs, ct), dmp_zz_wang_non_divisors(E, cs, ct, self.domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dmp_zz_wang_non_divisors(E, cs, ct, self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_zz_wang_non_divisors : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9e4f487f239f1fa3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_zz_wang_non_divisors","kind":"method","src_hash":"969af7fa3c717281","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_wang_non_divisors(E, )","rhs":"dmp_zz_wang_non_divisors produces the expected output","over":{"base":"Any"},"name":"dmp_zz_wang_non_divisors_correct"},"guarantee":"dmp_zz_wang_non_divisors produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9e4f487f239f1fa3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_zz_wang_non_divisors","kind":"method","src_hash":"969af7fa3c717281","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_wang_non_divisors(E, cs, ct)","rhs":"dmp_zz_wang_non_divisors(E, cs, ct, self.domain)","over":{"base":"Any"},"name":"dmp_zz_wang_non_divisors_correct"},"guarantee":"returns dmp_zz_wang_non_divisors(E, cs, ct, self.domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9e4f487f239f1fa3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dmp_zz_wang_non_divisors(E, cs, ct, self.domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_zz_wang_non_divisors(self, E, cs, ct):
         return dmp_zz_wang_non_divisors(E, cs, ct, self.domain)
 
@@ -2747,16 +3835,22 @@ class IPolys:
 
     # f: Poly, T: List[(Poly, int)], cs: ZZ, E: List[ZZ], H: List[Poly], A: List[ZZ]
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_zz_wang_lead_coeffs(f, ), id) over Any            ║
+# ║ Path(dmp_zz_wang_lead_coeffs(f, T, cs), id) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.from_dense(f), list(map(uv.from_den...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_zz_wang_lead_coeffs : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 8a49236c2f8f0c9f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_zz_wang_lead_coeffs","kind":"method","src_hash":"0ad19d141b4d2e9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_wang_lead_coeffs(f, )","rhs":"dmp_zz_wang_lead_coeffs produces the expected output","over":{"base":"Any"},"name":"dmp_zz_wang_lead_coeffs_correct","kind":"composition"},"guarantee":"dmp_zz_wang_lead_coeffs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"},{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a49236c2f8f0c9f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_zz_wang_lead_coeffs","kind":"method","src_hash":"0ad19d141b4d2e9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_wang_lead_coeffs(f, T, cs)","rhs":"(self.from_dense(f), list(map(uv.from_dense, HH)), list(map(mv.from_dense, CC)))","over":{"base":"Any"},"name":"dmp_zz_wang_lead_coeffs_correct","kind":"composition"},"guarantee":"returns (self.from_dense(f), list(map(uv.from_dense, HH)), list(map(mv.from_dense, CC)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"},{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a49236c2f8f0c9f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.from_dense(f), list(map(uv.from_dense, HH)), list(map(mv.from_dense, CC)))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_zz_wang_lead_coeffs(self, f, T, cs, E, H, A):
         mv = self[1:]
         T = [ (mv.to_dense(t), k) for t, k in T ]
@@ -2767,48 +3861,66 @@ class IPolys:
 
     # f: List[Poly], m: int, p: ZZ
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_zz_diophantine(F, ), id) over Any                 ║
+# ║ Path(dup_zz_diophantine(F, m, p), id) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  list(map(self.from_dense, result))             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_zz_diophantine : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c01179ef922bca53   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_zz_diophantine","kind":"method","src_hash":"018333b6e758cc0b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_diophantine(F, )","rhs":"dup_zz_diophantine produces the expected output","over":{"base":"Any"},"name":"dup_zz_diophantine_correct","kind":"composition"},"guarantee":"dup_zz_diophantine produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c01179ef922bca53"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_zz_diophantine","kind":"method","src_hash":"018333b6e758cc0b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_diophantine(F, m, p)","rhs":"list(map(self.from_dense, result))","over":{"base":"Any"},"name":"dup_zz_diophantine_correct","kind":"composition"},"guarantee":"returns list(map(self.from_dense, result))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c01179ef922bca53","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"list(map(self.from_dense, result))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_zz_diophantine(self, F, m, p):
         result = dup_zz_diophantine(list(map(self.to_dense, F)), m, p, self.domain)
         return list(map(self.from_dense, result))
 
     # f: List[Poly], c: List[Poly], A: List[ZZ], d: int, p: ZZ
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_zz_diophantine(F, ), id) over Any                 ║
+# ║ Path(dmp_zz_diophantine(F, c, A), id) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  list(map(self.from_dense, result))             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_zz_diophantine : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | bcaa3844fcb4fe47   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_zz_diophantine","kind":"method","src_hash":"d8e765c190d80867","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_diophantine(F, )","rhs":"dmp_zz_diophantine produces the expected output","over":{"base":"Any"},"name":"dmp_zz_diophantine_correct","kind":"composition"},"guarantee":"dmp_zz_diophantine produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bcaa3844fcb4fe47"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_zz_diophantine","kind":"method","src_hash":"d8e765c190d80867","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_diophantine(F, c, A)","rhs":"list(map(self.from_dense, result))","over":{"base":"Any"},"name":"dmp_zz_diophantine_correct","kind":"composition"},"guarantee":"returns list(map(self.from_dense, result))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bcaa3844fcb4fe47","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"list(map(self.from_dense, result))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_zz_diophantine(self, F, c, A, d, p):
         result = dmp_zz_diophantine(list(map(self.to_dense, F)), self.to_dense(c), A, d, p, self.ngens-1, self.domain)
         return list(map(self.from_dense, result))
 
     # f: Poly, H: List[Poly], LC: List[Poly], A: List[ZZ], p: ZZ
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_zz_wang_hensel_lifting(f, ), id) over Any         ║
+# ║ Path(dmp_zz_wang_hensel_lifting(f, H, LC), id) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  list(map(self.from_dense, result))             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_zz_wang_hensel_lifting : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 862c5c43d186cb31   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_zz_wang_hensel_lifting","kind":"method","src_hash":"e750c0d44a09827c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_wang_hensel_lifting(f, )","rhs":"dmp_zz_wang_hensel_lifting produces the expected output","over":{"base":"Any"},"name":"dmp_zz_wang_hensel_lifting_correct","kind":"composition"},"guarantee":"dmp_zz_wang_hensel_lifting produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"862c5c43d186cb31"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_zz_wang_hensel_lifting","kind":"method","src_hash":"e750c0d44a09827c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_wang_hensel_lifting(f, H, LC)","rhs":"list(map(self.from_dense, result))","over":{"base":"Any"},"name":"dmp_zz_wang_hensel_lifting_correct","kind":"composition"},"guarantee":"returns list(map(self.from_dense, result))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"862c5c43d186cb31","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"list(map(self.from_dense, result))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_zz_wang_hensel_lifting(self, f, H, LC, A, p):
         uv = self[:1]
         mv = self[1:]
@@ -2818,318 +3930,450 @@ class IPolys:
         return list(map(self.from_dense, result))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_zz_wang(f, ), dmp_zz_wang produces the expected output) over Any ║
+# ║ Path(dmp_zz_wang(f, mod, seed), [self.from_dense(g) for g in factors]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [self.from_dense(g) for g in factors]          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_zz_wang : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ff63d49838e7e01  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 236cbba644ec1029  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_zz_wang","kind":"method","src_hash":"2fa99121428044f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_wang(f, )","rhs":"dmp_zz_wang produces the expected output","over":{"base":"Any"},"name":"dmp_zz_wang_correct"},"guarantee":"dmp_zz_wang produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_zz_wang_correct","statement":"Path(dmp_zz_wang(x), dmp_zz_wang produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ff63d49838e7e01"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_zz_wang","kind":"method","src_hash":"2fa99121428044f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_wang(f, mod, seed)","rhs":"[self.from_dense(g) for g in factors]","over":{"base":"Any"},"name":"dmp_zz_wang_correct"},"guarantee":"returns [self.from_dense(g) for g in factors]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_zz_wang_correct","statement":"Path(dmp_zz_wang(x), returns [self.from_dense(g) for g in factors])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"236cbba644ec1029","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[self.from_dense(g) for g in factors]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_zz_wang(self, f, mod=None, seed=None):
         factors = dmp_zz_wang(self.to_dense(f), self.ngens-1, self.domain, mod=mod, seed=seed)
         return [ self.from_dense(g) for g in factors ]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_zz_factor_sqf(f), dup_zz_factor_sqf produces the expected output) over Any ║
+# ║ Path(dup_zz_factor_sqf(f), (coeff, [self.from_dense(g) for g in factors])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (coeff, [self.from_dense(g) for g in fact...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_zz_factor_sqf : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a986fb1cf3ea244  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c564e5fe290392b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_zz_factor_sqf","kind":"method","src_hash":"22bb289f67221e3c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_factor_sqf(f)","rhs":"dup_zz_factor_sqf produces the expected output","over":{"base":"Any"},"name":"dup_zz_factor_sqf_correct"},"guarantee":"dup_zz_factor_sqf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_zz_factor_sqf_correct","statement":"Path(dup_zz_factor_sqf(x), dup_zz_factor_sqf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a986fb1cf3ea244"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_zz_factor_sqf","kind":"method","src_hash":"22bb289f67221e3c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_factor_sqf(f)","rhs":"(coeff, [self.from_dense(g) for g in factors])","over":{"base":"Any"},"name":"dup_zz_factor_sqf_correct"},"guarantee":"returns (coeff, [self.from_dense(g) for g in factors])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_zz_factor_sqf_correct","statement":"Path(dup_zz_factor_sqf(x), returns (coeff, [self.from_dense(g) for g in factors]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c564e5fe290392b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(coeff, [self.from_dense(g) for g in factors])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_zz_factor_sqf(self, f):
         coeff, factors = dup_zz_factor_sqf(self.to_dense(f), self.domain)
         return (coeff, [ self.from_dense(g) for g in factors ])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_zz_factor(f), dup_zz_factor produces the expected output) over Any ║
+# ║ Path(dup_zz_factor(f), (coeff, [(self.from_dense(g), k) for g, k in factors])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (coeff, [(self.from_dense(g), k) for g, k...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_zz_factor : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e5d5f8f5e214ea2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da165ed766bf257c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_zz_factor","kind":"method","src_hash":"8979a43b0cc4e791","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_factor(f)","rhs":"dup_zz_factor produces the expected output","over":{"base":"Any"},"name":"dup_zz_factor_correct"},"guarantee":"dup_zz_factor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_zz_factor_correct","statement":"Path(dup_zz_factor(x), dup_zz_factor produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e5d5f8f5e214ea2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_zz_factor","kind":"method","src_hash":"8979a43b0cc4e791","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_factor(f)","rhs":"(coeff, [(self.from_dense(g), k) for g, k in factors])","over":{"base":"Any"},"name":"dup_zz_factor_correct"},"guarantee":"returns (coeff, [(self.from_dense(g), k) for g, k in factors])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_zz_factor_correct","statement":"Path(dup_zz_factor(x), returns (coeff, [(self.from_dense(g), k) for g, k in factors]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da165ed766bf257c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(coeff, [(self.from_dense(g), k) for g, k in factors])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_zz_factor(self, f):
         coeff, factors = dup_zz_factor(self.to_dense(f), self.domain)
         return (coeff, [ (self.from_dense(g), k) for g, k in factors ])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_zz_factor(f), dmp_zz_factor produces the expected output) over Any ║
+# ║ Path(dmp_zz_factor(f), (coeff, [(self.from_dense(g), k) for g, k in factors])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (coeff, [(self.from_dense(g), k) for g, k...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_zz_factor : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f8bc7742b1d93fb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 66ad65a353688ece  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_zz_factor","kind":"method","src_hash":"d7a6627ce940f886","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_factor(f)","rhs":"dmp_zz_factor produces the expected output","over":{"base":"Any"},"name":"dmp_zz_factor_correct"},"guarantee":"dmp_zz_factor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_zz_factor_correct","statement":"Path(dmp_zz_factor(x), dmp_zz_factor produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f8bc7742b1d93fb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_zz_factor","kind":"method","src_hash":"d7a6627ce940f886","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_factor(f)","rhs":"(coeff, [(self.from_dense(g), k) for g, k in factors])","over":{"base":"Any"},"name":"dmp_zz_factor_correct"},"guarantee":"returns (coeff, [(self.from_dense(g), k) for g, k in factors])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_zz_factor_correct","statement":"Path(dmp_zz_factor(x), returns (coeff, [(self.from_dense(g), k) for g, k in factors]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66ad65a353688ece","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(coeff, [(self.from_dense(g), k) for g, k in factors])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_zz_factor(self, f):
         coeff, factors = dmp_zz_factor(self.to_dense(f), self.ngens-1, self.domain)
         return (coeff, [ (self.from_dense(g), k) for g, k in factors ])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_qq_i_factor(f), dup_qq_i_factor produces the expected output) over Any ║
+# ║ Path(dup_qq_i_factor(f), (coeff, [(self.from_dense(g), k) for g, k in factors])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (coeff, [(self.from_dense(g), k) for g, k...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_qq_i_factor : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 399eaa0f04700d09  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4701d8620c2392b6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_qq_i_factor","kind":"method","src_hash":"97db256e9ffb42d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_qq_i_factor(f)","rhs":"dup_qq_i_factor produces the expected output","over":{"base":"Any"},"name":"dup_qq_i_factor_correct"},"guarantee":"dup_qq_i_factor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_qq_i_factor_correct","statement":"Path(dup_qq_i_factor(x), dup_qq_i_factor produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"399eaa0f04700d09"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_qq_i_factor","kind":"method","src_hash":"97db256e9ffb42d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_qq_i_factor(f)","rhs":"(coeff, [(self.from_dense(g), k) for g, k in factors])","over":{"base":"Any"},"name":"dup_qq_i_factor_correct"},"guarantee":"returns (coeff, [(self.from_dense(g), k) for g, k in factors])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_qq_i_factor_correct","statement":"Path(dup_qq_i_factor(x), returns (coeff, [(self.from_dense(g), k) for g, k in factors]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4701d8620c2392b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(coeff, [(self.from_dense(g), k) for g, k in factors])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_qq_i_factor(self, f):
         coeff, factors = dup_qq_i_factor(self.to_dense(f), self.domain)
         return (coeff, [ (self.from_dense(g), k) for g, k in factors ])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_qq_i_factor(f), dmp_qq_i_factor produces the expected output) over Any ║
+# ║ Path(dmp_qq_i_factor(f), (coeff, [(self.from_dense(g), k) for g, k in factors])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (coeff, [(self.from_dense(g), k) for g, k...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_qq_i_factor : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb11c97beba8cbee  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e25a88268b6e090  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_qq_i_factor","kind":"method","src_hash":"b3dca396a0b4c5fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_qq_i_factor(f)","rhs":"dmp_qq_i_factor produces the expected output","over":{"base":"Any"},"name":"dmp_qq_i_factor_correct"},"guarantee":"dmp_qq_i_factor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_qq_i_factor_correct","statement":"Path(dmp_qq_i_factor(x), dmp_qq_i_factor produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb11c97beba8cbee"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_qq_i_factor","kind":"method","src_hash":"b3dca396a0b4c5fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_qq_i_factor(f)","rhs":"(coeff, [(self.from_dense(g), k) for g, k in factors])","over":{"base":"Any"},"name":"dmp_qq_i_factor_correct"},"guarantee":"returns (coeff, [(self.from_dense(g), k) for g, k in factors])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_qq_i_factor_correct","statement":"Path(dmp_qq_i_factor(x), returns (coeff, [(self.from_dense(g), k) for g, k in factors]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e25a88268b6e090","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(coeff, [(self.from_dense(g), k) for g, k in factors])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_qq_i_factor(self, f):
         coeff, factors = dmp_qq_i_factor(self.to_dense(f), self.ngens-1, self.domain)
         return (coeff, [ (self.from_dense(g), k) for g, k in factors ])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_zz_i_factor(f), dup_zz_i_factor produces the expected output) over Any ║
+# ║ Path(dup_zz_i_factor(f), (coeff, [(self.from_dense(g), k) for g, k in factors])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (coeff, [(self.from_dense(g), k) for g, k...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_zz_i_factor : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3fc77062dfb34000  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2812ab913978c35  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_zz_i_factor","kind":"method","src_hash":"22f6558e9fd9c086","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_i_factor(f)","rhs":"dup_zz_i_factor produces the expected output","over":{"base":"Any"},"name":"dup_zz_i_factor_correct"},"guarantee":"dup_zz_i_factor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_zz_i_factor_correct","statement":"Path(dup_zz_i_factor(x), dup_zz_i_factor produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3fc77062dfb34000"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_zz_i_factor","kind":"method","src_hash":"22f6558e9fd9c086","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_i_factor(f)","rhs":"(coeff, [(self.from_dense(g), k) for g, k in factors])","over":{"base":"Any"},"name":"dup_zz_i_factor_correct"},"guarantee":"returns (coeff, [(self.from_dense(g), k) for g, k in factors])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_zz_i_factor_correct","statement":"Path(dup_zz_i_factor(x), returns (coeff, [(self.from_dense(g), k) for g, k in factors]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2812ab913978c35","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(coeff, [(self.from_dense(g), k) for g, k in factors])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_zz_i_factor(self, f):
         coeff, factors = dup_zz_i_factor(self.to_dense(f), self.domain)
         return (coeff, [ (self.from_dense(g), k) for g, k in factors ])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_zz_i_factor(f), dmp_zz_i_factor produces the expected output) over Any ║
+# ║ Path(dmp_zz_i_factor(f), (coeff, [(self.from_dense(g), k) for g, k in factors])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (coeff, [(self.from_dense(g), k) for g, k...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_zz_i_factor : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99910ffd740ad357  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc5797ba5fb37e78  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_zz_i_factor","kind":"method","src_hash":"714e46cf963b3419","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_i_factor(f)","rhs":"dmp_zz_i_factor produces the expected output","over":{"base":"Any"},"name":"dmp_zz_i_factor_correct"},"guarantee":"dmp_zz_i_factor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_zz_i_factor_correct","statement":"Path(dmp_zz_i_factor(x), dmp_zz_i_factor produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99910ffd740ad357"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_zz_i_factor","kind":"method","src_hash":"714e46cf963b3419","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_i_factor(f)","rhs":"(coeff, [(self.from_dense(g), k) for g, k in factors])","over":{"base":"Any"},"name":"dmp_zz_i_factor_correct"},"guarantee":"returns (coeff, [(self.from_dense(g), k) for g, k in factors])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_zz_i_factor_correct","statement":"Path(dmp_zz_i_factor(x), returns (coeff, [(self.from_dense(g), k) for g, k in factors]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc5797ba5fb37e78","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(coeff, [(self.from_dense(g), k) for g, k in factors])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_zz_i_factor(self, f):
         coeff, factors = dmp_zz_i_factor(self.to_dense(f), self.ngens-1, self.domain)
         return (coeff, [ (self.from_dense(g), k) for g, k in factors ])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_ext_factor(f), dup_ext_factor produces the expected output) over Any ║
+# ║ Path(dup_ext_factor(f), (coeff, [(self.from_dense(g), k) for g, k in factors])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (coeff, [(self.from_dense(g), k) for g, k...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_ext_factor : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4320b55cfc3133fa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e62eae9653da195  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_ext_factor","kind":"method","src_hash":"13559a2bf842884d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_ext_factor(f)","rhs":"dup_ext_factor produces the expected output","over":{"base":"Any"},"name":"dup_ext_factor_correct"},"guarantee":"dup_ext_factor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_ext_factor_correct","statement":"Path(dup_ext_factor(x), dup_ext_factor produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4320b55cfc3133fa"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_ext_factor","kind":"method","src_hash":"13559a2bf842884d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_ext_factor(f)","rhs":"(coeff, [(self.from_dense(g), k) for g, k in factors])","over":{"base":"Any"},"name":"dup_ext_factor_correct"},"guarantee":"returns (coeff, [(self.from_dense(g), k) for g, k in factors])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_ext_factor_correct","statement":"Path(dup_ext_factor(x), returns (coeff, [(self.from_dense(g), k) for g, k in factors]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e62eae9653da195","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(coeff, [(self.from_dense(g), k) for g, k in factors])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_ext_factor(self, f):
         coeff, factors = dup_ext_factor(self.to_dense(f), self.domain)
         return (coeff, [ (self.from_dense(g), k) for g, k in factors ])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_ext_factor(f), dmp_ext_factor produces the expected output) over Any ║
+# ║ Path(dmp_ext_factor(f), (coeff, [(self.from_dense(g), k) for g, k in factors])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (coeff, [(self.from_dense(g), k) for g, k...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_ext_factor : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 447b388a2f830491  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 85ed9101c5775fca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_ext_factor","kind":"method","src_hash":"927f07517ac9475c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_ext_factor(f)","rhs":"dmp_ext_factor produces the expected output","over":{"base":"Any"},"name":"dmp_ext_factor_correct"},"guarantee":"dmp_ext_factor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_ext_factor_correct","statement":"Path(dmp_ext_factor(x), dmp_ext_factor produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"447b388a2f830491"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_ext_factor","kind":"method","src_hash":"927f07517ac9475c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_ext_factor(f)","rhs":"(coeff, [(self.from_dense(g), k) for g, k in factors])","over":{"base":"Any"},"name":"dmp_ext_factor_correct"},"guarantee":"returns (coeff, [(self.from_dense(g), k) for g, k in factors])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_ext_factor_correct","statement":"Path(dmp_ext_factor(x), returns (coeff, [(self.from_dense(g), k) for g, k in factors]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85ed9101c5775fca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(coeff, [(self.from_dense(g), k) for g, k in factors])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_ext_factor(self, f):
         coeff, factors = dmp_ext_factor(self.to_dense(f), self.ngens-1, self.domain)
         return (coeff, [ (self.from_dense(g), k) for g, k in factors ])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_gf_factor(f), dup_gf_factor produces the expected output) over Any ║
+# ║ Path(dup_gf_factor(f), (coeff, [(self.from_dense(g), k) for g, k in factors])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (coeff, [(self.from_dense(g), k) for g, k...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_gf_factor : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81a9be97129f22fe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6340118a7bae228f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_gf_factor","kind":"method","src_hash":"968ae70923ceee81","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_gf_factor(f)","rhs":"dup_gf_factor produces the expected output","over":{"base":"Any"},"name":"dup_gf_factor_correct"},"guarantee":"dup_gf_factor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_gf_factor_correct","statement":"Path(dup_gf_factor(x), dup_gf_factor produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81a9be97129f22fe"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_gf_factor","kind":"method","src_hash":"968ae70923ceee81","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_gf_factor(f)","rhs":"(coeff, [(self.from_dense(g), k) for g, k in factors])","over":{"base":"Any"},"name":"dup_gf_factor_correct"},"guarantee":"returns (coeff, [(self.from_dense(g), k) for g, k in factors])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_gf_factor_correct","statement":"Path(dup_gf_factor(x), returns (coeff, [(self.from_dense(g), k) for g, k in factors]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6340118a7bae228f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(coeff, [(self.from_dense(g), k) for g, k in factors])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_gf_factor(self, f):
         coeff, factors = dup_gf_factor(self.to_dense(f), self.domain)
         return (coeff, [ (self.from_dense(g), k) for g, k in factors ])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_gf_factor(f), dmp_gf_factor produces the expected output) over Any ║
+# ║ Path(dmp_gf_factor(f), (coeff, [(self.from_dense(g), k) for g, k in factors])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (coeff, [(self.from_dense(g), k) for g, k...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_gf_factor : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54210d19b1047f8f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83cba9a8133b5c7d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_gf_factor","kind":"method","src_hash":"78ead1cc6ad43655","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_gf_factor(f)","rhs":"dmp_gf_factor produces the expected output","over":{"base":"Any"},"name":"dmp_gf_factor_correct"},"guarantee":"dmp_gf_factor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_gf_factor_correct","statement":"Path(dmp_gf_factor(x), dmp_gf_factor produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54210d19b1047f8f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_gf_factor","kind":"method","src_hash":"78ead1cc6ad43655","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_gf_factor(f)","rhs":"(coeff, [(self.from_dense(g), k) for g, k in factors])","over":{"base":"Any"},"name":"dmp_gf_factor_correct"},"guarantee":"returns (coeff, [(self.from_dense(g), k) for g, k in factors])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_gf_factor_correct","statement":"Path(dmp_gf_factor(x), returns (coeff, [(self.from_dense(g), k) for g, k in factors]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83cba9a8133b5c7d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(coeff, [(self.from_dense(g), k) for g, k in factors])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_gf_factor(self, f):
         coeff, factors = dmp_gf_factor(self.to_dense(f), self.ngens-1, self.domain)
         return (coeff, [ (self.from_dense(g), k) for g, k in factors ])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_factor_list(f), dup_factor_list produces the expected output) over Any ║
+# ║ Path(dup_factor_list(f), (coeff, [(self.from_dense(g), k) for g, k in factors])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (coeff, [(self.from_dense(g), k) for g, k...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_factor_list : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed08e3acc06408c5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d7d033c3df48e0b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_factor_list","kind":"method","src_hash":"0957acc2763fdcc4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_factor_list(f)","rhs":"dup_factor_list produces the expected output","over":{"base":"Any"},"name":"dup_factor_list_correct"},"guarantee":"dup_factor_list produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_factor_list_correct","statement":"Path(dup_factor_list(x), dup_factor_list produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed08e3acc06408c5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_factor_list","kind":"method","src_hash":"0957acc2763fdcc4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_factor_list(f)","rhs":"(coeff, [(self.from_dense(g), k) for g, k in factors])","over":{"base":"Any"},"name":"dup_factor_list_correct"},"guarantee":"returns (coeff, [(self.from_dense(g), k) for g, k in factors])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_factor_list_correct","statement":"Path(dup_factor_list(x), returns (coeff, [(self.from_dense(g), k) for g, k in factors]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d7d033c3df48e0b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(coeff, [(self.from_dense(g), k) for g, k in factors])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_factor_list(self, f):
         coeff, factors = dup_factor_list(self.to_dense(f), self.domain)
         return (coeff, [ (self.from_dense(g), k) for g, k in factors ])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_factor_list_include(f), dup_factor_list_include produces the expected output) over Any ║
+# ║ Path(dup_factor_list_include(f), [(self.from_dense(g), k) for g, k in factors]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [(self.from_dense(g), k) for g, k in fact...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_factor_list_include : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eee2491a02725066  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | abd673413b181f79  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_factor_list_include","kind":"method","src_hash":"44e18e53858bf1d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_factor_list_include(f)","rhs":"dup_factor_list_include produces the expected output","over":{"base":"Any"},"name":"dup_factor_list_include_correct"},"guarantee":"dup_factor_list_include produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_factor_list_include_correct","statement":"Path(dup_factor_list_include(x), dup_factor_list_include produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eee2491a02725066"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_factor_list_include","kind":"method","src_hash":"44e18e53858bf1d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_factor_list_include(f)","rhs":"[(self.from_dense(g), k) for g, k in factors]","over":{"base":"Any"},"name":"dup_factor_list_include_correct"},"guarantee":"returns [(self.from_dense(g), k) for g, k in factors]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_factor_list_include_correct","statement":"Path(dup_factor_list_include(x), returns [(self.from_dense(g), k) for g, k in factors])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"abd673413b181f79","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[(self.from_dense(g), k) for g, k in factors]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_factor_list_include(self, f):
         factors = dup_factor_list_include(self.to_dense(f), self.domain)
         return [ (self.from_dense(g), k) for g, k in factors ]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_factor_list(f), dmp_factor_list produces the expected output) over Any ║
+# ║ Path(dmp_factor_list(f), (coeff, [(self.from_dense(g), k) for g, k in factors])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (coeff, [(self.from_dense(g), k) for g, k...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_factor_list : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99705aa6e2b82c2d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 351a51a67c6ac1fd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_factor_list","kind":"method","src_hash":"8c905d7feba7f904","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_factor_list(f)","rhs":"dmp_factor_list produces the expected output","over":{"base":"Any"},"name":"dmp_factor_list_correct"},"guarantee":"dmp_factor_list produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_factor_list_correct","statement":"Path(dmp_factor_list(x), dmp_factor_list produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99705aa6e2b82c2d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_factor_list","kind":"method","src_hash":"8c905d7feba7f904","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_factor_list(f)","rhs":"(coeff, [(self.from_dense(g), k) for g, k in factors])","over":{"base":"Any"},"name":"dmp_factor_list_correct"},"guarantee":"returns (coeff, [(self.from_dense(g), k) for g, k in factors])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_factor_list_correct","statement":"Path(dmp_factor_list(x), returns (coeff, [(self.from_dense(g), k) for g, k in factors]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"351a51a67c6ac1fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(coeff, [(self.from_dense(g), k) for g, k in factors])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_factor_list(self, f):
         coeff, factors = dmp_factor_list(self.to_dense(f), self.ngens-1, self.domain)
         return (coeff, [ (self.from_dense(g), k) for g, k in factors ])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_factor_list_include(f), dmp_factor_list_include produces the expected output) over Any ║
+# ║ Path(dmp_factor_list_include(f), [(self.from_dense(g), k) for g, k in factors]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [(self.from_dense(g), k) for g, k in fact...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_factor_list_include : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 57e0fb4c7e661b2a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 407b1a2a55b4af7b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_factor_list_include","kind":"method","src_hash":"532d9d237b5aa479","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_factor_list_include(f)","rhs":"dmp_factor_list_include produces the expected output","over":{"base":"Any"},"name":"dmp_factor_list_include_correct"},"guarantee":"dmp_factor_list_include produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_factor_list_include_correct","statement":"Path(dmp_factor_list_include(x), dmp_factor_list_include produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57e0fb4c7e661b2a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_factor_list_include","kind":"method","src_hash":"532d9d237b5aa479","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_factor_list_include(f)","rhs":"[(self.from_dense(g), k) for g, k in factors]","over":{"base":"Any"},"name":"dmp_factor_list_include_correct"},"guarantee":"returns [(self.from_dense(g), k) for g, k in factors]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_factor_list_include_correct","statement":"Path(dmp_factor_list_include(x), returns [(self.from_dense(g), k) for g, k in factors])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"407b1a2a55b4af7b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[(self.from_dense(g), k) for g, k in factors]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_factor_list_include(self, f):
         factors = dmp_factor_list_include(self.to_dense(f), self.ngens-1, self.domain)
         return [ (self.from_dense(g), k) for g, k in factors ]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_irreducible_p(f), dup_irreducible_p produces the expected output) over Any ║
+# ║ Path(dup_irreducible_p(f), dup_irreducible_p(self.to_dense(f), self.domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dup_irreducible_p(self.to_dense(f), self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_irreducible_p : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7f861309cae02bc4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_irreducible_p","kind":"method","src_hash":"c0844e5fab109e19","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_irreducible_p(f)","rhs":"dup_irreducible_p produces the expected output","over":{"base":"Any"},"name":"dup_irreducible_p_correct"},"guarantee":"dup_irreducible_p produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7f861309cae02bc4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_irreducible_p","kind":"method","src_hash":"c0844e5fab109e19","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_irreducible_p(f)","rhs":"dup_irreducible_p(self.to_dense(f), self.domain)","over":{"base":"Any"},"name":"dup_irreducible_p_correct"},"guarantee":"returns dup_irreducible_p(self.to_dense(f), self.domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7f861309cae02bc4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dup_irreducible_p(self.to_dense(f), self.domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_irreducible_p(self, f):
         return dup_irreducible_p(self.to_dense(f), self.domain)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_irreducible_p(f), dmp_irreducible_p produces the expected output) over Any ║
+# ║ Path(dmp_irreducible_p(f), dmp_irreducible_p(self.to_dense(f), self.ngens - 1, self.domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dmp_irreducible_p(self.to_dense(f), self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_irreducible_p : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fdfc33a915fe8460           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_irreducible_p","kind":"method","src_hash":"8fd652e366c7fd3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_irreducible_p(f)","rhs":"dmp_irreducible_p produces the expected output","over":{"base":"Any"},"name":"dmp_irreducible_p_correct"},"guarantee":"dmp_irreducible_p produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fdfc33a915fe8460"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_irreducible_p","kind":"method","src_hash":"8fd652e366c7fd3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_irreducible_p(f)","rhs":"dmp_irreducible_p(self.to_dense(f), self.ngens - 1, self.domain)","over":{"base":"Any"},"name":"dmp_irreducible_p_correct"},"guarantee":"returns dmp_irreducible_p(self.to_dense(f), self.ngens - 1, self.domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fdfc33a915fe8460","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dmp_irreducible_p(self.to_dense(f), self.ngens - 1, self.domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_irreducible_p(self, f):
         return dmp_irreducible_p(self.to_dense(f), self.ngens-1, self.domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(dup_sturm(f), id) over Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  list(map(self.from_dense, seq))                ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ dup_sturm : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 91e30d0573ed0367   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_sturm","kind":"method","src_hash":"bed042d2c7195129","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_sturm(f)","rhs":"dup_sturm produces the expected output","over":{"base":"Any"},"name":"dup_sturm_correct","kind":"composition"},"guarantee":"dup_sturm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91e30d0573ed0367"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_sturm","kind":"method","src_hash":"bed042d2c7195129","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_sturm(f)","rhs":"list(map(self.from_dense, seq))","over":{"base":"Any"},"name":"dup_sturm_correct","kind":"composition"},"guarantee":"returns list(map(self.from_dense, seq))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91e30d0573ed0367","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"list(map(self.from_dense, seq))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_sturm(self, f):
         seq = dup_sturm(self.to_dense(f), self.domain)
         return list(map(self.from_dense, seq))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_sqf_p(f), dup_sqf_p produces the expected output) over Any ║
+# ║ Path(dup_sqf_p(f), dup_sqf_p(self.to_dense(f), self.domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dup_sqf_p(self.to_dense(f), self.domain)       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_sqf_p : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 06f053e808c2d64b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_sqf_p","kind":"method","src_hash":"6988761c80d38bad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_sqf_p(f)","rhs":"dup_sqf_p produces the expected output","over":{"base":"Any"},"name":"dup_sqf_p_correct"},"guarantee":"dup_sqf_p produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"06f053e808c2d64b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_sqf_p","kind":"method","src_hash":"6988761c80d38bad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_sqf_p(f)","rhs":"dup_sqf_p(self.to_dense(f), self.domain)","over":{"base":"Any"},"name":"dup_sqf_p_correct"},"guarantee":"returns dup_sqf_p(self.to_dense(f), self.domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"06f053e808c2d64b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dup_sqf_p(self.to_dense(f), self.domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_sqf_p(self, f):
         return dup_sqf_p(self.to_dense(f), self.domain)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_sqf_p(f), dmp_sqf_p produces the expected output) over Any ║
+# ║ Path(dmp_sqf_p(f), dmp_sqf_p(self.to_dense(f), self.ngens - 1, self.domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dmp_sqf_p(self.to_dense(f), self.ngens - ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_sqf_p : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f34b60df02d4cb68           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_sqf_p","kind":"method","src_hash":"c2aeadb63c808abe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_sqf_p(f)","rhs":"dmp_sqf_p produces the expected output","over":{"base":"Any"},"name":"dmp_sqf_p_correct"},"guarantee":"dmp_sqf_p produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f34b60df02d4cb68"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_sqf_p","kind":"method","src_hash":"c2aeadb63c808abe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_sqf_p(f)","rhs":"dmp_sqf_p(self.to_dense(f), self.ngens - 1, self.domain)","over":{"base":"Any"},"name":"dmp_sqf_p_correct"},"guarantee":"returns dmp_sqf_p(self.to_dense(f), self.ngens - 1, self.domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f34b60df02d4cb68","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dmp_sqf_p(self.to_dense(f), self.ngens - 1, self.domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_sqf_p(self, f):
         return dmp_sqf_p(self.to_dense(f), self.ngens-1, self.domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(dmp_norm(f), id) over Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.to_ground().from_dense(n)                 ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_norm : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b9445c2592c983dc   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_norm","kind":"method","src_hash":"4e1b132e7fb0cd33","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_norm(f)","rhs":"dmp_norm produces the expected output","over":{"base":"Any"},"name":"dmp_norm_correct","kind":"composition"},"guarantee":"dmp_norm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"to_ground","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9445c2592c983dc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_norm","kind":"method","src_hash":"4e1b132e7fb0cd33","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_norm(f)","rhs":"self.to_ground().from_dense(n)","over":{"base":"Any"},"name":"dmp_norm_correct","kind":"composition"},"guarantee":"returns self.to_ground().from_dense(n)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"to_ground","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9445c2592c983dc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.to_ground().from_dense(n)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.ngens","self.to_dense","self.to_ground"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_norm(self, f):
         n = dmp_norm(self.to_dense(f), self.ngens-1, self.domain)
         return self.to_ground().from_dense(n)
@@ -3137,1044 +4381,1506 @@ class IPolys:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(dup_sqf_norm(f), id) over Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (s, self.from_dense(F), self.to_ground()....   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ dup_sqf_norm : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 622efb23a09989f6   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_sqf_norm","kind":"method","src_hash":"8bd9c8605042e46b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_sqf_norm(f)","rhs":"dup_sqf_norm produces the expected output","over":{"base":"Any"},"name":"dup_sqf_norm_correct","kind":"composition"},"guarantee":"dup_sqf_norm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"to_ground","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"622efb23a09989f6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_sqf_norm","kind":"method","src_hash":"8bd9c8605042e46b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_sqf_norm(f)","rhs":"(s, self.from_dense(F), self.to_ground().from_dense(R))","over":{"base":"Any"},"name":"dup_sqf_norm_correct","kind":"composition"},"guarantee":"returns (s, self.from_dense(F), self.to_ground().from_dense(R))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"to_ground","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"622efb23a09989f6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(s, self.from_dense(F), self.to_ground().from_dense(R))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense","self.to_ground"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_sqf_norm(self, f):
         s, F, R = dup_sqf_norm(self.to_dense(f), self.domain)
         return (s, self.from_dense(F), self.to_ground().from_dense(R))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(dmp_sqf_norm(f), id) over Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (s, self.from_dense(F), self.to_ground()....   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_sqf_norm : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 9b3c3c1a3909e067   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_sqf_norm","kind":"method","src_hash":"280e6b59afc06172","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_sqf_norm(f)","rhs":"dmp_sqf_norm produces the expected output","over":{"base":"Any"},"name":"dmp_sqf_norm_correct","kind":"composition"},"guarantee":"dmp_sqf_norm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"to_ground","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b3c3c1a3909e067"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_sqf_norm","kind":"method","src_hash":"280e6b59afc06172","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_sqf_norm(f)","rhs":"(s, self.from_dense(F), self.to_ground().from_dense(R))","over":{"base":"Any"},"name":"dmp_sqf_norm_correct","kind":"composition"},"guarantee":"returns (s, self.from_dense(F), self.to_ground().from_dense(R))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_dense","by":"library_axiom"},{"fn":"to_ground","by":"library_axiom"},{"fn":"from_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b3c3c1a3909e067","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(s, self.from_dense(F), self.to_ground().from_dense(R))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense","self.to_ground"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_sqf_norm(self, f):
         s, F, R = dmp_sqf_norm(self.to_dense(f), self.ngens-1, self.domain)
         return (s, self.from_dense(F), self.to_ground().from_dense(R))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_gf_sqf_part(f), dup_gf_sqf_part produces the expected output) over Any ║
+# ║ Path(dup_gf_sqf_part(f), self.from_dense(dup_gf_sqf_part(self.to_dense(f), self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_gf_sqf_part(self.to_d...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_gf_sqf_part : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1686872bf1d46837           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_gf_sqf_part","kind":"method","src_hash":"a05e2f8edfef1268","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_gf_sqf_part(f)","rhs":"dup_gf_sqf_part produces the expected output","over":{"base":"Any"},"name":"dup_gf_sqf_part_correct"},"guarantee":"dup_gf_sqf_part produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1686872bf1d46837"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_gf_sqf_part","kind":"method","src_hash":"a05e2f8edfef1268","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_gf_sqf_part(f)","rhs":"self.from_dense(dup_gf_sqf_part(self.to_dense(f), self.domain))","over":{"base":"Any"},"name":"dup_gf_sqf_part_correct"},"guarantee":"returns self.from_dense(dup_gf_sqf_part(self.to_dense(f), self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1686872bf1d46837","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_gf_sqf_part(self.to_dense(f), self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_gf_sqf_part(self, f):
         return self.from_dense(dup_gf_sqf_part(self.to_dense(f), self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_gf_sqf_part(f), dmp_gf_sqf_part produces the expected output) over Any ║
+# ║ Path(dmp_gf_sqf_part(f), self.from_dense(dmp_gf_sqf_part(self.to_dense(f), self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dmp_gf_sqf_part(self.to_d...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_gf_sqf_part : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 733881aa9861de9d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_gf_sqf_part","kind":"method","src_hash":"6e00042e7af3b6fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_gf_sqf_part(f)","rhs":"dmp_gf_sqf_part produces the expected output","over":{"base":"Any"},"name":"dmp_gf_sqf_part_correct"},"guarantee":"dmp_gf_sqf_part produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"733881aa9861de9d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_gf_sqf_part","kind":"method","src_hash":"6e00042e7af3b6fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_gf_sqf_part(f)","rhs":"self.from_dense(dmp_gf_sqf_part(self.to_dense(f), self.domain))","over":{"base":"Any"},"name":"dmp_gf_sqf_part_correct"},"guarantee":"returns self.from_dense(dmp_gf_sqf_part(self.to_dense(f), self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"733881aa9861de9d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dmp_gf_sqf_part(self.to_dense(f), self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_gf_sqf_part(self, f):
         return self.from_dense(dmp_gf_sqf_part(self.to_dense(f), self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_sqf_part(f), dup_sqf_part produces the expected output) over Any ║
+# ║ Path(dup_sqf_part(f), self.from_dense(dup_sqf_part(self.to_dense(f), self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dup_sqf_part(self.to_dens...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_sqf_part : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 135d2b88be4f6632           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_sqf_part","kind":"method","src_hash":"da77a50ea45c801a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_sqf_part(f)","rhs":"dup_sqf_part produces the expected output","over":{"base":"Any"},"name":"dup_sqf_part_correct"},"guarantee":"dup_sqf_part produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"135d2b88be4f6632"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_sqf_part","kind":"method","src_hash":"da77a50ea45c801a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_sqf_part(f)","rhs":"self.from_dense(dup_sqf_part(self.to_dense(f), self.domain))","over":{"base":"Any"},"name":"dup_sqf_part_correct"},"guarantee":"returns self.from_dense(dup_sqf_part(self.to_dense(f), self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"135d2b88be4f6632","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dup_sqf_part(self.to_dense(f), self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_sqf_part(self, f):
         return self.from_dense(dup_sqf_part(self.to_dense(f), self.domain))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_sqf_part(f), dmp_sqf_part produces the expected output) over Any ║
+# ║ Path(dmp_sqf_part(f), self.from_dense(dmp_sqf_part(self.to_dense(f), self.ngens - 1, self.domain))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dense(dmp_sqf_part(self.to_dens...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_sqf_part : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4f5dc2c08f242fc0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_sqf_part","kind":"method","src_hash":"4515418707d9fc3b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_sqf_part(f)","rhs":"dmp_sqf_part produces the expected output","over":{"base":"Any"},"name":"dmp_sqf_part_correct"},"guarantee":"dmp_sqf_part produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4f5dc2c08f242fc0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_sqf_part","kind":"method","src_hash":"4515418707d9fc3b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_sqf_part(f)","rhs":"self.from_dense(dmp_sqf_part(self.to_dense(f), self.ngens - 1, self.domain))","over":{"base":"Any"},"name":"dmp_sqf_part_correct"},"guarantee":"returns self.from_dense(dmp_sqf_part(self.to_dense(f), self.ngens - 1, self.domain))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4f5dc2c08f242fc0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dense(dmp_sqf_part(self.to_dense(f), self.ngens - 1, self.domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_sqf_part(self, f):
         return self.from_dense(dmp_sqf_part(self.to_dense(f), self.ngens-1, self.domain))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_gf_sqf_list(f, ), dup_gf_sqf_list produces the expected output) over Any ║
+# ║ Path(dup_gf_sqf_list(f, all), (coeff, [(self.from_dense(g), k) for g, k in factors])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (coeff, [(self.from_dense(g), k) for g, k...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_gf_sqf_list : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa97bab53bf098ae  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e74d61d1d863911  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_gf_sqf_list","kind":"method","src_hash":"799493bf9173d871","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_gf_sqf_list(f, )","rhs":"dup_gf_sqf_list produces the expected output","over":{"base":"Any"},"name":"dup_gf_sqf_list_correct"},"guarantee":"dup_gf_sqf_list produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_gf_sqf_list_correct","statement":"Path(dup_gf_sqf_list(x), dup_gf_sqf_list produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa97bab53bf098ae"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_gf_sqf_list","kind":"method","src_hash":"799493bf9173d871","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_gf_sqf_list(f, all)","rhs":"(coeff, [(self.from_dense(g), k) for g, k in factors])","over":{"base":"Any"},"name":"dup_gf_sqf_list_correct"},"guarantee":"returns (coeff, [(self.from_dense(g), k) for g, k in factors])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_gf_sqf_list_correct","statement":"Path(dup_gf_sqf_list(x), returns (coeff, [(self.from_dense(g), k) for g, k in factors]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e74d61d1d863911","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(coeff, [(self.from_dense(g), k) for g, k in factors])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_gf_sqf_list(self, f, all=False):
         coeff, factors = dup_gf_sqf_list(self.to_dense(f), self.domain, all=all)
         return (coeff, [ (self.from_dense(g), k) for g, k in factors ])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_gf_sqf_list(f, ), dmp_gf_sqf_list produces the expected output) over Any ║
+# ║ Path(dmp_gf_sqf_list(f, all), (coeff, [(self.from_dense(g), k) for g, k in factors])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (coeff, [(self.from_dense(g), k) for g, k...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_gf_sqf_list : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a91ae610b1495892  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c118e07cf8faeb01  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_gf_sqf_list","kind":"method","src_hash":"be40d1d1b8a398e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_gf_sqf_list(f, )","rhs":"dmp_gf_sqf_list produces the expected output","over":{"base":"Any"},"name":"dmp_gf_sqf_list_correct"},"guarantee":"dmp_gf_sqf_list produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_gf_sqf_list_correct","statement":"Path(dmp_gf_sqf_list(x), dmp_gf_sqf_list produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a91ae610b1495892"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_gf_sqf_list","kind":"method","src_hash":"be40d1d1b8a398e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_gf_sqf_list(f, all)","rhs":"(coeff, [(self.from_dense(g), k) for g, k in factors])","over":{"base":"Any"},"name":"dmp_gf_sqf_list_correct"},"guarantee":"returns (coeff, [(self.from_dense(g), k) for g, k in factors])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_gf_sqf_list_correct","statement":"Path(dmp_gf_sqf_list(x), returns (coeff, [(self.from_dense(g), k) for g, k in factors]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c118e07cf8faeb01","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(coeff, [(self.from_dense(g), k) for g, k in factors])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_gf_sqf_list(self, f, all=False):
         coeff, factors = dmp_gf_sqf_list(self.to_dense(f), self.ngens-1, self.domain, all=all)
         return (coeff, [ (self.from_dense(g), k) for g, k in factors ])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_sqf_list(f, ), dup_sqf_list produces the expected output) over Any ║
+# ║ Path(dup_sqf_list(f, all), (coeff, [(self.from_dense(g), k) for g, k in factors])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (coeff, [(self.from_dense(g), k) for g, k...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_sqf_list : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 875896098bb37dc8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 79b34e4871595515  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_sqf_list","kind":"method","src_hash":"805909974f952dcc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_sqf_list(f, )","rhs":"dup_sqf_list produces the expected output","over":{"base":"Any"},"name":"dup_sqf_list_correct"},"guarantee":"dup_sqf_list produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_sqf_list_correct","statement":"Path(dup_sqf_list(x), dup_sqf_list produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"875896098bb37dc8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_sqf_list","kind":"method","src_hash":"805909974f952dcc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_sqf_list(f, all)","rhs":"(coeff, [(self.from_dense(g), k) for g, k in factors])","over":{"base":"Any"},"name":"dup_sqf_list_correct"},"guarantee":"returns (coeff, [(self.from_dense(g), k) for g, k in factors])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_sqf_list_correct","statement":"Path(dup_sqf_list(x), returns (coeff, [(self.from_dense(g), k) for g, k in factors]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79b34e4871595515","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(coeff, [(self.from_dense(g), k) for g, k in factors])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_sqf_list(self, f, all=False):
         coeff, factors = dup_sqf_list(self.to_dense(f), self.domain, all=all)
         return (coeff, [ (self.from_dense(g), k) for g, k in factors ])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_sqf_list_include(f, ), dup_sqf_list_include produces the expected output) over Any ║
+# ║ Path(dup_sqf_list_include(f, all), [(self.from_dense(g), k) for g, k in factors]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [(self.from_dense(g), k) for g, k in fact...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_sqf_list_include : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f5c692b34f685755  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0617ff8a69e635a3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_sqf_list_include","kind":"method","src_hash":"7df521b09a33c7a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_sqf_list_include(f, )","rhs":"dup_sqf_list_include produces the expected output","over":{"base":"Any"},"name":"dup_sqf_list_include_correct"},"guarantee":"dup_sqf_list_include produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_sqf_list_include_correct","statement":"Path(dup_sqf_list_include(x), dup_sqf_list_include produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f5c692b34f685755"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_sqf_list_include","kind":"method","src_hash":"7df521b09a33c7a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_sqf_list_include(f, all)","rhs":"[(self.from_dense(g), k) for g, k in factors]","over":{"base":"Any"},"name":"dup_sqf_list_include_correct"},"guarantee":"returns [(self.from_dense(g), k) for g, k in factors]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_sqf_list_include_correct","statement":"Path(dup_sqf_list_include(x), returns [(self.from_dense(g), k) for g, k in factors])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0617ff8a69e635a3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[(self.from_dense(g), k) for g, k in factors]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_sqf_list_include(self, f, all=False):
         factors = dup_sqf_list_include(self.to_dense(f), self.domain, all=all)
         return [ (self.from_dense(g), k) for g, k in factors ]
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_sqf_list(f, ), dmp_sqf_list produces the expected output) over Any ║
+# ║ Path(dmp_sqf_list(f, all), (coeff, [(self.from_dense(g), k) for g, k in factors])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (coeff, [(self.from_dense(g), k) for g, k...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_sqf_list : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c53afec927343171  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d2c85d3eff4ebeb4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_sqf_list","kind":"method","src_hash":"831d4f973902a406","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_sqf_list(f, )","rhs":"dmp_sqf_list produces the expected output","over":{"base":"Any"},"name":"dmp_sqf_list_correct"},"guarantee":"dmp_sqf_list produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_sqf_list_correct","statement":"Path(dmp_sqf_list(x), dmp_sqf_list produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c53afec927343171"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_sqf_list","kind":"method","src_hash":"831d4f973902a406","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_sqf_list(f, all)","rhs":"(coeff, [(self.from_dense(g), k) for g, k in factors])","over":{"base":"Any"},"name":"dmp_sqf_list_correct"},"guarantee":"returns (coeff, [(self.from_dense(g), k) for g, k in factors])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_sqf_list_correct","statement":"Path(dmp_sqf_list(x), returns (coeff, [(self.from_dense(g), k) for g, k in factors]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d2c85d3eff4ebeb4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(coeff, [(self.from_dense(g), k) for g, k in factors])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_sqf_list(self, f, all=False):
         coeff, factors = dmp_sqf_list(self.to_dense(f), self.ngens-1, self.domain, all=all)
         return (coeff, [ (self.from_dense(g), k) for g, k in factors ])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_sqf_list_include(f, ), dmp_sqf_list_include produces the expected output) over Any ║
+# ║ Path(dmp_sqf_list_include(f, all), [(self.from_dense(g), k) for g, k in factors]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [(self.from_dense(g), k) for g, k in fact...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_sqf_list_include : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aeef2f38ec7bef39  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92c1166674b30761  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_sqf_list_include","kind":"method","src_hash":"2c358bd0801337ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_sqf_list_include(f, )","rhs":"dmp_sqf_list_include produces the expected output","over":{"base":"Any"},"name":"dmp_sqf_list_include_correct"},"guarantee":"dmp_sqf_list_include produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_sqf_list_include_correct","statement":"Path(dmp_sqf_list_include(x), dmp_sqf_list_include produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aeef2f38ec7bef39"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_sqf_list_include","kind":"method","src_hash":"2c358bd0801337ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_sqf_list_include(f, all)","rhs":"[(self.from_dense(g), k) for g, k in factors]","over":{"base":"Any"},"name":"dmp_sqf_list_include_correct"},"guarantee":"returns [(self.from_dense(g), k) for g, k in factors]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_sqf_list_include_correct","statement":"Path(dmp_sqf_list_include(x), returns [(self.from_dense(g), k) for g, k in factors])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92c1166674b30761","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[(self.from_dense(g), k) for g, k in factors]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_sqf_list_include(self, f, all=False):
         factors = dmp_sqf_list_include(self.to_dense(f), self.ngens-1, self.domain, all=all)
         return [ (self.from_dense(g), k) for g, k in factors ]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_gff_list(f), dup_gff_list produces the expected output) over Any ║
+# ║ Path(dup_gff_list(f), [(self.from_dense(g), k) for g, k in factors]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [(self.from_dense(g), k) for g, k in fact...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_gff_list : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 515efa47224f44c8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 707148d529dd1093  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_gff_list","kind":"method","src_hash":"c17f21b6540ca637","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_gff_list(f)","rhs":"dup_gff_list produces the expected output","over":{"base":"Any"},"name":"dup_gff_list_correct"},"guarantee":"dup_gff_list produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_gff_list_correct","statement":"Path(dup_gff_list(x), dup_gff_list produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"515efa47224f44c8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_gff_list","kind":"method","src_hash":"c17f21b6540ca637","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_gff_list(f)","rhs":"[(self.from_dense(g), k) for g, k in factors]","over":{"base":"Any"},"name":"dup_gff_list_correct"},"guarantee":"returns [(self.from_dense(g), k) for g, k in factors]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dup_gff_list_correct","statement":"Path(dup_gff_list(x), returns [(self.from_dense(g), k) for g, k in factors])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"707148d529dd1093","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[(self.from_dense(g), k) for g, k in factors]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_gff_list(self, f):
         factors = dup_gff_list(self.to_dense(f), self.domain)
         return [ (self.from_dense(g), k) for g, k in factors ]
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_gff_list(f), dmp_gff_list produces the expected output) over Any ║
+# ║ Path(dmp_gff_list(f), [(self.from_dense(g), k) for g, k in factors]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [(self.from_dense(g), k) for g, k in fact...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_gff_list : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b096d40b36671cc2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 558eff1e57f32aac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_gff_list","kind":"method","src_hash":"c110ce9505e24a2c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_gff_list(f)","rhs":"dmp_gff_list produces the expected output","over":{"base":"Any"},"name":"dmp_gff_list_correct"},"guarantee":"dmp_gff_list produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_gff_list_correct","statement":"Path(dmp_gff_list(x), dmp_gff_list produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b096d40b36671cc2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dmp_gff_list","kind":"method","src_hash":"c110ce9505e24a2c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_gff_list(f)","rhs":"[(self.from_dense(g), k) for g, k in factors]","over":{"base":"Any"},"name":"dmp_gff_list_correct"},"guarantee":"returns [(self.from_dense(g), k) for g, k in factors]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.dmp_gff_list_correct","statement":"Path(dmp_gff_list(x), returns [(self.from_dense(g), k) for g, k in factors])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"558eff1e57f32aac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[(self.from_dense(g), k) for g, k in factors]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dmp_gff_list(self, f):
         factors = dmp_gff_list(self.to_dense(f), self.ngens-1, self.domain)
         return [ (self.from_dense(g), k) for g, k in factors ]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_root_upper_bound(f), dup_root_upper_bound produces the expected output) over Any ║
+# ║ Path(dup_root_upper_bound(f), dup_root_upper_bound(self.to_dense(f), self.domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dup_root_upper_bound(self.to_dense(f), se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_root_upper_bound : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1c894dfb570b8829           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_root_upper_bound","kind":"method","src_hash":"57359588f5b8ca45","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_root_upper_bound(f)","rhs":"dup_root_upper_bound produces the expected output","over":{"base":"Any"},"name":"dup_root_upper_bound_correct"},"guarantee":"dup_root_upper_bound produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1c894dfb570b8829"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_root_upper_bound","kind":"method","src_hash":"57359588f5b8ca45","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_root_upper_bound(f)","rhs":"dup_root_upper_bound(self.to_dense(f), self.domain)","over":{"base":"Any"},"name":"dup_root_upper_bound_correct"},"guarantee":"returns dup_root_upper_bound(self.to_dense(f), self.domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1c894dfb570b8829","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dup_root_upper_bound(self.to_dense(f), self.domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_root_upper_bound(self, f):
         return dup_root_upper_bound(self.to_dense(f), self.domain)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_root_lower_bound(f), dup_root_lower_bound produces the expected output) over Any ║
+# ║ Path(dup_root_lower_bound(f), dup_root_lower_bound(self.to_dense(f), self.domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dup_root_lower_bound(self.to_dense(f), se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_root_lower_bound : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9d8adb4681277958           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_root_lower_bound","kind":"method","src_hash":"f0033defa66af07d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_root_lower_bound(f)","rhs":"dup_root_lower_bound produces the expected output","over":{"base":"Any"},"name":"dup_root_lower_bound_correct"},"guarantee":"dup_root_lower_bound produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9d8adb4681277958"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_root_lower_bound","kind":"method","src_hash":"f0033defa66af07d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_root_lower_bound(f)","rhs":"dup_root_lower_bound(self.to_dense(f), self.domain)","over":{"base":"Any"},"name":"dup_root_lower_bound_correct"},"guarantee":"returns dup_root_lower_bound(self.to_dense(f), self.domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9d8adb4681277958","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dup_root_lower_bound(self.to_dense(f), self.domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_root_lower_bound(self, f):
         return dup_root_lower_bound(self.to_dense(f), self.domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_step_refine_real_root(f, ), dup_step_refine_real_root produces the expected output) over Any ║
+# ║ Path(dup_step_refine_real_root(f, M, fast), dup_step_refine_real_root(self.to_dense(f), M, self.domain, fast=fast)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dup_step_refine_real_root(self.to_dense(f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_step_refine_real_root : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 00d66167df0495a2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_step_refine_real_root","kind":"method","src_hash":"0a5918bf9edab178","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_step_refine_real_root(f, )","rhs":"dup_step_refine_real_root produces the expected output","over":{"base":"Any"},"name":"dup_step_refine_real_root_correct"},"guarantee":"dup_step_refine_real_root produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"00d66167df0495a2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_step_refine_real_root","kind":"method","src_hash":"0a5918bf9edab178","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_step_refine_real_root(f, M, fast)","rhs":"dup_step_refine_real_root(self.to_dense(f), M, self.domain, fast=fast)","over":{"base":"Any"},"name":"dup_step_refine_real_root_correct"},"guarantee":"returns dup_step_refine_real_root(self.to_dense(f), M, self.domain, fast=fast)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"00d66167df0495a2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dup_step_refine_real_root(self.to_dense(f), M, self.domain, fast=fast)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_step_refine_real_root(self, f, M, fast=False):
         return dup_step_refine_real_root(self.to_dense(f), M, self.domain, fast=fast)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_inner_refine_real_root(f, ), dup_inner_refine_real_root produces the expected output) over Any ║
+# ║ Path(dup_inner_refine_real_root(f, M, eps), dup_inner_refine_real_root(self.to_dense(f), M, self.domain, eps=eps, steps=steps, disjoint=disjoint, fast=fast, mobius=mobius)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dup_inner_refine_real_root(self.to_dense(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_inner_refine_real_root : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7f8743b7c8211971           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_inner_refine_real_root","kind":"method","src_hash":"e8cc08b01b8f1c89","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_inner_refine_real_root(f, )","rhs":"dup_inner_refine_real_root produces the expected output","over":{"base":"Any"},"name":"dup_inner_refine_real_root_correct"},"guarantee":"dup_inner_refine_real_root produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7f8743b7c8211971"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_inner_refine_real_root","kind":"method","src_hash":"e8cc08b01b8f1c89","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_inner_refine_real_root(f, M, eps)","rhs":"dup_inner_refine_real_root(self.to_dense(f), M, self.domain, eps=eps, steps=steps, disjoint=disjoint, fast=fast, mobius=mobius)","over":{"base":"Any"},"name":"dup_inner_refine_real_root_correct"},"guarantee":"returns dup_inner_refine_real_root(self.to_dense(f), M, self.domain, eps=eps, steps=steps, disjoint=disjoint, fast=fast, mobius=mobius)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7f8743b7c8211971","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dup_inner_refine_real_root(self.to_dense(f), M, self.domain, eps=eps, steps=steps, disjoint=disjoint, fast=fast, mobius=mobius)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_inner_refine_real_root(self, f, M, eps=None, steps=None, disjoint=None, fast=False, mobius=False):
         return dup_inner_refine_real_root(self.to_dense(f), M, self.domain, eps=eps, steps=steps, disjoint=disjoint, fast=fast, mobius=mobius)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_outer_refine_real_root(f, ), dup_outer_refine_real_root produces the expected output) over Any ║
+# ║ Path(dup_outer_refine_real_root(f, s, t), dup_outer_refine_real_root(self.to_dense(f), s, t, self.domain, eps=eps, steps=steps, disjoint=disjoint, fast=fast)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dup_outer_refine_real_root(self.to_dense(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_outer_refine_real_root : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 78dd62db2329b72d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_outer_refine_real_root","kind":"method","src_hash":"59a4e0858aa25e3d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_outer_refine_real_root(f, )","rhs":"dup_outer_refine_real_root produces the expected output","over":{"base":"Any"},"name":"dup_outer_refine_real_root_correct"},"guarantee":"dup_outer_refine_real_root produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"78dd62db2329b72d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_outer_refine_real_root","kind":"method","src_hash":"59a4e0858aa25e3d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_outer_refine_real_root(f, s, t)","rhs":"dup_outer_refine_real_root(self.to_dense(f), s, t, self.domain, eps=eps, steps=steps, disjoint=disjoint, fast=fast)","over":{"base":"Any"},"name":"dup_outer_refine_real_root_correct"},"guarantee":"returns dup_outer_refine_real_root(self.to_dense(f), s, t, self.domain, eps=eps, steps=steps, disjoint=disjoint, fast=fast)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"78dd62db2329b72d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dup_outer_refine_real_root(self.to_dense(f), s, t, self.domain, eps=eps, steps=steps, disjoint=disjoint, fast=fast)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_outer_refine_real_root(self, f, s, t, eps=None, steps=None, disjoint=None, fast=False):
         return dup_outer_refine_real_root(self.to_dense(f), s, t, self.domain, eps=eps, steps=steps, disjoint=disjoint, fast=fast)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_refine_real_root(f, ), dup_refine_real_root produces the expected output) over Any ║
+# ║ Path(dup_refine_real_root(f, s, t), dup_refine_real_root(self.to_dense(f), s, t, self.domain, eps=eps, steps=steps, disjoint=disjoint, fast=fast)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dup_refine_real_root(self.to_dense(f), s,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_refine_real_root : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 23d34c3ec36aae21           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_refine_real_root","kind":"method","src_hash":"aa5f4c5f0d9edc9a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_refine_real_root(f, )","rhs":"dup_refine_real_root produces the expected output","over":{"base":"Any"},"name":"dup_refine_real_root_correct"},"guarantee":"dup_refine_real_root produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"23d34c3ec36aae21"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_refine_real_root","kind":"method","src_hash":"aa5f4c5f0d9edc9a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_refine_real_root(f, s, t)","rhs":"dup_refine_real_root(self.to_dense(f), s, t, self.domain, eps=eps, steps=steps, disjoint=disjoint, fast=fast)","over":{"base":"Any"},"name":"dup_refine_real_root_correct"},"guarantee":"returns dup_refine_real_root(self.to_dense(f), s, t, self.domain, eps=eps, steps=steps, disjoint=disjoint, fast=fast)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"23d34c3ec36aae21","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dup_refine_real_root(self.to_dense(f), s, t, self.domain, eps=eps, steps=steps, disjoint=disjoint, fast=fast)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_refine_real_root(self, f, s, t, eps=None, steps=None, disjoint=None, fast=False):
         return dup_refine_real_root(self.to_dense(f), s, t, self.domain, eps=eps, steps=steps, disjoint=disjoint, fast=fast)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_inner_isolate_real_roots(f, ), dup_inner_isolate_real_roots produces the expected output) over Any ║
+# ║ Path(dup_inner_isolate_real_roots(f, eps, fast), dup_inner_isolate_real_roots(self.to_dense(f), self.domain, eps=eps, fast=fast)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dup_inner_isolate_real_roots(self.to_dens...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_inner_isolate_real_roots : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 01f538b6deaebabc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_inner_isolate_real_roots","kind":"method","src_hash":"5494e72b7caf3be2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_inner_isolate_real_roots(f, )","rhs":"dup_inner_isolate_real_roots produces the expected output","over":{"base":"Any"},"name":"dup_inner_isolate_real_roots_correct"},"guarantee":"dup_inner_isolate_real_roots produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"01f538b6deaebabc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_inner_isolate_real_roots","kind":"method","src_hash":"5494e72b7caf3be2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_inner_isolate_real_roots(f, eps, fast)","rhs":"dup_inner_isolate_real_roots(self.to_dense(f), self.domain, eps=eps, fast=fast)","over":{"base":"Any"},"name":"dup_inner_isolate_real_roots_correct"},"guarantee":"returns dup_inner_isolate_real_roots(self.to_dense(f), self.domain, eps=eps, fast=fast)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"01f538b6deaebabc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dup_inner_isolate_real_roots(self.to_dense(f), self.domain, eps=eps, fast=fast)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_inner_isolate_real_roots(self, f, eps=None, fast=False):
         return dup_inner_isolate_real_roots(self.to_dense(f), self.domain, eps=eps, fast=fast)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_inner_isolate_positive_roots(f, ), dup_inner_isolate_positive_roots produces the expected output) over Any ║
+# ║ Path(dup_inner_isolate_positive_roots(f, eps, inf), dup_inner_isolate_positive_roots(self.to_dense(f), self.domain, eps=eps, inf=inf, sup=sup, fast=fast, mobius=mobius)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dup_inner_isolate_positive_roots(self.to_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_inner_isolate_positive_roots : Any → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 76156a71192a4a63           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_inner_isolate_positive_roots","kind":"method","src_hash":"81710cef2f8b66ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_inner_isolate_positive_roots(f, )","rhs":"dup_inner_isolate_positive_roots produces the expected output","over":{"base":"Any"},"name":"dup_inner_isolate_positive_roots_correct"},"guarantee":"dup_inner_isolate_positive_roots produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"76156a71192a4a63"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_inner_isolate_positive_roots","kind":"method","src_hash":"81710cef2f8b66ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_inner_isolate_positive_roots(f, eps, inf)","rhs":"dup_inner_isolate_positive_roots(self.to_dense(f), self.domain, eps=eps, inf=inf, sup=sup, fast=fast, mobius=mobius)","over":{"base":"Any"},"name":"dup_inner_isolate_positive_roots_correct"},"guarantee":"returns dup_inner_isolate_positive_roots(self.to_dense(f), self.domain, eps=eps, inf=inf, sup=sup, fast=fast, mobius=mobius)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"76156a71192a4a63","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dup_inner_isolate_positive_roots(self.to_dense(f), self.domain, eps=eps, inf=inf, sup=sup, fast=fast, mobius=mobius)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_inner_isolate_positive_roots(self, f, eps=None, inf=None, sup=None, fast=False, mobius=False):
         return dup_inner_isolate_positive_roots(self.to_dense(f), self.domain, eps=eps, inf=inf, sup=sup, fast=fast, mobius=mobius)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_inner_isolate_negative_roots(f, ), dup_inner_isolate_negative_roots produces the expected output) over Any ║
+# ║ Path(dup_inner_isolate_negative_roots(f, inf, sup), dup_inner_isolate_negative_roots(self.to_dense(f), self.domain, inf=inf, sup=sup, eps=eps, fast=fast, mobius=mobius)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dup_inner_isolate_negative_roots(self.to_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_inner_isolate_negative_roots : Any → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d14f019abebcca8d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_inner_isolate_negative_roots","kind":"method","src_hash":"8403187081dc4460","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_inner_isolate_negative_roots(f, )","rhs":"dup_inner_isolate_negative_roots produces the expected output","over":{"base":"Any"},"name":"dup_inner_isolate_negative_roots_correct"},"guarantee":"dup_inner_isolate_negative_roots produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d14f019abebcca8d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_inner_isolate_negative_roots","kind":"method","src_hash":"8403187081dc4460","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_inner_isolate_negative_roots(f, inf, sup)","rhs":"dup_inner_isolate_negative_roots(self.to_dense(f), self.domain, inf=inf, sup=sup, eps=eps, fast=fast, mobius=mobius)","over":{"base":"Any"},"name":"dup_inner_isolate_negative_roots_correct"},"guarantee":"returns dup_inner_isolate_negative_roots(self.to_dense(f), self.domain, inf=inf, sup=sup, eps=eps, fast=fast, mobius=mobius)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d14f019abebcca8d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dup_inner_isolate_negative_roots(self.to_dense(f), self.domain, inf=inf, sup=sup, eps=eps, fast=fast, mobius=mobius)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_inner_isolate_negative_roots(self, f, inf=None, sup=None, eps=None, fast=False, mobius=False):
         return dup_inner_isolate_negative_roots(self.to_dense(f), self.domain, inf=inf, sup=sup, eps=eps, fast=fast, mobius=mobius)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_isolate_real_roots_sqf(f, ), dup_isolate_real_roots_sqf produces the expected output) over Any ║
+# ║ Path(dup_isolate_real_roots_sqf(f, eps, inf), dup_isolate_real_roots_sqf(self.to_dense(f), self.domain, eps=eps, inf=inf, sup=sup, fast=fast, blackbox=blackbox)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dup_isolate_real_roots_sqf(self.to_dense(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_isolate_real_roots_sqf : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8c77ea4e4afb7112           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_isolate_real_roots_sqf","kind":"method","src_hash":"d3bb86c08d306413","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_isolate_real_roots_sqf(f, )","rhs":"dup_isolate_real_roots_sqf produces the expected output","over":{"base":"Any"},"name":"dup_isolate_real_roots_sqf_correct"},"guarantee":"dup_isolate_real_roots_sqf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8c77ea4e4afb7112"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_isolate_real_roots_sqf","kind":"method","src_hash":"d3bb86c08d306413","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_isolate_real_roots_sqf(f, eps, inf)","rhs":"dup_isolate_real_roots_sqf(self.to_dense(f), self.domain, eps=eps, inf=inf, sup=sup, fast=fast, blackbox=blackbox)","over":{"base":"Any"},"name":"dup_isolate_real_roots_sqf_correct"},"guarantee":"returns dup_isolate_real_roots_sqf(self.to_dense(f), self.domain, eps=eps, inf=inf, sup=sup, fast=fast, blackbox=blackbox)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8c77ea4e4afb7112","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dup_isolate_real_roots_sqf(self.to_dense(f), self.domain, eps=eps, inf=inf, sup=sup, fast=fast, blackbox=blackbox)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_isolate_real_roots_sqf(self, f, eps=None, inf=None, sup=None, fast=False, blackbox=False):
         return dup_isolate_real_roots_sqf(self.to_dense(f), self.domain, eps=eps, inf=inf, sup=sup, fast=fast, blackbox=blackbox)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_isolate_real_roots(f, ), dup_isolate_real_roots produces the expected output) over Any ║
+# ║ Path(dup_isolate_real_roots(f, eps, inf), dup_isolate_real_roots(self.to_dense(f), self.domain, eps=eps, inf=inf, sup=sup, basis=basis, fast=fast)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dup_isolate_real_roots(self.to_dense(f), ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_isolate_real_roots : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e16a27924a7b63bc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_isolate_real_roots","kind":"method","src_hash":"5c7532c822e30b15","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_isolate_real_roots(f, )","rhs":"dup_isolate_real_roots produces the expected output","over":{"base":"Any"},"name":"dup_isolate_real_roots_correct"},"guarantee":"dup_isolate_real_roots produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e16a27924a7b63bc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_isolate_real_roots","kind":"method","src_hash":"5c7532c822e30b15","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_isolate_real_roots(f, eps, inf)","rhs":"dup_isolate_real_roots(self.to_dense(f), self.domain, eps=eps, inf=inf, sup=sup, basis=basis, fast=fast)","over":{"base":"Any"},"name":"dup_isolate_real_roots_correct"},"guarantee":"returns dup_isolate_real_roots(self.to_dense(f), self.domain, eps=eps, inf=inf, sup=sup, basis=basis, fast=fast)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e16a27924a7b63bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dup_isolate_real_roots(self.to_dense(f), self.domain, eps=eps, inf=inf, sup=sup, basis=basis, fast=fast)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_isolate_real_roots(self, f, eps=None, inf=None, sup=None, basis=False, fast=False):
         return dup_isolate_real_roots(self.to_dense(f), self.domain, eps=eps, inf=inf, sup=sup, basis=basis, fast=fast)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_isolate_real_roots_list(pol), dup_isolate_real_roots_list produces the expected output) over Any ║
+# ║ Path(dup_isolate_real_roots_list(polys, eps, inf), dup_isolate_real_roots_list(list(map(self.to_dense, polys)), self.domain, eps=eps, inf=inf, sup=sup, strict=strict, basis=basis, fast=fast)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dup_isolate_real_roots_list(list(map(self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_isolate_real_roots_list : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4f20853379cc02db           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_isolate_real_roots_list","kind":"method","src_hash":"8241a597b19c563c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_isolate_real_roots_list(pol)","rhs":"dup_isolate_real_roots_list produces the expected output","over":{"base":"Any"},"name":"dup_isolate_real_roots_list_correct"},"guarantee":"dup_isolate_real_roots_list produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4f20853379cc02db"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_isolate_real_roots_list","kind":"method","src_hash":"8241a597b19c563c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_isolate_real_roots_list(polys, eps, inf)","rhs":"dup_isolate_real_roots_list(list(map(self.to_dense, polys)), self.domain, eps=eps, inf=inf, sup=sup, strict=strict, basis=basis, fast=fast)","over":{"base":"Any"},"name":"dup_isolate_real_roots_list_correct"},"guarantee":"returns dup_isolate_real_roots_list(list(map(self.to_dense, polys)), self.domain, eps=eps, inf=inf, sup=sup, strict=strict, basis=basis, fast=fast)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4f20853379cc02db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dup_isolate_real_roots_list(list(map(self.to_dense, polys)), self.domain, eps=eps, inf=inf, sup=sup, strict=strict, basis=basis, fast=fast)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_isolate_real_roots_list(self, polys, eps=None, inf=None, sup=None, strict=False, basis=False, fast=False):
         return dup_isolate_real_roots_list(list(map(self.to_dense, polys)), self.domain, eps=eps, inf=inf, sup=sup, strict=strict, basis=basis, fast=fast)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_count_real_roots(f, ), dup_count_real_roots produces the expected output) over Any ║
+# ║ Path(dup_count_real_roots(f, inf, sup), dup_count_real_roots(self.to_dense(f), self.domain, inf=inf, sup=sup)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dup_count_real_roots(self.to_dense(f), se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_count_real_roots : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aef97093a9ec98ed           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_count_real_roots","kind":"method","src_hash":"c5d0a276513790f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_count_real_roots(f, )","rhs":"dup_count_real_roots produces the expected output","over":{"base":"Any"},"name":"dup_count_real_roots_correct"},"guarantee":"dup_count_real_roots produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aef97093a9ec98ed"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_count_real_roots","kind":"method","src_hash":"c5d0a276513790f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_count_real_roots(f, inf, sup)","rhs":"dup_count_real_roots(self.to_dense(f), self.domain, inf=inf, sup=sup)","over":{"base":"Any"},"name":"dup_count_real_roots_correct"},"guarantee":"returns dup_count_real_roots(self.to_dense(f), self.domain, inf=inf, sup=sup)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aef97093a9ec98ed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dup_count_real_roots(self.to_dense(f), self.domain, inf=inf, sup=sup)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_count_real_roots(self, f, inf=None, sup=None):
         return dup_count_real_roots(self.to_dense(f), self.domain, inf=inf, sup=sup)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_count_complex_roots(f, ), dup_count_complex_roots produces the expected output) over Any ║
+# ║ Path(dup_count_complex_roots(f, inf, sup), dup_count_complex_roots(self.to_dense(f), self.domain, inf=inf, sup=sup, exclude=exclude)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dup_count_complex_roots(self.to_dense(f),...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_count_complex_roots : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aeb8ef30a0114bfb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_count_complex_roots","kind":"method","src_hash":"afdf3eb114b90363","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_count_complex_roots(f, )","rhs":"dup_count_complex_roots produces the expected output","over":{"base":"Any"},"name":"dup_count_complex_roots_correct"},"guarantee":"dup_count_complex_roots produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aeb8ef30a0114bfb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_count_complex_roots","kind":"method","src_hash":"afdf3eb114b90363","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_count_complex_roots(f, inf, sup)","rhs":"dup_count_complex_roots(self.to_dense(f), self.domain, inf=inf, sup=sup, exclude=exclude)","over":{"base":"Any"},"name":"dup_count_complex_roots_correct"},"guarantee":"returns dup_count_complex_roots(self.to_dense(f), self.domain, inf=inf, sup=sup, exclude=exclude)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aeb8ef30a0114bfb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dup_count_complex_roots(self.to_dense(f), self.domain, inf=inf, sup=sup, exclude=exclude)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_count_complex_roots(self, f, inf=None, sup=None, exclude=None):
         return dup_count_complex_roots(self.to_dense(f), self.domain, inf=inf, sup=sup, exclude=exclude)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_isolate_complex_roots_sqf(f, ), dup_isolate_complex_roots_sqf produces the expected output) over Any ║
+# ║ Path(dup_isolate_complex_roots_sqf(f, eps, inf), dup_isolate_complex_roots_sqf(self.to_dense(f), self.domain, eps=eps, inf=inf, sup=sup, blackbox=blackbox)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dup_isolate_complex_roots_sqf(self.to_den...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_isolate_complex_roots_sqf : Any → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3811a8bab871f513           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_isolate_complex_roots_sqf","kind":"method","src_hash":"e70ad89bd64ebe2c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_isolate_complex_roots_sqf(f, )","rhs":"dup_isolate_complex_roots_sqf produces the expected output","over":{"base":"Any"},"name":"dup_isolate_complex_roots_sqf_correct"},"guarantee":"dup_isolate_complex_roots_sqf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3811a8bab871f513"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_isolate_complex_roots_sqf","kind":"method","src_hash":"e70ad89bd64ebe2c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_isolate_complex_roots_sqf(f, eps, inf)","rhs":"dup_isolate_complex_roots_sqf(self.to_dense(f), self.domain, eps=eps, inf=inf, sup=sup, blackbox=blackbox)","over":{"base":"Any"},"name":"dup_isolate_complex_roots_sqf_correct"},"guarantee":"returns dup_isolate_complex_roots_sqf(self.to_dense(f), self.domain, eps=eps, inf=inf, sup=sup, blackbox=blackbox)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3811a8bab871f513","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dup_isolate_complex_roots_sqf(self.to_dense(f), self.domain, eps=eps, inf=inf, sup=sup, blackbox=blackbox)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_isolate_complex_roots_sqf(self, f, eps=None, inf=None, sup=None, blackbox=False):
         return dup_isolate_complex_roots_sqf(self.to_dense(f), self.domain, eps=eps, inf=inf, sup=sup, blackbox=blackbox)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_isolate_all_roots_sqf(f, ), dup_isolate_all_roots_sqf produces the expected output) over Any ║
+# ║ Path(dup_isolate_all_roots_sqf(f, eps, inf), dup_isolate_all_roots_sqf(self.to_dense(f), self.domain, eps=eps, inf=inf, sup=sup, fast=fast, blackbox=blackbox)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dup_isolate_all_roots_sqf(self.to_dense(f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_isolate_all_roots_sqf : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4480eb3deae0c0b8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_isolate_all_roots_sqf","kind":"method","src_hash":"0d8f20ba8c102822","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_isolate_all_roots_sqf(f, )","rhs":"dup_isolate_all_roots_sqf produces the expected output","over":{"base":"Any"},"name":"dup_isolate_all_roots_sqf_correct"},"guarantee":"dup_isolate_all_roots_sqf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4480eb3deae0c0b8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_isolate_all_roots_sqf","kind":"method","src_hash":"0d8f20ba8c102822","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_isolate_all_roots_sqf(f, eps, inf)","rhs":"dup_isolate_all_roots_sqf(self.to_dense(f), self.domain, eps=eps, inf=inf, sup=sup, fast=fast, blackbox=blackbox)","over":{"base":"Any"},"name":"dup_isolate_all_roots_sqf_correct"},"guarantee":"returns dup_isolate_all_roots_sqf(self.to_dense(f), self.domain, eps=eps, inf=inf, sup=sup, fast=fast, blackbox=blackbox)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4480eb3deae0c0b8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dup_isolate_all_roots_sqf(self.to_dense(f), self.domain, eps=eps, inf=inf, sup=sup, fast=fast, blackbox=blackbox)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_isolate_all_roots_sqf(self, f, eps=None, inf=None, sup=None, fast=False, blackbox=False):
         return dup_isolate_all_roots_sqf(self.to_dense(f), self.domain, eps=eps, inf=inf, sup=sup, fast=fast, blackbox=blackbox)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_isolate_all_roots(f, ), dup_isolate_all_roots produces the expected output) over Any ║
+# ║ Path(dup_isolate_all_roots(f, eps, inf), dup_isolate_all_roots(self.to_dense(f), self.domain, eps=eps, inf=inf, sup=sup, fast=fast)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dup_isolate_all_roots(self.to_dense(f), s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_isolate_all_roots : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f777baba238cf0d5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_isolate_all_roots","kind":"method","src_hash":"2dc9d9e9a095fc2a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_isolate_all_roots(f, )","rhs":"dup_isolate_all_roots produces the expected output","over":{"base":"Any"},"name":"dup_isolate_all_roots_correct"},"guarantee":"dup_isolate_all_roots produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f777baba238cf0d5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.dup_isolate_all_roots","kind":"method","src_hash":"2dc9d9e9a095fc2a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_isolate_all_roots(f, eps, inf)","rhs":"dup_isolate_all_roots(self.to_dense(f), self.domain, eps=eps, inf=inf, sup=sup, fast=fast)","over":{"base":"Any"},"name":"dup_isolate_all_roots_correct"},"guarantee":"returns dup_isolate_all_roots(self.to_dense(f), self.domain, eps=eps, inf=inf, sup=sup, fast=fast)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f777baba238cf0d5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dup_isolate_all_roots(self.to_dense(f), self.domain, eps=eps, inf=inf, sup=sup, fast=fast)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dup_isolate_all_roots(self, f, eps=None, inf=None, sup=None, fast=False):
         return dup_isolate_all_roots(self.to_dense(f), self.domain, eps=eps, inf=inf, sup=sup, fast=fast)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(fateman_poly_F_1(), id) over Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple(map(self.from_dense, dmp_fateman_po...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ fateman_poly_F_1 : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 56f3718f79d40f9c   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.fateman_poly_F_1","kind":"method","src_hash":"7257102e720327c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fateman_poly_F_1()","rhs":"fateman_poly_F_1 produces the expected output","over":{"base":"Any"},"name":"fateman_poly_F_1_correct","kind":"composition"},"guarantee":"fateman_poly_F_1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"tuple","by":"library_axiom"},{"fn":"map","by":"library_axiom"},{"fn":"dmp_fateman_poly_F_1","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56f3718f79d40f9c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.fateman_poly_F_1","kind":"method","src_hash":"7257102e720327c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fateman_poly_F_1()","rhs":"tuple(map(self.from_dense, dmp_fateman_poly_F_1(self.ngens - 1, self.domain)))","over":{"base":"Any"},"name":"fateman_poly_F_1_correct","kind":"composition"},"guarantee":"returns tuple(map(self.from_dense, dmp_fateman_poly_F_1(self.ngens - 1, self.domain)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"tuple","by":"library_axiom"},{"fn":"map","by":"library_axiom"},{"fn":"dmp_fateman_poly_F_1","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56f3718f79d40f9c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple(map(self.from_dense, dmp_fateman_poly_F_1(self.ngens - 1, self.domain)))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fateman_poly_F_1(self):
         from sympy.polys.specialpolys import dmp_fateman_poly_F_1
         return tuple(map(self.from_dense, dmp_fateman_poly_F_1(self.ngens-1, self.domain)))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(fateman_poly_F_2(), id) over Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple(map(self.from_dense, dmp_fateman_po...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ fateman_poly_F_2 : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ac1c344aa5bed756   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.fateman_poly_F_2","kind":"method","src_hash":"b9cc5b3d501a7197","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fateman_poly_F_2()","rhs":"fateman_poly_F_2 produces the expected output","over":{"base":"Any"},"name":"fateman_poly_F_2_correct","kind":"composition"},"guarantee":"fateman_poly_F_2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"tuple","by":"library_axiom"},{"fn":"map","by":"library_axiom"},{"fn":"dmp_fateman_poly_F_2","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac1c344aa5bed756"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.fateman_poly_F_2","kind":"method","src_hash":"b9cc5b3d501a7197","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fateman_poly_F_2()","rhs":"tuple(map(self.from_dense, dmp_fateman_poly_F_2(self.ngens - 1, self.domain)))","over":{"base":"Any"},"name":"fateman_poly_F_2_correct","kind":"composition"},"guarantee":"returns tuple(map(self.from_dense, dmp_fateman_poly_F_2(self.ngens - 1, self.domain)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"tuple","by":"library_axiom"},{"fn":"map","by":"library_axiom"},{"fn":"dmp_fateman_poly_F_2","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac1c344aa5bed756","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple(map(self.from_dense, dmp_fateman_poly_F_2(self.ngens - 1, self.domain)))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fateman_poly_F_2(self):
         from sympy.polys.specialpolys import dmp_fateman_poly_F_2
         return tuple(map(self.from_dense, dmp_fateman_poly_F_2(self.ngens-1, self.domain)))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(fateman_poly_F_3(), id) over Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple(map(self.from_dense, dmp_fateman_po...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ fateman_poly_F_3 : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 923992e65bfb91a0   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.fateman_poly_F_3","kind":"method","src_hash":"fb74c3a4966ccf79","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fateman_poly_F_3()","rhs":"fateman_poly_F_3 produces the expected output","over":{"base":"Any"},"name":"fateman_poly_F_3_correct","kind":"composition"},"guarantee":"fateman_poly_F_3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"tuple","by":"library_axiom"},{"fn":"map","by":"library_axiom"},{"fn":"dmp_fateman_poly_F_3","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"923992e65bfb91a0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.fateman_poly_F_3","kind":"method","src_hash":"fb74c3a4966ccf79","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fateman_poly_F_3()","rhs":"tuple(map(self.from_dense, dmp_fateman_poly_F_3(self.ngens - 1, self.domain)))","over":{"base":"Any"},"name":"fateman_poly_F_3_correct","kind":"composition"},"guarantee":"returns tuple(map(self.from_dense, dmp_fateman_poly_F_3(self.ngens - 1, self.domain)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"tuple","by":"library_axiom"},{"fn":"map","by":"library_axiom"},{"fn":"dmp_fateman_poly_F_3","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"923992e65bfb91a0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple(map(self.from_dense, dmp_fateman_poly_F_3(self.ngens - 1, self.domain)))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dense","self.ngens"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fateman_poly_F_3(self):
         from sympy.polys.specialpolys import dmp_fateman_poly_F_3
         return tuple(map(self.from_dense, dmp_fateman_poly_F_3(self.ngens-1, self.domain)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_gf_dense(ele), to_gf_dense produces the expected output) over Any ║
+# ║ Path(to_gf_dense(element), gf_strip([self.domain.dom.convert(c, self.domain) for c in self.wrap(element).to_dense()])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  gf_strip([self.domain.dom.convert(c, self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_gf_dense : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b46b5f0a7efbcf14           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.to_gf_dense","kind":"method","src_hash":"37c6b665c7e05d44","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_gf_dense(ele)","rhs":"to_gf_dense produces the expected output","over":{"base":"Any"},"name":"to_gf_dense_correct"},"guarantee":"to_gf_dense produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b46b5f0a7efbcf14"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.to_gf_dense","kind":"method","src_hash":"37c6b665c7e05d44","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_gf_dense(element)","rhs":"gf_strip([self.domain.dom.convert(c, self.domain) for c in self.wrap(element).to_dense()])","over":{"base":"Any"},"name":"to_gf_dense_correct"},"guarantee":"returns gf_strip([self.domain.dom.convert(c, self.domain) for c in self.wrap(element).to_dense()])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b46b5f0a7efbcf14","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"gf_strip([self.domain.dom.convert(c, self.domain) for c in self.wrap(element).to_dense()])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.wrap"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_gf_dense(self, element):
         return gf_strip([ self.domain.dom.convert(c, self.domain) for c in self.wrap(element).to_dense() ])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_gf_dense(ele), from_gf_dense produces the expected output) over Any ║
+# ║ Path(from_gf_dense(element), self.from_dict(dmp_to_dict(element, self.ngens - 1, self.domain.dom))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_dict(dmp_to_dict(element, self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_gf_dense : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 67184a98fb3af3e7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.from_gf_dense","kind":"method","src_hash":"dc7d4beb13a6c212","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_gf_dense(ele)","rhs":"from_gf_dense produces the expected output","over":{"base":"Any"},"name":"from_gf_dense_correct"},"guarantee":"from_gf_dense produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"67184a98fb3af3e7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.from_gf_dense","kind":"method","src_hash":"dc7d4beb13a6c212","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_gf_dense(element)","rhs":"self.from_dict(dmp_to_dict(element, self.ngens - 1, self.domain.dom))","over":{"base":"Any"},"name":"from_gf_dense_correct"},"guarantee":"returns self.from_dict(dmp_to_dict(element, self.ngens - 1, self.domain.dom))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"67184a98fb3af3e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_dict(dmp_to_dict(element, self.ngens - 1, self.domain.dom))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_dict","self.ngens"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_gf_dense(self, element):
         return self.from_dict(dmp_to_dict(element, self.ngens-1, self.domain.dom))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_degree(f), gf_degree produces the expected output) over Any ║
+# ║ Path(gf_degree(f), gf_degree(self.to_gf_dense(f))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  gf_degree(self.to_gf_dense(f))                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_degree : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3371d92ebb21c52d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_degree","kind":"method","src_hash":"4549e7a8d8a83693","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_degree(f)","rhs":"gf_degree produces the expected output","over":{"base":"Any"},"name":"gf_degree_correct"},"guarantee":"gf_degree produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3371d92ebb21c52d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_degree","kind":"method","src_hash":"4549e7a8d8a83693","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_degree(f)","rhs":"gf_degree(self.to_gf_dense(f))","over":{"base":"Any"},"name":"gf_degree_correct"},"guarantee":"returns gf_degree(self.to_gf_dense(f))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3371d92ebb21c52d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"gf_degree(self.to_gf_dense(f))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_degree(self, f):
         return gf_degree(self.to_gf_dense(f))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_LC(f), gf_LC produces the expected output) over Any ║
+# ║ Path(gf_LC(f), gf_LC(self.to_gf_dense(f), self.domain.dom)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  gf_LC(self.to_gf_dense(f), self.domain.dom)    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_LC : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 73626c81e5be3ff8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_LC","kind":"method","src_hash":"8fffba912e7251ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_LC(f)","rhs":"gf_LC produces the expected output","over":{"base":"Any"},"name":"gf_LC_correct"},"guarantee":"gf_LC produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"73626c81e5be3ff8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_LC","kind":"method","src_hash":"8fffba912e7251ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_LC(f)","rhs":"gf_LC(self.to_gf_dense(f), self.domain.dom)","over":{"base":"Any"},"name":"gf_LC_correct"},"guarantee":"returns gf_LC(self.to_gf_dense(f), self.domain.dom)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"73626c81e5be3ff8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"gf_LC(self.to_gf_dense(f), self.domain.dom)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_LC(self, f):
         return gf_LC(self.to_gf_dense(f), self.domain.dom)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_TC(f), gf_TC produces the expected output) over Any ║
+# ║ Path(gf_TC(f), gf_TC(self.to_gf_dense(f), self.domain.dom)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  gf_TC(self.to_gf_dense(f), self.domain.dom)    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_TC : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 959bc600c813996a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_TC","kind":"method","src_hash":"af0c5097f19c27d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_TC(f)","rhs":"gf_TC produces the expected output","over":{"base":"Any"},"name":"gf_TC_correct"},"guarantee":"gf_TC produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"959bc600c813996a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_TC","kind":"method","src_hash":"af0c5097f19c27d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_TC(f)","rhs":"gf_TC(self.to_gf_dense(f), self.domain.dom)","over":{"base":"Any"},"name":"gf_TC_correct"},"guarantee":"returns gf_TC(self.to_gf_dense(f), self.domain.dom)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"959bc600c813996a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"gf_TC(self.to_gf_dense(f), self.domain.dom)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_TC(self, f):
         return gf_TC(self.to_gf_dense(f), self.domain.dom)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_strip(f), gf_strip produces the expected output) over Any ║
+# ║ Path(gf_strip(f), self.from_gf_dense(gf_strip(self.to_gf_dense(f)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_gf_dense(gf_strip(self.to_gf_de...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_strip : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 076d52acf443431d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_strip","kind":"method","src_hash":"b1d3bab21c2c5d97","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_strip(f)","rhs":"gf_strip produces the expected output","over":{"base":"Any"},"name":"gf_strip_correct"},"guarantee":"gf_strip produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"076d52acf443431d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_strip","kind":"method","src_hash":"b1d3bab21c2c5d97","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_strip(f)","rhs":"self.from_gf_dense(gf_strip(self.to_gf_dense(f)))","over":{"base":"Any"},"name":"gf_strip_correct"},"guarantee":"returns self.from_gf_dense(gf_strip(self.to_gf_dense(f)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"076d52acf443431d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_gf_dense(gf_strip(self.to_gf_dense(f)))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_strip(self, f):
         return self.from_gf_dense(gf_strip(self.to_gf_dense(f)))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_trunc(f), gf_trunc produces the expected output) over Any ║
+# ║ Path(gf_trunc(f), self.from_gf_dense(gf_strip(self.to_gf_dense(f), self.domain.mod))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_gf_dense(gf_strip(self.to_gf_de...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_trunc : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e0a7bd267913f917           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_trunc","kind":"method","src_hash":"1bc98a883b50c06d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_trunc(f)","rhs":"gf_trunc produces the expected output","over":{"base":"Any"},"name":"gf_trunc_correct"},"guarantee":"gf_trunc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e0a7bd267913f917"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_trunc","kind":"method","src_hash":"1bc98a883b50c06d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_trunc(f)","rhs":"self.from_gf_dense(gf_strip(self.to_gf_dense(f), self.domain.mod))","over":{"base":"Any"},"name":"gf_trunc_correct"},"guarantee":"returns self.from_gf_dense(gf_strip(self.to_gf_dense(f), self.domain.mod))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e0a7bd267913f917","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_gf_dense(gf_strip(self.to_gf_dense(f), self.domain.mod))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_trunc(self, f):
         return self.from_gf_dense(gf_strip(self.to_gf_dense(f), self.domain.mod))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_normal(f), gf_normal produces the expected output) over Any ║
+# ║ Path(gf_normal(f), self.from_gf_dense(gf_strip(self.to_gf_dense(f), self.domain.mod, self.domain.dom))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_gf_dense(gf_strip(self.to_gf_de...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_normal : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a68c3b9f53c60844           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_normal","kind":"method","src_hash":"a57f15f3a10bdf92","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_normal(f)","rhs":"gf_normal produces the expected output","over":{"base":"Any"},"name":"gf_normal_correct"},"guarantee":"gf_normal produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a68c3b9f53c60844"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_normal","kind":"method","src_hash":"a57f15f3a10bdf92","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_normal(f)","rhs":"self.from_gf_dense(gf_strip(self.to_gf_dense(f), self.domain.mod, self.domain.dom))","over":{"base":"Any"},"name":"gf_normal_correct"},"guarantee":"returns self.from_gf_dense(gf_strip(self.to_gf_dense(f), self.domain.mod, self.domain.dom))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a68c3b9f53c60844","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_gf_dense(gf_strip(self.to_gf_dense(f), self.domain.mod, self.domain.dom))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_normal(self, f):
         return self.from_gf_dense(gf_strip(self.to_gf_dense(f), self.domain.mod, self.domain.dom))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_from_dict(f), gf_from_dict produces the expected output) over Any ║
+# ║ Path(gf_from_dict(f), self.from_gf_dense(gf_from_dict(f, self.domain.mod, self.domain.dom))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_gf_dense(gf_from_dict(f, self.d...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_from_dict : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b9beada9523aea16           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_from_dict","kind":"method","src_hash":"05f100bedd371ceb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_from_dict(f)","rhs":"gf_from_dict produces the expected output","over":{"base":"Any"},"name":"gf_from_dict_correct"},"guarantee":"gf_from_dict produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b9beada9523aea16"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_from_dict","kind":"method","src_hash":"05f100bedd371ceb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_from_dict(f)","rhs":"self.from_gf_dense(gf_from_dict(f, self.domain.mod, self.domain.dom))","over":{"base":"Any"},"name":"gf_from_dict_correct"},"guarantee":"returns self.from_gf_dense(gf_from_dict(f, self.domain.mod, self.domain.dom))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b9beada9523aea16","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_gf_dense(gf_from_dict(f, self.domain.mod, self.domain.dom))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_from_dict(self, f):
         return self.from_gf_dense(gf_from_dict(f, self.domain.mod, self.domain.dom))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_to_dict(f, ), gf_to_dict produces the expected output) over Any ║
+# ║ Path(gf_to_dict(f, symmetric), gf_to_dict(self.to_gf_dense(f), self.domain.mod, symmetric=symmetric)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  gf_to_dict(self.to_gf_dense(f), self.doma...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_to_dict : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f6a9bbfaa5251a81           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_to_dict","kind":"method","src_hash":"1fa70230f3b9900b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_to_dict(f, )","rhs":"gf_to_dict produces the expected output","over":{"base":"Any"},"name":"gf_to_dict_correct"},"guarantee":"gf_to_dict produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f6a9bbfaa5251a81"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_to_dict","kind":"method","src_hash":"1fa70230f3b9900b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_to_dict(f, symmetric)","rhs":"gf_to_dict(self.to_gf_dense(f), self.domain.mod, symmetric=symmetric)","over":{"base":"Any"},"name":"gf_to_dict_correct"},"guarantee":"returns gf_to_dict(self.to_gf_dense(f), self.domain.mod, symmetric=symmetric)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f6a9bbfaa5251a81","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"gf_to_dict(self.to_gf_dense(f), self.domain.mod, symmetric=symmetric)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_to_dict(self, f, symmetric=True):
         return gf_to_dict(self.to_gf_dense(f), self.domain.mod, symmetric=symmetric)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_from_int_poly(f), gf_from_int_poly produces the expected output) over Any ║
+# ║ Path(gf_from_int_poly(f), self.from_gf_dense(gf_from_int_poly(f, self.domain.mod))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_gf_dense(gf_from_int_poly(f, se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_from_int_poly : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ee4e3165a7c0fab2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_from_int_poly","kind":"method","src_hash":"d493919f32952dad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_from_int_poly(f)","rhs":"gf_from_int_poly produces the expected output","over":{"base":"Any"},"name":"gf_from_int_poly_correct"},"guarantee":"gf_from_int_poly produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ee4e3165a7c0fab2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_from_int_poly","kind":"method","src_hash":"d493919f32952dad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_from_int_poly(f)","rhs":"self.from_gf_dense(gf_from_int_poly(f, self.domain.mod))","over":{"base":"Any"},"name":"gf_from_int_poly_correct"},"guarantee":"returns self.from_gf_dense(gf_from_int_poly(f, self.domain.mod))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ee4e3165a7c0fab2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_gf_dense(gf_from_int_poly(f, self.domain.mod))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_from_int_poly(self, f):
         return self.from_gf_dense(gf_from_int_poly(f, self.domain.mod))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_to_int_poly(f, ), gf_to_int_poly produces the expected output) over Any ║
+# ║ Path(gf_to_int_poly(f, symmetric), gf_to_int_poly(self.to_gf_dense(f), self.domain.mod, symmetric=symmetric)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  gf_to_int_poly(self.to_gf_dense(f), self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_to_int_poly : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c5c189b68de4b76e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_to_int_poly","kind":"method","src_hash":"cb4bd39a19e56d4b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_to_int_poly(f, )","rhs":"gf_to_int_poly produces the expected output","over":{"base":"Any"},"name":"gf_to_int_poly_correct"},"guarantee":"gf_to_int_poly produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c5c189b68de4b76e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_to_int_poly","kind":"method","src_hash":"cb4bd39a19e56d4b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_to_int_poly(f, symmetric)","rhs":"gf_to_int_poly(self.to_gf_dense(f), self.domain.mod, symmetric=symmetric)","over":{"base":"Any"},"name":"gf_to_int_poly_correct"},"guarantee":"returns gf_to_int_poly(self.to_gf_dense(f), self.domain.mod, symmetric=symmetric)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c5c189b68de4b76e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"gf_to_int_poly(self.to_gf_dense(f), self.domain.mod, symmetric=symmetric)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_to_int_poly(self, f, symmetric=True):
         return gf_to_int_poly(self.to_gf_dense(f), self.domain.mod, symmetric=symmetric)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_neg(f), gf_neg produces the expected output) over Any ║
+# ║ Path(gf_neg(f), self.from_gf_dense(gf_neg(self.to_gf_dense(f), self.domain.mod, self.domain.dom))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_gf_dense(gf_neg(self.to_gf_dens...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_neg : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9e333daa49ef595c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_neg","kind":"method","src_hash":"e8400cedb4e0bda6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_neg(f)","rhs":"gf_neg produces the expected output","over":{"base":"Any"},"name":"gf_neg_correct"},"guarantee":"gf_neg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9e333daa49ef595c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_neg","kind":"method","src_hash":"e8400cedb4e0bda6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_neg(f)","rhs":"self.from_gf_dense(gf_neg(self.to_gf_dense(f), self.domain.mod, self.domain.dom))","over":{"base":"Any"},"name":"gf_neg_correct"},"guarantee":"returns self.from_gf_dense(gf_neg(self.to_gf_dense(f), self.domain.mod, self.domain.dom))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9e333daa49ef595c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_gf_dense(gf_neg(self.to_gf_dense(f), self.domain.mod, self.domain.dom))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_neg(self, f):
         return self.from_gf_dense(gf_neg(self.to_gf_dense(f), self.domain.mod, self.domain.dom))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_add_ground(f, ), gf_add_ground produces the expected output) over Any ║
+# ║ Path(gf_add_ground(f, a), self.from_gf_dense(gf_add_ground(self.to_gf_dense(f), a, self.domain.mod, self.domain.dom))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_gf_dense(gf_add_ground(self.to_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_add_ground : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 34dbbef4afc7b4b7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_add_ground","kind":"method","src_hash":"c38dd7e010de9f68","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_add_ground(f, )","rhs":"gf_add_ground produces the expected output","over":{"base":"Any"},"name":"gf_add_ground_correct"},"guarantee":"gf_add_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"34dbbef4afc7b4b7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_add_ground","kind":"method","src_hash":"c38dd7e010de9f68","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_add_ground(f, a)","rhs":"self.from_gf_dense(gf_add_ground(self.to_gf_dense(f), a, self.domain.mod, self.domain.dom))","over":{"base":"Any"},"name":"gf_add_ground_correct"},"guarantee":"returns self.from_gf_dense(gf_add_ground(self.to_gf_dense(f), a, self.domain.mod, self.domain.dom))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"34dbbef4afc7b4b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_gf_dense(gf_add_ground(self.to_gf_dense(f), a, self.domain.mod, self.domain.dom))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_add_ground(self, f, a):
         return self.from_gf_dense(gf_add_ground(self.to_gf_dense(f), a, self.domain.mod, self.domain.dom))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_sub_ground(f, ), gf_sub_ground produces the expected output) over Any ║
+# ║ Path(gf_sub_ground(f, a), self.from_gf_dense(gf_sub_ground(self.to_gf_dense(f), a, self.domain.mod, self.domain.dom))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_gf_dense(gf_sub_ground(self.to_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_sub_ground : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3c0aa6353ba0b1ea           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_sub_ground","kind":"method","src_hash":"576492b5ea0e0074","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_sub_ground(f, )","rhs":"gf_sub_ground produces the expected output","over":{"base":"Any"},"name":"gf_sub_ground_correct"},"guarantee":"gf_sub_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3c0aa6353ba0b1ea"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_sub_ground","kind":"method","src_hash":"576492b5ea0e0074","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_sub_ground(f, a)","rhs":"self.from_gf_dense(gf_sub_ground(self.to_gf_dense(f), a, self.domain.mod, self.domain.dom))","over":{"base":"Any"},"name":"gf_sub_ground_correct"},"guarantee":"returns self.from_gf_dense(gf_sub_ground(self.to_gf_dense(f), a, self.domain.mod, self.domain.dom))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3c0aa6353ba0b1ea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_gf_dense(gf_sub_ground(self.to_gf_dense(f), a, self.domain.mod, self.domain.dom))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_sub_ground(self, f, a):
         return self.from_gf_dense(gf_sub_ground(self.to_gf_dense(f), a, self.domain.mod, self.domain.dom))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_mul_ground(f, ), gf_mul_ground produces the expected output) over Any ║
+# ║ Path(gf_mul_ground(f, a), self.from_gf_dense(gf_mul_ground(self.to_gf_dense(f), a, self.domain.mod, self.domain.dom))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_gf_dense(gf_mul_ground(self.to_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_mul_ground : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 52eb152d045090c7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_mul_ground","kind":"method","src_hash":"e259f9b1724284bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_mul_ground(f, )","rhs":"gf_mul_ground produces the expected output","over":{"base":"Any"},"name":"gf_mul_ground_correct"},"guarantee":"gf_mul_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"52eb152d045090c7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_mul_ground","kind":"method","src_hash":"e259f9b1724284bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_mul_ground(f, a)","rhs":"self.from_gf_dense(gf_mul_ground(self.to_gf_dense(f), a, self.domain.mod, self.domain.dom))","over":{"base":"Any"},"name":"gf_mul_ground_correct"},"guarantee":"returns self.from_gf_dense(gf_mul_ground(self.to_gf_dense(f), a, self.domain.mod, self.domain.dom))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"52eb152d045090c7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_gf_dense(gf_mul_ground(self.to_gf_dense(f), a, self.domain.mod, self.domain.dom))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_mul_ground(self, f, a):
         return self.from_gf_dense(gf_mul_ground(self.to_gf_dense(f), a, self.domain.mod, self.domain.dom))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_quo_ground(f, ), gf_quo_ground produces the expected output) over Any ║
+# ║ Path(gf_quo_ground(f, a), self.from_gf_dense(gf_quo_ground(self.to_gf_dense(f), a, self.domain.mod, self.domain.dom))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_gf_dense(gf_quo_ground(self.to_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_quo_ground : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4b304654249ff719           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_quo_ground","kind":"method","src_hash":"792089cb4cd9dce8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_quo_ground(f, )","rhs":"gf_quo_ground produces the expected output","over":{"base":"Any"},"name":"gf_quo_ground_correct"},"guarantee":"gf_quo_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4b304654249ff719"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_quo_ground","kind":"method","src_hash":"792089cb4cd9dce8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_quo_ground(f, a)","rhs":"self.from_gf_dense(gf_quo_ground(self.to_gf_dense(f), a, self.domain.mod, self.domain.dom))","over":{"base":"Any"},"name":"gf_quo_ground_correct"},"guarantee":"returns self.from_gf_dense(gf_quo_ground(self.to_gf_dense(f), a, self.domain.mod, self.domain.dom))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4b304654249ff719","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_gf_dense(gf_quo_ground(self.to_gf_dense(f), a, self.domain.mod, self.domain.dom))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_quo_ground(self, f, a):
         return self.from_gf_dense(gf_quo_ground(self.to_gf_dense(f), a, self.domain.mod, self.domain.dom))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_add(f, ), gf_add produces the expected output) over Any ║
+# ║ Path(gf_add(f, g), self.from_gf_dense(gf_add(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_gf_dense(gf_add(self.to_gf_dens...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_add : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 08cc91645d3249bc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_add","kind":"method","src_hash":"6bda8dc74b91e6e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_add(f, )","rhs":"gf_add produces the expected output","over":{"base":"Any"},"name":"gf_add_correct"},"guarantee":"gf_add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"08cc91645d3249bc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_add","kind":"method","src_hash":"6bda8dc74b91e6e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_add(f, g)","rhs":"self.from_gf_dense(gf_add(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))","over":{"base":"Any"},"name":"gf_add_correct"},"guarantee":"returns self.from_gf_dense(gf_add(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"08cc91645d3249bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_gf_dense(gf_add(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_add(self, f, g):
         return self.from_gf_dense(gf_add(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_sub(f, ), gf_sub produces the expected output) over Any ║
+# ║ Path(gf_sub(f, g), self.from_gf_dense(gf_sub(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_gf_dense(gf_sub(self.to_gf_dens...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_sub : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1cb2179aef324f57           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_sub","kind":"method","src_hash":"0e0ff897c1f4a5fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_sub(f, )","rhs":"gf_sub produces the expected output","over":{"base":"Any"},"name":"gf_sub_correct"},"guarantee":"gf_sub produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1cb2179aef324f57"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_sub","kind":"method","src_hash":"0e0ff897c1f4a5fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_sub(f, g)","rhs":"self.from_gf_dense(gf_sub(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))","over":{"base":"Any"},"name":"gf_sub_correct"},"guarantee":"returns self.from_gf_dense(gf_sub(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1cb2179aef324f57","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_gf_dense(gf_sub(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_sub(self, f, g):
         return self.from_gf_dense(gf_sub(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_mul(f, ), gf_mul produces the expected output) over Any ║
+# ║ Path(gf_mul(f, g), self.from_gf_dense(gf_mul(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_gf_dense(gf_mul(self.to_gf_dens...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_mul : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8515378d631b5762           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_mul","kind":"method","src_hash":"472a39934fd212f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_mul(f, )","rhs":"gf_mul produces the expected output","over":{"base":"Any"},"name":"gf_mul_correct"},"guarantee":"gf_mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8515378d631b5762"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_mul","kind":"method","src_hash":"472a39934fd212f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_mul(f, g)","rhs":"self.from_gf_dense(gf_mul(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))","over":{"base":"Any"},"name":"gf_mul_correct"},"guarantee":"returns self.from_gf_dense(gf_mul(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8515378d631b5762","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_gf_dense(gf_mul(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_mul(self, f, g):
         return self.from_gf_dense(gf_mul(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_sqr(f), gf_sqr produces the expected output) over Any ║
+# ║ Path(gf_sqr(f), self.from_gf_dense(gf_sqr(self.to_gf_dense(f), self.domain.mod, self.domain.dom))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_gf_dense(gf_sqr(self.to_gf_dens...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_sqr : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2568838f5e2bae76           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_sqr","kind":"method","src_hash":"4d65def2d9e68030","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_sqr(f)","rhs":"gf_sqr produces the expected output","over":{"base":"Any"},"name":"gf_sqr_correct"},"guarantee":"gf_sqr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2568838f5e2bae76"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_sqr","kind":"method","src_hash":"4d65def2d9e68030","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_sqr(f)","rhs":"self.from_gf_dense(gf_sqr(self.to_gf_dense(f), self.domain.mod, self.domain.dom))","over":{"base":"Any"},"name":"gf_sqr_correct"},"guarantee":"returns self.from_gf_dense(gf_sqr(self.to_gf_dense(f), self.domain.mod, self.domain.dom))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2568838f5e2bae76","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_gf_dense(gf_sqr(self.to_gf_dense(f), self.domain.mod, self.domain.dom))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_sqr(self, f):
         return self.from_gf_dense(gf_sqr(self.to_gf_dense(f), self.domain.mod, self.domain.dom))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_add_mul(f, ), gf_add_mul produces the expected output) over Any ║
+# ║ Path(gf_add_mul(f, g, h), self.from_gf_dense(gf_add_mul(self.to_gf_dense(f), self.to_gf_dense(g), self.to_gf_dense(h), self.domain.mod, self.domain.dom))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_gf_dense(gf_add_mul(self.to_gf_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_add_mul : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7aa9209c500872b3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_add_mul","kind":"method","src_hash":"f3a5f073c8f7d79f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_add_mul(f, )","rhs":"gf_add_mul produces the expected output","over":{"base":"Any"},"name":"gf_add_mul_correct"},"guarantee":"gf_add_mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7aa9209c500872b3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_add_mul","kind":"method","src_hash":"f3a5f073c8f7d79f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_add_mul(f, g, h)","rhs":"self.from_gf_dense(gf_add_mul(self.to_gf_dense(f), self.to_gf_dense(g), self.to_gf_dense(h), self.domain.mod, self.domain.dom))","over":{"base":"Any"},"name":"gf_add_mul_correct"},"guarantee":"returns self.from_gf_dense(gf_add_mul(self.to_gf_dense(f), self.to_gf_dense(g), self.to_gf_dense(h), self.domain.mod, self.domain.dom))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7aa9209c500872b3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_gf_dense(gf_add_mul(self.to_gf_dense(f), self.to_gf_dense(g), self.to_gf_dense(h), self.domain.mod, self.domain.dom))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_add_mul(self, f, g, h):
         return self.from_gf_dense(gf_add_mul(self.to_gf_dense(f), self.to_gf_dense(g), self.to_gf_dense(h), self.domain.mod, self.domain.dom))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_sub_mul(f, ), gf_sub_mul produces the expected output) over Any ║
+# ║ Path(gf_sub_mul(f, g, h), self.from_gf_dense(gf_sub_mul(self.to_gf_dense(f), self.to_gf_dense(g), self.to_gf_dense(h), self.domain.mod, self.domain.dom))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_gf_dense(gf_sub_mul(self.to_gf_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_sub_mul : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 16264dc6ea747ad5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_sub_mul","kind":"method","src_hash":"2db853f7eb992eb3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_sub_mul(f, )","rhs":"gf_sub_mul produces the expected output","over":{"base":"Any"},"name":"gf_sub_mul_correct"},"guarantee":"gf_sub_mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"16264dc6ea747ad5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_sub_mul","kind":"method","src_hash":"2db853f7eb992eb3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_sub_mul(f, g, h)","rhs":"self.from_gf_dense(gf_sub_mul(self.to_gf_dense(f), self.to_gf_dense(g), self.to_gf_dense(h), self.domain.mod, self.domain.dom))","over":{"base":"Any"},"name":"gf_sub_mul_correct"},"guarantee":"returns self.from_gf_dense(gf_sub_mul(self.to_gf_dense(f), self.to_gf_dense(g), self.to_gf_dense(h), self.domain.mod, self.domain.dom))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"16264dc6ea747ad5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_gf_dense(gf_sub_mul(self.to_gf_dense(f), self.to_gf_dense(g), self.to_gf_dense(h), self.domain.mod, self.domain.dom))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_sub_mul(self, f, g, h):
         return self.from_gf_dense(gf_sub_mul(self.to_gf_dense(f), self.to_gf_dense(g), self.to_gf_dense(h), self.domain.mod, self.domain.dom))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_expand(F), gf_expand produces the expected output) over Any ║
+# ║ Path(gf_expand(F), self.from_gf_dense(gf_expand(list(map(self.to_gf_dense, F)), self.domain.mod, self.domain.dom))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_gf_dense(gf_expand(list(map(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_expand : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 70f0fd990108c770           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_expand","kind":"method","src_hash":"94322846cf17c043","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_expand(F)","rhs":"gf_expand produces the expected output","over":{"base":"Any"},"name":"gf_expand_correct"},"guarantee":"gf_expand produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"70f0fd990108c770"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_expand","kind":"method","src_hash":"94322846cf17c043","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_expand(F)","rhs":"self.from_gf_dense(gf_expand(list(map(self.to_gf_dense, F)), self.domain.mod, self.domain.dom))","over":{"base":"Any"},"name":"gf_expand_correct"},"guarantee":"returns self.from_gf_dense(gf_expand(list(map(self.to_gf_dense, F)), self.domain.mod, self.domain.dom))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"70f0fd990108c770","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_gf_dense(gf_expand(list(map(self.to_gf_dense, F)), self.domain.mod, self.domain.dom))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_expand(self, F):
         return self.from_gf_dense(gf_expand(list(map(self.to_gf_dense, F)), self.domain.mod, self.domain.dom))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_div(f, ), id) over Any                             ║
+# ║ Path(gf_div(f, g), id) over Any                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.from_gf_dense(q), self.from_gf_dens...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_div : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 1b59f1ced93855e1   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_div","kind":"method","src_hash":"9430a29268cfa46c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_div(f, )","rhs":"gf_div produces the expected output","over":{"base":"Any"},"name":"gf_div_correct","kind":"composition"},"guarantee":"gf_div produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_gf_dense","by":"library_axiom"},{"fn":"from_gf_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b59f1ced93855e1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_div","kind":"method","src_hash":"9430a29268cfa46c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_div(f, g)","rhs":"(self.from_gf_dense(q), self.from_gf_dense(r))","over":{"base":"Any"},"name":"gf_div_correct","kind":"composition"},"guarantee":"returns (self.from_gf_dense(q), self.from_gf_dense(r))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_gf_dense","by":"library_axiom"},{"fn":"from_gf_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b59f1ced93855e1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.from_gf_dense(q), self.from_gf_dense(r))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_div(self, f, g):
         q, r = gf_div(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom)
         return self.from_gf_dense(q), self.from_gf_dense(r)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_rem(f, ), gf_rem produces the expected output) over Any ║
+# ║ Path(gf_rem(f, g), self.from_gf_dense(gf_rem(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_gf_dense(gf_rem(self.to_gf_dens...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_rem : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 42e849e1499cfbae           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_rem","kind":"method","src_hash":"c6496b9c3f57192b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_rem(f, )","rhs":"gf_rem produces the expected output","over":{"base":"Any"},"name":"gf_rem_correct"},"guarantee":"gf_rem produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"42e849e1499cfbae"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_rem","kind":"method","src_hash":"c6496b9c3f57192b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_rem(f, g)","rhs":"self.from_gf_dense(gf_rem(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))","over":{"base":"Any"},"name":"gf_rem_correct"},"guarantee":"returns self.from_gf_dense(gf_rem(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"42e849e1499cfbae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_gf_dense(gf_rem(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_rem(self, f, g):
         return self.from_gf_dense(gf_rem(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_quo(f, ), gf_quo produces the expected output) over Any ║
+# ║ Path(gf_quo(f, g), self.from_gf_dense(gf_quo(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_gf_dense(gf_quo(self.to_gf_dens...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_quo : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 42098c17e3464104           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_quo","kind":"method","src_hash":"9956ccef14885969","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_quo(f, )","rhs":"gf_quo produces the expected output","over":{"base":"Any"},"name":"gf_quo_correct"},"guarantee":"gf_quo produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"42098c17e3464104"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_quo","kind":"method","src_hash":"9956ccef14885969","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_quo(f, g)","rhs":"self.from_gf_dense(gf_quo(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))","over":{"base":"Any"},"name":"gf_quo_correct"},"guarantee":"returns self.from_gf_dense(gf_quo(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"42098c17e3464104","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_gf_dense(gf_quo(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_quo(self, f, g):
         return self.from_gf_dense(gf_quo(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_exquo(f, ), gf_exquo produces the expected output) over Any ║
+# ║ Path(gf_exquo(f, g), self.from_gf_dense(gf_exquo(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_gf_dense(gf_exquo(self.to_gf_de...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_exquo : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b5f8f7cdfe2e7289           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_exquo","kind":"method","src_hash":"360c8b5ba6d31738","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_exquo(f, )","rhs":"gf_exquo produces the expected output","over":{"base":"Any"},"name":"gf_exquo_correct"},"guarantee":"gf_exquo produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b5f8f7cdfe2e7289"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_exquo","kind":"method","src_hash":"360c8b5ba6d31738","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_exquo(f, g)","rhs":"self.from_gf_dense(gf_exquo(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))","over":{"base":"Any"},"name":"gf_exquo_correct"},"guarantee":"returns self.from_gf_dense(gf_exquo(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b5f8f7cdfe2e7289","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_gf_dense(gf_exquo(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_exquo(self, f, g):
         return self.from_gf_dense(gf_exquo(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_lshift(f, ), gf_lshift produces the expected output) over Any ║
+# ║ Path(gf_lshift(f, n), self.from_gf_dense(gf_lshift(self.to_gf_dense(f), n, self.domain.dom))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_gf_dense(gf_lshift(self.to_gf_d...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_lshift : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 662ed09ae07c3b2f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_lshift","kind":"method","src_hash":"feecd1ebb9b67733","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_lshift(f, )","rhs":"gf_lshift produces the expected output","over":{"base":"Any"},"name":"gf_lshift_correct"},"guarantee":"gf_lshift produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"662ed09ae07c3b2f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_lshift","kind":"method","src_hash":"feecd1ebb9b67733","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_lshift(f, n)","rhs":"self.from_gf_dense(gf_lshift(self.to_gf_dense(f), n, self.domain.dom))","over":{"base":"Any"},"name":"gf_lshift_correct"},"guarantee":"returns self.from_gf_dense(gf_lshift(self.to_gf_dense(f), n, self.domain.dom))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"662ed09ae07c3b2f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_gf_dense(gf_lshift(self.to_gf_dense(f), n, self.domain.dom))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_lshift(self, f, n):
         return self.from_gf_dense(gf_lshift(self.to_gf_dense(f), n, self.domain.dom))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_rshift(f, ), gf_rshift produces the expected output) over Any ║
+# ║ Path(gf_rshift(f, n), self.from_gf_dense(gf_rshift(self.to_gf_dense(f), n, self.domain.dom))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_gf_dense(gf_rshift(self.to_gf_d...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_rshift : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 792e96f3cbeb6a6b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_rshift","kind":"method","src_hash":"b043315c955db085","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_rshift(f, )","rhs":"gf_rshift produces the expected output","over":{"base":"Any"},"name":"gf_rshift_correct"},"guarantee":"gf_rshift produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"792e96f3cbeb6a6b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_rshift","kind":"method","src_hash":"b043315c955db085","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_rshift(f, n)","rhs":"self.from_gf_dense(gf_rshift(self.to_gf_dense(f), n, self.domain.dom))","over":{"base":"Any"},"name":"gf_rshift_correct"},"guarantee":"returns self.from_gf_dense(gf_rshift(self.to_gf_dense(f), n, self.domain.dom))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"792e96f3cbeb6a6b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_gf_dense(gf_rshift(self.to_gf_dense(f), n, self.domain.dom))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_rshift(self, f, n):
         return self.from_gf_dense(gf_rshift(self.to_gf_dense(f), n, self.domain.dom))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_pow(f, ), gf_pow produces the expected output) over Any ║
+# ║ Path(gf_pow(f, n), self.from_gf_dense(gf_pow(self.to_gf_dense(f), n, self.domain.mod, self.domain.dom))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_gf_dense(gf_pow(self.to_gf_dens...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_pow : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c24d4603acea2e2b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_pow","kind":"method","src_hash":"5fca00d94d9096bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_pow(f, )","rhs":"gf_pow produces the expected output","over":{"base":"Any"},"name":"gf_pow_correct"},"guarantee":"gf_pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c24d4603acea2e2b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_pow","kind":"method","src_hash":"5fca00d94d9096bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_pow(f, n)","rhs":"self.from_gf_dense(gf_pow(self.to_gf_dense(f), n, self.domain.mod, self.domain.dom))","over":{"base":"Any"},"name":"gf_pow_correct"},"guarantee":"returns self.from_gf_dense(gf_pow(self.to_gf_dense(f), n, self.domain.mod, self.domain.dom))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c24d4603acea2e2b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_gf_dense(gf_pow(self.to_gf_dense(f), n, self.domain.mod, self.domain.dom))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_pow(self, f, n):
         return self.from_gf_dense(gf_pow(self.to_gf_dense(f), n, self.domain.mod, self.domain.dom))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_pow_mod(f, ), gf_pow_mod produces the expected output) over Any ║
+# ║ Path(gf_pow_mod(f, n, g), self.from_gf_dense(gf_pow_mod(self.to_gf_dense(f), n, self.to_gf_dense(g), self.domain.mod, self.domain.dom))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_gf_dense(gf_pow_mod(self.to_gf_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_pow_mod : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d4bd0998c5998117           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_pow_mod","kind":"method","src_hash":"0c2c85d7082debe3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_pow_mod(f, )","rhs":"gf_pow_mod produces the expected output","over":{"base":"Any"},"name":"gf_pow_mod_correct"},"guarantee":"gf_pow_mod produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d4bd0998c5998117"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_pow_mod","kind":"method","src_hash":"0c2c85d7082debe3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_pow_mod(f, n, g)","rhs":"self.from_gf_dense(gf_pow_mod(self.to_gf_dense(f), n, self.to_gf_dense(g), self.domain.mod, self.domain.dom))","over":{"base":"Any"},"name":"gf_pow_mod_correct"},"guarantee":"returns self.from_gf_dense(gf_pow_mod(self.to_gf_dense(f), n, self.to_gf_dense(g), self.domain.mod, self.domain.dom))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d4bd0998c5998117","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_gf_dense(gf_pow_mod(self.to_gf_dense(f), n, self.to_gf_dense(g), self.domain.mod, self.domain.dom))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_pow_mod(self, f, n, g):
         return self.from_gf_dense(gf_pow_mod(self.to_gf_dense(f), n, self.to_gf_dense(g), self.domain.mod, self.domain.dom))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_cofactors(f, ), id) over Any                       ║
+# ║ Path(gf_cofactors(f, g), id) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.from_gf_dense(h), self.from_gf_dens...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_cofactors : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 3d736384fa7bf3b5   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_cofactors","kind":"method","src_hash":"7e8e9e147c9f33e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_cofactors(f, )","rhs":"gf_cofactors produces the expected output","over":{"base":"Any"},"name":"gf_cofactors_correct","kind":"composition"},"guarantee":"gf_cofactors produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_gf_dense","by":"library_axiom"},{"fn":"from_gf_dense","by":"library_axiom"},{"fn":"from_gf_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d736384fa7bf3b5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_cofactors","kind":"method","src_hash":"7e8e9e147c9f33e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_cofactors(f, g)","rhs":"(self.from_gf_dense(h), self.from_gf_dense(cff), self.from_gf_dense(cfg))","over":{"base":"Any"},"name":"gf_cofactors_correct","kind":"composition"},"guarantee":"returns (self.from_gf_dense(h), self.from_gf_dense(cff), self.from_gf_dense(cfg))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_gf_dense","by":"library_axiom"},{"fn":"from_gf_dense","by":"library_axiom"},{"fn":"from_gf_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d736384fa7bf3b5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.from_gf_dense(h), self.from_gf_dense(cff), self.from_gf_dense(cfg))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_cofactors(self, f, g):
         h, cff, cfg = gf_cofactors(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom)
         return self.from_gf_dense(h), self.from_gf_dense(cff), self.from_gf_dense(cfg)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_gcd(f, ), gf_gcd produces the expected output) over Any ║
+# ║ Path(gf_gcd(f, g), self.from_gf_dense(gf_gcd(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_gf_dense(gf_gcd(self.to_gf_dens...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_gcd : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ce3186fe3b8f5c66           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_gcd","kind":"method","src_hash":"c271ea5c868b52c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_gcd(f, )","rhs":"gf_gcd produces the expected output","over":{"base":"Any"},"name":"gf_gcd_correct"},"guarantee":"gf_gcd produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ce3186fe3b8f5c66"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_gcd","kind":"method","src_hash":"c271ea5c868b52c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_gcd(f, g)","rhs":"self.from_gf_dense(gf_gcd(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))","over":{"base":"Any"},"name":"gf_gcd_correct"},"guarantee":"returns self.from_gf_dense(gf_gcd(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ce3186fe3b8f5c66","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_gf_dense(gf_gcd(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_gcd(self, f, g):
         return self.from_gf_dense(gf_gcd(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_lcm(f, ), gf_lcm produces the expected output) over Any ║
+# ║ Path(gf_lcm(f, g), self.from_gf_dense(gf_lcm(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_gf_dense(gf_lcm(self.to_gf_dens...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_lcm : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f4aa81357728e7a5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_lcm","kind":"method","src_hash":"04dbbd18d50f2b2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_lcm(f, )","rhs":"gf_lcm produces the expected output","over":{"base":"Any"},"name":"gf_lcm_correct"},"guarantee":"gf_lcm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f4aa81357728e7a5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_lcm","kind":"method","src_hash":"04dbbd18d50f2b2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_lcm(f, g)","rhs":"self.from_gf_dense(gf_lcm(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))","over":{"base":"Any"},"name":"gf_lcm_correct"},"guarantee":"returns self.from_gf_dense(gf_lcm(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f4aa81357728e7a5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_gf_dense(gf_lcm(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_lcm(self, f, g):
         return self.from_gf_dense(gf_lcm(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_gcdex(f, ), gf_gcdex produces the expected output) over Any ║
+# ║ Path(gf_gcdex(f, g), self.from_gf_dense(gf_gcdex(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_gf_dense(gf_gcdex(self.to_gf_de...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_gcdex : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e5a03f17c65cfda6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_gcdex","kind":"method","src_hash":"5a894f709923aca2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_gcdex(f, )","rhs":"gf_gcdex produces the expected output","over":{"base":"Any"},"name":"gf_gcdex_correct"},"guarantee":"gf_gcdex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e5a03f17c65cfda6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_gcdex","kind":"method","src_hash":"5a894f709923aca2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_gcdex(f, g)","rhs":"self.from_gf_dense(gf_gcdex(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))","over":{"base":"Any"},"name":"gf_gcdex_correct"},"guarantee":"returns self.from_gf_dense(gf_gcdex(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e5a03f17c65cfda6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_gf_dense(gf_gcdex(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_gcdex(self, f, g):
         return self.from_gf_dense(gf_gcdex(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_monic(f), gf_monic produces the expected output) over Any ║
+# ║ Path(gf_monic(f), self.from_gf_dense(gf_monic(self.to_gf_dense(f), self.domain.mod, self.domain.dom))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_gf_dense(gf_monic(self.to_gf_de...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_monic : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 478a1415658871da           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_monic","kind":"method","src_hash":"c7a3ad5626c39be3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_monic(f)","rhs":"gf_monic produces the expected output","over":{"base":"Any"},"name":"gf_monic_correct"},"guarantee":"gf_monic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"478a1415658871da"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_monic","kind":"method","src_hash":"c7a3ad5626c39be3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_monic(f)","rhs":"self.from_gf_dense(gf_monic(self.to_gf_dense(f), self.domain.mod, self.domain.dom))","over":{"base":"Any"},"name":"gf_monic_correct"},"guarantee":"returns self.from_gf_dense(gf_monic(self.to_gf_dense(f), self.domain.mod, self.domain.dom))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"478a1415658871da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_gf_dense(gf_monic(self.to_gf_dense(f), self.domain.mod, self.domain.dom))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_monic(self, f):
         return self.from_gf_dense(gf_monic(self.to_gf_dense(f), self.domain.mod, self.domain.dom))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_diff(f), gf_diff produces the expected output) over Any ║
+# ║ Path(gf_diff(f), self.from_gf_dense(gf_diff(self.to_gf_dense(f), self.domain.mod, self.domain.dom))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_gf_dense(gf_diff(self.to_gf_den...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_diff : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a075a549cfeee7c9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_diff","kind":"method","src_hash":"5797af8ece4a497c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_diff(f)","rhs":"gf_diff produces the expected output","over":{"base":"Any"},"name":"gf_diff_correct"},"guarantee":"gf_diff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a075a549cfeee7c9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_diff","kind":"method","src_hash":"5797af8ece4a497c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_diff(f)","rhs":"self.from_gf_dense(gf_diff(self.to_gf_dense(f), self.domain.mod, self.domain.dom))","over":{"base":"Any"},"name":"gf_diff_correct"},"guarantee":"returns self.from_gf_dense(gf_diff(self.to_gf_dense(f), self.domain.mod, self.domain.dom))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a075a549cfeee7c9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_gf_dense(gf_diff(self.to_gf_dense(f), self.domain.mod, self.domain.dom))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_diff(self, f):
         return self.from_gf_dense(gf_diff(self.to_gf_dense(f), self.domain.mod, self.domain.dom))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_eval(f, ), gf_eval produces the expected output) over Any ║
+# ║ Path(gf_eval(f, a), gf_eval(self.to_gf_dense(f), a, self.domain.mod, self.domain.dom)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  gf_eval(self.to_gf_dense(f), a, self.doma...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_eval : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 90bdddc1dc9e20fe           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_eval","kind":"method","src_hash":"a5598c10e89c3272","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_eval(f, )","rhs":"gf_eval produces the expected output","over":{"base":"Any"},"name":"gf_eval_correct"},"guarantee":"gf_eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"90bdddc1dc9e20fe"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_eval","kind":"method","src_hash":"a5598c10e89c3272","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_eval(f, a)","rhs":"gf_eval(self.to_gf_dense(f), a, self.domain.mod, self.domain.dom)","over":{"base":"Any"},"name":"gf_eval_correct"},"guarantee":"returns gf_eval(self.to_gf_dense(f), a, self.domain.mod, self.domain.dom)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"90bdddc1dc9e20fe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"gf_eval(self.to_gf_dense(f), a, self.domain.mod, self.domain.dom)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_eval(self, f, a):
         return gf_eval(self.to_gf_dense(f), a, self.domain.mod, self.domain.dom)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_multi_eval(f, ), gf_multi_eval produces the expected output) over Any ║
+# ║ Path(gf_multi_eval(f, A), gf_multi_eval(self.to_gf_dense(f), A, self.domain.mod, self.domain.dom)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  gf_multi_eval(self.to_gf_dense(f), A, sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_multi_eval : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 060b972cfebd388d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_multi_eval","kind":"method","src_hash":"051ae6f7aecdbfe3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_multi_eval(f, )","rhs":"gf_multi_eval produces the expected output","over":{"base":"Any"},"name":"gf_multi_eval_correct"},"guarantee":"gf_multi_eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"060b972cfebd388d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_multi_eval","kind":"method","src_hash":"051ae6f7aecdbfe3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_multi_eval(f, A)","rhs":"gf_multi_eval(self.to_gf_dense(f), A, self.domain.mod, self.domain.dom)","over":{"base":"Any"},"name":"gf_multi_eval_correct"},"guarantee":"returns gf_multi_eval(self.to_gf_dense(f), A, self.domain.mod, self.domain.dom)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"060b972cfebd388d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"gf_multi_eval(self.to_gf_dense(f), A, self.domain.mod, self.domain.dom)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_multi_eval(self, f, A):
         return gf_multi_eval(self.to_gf_dense(f), A, self.domain.mod, self.domain.dom)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_compose(f, ), gf_compose produces the expected output) over Any ║
+# ║ Path(gf_compose(f, g), self.from_gf_dense(gf_compose(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_gf_dense(gf_compose(self.to_gf_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_compose : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 536a61be37b504e8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_compose","kind":"method","src_hash":"45e2bc775ddfa271","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_compose(f, )","rhs":"gf_compose produces the expected output","over":{"base":"Any"},"name":"gf_compose_correct"},"guarantee":"gf_compose produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"536a61be37b504e8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_compose","kind":"method","src_hash":"45e2bc775ddfa271","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_compose(f, g)","rhs":"self.from_gf_dense(gf_compose(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))","over":{"base":"Any"},"name":"gf_compose_correct"},"guarantee":"returns self.from_gf_dense(gf_compose(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"536a61be37b504e8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_gf_dense(gf_compose(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_compose(self, f, g):
         return self.from_gf_dense(gf_compose(self.to_gf_dense(f), self.to_gf_dense(g), self.domain.mod, self.domain.dom))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_compose_mod(g, ), gf_compose_mod produces the expected output) over Any ║
+# ║ Path(gf_compose_mod(g, h, f), self.from_gf_dense(gf_compose_mod(self.to_gf_dense(g), self.to_gf_dense(h), self.to_gf_dense(f), self.domain.mod, self.domain.dom))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_gf_dense(gf_compose_mod(self.to...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_compose_mod : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c41bb6f2720e441c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_compose_mod","kind":"method","src_hash":"8136baee5602f3ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_compose_mod(g, )","rhs":"gf_compose_mod produces the expected output","over":{"base":"Any"},"name":"gf_compose_mod_correct"},"guarantee":"gf_compose_mod produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c41bb6f2720e441c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_compose_mod","kind":"method","src_hash":"8136baee5602f3ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_compose_mod(g, h, f)","rhs":"self.from_gf_dense(gf_compose_mod(self.to_gf_dense(g), self.to_gf_dense(h), self.to_gf_dense(f), self.domain.mod, self.domain.dom))","over":{"base":"Any"},"name":"gf_compose_mod_correct"},"guarantee":"returns self.from_gf_dense(gf_compose_mod(self.to_gf_dense(g), self.to_gf_dense(h), self.to_gf_dense(f), self.domain.mod, self.domain.dom))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c41bb6f2720e441c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_gf_dense(gf_compose_mod(self.to_gf_dense(g), self.to_gf_dense(h), self.to_gf_dense(f), self.domain.mod, self.domain.dom))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_compose_mod(self, g, h, f):
         return self.from_gf_dense(gf_compose_mod(self.to_gf_dense(g), self.to_gf_dense(h), self.to_gf_dense(f), self.domain.mod, self.domain.dom))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_trace_map(a, ), id) over Any                       ║
+# ║ Path(gf_trace_map(a, b, c), id) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.from_gf_dense(U), self.from_gf_dens...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_trace_map : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | beb2599f14c1affd   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_trace_map","kind":"method","src_hash":"2f77b8096913b598","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_trace_map(a, )","rhs":"gf_trace_map produces the expected output","over":{"base":"Any"},"name":"gf_trace_map_correct","kind":"composition"},"guarantee":"gf_trace_map produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_gf_dense","by":"library_axiom"},{"fn":"from_gf_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"beb2599f14c1affd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_trace_map","kind":"method","src_hash":"2f77b8096913b598","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_trace_map(a, b, c)","rhs":"(self.from_gf_dense(U), self.from_gf_dense(V))","over":{"base":"Any"},"name":"gf_trace_map_correct","kind":"composition"},"guarantee":"returns (self.from_gf_dense(U), self.from_gf_dense(V))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_gf_dense","by":"library_axiom"},{"fn":"from_gf_dense","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"beb2599f14c1affd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.from_gf_dense(U), self.from_gf_dense(V))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_trace_map(self, a, b, c, n, f):
         a = self.to_gf_dense(a)
         b = self.to_gf_dense(b)
@@ -4184,253 +5890,361 @@ class IPolys:
         return self.from_gf_dense(U), self.from_gf_dense(V)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_random(n), gf_random produces the expected output) over Any ║
+# ║ Path(gf_random(n), self.from_gf_dense(gf_random(n, self.domain.mod, self.domain.dom))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_gf_dense(gf_random(n, self.doma...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_random : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e2607cbe59ee4f59           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_random","kind":"method","src_hash":"a7f867b419916cc8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_random(n)","rhs":"gf_random produces the expected output","over":{"base":"Any"},"name":"gf_random_correct"},"guarantee":"gf_random produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e2607cbe59ee4f59"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_random","kind":"method","src_hash":"a7f867b419916cc8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_random(n)","rhs":"self.from_gf_dense(gf_random(n, self.domain.mod, self.domain.dom))","over":{"base":"Any"},"name":"gf_random_correct"},"guarantee":"returns self.from_gf_dense(gf_random(n, self.domain.mod, self.domain.dom))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e2607cbe59ee4f59","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_gf_dense(gf_random(n, self.domain.mod, self.domain.dom))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_random(self, n):
         return self.from_gf_dense(gf_random(n, self.domain.mod, self.domain.dom))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_irreducible(n), gf_irreducible produces the expected output) over Any ║
+# ║ Path(gf_irreducible(n), self.from_gf_dense(gf_irreducible(n, self.domain.mod, self.domain.dom))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_gf_dense(gf_irreducible(n, self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_irreducible : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 47dd4f94f1b536dd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_irreducible","kind":"method","src_hash":"b7384ae6731c1d4a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_irreducible(n)","rhs":"gf_irreducible produces the expected output","over":{"base":"Any"},"name":"gf_irreducible_correct"},"guarantee":"gf_irreducible produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"47dd4f94f1b536dd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_irreducible","kind":"method","src_hash":"b7384ae6731c1d4a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_irreducible(n)","rhs":"self.from_gf_dense(gf_irreducible(n, self.domain.mod, self.domain.dom))","over":{"base":"Any"},"name":"gf_irreducible_correct"},"guarantee":"returns self.from_gf_dense(gf_irreducible(n, self.domain.mod, self.domain.dom))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"47dd4f94f1b536dd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_gf_dense(gf_irreducible(n, self.domain.mod, self.domain.dom))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_irreducible(self, n):
         return self.from_gf_dense(gf_irreducible(n, self.domain.mod, self.domain.dom))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_irred_p_ben_or(f), gf_irred_p_ben_or produces the expected output) over Any ║
+# ║ Path(gf_irred_p_ben_or(f), gf_irred_p_ben_or(self.to_gf_dense(f), self.domain.mod, self.domain.dom)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  gf_irred_p_ben_or(self.to_gf_dense(f), se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_irred_p_ben_or : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 53243848ce55864f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_irred_p_ben_or","kind":"method","src_hash":"e38bad611dc487bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_irred_p_ben_or(f)","rhs":"gf_irred_p_ben_or produces the expected output","over":{"base":"Any"},"name":"gf_irred_p_ben_or_correct"},"guarantee":"gf_irred_p_ben_or produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"53243848ce55864f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_irred_p_ben_or","kind":"method","src_hash":"e38bad611dc487bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_irred_p_ben_or(f)","rhs":"gf_irred_p_ben_or(self.to_gf_dense(f), self.domain.mod, self.domain.dom)","over":{"base":"Any"},"name":"gf_irred_p_ben_or_correct"},"guarantee":"returns gf_irred_p_ben_or(self.to_gf_dense(f), self.domain.mod, self.domain.dom)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"53243848ce55864f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"gf_irred_p_ben_or(self.to_gf_dense(f), self.domain.mod, self.domain.dom)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_irred_p_ben_or(self, f):
         return gf_irred_p_ben_or(self.to_gf_dense(f), self.domain.mod, self.domain.dom)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_irred_p_rabin(f), gf_irred_p_rabin produces the expected output) over Any ║
+# ║ Path(gf_irred_p_rabin(f), gf_irred_p_rabin(self.to_gf_dense(f), self.domain.mod, self.domain.dom)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  gf_irred_p_rabin(self.to_gf_dense(f), sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_irred_p_rabin : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2d9fd3f46aa52080           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_irred_p_rabin","kind":"method","src_hash":"180bf6be078c445a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_irred_p_rabin(f)","rhs":"gf_irred_p_rabin produces the expected output","over":{"base":"Any"},"name":"gf_irred_p_rabin_correct"},"guarantee":"gf_irred_p_rabin produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2d9fd3f46aa52080"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_irred_p_rabin","kind":"method","src_hash":"180bf6be078c445a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_irred_p_rabin(f)","rhs":"gf_irred_p_rabin(self.to_gf_dense(f), self.domain.mod, self.domain.dom)","over":{"base":"Any"},"name":"gf_irred_p_rabin_correct"},"guarantee":"returns gf_irred_p_rabin(self.to_gf_dense(f), self.domain.mod, self.domain.dom)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2d9fd3f46aa52080","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"gf_irred_p_rabin(self.to_gf_dense(f), self.domain.mod, self.domain.dom)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_irred_p_rabin(self, f):
         return gf_irred_p_rabin(self.to_gf_dense(f), self.domain.mod, self.domain.dom)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_irreducible_p(f), gf_irreducible_p produces the expected output) over Any ║
+# ║ Path(gf_irreducible_p(f), gf_irreducible_p(self.to_gf_dense(f), self.domain.mod, self.domain.dom)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  gf_irreducible_p(self.to_gf_dense(f), sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_irreducible_p : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8edc092739ba04cc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_irreducible_p","kind":"method","src_hash":"e24f5a50fa719fc8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_irreducible_p(f)","rhs":"gf_irreducible_p produces the expected output","over":{"base":"Any"},"name":"gf_irreducible_p_correct"},"guarantee":"gf_irreducible_p produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8edc092739ba04cc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_irreducible_p","kind":"method","src_hash":"e24f5a50fa719fc8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_irreducible_p(f)","rhs":"gf_irreducible_p(self.to_gf_dense(f), self.domain.mod, self.domain.dom)","over":{"base":"Any"},"name":"gf_irreducible_p_correct"},"guarantee":"returns gf_irreducible_p(self.to_gf_dense(f), self.domain.mod, self.domain.dom)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8edc092739ba04cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"gf_irreducible_p(self.to_gf_dense(f), self.domain.mod, self.domain.dom)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_irreducible_p(self, f):
         return gf_irreducible_p(self.to_gf_dense(f), self.domain.mod, self.domain.dom)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_sqf_p(f), gf_sqf_p produces the expected output) over Any ║
+# ║ Path(gf_sqf_p(f), gf_sqf_p(self.to_gf_dense(f), self.domain.mod, self.domain.dom)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  gf_sqf_p(self.to_gf_dense(f), self.domain...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_sqf_p : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 96f1917f113e5222           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_sqf_p","kind":"method","src_hash":"0ad2bd79a7f36b21","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_sqf_p(f)","rhs":"gf_sqf_p produces the expected output","over":{"base":"Any"},"name":"gf_sqf_p_correct"},"guarantee":"gf_sqf_p produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"96f1917f113e5222"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_sqf_p","kind":"method","src_hash":"0ad2bd79a7f36b21","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_sqf_p(f)","rhs":"gf_sqf_p(self.to_gf_dense(f), self.domain.mod, self.domain.dom)","over":{"base":"Any"},"name":"gf_sqf_p_correct"},"guarantee":"returns gf_sqf_p(self.to_gf_dense(f), self.domain.mod, self.domain.dom)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"96f1917f113e5222","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"gf_sqf_p(self.to_gf_dense(f), self.domain.mod, self.domain.dom)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_sqf_p(self, f):
         return gf_sqf_p(self.to_gf_dense(f), self.domain.mod, self.domain.dom)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_sqf_part(f), gf_sqf_part produces the expected output) over Any ║
+# ║ Path(gf_sqf_part(f), self.from_gf_dense(gf_sqf_part(self.to_gf_dense(f), self.domain.mod, self.domain.dom))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.from_gf_dense(gf_sqf_part(self.to_gf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_sqf_part : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8f48774ed20b699a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_sqf_part","kind":"method","src_hash":"12556476e81dad5c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_sqf_part(f)","rhs":"gf_sqf_part produces the expected output","over":{"base":"Any"},"name":"gf_sqf_part_correct"},"guarantee":"gf_sqf_part produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f48774ed20b699a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_sqf_part","kind":"method","src_hash":"12556476e81dad5c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_sqf_part(f)","rhs":"self.from_gf_dense(gf_sqf_part(self.to_gf_dense(f), self.domain.mod, self.domain.dom))","over":{"base":"Any"},"name":"gf_sqf_part_correct"},"guarantee":"returns self.from_gf_dense(gf_sqf_part(self.to_gf_dense(f), self.domain.mod, self.domain.dom))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f48774ed20b699a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.from_gf_dense(gf_sqf_part(self.to_gf_dense(f), self.domain.mod, self.domain.dom))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_sqf_part(self, f):
         return self.from_gf_dense(gf_sqf_part(self.to_gf_dense(f), self.domain.mod, self.domain.dom))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_sqf_list(f, ), gf_sqf_list produces the expected output) over Any ║
+# ║ Path(gf_sqf_list(f, all), (coeff, [(self.from_gf_dense(g), k) for g, k in factors])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (coeff, [(self.from_gf_dense(g), k) for g...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_sqf_list : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77c4636fe48bd71d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aed64b561e715b85  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_sqf_list","kind":"method","src_hash":"f71aa10d667ae34f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_sqf_list(f, )","rhs":"gf_sqf_list produces the expected output","over":{"base":"Any"},"name":"gf_sqf_list_correct"},"guarantee":"gf_sqf_list produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.gf_sqf_list_correct","statement":"Path(gf_sqf_list(x), gf_sqf_list produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77c4636fe48bd71d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_sqf_list","kind":"method","src_hash":"f71aa10d667ae34f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_sqf_list(f, all)","rhs":"(coeff, [(self.from_gf_dense(g), k) for g, k in factors])","over":{"base":"Any"},"name":"gf_sqf_list_correct"},"guarantee":"returns (coeff, [(self.from_gf_dense(g), k) for g, k in factors])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.gf_sqf_list_correct","statement":"Path(gf_sqf_list(x), returns (coeff, [(self.from_gf_dense(g), k) for g, k in factors]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aed64b561e715b85","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(coeff, [(self.from_gf_dense(g), k) for g, k in factors])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_sqf_list(self, f, all=False):
         coeff, factors = gf_sqf_part(self.to_gf_dense(f), self.domain.mod, self.domain.dom)
         return coeff, [ (self.from_gf_dense(g), k) for g, k in factors ]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_Qmatrix(f), gf_Qmatrix produces the expected output) over Any ║
+# ║ Path(gf_Qmatrix(f), gf_Qmatrix(self.to_gf_dense(f), self.domain.mod, self.domain.dom)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  gf_Qmatrix(self.to_gf_dense(f), self.doma...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_Qmatrix : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b85d5b5c4b47e9ac           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_Qmatrix","kind":"method","src_hash":"a6c9d3d0ef7230f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_Qmatrix(f)","rhs":"gf_Qmatrix produces the expected output","over":{"base":"Any"},"name":"gf_Qmatrix_correct"},"guarantee":"gf_Qmatrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b85d5b5c4b47e9ac"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_Qmatrix","kind":"method","src_hash":"a6c9d3d0ef7230f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_Qmatrix(f)","rhs":"gf_Qmatrix(self.to_gf_dense(f), self.domain.mod, self.domain.dom)","over":{"base":"Any"},"name":"gf_Qmatrix_correct"},"guarantee":"returns gf_Qmatrix(self.to_gf_dense(f), self.domain.mod, self.domain.dom)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b85d5b5c4b47e9ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"gf_Qmatrix(self.to_gf_dense(f), self.domain.mod, self.domain.dom)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_Qmatrix(self, f):
         return gf_Qmatrix(self.to_gf_dense(f), self.domain.mod, self.domain.dom)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_berlekamp(f), gf_berlekamp produces the expected output) over Any ║
+# ║ Path(gf_berlekamp(f), [self.from_gf_dense(g) for g in factors]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [self.from_gf_dense(g) for g in factors]       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_berlekamp : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e49cd42a13169dbe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5317c2682438e527  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_berlekamp","kind":"method","src_hash":"fd5e147dd942cddc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_berlekamp(f)","rhs":"gf_berlekamp produces the expected output","over":{"base":"Any"},"name":"gf_berlekamp_correct"},"guarantee":"gf_berlekamp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.gf_berlekamp_correct","statement":"Path(gf_berlekamp(x), gf_berlekamp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e49cd42a13169dbe"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_berlekamp","kind":"method","src_hash":"fd5e147dd942cddc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_berlekamp(f)","rhs":"[self.from_gf_dense(g) for g in factors]","over":{"base":"Any"},"name":"gf_berlekamp_correct"},"guarantee":"returns [self.from_gf_dense(g) for g in factors]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.gf_berlekamp_correct","statement":"Path(gf_berlekamp(x), returns [self.from_gf_dense(g) for g in factors])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5317c2682438e527","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[self.from_gf_dense(g) for g in factors]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_berlekamp(self, f):
         factors = gf_berlekamp(self.to_gf_dense(f), self.domain.mod, self.domain.dom)
         return [ self.from_gf_dense(g) for g in factors ]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_ddf_zassenhaus(f), gf_ddf_zassenhaus produces the expected output) over Any ║
+# ║ Path(gf_ddf_zassenhaus(f), [(self.from_gf_dense(g), k) for g, k in factors]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [(self.from_gf_dense(g), k) for g, k in f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_ddf_zassenhaus : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 87833b1f7bc32fbd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a1ad282034c769bb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_ddf_zassenhaus","kind":"method","src_hash":"ab5470b50d64e5e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_ddf_zassenhaus(f)","rhs":"gf_ddf_zassenhaus produces the expected output","over":{"base":"Any"},"name":"gf_ddf_zassenhaus_correct"},"guarantee":"gf_ddf_zassenhaus produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.gf_ddf_zassenhaus_correct","statement":"Path(gf_ddf_zassenhaus(x), gf_ddf_zassenhaus produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87833b1f7bc32fbd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_ddf_zassenhaus","kind":"method","src_hash":"ab5470b50d64e5e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_ddf_zassenhaus(f)","rhs":"[(self.from_gf_dense(g), k) for g, k in factors]","over":{"base":"Any"},"name":"gf_ddf_zassenhaus_correct"},"guarantee":"returns [(self.from_gf_dense(g), k) for g, k in factors]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.gf_ddf_zassenhaus_correct","statement":"Path(gf_ddf_zassenhaus(x), returns [(self.from_gf_dense(g), k) for g, k in factors])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1ad282034c769bb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[(self.from_gf_dense(g), k) for g, k in factors]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_ddf_zassenhaus(self, f):
         factors = gf_ddf_zassenhaus(self.to_gf_dense(f), self.domain.mod, self.domain.dom)
         return [ (self.from_gf_dense(g), k) for g, k in factors ]
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_edf_zassenhaus(f, ), gf_edf_zassenhaus produces the expected output) over Any ║
+# ║ Path(gf_edf_zassenhaus(f, n), [self.from_gf_dense(g) for g in factors]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [self.from_gf_dense(g) for g in factors]       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_edf_zassenhaus : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32e4d90d93f00d61  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | edefc8bdc50b7904  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_edf_zassenhaus","kind":"method","src_hash":"38cac68f8fac367f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_edf_zassenhaus(f, )","rhs":"gf_edf_zassenhaus produces the expected output","over":{"base":"Any"},"name":"gf_edf_zassenhaus_correct"},"guarantee":"gf_edf_zassenhaus produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.gf_edf_zassenhaus_correct","statement":"Path(gf_edf_zassenhaus(x), gf_edf_zassenhaus produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32e4d90d93f00d61"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_edf_zassenhaus","kind":"method","src_hash":"38cac68f8fac367f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_edf_zassenhaus(f, n)","rhs":"[self.from_gf_dense(g) for g in factors]","over":{"base":"Any"},"name":"gf_edf_zassenhaus_correct"},"guarantee":"returns [self.from_gf_dense(g) for g in factors]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.gf_edf_zassenhaus_correct","statement":"Path(gf_edf_zassenhaus(x), returns [self.from_gf_dense(g) for g in factors])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"edefc8bdc50b7904","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[self.from_gf_dense(g) for g in factors]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_edf_zassenhaus(self, f, n):
         factors = gf_edf_zassenhaus(self.to_gf_dense(f), self.domain.mod, self.domain.dom)
         return [ self.from_gf_dense(g) for g in factors ]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_ddf_shoup(f), gf_ddf_shoup produces the expected output) over Any ║
+# ║ Path(gf_ddf_shoup(f), [(self.from_gf_dense(g), k) for g, k in factors]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [(self.from_gf_dense(g), k) for g, k in f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_ddf_shoup : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8865322215af855b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b13abb0f4dc24734  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_ddf_shoup","kind":"method","src_hash":"f160d28272feeea0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_ddf_shoup(f)","rhs":"gf_ddf_shoup produces the expected output","over":{"base":"Any"},"name":"gf_ddf_shoup_correct"},"guarantee":"gf_ddf_shoup produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.gf_ddf_shoup_correct","statement":"Path(gf_ddf_shoup(x), gf_ddf_shoup produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8865322215af855b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_ddf_shoup","kind":"method","src_hash":"f160d28272feeea0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_ddf_shoup(f)","rhs":"[(self.from_gf_dense(g), k) for g, k in factors]","over":{"base":"Any"},"name":"gf_ddf_shoup_correct"},"guarantee":"returns [(self.from_gf_dense(g), k) for g, k in factors]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.gf_ddf_shoup_correct","statement":"Path(gf_ddf_shoup(x), returns [(self.from_gf_dense(g), k) for g, k in factors])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b13abb0f4dc24734","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[(self.from_gf_dense(g), k) for g, k in factors]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_ddf_shoup(self, f):
         factors = gf_ddf_shoup(self.to_gf_dense(f), self.domain.mod, self.domain.dom)
         return [ (self.from_gf_dense(g), k) for g, k in factors ]
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_edf_shoup(f, ), gf_edf_shoup produces the expected output) over Any ║
+# ║ Path(gf_edf_shoup(f, n), [self.from_gf_dense(g) for g in factors]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [self.from_gf_dense(g) for g in factors]       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_edf_shoup : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64d779f030bb8518  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc60f1f80ab47f91  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_edf_shoup","kind":"method","src_hash":"07d4e4e2209bc44c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_edf_shoup(f, )","rhs":"gf_edf_shoup produces the expected output","over":{"base":"Any"},"name":"gf_edf_shoup_correct"},"guarantee":"gf_edf_shoup produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.gf_edf_shoup_correct","statement":"Path(gf_edf_shoup(x), gf_edf_shoup produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64d779f030bb8518"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_edf_shoup","kind":"method","src_hash":"07d4e4e2209bc44c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_edf_shoup(f, n)","rhs":"[self.from_gf_dense(g) for g in factors]","over":{"base":"Any"},"name":"gf_edf_shoup_correct"},"guarantee":"returns [self.from_gf_dense(g) for g in factors]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.gf_edf_shoup_correct","statement":"Path(gf_edf_shoup(x), returns [self.from_gf_dense(g) for g in factors])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc60f1f80ab47f91","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[self.from_gf_dense(g) for g in factors]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_edf_shoup(self, f, n):
         factors = gf_edf_shoup(self.to_gf_dense(f), self.domain.mod, self.domain.dom)
         return [ self.from_gf_dense(g) for g in factors ]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_zassenhaus(f), gf_zassenhaus produces the expected output) over Any ║
+# ║ Path(gf_zassenhaus(f), [self.from_gf_dense(g) for g in factors]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [self.from_gf_dense(g) for g in factors]       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_zassenhaus : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ac05b8f86ccd8bb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 247cd222d04c5411  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_zassenhaus","kind":"method","src_hash":"29c9f95fb46ce82e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_zassenhaus(f)","rhs":"gf_zassenhaus produces the expected output","over":{"base":"Any"},"name":"gf_zassenhaus_correct"},"guarantee":"gf_zassenhaus produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.gf_zassenhaus_correct","statement":"Path(gf_zassenhaus(x), gf_zassenhaus produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ac05b8f86ccd8bb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_zassenhaus","kind":"method","src_hash":"29c9f95fb46ce82e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_zassenhaus(f)","rhs":"[self.from_gf_dense(g) for g in factors]","over":{"base":"Any"},"name":"gf_zassenhaus_correct"},"guarantee":"returns [self.from_gf_dense(g) for g in factors]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.gf_zassenhaus_correct","statement":"Path(gf_zassenhaus(x), returns [self.from_gf_dense(g) for g in factors])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"247cd222d04c5411","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[self.from_gf_dense(g) for g in factors]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_zassenhaus(self, f):
         factors = gf_zassenhaus(self.to_gf_dense(f), self.domain.mod, self.domain.dom)
         return [ self.from_gf_dense(g) for g in factors ]
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_shoup(f), gf_shoup produces the expected output) over Any ║
+# ║ Path(gf_shoup(f), [self.from_gf_dense(g) for g in factors]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [self.from_gf_dense(g) for g in factors]       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_shoup : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6654d5126c168e4a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c0a60e5bdb3668c7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_shoup","kind":"method","src_hash":"c277f7e9891da4b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_shoup(f)","rhs":"gf_shoup produces the expected output","over":{"base":"Any"},"name":"gf_shoup_correct"},"guarantee":"gf_shoup produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.gf_shoup_correct","statement":"Path(gf_shoup(x), gf_shoup produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6654d5126c168e4a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_shoup","kind":"method","src_hash":"c277f7e9891da4b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_shoup(f)","rhs":"[self.from_gf_dense(g) for g in factors]","over":{"base":"Any"},"name":"gf_shoup_correct"},"guarantee":"returns [self.from_gf_dense(g) for g in factors]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.gf_shoup_correct","statement":"Path(gf_shoup(x), returns [self.from_gf_dense(g) for g in factors])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c0a60e5bdb3668c7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[self.from_gf_dense(g) for g in factors]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_shoup(self, f):
         factors = gf_shoup(self.to_gf_dense(f), self.domain.mod, self.domain.dom)
         return [ self.from_gf_dense(g) for g in factors ]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_factor_sqf(f, ), gf_factor_sqf produces the expected output) over Any ║
+# ║ Path(gf_factor_sqf(f, method), (coeff, [self.from_gf_dense(g) for g in factors])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (coeff, [self.from_gf_dense(g) for g in f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_factor_sqf : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3126279355976c6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5e761f381603e5e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_factor_sqf","kind":"method","src_hash":"de5d2d407e70777c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_factor_sqf(f, )","rhs":"gf_factor_sqf produces the expected output","over":{"base":"Any"},"name":"gf_factor_sqf_correct"},"guarantee":"gf_factor_sqf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.gf_factor_sqf_correct","statement":"Path(gf_factor_sqf(x), gf_factor_sqf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3126279355976c6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_factor_sqf","kind":"method","src_hash":"de5d2d407e70777c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_factor_sqf(f, method)","rhs":"(coeff, [self.from_gf_dense(g) for g in factors])","over":{"base":"Any"},"name":"gf_factor_sqf_correct"},"guarantee":"returns (coeff, [self.from_gf_dense(g) for g in factors])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.gf_factor_sqf_correct","statement":"Path(gf_factor_sqf(x), returns (coeff, [self.from_gf_dense(g) for g in factors]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5e761f381603e5e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(coeff, [self.from_gf_dense(g) for g in factors])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_factor_sqf(self, f, method=None):
         coeff, factors = gf_factor_sqf(self.to_gf_dense(f), self.domain.mod, self.domain.dom, method=method)
         return coeff, [ self.from_gf_dense(g) for g in factors ]
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gf_factor(f), gf_factor produces the expected output) over Any ║
+# ║ Path(gf_factor(f), (coeff, [(self.from_gf_dense(g), k) for g, k in factors])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (coeff, [(self.from_gf_dense(g), k) for g...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gf_factor : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db0bb7855844f068  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f6c135f689daf7c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_factor","kind":"method","src_hash":"08ff4884edcabaa0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_factor(f)","rhs":"gf_factor produces the expected output","over":{"base":"Any"},"name":"gf_factor_correct"},"guarantee":"gf_factor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.gf_factor_correct","statement":"Path(gf_factor(x), gf_factor produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db0bb7855844f068"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.compatibility.IPolys.gf_factor","kind":"method","src_hash":"08ff4884edcabaa0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gf_factor(f)","rhs":"(coeff, [(self.from_gf_dense(g), k) for g, k in factors])","over":{"base":"Any"},"name":"gf_factor_correct"},"guarantee":"returns (coeff, [(self.from_gf_dense(g), k) for g, k in factors])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.compatibility.IPolys.gf_factor_correct","statement":"Path(gf_factor(x), returns (coeff, [(self.from_gf_dense(g), k) for g, k in factors]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f6c135f689daf7c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(coeff, [(self.from_gf_dense(g), k) for g, k in factors])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.from_gf_dense","self.to_gf_dense"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gf_factor(self, f):
         coeff, factors = gf_factor(self.to_gf_dense(f), self.domain.mod, self.domain.dom)
         return coeff, [ (self.from_gf_dense(g), k) for g, k in factors ]

@@ -32,14 +32,20 @@ from collections import defaultdict
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Partition(*args), correctly constructs a Partition instance) over {Any | isinstance(arg, list) and isinstance(part, FiniteSet)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, FiniteSet)                    ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Partition : {Any | isinstance(arg, list) and isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0283d4f035f5c954  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.Partition","kind":"class","src_hash":"60e287bf013c537b","in":{"base":"Any","pred":"isinstance(arg, list) and isinstance(part, FiniteSet)"},"out":{"base":"Any"},"spec":{"lhs":"Partition(*args)","rhs":"correctly constructs a Partition instance","over":{"base":"Any","pred":"isinstance(arg, list) and isinstance(part, FiniteSet)"},"name":"Partition_class_invariant"},"guarantee":"correctly constructs a Partition instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0283d4f035f5c954"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.Partition","kind":"class","src_hash":"60e287bf013c537b","in":{"base":"Any","pred":"isinstance(arg, list) and isinstance(part, FiniteSet)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, FiniteSet)"},"spec":{"lhs":"Partition(*args)","rhs":"correctly constructs a Partition instance","over":{"base":"Any","pred":"isinstance(arg, list) and isinstance(part, FiniteSet)"},"name":"Partition_class_invariant"},"guarantee":"isinstance(self, FiniteSet)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0283d4f035f5c954","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, FiniteSet)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function Partition not found in source"]}}
 class Partition(FiniteSet):
     """
     This class represents an abstract partition.
@@ -57,16 +63,23 @@ class Partition(FiniteSet):
     _partition = None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), generates a new partition object) over Any ║
+# ║ Path(__new__(cls, *partition), len(args) == old_len_args + 1) over {Any | all((isinstance(part, FiniteSet) for part in args))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: all((isinstance(part, FiniteSet) for part...   ║
+# ║   ensures:  len(args) == old_len_args + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | all((isinstance(part, FiniteSet) for...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b3d1d148d80e25ab           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.Partition.__new__","kind":"method","src_hash":"3c01f5177b93d340","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"generates a new partition object","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"generates a new partition object","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b3d1d148d80e25ab"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.Partition.__new__","kind":"method","src_hash":"3c01f5177b93d340","in":{"base":"Any","pred":"all((isinstance(part, FiniteSet) for part in args))"},"out":{"base":"Any","pred":"result satisfies: len(args) == old_len_args + 1"},"spec":{"lhs":"__new__(cls, *partition)","rhs":"len(args) == old_len_args + 1","over":{"base":"Any","pred":"all((isinstance(part, FiniteSet) for part in args))"},"name":"__new___correct"},"guarantee":"len(args) == old_len_args + 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b3d1d148d80e25ab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["all((isinstance(part, FiniteSet) for part in args))"],"ensures":["len(args) == old_len_args + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["args.append"],"raises":["ValueError"]},"state_contract":{"modifies":["args.*"],"old_bindings":{"old_len_args":"len(args)"},"post_ensures":["len(args) == old_len_args + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *partition):
         """
         Generates a new partition object.
@@ -130,16 +143,22 @@ class Partition(FiniteSet):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sort_key(ord), id) over Any                           ║
+# ║ Path(sort_key(order), id) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple(map(default_sort_key, (self.size, m...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sort_key : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | bfd06896be211381   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.Partition.sort_key","kind":"method","src_hash":"0a3f6dab49b5cee1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sort_key(ord)","rhs":"return a canonical key that can be used for sorting","over":{"base":"Any"},"name":"sort_key_correct","kind":"composition"},"guarantee":"return a canonical key that can be used for sorting","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"tuple","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bfd06896be211381"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.Partition.sort_key","kind":"method","src_hash":"0a3f6dab49b5cee1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sort_key(order)","rhs":"tuple(map(default_sort_key, (self.size, members, self.rank)))","over":{"base":"Any"},"name":"sort_key_correct","kind":"composition"},"guarantee":"returns tuple(map(default_sort_key, (self.size, members, self.rank)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"tuple","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bfd06896be211381","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple(map(default_sort_key, (self.size, members, self.rank)))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.members","self.rank","self.size"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def sort_key(self, order=None):
         """Return a canonical key that can be used for sorting.
 
@@ -169,16 +188,22 @@ class Partition(FiniteSet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(partition(), returns the partition attribute) over Any ║
+# ║ Path(partition(), self._partition) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._partition                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ partition : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | faacbe004a6282b6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.Partition.partition","kind":"property","src_hash":"7c60e818d85f437b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"partition()","rhs":"returns the partition attribute","over":{"base":"Any"},"name":"partition_correct"},"guarantee":"returns the partition attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"faacbe004a6282b6"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.Partition.partition","kind":"property","src_hash":"7c60e818d85f437b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"partition()","rhs":"self._partition","over":{"base":"Any"},"name":"partition_correct"},"guarantee":"returns self._partition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"faacbe004a6282b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._partition","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._partition","self.args"],"writes":["self._partition"]},"state_contract":{"modifies":["self._partition"],"old_bindings":{"old_self__partition":"self._partition"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def partition(self):
         """Return partition as a sorted list of lists.
 
@@ -195,16 +220,22 @@ class Partition(FiniteSet):
         return self._partition
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), Partition.from_rgs(result, self.members)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Partition.from_rgs(result, self.members)       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __add__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bcc7aaaf73a5553c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.Partition.__add__","kind":"method","src_hash":"5268e921bcf7e78c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bcc7aaaf73a5553c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.Partition.__add__","kind":"method","src_hash":"5268e921bcf7e78c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(other)","rhs":"Partition.from_rgs(result, self.members)","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns Partition.from_rgs(result, self.members)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bcc7aaaf73a5553c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Partition.from_rgs(result, self.members)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.members","self.rank","self.size"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
         """
         Return permutation whose rank is ``other`` greater than current rank,
@@ -230,16 +261,22 @@ class Partition(FiniteSet):
         return Partition.from_rgs(result, self.members)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(oth), return permutation whose rank is ``other`` less than current rank, (mod the maximum rank for the set)) over Any ║
+# ║ Path(__sub__(other), self.__add__(-other)) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__add__(-other)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __sub__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bc0ab48a82d59664           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.Partition.__sub__","kind":"method","src_hash":"7554057b938c6689","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(oth)","rhs":"return permutation whose rank is ``other`` less than current rank, (mod the maximum rank for the set)","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"return permutation whose rank is ``other`` less than current rank, (mod the maximum rank for the set)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bc0ab48a82d59664"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.Partition.__sub__","kind":"method","src_hash":"7554057b938c6689","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(other)","rhs":"self.__add__(-other)","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"returns self.__add__(-other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bc0ab48a82d59664","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__add__(-other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.__add__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(self, other):
         """
         Return permutation whose rank is ``other`` less than current rank,
@@ -260,16 +297,22 @@ class Partition(FiniteSet):
         return self.__add__(-other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__le__(oth), checks if a partition is less than or equal to the other based on rank) over Any ║
+# ║ Path(__le__(other), self.sort_key() <= sympify(other).sort_key()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.sort_key() <= sympify(other).sort_key()   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __le__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6ebdd963472db18c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.Partition.__le__","kind":"method","src_hash":"397b0b32279297de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__le__(oth)","rhs":"checks if a partition is less than or equal to the other based on rank","over":{"base":"Any"},"name":"__le___correct"},"guarantee":"checks if a partition is less than or equal to the other based on rank","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6ebdd963472db18c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.Partition.__le__","kind":"method","src_hash":"397b0b32279297de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__le__(other)","rhs":"self.sort_key() <= sympify(other).sort_key()","over":{"base":"Any"},"name":"__le___correct"},"guarantee":"returns self.sort_key() <= sympify(other).sort_key()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6ebdd963472db18c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.sort_key() <= sympify(other).sort_key()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sort_key"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __le__(self, other):
         """
         Checks if a partition is less than or equal to
@@ -291,16 +334,22 @@ class Partition(FiniteSet):
         return self.sort_key() <= sympify(other).sort_key()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__lt__(oth), checks if a partition is less than the other) over Any ║
+# ║ Path(__lt__(other), self.sort_key() < sympify(other).sort_key()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.sort_key() < sympify(other).sort_key()    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __lt__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6668697b21dbd85c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.Partition.__lt__","kind":"method","src_hash":"e0b271f02eeff46e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__lt__(oth)","rhs":"checks if a partition is less than the other","over":{"base":"Any"},"name":"__lt___correct"},"guarantee":"checks if a partition is less than the other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6668697b21dbd85c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.Partition.__lt__","kind":"method","src_hash":"e0b271f02eeff46e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__lt__(other)","rhs":"self.sort_key() < sympify(other).sort_key()","over":{"base":"Any"},"name":"__lt___correct"},"guarantee":"returns self.sort_key() < sympify(other).sort_key()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6668697b21dbd85c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.sort_key() < sympify(other).sort_key()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sort_key"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __lt__(self, other):
         """
         Checks if a partition is less than the other.
@@ -320,16 +369,22 @@ class Partition(FiniteSet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rank(), returns the rank attribute) over Any          ║
+# ║ Path(rank(), <unspecified:rank>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rank : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ec970e2f571b5f09           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.Partition.rank","kind":"property","src_hash":"f91d4bce742bce09","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rank()","rhs":"returns the rank attribute","over":{"base":"Any"},"name":"rank_correct"},"guarantee":"returns the rank attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ec970e2f571b5f09"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.Partition.rank","kind":"property","src_hash":"f91d4bce742bce09","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rank()","rhs":"<unspecified:rank>","over":{"base":"Any"},"name":"rank_correct"},"guarantee":"returns the rank attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ec970e2f571b5f09","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.RGS","self._rank"],"writes":["self._rank"]},"state_contract":{"modifies":["self._rank"],"old_bindings":{"old_self__rank":"self._rank"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rank(self):
         """
         Gets the rank of a partition.
@@ -349,16 +404,22 @@ class Partition(FiniteSet):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(RGS(), returns the RGS attribute) over Any            ║
+# ║ Path(RGS(), tuple([rgs[i] for i in sorted([i for p in partition for i in p], key=default_sort_key)])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple([rgs[i] for i in sorted([i for p in...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ RGS : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a94fca62983bb15f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.Partition.RGS","kind":"property","src_hash":"336fe9eefaddfda0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"RGS()","rhs":"returns the RGS attribute","over":{"base":"Any"},"name":"RGS_correct"},"guarantee":"returns the RGS attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a94fca62983bb15f"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.Partition.RGS","kind":"property","src_hash":"336fe9eefaddfda0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"RGS()","rhs":"tuple([rgs[i] for i in sorted([i for p in partition for i in p], key=default_sort_key)])","over":{"base":"Any"},"name":"RGS_correct"},"guarantee":"returns tuple([rgs[i] for i in sorted([i for p in partition for i in p], key=default_sort_key)])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a94fca62983bb15f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple([rgs[i] for i in sorted([i for p in partition for i in p], key=default_sort_key)])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.partition"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def RGS(self):
         """
         Returns the "restricted growth string" of the partition.
@@ -395,16 +456,23 @@ class Partition(FiniteSet):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_rgs(rgs), creates a set partition from a restricted growth string) over Any ║
+# ║ Path(from_rgs(rgs, elements), Partition(*partition)) over {Any | not (len(rgs) != len(elements))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_rgs : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(rgs) != len(elements))                ║
+# ║   returns:  Partition(*partition)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_rgs : {Any | not (len(rgs) != len(elements))} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54e4daf0790180e0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e7897e189ef8072  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.Partition.from_rgs","kind":"classmethod","src_hash":"cf5155b71d814147","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_rgs(rgs)","rhs":"creates a set partition from a restricted growth string","over":{"base":"Any"},"name":"from_rgs_correct"},"guarantee":"creates a set partition from a restricted growth string","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.partitions.Partition.from_rgs_correct","statement":"Path(from_rgs(x), creates a set partition from a restricted growth string)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54e4daf0790180e0"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.Partition.from_rgs","kind":"classmethod","src_hash":"cf5155b71d814147","in":{"base":"Any","pred":"not (len(rgs) != len(elements))"},"out":{"base":"Any"},"spec":{"lhs":"from_rgs(rgs, elements)","rhs":"Partition(*partition)","over":{"base":"Any","pred":"not (len(rgs) != len(elements))"},"name":"from_rgs_correct"},"guarantee":"returns Partition(*partition)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.partitions.Partition.from_rgs_correct","statement":"Path(from_rgs(x), returns Partition(*partition))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e7897e189ef8072","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(rgs) != len(elements))"],"returns_expr":"Partition(*partition)","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_rgs(self, rgs, elements):
         """
         Creates a set partition from a restricted growth string.
@@ -446,14 +514,20 @@ class Partition(FiniteSet):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(IntegerPartition(*args), correctly constructs a IntegerPartition instance) over {Any | isinstance(partition, (dict, Dict))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ IntegerPartition : {Any | isinstance(partition, (dict...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f831adb8d8dc78a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.IntegerPartition","kind":"class","src_hash":"da50416a0b015718","in":{"base":"Any","pred":"isinstance(partition, (dict, Dict))"},"out":{"base":"Any"},"spec":{"lhs":"IntegerPartition(*args)","rhs":"correctly constructs a IntegerPartition instance","over":{"base":"Any","pred":"isinstance(partition, (dict, Dict))"},"name":"IntegerPartition_class_invariant"},"guarantee":"correctly constructs a IntegerPartition instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f831adb8d8dc78a"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.IntegerPartition","kind":"class","src_hash":"da50416a0b015718","in":{"base":"Any","pred":"isinstance(partition, (dict, Dict))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic)"},"spec":{"lhs":"IntegerPartition(*args)","rhs":"correctly constructs a IntegerPartition instance","over":{"base":"Any","pred":"isinstance(partition, (dict, Dict))"},"name":"IntegerPartition_class_invariant"},"guarantee":"isinstance(self, Basic)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f831adb8d8dc78a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function IntegerPartition not found in source"]}}
 class IntegerPartition(Basic):
     """
     This class represents an integer partition.
@@ -486,16 +560,24 @@ class IntegerPartition(Basic):
     _keys = None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), generates a new integerpartition object from a list or dictionary) over Any ║
+# ║ Path(__new__(cls, partition, integer), <unspecified:__new__>) over {Any | not (not sum_ok and sum(partition) != integer) and hasattr(partition, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (not sum_ok and sum(partition) != int...   ║
+# ║   requires: hasattr(partition, 'items')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | not (not sum_ok and sum(partition) !...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8ab31f94ea7b45df           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.IntegerPartition.__new__","kind":"method","src_hash":"d098303003a1bd95","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"generates a new integerpartition object from a list or dictionary","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"generates a new integerpartition object from a list or dictionary","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ab31f94ea7b45df"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.IntegerPartition.__new__","kind":"method","src_hash":"d098303003a1bd95","in":{"base":"Any","pred":"not (not sum_ok and sum(partition) != integer) and hasattr(partition, 'items')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, partition, integer)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"not (not sum_ok and sum(partition) != integer) and hasattr(partition, 'items')"},"name":"__new___correct"},"guarantee":"generates a new integerpartition object from a list or dictionary","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ab31f94ea7b45df","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (not sum_ok and sum(partition) != integer)","hasattr(partition, 'items')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["partition.items"],"calls_mutating":["_.extend"],"raises":["ValueError"]},"state_contract":{"modifies":["_.*"],"old_bindings":{"old_len__":"len(_)"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, partition, integer=None):
         """
         Generates a new IntegerPartition object from a list or dictionary.
@@ -559,16 +641,22 @@ class IntegerPartition(Basic):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(prev_lex(), return the previous partition of the integer, n, in lexical order, wrapping around to [1, ..., 1] if the partition is [n]) over Any ║
+# ║ Path(prev_lex(), <unspecified:prev_lex>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ prev_lex : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ea92b2a331aeba3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.IntegerPartition.prev_lex","kind":"method","src_hash":"ee08c8c60fffe22c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"prev_lex()","rhs":"return the previous partition of the integer, n, in lexical order, wrapping around to [1, ..., 1] if the partition is [n]","over":{"base":"Any"},"name":"prev_lex_correct"},"guarantee":"return the previous partition of the integer, n, in lexical order, wrapping around to [1, ..., 1] if the partition is [n]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.partitions.IntegerPartition.prev_lex_correct","statement":"Path(prev_lex(x), return the previous partition of the integer, n, in lexical order, wrapping around to [1, ..., 1] if the partition is [n])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ea92b2a331aeba3"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.IntegerPartition.prev_lex","kind":"method","src_hash":"ee08c8c60fffe22c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"prev_lex()","rhs":"<unspecified:prev_lex>","over":{"base":"Any"},"name":"prev_lex_correct"},"guarantee":"return the previous partition of the integer, n, in lexical order, wrapping around to [1, ..., 1] if the partition is [n]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.partitions.IntegerPartition.prev_lex_correct","statement":"Path(prev_lex(x), return the previous partition of the integer, n, in lexical order, wrapping around to [1, ..., 1] if the partition is [n])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ea92b2a331aeba3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def prev_lex(self):
         """Return the previous partition of the integer, n, in lexical order,
         wrapping around to [1, ..., 1] if the partition is [n].
@@ -607,16 +695,22 @@ class IntegerPartition(Basic):
         return IntegerPartition(self.integer, d)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(next_lex(), return the next partition of the integer, n, in lexical order, wrapping around to [n] if the partition is [1, ..., 1]) over Any ║
+# ║ Path(next_lex(), IntegerPartition(self.integer, d)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  IntegerPartition(self.integer, d)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ next_lex : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c9d7b381271380c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de11db688326ac25  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.IntegerPartition.next_lex","kind":"method","src_hash":"0a24c1f2eefdb99a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"next_lex()","rhs":"return the next partition of the integer, n, in lexical order, wrapping around to [n] if the partition is [1, ..., 1]","over":{"base":"Any"},"name":"next_lex_correct"},"guarantee":"return the next partition of the integer, n, in lexical order, wrapping around to [n] if the partition is [1, ..., 1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.partitions.IntegerPartition.next_lex_correct","statement":"Path(next_lex(x), return the next partition of the integer, n, in lexical order, wrapping around to [n] if the partition is [1, ..., 1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c9d7b381271380c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.IntegerPartition.next_lex","kind":"method","src_hash":"0a24c1f2eefdb99a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"next_lex()","rhs":"IntegerPartition(self.integer, d)","over":{"base":"Any"},"name":"next_lex_correct"},"guarantee":"returns IntegerPartition(self.integer, d)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.partitions.IntegerPartition.next_lex_correct","statement":"Path(next_lex(x), returns IntegerPartition(self.integer, d))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de11db688326ac25","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"IntegerPartition(self.integer, d)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def next_lex(self):
         """Return the next partition of the integer, n, in lexical order,
         wrapping around to [n] if the partition is [1, ..., 1].
@@ -668,16 +762,22 @@ class IntegerPartition(Basic):
         return IntegerPartition(self.integer, d)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_dict(), return the partition as a dictionary whose keys are the partition integers and the values are the multiplicity of that integer) over Any ║
+# ║ Path(as_dict(), self._dict) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._dict                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_dict : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 319fc58cb25aeb13  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f2559a7853c395e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.IntegerPartition.as_dict","kind":"method","src_hash":"9d576d2e9bd7978b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_dict()","rhs":"return the partition as a dictionary whose keys are the partition integers and the values are the multiplicity of that integer","over":{"base":"Any"},"name":"as_dict_correct"},"guarantee":"return the partition as a dictionary whose keys are the partition integers and the values are the multiplicity of that integer","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.partitions.IntegerPartition.as_dict_correct","statement":"Path(as_dict(x), return the partition as a dictionary whose keys are the partition integers and the values are the multiplicity of that integer)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"319fc58cb25aeb13"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.IntegerPartition.as_dict","kind":"method","src_hash":"9d576d2e9bd7978b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_dict()","rhs":"self._dict","over":{"base":"Any"},"name":"as_dict_correct"},"guarantee":"returns self._dict","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.partitions.IntegerPartition.as_dict_correct","statement":"Path(as_dict(x), returns self._dict)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f2559a7853c395e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._dict","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._dict","self.partition"],"writes":["self._dict","self._keys"]},"state_contract":{"modifies":["self._dict","self._keys"],"old_bindings":{"old_self__dict":"self._dict","old_self__keys":"self._keys"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_dict(self):
         """Return the partition as a dictionary whose keys are the
         partition integers and the values are the multiplicity of that
@@ -698,16 +798,22 @@ class IntegerPartition(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(conjugate(), returns the conjugate attribute) over Any ║
+# ║ Path(conjugate(), <unspecified:conjugate>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ conjugate : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8ab18234d29c3177           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.IntegerPartition.conjugate","kind":"property","src_hash":"964b2ec3ff66dcd0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"conjugate()","rhs":"returns the conjugate attribute","over":{"base":"Any"},"name":"conjugate_correct"},"guarantee":"returns the conjugate attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ab18234d29c3177"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.IntegerPartition.conjugate","kind":"property","src_hash":"964b2ec3ff66dcd0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"conjugate()","rhs":"<unspecified:conjugate>","over":{"base":"Any"},"name":"conjugate_correct"},"guarantee":"returns the conjugate attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ab18234d29c3177","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.partition"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def conjugate(self):
         """
         Computes the conjugate partition of itself.
@@ -732,16 +838,23 @@ class IntegerPartition(Basic):
         return b
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__lt__(oth), return true if self is less than other when the partition is listed from smallest to biggest) over Any ║
+# ║ Path(__lt__(other), list(reversed(self.partition)) < list(reversed(other.partition))) over {Any | hasattr(other, 'partition')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __lt__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'partition')                    ║
+# ║   returns:  list(reversed(self.partition)) < list(rev...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __lt__ : {Any | hasattr(other, 'partition')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | edc8df9fc01712cc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.IntegerPartition.__lt__","kind":"method","src_hash":"86a3a19d4f897cca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__lt__(oth)","rhs":"return true if self is less than other when the partition is listed from smallest to biggest","over":{"base":"Any"},"name":"__lt___correct"},"guarantee":"return true if self is less than other when the partition is listed from smallest to biggest","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"edc8df9fc01712cc"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.IntegerPartition.__lt__","kind":"method","src_hash":"86a3a19d4f897cca","in":{"base":"Any","pred":"hasattr(other, 'partition')"},"out":{"base":"Any"},"spec":{"lhs":"__lt__(other)","rhs":"list(reversed(self.partition)) < list(reversed(other.partition))","over":{"base":"Any","pred":"hasattr(other, 'partition')"},"name":"__lt___correct"},"guarantee":"returns list(reversed(self.partition)) < list(reversed(other.partition))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"edc8df9fc01712cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'partition')"],"returns_expr":"list(reversed(self.partition)) < list(reversed(other.partition))","pure":false,"effects":{"effect_type":"reads_state","reads":["other.partition","self.partition"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __lt__(self, other):
         """Return True if self is less than other when the partition
         is listed from smallest to biggest.
@@ -762,16 +875,23 @@ class IntegerPartition(Basic):
         return list(reversed(self.partition)) < list(reversed(other.partition))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__le__(oth), return true if self is less than other when the partition is listed from smallest to biggest) over Any ║
+# ║ Path(__le__(other), list(reversed(self.partition)) <= list(reversed(other.partition))) over {Any | hasattr(other, 'partition')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __le__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'partition')                    ║
+# ║   returns:  list(reversed(self.partition)) <= list(re...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __le__ : {Any | hasattr(other, 'partition')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8d1cc19ad0d6a9b7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.IntegerPartition.__le__","kind":"method","src_hash":"1a478a6c018a4f03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__le__(oth)","rhs":"return true if self is less than other when the partition is listed from smallest to biggest","over":{"base":"Any"},"name":"__le___correct"},"guarantee":"return true if self is less than other when the partition is listed from smallest to biggest","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8d1cc19ad0d6a9b7"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.IntegerPartition.__le__","kind":"method","src_hash":"1a478a6c018a4f03","in":{"base":"Any","pred":"hasattr(other, 'partition')"},"out":{"base":"Any"},"spec":{"lhs":"__le__(other)","rhs":"list(reversed(self.partition)) <= list(reversed(other.partition))","over":{"base":"Any","pred":"hasattr(other, 'partition')"},"name":"__le___correct"},"guarantee":"returns list(reversed(self.partition)) <= list(reversed(other.partition))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8d1cc19ad0d6a9b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'partition')"],"returns_expr":"list(reversed(self.partition)) <= list(reversed(other.partition))","pure":false,"effects":{"effect_type":"reads_state","reads":["other.partition","self.partition"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __le__(self, other):
         """Return True if self is less than other when the partition
         is listed from smallest to biggest.
@@ -787,16 +907,22 @@ class IntegerPartition(Basic):
         return list(reversed(self.partition)) <= list(reversed(other.partition))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_ferrers(cha), prints the ferrer diagram of a partition) over Any ║
+# ║ Path(as_ferrers(char), '\n'.join([char * i for i in self.partition])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '\n'.join([char * i for i in self.partiti...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_ferrers : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8f32caefc109dd6f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.IntegerPartition.as_ferrers","kind":"method","src_hash":"188e54d5221011a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_ferrers(cha)","rhs":"prints the ferrer diagram of a partition","over":{"base":"Any"},"name":"as_ferrers_correct"},"guarantee":"prints the ferrer diagram of a partition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f32caefc109dd6f"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.IntegerPartition.as_ferrers","kind":"method","src_hash":"188e54d5221011a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_ferrers(char)","rhs":"'\\n'.join([char * i for i in self.partition])","over":{"base":"Any"},"name":"as_ferrers_correct"},"guarantee":"returns '\\n'.join([char * i for i in self.partition])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f32caefc109dd6f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'\\n'.join([char * i for i in self.partition])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.partition"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_ferrers(self, char='#'):
         """
         Prints the ferrer diagram of a partition.
@@ -813,31 +939,45 @@ class IntegerPartition(Basic):
         return "\n".join([char*i for i in self.partition])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), str(list(self.partition))) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  str(list(self.partition))                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3e41b69b217563d0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.IntegerPartition.__str__","kind":"method","src_hash":"3f70309727705fef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e41b69b217563d0"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.IntegerPartition.__str__","kind":"method","src_hash":"3f70309727705fef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"str(list(self.partition))","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns str(list(self.partition))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e41b69b217563d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"str(list(self.partition))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.partition"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return str(list(self.partition))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(random_integer_partition(n, ), generates a random integer partition summing to ``n`` as a list of reverse-sorted integers) over Any ║
+# ║ Path(random_integer_partition(n, seed), len(partition) == old_len_partition + 1 and len(partition) == old_len_partition) over {Any | not (n < 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ random_integer_partition : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (n < 1)                                    ║
+# ║   ensures:  len(partition) == old_len_partition + 1        ║
+# ║   ensures:  len(partition) == old_len_partition            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ random_integer_partition : {Any | not (n < 1)} → {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f2d1009712cdaca9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b9cf136075286ed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.random_integer_partition","kind":"function","src_hash":"3f5829ca408509b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"random_integer_partition(n, )","rhs":"generates a random integer partition summing to ``n`` as a list of reverse-sorted integers","over":{"base":"Any"},"name":"random_integer_partition_correct"},"guarantee":"generates a random integer partition summing to ``n`` as a list of reverse-sorted integers","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.partitions.random_integer_partition_correct","statement":"Path(random_integer_partition(x), generates a random integer partition summing to ``n`` as a list of reverse-sorted integers)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2d1009712cdaca9"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.random_integer_partition","kind":"function","src_hash":"3f5829ca408509b3","in":{"base":"Any","pred":"not (n < 1)"},"out":{"base":"Any","pred":"result satisfies: len(partition) == old_len_partition + 1 and len(partition) == old_len_partition"},"spec":{"lhs":"random_integer_partition(n, seed)","rhs":"len(partition) == old_len_partition + 1 and len(partition) == old_len_partition","over":{"base":"Any","pred":"not (n < 1)"},"name":"random_integer_partition_correct"},"guarantee":"len(partition) == old_len_partition + 1; len(partition) == old_len_partition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.partitions.random_integer_partition_correct","statement":"Path(random_integer_partition(x), len(partition) == old_len_partition + 1; len(partition) == old_len_partition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b9cf136075286ed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (n < 1)"],"ensures":["len(partition) == old_len_partition + 1","len(partition) == old_len_partition"],"pure":false,"effects":{"effect_type":"nondeterministic","calls_mutating":["partition.append","partition.sort"],"raises":["ValueError"],"nondeterministic_sources":["randint"]},"state_contract":{"modifies":["partition.*"],"old_bindings":{"old_len_partition":"len(partition)"},"post_ensures":["len(partition) == old_len_partition + 1","len(partition) == old_len_partition"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def random_integer_partition(n, seed=None):
     """
     Generates a random integer partition summing to ``n`` as a list
@@ -878,16 +1018,22 @@ def random_integer_partition(n, seed=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(RGS_generalized(m), computes the m + 1 generalized unrestricted growth strings and returns them as rows in matrix) over Any ║
+# ║ Path(RGS_generalized(m), <unspecified:RGS_generalized>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ RGS_generalized : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1781d0358d82469a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.RGS_generalized","kind":"function","src_hash":"572143e71914edd1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"RGS_generalized(m)","rhs":"computes the m + 1 generalized unrestricted growth strings and returns them as rows in matrix","over":{"base":"Any"},"name":"RGS_generalized_correct"},"guarantee":"computes the m + 1 generalized unrestricted growth strings and returns them as rows in matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.partitions.RGS_generalized_correct","statement":"Path(RGS_generalized(x), computes the m + 1 generalized unrestricted growth strings and returns them as rows in matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1781d0358d82469a"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.RGS_generalized","kind":"function","src_hash":"572143e71914edd1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"RGS_generalized(m)","rhs":"<unspecified:RGS_generalized>","over":{"base":"Any"},"name":"RGS_generalized_correct"},"guarantee":"computes the m + 1 generalized unrestricted growth strings and returns them as rows in matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.partitions.RGS_generalized_correct","statement":"Path(RGS_generalized(x), computes the m + 1 generalized unrestricted growth strings and returns them as rows in matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1781d0358d82469a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def RGS_generalized(m):
     """
     Computes the m + 1 generalized unrestricted growth strings
@@ -921,16 +1067,26 @@ def RGS_generalized(m):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(RGS_enum(m), rgs_enum computes the total number of restricted growth strings possible for a superset of size m) over Any ║
+# ║ Path(RGS_enum(m), result == (0 if m < 1 else 1 if m == 1 else bell(m)) and result == 0 or result == 1 or result == bell(m)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ RGS_enum : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (0 if m < 1 else 1 if m == 1 el...   ║
+# ║   ensures:  result == 0 or result == 1 or result == b...   ║
+# ║   fiber[case_0]: m < 1 => 0                                ║
+# ║   fiber[case_1]: m == 1 => 1                               ║
+# ║   fiber[case_2]: not (m < 1) and not (m == 1) => bell(m)   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ RGS_enum : Any → {Any | result satisfies: result == (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f64d61f8f9e13384  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86dc1180825300b1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.RGS_enum","kind":"function","src_hash":"4fbe7b393864a7d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"RGS_enum(m)","rhs":"rgs_enum computes the total number of restricted growth strings possible for a superset of size m","over":{"base":"Any"},"name":"RGS_enum_correct"},"guarantee":"rgs_enum computes the total number of restricted growth strings possible for a superset of size m","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.partitions.RGS_enum_correct","statement":"Path(RGS_enum(x), rgs_enum computes the total number of restricted growth strings possible for a superset of size m)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f64d61f8f9e13384"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.RGS_enum","kind":"function","src_hash":"4fbe7b393864a7d8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (0 if m < 1 else 1 if m == 1 else bell(m)) and result == 0 or result == 1 or result == bell(m)"},"spec":{"lhs":"RGS_enum(m)","rhs":"result == (0 if m < 1 else 1 if m == 1 else bell(m)) and result == 0 or result == 1 or result == bell(m)","over":{"base":"Any"},"name":"RGS_enum_correct"},"guarantee":"result == (0 if m < 1 else 1 if m == 1 else bell(m)); result == 0 or result == 1 or result == bell(m); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.partitions.RGS_enum_correct","statement":"Path(RGS_enum(x), result == (0 if m < 1 else 1 if m == 1 else bell(m)); result == 0 or result == 1 or result == bell(m); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86dc1180825300b1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (0 if m < 1 else 1 if m == 1 else bell(m))","result == 0 or result == 1 or result == bell(m)"],"fibers":[{"name":"case_0","guard":"m < 1","ensures":["result == 0"],"decidability":"z3","returns_expr":"0"},{"name":"case_1","guard":"m == 1","ensures":["result == 1"],"decidability":"z3","returns_expr":"1"},{"name":"case_2","guard":"not (m < 1) and not (m == 1)","ensures":["result == bell(m)"],"decidability":"z3","returns_expr":"bell(m)"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def RGS_enum(m):
     """
     RGS_enum computes the total number of restricted growth strings
@@ -969,16 +1125,24 @@ def RGS_enum(m):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(RGS_unrank(ran), gives the unranked restricted growth string for a given superset size) over Any ║
+# ║ Path(RGS_unrank(rank, m), [x - 1 for x in L[1:]]) over {Any | not (m < 1) and not (rank < 0 or RGS_enum(m) <= rank)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ RGS_unrank : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (m < 1)                                    ║
+# ║   requires: not (rank < 0 or RGS_enum(m) <= rank)          ║
+# ║   returns:  [x - 1 for x in L[1:]]                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ RGS_unrank : {Any | not (m < 1) and not (rank < 0 or ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1ffab5a29b0c232  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 153a81d34810664a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.RGS_unrank","kind":"function","src_hash":"f5eed46194153ca2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"RGS_unrank(ran)","rhs":"gives the unranked restricted growth string for a given superset size","over":{"base":"Any"},"name":"RGS_unrank_correct"},"guarantee":"gives the unranked restricted growth string for a given superset size","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.partitions.RGS_unrank_correct","statement":"Path(RGS_unrank(x), gives the unranked restricted growth string for a given superset size)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1ffab5a29b0c232"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.RGS_unrank","kind":"function","src_hash":"f5eed46194153ca2","in":{"base":"Any","pred":"not (m < 1) and not (rank < 0 or RGS_enum(m) <= rank)"},"out":{"base":"Any"},"spec":{"lhs":"RGS_unrank(rank, m)","rhs":"[x - 1 for x in L[1:]]","over":{"base":"Any","pred":"not (m < 1) and not (rank < 0 or RGS_enum(m) <= rank)"},"name":"RGS_unrank_correct"},"guarantee":"returns [x - 1 for x in L[1:]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.partitions.RGS_unrank_correct","statement":"Path(RGS_unrank(x), returns [x - 1 for x in L[1:]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"153a81d34810664a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (m < 1)","not (rank < 0 or RGS_enum(m) <= rank)"],"returns_expr":"[x - 1 for x in L[1:]]","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def RGS_unrank(rank, m):
     """
     Gives the unranked restricted growth string for a given
@@ -1015,16 +1179,22 @@ def RGS_unrank(rank, m):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(RGS_rank(rgs), computes the rank of a restricted growth string) over Any ║
+# ║ Path(RGS_rank(rgs), <unspecified:RGS_rank>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ RGS_rank : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 772b39cdb50082a0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.RGS_rank","kind":"function","src_hash":"93234bc56e764ded","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"RGS_rank(rgs)","rhs":"computes the rank of a restricted growth string","over":{"base":"Any"},"name":"RGS_rank_correct"},"guarantee":"computes the rank of a restricted growth string","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.partitions.RGS_rank_correct","statement":"Path(RGS_rank(x), computes the rank of a restricted growth string)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"772b39cdb50082a0"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.partitions.RGS_rank","kind":"function","src_hash":"93234bc56e764ded","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"RGS_rank(rgs)","rhs":"<unspecified:RGS_rank>","over":{"base":"Any"},"name":"RGS_rank_correct"},"guarantee":"computes the rank of a restricted growth string","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.partitions.RGS_rank_correct","statement":"Path(RGS_rank(x), computes the rank of a restricted growth string)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"772b39cdb50082a0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def RGS_rank(rgs):
     """
     Computes the rank of a restricted growth string.

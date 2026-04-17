@@ -34,16 +34,22 @@ from sympy.testing.pytest import XFAIL
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_caching_bug(), test_caching_bug produces the expected output) over Any ║
+# ║ Path(test_caching_bug(), <unspecified:test_caching_bug>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_caching_bug : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4431f1a12c48ca08  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_caching_bug","kind":"function","src_hash":"506b3af1f9e3cd94","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_caching_bug()","rhs":"test_caching_bug produces the expected output","over":{"base":"Any"},"name":"test_caching_bug_correct"},"guarantee":"test_caching_bug produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_caching_bug_correct","statement":"Path(test_caching_bug(x), test_caching_bug produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4431f1a12c48ca08"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_caching_bug","kind":"function","src_hash":"506b3af1f9e3cd94","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_caching_bug()","rhs":"<unspecified:test_caching_bug>","over":{"base":"Any"},"name":"test_caching_bug_correct"},"guarantee":"test_caching_bug produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_caching_bug_correct","statement":"Path(test_caching_bug(x), test_caching_bug produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4431f1a12c48ca08","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_caching_bug():
     #needs to be a first test, so that all caches are clean
     #cache it
@@ -53,16 +59,24 @@ def test_caching_bug():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_free_symbols(), test_free_symbols produces the expected output) over Any ║
+# ║ Path(test_free_symbols(), Order(1).free_symbols == set() and Order(x).free_symbols == {x} and Order(1, x).free_symbols == {x} and Order(x * y).free_symbols == {x, y} and Order(x, x, y).free_symbols == {x, y}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_free_symbols : Any → {Any | Order(1).free_symbol...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Order(1).free_symbols == set()                 ║
+# ║   ensures:  Order(x).free_symbols == {x}                   ║
+# ║   ensures:  Order(1, x).free_symbols == {x}                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_free_symbols : Any → {Any | result satisfies: Or...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 816ac2fd2083bdee  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c02ecb72dd7206a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_free_symbols","kind":"function","src_hash":"7ed0d8dc98e97e45","in":{"base":"Any"},"out":{"base":"Any","pred":"Order(1).free_symbols == set() and Order(x).free_symbols == {x} and Order(1, x).free_symbols == {x} and Order(x * y).free_symbols == {x, y} and Order(x, x, y).free_symbols == {x, y}"},"spec":{"lhs":"test_free_symbols()","rhs":"test_free_symbols produces the expected output","over":{"base":"Any"},"name":"test_free_symbols_correct"},"guarantee":"test_free_symbols produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_free_symbols_correct","statement":"Path(test_free_symbols(x), test_free_symbols produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"816ac2fd2083bdee"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_free_symbols","kind":"function","src_hash":"7ed0d8dc98e97e45","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Order(1).free_symbols == set() and Order(x).free_symbols == {x} and Order(1, x).free_symbols == {x} and Order(x * y).free_symbols == {x, y} and Order(x, x, y).free_symbols == {x, y}"},"spec":{"lhs":"test_free_symbols()","rhs":"Order(1).free_symbols == set() and Order(x).free_symbols == {x} and Order(1, x).free_symbols == {x} and Order(x * y).free_symbols == {x, y} and Order(x, x, y).free_symbols == {x, y}","over":{"base":"Any"},"name":"test_free_symbols_correct"},"guarantee":"Order(1).free_symbols == set(); Order(x).free_symbols == {x}; Order(1, x).free_symbols == {x}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_free_symbols_correct","statement":"Path(test_free_symbols(x), Order(1).free_symbols == set(); Order(x).free_symbols == {x}; Order(1, x).free_symbols == {x})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c02ecb72dd7206a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Order(1).free_symbols == set()","Order(x).free_symbols == {x}","Order(1, x).free_symbols == {x}","Order(x * y).free_symbols == {x, y}","Order(x, x, y).free_symbols == {x, y}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_free_symbols():
     assert Order(1).free_symbols == set()
     assert Order(x).free_symbols == {x}
@@ -72,16 +86,24 @@ def test_free_symbols():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_simple_1(), test_simple_1 produces the expected output) over Any ║
+# ║ Path(test_simple_1(), Order(2 * x) == Order(x) and Order(x) * 3 == Order(x) and -28 * Order(x) == Order(x) and Order(Order(x)) == Order(x) and Order(Order(x), y) == Order(Order(x), x, y) and Order(-23) == Order(1) and Order(exp(x)) == Order(1, x) and Order(exp(1 / x)).expr == exp(1 / x) and Order(x * exp(1 / x)).expr == x * exp(1 / x) and Order(x ** (o / 3)).expr == x ** (o / 3) and Order(x ** (o * Rational(5, 3))).expr == x ** (o * Rational(5, 3)) and Order(x ** 2 + x + y, x) == O(1, x) and Order(x ** 2 + x + y, y) == O(1, y)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_simple_1 : Any → {Any | Order(2 * x) == Order(x)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Order(2 * x) == Order(x)                       ║
+# ║   ensures:  Order(x) * 3 == Order(x)                       ║
+# ║   ensures:  -28 * Order(x) == Order(x)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_simple_1 : Any → {Any | result satisfies: Order(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28babd9abe1d4bd0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78a09e056eecf434  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_simple_1","kind":"function","src_hash":"3668efdb4a0660e2","in":{"base":"Any"},"out":{"base":"Any","pred":"Order(2 * x) == Order(x) and Order(x) * 3 == Order(x) and -28 * Order(x) == Order(x) and Order(Order(x)) == Order(x) and Order(Order(x), y) == Order(Order(x), x, y) and Order(-23) == Order(1) and Order(exp(x)) == Order(1, x) and Order(exp(1 / x)).expr == exp(1 / x) and Order(x * exp(1 / x)).expr == x * exp(1 / x) and Order(x ** (o / 3)).expr == x ** (o / 3) and Order(x ** (o * Rational(5, 3))).expr == x ** (o * Rational(5, 3)) and Order(x ** 2 + x + y, x) == O(1, x) and Order(x ** 2 + x + y, y) == O(1, y)"},"spec":{"lhs":"test_simple_1()","rhs":"test_simple_1 produces the expected output","over":{"base":"Any"},"name":"test_simple_1_correct"},"guarantee":"test_simple_1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_simple_1_correct","statement":"Path(test_simple_1(x), test_simple_1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28babd9abe1d4bd0"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_simple_1","kind":"function","src_hash":"3668efdb4a0660e2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Order(2 * x) == Order(x) and Order(x) * 3 == Order(x) and -28 * Order(x) == Order(x) and Order(Order(x)) == Order(x) and Order(Order(x), y) == Order(Order(x), x, y) and Order(-23) == Order(1) and Order(exp(x)) == Order(1, x) and Order(exp(1 / x)).expr == exp(1 / x) and Order(x * exp(1 / x)).expr == x * exp(1 / x) and Order(x ** (o / 3)).expr == x ** (o / 3) and Order(x ** (o * Rational(5, 3))).expr == x ** (o * Rational(5, 3)) and Order(x ** 2 + x + y, x) == O(1, x) and Order(x ** 2 + x + y, y) == O(1, y)"},"spec":{"lhs":"test_simple_1()","rhs":"Order(2 * x) == Order(x) and Order(x) * 3 == Order(x) and -28 * Order(x) == Order(x) and Order(Order(x)) == Order(x) and Order(Order(x), y) == Order(Order(x), x, y) and Order(-23) == Order(1) and Order(exp(x)) == Order(1, x) and Order(exp(1 / x)).expr == exp(1 / x) and Order(x * exp(1 / x)).expr == x * exp(1 / x) and Order(x ** (o / 3)).expr == x ** (o / 3) and Order(x ** (o * Rational(5, 3))).expr == x ** (o * Rational(5, 3)) and Order(x ** 2 + x + y, x) == O(1, x) and Order(x ** 2 + x + y, y) == O(1, y)","over":{"base":"Any"},"name":"test_simple_1_correct"},"guarantee":"Order(2 * x) == Order(x); Order(x) * 3 == Order(x); -28 * Order(x) == Order(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_simple_1_correct","statement":"Path(test_simple_1(x), Order(2 * x) == Order(x); Order(x) * 3 == Order(x); -28 * Order(x) == Order(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78a09e056eecf434","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Order(2 * x) == Order(x)","Order(x) * 3 == Order(x)","-28 * Order(x) == Order(x)","Order(Order(x)) == Order(x)","Order(Order(x), y) == Order(Order(x), x, y)","Order(-23) == Order(1)","Order(exp(x)) == Order(1, x)","Order(exp(1 / x)).expr == exp(1 / x)","Order(x * exp(1 / x)).expr == x * exp(1 / x)","Order(x ** (o / 3)).expr == x ** (o / 3)","Order(x ** (o * Rational(5, 3))).expr == x ** (o * Rational(5, 3))","Order(x ** 2 + x + y, x) == O(1, x)","Order(x ** 2 + x + y, y) == O(1, y)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_simple_1():
     o = Rational(0)
     assert Order(2*x) == Order(x)
@@ -102,16 +124,24 @@ def test_simple_1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_simple_2(), test_simple_2 produces the expected output) over Any ║
+# ║ Path(test_simple_2(), Order(2 * x) * x == Order(x ** 2) and Order(2 * x) / x == Order(1, x) and Order(2 * x) * x * exp(1 / x) == Order(x ** 2 * exp(1 / x)) and (Order(2 * x) * x * exp(1 / x) / log(x) ** 3).expr == x ** 2 * exp(1 / x) * log(x) ** (-3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_simple_2 : Any → {Any | Order(2 * x) * x == Orde...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Order(2 * x) * x == Order(x ** 2)              ║
+# ║   ensures:  Order(2 * x) / x == Order(1, x)                ║
+# ║   ensures:  Order(2 * x) * x * exp(1 / x) == Order(x ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_simple_2 : Any → {Any | result satisfies: Order(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9eb18a047e9e48a0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 53ef0182f9a3901b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_simple_2","kind":"function","src_hash":"fb74395867a42de7","in":{"base":"Any"},"out":{"base":"Any","pred":"Order(2 * x) * x == Order(x ** 2) and Order(2 * x) / x == Order(1, x) and Order(2 * x) * x * exp(1 / x) == Order(x ** 2 * exp(1 / x))"},"spec":{"lhs":"test_simple_2()","rhs":"test_simple_2 produces the expected output","over":{"base":"Any"},"name":"test_simple_2_correct"},"guarantee":"test_simple_2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_simple_2_correct","statement":"Path(test_simple_2(x), test_simple_2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9eb18a047e9e48a0"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_simple_2","kind":"function","src_hash":"fb74395867a42de7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Order(2 * x) * x == Order(x ** 2) and Order(2 * x) / x == Order(1, x) and Order(2 * x) * x * exp(1 / x) == Order(x ** 2 * exp(1 / x)) and (Order(2 * x) * x * exp(1 / x) / log(x) ** 3).expr == x ** 2 * exp(1 / x) * log(x) ** (-3)"},"spec":{"lhs":"test_simple_2()","rhs":"Order(2 * x) * x == Order(x ** 2) and Order(2 * x) / x == Order(1, x) and Order(2 * x) * x * exp(1 / x) == Order(x ** 2 * exp(1 / x)) and (Order(2 * x) * x * exp(1 / x) / log(x) ** 3).expr == x ** 2 * exp(1 / x) * log(x) ** (-3)","over":{"base":"Any"},"name":"test_simple_2_correct"},"guarantee":"Order(2 * x) * x == Order(x ** 2); Order(2 * x) / x == Order(1, x); Order(2 * x) * x * exp(1 / x) == Order(x ** 2 * exp(1 / x))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_simple_2_correct","statement":"Path(test_simple_2(x), Order(2 * x) * x == Order(x ** 2); Order(2 * x) / x == Order(1, x); Order(2 * x) * x * exp(1 / x) == Order(x ** 2 * exp(1 / x)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53ef0182f9a3901b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Order(2 * x) * x == Order(x ** 2)","Order(2 * x) / x == Order(1, x)","Order(2 * x) * x * exp(1 / x) == Order(x ** 2 * exp(1 / x))","(Order(2 * x) * x * exp(1 / x) / log(x) ** 3).expr == x ** 2 * exp(1 / x) * log(x) ** (-3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_simple_2():
     assert Order(2*x)*x == Order(x**2)
     assert Order(2*x)/x == Order(1, x)
@@ -120,16 +150,24 @@ def test_simple_2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_simple_3(), test_simple_3 produces the expected output) over Any ║
+# ║ Path(test_simple_3(), Order(x) + x == Order(x) and Order(x) + 2 == 2 + Order(x) and Order(x) + x ** 2 == Order(x) and Order(x) + 1 / x == 1 / x + Order(x) and Order(1 / x) + 1 / x ** 2 == 1 / x ** 2 + Order(1 / x) and Order(x) + exp(1 / x) == Order(x) + exp(1 / x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_simple_3 : Any → {Any | Order(x) + x == Order(x)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Order(x) + x == Order(x)                       ║
+# ║   ensures:  Order(x) + 2 == 2 + Order(x)                   ║
+# ║   ensures:  Order(x) + x ** 2 == Order(x)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_simple_3 : Any → {Any | result satisfies: Order(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff0064a788de611e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a78b3b2863910803  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_simple_3","kind":"function","src_hash":"91fabf0d210c0176","in":{"base":"Any"},"out":{"base":"Any","pred":"Order(x) + x == Order(x) and Order(x) + 2 == 2 + Order(x) and Order(x) + x ** 2 == Order(x) and Order(x) + 1 / x == 1 / x + Order(x) and Order(1 / x) + 1 / x ** 2 == 1 / x ** 2 + Order(1 / x) and Order(x) + exp(1 / x) == Order(x) + exp(1 / x)"},"spec":{"lhs":"test_simple_3()","rhs":"test_simple_3 produces the expected output","over":{"base":"Any"},"name":"test_simple_3_correct"},"guarantee":"test_simple_3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_simple_3_correct","statement":"Path(test_simple_3(x), test_simple_3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff0064a788de611e"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_simple_3","kind":"function","src_hash":"91fabf0d210c0176","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Order(x) + x == Order(x) and Order(x) + 2 == 2 + Order(x) and Order(x) + x ** 2 == Order(x) and Order(x) + 1 / x == 1 / x + Order(x) and Order(1 / x) + 1 / x ** 2 == 1 / x ** 2 + Order(1 / x) and Order(x) + exp(1 / x) == Order(x) + exp(1 / x)"},"spec":{"lhs":"test_simple_3()","rhs":"Order(x) + x == Order(x) and Order(x) + 2 == 2 + Order(x) and Order(x) + x ** 2 == Order(x) and Order(x) + 1 / x == 1 / x + Order(x) and Order(1 / x) + 1 / x ** 2 == 1 / x ** 2 + Order(1 / x) and Order(x) + exp(1 / x) == Order(x) + exp(1 / x)","over":{"base":"Any"},"name":"test_simple_3_correct"},"guarantee":"Order(x) + x == Order(x); Order(x) + 2 == 2 + Order(x); Order(x) + x ** 2 == Order(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_simple_3_correct","statement":"Path(test_simple_3(x), Order(x) + x == Order(x); Order(x) + 2 == 2 + Order(x); Order(x) + x ** 2 == Order(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a78b3b2863910803","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Order(x) + x == Order(x)","Order(x) + 2 == 2 + Order(x)","Order(x) + x ** 2 == Order(x)","Order(x) + 1 / x == 1 / x + Order(x)","Order(1 / x) + 1 / x ** 2 == 1 / x ** 2 + Order(1 / x)","Order(x) + exp(1 / x) == Order(x) + exp(1 / x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_simple_3():
     assert Order(x) + x == Order(x)
     assert Order(x) + 2 == 2 + Order(x)
@@ -140,31 +178,45 @@ def test_simple_3():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_simple_4(), test_simple_4 produces the expected output) over Any ║
+# ║ Path(test_simple_4(), Order(x) ** 2 == Order(x ** 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_simple_4 : Any → {Any | Order(x) ** 2 == Order(x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Order(x) ** 2 == Order(x ** 2)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_simple_4 : Any → {Any | result satisfies: Order(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f6a051d65b1dff7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5625e31dc59bbf48  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_simple_4","kind":"function","src_hash":"6cad934645f4bb33","in":{"base":"Any"},"out":{"base":"Any","pred":"Order(x) ** 2 == Order(x ** 2)"},"spec":{"lhs":"test_simple_4()","rhs":"test_simple_4 produces the expected output","over":{"base":"Any"},"name":"test_simple_4_correct"},"guarantee":"test_simple_4 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_simple_4_correct","statement":"Path(test_simple_4(x), test_simple_4 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f6a051d65b1dff7"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_simple_4","kind":"function","src_hash":"6cad934645f4bb33","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Order(x) ** 2 == Order(x ** 2)"},"spec":{"lhs":"test_simple_4()","rhs":"Order(x) ** 2 == Order(x ** 2)","over":{"base":"Any"},"name":"test_simple_4_correct"},"guarantee":"Order(x) ** 2 == Order(x ** 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_simple_4_correct","statement":"Path(test_simple_4(x), Order(x) ** 2 == Order(x ** 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5625e31dc59bbf48","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Order(x) ** 2 == Order(x ** 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_simple_4():
     assert Order(x)**2 == Order(x**2)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_simple_5(), test_simple_5 produces the expected output) over Any ║
+# ║ Path(test_simple_5(), Order(x) + Order(x ** 2) == Order(x) and Order(x) + Order(x ** (-2)) == Order(x ** (-2)) and Order(x) + Order(1 / x) == Order(1 / x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_simple_5 : Any → {Any | Order(x) + Order(x ** 2)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Order(x) + Order(x ** 2) == Order(x)           ║
+# ║   ensures:  Order(x) + Order(x ** (-2)) == Order(x **...   ║
+# ║   ensures:  Order(x) + Order(1 / x) == Order(1 / x)        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_simple_5 : Any → {Any | result satisfies: Order(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03b5ed049b8d467a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e3f320499f8dec5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_simple_5","kind":"function","src_hash":"ed312c22408f7ab6","in":{"base":"Any"},"out":{"base":"Any","pred":"Order(x) + Order(x ** 2) == Order(x) and Order(x) + Order(x ** (-2)) == Order(x ** (-2)) and Order(x) + Order(1 / x) == Order(1 / x)"},"spec":{"lhs":"test_simple_5()","rhs":"test_simple_5 produces the expected output","over":{"base":"Any"},"name":"test_simple_5_correct"},"guarantee":"test_simple_5 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_simple_5_correct","statement":"Path(test_simple_5(x), test_simple_5 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03b5ed049b8d467a"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_simple_5","kind":"function","src_hash":"ed312c22408f7ab6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Order(x) + Order(x ** 2) == Order(x) and Order(x) + Order(x ** (-2)) == Order(x ** (-2)) and Order(x) + Order(1 / x) == Order(1 / x)"},"spec":{"lhs":"test_simple_5()","rhs":"Order(x) + Order(x ** 2) == Order(x) and Order(x) + Order(x ** (-2)) == Order(x ** (-2)) and Order(x) + Order(1 / x) == Order(1 / x)","over":{"base":"Any"},"name":"test_simple_5_correct"},"guarantee":"Order(x) + Order(x ** 2) == Order(x); Order(x) + Order(x ** (-2)) == Order(x ** (-2)); Order(x) + Order(1 / x) == Order(1 / x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_simple_5_correct","statement":"Path(test_simple_5(x), Order(x) + Order(x ** 2) == Order(x); Order(x) + Order(x ** (-2)) == Order(x ** (-2)); Order(x) + Order(1 / x) == Order(1 / x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e3f320499f8dec5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Order(x) + Order(x ** 2) == Order(x)","Order(x) + Order(x ** (-2)) == Order(x ** (-2))","Order(x) + Order(1 / x) == Order(1 / x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_simple_5():
     assert Order(x) + Order(x**2) == Order(x)
     assert Order(x) + Order(x**-2) == Order(x**-2)
@@ -172,16 +224,24 @@ def test_simple_5():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_simple_6(), test_simple_6 produces the expected output) over Any ║
+# ║ Path(test_simple_6(), Order(x) - Order(x) == Order(x) and Order(x) + Order(1) == Order(1) and Order(x) + Order(x ** 2) == Order(x) and Order(1 / x) + Order(1) == Order(1 / x) and Order(x) + Order(exp(1 / x)) == Order(exp(1 / x)) and Order(x ** 3) + Order(exp(2 / x)) == Order(exp(2 / x)) and Order(x ** (-3)) + Order(exp(2 / x)) == Order(exp(2 / x))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_simple_6 : Any → {Any | Order(x) - Order(x) == O...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Order(x) - Order(x) == Order(x)                ║
+# ║   ensures:  Order(x) + Order(1) == Order(1)                ║
+# ║   ensures:  Order(x) + Order(x ** 2) == Order(x)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_simple_6 : Any → {Any | result satisfies: Order(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | edad21a2539589ba  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 57074d1998f7bd2e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_simple_6","kind":"function","src_hash":"8b9b509fd0d8817b","in":{"base":"Any"},"out":{"base":"Any","pred":"Order(x) - Order(x) == Order(x) and Order(x) + Order(1) == Order(1) and Order(x) + Order(x ** 2) == Order(x) and Order(1 / x) + Order(1) == Order(1 / x) and Order(x) + Order(exp(1 / x)) == Order(exp(1 / x)) and Order(x ** 3) + Order(exp(2 / x)) == Order(exp(2 / x)) and Order(x ** (-3)) + Order(exp(2 / x)) == Order(exp(2 / x))"},"spec":{"lhs":"test_simple_6()","rhs":"test_simple_6 produces the expected output","over":{"base":"Any"},"name":"test_simple_6_correct"},"guarantee":"test_simple_6 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_simple_6_correct","statement":"Path(test_simple_6(x), test_simple_6 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"edad21a2539589ba"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_simple_6","kind":"function","src_hash":"8b9b509fd0d8817b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Order(x) - Order(x) == Order(x) and Order(x) + Order(1) == Order(1) and Order(x) + Order(x ** 2) == Order(x) and Order(1 / x) + Order(1) == Order(1 / x) and Order(x) + Order(exp(1 / x)) == Order(exp(1 / x)) and Order(x ** 3) + Order(exp(2 / x)) == Order(exp(2 / x)) and Order(x ** (-3)) + Order(exp(2 / x)) == Order(exp(2 / x))"},"spec":{"lhs":"test_simple_6()","rhs":"Order(x) - Order(x) == Order(x) and Order(x) + Order(1) == Order(1) and Order(x) + Order(x ** 2) == Order(x) and Order(1 / x) + Order(1) == Order(1 / x) and Order(x) + Order(exp(1 / x)) == Order(exp(1 / x)) and Order(x ** 3) + Order(exp(2 / x)) == Order(exp(2 / x)) and Order(x ** (-3)) + Order(exp(2 / x)) == Order(exp(2 / x))","over":{"base":"Any"},"name":"test_simple_6_correct"},"guarantee":"Order(x) - Order(x) == Order(x); Order(x) + Order(1) == Order(1); Order(x) + Order(x ** 2) == Order(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_simple_6_correct","statement":"Path(test_simple_6(x), Order(x) - Order(x) == Order(x); Order(x) + Order(1) == Order(1); Order(x) + Order(x ** 2) == Order(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57074d1998f7bd2e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Order(x) - Order(x) == Order(x)","Order(x) + Order(1) == Order(1)","Order(x) + Order(x ** 2) == Order(x)","Order(1 / x) + Order(1) == Order(1 / x)","Order(x) + Order(exp(1 / x)) == Order(exp(1 / x))","Order(x ** 3) + Order(exp(2 / x)) == Order(exp(2 / x))","Order(x ** (-3)) + Order(exp(2 / x)) == Order(exp(2 / x))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_simple_6():
     assert Order(x) - Order(x) == Order(x)
     assert Order(x) + Order(1) == Order(1)
@@ -193,16 +253,24 @@ def test_simple_6():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_simple_7(), test_simple_7 produces the expected output) over Any ║
+# ║ Path(test_simple_7(), 1 + O(1) == O(1) and 2 + O(1) == O(1) and x + O(1) == O(1) and 1 / x + O(1) == 1 / x + O(1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_simple_7 : Any → {Any | 1 + O(1) == O(1) and 2 +...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  1 + O(1) == O(1)                               ║
+# ║   ensures:  2 + O(1) == O(1)                               ║
+# ║   ensures:  x + O(1) == O(1)                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_simple_7 : Any → {Any | result satisfies: 1 + O(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d2ec15880ea40f38  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ba1d20284bfac1a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_simple_7","kind":"function","src_hash":"cdbdefd123660453","in":{"base":"Any"},"out":{"base":"Any","pred":"1 + O(1) == O(1) and 2 + O(1) == O(1) and x + O(1) == O(1) and 1 / x + O(1) == 1 / x + O(1)"},"spec":{"lhs":"test_simple_7()","rhs":"test_simple_7 produces the expected output","over":{"base":"Any"},"name":"test_simple_7_correct"},"guarantee":"test_simple_7 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_simple_7_correct","statement":"Path(test_simple_7(x), test_simple_7 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d2ec15880ea40f38"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_simple_7","kind":"function","src_hash":"cdbdefd123660453","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: 1 + O(1) == O(1) and 2 + O(1) == O(1) and x + O(1) == O(1) and 1 / x + O(1) == 1 / x + O(1)"},"spec":{"lhs":"test_simple_7()","rhs":"1 + O(1) == O(1) and 2 + O(1) == O(1) and x + O(1) == O(1) and 1 / x + O(1) == 1 / x + O(1)","over":{"base":"Any"},"name":"test_simple_7_correct"},"guarantee":"1 + O(1) == O(1); 2 + O(1) == O(1); x + O(1) == O(1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_simple_7_correct","statement":"Path(test_simple_7(x), 1 + O(1) == O(1); 2 + O(1) == O(1); x + O(1) == O(1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ba1d20284bfac1a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["1 + O(1) == O(1)","2 + O(1) == O(1)","x + O(1) == O(1)","1 / x + O(1) == 1 / x + O(1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_simple_7():
     assert 1 + O(1) == O(1)
     assert 2 + O(1) == O(1)
@@ -211,16 +279,24 @@ def test_simple_7():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_simple_8(), test_simple_8 produces the expected output) over Any ║
+# ║ Path(test_simple_8(), O(sqrt(-x)) == O(sqrt(x)) and O(x ** 2 * sqrt(x)) == O(x ** Rational(5, 2)) and O(x ** 3 * sqrt(-(-x) ** 3)) == O(x ** Rational(9, 2)) and O(x ** Rational(3, 2) * sqrt((-x) ** 3)) == O(x ** 3) and O(x * (-2 * x) ** (I / 2)) == O(x * (-x) ** (I / 2))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_simple_8 : Any → {Any | O(sqrt(-x)) == O(sqrt(x)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  O(sqrt(-x)) == O(sqrt(x))                      ║
+# ║   ensures:  O(x ** 2 * sqrt(x)) == O(x ** Rational(5,...   ║
+# ║   ensures:  O(x ** 3 * sqrt(-(-x) ** 3)) == O(x ** Ra...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_simple_8 : Any → {Any | result satisfies: O(sqrt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fe1b6aa9b1ed872f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e0c1be0fef84f152  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_simple_8","kind":"function","src_hash":"5e3e4bef5a6c1dae","in":{"base":"Any"},"out":{"base":"Any","pred":"O(sqrt(-x)) == O(sqrt(x)) and O(x ** 2 * sqrt(x)) == O(x ** Rational(5, 2)) and O(x ** 3 * sqrt(-(-x) ** 3)) == O(x ** Rational(9, 2)) and O(x ** Rational(3, 2) * sqrt((-x) ** 3)) == O(x ** 3) and O(x * (-2 * x) ** (I / 2)) == O(x * (-x) ** (I / 2))"},"spec":{"lhs":"test_simple_8()","rhs":"test_simple_8 produces the expected output","over":{"base":"Any"},"name":"test_simple_8_correct"},"guarantee":"test_simple_8 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_simple_8_correct","statement":"Path(test_simple_8(x), test_simple_8 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe1b6aa9b1ed872f"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_simple_8","kind":"function","src_hash":"5e3e4bef5a6c1dae","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: O(sqrt(-x)) == O(sqrt(x)) and O(x ** 2 * sqrt(x)) == O(x ** Rational(5, 2)) and O(x ** 3 * sqrt(-(-x) ** 3)) == O(x ** Rational(9, 2)) and O(x ** Rational(3, 2) * sqrt((-x) ** 3)) == O(x ** 3) and O(x * (-2 * x) ** (I / 2)) == O(x * (-x) ** (I / 2))"},"spec":{"lhs":"test_simple_8()","rhs":"O(sqrt(-x)) == O(sqrt(x)) and O(x ** 2 * sqrt(x)) == O(x ** Rational(5, 2)) and O(x ** 3 * sqrt(-(-x) ** 3)) == O(x ** Rational(9, 2)) and O(x ** Rational(3, 2) * sqrt((-x) ** 3)) == O(x ** 3) and O(x * (-2 * x) ** (I / 2)) == O(x * (-x) ** (I / 2))","over":{"base":"Any"},"name":"test_simple_8_correct"},"guarantee":"O(sqrt(-x)) == O(sqrt(x)); O(x ** 2 * sqrt(x)) == O(x ** Rational(5, 2)); O(x ** 3 * sqrt(-(-x) ** 3)) == O(x ** Rational(9, 2))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_simple_8_correct","statement":"Path(test_simple_8(x), O(sqrt(-x)) == O(sqrt(x)); O(x ** 2 * sqrt(x)) == O(x ** Rational(5, 2)); O(x ** 3 * sqrt(-(-x) ** 3)) == O(x ** Rational(9, 2)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0c1be0fef84f152","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["O(sqrt(-x)) == O(sqrt(x))","O(x ** 2 * sqrt(x)) == O(x ** Rational(5, 2))","O(x ** 3 * sqrt(-(-x) ** 3)) == O(x ** Rational(9, 2))","O(x ** Rational(3, 2) * sqrt((-x) ** 3)) == O(x ** 3)","O(x * (-2 * x) ** (I / 2)) == O(x * (-x) ** (I / 2))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_simple_8():
     assert O(sqrt(-x)) == O(sqrt(x))
     assert O(x**2*sqrt(x)) == O(x**Rational(5, 2))
@@ -230,16 +306,24 @@ def test_simple_8():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_as_expr_variables(), test_as_expr_variables produces the expected output) over Any ║
+# ║ Path(test_as_expr_variables(), Order(x).as_expr_variables(None) == (x, ((x, 0),)) and Order(x).as_expr_variables(((x, 0),)) == (x, ((x, 0),)) and Order(y).as_expr_variables(((x, 0),)) == (y, ((x, 0), (y, 0))) and Order(y).as_expr_variables(((x, 0), (y, 0))) == (y, ((x, 0), (y, 0)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_as_expr_variables : Any → {Any | Order(x).as_exp...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Order(x).as_expr_variables(None) == (x, (...   ║
+# ║   ensures:  Order(x).as_expr_variables(((x, 0),)) == ...   ║
+# ║   ensures:  Order(y).as_expr_variables(((x, 0),)) == ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_as_expr_variables : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e3f9e89e4da5988  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 692ee35482a63be1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_as_expr_variables","kind":"function","src_hash":"eb0fdf5419cba3ab","in":{"base":"Any"},"out":{"base":"Any","pred":"Order(x).as_expr_variables(None) == (x, ((x, 0),)) and Order(x).as_expr_variables(((x, 0),)) == (x, ((x, 0),)) and Order(y).as_expr_variables(((x, 0),)) == (y, ((x, 0), (y, 0))) and Order(y).as_expr_variables(((x, 0), (y, 0))) == (y, ((x, 0), (y, 0)))"},"spec":{"lhs":"test_as_expr_variables()","rhs":"test_as_expr_variables produces the expected output","over":{"base":"Any"},"name":"test_as_expr_variables_correct"},"guarantee":"test_as_expr_variables produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_as_expr_variables_correct","statement":"Path(test_as_expr_variables(x), test_as_expr_variables produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e3f9e89e4da5988"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_as_expr_variables","kind":"function","src_hash":"eb0fdf5419cba3ab","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Order(x).as_expr_variables(None) == (x, ((x, 0),)) and Order(x).as_expr_variables(((x, 0),)) == (x, ((x, 0),)) and Order(y).as_expr_variables(((x, 0),)) == (y, ((x, 0), (y, 0))) and Order(y).as_expr_variables(((x, 0), (y, 0))) == (y, ((x, 0), (y, 0)))"},"spec":{"lhs":"test_as_expr_variables()","rhs":"Order(x).as_expr_variables(None) == (x, ((x, 0),)) and Order(x).as_expr_variables(((x, 0),)) == (x, ((x, 0),)) and Order(y).as_expr_variables(((x, 0),)) == (y, ((x, 0), (y, 0))) and Order(y).as_expr_variables(((x, 0), (y, 0))) == (y, ((x, 0), (y, 0)))","over":{"base":"Any"},"name":"test_as_expr_variables_correct"},"guarantee":"Order(x).as_expr_variables(None) == (x, ((x, 0),)); Order(x).as_expr_variables(((x, 0),)) == (x, ((x, 0),)); Order(y).as_expr_variables(((x, 0),)) == (y, ((x, 0), (y, 0)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_as_expr_variables_correct","statement":"Path(test_as_expr_variables(x), Order(x).as_expr_variables(None) == (x, ((x, 0),)); Order(x).as_expr_variables(((x, 0),)) == (x, ((x, 0),)); Order(y).as_expr_variables(((x, 0),)) == (y, ((x, 0), (y, 0))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"692ee35482a63be1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Order(x).as_expr_variables(None) == (x, ((x, 0),))","Order(x).as_expr_variables(((x, 0),)) == (x, ((x, 0),))","Order(y).as_expr_variables(((x, 0),)) == (y, ((x, 0), (y, 0)))","Order(y).as_expr_variables(((x, 0), (y, 0))) == (y, ((x, 0), (y, 0)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_as_expr_variables():
     assert Order(x).as_expr_variables(None) == (x, ((x, 0),))
     assert Order(x).as_expr_variables(((x, 0),)) == (x, ((x, 0),))
@@ -248,16 +332,24 @@ def test_as_expr_variables():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_contains_0(), test_contains_0 produces the expected output) over Any ║
+# ║ Path(test_contains_0(), Order(1, x).contains(Order(1, x)) and Order(1, x).contains(Order(1)) and Order(1).contains(Order(1, x)) is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_contains_0 : Any → {Any | Order(1, x).contains(O...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Order(1, x).contains(Order(1, x))              ║
+# ║   ensures:  Order(1, x).contains(Order(1))                 ║
+# ║   ensures:  Order(1).contains(Order(1, x)) is False        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_contains_0 : Any → {Any | result satisfies: Orde...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2fc8b969ce43ca0c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22cb544e0cdfb8ee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_contains_0","kind":"function","src_hash":"08eae2b1d6f3bcf2","in":{"base":"Any"},"out":{"base":"Any","pred":"Order(1, x).contains(Order(1, x)) and Order(1, x).contains(Order(1)) and Order(1).contains(Order(1, x)) is False"},"spec":{"lhs":"test_contains_0()","rhs":"test_contains_0 produces the expected output","over":{"base":"Any"},"name":"test_contains_0_correct"},"guarantee":"test_contains_0 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_contains_0_correct","statement":"Path(test_contains_0(x), test_contains_0 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fc8b969ce43ca0c"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_contains_0","kind":"function","src_hash":"08eae2b1d6f3bcf2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Order(1, x).contains(Order(1, x)) and Order(1, x).contains(Order(1)) and Order(1).contains(Order(1, x)) is False"},"spec":{"lhs":"test_contains_0()","rhs":"Order(1, x).contains(Order(1, x)) and Order(1, x).contains(Order(1)) and Order(1).contains(Order(1, x)) is False","over":{"base":"Any"},"name":"test_contains_0_correct"},"guarantee":"Order(1, x).contains(Order(1, x)); Order(1, x).contains(Order(1)); Order(1).contains(Order(1, x)) is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_contains_0_correct","statement":"Path(test_contains_0(x), Order(1, x).contains(Order(1, x)); Order(1, x).contains(Order(1)); Order(1).contains(Order(1, x)) is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22cb544e0cdfb8ee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Order(1, x).contains(Order(1, x))","Order(1, x).contains(Order(1))","Order(1).contains(Order(1, x)) is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_contains_0():
     assert Order(1, x).contains(Order(1, x))
     assert Order(1, x).contains(Order(1))
@@ -265,16 +357,24 @@ def test_contains_0():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_contains_1(), test_contains_1 produces the expected output) over Any ║
+# ║ Path(test_contains_1(), Order(x).contains(Order(x)) and Order(x).contains(Order(x ** 2)) and not Order(x ** 2).contains(Order(x)) and not Order(x).contains(Order(1 / x)) and not Order(1 / x).contains(Order(exp(1 / x))) and not Order(x).contains(Order(exp(1 / x))) and Order(1 / x).contains(Order(x)) and Order(exp(1 / x)).contains(Order(x)) and Order(exp(1 / x)).contains(Order(1 / x)) and Order(exp(1 / x)).contains(Order(exp(1 / x))) and Order(exp(2 / x)).contains(Order(exp(1 / x))) and not Order(exp(1 / x)).contains(Order(exp(2 / x)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_contains_1 : Any → {Any | Order(x).contains(Orde...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Order(x).contains(Order(x))                    ║
+# ║   ensures:  Order(x).contains(Order(x ** 2))               ║
+# ║   ensures:  not Order(x ** 2).contains(Order(x))           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_contains_1 : Any → {Any | result satisfies: Orde...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 11a51c04bd4e637f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a376d2308948b42  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_contains_1","kind":"function","src_hash":"e244362927cce764","in":{"base":"Any"},"out":{"base":"Any","pred":"Order(x).contains(Order(x)) and Order(x).contains(Order(x ** 2)) and not Order(x ** 2).contains(Order(x)) and not Order(x).contains(Order(1 / x)) and not Order(1 / x).contains(Order(exp(1 / x))) and not Order(x).contains(Order(exp(1 / x))) and Order(1 / x).contains(Order(x)) and Order(exp(1 / x)).contains(Order(x)) and Order(exp(1 / x)).contains(Order(1 / x)) and Order(exp(1 / x)).contains(Order(exp(1 / x))) and Order(exp(2 / x)).contains(Order(exp(1 / x))) and not Order(exp(1 / x)).contains(Order(exp(2 / x)))"},"spec":{"lhs":"test_contains_1()","rhs":"test_contains_1 produces the expected output","over":{"base":"Any"},"name":"test_contains_1_correct"},"guarantee":"test_contains_1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_contains_1_correct","statement":"Path(test_contains_1(x), test_contains_1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11a51c04bd4e637f"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_contains_1","kind":"function","src_hash":"e244362927cce764","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Order(x).contains(Order(x)) and Order(x).contains(Order(x ** 2)) and not Order(x ** 2).contains(Order(x)) and not Order(x).contains(Order(1 / x)) and not Order(1 / x).contains(Order(exp(1 / x))) and not Order(x).contains(Order(exp(1 / x))) and Order(1 / x).contains(Order(x)) and Order(exp(1 / x)).contains(Order(x)) and Order(exp(1 / x)).contains(Order(1 / x)) and Order(exp(1 / x)).contains(Order(exp(1 / x))) and Order(exp(2 / x)).contains(Order(exp(1 / x))) and not Order(exp(1 / x)).contains(Order(exp(2 / x)))"},"spec":{"lhs":"test_contains_1()","rhs":"Order(x).contains(Order(x)) and Order(x).contains(Order(x ** 2)) and not Order(x ** 2).contains(Order(x)) and not Order(x).contains(Order(1 / x)) and not Order(1 / x).contains(Order(exp(1 / x))) and not Order(x).contains(Order(exp(1 / x))) and Order(1 / x).contains(Order(x)) and Order(exp(1 / x)).contains(Order(x)) and Order(exp(1 / x)).contains(Order(1 / x)) and Order(exp(1 / x)).contains(Order(exp(1 / x))) and Order(exp(2 / x)).contains(Order(exp(1 / x))) and not Order(exp(1 / x)).contains(Order(exp(2 / x)))","over":{"base":"Any"},"name":"test_contains_1_correct"},"guarantee":"Order(x).contains(Order(x)); Order(x).contains(Order(x ** 2)); not Order(x ** 2).contains(Order(x))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_contains_1_correct","statement":"Path(test_contains_1(x), Order(x).contains(Order(x)); Order(x).contains(Order(x ** 2)); not Order(x ** 2).contains(Order(x)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a376d2308948b42","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Order(x).contains(Order(x))","Order(x).contains(Order(x ** 2))","not Order(x ** 2).contains(Order(x))","not Order(x).contains(Order(1 / x))","not Order(1 / x).contains(Order(exp(1 / x)))","not Order(x).contains(Order(exp(1 / x)))","Order(1 / x).contains(Order(x))","Order(exp(1 / x)).contains(Order(x))","Order(exp(1 / x)).contains(Order(1 / x))","Order(exp(1 / x)).contains(Order(exp(1 / x)))","Order(exp(2 / x)).contains(Order(exp(1 / x)))","not Order(exp(1 / x)).contains(Order(exp(2 / x)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_contains_1():
     assert Order(x).contains(Order(x))
     assert Order(x).contains(Order(x**2))
@@ -291,16 +391,24 @@ def test_contains_1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_contains_2(), test_contains_2 produces the expected output) over Any ║
+# ║ Path(test_contains_2(), Order(x).contains(Order(y)) is None and Order(x).contains(Order(y * x)) and Order(y * x).contains(Order(x)) and Order(y).contains(Order(x * y)) and Order(x).contains(Order(y ** 2 * x))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_contains_2 : Any → {Any | Order(x).contains(Orde...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Order(x).contains(Order(y)) is None            ║
+# ║   ensures:  Order(x).contains(Order(y * x))                ║
+# ║   ensures:  Order(y * x).contains(Order(x))                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_contains_2 : Any → {Any | result satisfies: Orde...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f7b35fb22eb3093  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 649080c58804954c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_contains_2","kind":"function","src_hash":"dd15431a7e334297","in":{"base":"Any"},"out":{"base":"Any","pred":"Order(x).contains(Order(y)) is None and Order(x).contains(Order(y * x)) and Order(y * x).contains(Order(x)) and Order(y).contains(Order(x * y)) and Order(x).contains(Order(y ** 2 * x))"},"spec":{"lhs":"test_contains_2()","rhs":"test_contains_2 produces the expected output","over":{"base":"Any"},"name":"test_contains_2_correct"},"guarantee":"test_contains_2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_contains_2_correct","statement":"Path(test_contains_2(x), test_contains_2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f7b35fb22eb3093"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_contains_2","kind":"function","src_hash":"dd15431a7e334297","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Order(x).contains(Order(y)) is None and Order(x).contains(Order(y * x)) and Order(y * x).contains(Order(x)) and Order(y).contains(Order(x * y)) and Order(x).contains(Order(y ** 2 * x))"},"spec":{"lhs":"test_contains_2()","rhs":"Order(x).contains(Order(y)) is None and Order(x).contains(Order(y * x)) and Order(y * x).contains(Order(x)) and Order(y).contains(Order(x * y)) and Order(x).contains(Order(y ** 2 * x))","over":{"base":"Any"},"name":"test_contains_2_correct"},"guarantee":"Order(x).contains(Order(y)) is None; Order(x).contains(Order(y * x)); Order(y * x).contains(Order(x))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_contains_2_correct","statement":"Path(test_contains_2(x), Order(x).contains(Order(y)) is None; Order(x).contains(Order(y * x)); Order(y * x).contains(Order(x)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"649080c58804954c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Order(x).contains(Order(y)) is None","Order(x).contains(Order(y * x))","Order(y * x).contains(Order(x))","Order(y).contains(Order(x * y))","Order(x).contains(Order(y ** 2 * x))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_contains_2():
     assert Order(x).contains(Order(y)) is None
     assert Order(x).contains(Order(y*x))
@@ -310,48 +418,69 @@ def test_contains_2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_contains_3(), test_contains_3 produces the expected output) over Any ║
+# ║ Path(test_contains_3(), Order(x * y ** 2).contains(Order(x ** 2 * y)) is None and Order(x ** 2 * y).contains(Order(x * y ** 2)) is None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_contains_3 : Any → {Any | Order(x * y ** 2).cont...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Order(x * y ** 2).contains(Order(x ** 2 *...   ║
+# ║   ensures:  Order(x ** 2 * y).contains(Order(x * y **...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_contains_3 : Any → {Any | result satisfies: Orde...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9002d23b818ee2d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 974202af7e379b25  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_contains_3","kind":"function","src_hash":"ed8cb8823e5b3ae1","in":{"base":"Any"},"out":{"base":"Any","pred":"Order(x * y ** 2).contains(Order(x ** 2 * y)) is None and Order(x ** 2 * y).contains(Order(x * y ** 2)) is None"},"spec":{"lhs":"test_contains_3()","rhs":"test_contains_3 produces the expected output","over":{"base":"Any"},"name":"test_contains_3_correct"},"guarantee":"test_contains_3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_contains_3_correct","statement":"Path(test_contains_3(x), test_contains_3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9002d23b818ee2d"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_contains_3","kind":"function","src_hash":"ed8cb8823e5b3ae1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Order(x * y ** 2).contains(Order(x ** 2 * y)) is None and Order(x ** 2 * y).contains(Order(x * y ** 2)) is None"},"spec":{"lhs":"test_contains_3()","rhs":"Order(x * y ** 2).contains(Order(x ** 2 * y)) is None and Order(x ** 2 * y).contains(Order(x * y ** 2)) is None","over":{"base":"Any"},"name":"test_contains_3_correct"},"guarantee":"Order(x * y ** 2).contains(Order(x ** 2 * y)) is None; Order(x ** 2 * y).contains(Order(x * y ** 2)) is None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_contains_3_correct","statement":"Path(test_contains_3(x), Order(x * y ** 2).contains(Order(x ** 2 * y)) is None; Order(x ** 2 * y).contains(Order(x * y ** 2)) is None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"974202af7e379b25","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Order(x * y ** 2).contains(Order(x ** 2 * y)) is None","Order(x ** 2 * y).contains(Order(x * y ** 2)) is None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_contains_3():
     assert Order(x*y**2).contains(Order(x**2*y)) is None
     assert Order(x**2*y).contains(Order(x*y**2)) is None
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_contains_4(), test_contains_4 produces the expected output) over Any ║
+# ║ Path(test_contains_4(), Order(sin(1 / x ** 2)).contains(Order(cos(1 / x ** 2))) is True and Order(cos(1 / x ** 2)).contains(Order(sin(1 / x ** 2))) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_contains_4 : Any → {Any | Order(sin(1 / x ** 2))...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Order(sin(1 / x ** 2)).contains(Order(cos...   ║
+# ║   ensures:  Order(cos(1 / x ** 2)).contains(Order(sin...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_contains_4 : Any → {Any | result satisfies: Orde...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4cdbf67b7ef68f34  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 284fd2684d034d99  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_contains_4","kind":"function","src_hash":"7708083281da6873","in":{"base":"Any"},"out":{"base":"Any","pred":"Order(sin(1 / x ** 2)).contains(Order(cos(1 / x ** 2))) is True and Order(cos(1 / x ** 2)).contains(Order(sin(1 / x ** 2))) is True"},"spec":{"lhs":"test_contains_4()","rhs":"test_contains_4 produces the expected output","over":{"base":"Any"},"name":"test_contains_4_correct"},"guarantee":"test_contains_4 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_contains_4_correct","statement":"Path(test_contains_4(x), test_contains_4 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4cdbf67b7ef68f34"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_contains_4","kind":"function","src_hash":"7708083281da6873","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Order(sin(1 / x ** 2)).contains(Order(cos(1 / x ** 2))) is True and Order(cos(1 / x ** 2)).contains(Order(sin(1 / x ** 2))) is True"},"spec":{"lhs":"test_contains_4()","rhs":"Order(sin(1 / x ** 2)).contains(Order(cos(1 / x ** 2))) is True and Order(cos(1 / x ** 2)).contains(Order(sin(1 / x ** 2))) is True","over":{"base":"Any"},"name":"test_contains_4_correct"},"guarantee":"Order(sin(1 / x ** 2)).contains(Order(cos(1 / x ** 2))) is True; Order(cos(1 / x ** 2)).contains(Order(sin(1 / x ** 2))) is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_contains_4_correct","statement":"Path(test_contains_4(x), Order(sin(1 / x ** 2)).contains(Order(cos(1 / x ** 2))) is True; Order(cos(1 / x ** 2)).contains(Order(sin(1 / x ** 2))) is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"284fd2684d034d99","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Order(sin(1 / x ** 2)).contains(Order(cos(1 / x ** 2))) is True","Order(cos(1 / x ** 2)).contains(Order(sin(1 / x ** 2))) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_contains_4():
     assert Order(sin(1/x**2)).contains(Order(cos(1/x**2))) is True
     assert Order(cos(1/x**2)).contains(Order(sin(1/x**2))) is True
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_contains(), test_contains produces the expected output) over Any ║
+# ║ Path(test_contains(), Order(1, x) not in Order(1) and Order(1) in Order(1, x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_contains : Any → {Any | Order(1, x) not in Order...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Order(1, x) not in Order(1)                    ║
+# ║   ensures:  Order(1) in Order(1, x)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_contains : Any → {Any | result satisfies: Order(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 969c3d3c2f349c6c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 36663ec1d4a6797a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_contains","kind":"function","src_hash":"6602d688dcac524c","in":{"base":"Any"},"out":{"base":"Any","pred":"Order(1, x) not in Order(1) and Order(1) in Order(1, x)"},"spec":{"lhs":"test_contains()","rhs":"test_contains produces the expected output","over":{"base":"Any"},"name":"test_contains_correct"},"guarantee":"test_contains produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_contains_correct","statement":"Path(test_contains(x), test_contains produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"969c3d3c2f349c6c"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_contains","kind":"function","src_hash":"6602d688dcac524c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Order(1, x) not in Order(1) and Order(1) in Order(1, x)"},"spec":{"lhs":"test_contains()","rhs":"Order(1, x) not in Order(1) and Order(1) in Order(1, x)","over":{"base":"Any"},"name":"test_contains_correct"},"guarantee":"Order(1, x) not in Order(1); Order(1) in Order(1, x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_contains_correct","statement":"Path(test_contains(x), Order(1, x) not in Order(1); Order(1) in Order(1, x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36663ec1d4a6797a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Order(1, x) not in Order(1)","Order(1) in Order(1, x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_contains():
     assert Order(1, x) not in Order(1)
     assert Order(1) in Order(1, x)
@@ -359,16 +488,24 @@ def test_contains():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_add_1(), test_add_1 produces the expected output) over Any ║
+# ║ Path(test_add_1(), Order(x + x) == Order(x) and Order(3 * x - 2 * x ** 2) == Order(x) and Order(1 + x) == Order(1, x) and Order(1 + 1 / x) == Order(1 / x) and Order(log(x) + 1 / log(x)) == Order((log(x) ** 2 + 1) / log(x)) and Order(exp(1 / x) + x) == Order(exp(1 / x)) and Order(exp(1 / x) + 1 / x ** 20) == Order(exp(1 / x))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_add_1 : Any → {Any | Order(x + x) == Order(x) an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Order(x + x) == Order(x)                       ║
+# ║   ensures:  Order(3 * x - 2 * x ** 2) == Order(x)          ║
+# ║   ensures:  Order(1 + x) == Order(1, x)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_add_1 : Any → {Any | result satisfies: Order(x +...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3110d2ddffa2de9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a2144c6b58dd2cb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_add_1","kind":"function","src_hash":"ed79c1d73f82bd2b","in":{"base":"Any"},"out":{"base":"Any","pred":"Order(x + x) == Order(x) and Order(3 * x - 2 * x ** 2) == Order(x) and Order(1 + x) == Order(1, x) and Order(1 + 1 / x) == Order(1 / x) and Order(log(x) + 1 / log(x)) == Order((log(x) ** 2 + 1) / log(x)) and Order(exp(1 / x) + x) == Order(exp(1 / x)) and Order(exp(1 / x) + 1 / x ** 20) == Order(exp(1 / x))"},"spec":{"lhs":"test_add_1()","rhs":"test_add_1 produces the expected output","over":{"base":"Any"},"name":"test_add_1_correct"},"guarantee":"test_add_1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_add_1_correct","statement":"Path(test_add_1(x), test_add_1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3110d2ddffa2de9"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_add_1","kind":"function","src_hash":"ed79c1d73f82bd2b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Order(x + x) == Order(x) and Order(3 * x - 2 * x ** 2) == Order(x) and Order(1 + x) == Order(1, x) and Order(1 + 1 / x) == Order(1 / x) and Order(log(x) + 1 / log(x)) == Order((log(x) ** 2 + 1) / log(x)) and Order(exp(1 / x) + x) == Order(exp(1 / x)) and Order(exp(1 / x) + 1 / x ** 20) == Order(exp(1 / x))"},"spec":{"lhs":"test_add_1()","rhs":"Order(x + x) == Order(x) and Order(3 * x - 2 * x ** 2) == Order(x) and Order(1 + x) == Order(1, x) and Order(1 + 1 / x) == Order(1 / x) and Order(log(x) + 1 / log(x)) == Order((log(x) ** 2 + 1) / log(x)) and Order(exp(1 / x) + x) == Order(exp(1 / x)) and Order(exp(1 / x) + 1 / x ** 20) == Order(exp(1 / x))","over":{"base":"Any"},"name":"test_add_1_correct"},"guarantee":"Order(x + x) == Order(x); Order(3 * x - 2 * x ** 2) == Order(x); Order(1 + x) == Order(1, x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_add_1_correct","statement":"Path(test_add_1(x), Order(x + x) == Order(x); Order(3 * x - 2 * x ** 2) == Order(x); Order(1 + x) == Order(1, x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a2144c6b58dd2cb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Order(x + x) == Order(x)","Order(3 * x - 2 * x ** 2) == Order(x)","Order(1 + x) == Order(1, x)","Order(1 + 1 / x) == Order(1 / x)","Order(log(x) + 1 / log(x)) == Order((log(x) ** 2 + 1) / log(x))","Order(exp(1 / x) + x) == Order(exp(1 / x))","Order(exp(1 / x) + 1 / x ** 20) == Order(exp(1 / x))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_add_1():
     assert Order(x + x) == Order(x)
     assert Order(3*x - 2*x**2) == Order(x)
@@ -384,16 +521,24 @@ def test_add_1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ln_args(), test_ln_args produces the expected output) over Any ║
+# ║ Path(test_ln_args(), O(log(x)) + O(log(2 * x)) == O(log(x)) and O(log(x)) + O(log(x ** 3)) == O(log(x)) and O(log(x * y)) + O(log(x) + log(y)) == O(log(x) + log(y), x, y)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ln_args : Any → {Any | O(log(x)) + O(log(2 * x))...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  O(log(x)) + O(log(2 * x)) == O(log(x))         ║
+# ║   ensures:  O(log(x)) + O(log(x ** 3)) == O(log(x))        ║
+# ║   ensures:  O(log(x * y)) + O(log(x) + log(y)) == O(l...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ln_args : Any → {Any | result satisfies: O(log(x...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95c4723658bd1d7a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4ec8105a0cde43c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_ln_args","kind":"function","src_hash":"5b3f3871a9ba1820","in":{"base":"Any"},"out":{"base":"Any","pred":"O(log(x)) + O(log(2 * x)) == O(log(x)) and O(log(x)) + O(log(x ** 3)) == O(log(x)) and O(log(x * y)) + O(log(x) + log(y)) == O(log(x) + log(y), x, y)"},"spec":{"lhs":"test_ln_args()","rhs":"test_ln_args produces the expected output","over":{"base":"Any"},"name":"test_ln_args_correct"},"guarantee":"test_ln_args produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_ln_args_correct","statement":"Path(test_ln_args(x), test_ln_args produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95c4723658bd1d7a"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_ln_args","kind":"function","src_hash":"5b3f3871a9ba1820","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: O(log(x)) + O(log(2 * x)) == O(log(x)) and O(log(x)) + O(log(x ** 3)) == O(log(x)) and O(log(x * y)) + O(log(x) + log(y)) == O(log(x) + log(y), x, y)"},"spec":{"lhs":"test_ln_args()","rhs":"O(log(x)) + O(log(2 * x)) == O(log(x)) and O(log(x)) + O(log(x ** 3)) == O(log(x)) and O(log(x * y)) + O(log(x) + log(y)) == O(log(x) + log(y), x, y)","over":{"base":"Any"},"name":"test_ln_args_correct"},"guarantee":"O(log(x)) + O(log(2 * x)) == O(log(x)); O(log(x)) + O(log(x ** 3)) == O(log(x)); O(log(x * y)) + O(log(x) + log(y)) == O(log(x) + log(y), x, y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_ln_args_correct","statement":"Path(test_ln_args(x), O(log(x)) + O(log(2 * x)) == O(log(x)); O(log(x)) + O(log(x ** 3)) == O(log(x)); O(log(x * y)) + O(log(x) + log(y)) == O(log(x) + log(y), x, y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4ec8105a0cde43c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["O(log(x)) + O(log(2 * x)) == O(log(x))","O(log(x)) + O(log(x ** 3)) == O(log(x))","O(log(x * y)) + O(log(x) + log(y)) == O(log(x) + log(y), x, y)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_ln_args():
     assert O(log(x)) + O(log(2*x)) == O(log(x))
     assert O(log(x)) + O(log(x**3)) == O(log(x))
@@ -401,16 +546,24 @@ def test_ln_args():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_multivar_0(), test_multivar_0 produces the expected output) over Any ║
+# ║ Path(test_multivar_0(), Order(x * y).expr == x * y and Order(x * y ** 2).expr == x * y ** 2 and Order(x * y, x).expr == x and Order(x * y ** 2, y).expr == y ** 2 and Order(x * y * z).expr == x * y * z and Order(x / y).expr == x / y and Order(x * exp(1 / y)).expr == x * exp(1 / y) and Order(exp(x) * exp(1 / y)).expr == exp(x) * exp(1 / y)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_multivar_0 : Any → {Any | Order(x * y).expr == x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Order(x * y).expr == x * y                     ║
+# ║   ensures:  Order(x * y ** 2).expr == x * y ** 2           ║
+# ║   ensures:  Order(x * y, x).expr == x                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_multivar_0 : Any → {Any | result satisfies: Orde...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a17bda673fbb30df  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6929bbb5bc054a30  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_multivar_0","kind":"function","src_hash":"f0ae24723e93a82c","in":{"base":"Any"},"out":{"base":"Any","pred":"Order(x * y).expr == x * y and Order(x * y ** 2).expr == x * y ** 2 and Order(x * y, x).expr == x and Order(x * y ** 2, y).expr == y ** 2 and Order(x * y * z).expr == x * y * z and Order(x / y).expr == x / y and Order(x * exp(1 / y)).expr == x * exp(1 / y) and Order(exp(x) * exp(1 / y)).expr == exp(x) * exp(1 / y)"},"spec":{"lhs":"test_multivar_0()","rhs":"test_multivar_0 produces the expected output","over":{"base":"Any"},"name":"test_multivar_0_correct"},"guarantee":"test_multivar_0 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_multivar_0_correct","statement":"Path(test_multivar_0(x), test_multivar_0 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a17bda673fbb30df"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_multivar_0","kind":"function","src_hash":"f0ae24723e93a82c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Order(x * y).expr == x * y and Order(x * y ** 2).expr == x * y ** 2 and Order(x * y, x).expr == x and Order(x * y ** 2, y).expr == y ** 2 and Order(x * y * z).expr == x * y * z and Order(x / y).expr == x / y and Order(x * exp(1 / y)).expr == x * exp(1 / y) and Order(exp(x) * exp(1 / y)).expr == exp(x) * exp(1 / y)"},"spec":{"lhs":"test_multivar_0()","rhs":"Order(x * y).expr == x * y and Order(x * y ** 2).expr == x * y ** 2 and Order(x * y, x).expr == x and Order(x * y ** 2, y).expr == y ** 2 and Order(x * y * z).expr == x * y * z and Order(x / y).expr == x / y and Order(x * exp(1 / y)).expr == x * exp(1 / y) and Order(exp(x) * exp(1 / y)).expr == exp(x) * exp(1 / y)","over":{"base":"Any"},"name":"test_multivar_0_correct"},"guarantee":"Order(x * y).expr == x * y; Order(x * y ** 2).expr == x * y ** 2; Order(x * y, x).expr == x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_multivar_0_correct","statement":"Path(test_multivar_0(x), Order(x * y).expr == x * y; Order(x * y ** 2).expr == x * y ** 2; Order(x * y, x).expr == x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6929bbb5bc054a30","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Order(x * y).expr == x * y","Order(x * y ** 2).expr == x * y ** 2","Order(x * y, x).expr == x","Order(x * y ** 2, y).expr == y ** 2","Order(x * y * z).expr == x * y * z","Order(x / y).expr == x / y","Order(x * exp(1 / y)).expr == x * exp(1 / y)","Order(exp(x) * exp(1 / y)).expr == exp(x) * exp(1 / y)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_multivar_0():
     assert Order(x*y).expr == x*y
     assert Order(x*y**2).expr == x*y**2
@@ -423,31 +576,45 @@ def test_multivar_0():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_multivar_0a(), test_multivar_0a produces the expected output) over Any ║
+# ║ Path(test_multivar_0a(), Order(exp(1 / x) * exp(1 / y)).expr == exp(1 / x) * exp(1 / y)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_multivar_0a : Any → {Any | Order(exp(1 / x) * ex...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Order(exp(1 / x) * exp(1 / y)).expr == ex...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_multivar_0a : Any → {Any | result satisfies: Ord...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 453a47c5f3541a91  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7cb4700785f781ad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_multivar_0a","kind":"function","src_hash":"38ac5a16ec29a4b6","in":{"base":"Any"},"out":{"base":"Any","pred":"Order(exp(1 / x) * exp(1 / y)).expr == exp(1 / x) * exp(1 / y)"},"spec":{"lhs":"test_multivar_0a()","rhs":"test_multivar_0a produces the expected output","over":{"base":"Any"},"name":"test_multivar_0a_correct"},"guarantee":"test_multivar_0a produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_multivar_0a_correct","statement":"Path(test_multivar_0a(x), test_multivar_0a produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"453a47c5f3541a91"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_multivar_0a","kind":"function","src_hash":"38ac5a16ec29a4b6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Order(exp(1 / x) * exp(1 / y)).expr == exp(1 / x) * exp(1 / y)"},"spec":{"lhs":"test_multivar_0a()","rhs":"Order(exp(1 / x) * exp(1 / y)).expr == exp(1 / x) * exp(1 / y)","over":{"base":"Any"},"name":"test_multivar_0a_correct"},"guarantee":"Order(exp(1 / x) * exp(1 / y)).expr == exp(1 / x) * exp(1 / y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_multivar_0a_correct","statement":"Path(test_multivar_0a(x), Order(exp(1 / x) * exp(1 / y)).expr == exp(1 / x) * exp(1 / y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7cb4700785f781ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Order(exp(1 / x) * exp(1 / y)).expr == exp(1 / x) * exp(1 / y)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_multivar_0a():
     assert Order(exp(1/x)*exp(1/y)).expr == exp(1/x)*exp(1/y)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_multivar_1(), test_multivar_1 produces the expected output) over Any ║
+# ║ Path(test_multivar_1(), Order(x + y).expr == x + y and Order(x + 2 * y).expr == x + y and (Order(x + y) + x).expr == x + y and Order(x + y) + x ** 2 == Order(x + y) and Order(x + y) + 1 / x == 1 / x + Order(x + y) and Order(x ** 2 + y * x).expr == x ** 2 + y * x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_multivar_1 : Any → {Any | Order(x + y).expr == x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Order(x + y).expr == x + y                     ║
+# ║   ensures:  Order(x + 2 * y).expr == x + y                 ║
+# ║   ensures:  (Order(x + y) + x).expr == x + y               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_multivar_1 : Any → {Any | result satisfies: Orde...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e4aae43356e9e173  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93d77e8788b998ce  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_multivar_1","kind":"function","src_hash":"adb7205d8ef2c161","in":{"base":"Any"},"out":{"base":"Any","pred":"Order(x + y).expr == x + y and Order(x + 2 * y).expr == x + y and (Order(x + y) + x).expr == x + y and Order(x + y) + x ** 2 == Order(x + y) and Order(x + y) + 1 / x == 1 / x + Order(x + y) and Order(x ** 2 + y * x).expr == x ** 2 + y * x"},"spec":{"lhs":"test_multivar_1()","rhs":"test_multivar_1 produces the expected output","over":{"base":"Any"},"name":"test_multivar_1_correct"},"guarantee":"test_multivar_1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_multivar_1_correct","statement":"Path(test_multivar_1(x), test_multivar_1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4aae43356e9e173"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_multivar_1","kind":"function","src_hash":"adb7205d8ef2c161","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Order(x + y).expr == x + y and Order(x + 2 * y).expr == x + y and (Order(x + y) + x).expr == x + y and Order(x + y) + x ** 2 == Order(x + y) and Order(x + y) + 1 / x == 1 / x + Order(x + y) and Order(x ** 2 + y * x).expr == x ** 2 + y * x"},"spec":{"lhs":"test_multivar_1()","rhs":"Order(x + y).expr == x + y and Order(x + 2 * y).expr == x + y and (Order(x + y) + x).expr == x + y and Order(x + y) + x ** 2 == Order(x + y) and Order(x + y) + 1 / x == 1 / x + Order(x + y) and Order(x ** 2 + y * x).expr == x ** 2 + y * x","over":{"base":"Any"},"name":"test_multivar_1_correct"},"guarantee":"Order(x + y).expr == x + y; Order(x + 2 * y).expr == x + y; (Order(x + y) + x).expr == x + y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_multivar_1_correct","statement":"Path(test_multivar_1(x), Order(x + y).expr == x + y; Order(x + 2 * y).expr == x + y; (Order(x + y) + x).expr == x + y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93d77e8788b998ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Order(x + y).expr == x + y","Order(x + 2 * y).expr == x + y","(Order(x + y) + x).expr == x + y","Order(x + y) + x ** 2 == Order(x + y)","Order(x + y) + 1 / x == 1 / x + Order(x + y)","Order(x ** 2 + y * x).expr == x ** 2 + y * x"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_multivar_1():
     assert Order(x + y).expr == x + y
     assert Order(x + 2*y).expr == x + y
@@ -458,46 +625,66 @@ def test_multivar_1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_multivar_2(), test_multivar_2 produces the expected output) over Any ║
+# ║ Path(test_multivar_2(), Order(x ** 2 * y + y ** 2 * x, x, y).expr == x ** 2 * y + y ** 2 * x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_multivar_2 : Any → {Any | Order(x ** 2 * y + y *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Order(x ** 2 * y + y ** 2 * x, x, y).expr...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_multivar_2 : Any → {Any | result satisfies: Orde...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ded1e51e6301c2e8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0d86f9fa415ac39  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_multivar_2","kind":"function","src_hash":"9c62c79b65c9d470","in":{"base":"Any"},"out":{"base":"Any","pred":"Order(x ** 2 * y + y ** 2 * x, x, y).expr == x ** 2 * y + y ** 2 * x"},"spec":{"lhs":"test_multivar_2()","rhs":"test_multivar_2 produces the expected output","over":{"base":"Any"},"name":"test_multivar_2_correct"},"guarantee":"test_multivar_2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_multivar_2_correct","statement":"Path(test_multivar_2(x), test_multivar_2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ded1e51e6301c2e8"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_multivar_2","kind":"function","src_hash":"9c62c79b65c9d470","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Order(x ** 2 * y + y ** 2 * x, x, y).expr == x ** 2 * y + y ** 2 * x"},"spec":{"lhs":"test_multivar_2()","rhs":"Order(x ** 2 * y + y ** 2 * x, x, y).expr == x ** 2 * y + y ** 2 * x","over":{"base":"Any"},"name":"test_multivar_2_correct"},"guarantee":"Order(x ** 2 * y + y ** 2 * x, x, y).expr == x ** 2 * y + y ** 2 * x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_multivar_2_correct","statement":"Path(test_multivar_2(x), Order(x ** 2 * y + y ** 2 * x, x, y).expr == x ** 2 * y + y ** 2 * x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0d86f9fa415ac39","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Order(x ** 2 * y + y ** 2 * x, x, y).expr == x ** 2 * y + y ** 2 * x"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_multivar_2():
     assert Order(x**2*y + y**2*x, x, y).expr == x**2*y + y**2*x
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_multivar_mul_1(), test_multivar_mul_1 produces the expected output) over Any ║
+# ║ Path(test_multivar_mul_1(), Order(x + y) * x == Order(x ** 2 + y * x, x, y)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_multivar_mul_1 : Any → {Any | Order(x + y) * x =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Order(x + y) * x == Order(x ** 2 + y * x,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_multivar_mul_1 : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2dc6fbf49305b7aa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7641713a723634f4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_multivar_mul_1","kind":"function","src_hash":"72dab3e3f957e3fb","in":{"base":"Any"},"out":{"base":"Any","pred":"Order(x + y) * x == Order(x ** 2 + y * x, x, y)"},"spec":{"lhs":"test_multivar_mul_1()","rhs":"test_multivar_mul_1 produces the expected output","over":{"base":"Any"},"name":"test_multivar_mul_1_correct"},"guarantee":"test_multivar_mul_1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_multivar_mul_1_correct","statement":"Path(test_multivar_mul_1(x), test_multivar_mul_1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2dc6fbf49305b7aa"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_multivar_mul_1","kind":"function","src_hash":"72dab3e3f957e3fb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Order(x + y) * x == Order(x ** 2 + y * x, x, y)"},"spec":{"lhs":"test_multivar_mul_1()","rhs":"Order(x + y) * x == Order(x ** 2 + y * x, x, y)","over":{"base":"Any"},"name":"test_multivar_mul_1_correct"},"guarantee":"Order(x + y) * x == Order(x ** 2 + y * x, x, y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_multivar_mul_1_correct","statement":"Path(test_multivar_mul_1(x), Order(x + y) * x == Order(x ** 2 + y * x, x, y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7641713a723634f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Order(x + y) * x == Order(x ** 2 + y * x, x, y)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_multivar_mul_1():
     assert Order(x + y)*x == Order(x**2 + y*x, x, y)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_multivar_3(), test_multivar_3 produces the expected output) over Any ║
+# ║ Path(test_multivar_3(), (Order(x) + Order(y)).args in [(Order(x), Order(y)), (Order(y), Order(x))] and Order(x) + Order(y) + Order(x + y) == Order(x + y) and (Order(x ** 2 * y) + Order(y ** 2 * x)).args in [(Order(x * y ** 2), Order(y * x ** 2)), (Order(y * x ** 2), Order(x * y ** 2))] and Order(x ** 2 * y) + Order(y * x) == Order(x * y)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_multivar_3 : Any → {Any | (Order(x) + Order(y))....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (Order(x) + Order(y)).args in [(Order(x),...   ║
+# ║   ensures:  Order(x) + Order(y) + Order(x + y) == Ord...   ║
+# ║   ensures:  (Order(x ** 2 * y) + Order(y ** 2 * x)).a...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_multivar_3 : Any → {Any | result satisfies: (Ord...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83f4300d07069b73  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ab8501040698f1b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_multivar_3","kind":"function","src_hash":"1a5b2861fe96f381","in":{"base":"Any"},"out":{"base":"Any","pred":"(Order(x) + Order(y)).args in [(Order(x), Order(y)), (Order(y), Order(x))] and Order(x) + Order(y) + Order(x + y) == Order(x + y) and Order(x ** 2 * y) + Order(y * x) == Order(x * y)"},"spec":{"lhs":"test_multivar_3()","rhs":"test_multivar_3 produces the expected output","over":{"base":"Any"},"name":"test_multivar_3_correct"},"guarantee":"test_multivar_3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_multivar_3_correct","statement":"Path(test_multivar_3(x), test_multivar_3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83f4300d07069b73"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_multivar_3","kind":"function","src_hash":"1a5b2861fe96f381","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (Order(x) + Order(y)).args in [(Order(x), Order(y)), (Order(y), Order(x))] and Order(x) + Order(y) + Order(x + y) == Order(x + y) and (Order(x ** 2 * y) + Order(y ** 2 * x)).args in [(Order(x * y ** 2), Order(y * x ** 2)), (Order(y * x ** 2), Order(x * y ** 2))] and Order(x ** 2 * y) + Order(y * x) == Order(x * y)"},"spec":{"lhs":"test_multivar_3()","rhs":"(Order(x) + Order(y)).args in [(Order(x), Order(y)), (Order(y), Order(x))] and Order(x) + Order(y) + Order(x + y) == Order(x + y) and (Order(x ** 2 * y) + Order(y ** 2 * x)).args in [(Order(x * y ** 2), Order(y * x ** 2)), (Order(y * x ** 2), Order(x * y ** 2))] and Order(x ** 2 * y) + Order(y * x) == Order(x * y)","over":{"base":"Any"},"name":"test_multivar_3_correct"},"guarantee":"(Order(x) + Order(y)).args in [(Order(x), Order(y)), (Order(y), Order(x))]; Order(x) + Order(y) + Order(x + y) == Order(x + y); (Order(x ** 2 * y) + Order(y ** 2 * x)).args in [(Order(x * y ** 2), Order(y * x ** 2)), (Order(y * x ** 2), Order(x * y ** 2))]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_multivar_3_correct","statement":"Path(test_multivar_3(x), (Order(x) + Order(y)).args in [(Order(x), Order(y)), (Order(y), Order(x))]; Order(x) + Order(y) + Order(x + y) == Order(x + y); (Order(x ** 2 * y) + Order(y ** 2 * x)).args in [(Order(x * y ** 2), Order(y * x ** 2)), (Order(y * x ** 2), Order(x * y ** 2))])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ab8501040698f1b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(Order(x) + Order(y)).args in [(Order(x), Order(y)), (Order(y), Order(x))]","Order(x) + Order(y) + Order(x + y) == Order(x + y)","(Order(x ** 2 * y) + Order(y ** 2 * x)).args in [(Order(x * y ** 2), Order(y * x ** 2)), (Order(y * x ** 2), Order(x * y ** 2))]","Order(x ** 2 * y) + Order(y * x) == Order(x * y)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_multivar_3():
     assert (Order(x) + Order(y)).args in [
         (Order(x), Order(y)),
@@ -510,16 +697,24 @@ def test_multivar_3():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_3468(), test_issue_3468 produces the expected output) over Any ║
+# ║ Path(test_issue_3468(), x.is_positive is None and y.is_positive is False and z.is_positive is None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_3468 : Any → {Any | x.is_positive is None ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  x.is_positive is None                          ║
+# ║   ensures:  y.is_positive is False                         ║
+# ║   ensures:  z.is_positive is None                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_3468 : Any → {Any | result satisfies: x.is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05aa9d3c6f253479  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5eef21efad779f2a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_issue_3468","kind":"function","src_hash":"5e1ac2bfe8259014","in":{"base":"Any"},"out":{"base":"Any","pred":"x.is_positive is None and y.is_positive is False and z.is_positive is None"},"spec":{"lhs":"test_issue_3468()","rhs":"test_issue_3468 produces the expected output","over":{"base":"Any"},"name":"test_issue_3468_correct"},"guarantee":"test_issue_3468 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_issue_3468_correct","statement":"Path(test_issue_3468(x), test_issue_3468 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05aa9d3c6f253479"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_issue_3468","kind":"function","src_hash":"5e1ac2bfe8259014","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: x.is_positive is None and y.is_positive is False and z.is_positive is None"},"spec":{"lhs":"test_issue_3468()","rhs":"x.is_positive is None and y.is_positive is False and z.is_positive is None","over":{"base":"Any"},"name":"test_issue_3468_correct"},"guarantee":"x.is_positive is None; y.is_positive is False; z.is_positive is None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_issue_3468_correct","statement":"Path(test_issue_3468(x), x.is_positive is None; y.is_positive is False; z.is_positive is None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5eef21efad779f2a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["x.is_positive is None","y.is_positive is False","z.is_positive is None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_3468():
     y = Symbol('y', negative=True)
     z = Symbol('z', complex=True)
@@ -535,16 +730,24 @@ def test_issue_3468():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_leading_order(), test_leading_order produces the expected output) over Any ║
+# ║ Path(test_leading_order(), (x + 1 + 1 / x ** 5).extract_leading_order(x) == ((1 / x ** 5, O(1 / x ** 5)),) and (1 + 1 / x).extract_leading_order(x) == ((1 / x, O(1 / x)),) and (1 + x).extract_leading_order(x) == ((1, O(1, x)),) and (1 + x ** 2).extract_leading_order(x) == ((1, O(1, x)),) and (2 + x ** 2).extract_leading_order(x) == ((2, O(1, x)),) and (x + x ** 2).extract_leading_order(x) == ((x, O(x)),)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_leading_order : Any → {Any | (x + 1 + 1 / x ** 5...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x + 1 + 1 / x ** 5).extract_leading_orde...   ║
+# ║   ensures:  (1 + 1 / x).extract_leading_order(x) == (...   ║
+# ║   ensures:  (1 + x).extract_leading_order(x) == ((1, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_leading_order : Any → {Any | result satisfies: (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 878b89437d9c2dc4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8770be2db0653ae3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_leading_order","kind":"function","src_hash":"6ca816bcc37dee26","in":{"base":"Any"},"out":{"base":"Any","pred":"(x + 1 + 1 / x ** 5).extract_leading_order(x) == ((1 / x ** 5, O(1 / x ** 5)),) and (1 + 1 / x).extract_leading_order(x) == ((1 / x, O(1 / x)),) and (1 + x).extract_leading_order(x) == ((1, O(1, x)),) and (1 + x ** 2).extract_leading_order(x) == ((1, O(1, x)),) and (2 + x ** 2).extract_leading_order(x) == ((2, O(1, x)),) and (x + x ** 2).extract_leading_order(x) == ((x, O(x)),)"},"spec":{"lhs":"test_leading_order()","rhs":"test_leading_order produces the expected output","over":{"base":"Any"},"name":"test_leading_order_correct"},"guarantee":"test_leading_order produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_leading_order_correct","statement":"Path(test_leading_order(x), test_leading_order produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"878b89437d9c2dc4"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_leading_order","kind":"function","src_hash":"6ca816bcc37dee26","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (x + 1 + 1 / x ** 5).extract_leading_order(x) == ((1 / x ** 5, O(1 / x ** 5)),) and (1 + 1 / x).extract_leading_order(x) == ((1 / x, O(1 / x)),) and (1 + x).extract_leading_order(x) == ((1, O(1, x)),) and (1 + x ** 2).extract_leading_order(x) == ((1, O(1, x)),) and (2 + x ** 2).extract_leading_order(x) == ((2, O(1, x)),) and (x + x ** 2).extract_leading_order(x) == ((x, O(x)),)"},"spec":{"lhs":"test_leading_order()","rhs":"(x + 1 + 1 / x ** 5).extract_leading_order(x) == ((1 / x ** 5, O(1 / x ** 5)),) and (1 + 1 / x).extract_leading_order(x) == ((1 / x, O(1 / x)),) and (1 + x).extract_leading_order(x) == ((1, O(1, x)),) and (1 + x ** 2).extract_leading_order(x) == ((1, O(1, x)),) and (2 + x ** 2).extract_leading_order(x) == ((2, O(1, x)),) and (x + x ** 2).extract_leading_order(x) == ((x, O(x)),)","over":{"base":"Any"},"name":"test_leading_order_correct"},"guarantee":"(x + 1 + 1 / x ** 5).extract_leading_order(x) == ((1 / x ** 5, O(1 / x ** 5)),); (1 + 1 / x).extract_leading_order(x) == ((1 / x, O(1 / x)),); (1 + x).extract_leading_order(x) == ((1, O(1, x)),)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_leading_order_correct","statement":"Path(test_leading_order(x), (x + 1 + 1 / x ** 5).extract_leading_order(x) == ((1 / x ** 5, O(1 / x ** 5)),); (1 + 1 / x).extract_leading_order(x) == ((1 / x, O(1 / x)),); (1 + x).extract_leading_order(x) == ((1, O(1, x)),))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8770be2db0653ae3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x + 1 + 1 / x ** 5).extract_leading_order(x) == ((1 / x ** 5, O(1 / x ** 5)),)","(1 + 1 / x).extract_leading_order(x) == ((1 / x, O(1 / x)),)","(1 + x).extract_leading_order(x) == ((1, O(1, x)),)","(1 + x ** 2).extract_leading_order(x) == ((1, O(1, x)),)","(2 + x ** 2).extract_leading_order(x) == ((2, O(1, x)),)","(x + x ** 2).extract_leading_order(x) == ((x, O(x)),)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_leading_order():
     assert (x + 1 + 1/x**5).extract_leading_order(x) == ((1/x**5, O(1/x**5)),)
     assert (1 + 1/x).extract_leading_order(x) == ((1/x, O(1/x)),)
@@ -555,16 +758,23 @@ def test_leading_order():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_leading_order2(), test_leading_order2 produces the expected output) over Any ║
+# ║ Path(test_leading_order2(), set((2 + pi + x ** 2).extract_leading_order(x)) == {(pi, O(1, x)), (S(2), O(1, x))} and set((2 * x + pi * x + x ** 2).extract_leading_order(x)) == {(2 * x, O(x)), (x * pi, O(x))}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_leading_order2 : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  set((2 + pi + x ** 2).extract_leading_ord...   ║
+# ║   ensures:  set((2 * x + pi * x + x ** 2).extract_lea...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_leading_order2 : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a44a66e890da6f2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 507ae1196f8dd677  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_leading_order2","kind":"function","src_hash":"2cdcd8b98ee38823","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_leading_order2()","rhs":"test_leading_order2 produces the expected output","over":{"base":"Any"},"name":"test_leading_order2_correct"},"guarantee":"test_leading_order2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_leading_order2_correct","statement":"Path(test_leading_order2(x), test_leading_order2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a44a66e890da6f2"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_leading_order2","kind":"function","src_hash":"2cdcd8b98ee38823","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: set((2 + pi + x ** 2).extract_leading_order(x)) == {(pi, O(1, x)), (S(2), O(1, x))} and set((2 * x + pi * x + x ** 2).extract_leading_order(x)) == {(2 * x, O(x)), (x * pi, O(x))}"},"spec":{"lhs":"test_leading_order2()","rhs":"set((2 + pi + x ** 2).extract_leading_order(x)) == {(pi, O(1, x)), (S(2), O(1, x))} and set((2 * x + pi * x + x ** 2).extract_leading_order(x)) == {(2 * x, O(x)), (x * pi, O(x))}","over":{"base":"Any"},"name":"test_leading_order2_correct"},"guarantee":"set((2 + pi + x ** 2).extract_leading_order(x)) == {(pi, O(1, x)), (S(2), O(1, x))}; set((2 * x + pi * x + x ** 2).extract_leading_order(x)) == {(2 * x, O(x)), (x * pi, O(x))}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_leading_order2_correct","statement":"Path(test_leading_order2(x), set((2 + pi + x ** 2).extract_leading_order(x)) == {(pi, O(1, x)), (S(2), O(1, x))}; set((2 * x + pi * x + x ** 2).extract_leading_order(x)) == {(2 * x, O(x)), (x * pi, O(x))})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"507ae1196f8dd677","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["set((2 + pi + x ** 2).extract_leading_order(x)) == {(pi, O(1, x)), (S(2), O(1, x))}","set((2 * x + pi * x + x ** 2).extract_leading_order(x)) == {(2 * x, O(x)), (x * pi, O(x))}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_leading_order2():
     assert set((2 + pi + x**2).extract_leading_order(x)) == {(pi, O(1, x)),
             (S(2), O(1, x))}
@@ -573,31 +783,44 @@ def test_leading_order2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_order_leadterm(), test_order_leadterm produces the expected output) over Any ║
+# ║ Path(test_order_leadterm(), O(x ** 2)._eval_as_leading_term(x, None, 1) == O(x ** 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_order_leadterm : Any → {Any | O(x ** 2)._eval_as...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  O(x ** 2)._eval_as_leading_term(x, None, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_order_leadterm : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ca2989299e97bc2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 48bf7374be011f22  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_order_leadterm","kind":"function","src_hash":"b61cb890b3fd2893","in":{"base":"Any"},"out":{"base":"Any","pred":"O(x ** 2)._eval_as_leading_term(x, None, 1) == O(x ** 2)"},"spec":{"lhs":"test_order_leadterm()","rhs":"test_order_leadterm produces the expected output","over":{"base":"Any"},"name":"test_order_leadterm_correct"},"guarantee":"test_order_leadterm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_order_leadterm_correct","statement":"Path(test_order_leadterm(x), test_order_leadterm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ca2989299e97bc2"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_order_leadterm","kind":"function","src_hash":"b61cb890b3fd2893","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: O(x ** 2)._eval_as_leading_term(x, None, 1) == O(x ** 2)"},"spec":{"lhs":"test_order_leadterm()","rhs":"O(x ** 2)._eval_as_leading_term(x, None, 1) == O(x ** 2)","over":{"base":"Any"},"name":"test_order_leadterm_correct"},"guarantee":"O(x ** 2)._eval_as_leading_term(x, None, 1) == O(x ** 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_order_leadterm_correct","statement":"Path(test_order_leadterm(x), O(x ** 2)._eval_as_leading_term(x, None, 1) == O(x ** 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"48bf7374be011f22","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["O(x ** 2)._eval_as_leading_term(x, None, 1) == O(x ** 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_order_leadterm():
     assert O(x**2)._eval_as_leading_term(x, None, 1) == O(x**2)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_order_symbols(), test_order_symbols produces the expected output) over Any ║
+# ║ Path(test_order_symbols(), O(e) == O(x ** 2 * y, x, y) and O(e, x) == O(x ** 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_order_symbols : Any → {Any | O(e) == O(x ** 2 * ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  O(e) == O(x ** 2 * y, x, y)                    ║
+# ║   ensures:  O(e, x) == O(x ** 2)                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_order_symbols : Any → {Any | result satisfies: O...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 71f92d4794a39e2b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0bbae89113a83d41  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_order_symbols","kind":"function","src_hash":"befe10b36314824d","in":{"base":"Any"},"out":{"base":"Any","pred":"O(e) == O(x ** 2 * y, x, y) and O(e, x) == O(x ** 2)"},"spec":{"lhs":"test_order_symbols()","rhs":"test_order_symbols produces the expected output","over":{"base":"Any"},"name":"test_order_symbols_correct"},"guarantee":"test_order_symbols produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_order_symbols_correct","statement":"Path(test_order_symbols(x), test_order_symbols produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71f92d4794a39e2b"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_order_symbols","kind":"function","src_hash":"befe10b36314824d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: O(e) == O(x ** 2 * y, x, y) and O(e, x) == O(x ** 2)"},"spec":{"lhs":"test_order_symbols()","rhs":"O(e) == O(x ** 2 * y, x, y) and O(e, x) == O(x ** 2)","over":{"base":"Any"},"name":"test_order_symbols_correct"},"guarantee":"O(e) == O(x ** 2 * y, x, y); O(e, x) == O(x ** 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_order_symbols_correct","statement":"Path(test_order_symbols(x), O(e) == O(x ** 2 * y, x, y); O(e, x) == O(x ** 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0bbae89113a83d41","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["O(e) == O(x ** 2 * y, x, y)","O(e, x) == O(x ** 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_order_symbols():
     e = x*y*sin(x)*Integral(x, (x, 1, 2))
     assert O(e) == O(x**2*y, x, y)
@@ -605,48 +828,70 @@ def test_order_symbols():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nan(), test_nan produces the expected output) over Any ║
+# ║ Path(test_nan(), O(nan) is nan and not O(x).contains(nan)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_nan : Any → {Any | O(nan) is nan and not O(x).co...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  O(nan) is nan                                  ║
+# ║   ensures:  not O(x).contains(nan)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_nan : Any → {Any | result satisfies: O(nan) is n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05979217801c2aac  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9713010e2f1d8457  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_nan","kind":"function","src_hash":"f016b01df01a290d","in":{"base":"Any"},"out":{"base":"Any","pred":"O(nan) is nan and not O(x).contains(nan)"},"spec":{"lhs":"test_nan()","rhs":"test_nan produces the expected output","over":{"base":"Any"},"name":"test_nan_correct"},"guarantee":"test_nan produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_nan_correct","statement":"Path(test_nan(x), test_nan produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05979217801c2aac"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_nan","kind":"function","src_hash":"f016b01df01a290d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: O(nan) is nan and not O(x).contains(nan)"},"spec":{"lhs":"test_nan()","rhs":"O(nan) is nan and not O(x).contains(nan)","over":{"base":"Any"},"name":"test_nan_correct"},"guarantee":"O(nan) is nan; not O(x).contains(nan)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_nan_correct","statement":"Path(test_nan(x), O(nan) is nan; not O(x).contains(nan))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9713010e2f1d8457","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["O(nan) is nan","not O(x).contains(nan)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_nan():
     assert O(nan) is nan
     assert not O(x).contains(nan)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_O1(), test_O1 produces the expected output) over Any ║
+# ║ Path(test_O1(), O(1, x) * x == O(x) and O(1, y) * x == O(1, y)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_O1 : Any → {Any | O(1, x) * x == O(x) and O(1, y...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  O(1, x) * x == O(x)                            ║
+# ║   ensures:  O(1, y) * x == O(1, y)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_O1 : Any → {Any | result satisfies: O(1, x) * x ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ceb4e8e8969b0bd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1674bca27af13f1e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_O1","kind":"function","src_hash":"5c6f5a9bd07f50e8","in":{"base":"Any"},"out":{"base":"Any","pred":"O(1, x) * x == O(x) and O(1, y) * x == O(1, y)"},"spec":{"lhs":"test_O1()","rhs":"test_O1 produces the expected output","over":{"base":"Any"},"name":"test_O1_correct"},"guarantee":"test_O1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_O1_correct","statement":"Path(test_O1(x), test_O1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ceb4e8e8969b0bd"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_O1","kind":"function","src_hash":"5c6f5a9bd07f50e8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: O(1, x) * x == O(x) and O(1, y) * x == O(1, y)"},"spec":{"lhs":"test_O1()","rhs":"O(1, x) * x == O(x) and O(1, y) * x == O(1, y)","over":{"base":"Any"},"name":"test_O1_correct"},"guarantee":"O(1, x) * x == O(x); O(1, y) * x == O(1, y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_O1_correct","statement":"Path(test_O1(x), O(1, x) * x == O(x); O(1, y) * x == O(1, y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1674bca27af13f1e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["O(1, x) * x == O(x)","O(1, y) * x == O(1, y)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_O1():
     assert O(1, x) * x == O(x)
     assert O(1, y) * x == O(1, y)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_getn(), test_getn produces the expected output) over Any ║
+# ║ Path(test_getn(), O(x).getn() == 1 and O(x / log(x)).getn() == 1 and O(x ** 2 / log(x) ** 2).getn() == 2 and O(x * log(x)).getn() == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_getn : Any → {Any | O(x).getn() == 1 and O(x / l...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  O(x).getn() == 1                               ║
+# ║   ensures:  O(x / log(x)).getn() == 1                      ║
+# ║   ensures:  O(x ** 2 / log(x) ** 2).getn() == 2            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_getn : Any → {Any | result satisfies: O(x).getn(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8115f2dae7eee16  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3fbb6c5039a42744  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_getn","kind":"function","src_hash":"874593b0c66dbaad","in":{"base":"Any"},"out":{"base":"Any","pred":"O(x).getn() == 1 and O(x / log(x)).getn() == 1 and O(x ** 2 / log(x) ** 2).getn() == 2 and O(x * log(x)).getn() == 1"},"spec":{"lhs":"test_getn()","rhs":"test_getn produces the expected output","over":{"base":"Any"},"name":"test_getn_correct"},"guarantee":"test_getn produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_getn_correct","statement":"Path(test_getn(x), test_getn produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8115f2dae7eee16"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_getn","kind":"function","src_hash":"874593b0c66dbaad","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: O(x).getn() == 1 and O(x / log(x)).getn() == 1 and O(x ** 2 / log(x) ** 2).getn() == 2 and O(x * log(x)).getn() == 1"},"spec":{"lhs":"test_getn()","rhs":"O(x).getn() == 1 and O(x / log(x)).getn() == 1 and O(x ** 2 / log(x) ** 2).getn() == 2 and O(x * log(x)).getn() == 1","over":{"base":"Any"},"name":"test_getn_correct"},"guarantee":"O(x).getn() == 1; O(x / log(x)).getn() == 1; O(x ** 2 / log(x) ** 2).getn() == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_getn_correct","statement":"Path(test_getn(x), O(x).getn() == 1; O(x / log(x)).getn() == 1; O(x ** 2 / log(x) ** 2).getn() == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3fbb6c5039a42744","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["O(x).getn() == 1","O(x / log(x)).getn() == 1","O(x ** 2 / log(x) ** 2).getn() == 2","O(x * log(x)).getn() == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_getn():
     # other lines are tested incidentally by the suite
     assert O(x).getn() == 1
@@ -657,31 +902,45 @@ def test_getn():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_diff(), test_diff produces the expected output) over Any ║
+# ║ Path(test_diff(), O(x ** 2).diff(x) == O(x)) over Any      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_diff : Any → {Any | O(x ** 2).diff(x) == O(x)}        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  O(x ** 2).diff(x) == O(x)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_diff : Any → {Any | result satisfies: O(x ** 2)....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e9934ef4aad49f6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e47e58c26eab752  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_diff","kind":"function","src_hash":"ad9eba53e47048de","in":{"base":"Any"},"out":{"base":"Any","pred":"O(x ** 2).diff(x) == O(x)"},"spec":{"lhs":"test_diff()","rhs":"test_diff produces the expected output","over":{"base":"Any"},"name":"test_diff_correct"},"guarantee":"test_diff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_diff_correct","statement":"Path(test_diff(x), test_diff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e9934ef4aad49f6"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_diff","kind":"function","src_hash":"ad9eba53e47048de","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: O(x ** 2).diff(x) == O(x)"},"spec":{"lhs":"test_diff()","rhs":"O(x ** 2).diff(x) == O(x)","over":{"base":"Any"},"name":"test_diff_correct"},"guarantee":"O(x ** 2).diff(x) == O(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_diff_correct","statement":"Path(test_diff(x), O(x ** 2).diff(x) == O(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e47e58c26eab752","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["O(x ** 2).diff(x) == O(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_diff():
     assert O(x**2).diff(x) == O(x)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_getO(), test_getO produces the expected output) over Any ║
+# ║ Path(test_getO(), x.getO() is None and x.removeO() == x and O(x).getO() == O(x) and O(x).removeO() == 0 and (z + O(x) + O(y)).getO() == O(x) + O(y) and (z + O(x) + O(y)).removeO() == z) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_getO : Any → {Any | x.getO() is None and x.remov...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  x.getO() is None                               ║
+# ║   ensures:  x.removeO() == x                               ║
+# ║   ensures:  O(x).getO() == O(x)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_getO : Any → {Any | result satisfies: x.getO() i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e4ad483a4c9df5f9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0bfb3d136ded11c9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_getO","kind":"function","src_hash":"ae1adfa12168cd0d","in":{"base":"Any"},"out":{"base":"Any","pred":"x.getO() is None and x.removeO() == x and O(x).getO() == O(x) and O(x).removeO() == 0 and (z + O(x) + O(y)).getO() == O(x) + O(y) and (z + O(x) + O(y)).removeO() == z"},"spec":{"lhs":"test_getO()","rhs":"test_getO produces the expected output","over":{"base":"Any"},"name":"test_getO_correct"},"guarantee":"test_getO produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_getO_correct","statement":"Path(test_getO(x), test_getO produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4ad483a4c9df5f9"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_getO","kind":"function","src_hash":"ae1adfa12168cd0d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: x.getO() is None and x.removeO() == x and O(x).getO() == O(x) and O(x).removeO() == 0 and (z + O(x) + O(y)).getO() == O(x) + O(y) and (z + O(x) + O(y)).removeO() == z"},"spec":{"lhs":"test_getO()","rhs":"x.getO() is None and x.removeO() == x and O(x).getO() == O(x) and O(x).removeO() == 0 and (z + O(x) + O(y)).getO() == O(x) + O(y) and (z + O(x) + O(y)).removeO() == z","over":{"base":"Any"},"name":"test_getO_correct"},"guarantee":"x.getO() is None; x.removeO() == x; O(x).getO() == O(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_getO_correct","statement":"Path(test_getO(x), x.getO() is None; x.removeO() == x; O(x).getO() == O(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0bfb3d136ded11c9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["x.getO() is None","x.removeO() == x","O(x).getO() == O(x)","O(x).removeO() == 0","(z + O(x) + O(y)).getO() == O(x) + O(y)","(z + O(x) + O(y)).removeO() == z"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_getO():
     assert (x).getO() is None
     assert (x).removeO() == x
@@ -693,32 +952,46 @@ def test_getO():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_leading_term(), test_leading_term produces the expected output) over Any ║
+# ║ Path(test_leading_term(), O(1 / digamma(1 / x)) == O(1 / log(x))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_leading_term : Any → {Any | O(1 / digamma(1 / x)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  O(1 / digamma(1 / x)) == O(1 / log(x))         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_leading_term : Any → {Any | result satisfies: O(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8eeb84d8716bf382  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 943e7cebf147604c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_leading_term","kind":"function","src_hash":"585a1274bf212933","in":{"base":"Any"},"out":{"base":"Any","pred":"O(1 / digamma(1 / x)) == O(1 / log(x))"},"spec":{"lhs":"test_leading_term()","rhs":"test_leading_term produces the expected output","over":{"base":"Any"},"name":"test_leading_term_correct"},"guarantee":"test_leading_term produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_leading_term_correct","statement":"Path(test_leading_term(x), test_leading_term produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8eeb84d8716bf382"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_leading_term","kind":"function","src_hash":"585a1274bf212933","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: O(1 / digamma(1 / x)) == O(1 / log(x))"},"spec":{"lhs":"test_leading_term()","rhs":"O(1 / digamma(1 / x)) == O(1 / log(x))","over":{"base":"Any"},"name":"test_leading_term_correct"},"guarantee":"O(1 / digamma(1 / x)) == O(1 / log(x))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_leading_term_correct","statement":"Path(test_leading_term(x), O(1 / digamma(1 / x)) == O(1 / log(x)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"943e7cebf147604c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["O(1 / digamma(1 / x)) == O(1 / log(x))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_leading_term():
     from sympy.functions.special.gamma_functions import digamma
     assert O(1/digamma(1/x)) == O(1/log(x))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_eval(), test_eval produces the expected output) over Any ║
+# ║ Path(test_eval(), Order(x).subs(Order(x), 1) == 1 and Order(x).subs(x, y) == Order(y) and Order(x).subs(y, x) == Order(x) and Order(x).subs(x, x + y) == Order(x + y, (x, -y)) and (O(1) ** x).is_Pow) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_eval : Any → {Any | Order(x).subs(Order(x), 1) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Order(x).subs(Order(x), 1) == 1                ║
+# ║   ensures:  Order(x).subs(x, y) == Order(y)                ║
+# ║   ensures:  Order(x).subs(y, x) == Order(x)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_eval : Any → {Any | result satisfies: Order(x).s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43f09541d30bcc4e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bbc4aadde9d811a8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_eval","kind":"function","src_hash":"ade558af927084a4","in":{"base":"Any"},"out":{"base":"Any","pred":"Order(x).subs(Order(x), 1) == 1 and Order(x).subs(x, y) == Order(y) and Order(x).subs(y, x) == Order(x) and Order(x).subs(x, x + y) == Order(x + y, (x, -y)) and (O(1) ** x).is_Pow"},"spec":{"lhs":"test_eval()","rhs":"test_eval produces the expected output","over":{"base":"Any"},"name":"test_eval_correct"},"guarantee":"test_eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_eval_correct","statement":"Path(test_eval(x), test_eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43f09541d30bcc4e"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_eval","kind":"function","src_hash":"ade558af927084a4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Order(x).subs(Order(x), 1) == 1 and Order(x).subs(x, y) == Order(y) and Order(x).subs(y, x) == Order(x) and Order(x).subs(x, x + y) == Order(x + y, (x, -y)) and (O(1) ** x).is_Pow"},"spec":{"lhs":"test_eval()","rhs":"Order(x).subs(Order(x), 1) == 1 and Order(x).subs(x, y) == Order(y) and Order(x).subs(y, x) == Order(x) and Order(x).subs(x, x + y) == Order(x + y, (x, -y)) and (O(1) ** x).is_Pow","over":{"base":"Any"},"name":"test_eval_correct"},"guarantee":"Order(x).subs(Order(x), 1) == 1; Order(x).subs(x, y) == Order(y); Order(x).subs(y, x) == Order(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_eval_correct","statement":"Path(test_eval(x), Order(x).subs(Order(x), 1) == 1; Order(x).subs(x, y) == Order(y); Order(x).subs(y, x) == Order(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bbc4aadde9d811a8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Order(x).subs(Order(x), 1) == 1","Order(x).subs(x, y) == Order(y)","Order(x).subs(y, x) == Order(x)","Order(x).subs(x, x + y) == Order(x + y, (x, -y))","(O(1) ** x).is_Pow"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_eval():
     assert Order(x).subs(Order(x), 1) == 1
     assert Order(x).subs(x, y) == Order(y)
@@ -728,16 +1001,24 @@ def test_eval():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_4279(), test_issue_4279 produces the expected output) over Any ║
+# ║ Path(test_issue_4279(), O(a, a, b) + O(1, a, b) == O(1, a, b) and O(b, a, b) + O(1, a, b) == O(1, a, b) and O(a + b, a, b) + O(1, a, b) == O(1, a, b) and O(1, a, b) + O(a, a, b) == O(1, a, b) and O(1, a, b) + O(b, a, b) == O(1, a, b) and O(1, a, b) + O(a + b, a, b) == O(1, a, b)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_4279 : Any → {Any | O(a, a, b) + O(1, a, b...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  O(a, a, b) + O(1, a, b) == O(1, a, b)          ║
+# ║   ensures:  O(b, a, b) + O(1, a, b) == O(1, a, b)          ║
+# ║   ensures:  O(a + b, a, b) + O(1, a, b) == O(1, a, b)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_4279 : Any → {Any | result satisfies: O(a,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f6985cbea0c38f5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 147ebcad6cd4e5c4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_issue_4279","kind":"function","src_hash":"4c1e3a18ba8ccbf7","in":{"base":"Any"},"out":{"base":"Any","pred":"O(a, a, b) + O(1, a, b) == O(1, a, b) and O(b, a, b) + O(1, a, b) == O(1, a, b) and O(a + b, a, b) + O(1, a, b) == O(1, a, b) and O(1, a, b) + O(a, a, b) == O(1, a, b) and O(1, a, b) + O(b, a, b) == O(1, a, b) and O(1, a, b) + O(a + b, a, b) == O(1, a, b)"},"spec":{"lhs":"test_issue_4279()","rhs":"test_issue_4279 produces the expected output","over":{"base":"Any"},"name":"test_issue_4279_correct"},"guarantee":"test_issue_4279 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_issue_4279_correct","statement":"Path(test_issue_4279(x), test_issue_4279 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f6985cbea0c38f5"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_issue_4279","kind":"function","src_hash":"4c1e3a18ba8ccbf7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: O(a, a, b) + O(1, a, b) == O(1, a, b) and O(b, a, b) + O(1, a, b) == O(1, a, b) and O(a + b, a, b) + O(1, a, b) == O(1, a, b) and O(1, a, b) + O(a, a, b) == O(1, a, b) and O(1, a, b) + O(b, a, b) == O(1, a, b) and O(1, a, b) + O(a + b, a, b) == O(1, a, b)"},"spec":{"lhs":"test_issue_4279()","rhs":"O(a, a, b) + O(1, a, b) == O(1, a, b) and O(b, a, b) + O(1, a, b) == O(1, a, b) and O(a + b, a, b) + O(1, a, b) == O(1, a, b) and O(1, a, b) + O(a, a, b) == O(1, a, b) and O(1, a, b) + O(b, a, b) == O(1, a, b) and O(1, a, b) + O(a + b, a, b) == O(1, a, b)","over":{"base":"Any"},"name":"test_issue_4279_correct"},"guarantee":"O(a, a, b) + O(1, a, b) == O(1, a, b); O(b, a, b) + O(1, a, b) == O(1, a, b); O(a + b, a, b) + O(1, a, b) == O(1, a, b)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_issue_4279_correct","statement":"Path(test_issue_4279(x), O(a, a, b) + O(1, a, b) == O(1, a, b); O(b, a, b) + O(1, a, b) == O(1, a, b); O(a + b, a, b) + O(1, a, b) == O(1, a, b))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"147ebcad6cd4e5c4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["O(a, a, b) + O(1, a, b) == O(1, a, b)","O(b, a, b) + O(1, a, b) == O(1, a, b)","O(a + b, a, b) + O(1, a, b) == O(1, a, b)","O(1, a, b) + O(a, a, b) == O(1, a, b)","O(1, a, b) + O(b, a, b) == O(1, a, b)","O(1, a, b) + O(a + b, a, b) == O(1, a, b)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_4279():
     a, b = symbols('a b')
     assert O(a, a, b) + O(1, a, b) == O(1, a, b)
@@ -749,16 +1030,24 @@ def test_issue_4279():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_4855(), test_issue_4855 produces the expected output) over Any ║
+# ║ Path(test_issue_4855(), 1 / O(1) != O(1) and 1 / O(x) != O(1 / x) and 1 / O(x, (x, oo)) != O(1 / x, (x, oo)) and 1 / O(f(x)) != O(1 / x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_4855 : Any → {Any | 1 / O(1) != O(1) and 1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  1 / O(1) != O(1)                               ║
+# ║   ensures:  1 / O(x) != O(1 / x)                           ║
+# ║   ensures:  1 / O(x, (x, oo)) != O(1 / x, (x, oo))         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_4855 : Any → {Any | result satisfies: 1 / ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e94f04be01fa398f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eae4dd107d93ccfb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_issue_4855","kind":"function","src_hash":"413efc9f16fa07b3","in":{"base":"Any"},"out":{"base":"Any","pred":"1 / O(1) != O(1) and 1 / O(x) != O(1 / x) and 1 / O(x, (x, oo)) != O(1 / x, (x, oo)) and 1 / O(f(x)) != O(1 / x)"},"spec":{"lhs":"test_issue_4855()","rhs":"test_issue_4855 produces the expected output","over":{"base":"Any"},"name":"test_issue_4855_correct"},"guarantee":"test_issue_4855 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_issue_4855_correct","statement":"Path(test_issue_4855(x), test_issue_4855 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e94f04be01fa398f"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_issue_4855","kind":"function","src_hash":"413efc9f16fa07b3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: 1 / O(1) != O(1) and 1 / O(x) != O(1 / x) and 1 / O(x, (x, oo)) != O(1 / x, (x, oo)) and 1 / O(f(x)) != O(1 / x)"},"spec":{"lhs":"test_issue_4855()","rhs":"1 / O(1) != O(1) and 1 / O(x) != O(1 / x) and 1 / O(x, (x, oo)) != O(1 / x, (x, oo)) and 1 / O(f(x)) != O(1 / x)","over":{"base":"Any"},"name":"test_issue_4855_correct"},"guarantee":"1 / O(1) != O(1); 1 / O(x) != O(1 / x); 1 / O(x, (x, oo)) != O(1 / x, (x, oo))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_issue_4855_correct","statement":"Path(test_issue_4855(x), 1 / O(1) != O(1); 1 / O(x) != O(1 / x); 1 / O(x, (x, oo)) != O(1 / x, (x, oo)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eae4dd107d93ccfb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["1 / O(1) != O(1)","1 / O(x) != O(1 / x)","1 / O(x, (x, oo)) != O(1 / x, (x, oo))","1 / O(f(x)) != O(1 / x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_4855():
     assert 1/O(1) != O(1)
     assert 1/O(x) != O(1/x)
@@ -769,16 +1058,24 @@ def test_issue_4855():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_order_conjugate_transpose(), test_order_conjugate_transpose produces the expected output) over Any ║
+# ║ Path(test_order_conjugate_transpose(), conjugate(Order(x)) == Order(conjugate(x)) and conjugate(Order(y)) == Order(conjugate(y)) and conjugate(Order(x ** 2)) == Order(conjugate(x) ** 2) and conjugate(Order(y ** 2)) == Order(conjugate(y) ** 2) and transpose(Order(x)) == Order(transpose(x)) and transpose(Order(y)) == Order(transpose(y)) and transpose(Order(x ** 2)) == Order(transpose(x) ** 2) and transpose(Order(y ** 2)) == Order(transpose(y) ** 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_order_conjugate_transpose : Any → {Any | conjuga...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  conjugate(Order(x)) == Order(conjugate(x))     ║
+# ║   ensures:  conjugate(Order(y)) == Order(conjugate(y))     ║
+# ║   ensures:  conjugate(Order(x ** 2)) == Order(conjuga...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_order_conjugate_transpose : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db5eeaddd922f95e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dcef0bfe5ff46e7f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_order_conjugate_transpose","kind":"function","src_hash":"2a7590e341ba3545","in":{"base":"Any"},"out":{"base":"Any","pred":"conjugate(Order(x)) == Order(conjugate(x)) and conjugate(Order(y)) == Order(conjugate(y)) and conjugate(Order(x ** 2)) == Order(conjugate(x) ** 2) and conjugate(Order(y ** 2)) == Order(conjugate(y) ** 2) and transpose(Order(x)) == Order(transpose(x)) and transpose(Order(y)) == Order(transpose(y)) and transpose(Order(x ** 2)) == Order(transpose(x) ** 2) and transpose(Order(y ** 2)) == Order(transpose(y) ** 2)"},"spec":{"lhs":"test_order_conjugate_transpose()","rhs":"test_order_conjugate_transpose produces the expected output","over":{"base":"Any"},"name":"test_order_conjugate_transpose_correct"},"guarantee":"test_order_conjugate_transpose produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_order_conjugate_transpose_correct","statement":"Path(test_order_conjugate_transpose(x), test_order_conjugate_transpose produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db5eeaddd922f95e"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_order_conjugate_transpose","kind":"function","src_hash":"2a7590e341ba3545","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: conjugate(Order(x)) == Order(conjugate(x)) and conjugate(Order(y)) == Order(conjugate(y)) and conjugate(Order(x ** 2)) == Order(conjugate(x) ** 2) and conjugate(Order(y ** 2)) == Order(conjugate(y) ** 2) and transpose(Order(x)) == Order(transpose(x)) and transpose(Order(y)) == Order(transpose(y)) and transpose(Order(x ** 2)) == Order(transpose(x) ** 2) and transpose(Order(y ** 2)) == Order(transpose(y) ** 2)"},"spec":{"lhs":"test_order_conjugate_transpose()","rhs":"conjugate(Order(x)) == Order(conjugate(x)) and conjugate(Order(y)) == Order(conjugate(y)) and conjugate(Order(x ** 2)) == Order(conjugate(x) ** 2) and conjugate(Order(y ** 2)) == Order(conjugate(y) ** 2) and transpose(Order(x)) == Order(transpose(x)) and transpose(Order(y)) == Order(transpose(y)) and transpose(Order(x ** 2)) == Order(transpose(x) ** 2) and transpose(Order(y ** 2)) == Order(transpose(y) ** 2)","over":{"base":"Any"},"name":"test_order_conjugate_transpose_correct"},"guarantee":"conjugate(Order(x)) == Order(conjugate(x)); conjugate(Order(y)) == Order(conjugate(y)); conjugate(Order(x ** 2)) == Order(conjugate(x) ** 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_order_conjugate_transpose_correct","statement":"Path(test_order_conjugate_transpose(x), conjugate(Order(x)) == Order(conjugate(x)); conjugate(Order(y)) == Order(conjugate(y)); conjugate(Order(x ** 2)) == Order(conjugate(x) ** 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dcef0bfe5ff46e7f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["conjugate(Order(x)) == Order(conjugate(x))","conjugate(Order(y)) == Order(conjugate(y))","conjugate(Order(x ** 2)) == Order(conjugate(x) ** 2)","conjugate(Order(y ** 2)) == Order(conjugate(y) ** 2)","transpose(Order(x)) == Order(transpose(x))","transpose(Order(y)) == Order(transpose(y))","transpose(Order(x ** 2)) == Order(transpose(x) ** 2)","transpose(Order(y ** 2)) == Order(transpose(y) ** 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_order_conjugate_transpose():
     x = Symbol('x', real=True)
     y = Symbol('y', imaginary=True)
@@ -793,16 +1090,24 @@ def test_order_conjugate_transpose():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_order_noncommutative(), test_order_noncommutative produces the expected output) over Any ║
+# ║ Path(test_order_noncommutative(), Order(A + A * x, x) == Order(1, x) and (A + A * x) * Order(x) == Order(x) and A * x * Order(x) == Order(x ** 2, x) and expand((1 + Order(x)) * A * A * x) == A * A * x + Order(x ** 2, x) and expand((A * A + Order(x)) * x) == A * A * x + Order(x ** 2, x) and expand((A + Order(x)) * A * x) == A * A * x + Order(x ** 2, x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_order_noncommutative : Any → {Any | Order(A + A ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Order(A + A * x, x) == Order(1, x)             ║
+# ║   ensures:  (A + A * x) * Order(x) == Order(x)             ║
+# ║   ensures:  A * x * Order(x) == Order(x ** 2, x)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_order_noncommutative : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4bbdee10af182e99  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 000750f537292bdb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_order_noncommutative","kind":"function","src_hash":"1a3ad6335e5c7a6e","in":{"base":"Any"},"out":{"base":"Any","pred":"Order(A + A * x, x) == Order(1, x) and (A + A * x) * Order(x) == Order(x) and A * x * Order(x) == Order(x ** 2, x) and expand((1 + Order(x)) * A * A * x) == A * A * x + Order(x ** 2, x) and expand((A * A + Order(x)) * x) == A * A * x + Order(x ** 2, x) and expand((A + Order(x)) * A * x) == A * A * x + Order(x ** 2, x)"},"spec":{"lhs":"test_order_noncommutative()","rhs":"test_order_noncommutative produces the expected output","over":{"base":"Any"},"name":"test_order_noncommutative_correct"},"guarantee":"test_order_noncommutative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_order_noncommutative_correct","statement":"Path(test_order_noncommutative(x), test_order_noncommutative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4bbdee10af182e99"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_order_noncommutative","kind":"function","src_hash":"1a3ad6335e5c7a6e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Order(A + A * x, x) == Order(1, x) and (A + A * x) * Order(x) == Order(x) and A * x * Order(x) == Order(x ** 2, x) and expand((1 + Order(x)) * A * A * x) == A * A * x + Order(x ** 2, x) and expand((A * A + Order(x)) * x) == A * A * x + Order(x ** 2, x) and expand((A + Order(x)) * A * x) == A * A * x + Order(x ** 2, x)"},"spec":{"lhs":"test_order_noncommutative()","rhs":"Order(A + A * x, x) == Order(1, x) and (A + A * x) * Order(x) == Order(x) and A * x * Order(x) == Order(x ** 2, x) and expand((1 + Order(x)) * A * A * x) == A * A * x + Order(x ** 2, x) and expand((A * A + Order(x)) * x) == A * A * x + Order(x ** 2, x) and expand((A + Order(x)) * A * x) == A * A * x + Order(x ** 2, x)","over":{"base":"Any"},"name":"test_order_noncommutative_correct"},"guarantee":"Order(A + A * x, x) == Order(1, x); (A + A * x) * Order(x) == Order(x); A * x * Order(x) == Order(x ** 2, x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_order_noncommutative_correct","statement":"Path(test_order_noncommutative(x), Order(A + A * x, x) == Order(1, x); (A + A * x) * Order(x) == Order(x); A * x * Order(x) == Order(x ** 2, x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"000750f537292bdb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Order(A + A * x, x) == Order(1, x)","(A + A * x) * Order(x) == Order(x)","A * x * Order(x) == Order(x ** 2, x)","expand((1 + Order(x)) * A * A * x) == A * A * x + Order(x ** 2, x)","expand((A * A + Order(x)) * x) == A * A * x + Order(x ** 2, x)","expand((A + Order(x)) * A * x) == A * A * x + Order(x ** 2, x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_order_noncommutative():
     A = Symbol('A', commutative=False)
     assert Order(A + A*x, x) == Order(1, x)
@@ -814,31 +1119,45 @@ def test_order_noncommutative():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6753(), test_issue_6753 produces the expected output) over Any ║
+# ║ Path(test_issue_6753(), (1 + x ** 2) ** 10000 * O(x) == O(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6753 : Any → {Any | (1 + x ** 2) ** 10000 ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (1 + x ** 2) ** 10000 * O(x) == O(x)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6753 : Any → {Any | result satisfies: (1 +...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a6dd3c69a7c64061  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b62592b5a6afda33  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_issue_6753","kind":"function","src_hash":"8fdba49937df5b85","in":{"base":"Any"},"out":{"base":"Any","pred":"(1 + x ** 2) ** 10000 * O(x) == O(x)"},"spec":{"lhs":"test_issue_6753()","rhs":"test_issue_6753 produces the expected output","over":{"base":"Any"},"name":"test_issue_6753_correct"},"guarantee":"test_issue_6753 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_issue_6753_correct","statement":"Path(test_issue_6753(x), test_issue_6753 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6dd3c69a7c64061"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_issue_6753","kind":"function","src_hash":"8fdba49937df5b85","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (1 + x ** 2) ** 10000 * O(x) == O(x)"},"spec":{"lhs":"test_issue_6753()","rhs":"(1 + x ** 2) ** 10000 * O(x) == O(x)","over":{"base":"Any"},"name":"test_issue_6753_correct"},"guarantee":"(1 + x ** 2) ** 10000 * O(x) == O(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_issue_6753_correct","statement":"Path(test_issue_6753(x), (1 + x ** 2) ** 10000 * O(x) == O(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b62592b5a6afda33","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(1 + x ** 2) ** 10000 * O(x) == O(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_6753():
     assert (1 + x**2)**10000*O(x) == O(x)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_order_at_infinity(), test_order_at_infinity produces the expected output) over Any ║
+# ║ Path(test_order_at_infinity(), Order(1 + x, (x, oo)) == Order(x, (x, oo)) and Order(3 * x, (x, oo)) == Order(x, (x, oo)) and Order(x, (x, oo)) * 3 == Order(x, (x, oo)) and -28 * Order(x, (x, oo)) == Order(x, (x, oo)) and Order(Order(x, (x, oo)), (x, oo)) == Order(x, (x, oo)) and Order(Order(x, (x, oo)), (y, oo)) == Order(x, (x, oo), (y, oo)) and Order(3, (x, oo)) == Order(1, (x, oo)) and Order(x ** 2 + x + y, (x, oo)) == O(x ** 2, (x, oo)) and Order(x ** 2 + x + y, (y, oo)) == O(y, (y, oo)) and Order(2 * x, (x, oo)) * x == Order(x ** 2, (x, oo)) and Order(2 * x, (x, oo)) / x == Order(1, (x, oo)) and Order(2 * x, (x, oo)) * x * exp(1 / x) == Order(x ** 2 * exp(1 / x), (x, oo)) and Order(2 * x, (x, oo)) * x * exp(1 / x) / log(x) ** 3 == Order(x ** 2 * exp(1 / x) * log(x) ** (-3), (x, oo)) and Order(x, (x, oo)) + 1 / x == 1 / x + Order(x, (x, oo)) == Order(x, (x, oo)) and Order(x, (x, oo)) + 1 == 1 + Order(x, (x, oo)) == Order(x, (x, oo)) and Order(x, (x, oo)) + x == x + Order(x, (x, oo)) == Order(x, (x, oo)) and Order(x, (x, oo)) + x ** 2 == x ** 2 + Order(x, (x, oo)) and Order(1 / x, (x, oo)) + 1 / x ** 2 == 1 / x ** 2 + Order(1 / x, (x, oo)) == Order(1 / x, (x, oo)) and Order(x, (x, oo)) + exp(1 / x) == exp(1 / x) + Order(x, (x, oo)) and Order(x, (x, oo)) ** 2 == Order(x ** 2, (x, oo)) and Order(x, (x, oo)) + Order(x ** 2, (x, oo)) == Order(x ** 2, (x, oo)) and Order(x, (x, oo)) + Order(x ** (-2), (x, oo)) == Order(x, (x, oo)) and Order(x, (x, oo)) + Order(1 / x, (x, oo)) == Order(x, (x, oo)) and Order(x, (x, oo)) - Order(x, (x, oo)) == Order(x, (x, oo)) and Order(x, (x, oo)) + Order(1, (x, oo)) == Order(x, (x, oo)) and Order(1 / x, (x, oo)) + Order(1, (x, oo)) == Order(1, (x, oo)) and Order(x, (x, oo)) + Order(exp(1 / x), (x, oo)) == Order(x, (x, oo)) and Order(x ** 3, (x, oo)) + Order(exp(2 / x), (x, oo)) == Order(x ** 3, (x, oo)) and Order(x ** (-3), (x, oo)) + Order(exp(2 / x), (x, oo)) == Order(exp(2 / x), (x, oo)) and Order(exp(x), (x, oo)).expr == Order(2 * exp(x), (x, oo)).expr == exp(x) and Order(y ** x, (x, oo)).expr == Order(2 * y ** x, (x, oo)).expr == exp(x * log(y)) and Order(1 / x - 3 / (3 * x + 2), (x, oo)).expr == x ** (-2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_order_at_infinity : Any → {Any | Order(1 + x, (x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Order(1 + x, (x, oo)) == Order(x, (x, oo))     ║
+# ║   ensures:  Order(3 * x, (x, oo)) == Order(x, (x, oo))     ║
+# ║   ensures:  Order(x, (x, oo)) * 3 == Order(x, (x, oo))     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_order_at_infinity : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0595ba4bd7a78b5a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 754c7e5103d1f664  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_order_at_infinity","kind":"function","src_hash":"43a5829a90525f24","in":{"base":"Any"},"out":{"base":"Any","pred":"Order(1 + x, (x, oo)) == Order(x, (x, oo)) and Order(3 * x, (x, oo)) == Order(x, (x, oo)) and Order(x, (x, oo)) * 3 == Order(x, (x, oo)) and -28 * Order(x, (x, oo)) == Order(x, (x, oo)) and Order(Order(x, (x, oo)), (x, oo)) == Order(x, (x, oo)) and Order(Order(x, (x, oo)), (y, oo)) == Order(x, (x, oo), (y, oo)) and Order(3, (x, oo)) == Order(1, (x, oo)) and Order(x ** 2 + x + y, (x, oo)) == O(x ** 2, (x, oo)) and Order(x ** 2 + x + y, (y, oo)) == O(y, (y, oo)) and Order(2 * x, (x, oo)) * x == Order(x ** 2, (x, oo)) and Order(2 * x, (x, oo)) / x == Order(1, (x, oo)) and Order(2 * x, (x, oo)) * x * exp(1 / x) == Order(x ** 2 * exp(1 / x), (x, oo)) and Order(x, (x, oo)) + 1 / x == 1 / x + Order(x, (x, oo)) == Order(x, (x, oo)) and Order(x, (x, oo)) + 1 == 1 + Order(x, (x, oo)) == Order(x, (x, oo)) and Order(x, (x, oo)) + x == x + Order(x, (x, oo)) == Order(x, (x, oo)) and Order(x, (x, oo)) + x ** 2 == x ** 2 + Order(x, (x, oo)) and Order(x, (x, oo)) + exp(1 / x) == exp(1 / x) + Order(x, (x, oo)) and Order(x, (x, oo)) ** 2 == Order(x ** 2, (x, oo)) and Order(x, (x, oo)) + Order(x ** 2, (x, oo)) == Order(x ** 2, (x, oo)) and Order(x, (x, oo)) + Order(x ** (-2), (x, oo)) == Order(x, (x, oo)) and Order(x, (x, oo)) + Order(1 / x, (x, oo)) == Order(x, (x, oo)) and Order(x, (x, oo)) - Order(x, (x, oo)) == Order(x, (x, oo)) and Order(x, (x, oo)) + Order(1, (x, oo)) == Order(x, (x, oo)) and Order(x, (x, oo)) + Order(x ** 2, (x, oo)) == Order(x ** 2, (x, oo)) and Order(1 / x, (x, oo)) + Order(1, (x, oo)) == Order(1, (x, oo)) and Order(x, (x, oo)) + Order(exp(1 / x), (x, oo)) == Order(x, (x, oo)) and Order(x ** 3, (x, oo)) + Order(exp(2 / x), (x, oo)) == Order(x ** 3, (x, oo)) and Order(exp(x), (x, oo)).expr == Order(2 * exp(x), (x, oo)).expr == exp(x) and Order(1 / x - 3 / (3 * x + 2), (x, oo)).expr == x ** (-2)"},"spec":{"lhs":"test_order_at_infinity()","rhs":"test_order_at_infinity produces the expected output","over":{"base":"Any"},"name":"test_order_at_infinity_correct"},"guarantee":"test_order_at_infinity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_order_at_infinity_correct","statement":"Path(test_order_at_infinity(x), test_order_at_infinity produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0595ba4bd7a78b5a"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_order_at_infinity","kind":"function","src_hash":"43a5829a90525f24","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Order(1 + x, (x, oo)) == Order(x, (x, oo)) and Order(3 * x, (x, oo)) == Order(x, (x, oo)) and Order(x, (x, oo)) * 3 == Order(x, (x, oo)) and -28 * Order(x, (x, oo)) == Order(x, (x, oo)) and Order(Order(x, (x, oo)), (x, oo)) == Order(x, (x, oo)) and Order(Order(x, (x, oo)), (y, oo)) == Order(x, (x, oo), (y, oo)) and Order(3, (x, oo)) == Order(1, (x, oo)) and Order(x ** 2 + x + y, (x, oo)) == O(x ** 2, (x, oo)) and Order(x ** 2 + x + y, (y, oo)) == O(y, (y, oo)) and Order(2 * x, (x, oo)) * x == Order(x ** 2, (x, oo)) and Order(2 * x, (x, oo)) / x == Order(1, (x, oo)) and Order(2 * x, (x, oo)) * x * exp(1 / x) == Order(x ** 2 * exp(1 / x), (x, oo)) and Order(2 * x, (x, oo)) * x * exp(1 / x) / log(x) ** 3 == Order(x ** 2 * exp(1 / x) * log(x) ** (-3), (x, oo)) and Order(x, (x, oo)) + 1 / x == 1 / x + Order(x, (x, oo)) == Order(x, (x, oo)) and Order(x, (x, oo)) + 1 == 1 + Order(x, (x, oo)) == Order(x, (x, oo)) and Order(x, (x, oo)) + x == x + Order(x, (x, oo)) == Order(x, (x, oo)) and Order(x, (x, oo)) + x ** 2 == x ** 2 + Order(x, (x, oo)) and Order(1 / x, (x, oo)) + 1 / x ** 2 == 1 / x ** 2 + Order(1 / x, (x, oo)) == Order(1 / x, (x, oo)) and Order(x, (x, oo)) + exp(1 / x) == exp(1 / x) + Order(x, (x, oo)) and Order(x, (x, oo)) ** 2 == Order(x ** 2, (x, oo)) and Order(x, (x, oo)) + Order(x ** 2, (x, oo)) == Order(x ** 2, (x, oo)) and Order(x, (x, oo)) + Order(x ** (-2), (x, oo)) == Order(x, (x, oo)) and Order(x, (x, oo)) + Order(1 / x, (x, oo)) == Order(x, (x, oo)) and Order(x, (x, oo)) - Order(x, (x, oo)) == Order(x, (x, oo)) and Order(x, (x, oo)) + Order(1, (x, oo)) == Order(x, (x, oo)) and Order(1 / x, (x, oo)) + Order(1, (x, oo)) == Order(1, (x, oo)) and Order(x, (x, oo)) + Order(exp(1 / x), (x, oo)) == Order(x, (x, oo)) and Order(x ** 3, (x, oo)) + Order(exp(2 / x), (x, oo)) == Order(x ** 3, (x, oo)) and Order(x ** (-3), (x, oo)) + Order(exp(2 / x), (x, oo)) == Order(exp(2 / x), (x, oo)) and Order(exp(x), (x, oo)).expr == Order(2 * exp(x), (x, oo)).expr == exp(x) and Order(y ** x, (x, oo)).expr == Order(2 * y ** x, (x, oo)).expr == exp(x * log(y)) and Order(1 / x - 3 / (3 * x + 2), (x, oo)).expr == x ** (-2)"},"spec":{"lhs":"test_order_at_infinity()","rhs":"Order(1 + x, (x, oo)) == Order(x, (x, oo)) and Order(3 * x, (x, oo)) == Order(x, (x, oo)) and Order(x, (x, oo)) * 3 == Order(x, (x, oo)) and -28 * Order(x, (x, oo)) == Order(x, (x, oo)) and Order(Order(x, (x, oo)), (x, oo)) == Order(x, (x, oo)) and Order(Order(x, (x, oo)), (y, oo)) == Order(x, (x, oo), (y, oo)) and Order(3, (x, oo)) == Order(1, (x, oo)) and Order(x ** 2 + x + y, (x, oo)) == O(x ** 2, (x, oo)) and Order(x ** 2 + x + y, (y, oo)) == O(y, (y, oo)) and Order(2 * x, (x, oo)) * x == Order(x ** 2, (x, oo)) and Order(2 * x, (x, oo)) / x == Order(1, (x, oo)) and Order(2 * x, (x, oo)) * x * exp(1 / x) == Order(x ** 2 * exp(1 / x), (x, oo)) and Order(2 * x, (x, oo)) * x * exp(1 / x) / log(x) ** 3 == Order(x ** 2 * exp(1 / x) * log(x) ** (-3), (x, oo)) and Order(x, (x, oo)) + 1 / x == 1 / x + Order(x, (x, oo)) == Order(x, (x, oo)) and Order(x, (x, oo)) + 1 == 1 + Order(x, (x, oo)) == Order(x, (x, oo)) and Order(x, (x, oo)) + x == x + Order(x, (x, oo)) == Order(x, (x, oo)) and Order(x, (x, oo)) + x ** 2 == x ** 2 + Order(x, (x, oo)) and Order(1 / x, (x, oo)) + 1 / x ** 2 == 1 / x ** 2 + Order(1 / x, (x, oo)) == Order(1 / x, (x, oo)) and Order(x, (x, oo)) + exp(1 / x) == exp(1 / x) + Order(x, (x, oo)) and Order(x, (x, oo)) ** 2 == Order(x ** 2, (x, oo)) and Order(x, (x, oo)) + Order(x ** 2, (x, oo)) == Order(x ** 2, (x, oo)) and Order(x, (x, oo)) + Order(x ** (-2), (x, oo)) == Order(x, (x, oo)) and Order(x, (x, oo)) + Order(1 / x, (x, oo)) == Order(x, (x, oo)) and Order(x, (x, oo)) - Order(x, (x, oo)) == Order(x, (x, oo)) and Order(x, (x, oo)) + Order(1, (x, oo)) == Order(x, (x, oo)) and Order(1 / x, (x, oo)) + Order(1, (x, oo)) == Order(1, (x, oo)) and Order(x, (x, oo)) + Order(exp(1 / x), (x, oo)) == Order(x, (x, oo)) and Order(x ** 3, (x, oo)) + Order(exp(2 / x), (x, oo)) == Order(x ** 3, (x, oo)) and Order(x ** (-3), (x, oo)) + Order(exp(2 / x), (x, oo)) == Order(exp(2 / x), (x, oo)) and Order(exp(x), (x, oo)).expr == Order(2 * exp(x), (x, oo)).expr == exp(x) and Order(y ** x, (x, oo)).expr == Order(2 * y ** x, (x, oo)).expr == exp(x * log(y)) and Order(1 / x - 3 / (3 * x + 2), (x, oo)).expr == x ** (-2)","over":{"base":"Any"},"name":"test_order_at_infinity_correct"},"guarantee":"Order(1 + x, (x, oo)) == Order(x, (x, oo)); Order(3 * x, (x, oo)) == Order(x, (x, oo)); Order(x, (x, oo)) * 3 == Order(x, (x, oo))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_order_at_infinity_correct","statement":"Path(test_order_at_infinity(x), Order(1 + x, (x, oo)) == Order(x, (x, oo)); Order(3 * x, (x, oo)) == Order(x, (x, oo)); Order(x, (x, oo)) * 3 == Order(x, (x, oo)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"754c7e5103d1f664","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Order(1 + x, (x, oo)) == Order(x, (x, oo))","Order(3 * x, (x, oo)) == Order(x, (x, oo))","Order(x, (x, oo)) * 3 == Order(x, (x, oo))","-28 * Order(x, (x, oo)) == Order(x, (x, oo))","Order(Order(x, (x, oo)), (x, oo)) == Order(x, (x, oo))","Order(Order(x, (x, oo)), (y, oo)) == Order(x, (x, oo), (y, oo))","Order(3, (x, oo)) == Order(1, (x, oo))","Order(x ** 2 + x + y, (x, oo)) == O(x ** 2, (x, oo))","Order(x ** 2 + x + y, (y, oo)) == O(y, (y, oo))","Order(2 * x, (x, oo)) * x == Order(x ** 2, (x, oo))","Order(2 * x, (x, oo)) / x == Order(1, (x, oo))","Order(2 * x, (x, oo)) * x * exp(1 / x) == Order(x ** 2 * exp(1 / x), (x, oo))","Order(2 * x, (x, oo)) * x * exp(1 / x) / log(x) ** 3 == Order(x ** 2 * exp(1 / x) * log(x) ** (-3), (x, oo))","Order(x, (x, oo)) + 1 / x == 1 / x + Order(x, (x, oo)) == Order(x, (x, oo))","Order(x, (x, oo)) + 1 == 1 + Order(x, (x, oo)) == Order(x, (x, oo))","Order(x, (x, oo)) + x == x + Order(x, (x, oo)) == Order(x, (x, oo))","Order(x, (x, oo)) + x ** 2 == x ** 2 + Order(x, (x, oo))","Order(1 / x, (x, oo)) + 1 / x ** 2 == 1 / x ** 2 + Order(1 / x, (x, oo)) == Order(1 / x, (x, oo))","Order(x, (x, oo)) + exp(1 / x) == exp(1 / x) + Order(x, (x, oo))","Order(x, (x, oo)) ** 2 == Order(x ** 2, (x, oo))","Order(x, (x, oo)) + Order(x ** 2, (x, oo)) == Order(x ** 2, (x, oo))","Order(x, (x, oo)) + Order(x ** (-2), (x, oo)) == Order(x, (x, oo))","Order(x, (x, oo)) + Order(1 / x, (x, oo)) == Order(x, (x, oo))","Order(x, (x, oo)) - Order(x, (x, oo)) == Order(x, (x, oo))","Order(x, (x, oo)) + Order(1, (x, oo)) == Order(x, (x, oo))","Order(1 / x, (x, oo)) + Order(1, (x, oo)) == Order(1, (x, oo))","Order(x, (x, oo)) + Order(exp(1 / x), (x, oo)) == Order(x, (x, oo))","Order(x ** 3, (x, oo)) + Order(exp(2 / x), (x, oo)) == Order(x ** 3, (x, oo))","Order(x ** (-3), (x, oo)) + Order(exp(2 / x), (x, oo)) == Order(exp(2 / x), (x, oo))","Order(exp(x), (x, oo)).expr == Order(2 * exp(x), (x, oo)).expr == exp(x)","Order(y ** x, (x, oo)).expr == Order(2 * y ** x, (x, oo)).expr == exp(x * log(y))","Order(1 / x - 3 / (3 * x + 2), (x, oo)).expr == x ** (-2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"assumed","binding":true}}
 def test_order_at_infinity():
     assert Order(1 + x, (x, oo)) == Order(x, (x, oo))
     assert Order(3*x, (x, oo)) == Order(x, (x, oo))
@@ -884,16 +1203,24 @@ def test_order_at_infinity():
     assert Order(1/x - 3/(3*x + 2), (x, oo)).expr == x**(-2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mixing_order_at_zero_and_infinity(), test_mixing_order_at_zero_and_infinity produces the expected output) over Any ║
+# ║ Path(test_mixing_order_at_zero_and_infinity(), (Order(x, (x, 0)) + Order(x, (x, oo))).is_Add and Order(x, (x, 0)) + Order(x, (x, oo)) == Order(x, (x, oo)) + Order(x, (x, 0)) and Order(Order(x, (x, oo))) == Order(x, (x, oo))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (Order(x, (x, 0)) + Order(x, (x, oo))).is...   ║
+# ║   ensures:  Order(x, (x, 0)) + Order(x, (x, oo)) == O...   ║
+# ║   ensures:  Order(Order(x, (x, oo))) == Order(x, (x, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_mixing_order_at_zero_and_infinity : Any → {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e763efd01444b173  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 645d23791ee1acff  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_mixing_order_at_zero_and_infinity","kind":"function","src_hash":"5569ad514153ed96","in":{"base":"Any"},"out":{"base":"Any","pred":"(Order(x, (x, 0)) + Order(x, (x, oo))).is_Add and Order(x, (x, 0)) + Order(x, (x, oo)) == Order(x, (x, oo)) + Order(x, (x, 0)) and Order(Order(x, (x, oo))) == Order(x, (x, oo))"},"spec":{"lhs":"test_mixing_order_at_zero_and_infinity()","rhs":"test_mixing_order_at_zero_and_infinity produces the expected output","over":{"base":"Any"},"name":"test_mixing_order_at_zero_and_infinity_correct"},"guarantee":"test_mixing_order_at_zero_and_infinity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_mixing_order_at_zero_and_infinity_correct","statement":"Path(test_mixing_order_at_zero_and_infinity(x), test_mixing_order_at_zero_and_infinity produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e763efd01444b173"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_mixing_order_at_zero_and_infinity","kind":"function","src_hash":"5569ad514153ed96","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (Order(x, (x, 0)) + Order(x, (x, oo))).is_Add and Order(x, (x, 0)) + Order(x, (x, oo)) == Order(x, (x, oo)) + Order(x, (x, 0)) and Order(Order(x, (x, oo))) == Order(x, (x, oo))"},"spec":{"lhs":"test_mixing_order_at_zero_and_infinity()","rhs":"(Order(x, (x, 0)) + Order(x, (x, oo))).is_Add and Order(x, (x, 0)) + Order(x, (x, oo)) == Order(x, (x, oo)) + Order(x, (x, 0)) and Order(Order(x, (x, oo))) == Order(x, (x, oo))","over":{"base":"Any"},"name":"test_mixing_order_at_zero_and_infinity_correct"},"guarantee":"(Order(x, (x, 0)) + Order(x, (x, oo))).is_Add; Order(x, (x, 0)) + Order(x, (x, oo)) == Order(x, (x, oo)) + Order(x, (x, 0)); Order(Order(x, (x, oo))) == Order(x, (x, oo))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_mixing_order_at_zero_and_infinity_correct","statement":"Path(test_mixing_order_at_zero_and_infinity(x), (Order(x, (x, 0)) + Order(x, (x, oo))).is_Add; Order(x, (x, 0)) + Order(x, (x, oo)) == Order(x, (x, oo)) + Order(x, (x, 0)); Order(Order(x, (x, oo))) == Order(x, (x, oo)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"645d23791ee1acff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(Order(x, (x, 0)) + Order(x, (x, oo))).is_Add","Order(x, (x, 0)) + Order(x, (x, oo)) == Order(x, (x, oo)) + Order(x, (x, 0))","Order(Order(x, (x, oo))) == Order(x, (x, oo))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_mixing_order_at_zero_and_infinity():
     assert (Order(x, (x, 0)) + Order(x, (x, oo))).is_Add
     assert Order(x, (x, 0)) + Order(x, (x, oo)) == Order(x, (x, oo)) + Order(x, (x, 0))
@@ -907,16 +1234,24 @@ def test_mixing_order_at_zero_and_infinity():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_order_at_some_point(), test_order_at_some_point produces the expected output) over Any ║
+# ║ Path(test_order_at_some_point(), Order(x, (x, 1)) == Order(1, (x, 1)) and Order(2 * x - 2, (x, 1)) == Order(x - 1, (x, 1)) and Order(-x + 1, (x, 1)) == Order(x - 1, (x, 1)) and Order(x - 1, (x, 1)) ** 2 == Order((x - 1) ** 2, (x, 1)) and Order(x - 2, (x, 2)) - O(x - 2, (x, 2)) == Order(x - 2, (x, 2))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_order_at_some_point : Any → {Any | Order(x, (x, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Order(x, (x, 1)) == Order(1, (x, 1))           ║
+# ║   ensures:  Order(2 * x - 2, (x, 1)) == Order(x - 1, ...   ║
+# ║   ensures:  Order(-x + 1, (x, 1)) == Order(x - 1, (x,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_order_at_some_point : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c9af5f6f50d0fed  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d38e54fc21a10443  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_order_at_some_point","kind":"function","src_hash":"347553d1c9855e49","in":{"base":"Any"},"out":{"base":"Any","pred":"Order(x, (x, 1)) == Order(1, (x, 1)) and Order(2 * x - 2, (x, 1)) == Order(x - 1, (x, 1)) and Order(-x + 1, (x, 1)) == Order(x - 1, (x, 1)) and Order(x - 1, (x, 1)) ** 2 == Order((x - 1) ** 2, (x, 1)) and Order(x - 2, (x, 2)) - O(x - 2, (x, 2)) == Order(x - 2, (x, 2))"},"spec":{"lhs":"test_order_at_some_point()","rhs":"test_order_at_some_point produces the expected output","over":{"base":"Any"},"name":"test_order_at_some_point_correct"},"guarantee":"test_order_at_some_point produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_order_at_some_point_correct","statement":"Path(test_order_at_some_point(x), test_order_at_some_point produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c9af5f6f50d0fed"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_order_at_some_point","kind":"function","src_hash":"347553d1c9855e49","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Order(x, (x, 1)) == Order(1, (x, 1)) and Order(2 * x - 2, (x, 1)) == Order(x - 1, (x, 1)) and Order(-x + 1, (x, 1)) == Order(x - 1, (x, 1)) and Order(x - 1, (x, 1)) ** 2 == Order((x - 1) ** 2, (x, 1)) and Order(x - 2, (x, 2)) - O(x - 2, (x, 2)) == Order(x - 2, (x, 2))"},"spec":{"lhs":"test_order_at_some_point()","rhs":"Order(x, (x, 1)) == Order(1, (x, 1)) and Order(2 * x - 2, (x, 1)) == Order(x - 1, (x, 1)) and Order(-x + 1, (x, 1)) == Order(x - 1, (x, 1)) and Order(x - 1, (x, 1)) ** 2 == Order((x - 1) ** 2, (x, 1)) and Order(x - 2, (x, 2)) - O(x - 2, (x, 2)) == Order(x - 2, (x, 2))","over":{"base":"Any"},"name":"test_order_at_some_point_correct"},"guarantee":"Order(x, (x, 1)) == Order(1, (x, 1)); Order(2 * x - 2, (x, 1)) == Order(x - 1, (x, 1)); Order(-x + 1, (x, 1)) == Order(x - 1, (x, 1))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_order_at_some_point_correct","statement":"Path(test_order_at_some_point(x), Order(x, (x, 1)) == Order(1, (x, 1)); Order(2 * x - 2, (x, 1)) == Order(x - 1, (x, 1)); Order(-x + 1, (x, 1)) == Order(x - 1, (x, 1)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d38e54fc21a10443","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Order(x, (x, 1)) == Order(1, (x, 1))","Order(2 * x - 2, (x, 1)) == Order(x - 1, (x, 1))","Order(-x + 1, (x, 1)) == Order(x - 1, (x, 1))","Order(x - 1, (x, 1)) ** 2 == Order((x - 1) ** 2, (x, 1))","Order(x - 2, (x, 2)) - O(x - 2, (x, 2)) == Order(x - 2, (x, 2))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_order_at_some_point():
     assert Order(x, (x, 1)) == Order(1, (x, 1))
     assert Order(2*x - 2, (x, 1)) == Order(x - 1, (x, 1))
@@ -926,16 +1261,24 @@ def test_order_at_some_point():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_order_subs_limits(), test_order_subs_limits produces the expected output) over Any ║
+# ║ Path(test_order_subs_limits(), (1 + Order(x)).subs(x, 1 / x) == 1 + Order(1 / x, (x, oo)) and (1 + Order(x)).limit(x, 0) == 1 and ((x + Order(x ** 2)) / x).limit(x, 0) == 1 and Order(x ** 2).subs(x, y - 1) == Order((y - 1) ** 2, (y, 1)) and Order(10 * x ** 2, (x, 2)).subs(x, y - 1) == Order(1, (y, 3)) and O(x).subs(x, O(x)) == O(x) and O(x ** 2).subs(x, x + O(x)) == O(x ** 2) and O(x, (x, oo)).subs(x, O(x, (x, oo))) == O(x, (x, oo)) and O(x ** 2, (x, oo)).subs(x, x + O(x, (x, oo))) == O(x ** 2, (x, oo)) and (x + O(x ** 2)).subs(x, x + O(x ** 2)) == x + O(x ** 2) and (x ** 2 + O(x ** 2) + 1 / x ** 2).subs(x, x + O(x ** 2)) == (x + O(x ** 2)) ** (-2) + O(x ** 2) and (x ** 2 + O(x ** 2) + 1).subs(x, x + O(x ** 2)) == 1 + O(x ** 2) and O(x, (x, oo)).subs(x, x + O(x ** 2, (x, oo))) == O(x ** 2, (x, oo)) and sin(x).series(n=8).subs(x, sin(x).series(n=8)).expand() == x - x ** 3 / 3 + x ** 5 / 10 - 8 * x ** 7 / 315 + O(x ** 8) and cos(x).series(n=8).subs(x, sin(x).series(n=8)).expand() == 1 - x ** 2 / 2 + 5 * x ** 4 / 24 - 37 * x ** 6 / 720 + O(x ** 8) and O(x).subs(x, O(1 / x, (x, oo))) == O(1 / x, (x, oo))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_order_subs_limits : Any → {Any | (1 + Order(x))....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (1 + Order(x)).subs(x, 1 / x) == 1 + Orde...   ║
+# ║   ensures:  (1 + Order(x)).limit(x, 0) == 1                ║
+# ║   ensures:  ((x + Order(x ** 2)) / x).limit(x, 0) == 1     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_order_subs_limits : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ee06a2801fe5c4d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bdb5e949589e6f24  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_order_subs_limits","kind":"function","src_hash":"e89fe9b88cbfe34c","in":{"base":"Any"},"out":{"base":"Any","pred":"(1 + Order(x)).subs(x, 1 / x) == 1 + Order(1 / x, (x, oo)) and (1 + Order(x)).limit(x, 0) == 1 and ((x + Order(x ** 2)) / x).limit(x, 0) == 1 and Order(x ** 2).subs(x, y - 1) == Order((y - 1) ** 2, (y, 1)) and Order(10 * x ** 2, (x, 2)).subs(x, y - 1) == Order(1, (y, 3)) and O(x).subs(x, O(x)) == O(x) and O(x ** 2).subs(x, x + O(x)) == O(x ** 2) and O(x, (x, oo)).subs(x, O(x, (x, oo))) == O(x, (x, oo)) and O(x ** 2, (x, oo)).subs(x, x + O(x, (x, oo))) == O(x ** 2, (x, oo)) and (x + O(x ** 2)).subs(x, x + O(x ** 2)) == x + O(x ** 2) and (x ** 2 + O(x ** 2) + 1).subs(x, x + O(x ** 2)) == 1 + O(x ** 2) and O(x, (x, oo)).subs(x, x + O(x ** 2, (x, oo))) == O(x ** 2, (x, oo)) and O(x).subs(x, O(1 / x, (x, oo))) == O(1 / x, (x, oo))"},"spec":{"lhs":"test_order_subs_limits()","rhs":"test_order_subs_limits produces the expected output","over":{"base":"Any"},"name":"test_order_subs_limits_correct"},"guarantee":"test_order_subs_limits produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_order_subs_limits_correct","statement":"Path(test_order_subs_limits(x), test_order_subs_limits produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ee06a2801fe5c4d"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_order_subs_limits","kind":"function","src_hash":"e89fe9b88cbfe34c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (1 + Order(x)).subs(x, 1 / x) == 1 + Order(1 / x, (x, oo)) and (1 + Order(x)).limit(x, 0) == 1 and ((x + Order(x ** 2)) / x).limit(x, 0) == 1 and Order(x ** 2).subs(x, y - 1) == Order((y - 1) ** 2, (y, 1)) and Order(10 * x ** 2, (x, 2)).subs(x, y - 1) == Order(1, (y, 3)) and O(x).subs(x, O(x)) == O(x) and O(x ** 2).subs(x, x + O(x)) == O(x ** 2) and O(x, (x, oo)).subs(x, O(x, (x, oo))) == O(x, (x, oo)) and O(x ** 2, (x, oo)).subs(x, x + O(x, (x, oo))) == O(x ** 2, (x, oo)) and (x + O(x ** 2)).subs(x, x + O(x ** 2)) == x + O(x ** 2) and (x ** 2 + O(x ** 2) + 1 / x ** 2).subs(x, x + O(x ** 2)) == (x + O(x ** 2)) ** (-2) + O(x ** 2) and (x ** 2 + O(x ** 2) + 1).subs(x, x + O(x ** 2)) == 1 + O(x ** 2) and O(x, (x, oo)).subs(x, x + O(x ** 2, (x, oo))) == O(x ** 2, (x, oo)) and sin(x).series(n=8).subs(x, sin(x).series(n=8)).expand() == x - x ** 3 / 3 + x ** 5 / 10 - 8 * x ** 7 / 315 + O(x ** 8) and cos(x).series(n=8).subs(x, sin(x).series(n=8)).expand() == 1 - x ** 2 / 2 + 5 * x ** 4 / 24 - 37 * x ** 6 / 720 + O(x ** 8) and O(x).subs(x, O(1 / x, (x, oo))) == O(1 / x, (x, oo))"},"spec":{"lhs":"test_order_subs_limits()","rhs":"(1 + Order(x)).subs(x, 1 / x) == 1 + Order(1 / x, (x, oo)) and (1 + Order(x)).limit(x, 0) == 1 and ((x + Order(x ** 2)) / x).limit(x, 0) == 1 and Order(x ** 2).subs(x, y - 1) == Order((y - 1) ** 2, (y, 1)) and Order(10 * x ** 2, (x, 2)).subs(x, y - 1) == Order(1, (y, 3)) and O(x).subs(x, O(x)) == O(x) and O(x ** 2).subs(x, x + O(x)) == O(x ** 2) and O(x, (x, oo)).subs(x, O(x, (x, oo))) == O(x, (x, oo)) and O(x ** 2, (x, oo)).subs(x, x + O(x, (x, oo))) == O(x ** 2, (x, oo)) and (x + O(x ** 2)).subs(x, x + O(x ** 2)) == x + O(x ** 2) and (x ** 2 + O(x ** 2) + 1 / x ** 2).subs(x, x + O(x ** 2)) == (x + O(x ** 2)) ** (-2) + O(x ** 2) and (x ** 2 + O(x ** 2) + 1).subs(x, x + O(x ** 2)) == 1 + O(x ** 2) and O(x, (x, oo)).subs(x, x + O(x ** 2, (x, oo))) == O(x ** 2, (x, oo)) and sin(x).series(n=8).subs(x, sin(x).series(n=8)).expand() == x - x ** 3 / 3 + x ** 5 / 10 - 8 * x ** 7 / 315 + O(x ** 8) and cos(x).series(n=8).subs(x, sin(x).series(n=8)).expand() == 1 - x ** 2 / 2 + 5 * x ** 4 / 24 - 37 * x ** 6 / 720 + O(x ** 8) and O(x).subs(x, O(1 / x, (x, oo))) == O(1 / x, (x, oo))","over":{"base":"Any"},"name":"test_order_subs_limits_correct"},"guarantee":"(1 + Order(x)).subs(x, 1 / x) == 1 + Order(1 / x, (x, oo)); (1 + Order(x)).limit(x, 0) == 1; ((x + Order(x ** 2)) / x).limit(x, 0) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_order_subs_limits_correct","statement":"Path(test_order_subs_limits(x), (1 + Order(x)).subs(x, 1 / x) == 1 + Order(1 / x, (x, oo)); (1 + Order(x)).limit(x, 0) == 1; ((x + Order(x ** 2)) / x).limit(x, 0) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bdb5e949589e6f24","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(1 + Order(x)).subs(x, 1 / x) == 1 + Order(1 / x, (x, oo))","(1 + Order(x)).limit(x, 0) == 1","((x + Order(x ** 2)) / x).limit(x, 0) == 1","Order(x ** 2).subs(x, y - 1) == Order((y - 1) ** 2, (y, 1))","Order(10 * x ** 2, (x, 2)).subs(x, y - 1) == Order(1, (y, 3))","O(x).subs(x, O(x)) == O(x)","O(x ** 2).subs(x, x + O(x)) == O(x ** 2)","O(x, (x, oo)).subs(x, O(x, (x, oo))) == O(x, (x, oo))","O(x ** 2, (x, oo)).subs(x, x + O(x, (x, oo))) == O(x ** 2, (x, oo))","(x + O(x ** 2)).subs(x, x + O(x ** 2)) == x + O(x ** 2)","(x ** 2 + O(x ** 2) + 1 / x ** 2).subs(x, x + O(x ** 2)) == (x + O(x ** 2)) ** (-2) + O(x ** 2)","(x ** 2 + O(x ** 2) + 1).subs(x, x + O(x ** 2)) == 1 + O(x ** 2)","O(x, (x, oo)).subs(x, x + O(x ** 2, (x, oo))) == O(x ** 2, (x, oo))","sin(x).series(n=8).subs(x, sin(x).series(n=8)).expand() == x - x ** 3 / 3 + x ** 5 / 10 - 8 * x ** 7 / 315 + O(x ** 8)","cos(x).series(n=8).subs(x, sin(x).series(n=8)).expand() == 1 - x ** 2 / 2 + 5 * x ** 4 / 24 - 37 * x ** 6 / 720 + O(x ** 8)","O(x).subs(x, O(1 / x, (x, oo))) == O(1 / x, (x, oo))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_order_subs_limits():
     # issue 3333
     assert (1 + Order(x)).subs(x, 1/x) == 1 + Order(1/x, (x, oo))
@@ -961,94 +1304,133 @@ def test_order_subs_limits():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_order_failing_due_to_solveset(), test_order_failing_due_to_solveset produces the expected output) over Any ║
+# ║ Path(test_order_failing_due_to_solveset(), O(x ** 3).subs(x, exp(-x ** 2)) == O(exp(-3 * x ** 2), (x, -oo))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_order_failing_due_to_solveset : Any → {Any | O(x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  O(x ** 3).subs(x, exp(-x ** 2)) == O(exp(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_order_failing_due_to_solveset : Any → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb093784706dfca3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 01495e8b59041d80  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_order_failing_due_to_solveset","kind":"function","src_hash":"e884e0fde8ecc3a9","in":{"base":"Any"},"out":{"base":"Any","pred":"O(x ** 3).subs(x, exp(-x ** 2)) == O(exp(-3 * x ** 2), (x, -oo))"},"spec":{"lhs":"test_order_failing_due_to_solveset()","rhs":"test_order_failing_due_to_solveset produces the expected output","over":{"base":"Any"},"name":"test_order_failing_due_to_solveset_correct"},"guarantee":"test_order_failing_due_to_solveset produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_order_failing_due_to_solveset_correct","statement":"Path(test_order_failing_due_to_solveset(x), test_order_failing_due_to_solveset produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb093784706dfca3"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_order_failing_due_to_solveset","kind":"function","src_hash":"e884e0fde8ecc3a9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: O(x ** 3).subs(x, exp(-x ** 2)) == O(exp(-3 * x ** 2), (x, -oo))"},"spec":{"lhs":"test_order_failing_due_to_solveset()","rhs":"O(x ** 3).subs(x, exp(-x ** 2)) == O(exp(-3 * x ** 2), (x, -oo))","over":{"base":"Any"},"name":"test_order_failing_due_to_solveset_correct"},"guarantee":"O(x ** 3).subs(x, exp(-x ** 2)) == O(exp(-3 * x ** 2), (x, -oo))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_order_failing_due_to_solveset_correct","statement":"Path(test_order_failing_due_to_solveset(x), O(x ** 3).subs(x, exp(-x ** 2)) == O(exp(-3 * x ** 2), (x, -oo)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01495e8b59041d80","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["O(x ** 3).subs(x, exp(-x ** 2)) == O(exp(-3 * x ** 2), (x, -oo))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_order_failing_due_to_solveset():
     assert O(x**3).subs(x, exp(-x**2)) == O(exp(-3*x**2), (x, -oo))
     raises(NotImplementedError, lambda: O(x).subs(x, O(1/x))) # mixing of order at different points
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_9351(), test_issue_9351 produces the expected output) over Any ║
+# ║ Path(test_issue_9351(), exp(x).series(x, 10, 1) == exp(10) + Order(x - 10, (x, 10))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_9351 : Any → {Any | exp(x).series(x, 10, 1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  exp(x).series(x, 10, 1) == exp(10) + Orde...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_9351 : Any → {Any | result satisfies: exp(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf5bc908c017cca0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9769f59c6849ad73  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_issue_9351","kind":"function","src_hash":"8c3df18195768fcf","in":{"base":"Any"},"out":{"base":"Any","pred":"exp(x).series(x, 10, 1) == exp(10) + Order(x - 10, (x, 10))"},"spec":{"lhs":"test_issue_9351()","rhs":"test_issue_9351 produces the expected output","over":{"base":"Any"},"name":"test_issue_9351_correct"},"guarantee":"test_issue_9351 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_issue_9351_correct","statement":"Path(test_issue_9351(x), test_issue_9351 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf5bc908c017cca0"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_issue_9351","kind":"function","src_hash":"8c3df18195768fcf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: exp(x).series(x, 10, 1) == exp(10) + Order(x - 10, (x, 10))"},"spec":{"lhs":"test_issue_9351()","rhs":"exp(x).series(x, 10, 1) == exp(10) + Order(x - 10, (x, 10))","over":{"base":"Any"},"name":"test_issue_9351_correct"},"guarantee":"exp(x).series(x, 10, 1) == exp(10) + Order(x - 10, (x, 10))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_issue_9351_correct","statement":"Path(test_issue_9351(x), exp(x).series(x, 10, 1) == exp(10) + Order(x - 10, (x, 10)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9769f59c6849ad73","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["exp(x).series(x, 10, 1) == exp(10) + Order(x - 10, (x, 10))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_9351():
     assert exp(x).series(x, 10, 1) == exp(10) + Order(x - 10, (x, 10))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_9192(), test_issue_9192 produces the expected output) over Any ║
+# ║ Path(test_issue_9192(), O(1) * O(1) == O(1) and O(1) ** O(1) == O(1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_9192 : Any → {Any | O(1) * O(1) == O(1) an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  O(1) * O(1) == O(1)                            ║
+# ║   ensures:  O(1) ** O(1) == O(1)                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_9192 : Any → {Any | result satisfies: O(1)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e408b254e99cdef  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b632be0e735b701  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_issue_9192","kind":"function","src_hash":"1c342b550dbe60db","in":{"base":"Any"},"out":{"base":"Any","pred":"O(1) * O(1) == O(1) and O(1) ** O(1) == O(1)"},"spec":{"lhs":"test_issue_9192()","rhs":"test_issue_9192 produces the expected output","over":{"base":"Any"},"name":"test_issue_9192_correct"},"guarantee":"test_issue_9192 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_issue_9192_correct","statement":"Path(test_issue_9192(x), test_issue_9192 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e408b254e99cdef"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_issue_9192","kind":"function","src_hash":"1c342b550dbe60db","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: O(1) * O(1) == O(1) and O(1) ** O(1) == O(1)"},"spec":{"lhs":"test_issue_9192()","rhs":"O(1) * O(1) == O(1) and O(1) ** O(1) == O(1)","over":{"base":"Any"},"name":"test_issue_9192_correct"},"guarantee":"O(1) * O(1) == O(1); O(1) ** O(1) == O(1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_issue_9192_correct","statement":"Path(test_issue_9192(x), O(1) * O(1) == O(1); O(1) ** O(1) == O(1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b632be0e735b701","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["O(1) * O(1) == O(1)","O(1) ** O(1) == O(1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_9192():
     assert O(1)*O(1) == O(1)
     assert O(1)**O(1) == O(1)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_9910(), test_issue_9910 produces the expected output) over Any ║
+# ║ Path(test_issue_9910(), O(x * log(x) + sin(x), (x, oo)) == O(x * log(x), (x, oo))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_9910 : Any → {Any | O(x * log(x) + sin(x),...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  O(x * log(x) + sin(x), (x, oo)) == O(x * ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_9910 : Any → {Any | result satisfies: O(x ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d902b39c487ff4b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f35fb10836c7f632  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_issue_9910","kind":"function","src_hash":"6b937462908808a4","in":{"base":"Any"},"out":{"base":"Any","pred":"O(x * log(x) + sin(x), (x, oo)) == O(x * log(x), (x, oo))"},"spec":{"lhs":"test_issue_9910()","rhs":"test_issue_9910 produces the expected output","over":{"base":"Any"},"name":"test_issue_9910_correct"},"guarantee":"test_issue_9910 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_issue_9910_correct","statement":"Path(test_issue_9910(x), test_issue_9910 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d902b39c487ff4b"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_issue_9910","kind":"function","src_hash":"6b937462908808a4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: O(x * log(x) + sin(x), (x, oo)) == O(x * log(x), (x, oo))"},"spec":{"lhs":"test_issue_9910()","rhs":"O(x * log(x) + sin(x), (x, oo)) == O(x * log(x), (x, oo))","over":{"base":"Any"},"name":"test_issue_9910_correct"},"guarantee":"O(x * log(x) + sin(x), (x, oo)) == O(x * log(x), (x, oo))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_issue_9910_correct","statement":"Path(test_issue_9910(x), O(x * log(x) + sin(x), (x, oo)) == O(x * log(x), (x, oo)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f35fb10836c7f632","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["O(x * log(x) + sin(x), (x, oo)) == O(x * log(x), (x, oo))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_9910():
     assert O(x*log(x) + sin(x), (x, oo)) == O(x*log(x), (x, oo))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_performance_of_adding_order(), test_performance_of_adding_order produces the expected output) over Any ║
+# ║ Path(test_performance_of_adding_order(), Add(*l).subs(x, 1) == O(1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_performance_of_adding_order : Any → {Any | Add(*...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Add(*l).subs(x, 1) == O(1)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_performance_of_adding_order : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5fef764ac285fa34  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f89384f9cb468b13  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_performance_of_adding_order","kind":"function","src_hash":"248b2101460a38d7","in":{"base":"Any"},"out":{"base":"Any","pred":"Add(*l).subs(x, 1) == O(1)"},"spec":{"lhs":"test_performance_of_adding_order()","rhs":"test_performance_of_adding_order produces the expected output","over":{"base":"Any"},"name":"test_performance_of_adding_order_correct"},"guarantee":"test_performance_of_adding_order produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_performance_of_adding_order_correct","statement":"Path(test_performance_of_adding_order(x), test_performance_of_adding_order produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5fef764ac285fa34"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_performance_of_adding_order","kind":"function","src_hash":"248b2101460a38d7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Add(*l).subs(x, 1) == O(1)"},"spec":{"lhs":"test_performance_of_adding_order()","rhs":"Add(*l).subs(x, 1) == O(1)","over":{"base":"Any"},"name":"test_performance_of_adding_order_correct"},"guarantee":"Add(*l).subs(x, 1) == O(1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_performance_of_adding_order_correct","statement":"Path(test_performance_of_adding_order(x), Add(*l).subs(x, 1) == O(1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f89384f9cb468b13","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Add(*l).subs(x, 1) == O(1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_performance_of_adding_order():
     l = [x**i for i in range(1000)]
     l.append(O(x**1001))
     assert Add(*l).subs(x,1) == O(1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_14622(), test_issue_14622 produces the expected output) over Any ║
+# ║ Path(test_issue_14622(), (x ** (-4) + x ** (-3) + x ** (-1) + O(x ** (-6), (x, oo))).as_numer_denom() == (x ** 4 + x ** 5 + x ** 7 + O(x ** 2, (x, oo)), x ** 8) and (x ** 3 + O(x ** 2, (x, oo))).is_Add and O(x ** 2, (x, oo)).contains(x ** 3) is False and O(x, (x, oo)).contains(O(x, (x, 0))) is None and O(x, (x, 0)).contains(O(x, (x, oo))) is None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_14622 : Any → {Any | (x ** 3 + O(x ** 2, (...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x ** (-4) + x ** (-3) + x ** (-1) + O(x ...   ║
+# ║   ensures:  (x ** 3 + O(x ** 2, (x, oo))).is_Add           ║
+# ║   ensures:  O(x ** 2, (x, oo)).contains(x ** 3) is False   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_14622 : Any → {Any | result satisfies: (x ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f7420cfba6fd520e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f370cae4b2ce7ec9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_issue_14622","kind":"function","src_hash":"d9f9946250588e7c","in":{"base":"Any"},"out":{"base":"Any","pred":"(x ** 3 + O(x ** 2, (x, oo))).is_Add and O(x ** 2, (x, oo)).contains(x ** 3) is False and O(x, (x, oo)).contains(O(x, (x, 0))) is None and O(x, (x, 0)).contains(O(x, (x, oo))) is None"},"spec":{"lhs":"test_issue_14622()","rhs":"test_issue_14622 produces the expected output","over":{"base":"Any"},"name":"test_issue_14622_correct"},"guarantee":"test_issue_14622 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_issue_14622_correct","statement":"Path(test_issue_14622(x), test_issue_14622 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7420cfba6fd520e"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_issue_14622","kind":"function","src_hash":"d9f9946250588e7c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (x ** (-4) + x ** (-3) + x ** (-1) + O(x ** (-6), (x, oo))).as_numer_denom() == (x ** 4 + x ** 5 + x ** 7 + O(x ** 2, (x, oo)), x ** 8) and (x ** 3 + O(x ** 2, (x, oo))).is_Add and O(x ** 2, (x, oo)).contains(x ** 3) is False and O(x, (x, oo)).contains(O(x, (x, 0))) is None and O(x, (x, 0)).contains(O(x, (x, oo))) is None"},"spec":{"lhs":"test_issue_14622()","rhs":"(x ** (-4) + x ** (-3) + x ** (-1) + O(x ** (-6), (x, oo))).as_numer_denom() == (x ** 4 + x ** 5 + x ** 7 + O(x ** 2, (x, oo)), x ** 8) and (x ** 3 + O(x ** 2, (x, oo))).is_Add and O(x ** 2, (x, oo)).contains(x ** 3) is False and O(x, (x, oo)).contains(O(x, (x, 0))) is None and O(x, (x, 0)).contains(O(x, (x, oo))) is None","over":{"base":"Any"},"name":"test_issue_14622_correct"},"guarantee":"(x ** (-4) + x ** (-3) + x ** (-1) + O(x ** (-6), (x, oo))).as_numer_denom() == (x ** 4 + x ** 5 + x ** 7 + O(x ** 2, (x, oo)), x ** 8); (x ** 3 + O(x ** 2, (x, oo))).is_Add; O(x ** 2, (x, oo)).contains(x ** 3) is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_issue_14622_correct","statement":"Path(test_issue_14622(x), (x ** (-4) + x ** (-3) + x ** (-1) + O(x ** (-6), (x, oo))).as_numer_denom() == (x ** 4 + x ** 5 + x ** 7 + O(x ** 2, (x, oo)), x ** 8); (x ** 3 + O(x ** 2, (x, oo))).is_Add; O(x ** 2, (x, oo)).contains(x ** 3) is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f370cae4b2ce7ec9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x ** (-4) + x ** (-3) + x ** (-1) + O(x ** (-6), (x, oo))).as_numer_denom() == (x ** 4 + x ** 5 + x ** 7 + O(x ** 2, (x, oo)), x ** 8)","(x ** 3 + O(x ** 2, (x, oo))).is_Add","O(x ** 2, (x, oo)).contains(x ** 3) is False","O(x, (x, oo)).contains(O(x, (x, 0))) is None","O(x, (x, 0)).contains(O(x, (x, oo))) is None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_14622():
     assert (x**(-4) + x**(-3) + x**(-1) + O(x**(-6), (x, oo))).as_numer_denom() == (
         x**4 + x**5 + x**7 + O(x**2, (x, oo)), x**8)
@@ -1060,16 +1442,24 @@ def test_issue_14622():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_15539(), test_issue_15539 produces the expected output) over Any ║
+# ║ Path(test_issue_15539(), O(1 / x ** 2 + 1 / x ** 4, (x, -oo)) == O(1 / x ** 2, (x, -oo)) and O(1 / x ** 4 + exp(x), (x, -oo)) == O(1 / x ** 4, (x, -oo)) and O(1 / x ** 4 + exp(-x), (x, -oo)) == O(exp(-x), (x, -oo)) and O(1 / x, (x, oo)).subs(x, -x) == O(-1 / x, (x, -oo))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_15539 : Any → {Any | O(1 / x ** 2 + 1 / x ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  O(1 / x ** 2 + 1 / x ** 4, (x, -oo)) == O...   ║
+# ║   ensures:  O(1 / x ** 4 + exp(x), (x, -oo)) == O(1 /...   ║
+# ║   ensures:  O(1 / x ** 4 + exp(-x), (x, -oo)) == O(ex...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_15539 : Any → {Any | result satisfies: O(1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c00a3c8ae1d2aef  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e65a69ba7b3c924  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_issue_15539","kind":"function","src_hash":"220b43f6c4a0ef73","in":{"base":"Any"},"out":{"base":"Any","pred":"O(1 / x ** 2 + 1 / x ** 4, (x, -oo)) == O(1 / x ** 2, (x, -oo)) and O(1 / x ** 4 + exp(x), (x, -oo)) == O(1 / x ** 4, (x, -oo)) and O(1 / x ** 4 + exp(-x), (x, -oo)) == O(exp(-x), (x, -oo)) and O(1 / x, (x, oo)).subs(x, -x) == O(-1 / x, (x, -oo))"},"spec":{"lhs":"test_issue_15539()","rhs":"test_issue_15539 produces the expected output","over":{"base":"Any"},"name":"test_issue_15539_correct"},"guarantee":"test_issue_15539 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_issue_15539_correct","statement":"Path(test_issue_15539(x), test_issue_15539 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c00a3c8ae1d2aef"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_issue_15539","kind":"function","src_hash":"220b43f6c4a0ef73","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: O(1 / x ** 2 + 1 / x ** 4, (x, -oo)) == O(1 / x ** 2, (x, -oo)) and O(1 / x ** 4 + exp(x), (x, -oo)) == O(1 / x ** 4, (x, -oo)) and O(1 / x ** 4 + exp(-x), (x, -oo)) == O(exp(-x), (x, -oo)) and O(1 / x, (x, oo)).subs(x, -x) == O(-1 / x, (x, -oo))"},"spec":{"lhs":"test_issue_15539()","rhs":"O(1 / x ** 2 + 1 / x ** 4, (x, -oo)) == O(1 / x ** 2, (x, -oo)) and O(1 / x ** 4 + exp(x), (x, -oo)) == O(1 / x ** 4, (x, -oo)) and O(1 / x ** 4 + exp(-x), (x, -oo)) == O(exp(-x), (x, -oo)) and O(1 / x, (x, oo)).subs(x, -x) == O(-1 / x, (x, -oo))","over":{"base":"Any"},"name":"test_issue_15539_correct"},"guarantee":"O(1 / x ** 2 + 1 / x ** 4, (x, -oo)) == O(1 / x ** 2, (x, -oo)); O(1 / x ** 4 + exp(x), (x, -oo)) == O(1 / x ** 4, (x, -oo)); O(1 / x ** 4 + exp(-x), (x, -oo)) == O(exp(-x), (x, -oo))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_issue_15539_correct","statement":"Path(test_issue_15539(x), O(1 / x ** 2 + 1 / x ** 4, (x, -oo)) == O(1 / x ** 2, (x, -oo)); O(1 / x ** 4 + exp(x), (x, -oo)) == O(1 / x ** 4, (x, -oo)); O(1 / x ** 4 + exp(-x), (x, -oo)) == O(exp(-x), (x, -oo)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e65a69ba7b3c924","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["O(1 / x ** 2 + 1 / x ** 4, (x, -oo)) == O(1 / x ** 2, (x, -oo))","O(1 / x ** 4 + exp(x), (x, -oo)) == O(1 / x ** 4, (x, -oo))","O(1 / x ** 4 + exp(-x), (x, -oo)) == O(exp(-x), (x, -oo))","O(1 / x, (x, oo)).subs(x, -x) == O(-1 / x, (x, -oo))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_15539():
     assert O(1/x**2 + 1/x**4, (x, -oo)) == O(1/x**2, (x, -oo))
     assert O(1/x**4 + exp(x), (x, -oo)) == O(1/x**4, (x, -oo))
@@ -1077,46 +1467,66 @@ def test_issue_15539():
     assert O(1/x, (x, oo)).subs(x, -x) == O(-1/x, (x, -oo))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_18606(), test_issue_18606 produces the expected output) over Any ║
+# ║ Path(test_issue_18606(), unchanged(Order, 0)) over Any     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_18606 : Any → {Any | unchanged(Order, 0)}       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  unchanged(Order, 0)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_18606 : Any → {Any | result satisfies: unc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f5b25c19b9c7109  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0e711e1a20faf7b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_issue_18606","kind":"function","src_hash":"85b5b919a633a272","in":{"base":"Any"},"out":{"base":"Any","pred":"unchanged(Order, 0)"},"spec":{"lhs":"test_issue_18606()","rhs":"test_issue_18606 produces the expected output","over":{"base":"Any"},"name":"test_issue_18606_correct"},"guarantee":"test_issue_18606 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_issue_18606_correct","statement":"Path(test_issue_18606(x), test_issue_18606 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f5b25c19b9c7109"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_issue_18606","kind":"function","src_hash":"85b5b919a633a272","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: unchanged(Order, 0)"},"spec":{"lhs":"test_issue_18606()","rhs":"unchanged(Order, 0)","over":{"base":"Any"},"name":"test_issue_18606_correct"},"guarantee":"unchanged(Order, 0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_issue_18606_correct","statement":"Path(test_issue_18606(x), unchanged(Order, 0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0e711e1a20faf7b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["unchanged(Order, 0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_18606():
     assert unchanged(Order, 0)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_22165(), test_issue_22165 produces the expected output) over Any ║
+# ║ Path(test_issue_22165(), O(log(x)).contains(2)) over Any   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_22165 : Any → {Any | O(log(x)).contains(2)}     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  O(log(x)).contains(2)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_22165 : Any → {Any | result satisfies: O(l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 082f8e4a8472deaf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2fc807ab24aed80d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_issue_22165","kind":"function","src_hash":"dc8fb1bed94e7dad","in":{"base":"Any"},"out":{"base":"Any","pred":"O(log(x)).contains(2)"},"spec":{"lhs":"test_issue_22165()","rhs":"test_issue_22165 produces the expected output","over":{"base":"Any"},"name":"test_issue_22165_correct"},"guarantee":"test_issue_22165 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_issue_22165_correct","statement":"Path(test_issue_22165(x), test_issue_22165 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"082f8e4a8472deaf"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_issue_22165","kind":"function","src_hash":"dc8fb1bed94e7dad","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: O(log(x)).contains(2)"},"spec":{"lhs":"test_issue_22165()","rhs":"O(log(x)).contains(2)","over":{"base":"Any"},"name":"test_issue_22165_correct"},"guarantee":"O(log(x)).contains(2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_issue_22165_correct","statement":"Path(test_issue_22165(x), O(log(x)).contains(2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fc807ab24aed80d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["O(log(x)).contains(2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_22165():
     assert O(log(x)).contains(2)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_23231(), test_issue_23231 produces the expected output) over Any ║
+# ║ Path(test_issue_23231(), O(x ** x + 2 ** x, (x, oo)) == O(exp(x * log(x)), (x, oo)) and O(x ** x + x ** 2, (x, oo)) == O(exp(x * log(x)), (x, oo)) and O(x ** x + 1 / x ** 2, (x, oo)) == O(exp(x * log(x)), (x, oo)) and O(2 ** x + 3 ** x, (x, oo)) == O(exp(x * log(3)), (x, oo))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_23231 : Any → {Any | O(x ** x + 2 ** x, (x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  O(x ** x + 2 ** x, (x, oo)) == O(exp(x * ...   ║
+# ║   ensures:  O(x ** x + x ** 2, (x, oo)) == O(exp(x * ...   ║
+# ║   ensures:  O(x ** x + 1 / x ** 2, (x, oo)) == O(exp(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_23231 : Any → {Any | result satisfies: O(x...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3888055ea81847ea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c7c3c4184f8f81e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_issue_23231","kind":"function","src_hash":"816b748b9d265b7a","in":{"base":"Any"},"out":{"base":"Any","pred":"O(x ** x + 2 ** x, (x, oo)) == O(exp(x * log(x)), (x, oo)) and O(x ** x + x ** 2, (x, oo)) == O(exp(x * log(x)), (x, oo)) and O(x ** x + 1 / x ** 2, (x, oo)) == O(exp(x * log(x)), (x, oo)) and O(2 ** x + 3 ** x, (x, oo)) == O(exp(x * log(3)), (x, oo))"},"spec":{"lhs":"test_issue_23231()","rhs":"test_issue_23231 produces the expected output","over":{"base":"Any"},"name":"test_issue_23231_correct"},"guarantee":"test_issue_23231 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_issue_23231_correct","statement":"Path(test_issue_23231(x), test_issue_23231 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3888055ea81847ea"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_issue_23231","kind":"function","src_hash":"816b748b9d265b7a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: O(x ** x + 2 ** x, (x, oo)) == O(exp(x * log(x)), (x, oo)) and O(x ** x + x ** 2, (x, oo)) == O(exp(x * log(x)), (x, oo)) and O(x ** x + 1 / x ** 2, (x, oo)) == O(exp(x * log(x)), (x, oo)) and O(2 ** x + 3 ** x, (x, oo)) == O(exp(x * log(3)), (x, oo))"},"spec":{"lhs":"test_issue_23231()","rhs":"O(x ** x + 2 ** x, (x, oo)) == O(exp(x * log(x)), (x, oo)) and O(x ** x + x ** 2, (x, oo)) == O(exp(x * log(x)), (x, oo)) and O(x ** x + 1 / x ** 2, (x, oo)) == O(exp(x * log(x)), (x, oo)) and O(2 ** x + 3 ** x, (x, oo)) == O(exp(x * log(3)), (x, oo))","over":{"base":"Any"},"name":"test_issue_23231_correct"},"guarantee":"O(x ** x + 2 ** x, (x, oo)) == O(exp(x * log(x)), (x, oo)); O(x ** x + x ** 2, (x, oo)) == O(exp(x * log(x)), (x, oo)); O(x ** x + 1 / x ** 2, (x, oo)) == O(exp(x * log(x)), (x, oo))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_issue_23231_correct","statement":"Path(test_issue_23231(x), O(x ** x + 2 ** x, (x, oo)) == O(exp(x * log(x)), (x, oo)); O(x ** x + x ** 2, (x, oo)) == O(exp(x * log(x)), (x, oo)); O(x ** x + 1 / x ** 2, (x, oo)) == O(exp(x * log(x)), (x, oo)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c7c3c4184f8f81e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["O(x ** x + 2 ** x, (x, oo)) == O(exp(x * log(x)), (x, oo))","O(x ** x + x ** 2, (x, oo)) == O(exp(x * log(x)), (x, oo))","O(x ** x + 1 / x ** 2, (x, oo)) == O(exp(x * log(x)), (x, oo))","O(2 ** x + 3 ** x, (x, oo)) == O(exp(x * log(3)), (x, oo))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_23231():
     # This test checks Order for expressions having
     # arguments containing variables in exponents/powers.
@@ -1127,31 +1537,45 @@ def test_issue_23231():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_9917(), test_issue_9917 produces the expected output) over Any ║
+# ║ Path(test_issue_9917(), O(x * sin(x) + 1, (x, oo)) == O(x, (x, oo))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_9917 : Any → {Any | O(x * sin(x) + 1, (x, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  O(x * sin(x) + 1, (x, oo)) == O(x, (x, oo))    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_9917 : Any → {Any | result satisfies: O(x ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4cc203cd5d428e4b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb0c6df6bd54a154  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_issue_9917","kind":"function","src_hash":"ca14eb9dd507c43b","in":{"base":"Any"},"out":{"base":"Any","pred":"O(x * sin(x) + 1, (x, oo)) == O(x, (x, oo))"},"spec":{"lhs":"test_issue_9917()","rhs":"test_issue_9917 produces the expected output","over":{"base":"Any"},"name":"test_issue_9917_correct"},"guarantee":"test_issue_9917 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_issue_9917_correct","statement":"Path(test_issue_9917(x), test_issue_9917 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4cc203cd5d428e4b"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_issue_9917","kind":"function","src_hash":"ca14eb9dd507c43b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: O(x * sin(x) + 1, (x, oo)) == O(x, (x, oo))"},"spec":{"lhs":"test_issue_9917()","rhs":"O(x * sin(x) + 1, (x, oo)) == O(x, (x, oo))","over":{"base":"Any"},"name":"test_issue_9917_correct"},"guarantee":"O(x * sin(x) + 1, (x, oo)) == O(x, (x, oo))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_issue_9917_correct","statement":"Path(test_issue_9917(x), O(x * sin(x) + 1, (x, oo)) == O(x, (x, oo)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb0c6df6bd54a154","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["O(x * sin(x) + 1, (x, oo)) == O(x, (x, oo))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_9917():
     assert O(x*sin(x) + 1, (x, oo)) == O(x, (x, oo))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_22836(), test_issue_22836 produces the expected output) over Any ║
+# ║ Path(test_issue_22836(), O(2 ** x + factorial(x), (x, oo)) == O(factorial(x), (x, oo)) and O(2 ** x + factorial(x) + x ** x, (x, oo)) == O(exp(x * log(x)), (x, oo)) and O(x + factorial(x), (x, oo)) == O(factorial(x), (x, oo))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_22836 : Any → {Any | O(2 ** x + factorial(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  O(2 ** x + factorial(x), (x, oo)) == O(fa...   ║
+# ║   ensures:  O(2 ** x + factorial(x) + x ** x, (x, oo)...   ║
+# ║   ensures:  O(x + factorial(x), (x, oo)) == O(factori...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_22836 : Any → {Any | result satisfies: O(2...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8444e0acf0d7efa7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e0e1356ed6818d63  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_issue_22836","kind":"function","src_hash":"9c7e1c4351022f21","in":{"base":"Any"},"out":{"base":"Any","pred":"O(2 ** x + factorial(x), (x, oo)) == O(factorial(x), (x, oo)) and O(2 ** x + factorial(x) + x ** x, (x, oo)) == O(exp(x * log(x)), (x, oo)) and O(x + factorial(x), (x, oo)) == O(factorial(x), (x, oo))"},"spec":{"lhs":"test_issue_22836()","rhs":"test_issue_22836 produces the expected output","over":{"base":"Any"},"name":"test_issue_22836_correct"},"guarantee":"test_issue_22836 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_issue_22836_correct","statement":"Path(test_issue_22836(x), test_issue_22836 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8444e0acf0d7efa7"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_order.test_issue_22836","kind":"function","src_hash":"9c7e1c4351022f21","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: O(2 ** x + factorial(x), (x, oo)) == O(factorial(x), (x, oo)) and O(2 ** x + factorial(x) + x ** x, (x, oo)) == O(exp(x * log(x)), (x, oo)) and O(x + factorial(x), (x, oo)) == O(factorial(x), (x, oo))"},"spec":{"lhs":"test_issue_22836()","rhs":"O(2 ** x + factorial(x), (x, oo)) == O(factorial(x), (x, oo)) and O(2 ** x + factorial(x) + x ** x, (x, oo)) == O(exp(x * log(x)), (x, oo)) and O(x + factorial(x), (x, oo)) == O(factorial(x), (x, oo))","over":{"base":"Any"},"name":"test_issue_22836_correct"},"guarantee":"O(2 ** x + factorial(x), (x, oo)) == O(factorial(x), (x, oo)); O(2 ** x + factorial(x) + x ** x, (x, oo)) == O(exp(x * log(x)), (x, oo)); O(x + factorial(x), (x, oo)) == O(factorial(x), (x, oo))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_order.test_issue_22836_correct","statement":"Path(test_issue_22836(x), O(2 ** x + factorial(x), (x, oo)) == O(factorial(x), (x, oo)); O(2 ** x + factorial(x) + x ** x, (x, oo)) == O(exp(x * log(x)), (x, oo)); O(x + factorial(x), (x, oo)) == O(factorial(x), (x, oo)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0e1356ed6818d63","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["O(2 ** x + factorial(x), (x, oo)) == O(factorial(x), (x, oo))","O(2 ** x + factorial(x) + x ** x, (x, oo)) == O(exp(x * log(x)), (x, oo))","O(x + factorial(x), (x, oo)) == O(factorial(x), (x, oo))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_22836():
     assert O(2**x + factorial(x), (x, oo)) == O(factorial(x), (x, oo))
     assert O(2**x + factorial(x) + x**x, (x, oo)) == O(exp(x*log(x)), (x, oo))

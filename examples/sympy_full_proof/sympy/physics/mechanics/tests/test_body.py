@@ -23,16 +23,24 @@ from sympy.testing.pytest import raises, warns_deprecated_sympy
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_default(), test_default produces the expected output) over Any ║
+# ║ Path(test_default(), body.name == 'body' and body.loads == [] and com.vel(frame) == point.vel(frame) and body.mass == Symbol('body_mass') and body.inertia == (inertia(body.frame, ixx, iyy, izz, ixy, iyz, izx), body.masscenter)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_default : Any → {Any | body.name == 'body' and b...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  body.name == 'body'                            ║
+# ║   ensures:  body.loads == []                               ║
+# ║   ensures:  com.vel(frame) == point.vel(frame)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_default : Any → {Any | result satisfies: body.na...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca2353a4926489b2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 119a63d9b85cf486  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_body.test_default","kind":"function","src_hash":"02d989c8441ada10","in":{"base":"Any"},"out":{"base":"Any","pred":"body.name == 'body' and body.loads == [] and com.vel(frame) == point.vel(frame) and body.mass == Symbol('body_mass')"},"spec":{"lhs":"test_default()","rhs":"test_default produces the expected output","over":{"base":"Any"},"name":"test_default_correct"},"guarantee":"test_default produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_body.test_default_correct","statement":"Path(test_default(x), test_default produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca2353a4926489b2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_body.test_default","kind":"function","src_hash":"02d989c8441ada10","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: body.name == 'body' and body.loads == [] and com.vel(frame) == point.vel(frame) and body.mass == Symbol('body_mass') and body.inertia == (inertia(body.frame, ixx, iyy, izz, ixy, iyz, izx), body.masscenter)"},"spec":{"lhs":"test_default()","rhs":"body.name == 'body' and body.loads == [] and com.vel(frame) == point.vel(frame) and body.mass == Symbol('body_mass') and body.inertia == (inertia(body.frame, ixx, iyy, izz, ixy, iyz, izx), body.masscenter)","over":{"base":"Any"},"name":"test_default_correct"},"guarantee":"body.name == 'body'; body.loads == []; com.vel(frame) == point.vel(frame)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_body.test_default_correct","statement":"Path(test_default(x), body.name == 'body'; body.loads == []; com.vel(frame) == point.vel(frame))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"119a63d9b85cf486","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["body.name == 'body'","body.loads == []","com.vel(frame) == point.vel(frame)","body.mass == Symbol('body_mass')","body.inertia == (inertia(body.frame, ixx, iyy, izz, ixy, iyz, izx), body.masscenter)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_default():
     with warns_deprecated_sympy():
         body = Body('body')
@@ -51,16 +59,24 @@ def test_default():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_custom_rigid_body(), test_custom_rigid_body produces the expected output) over Any ║
+# ║ Path(test_custom_rigid_body(), com.vel(frame) == rigidbody_masscenter.vel(frame) and com.pos_from(com) == rigidbody_masscenter.pos_from(com) and rigid_body.mass == rigidbody_mass and rigid_body.inertia == (body_inertia, rigidbody_masscenter) and rigid_body.is_rigidbody and hasattr(rigid_body, 'masscenter') and hasattr(rigid_body, 'mass') and hasattr(rigid_body, 'frame') and hasattr(rigid_body, 'inertia')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_custom_rigid_body : Any → {Any | com.vel(frame) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  com.vel(frame) == rigidbody_masscenter.ve...   ║
+# ║   ensures:  com.pos_from(com) == rigidbody_masscenter...   ║
+# ║   ensures:  rigid_body.mass == rigidbody_mass              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_custom_rigid_body : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6cb2d305d70ac985  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d6a8d4ce8c2090c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_body.test_custom_rigid_body","kind":"function","src_hash":"1c194a00b55af122","in":{"base":"Any"},"out":{"base":"Any","pred":"com.vel(frame) == rigidbody_masscenter.vel(frame) and com.pos_from(com) == rigidbody_masscenter.pos_from(com) and rigid_body.mass == rigidbody_mass and rigid_body.inertia == (body_inertia, rigidbody_masscenter) and rigid_body.is_rigidbody and hasattr(rigid_body, 'masscenter') and hasattr(rigid_body, 'mass') and hasattr(rigid_body, 'frame') and hasattr(rigid_body, 'inertia')"},"spec":{"lhs":"test_custom_rigid_body()","rhs":"test_custom_rigid_body produces the expected output","over":{"base":"Any"},"name":"test_custom_rigid_body_correct"},"guarantee":"test_custom_rigid_body produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_body.test_custom_rigid_body_correct","statement":"Path(test_custom_rigid_body(x), test_custom_rigid_body produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6cb2d305d70ac985"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_body.test_custom_rigid_body","kind":"function","src_hash":"1c194a00b55af122","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: com.vel(frame) == rigidbody_masscenter.vel(frame) and com.pos_from(com) == rigidbody_masscenter.pos_from(com) and rigid_body.mass == rigidbody_mass and rigid_body.inertia == (body_inertia, rigidbody_masscenter) and rigid_body.is_rigidbody and hasattr(rigid_body, 'masscenter') and hasattr(rigid_body, 'mass') and hasattr(rigid_body, 'frame') and hasattr(rigid_body, 'inertia')"},"spec":{"lhs":"test_custom_rigid_body()","rhs":"com.vel(frame) == rigidbody_masscenter.vel(frame) and com.pos_from(com) == rigidbody_masscenter.pos_from(com) and rigid_body.mass == rigidbody_mass and rigid_body.inertia == (body_inertia, rigidbody_masscenter) and rigid_body.is_rigidbody and hasattr(rigid_body, 'masscenter') and hasattr(rigid_body, 'mass') and hasattr(rigid_body, 'frame') and hasattr(rigid_body, 'inertia')","over":{"base":"Any"},"name":"test_custom_rigid_body_correct"},"guarantee":"com.vel(frame) == rigidbody_masscenter.vel(frame); com.pos_from(com) == rigidbody_masscenter.pos_from(com); rigid_body.mass == rigidbody_mass","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_body.test_custom_rigid_body_correct","statement":"Path(test_custom_rigid_body(x), com.vel(frame) == rigidbody_masscenter.vel(frame); com.pos_from(com) == rigidbody_masscenter.pos_from(com); rigid_body.mass == rigidbody_mass)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6a8d4ce8c2090c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["com.vel(frame) == rigidbody_masscenter.vel(frame)","com.pos_from(com) == rigidbody_masscenter.pos_from(com)","rigid_body.mass == rigidbody_mass","rigid_body.inertia == (body_inertia, rigidbody_masscenter)","rigid_body.is_rigidbody","hasattr(rigid_body, 'masscenter')","hasattr(rigid_body, 'mass')","hasattr(rigid_body, 'frame')","hasattr(rigid_body, 'inertia')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_custom_rigid_body():
     # Body with RigidBody.
     rigidbody_masscenter = Point('rigidbody_masscenter')
@@ -88,16 +104,24 @@ def test_custom_rigid_body():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_particle_body(), test_particle_body produces the expected output) over Any ║
+# ║ Path(test_particle_body(), com.vel(frame) == particle_masscenter.vel(frame) and com.pos_from(com) == particle_masscenter.pos_from(com) and particle_body.mass == particle_mass and not hasattr(particle_body, '_inertia') and hasattr(particle_body, 'frame') and hasattr(particle_body, 'masscenter') and hasattr(particle_body, 'mass') and particle_body.inertia == (Dyadic(0), particle_body.masscenter) and particle_body.central_inertia == Dyadic(0) and not particle_body.is_rigidbody and particle_body.central_inertia == inertia(particle_frame, 1, 1, 1) and particle_body.is_rigidbody and particle_body.inertia == (point_inertia, point)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_particle_body : Any → {Any | com.vel(frame) == p...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  com.vel(frame) == particle_masscenter.vel...   ║
+# ║   ensures:  com.pos_from(com) == particle_masscenter....   ║
+# ║   ensures:  particle_body.mass == particle_mass            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_particle_body : Any → {Any | result satisfies: c...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e14fde1a2d68fe8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a3dcc6955be96b2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_body.test_particle_body","kind":"function","src_hash":"88aafc6ea9508847","in":{"base":"Any"},"out":{"base":"Any","pred":"com.vel(frame) == particle_masscenter.vel(frame) and com.pos_from(com) == particle_masscenter.pos_from(com) and particle_body.mass == particle_mass and not hasattr(particle_body, '_inertia') and hasattr(particle_body, 'frame') and hasattr(particle_body, 'masscenter') and hasattr(particle_body, 'mass') and particle_body.inertia == (Dyadic(0), particle_body.masscenter) and particle_body.central_inertia == Dyadic(0) and not particle_body.is_rigidbody and particle_body.central_inertia == inertia(particle_frame, 1, 1, 1) and particle_body.is_rigidbody and not particle_body.is_rigidbody and particle_body.inertia == (point_inertia, point) and particle_body.central_inertia == Dyadic(0) and particle_body.is_rigidbody"},"spec":{"lhs":"test_particle_body()","rhs":"test_particle_body produces the expected output","over":{"base":"Any"},"name":"test_particle_body_correct"},"guarantee":"test_particle_body produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_body.test_particle_body_correct","statement":"Path(test_particle_body(x), test_particle_body produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e14fde1a2d68fe8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_body.test_particle_body","kind":"function","src_hash":"88aafc6ea9508847","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: com.vel(frame) == particle_masscenter.vel(frame) and com.pos_from(com) == particle_masscenter.pos_from(com) and particle_body.mass == particle_mass and not hasattr(particle_body, '_inertia') and hasattr(particle_body, 'frame') and hasattr(particle_body, 'masscenter') and hasattr(particle_body, 'mass') and particle_body.inertia == (Dyadic(0), particle_body.masscenter) and particle_body.central_inertia == Dyadic(0) and not particle_body.is_rigidbody and particle_body.central_inertia == inertia(particle_frame, 1, 1, 1) and particle_body.is_rigidbody and particle_body.inertia == (point_inertia, point)"},"spec":{"lhs":"test_particle_body()","rhs":"com.vel(frame) == particle_masscenter.vel(frame) and com.pos_from(com) == particle_masscenter.pos_from(com) and particle_body.mass == particle_mass and not hasattr(particle_body, '_inertia') and hasattr(particle_body, 'frame') and hasattr(particle_body, 'masscenter') and hasattr(particle_body, 'mass') and particle_body.inertia == (Dyadic(0), particle_body.masscenter) and particle_body.central_inertia == Dyadic(0) and not particle_body.is_rigidbody and particle_body.central_inertia == inertia(particle_frame, 1, 1, 1) and particle_body.is_rigidbody and particle_body.inertia == (point_inertia, point)","over":{"base":"Any"},"name":"test_particle_body_correct"},"guarantee":"com.vel(frame) == particle_masscenter.vel(frame); com.pos_from(com) == particle_masscenter.pos_from(com); particle_body.mass == particle_mass","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_body.test_particle_body_correct","statement":"Path(test_particle_body(x), com.vel(frame) == particle_masscenter.vel(frame); com.pos_from(com) == particle_masscenter.pos_from(com); particle_body.mass == particle_mass)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a3dcc6955be96b2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["com.vel(frame) == particle_masscenter.vel(frame)","com.pos_from(com) == particle_masscenter.pos_from(com)","particle_body.mass == particle_mass","not hasattr(particle_body, '_inertia')","hasattr(particle_body, 'frame')","hasattr(particle_body, 'masscenter')","hasattr(particle_body, 'mass')","particle_body.inertia == (Dyadic(0), particle_body.masscenter)","particle_body.central_inertia == Dyadic(0)","not particle_body.is_rigidbody","particle_body.central_inertia == inertia(particle_frame, 1, 1, 1)","particle_body.is_rigidbody","particle_body.inertia == (point_inertia, point)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_particle_body():
     #  Body with Particle
     particle_masscenter = Point('particle_masscenter')
@@ -137,16 +161,24 @@ def test_particle_body():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_particle_body_add_force(), test_particle_body_add_force produces the expected output) over Any ║
+# ║ Path(test_particle_body_add_force(), len(particle_body.loads) == 1 and force_point.vel(frame) == point.vel(frame) and force_point.pos_from(force_point) == point.pos_from(force_point) and particle_body.loads[0][1] == force_vector) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_particle_body_add_force : Any → {Any | len(parti...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(particle_body.loads) == 1                  ║
+# ║   ensures:  force_point.vel(frame) == point.vel(frame)     ║
+# ║   ensures:  force_point.pos_from(force_point) == poin...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_particle_body_add_force : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 18874754adf4d7a4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81b41f016e535d28  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_body.test_particle_body_add_force","kind":"function","src_hash":"e2c359b2bd1add9a","in":{"base":"Any"},"out":{"base":"Any","pred":"len(particle_body.loads) == 1 and force_point.vel(frame) == point.vel(frame) and force_point.pos_from(force_point) == point.pos_from(force_point) and particle_body.loads[0][1] == force_vector"},"spec":{"lhs":"test_particle_body_add_force()","rhs":"test_particle_body_add_force produces the expected output","over":{"base":"Any"},"name":"test_particle_body_add_force_correct"},"guarantee":"test_particle_body_add_force produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_body.test_particle_body_add_force_correct","statement":"Path(test_particle_body_add_force(x), test_particle_body_add_force produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18874754adf4d7a4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_body.test_particle_body_add_force","kind":"function","src_hash":"e2c359b2bd1add9a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(particle_body.loads) == 1 and force_point.vel(frame) == point.vel(frame) and force_point.pos_from(force_point) == point.pos_from(force_point) and particle_body.loads[0][1] == force_vector"},"spec":{"lhs":"test_particle_body_add_force()","rhs":"len(particle_body.loads) == 1 and force_point.vel(frame) == point.vel(frame) and force_point.pos_from(force_point) == point.pos_from(force_point) and particle_body.loads[0][1] == force_vector","over":{"base":"Any"},"name":"test_particle_body_add_force_correct"},"guarantee":"len(particle_body.loads) == 1; force_point.vel(frame) == point.vel(frame); force_point.pos_from(force_point) == point.pos_from(force_point)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_body.test_particle_body_add_force_correct","statement":"Path(test_particle_body_add_force(x), len(particle_body.loads) == 1; force_point.vel(frame) == point.vel(frame); force_point.pos_from(force_point) == point.pos_from(force_point))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81b41f016e535d28","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(particle_body.loads) == 1","force_point.vel(frame) == point.vel(frame)","force_point.pos_from(force_point) == point.pos_from(force_point)","particle_body.loads[0][1] == force_vector"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_particle_body_add_force():
     #  Body with Particle
     particle_masscenter = Point('particle_masscenter')
@@ -173,16 +205,24 @@ def test_particle_body_add_force():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_body_add_force(), test_body_add_force produces the expected output) over Any ║
+# ║ Path(test_body_add_force(), len(rigid_body.loads) == 1 and force_point.vel(frame) == point.vel(frame) and force_point.pos_from(force_point) == point.pos_from(force_point) and rigid_body.loads[0][1] == force_vector and len(rigid_body.loads) == 2 and rigid_body.loads[1][1] == force_vector) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_body_add_force : Any → {Any | len(rigid_body.loa...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(rigid_body.loads) == 1                     ║
+# ║   ensures:  force_point.vel(frame) == point.vel(frame)     ║
+# ║   ensures:  force_point.pos_from(force_point) == poin...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_body_add_force : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e35afdda732f044  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 303084d6d089d240  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_body.test_body_add_force","kind":"function","src_hash":"ecc553a79358af95","in":{"base":"Any"},"out":{"base":"Any","pred":"len(rigid_body.loads) == 1 and force_point.vel(frame) == point.vel(frame) and force_point.pos_from(force_point) == point.pos_from(force_point) and rigid_body.loads[0][1] == force_vector and len(rigid_body.loads) == 2 and rigid_body.loads[1][1] == force_vector"},"spec":{"lhs":"test_body_add_force()","rhs":"test_body_add_force produces the expected output","over":{"base":"Any"},"name":"test_body_add_force_correct"},"guarantee":"test_body_add_force produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_body.test_body_add_force_correct","statement":"Path(test_body_add_force(x), test_body_add_force produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e35afdda732f044"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_body.test_body_add_force","kind":"function","src_hash":"ecc553a79358af95","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(rigid_body.loads) == 1 and force_point.vel(frame) == point.vel(frame) and force_point.pos_from(force_point) == point.pos_from(force_point) and rigid_body.loads[0][1] == force_vector and len(rigid_body.loads) == 2 and rigid_body.loads[1][1] == force_vector"},"spec":{"lhs":"test_body_add_force()","rhs":"len(rigid_body.loads) == 1 and force_point.vel(frame) == point.vel(frame) and force_point.pos_from(force_point) == point.pos_from(force_point) and rigid_body.loads[0][1] == force_vector and len(rigid_body.loads) == 2 and rigid_body.loads[1][1] == force_vector","over":{"base":"Any"},"name":"test_body_add_force_correct"},"guarantee":"len(rigid_body.loads) == 1; force_point.vel(frame) == point.vel(frame); force_point.pos_from(force_point) == point.pos_from(force_point)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_body.test_body_add_force_correct","statement":"Path(test_body_add_force(x), len(rigid_body.loads) == 1; force_point.vel(frame) == point.vel(frame); force_point.pos_from(force_point) == point.pos_from(force_point))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"303084d6d089d240","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(rigid_body.loads) == 1","force_point.vel(frame) == point.vel(frame)","force_point.pos_from(force_point) == point.pos_from(force_point)","rigid_body.loads[0][1] == force_vector","len(rigid_body.loads) == 2","rigid_body.loads[1][1] == force_vector"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_body_add_force():
     # Body with RigidBody.
     rigidbody_masscenter = Point('rigidbody_masscenter')
@@ -217,16 +257,23 @@ def test_body_add_force():
     raises(TypeError, lambda: rigid_body.apply_force(0))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_body_add_torque(), test_body_add_torque produces the expected output) over Any ║
+# ║ Path(test_body_add_torque(), len(body.loads) == 1 and body.loads[0] == (body.frame, torque_vector)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_body_add_torque : Any → {Any | len(body.loads) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(body.loads) == 1                           ║
+# ║   ensures:  body.loads[0] == (body.frame, torque_vector)   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_body_add_torque : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e8f65597191466f0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a9fc2e251df95d8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_body.test_body_add_torque","kind":"function","src_hash":"f6f819287f4ca0c9","in":{"base":"Any"},"out":{"base":"Any","pred":"len(body.loads) == 1 and body.loads[0] == (body.frame, torque_vector)"},"spec":{"lhs":"test_body_add_torque()","rhs":"test_body_add_torque produces the expected output","over":{"base":"Any"},"name":"test_body_add_torque_correct"},"guarantee":"test_body_add_torque produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_body.test_body_add_torque_correct","statement":"Path(test_body_add_torque(x), test_body_add_torque produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8f65597191466f0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_body.test_body_add_torque","kind":"function","src_hash":"f6f819287f4ca0c9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(body.loads) == 1 and body.loads[0] == (body.frame, torque_vector)"},"spec":{"lhs":"test_body_add_torque()","rhs":"len(body.loads) == 1 and body.loads[0] == (body.frame, torque_vector)","over":{"base":"Any"},"name":"test_body_add_torque_correct"},"guarantee":"len(body.loads) == 1; body.loads[0] == (body.frame, torque_vector)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_body.test_body_add_torque_correct","statement":"Path(test_body_add_torque(x), len(body.loads) == 1; body.loads[0] == (body.frame, torque_vector))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a9fc2e251df95d8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(body.loads) == 1","body.loads[0] == (body.frame, torque_vector)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_body_add_torque():
     with warns_deprecated_sympy():
         body = Body('body')
@@ -238,16 +285,23 @@ def test_body_add_torque():
     raises(TypeError, lambda: body.apply_torque(0))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_body_masscenter_vel(), test_body_masscenter_vel produces the expected output) over Any ║
+# ║ Path(test_body_masscenter_vel(), A.masscenter_vel(B) == N.z and A.masscenter_vel(N) == N.z) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_body_masscenter_vel : Any → {Any | A.masscenter_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.masscenter_vel(B) == N.z                     ║
+# ║   ensures:  A.masscenter_vel(N) == N.z                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_body_masscenter_vel : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e3ae5bcf24a65c9b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ed9baf570ef1288  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_body.test_body_masscenter_vel","kind":"function","src_hash":"a4c763819244ca4b","in":{"base":"Any"},"out":{"base":"Any","pred":"A.masscenter_vel(B) == N.z and A.masscenter_vel(N) == N.z"},"spec":{"lhs":"test_body_masscenter_vel()","rhs":"test_body_masscenter_vel produces the expected output","over":{"base":"Any"},"name":"test_body_masscenter_vel_correct"},"guarantee":"test_body_masscenter_vel produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_body.test_body_masscenter_vel_correct","statement":"Path(test_body_masscenter_vel(x), test_body_masscenter_vel produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3ae5bcf24a65c9b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_body.test_body_masscenter_vel","kind":"function","src_hash":"a4c763819244ca4b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.masscenter_vel(B) == N.z and A.masscenter_vel(N) == N.z"},"spec":{"lhs":"test_body_masscenter_vel()","rhs":"A.masscenter_vel(B) == N.z and A.masscenter_vel(N) == N.z","over":{"base":"Any"},"name":"test_body_masscenter_vel_correct"},"guarantee":"A.masscenter_vel(B) == N.z; A.masscenter_vel(N) == N.z","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_body.test_body_masscenter_vel_correct","statement":"Path(test_body_masscenter_vel(x), A.masscenter_vel(B) == N.z; A.masscenter_vel(N) == N.z)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ed9baf570ef1288","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.masscenter_vel(B) == N.z","A.masscenter_vel(N) == N.z"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_body_masscenter_vel():
     with warns_deprecated_sympy():
         A = Body('A')
@@ -259,16 +313,24 @@ def test_body_masscenter_vel():
     assert A.masscenter_vel(N) == N.z
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_body_ang_vel(), test_body_ang_vel produces the expected output) over Any ║
+# ║ Path(test_body_ang_vel(), A.ang_vel_in(B) == N.y and B.ang_vel_in(A) == -N.y and A.ang_vel_in(N) == N.y) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_body_ang_vel : Any → {Any | A.ang_vel_in(B) == N...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.ang_vel_in(B) == N.y                         ║
+# ║   ensures:  B.ang_vel_in(A) == -N.y                        ║
+# ║   ensures:  A.ang_vel_in(N) == N.y                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_body_ang_vel : Any → {Any | result satisfies: A....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9ee50e102712b6d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43a26785961306ef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_body.test_body_ang_vel","kind":"function","src_hash":"6921bb81256e8832","in":{"base":"Any"},"out":{"base":"Any","pred":"A.ang_vel_in(B) == N.y and B.ang_vel_in(A) == -N.y and A.ang_vel_in(N) == N.y"},"spec":{"lhs":"test_body_ang_vel()","rhs":"test_body_ang_vel produces the expected output","over":{"base":"Any"},"name":"test_body_ang_vel_correct"},"guarantee":"test_body_ang_vel produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_body.test_body_ang_vel_correct","statement":"Path(test_body_ang_vel(x), test_body_ang_vel produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9ee50e102712b6d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_body.test_body_ang_vel","kind":"function","src_hash":"6921bb81256e8832","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.ang_vel_in(B) == N.y and B.ang_vel_in(A) == -N.y and A.ang_vel_in(N) == N.y"},"spec":{"lhs":"test_body_ang_vel()","rhs":"A.ang_vel_in(B) == N.y and B.ang_vel_in(A) == -N.y and A.ang_vel_in(N) == N.y","over":{"base":"Any"},"name":"test_body_ang_vel_correct"},"guarantee":"A.ang_vel_in(B) == N.y; B.ang_vel_in(A) == -N.y; A.ang_vel_in(N) == N.y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_body.test_body_ang_vel_correct","statement":"Path(test_body_ang_vel(x), A.ang_vel_in(B) == N.y; B.ang_vel_in(A) == -N.y; A.ang_vel_in(N) == N.y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43a26785961306ef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.ang_vel_in(B) == N.y","B.ang_vel_in(A) == -N.y","A.ang_vel_in(N) == N.y"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_body_ang_vel():
     with warns_deprecated_sympy():
         A = Body('A')
@@ -281,16 +343,23 @@ def test_body_ang_vel():
     assert A.ang_vel_in(N) == N.y
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_body_dcm(), test_body_dcm produces the expected output) over Any ║
+# ║ Path(test_body_dcm(), A.dcm(B) == Matrix([[cos(10), sin(10), 0], [-sin(10), cos(10), 0], [0, 0, 1]]) and A.dcm(B.frame) == Matrix([[cos(10), sin(10), 0], [-sin(10), cos(10), 0], [0, 0, 1]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_body_dcm : Any → {Any | A.dcm(B) == Matrix([[cos...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.dcm(B) == Matrix([[cos(10), sin(10), 0]...   ║
+# ║   ensures:  A.dcm(B.frame) == Matrix([[cos(10), sin(1...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_body_dcm : Any → {Any | result satisfies: A.dcm(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f4e00626b454233b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8014c9987043868  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_body.test_body_dcm","kind":"function","src_hash":"04c080d9e1ed82d8","in":{"base":"Any"},"out":{"base":"Any","pred":"A.dcm(B) == Matrix([[cos(10), sin(10), 0], [-sin(10), cos(10), 0], [0, 0, 1]])"},"spec":{"lhs":"test_body_dcm()","rhs":"test_body_dcm produces the expected output","over":{"base":"Any"},"name":"test_body_dcm_correct"},"guarantee":"test_body_dcm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_body.test_body_dcm_correct","statement":"Path(test_body_dcm(x), test_body_dcm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4e00626b454233b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_body.test_body_dcm","kind":"function","src_hash":"04c080d9e1ed82d8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.dcm(B) == Matrix([[cos(10), sin(10), 0], [-sin(10), cos(10), 0], [0, 0, 1]]) and A.dcm(B.frame) == Matrix([[cos(10), sin(10), 0], [-sin(10), cos(10), 0], [0, 0, 1]])"},"spec":{"lhs":"test_body_dcm()","rhs":"A.dcm(B) == Matrix([[cos(10), sin(10), 0], [-sin(10), cos(10), 0], [0, 0, 1]]) and A.dcm(B.frame) == Matrix([[cos(10), sin(10), 0], [-sin(10), cos(10), 0], [0, 0, 1]])","over":{"base":"Any"},"name":"test_body_dcm_correct"},"guarantee":"A.dcm(B) == Matrix([[cos(10), sin(10), 0], [-sin(10), cos(10), 0], [0, 0, 1]]); A.dcm(B.frame) == Matrix([[cos(10), sin(10), 0], [-sin(10), cos(10), 0], [0, 0, 1]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_body.test_body_dcm_correct","statement":"Path(test_body_dcm(x), A.dcm(B) == Matrix([[cos(10), sin(10), 0], [-sin(10), cos(10), 0], [0, 0, 1]]); A.dcm(B.frame) == Matrix([[cos(10), sin(10), 0], [-sin(10), cos(10), 0], [0, 0, 1]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8014c9987043868","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.dcm(B) == Matrix([[cos(10), sin(10), 0], [-sin(10), cos(10), 0], [0, 0, 1]])","A.dcm(B.frame) == Matrix([[cos(10), sin(10), 0], [-sin(10), cos(10), 0], [0, 0, 1]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_body_dcm():
     with warns_deprecated_sympy():
         A = Body('A')
@@ -300,16 +369,24 @@ def test_body_dcm():
     assert A.dcm(B.frame) == Matrix([[cos(10), sin(10), 0], [-sin(10), cos(10), 0], [0, 0, 1]])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_body_axis(), test_body_axis produces the expected output) over Any ║
+# ║ Path(test_body_axis(), B.x == N.x and B.y == N.y and B.z == N.z) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_body_axis : Any → {Any | B.x == N.x and B.y == N...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  B.x == N.x                                     ║
+# ║   ensures:  B.y == N.y                                     ║
+# ║   ensures:  B.z == N.z                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_body_axis : Any → {Any | result satisfies: B.x =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0f1e20ff150d2d18  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6baedd02ca059623  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_body.test_body_axis","kind":"function","src_hash":"42189f9eaf633098","in":{"base":"Any"},"out":{"base":"Any","pred":"B.x == N.x and B.y == N.y and B.z == N.z"},"spec":{"lhs":"test_body_axis()","rhs":"test_body_axis produces the expected output","over":{"base":"Any"},"name":"test_body_axis_correct"},"guarantee":"test_body_axis produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_body.test_body_axis_correct","statement":"Path(test_body_axis(x), test_body_axis produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f1e20ff150d2d18"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_body.test_body_axis","kind":"function","src_hash":"42189f9eaf633098","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: B.x == N.x and B.y == N.y and B.z == N.z"},"spec":{"lhs":"test_body_axis()","rhs":"B.x == N.x and B.y == N.y and B.z == N.z","over":{"base":"Any"},"name":"test_body_axis_correct"},"guarantee":"B.x == N.x; B.y == N.y; B.z == N.z","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_body.test_body_axis_correct","statement":"Path(test_body_axis(x), B.x == N.x; B.y == N.y; B.z == N.z)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6baedd02ca059623","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["B.x == N.x","B.y == N.y","B.z == N.z"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_body_axis():
     N = ReferenceFrame('N')
     with warns_deprecated_sympy():
@@ -319,16 +396,23 @@ def test_body_axis():
     assert B.z == N.z
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_apply_force_multiple_one_point(), test_apply_force_multiple_one_point produces the expected output) over Any ║
+# ║ Path(test_apply_force_multiple_one_point(), B.loads == [(P, f1)] and B.loads == [(P, f1 + f2)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_apply_force_multiple_one_point : Any → {Any | B....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  B.loads == [(P, f1)]                           ║
+# ║   ensures:  B.loads == [(P, f1 + f2)]                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_apply_force_multiple_one_point : Any → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 89dc18337702e214  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c8cc2b765e7e9ad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_body.test_apply_force_multiple_one_point","kind":"function","src_hash":"ad717bd4390dd40e","in":{"base":"Any"},"out":{"base":"Any","pred":"B.loads == [(P, f1)] and B.loads == [(P, f1 + f2)]"},"spec":{"lhs":"test_apply_force_multiple_one_point()","rhs":"test_apply_force_multiple_one_point produces the expected output","over":{"base":"Any"},"name":"test_apply_force_multiple_one_point_correct"},"guarantee":"test_apply_force_multiple_one_point produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_body.test_apply_force_multiple_one_point_correct","statement":"Path(test_apply_force_multiple_one_point(x), test_apply_force_multiple_one_point produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89dc18337702e214"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_body.test_apply_force_multiple_one_point","kind":"function","src_hash":"ad717bd4390dd40e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: B.loads == [(P, f1)] and B.loads == [(P, f1 + f2)]"},"spec":{"lhs":"test_apply_force_multiple_one_point()","rhs":"B.loads == [(P, f1)] and B.loads == [(P, f1 + f2)]","over":{"base":"Any"},"name":"test_apply_force_multiple_one_point_correct"},"guarantee":"B.loads == [(P, f1)]; B.loads == [(P, f1 + f2)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_body.test_apply_force_multiple_one_point_correct","statement":"Path(test_apply_force_multiple_one_point(x), B.loads == [(P, f1)]; B.loads == [(P, f1 + f2)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c8cc2b765e7e9ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["B.loads == [(P, f1)]","B.loads == [(P, f1 + f2)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_apply_force_multiple_one_point():
     a, b = symbols('a b')
     P = Point('P')
@@ -342,16 +426,24 @@ def test_apply_force_multiple_one_point():
     assert B.loads == [(P, f1+f2)]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_apply_force(), test_apply_force produces the expected output) over Any ║
+# ║ Path(test_apply_force(), B1.loads == [(P1, force)] and B2.loads == [(P2, -force)] and B1.loads == [(P1, force), (B1.masscenter, g1)] and B2.loads == [(P2, -force), (B2.masscenter, g2)] and B1.loads == [(P1, force), (B1.masscenter, force2 + g1)] and B2.loads == [(P2, -force), (B2.masscenter, -force2 + g2)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_apply_force : Any → {Any | B1.loads == [(P1, for...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  B1.loads == [(P1, force)]                      ║
+# ║   ensures:  B2.loads == [(P2, -force)]                     ║
+# ║   ensures:  B1.loads == [(P1, force), (B1.masscenter,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_apply_force : Any → {Any | result satisfies: B1....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d2074211a2b353a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4313b3a6342015a2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_body.test_apply_force","kind":"function","src_hash":"573f394e68330e31","in":{"base":"Any"},"out":{"base":"Any","pred":"B1.loads == [(P1, force)] and B2.loads == [(P2, -force)] and B1.loads == [(P1, force), (B1.masscenter, g1)] and B2.loads == [(P2, -force), (B2.masscenter, g2)] and B1.loads == [(P1, force), (B1.masscenter, force2 + g1)] and B2.loads == [(P2, -force), (B2.masscenter, -force2 + g2)]"},"spec":{"lhs":"test_apply_force()","rhs":"test_apply_force produces the expected output","over":{"base":"Any"},"name":"test_apply_force_correct"},"guarantee":"test_apply_force produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_body.test_apply_force_correct","statement":"Path(test_apply_force(x), test_apply_force produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d2074211a2b353a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_body.test_apply_force","kind":"function","src_hash":"573f394e68330e31","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: B1.loads == [(P1, force)] and B2.loads == [(P2, -force)] and B1.loads == [(P1, force), (B1.masscenter, g1)] and B2.loads == [(P2, -force), (B2.masscenter, g2)] and B1.loads == [(P1, force), (B1.masscenter, force2 + g1)] and B2.loads == [(P2, -force), (B2.masscenter, -force2 + g2)]"},"spec":{"lhs":"test_apply_force()","rhs":"B1.loads == [(P1, force)] and B2.loads == [(P2, -force)] and B1.loads == [(P1, force), (B1.masscenter, g1)] and B2.loads == [(P2, -force), (B2.masscenter, g2)] and B1.loads == [(P1, force), (B1.masscenter, force2 + g1)] and B2.loads == [(P2, -force), (B2.masscenter, -force2 + g2)]","over":{"base":"Any"},"name":"test_apply_force_correct"},"guarantee":"B1.loads == [(P1, force)]; B2.loads == [(P2, -force)]; B1.loads == [(P1, force), (B1.masscenter, g1)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_body.test_apply_force_correct","statement":"Path(test_apply_force(x), B1.loads == [(P1, force)]; B2.loads == [(P2, -force)]; B1.loads == [(P1, force), (B1.masscenter, g1)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4313b3a6342015a2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["B1.loads == [(P1, force)]","B2.loads == [(P2, -force)]","B1.loads == [(P1, force), (B1.masscenter, g1)]","B2.loads == [(P2, -force), (B2.masscenter, g2)]","B1.loads == [(P1, force), (B1.masscenter, force2 + g1)]","B2.loads == [(P2, -force), (B2.masscenter, -force2 + g2)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_apply_force():
     f, g = symbols('f g')
     q, x, v1, v2 = dynamicsymbols('q x v1 v2')
@@ -387,16 +479,24 @@ def test_apply_force():
     assert B2.loads == [(P2, -force), (B2.masscenter, -force2+g2)]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_apply_torque(), test_apply_torque produces the expected output) over Any ║
+# ║ Path(test_apply_torque(), B1.loads == [(B1.frame, torque)] and B2.loads == [(B2.frame, -torque)] and B1.loads == [(B1.frame, torque + torque2)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_apply_torque : Any → {Any | B1.loads == [(B1.fra...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  B1.loads == [(B1.frame, torque)]               ║
+# ║   ensures:  B2.loads == [(B2.frame, -torque)]              ║
+# ║   ensures:  B1.loads == [(B1.frame, torque + torque2)]     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_apply_torque : Any → {Any | result satisfies: B1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f95271959495f4d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 94d50639ba849be5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_body.test_apply_torque","kind":"function","src_hash":"16e36e84a040a2cf","in":{"base":"Any"},"out":{"base":"Any","pred":"B1.loads == [(B1.frame, torque)] and B2.loads == [(B2.frame, -torque)] and B1.loads == [(B1.frame, torque + torque2)]"},"spec":{"lhs":"test_apply_torque()","rhs":"test_apply_torque produces the expected output","over":{"base":"Any"},"name":"test_apply_torque_correct"},"guarantee":"test_apply_torque produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_body.test_apply_torque_correct","statement":"Path(test_apply_torque(x), test_apply_torque produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f95271959495f4d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_body.test_apply_torque","kind":"function","src_hash":"16e36e84a040a2cf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: B1.loads == [(B1.frame, torque)] and B2.loads == [(B2.frame, -torque)] and B1.loads == [(B1.frame, torque + torque2)]"},"spec":{"lhs":"test_apply_torque()","rhs":"B1.loads == [(B1.frame, torque)] and B2.loads == [(B2.frame, -torque)] and B1.loads == [(B1.frame, torque + torque2)]","over":{"base":"Any"},"name":"test_apply_torque_correct"},"guarantee":"B1.loads == [(B1.frame, torque)]; B2.loads == [(B2.frame, -torque)]; B1.loads == [(B1.frame, torque + torque2)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_body.test_apply_torque_correct","statement":"Path(test_apply_torque(x), B1.loads == [(B1.frame, torque)]; B2.loads == [(B2.frame, -torque)]; B1.loads == [(B1.frame, torque + torque2)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94d50639ba849be5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["B1.loads == [(B1.frame, torque)]","B2.loads == [(B2.frame, -torque)]","B1.loads == [(B1.frame, torque + torque2)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_apply_torque():
     t = symbols('t')
     q = dynamicsymbols('q')
@@ -415,16 +515,23 @@ def test_apply_torque():
     assert B1.loads == [(B1.frame, torque+torque2)]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_clear_load(), test_clear_load produces the expected output) over Any ║
+# ║ Path(test_clear_load(), B.loads == [(P, force)] and B.loads == []) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_clear_load : Any → {Any | B.loads == [(P, force)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  B.loads == [(P, force)]                        ║
+# ║   ensures:  B.loads == []                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_clear_load : Any → {Any | result satisfies: B.lo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9178600a0556e47f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3192daebdd5c46b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_body.test_clear_load","kind":"function","src_hash":"ec88ca02bf8558a4","in":{"base":"Any"},"out":{"base":"Any","pred":"B.loads == [(P, force)] and B.loads == []"},"spec":{"lhs":"test_clear_load()","rhs":"test_clear_load produces the expected output","over":{"base":"Any"},"name":"test_clear_load_correct"},"guarantee":"test_clear_load produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_body.test_clear_load_correct","statement":"Path(test_clear_load(x), test_clear_load produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9178600a0556e47f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_body.test_clear_load","kind":"function","src_hash":"ec88ca02bf8558a4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: B.loads == [(P, force)] and B.loads == []"},"spec":{"lhs":"test_clear_load()","rhs":"B.loads == [(P, force)] and B.loads == []","over":{"base":"Any"},"name":"test_clear_load_correct"},"guarantee":"B.loads == [(P, force)]; B.loads == []","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_body.test_clear_load_correct","statement":"Path(test_clear_load(x), B.loads == [(P, force)]; B.loads == [])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3192daebdd5c46b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["B.loads == [(P, force)]","B.loads == []"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_clear_load():
     a = symbols('a')
     P = Point('P')
@@ -437,16 +544,24 @@ def test_clear_load():
     assert B.loads == []
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_remove_load(), test_remove_load produces the expected output) over Any ║
+# ║ Path(test_remove_load(), B.loads == [(P1, f1), (P2, f2)] and B.loads == [(P1, f1)] and B.loads == [(P1, f1), (B.frame, f1.cross(f2))]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_remove_load : Any → {Any | B.loads == [(P1, f1),...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  B.loads == [(P1, f1), (P2, f2)]                ║
+# ║   ensures:  B.loads == [(P1, f1)]                          ║
+# ║   ensures:  B.loads == [(P1, f1), (B.frame, f1.cross(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_remove_load : Any → {Any | result satisfies: B.l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 44418efa0cd798c0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8cfce53a0e6aa91  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_body.test_remove_load","kind":"function","src_hash":"a1888e725259ab67","in":{"base":"Any"},"out":{"base":"Any","pred":"B.loads == [(P1, f1), (P2, f2)] and B.loads == [(P1, f1)] and B.loads == [(P1, f1), (B.frame, f1.cross(f2))] and B.loads == [(P1, f1)]"},"spec":{"lhs":"test_remove_load()","rhs":"test_remove_load produces the expected output","over":{"base":"Any"},"name":"test_remove_load_correct"},"guarantee":"test_remove_load produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_body.test_remove_load_correct","statement":"Path(test_remove_load(x), test_remove_load produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"44418efa0cd798c0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_body.test_remove_load","kind":"function","src_hash":"a1888e725259ab67","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: B.loads == [(P1, f1), (P2, f2)] and B.loads == [(P1, f1)] and B.loads == [(P1, f1), (B.frame, f1.cross(f2))]"},"spec":{"lhs":"test_remove_load()","rhs":"B.loads == [(P1, f1), (P2, f2)] and B.loads == [(P1, f1)] and B.loads == [(P1, f1), (B.frame, f1.cross(f2))]","over":{"base":"Any"},"name":"test_remove_load_correct"},"guarantee":"B.loads == [(P1, f1), (P2, f2)]; B.loads == [(P1, f1)]; B.loads == [(P1, f1), (B.frame, f1.cross(f2))]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_body.test_remove_load_correct","statement":"Path(test_remove_load(x), B.loads == [(P1, f1), (P2, f2)]; B.loads == [(P1, f1)]; B.loads == [(P1, f1), (B.frame, f1.cross(f2))])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8cfce53a0e6aa91","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["B.loads == [(P1, f1), (P2, f2)]","B.loads == [(P1, f1)]","B.loads == [(P1, f1), (B.frame, f1.cross(f2))]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_remove_load():
     P1 = Point('P1')
     P2 = Point('P2')
@@ -465,16 +580,24 @@ def test_remove_load():
     assert B.loads == [(P1, f1)]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_apply_loads_on_multi_degree_freedom_holonomic_system(), example based on: https://pydy.readthedocs.io/en/latest/examples/multidof-holonomic.html) over Any ║
+# ║ Path(test_apply_loads_on_multi_degree_freedom_holonomic_system(), B.loads == [(B.masscenter, (F - k * q1 - c * q1.diff()) * W.x)] and P.loads == [(P.masscenter, P.mass * g * W.y), (P.frame, (T + kT * q2) * W.z)] and b.loads == [(b.masscenter, b.mass * g * W.y), (b.frame, -kT * q2 * W.z)] and W.loads == [(W.masscenter, (c * q1.diff() + k * q1) * W.x)]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  B.loads == [(B.masscenter, (F - k * q1 - ...   ║
+# ║   ensures:  P.loads == [(P.masscenter, P.mass * g * W...   ║
+# ║   ensures:  b.loads == [(b.masscenter, b.mass * g * W...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_apply_loads_on_multi_degree_freedom_holonomic_sy...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd07e77def82c23f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4eea7489adba06f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_body.test_apply_loads_on_multi_degree_freedom_holonomic_system","kind":"function","src_hash":"b5444d0b252e0787","in":{"base":"Any"},"out":{"base":"Any","pred":"B.loads == [(B.masscenter, (F - k * q1 - c * q1.diff()) * W.x)] and P.loads == [(P.masscenter, P.mass * g * W.y), (P.frame, (T + kT * q2) * W.z)] and b.loads == [(b.masscenter, b.mass * g * W.y), (b.frame, -kT * q2 * W.z)] and W.loads == [(W.masscenter, (c * q1.diff() + k * q1) * W.x)]"},"spec":{"lhs":"test_apply_loads_on_multi_degree_freedom_holonomic_system()","rhs":"example based on: https://pydy.readthedocs.io/en/latest/examples/multidof-holonomic.html","over":{"base":"Any"},"name":"test_apply_loads_on_multi_degree_freedom_holonomic_system_correct"},"guarantee":"example based on: https://pydy.readthedocs.io/en/latest/examples/multidof-holonomic.html","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_body.test_apply_loads_on_multi_degree_freedom_holonomic_system_correct","statement":"Path(test_apply_loads_on_multi_degree_freedom_holonomic_system(x), example based on: https://pydy.readthedocs.io/en/latest/examples/multidof-holonomic.html)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd07e77def82c23f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_body.test_apply_loads_on_multi_degree_freedom_holonomic_system","kind":"function","src_hash":"b5444d0b252e0787","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: B.loads == [(B.masscenter, (F - k * q1 - c * q1.diff()) * W.x)] and P.loads == [(P.masscenter, P.mass * g * W.y), (P.frame, (T + kT * q2) * W.z)] and b.loads == [(b.masscenter, b.mass * g * W.y), (b.frame, -kT * q2 * W.z)] and W.loads == [(W.masscenter, (c * q1.diff() + k * q1) * W.x)]"},"spec":{"lhs":"test_apply_loads_on_multi_degree_freedom_holonomic_system()","rhs":"B.loads == [(B.masscenter, (F - k * q1 - c * q1.diff()) * W.x)] and P.loads == [(P.masscenter, P.mass * g * W.y), (P.frame, (T + kT * q2) * W.z)] and b.loads == [(b.masscenter, b.mass * g * W.y), (b.frame, -kT * q2 * W.z)] and W.loads == [(W.masscenter, (c * q1.diff() + k * q1) * W.x)]","over":{"base":"Any"},"name":"test_apply_loads_on_multi_degree_freedom_holonomic_system_correct"},"guarantee":"B.loads == [(B.masscenter, (F - k * q1 - c * q1.diff()) * W.x)]; P.loads == [(P.masscenter, P.mass * g * W.y), (P.frame, (T + kT * q2) * W.z)]; b.loads == [(b.masscenter, b.mass * g * W.y), (b.frame, -kT * q2 * W.z)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_body.test_apply_loads_on_multi_degree_freedom_holonomic_system_correct","statement":"Path(test_apply_loads_on_multi_degree_freedom_holonomic_system(x), B.loads == [(B.masscenter, (F - k * q1 - c * q1.diff()) * W.x)]; P.loads == [(P.masscenter, P.mass * g * W.y), (P.frame, (T + kT * q2) * W.z)]; b.loads == [(b.masscenter, b.mass * g * W.y), (b.frame, -kT * q2 * W.z)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4eea7489adba06f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["B.loads == [(B.masscenter, (F - k * q1 - c * q1.diff()) * W.x)]","P.loads == [(P.masscenter, P.mass * g * W.y), (P.frame, (T + kT * q2) * W.z)]","b.loads == [(b.masscenter, b.mass * g * W.y), (b.frame, -kT * q2 * W.z)]","W.loads == [(W.masscenter, (c * q1.diff() + k * q1) * W.x)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_apply_loads_on_multi_degree_freedom_holonomic_system():
     """Example based on: https://pydy.readthedocs.io/en/latest/examples/multidof-holonomic.html"""
     with warns_deprecated_sympy():
@@ -504,16 +627,24 @@ def test_apply_loads_on_multi_degree_freedom_holonomic_system():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_parallel_axis(), test_parallel_axis produces the expected output) over Any ║
+# ║ Path(test_parallel_axis(), Ip == Ip_expected and simplify((R.parallel_axis(p, A) - Ip_expected).to_matrix(A)) == zeros(3, 3) and not P.is_rigidbody) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_parallel_axis : Any → {Any | Ip == Ip_expected a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Ip == Ip_expected                              ║
+# ║   ensures:  simplify((R.parallel_axis(p, A) - Ip_expe...   ║
+# ║   ensures:  not P.is_rigidbody                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_parallel_axis : Any → {Any | result satisfies: I...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b7b15d429148adf1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be0febdc752ecf30  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_body.test_parallel_axis","kind":"function","src_hash":"0a153953bbb8b9ab","in":{"base":"Any"},"out":{"base":"Any","pred":"Ip == Ip_expected and simplify((R.parallel_axis(p, A) - Ip_expected).to_matrix(A)) == zeros(3, 3) and not P.is_rigidbody and Ip == Ip_expected"},"spec":{"lhs":"test_parallel_axis()","rhs":"test_parallel_axis produces the expected output","over":{"base":"Any"},"name":"test_parallel_axis_correct"},"guarantee":"test_parallel_axis produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_body.test_parallel_axis_correct","statement":"Path(test_parallel_axis(x), test_parallel_axis produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7b15d429148adf1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_body.test_parallel_axis","kind":"function","src_hash":"0a153953bbb8b9ab","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Ip == Ip_expected and simplify((R.parallel_axis(p, A) - Ip_expected).to_matrix(A)) == zeros(3, 3) and not P.is_rigidbody"},"spec":{"lhs":"test_parallel_axis()","rhs":"Ip == Ip_expected and simplify((R.parallel_axis(p, A) - Ip_expected).to_matrix(A)) == zeros(3, 3) and not P.is_rigidbody","over":{"base":"Any"},"name":"test_parallel_axis_correct"},"guarantee":"Ip == Ip_expected; simplify((R.parallel_axis(p, A) - Ip_expected).to_matrix(A)) == zeros(3, 3); not P.is_rigidbody","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_body.test_parallel_axis_correct","statement":"Path(test_parallel_axis(x), Ip == Ip_expected; simplify((R.parallel_axis(p, A) - Ip_expected).to_matrix(A)) == zeros(3, 3); not P.is_rigidbody)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be0febdc752ecf30","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Ip == Ip_expected","simplify((R.parallel_axis(p, A) - Ip_expected).to_matrix(A)) == zeros(3, 3)","not P.is_rigidbody"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_parallel_axis():
     N = ReferenceFrame('N')
     m, Ix, Iy, Iz, a, b = symbols('m, I_x, I_y, I_z, a, b')

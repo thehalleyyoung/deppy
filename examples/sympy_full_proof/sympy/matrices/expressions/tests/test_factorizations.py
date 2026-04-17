@@ -24,16 +24,24 @@ n = Symbol('n')
 X = MatrixSymbol('X', n, n)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_LU(), test_LU produces the expected output) over Any ║
+# ║ Path(test_LU(), L.shape == U.shape == X.shape and ask(Q.lower_triangular(L)) and ask(Q.upper_triangular(U))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_LU : Any → {Any | L.shape == U.shape == X.shape ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  L.shape == U.shape == X.shape                  ║
+# ║   ensures:  ask(Q.lower_triangular(L))                     ║
+# ║   ensures:  ask(Q.upper_triangular(U))                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_LU : Any → {Any | result satisfies: L.shape == U...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16cdffea84d9c225  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f012e80459667131  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_factorizations.test_LU","kind":"function","src_hash":"8e77bc7cbed66759","in":{"base":"Any"},"out":{"base":"Any","pred":"L.shape == U.shape == X.shape and ask(Q.lower_triangular(L)) and ask(Q.upper_triangular(U))"},"spec":{"lhs":"test_LU()","rhs":"test_LU produces the expected output","over":{"base":"Any"},"name":"test_LU_correct"},"guarantee":"test_LU produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_factorizations.test_LU_correct","statement":"Path(test_LU(x), test_LU produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16cdffea84d9c225"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_factorizations.test_LU","kind":"function","src_hash":"8e77bc7cbed66759","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: L.shape == U.shape == X.shape and ask(Q.lower_triangular(L)) and ask(Q.upper_triangular(U))"},"spec":{"lhs":"test_LU()","rhs":"L.shape == U.shape == X.shape and ask(Q.lower_triangular(L)) and ask(Q.upper_triangular(U))","over":{"base":"Any"},"name":"test_LU_correct"},"guarantee":"L.shape == U.shape == X.shape; ask(Q.lower_triangular(L)); ask(Q.upper_triangular(U))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_factorizations.test_LU_correct","statement":"Path(test_LU(x), L.shape == U.shape == X.shape; ask(Q.lower_triangular(L)); ask(Q.upper_triangular(U)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f012e80459667131","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["L.shape == U.shape == X.shape","ask(Q.lower_triangular(L))","ask(Q.upper_triangular(U))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_LU():
     L, U = lu(X)
     assert L.shape == U.shape == X.shape
@@ -41,30 +49,44 @@ def test_LU():
     assert ask(Q.upper_triangular(U))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Cholesky(), test_Cholesky produces the expected output) over Any ║
+# ║ Path(test_Cholesky(), <unspecified:test_Cholesky>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Cholesky : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ff5ec5b8a82a5a1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_factorizations.test_Cholesky","kind":"function","src_hash":"61b7e5c9bf94a996","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Cholesky()","rhs":"test_Cholesky produces the expected output","over":{"base":"Any"},"name":"test_Cholesky_correct"},"guarantee":"test_Cholesky produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_factorizations.test_Cholesky_correct","statement":"Path(test_Cholesky(x), test_Cholesky produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ff5ec5b8a82a5a1"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_factorizations.test_Cholesky","kind":"function","src_hash":"61b7e5c9bf94a996","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Cholesky()","rhs":"<unspecified:test_Cholesky>","over":{"base":"Any"},"name":"test_Cholesky_correct"},"guarantee":"test_Cholesky produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_factorizations.test_Cholesky_correct","statement":"Path(test_Cholesky(x), test_Cholesky produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ff5ec5b8a82a5a1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Cholesky():
     LofCholesky(X)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_QR(), test_QR produces the expected output) over Any ║
+# ║ Path(test_QR(), Q_.shape == R.shape == X.shape and ask(Q.orthogonal(Q_)) and ask(Q.upper_triangular(R))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_QR : Any → {Any | Q_.shape == R.shape == X.shape...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Q_.shape == R.shape == X.shape                 ║
+# ║   ensures:  ask(Q.orthogonal(Q_))                          ║
+# ║   ensures:  ask(Q.upper_triangular(R))                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_QR : Any → {Any | result satisfies: Q_.shape == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 40f031f6e21f4165  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 732498ea6bbf3f27  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_factorizations.test_QR","kind":"function","src_hash":"44e84459cd76f9d3","in":{"base":"Any"},"out":{"base":"Any","pred":"Q_.shape == R.shape == X.shape and ask(Q.orthogonal(Q_)) and ask(Q.upper_triangular(R))"},"spec":{"lhs":"test_QR()","rhs":"test_QR produces the expected output","over":{"base":"Any"},"name":"test_QR_correct"},"guarantee":"test_QR produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_factorizations.test_QR_correct","statement":"Path(test_QR(x), test_QR produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40f031f6e21f4165"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_factorizations.test_QR","kind":"function","src_hash":"44e84459cd76f9d3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Q_.shape == R.shape == X.shape and ask(Q.orthogonal(Q_)) and ask(Q.upper_triangular(R))"},"spec":{"lhs":"test_QR()","rhs":"Q_.shape == R.shape == X.shape and ask(Q.orthogonal(Q_)) and ask(Q.upper_triangular(R))","over":{"base":"Any"},"name":"test_QR_correct"},"guarantee":"Q_.shape == R.shape == X.shape; ask(Q.orthogonal(Q_)); ask(Q.upper_triangular(R))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_factorizations.test_QR_correct","statement":"Path(test_QR(x), Q_.shape == R.shape == X.shape; ask(Q.orthogonal(Q_)); ask(Q.upper_triangular(R)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"732498ea6bbf3f27","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Q_.shape == R.shape == X.shape","ask(Q.orthogonal(Q_))","ask(Q.upper_triangular(R))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_QR():
     Q_, R = qr(X)
     assert Q_.shape == R.shape == X.shape
@@ -72,16 +94,24 @@ def test_QR():
     assert ask(Q.upper_triangular(R))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_svd(), test_svd produces the expected output) over Any ║
+# ║ Path(test_svd(), U.shape == S.shape == V.shape == X.shape and ask(Q.orthogonal(U)) and ask(Q.orthogonal(V)) and ask(Q.diagonal(S))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_svd : Any → {Any | U.shape == S.shape == V.shape...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  U.shape == S.shape == V.shape == X.shape       ║
+# ║   ensures:  ask(Q.orthogonal(U))                           ║
+# ║   ensures:  ask(Q.orthogonal(V))                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_svd : Any → {Any | result satisfies: U.shape == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 70aecc1f3f14d2df  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c72d6f9ff97204bb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_factorizations.test_svd","kind":"function","src_hash":"a2a0d1bfa66a3215","in":{"base":"Any"},"out":{"base":"Any","pred":"U.shape == S.shape == V.shape == X.shape and ask(Q.orthogonal(U)) and ask(Q.orthogonal(V)) and ask(Q.diagonal(S))"},"spec":{"lhs":"test_svd()","rhs":"test_svd produces the expected output","over":{"base":"Any"},"name":"test_svd_correct"},"guarantee":"test_svd produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_factorizations.test_svd_correct","statement":"Path(test_svd(x), test_svd produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70aecc1f3f14d2df"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_factorizations.test_svd","kind":"function","src_hash":"a2a0d1bfa66a3215","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: U.shape == S.shape == V.shape == X.shape and ask(Q.orthogonal(U)) and ask(Q.orthogonal(V)) and ask(Q.diagonal(S))"},"spec":{"lhs":"test_svd()","rhs":"U.shape == S.shape == V.shape == X.shape and ask(Q.orthogonal(U)) and ask(Q.orthogonal(V)) and ask(Q.diagonal(S))","over":{"base":"Any"},"name":"test_svd_correct"},"guarantee":"U.shape == S.shape == V.shape == X.shape; ask(Q.orthogonal(U)); ask(Q.orthogonal(V))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_factorizations.test_svd_correct","statement":"Path(test_svd(x), U.shape == S.shape == V.shape == X.shape; ask(Q.orthogonal(U)); ask(Q.orthogonal(V)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c72d6f9ff97204bb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["U.shape == S.shape == V.shape == X.shape","ask(Q.orthogonal(U))","ask(Q.orthogonal(V))","ask(Q.diagonal(S))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_svd():
     U, S, V = svd(X)
     assert U.shape == S.shape == V.shape == X.shape

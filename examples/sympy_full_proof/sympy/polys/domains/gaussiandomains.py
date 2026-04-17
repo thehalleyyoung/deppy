@@ -33,14 +33,20 @@ from sympy.polys.domains.ring import Ring
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(GaussianElement(*args), correctly constructs a GaussianElement instance) over {Any | isinstance(other, self.__class__) and isinstance(other, GaussianElement) and isinstance(other, cls)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DomainElement)                ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ GaussianElement : {Any | isinstance(other, self.__cla...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ffaf865f2a20161c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement","kind":"class","src_hash":"ac9a93898277cd4a","in":{"base":"Any","pred":"isinstance(other, self.__class__) and isinstance(other, GaussianElement) and isinstance(other, cls)"},"out":{"base":"Any"},"spec":{"lhs":"GaussianElement(*args)","rhs":"correctly constructs a GaussianElement instance","over":{"base":"Any","pred":"isinstance(other, self.__class__) and isinstance(other, GaussianElement) and isinstance(other, cls)"},"name":"GaussianElement_class_invariant"},"guarantee":"correctly constructs a GaussianElement instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ffaf865f2a20161c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement","kind":"class","src_hash":"ac9a93898277cd4a","in":{"base":"Any","pred":"isinstance(other, self.__class__) and isinstance(other, GaussianElement) and isinstance(other, cls)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DomainElement)"},"spec":{"lhs":"GaussianElement(*args)","rhs":"correctly constructs a GaussianElement instance","over":{"base":"Any","pred":"isinstance(other, self.__class__) and isinstance(other, GaussianElement) and isinstance(other, cls)"},"name":"GaussianElement_class_invariant"},"guarantee":"isinstance(self, DomainElement)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ffaf865f2a20161c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DomainElement)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function GaussianElement not found in source"]}}
 class GaussianElement(DomainElement):
     """Base class for elements of Gaussian type domains."""
     base: Domain
@@ -49,32 +55,44 @@ class GaussianElement(DomainElement):
     __slots__ = ('x', 'y')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, x, y), cls.new(conv(x), conv(y))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls.new(conv(x), conv(y))                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ab1887292b6157b0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__new__","kind":"method","src_hash":"0afcdd51ebf911b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ab1887292b6157b0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__new__","kind":"method","src_hash":"0afcdd51ebf911b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, x, y)","rhs":"cls.new(conv(x), conv(y))","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns cls.new(conv(x), conv(y))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ab1887292b6157b0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls.new(conv(x), conv(y))","pure":false,"effects":{"effect_type":"reads_state","reads":["cls.base","cls.new"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, x, y=0):
         conv = cls.base.convert
         return cls.new(conv(x), conv(y))
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(new(cls), create a new gaussianelement of the same domain) over Any ║
+# ║ Path(new(cls, x, y), <unspecified:new>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ new : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 21432b2aead01e6f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.new","kind":"classmethod","src_hash":"17f8d063247baa8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"new(cls)","rhs":"create a new gaussianelement of the same domain","over":{"base":"Any"},"name":"new_correct"},"guarantee":"create a new gaussianelement of the same domain","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.gaussiandomains.GaussianElement.new_correct","statement":"Path(new(x), create a new gaussianelement of the same domain)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21432b2aead01e6f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.new","kind":"classmethod","src_hash":"17f8d063247baa8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"new(cls, x, y)","rhs":"<unspecified:new>","over":{"base":"Any"},"name":"new_correct"},"guarantee":"create a new gaussianelement of the same domain","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.gaussiandomains.GaussianElement.new_correct","statement":"Path(new(x), create a new gaussianelement of the same domain)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21432b2aead01e6f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def new(cls, x, y):
         """Create a new GaussianElement of the same domain."""
         obj = super().__new__(cls)
@@ -83,45 +101,68 @@ class GaussianElement(DomainElement):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parent(), the domain that this is an element of (zz_i or qq_i)) over Any ║
+# ║ Path(parent(), self._parent) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._parent                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ parent : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | adcc1939b84d6376           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.parent","kind":"method","src_hash":"faf1a7a851cbc5ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parent()","rhs":"the domain that this is an element of (zz_i or qq_i)","over":{"base":"Any"},"name":"parent_correct"},"guarantee":"the domain that this is an element of (zz_i or qq_i)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"adcc1939b84d6376"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.parent","kind":"method","src_hash":"faf1a7a851cbc5ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parent()","rhs":"self._parent","over":{"base":"Any"},"name":"parent_correct"},"guarantee":"returns self._parent","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"adcc1939b84d6376","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._parent","pure":false,"effects":{"effect_type":"reads_state","reads":["self._parent"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def parent(self):
         """The domain that this is an element of (ZZ_I or QQ_I)"""
         return self._parent
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), hash((self.x, self.y))) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hash((self.x, self.y))                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 75db380b0ef93cc3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__hash__","kind":"method","src_hash":"51caa3c6c0aa265e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"75db380b0ef93cc3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__hash__","kind":"method","src_hash":"51caa3c6c0aa265e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"hash((self.x, self.y))","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns hash((self.x, self.y))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"75db380b0ef93cc3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hash((self.x, self.y))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.x","self.y"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         return hash((self.x, self.y))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), result == (self.x == other.x and self.y == other.y if isinstance(other, self.__class__) else NotImplemented) and result == self.x == other.x and self.y == other.y or result == NotImplemented) over {Any | hasattr(other, 'x') and hasattr(other, 'y')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'x')                            ║
+# ║   requires: hasattr(other, 'y')                            ║
+# ║   ensures:  result == (self.x == other.x and self.y =...   ║
+# ║   ensures:  result == self.x == other.x and self.y ==...   ║
+# ║   fiber[case_0]: isinstance(other, self.__class__) =>...   ║
+# ║   fiber[case_1]: not (isinstance(other, self.__class_...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'x') and hasattr(other...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7c5502226ff8cadf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__eq__","kind":"method","src_hash":"41697b0a0bd7e2b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7c5502226ff8cadf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__eq__","kind":"method","src_hash":"41697b0a0bd7e2b4","in":{"base":"Any","pred":"hasattr(other, 'x') and hasattr(other, 'y')"},"out":{"base":"Any","pred":"result satisfies: result == (self.x == other.x and self.y == other.y if isinstance(other, self.__class__) else NotImplemented) and result == self.x == other.x and self.y == other.y or result == NotImplemented"},"spec":{"lhs":"__eq__(other)","rhs":"result == (self.x == other.x and self.y == other.y if isinstance(other, self.__class__) else NotImplemented) and result == self.x == other.x and self.y == other.y or result == NotImplemented","over":{"base":"Any","pred":"hasattr(other, 'x') and hasattr(other, 'y')"},"name":"__eq___correct"},"guarantee":"result == (self.x == other.x and self.y == other.y if isinstance(other, self.__class__) else NotImplemented); result == self.x == other.x and self.y == other.y or result == NotImplemented; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7c5502226ff8cadf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'x')","hasattr(other, 'y')"],"ensures":["result == (self.x == other.x and self.y == other.y if isinstance(other, self.__class__) else NotImplemented)","result == self.x == other.x and self.y == other.y or result == NotImplemented"],"fibers":[{"name":"case_0","guard":"isinstance(other, self.__class__)","ensures":["result == self.x == other.x and self.y == other.y"],"decidability":"structural","returns_expr":"self.x == other.x and self.y == other.y"},{"name":"case_1","guard":"not (isinstance(other, self.__class__))","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","other.x","other.y","self.__class__","self.x","self.y"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         if isinstance(other, self.__class__):
             return self.x == other.x and self.y == other.y
@@ -129,89 +170,130 @@ class GaussianElement(DomainElement):
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__lt__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__lt__(other), <unspecified:__lt__>) over {Any | hasattr(other, 'y') and hasattr(other, 'x')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __lt__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'y')                            ║
+# ║   requires: hasattr(other, 'x')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __lt__ : {Any | hasattr(other, 'y') and hasattr(other...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b7929ad8b3e91770           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__lt__","kind":"method","src_hash":"c7061665a72ab18c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__lt__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__lt___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b7929ad8b3e91770"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__lt__","kind":"method","src_hash":"c7061665a72ab18c","in":{"base":"Any","pred":"hasattr(other, 'y') and hasattr(other, 'x')"},"out":{"base":"Any"},"spec":{"lhs":"__lt__(other)","rhs":"<unspecified:__lt__>","over":{"base":"Any","pred":"hasattr(other, 'y') and hasattr(other, 'x')"},"name":"__lt___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b7929ad8b3e91770","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'y')","hasattr(other, 'x')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.x","other.y","self.x","self.y"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __lt__(self, other):
         if not isinstance(other, GaussianElement):
             return NotImplemented
         return [self.y, self.x] < [other.y, other.x]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__pos__(), internal helper behaves correctly) over Any ║
+# ║ Path(__pos__(), self) over Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __pos__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == self                                 ║
+# ║   returns:  self                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __pos__ : Any → {Any | result satisfies: result == (s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 50f4afb6b4639bb2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__pos__","kind":"method","src_hash":"913556acb5d4e4a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pos__()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__pos___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"50f4afb6b4639bb2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__pos__","kind":"method","src_hash":"913556acb5d4e4a2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self)"},"spec":{"lhs":"__pos__()","rhs":"self","over":{"base":"Any"},"name":"__pos___correct"},"guarantee":"returns self; result == self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"50f4afb6b4639bb2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == self"],"returns_expr":"self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __pos__(self):
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__neg__(), returns the additive inverse) over Any     ║
+# ║ Path(__neg__(), self.new(-self.x, -self.y)) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.new(-self.x, -self.y)                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __neg__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 551d25bb9ae8cfc1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__neg__","kind":"method","src_hash":"174a6fc732169dcc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"returns the additive inverse","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns the additive inverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"551d25bb9ae8cfc1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__neg__","kind":"method","src_hash":"174a6fc732169dcc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"self.new(-self.x, -self.y)","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns self.new(-self.x, -self.y)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"551d25bb9ae8cfc1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.new(-self.x, -self.y)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.new","self.x","self.y"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __neg__(self):
         return self.new(-self.x, -self.y)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), '%s(%s, %s)' % (self._parent.rep, self.x, self.y)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '%s(%s, %s)' % (self._parent.rep, self.x,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 37c354765b59040a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__repr__","kind":"method","src_hash":"010bb29d943ff183","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"37c354765b59040a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__repr__","kind":"method","src_hash":"010bb29d943ff183","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'%s(%s, %s)' % (self._parent.rep, self.x, self.y)","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns '%s(%s, %s)' % (self._parent.rep, self.x, self.y)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"37c354765b59040a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'%s(%s, %s)' % (self._parent.rep, self.x, self.y)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._parent","self.x","self.y"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return "%s(%s, %s)" % (self._parent.rep, self.x, self.y)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), str(self._parent.to_sympy(self))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  str(self._parent.to_sympy(self))               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 73afd7bfc8308a13           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__str__","kind":"method","src_hash":"32616c752444f1d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"73afd7bfc8308a13"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__str__","kind":"method","src_hash":"32616c752444f1d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"str(self._parent.to_sympy(self))","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns str(self._parent.to_sympy(self))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"73afd7bfc8308a13","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"str(self._parent.to_sympy(self))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._parent"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return str(self._parent.to_sympy(self))
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_xy(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_get_xy(cls, other), <unspecified:_get_xy>) over {Any | hasattr(other, 'x') and hasattr(other, 'y')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_xy : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'x')                            ║
+# ║   requires: hasattr(other, 'y')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_xy : {Any | hasattr(other, 'x') and hasattr(othe...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac7f445f69483369  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement._get_xy","kind":"classmethod","src_hash":"da5e57829b178030","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_xy(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_xy_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.gaussiandomains.GaussianElement._get_xy_correct","statement":"Path(_get_xy(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac7f445f69483369"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement._get_xy","kind":"classmethod","src_hash":"da5e57829b178030","in":{"base":"Any","pred":"hasattr(other, 'x') and hasattr(other, 'y')"},"out":{"base":"Any"},"spec":{"lhs":"_get_xy(cls, other)","rhs":"<unspecified:_get_xy>","over":{"base":"Any","pred":"hasattr(other, 'x') and hasattr(other, 'y')"},"name":"_get_xy_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.gaussiandomains.GaussianElement._get_xy_correct","statement":"Path(_get_xy(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac7f445f69483369","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'x')","hasattr(other, 'y')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._parent","other.x","other.y"],"catches":["CoercionFailed"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_xy(cls, other):
         if not isinstance(other, cls):
             try:
@@ -221,16 +303,25 @@ class GaussianElement(DomainElement):
         return other.x, other.y
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), result == (self.new(self.x + x, self.y + y) if x is not None else NotImplemented) and result == self.new(self.x + x, self.y + y) or result == NotImplemented) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __add__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self.new(self.x + x, self.y + ...   ║
+# ║   ensures:  result == self.new(self.x + x, self.y + y...   ║
+# ║   fiber[case_0]: x is not None => self.new(self.x + x...   ║
+# ║   fiber[case_1]: not (x is not None) => NotImplemented     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __add__ : Any → {Any | result satisfies: result == (s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4d5637f017593a04           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__add__","kind":"method","src_hash":"b5019c4715175d2b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d5637f017593a04"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__add__","kind":"method","src_hash":"b5019c4715175d2b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self.new(self.x + x, self.y + y) if x is not None else NotImplemented) and result == self.new(self.x + x, self.y + y) or result == NotImplemented"},"spec":{"lhs":"__add__(other)","rhs":"result == (self.new(self.x + x, self.y + y) if x is not None else NotImplemented) and result == self.new(self.x + x, self.y + y) or result == NotImplemented","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"result == (self.new(self.x + x, self.y + y) if x is not None else NotImplemented); result == self.new(self.x + x, self.y + y) or result == NotImplemented; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d5637f017593a04","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self.new(self.x + x, self.y + y) if x is not None else NotImplemented)","result == self.new(self.x + x, self.y + y) or result == NotImplemented"],"fibers":[{"name":"case_0","guard":"x is not None","ensures":["result == self.new(self.x + x, self.y + y)"],"decidability":"library","returns_expr":"self.new(self.x + x, self.y + y)"},{"name":"case_1","guard":"not (x is not None)","ensures":["result == NotImplemented"],"decidability":"library","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._get_xy","self.new","self.x","self.y"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
         x, y = self._get_xy(other)
         if x is not None:
@@ -241,16 +332,25 @@ class GaussianElement(DomainElement):
     __radd__ = __add__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__sub__(other), result == (self.new(self.x - x, self.y - y) if x is not None else NotImplemented) and result == self.new(self.x - x, self.y - y) or result == NotImplemented) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __sub__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self.new(self.x - x, self.y - ...   ║
+# ║   ensures:  result == self.new(self.x - x, self.y - y...   ║
+# ║   fiber[case_0]: x is not None => self.new(self.x - x...   ║
+# ║   fiber[case_1]: not (x is not None) => NotImplemented     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __sub__ : Any → {Any | result satisfies: result == (s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2a699b91cec57a4d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__sub__","kind":"method","src_hash":"15a1cf4df849b711","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2a699b91cec57a4d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__sub__","kind":"method","src_hash":"15a1cf4df849b711","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self.new(self.x - x, self.y - y) if x is not None else NotImplemented) and result == self.new(self.x - x, self.y - y) or result == NotImplemented"},"spec":{"lhs":"__sub__(other)","rhs":"result == (self.new(self.x - x, self.y - y) if x is not None else NotImplemented) and result == self.new(self.x - x, self.y - y) or result == NotImplemented","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"result == (self.new(self.x - x, self.y - y) if x is not None else NotImplemented); result == self.new(self.x - x, self.y - y) or result == NotImplemented; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2a699b91cec57a4d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self.new(self.x - x, self.y - y) if x is not None else NotImplemented)","result == self.new(self.x - x, self.y - y) or result == NotImplemented"],"fibers":[{"name":"case_0","guard":"x is not None","ensures":["result == self.new(self.x - x, self.y - y)"],"decidability":"library","returns_expr":"self.new(self.x - x, self.y - y)"},{"name":"case_1","guard":"not (x is not None)","ensures":["result == NotImplemented"],"decidability":"library","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._get_xy","self.new","self.x","self.y"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(self, other):
         x, y = self._get_xy(other)
         if x is not None:
@@ -259,16 +359,25 @@ class GaussianElement(DomainElement):
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rsub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rsub__(other), result == (self.new(x - self.x, y - self.y) if x is not None else NotImplemented) and result == self.new(x - self.x, y - self.y) or result == NotImplemented) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __rsub__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self.new(x - self.x, y - self....   ║
+# ║   ensures:  result == self.new(x - self.x, y - self.y...   ║
+# ║   fiber[case_0]: x is not None => self.new(x - self.x...   ║
+# ║   fiber[case_1]: not (x is not None) => NotImplemented     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __rsub__ : Any → {Any | result satisfies: result == (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ff122a1a30a710a4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__rsub__","kind":"method","src_hash":"2401ce6a5ba59192","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ff122a1a30a710a4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__rsub__","kind":"method","src_hash":"2401ce6a5ba59192","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self.new(x - self.x, y - self.y) if x is not None else NotImplemented) and result == self.new(x - self.x, y - self.y) or result == NotImplemented"},"spec":{"lhs":"__rsub__(other)","rhs":"result == (self.new(x - self.x, y - self.y) if x is not None else NotImplemented) and result == self.new(x - self.x, y - self.y) or result == NotImplemented","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"result == (self.new(x - self.x, y - self.y) if x is not None else NotImplemented); result == self.new(x - self.x, y - self.y) or result == NotImplemented; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ff122a1a30a710a4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self.new(x - self.x, y - self.y) if x is not None else NotImplemented)","result == self.new(x - self.x, y - self.y) or result == NotImplemented"],"fibers":[{"name":"case_0","guard":"x is not None","ensures":["result == self.new(x - self.x, y - self.y)"],"decidability":"library","returns_expr":"self.new(x - self.x, y - self.y)"},{"name":"case_1","guard":"not (x is not None)","ensures":["result == NotImplemented"],"decidability":"library","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._get_xy","self.new","self.x","self.y"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rsub__(self, other):
         x, y = self._get_xy(other)
         if x is not None:
@@ -277,16 +386,25 @@ class GaussianElement(DomainElement):
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), result == (self.new(self.x * x - self.y * y, self.x * y + self.y * x) if x is not None else NotImplemented) and result == self.new(self.x * x - self.y * y, self.x * y + self.y * x) or result == NotImplemented) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __mul__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self.new(self.x * x - self.y *...   ║
+# ║   ensures:  result == self.new(self.x * x - self.y * ...   ║
+# ║   fiber[case_0]: x is not None => self.new(self.x * x...   ║
+# ║   fiber[case_1]: not (x is not None) => NotImplemented     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __mul__ : Any → {Any | result satisfies: result == (s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 143e6208404e58af           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__mul__","kind":"method","src_hash":"bcc5ff71c4580095","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"143e6208404e58af"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__mul__","kind":"method","src_hash":"bcc5ff71c4580095","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self.new(self.x * x - self.y * y, self.x * y + self.y * x) if x is not None else NotImplemented) and result == self.new(self.x * x - self.y * y, self.x * y + self.y * x) or result == NotImplemented"},"spec":{"lhs":"__mul__(other)","rhs":"result == (self.new(self.x * x - self.y * y, self.x * y + self.y * x) if x is not None else NotImplemented) and result == self.new(self.x * x - self.y * y, self.x * y + self.y * x) or result == NotImplemented","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"result == (self.new(self.x * x - self.y * y, self.x * y + self.y * x) if x is not None else NotImplemented); result == self.new(self.x * x - self.y * y, self.x * y + self.y * x) or result == NotImplemented; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"143e6208404e58af","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self.new(self.x * x - self.y * y, self.x * y + self.y * x) if x is not None else NotImplemented)","result == self.new(self.x * x - self.y * y, self.x * y + self.y * x) or result == NotImplemented"],"fibers":[{"name":"case_0","guard":"x is not None","ensures":["result == self.new(self.x * x - self.y * y, self.x * y + self.y * x)"],"decidability":"library","returns_expr":"self.new(self.x * x - self.y * y, self.x * y + self.y * x)"},{"name":"case_1","guard":"not (x is not None)","ensures":["result == NotImplemented"],"decidability":"library","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._get_xy","self.new","self.x","self.y"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
         x, y = self._get_xy(other)
         if x is not None:
@@ -297,16 +415,22 @@ class GaussianElement(DomainElement):
     __rmul__ = __mul__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__pow__(exp), internal helper behaves correctly) over Any ║
+# ║ Path(__pow__(exp), <unspecified:__pow__>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __pow__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 605a12a8943d845c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__pow__","kind":"method","src_hash":"2be447e0a8ebb807","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"605a12a8943d845c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__pow__","kind":"method","src_hash":"2be447e0a8ebb807","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(exp)","rhs":"<unspecified:__pow__>","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"605a12a8943d845c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._parent","self.new"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __pow__(self, exp):
         if exp == 0:
             return self.new(1, 0)
@@ -325,30 +449,46 @@ class GaussianElement(DomainElement):
         return prod
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__bool__(), correctly converts to boolean) over Any   ║
+# ║ Path(__bool__(), bool(self.x) or bool(self.y)) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  bool(self.x) or bool(self.y)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __bool__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dfb34fff091f81b6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__bool__","kind":"method","src_hash":"1261c36c807ba4b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__bool__()","rhs":"correctly converts to boolean","over":{"base":"Any"},"name":"__bool___correct"},"guarantee":"correctly converts to boolean","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dfb34fff091f81b6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__bool__","kind":"method","src_hash":"1261c36c807ba4b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__bool__()","rhs":"bool(self.x) or bool(self.y)","over":{"base":"Any"},"name":"__bool___correct"},"guarantee":"returns bool(self.x) or bool(self.y)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dfb34fff091f81b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"bool(self.x) or bool(self.y)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.x","self.y"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __bool__(self):
         return bool(self.x) or bool(self.y)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(quadrant(), return quadrant index 0-3) over Any       ║
+# ║ Path(quadrant(), result == (0 if self.x > 0 else 1 if self.y > 0 else 2 if self.x < 0 else 3 if self.y < 0 else 0 if self.x >= 0 else 2) and result == 0 if self.x > 0 else 1 or result == 2 if self.x < 0 else 3 or result == 0 if self.x >= 0 else 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ quadrant : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (0 if self.x > 0 else 1 if self...   ║
+# ║   ensures:  result == 0 if self.x > 0 else 1 or resul...   ║
+# ║   fiber[positive]: self.y > 0 => 0 if self.x > 0 else 1    ║
+# ║   fiber[negative]: self.y < 0 => 2 if self.x < 0 else 3    ║
+# ║   fiber[positive]: not (self.y > 0) and not (self.y <...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ quadrant : Any → {Any | result satisfies: result == (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da009161d02e9a3e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bdcceca245930bae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.quadrant","kind":"method","src_hash":"dfd086e68e3274bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quadrant()","rhs":"return quadrant index 0-3","over":{"base":"Any"},"name":"quadrant_correct"},"guarantee":"return quadrant index 0-3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.gaussiandomains.GaussianElement.quadrant_correct","statement":"Path(quadrant(x), return quadrant index 0-3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da009161d02e9a3e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.quadrant","kind":"method","src_hash":"dfd086e68e3274bd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (0 if self.x > 0 else 1 if self.y > 0 else 2 if self.x < 0 else 3 if self.y < 0 else 0 if self.x >= 0 else 2) and result == 0 if self.x > 0 else 1 or result == 2 if self.x < 0 else 3 or result == 0 if self.x >= 0 else 2"},"spec":{"lhs":"quadrant()","rhs":"result == (0 if self.x > 0 else 1 if self.y > 0 else 2 if self.x < 0 else 3 if self.y < 0 else 0 if self.x >= 0 else 2) and result == 0 if self.x > 0 else 1 or result == 2 if self.x < 0 else 3 or result == 0 if self.x >= 0 else 2","over":{"base":"Any"},"name":"quadrant_correct"},"guarantee":"result == (0 if self.x > 0 else 1 if self.y > 0 else 2 if self.x < 0 else 3 if self.y < 0 else 0 if self.x >= 0 else 2); result == 0 if self.x > 0 else 1 or result == 2 if self.x < 0 else 3 or result == 0 if self.x >= 0 else 2; 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.gaussiandomains.GaussianElement.quadrant_correct","statement":"Path(quadrant(x), result == (0 if self.x > 0 else 1 if self.y > 0 else 2 if self.x < 0 else 3 if self.y < 0 else 0 if self.x >= 0 else 2); result == 0 if self.x > 0 else 1 or result == 2 if self.x < 0 else 3 or result == 0 if self.x >= 0 else 2; 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bdcceca245930bae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (0 if self.x > 0 else 1 if self.y > 0 else 2 if self.x < 0 else 3 if self.y < 0 else 0 if self.x >= 0 else 2)","result == 0 if self.x > 0 else 1 or result == 2 if self.x < 0 else 3 or result == 0 if self.x >= 0 else 2"],"fibers":[{"name":"positive","guard":"self.y > 0","ensures":["result == 0 if self.x > 0 else 1"],"decidability":"z3","returns_expr":"0 if self.x > 0 else 1"},{"name":"negative","guard":"self.y < 0","ensures":["result == 2 if self.x < 0 else 3"],"decidability":"z3","returns_expr":"2 if self.x < 0 else 3"},{"name":"positive","guard":"not (self.y > 0) and not (self.y < 0)","ensures":["result == 0 if self.x >= 0 else 2"],"decidability":"z3","returns_expr":"0 if self.x >= 0 else 2"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.x","self.y"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def quadrant(self):
         """Return quadrant index 0-3.
 
@@ -362,16 +502,23 @@ class GaussianElement(DomainElement):
             return 0 if self.x >= 0 else 2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rdivmod__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rdivmod__(other), <unspecified:__rdivmod__>) over {Any | hasattr(other, '__divmod__')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __rdivmod__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, '__divmod__')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __rdivmod__ : {Any | hasattr(other, '__divmod__')} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cc2d9b6e21d99844           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__rdivmod__","kind":"method","src_hash":"e49abdb44718d2a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rdivmod__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rdivmod___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc2d9b6e21d99844"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__rdivmod__","kind":"method","src_hash":"e49abdb44718d2a7","in":{"base":"Any","pred":"hasattr(other, '__divmod__')"},"out":{"base":"Any"},"spec":{"lhs":"__rdivmod__(other)","rhs":"<unspecified:__rdivmod__>","over":{"base":"Any","pred":"hasattr(other, '__divmod__')"},"name":"__rdivmod___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc2d9b6e21d99844","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, '__divmod__')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.__divmod__","self._parent"],"catches":["CoercionFailed"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rdivmod__(self, other):
         try:
             other = self._parent.convert(other)
@@ -381,16 +528,23 @@ class GaussianElement(DomainElement):
             return other.__divmod__(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rtruediv__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rtruediv__(other), <unspecified:__rtruediv__>) over {Any | hasattr(other, '__truediv__')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __rtruediv__ : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, '__truediv__')                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __rtruediv__ : {Any | hasattr(other, '__truediv__')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c4dfb8115409ec9b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__rtruediv__","kind":"method","src_hash":"706c37fe0d83271b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rtruediv__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rtruediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c4dfb8115409ec9b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__rtruediv__","kind":"method","src_hash":"706c37fe0d83271b","in":{"base":"Any","pred":"hasattr(other, '__truediv__')"},"out":{"base":"Any"},"spec":{"lhs":"__rtruediv__(other)","rhs":"<unspecified:__rtruediv__>","over":{"base":"Any","pred":"hasattr(other, '__truediv__')"},"name":"__rtruediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c4dfb8115409ec9b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, '__truediv__')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.__truediv__"],"catches":["CoercionFailed"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rtruediv__(self, other):
         try:
             other = QQ_I.convert(other)
@@ -400,61 +554,85 @@ class GaussianElement(DomainElement):
             return other.__truediv__(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__floordiv__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__floordiv__(other), qr if qr is NotImplemented else qr[0]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  qr if qr is NotImplemented else qr[0]          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __floordiv__ : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6ea06056de58c909           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__floordiv__","kind":"method","src_hash":"74747b38a4d5de2f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__floordiv__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__floordiv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6ea06056de58c909"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__floordiv__","kind":"method","src_hash":"74747b38a4d5de2f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__floordiv__(other)","rhs":"qr if qr is NotImplemented else qr[0]","over":{"base":"Any"},"name":"__floordiv___correct"},"guarantee":"returns qr if qr is NotImplemented else qr[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6ea06056de58c909","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"qr if qr is NotImplemented else qr[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.__divmod__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __floordiv__(self, other):
         qr = self.__divmod__(other)
         return qr if qr is NotImplemented else qr[0]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rfloordiv__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rfloordiv__(other), qr if qr is NotImplemented else qr[0]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  qr if qr is NotImplemented else qr[0]          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rfloordiv__ : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 43f21740398d7834           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__rfloordiv__","kind":"method","src_hash":"840b6e7415def1c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rfloordiv__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rfloordiv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"43f21740398d7834"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__rfloordiv__","kind":"method","src_hash":"840b6e7415def1c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rfloordiv__(other)","rhs":"qr if qr is NotImplemented else qr[0]","over":{"base":"Any"},"name":"__rfloordiv___correct"},"guarantee":"returns qr if qr is NotImplemented else qr[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"43f21740398d7834","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"qr if qr is NotImplemented else qr[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.__rdivmod__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rfloordiv__(self, other):
         qr = self.__rdivmod__(other)
         return qr if qr is NotImplemented else qr[0]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mod__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__mod__(other), qr if qr is NotImplemented else qr[1]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  qr if qr is NotImplemented else qr[1]          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __mod__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 54cdb96ac667c57d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__mod__","kind":"method","src_hash":"7395196161cf27f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mod__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__mod___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"54cdb96ac667c57d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__mod__","kind":"method","src_hash":"7395196161cf27f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mod__(other)","rhs":"qr if qr is NotImplemented else qr[1]","over":{"base":"Any"},"name":"__mod___correct"},"guarantee":"returns qr if qr is NotImplemented else qr[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"54cdb96ac667c57d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"qr if qr is NotImplemented else qr[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.__divmod__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mod__(self, other):
         qr = self.__divmod__(other)
         return qr if qr is NotImplemented else qr[1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rmod__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rmod__(other), qr if qr is NotImplemented else qr[1]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  qr if qr is NotImplemented else qr[1]          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rmod__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ad054bc258fca562           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__rmod__","kind":"method","src_hash":"e83fac488e466ba4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmod__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rmod___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ad054bc258fca562"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianElement.__rmod__","kind":"method","src_hash":"e83fac488e466ba4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmod__(other)","rhs":"qr if qr is NotImplemented else qr[1]","over":{"base":"Any"},"name":"__rmod___correct"},"guarantee":"returns qr if qr is NotImplemented else qr[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ad054bc258fca562","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"qr if qr is NotImplemented else qr[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.__rdivmod__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rmod__(self, other):
         qr = self.__rdivmod__(other)
         return qr if qr is NotImplemented else qr[1]
@@ -463,14 +641,20 @@ class GaussianElement(DomainElement):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(GaussianInteger(*args), correctly constructs a GaussianInteger instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ GaussianInteger : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, GaussianElement)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ GaussianInteger : Any → {Any | result satisfies: isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a23e01ba2ba950ee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianInteger","kind":"class","src_hash":"8468bf89e7f1a634","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"GaussianInteger(*args)","rhs":"correctly constructs a GaussianInteger instance","over":{"base":"Any"},"name":"GaussianInteger_class_invariant"},"guarantee":"correctly constructs a GaussianInteger instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a23e01ba2ba950ee"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianInteger","kind":"class","src_hash":"8468bf89e7f1a634","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, GaussianElement)"},"spec":{"lhs":"GaussianInteger(*args)","rhs":"correctly constructs a GaussianInteger instance","over":{"base":"Any"},"name":"GaussianInteger_class_invariant"},"guarantee":"isinstance(self, GaussianElement)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a23e01ba2ba950ee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, GaussianElement)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function GaussianInteger not found in source"]}}
 class GaussianInteger(GaussianElement):
     """Gaussian integer: domain element for :ref:`ZZ_I`
 
@@ -484,31 +668,44 @@ class GaussianInteger(GaussianElement):
     base = ZZ
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__truediv__(oth), return a gaussian rational) over Any ║
+# ║ Path(__truediv__(other), QQ_I.convert(self) / other) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  QQ_I.convert(self) / other                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __truediv__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c9bacb91bfc4f970           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianInteger.__truediv__","kind":"method","src_hash":"03a59bce1cf85260","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(oth)","rhs":"return a gaussian rational","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"return a gaussian rational","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c9bacb91bfc4f970"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianInteger.__truediv__","kind":"method","src_hash":"03a59bce1cf85260","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(other)","rhs":"QQ_I.convert(self) / other","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"returns QQ_I.convert(self) / other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c9bacb91bfc4f970","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"QQ_I.convert(self) / other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __truediv__(self, other):
         """Return a Gaussian rational."""
         return QQ_I.convert(self)/other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__divmod__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__divmod__(other), <unspecified:__divmod__>) over {Any | other} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __divmod__ : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: other                                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __divmod__ : {Any | other} → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 773fd1b176da78ee           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianInteger.__divmod__","kind":"method","src_hash":"5dc8b89cae730f62","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__divmod__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__divmod___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"773fd1b176da78ee"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianInteger.__divmod__","kind":"method","src_hash":"5dc8b89cae730f62","in":{"base":"Any","pred":"other"},"out":{"base":"Any"},"spec":{"lhs":"__divmod__(other)","rhs":"<unspecified:__divmod__>","over":{"base":"Any","pred":"other"},"name":"__divmod___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"773fd1b176da78ee","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["other"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._get_xy","self.x","self.y"],"raises":["ZeroDivisionError"]},"state_contract":{"exceptional_post":{"ZeroDivisionError":["isinstance(raised, ZeroDivisionError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __divmod__(self, other):
         if not other:
             raise ZeroDivisionError('divmod({}, 0)'.format(self))
@@ -536,14 +733,20 @@ class GaussianInteger(GaussianElement):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(GaussianRational(*args), correctly constructs a GaussianRational instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ GaussianRational : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, GaussianElement)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ GaussianRational : Any → {Any | result satisfies: isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f647f2afaf83d29e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianRational","kind":"class","src_hash":"4c8539c0b3f6e297","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"GaussianRational(*args)","rhs":"correctly constructs a GaussianRational instance","over":{"base":"Any"},"name":"GaussianRational_class_invariant"},"guarantee":"correctly constructs a GaussianRational instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f647f2afaf83d29e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianRational","kind":"class","src_hash":"4c8539c0b3f6e297","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, GaussianElement)"},"spec":{"lhs":"GaussianRational(*args)","rhs":"correctly constructs a GaussianRational instance","over":{"base":"Any"},"name":"GaussianRational_class_invariant"},"guarantee":"isinstance(self, GaussianElement)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f647f2afaf83d29e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, GaussianElement)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function GaussianRational not found in source"]}}
 class GaussianRational(GaussianElement):
     """Gaussian rational: domain element for :ref:`QQ_I`
 
@@ -557,16 +760,23 @@ class GaussianRational(GaussianElement):
     base = QQ
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__truediv__(oth), return a gaussian rational) over Any ║
+# ║ Path(__truediv__(other), <unspecified:__truediv__>) over {Any | other} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __truediv__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: other                                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __truediv__ : {Any | other} → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f18cea7beabb6d7e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianRational.__truediv__","kind":"method","src_hash":"1709072e51380481","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(oth)","rhs":"return a gaussian rational","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"return a gaussian rational","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f18cea7beabb6d7e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianRational.__truediv__","kind":"method","src_hash":"1709072e51380481","in":{"base":"Any","pred":"other"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(other)","rhs":"<unspecified:__truediv__>","over":{"base":"Any","pred":"other"},"name":"__truediv___correct"},"guarantee":"return a gaussian rational","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f18cea7beabb6d7e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["other"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._get_xy","self.x","self.y"],"raises":["ZeroDivisionError"]},"state_contract":{"exceptional_post":{"ZeroDivisionError":["isinstance(raised, ZeroDivisionError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __truediv__(self, other):
         """Return a Gaussian rational."""
         if not other:
@@ -580,16 +790,24 @@ class GaussianRational(GaussianElement):
                                 (-self.x*y + self.y*x)/c)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__divmod__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__divmod__(other), <unspecified:__divmod__>) over {Any | other} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __divmod__ : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: other                                          ║
+# ║   fiber[case_0]: not other                                 ║
+# ║   fiber[case_1]: not (not other) => (self / other, QQ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __divmod__ : {Any | other} → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5fb83cf437fac958           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianRational.__divmod__","kind":"method","src_hash":"336533fe7a2cca96","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__divmod__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__divmod___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5fb83cf437fac958"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianRational.__divmod__","kind":"method","src_hash":"336533fe7a2cca96","in":{"base":"Any","pred":"other"},"out":{"base":"Any"},"spec":{"lhs":"__divmod__(other)","rhs":"<unspecified:__divmod__>","over":{"base":"Any","pred":"other"},"name":"__divmod___correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5fb83cf437fac958","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["other"],"fibers":[{"name":"case_0","guard":"not other","ensures":[],"decidability":"library"},{"name":"case_1","guard":"not (not other)","ensures":["result == (self / other, QQ_I.zero)"],"decidability":"library","returns_expr":"(self / other, QQ_I.zero)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._parent"],"raises":["ZeroDivisionError"],"catches":["CoercionFailed"]},"state_contract":{"exceptional_post":{"ZeroDivisionError":["isinstance(raised, ZeroDivisionError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __divmod__(self, other):
         try:
             other = self._parent.convert(other)
@@ -604,14 +822,20 @@ class GaussianRational(GaussianElement):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(GaussianDomain(*args), correctly constructs a GaussianDomain instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ GaussianDomain : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa23e3d35f7be9be  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianDomain","kind":"class","src_hash":"1f184d23bed76646","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"GaussianDomain(*args)","rhs":"correctly constructs a GaussianDomain instance","over":{"base":"Any"},"name":"GaussianDomain_class_invariant"},"guarantee":"correctly constructs a GaussianDomain instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa23e3d35f7be9be"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianDomain","kind":"class","src_hash":"1f184d23bed76646","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"GaussianDomain(*args)","rhs":"correctly constructs a GaussianDomain instance","over":{"base":"Any"},"name":"GaussianDomain_class_invariant"},"guarantee":"correctly constructs a GaussianDomain instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa23e3d35f7be9be","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function GaussianDomain not found in source"]}}
 class GaussianDomain():
     """Base class for Gaussian domains."""
     dom: Domain
@@ -623,32 +847,47 @@ class GaussianDomain():
     has_assoc_Field = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_sympy(a), id) over Any                             ║
+# ║ Path(to_sympy(a), id) over {Any | hasattr(a, 'x') and hasattr(a, 'y')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ to_sympy : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'x')                                ║
+# ║   requires: hasattr(a, 'y')                                ║
+# ║   returns:  conv(a.x) + I * conv(a.y)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ to_sympy : {Any | hasattr(a, 'x') and hasattr(a, 'y')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f2d534c07b77f84b   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianDomain.to_sympy","kind":"method","src_hash":"543427c1df83b848","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_sympy(a)","rhs":"convert ``a`` to a sympy object","over":{"base":"Any"},"name":"to_sympy_correct","kind":"composition"},"guarantee":"convert ``a`` to a sympy object","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"conv","by":"library_axiom"},{"fn":"conv","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2d534c07b77f84b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianDomain.to_sympy","kind":"method","src_hash":"543427c1df83b848","in":{"base":"Any","pred":"hasattr(a, 'x') and hasattr(a, 'y')"},"out":{"base":"Any"},"spec":{"lhs":"to_sympy(a)","rhs":"conv(a.x) + I * conv(a.y)","over":{"base":"Any","pred":"hasattr(a, 'x') and hasattr(a, 'y')"},"name":"to_sympy_correct","kind":"composition"},"guarantee":"returns conv(a.x) + I * conv(a.y)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"conv","by":"library_axiom"},{"fn":"conv","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2d534c07b77f84b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'x')","hasattr(a, 'y')"],"returns_expr":"conv(a.x) + I * conv(a.y)","pure":false,"effects":{"effect_type":"reads_state","reads":["a.x","a.y","self.dom"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_sympy(self, a):
         """Convert ``a`` to a SymPy object. """
         conv = self.dom.to_sympy
         return conv(a.x) + I*conv(a.y)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_sympy(a), convert a sympy object to ``self.dtype``) over Any ║
+# ║ Path(from_sympy(a), <unspecified:from_sympy>) over {Any | hasattr(a, 'as_coeff_Add')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_sympy : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(a, 'as_coeff_Add')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_sympy : {Any | hasattr(a, 'as_coeff_Add')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93d98391fe410629  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianDomain.from_sympy","kind":"method","src_hash":"05302e527d4ba969","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_sympy(a)","rhs":"convert a sympy object to ``self.dtype``","over":{"base":"Any"},"name":"from_sympy_correct"},"guarantee":"convert a sympy object to ``self.dtype``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.gaussiandomains.GaussianDomain.from_sympy_correct","statement":"Path(from_sympy(x), convert a sympy object to ``self.dtype``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93d98391fe410629"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianDomain.from_sympy","kind":"method","src_hash":"05302e527d4ba969","in":{"base":"Any","pred":"hasattr(a, 'as_coeff_Add')"},"out":{"base":"Any"},"spec":{"lhs":"from_sympy(a)","rhs":"<unspecified:from_sympy>","over":{"base":"Any","pred":"hasattr(a, 'as_coeff_Add')"},"name":"from_sympy_correct"},"guarantee":"convert a sympy object to ``self.dtype``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.gaussiandomains.GaussianDomain.from_sympy_correct","statement":"Path(from_sympy(x), convert a sympy object to ``self.dtype``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93d98391fe410629","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(a, 'as_coeff_Add')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.as_coeff_Add","self.dom","self.new"],"raises":["CoercionFailed"]},"state_contract":{"exceptional_post":{"CoercionFailed":["isinstance(raised, CoercionFailed)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_sympy(self, a):
         """Convert a SymPy object to ``self.dtype``."""
         r, b = a.as_coeff_Add()
@@ -663,196 +902,278 @@ class GaussianDomain():
             raise CoercionFailed("{} is not Gaussian".format(a))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inject(*ge), inject generators into this domain) over Any ║
+# ║ Path(inject(*gens), self.poly_ring(*gens)) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.poly_ring(*gens)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ inject : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 90b6d57c3cde2d1f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianDomain.inject","kind":"method","src_hash":"16657041d4004171","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inject(*ge)","rhs":"inject generators into this domain","over":{"base":"Any"},"name":"inject_correct"},"guarantee":"inject generators into this domain","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"90b6d57c3cde2d1f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianDomain.inject","kind":"method","src_hash":"16657041d4004171","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inject(*gens)","rhs":"self.poly_ring(*gens)","over":{"base":"Any"},"name":"inject_correct"},"guarantee":"returns self.poly_ring(*gens)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"90b6d57c3cde2d1f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.poly_ring(*gens)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.poly_ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def inject(self, *gens):
         """Inject generators into this domain. """
         return self.poly_ring(*gens)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(canonical_unit(d), canonical_unit produces the expected output) over Any ║
+# ║ Path(canonical_unit(d), <unspecified:canonical_unit>) over {Any | hasattr(d, 'quadrant')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ canonical_unit : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(d, 'quadrant')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ canonical_unit : {Any | hasattr(d, 'quadrant')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24d4876a617071d6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianDomain.canonical_unit","kind":"method","src_hash":"96f26518dac40b3d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"canonical_unit(d)","rhs":"canonical_unit produces the expected output","over":{"base":"Any"},"name":"canonical_unit_correct"},"guarantee":"canonical_unit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.gaussiandomains.GaussianDomain.canonical_unit_correct","statement":"Path(canonical_unit(x), canonical_unit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24d4876a617071d6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianDomain.canonical_unit","kind":"method","src_hash":"96f26518dac40b3d","in":{"base":"Any","pred":"hasattr(d, 'quadrant')"},"out":{"base":"Any"},"spec":{"lhs":"canonical_unit(d)","rhs":"<unspecified:canonical_unit>","over":{"base":"Any","pred":"hasattr(d, 'quadrant')"},"name":"canonical_unit_correct"},"guarantee":"canonical_unit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.gaussiandomains.GaussianDomain.canonical_unit_correct","statement":"Path(canonical_unit(x), canonical_unit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24d4876a617071d6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(d, 'quadrant')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["d.quadrant","self.units"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def canonical_unit(self, d):
         unit = self.units[-d.quadrant()]  # - for inverse power
         return unit
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_negative(ele), returns ``false`` for any ``gaussianelement``) over Any ║
+# ║ Path(is_negative(element), False) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  False                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_negative : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | edafc52e86c3a194           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianDomain.is_negative","kind":"method","src_hash":"3733a1ecedebe9a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_negative(ele)","rhs":"returns ``false`` for any ``gaussianelement``","over":{"base":"Any"},"name":"is_negative_correct"},"guarantee":"returns ``false`` for any ``gaussianelement``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"edafc52e86c3a194"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianDomain.is_negative","kind":"method","src_hash":"3733a1ecedebe9a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_negative(element)","rhs":"False","over":{"base":"Any"},"name":"is_negative_correct"},"guarantee":"returns False","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"edafc52e86c3a194","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"False","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_negative(self, element):
         """Returns ``False`` for any ``GaussianElement``. """
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_positive(ele), returns ``false`` for any ``gaussianelement``) over Any ║
+# ║ Path(is_positive(element), False) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  False                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_positive : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 576830b966be1b30           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianDomain.is_positive","kind":"method","src_hash":"dfa1c1fceef8b8a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_positive(ele)","rhs":"returns ``false`` for any ``gaussianelement``","over":{"base":"Any"},"name":"is_positive_correct"},"guarantee":"returns ``false`` for any ``gaussianelement``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"576830b966be1b30"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianDomain.is_positive","kind":"method","src_hash":"dfa1c1fceef8b8a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_positive(element)","rhs":"False","over":{"base":"Any"},"name":"is_positive_correct"},"guarantee":"returns False","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"576830b966be1b30","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"False","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_positive(self, element):
         """Returns ``False`` for any ``GaussianElement``. """
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_nonnegative(ele), returns ``false`` for any ``gaussianelement``) over Any ║
+# ║ Path(is_nonnegative(element), False) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  False                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_nonnegative : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 002283c0df3b2231           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianDomain.is_nonnegative","kind":"method","src_hash":"b25658de2607af7c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_nonnegative(ele)","rhs":"returns ``false`` for any ``gaussianelement``","over":{"base":"Any"},"name":"is_nonnegative_correct"},"guarantee":"returns ``false`` for any ``gaussianelement``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"002283c0df3b2231"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianDomain.is_nonnegative","kind":"method","src_hash":"b25658de2607af7c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_nonnegative(element)","rhs":"False","over":{"base":"Any"},"name":"is_nonnegative_correct"},"guarantee":"returns False","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"002283c0df3b2231","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"False","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_nonnegative(self, element):
         """Returns ``False`` for any ``GaussianElement``. """
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_nonpositive(ele), returns ``false`` for any ``gaussianelement``) over Any ║
+# ║ Path(is_nonpositive(element), False) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  False                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_nonpositive : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9d39b64d50477c7c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianDomain.is_nonpositive","kind":"method","src_hash":"e067048c9777a553","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_nonpositive(ele)","rhs":"returns ``false`` for any ``gaussianelement``","over":{"base":"Any"},"name":"is_nonpositive_correct"},"guarantee":"returns ``false`` for any ``gaussianelement``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9d39b64d50477c7c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianDomain.is_nonpositive","kind":"method","src_hash":"e067048c9777a553","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_nonpositive(element)","rhs":"False","over":{"base":"Any"},"name":"is_nonpositive_correct"},"guarantee":"returns False","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9d39b64d50477c7c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"False","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_nonpositive(self, element):
         """Returns ``False`` for any ``GaussianElement``. """
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_ZZ_gmpy(K1,), convert a gmpy mpz to ``self.dtype``) over Any ║
+# ║ Path(from_ZZ_gmpy(K1, a, K0), K1(a)) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  K1(a)                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_ZZ_gmpy : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 61d01258f113d6f3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianDomain.from_ZZ_gmpy","kind":"method","src_hash":"bf0bb8fded0eaa6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ_gmpy(K1,)","rhs":"convert a gmpy mpz to ``self.dtype``","over":{"base":"Any"},"name":"from_ZZ_gmpy_correct"},"guarantee":"convert a gmpy mpz to ``self.dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"61d01258f113d6f3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianDomain.from_ZZ_gmpy","kind":"method","src_hash":"bf0bb8fded0eaa6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ_gmpy(K1, a, K0)","rhs":"K1(a)","over":{"base":"Any"},"name":"from_ZZ_gmpy_correct"},"guarantee":"returns K1(a)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"61d01258f113d6f3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"K1(a)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_ZZ_gmpy(K1, a, K0):
         """Convert a GMPY mpz to ``self.dtype``."""
         return K1(a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_ZZ(K1,), convert a zz_python element to ``self.dtype``) over Any ║
+# ║ Path(from_ZZ(K1, a, K0), K1(a)) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  K1(a)                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_ZZ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 952f930796515bb3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianDomain.from_ZZ","kind":"method","src_hash":"28d70d2a91b1a9a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ(K1,)","rhs":"convert a zz_python element to ``self.dtype``","over":{"base":"Any"},"name":"from_ZZ_correct"},"guarantee":"convert a zz_python element to ``self.dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"952f930796515bb3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianDomain.from_ZZ","kind":"method","src_hash":"28d70d2a91b1a9a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ(K1, a, K0)","rhs":"K1(a)","over":{"base":"Any"},"name":"from_ZZ_correct"},"guarantee":"returns K1(a)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"952f930796515bb3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"K1(a)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_ZZ(K1, a, K0):
         """Convert a ZZ_python element to ``self.dtype``."""
         return K1(a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_ZZ_python(K1,), convert a zz_python element to ``self.dtype``) over Any ║
+# ║ Path(from_ZZ_python(K1, a, K0), K1(a)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  K1(a)                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_ZZ_python : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1a4e6f32b0af8b99           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianDomain.from_ZZ_python","kind":"method","src_hash":"d7950ac94e4494da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ_python(K1,)","rhs":"convert a zz_python element to ``self.dtype``","over":{"base":"Any"},"name":"from_ZZ_python_correct"},"guarantee":"convert a zz_python element to ``self.dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1a4e6f32b0af8b99"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianDomain.from_ZZ_python","kind":"method","src_hash":"d7950ac94e4494da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ_python(K1, a, K0)","rhs":"K1(a)","over":{"base":"Any"},"name":"from_ZZ_python_correct"},"guarantee":"returns K1(a)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1a4e6f32b0af8b99","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"K1(a)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_ZZ_python(K1, a, K0):
         """Convert a ZZ_python element to ``self.dtype``."""
         return K1(a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_QQ(K1,), convert a gmpy mpq to ``self.dtype``) over Any ║
+# ║ Path(from_QQ(K1, a, K0), K1(a)) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  K1(a)                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_QQ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8ddc94b63bc3a9f5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianDomain.from_QQ","kind":"method","src_hash":"1f31e5dab3195128","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ(K1,)","rhs":"convert a gmpy mpq to ``self.dtype``","over":{"base":"Any"},"name":"from_QQ_correct"},"guarantee":"convert a gmpy mpq to ``self.dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ddc94b63bc3a9f5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianDomain.from_QQ","kind":"method","src_hash":"1f31e5dab3195128","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ(K1, a, K0)","rhs":"K1(a)","over":{"base":"Any"},"name":"from_QQ_correct"},"guarantee":"returns K1(a)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ddc94b63bc3a9f5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"K1(a)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_QQ(K1, a, K0):
         """Convert a GMPY mpq to ``self.dtype``."""
         return K1(a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_QQ_gmpy(K1,), convert a gmpy mpq to ``self.dtype``) over Any ║
+# ║ Path(from_QQ_gmpy(K1, a, K0), K1(a)) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  K1(a)                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_QQ_gmpy : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 81a85080580acc9c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianDomain.from_QQ_gmpy","kind":"method","src_hash":"e6602902810be212","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ_gmpy(K1,)","rhs":"convert a gmpy mpq to ``self.dtype``","over":{"base":"Any"},"name":"from_QQ_gmpy_correct"},"guarantee":"convert a gmpy mpq to ``self.dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"81a85080580acc9c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianDomain.from_QQ_gmpy","kind":"method","src_hash":"e6602902810be212","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ_gmpy(K1, a, K0)","rhs":"K1(a)","over":{"base":"Any"},"name":"from_QQ_gmpy_correct"},"guarantee":"returns K1(a)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"81a85080580acc9c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"K1(a)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_QQ_gmpy(K1, a, K0):
         """Convert a GMPY mpq to ``self.dtype``."""
         return K1(a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_QQ_python(K1,), convert a qq_python element to ``self.dtype``) over Any ║
+# ║ Path(from_QQ_python(K1, a, K0), K1(a)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  K1(a)                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_QQ_python : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cc7e4bd743786208           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianDomain.from_QQ_python","kind":"method","src_hash":"06a80a7b02b72a43","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ_python(K1,)","rhs":"convert a qq_python element to ``self.dtype``","over":{"base":"Any"},"name":"from_QQ_python_correct"},"guarantee":"convert a qq_python element to ``self.dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc7e4bd743786208"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianDomain.from_QQ_python","kind":"method","src_hash":"06a80a7b02b72a43","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ_python(K1, a, K0)","rhs":"K1(a)","over":{"base":"Any"},"name":"from_QQ_python_correct"},"guarantee":"returns K1(a)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc7e4bd743786208","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"K1(a)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_QQ_python(K1, a, K0):
         """Convert a QQ_python element to ``self.dtype``."""
         return K1(a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_AlgebraicField(K1,), id) over Any                ║
+# ║ Path(from_AlgebraicField(K1, a, K0), id) over {Any | hasattr(K1, 'from_sympy') and hasattr(K0, 'ext') and hasattr(K0, 'to_sympy')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_AlgebraicField : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, 'from_sympy')                      ║
+# ║   requires: hasattr(K0, 'ext')                             ║
+# ║   requires: hasattr(K0, 'to_sympy')                        ║
+# ║   returns:  K1.from_sympy(K0.to_sympy(a))                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_AlgebraicField : {Any | hasattr(K1, 'from_sympy'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 46fb28009e175015   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianDomain.from_AlgebraicField","kind":"method","src_hash":"9d55da1416aaa734","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_AlgebraicField(K1,)","rhs":"convert an element from zz<i> or qq<i> to ``self.dtype``","over":{"base":"Any"},"name":"from_AlgebraicField_correct","kind":"composition"},"guarantee":"convert an element from zz<i> or qq<i> to ``self.dtype``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_sympy","by":"library_axiom"},{"fn":"to_sympy","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46fb28009e175015"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianDomain.from_AlgebraicField","kind":"method","src_hash":"9d55da1416aaa734","in":{"base":"Any","pred":"hasattr(K1, 'from_sympy') and hasattr(K0, 'ext') and hasattr(K0, 'to_sympy')"},"out":{"base":"Any"},"spec":{"lhs":"from_AlgebraicField(K1, a, K0)","rhs":"K1.from_sympy(K0.to_sympy(a))","over":{"base":"Any","pred":"hasattr(K1, 'from_sympy') and hasattr(K0, 'ext') and hasattr(K0, 'to_sympy')"},"name":"from_AlgebraicField_correct","kind":"composition"},"guarantee":"returns K1.from_sympy(K0.to_sympy(a))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"from_sympy","by":"library_axiom"},{"fn":"to_sympy","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46fb28009e175015","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, 'from_sympy')","hasattr(K0, 'ext')","hasattr(K0, 'to_sympy')"],"returns_expr":"K1.from_sympy(K0.to_sympy(a))","pure":false,"effects":{"effect_type":"reads_state","reads":["K0.ext","K0.to_sympy","K1.from_sympy"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_AlgebraicField(K1, a, K0):
         """Convert an element from ZZ<I> or QQ<I> to ``self.dtype``."""
         if K0.ext.args[0] == I:
@@ -862,14 +1183,21 @@ class GaussianDomain():
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(GaussianIntegerRing(*args), correctly constructs a GaussianIntegerRing instance) over {Any | isinstance(other, GaussianIntegerRing)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, GaussianDomain)               ║
+# ║   ensures:  isinstance(self, Ring)                         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ GaussianIntegerRing : {Any | isinstance(other, Gaussi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e190cc6982147161  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianIntegerRing","kind":"class","src_hash":"ff0b0871eabc4462","in":{"base":"Any","pred":"isinstance(other, GaussianIntegerRing)"},"out":{"base":"Any"},"spec":{"lhs":"GaussianIntegerRing(*args)","rhs":"correctly constructs a GaussianIntegerRing instance","over":{"base":"Any","pred":"isinstance(other, GaussianIntegerRing)"},"name":"GaussianIntegerRing_class_invariant"},"guarantee":"correctly constructs a GaussianIntegerRing instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e190cc6982147161"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianIntegerRing","kind":"class","src_hash":"ff0b0871eabc4462","in":{"base":"Any","pred":"isinstance(other, GaussianIntegerRing)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, GaussianDomain) and isinstance(self, Ring)"},"spec":{"lhs":"GaussianIntegerRing(*args)","rhs":"correctly constructs a GaussianIntegerRing instance","over":{"base":"Any","pred":"isinstance(other, GaussianIntegerRing)"},"name":"GaussianIntegerRing_class_invariant"},"guarantee":"isinstance(self, GaussianDomain); isinstance(self, Ring)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e190cc6982147161","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, GaussianDomain)","isinstance(self, Ring)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function GaussianIntegerRing not found in source"]}}
 class GaussianIntegerRing(GaussianDomain, Ring):
     r"""Ring of Gaussian integers ``ZZ_I``
 
@@ -985,30 +1313,45 @@ class GaussianIntegerRing(GaussianDomain, Ring):
     is_PID = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(), initializes the instance correctly) over Any ║
+# ║ Path(__init__(), <unspecified:__init__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 47597407b1c099e3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianIntegerRing.__init__","kind":"method","src_hash":"f58533262bda4da7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"47597407b1c099e3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianIntegerRing.__init__","kind":"method","src_hash":"f58533262bda4da7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"47597407b1c099e3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self):  # override Domain.__init__
         """For constructing ZZ_I."""
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), result == (True if isinstance(other, GaussianIntegerRing) else NotImplemented) and result == True or result == NotImplemented) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (True if isinstance(other, Gaus...   ║
+# ║   ensures:  result == True or result == NotImplemented     ║
+# ║   fiber[GaussianIntegerRing]: isinstance(other, Gauss...   ║
+# ║   fiber[GaussianIntegerRing]: not (isinstance(other, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : Any → {Any | result satisfies: result == (Tr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3c833ba62546026c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianIntegerRing.__eq__","kind":"method","src_hash":"57036e85e3e4459d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3c833ba62546026c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianIntegerRing.__eq__","kind":"method","src_hash":"57036e85e3e4459d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (True if isinstance(other, GaussianIntegerRing) else NotImplemented) and result == True or result == NotImplemented"},"spec":{"lhs":"__eq__(other)","rhs":"result == (True if isinstance(other, GaussianIntegerRing) else NotImplemented) and result == True or result == NotImplemented","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"result == (True if isinstance(other, GaussianIntegerRing) else NotImplemented); result == True or result == NotImplemented; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3c833ba62546026c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (True if isinstance(other, GaussianIntegerRing) else NotImplemented)","result == True or result == NotImplemented"],"fibers":[{"name":"GaussianIntegerRing","guard":"isinstance(other, GaussianIntegerRing)","ensures":["result == True"],"decidability":"structural","returns_expr":"True"},{"name":"GaussianIntegerRing","guard":"not (isinstance(other, GaussianIntegerRing))","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         """Returns ``True`` if two domains are equivalent. """
         if isinstance(other, GaussianIntegerRing):
@@ -1017,90 +1360,127 @@ class GaussianIntegerRing(GaussianDomain, Ring):
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), hash('ZZ_I')) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hash('ZZ_I')                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 68023718f7aec475           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianIntegerRing.__hash__","kind":"method","src_hash":"4adfcc54561f372c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"68023718f7aec475"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianIntegerRing.__hash__","kind":"method","src_hash":"4adfcc54561f372c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"hash('ZZ_I')","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns hash('ZZ_I')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"68023718f7aec475","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hash('ZZ_I')","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         """Compute hash code of ``self``. """
         return hash('ZZ_I')
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(has_CharacteristicZero(), returns the has_CharacteristicZero attribute) over Any ║
+# ║ Path(has_CharacteristicZero(), True) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ has_CharacteristicZero : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b9bd43a9732fdeb9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianIntegerRing.has_CharacteristicZero","kind":"property","src_hash":"2532ff9a153c39d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"has_CharacteristicZero()","rhs":"returns the has_CharacteristicZero attribute","over":{"base":"Any"},"name":"has_CharacteristicZero_correct"},"guarantee":"returns the has_CharacteristicZero attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b9bd43a9732fdeb9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianIntegerRing.has_CharacteristicZero","kind":"property","src_hash":"2532ff9a153c39d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"has_CharacteristicZero()","rhs":"True","over":{"base":"Any"},"name":"has_CharacteristicZero_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b9bd43a9732fdeb9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def has_CharacteristicZero(self):
         return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(characteristic(), characteristic produces the expected output) over Any ║
+# ║ Path(characteristic(), 0) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  0                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ characteristic : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8c86a5fd979af718           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianIntegerRing.characteristic","kind":"method","src_hash":"eecb1ca05322511e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"characteristic()","rhs":"characteristic produces the expected output","over":{"base":"Any"},"name":"characteristic_correct"},"guarantee":"characteristic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8c86a5fd979af718"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianIntegerRing.characteristic","kind":"method","src_hash":"eecb1ca05322511e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"characteristic()","rhs":"0","over":{"base":"Any"},"name":"characteristic_correct"},"guarantee":"returns 0","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8c86a5fd979af718","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"0","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def characteristic(self):
         return 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_ring(), returns a ring associated with ``self``) over Any ║
+# ║ Path(get_ring(), self) over Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_ring : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == self                                 ║
+# ║   returns:  self                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_ring : Any → {Any | result satisfies: result == (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5951aa67a115e6db           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianIntegerRing.get_ring","kind":"method","src_hash":"98b5c5983e6f5a36","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_ring()","rhs":"returns a ring associated with ``self``","over":{"base":"Any"},"name":"get_ring_correct"},"guarantee":"returns a ring associated with ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5951aa67a115e6db"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianIntegerRing.get_ring","kind":"method","src_hash":"98b5c5983e6f5a36","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self)"},"spec":{"lhs":"get_ring()","rhs":"self","over":{"base":"Any"},"name":"get_ring_correct"},"guarantee":"returns self; result == self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5951aa67a115e6db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == self"],"returns_expr":"self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_ring(self):
         """Returns a ring associated with ``self``. """
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_field(), returns a field associated with ``self``) over Any ║
+# ║ Path(get_field(), <unspecified:get_field>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_field : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5ff9277a2a5092ff           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianIntegerRing.get_field","kind":"method","src_hash":"63550ef8ec66aab6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_field()","rhs":"returns a field associated with ``self``","over":{"base":"Any"},"name":"get_field_correct"},"guarantee":"returns a field associated with ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5ff9277a2a5092ff"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianIntegerRing.get_field","kind":"method","src_hash":"63550ef8ec66aab6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_field()","rhs":"<unspecified:get_field>","over":{"base":"Any"},"name":"get_field_correct"},"guarantee":"returns a field associated with ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5ff9277a2a5092ff","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_field(self):
         """Returns a field associated with ``self``. """
         return QQ_I
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(normalize(d, ), return first quadrant element associated with ``d``) over Any ║
+# ║ Path(normalize(d, *args), (d,) + args if args else d) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (d,) + args if args else d                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ normalize : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5fba057ce26dea7e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a82413cc2c5beb7a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianIntegerRing.normalize","kind":"method","src_hash":"2bbef5250397037d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"normalize(d, )","rhs":"return first quadrant element associated with ``d``","over":{"base":"Any"},"name":"normalize_correct"},"guarantee":"return first quadrant element associated with ``d``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.gaussiandomains.GaussianIntegerRing.normalize_correct","statement":"Path(normalize(x), return first quadrant element associated with ``d``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5fba057ce26dea7e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianIntegerRing.normalize","kind":"method","src_hash":"2bbef5250397037d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"normalize(d, *args)","rhs":"(d,) + args if args else d","over":{"base":"Any"},"name":"normalize_correct"},"guarantee":"returns (d,) + args if args else d","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.gaussiandomains.GaussianIntegerRing.normalize_correct","statement":"Path(normalize(x), returns (d,) + args if args else d)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a82413cc2c5beb7a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(d,) + args if args else d","pure":false,"effects":{"effect_type":"reads_state","reads":["self.canonical_unit"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def normalize(self, d, *args):
         """Return first quadrant element associated with ``d``.
 
@@ -1112,16 +1492,22 @@ class GaussianIntegerRing(GaussianDomain, Ring):
         return (d,) + args if args else d
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gcd(a, ), greatest common divisor of a and b over zz_i) over Any ║
+# ║ Path(gcd(a, b), self.normalize(a)) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.normalize(a)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gcd : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09d9c552ddb4b323  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a82a5c6f0463df3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianIntegerRing.gcd","kind":"method","src_hash":"9149a0e24c823c9b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gcd(a, )","rhs":"greatest common divisor of a and b over zz_i","over":{"base":"Any"},"name":"gcd_correct"},"guarantee":"greatest common divisor of a and b over zz_i","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.gaussiandomains.GaussianIntegerRing.gcd_correct","statement":"Path(gcd(x), greatest common divisor of a and b over zz_i)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09d9c552ddb4b323"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianIntegerRing.gcd","kind":"method","src_hash":"9149a0e24c823c9b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gcd(a, b)","rhs":"self.normalize(a)","over":{"base":"Any"},"name":"gcd_correct"},"guarantee":"returns self.normalize(a)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.gaussiandomains.GaussianIntegerRing.gcd_correct","statement":"Path(gcd(x), returns self.normalize(a))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a82a5c6f0463df3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.normalize(a)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.normalize"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gcd(self, a, b):
         """Greatest common divisor of a and b over ZZ_I."""
         while b:
@@ -1129,16 +1515,22 @@ class GaussianIntegerRing(GaussianDomain, Ring):
         return self.normalize(a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gcdex(a, ), return x, y, g such that x * a + y * b = g = gcd(a, b)) over Any ║
+# ║ Path(gcdex(a, b), (x_a, y_a, a)) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (x_a, y_a, a)                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gcdex : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 47276c1a0c374e95  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af8710f67d4d5899  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianIntegerRing.gcdex","kind":"method","src_hash":"843156141e776ce7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gcdex(a, )","rhs":"return x, y, g such that x * a + y * b = g = gcd(a, b)","over":{"base":"Any"},"name":"gcdex_correct"},"guarantee":"return x, y, g such that x * a + y * b = g = gcd(a, b)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.gaussiandomains.GaussianIntegerRing.gcdex_correct","statement":"Path(gcdex(x), return x, y, g such that x * a + y * b = g = gcd(a, b))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47276c1a0c374e95"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianIntegerRing.gcdex","kind":"method","src_hash":"843156141e776ce7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gcdex(a, b)","rhs":"(x_a, y_a, a)","over":{"base":"Any"},"name":"gcdex_correct"},"guarantee":"returns (x_a, y_a, a)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.gaussiandomains.GaussianIntegerRing.gcdex_correct","statement":"Path(gcdex(x), returns (x_a, y_a, a))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af8710f67d4d5899","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(x_a, y_a, a)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.normalize","self.one","self.zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gcdex(self, a, b):
         """Return x, y, g such that x * a + y * b = g = gcd(a, b)"""
         x_a = self.one
@@ -1155,46 +1547,68 @@ class GaussianIntegerRing(GaussianDomain, Ring):
         return x_a, y_a, a
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lcm(a, ), least common multiple of a and b over zz_i) over Any ║
+# ║ Path(lcm(a, b), a * b // self.gcd(a, b)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  a * b // self.gcd(a, b)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lcm : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5f39336f33f57c71           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianIntegerRing.lcm","kind":"method","src_hash":"c3662f6d7c7f435f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lcm(a, )","rhs":"least common multiple of a and b over zz_i","over":{"base":"Any"},"name":"lcm_correct"},"guarantee":"least common multiple of a and b over zz_i","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5f39336f33f57c71"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianIntegerRing.lcm","kind":"method","src_hash":"c3662f6d7c7f435f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lcm(a, b)","rhs":"a * b // self.gcd(a, b)","over":{"base":"Any"},"name":"lcm_correct"},"guarantee":"returns a * b // self.gcd(a, b)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5f39336f33f57c71","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"a * b // self.gcd(a, b)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.gcd"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lcm(self, a, b):
         """Least common multiple of a and b over ZZ_I."""
         return (a * b) // self.gcd(a, b)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_GaussianIntegerRing(K1,), convert a zz_i element to zz_i) over Any ║
+# ║ Path(from_GaussianIntegerRing(K1, a, K0), a) over Any      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_GaussianIntegerRing : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == a                                    ║
+# ║   returns:  a                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_GaussianIntegerRing : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cf39992f05816ffe           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianIntegerRing.from_GaussianIntegerRing","kind":"method","src_hash":"3b3a4787a876eb1a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_GaussianIntegerRing(K1,)","rhs":"convert a zz_i element to zz_i","over":{"base":"Any"},"name":"from_GaussianIntegerRing_correct"},"guarantee":"convert a zz_i element to zz_i","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cf39992f05816ffe"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianIntegerRing.from_GaussianIntegerRing","kind":"method","src_hash":"3b3a4787a876eb1a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (a)"},"spec":{"lhs":"from_GaussianIntegerRing(K1, a, K0)","rhs":"a","over":{"base":"Any"},"name":"from_GaussianIntegerRing_correct"},"guarantee":"returns a; result == a","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cf39992f05816ffe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == a"],"returns_expr":"a","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_GaussianIntegerRing(K1, a, K0):
         """Convert a ZZ_I element to ZZ_I."""
         return a
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_GaussianRationalField(K1,), convert a qq_i element to zz_i) over Any ║
+# ║ Path(from_GaussianRationalField(K1, a, K0), K1.new(ZZ.convert(a.x), ZZ.convert(a.y))) over {Any | hasattr(K1, 'new') and hasattr(a, 'x') and hasattr(a, 'y')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_GaussianRationalField : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, 'new')                             ║
+# ║   requires: hasattr(a, 'x')                                ║
+# ║   requires: hasattr(a, 'y')                                ║
+# ║   returns:  K1.new(ZZ.convert(a.x), ZZ.convert(a.y))       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_GaussianRationalField : {Any | hasattr(K1, 'new'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 34ddfa1ffda0c378           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianIntegerRing.from_GaussianRationalField","kind":"method","src_hash":"ec6449efd2e87a6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_GaussianRationalField(K1,)","rhs":"convert a qq_i element to zz_i","over":{"base":"Any"},"name":"from_GaussianRationalField_correct"},"guarantee":"convert a qq_i element to zz_i","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"34ddfa1ffda0c378"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianIntegerRing.from_GaussianRationalField","kind":"method","src_hash":"ec6449efd2e87a6d","in":{"base":"Any","pred":"hasattr(K1, 'new') and hasattr(a, 'x') and hasattr(a, 'y')"},"out":{"base":"Any"},"spec":{"lhs":"from_GaussianRationalField(K1, a, K0)","rhs":"K1.new(ZZ.convert(a.x), ZZ.convert(a.y))","over":{"base":"Any","pred":"hasattr(K1, 'new') and hasattr(a, 'x') and hasattr(a, 'y')"},"name":"from_GaussianRationalField_correct"},"guarantee":"returns K1.new(ZZ.convert(a.x), ZZ.convert(a.y))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"34ddfa1ffda0c378","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, 'new')","hasattr(a, 'x')","hasattr(a, 'y')"],"returns_expr":"K1.new(ZZ.convert(a.x), ZZ.convert(a.y))","pure":false,"effects":{"effect_type":"reads_state","reads":["K1.new","a.x","a.y"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_GaussianRationalField(K1, a, K0):
         """Convert a QQ_I element to ZZ_I."""
         return K1.new(ZZ.convert(a.x), ZZ.convert(a.y))
@@ -1205,14 +1619,21 @@ ZZ_I = GaussianInteger._parent = GaussianIntegerRing()
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(GaussianRationalField(*args), correctly constructs a GaussianRationalField instance) over {Any | isinstance(other, GaussianRationalField)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, GaussianDomain)               ║
+# ║   ensures:  isinstance(self, Field)                        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ GaussianRationalField : {Any | isinstance(other, Gaus...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 50c07badcc5190cd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianRationalField","kind":"class","src_hash":"485861f9878ffd32","in":{"base":"Any","pred":"isinstance(other, GaussianRationalField)"},"out":{"base":"Any"},"spec":{"lhs":"GaussianRationalField(*args)","rhs":"correctly constructs a GaussianRationalField instance","over":{"base":"Any","pred":"isinstance(other, GaussianRationalField)"},"name":"GaussianRationalField_class_invariant"},"guarantee":"correctly constructs a GaussianRationalField instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50c07badcc5190cd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianRationalField","kind":"class","src_hash":"485861f9878ffd32","in":{"base":"Any","pred":"isinstance(other, GaussianRationalField)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, GaussianDomain) and isinstance(self, Field)"},"spec":{"lhs":"GaussianRationalField(*args)","rhs":"correctly constructs a GaussianRationalField instance","over":{"base":"Any","pred":"isinstance(other, GaussianRationalField)"},"name":"GaussianRationalField_class_invariant"},"guarantee":"isinstance(self, GaussianDomain); isinstance(self, Field)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50c07badcc5190cd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, GaussianDomain)","isinstance(self, Field)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function GaussianRationalField not found in source"]}}
 class GaussianRationalField(GaussianDomain, Field):
     r"""Field of Gaussian rationals ``QQ_I``
 
@@ -1344,30 +1765,45 @@ class GaussianRationalField(GaussianDomain, Field):
     is_QQ_I = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(), initializes the instance correctly) over Any ║
+# ║ Path(__init__(), <unspecified:__init__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 84406a030ca2f037           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianRationalField.__init__","kind":"method","src_hash":"149bd3b7f92bc342","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"84406a030ca2f037"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianRationalField.__init__","kind":"method","src_hash":"149bd3b7f92bc342","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"84406a030ca2f037","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self):  # override Domain.__init__
         """For constructing QQ_I."""
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), result == (True if isinstance(other, GaussianRationalField) else NotImplemented) and result == True or result == NotImplemented) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (True if isinstance(other, Gaus...   ║
+# ║   ensures:  result == True or result == NotImplemented     ║
+# ║   fiber[GaussianRationalField]: isinstance(other, Gau...   ║
+# ║   fiber[GaussianRationalField]: not (isinstance(other...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : Any → {Any | result satisfies: result == (Tr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | afba4233cbce926f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianRationalField.__eq__","kind":"method","src_hash":"18d03121c85cec20","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"afba4233cbce926f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianRationalField.__eq__","kind":"method","src_hash":"18d03121c85cec20","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (True if isinstance(other, GaussianRationalField) else NotImplemented) and result == True or result == NotImplemented"},"spec":{"lhs":"__eq__(other)","rhs":"result == (True if isinstance(other, GaussianRationalField) else NotImplemented) and result == True or result == NotImplemented","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"result == (True if isinstance(other, GaussianRationalField) else NotImplemented); result == True or result == NotImplemented; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"afba4233cbce926f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (True if isinstance(other, GaussianRationalField) else NotImplemented)","result == True or result == NotImplemented"],"fibers":[{"name":"GaussianRationalField","guard":"isinstance(other, GaussianRationalField)","ensures":["result == True"],"decidability":"structural","returns_expr":"True"},{"name":"GaussianRationalField","guard":"not (isinstance(other, GaussianRationalField))","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         """Returns ``True`` if two domains are equivalent. """
         if isinstance(other, GaussianRationalField):
@@ -1376,90 +1812,127 @@ class GaussianRationalField(GaussianDomain, Field):
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), hash('QQ_I')) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hash('QQ_I')                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 48396751b6df2b41           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianRationalField.__hash__","kind":"method","src_hash":"fb8071c92b8f0c8d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"48396751b6df2b41"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianRationalField.__hash__","kind":"method","src_hash":"fb8071c92b8f0c8d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"hash('QQ_I')","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns hash('QQ_I')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"48396751b6df2b41","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hash('QQ_I')","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         """Compute hash code of ``self``. """
         return hash('QQ_I')
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(has_CharacteristicZero(), returns the has_CharacteristicZero attribute) over Any ║
+# ║ Path(has_CharacteristicZero(), True) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ has_CharacteristicZero : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6a47a02e2756c31b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianRationalField.has_CharacteristicZero","kind":"property","src_hash":"2532ff9a153c39d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"has_CharacteristicZero()","rhs":"returns the has_CharacteristicZero attribute","over":{"base":"Any"},"name":"has_CharacteristicZero_correct"},"guarantee":"returns the has_CharacteristicZero attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a47a02e2756c31b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianRationalField.has_CharacteristicZero","kind":"property","src_hash":"2532ff9a153c39d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"has_CharacteristicZero()","rhs":"True","over":{"base":"Any"},"name":"has_CharacteristicZero_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a47a02e2756c31b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def has_CharacteristicZero(self):
         return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(characteristic(), characteristic produces the expected output) over Any ║
+# ║ Path(characteristic(), 0) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  0                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ characteristic : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 03bd1f0030b553c4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianRationalField.characteristic","kind":"method","src_hash":"eecb1ca05322511e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"characteristic()","rhs":"characteristic produces the expected output","over":{"base":"Any"},"name":"characteristic_correct"},"guarantee":"characteristic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"03bd1f0030b553c4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianRationalField.characteristic","kind":"method","src_hash":"eecb1ca05322511e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"characteristic()","rhs":"0","over":{"base":"Any"},"name":"characteristic_correct"},"guarantee":"returns 0","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"03bd1f0030b553c4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"0","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def characteristic(self):
         return 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_ring(), returns a ring associated with ``self``) over Any ║
+# ║ Path(get_ring(), <unspecified:get_ring>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_ring : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 43cfd40b0f883dec           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianRationalField.get_ring","kind":"method","src_hash":"039540aaefa72390","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_ring()","rhs":"returns a ring associated with ``self``","over":{"base":"Any"},"name":"get_ring_correct"},"guarantee":"returns a ring associated with ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"43cfd40b0f883dec"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianRationalField.get_ring","kind":"method","src_hash":"039540aaefa72390","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_ring()","rhs":"<unspecified:get_ring>","over":{"base":"Any"},"name":"get_ring_correct"},"guarantee":"returns a ring associated with ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"43cfd40b0f883dec","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_ring(self):
         """Returns a ring associated with ``self``. """
         return ZZ_I
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_field(), returns a field associated with ``self``) over Any ║
+# ║ Path(get_field(), self) over Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_field : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == self                                 ║
+# ║   returns:  self                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_field : Any → {Any | result satisfies: result == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 69df4385d9cde5e4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianRationalField.get_field","kind":"method","src_hash":"b66170dc58340807","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_field()","rhs":"returns a field associated with ``self``","over":{"base":"Any"},"name":"get_field_correct"},"guarantee":"returns a field associated with ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"69df4385d9cde5e4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianRationalField.get_field","kind":"method","src_hash":"b66170dc58340807","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self)"},"spec":{"lhs":"get_field()","rhs":"self","over":{"base":"Any"},"name":"get_field_correct"},"guarantee":"returns self; result == self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"69df4385d9cde5e4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == self"],"returns_expr":"self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_field(self):
         """Returns a field associated with ``self``. """
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_AlgebraicField(), get equivalent domain as an ``algebraicfield``) over Any ║
+# ║ Path(as_AlgebraicField(), AlgebraicField(self.dom, I)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  AlgebraicField(self.dom, I)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_AlgebraicField : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 91d8c6eb2e2d5944           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianRationalField.as_AlgebraicField","kind":"method","src_hash":"bbb3c102c3fa8be9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_AlgebraicField()","rhs":"get equivalent domain as an ``algebraicfield``","over":{"base":"Any"},"name":"as_AlgebraicField_correct"},"guarantee":"get equivalent domain as an ``algebraicfield``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"91d8c6eb2e2d5944"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianRationalField.as_AlgebraicField","kind":"method","src_hash":"bbb3c102c3fa8be9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_AlgebraicField()","rhs":"AlgebraicField(self.dom, I)","over":{"base":"Any"},"name":"as_AlgebraicField_correct"},"guarantee":"returns AlgebraicField(self.dom, I)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"91d8c6eb2e2d5944","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"AlgebraicField(self.dom, I)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dom"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_AlgebraicField(self):
         """Get equivalent domain as an ``AlgebraicField``. """
         return AlgebraicField(self.dom, I)
@@ -1467,30 +1940,44 @@ class GaussianRationalField(GaussianDomain, Field):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(numer(a), id) over Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ZZ_I.convert(a * self.denom(a))                ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ numer : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 209c95c4be8e6afc   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianRationalField.numer","kind":"method","src_hash":"49b27b627ec4613e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"numer(a)","rhs":"get the numerator of ``a``","over":{"base":"Any"},"name":"numer_correct","kind":"composition"},"guarantee":"get the numerator of ``a``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"convert","by":"library_axiom"},{"fn":"denom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"209c95c4be8e6afc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianRationalField.numer","kind":"method","src_hash":"49b27b627ec4613e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"numer(a)","rhs":"ZZ_I.convert(a * self.denom(a))","over":{"base":"Any"},"name":"numer_correct","kind":"composition"},"guarantee":"returns ZZ_I.convert(a * self.denom(a))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"convert","by":"library_axiom"},{"fn":"denom","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"209c95c4be8e6afc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ZZ_I.convert(a * self.denom(a))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.denom","self.get_ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def numer(self, a):
         """Get the numerator of ``a``."""
         ZZ_I = self.get_ring()
         return ZZ_I.convert(a * self.denom(a))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(denom(a), get the denominator of ``a``) over Any      ║
+# ║ Path(denom(a), ZZ_I(denom_ZZ, ZZ.zero)) over {Any | hasattr(a, 'x') and hasattr(a, 'y')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ denom : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'x')                                ║
+# ║   requires: hasattr(a, 'y')                                ║
+# ║   returns:  ZZ_I(denom_ZZ, ZZ.zero)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ denom : {Any | hasattr(a, 'x') and hasattr(a, 'y')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c2900aae6ea7610  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 337a0e7e0c03e0d3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianRationalField.denom","kind":"method","src_hash":"4e43b5071ce44e53","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"denom(a)","rhs":"get the denominator of ``a``","over":{"base":"Any"},"name":"denom_correct"},"guarantee":"get the denominator of ``a``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.gaussiandomains.GaussianRationalField.denom_correct","statement":"Path(denom(x), get the denominator of ``a``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c2900aae6ea7610"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianRationalField.denom","kind":"method","src_hash":"4e43b5071ce44e53","in":{"base":"Any","pred":"hasattr(a, 'x') and hasattr(a, 'y')"},"out":{"base":"Any"},"spec":{"lhs":"denom(a)","rhs":"ZZ_I(denom_ZZ, ZZ.zero)","over":{"base":"Any","pred":"hasattr(a, 'x') and hasattr(a, 'y')"},"name":"denom_correct"},"guarantee":"returns ZZ_I(denom_ZZ, ZZ.zero)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.gaussiandomains.GaussianRationalField.denom_correct","statement":"Path(denom(x), returns ZZ_I(denom_ZZ, ZZ.zero))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"337a0e7e0c03e0d3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'x')","hasattr(a, 'y')"],"returns_expr":"ZZ_I(denom_ZZ, ZZ.zero)","pure":false,"effects":{"effect_type":"reads_state","reads":["a.x","a.y","self.dom","self.get_ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def denom(self, a):
         """Get the denominator of ``a``."""
         ZZ = self.dom.get_ring()
@@ -1500,46 +1987,71 @@ class GaussianRationalField(GaussianDomain, Field):
         return ZZ_I(denom_ZZ, ZZ.zero)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_GaussianIntegerRing(K1,), convert a zz_i element to qq_i) over Any ║
+# ║ Path(from_GaussianIntegerRing(K1, a, K0), K1.new(a.x, a.y)) over {Any | hasattr(K1, 'new') and hasattr(a, 'x') and hasattr(a, 'y')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_GaussianIntegerRing : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, 'new')                             ║
+# ║   requires: hasattr(a, 'x')                                ║
+# ║   requires: hasattr(a, 'y')                                ║
+# ║   returns:  K1.new(a.x, a.y)                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_GaussianIntegerRing : {Any | hasattr(K1, 'new') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 64ce1107e513918c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianRationalField.from_GaussianIntegerRing","kind":"method","src_hash":"9bdfec3120ecef42","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_GaussianIntegerRing(K1,)","rhs":"convert a zz_i element to qq_i","over":{"base":"Any"},"name":"from_GaussianIntegerRing_correct"},"guarantee":"convert a zz_i element to qq_i","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"64ce1107e513918c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianRationalField.from_GaussianIntegerRing","kind":"method","src_hash":"9bdfec3120ecef42","in":{"base":"Any","pred":"hasattr(K1, 'new') and hasattr(a, 'x') and hasattr(a, 'y')"},"out":{"base":"Any"},"spec":{"lhs":"from_GaussianIntegerRing(K1, a, K0)","rhs":"K1.new(a.x, a.y)","over":{"base":"Any","pred":"hasattr(K1, 'new') and hasattr(a, 'x') and hasattr(a, 'y')"},"name":"from_GaussianIntegerRing_correct"},"guarantee":"returns K1.new(a.x, a.y)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"64ce1107e513918c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, 'new')","hasattr(a, 'x')","hasattr(a, 'y')"],"returns_expr":"K1.new(a.x, a.y)","pure":false,"effects":{"effect_type":"reads_state","reads":["K1.new","a.x","a.y"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_GaussianIntegerRing(K1, a, K0):
         """Convert a ZZ_I element to QQ_I."""
         return K1.new(a.x, a.y)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_GaussianRationalField(K1,), convert a qq_i element to qq_i) over Any ║
+# ║ Path(from_GaussianRationalField(K1, a, K0), a) over Any    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_GaussianRationalField : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == a                                    ║
+# ║   returns:  a                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_GaussianRationalField : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5d256c0b41a52982           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianRationalField.from_GaussianRationalField","kind":"method","src_hash":"16799bff7f5a5e91","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_GaussianRationalField(K1,)","rhs":"convert a qq_i element to qq_i","over":{"base":"Any"},"name":"from_GaussianRationalField_correct"},"guarantee":"convert a qq_i element to qq_i","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5d256c0b41a52982"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianRationalField.from_GaussianRationalField","kind":"method","src_hash":"16799bff7f5a5e91","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (a)"},"spec":{"lhs":"from_GaussianRationalField(K1, a, K0)","rhs":"a","over":{"base":"Any"},"name":"from_GaussianRationalField_correct"},"guarantee":"returns a; result == a","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5d256c0b41a52982","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == a"],"returns_expr":"a","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_GaussianRationalField(K1, a, K0):
         """Convert a QQ_I element to QQ_I."""
         return a
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_ComplexField(K1,), convert a complexfield element to qq_i) over Any ║
+# ║ Path(from_ComplexField(K1, a, K0), K1.new(QQ.convert(a.real), QQ.convert(a.imag))) over {Any | hasattr(K1, 'new') and hasattr(a, 'real') and hasattr(a, 'imag')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_ComplexField : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, 'new')                             ║
+# ║   requires: hasattr(a, 'real')                             ║
+# ║   requires: hasattr(a, 'imag')                             ║
+# ║   returns:  K1.new(QQ.convert(a.real), QQ.convert(a.i...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_ComplexField : {Any | hasattr(K1, 'new') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6a98d7a41b42a615           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianRationalField.from_ComplexField","kind":"method","src_hash":"43330e9ee4b74649","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ComplexField(K1,)","rhs":"convert a complexfield element to qq_i","over":{"base":"Any"},"name":"from_ComplexField_correct"},"guarantee":"convert a complexfield element to qq_i","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a98d7a41b42a615"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gaussiandomains.GaussianRationalField.from_ComplexField","kind":"method","src_hash":"43330e9ee4b74649","in":{"base":"Any","pred":"hasattr(K1, 'new') and hasattr(a, 'real') and hasattr(a, 'imag')"},"out":{"base":"Any"},"spec":{"lhs":"from_ComplexField(K1, a, K0)","rhs":"K1.new(QQ.convert(a.real), QQ.convert(a.imag))","over":{"base":"Any","pred":"hasattr(K1, 'new') and hasattr(a, 'real') and hasattr(a, 'imag')"},"name":"from_ComplexField_correct"},"guarantee":"returns K1.new(QQ.convert(a.real), QQ.convert(a.imag))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a98d7a41b42a615","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, 'new')","hasattr(a, 'real')","hasattr(a, 'imag')"],"returns_expr":"K1.new(QQ.convert(a.real), QQ.convert(a.imag))","pure":false,"effects":{"effect_type":"reads_state","reads":["K1.new","a.imag","a.real"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_ComplexField(K1, a, K0):
         """Convert a ComplexField element to QQ_I."""
         return K1.new(QQ.convert(a.real), QQ.convert(a.imag))

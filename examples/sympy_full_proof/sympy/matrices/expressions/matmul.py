@@ -41,14 +41,21 @@ from .special import ZeroMatrix, Identity, GenericIdentity, OneMatrix
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MatMul(*args), correctly constructs a MatMul instance) over {Any | isinstance(v, (Integer, int)) and isinstance(arg, MatrixExpr)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MatrixExpr)                   ║
+# ║   ensures:  isinstance(self, Mul)                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ MatMul : {Any | isinstance(v, (Integer, int)) and isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a9cbfdea2993fdeb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.MatMul","kind":"class","src_hash":"54917ec4655a7c86","in":{"base":"Any","pred":"isinstance(v, (Integer, int)) and isinstance(arg, MatrixExpr)"},"out":{"base":"Any"},"spec":{"lhs":"MatMul(*args)","rhs":"correctly constructs a MatMul instance","over":{"base":"Any","pred":"isinstance(v, (Integer, int)) and isinstance(arg, MatrixExpr)"},"name":"MatMul_class_invariant"},"guarantee":"correctly constructs a MatMul instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9cbfdea2993fdeb"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.MatMul","kind":"class","src_hash":"54917ec4655a7c86","in":{"base":"Any","pred":"isinstance(v, (Integer, int)) and isinstance(arg, MatrixExpr)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MatrixExpr) and isinstance(self, Mul)"},"spec":{"lhs":"MatMul(*args)","rhs":"correctly constructs a MatMul instance","over":{"base":"Any","pred":"isinstance(v, (Integer, int)) and isinstance(arg, MatrixExpr)"},"name":"MatMul_class_invariant"},"guarantee":"isinstance(self, MatrixExpr); isinstance(self, Mul)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9cbfdea2993fdeb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MatrixExpr)","isinstance(self, Mul)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function MatMul not found in source"]}}
 class MatMul(MatrixExpr, Mul):
     """
     A product of matrix expressions
@@ -68,16 +75,22 @@ class MatMul(MatrixExpr, Mul):
     identity = GenericIdentity()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, evaluate), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2499994e31ce13a8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.MatMul.__new__","kind":"method","src_hash":"5e3700f269ba01a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2499994e31ce13a8"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.MatMul.__new__","kind":"method","src_hash":"5e3700f269ba01a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, evaluate)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2499994e31ce13a8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._evaluate","cls.identity"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, evaluate=False, check=None, _sympify=True):
         if not args:
             return cls.identity
@@ -112,46 +125,64 @@ class MatMul(MatrixExpr, Mul):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_evaluate(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_evaluate(cls, expr), canonicalize(expr)) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  canonicalize(expr)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _evaluate : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 05b670b301990f18           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.MatMul._evaluate","kind":"classmethod","src_hash":"5820b47b3407adba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_evaluate(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_evaluate_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"05b670b301990f18"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.MatMul._evaluate","kind":"classmethod","src_hash":"5820b47b3407adba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_evaluate(cls, expr)","rhs":"canonicalize(expr)","over":{"base":"Any"},"name":"_evaluate_correct"},"guarantee":"returns canonicalize(expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"05b670b301990f18","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"canonicalize(expr)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _evaluate(cls, expr):
         return canonicalize(expr)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shape(), returns the shape attribute) over Any        ║
+# ║ Path(shape(), (matrices[0].rows, matrices[-1].cols)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (matrices[0].rows, matrices[-1].cols)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ shape : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3d36e89c72f8fa53           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.MatMul.shape","kind":"property","src_hash":"eb620544bf6e93bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"returns the shape attribute","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns the shape attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3d36e89c72f8fa53"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.MatMul.shape","kind":"property","src_hash":"eb620544bf6e93bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"(matrices[0].rows, matrices[-1].cols)","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns (matrices[0].rows, matrices[-1].cols)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3d36e89c72f8fa53","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(matrices[0].rows, matrices[-1].cols)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shape(self):
         matrices = [arg for arg in self.args if arg.is_Matrix]
         return (matrices[0].rows, matrices[-1].cols)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_entry(i, ), internal helper behaves correctly) over Any ║
+# ║ Path(_entry(i, j, expand), <unspecified:_entry>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _entry : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d415eed908f6cd9a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.MatMul._entry","kind":"method","src_hash":"bdd9b35f7f77f340","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_entry(i, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_entry_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.MatMul._entry_correct","statement":"Path(_entry(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d415eed908f6cd9a"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.MatMul._entry","kind":"method","src_hash":"bdd9b35f7f77f340","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_entry(i, j, expand)","rhs":"<unspecified:_entry>","over":{"base":"Any"},"name":"_entry_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.MatMul._entry_correct","statement":"Path(_entry(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d415eed908f6cd9a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.as_coeff_matrices"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _entry(self, i, j, expand=True, **kwargs):
         # Avoid cyclic imports
         from sympy.concrete.summations import Sum
@@ -195,16 +226,23 @@ class MatMul(MatrixExpr, Mul):
         return result.doit() if expand else result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_coeff_matrices(), as_coeff_matrices produces the expected output) over Any ║
+# ║ Path(as_coeff_matrices(), (coeff, matrices)) over {Any | not (coeff.is_commutative is False)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ as_coeff_matrices : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (coeff.is_commutative is False)            ║
+# ║   returns:  (coeff, matrices)                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ as_coeff_matrices : {Any | not (coeff.is_commutative ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 53f0dab2c194ff02  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b13086240e0b567  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.MatMul.as_coeff_matrices","kind":"method","src_hash":"210f300447f30f78","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_coeff_matrices()","rhs":"as_coeff_matrices produces the expected output","over":{"base":"Any"},"name":"as_coeff_matrices_correct"},"guarantee":"as_coeff_matrices produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.MatMul.as_coeff_matrices_correct","statement":"Path(as_coeff_matrices(x), as_coeff_matrices produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53f0dab2c194ff02"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.MatMul.as_coeff_matrices","kind":"method","src_hash":"210f300447f30f78","in":{"base":"Any","pred":"not (coeff.is_commutative is False)"},"out":{"base":"Any"},"spec":{"lhs":"as_coeff_matrices()","rhs":"(coeff, matrices)","over":{"base":"Any","pred":"not (coeff.is_commutative is False)"},"name":"as_coeff_matrices_correct"},"guarantee":"returns (coeff, matrices)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.MatMul.as_coeff_matrices_correct","statement":"Path(as_coeff_matrices(x), returns (coeff, matrices))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b13086240e0b567","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (coeff.is_commutative is False)"],"returns_expr":"(coeff, matrices)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_coeff_matrices(self):
         scalars = [x for x in self.args if not x.is_Matrix]
         matrices = [x for x in self.args if x.is_Matrix]
@@ -215,46 +253,64 @@ class MatMul(MatrixExpr, Mul):
         return coeff, matrices
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_coeff_mmul(), as_coeff_mmul produces the expected output) over Any ║
+# ║ Path(as_coeff_mmul(), (coeff, MatMul(*matrices))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (coeff, MatMul(*matrices))                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_coeff_mmul : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 621175df75cc18f5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05307307ced7f36a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.MatMul.as_coeff_mmul","kind":"method","src_hash":"23ad290f3ee8cacc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_coeff_mmul()","rhs":"as_coeff_mmul produces the expected output","over":{"base":"Any"},"name":"as_coeff_mmul_correct"},"guarantee":"as_coeff_mmul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.MatMul.as_coeff_mmul_correct","statement":"Path(as_coeff_mmul(x), as_coeff_mmul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"621175df75cc18f5"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.MatMul.as_coeff_mmul","kind":"method","src_hash":"23ad290f3ee8cacc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_coeff_mmul()","rhs":"(coeff, MatMul(*matrices))","over":{"base":"Any"},"name":"as_coeff_mmul_correct"},"guarantee":"returns (coeff, MatMul(*matrices))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.MatMul.as_coeff_mmul_correct","statement":"Path(as_coeff_mmul(x), returns (coeff, MatMul(*matrices)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05307307ced7f36a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(coeff, MatMul(*matrices))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.as_coeff_matrices"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_coeff_mmul(self):
         coeff, matrices = self.as_coeff_matrices()
         return coeff, MatMul(*matrices)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expand(**k), expand produces the expected output) over Any ║
+# ║ Path(expand(**kwargs), self._evaluate(expanded)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._evaluate(expanded)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ expand : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4d422473569cc14  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 041afb459d2cd225  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.MatMul.expand","kind":"method","src_hash":"4cc9358005e3e242","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expand(**k)","rhs":"expand produces the expected output","over":{"base":"Any"},"name":"expand_correct"},"guarantee":"expand produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.MatMul.expand_correct","statement":"Path(expand(x), expand produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4d422473569cc14"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.MatMul.expand","kind":"method","src_hash":"4cc9358005e3e242","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expand(**kwargs)","rhs":"self._evaluate(expanded)","over":{"base":"Any"},"name":"expand_correct"},"guarantee":"returns self._evaluate(expanded)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.MatMul.expand_correct","statement":"Path(expand(x), returns self._evaluate(expanded))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"041afb459d2cd225","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._evaluate(expanded)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._evaluate"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def expand(self, **kwargs):
         expanded = super(MatMul, self).expand(**kwargs)
         return self._evaluate(expanded)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_transpose(), transposition of matrix multiplication) over Any ║
+# ║ Path(_eval_transpose(), MatMul(coeff, *[transpose(arg) for arg in matrices[::-1]]).doit()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  MatMul(coeff, *[transpose(arg) for arg in...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_transpose : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6774254ab708d7c3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a35731bc0f3f71c9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.MatMul._eval_transpose","kind":"method","src_hash":"e494292eb48e60cc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_transpose()","rhs":"transposition of matrix multiplication","over":{"base":"Any"},"name":"_eval_transpose_correct"},"guarantee":"transposition of matrix multiplication","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.MatMul._eval_transpose_correct","statement":"Path(_eval_transpose(x), transposition of matrix multiplication)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6774254ab708d7c3"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.MatMul._eval_transpose","kind":"method","src_hash":"e494292eb48e60cc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_transpose()","rhs":"MatMul(coeff, *[transpose(arg) for arg in matrices[::-1]]).doit()","over":{"base":"Any"},"name":"_eval_transpose_correct"},"guarantee":"returns MatMul(coeff, *[transpose(arg) for arg in matrices[::-1]]).doit()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.MatMul._eval_transpose_correct","statement":"Path(_eval_transpose(x), returns MatMul(coeff, *[transpose(arg) for arg in matrices[::-1]]).doit())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a35731bc0f3f71c9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"MatMul(coeff, *[transpose(arg) for arg in matrices[::-1]]).doit()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.as_coeff_matrices"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_transpose(self):
         """Transposition of matrix multiplication.
 
@@ -279,30 +335,42 @@ class MatMul(MatrixExpr, Mul):
             coeff, *[transpose(arg) for arg in matrices[::-1]]).doit()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_adjoint(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_adjoint(), MatMul(*[adjoint(arg) for arg in self.args[::-1]]).doit()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  MatMul(*[adjoint(arg) for arg in self.arg...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_adjoint : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 32550b991c121688           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.MatMul._eval_adjoint","kind":"method","src_hash":"d4326c3904c856dc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_adjoint()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_adjoint_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"32550b991c121688"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.MatMul._eval_adjoint","kind":"method","src_hash":"d4326c3904c856dc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_adjoint()","rhs":"MatMul(*[adjoint(arg) for arg in self.args[::-1]]).doit()","over":{"base":"Any"},"name":"_eval_adjoint_correct"},"guarantee":"returns MatMul(*[adjoint(arg) for arg in self.args[::-1]]).doit()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"32550b991c121688","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"MatMul(*[adjoint(arg) for arg in self.args[::-1]]).doit()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_adjoint(self):
         return MatMul(*[adjoint(arg) for arg in self.args[::-1]]).doit()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_eval_trace(), id) over Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  factor * trace(mmul.doit())                    ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_trace : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c6d91dbd8f161348   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.MatMul._eval_trace","kind":"method","src_hash":"4b61ab5ce7524bb3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_trace()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_trace_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"trace","by":"library_axiom"},{"fn":"doit","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6d91dbd8f161348"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.MatMul._eval_trace","kind":"method","src_hash":"4b61ab5ce7524bb3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_trace()","rhs":"factor * trace(mmul.doit())","over":{"base":"Any"},"name":"_eval_trace_correct","kind":"composition"},"guarantee":"returns factor * trace(mmul.doit())","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"trace","by":"library_axiom"},{"fn":"doit","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6d91dbd8f161348","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"factor * trace(mmul.doit())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.as_coeff_mmul"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_trace(self):
         factor, mmul = self.as_coeff_mmul()
         if factor != 1:
@@ -312,14 +380,20 @@ class MatMul(MatrixExpr, Mul):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_eval_determinant(), id) over Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  factor ** self.rows * Mul(*list(map(Deter...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_determinant : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b785737101c232e4   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.MatMul._eval_determinant","kind":"method","src_hash":"f8baf61ef897ee3c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_determinant()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_determinant_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Mul","by":"library_axiom"},{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b785737101c232e4"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.MatMul._eval_determinant","kind":"method","src_hash":"f8baf61ef897ee3c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_determinant()","rhs":"factor ** self.rows * Mul(*list(map(Determinant, square_matrices)))","over":{"base":"Any"},"name":"_eval_determinant_correct","kind":"composition"},"guarantee":"returns factor ** self.rows * Mul(*list(map(Determinant, square_matrices)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Mul","by":"library_axiom"},{"fn":"list","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b785737101c232e4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"factor ** self.rows * Mul(*list(map(Determinant, square_matrices)))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.as_coeff_matrices","self.rows"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_determinant(self):
         from sympy.matrices.expressions.determinant import Determinant
         factor, matrices = self.as_coeff_matrices()
@@ -327,16 +401,22 @@ class MatMul(MatrixExpr, Mul):
         return factor**self.rows * Mul(*list(map(Determinant, square_matrices)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_inverse(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_inverse(), <unspecified:_eval_inverse>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_inverse : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab2d4c9cfdb186e4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.MatMul._eval_inverse","kind":"method","src_hash":"731ccbf3364daaec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_inverse()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_inverse_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.MatMul._eval_inverse_correct","statement":"Path(_eval_inverse(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab2d4c9cfdb186e4"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.MatMul._eval_inverse","kind":"method","src_hash":"731ccbf3364daaec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_inverse()","rhs":"<unspecified:_eval_inverse>","over":{"base":"Any"},"name":"_eval_inverse_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.MatMul._eval_inverse_correct","statement":"Path(_eval_inverse(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab2d4c9cfdb186e4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_inverse(self):
         if all(arg.is_square for arg in self.args if isinstance(arg, MatrixExpr)):
             return MatMul(*(
@@ -347,16 +427,22 @@ class MatMul(MatrixExpr, Mul):
         return Inverse(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), doit produces the expected output) over Any ║
+# ║ Path(doit(**hints), <unspecified:doit>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93948c45d9363da3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.MatMul.doit","kind":"method","src_hash":"81385b8f31d75447","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"doit produces the expected output","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.MatMul.doit_correct","statement":"Path(doit(x), doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93948c45d9363da3"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.MatMul.doit","kind":"method","src_hash":"81385b8f31d75447","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**hints)","rhs":"<unspecified:doit>","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.MatMul.doit_correct","statement":"Path(doit(x), doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93948c45d9363da3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         deep = hints.get('deep', True)
         if deep:
@@ -370,16 +456,22 @@ class MatMul(MatrixExpr, Mul):
 
     # Needed for partial compatibility with Mul
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(args_cnc(cse), args_cnc produces the expected output) over Any ║
+# ║ Path(args_cnc(cset, warn, **kwargs), [coeff_c, coeff_nc]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [coeff_c, coeff_nc]                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ args_cnc : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bfce330e01821b41  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7476970756823104  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.MatMul.args_cnc","kind":"method","src_hash":"2525ba5b1baa6276","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"args_cnc(cse)","rhs":"args_cnc produces the expected output","over":{"base":"Any"},"name":"args_cnc_correct"},"guarantee":"args_cnc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.MatMul.args_cnc_correct","statement":"Path(args_cnc(x), args_cnc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bfce330e01821b41"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.MatMul.args_cnc","kind":"method","src_hash":"2525ba5b1baa6276","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"args_cnc(cset, warn, **kwargs)","rhs":"[coeff_c, coeff_nc]","over":{"base":"Any"},"name":"args_cnc_correct"},"guarantee":"returns [coeff_c, coeff_nc]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.MatMul.args_cnc_correct","statement":"Path(args_cnc(x), returns [coeff_c, coeff_nc])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7476970756823104","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[coeff_c, coeff_nc]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def args_cnc(self, cset=False, warn=True, **kwargs):
         coeff_c = [x for x in self.args if x.is_commutative]
         coeff_nc = [x for x in self.args if not x.is_commutative]
@@ -392,16 +484,22 @@ class MatMul(MatrixExpr, Mul):
         return [coeff_c, coeff_nc]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_derivative_matrix_lines(x), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_derivative_matrix_lines(x), <unspecified:_eval_derivative_matrix_lines>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_derivative_matrix_lines : Any → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7856881f3f985cb2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.MatMul._eval_derivative_matrix_lines","kind":"method","src_hash":"9ca8c97999b7ed11","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative_matrix_lines(x)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_derivative_matrix_lines_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.MatMul._eval_derivative_matrix_lines_correct","statement":"Path(_eval_derivative_matrix_lines(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7856881f3f985cb2"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.MatMul._eval_derivative_matrix_lines","kind":"method","src_hash":"9ca8c97999b7ed11","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative_matrix_lines(x)","rhs":"<unspecified:_eval_derivative_matrix_lines>","over":{"base":"Any"},"name":"_eval_derivative_matrix_lines_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.MatMul._eval_derivative_matrix_lines_correct","statement":"Path(_eval_derivative_matrix_lines(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7856881f3f985cb2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_derivative_matrix_lines(self, x):
         from .transpose import Transpose
         with_x_ind = [i for i, arg in enumerate(self.args) if arg.has(x)]
@@ -432,32 +530,45 @@ mul.register_handlerclass((Mul, MatMul), MatMul)
 
 # Rules
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(newmul(*ar), newmul produces the expected output) over Any ║
+# ║ Path(newmul(*args), new(MatMul, *args)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  new(MatMul, *args)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ newmul : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09812009e02081db  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a48c7e969461c894  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.newmul","kind":"function","src_hash":"ca98a7618af3c70b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"newmul(*ar)","rhs":"newmul produces the expected output","over":{"base":"Any"},"name":"newmul_correct"},"guarantee":"newmul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.newmul_correct","statement":"Path(newmul(x), newmul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09812009e02081db"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.newmul","kind":"function","src_hash":"ca98a7618af3c70b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"newmul(*args)","rhs":"new(MatMul, *args)","over":{"base":"Any"},"name":"newmul_correct"},"guarantee":"returns new(MatMul, *args)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.newmul_correct","statement":"Path(newmul(x), returns new(MatMul, *args))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a48c7e969461c894","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"new(MatMul, *args)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args']"]}}
 def newmul(*args):
     if args[0] == 1:
         args = args[1:]
     return new(MatMul, *args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(any_zeros(mul), any_zeros produces the expected output) over Any ║
+# ║ Path(any_zeros(mul), <unspecified:any_zeros>) over {Any | hasattr(mul, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ any_zeros : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(mul, 'args')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ any_zeros : {Any | hasattr(mul, 'args')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86d09b28d4830e08  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.any_zeros","kind":"function","src_hash":"beefd52366e259b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"any_zeros(mul)","rhs":"any_zeros produces the expected output","over":{"base":"Any"},"name":"any_zeros_correct"},"guarantee":"any_zeros produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.any_zeros_correct","statement":"Path(any_zeros(x), any_zeros produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86d09b28d4830e08"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.any_zeros","kind":"function","src_hash":"beefd52366e259b0","in":{"base":"Any","pred":"hasattr(mul, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"any_zeros(mul)","rhs":"<unspecified:any_zeros>","over":{"base":"Any","pred":"hasattr(mul, 'args')"},"name":"any_zeros_correct"},"guarantee":"any_zeros produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.any_zeros_correct","statement":"Path(any_zeros(x), any_zeros produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86d09b28d4830e08","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(mul, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["mul.args"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def any_zeros(mul):
     if any(arg.is_zero or (arg.is_Matrix and arg.is_ZeroMatrix)
                        for arg in mul.args):
@@ -466,7 +577,11 @@ def any_zeros(mul):
     return mul
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(merge_explicit(mat), merge explicit matrixbase arguments) over {Any | isinstance(arg, (MatrixBase, Number)) and isinstance(arg, MatrixBase)} ║
+# ║ Path(merge_explicit(matmul), <unspecified:merge_explicit>) over {Any | isinstance(arg, (MatrixBase, Number)) and isinstance(arg, MatrixBase) and hasattr(matmul, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(matmul, 'args')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ merge_explicit : {Any | isinstance(arg, (MatrixBase, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -479,9 +594,12 @@ def any_zeros(mul):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | e1f9415a...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.merge_explicit","kind":"function","src_hash":"2099195a081cd6f5","in":{"base":"Any","pred":"isinstance(arg, (MatrixBase, Number)) and isinstance(arg, MatrixBase)"},"out":{"base":"Any"},"spec":{"lhs":"merge_explicit(mat)","rhs":"merge explicit matrixbase arguments","over":{"base":"Any","pred":"isinstance(arg, (MatrixBase, Number)) and isinstance(arg, MatrixBase)"},"name":"merge_explicit_correct"},"guarantee":"merge explicit matrixbase arguments","fibers":[{"name":"(MatrixBase","pred":"isinstance(arg, (MatrixBase, Number))","path":{"lhs":"merge_explicit(x)","rhs":"merge explicit matrixbase arguments","over":{"base":"(MatrixBase","pred":"isinstance(arg, (MatrixBase, Number))"},"name":"merge_explicit_(MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.merge_explicit_(MatrixBase_correct","statement":"merge_explicit satisfies spec on (MatrixBase inputs"},"trust":"LIBRARY"},{"name":"MatrixBase","pred":"isinstance(arg, MatrixBase)","path":{"lhs":"merge_explicit(x)","rhs":"merge explicit matrixbase arguments","over":{"base":"MatrixBase","pred":"isinstance(arg, MatrixBase)"},"name":"merge_explicit_MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.merge_explicit_MatrixBase_correct","statement":"merge_explicit satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e1f9415a922050da"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.merge_explicit","kind":"function","src_hash":"2099195a081cd6f5","in":{"base":"Any","pred":"isinstance(arg, (MatrixBase, Number)) and isinstance(arg, MatrixBase) and hasattr(matmul, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"merge_explicit(matmul)","rhs":"<unspecified:merge_explicit>","over":{"base":"Any","pred":"isinstance(arg, (MatrixBase, Number)) and isinstance(arg, MatrixBase) and hasattr(matmul, 'args')"},"name":"merge_explicit_correct"},"guarantee":"merge explicit matrixbase arguments","fibers":[{"name":"(MatrixBase","pred":"isinstance(arg, (MatrixBase, Number))","path":{"lhs":"merge_explicit(x)","rhs":"merge explicit matrixbase arguments","over":{"base":"(MatrixBase","pred":"isinstance(arg, (MatrixBase, Number))"},"name":"merge_explicit_(MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.merge_explicit_(MatrixBase_correct","statement":"merge_explicit satisfies spec on (MatrixBase inputs"},"trust":"LIBRARY"},{"name":"MatrixBase","pred":"isinstance(arg, MatrixBase)","path":{"lhs":"merge_explicit(x)","rhs":"merge explicit matrixbase arguments","over":{"base":"MatrixBase","pred":"isinstance(arg, MatrixBase)"},"name":"merge_explicit_MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.merge_explicit_MatrixBase_correct","statement":"merge_explicit satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e1f9415a922050da","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(matmul, 'args')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(arg, (MatrixBase, Number)) and isinstance(last, (MatrixBase, Number))', 'not any((isinstance(arg, MatrixBase) for arg in matmul.args))'}, fibers={'(MatrixBase', 'MatrixBase'})"]}}
 def merge_explicit(matmul):
     """ Merge explicit MatrixBase arguments
 
@@ -525,16 +643,26 @@ def merge_explicit(matmul):
     return MatMul(*newargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(remove_ids(mul), remove identities from a matmul) over Any ║
+# ║ Path(remove_ids(mul), result == (newmul(factor, *result.args) if result != mmul else mul) and result == newmul(factor, *result.args) or result == mul) over {Any | hasattr(mul, 'as_coeff_mmul')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ remove_ids : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(mul, 'as_coeff_mmul')                  ║
+# ║   ensures:  result == (newmul(factor, *result.args) i...   ║
+# ║   ensures:  result == newmul(factor, *result.args) or...   ║
+# ║   fiber[case_0]: result != mmul => newmul(factor, *re...   ║
+# ║   fiber[case_1]: not (result != mmul) => mul               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ remove_ids : {Any | hasattr(mul, 'as_coeff_mmul')} → ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bdff0d18e374d39d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c35f4264d26df70  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.remove_ids","kind":"function","src_hash":"601b30d924a7800d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"remove_ids(mul)","rhs":"remove identities from a matmul","over":{"base":"Any"},"name":"remove_ids_correct"},"guarantee":"remove identities from a matmul","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.remove_ids_correct","statement":"Path(remove_ids(x), remove identities from a matmul)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bdff0d18e374d39d"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.remove_ids","kind":"function","src_hash":"601b30d924a7800d","in":{"base":"Any","pred":"hasattr(mul, 'as_coeff_mmul')"},"out":{"base":"Any","pred":"result satisfies: result == (newmul(factor, *result.args) if result != mmul else mul) and result == newmul(factor, *result.args) or result == mul"},"spec":{"lhs":"remove_ids(mul)","rhs":"result == (newmul(factor, *result.args) if result != mmul else mul) and result == newmul(factor, *result.args) or result == mul","over":{"base":"Any","pred":"hasattr(mul, 'as_coeff_mmul')"},"name":"remove_ids_correct"},"guarantee":"result == (newmul(factor, *result.args) if result != mmul else mul); result == newmul(factor, *result.args) or result == mul; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.remove_ids_correct","statement":"Path(remove_ids(x), result == (newmul(factor, *result.args) if result != mmul else mul); result == newmul(factor, *result.args) or result == mul; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c35f4264d26df70","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(mul, 'as_coeff_mmul')"],"ensures":["result == (newmul(factor, *result.args) if result != mmul else mul)","result == newmul(factor, *result.args) or result == mul"],"fibers":[{"name":"case_0","guard":"result != mmul","ensures":["result == newmul(factor, *result.args)"],"decidability":"z3","returns_expr":"newmul(factor, *result.args)"},{"name":"case_1","guard":"not (result != mmul)","ensures":["result == mul"],"decidability":"z3","returns_expr":"mul"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["mul.as_coeff_mmul"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def remove_ids(mul):
     """ Remove Identities from a MatMul
 
@@ -557,16 +685,23 @@ def remove_ids(mul):
         return mul
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(factor_in_front(mul), factor_in_front produces the expected output) over Any ║
+# ║ Path(factor_in_front(mul), <unspecified:factor_in_front>) over {Any | hasattr(mul, 'as_coeff_matrices')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ factor_in_front : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(mul, 'as_coeff_matrices')              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ factor_in_front : {Any | hasattr(mul, 'as_coeff_matri...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09499f8413c43fad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.factor_in_front","kind":"function","src_hash":"d3c5393f2d975235","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"factor_in_front(mul)","rhs":"factor_in_front produces the expected output","over":{"base":"Any"},"name":"factor_in_front_correct"},"guarantee":"factor_in_front produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.factor_in_front_correct","statement":"Path(factor_in_front(x), factor_in_front produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09499f8413c43fad"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.factor_in_front","kind":"function","src_hash":"d3c5393f2d975235","in":{"base":"Any","pred":"hasattr(mul, 'as_coeff_matrices')"},"out":{"base":"Any"},"spec":{"lhs":"factor_in_front(mul)","rhs":"<unspecified:factor_in_front>","over":{"base":"Any","pred":"hasattr(mul, 'as_coeff_matrices')"},"name":"factor_in_front_correct"},"guarantee":"factor_in_front produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.factor_in_front_correct","statement":"Path(factor_in_front(x), factor_in_front produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09499f8413c43fad","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(mul, 'as_coeff_matrices')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["mul.as_coeff_matrices"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def factor_in_front(mul):
     factor, matrices = mul.as_coeff_matrices()
     if factor != 1:
@@ -574,7 +709,11 @@ def factor_in_front(mul):
     return mul
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(combine_powers(mul), combine consecutive powers with the same base into one, e.g. $$a \times a^2 \rightarrow a^3$$) over {Any | isinstance(A, MatPow) and isinstance(B, Inverse) and isinstance(B.arg, MatMul)} ║
+# ║ Path(combine_powers(mul), newmul(factor, *new_args)) over {Any | isinstance(A, MatPow) and isinstance(B, Inverse) and isinstance(B.arg, MatMul) and hasattr(mul, 'as_coeff_matrices')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(mul, 'as_coeff_matrices')              ║
+# ║   returns:  newmul(factor, *new_args)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ combine_powers : {Any | isinstance(A, MatPow) and isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -589,9 +728,12 @@ def factor_in_front(mul):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?4 ✗7 VCs | 9.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | cc9ccce3...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.combine_powers","kind":"function","src_hash":"1d65a39570215e76","in":{"base":"Any","pred":"isinstance(A, MatPow) and isinstance(B, Inverse) and isinstance(B.arg, MatMul)"},"out":{"base":"Any"},"spec":{"lhs":"combine_powers(mul)","rhs":"combine consecutive powers with the same base into one, e.g. $$a \\times a^2 \\rightarrow a^3$$","over":{"base":"Any","pred":"isinstance(A, MatPow) and isinstance(B, Inverse) and isinstance(B.arg, MatMul)"},"name":"combine_powers_correct"},"guarantee":"combine consecutive powers with the same base into one, e.g. $$a \\times a^2 \\rightarrow a^3$$","fibers":[{"name":"MatPow","pred":"isinstance(A, MatPow)","path":{"lhs":"combine_powers(x)","rhs":"combine consecutive powers with the same base into one, e.g. $$a \\times a^2 \\rightarrow a^3$$","over":{"base":"MatPow","pred":"isinstance(A, MatPow)"},"name":"combine_powers_MatPow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.combine_powers_MatPow_correct","statement":"combine_powers satisfies spec on MatPow inputs"},"trust":"LIBRARY"},{"name":"Inverse","pred":"isinstance(B, Inverse)","path":{"lhs":"combine_powers(x)","rhs":"combine consecutive powers with the same base into one, e.g. $$a \\times a^2 \\rightarrow a^3$$","over":{"base":"Inverse","pred":"isinstance(B, Inverse)"},"name":"combine_powers_Inverse_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.combine_powers_Inverse_correct","statement":"combine_powers satisfies spec on Inverse inputs"},"trust":"LIBRARY"},{"name":"MatMul","pred":"isinstance(B.arg, MatMul)","path":{"lhs":"combine_powers(x)","rhs":"combine consecutive powers with the same base into one, e.g. $$a \\times a^2 \\rightarrow a^3$$","over":{"base":"MatMul","pred":"isinstance(B.arg, MatMul)"},"name":"combine_powers_MatMul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.combine_powers_MatMul_correct","statement":"combine_powers satisfies spec on MatMul inputs"},"trust":"LIBRARY"},{"name":"MatrixBase","pred":"isinstance(B_base, MatrixBase)","path":{"lhs":"combine_powers(x)","rhs":"combine consecutive powers with the same base into one, e.g. $$a \\times a^2 \\rightarrow a^3$$","over":{"base":"MatrixBase","pred":"isinstance(B_base, MatrixBase)"},"name":"combine_powers_MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.combine_powers_MatrixBase_correct","statement":"combine_powers satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"cc9ccce3999061dd"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.combine_powers","kind":"function","src_hash":"1d65a39570215e76","in":{"base":"Any","pred":"isinstance(A, MatPow) and isinstance(B, Inverse) and isinstance(B.arg, MatMul) and hasattr(mul, 'as_coeff_matrices')"},"out":{"base":"Any"},"spec":{"lhs":"combine_powers(mul)","rhs":"newmul(factor, *new_args)","over":{"base":"Any","pred":"isinstance(A, MatPow) and isinstance(B, Inverse) and isinstance(B.arg, MatMul) and hasattr(mul, 'as_coeff_matrices')"},"name":"combine_powers_correct"},"guarantee":"returns newmul(factor, *new_args)","fibers":[{"name":"MatPow","pred":"isinstance(A, MatPow)","path":{"lhs":"combine_powers(x)","rhs":"returns newmul(factor, *new_args)","over":{"base":"MatPow","pred":"isinstance(A, MatPow)"},"name":"combine_powers_MatPow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.combine_powers_MatPow_correct","statement":"combine_powers satisfies spec on MatPow inputs"},"trust":"LIBRARY"},{"name":"Inverse","pred":"isinstance(B, Inverse)","path":{"lhs":"combine_powers(x)","rhs":"returns newmul(factor, *new_args)","over":{"base":"Inverse","pred":"isinstance(B, Inverse)"},"name":"combine_powers_Inverse_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.combine_powers_Inverse_correct","statement":"combine_powers satisfies spec on Inverse inputs"},"trust":"LIBRARY"},{"name":"MatMul","pred":"isinstance(B.arg, MatMul)","path":{"lhs":"combine_powers(x)","rhs":"returns newmul(factor, *new_args)","over":{"base":"MatMul","pred":"isinstance(B.arg, MatMul)"},"name":"combine_powers_MatMul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.combine_powers_MatMul_correct","statement":"combine_powers satisfies spec on MatMul inputs"},"trust":"LIBRARY"},{"name":"MatrixBase","pred":"isinstance(B_base, MatrixBase)","path":{"lhs":"combine_powers(x)","rhs":"returns newmul(factor, *new_args)","over":{"base":"MatrixBase","pred":"isinstance(B_base, MatrixBase)"},"name":"combine_powers_MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.combine_powers_MatrixBase_correct","statement":"combine_powers satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"cc9ccce3999061dd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(mul, 'as_coeff_matrices')"],"returns_expr":"newmul(factor, *new_args)","pure":true},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":1,"n_assumed":4,"n_failed":7,"trust_level":"LIBRARY_ASSUMED","compile_ms":9.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'B_base_inv is not None and A_base == B_base_inv', 'not isinstance(B_base, MatrixBase)', 'A.is_square == False or B.is_square == False', 'list(Bargs) == new_args[-l:]', 'isinstance(A, MatPow)', 'A_base == B_base', 'isinstance(A, Inverse) and isinstance(A.arg, MatMul)', 'list(Aargs) == args[i:i + l]', 'isinstance(B, MatPow)', 'isinstance(B, Inverse) and isinstance(B.arg, MatMul)'}, fibers={'MatPow', 'MatrixBase', 'MatMul', 'Inverse'})"]}}
 def combine_powers(mul):
     r"""Combine consecutive powers with the same base into one, e.g.
     $$A \times A^2 \Rightarrow A^3$$
@@ -656,7 +798,11 @@ def combine_powers(mul):
     return newmul(factor, *new_args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(combine_permutations(mul), refine products of permutation matrices as the products of cycles) over {Any | isinstance(A, PermutationMatrix)} ║
+# ║ Path(combine_permutations(mul), <unspecified:combine_permutations>) over {Any | isinstance(A, PermutationMatrix) and hasattr(mul, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(mul, 'args')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ combine_permutations : {Any | isinstance(A, Permutati...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -668,9 +814,12 @@ def combine_powers(mul):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 50e4f39f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.combine_permutations","kind":"function","src_hash":"c59f376ebeed33aa","in":{"base":"Any","pred":"isinstance(A, PermutationMatrix)"},"out":{"base":"Any"},"spec":{"lhs":"combine_permutations(mul)","rhs":"refine products of permutation matrices as the products of cycles","over":{"base":"Any","pred":"isinstance(A, PermutationMatrix)"},"name":"combine_permutations_correct"},"guarantee":"refine products of permutation matrices as the products of cycles","fibers":[{"name":"PermutationMatrix","pred":"isinstance(A, PermutationMatrix)","path":{"lhs":"combine_permutations(x)","rhs":"refine products of permutation matrices as the products of cycles","over":{"base":"PermutationMatrix","pred":"isinstance(A, PermutationMatrix)"},"name":"combine_permutations_PermutationMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.combine_permutations_PermutationMatrix_correct","statement":"combine_permutations satisfies spec on PermutationMatrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"50e4f39f5d1d4b7b"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.combine_permutations","kind":"function","src_hash":"c59f376ebeed33aa","in":{"base":"Any","pred":"isinstance(A, PermutationMatrix) and hasattr(mul, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"combine_permutations(mul)","rhs":"<unspecified:combine_permutations>","over":{"base":"Any","pred":"isinstance(A, PermutationMatrix) and hasattr(mul, 'args')"},"name":"combine_permutations_correct"},"guarantee":"refine products of permutation matrices as the products of cycles","fibers":[{"name":"PermutationMatrix","pred":"isinstance(A, PermutationMatrix)","path":{"lhs":"combine_permutations(x)","rhs":"refine products of permutation matrices as the products of cycles","over":{"base":"PermutationMatrix","pred":"isinstance(A, PermutationMatrix)"},"name":"combine_permutations_PermutationMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.combine_permutations_PermutationMatrix_correct","statement":"combine_permutations satisfies spec on PermutationMatrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"50e4f39f5d1d4b7b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(mul, 'args')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(A, PermutationMatrix) and isinstance(B, PermutationMatrix)', 'l < 2'}, fibers={'PermutationMatrix'})"]}}
 def combine_permutations(mul):
     """Refine products of permutation matrices as the products of cycles.
     """
@@ -694,7 +843,11 @@ def combine_permutations(mul):
     return MatMul(*result)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(combine_one_matrices(mul), combine products of onematrix) over {Any | isinstance(A, OneMatrix)} ║
+# ║ Path(combine_one_matrices(mul), newmul(factor, *new_args)) over {Any | isinstance(A, OneMatrix) and hasattr(mul, 'as_coeff_matrices')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(mul, 'as_coeff_matrices')              ║
+# ║   returns:  newmul(factor, *new_args)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ combine_one_matrices : {Any | isinstance(A, OneMatrix...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -706,9 +859,12 @@ def combine_permutations(mul):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 25a97343...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.combine_one_matrices","kind":"function","src_hash":"346d1f8d24fc5912","in":{"base":"Any","pred":"isinstance(A, OneMatrix)"},"out":{"base":"Any"},"spec":{"lhs":"combine_one_matrices(mul)","rhs":"combine products of onematrix","over":{"base":"Any","pred":"isinstance(A, OneMatrix)"},"name":"combine_one_matrices_correct"},"guarantee":"combine products of onematrix","fibers":[{"name":"OneMatrix","pred":"isinstance(A, OneMatrix)","path":{"lhs":"combine_one_matrices(x)","rhs":"combine products of onematrix","over":{"base":"OneMatrix","pred":"isinstance(A, OneMatrix)"},"name":"combine_one_matrices_OneMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.combine_one_matrices_OneMatrix_correct","statement":"combine_one_matrices satisfies spec on OneMatrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"25a9734338d0629a"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.combine_one_matrices","kind":"function","src_hash":"346d1f8d24fc5912","in":{"base":"Any","pred":"isinstance(A, OneMatrix) and hasattr(mul, 'as_coeff_matrices')"},"out":{"base":"Any"},"spec":{"lhs":"combine_one_matrices(mul)","rhs":"newmul(factor, *new_args)","over":{"base":"Any","pred":"isinstance(A, OneMatrix) and hasattr(mul, 'as_coeff_matrices')"},"name":"combine_one_matrices_correct"},"guarantee":"returns newmul(factor, *new_args)","fibers":[{"name":"OneMatrix","pred":"isinstance(A, OneMatrix)","path":{"lhs":"combine_one_matrices(x)","rhs":"returns newmul(factor, *new_args)","over":{"base":"OneMatrix","pred":"isinstance(A, OneMatrix)"},"name":"combine_one_matrices_OneMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.combine_one_matrices_OneMatrix_correct","statement":"combine_one_matrices satisfies spec on OneMatrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"25a9734338d0629a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(mul, 'as_coeff_matrices')"],"returns_expr":"newmul(factor, *new_args)","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(A, OneMatrix) or not isinstance(B, OneMatrix)'}, fibers={'OneMatrix'})"]}}
 def combine_one_matrices(mul):
     """
     Combine products of OneMatrix
@@ -730,16 +886,23 @@ def combine_one_matrices(mul):
     return newmul(factor, *new_args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(distribute_monom(mul), id) over Any                   ║
+# ║ Path(distribute_monom(mul), id) over {Any | hasattr(mul, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ distribute_monom : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(mul, 'args')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ distribute_monom : {Any | hasattr(mul, 'args')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 2cd33ea91fedfe75   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.distribute_monom","kind":"function","src_hash":"31ce0f703bde8ab0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"distribute_monom(mul)","rhs":"simplify matmul expressions but distributing rational term to matmul","over":{"base":"Any"},"name":"distribute_monom_correct","kind":"composition"},"guarantee":"simplify matmul expressions but distributing rational term to matmul","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"MatAdd","by":"library_axiom"},{"fn":"MatMul","by":"library_axiom"},{"fn":"doit","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2cd33ea91fedfe75"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.distribute_monom","kind":"function","src_hash":"31ce0f703bde8ab0","in":{"base":"Any","pred":"hasattr(mul, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"distribute_monom(mul)","rhs":"<unspecified:distribute_monom>","over":{"base":"Any","pred":"hasattr(mul, 'args')"},"name":"distribute_monom_correct","kind":"composition"},"guarantee":"simplify matmul expressions but distributing rational term to matmul","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"MatAdd","by":"library_axiom"},{"fn":"MatMul","by":"library_axiom"},{"fn":"doit","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2cd33ea91fedfe75","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(mul, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["mul.args"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def distribute_monom(mul):
     """
     Simplify MatMul expressions but distributing
@@ -763,16 +926,23 @@ rules = (
 canonicalize = exhaust(typed({MatMul: do_one(*rules)}))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(only_squares(*ma), factor matrices only if they are square) over Any ║
+# ║ Path(only_squares(*matrices), len(out) == old_len_out + 1) over {Any | not (matrices[0].rows != matrices[-1].cols)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ only_squares : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (matrices[0].rows != matrices[-1].cols)    ║
+# ║   ensures:  len(out) == old_len_out + 1                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ only_squares : {Any | not (matrices[0].rows != matric...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7efbe047407d8295  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 47d8a521e10738a7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.only_squares","kind":"function","src_hash":"9eaa66c224a78244","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"only_squares(*ma)","rhs":"factor matrices only if they are square","over":{"base":"Any"},"name":"only_squares_correct"},"guarantee":"factor matrices only if they are square","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.only_squares_correct","statement":"Path(only_squares(x), factor matrices only if they are square)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7efbe047407d8295"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.only_squares","kind":"function","src_hash":"9eaa66c224a78244","in":{"base":"Any","pred":"not (matrices[0].rows != matrices[-1].cols)"},"out":{"base":"Any","pred":"result satisfies: len(out) == old_len_out + 1"},"spec":{"lhs":"only_squares(*matrices)","rhs":"len(out) == old_len_out + 1","over":{"base":"Any","pred":"not (matrices[0].rows != matrices[-1].cols)"},"name":"only_squares_correct"},"guarantee":"len(out) == old_len_out + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.only_squares_correct","statement":"Path(only_squares(x), len(out) == old_len_out + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47d8a521e10738a7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (matrices[0].rows != matrices[-1].cols)"],"ensures":["len(out) == old_len_out + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["out.append"],"raises":["RuntimeError"]},"state_contract":{"modifies":["out.*"],"old_bindings":{"old_len_out":"len(out)"},"post_ensures":["len(out) == old_len_out + 1"],"exceptional_post":{"RuntimeError":["isinstance(raised, RuntimeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*matrices']"]}}
 def only_squares(*matrices):
     """factor matrices only if they are square"""
     if matrices[0].rows != matrices[-1].cols:
@@ -787,16 +957,23 @@ def only_squares(*matrices):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(refine_MatMul(exp), >>> from sympy import matrixsymbol, q, assuming, refine >>> x = matrixsymbol('x', 2, 2) >>> expr = x * x.t >>> print(expr) x*x.t >>> with assuming(q.orthogonal(x)): ) over Any ║
+# ║ Path(refine_MatMul(expr, assumptions), MatMul(*newargs)) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ refine_MatMul : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  MatMul(*newargs)                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ refine_MatMul : {Any | hasattr(expr, 'args')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7587a975f25b7fc6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5485ac3485692be9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.refine_MatMul","kind":"function","src_hash":"746ae38d900bac1d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"refine_MatMul(exp)","rhs":">>> from sympy import matrixsymbol, q, assuming, refine >>> x = matrixsymbol('x', 2, 2) >>> expr = x * x.t >>> print(expr) x*x.t >>> with assuming(q.orthogonal(x)): ","over":{"base":"Any"},"name":"refine_MatMul_correct"},"guarantee":">>> from sympy import matrixsymbol, q, assuming, refine >>> x = matrixsymbol('x', 2, 2) >>> expr = x * x.t >>> print(expr) x*x.t >>> with assuming(q.orthogonal(x)): ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.refine_MatMul_correct","statement":"Path(refine_MatMul(x), >>> from sympy import matrixsymbol, q, assuming, refine >>> x = matrixsymbol('x', 2, 2) >>> expr = x * x.t >>> print(expr) x*x.t >>> with assuming(q.orthogonal(x)): )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7587a975f25b7fc6"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.matmul.refine_MatMul","kind":"function","src_hash":"746ae38d900bac1d","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"refine_MatMul(expr, assumptions)","rhs":"MatMul(*newargs)","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"refine_MatMul_correct"},"guarantee":"returns MatMul(*newargs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.matmul.refine_MatMul_correct","statement":"Path(refine_MatMul(x), returns MatMul(*newargs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5485ac3485692be9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"MatMul(*newargs)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def refine_MatMul(expr, assumptions):
     """
     >>> from sympy import MatrixSymbol, Q, assuming, refine

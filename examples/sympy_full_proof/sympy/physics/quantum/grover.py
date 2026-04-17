@@ -49,16 +49,22 @@ __all__ = [
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(superposition_basis(nqu), id) over Any                ║
+# ║ Path(superposition_basis(nqubits), id) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sum((amp * IntQubit(n, nqubits=nqubits) f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ superposition_basis : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 700d4e54a5733eab   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.grover.superposition_basis","kind":"function","src_hash":"570a263b74edc10e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"superposition_basis(nqu)","rhs":"creates an equal superposition of the computational basis","over":{"base":"Any"},"name":"superposition_basis_correct","kind":"composition"},"guarantee":"creates an equal superposition of the computational basis","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sum","by":"library_axiom"},{"fn":"IntQubit","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"700d4e54a5733eab"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.grover.superposition_basis","kind":"function","src_hash":"570a263b74edc10e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"superposition_basis(nqubits)","rhs":"sum((amp * IntQubit(n, nqubits=nqubits) for n in range(2 ** nqubits)))","over":{"base":"Any"},"name":"superposition_basis_correct","kind":"composition"},"guarantee":"returns sum((amp * IntQubit(n, nqubits=nqubits) for n in range(2 ** nqubits)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sum","by":"library_axiom"},{"fn":"IntQubit","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"700d4e54a5733eab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sum((amp * IntQubit(n, nqubits=nqubits) for n in range(2 ** nqubits)))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def superposition_basis(nqubits):
     """Creates an equal superposition of the computational basis.
 
@@ -90,28 +96,41 @@ def superposition_basis(nqubits):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(OracleGateFunction(*args), correctly constructs a OracleGateFunction instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ OracleGateFunction : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Atom)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ OracleGateFunction : Any → {Any | result satisfies: i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 20e72e34e554c02c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.grover.OracleGateFunction","kind":"class","src_hash":"307de0a2387e45a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"OracleGateFunction(*args)","rhs":"correctly constructs a OracleGateFunction instance","over":{"base":"Any"},"name":"OracleGateFunction_class_invariant"},"guarantee":"correctly constructs a OracleGateFunction instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20e72e34e554c02c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.grover.OracleGateFunction","kind":"class","src_hash":"307de0a2387e45a7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Atom)"},"spec":{"lhs":"OracleGateFunction(*args)","rhs":"correctly constructs a OracleGateFunction instance","over":{"base":"Any"},"name":"OracleGateFunction_class_invariant"},"guarantee":"isinstance(self, Atom)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20e72e34e554c02c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Atom)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function OracleGateFunction not found in source"]}}
 class OracleGateFunction(Atom):
     """Wrapper for python functions used in `OracleGate`s"""
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, function), <unspecified:__new__>) over {Any | callable(function)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: callable(function)                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | callable(function)} → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 46a635bfe1d605df           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.grover.OracleGateFunction.__new__","kind":"method","src_hash":"4c376b3117a2c20b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"46a635bfe1d605df"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.grover.OracleGateFunction.__new__","kind":"method","src_hash":"4c376b3117a2c20b","in":{"base":"Any","pred":"callable(function)"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, function)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"callable(function)"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"46a635bfe1d605df","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["callable(function)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, function):
         if not callable(function):
             raise TypeError('Callable expected, got: %r' % function)
@@ -120,30 +139,42 @@ class OracleGateFunction(Atom):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_hashable_content(), internal helper behaves correctly) over Any ║
+# ║ Path(_hashable_content(), (type(self), self.function)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (type(self), self.function)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _hashable_content : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f0b38d546291b4d3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.grover.OracleGateFunction._hashable_content","kind":"method","src_hash":"449059c10e7aac77","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_hashable_content()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_hashable_content_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f0b38d546291b4d3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.grover.OracleGateFunction._hashable_content","kind":"method","src_hash":"449059c10e7aac77","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_hashable_content()","rhs":"(type(self), self.function)","over":{"base":"Any"},"name":"_hashable_content_correct"},"guarantee":"returns (type(self), self.function)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f0b38d546291b4d3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(type(self), self.function)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _hashable_content(self):
         return type(self), self.function
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(*ar), correctly applies the callable) over Any ║
+# ║ Path(__call__(*args), self.function(*args)) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.function(*args)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __call__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | da6bca5109626436           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.grover.OracleGateFunction.__call__","kind":"method","src_hash":"afb4efd5791ce1c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(*ar)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"da6bca5109626436"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.grover.OracleGateFunction.__call__","kind":"method","src_hash":"afb4efd5791ce1c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(*args)","rhs":"self.function(*args)","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"returns self.function(*args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"da6bca5109626436","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.function(*args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, *args):
         return self.function(*args)
 
@@ -151,14 +182,20 @@ class OracleGateFunction(Atom):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(OracleGate(*args), correctly constructs a OracleGate instance) over {Any | isinstance(function, OracleGateFunction)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Gate)                         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ OracleGate : {Any | isinstance(function, OracleGateFu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 727dc99836a7d522  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.grover.OracleGate","kind":"class","src_hash":"4ef9c477fe8ab0c1","in":{"base":"Any","pred":"isinstance(function, OracleGateFunction)"},"out":{"base":"Any"},"spec":{"lhs":"OracleGate(*args)","rhs":"correctly constructs a OracleGate instance","over":{"base":"Any","pred":"isinstance(function, OracleGateFunction)"},"name":"OracleGate_class_invariant"},"guarantee":"correctly constructs a OracleGate instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"727dc99836a7d522"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.grover.OracleGate","kind":"class","src_hash":"4ef9c477fe8ab0c1","in":{"base":"Any","pred":"isinstance(function, OracleGateFunction)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Gate)"},"spec":{"lhs":"OracleGate(*args)","rhs":"correctly constructs a OracleGate instance","over":{"base":"Any","pred":"isinstance(function, OracleGateFunction)"},"name":"OracleGate_class_invariant"},"guarantee":"isinstance(self, Gate)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"727dc99836a7d522","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Gate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function OracleGate not found in source"]}}
 class OracleGate(Gate):
     """A black box gate.
 
@@ -200,16 +237,24 @@ class OracleGate(Gate):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_args(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_args(cls, args), (sub_args[0], function)) over {Any | not (len(args) != 2) and sub_args[0].is_Integer} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_args : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(args) != 2)                           ║
+# ║   requires: sub_args[0].is_Integer                         ║
+# ║   returns:  (sub_args[0], function)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_args : {Any | not (len(args) != 2) and sub_args...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 703ee2cb8b04d9d9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c6964c2570ddced  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.grover.OracleGate._eval_args","kind":"classmethod","src_hash":"7090dc0a011bc43f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_args(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_args_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.grover.OracleGate._eval_args_correct","statement":"Path(_eval_args(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"703ee2cb8b04d9d9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.grover.OracleGate._eval_args","kind":"classmethod","src_hash":"7090dc0a011bc43f","in":{"base":"Any","pred":"not (len(args) != 2) and sub_args[0].is_Integer"},"out":{"base":"Any"},"spec":{"lhs":"_eval_args(cls, args)","rhs":"(sub_args[0], function)","over":{"base":"Any","pred":"not (len(args) != 2) and sub_args[0].is_Integer"},"name":"_eval_args_correct"},"guarantee":"returns (sub_args[0], function)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.grover.OracleGate._eval_args_correct","statement":"Path(_eval_args(x), returns (sub_args[0], function))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c6964c2570ddced","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(args) != 2)","sub_args[0].is_Integer"],"returns_expr":"(sub_args[0], function)","pure":false,"effects":{"effect_type":"reads_state","raises":["QuantumError","TypeError"]},"state_contract":{"exceptional_post":{"QuantumError":["isinstance(raised, QuantumError)"],"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_args(cls, args):
         if len(args) != 2:
             raise QuantumError(
@@ -229,16 +274,22 @@ class OracleGate(Gate):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_hilbert_space(cls), this returns the smallest possible hilbert space) over Any ║
+# ║ Path(_eval_hilbert_space(cls, args), ComplexSpace(2) ** args[0]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ComplexSpace(2) ** args[0]                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_hilbert_space : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 57e4c4e40a131fe1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.grover.OracleGate._eval_hilbert_space","kind":"classmethod","src_hash":"bb1e78a6499239a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_hilbert_space(cls)","rhs":"this returns the smallest possible hilbert space","over":{"base":"Any"},"name":"_eval_hilbert_space_correct"},"guarantee":"this returns the smallest possible hilbert space","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"57e4c4e40a131fe1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.grover.OracleGate._eval_hilbert_space","kind":"classmethod","src_hash":"bb1e78a6499239a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_hilbert_space(cls, args)","rhs":"ComplexSpace(2) ** args[0]","over":{"base":"Any"},"name":"_eval_hilbert_space_correct"},"guarantee":"returns ComplexSpace(2) ** args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"57e4c4e40a131fe1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ComplexSpace(2) ** args[0]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_hilbert_space(cls, args):
         """This returns the smallest possible Hilbert space."""
         return ComplexSpace(2)**args[0]
@@ -249,32 +300,44 @@ class OracleGate(Gate):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(search_function(), returns the search_function attribute) over Any ║
+# ║ Path(search_function(), self.label[1]) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.label[1]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ search_function : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4ed2fab54947cee4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.grover.OracleGate.search_function","kind":"property","src_hash":"05d44792680236d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"search_function()","rhs":"returns the search_function attribute","over":{"base":"Any"},"name":"search_function_correct"},"guarantee":"returns the search_function attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4ed2fab54947cee4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.grover.OracleGate.search_function","kind":"property","src_hash":"05d44792680236d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"search_function()","rhs":"self.label[1]","over":{"base":"Any"},"name":"search_function_correct"},"guarantee":"returns self.label[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4ed2fab54947cee4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.label[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.label"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def search_function(self):
         """The unknown function that helps find the sought after qubits."""
         return self.label[1]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(targets(), returns the targets attribute) over Any    ║
+# ║ Path(targets(), sympify(tuple(range(self.args[0])))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sympify(tuple(range(self.args[0])))            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ targets : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 311d50226960de31           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.grover.OracleGate.targets","kind":"property","src_hash":"531ad9ba778404e4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"targets()","rhs":"returns the targets attribute","over":{"base":"Any"},"name":"targets_correct"},"guarantee":"returns the targets attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"311d50226960de31"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.grover.OracleGate.targets","kind":"property","src_hash":"531ad9ba778404e4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"targets()","rhs":"sympify(tuple(range(self.args[0])))","over":{"base":"Any"},"name":"targets_correct"},"guarantee":"returns sympify(tuple(range(self.args[0])))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"311d50226960de31","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sympify(tuple(range(self.args[0])))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def targets(self):
         """A tuple of target qubits."""
         return sympify(tuple(range(self.args[0])))
@@ -284,16 +347,24 @@ class OracleGate(Gate):
     #-------------------------------------------------------------------------
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_operator_Qubit(qub), apply this operator to a qubit subclass) over Any ║
+# ║ Path(_apply_operator_Qubit(qubits, **options), <unspecified:_apply_operator_Qubit>) over {Any | not (qubits.nqubits != self.nqubits) and hasattr(qubits, 'nqubits')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _apply_operator_Qubit : Any → Any                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (qubits.nqubits != self.nqubits)           ║
+# ║   requires: hasattr(qubits, 'nqubits')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _apply_operator_Qubit : {Any | not (qubits.nqubits !=...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80e483da2a9db413  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.grover.OracleGate._apply_operator_Qubit","kind":"method","src_hash":"f19828e12d891a24","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_Qubit(qub)","rhs":"apply this operator to a qubit subclass","over":{"base":"Any"},"name":"_apply_operator_Qubit_correct"},"guarantee":"apply this operator to a qubit subclass","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.grover.OracleGate._apply_operator_Qubit_correct","statement":"Path(_apply_operator_Qubit(x), apply this operator to a qubit subclass)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80e483da2a9db413"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.grover.OracleGate._apply_operator_Qubit","kind":"method","src_hash":"f19828e12d891a24","in":{"base":"Any","pred":"not (qubits.nqubits != self.nqubits) and hasattr(qubits, 'nqubits')"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_Qubit(qubits, **options)","rhs":"<unspecified:_apply_operator_Qubit>","over":{"base":"Any","pred":"not (qubits.nqubits != self.nqubits) and hasattr(qubits, 'nqubits')"},"name":"_apply_operator_Qubit_correct"},"guarantee":"apply this operator to a qubit subclass","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.grover.OracleGate._apply_operator_Qubit_correct","statement":"Path(_apply_operator_Qubit(x), apply this operator to a qubit subclass)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80e483da2a9db413","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (qubits.nqubits != self.nqubits)","hasattr(qubits, 'nqubits')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["qubits.nqubits","self.nqubits","self.search_function"],"raises":["QuantumError"]},"state_contract":{"exceptional_post":{"QuantumError":["isinstance(raised, QuantumError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_operator_Qubit(self, qubits, **options):
         """Apply this operator to a Qubit subclass.
 
@@ -326,16 +397,22 @@ class OracleGate(Gate):
     #-------------------------------------------------------------------------
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_ZGate(bas), represent the oraclegate in the computational basis) over Any ║
+# ║ Path(_represent_ZGate(basis, **options), <unspecified:_represent_ZGate>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_ZGate : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 071f97fd2b4617d8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.grover.OracleGate._represent_ZGate","kind":"method","src_hash":"b0324bcf06ed828e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_ZGate(bas)","rhs":"represent the oraclegate in the computational basis","over":{"base":"Any"},"name":"_represent_ZGate_correct"},"guarantee":"represent the oraclegate in the computational basis","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.grover.OracleGate._represent_ZGate_correct","statement":"Path(_represent_ZGate(x), represent the oraclegate in the computational basis)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"071f97fd2b4617d8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.grover.OracleGate._represent_ZGate","kind":"method","src_hash":"b0324bcf06ed828e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_ZGate(basis, **options)","rhs":"<unspecified:_represent_ZGate>","over":{"base":"Any"},"name":"_represent_ZGate_correct"},"guarantee":"represent the oraclegate in the computational basis","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.grover.OracleGate._represent_ZGate_correct","statement":"Path(_represent_ZGate(x), represent the oraclegate in the computational basis)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"071f97fd2b4617d8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.nqubits","self.search_function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_ZGate(self, basis, **options):
         """
         Represent the OracleGate in the computational basis.
@@ -352,14 +429,20 @@ class OracleGate(Gate):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(WGate(*args), correctly constructs a WGate instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ WGate : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Gate)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ WGate : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da5b92a51d63c8b7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.grover.WGate","kind":"class","src_hash":"97fe19430724ab90","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"WGate(*args)","rhs":"correctly constructs a WGate instance","over":{"base":"Any"},"name":"WGate_class_invariant"},"guarantee":"correctly constructs a WGate instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da5b92a51d63c8b7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.grover.WGate","kind":"class","src_hash":"97fe19430724ab90","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Gate)"},"spec":{"lhs":"WGate(*args)","rhs":"correctly constructs a WGate instance","over":{"base":"Any"},"name":"WGate_class_invariant"},"guarantee":"isinstance(self, Gate)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da5b92a51d63c8b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Gate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function WGate not found in source"]}}
 class WGate(Gate):
     """General n qubit W Gate in Grover's algorithm.
 
@@ -379,16 +462,25 @@ class WGate(Gate):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_args(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_args(cls, args), args) over {Any | not (len(args) != 1) and args[0].is_Integer} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_args : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(args) != 1)                           ║
+# ║   requires: args[0].is_Integer                             ║
+# ║   ensures:  result == args                                 ║
+# ║   returns:  args                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_args : {Any | not (len(args) != 1) and args[0]....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f96b42e6e13bcdc0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b66a52ef4ea8e69d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.grover.WGate._eval_args","kind":"classmethod","src_hash":"dcd82e4e28d973a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_args(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_args_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.grover.WGate._eval_args_correct","statement":"Path(_eval_args(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f96b42e6e13bcdc0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.grover.WGate._eval_args","kind":"classmethod","src_hash":"dcd82e4e28d973a8","in":{"base":"Any","pred":"not (len(args) != 1) and args[0].is_Integer"},"out":{"base":"Any","pred":"result satisfies: result == (args)"},"spec":{"lhs":"_eval_args(cls, args)","rhs":"args","over":{"base":"Any","pred":"not (len(args) != 1) and args[0].is_Integer"},"name":"_eval_args_correct"},"guarantee":"returns args; result == args","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.grover.WGate._eval_args_correct","statement":"Path(_eval_args(x), returns args; result == args)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b66a52ef4ea8e69d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(args) != 1)","args[0].is_Integer"],"ensures":["result == args"],"returns_expr":"args","pure":false,"effects":{"effect_type":"reads_state","raises":["QuantumError","TypeError"]},"state_contract":{"exceptional_post":{"QuantumError":["isinstance(raised, QuantumError)"],"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_args(cls, args):
         if len(args) != 1:
             raise QuantumError(
@@ -406,16 +498,22 @@ class WGate(Gate):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(targets(), returns the targets attribute) over Any    ║
+# ║ Path(targets(), sympify(tuple(reversed(range(self.args[0]))))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sympify(tuple(reversed(range(self.args[0]...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ targets : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b0ca15be1cb6298b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.grover.WGate.targets","kind":"property","src_hash":"3d93c8d792c37fed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"targets()","rhs":"returns the targets attribute","over":{"base":"Any"},"name":"targets_correct"},"guarantee":"returns the targets attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b0ca15be1cb6298b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.grover.WGate.targets","kind":"property","src_hash":"3d93c8d792c37fed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"targets()","rhs":"sympify(tuple(reversed(range(self.args[0]))))","over":{"base":"Any"},"name":"targets_correct"},"guarantee":"returns sympify(tuple(reversed(range(self.args[0]))))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b0ca15be1cb6298b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sympify(tuple(reversed(range(self.args[0]))))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def targets(self):
         return sympify(tuple(reversed(range(self.args[0]))))
 
@@ -424,16 +522,24 @@ class WGate(Gate):
     #-------------------------------------------------------------------------
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_operator_Qubit(qub), qubits: a set of qubits (qubit) returns: quantum object (quantum expression - qexpr)) over Any ║
+# ║ Path(_apply_operator_Qubit(qubits, **options), change_to_basis - qubits) over {Any | not (qubits.nqubits != self.nqubits) and hasattr(qubits, 'nqubits')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _apply_operator_Qubit : Any → {Any | result satisfies...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (qubits.nqubits != self.nqubits)           ║
+# ║   requires: hasattr(qubits, 'nqubits')                     ║
+# ║   returns:  change_to_basis - qubits                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _apply_operator_Qubit : {Any | not (qubits.nqubits !=...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e504c3ead3e677f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 90ad23f0c0fd17d2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.grover.WGate._apply_operator_Qubit","kind":"method","src_hash":"ff0f831f239efd33","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: quantum object (quantum expression - qexpr)"},"spec":{"lhs":"_apply_operator_Qubit(qub)","rhs":"qubits: a set of qubits (qubit) returns: quantum object (quantum expression - qexpr)","over":{"base":"Any"},"name":"_apply_operator_Qubit_correct"},"guarantee":"qubits: a set of qubits (qubit) returns: quantum object (quantum expression - qexpr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.grover.WGate._apply_operator_Qubit_correct","statement":"Path(_apply_operator_Qubit(x), qubits: a set of qubits (qubit) returns: quantum object (quantum expression - qexpr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e504c3ead3e677f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.grover.WGate._apply_operator_Qubit","kind":"method","src_hash":"ff0f831f239efd33","in":{"base":"Any","pred":"not (qubits.nqubits != self.nqubits) and hasattr(qubits, 'nqubits')"},"out":{"base":"Any","pred":"result satisfies: quantum object (quantum expression - qexpr)"},"spec":{"lhs":"_apply_operator_Qubit(qubits, **options)","rhs":"change_to_basis - qubits","over":{"base":"Any","pred":"not (qubits.nqubits != self.nqubits) and hasattr(qubits, 'nqubits')"},"name":"_apply_operator_Qubit_correct"},"guarantee":"returns change_to_basis - qubits","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.grover.WGate._apply_operator_Qubit_correct","statement":"Path(_apply_operator_Qubit(x), returns change_to_basis - qubits)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90ad23f0c0fd17d2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (qubits.nqubits != self.nqubits)","hasattr(qubits, 'nqubits')"],"returns_expr":"change_to_basis - qubits","pure":false,"effects":{"effect_type":"reads_state","reads":["qubits.nqubits","self.nqubits"],"raises":["QuantumError"]},"state_contract":{"exceptional_post":{"QuantumError":["isinstance(raised, QuantumError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_operator_Qubit(self, qubits, **options):
         """
         qubits: a set of qubits (Qubit)
@@ -455,16 +561,23 @@ class WGate(Gate):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(grover_iteration(qst), applies one application of the oracle and w gate, wv) over Any ║
+# ║ Path(grover_iteration(qstate, oracle), wgate * oracle * qstate) over {Any | hasattr(oracle, 'nqubits')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ grover_iteration : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(oracle, 'nqubits')                     ║
+# ║   returns:  wgate * oracle * qstate                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ grover_iteration : {Any | hasattr(oracle, 'nqubits')}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4376415afd80be57  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d87696ac360b7611  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.grover.grover_iteration","kind":"function","src_hash":"e8bec3e16cdfd75a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"grover_iteration(qst)","rhs":"applies one application of the oracle and w gate, wv","over":{"base":"Any"},"name":"grover_iteration_correct"},"guarantee":"applies one application of the oracle and w gate, wv","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.grover.grover_iteration_correct","statement":"Path(grover_iteration(x), applies one application of the oracle and w gate, wv)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4376415afd80be57"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.grover.grover_iteration","kind":"function","src_hash":"e8bec3e16cdfd75a","in":{"base":"Any","pred":"hasattr(oracle, 'nqubits')"},"out":{"base":"Any"},"spec":{"lhs":"grover_iteration(qstate, oracle)","rhs":"wgate * oracle * qstate","over":{"base":"Any","pred":"hasattr(oracle, 'nqubits')"},"name":"grover_iteration_correct"},"guarantee":"returns wgate * oracle * qstate","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.grover.grover_iteration_correct","statement":"Path(grover_iteration(x), returns wgate * oracle * qstate)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d87696ac360b7611","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(oracle, 'nqubits')"],"returns_expr":"wgate * oracle * qstate","pure":false,"effects":{"effect_type":"reads_state","reads":["oracle.nqubits"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def grover_iteration(qstate, oracle):
     """Applies one application of the Oracle and W Gate, WV.
 
@@ -504,16 +617,23 @@ def grover_iteration(qstate, oracle):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(apply_grover(ora), applies grover's algorithm) over Any ║
+# ║ Path(apply_grover(oracle, nqubits, iterations), <unspecified:apply_grover>) over {Any | not (nqubits <= 0)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ apply_grover : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (nqubits <= 0)                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ apply_grover : {Any | not (nqubits <= 0)} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ab96cf73bd02823  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.grover.apply_grover","kind":"function","src_hash":"1b227e42ad8ef444","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_grover(ora)","rhs":"applies grover's algorithm","over":{"base":"Any"},"name":"apply_grover_correct"},"guarantee":"applies grover's algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.grover.apply_grover_correct","statement":"Path(apply_grover(x), applies grover's algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ab96cf73bd02823"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.grover.apply_grover","kind":"function","src_hash":"1b227e42ad8ef444","in":{"base":"Any","pred":"not (nqubits <= 0)"},"out":{"base":"Any"},"spec":{"lhs":"apply_grover(oracle, nqubits, iterations)","rhs":"<unspecified:apply_grover>","over":{"base":"Any","pred":"not (nqubits <= 0)"},"name":"apply_grover_correct"},"guarantee":"applies grover's algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.grover.apply_grover_correct","statement":"Path(apply_grover(x), applies grover's algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ab96cf73bd02823","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (nqubits <= 0)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["QuantumError"]},"state_contract":{"exceptional_post":{"QuantumError":["isinstance(raised, QuantumError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def apply_grover(oracle, nqubits, iterations=None):
     """Applies grover's algorithm.
 

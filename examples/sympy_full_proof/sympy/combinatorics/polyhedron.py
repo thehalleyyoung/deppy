@@ -28,14 +28,20 @@ rmul = Perm.rmul
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Polyhedron(*args), correctly constructs a Polyhedron instance) over {Any | isinstance(perm, Perm)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Polyhedron : {Any | isinstance(perm, Perm)} → Any          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Polyhedron : {Any | isinstance(perm, Perm)} → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f8e1dfb9b2f214b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.polyhedron.Polyhedron","kind":"class","src_hash":"97a67b66164e6ada","in":{"base":"Any","pred":"isinstance(perm, Perm)"},"out":{"base":"Any"},"spec":{"lhs":"Polyhedron(*args)","rhs":"correctly constructs a Polyhedron instance","over":{"base":"Any","pred":"isinstance(perm, Perm)"},"name":"Polyhedron_class_invariant"},"guarantee":"correctly constructs a Polyhedron instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f8e1dfb9b2f214b"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.polyhedron.Polyhedron","kind":"class","src_hash":"97a67b66164e6ada","in":{"base":"Any","pred":"isinstance(perm, Perm)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic)"},"spec":{"lhs":"Polyhedron(*args)","rhs":"correctly constructs a Polyhedron instance","over":{"base":"Any","pred":"isinstance(perm, Perm)"},"name":"Polyhedron_class_invariant"},"guarantee":"isinstance(self, Basic)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f8e1dfb9b2f214b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function Polyhedron not found in source"]}}
 class Polyhedron(Basic):
     """
     Represents the polyhedral symmetry group (PSG).
@@ -60,16 +66,22 @@ class Polyhedron(Basic):
     _edges = None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), the constructor of the polyhedron group object) over Any ║
+# ║ Path(__new__(cls, corners, faces), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d5b095999bf7066f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.polyhedron.Polyhedron.__new__","kind":"method","src_hash":"5622381912cc8fb5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"the constructor of the polyhedron group object","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"the constructor of the polyhedron group object","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d5b095999bf7066f"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.polyhedron.Polyhedron.__new__","kind":"method","src_hash":"5622381912cc8fb5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, corners, faces)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"the constructor of the polyhedron group object","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d5b095999bf7066f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, corners, faces=(), pgroup=()):
         """
         The constructor of the Polyhedron group object.
@@ -439,16 +451,22 @@ class Polyhedron(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(corners(), returns the corners attribute) over Any    ║
+# ║ Path(corners(), self._corners) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._corners                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ corners : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 208953209a811922           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.polyhedron.Polyhedron.corners","kind":"property","src_hash":"7cb2b78413673c39","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"corners()","rhs":"returns the corners attribute","over":{"base":"Any"},"name":"corners_correct"},"guarantee":"returns the corners attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"208953209a811922"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.polyhedron.Polyhedron.corners","kind":"property","src_hash":"7cb2b78413673c39","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"corners()","rhs":"self._corners","over":{"base":"Any"},"name":"corners_correct"},"guarantee":"returns self._corners","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"208953209a811922","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._corners","pure":false,"effects":{"effect_type":"reads_state","reads":["self._corners"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def corners(self):
         """
         Get the corners of the Polyhedron.
@@ -474,16 +492,22 @@ class Polyhedron(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(array_form(), returns the array_form attribute) over Any ║
+# ║ Path(array_form(), [corners.index(c) for c in self.corners]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [corners.index(c) for c in self.corners]       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ array_form : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7ca7e2d45631d055           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.polyhedron.Polyhedron.array_form","kind":"property","src_hash":"8e024c18c5b31679","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"array_form()","rhs":"returns the array_form attribute","over":{"base":"Any"},"name":"array_form_correct"},"guarantee":"returns the array_form attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7ca7e2d45631d055"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.polyhedron.Polyhedron.array_form","kind":"property","src_hash":"8e024c18c5b31679","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"array_form()","rhs":"[corners.index(c) for c in self.corners]","over":{"base":"Any"},"name":"array_form_correct"},"guarantee":"returns [corners.index(c) for c in self.corners]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7ca7e2d45631d055","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[corners.index(c) for c in self.corners]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.corners"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def array_form(self):
         """Return the indices of the corners.
 
@@ -513,16 +537,22 @@ class Polyhedron(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cyclic_form(), returns the cyclic_form attribute) over Any ║
+# ║ Path(cyclic_form(), Perm._af_new(self.array_form).cyclic_form) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Perm._af_new(self.array_form).cyclic_form      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cyclic_form : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7f57495bca109bf4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.polyhedron.Polyhedron.cyclic_form","kind":"property","src_hash":"ea83f8288ee58d0e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cyclic_form()","rhs":"returns the cyclic_form attribute","over":{"base":"Any"},"name":"cyclic_form_correct"},"guarantee":"returns the cyclic_form attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7f57495bca109bf4"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.polyhedron.Polyhedron.cyclic_form","kind":"property","src_hash":"ea83f8288ee58d0e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cyclic_form()","rhs":"Perm._af_new(self.array_form).cyclic_form","over":{"base":"Any"},"name":"cyclic_form_correct"},"guarantee":"returns Perm._af_new(self.array_form).cyclic_form","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7f57495bca109bf4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Perm._af_new(self.array_form).cyclic_form","pure":false,"effects":{"effect_type":"reads_state","reads":["self.array_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cyclic_form(self):
         """Return the indices of the corners in cyclic notation.
 
@@ -537,16 +567,22 @@ class Polyhedron(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(size(), returns the size attribute) over Any          ║
+# ║ Path(size(), len(self._corners)) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(self._corners)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ size : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f0a9ac9dc5dcb63a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.polyhedron.Polyhedron.size","kind":"property","src_hash":"654a41797ac03392","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"size()","rhs":"returns the size attribute","over":{"base":"Any"},"name":"size_correct"},"guarantee":"returns the size attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f0a9ac9dc5dcb63a"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.polyhedron.Polyhedron.size","kind":"property","src_hash":"654a41797ac03392","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"size()","rhs":"len(self._corners)","over":{"base":"Any"},"name":"size_correct"},"guarantee":"returns len(self._corners)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f0a9ac9dc5dcb63a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(self._corners)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._corners"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def size(self):
         """
         Get the number of corners of the Polyhedron.
@@ -555,16 +591,22 @@ class Polyhedron(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(faces(), returns the faces attribute) over Any        ║
+# ║ Path(faces(), self._faces) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._faces                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ faces : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5f20de91e3bc8bb4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.polyhedron.Polyhedron.faces","kind":"property","src_hash":"5c07e1ea470fa1a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"faces()","rhs":"returns the faces attribute","over":{"base":"Any"},"name":"faces_correct"},"guarantee":"returns the faces attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5f20de91e3bc8bb4"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.polyhedron.Polyhedron.faces","kind":"property","src_hash":"5c07e1ea470fa1a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"faces()","rhs":"self._faces","over":{"base":"Any"},"name":"faces_correct"},"guarantee":"returns self._faces","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5f20de91e3bc8bb4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._faces","pure":false,"effects":{"effect_type":"reads_state","reads":["self._faces"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def faces(self):
         """
         Get the faces of the Polyhedron.
@@ -573,16 +615,22 @@ class Polyhedron(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pgroup(), returns the pgroup attribute) over Any      ║
+# ║ Path(pgroup(), self._pgroup) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._pgroup                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pgroup : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2d41c04db164f9f2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.polyhedron.Polyhedron.pgroup","kind":"property","src_hash":"9456477fc6ad50cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pgroup()","rhs":"returns the pgroup attribute","over":{"base":"Any"},"name":"pgroup_correct"},"guarantee":"returns the pgroup attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2d41c04db164f9f2"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.polyhedron.Polyhedron.pgroup","kind":"property","src_hash":"9456477fc6ad50cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pgroup()","rhs":"self._pgroup","over":{"base":"Any"},"name":"pgroup_correct"},"guarantee":"returns self._pgroup","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2d41c04db164f9f2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._pgroup","pure":false,"effects":{"effect_type":"reads_state","reads":["self._pgroup"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pgroup(self):
         """
         Get the permutations of the Polyhedron.
@@ -591,16 +639,22 @@ class Polyhedron(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(edges(), returns the edges attribute) over Any        ║
+# ║ Path(edges(), self._edges) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._edges                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ edges : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 22f78de7e5e6abee           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.polyhedron.Polyhedron.edges","kind":"property","src_hash":"4107b8ddbf526ad0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"edges()","rhs":"returns the edges attribute","over":{"base":"Any"},"name":"edges_correct"},"guarantee":"returns the edges attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"22f78de7e5e6abee"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.polyhedron.Polyhedron.edges","kind":"property","src_hash":"4107b8ddbf526ad0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"edges()","rhs":"self._edges","over":{"base":"Any"},"name":"edges_correct"},"guarantee":"returns self._edges","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"22f78de7e5e6abee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._edges","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._edges","self.faces"],"writes":["self._edges"],"calls_mutating":["output.add"]},"state_contract":{"modifies":["output.*","self._edges"],"old_bindings":{"old_self__edges":"self._edges"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def edges(self):
         """
         Given the faces of the polyhedra we can get the edges.
@@ -626,16 +680,24 @@ class Polyhedron(Basic):
         return self._edges
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rotate(per), apply a permutation to the polyhedron *in place*) over Any ║
+# ║ Path(rotate(perm), <unspecified:rotate>) over {Any | hasattr(perm, 'array_form') and hasattr(perm, 'size')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rotate : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(perm, 'array_form')                    ║
+# ║   requires: hasattr(perm, 'size')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rotate : {Any | hasattr(perm, 'array_form') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cdaf43c4a94083d9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.polyhedron.Polyhedron.rotate","kind":"method","src_hash":"779a4c9238737ba8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rotate(per)","rhs":"apply a permutation to the polyhedron *in place*","over":{"base":"Any"},"name":"rotate_correct"},"guarantee":"apply a permutation to the polyhedron *in place*","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.polyhedron.Polyhedron.rotate_correct","statement":"Path(rotate(x), apply a permutation to the polyhedron *in place*)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cdaf43c4a94083d9"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.polyhedron.Polyhedron.rotate","kind":"method","src_hash":"779a4c9238737ba8","in":{"base":"Any","pred":"hasattr(perm, 'array_form') and hasattr(perm, 'size')"},"out":{"base":"Any"},"spec":{"lhs":"rotate(perm)","rhs":"<unspecified:rotate>","over":{"base":"Any","pred":"hasattr(perm, 'array_form') and hasattr(perm, 'size')"},"name":"rotate_correct"},"guarantee":"apply a permutation to the polyhedron *in place*","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.polyhedron.Polyhedron.rotate_correct","statement":"Path(rotate(x), apply a permutation to the polyhedron *in place*)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cdaf43c4a94083d9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(perm, 'array_form')","hasattr(perm, 'size')"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["perm.array_form","perm.size","self.corners","self.pgroup","self.size"],"writes":["self._corners"],"raises":["ValueError"]},"state_contract":{"modifies":["self._corners"],"old_bindings":{"old_self__corners":"self._corners"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rotate(self, perm):
         """
         Apply a permutation to the polyhedron *in place*. The permutation
@@ -705,16 +767,22 @@ class Polyhedron(Basic):
         self._corners = tuple(corners)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reset(), return corners to their original positions) over Any ║
+# ║ Path(reset(), <unspecified:reset>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ reset : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a54e5b163557d50  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.polyhedron.Polyhedron.reset","kind":"method","src_hash":"85b5183f39ae426f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reset()","rhs":"return corners to their original positions","over":{"base":"Any"},"name":"reset_correct"},"guarantee":"return corners to their original positions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.polyhedron.Polyhedron.reset_correct","statement":"Path(reset(x), return corners to their original positions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a54e5b163557d50"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.polyhedron.Polyhedron.reset","kind":"method","src_hash":"85b5183f39ae426f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reset()","rhs":"<unspecified:reset>","over":{"base":"Any"},"name":"reset_correct"},"guarantee":"return corners to their original positions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.polyhedron.Polyhedron.reset_correct","statement":"Path(reset(x), return corners to their original positions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a54e5b163557d50","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.args"],"writes":["self._corners"]},"state_contract":{"modifies":["self._corners"],"old_bindings":{"old_self__corners":"self._corners"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reset(self):
         """Return corners to their original positions.
 
@@ -736,16 +804,22 @@ class Polyhedron(Basic):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pgroup_calcs(), return the permutation groups for each of the polyhedra and the face definitions: tetrahedron, cube, octahedron, dodecahedron, icosahedron, tetrahedron_faces, cube_faces, octahedron_faces, dodecahedro) over Any ║
+# ║ Path(_pgroup_calcs(), <unspecified:_pgroup_calcs>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _pgroup_calcs : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a26778a60fb2e36  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.polyhedron._pgroup_calcs","kind":"function","src_hash":"4f91cee6db06c711","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pgroup_calcs()","rhs":"return the permutation groups for each of the polyhedra and the face definitions: tetrahedron, cube, octahedron, dodecahedron, icosahedron, tetrahedron_faces, cube_faces, octahedron_faces, dodecahedro","over":{"base":"Any"},"name":"_pgroup_calcs_correct"},"guarantee":"return the permutation groups for each of the polyhedra and the face definitions: tetrahedron, cube, octahedron, dodecahedron, icosahedron, tetrahedron_faces, cube_faces, octahedron_faces, dodecahedro","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.polyhedron._pgroup_calcs_correct","statement":"Path(_pgroup_calcs(x), return the permutation groups for each of the polyhedra and the face definitions: tetrahedron, cube, octahedron, dodecahedron, icosahedron, tetrahedron_faces, cube_faces, octahedron_faces, dodecahedro)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a26778a60fb2e36"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.polyhedron._pgroup_calcs","kind":"function","src_hash":"4f91cee6db06c711","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pgroup_calcs()","rhs":"<unspecified:_pgroup_calcs>","over":{"base":"Any"},"name":"_pgroup_calcs_correct"},"guarantee":"return the permutation groups for each of the polyhedra and the face definitions: tetrahedron, cube, octahedron, dodecahedron, icosahedron, tetrahedron_faces, cube_faces, octahedron_faces, dodecahedro","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.polyhedron._pgroup_calcs_correct","statement":"Path(_pgroup_calcs(x), return the permutation groups for each of the polyhedra and the face definitions: tetrahedron, cube, octahedron, dodecahedron, icosahedron, tetrahedron_faces, cube_faces, octahedron_faces, dodecahedro)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a26778a60fb2e36","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"assumed","binding":true}}
 def _pgroup_calcs():
     """Return the permutation groups for each of the polyhedra and the face
     definitions: tetrahedron, cube, octahedron, dodecahedron, icosahedron,

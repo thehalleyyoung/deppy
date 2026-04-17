@@ -20,16 +20,22 @@ from .traverse import top_down
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(canon(*ru), strategy for canonicalization) over Any   ║
+# ║ Path(canon(*rules), exhaust(multiplex(*map(top_down, rules)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  exhaust(multiplex(*map(top_down, rules)))      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ canon : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 94de31ce105e526f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tools.canon","kind":"function","src_hash":"83d66787ab0b61d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"canon(*ru)","rhs":"strategy for canonicalization","over":{"base":"Any"},"name":"canon_correct"},"guarantee":"strategy for canonicalization","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"94de31ce105e526f"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tools.canon","kind":"function","src_hash":"83d66787ab0b61d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"canon(*rules)","rhs":"exhaust(multiplex(*map(top_down, rules)))","over":{"base":"Any"},"name":"canon_correct"},"guarantee":"returns exhaust(multiplex(*map(top_down, rules)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"94de31ce105e526f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"exhaust(multiplex(*map(top_down, rules)))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*rules']"]}}
 def canon(*rules):
     """ Strategy for canonicalization
 

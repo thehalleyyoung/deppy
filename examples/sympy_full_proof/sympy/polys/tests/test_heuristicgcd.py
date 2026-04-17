@@ -21,16 +21,22 @@ from sympy.polys.heuristicgcd import heugcd
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_heugcd_univariate_integers(), test_heugcd_univariate_integers produces the expected output) over Any ║
+# ║ Path(test_heugcd_univariate_integers(), heugcd(f, g) == (h, cff, cfg)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_heugcd_univariate_integers : Any → {Any | heugcd...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  heugcd(f, g) == (h, cff, cfg)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_heugcd_univariate_integers : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af1c0e65433c286a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 411cd7b43e233d02  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_heuristicgcd.test_heugcd_univariate_integers","kind":"function","src_hash":"6f6c9f02a8ba76ce","in":{"base":"Any"},"out":{"base":"Any","pred":"heugcd(f, g) == (h, cff, cfg) and heugcd(f, g) == (h, cff, cfg) and heugcd(f, g) == (h, cff, cfg) and heugcd(f, g) == (h, cff, cfg)"},"spec":{"lhs":"test_heugcd_univariate_integers()","rhs":"test_heugcd_univariate_integers produces the expected output","over":{"base":"Any"},"name":"test_heugcd_univariate_integers_correct"},"guarantee":"test_heugcd_univariate_integers produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_heuristicgcd.test_heugcd_univariate_integers_correct","statement":"Path(test_heugcd_univariate_integers(x), test_heugcd_univariate_integers produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af1c0e65433c286a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_heuristicgcd.test_heugcd_univariate_integers","kind":"function","src_hash":"6f6c9f02a8ba76ce","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: heugcd(f, g) == (h, cff, cfg)"},"spec":{"lhs":"test_heugcd_univariate_integers()","rhs":"heugcd(f, g) == (h, cff, cfg)","over":{"base":"Any"},"name":"test_heugcd_univariate_integers_correct"},"guarantee":"heugcd(f, g) == (h, cff, cfg)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_heuristicgcd.test_heugcd_univariate_integers_correct","statement":"Path(test_heugcd_univariate_integers(x), heugcd(f, g) == (h, cff, cfg))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"411cd7b43e233d02","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["heugcd(f, g) == (h, cff, cfg)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_heugcd_univariate_integers():
     R, x = ring("x", ZZ)
 
@@ -90,16 +96,24 @@ def test_heugcd_univariate_integers():
     assert heugcd(f, g) == (h, cff, cfg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_heugcd_multivariate_integers(), test_heugcd_multivariate_integers produces the expected output) over Any ║
+# ║ Path(test_heugcd_multivariate_integers(), heugcd(f, g) == (x + 1, 2 * x + 2, 1) and heugcd(f, g) == (x + 1, 1, 2 * x + 2) and heugcd(f, g) == (u + 1, u + 1, 2) and heugcd(f, g) == (h, cff, cfg) and heugcd(g, f) == (h, cfg, cff) and H == h and H * cff == f and (H * cfg == g)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_heugcd_multivariate_integers : Any → {Any | heug...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  heugcd(f, g) == (x + 1, 2 * x + 2, 1)          ║
+# ║   ensures:  heugcd(f, g) == (x + 1, 1, 2 * x + 2)          ║
+# ║   ensures:  heugcd(f, g) == (u + 1, u + 1, 2)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_heugcd_multivariate_integers : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8e5f7c0bfe68177  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da57b330f0262eb1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_heuristicgcd.test_heugcd_multivariate_integers","kind":"function","src_hash":"1bc74e2a9ae8a98a","in":{"base":"Any"},"out":{"base":"Any","pred":"heugcd(f, g) == (x + 1, 2 * x + 2, 1) and heugcd(f, g) == (x + 1, 1, 2 * x + 2) and heugcd(f, g) == (u + 1, u + 1, 2) and heugcd(f, g) == (h, cff, cfg) and heugcd(g, f) == (h, cfg, cff) and H == h and H * cff == f and (H * cfg == g) and H == h and H * cff == f and (H * cfg == g) and H == h and H * cff == f and (H * cfg == g) and H == h and H * cff == f and (H * cfg == g) and H == h and H * cff == f and (H * cfg == g) and H == h and H * cff == f and (H * cfg == g) and H == h and H * cff == f and (H * cfg == g)"},"spec":{"lhs":"test_heugcd_multivariate_integers()","rhs":"test_heugcd_multivariate_integers produces the expected output","over":{"base":"Any"},"name":"test_heugcd_multivariate_integers_correct"},"guarantee":"test_heugcd_multivariate_integers produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_heuristicgcd.test_heugcd_multivariate_integers_correct","statement":"Path(test_heugcd_multivariate_integers(x), test_heugcd_multivariate_integers produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8e5f7c0bfe68177"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_heuristicgcd.test_heugcd_multivariate_integers","kind":"function","src_hash":"1bc74e2a9ae8a98a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: heugcd(f, g) == (x + 1, 2 * x + 2, 1) and heugcd(f, g) == (x + 1, 1, 2 * x + 2) and heugcd(f, g) == (u + 1, u + 1, 2) and heugcd(f, g) == (h, cff, cfg) and heugcd(g, f) == (h, cfg, cff) and H == h and H * cff == f and (H * cfg == g)"},"spec":{"lhs":"test_heugcd_multivariate_integers()","rhs":"heugcd(f, g) == (x + 1, 2 * x + 2, 1) and heugcd(f, g) == (x + 1, 1, 2 * x + 2) and heugcd(f, g) == (u + 1, u + 1, 2) and heugcd(f, g) == (h, cff, cfg) and heugcd(g, f) == (h, cfg, cff) and H == h and H * cff == f and (H * cfg == g)","over":{"base":"Any"},"name":"test_heugcd_multivariate_integers_correct"},"guarantee":"heugcd(f, g) == (x + 1, 2 * x + 2, 1); heugcd(f, g) == (x + 1, 1, 2 * x + 2); heugcd(f, g) == (u + 1, u + 1, 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_heuristicgcd.test_heugcd_multivariate_integers_correct","statement":"Path(test_heugcd_multivariate_integers(x), heugcd(f, g) == (x + 1, 2 * x + 2, 1); heugcd(f, g) == (x + 1, 1, 2 * x + 2); heugcd(f, g) == (u + 1, u + 1, 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da57b330f0262eb1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["heugcd(f, g) == (x + 1, 2 * x + 2, 1)","heugcd(f, g) == (x + 1, 1, 2 * x + 2)","heugcd(f, g) == (u + 1, u + 1, 2)","heugcd(f, g) == (h, cff, cfg)","heugcd(g, f) == (h, cfg, cff)","H == h and H * cff == f and (H * cfg == g)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_heugcd_multivariate_integers():
     R, x, y = ring("x,y", ZZ)
 
@@ -169,16 +183,23 @@ def test_heugcd_multivariate_integers():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_10996(), test_issue_10996 produces the expected output) over Any ║
+# ║ Path(test_issue_10996(), H == 12 * x ** 3 * y ** 4 - 3 * x * y ** 6 + 12 * y ** 2 * z and H * cff == f and H * cfg == g) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_10996 : Any → {Any | H == 12 * x ** 3 * y ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  H == 12 * x ** 3 * y ** 4 - 3 * x * y ** ...   ║
+# ║   ensures:  H * cff == f and H * cfg == g                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_10996 : Any → {Any | result satisfies: H =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05d35a9b55f65f9a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8192197f61b3a697  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_heuristicgcd.test_issue_10996","kind":"function","src_hash":"1d9fe778b233871a","in":{"base":"Any"},"out":{"base":"Any","pred":"H == 12 * x ** 3 * y ** 4 - 3 * x * y ** 6 + 12 * y ** 2 * z and H * cff == f and H * cfg == g"},"spec":{"lhs":"test_issue_10996()","rhs":"test_issue_10996 produces the expected output","over":{"base":"Any"},"name":"test_issue_10996_correct"},"guarantee":"test_issue_10996 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_heuristicgcd.test_issue_10996_correct","statement":"Path(test_issue_10996(x), test_issue_10996 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05d35a9b55f65f9a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_heuristicgcd.test_issue_10996","kind":"function","src_hash":"1d9fe778b233871a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: H == 12 * x ** 3 * y ** 4 - 3 * x * y ** 6 + 12 * y ** 2 * z and H * cff == f and H * cfg == g"},"spec":{"lhs":"test_issue_10996()","rhs":"H == 12 * x ** 3 * y ** 4 - 3 * x * y ** 6 + 12 * y ** 2 * z and H * cff == f and H * cfg == g","over":{"base":"Any"},"name":"test_issue_10996_correct"},"guarantee":"H == 12 * x ** 3 * y ** 4 - 3 * x * y ** 6 + 12 * y ** 2 * z; H * cff == f and H * cfg == g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_heuristicgcd.test_issue_10996_correct","statement":"Path(test_issue_10996(x), H == 12 * x ** 3 * y ** 4 - 3 * x * y ** 6 + 12 * y ** 2 * z; H * cff == f and H * cfg == g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8192197f61b3a697","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["H == 12 * x ** 3 * y ** 4 - 3 * x * y ** 6 + 12 * y ** 2 * z","H * cff == f and H * cfg == g"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_issue_10996():
     R, x, y, z = ring("x,y,z", ZZ)
 
@@ -194,16 +215,22 @@ def test_issue_10996():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_25793(), test_issue_25793 produces the expected output) over Any ║
+# ║ Path(test_issue_25793(), H == f) over Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_25793 : Any → {Any | H == f}                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  H == f                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_25793 : Any → {Any | result satisfies: H =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6fd527b1909d51e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d511357e9c9e02eb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_heuristicgcd.test_issue_25793","kind":"function","src_hash":"6b4f3a7ff5f7168d","in":{"base":"Any"},"out":{"base":"Any","pred":"H == f"},"spec":{"lhs":"test_issue_25793()","rhs":"test_issue_25793 produces the expected output","over":{"base":"Any"},"name":"test_issue_25793_correct"},"guarantee":"test_issue_25793 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_heuristicgcd.test_issue_25793_correct","statement":"Path(test_issue_25793(x), test_issue_25793 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6fd527b1909d51e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_heuristicgcd.test_issue_25793","kind":"function","src_hash":"6b4f3a7ff5f7168d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: H == f"},"spec":{"lhs":"test_issue_25793()","rhs":"H == f","over":{"base":"Any"},"name":"test_issue_25793_correct"},"guarantee":"H == f","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_heuristicgcd.test_issue_25793_correct","statement":"Path(test_issue_25793(x), H == f)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d511357e9c9e02eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["H == f"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_25793():
     R, x = ring("x", ZZ)
     f = x - 4851  # failure starts for values more than 4850

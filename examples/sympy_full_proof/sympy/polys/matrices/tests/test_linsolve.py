@@ -33,16 +33,24 @@ from sympy.polys.solvers import PolyNonlinearError
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test__linsolve(), test__linsolve produces the expected output) over Any ║
+# ║ Path(test__linsolve(), _linsolve([], [x]) == {x: x} and _linsolve([S.Zero], [x]) == {x: x} and _linsolve([x - 1, x - 2], [x]) is None and _linsolve([x - 1], [x]) == {x: 1} and _linsolve([x - 1, y], [x, y]) == {x: 1, y: S.Zero} and _linsolve([2 * I], [x]) is None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test__linsolve : Any → {Any | _linsolve([], [x]) == {...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _linsolve([], [x]) == {x: x}                   ║
+# ║   ensures:  _linsolve([S.Zero], [x]) == {x: x}             ║
+# ║   ensures:  _linsolve([x - 1, x - 2], [x]) is None         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test__linsolve : Any → {Any | result satisfies: _lins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc2bb919a57a05b3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43afcc08098d20ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_linsolve.test__linsolve","kind":"function","src_hash":"187eebb179ac8659","in":{"base":"Any"},"out":{"base":"Any","pred":"_linsolve([], [x]) == {x: x} and _linsolve([S.Zero], [x]) == {x: x} and _linsolve([x - 1, x - 2], [x]) is None and _linsolve([x - 1], [x]) == {x: 1} and _linsolve([x - 1, y], [x, y]) == {x: 1, y: S.Zero} and _linsolve([2 * I], [x]) is None"},"spec":{"lhs":"test__linsolve()","rhs":"test__linsolve produces the expected output","over":{"base":"Any"},"name":"test__linsolve_correct"},"guarantee":"test__linsolve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_linsolve.test__linsolve_correct","statement":"Path(test__linsolve(x), test__linsolve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc2bb919a57a05b3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_linsolve.test__linsolve","kind":"function","src_hash":"187eebb179ac8659","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _linsolve([], [x]) == {x: x} and _linsolve([S.Zero], [x]) == {x: x} and _linsolve([x - 1, x - 2], [x]) is None and _linsolve([x - 1], [x]) == {x: 1} and _linsolve([x - 1, y], [x, y]) == {x: 1, y: S.Zero} and _linsolve([2 * I], [x]) is None"},"spec":{"lhs":"test__linsolve()","rhs":"_linsolve([], [x]) == {x: x} and _linsolve([S.Zero], [x]) == {x: x} and _linsolve([x - 1, x - 2], [x]) is None and _linsolve([x - 1], [x]) == {x: 1} and _linsolve([x - 1, y], [x, y]) == {x: 1, y: S.Zero} and _linsolve([2 * I], [x]) is None","over":{"base":"Any"},"name":"test__linsolve_correct"},"guarantee":"_linsolve([], [x]) == {x: x}; _linsolve([S.Zero], [x]) == {x: x}; _linsolve([x - 1, x - 2], [x]) is None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_linsolve.test__linsolve_correct","statement":"Path(test__linsolve(x), _linsolve([], [x]) == {x: x}; _linsolve([S.Zero], [x]) == {x: x}; _linsolve([x - 1, x - 2], [x]) is None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43afcc08098d20ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_linsolve([], [x]) == {x: x}","_linsolve([S.Zero], [x]) == {x: x}","_linsolve([x - 1, x - 2], [x]) is None","_linsolve([x - 1], [x]) == {x: 1}","_linsolve([x - 1, y], [x, y]) == {x: 1, y: S.Zero}","_linsolve([2 * I], [x]) is None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test__linsolve():
     assert _linsolve([], [x]) == {x:x}
     assert _linsolve([S.Zero], [x]) == {x:x}
@@ -54,16 +62,24 @@ def test__linsolve():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test__linsolve_float(), test__linsolve_float produces the expected output) over Any ║
+# ║ Path(test__linsolve_float(), all((close(sol1[s], sol2[s]) for s in sol1))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test__linsolve_float : Any → {Any | _linsolve(eqs, (x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _linsolve(eqs, (x, y)) == sol                  ║
+# ║   ensures:  all_close(sol_exact, sol_linsolve)             ║
+# ║   returns:  all((close(sol1[s], sol2[s]) for s in sol1))   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test__linsolve_float : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64fd7ae17c016f63  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e3c814862c6f3cb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_linsolve.test__linsolve_float","kind":"function","src_hash":"35ed39861e56f8df","in":{"base":"Any"},"out":{"base":"Any","pred":"_linsolve(eqs, (x, y)) == sol and all_close(sol_exact, sol_linsolve) and all_close(sol_exact, sol_linsolve) and all_close(sol_exact, sol_linsolve) and all_close(sol_exact, sol_linsolve) and sol1.keys() == sol2.keys()"},"spec":{"lhs":"test__linsolve_float()","rhs":"test__linsolve_float produces the expected output","over":{"base":"Any"},"name":"test__linsolve_float_correct"},"guarantee":"test__linsolve_float produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_linsolve.test__linsolve_float_correct","statement":"Path(test__linsolve_float(x), test__linsolve_float produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64fd7ae17c016f63"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_linsolve.test__linsolve_float","kind":"function","src_hash":"35ed39861e56f8df","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (all((close(sol1[s], sol2[s]) for s in sol1)))"},"spec":{"lhs":"test__linsolve_float()","rhs":"all((close(sol1[s], sol2[s]) for s in sol1))","over":{"base":"Any"},"name":"test__linsolve_float_correct"},"guarantee":"returns all((close(sol1[s], sol2[s]) for s in sol1)); _linsolve(eqs, (x, y)) == sol; all_close(sol_exact, sol_linsolve)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_linsolve.test__linsolve_float_correct","statement":"Path(test__linsolve_float(x), returns all((close(sol1[s], sol2[s]) for s in sol1)); _linsolve(eqs, (x, y)) == sol; all_close(sol_exact, sol_linsolve))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e3c814862c6f3cb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_linsolve(eqs, (x, y)) == sol","all_close(sol_exact, sol_linsolve)"],"returns_expr":"all((close(sol1[s], sol2[s]) for s in sol1))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test__linsolve_float():
 
     # This should give the exact answer:
@@ -143,16 +159,22 @@ def test__linsolve_float():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test__linsolve_deprecated(), test__linsolve_deprecated produces the expected output) over Any ║
+# ║ Path(test__linsolve_deprecated(), <unspecified:test__linsolve_deprecated>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test__linsolve_deprecated : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 908442408ad78e79  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_linsolve.test__linsolve_deprecated","kind":"function","src_hash":"5de035ed5c314d93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test__linsolve_deprecated()","rhs":"test__linsolve_deprecated produces the expected output","over":{"base":"Any"},"name":"test__linsolve_deprecated_correct"},"guarantee":"test__linsolve_deprecated produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_linsolve.test__linsolve_deprecated_correct","statement":"Path(test__linsolve_deprecated(x), test__linsolve_deprecated produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"908442408ad78e79"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_linsolve.test__linsolve_deprecated","kind":"function","src_hash":"5de035ed5c314d93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test__linsolve_deprecated()","rhs":"<unspecified:test__linsolve_deprecated>","over":{"base":"Any"},"name":"test__linsolve_deprecated_correct"},"guarantee":"test__linsolve_deprecated produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_linsolve.test__linsolve_deprecated_correct","statement":"Path(test__linsolve_deprecated(x), test__linsolve_deprecated produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"908442408ad78e79","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test__linsolve_deprecated():
     raises(PolyNonlinearError, lambda:
         _linsolve([Eq(x**2, x**2 + y)], [x, y]))

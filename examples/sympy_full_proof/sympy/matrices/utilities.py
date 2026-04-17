@@ -24,26 +24,38 @@ from sympy.core.function import expand_mul
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a DotProdSimpState instance) preserved by DotProdSimpState(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ DotProdSimpState : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, local)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ DotProdSimpState : Any → {Any | result satisfies: isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 483e8372b47294bd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.utilities.DotProdSimpState","kind":"class","src_hash":"9d252eb3730401bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DotProdSimpState(*args)","rhs":"correctly constructs a DotProdSimpState instance","over":{"base":"Any"},"name":"DotProdSimpState_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a DotProdSimpState instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'state')","kind":"class","induction":"structural on state"}],"methods_preserving":["__init__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"483e8372b47294bd"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.utilities.DotProdSimpState","kind":"class","src_hash":"9d252eb3730401bc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, local)"},"spec":{"lhs":"DotProdSimpState(*args)","rhs":"correctly constructs a DotProdSimpState instance","over":{"base":"Any"},"name":"DotProdSimpState_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, local); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'state')","kind":"class","induction":"structural on state"}],"methods_preserving":["__init__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"483e8372b47294bd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, local)"],"invariants":["hasattr(self, 'state')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function DotProdSimpState not found in source"]}}
 class DotProdSimpState(local):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(), initializes the instance correctly) over Any ║
+# ║ Path(__init__(), <unspecified:__init__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3a94b4e31c7e6509           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.utilities.DotProdSimpState.__init__","kind":"method","src_hash":"6d835fecffcd1cca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3a94b4e31c7e6509"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.utilities.DotProdSimpState.__init__","kind":"method","src_hash":"6d835fecffcd1cca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3a94b4e31c7e6509","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self):
         self.state = None
 
@@ -51,16 +63,22 @@ _dotprodsimp_state = DotProdSimpState()
 
 @contextmanager
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dotprodsimp(x), dotprodsimp produces the expected output) over Any ║
+# ║ Path(dotprodsimp(x), <unspecified:dotprodsimp>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dotprodsimp : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 94a201e864ec6298  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.utilities.dotprodsimp","kind":"function","src_hash":"41fe0467658ad61d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dotprodsimp(x)","rhs":"dotprodsimp produces the expected output","over":{"base":"Any"},"name":"dotprodsimp_correct"},"guarantee":"dotprodsimp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.utilities.dotprodsimp_correct","statement":"Path(dotprodsimp(x), dotprodsimp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94a201e864ec6298"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.utilities.dotprodsimp","kind":"function","src_hash":"41fe0467658ad61d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dotprodsimp(x)","rhs":"<unspecified:dotprodsimp>","over":{"base":"Any"},"name":"dotprodsimp_correct"},"guarantee":"dotprodsimp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.utilities.dotprodsimp_correct","statement":"Path(dotprodsimp(x), dotprodsimp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94a201e864ec6298","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def dotprodsimp(x):
     old = _dotprodsimp_state.state
 
@@ -72,16 +90,22 @@ def dotprodsimp(x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dotprodsimp(exp), wrapper for simplify.dotprodsimp to avoid circular imports) over Any ║
+# ║ Path(_dotprodsimp(expr, withsimp), dps(expr, withsimp=withsimp)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dps(expr, withsimp=withsimp)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _dotprodsimp : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bcc7d21019c66b10  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc3b64e6aa1dfe20  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.utilities._dotprodsimp","kind":"function","src_hash":"6b2afcfa75411a09","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dotprodsimp(exp)","rhs":"wrapper for simplify.dotprodsimp to avoid circular imports","over":{"base":"Any"},"name":"_dotprodsimp_correct"},"guarantee":"wrapper for simplify.dotprodsimp to avoid circular imports","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.utilities._dotprodsimp_correct","statement":"Path(_dotprodsimp(x), wrapper for simplify.dotprodsimp to avoid circular imports)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bcc7d21019c66b10"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.utilities._dotprodsimp","kind":"function","src_hash":"6b2afcfa75411a09","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dotprodsimp(expr, withsimp)","rhs":"dps(expr, withsimp=withsimp)","over":{"base":"Any"},"name":"_dotprodsimp_correct"},"guarantee":"returns dps(expr, withsimp=withsimp)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.utilities._dotprodsimp_correct","statement":"Path(_dotprodsimp(x), returns dps(expr, withsimp=withsimp))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc3b64e6aa1dfe20","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dps(expr, withsimp=withsimp)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _dotprodsimp(expr, withsimp=False):
     """Wrapper for simplify.dotprodsimp to avoid circular imports."""
     from sympy.simplify.simplify import dotprodsimp as dps
@@ -89,16 +113,22 @@ def _dotprodsimp(expr, withsimp=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_intermediate_simp(def), support function for controlling intermediate simplification) over Any ║
+# ║ Path(_get_intermediate_simp(deffunc, offfunc, onfunc), <unspecified:_get_intermediate_simp>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_intermediate_simp : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d4ada6c0c9818ee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.utilities._get_intermediate_simp","kind":"function","src_hash":"e947f1cb6483f103","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_intermediate_simp(def)","rhs":"support function for controlling intermediate simplification","over":{"base":"Any"},"name":"_get_intermediate_simp_correct"},"guarantee":"support function for controlling intermediate simplification","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.utilities._get_intermediate_simp_correct","statement":"Path(_get_intermediate_simp(x), support function for controlling intermediate simplification)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d4ada6c0c9818ee"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.utilities._get_intermediate_simp","kind":"function","src_hash":"e947f1cb6483f103","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_intermediate_simp(deffunc, offfunc, onfunc)","rhs":"<unspecified:_get_intermediate_simp>","over":{"base":"Any"},"name":"_get_intermediate_simp_correct"},"guarantee":"support function for controlling intermediate simplification","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.utilities._get_intermediate_simp_correct","statement":"Path(_get_intermediate_simp(x), support function for controlling intermediate simplification)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d4ada6c0c9818ee","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _get_intermediate_simp(deffunc=lambda x: x, offfunc=lambda x: x,
         onfunc=_dotprodsimp, dotprodsimp=None):
     """Support function for controlling intermediate simplification. Returns a
@@ -121,16 +151,22 @@ def _get_intermediate_simp(deffunc=lambda x: x, offfunc=lambda x: x,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_intermediate_simp_bool(def), same as ``_get_intermediate_simp`` but returns bools instead of functions by default) over Any ║
+# ║ Path(_get_intermediate_simp_bool(default, dotprodsimp), _get_intermediate_simp(default, False, True, dotprodsimp)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _get_intermediate_simp(default, False, Tr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_intermediate_simp_bool : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5edf92161cf5b3a3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.utilities._get_intermediate_simp_bool","kind":"function","src_hash":"418dfc39bd4bb22d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_intermediate_simp_bool(def)","rhs":"same as ``_get_intermediate_simp`` but returns bools instead of functions by default","over":{"base":"Any"},"name":"_get_intermediate_simp_bool_correct"},"guarantee":"same as ``_get_intermediate_simp`` but returns bools instead of functions by default","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5edf92161cf5b3a3"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.utilities._get_intermediate_simp_bool","kind":"function","src_hash":"418dfc39bd4bb22d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_intermediate_simp_bool(default, dotprodsimp)","rhs":"_get_intermediate_simp(default, False, True, dotprodsimp)","over":{"base":"Any"},"name":"_get_intermediate_simp_bool_correct"},"guarantee":"returns _get_intermediate_simp(default, False, True, dotprodsimp)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5edf92161cf5b3a3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_get_intermediate_simp(default, False, True, dotprodsimp)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _get_intermediate_simp_bool(default=False, dotprodsimp=None):
     """Same as ``_get_intermediate_simp`` but returns bools instead of functions
     by default."""
@@ -139,32 +175,44 @@ def _get_intermediate_simp_bool(default=False, dotprodsimp=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_iszero(x), returns true if x is zero) over Any       ║
+# ║ Path(_iszero(x), getattr(x, 'is_zero', None)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  getattr(x, 'is_zero', None)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _iszero : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ae3dc04b0e335563           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.utilities._iszero","kind":"function","src_hash":"cf4a0a95c845d8be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_iszero(x)","rhs":"returns true if x is zero","over":{"base":"Any"},"name":"_iszero_correct"},"guarantee":"returns true if x is zero","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ae3dc04b0e335563"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.utilities._iszero","kind":"function","src_hash":"cf4a0a95c845d8be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_iszero(x)","rhs":"getattr(x, 'is_zero', None)","over":{"base":"Any"},"name":"_iszero_correct"},"guarantee":"returns getattr(x, 'is_zero', None)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ae3dc04b0e335563","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"getattr(x, 'is_zero', None)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _iszero(x):
     """Returns True if x is zero."""
     return getattr(x, 'is_zero', None)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_zero_after_expand_mul(x), tests by expand_mul only, suitable for polynomials and rational functions) over Any ║
+# ║ Path(_is_zero_after_expand_mul(x), expand_mul(x) == 0) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  expand_mul(x) == 0                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _is_zero_after_expand_mul : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 833d5b4eda97ae96           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.utilities._is_zero_after_expand_mul","kind":"function","src_hash":"796fa763a4d81084","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_zero_after_expand_mul(x)","rhs":"tests by expand_mul only, suitable for polynomials and rational functions","over":{"base":"Any"},"name":"_is_zero_after_expand_mul_correct"},"guarantee":"tests by expand_mul only, suitable for polynomials and rational functions","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"833d5b4eda97ae96"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.utilities._is_zero_after_expand_mul","kind":"function","src_hash":"796fa763a4d81084","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_zero_after_expand_mul(x)","rhs":"expand_mul(x) == 0","over":{"base":"Any"},"name":"_is_zero_after_expand_mul_correct"},"guarantee":"returns expand_mul(x) == 0","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"833d5b4eda97ae96","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"expand_mul(x) == 0","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _is_zero_after_expand_mul(x):
     """Tests by expand_mul only, suitable for polynomials and rational
     functions."""
@@ -172,16 +220,22 @@ def _is_zero_after_expand_mul(x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_simplify(exp), wrapper to avoid circular imports) over Any ║
+# ║ Path(_simplify(expr), simplify(expr)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  simplify(expr)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _simplify : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 990c2205232779d3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9730f43bd5d2a3cb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.utilities._simplify","kind":"function","src_hash":"c4c954af23180c39","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_simplify(exp)","rhs":"wrapper to avoid circular imports","over":{"base":"Any"},"name":"_simplify_correct"},"guarantee":"wrapper to avoid circular imports","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.utilities._simplify_correct","statement":"Path(_simplify(x), wrapper to avoid circular imports)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"990c2205232779d3"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.utilities._simplify","kind":"function","src_hash":"c4c954af23180c39","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_simplify(expr)","rhs":"simplify(expr)","over":{"base":"Any"},"name":"_simplify_correct"},"guarantee":"returns simplify(expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.utilities._simplify_correct","statement":"Path(_simplify(x), returns simplify(expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9730f43bd5d2a3cb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"simplify(expr)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _simplify(expr):
     """ Wrapper to avoid circular imports. """
     from sympy.simplify.simplify import simplify

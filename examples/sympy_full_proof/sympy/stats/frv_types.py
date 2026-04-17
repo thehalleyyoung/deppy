@@ -70,16 +70,22 @@ __all__ = ['FiniteRV',
 ]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rv(nam), rv produces the expected output) over Any    ║
+# ║ Path(rv(name, cls, *args), pspace.value) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  pspace.value                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rv : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dfb0eb4fe49ac9a1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6de7dab0bdd510ae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.rv","kind":"function","src_hash":"95b5ac628973f03e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rv(nam)","rhs":"rv produces the expected output","over":{"base":"Any"},"name":"rv_correct"},"guarantee":"rv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv_types.rv_correct","statement":"Path(rv(x), rv produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfb0eb4fe49ac9a1"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.rv","kind":"function","src_hash":"95b5ac628973f03e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rv(name, cls, *args)","rhs":"pspace.value","over":{"base":"Any"},"name":"rv_correct"},"guarantee":"returns pspace.value","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv_types.rv_correct","statement":"Path(rv(x), returns pspace.value)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6de7dab0bdd510ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"pspace.value","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['name', 'cls'], spec=['name', 'cls', '*args', '**kwargs']"]}}
 def rv(name, cls, *args, **kwargs):
     args = list(map(sympify, args))
     dist = cls(*args)
@@ -94,42 +100,60 @@ def rv(name, cls, *args, **kwargs):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(FiniteDistributionHandmade(*args), correctly constructs a FiniteDistributionHandmade instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ FiniteDistributionHandmade : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SingleFiniteDistribution)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ FiniteDistributionHandmade : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc0581c71e25a539  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.FiniteDistributionHandmade","kind":"class","src_hash":"126568babab29869","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FiniteDistributionHandmade(*args)","rhs":"correctly constructs a FiniteDistributionHandmade instance","over":{"base":"Any"},"name":"FiniteDistributionHandmade_class_invariant"},"guarantee":"correctly constructs a FiniteDistributionHandmade instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc0581c71e25a539"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.FiniteDistributionHandmade","kind":"class","src_hash":"126568babab29869","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SingleFiniteDistribution)"},"spec":{"lhs":"FiniteDistributionHandmade(*args)","rhs":"correctly constructs a FiniteDistributionHandmade instance","over":{"base":"Any"},"name":"FiniteDistributionHandmade_class_invariant"},"guarantee":"isinstance(self, SingleFiniteDistribution)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc0581c71e25a539","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SingleFiniteDistribution)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function FiniteDistributionHandmade not found in source"]}}
 class FiniteDistributionHandmade(SingleFiniteDistribution):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dict(), returns the dict attribute) over Any          ║
+# ║ Path(dict(), self.args[0]) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dict : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 82619b3949f24c96           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.FiniteDistributionHandmade.dict","kind":"property","src_hash":"d8423e5ed5225bba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dict()","rhs":"returns the dict attribute","over":{"base":"Any"},"name":"dict_correct"},"guarantee":"returns the dict attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"82619b3949f24c96"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.FiniteDistributionHandmade.dict","kind":"property","src_hash":"d8423e5ed5225bba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dict()","rhs":"self.args[0]","over":{"base":"Any"},"name":"dict_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"82619b3949f24c96","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dict(self):
         return self.args[0]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(pmf(x), id) over Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Lambda(x, Piecewise(*[(v, Eq(k, x)) for k...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ pmf : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b08f6b8dcf74dc88   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.FiniteDistributionHandmade.pmf","kind":"method","src_hash":"3bafb8dca899d1e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pmf(x)","rhs":"pmf produces the expected output","over":{"base":"Any"},"name":"pmf_correct","kind":"composition"},"guarantee":"pmf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Lambda","by":"library_axiom"},{"fn":"Piecewise","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b08f6b8dcf74dc88"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.FiniteDistributionHandmade.pmf","kind":"method","src_hash":"3bafb8dca899d1e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pmf(x)","rhs":"Lambda(x, Piecewise(*[(v, Eq(k, x)) for k, v in self.dict.items()] + [(S.Zero, True)]))","over":{"base":"Any"},"name":"pmf_correct","kind":"composition"},"guarantee":"returns Lambda(x, Piecewise(*[(v, Eq(k, x)) for k, v in self.dict.items()] + [(S.Zero, True)]))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Lambda","by":"library_axiom"},{"fn":"Piecewise","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b08f6b8dcf74dc88","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Lambda(x, Piecewise(*[(v, Eq(k, x)) for k, v in self.dict.items()] + [(S.Zero, True)]))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dict"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pmf(self, x):
         x = Symbol('x')
         return Lambda(x, Piecewise(*(
@@ -137,31 +161,44 @@ class FiniteDistributionHandmade(SingleFiniteDistribution):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set(), returns the set attribute) over Any            ║
+# ║ Path(set(), set(self.dict.keys())) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  set(self.dict.keys())                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 42bbe0c90a1c22ba           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.FiniteDistributionHandmade.set","kind":"property","src_hash":"f0159774595d6440","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"returns the set attribute","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns the set attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"42bbe0c90a1c22ba"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.FiniteDistributionHandmade.set","kind":"property","src_hash":"f0159774595d6440","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"set(self.dict.keys())","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns set(self.dict.keys())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"42bbe0c90a1c22ba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"set(self.dict.keys())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dict"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set(self):
         return set(self.dict.keys())
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check(den), check produces the expected output) over Any ║
+# ║ Path(check(density), <unspecified:check>) over {Any | hasattr(density, 'values')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ check : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(density, 'values')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ check : {Any | hasattr(density, 'values')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d119ea9ce80b9f57  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.FiniteDistributionHandmade.check","kind":"staticmethod","src_hash":"9648b1eb8d5c5085","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check(den)","rhs":"check produces the expected output","over":{"base":"Any"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv_types.FiniteDistributionHandmade.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d119ea9ce80b9f57"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.FiniteDistributionHandmade.check","kind":"staticmethod","src_hash":"9648b1eb8d5c5085","in":{"base":"Any","pred":"hasattr(density, 'values')"},"out":{"base":"Any"},"spec":{"lhs":"check(density)","rhs":"<unspecified:check>","over":{"base":"Any","pred":"hasattr(density, 'values')"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv_types.FiniteDistributionHandmade.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d119ea9ce80b9f57","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(density, 'values')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["density.values"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def check(density):
         for p in density.values():
             _value_check((p >= 0, p <= 1),
@@ -170,16 +207,22 @@ class FiniteDistributionHandmade(SingleFiniteDistribution):
         _value_check(Eq(val, 1) != S.false, "Total Probability must be 1.")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(FiniteRV(nam), create a finite random variable given a dict representing the density) over Any ║
+# ║ Path(FiniteRV(name, density, **kwargs), rv(name, FiniteDistributionHandmade, density, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  rv(name, FiniteDistributionHandmade, dens...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ FiniteRV : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 60c9c5d0262ba6b8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fbf525556d610b8c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.FiniteRV","kind":"function","src_hash":"a5140acd6ef653b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FiniteRV(nam)","rhs":"create a finite random variable given a dict representing the density","over":{"base":"Any"},"name":"FiniteRV_correct"},"guarantee":"create a finite random variable given a dict representing the density","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv_types.FiniteRV_correct","statement":"Path(FiniteRV(x), create a finite random variable given a dict representing the density)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60c9c5d0262ba6b8"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.FiniteRV","kind":"function","src_hash":"a5140acd6ef653b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FiniteRV(name, density, **kwargs)","rhs":"rv(name, FiniteDistributionHandmade, density, **kwargs)","over":{"base":"Any"},"name":"FiniteRV_correct"},"guarantee":"returns rv(name, FiniteDistributionHandmade, density, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv_types.FiniteRV_correct","statement":"Path(FiniteRV(x), returns rv(name, FiniteDistributionHandmade, density, **kwargs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbf525556d610b8c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"rv(name, FiniteDistributionHandmade, density, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['name', 'density'], spec=['name', 'density', '**kwargs']"]}}
 def FiniteRV(name, density, **kwargs):
     r"""
     Create a Finite Random Variable given a dict representing the density.
@@ -222,28 +265,40 @@ def FiniteRV(name, density, **kwargs):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(DiscreteUniformDistribution(*args), correctly constructs a DiscreteUniformDistribution instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ DiscreteUniformDistribution : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SingleFiniteDistribution)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ DiscreteUniformDistribution : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b984767f0a1692e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.DiscreteUniformDistribution","kind":"class","src_hash":"959158c9237c09f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DiscreteUniformDistribution(*args)","rhs":"correctly constructs a DiscreteUniformDistribution instance","over":{"base":"Any"},"name":"DiscreteUniformDistribution_class_invariant"},"guarantee":"correctly constructs a DiscreteUniformDistribution instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b984767f0a1692e"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.DiscreteUniformDistribution","kind":"class","src_hash":"959158c9237c09f7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SingleFiniteDistribution)"},"spec":{"lhs":"DiscreteUniformDistribution(*args)","rhs":"correctly constructs a DiscreteUniformDistribution instance","over":{"base":"Any"},"name":"DiscreteUniformDistribution_class_invariant"},"guarantee":"isinstance(self, SingleFiniteDistribution)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b984767f0a1692e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SingleFiniteDistribution)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function DiscreteUniformDistribution not found in source"]}}
 class DiscreteUniformDistribution(SingleFiniteDistribution):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check(*ar), check produces the expected output) over Any ║
+# ║ Path(check(*args), <unspecified:check>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ check : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1508477ae2ccc397  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.DiscreteUniformDistribution.check","kind":"staticmethod","src_hash":"987f1100a0e101ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check(*ar)","rhs":"check produces the expected output","over":{"base":"Any"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv_types.DiscreteUniformDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1508477ae2ccc397"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.DiscreteUniformDistribution.check","kind":"staticmethod","src_hash":"987f1100a0e101ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check(*args)","rhs":"<unspecified:check>","over":{"base":"Any"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv_types.DiscreteUniformDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1508477ae2ccc397","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def check(*args):
         # not using _value_check since there is a
         # suggestion for the user
@@ -260,61 +315,88 @@ class DiscreteUniformDistribution(SingleFiniteDistribution):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(p(), returns the p attribute) over Any                ║
+# ║ Path(p(), Rational(1, len(self.args))) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Rational(1, len(self.args))                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ p : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ba0b52d3648d4ab3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.DiscreteUniformDistribution.p","kind":"property","src_hash":"9afd6c2380fb822d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"p()","rhs":"returns the p attribute","over":{"base":"Any"},"name":"p_correct"},"guarantee":"returns the p attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ba0b52d3648d4ab3"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.DiscreteUniformDistribution.p","kind":"property","src_hash":"9afd6c2380fb822d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"p()","rhs":"Rational(1, len(self.args))","over":{"base":"Any"},"name":"p_correct"},"guarantee":"returns Rational(1, len(self.args))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ba0b52d3648d4ab3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Rational(1, len(self.args))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def p(self):
         return Rational(1, len(self.args))
 
     @property  # type: ignore
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dict(), returns the dict attribute) over Any          ║
+# ║ Path(dict(), dict.fromkeys(self.set, self.p)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dict.fromkeys(self.set, self.p)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dict : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 67e9afe20c9cfc03           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.DiscreteUniformDistribution.dict","kind":"property","src_hash":"2a3f62d589649164","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dict()","rhs":"returns the dict attribute","over":{"base":"Any"},"name":"dict_correct"},"guarantee":"returns the dict attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"67e9afe20c9cfc03"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.DiscreteUniformDistribution.dict","kind":"property","src_hash":"2a3f62d589649164","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dict()","rhs":"dict.fromkeys(self.set, self.p)","over":{"base":"Any"},"name":"dict_correct"},"guarantee":"returns dict.fromkeys(self.set, self.p)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"67e9afe20c9cfc03","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dict.fromkeys(self.set, self.p)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.p","self.set"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dict(self):
         return dict.fromkeys(self.set, self.p)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set(), returns the set attribute) over Any            ║
+# ║ Path(set(), set(self.args)) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  set(self.args)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ce342d455434df9d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.DiscreteUniformDistribution.set","kind":"property","src_hash":"564327e9f88d56d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"returns the set attribute","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns the set attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ce342d455434df9d"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.DiscreteUniformDistribution.set","kind":"property","src_hash":"564327e9f88d56d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"set(self.args)","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns set(self.args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ce342d455434df9d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"set(self.args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set(self):
         return set(self.args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pmf(x), pmf produces the expected output) over Any    ║
+# ║ Path(pmf(x), result == (self.p if x in self.args else S.Zero) and result == self.p or result == S.Zero) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ pmf : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self.p if x in self.args else ...   ║
+# ║   ensures:  result == self.p or result == S.Zero           ║
+# ║   fiber[case_0]: x in self.args => self.p                  ║
+# ║   fiber[case_1]: not (x in self.args) => S.Zero            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ pmf : Any → {Any | result satisfies: result == (self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 49c417946901f953  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 062d8232eb470a9b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.DiscreteUniformDistribution.pmf","kind":"method","src_hash":"18e4dced2f6f884e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pmf(x)","rhs":"pmf produces the expected output","over":{"base":"Any"},"name":"pmf_correct"},"guarantee":"pmf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv_types.DiscreteUniformDistribution.pmf_correct","statement":"Path(pmf(x), pmf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49c417946901f953"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.DiscreteUniformDistribution.pmf","kind":"method","src_hash":"18e4dced2f6f884e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self.p if x in self.args else S.Zero) and result == self.p or result == S.Zero"},"spec":{"lhs":"pmf(x)","rhs":"result == (self.p if x in self.args else S.Zero) and result == self.p or result == S.Zero","over":{"base":"Any"},"name":"pmf_correct"},"guarantee":"result == (self.p if x in self.args else S.Zero); result == self.p or result == S.Zero; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv_types.DiscreteUniformDistribution.pmf_correct","statement":"Path(pmf(x), result == (self.p if x in self.args else S.Zero); result == self.p or result == S.Zero; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"062d8232eb470a9b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self.p if x in self.args else S.Zero)","result == self.p or result == S.Zero"],"fibers":[{"name":"case_0","guard":"x in self.args","ensures":["result == self.p"],"decidability":"library","returns_expr":"self.p"},{"name":"case_1","guard":"not (x in self.args)","ensures":["result == S.Zero"],"decidability":"library","returns_expr":"S.Zero"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.p"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pmf(self, x):
         if x in self.args:
             return self.p
@@ -323,16 +405,22 @@ class DiscreteUniformDistribution(SingleFiniteDistribution):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(DiscreteUniform(nam), create a finite random variable representing a uniform distribution over the input set) over Any ║
+# ║ Path(DiscreteUniform(name, items), rv(name, DiscreteUniformDistribution, *items)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  rv(name, DiscreteUniformDistribution, *it...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ DiscreteUniform : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c02dd02554541a03           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.DiscreteUniform","kind":"function","src_hash":"4096ad127190b914","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DiscreteUniform(nam)","rhs":"create a finite random variable representing a uniform distribution over the input set","over":{"base":"Any"},"name":"DiscreteUniform_correct"},"guarantee":"create a finite random variable representing a uniform distribution over the input set","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c02dd02554541a03"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.DiscreteUniform","kind":"function","src_hash":"4096ad127190b914","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DiscreteUniform(name, items)","rhs":"rv(name, DiscreteUniformDistribution, *items)","over":{"base":"Any"},"name":"DiscreteUniform_correct"},"guarantee":"returns rv(name, DiscreteUniformDistribution, *items)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c02dd02554541a03","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"rv(name, DiscreteUniformDistribution, *items)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def DiscreteUniform(name, items):
     r"""
     Create a Finite Random Variable representing a uniform distribution over
@@ -376,106 +464,153 @@ def DiscreteUniform(name, items):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a DieDistribution instance) preserved by DieDistribution(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ DieDistribution : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SingleFiniteDistribution)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ DieDistribution : Any → {Any | result satisfies: isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fbc373e4b1eed1d4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.DieDistribution","kind":"class","src_hash":"5f920273638b3ec6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DieDistribution(*args)","rhs":"correctly constructs a DieDistribution instance","over":{"base":"Any"},"name":"DieDistribution_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a DieDistribution instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_symbolic","pred":"self.is_symbolic","kind":"class"}],"methods_preserving":["is_symbolic","high","low","set","pmf"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbc373e4b1eed1d4"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.DieDistribution","kind":"class","src_hash":"5f920273638b3ec6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SingleFiniteDistribution)"},"spec":{"lhs":"DieDistribution(*args)","rhs":"correctly constructs a DieDistribution instance","over":{"base":"Any"},"name":"DieDistribution_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, SingleFiniteDistribution)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_symbolic","pred":"self.is_symbolic","kind":"class"}],"methods_preserving":["is_symbolic","high","low","set","pmf"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbc373e4b1eed1d4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SingleFiniteDistribution)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function DieDistribution not found in source"]}}
 class DieDistribution(SingleFiniteDistribution):
     _argnames = ('sides',)
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check(sid), check produces the expected output) over Any ║
+# ║ Path(check(sides), <unspecified:check>) over {Any | hasattr(sides, 'is_positive') and hasattr(sides, 'is_integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ check : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(sides, 'is_positive')                  ║
+# ║   requires: hasattr(sides, 'is_integer')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ check : {Any | hasattr(sides, 'is_positive') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 476a7165d5688415  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.DieDistribution.check","kind":"staticmethod","src_hash":"a392357d676c76e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check(sid)","rhs":"check produces the expected output","over":{"base":"Any"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv_types.DieDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"476a7165d5688415"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.DieDistribution.check","kind":"staticmethod","src_hash":"a392357d676c76e9","in":{"base":"Any","pred":"hasattr(sides, 'is_positive') and hasattr(sides, 'is_integer')"},"out":{"base":"Any"},"spec":{"lhs":"check(sides)","rhs":"<unspecified:check>","over":{"base":"Any","pred":"hasattr(sides, 'is_positive') and hasattr(sides, 'is_integer')"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv_types.DieDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"476a7165d5688415","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(sides, 'is_positive')","hasattr(sides, 'is_integer')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["sides.is_integer","sides.is_positive"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def check(sides):
         _value_check((sides.is_positive, sides.is_integer),
                     "number of sides must be a positive integer.")
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_symbolic(), returns the is_symbolic attribute) over Any ║
+# ║ Path(is_symbolic(), not self.sides.is_number) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not self.sides.is_number                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_symbolic : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 56b49f53512f3169           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.DieDistribution.is_symbolic","kind":"property","src_hash":"07ba94d5c8c0a204","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_symbolic()","rhs":"returns the is_symbolic attribute","over":{"base":"Any"},"name":"is_symbolic_correct"},"guarantee":"returns the is_symbolic attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"56b49f53512f3169"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.DieDistribution.is_symbolic","kind":"property","src_hash":"07ba94d5c8c0a204","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_symbolic()","rhs":"not self.sides.is_number","over":{"base":"Any"},"name":"is_symbolic_correct"},"guarantee":"returns not self.sides.is_number","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"56b49f53512f3169","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not self.sides.is_number","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sides"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_symbolic(self):
         return not self.sides.is_number
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(high(), returns the high attribute) over Any          ║
+# ║ Path(high(), self.sides) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.sides                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ high : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5b40817f17243cba           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.DieDistribution.high","kind":"property","src_hash":"bfa57de70c424805","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"high()","rhs":"returns the high attribute","over":{"base":"Any"},"name":"high_correct"},"guarantee":"returns the high attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5b40817f17243cba"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.DieDistribution.high","kind":"property","src_hash":"bfa57de70c424805","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"high()","rhs":"self.sides","over":{"base":"Any"},"name":"high_correct"},"guarantee":"returns self.sides","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5b40817f17243cba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.sides","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sides"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def high(self):
         return self.sides
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(low(), returns the low attribute) over Any            ║
+# ║ Path(low(), S.One) over Any                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.One                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ low : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 56f5a5173ad16143           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.DieDistribution.low","kind":"property","src_hash":"29362bc9f478de06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"low()","rhs":"returns the low attribute","over":{"base":"Any"},"name":"low_correct"},"guarantee":"returns the low attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"56f5a5173ad16143"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.DieDistribution.low","kind":"property","src_hash":"29362bc9f478de06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"low()","rhs":"S.One","over":{"base":"Any"},"name":"low_correct"},"guarantee":"returns S.One","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"56f5a5173ad16143","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.One","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def low(self):
         return S.One
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set(), returns the set attribute) over Any            ║
+# ║ Path(set(), # HINT: set may be idempotent: set(set(x)) == set(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ set : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: set may be idempotent: set(set(x)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ set : Any → {Any | result satisfies: # HINT: set may ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cf64746c806d5b17           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.DieDistribution.set","kind":"property","src_hash":"8f4ddaa989423e03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"returns the set attribute","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns the set attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cf64746c806d5b17"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.DieDistribution.set","kind":"property","src_hash":"8f4ddaa989423e03","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: set may be idempotent: set(set(x)) == set(x)"},"spec":{"lhs":"set()","rhs":"# HINT: set may be idempotent: set(set(x)) == set(x)","over":{"base":"Any"},"name":"set_correct"},"guarantee":"# HINT: set may be idempotent: set(set(x)) == set(x)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cf64746c806d5b17","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: set may be idempotent: set(set(x)) == set(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_symbolic","self.sides"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set(self):
         if self.is_symbolic:
             return Intersection(S.Naturals0, Interval(0, self.sides))
         return set(map(Integer, range(1, self.sides + 1)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pmf(x), pmf produces the expected output) over Any    ║
+# ║ Path(pmf(x), Piecewise((S.One / self.sides, cond), (S.Zero, True))) over {Any | x.is_number or x.is_Symbol or is_random(x) and hasattr(x, 'is_number') and hasattr(x, 'is_Symbol')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ pmf : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: x.is_number or x.is_Symbol or is_random(x)     ║
+# ║   requires: hasattr(x, 'is_number')                        ║
+# ║   requires: hasattr(x, 'is_Symbol')                        ║
+# ║   returns:  Piecewise((S.One / self.sides, cond), (S....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ pmf : {Any | x.is_number or x.is_Symbol or is_random(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 030bd33e8f183e46  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 631d64f0562b8cb9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.DieDistribution.pmf","kind":"method","src_hash":"642693fcae65753f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pmf(x)","rhs":"pmf produces the expected output","over":{"base":"Any"},"name":"pmf_correct"},"guarantee":"pmf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv_types.DieDistribution.pmf_correct","statement":"Path(pmf(x), pmf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"030bd33e8f183e46"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.DieDistribution.pmf","kind":"method","src_hash":"642693fcae65753f","in":{"base":"Any","pred":"x.is_number or x.is_Symbol or is_random(x) and hasattr(x, 'is_number') and hasattr(x, 'is_Symbol')"},"out":{"base":"Any"},"spec":{"lhs":"pmf(x)","rhs":"Piecewise((S.One / self.sides, cond), (S.Zero, True))","over":{"base":"Any","pred":"x.is_number or x.is_Symbol or is_random(x) and hasattr(x, 'is_number') and hasattr(x, 'is_Symbol')"},"name":"pmf_correct"},"guarantee":"returns Piecewise((S.One / self.sides, cond), (S.Zero, True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv_types.DieDistribution.pmf_correct","statement":"Path(pmf(x), returns Piecewise((S.One / self.sides, cond), (S.Zero, True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"631d64f0562b8cb9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["x.is_number or x.is_Symbol or is_random(x)","hasattr(x, 'is_number')","hasattr(x, 'is_Symbol')"],"returns_expr":"Piecewise((S.One / self.sides, cond), (S.Zero, True))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sides","x.is_Symbol","x.is_number"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pmf(self, x):
         x = sympify(x)
         if not (x.is_number or x.is_Symbol or is_random(x)):
@@ -485,16 +620,22 @@ class DieDistribution(SingleFiniteDistribution):
         return Piecewise((S.One/self.sides, cond), (S.Zero, True))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Die(nam), create a finite random variable representing a fair die) over Any ║
+# ║ Path(Die(name, sides), rv(name, DieDistribution, sides)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  rv(name, DieDistribution, sides)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Die : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 63b8fbd634a68989           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.Die","kind":"function","src_hash":"5f03d85188b1a502","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Die(nam)","rhs":"create a finite random variable representing a fair die","over":{"base":"Any"},"name":"Die_correct"},"guarantee":"create a finite random variable representing a fair die","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"63b8fbd634a68989"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.Die","kind":"function","src_hash":"5f03d85188b1a502","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Die(name, sides)","rhs":"rv(name, DieDistribution, sides)","over":{"base":"Any"},"name":"Die_correct"},"guarantee":"returns rv(name, DieDistribution, sides)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"63b8fbd634a68989","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"rv(name, DieDistribution, sides)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def Die(name, sides=6):
     r"""
     Create a Finite Random Variable representing a fair die.
@@ -538,59 +679,83 @@ def Die(name, sides=6):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(BernoulliDistribution(*args), correctly constructs a BernoulliDistribution instance) over {Any | isinstance(self.succ, Symbol)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SingleFiniteDistribution)     ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ BernoulliDistribution : {Any | isinstance(self.succ, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c0a9adaed86b44c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BernoulliDistribution","kind":"class","src_hash":"9a1a605b41482f04","in":{"base":"Any","pred":"isinstance(self.succ, Symbol)"},"out":{"base":"Any"},"spec":{"lhs":"BernoulliDistribution(*args)","rhs":"correctly constructs a BernoulliDistribution instance","over":{"base":"Any","pred":"isinstance(self.succ, Symbol)"},"name":"BernoulliDistribution_class_invariant"},"guarantee":"correctly constructs a BernoulliDistribution instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c0a9adaed86b44c2"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BernoulliDistribution","kind":"class","src_hash":"9a1a605b41482f04","in":{"base":"Any","pred":"isinstance(self.succ, Symbol)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SingleFiniteDistribution)"},"spec":{"lhs":"BernoulliDistribution(*args)","rhs":"correctly constructs a BernoulliDistribution instance","over":{"base":"Any","pred":"isinstance(self.succ, Symbol)"},"name":"BernoulliDistribution_class_invariant"},"guarantee":"isinstance(self, SingleFiniteDistribution)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c0a9adaed86b44c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SingleFiniteDistribution)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function BernoulliDistribution not found in source"]}}
 class BernoulliDistribution(SingleFiniteDistribution):
     _argnames = ('p', 'succ', 'fail')
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check(p, ), check produces the expected output) over Any ║
+# ║ Path(check(p, succ, fail), <unspecified:check>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ check : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c9e42f11fd9d89a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BernoulliDistribution.check","kind":"staticmethod","src_hash":"54a00b66b3e988d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check(p, )","rhs":"check produces the expected output","over":{"base":"Any"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv_types.BernoulliDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c9e42f11fd9d89a"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BernoulliDistribution.check","kind":"staticmethod","src_hash":"54a00b66b3e988d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check(p, succ, fail)","rhs":"<unspecified:check>","over":{"base":"Any"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv_types.BernoulliDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c9e42f11fd9d89a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def check(p, succ, fail):
         _value_check((p >= 0, p <= 1),
                     "p should be in range [0, 1].")
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set(), returns the set attribute) over Any            ║
+# ║ Path(set(), {self.succ, self.fail}) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  {self.succ, self.fail}                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a893f3bc5ba60e42           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BernoulliDistribution.set","kind":"property","src_hash":"05cc116e71fa77ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"returns the set attribute","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns the set attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a893f3bc5ba60e42"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BernoulliDistribution.set","kind":"property","src_hash":"05cc116e71fa77ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"{self.succ, self.fail}","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns {self.succ, self.fail}","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a893f3bc5ba60e42","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"{self.succ, self.fail}","pure":false,"effects":{"effect_type":"reads_state","reads":["self.fail","self.succ"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set(self):
         return {self.succ, self.fail}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pmf(x), pmf produces the expected output) over Any    ║
+# ║ Path(pmf(x), <unspecified:pmf>) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pmf : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4fd00f734e0df8f6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BernoulliDistribution.pmf","kind":"method","src_hash":"a06f489698bb1aef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pmf(x)","rhs":"pmf produces the expected output","over":{"base":"Any"},"name":"pmf_correct"},"guarantee":"pmf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv_types.BernoulliDistribution.pmf_correct","statement":"Path(pmf(x), pmf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4fd00f734e0df8f6"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BernoulliDistribution.pmf","kind":"method","src_hash":"a06f489698bb1aef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pmf(x)","rhs":"<unspecified:pmf>","over":{"base":"Any"},"name":"pmf_correct"},"guarantee":"pmf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv_types.BernoulliDistribution.pmf_correct","statement":"Path(pmf(x), pmf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4fd00f734e0df8f6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.fail","self.p","self.succ"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pmf(self, x):
         if isinstance(self.succ, Symbol) and isinstance(self.fail, Symbol):
             return Piecewise((self.p, x == self.succ),
@@ -602,16 +767,22 @@ class BernoulliDistribution(SingleFiniteDistribution):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Bernoulli(nam), create a finite random variable representing a bernoulli process) over Any ║
+# ║ Path(Bernoulli(name, p, succ), rv(name, BernoulliDistribution, p, succ, fail)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  rv(name, BernoulliDistribution, p, succ, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Bernoulli : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2f014dce19a5634a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.Bernoulli","kind":"function","src_hash":"c032814fdf6072c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Bernoulli(nam)","rhs":"create a finite random variable representing a bernoulli process","over":{"base":"Any"},"name":"Bernoulli_correct"},"guarantee":"create a finite random variable representing a bernoulli process","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2f014dce19a5634a"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.Bernoulli","kind":"function","src_hash":"c032814fdf6072c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Bernoulli(name, p, succ)","rhs":"rv(name, BernoulliDistribution, p, succ, fail)","over":{"base":"Any"},"name":"Bernoulli_correct"},"guarantee":"returns rv(name, BernoulliDistribution, p, succ, fail)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2f014dce19a5634a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"rv(name, BernoulliDistribution, p, succ, fail)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def Bernoulli(name, p, succ=1, fail=0):
     r"""
     Create a Finite Random Variable representing a Bernoulli process.
@@ -657,16 +828,22 @@ def Bernoulli(name, p, succ=1, fail=0):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Coin(nam), create a finite random variable representing a coin toss) over Any ║
+# ║ Path(Coin(name, p), rv(name, BernoulliDistribution, p, 'H', 'T')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  rv(name, BernoulliDistribution, p, 'H', 'T')   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Coin : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 91c9e1dbb492f6c0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.Coin","kind":"function","src_hash":"2e3a40762ea7dc7b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Coin(nam)","rhs":"create a finite random variable representing a coin toss","over":{"base":"Any"},"name":"Coin_correct"},"guarantee":"create a finite random variable representing a coin toss","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"91c9e1dbb492f6c0"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.Coin","kind":"function","src_hash":"2e3a40762ea7dc7b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Coin(name, p)","rhs":"rv(name, BernoulliDistribution, p, 'H', 'T')","over":{"base":"Any"},"name":"Coin_correct"},"guarantee":"returns rv(name, BernoulliDistribution, p, 'H', 'T')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"91c9e1dbb492f6c0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"rv(name, BernoulliDistribution, p, 'H', 'T')","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def Coin(name, p=S.Half):
     r"""
     Create a Finite Random Variable representing a Coin toss.
@@ -716,29 +893,43 @@ def Coin(name, p=S.Half):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a BinomialDistribution instance) preserved by BinomialDistribution(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ BinomialDistribution : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SingleFiniteDistribution)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ BinomialDistribution : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2214d7bc701537c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BinomialDistribution","kind":"class","src_hash":"386e2aee8ef2f6f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"BinomialDistribution(*args)","rhs":"correctly constructs a BinomialDistribution instance","over":{"base":"Any"},"name":"BinomialDistribution_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a BinomialDistribution instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_symbolic","pred":"self.is_symbolic","kind":"class"}],"methods_preserving":["high","low","is_symbolic","set","pmf","dict"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2214d7bc701537c6"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BinomialDistribution","kind":"class","src_hash":"386e2aee8ef2f6f4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SingleFiniteDistribution)"},"spec":{"lhs":"BinomialDistribution(*args)","rhs":"correctly constructs a BinomialDistribution instance","over":{"base":"Any"},"name":"BinomialDistribution_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, SingleFiniteDistribution)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_symbolic","pred":"self.is_symbolic","kind":"class"}],"methods_preserving":["high","low","is_symbolic","set","pmf","dict"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2214d7bc701537c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SingleFiniteDistribution)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function BinomialDistribution not found in source"]}}
 class BinomialDistribution(SingleFiniteDistribution):
     _argnames = ('n', 'p', 'succ', 'fail')
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check(n, ), check produces the expected output) over Any ║
+# ║ Path(check(n, p, succ), <unspecified:check>) over {Any | hasattr(n, 'is_integer') and hasattr(n, 'is_nonnegative')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ check : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(n, 'is_integer')                       ║
+# ║   requires: hasattr(n, 'is_nonnegative')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ check : {Any | hasattr(n, 'is_integer') and hasattr(n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2059609063bd2d9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BinomialDistribution.check","kind":"staticmethod","src_hash":"5bce598e84c196a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check(n, )","rhs":"check produces the expected output","over":{"base":"Any"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv_types.BinomialDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2059609063bd2d9"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BinomialDistribution.check","kind":"staticmethod","src_hash":"5bce598e84c196a6","in":{"base":"Any","pred":"hasattr(n, 'is_integer') and hasattr(n, 'is_nonnegative')"},"out":{"base":"Any"},"spec":{"lhs":"check(n, p, succ)","rhs":"<unspecified:check>","over":{"base":"Any","pred":"hasattr(n, 'is_integer') and hasattr(n, 'is_nonnegative')"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv_types.BinomialDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2059609063bd2d9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(n, 'is_integer')","hasattr(n, 'is_nonnegative')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["n.is_integer","n.is_nonnegative"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def check(n, p, succ, fail):
         _value_check((n.is_integer, n.is_nonnegative),
                     "'n' must be nonnegative integer.")
@@ -747,77 +938,110 @@ class BinomialDistribution(SingleFiniteDistribution):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(high(), returns the high attribute) over Any          ║
+# ║ Path(high(), self.n) over Any                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.n                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ high : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6ffb8ddf8cb2ada9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BinomialDistribution.high","kind":"property","src_hash":"07ed01b2103953a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"high()","rhs":"returns the high attribute","over":{"base":"Any"},"name":"high_correct"},"guarantee":"returns the high attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6ffb8ddf8cb2ada9"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BinomialDistribution.high","kind":"property","src_hash":"07ed01b2103953a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"high()","rhs":"self.n","over":{"base":"Any"},"name":"high_correct"},"guarantee":"returns self.n","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6ffb8ddf8cb2ada9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.n","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def high(self):
         return self.n
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(low(), returns the low attribute) over Any            ║
+# ║ Path(low(), S.Zero) over Any                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.Zero                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ low : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 49c6c22aef84bd51           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BinomialDistribution.low","kind":"property","src_hash":"9218f01ef92182ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"low()","rhs":"returns the low attribute","over":{"base":"Any"},"name":"low_correct"},"guarantee":"returns the low attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"49c6c22aef84bd51"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BinomialDistribution.low","kind":"property","src_hash":"9218f01ef92182ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"low()","rhs":"S.Zero","over":{"base":"Any"},"name":"low_correct"},"guarantee":"returns S.Zero","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"49c6c22aef84bd51","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.Zero","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def low(self):
         return S.Zero
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_symbolic(), returns the is_symbolic attribute) over Any ║
+# ║ Path(is_symbolic(), not self.n.is_number) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not self.n.is_number                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_symbolic : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 90211c77322a6d51           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BinomialDistribution.is_symbolic","kind":"property","src_hash":"ce355aef16730d2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_symbolic()","rhs":"returns the is_symbolic attribute","over":{"base":"Any"},"name":"is_symbolic_correct"},"guarantee":"returns the is_symbolic attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"90211c77322a6d51"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BinomialDistribution.is_symbolic","kind":"property","src_hash":"ce355aef16730d2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_symbolic()","rhs":"not self.n.is_number","over":{"base":"Any"},"name":"is_symbolic_correct"},"guarantee":"returns not self.n.is_number","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"90211c77322a6d51","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not self.n.is_number","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_symbolic(self):
         return not self.n.is_number
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set(), returns the set attribute) over Any            ║
+# ║ Path(set(), # HINT: set may be idempotent: set(set(x)) == set(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ set : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: set may be idempotent: set(set(x)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ set : Any → {Any | result satisfies: # HINT: set may ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6e9a55b14bf8648d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BinomialDistribution.set","kind":"property","src_hash":"3353558e1f20222c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"returns the set attribute","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns the set attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6e9a55b14bf8648d"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BinomialDistribution.set","kind":"property","src_hash":"3353558e1f20222c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: set may be idempotent: set(set(x)) == set(x)"},"spec":{"lhs":"set()","rhs":"# HINT: set may be idempotent: set(set(x)) == set(x)","over":{"base":"Any"},"name":"set_correct"},"guarantee":"# HINT: set may be idempotent: set(set(x)) == set(x)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6e9a55b14bf8648d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: set may be idempotent: set(set(x)) == set(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.dict","self.is_symbolic","self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set(self):
         if self.is_symbolic:
             return Intersection(S.Naturals0, Interval(0, self.n))
         return set(self.dict.keys())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pmf(x), id) over Any                                  ║
+# ║ Path(pmf(x), id) over {Any | x.is_number or x.is_Symbol or is_random(x) and hasattr(x, 'is_number') and hasattr(x, 'is_Symbol')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ pmf : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: x.is_number or x.is_Symbol or is_random(x)     ║
+# ║   requires: hasattr(x, 'is_number')                        ║
+# ║   requires: hasattr(x, 'is_Symbol')                        ║
+# ║   returns:  Piecewise((binomial(n, x) * p ** x * (1 -...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ pmf : {Any | x.is_number or x.is_Symbol or is_random(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 8eb44c1836173b8a   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BinomialDistribution.pmf","kind":"method","src_hash":"e66063daf6b24562","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pmf(x)","rhs":"pmf produces the expected output","over":{"base":"Any"},"name":"pmf_correct","kind":"composition"},"guarantee":"pmf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Piecewise","by":"library_axiom"},{"fn":"binomial","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8eb44c1836173b8a"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BinomialDistribution.pmf","kind":"method","src_hash":"e66063daf6b24562","in":{"base":"Any","pred":"x.is_number or x.is_Symbol or is_random(x) and hasattr(x, 'is_number') and hasattr(x, 'is_Symbol')"},"out":{"base":"Any"},"spec":{"lhs":"pmf(x)","rhs":"Piecewise((binomial(n, x) * p ** x * (1 - p) ** (n - x), cond), (S.Zero, True))","over":{"base":"Any","pred":"x.is_number or x.is_Symbol or is_random(x) and hasattr(x, 'is_number') and hasattr(x, 'is_Symbol')"},"name":"pmf_correct","kind":"composition"},"guarantee":"returns Piecewise((binomial(n, x) * p ** x * (1 - p) ** (n - x), cond), (S.Zero, True))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Piecewise","by":"library_axiom"},{"fn":"binomial","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8eb44c1836173b8a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["x.is_number or x.is_Symbol or is_random(x)","hasattr(x, 'is_number')","hasattr(x, 'is_Symbol')"],"returns_expr":"Piecewise((binomial(n, x) * p ** x * (1 - p) ** (n - x), cond), (S.Zero, True))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n","self.p","x.is_Symbol","x.is_number"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pmf(self, x):
         n, p = self.n, self.p
         x = sympify(x)
@@ -830,16 +1054,22 @@ class BinomialDistribution(SingleFiniteDistribution):
     @property  # type: ignore
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dict(), returns the dict attribute) over Any          ║
+# ║ Path(dict(), <unspecified:dict>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dict : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f76f8eedf7b87d5e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BinomialDistribution.dict","kind":"property","src_hash":"3f8e6ce8c5d718eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dict()","rhs":"returns the dict attribute","over":{"base":"Any"},"name":"dict_correct"},"guarantee":"returns the dict attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f76f8eedf7b87d5e"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BinomialDistribution.dict","kind":"property","src_hash":"3f8e6ce8c5d718eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dict()","rhs":"<unspecified:dict>","over":{"base":"Any"},"name":"dict_correct"},"guarantee":"returns the dict attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f76f8eedf7b87d5e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.fail","self.is_symbolic","self.n","self.pmf","self.succ"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dict(self):
         if self.is_symbolic:
             return Density(self)
@@ -848,16 +1078,22 @@ class BinomialDistribution(SingleFiniteDistribution):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Binomial(nam), create a finite random variable representing a binomial distribution) over Any ║
+# ║ Path(Binomial(name, n, p), rv(name, BinomialDistribution, n, p, succ, fail)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  rv(name, BinomialDistribution, n, p, succ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Binomial : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b9e93b7292797887           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.Binomial","kind":"function","src_hash":"7356773467765c74","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Binomial(nam)","rhs":"create a finite random variable representing a binomial distribution","over":{"base":"Any"},"name":"Binomial_correct"},"guarantee":"create a finite random variable representing a binomial distribution","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b9e93b7292797887"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.Binomial","kind":"function","src_hash":"7356773467765c74","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Binomial(name, n, p)","rhs":"rv(name, BinomialDistribution, n, p, succ, fail)","over":{"base":"Any"},"name":"Binomial_correct"},"guarantee":"returns rv(name, BinomialDistribution, n, p, succ, fail)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b9e93b7292797887","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"rv(name, BinomialDistribution, n, p, succ, fail)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def Binomial(name, n, p, succ=1, fail=0):
     r"""
     Create a Finite Random Variable representing a binomial distribution.
@@ -913,29 +1149,43 @@ def Binomial(name, n, p, succ=1, fail=0):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a BetaBinomialDistribution instance) preserved by BetaBinomialDistribution(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ BetaBinomialDistribution : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SingleFiniteDistribution)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ BetaBinomialDistribution : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c1905c41f036f55  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BetaBinomialDistribution","kind":"class","src_hash":"db0e629c7199b52d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"BetaBinomialDistribution(*args)","rhs":"correctly constructs a BetaBinomialDistribution instance","over":{"base":"Any"},"name":"BetaBinomialDistribution_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a BetaBinomialDistribution instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_symbolic","pred":"self.is_symbolic","kind":"class"}],"methods_preserving":["high","low","is_symbolic","set","pmf"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c1905c41f036f55"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BetaBinomialDistribution","kind":"class","src_hash":"db0e629c7199b52d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SingleFiniteDistribution)"},"spec":{"lhs":"BetaBinomialDistribution(*args)","rhs":"correctly constructs a BetaBinomialDistribution instance","over":{"base":"Any"},"name":"BetaBinomialDistribution_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, SingleFiniteDistribution)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_symbolic","pred":"self.is_symbolic","kind":"class"}],"methods_preserving":["high","low","is_symbolic","set","pmf"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c1905c41f036f55","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SingleFiniteDistribution)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function BetaBinomialDistribution not found in source"]}}
 class BetaBinomialDistribution(SingleFiniteDistribution):
     _argnames = ('n', 'alpha', 'beta')
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check(n, ), check produces the expected output) over Any ║
+# ║ Path(check(n, alpha, beta), <unspecified:check>) over {Any | hasattr(n, 'is_integer') and hasattr(n, 'is_nonnegative')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ check : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(n, 'is_integer')                       ║
+# ║   requires: hasattr(n, 'is_nonnegative')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ check : {Any | hasattr(n, 'is_integer') and hasattr(n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9a178462129a601  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BetaBinomialDistribution.check","kind":"staticmethod","src_hash":"ea25f1308fd7f472","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check(n, )","rhs":"check produces the expected output","over":{"base":"Any"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv_types.BetaBinomialDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9a178462129a601"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BetaBinomialDistribution.check","kind":"staticmethod","src_hash":"ea25f1308fd7f472","in":{"base":"Any","pred":"hasattr(n, 'is_integer') and hasattr(n, 'is_nonnegative')"},"out":{"base":"Any"},"spec":{"lhs":"check(n, alpha, beta)","rhs":"<unspecified:check>","over":{"base":"Any","pred":"hasattr(n, 'is_integer') and hasattr(n, 'is_nonnegative')"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv_types.BetaBinomialDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9a178462129a601","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(n, 'is_integer')","hasattr(n, 'is_nonnegative')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["n.is_integer","n.is_nonnegative"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def check(n, alpha, beta):
         _value_check((n.is_integer, n.is_nonnegative),
         "'n' must be nonnegative integer. n = %s." % str(n))
@@ -946,61 +1196,85 @@ class BetaBinomialDistribution(SingleFiniteDistribution):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(high(), returns the high attribute) over Any          ║
+# ║ Path(high(), self.n) over Any                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.n                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ high : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cd1508e4b9a733ae           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BetaBinomialDistribution.high","kind":"property","src_hash":"07ed01b2103953a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"high()","rhs":"returns the high attribute","over":{"base":"Any"},"name":"high_correct"},"guarantee":"returns the high attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cd1508e4b9a733ae"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BetaBinomialDistribution.high","kind":"property","src_hash":"07ed01b2103953a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"high()","rhs":"self.n","over":{"base":"Any"},"name":"high_correct"},"guarantee":"returns self.n","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cd1508e4b9a733ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.n","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def high(self):
         return self.n
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(low(), returns the low attribute) over Any            ║
+# ║ Path(low(), S.Zero) over Any                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.Zero                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ low : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7d8d29604fac9e7c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BetaBinomialDistribution.low","kind":"property","src_hash":"9218f01ef92182ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"low()","rhs":"returns the low attribute","over":{"base":"Any"},"name":"low_correct"},"guarantee":"returns the low attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7d8d29604fac9e7c"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BetaBinomialDistribution.low","kind":"property","src_hash":"9218f01ef92182ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"low()","rhs":"S.Zero","over":{"base":"Any"},"name":"low_correct"},"guarantee":"returns S.Zero","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7d8d29604fac9e7c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.Zero","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def low(self):
         return S.Zero
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_symbolic(), returns the is_symbolic attribute) over Any ║
+# ║ Path(is_symbolic(), not self.n.is_number) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not self.n.is_number                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_symbolic : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 986e3bd980ce43fe           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BetaBinomialDistribution.is_symbolic","kind":"property","src_hash":"ce355aef16730d2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_symbolic()","rhs":"returns the is_symbolic attribute","over":{"base":"Any"},"name":"is_symbolic_correct"},"guarantee":"returns the is_symbolic attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"986e3bd980ce43fe"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BetaBinomialDistribution.is_symbolic","kind":"property","src_hash":"ce355aef16730d2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_symbolic()","rhs":"not self.n.is_number","over":{"base":"Any"},"name":"is_symbolic_correct"},"guarantee":"returns not self.n.is_number","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"986e3bd980ce43fe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not self.n.is_number","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_symbolic(self):
         return not self.n.is_number
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set(), returns the set attribute) over Any            ║
+# ║ Path(set(), # HINT: set may be idempotent: set(set(x)) == set(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ set : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: set may be idempotent: set(set(x)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ set : Any → {Any | result satisfies: # HINT: set may ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c6fbfe8094f1d975           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BetaBinomialDistribution.set","kind":"property","src_hash":"030ed51ea287da1b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"returns the set attribute","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns the set attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c6fbfe8094f1d975"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BetaBinomialDistribution.set","kind":"property","src_hash":"030ed51ea287da1b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: set may be idempotent: set(set(x)) == set(x)"},"spec":{"lhs":"set()","rhs":"# HINT: set may be idempotent: set(set(x)) == set(x)","over":{"base":"Any"},"name":"set_correct"},"guarantee":"# HINT: set may be idempotent: set(set(x)) == set(x)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c6fbfe8094f1d975","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: set may be idempotent: set(set(x)) == set(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_symbolic","self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set(self):
         if self.is_symbolic:
             return Intersection(S.Naturals0, Interval(0, self.n))
@@ -1009,30 +1283,42 @@ class BetaBinomialDistribution(SingleFiniteDistribution):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(pmf(k), id) over Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  binomial(n, k) * beta_fn(k + a, n - k + b...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ pmf : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a43fc1f5e6641090   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BetaBinomialDistribution.pmf","kind":"method","src_hash":"acd73a40029672e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pmf(k)","rhs":"pmf produces the expected output","over":{"base":"Any"},"name":"pmf_correct","kind":"composition"},"guarantee":"pmf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"binomial","by":"library_axiom"},{"fn":"beta_fn","by":"library_axiom"},{"fn":"beta_fn","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a43fc1f5e6641090"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BetaBinomialDistribution.pmf","kind":"method","src_hash":"acd73a40029672e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pmf(k)","rhs":"binomial(n, k) * beta_fn(k + a, n - k + b) / beta_fn(a, b)","over":{"base":"Any"},"name":"pmf_correct","kind":"composition"},"guarantee":"returns binomial(n, k) * beta_fn(k + a, n - k + b) / beta_fn(a, b)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"binomial","by":"library_axiom"},{"fn":"beta_fn","by":"library_axiom"},{"fn":"beta_fn","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a43fc1f5e6641090","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"binomial(n, k) * beta_fn(k + a, n - k + b) / beta_fn(a, b)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.alpha","self.beta","self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pmf(self, k):
         n, a, b = self.n, self.alpha, self.beta
         return binomial(n, k) * beta_fn(k + a, n - k + b) / beta_fn(a, b)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(BetaBinomial(nam), create a finite random variable representing a beta-binomial distribution) over Any ║
+# ║ Path(BetaBinomial(name, n, alpha), rv(name, BetaBinomialDistribution, n, alpha, beta)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  rv(name, BetaBinomialDistribution, n, alp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ BetaBinomial : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 32085051b76161c7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BetaBinomial","kind":"function","src_hash":"17b77d32789b518f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"BetaBinomial(nam)","rhs":"create a finite random variable representing a beta-binomial distribution","over":{"base":"Any"},"name":"BetaBinomial_correct"},"guarantee":"create a finite random variable representing a beta-binomial distribution","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"32085051b76161c7"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.BetaBinomial","kind":"function","src_hash":"17b77d32789b518f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"BetaBinomial(name, n, alpha)","rhs":"rv(name, BetaBinomialDistribution, n, alpha, beta)","over":{"base":"Any"},"name":"BetaBinomial_correct"},"guarantee":"returns rv(name, BetaBinomialDistribution, n, alpha, beta)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"32085051b76161c7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"rv(name, BetaBinomialDistribution, n, alpha, beta)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def BetaBinomial(name, n, alpha, beta):
     r"""
     Create a Finite Random Variable representing a Beta-binomial distribution.
@@ -1073,29 +1359,44 @@ def BetaBinomial(name, n, alpha, beta):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a HypergeometricDistribution instance) preserved by HypergeometricDistribution(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ HypergeometricDistribution : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SingleFiniteDistribution)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ HypergeometricDistribution : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77ad4c8bd71e6808  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.HypergeometricDistribution","kind":"class","src_hash":"5f7a1e89b041bad7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"HypergeometricDistribution(*args)","rhs":"correctly constructs a HypergeometricDistribution instance","over":{"base":"Any"},"name":"HypergeometricDistribution_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a HypergeometricDistribution instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_symbolic","pred":"self.is_symbolic","kind":"class"}],"methods_preserving":["is_symbolic","high","low","set","pmf"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77ad4c8bd71e6808"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.HypergeometricDistribution","kind":"class","src_hash":"5f7a1e89b041bad7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SingleFiniteDistribution)"},"spec":{"lhs":"HypergeometricDistribution(*args)","rhs":"correctly constructs a HypergeometricDistribution instance","over":{"base":"Any"},"name":"HypergeometricDistribution_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, SingleFiniteDistribution)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_symbolic","pred":"self.is_symbolic","kind":"class"}],"methods_preserving":["is_symbolic","high","low","set","pmf"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77ad4c8bd71e6808","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SingleFiniteDistribution)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function HypergeometricDistribution not found in source"]}}
 class HypergeometricDistribution(SingleFiniteDistribution):
     _argnames = ('N', 'm', 'n')
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check(n, ), check produces the expected output) over Any ║
+# ║ Path(check(n, N, m), <unspecified:check>) over {Any | hasattr(N, 'is_integer') and hasattr(N, 'is_nonnegative') and hasattr(n, 'is_integer') and hasattr(n, 'is_nonnegative') and hasattr(m, 'is_integer') and hasattr(m, 'is_nonnegative')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ check : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(N, 'is_integer')                       ║
+# ║   requires: hasattr(N, 'is_nonnegative')                   ║
+# ║   requires: hasattr(n, 'is_integer')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ check : {Any | hasattr(N, 'is_integer') and hasattr(N...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8192f0a13c37a557  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.HypergeometricDistribution.check","kind":"staticmethod","src_hash":"899ae52adcc361e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check(n, )","rhs":"check produces the expected output","over":{"base":"Any"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv_types.HypergeometricDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8192f0a13c37a557"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.HypergeometricDistribution.check","kind":"staticmethod","src_hash":"899ae52adcc361e2","in":{"base":"Any","pred":"hasattr(N, 'is_integer') and hasattr(N, 'is_nonnegative') and hasattr(n, 'is_integer') and hasattr(n, 'is_nonnegative') and hasattr(m, 'is_integer') and hasattr(m, 'is_nonnegative')"},"out":{"base":"Any"},"spec":{"lhs":"check(n, N, m)","rhs":"<unspecified:check>","over":{"base":"Any","pred":"hasattr(N, 'is_integer') and hasattr(N, 'is_nonnegative') and hasattr(n, 'is_integer') and hasattr(n, 'is_nonnegative') and hasattr(m, 'is_integer') and hasattr(m, 'is_nonnegative')"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv_types.HypergeometricDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8192f0a13c37a557","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(N, 'is_integer')","hasattr(N, 'is_nonnegative')","hasattr(n, 'is_integer')","hasattr(n, 'is_nonnegative')","hasattr(m, 'is_integer')","hasattr(m, 'is_nonnegative')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["N.is_integer","N.is_nonnegative","m.is_integer","m.is_nonnegative","n.is_integer","n.is_nonnegative"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def check(n, N, m):
         _value_check((N.is_integer, N.is_nonnegative),
                      "'N' must be nonnegative integer. N = %s." % str(N))
@@ -1106,61 +1407,85 @@ class HypergeometricDistribution(SingleFiniteDistribution):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_symbolic(), returns the is_symbolic attribute) over Any ║
+# ║ Path(is_symbolic(), not all((x.is_number for x in (self.N, self.m, self.n)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not all((x.is_number for x in (self.N, se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_symbolic : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3180fd32019b372f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.HypergeometricDistribution.is_symbolic","kind":"property","src_hash":"cf3ae6a9e9304898","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_symbolic()","rhs":"returns the is_symbolic attribute","over":{"base":"Any"},"name":"is_symbolic_correct"},"guarantee":"returns the is_symbolic attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3180fd32019b372f"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.HypergeometricDistribution.is_symbolic","kind":"property","src_hash":"cf3ae6a9e9304898","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_symbolic()","rhs":"not all((x.is_number for x in (self.N, self.m, self.n)))","over":{"base":"Any"},"name":"is_symbolic_correct"},"guarantee":"returns not all((x.is_number for x in (self.N, self.m, self.n)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3180fd32019b372f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not all((x.is_number for x in (self.N, self.m, self.n)))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.N","self.m","self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_symbolic(self):
         return not all(x.is_number for x in (self.N, self.m, self.n))
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(high(), returns the high attribute) over Any          ║
+# ║ Path(high(), Piecewise((self.n, Lt(self.n, self.m) != False), (self.m, True))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Piecewise((self.n, Lt(self.n, self.m) != ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ high : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 910f3f0da233ed2b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.HypergeometricDistribution.high","kind":"property","src_hash":"14363430c6cb3fcd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"high()","rhs":"returns the high attribute","over":{"base":"Any"},"name":"high_correct"},"guarantee":"returns the high attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"910f3f0da233ed2b"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.HypergeometricDistribution.high","kind":"property","src_hash":"14363430c6cb3fcd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"high()","rhs":"Piecewise((self.n, Lt(self.n, self.m) != False), (self.m, True))","over":{"base":"Any"},"name":"high_correct"},"guarantee":"returns Piecewise((self.n, Lt(self.n, self.m) != False), (self.m, True))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"910f3f0da233ed2b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Piecewise((self.n, Lt(self.n, self.m) != False), (self.m, True))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.m","self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def high(self):
         return Piecewise((self.n, Lt(self.n, self.m) != False), (self.m, True))
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(low(), returns the low attribute) over Any            ║
+# ║ Path(low(), Piecewise((0, Gt(0, self.n + self.m - self.N) != False), (self.n + self.m - self.N, True))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Piecewise((0, Gt(0, self.n + self.m - sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ low : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ede18037b64c0878           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.HypergeometricDistribution.low","kind":"property","src_hash":"aff6a84d3b70455d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"low()","rhs":"returns the low attribute","over":{"base":"Any"},"name":"low_correct"},"guarantee":"returns the low attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ede18037b64c0878"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.HypergeometricDistribution.low","kind":"property","src_hash":"aff6a84d3b70455d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"low()","rhs":"Piecewise((0, Gt(0, self.n + self.m - self.N) != False), (self.n + self.m - self.N, True))","over":{"base":"Any"},"name":"low_correct"},"guarantee":"returns Piecewise((0, Gt(0, self.n + self.m - self.N) != False), (self.n + self.m - self.N, True))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ede18037b64c0878","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Piecewise((0, Gt(0, self.n + self.m - self.N) != False), (self.n + self.m - self.N, True))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.N","self.m","self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def low(self):
         return Piecewise((0, Gt(0, self.n + self.m - self.N) != False), (self.n + self.m - self.N, True))
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set(), returns the set attribute) over Any            ║
+# ║ Path(set(), # HINT: set may be idempotent: set(set(x)) == set(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ set : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: set may be idempotent: set(set(x)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ set : Any → {Any | result satisfies: # HINT: set may ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 00a8c26ae495209f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.HypergeometricDistribution.set","kind":"property","src_hash":"980596db2f58787e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"returns the set attribute","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns the set attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"00a8c26ae495209f"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.HypergeometricDistribution.set","kind":"property","src_hash":"980596db2f58787e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: set may be idempotent: set(set(x)) == set(x)"},"spec":{"lhs":"set()","rhs":"# HINT: set may be idempotent: set(set(x)) == set(x)","over":{"base":"Any"},"name":"set_correct"},"guarantee":"# HINT: set may be idempotent: set(set(x)) == set(x)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"00a8c26ae495209f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: set may be idempotent: set(set(x)) == set(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.N","self.high","self.is_symbolic","self.low","self.m","self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set(self):
         N, m, n = self.N, self.m, self.n
         if self.is_symbolic:
@@ -1170,30 +1495,42 @@ class HypergeometricDistribution(SingleFiniteDistribution):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(pmf(k), id) over Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S(binomial(m, k) * binomial(N - m, n - k)...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ pmf : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 04eed347f8160b7f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.HypergeometricDistribution.pmf","kind":"method","src_hash":"7ad40b7f42a08592","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pmf(k)","rhs":"pmf produces the expected output","over":{"base":"Any"},"name":"pmf_correct","kind":"composition"},"guarantee":"pmf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"S","by":"library_axiom"},{"fn":"binomial","by":"library_axiom"},{"fn":"binomial","by":"library_axiom"},{"fn":"binomial","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04eed347f8160b7f"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.HypergeometricDistribution.pmf","kind":"method","src_hash":"7ad40b7f42a08592","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pmf(k)","rhs":"S(binomial(m, k) * binomial(N - m, n - k)) / binomial(N, n)","over":{"base":"Any"},"name":"pmf_correct","kind":"composition"},"guarantee":"returns S(binomial(m, k) * binomial(N - m, n - k)) / binomial(N, n)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"S","by":"library_axiom"},{"fn":"binomial","by":"library_axiom"},{"fn":"binomial","by":"library_axiom"},{"fn":"binomial","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04eed347f8160b7f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S(binomial(m, k) * binomial(N - m, n - k)) / binomial(N, n)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.N","self.m","self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pmf(self, k):
         N, m, n = self.N, self.m, self.n
         return S(binomial(m, k) * binomial(N - m, n - k))/binomial(N, n)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Hypergeometric(nam), create a finite random variable representing a hypergeometric distribution) over Any ║
+# ║ Path(Hypergeometric(name, N, m), rv(name, HypergeometricDistribution, N, m, n)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  rv(name, HypergeometricDistribution, N, m...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Hypergeometric : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c46e8e2709836223           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.Hypergeometric","kind":"function","src_hash":"cac4636bd0605b13","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Hypergeometric(nam)","rhs":"create a finite random variable representing a hypergeometric distribution","over":{"base":"Any"},"name":"Hypergeometric_correct"},"guarantee":"create a finite random variable representing a hypergeometric distribution","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c46e8e2709836223"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.Hypergeometric","kind":"function","src_hash":"cac4636bd0605b13","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Hypergeometric(name, N, m)","rhs":"rv(name, HypergeometricDistribution, N, m, n)","over":{"base":"Any"},"name":"Hypergeometric_correct"},"guarantee":"returns rv(name, HypergeometricDistribution, N, m, n)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c46e8e2709836223","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"rv(name, HypergeometricDistribution, N, m, n)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def Hypergeometric(name, N, m, n):
     r"""
     Create a Finite Random Variable representing a hypergeometric distribution.
@@ -1236,58 +1573,82 @@ def Hypergeometric(name, N, m, n):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(RademacherDistribution(*args), correctly constructs a RademacherDistribution instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ RademacherDistribution : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SingleFiniteDistribution)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ RademacherDistribution : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 247f313b97aedffb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.RademacherDistribution","kind":"class","src_hash":"dd40e207ae9085a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"RademacherDistribution(*args)","rhs":"correctly constructs a RademacherDistribution instance","over":{"base":"Any"},"name":"RademacherDistribution_class_invariant"},"guarantee":"correctly constructs a RademacherDistribution instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"247f313b97aedffb"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.RademacherDistribution","kind":"class","src_hash":"dd40e207ae9085a7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SingleFiniteDistribution)"},"spec":{"lhs":"RademacherDistribution(*args)","rhs":"correctly constructs a RademacherDistribution instance","over":{"base":"Any"},"name":"RademacherDistribution_class_invariant"},"guarantee":"isinstance(self, SingleFiniteDistribution)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"247f313b97aedffb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SingleFiniteDistribution)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function RademacherDistribution not found in source"]}}
 class RademacherDistribution(SingleFiniteDistribution):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set(), returns the set attribute) over Any            ║
+# ║ Path(set(), {-1, 1}) over Any                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  {-1, 1}                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ffa0ff7abbe2fc57           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.RademacherDistribution.set","kind":"property","src_hash":"3eefc3af372bbe64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"returns the set attribute","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns the set attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ffa0ff7abbe2fc57"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.RademacherDistribution.set","kind":"property","src_hash":"3eefc3af372bbe64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"{-1, 1}","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns {-1, 1}","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ffa0ff7abbe2fc57","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"{-1, 1}","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set(self):
         return {-1, 1}
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pmf(), returns the pmf attribute) over Any            ║
+# ║ Path(pmf(), Lambda(k, Piecewise((S.Half, Or(Eq(k, -1), Eq(k, 1))), (S.Zero, True)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Lambda(k, Piecewise((S.Half, Or(Eq(k, -1)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pmf : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 579bd479e1e41a72           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.RademacherDistribution.pmf","kind":"property","src_hash":"4b8cee18bd9da4b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pmf()","rhs":"returns the pmf attribute","over":{"base":"Any"},"name":"pmf_correct"},"guarantee":"returns the pmf attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"579bd479e1e41a72"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.RademacherDistribution.pmf","kind":"property","src_hash":"4b8cee18bd9da4b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pmf()","rhs":"Lambda(k, Piecewise((S.Half, Or(Eq(k, -1), Eq(k, 1))), (S.Zero, True)))","over":{"base":"Any"},"name":"pmf_correct"},"guarantee":"returns Lambda(k, Piecewise((S.Half, Or(Eq(k, -1), Eq(k, 1))), (S.Zero, True)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"579bd479e1e41a72","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Lambda(k, Piecewise((S.Half, Or(Eq(k, -1), Eq(k, 1))), (S.Zero, True)))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pmf(self):
         k = Dummy('k')
         return Lambda(k, Piecewise((S.Half, Or(Eq(k, -1), Eq(k, 1))), (S.Zero, True)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Rademacher(nam), create a finite random variable representing a rademacher distribution) over Any ║
+# ║ Path(Rademacher(name), rv(name, RademacherDistribution)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  rv(name, RademacherDistribution)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Rademacher : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 11662e3d66300d43           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.Rademacher","kind":"function","src_hash":"b125aa992e3d0d41","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Rademacher(nam)","rhs":"create a finite random variable representing a rademacher distribution","over":{"base":"Any"},"name":"Rademacher_correct"},"guarantee":"create a finite random variable representing a rademacher distribution","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"11662e3d66300d43"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.Rademacher","kind":"function","src_hash":"b125aa992e3d0d41","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Rademacher(name)","rhs":"rv(name, RademacherDistribution)","over":{"base":"Any"},"name":"Rademacher_correct"},"guarantee":"returns rv(name, RademacherDistribution)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"11662e3d66300d43","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"rv(name, RademacherDistribution)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def Rademacher(name):
     r"""
     Create a Finite Random Variable representing a Rademacher distribution.
@@ -1322,91 +1683,129 @@ def Rademacher(name):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(IdealSolitonDistribution(*args), correctly constructs a IdealSolitonDistribution instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ IdealSolitonDistribution : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SingleFiniteDistribution)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ IdealSolitonDistribution : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 53284300b51fcba3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.IdealSolitonDistribution","kind":"class","src_hash":"fdd19d9cd527b641","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"IdealSolitonDistribution(*args)","rhs":"correctly constructs a IdealSolitonDistribution instance","over":{"base":"Any"},"name":"IdealSolitonDistribution_class_invariant"},"guarantee":"correctly constructs a IdealSolitonDistribution instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53284300b51fcba3"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.IdealSolitonDistribution","kind":"class","src_hash":"fdd19d9cd527b641","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SingleFiniteDistribution)"},"spec":{"lhs":"IdealSolitonDistribution(*args)","rhs":"correctly constructs a IdealSolitonDistribution instance","over":{"base":"Any"},"name":"IdealSolitonDistribution_class_invariant"},"guarantee":"isinstance(self, SingleFiniteDistribution)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53284300b51fcba3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SingleFiniteDistribution)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function IdealSolitonDistribution not found in source"]}}
 class IdealSolitonDistribution(SingleFiniteDistribution):
     _argnames = ('k',)
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check(k), check produces the expected output) over Any ║
+# ║ Path(check(k), <unspecified:check>) over {Any | hasattr(k, 'is_integer') and hasattr(k, 'is_positive')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ check : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(k, 'is_integer')                       ║
+# ║   requires: hasattr(k, 'is_positive')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ check : {Any | hasattr(k, 'is_integer') and hasattr(k...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 39fa03cf4c767636  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.IdealSolitonDistribution.check","kind":"staticmethod","src_hash":"9e66672bb982bc92","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check(k)","rhs":"check produces the expected output","over":{"base":"Any"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv_types.IdealSolitonDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39fa03cf4c767636"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.IdealSolitonDistribution.check","kind":"staticmethod","src_hash":"9e66672bb982bc92","in":{"base":"Any","pred":"hasattr(k, 'is_integer') and hasattr(k, 'is_positive')"},"out":{"base":"Any"},"spec":{"lhs":"check(k)","rhs":"<unspecified:check>","over":{"base":"Any","pred":"hasattr(k, 'is_integer') and hasattr(k, 'is_positive')"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv_types.IdealSolitonDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39fa03cf4c767636","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(k, 'is_integer')","hasattr(k, 'is_positive')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["k.is_integer","k.is_positive"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def check(k):
         _value_check(k.is_integer and k.is_positive,
                     "'k' must be a positive integer.")
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(low(), returns the low attribute) over Any            ║
+# ║ Path(low(), S.One) over Any                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.One                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ low : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f2871366b61cc4e5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.IdealSolitonDistribution.low","kind":"property","src_hash":"29362bc9f478de06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"low()","rhs":"returns the low attribute","over":{"base":"Any"},"name":"low_correct"},"guarantee":"returns the low attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2871366b61cc4e5"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.IdealSolitonDistribution.low","kind":"property","src_hash":"29362bc9f478de06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"low()","rhs":"S.One","over":{"base":"Any"},"name":"low_correct"},"guarantee":"returns S.One","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2871366b61cc4e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.One","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def low(self):
         return S.One
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(high(), returns the high attribute) over Any          ║
+# ║ Path(high(), self.k) over Any                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.k                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ high : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8019f821a99f91c4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.IdealSolitonDistribution.high","kind":"property","src_hash":"6d1000f28e7f1587","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"high()","rhs":"returns the high attribute","over":{"base":"Any"},"name":"high_correct"},"guarantee":"returns the high attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8019f821a99f91c4"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.IdealSolitonDistribution.high","kind":"property","src_hash":"6d1000f28e7f1587","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"high()","rhs":"self.k","over":{"base":"Any"},"name":"high_correct"},"guarantee":"returns self.k","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8019f821a99f91c4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.k","pure":false,"effects":{"effect_type":"reads_state","reads":["self.k"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def high(self):
         return self.k
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set(), returns the set attribute) over Any            ║
+# ║ Path(set(), set(map(Integer, range(1, self.k + 1)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  set(map(Integer, range(1, self.k + 1)))        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | af1869b2f57ba8b7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.IdealSolitonDistribution.set","kind":"property","src_hash":"d5178be8e3c4b1a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"returns the set attribute","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns the set attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"af1869b2f57ba8b7"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.IdealSolitonDistribution.set","kind":"property","src_hash":"d5178be8e3c4b1a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"set(map(Integer, range(1, self.k + 1)))","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns set(map(Integer, range(1, self.k + 1)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"af1869b2f57ba8b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"set(map(Integer, range(1, self.k + 1)))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.k"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set(self):
         return set(map(Integer, range(1, self.k + 1)))
 
     @property # type: ignore
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dict(), returns the dict attribute) over Any          ║
+# ║ Path(dict(), <unspecified:dict>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dict : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4d7edc67bbad7c5b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.IdealSolitonDistribution.dict","kind":"property","src_hash":"d1cf0b7e09d12b1d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dict()","rhs":"returns the dict attribute","over":{"base":"Any"},"name":"dict_correct"},"guarantee":"returns the dict attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d7edc67bbad7c5b"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.IdealSolitonDistribution.dict","kind":"property","src_hash":"d1cf0b7e09d12b1d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dict()","rhs":"<unspecified:dict>","over":{"base":"Any"},"name":"dict_correct"},"guarantee":"returns the dict attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d7edc67bbad7c5b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dict(self):
         if self.k.is_Symbol:
             return Density(self)
@@ -1415,16 +1814,25 @@ class IdealSolitonDistribution(SingleFiniteDistribution):
         return d
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pmf(x), pmf produces the expected output) over Any    ║
+# ║ Path(pmf(x), Piecewise((1 / self.k, cond1), (1 / (x * (x - 1)), cond2), (S.Zero, True))) over {Any | x.is_number or x.is_Symbol or is_random(x) and hasattr(x, 'is_integer') and hasattr(x, 'is_number') and hasattr(x, 'is_Symbol')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ pmf : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: x.is_number or x.is_Symbol or is_random(x)     ║
+# ║   requires: hasattr(x, 'is_integer')                       ║
+# ║   requires: hasattr(x, 'is_number')                        ║
+# ║   returns:  Piecewise((1 / self.k, cond1), (1 / (x * ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ pmf : {Any | x.is_number or x.is_Symbol or is_random(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05b67e1ff60012ce  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef5e5be9485d20d8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.IdealSolitonDistribution.pmf","kind":"method","src_hash":"d47a766521aecb5c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pmf(x)","rhs":"pmf produces the expected output","over":{"base":"Any"},"name":"pmf_correct"},"guarantee":"pmf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv_types.IdealSolitonDistribution.pmf_correct","statement":"Path(pmf(x), pmf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05b67e1ff60012ce"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.IdealSolitonDistribution.pmf","kind":"method","src_hash":"d47a766521aecb5c","in":{"base":"Any","pred":"x.is_number or x.is_Symbol or is_random(x) and hasattr(x, 'is_integer') and hasattr(x, 'is_number') and hasattr(x, 'is_Symbol')"},"out":{"base":"Any"},"spec":{"lhs":"pmf(x)","rhs":"Piecewise((1 / self.k, cond1), (1 / (x * (x - 1)), cond2), (S.Zero, True))","over":{"base":"Any","pred":"x.is_number or x.is_Symbol or is_random(x) and hasattr(x, 'is_integer') and hasattr(x, 'is_number') and hasattr(x, 'is_Symbol')"},"name":"pmf_correct"},"guarantee":"returns Piecewise((1 / self.k, cond1), (1 / (x * (x - 1)), cond2), (S.Zero, True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv_types.IdealSolitonDistribution.pmf_correct","statement":"Path(pmf(x), returns Piecewise((1 / self.k, cond1), (1 / (x * (x - 1)), cond2), (S.Zero, True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef5e5be9485d20d8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["x.is_number or x.is_Symbol or is_random(x)","hasattr(x, 'is_integer')","hasattr(x, 'is_number')","hasattr(x, 'is_Symbol')"],"returns_expr":"Piecewise((1 / self.k, cond1), (1 / (x * (x - 1)), cond2), (S.Zero, True))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.k","x.is_Symbol","x.is_integer","x.is_number"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pmf(self, x):
         x = sympify(x)
         if not (x.is_number or x.is_Symbol or is_random(x)):
@@ -1435,16 +1843,22 @@ class IdealSolitonDistribution(SingleFiniteDistribution):
         return Piecewise((1/self.k, cond1), (1/(x*(x - 1)), cond2), (S.Zero, True))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(IdealSoliton(nam), create a finite random variable of ideal soliton distribution) over Any ║
+# ║ Path(IdealSoliton(name, k), rv(name, IdealSolitonDistribution, k)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  rv(name, IdealSolitonDistribution, k)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ IdealSoliton : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1f48ec10c4518a60           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.IdealSoliton","kind":"function","src_hash":"e71b44b509f8b199","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"IdealSoliton(nam)","rhs":"create a finite random variable of ideal soliton distribution","over":{"base":"Any"},"name":"IdealSoliton_correct"},"guarantee":"create a finite random variable of ideal soliton distribution","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1f48ec10c4518a60"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.IdealSoliton","kind":"function","src_hash":"e71b44b509f8b199","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"IdealSoliton(name, k)","rhs":"rv(name, IdealSolitonDistribution, k)","over":{"base":"Any"},"name":"IdealSoliton_correct"},"guarantee":"returns rv(name, IdealSolitonDistribution, k)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1f48ec10c4518a60","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"rv(name, IdealSolitonDistribution, k)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def IdealSoliton(name, k):
     r"""
     Create a Finite Random Variable of Ideal Soliton Distribution
@@ -1496,29 +1910,44 @@ def IdealSoliton(name, k):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a RobustSolitonDistribution instance) preserved by RobustSolitonDistribution(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ RobustSolitonDistribution : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SingleFiniteDistribution)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ RobustSolitonDistribution : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9756037659cd6cd5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.RobustSolitonDistribution","kind":"class","src_hash":"96f48cb0f3a90f62","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"RobustSolitonDistribution(*args)","rhs":"correctly constructs a RobustSolitonDistribution instance","over":{"base":"Any"},"name":"RobustSolitonDistribution_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a RobustSolitonDistribution instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_symbolic","pred":"self.is_symbolic","kind":"class"}],"methods_preserving":["R","Z","low","high","set","is_symbolic","pmf"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9756037659cd6cd5"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.RobustSolitonDistribution","kind":"class","src_hash":"96f48cb0f3a90f62","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SingleFiniteDistribution)"},"spec":{"lhs":"RobustSolitonDistribution(*args)","rhs":"correctly constructs a RobustSolitonDistribution instance","over":{"base":"Any"},"name":"RobustSolitonDistribution_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, SingleFiniteDistribution)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_symbolic","pred":"self.is_symbolic","kind":"class"}],"methods_preserving":["R","Z","low","high","set","is_symbolic","pmf"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9756037659cd6cd5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SingleFiniteDistribution)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function RobustSolitonDistribution not found in source"]}}
 class RobustSolitonDistribution(SingleFiniteDistribution):
     _argnames= ('k', 'delta', 'c')
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check(k, ), check produces the expected output) over Any ║
+# ║ Path(check(k, delta, c), <unspecified:check>) over {Any | hasattr(c, 'is_positive') and hasattr(k, 'is_integer') and hasattr(k, 'is_positive')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ check : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(c, 'is_positive')                      ║
+# ║   requires: hasattr(k, 'is_integer')                       ║
+# ║   requires: hasattr(k, 'is_positive')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ check : {Any | hasattr(c, 'is_positive') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 200519a3ad21271f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.RobustSolitonDistribution.check","kind":"staticmethod","src_hash":"a014a26f401ac56c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check(k, )","rhs":"check produces the expected output","over":{"base":"Any"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv_types.RobustSolitonDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"200519a3ad21271f"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.RobustSolitonDistribution.check","kind":"staticmethod","src_hash":"a014a26f401ac56c","in":{"base":"Any","pred":"hasattr(c, 'is_positive') and hasattr(k, 'is_integer') and hasattr(k, 'is_positive')"},"out":{"base":"Any"},"spec":{"lhs":"check(k, delta, c)","rhs":"<unspecified:check>","over":{"base":"Any","pred":"hasattr(c, 'is_positive') and hasattr(k, 'is_integer') and hasattr(k, 'is_positive')"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv_types.RobustSolitonDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"200519a3ad21271f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(c, 'is_positive')","hasattr(k, 'is_integer')","hasattr(k, 'is_positive')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["c.is_positive","k.is_integer","k.is_positive"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def check(k, delta, c):
         _value_check(k.is_integer and k.is_positive,
                     "'k' must be a positive integer")
@@ -1529,31 +1958,43 @@ class RobustSolitonDistribution(SingleFiniteDistribution):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(R(), returns the R attribute) over Any                ║
+# ║ Path(R(), self.c * log(self.k / self.delta) * self.k ** 0.5) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.c * log(self.k / self.delta) * self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ R : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7dcb89f80d2dbe4a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.RobustSolitonDistribution.R","kind":"property","src_hash":"24ba288f1b68c755","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"R()","rhs":"returns the R attribute","over":{"base":"Any"},"name":"R_correct"},"guarantee":"returns the R attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7dcb89f80d2dbe4a"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.RobustSolitonDistribution.R","kind":"property","src_hash":"24ba288f1b68c755","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"R()","rhs":"self.c * log(self.k / self.delta) * self.k ** 0.5","over":{"base":"Any"},"name":"R_correct"},"guarantee":"returns self.c * log(self.k / self.delta) * self.k ** 0.5","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7dcb89f80d2dbe4a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.c * log(self.k / self.delta) * self.k ** 0.5","pure":false,"effects":{"effect_type":"reads_state","reads":["self.c","self.delta","self.k"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def R(self):
         return self.c * log(self.k/self.delta) * self.k**0.5
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Z(), returns the Z attribute) over Any                ║
+# ║ Path(Z(), 1 + z * self.R / self.k) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  1 + z * self.R / self.k                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Z : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | daa216789274af73           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.RobustSolitonDistribution.Z","kind":"property","src_hash":"a4e4cdbab1883556","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Z()","rhs":"returns the Z attribute","over":{"base":"Any"},"name":"Z_correct"},"guarantee":"returns the Z attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"daa216789274af73"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.RobustSolitonDistribution.Z","kind":"property","src_hash":"a4e4cdbab1883556","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Z()","rhs":"1 + z * self.R / self.k","over":{"base":"Any"},"name":"Z_correct"},"guarantee":"returns 1 + z * self.R / self.k","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"daa216789274af73","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"1 + z * self.R / self.k","pure":false,"effects":{"effect_type":"reads_state","reads":["self.R","self.delta","self.k"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def Z(self):
         z = 0
         for i in Range(1, round(self.k/self.R)):
@@ -1563,75 +2004,108 @@ class RobustSolitonDistribution(SingleFiniteDistribution):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(low(), returns the low attribute) over Any            ║
+# ║ Path(low(), S.One) over Any                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.One                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ low : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6647cd56360fa0fa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.RobustSolitonDistribution.low","kind":"property","src_hash":"29362bc9f478de06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"low()","rhs":"returns the low attribute","over":{"base":"Any"},"name":"low_correct"},"guarantee":"returns the low attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6647cd56360fa0fa"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.RobustSolitonDistribution.low","kind":"property","src_hash":"29362bc9f478de06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"low()","rhs":"S.One","over":{"base":"Any"},"name":"low_correct"},"guarantee":"returns S.One","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6647cd56360fa0fa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.One","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def low(self):
         return S.One
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(high(), returns the high attribute) over Any          ║
+# ║ Path(high(), self.k) over Any                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.k                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ high : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 077056aa43bfe7aa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.RobustSolitonDistribution.high","kind":"property","src_hash":"6d1000f28e7f1587","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"high()","rhs":"returns the high attribute","over":{"base":"Any"},"name":"high_correct"},"guarantee":"returns the high attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"077056aa43bfe7aa"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.RobustSolitonDistribution.high","kind":"property","src_hash":"6d1000f28e7f1587","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"high()","rhs":"self.k","over":{"base":"Any"},"name":"high_correct"},"guarantee":"returns self.k","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"077056aa43bfe7aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.k","pure":false,"effects":{"effect_type":"reads_state","reads":["self.k"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def high(self):
         return self.k
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set(), returns the set attribute) over Any            ║
+# ║ Path(set(), set(map(Integer, range(1, self.k + 1)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  set(map(Integer, range(1, self.k + 1)))        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1ba0420b91ee4502           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.RobustSolitonDistribution.set","kind":"property","src_hash":"d5178be8e3c4b1a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"returns the set attribute","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns the set attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1ba0420b91ee4502"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.RobustSolitonDistribution.set","kind":"property","src_hash":"d5178be8e3c4b1a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"set(map(Integer, range(1, self.k + 1)))","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns set(map(Integer, range(1, self.k + 1)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1ba0420b91ee4502","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"set(map(Integer, range(1, self.k + 1)))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.k"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set(self):
         return set(map(Integer, range(1, self.k + 1)))
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_symbolic(), returns the is_symbolic attribute) over Any ║
+# ║ Path(is_symbolic(), not (self.k.is_number and self.c.is_number and self.delta.is_number)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not (self.k.is_number and self.c.is_numbe...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_symbolic : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | db0cf98e1a1d9266           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.RobustSolitonDistribution.is_symbolic","kind":"property","src_hash":"498cc30169faac49","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_symbolic()","rhs":"returns the is_symbolic attribute","over":{"base":"Any"},"name":"is_symbolic_correct"},"guarantee":"returns the is_symbolic attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"db0cf98e1a1d9266"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.RobustSolitonDistribution.is_symbolic","kind":"property","src_hash":"498cc30169faac49","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_symbolic()","rhs":"not (self.k.is_number and self.c.is_number and self.delta.is_number)","over":{"base":"Any"},"name":"is_symbolic_correct"},"guarantee":"returns not (self.k.is_number and self.c.is_number and self.delta.is_number)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"db0cf98e1a1d9266","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not (self.k.is_number and self.c.is_number and self.delta.is_number)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.c","self.delta","self.k"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_symbolic(self):
         return not (self.k.is_number and self.c.is_number and self.delta.is_number)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pmf(x), pmf produces the expected output) over Any    ║
+# ║ Path(pmf(x), (rho + tau) / self.Z) over {Any | x.is_number or x.is_Symbol or is_random(x) and hasattr(x, 'is_integer') and hasattr(x, 'is_number') and hasattr(x, 'is_Symbol')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ pmf : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: x.is_number or x.is_Symbol or is_random(x)     ║
+# ║   requires: hasattr(x, 'is_integer')                       ║
+# ║   requires: hasattr(x, 'is_number')                        ║
+# ║   returns:  (rho + tau) / self.Z                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ pmf : {Any | x.is_number or x.is_Symbol or is_random(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e4d182c311c7a59a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d9901d414fb7319  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.RobustSolitonDistribution.pmf","kind":"method","src_hash":"364da4d130738bbd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pmf(x)","rhs":"pmf produces the expected output","over":{"base":"Any"},"name":"pmf_correct"},"guarantee":"pmf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv_types.RobustSolitonDistribution.pmf_correct","statement":"Path(pmf(x), pmf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4d182c311c7a59a"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.RobustSolitonDistribution.pmf","kind":"method","src_hash":"364da4d130738bbd","in":{"base":"Any","pred":"x.is_number or x.is_Symbol or is_random(x) and hasattr(x, 'is_integer') and hasattr(x, 'is_number') and hasattr(x, 'is_Symbol')"},"out":{"base":"Any"},"spec":{"lhs":"pmf(x)","rhs":"(rho + tau) / self.Z","over":{"base":"Any","pred":"x.is_number or x.is_Symbol or is_random(x) and hasattr(x, 'is_integer') and hasattr(x, 'is_number') and hasattr(x, 'is_Symbol')"},"name":"pmf_correct"},"guarantee":"returns (rho + tau) / self.Z","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv_types.RobustSolitonDistribution.pmf_correct","statement":"Path(pmf(x), returns (rho + tau) / self.Z)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d9901d414fb7319","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["x.is_number or x.is_Symbol or is_random(x)","hasattr(x, 'is_integer')","hasattr(x, 'is_number')","hasattr(x, 'is_Symbol')"],"returns_expr":"(rho + tau) / self.Z","pure":false,"effects":{"effect_type":"reads_state","reads":["self.R","self.Z","self.delta","self.k","x.is_Symbol","x.is_integer","x.is_number"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pmf(self, x):
         x = sympify(x)
         if not (x.is_number or x.is_Symbol or is_random(x)):
@@ -1649,16 +2123,22 @@ class RobustSolitonDistribution(SingleFiniteDistribution):
         return (rho + tau)/self.Z
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(RobustSoliton(nam), create a finite random variable of robust soliton distribution) over Any ║
+# ║ Path(RobustSoliton(name, k, delta), rv(name, RobustSolitonDistribution, k, delta, c)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  rv(name, RobustSolitonDistribution, k, de...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ RobustSoliton : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 760b481554e13d32           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.RobustSoliton","kind":"function","src_hash":"42e9678756d2ad3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"RobustSoliton(nam)","rhs":"create a finite random variable of robust soliton distribution","over":{"base":"Any"},"name":"RobustSoliton_correct"},"guarantee":"create a finite random variable of robust soliton distribution","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"760b481554e13d32"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv_types.RobustSoliton","kind":"function","src_hash":"42e9678756d2ad3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"RobustSoliton(name, k, delta)","rhs":"rv(name, RobustSolitonDistribution, k, delta, c)","over":{"base":"Any"},"name":"RobustSoliton_correct"},"guarantee":"returns rv(name, RobustSolitonDistribution, k, delta, c)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"760b481554e13d32","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"rv(name, RobustSolitonDistribution, k, delta, c)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def RobustSoliton(name, k, delta, c):
     r'''
     Create a Finite Random Variable of Robust Soliton Distribution

@@ -52,32 +52,45 @@ from sympy.abc import x, y, z, t, a, b, c, d, e, f, g, h, i, n
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_7263(), test_issue_7263 produces the expected output) over Any ║
+# ║ Path(test_issue_7263(), abs(simplify(30.8 ** 2 - 82.5 ** 2 * sin(rad(11.6)) ** 2).evalf() - 673.44745140297) < 1e-12) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_7263 : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(simplify(30.8 ** 2 - 82.5 ** 2 * sin(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_7263 : Any → {Any | result satisfies: abs(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c835e8182c42b7e3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a165d41dee6612e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_7263","kind":"function","src_hash":"e79a796ca61cbea1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_7263()","rhs":"test_issue_7263 produces the expected output","over":{"base":"Any"},"name":"test_issue_7263_correct"},"guarantee":"test_issue_7263 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_7263_correct","statement":"Path(test_issue_7263(x), test_issue_7263 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c835e8182c42b7e3"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_7263","kind":"function","src_hash":"e79a796ca61cbea1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(simplify(30.8 ** 2 - 82.5 ** 2 * sin(rad(11.6)) ** 2).evalf() - 673.44745140297) < 1e-12"},"spec":{"lhs":"test_issue_7263()","rhs":"abs(simplify(30.8 ** 2 - 82.5 ** 2 * sin(rad(11.6)) ** 2).evalf() - 673.44745140297) < 1e-12","over":{"base":"Any"},"name":"test_issue_7263_correct"},"guarantee":"abs(simplify(30.8 ** 2 - 82.5 ** 2 * sin(rad(11.6)) ** 2).evalf() - 673.44745140297) < 1e-12","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_7263_correct","statement":"Path(test_issue_7263(x), abs(simplify(30.8 ** 2 - 82.5 ** 2 * sin(rad(11.6)) ** 2).evalf() - 673.44745140297) < 1e-12)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a165d41dee6612e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(simplify(30.8 ** 2 - 82.5 ** 2 * sin(rad(11.6)) ** 2).evalf() - 673.44745140297) < 1e-12"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_7263():
     assert abs((simplify(30.8**2 - 82.5**2 * sin(rad(11.6))**2)).evalf() - \
             673.447451402970) < 1e-12
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_factorial_simplify(), test_factorial_simplify produces the expected output) over Any ║
+# ║ Path(test_factorial_simplify(), simplify(factorial(x) / x) == gamma(x) and simplify(factorial(factorial(x))) == factorial(factorial(x))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_factorial_simplify : Any → {Any | simplify(facto...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(factorial(x) / x) == gamma(x)         ║
+# ║   ensures:  simplify(factorial(factorial(x))) == fact...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_factorial_simplify : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 748accb8df80e063  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0de8c455df217f5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_factorial_simplify","kind":"function","src_hash":"735c475175c1683e","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(factorial(x) / x) == gamma(x) and simplify(factorial(factorial(x))) == factorial(factorial(x))"},"spec":{"lhs":"test_factorial_simplify()","rhs":"test_factorial_simplify produces the expected output","over":{"base":"Any"},"name":"test_factorial_simplify_correct"},"guarantee":"test_factorial_simplify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_factorial_simplify_correct","statement":"Path(test_factorial_simplify(x), test_factorial_simplify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"748accb8df80e063"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_factorial_simplify","kind":"function","src_hash":"735c475175c1683e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(factorial(x) / x) == gamma(x) and simplify(factorial(factorial(x))) == factorial(factorial(x))"},"spec":{"lhs":"test_factorial_simplify()","rhs":"simplify(factorial(x) / x) == gamma(x) and simplify(factorial(factorial(x))) == factorial(factorial(x))","over":{"base":"Any"},"name":"test_factorial_simplify_correct"},"guarantee":"simplify(factorial(x) / x) == gamma(x); simplify(factorial(factorial(x))) == factorial(factorial(x))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_factorial_simplify_correct","statement":"Path(test_factorial_simplify(x), simplify(factorial(x) / x) == gamma(x); simplify(factorial(factorial(x))) == factorial(factorial(x)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0de8c455df217f5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(factorial(x) / x) == gamma(x)","simplify(factorial(factorial(x))) == factorial(factorial(x))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_factorial_simplify():
     # There are more tests in test_factorials.py.
     x = Symbol('x')
@@ -86,16 +99,24 @@ def test_factorial_simplify():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_simplify_expr(), test_simplify_expr produces the expected output) over Any ║
+# ║ Path(test_simplify_expr(), all((simplify(tmp) == tmp for tmp in [I, E, oo, x, -x, -oo, -E, -I])) and e != (x + y) / (x * y) and simplify(e) == (x + y) / (x * y) and simplify(e) == e and simplify(e) == 0 and simplify(e) == -2 * y and simplify(e) == 1 + y and simplify(e) == (-cos(pi * n) + 1) / (pi * n) * 2 and simplify(e) == 1 / (x ** 3 + 1) and simplify(e) == x / (x ** 2 + 3 * x + 1) and simplify((A * Matrix([0, f]))[1] - -f * (2 * k - m * w ** 2) / (k ** 2 - (k - m * w ** 2) * (2 * k - m * w ** 2))) == 0 and simplify(f) == (y + a * z) / (z + t) and simplify(expr) == 2 * x / (a ** 2 * (x ** 2 - y ** 2)) and simplify('((-1/2)*Boole(True)*Boole(False)-1)*Boole(True)') == Mul(sympify('(2 + Boole(True)*Boole(False))'), sympify('-Boole(True)/2')) and simplify(A * B - B * A) == A * B - B * A and simplify(A / (1 + y / x)) == x * A / (x + y) and simplify(A * (1 / x + 1 / y)) == A / x + A / y and simplify(log(2) + log(3)) == log(6) and simplify(log(2 * x) - log(2)) == log(x) and simplify(hyper([], [], x)) == exp(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_simplify_expr : Any → {Any | all((simplify(tmp) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  all((simplify(tmp) == tmp for tmp in [I, ...   ║
+# ║   ensures:  e != (x + y) / (x * y)                         ║
+# ║   ensures:  simplify(e) == (x + y) / (x * y)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_simplify_expr : Any → {Any | result satisfies: a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b62915df9216160  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f875f5e02ddda075  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_simplify_expr","kind":"function","src_hash":"b6e5d7380a4250e2","in":{"base":"Any"},"out":{"base":"Any","pred":"all((simplify(tmp) == tmp for tmp in [I, E, oo, x, -x, -oo, -E, -I])) and e != (x + y) / (x * y) and simplify(e) == (x + y) / (x * y) and simplify(e) == e and simplify(e) == 0 and simplify(e) == -2 * y and simplify(e) == -2 * y and simplify(e) == 1 + y and simplify(e) == 1 + y and simplify(e) == (-cos(pi * n) + 1) / (pi * n) * 2 and simplify(e) == 1 / (x ** 3 + 1) and simplify(e) == x / (x ** 2 + 3 * x + 1) and simplify(f) == (y + a * z) / (z + t) and simplify(expr) == 2 * x / (a ** 2 * (x ** 2 - y ** 2)) and simplify(A * B - B * A) == A * B - B * A and simplify(A / (1 + y / x)) == x * A / (x + y) and simplify(A * (1 / x + 1 / y)) == A / x + A / y and simplify(log(2) + log(3)) == log(6) and simplify(log(2 * x) - log(2)) == log(x) and simplify(hyper([], [], x)) == exp(x)"},"spec":{"lhs":"test_simplify_expr()","rhs":"test_simplify_expr produces the expected output","over":{"base":"Any"},"name":"test_simplify_expr_correct"},"guarantee":"test_simplify_expr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_simplify_expr_correct","statement":"Path(test_simplify_expr(x), test_simplify_expr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b62915df9216160"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_simplify_expr","kind":"function","src_hash":"b6e5d7380a4250e2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: all((simplify(tmp) == tmp for tmp in [I, E, oo, x, -x, -oo, -E, -I])) and e != (x + y) / (x * y) and simplify(e) == (x + y) / (x * y) and simplify(e) == e and simplify(e) == 0 and simplify(e) == -2 * y and simplify(e) == 1 + y and simplify(e) == (-cos(pi * n) + 1) / (pi * n) * 2 and simplify(e) == 1 / (x ** 3 + 1) and simplify(e) == x / (x ** 2 + 3 * x + 1) and simplify((A * Matrix([0, f]))[1] - -f * (2 * k - m * w ** 2) / (k ** 2 - (k - m * w ** 2) * (2 * k - m * w ** 2))) == 0 and simplify(f) == (y + a * z) / (z + t) and simplify(expr) == 2 * x / (a ** 2 * (x ** 2 - y ** 2)) and simplify('((-1/2)*Boole(True)*Boole(False)-1)*Boole(True)') == Mul(sympify('(2 + Boole(True)*Boole(False))'), sympify('-Boole(True)/2')) and simplify(A * B - B * A) == A * B - B * A and simplify(A / (1 + y / x)) == x * A / (x + y) and simplify(A * (1 / x + 1 / y)) == A / x + A / y and simplify(log(2) + log(3)) == log(6) and simplify(log(2 * x) - log(2)) == log(x) and simplify(hyper([], [], x)) == exp(x)"},"spec":{"lhs":"test_simplify_expr()","rhs":"all((simplify(tmp) == tmp for tmp in [I, E, oo, x, -x, -oo, -E, -I])) and e != (x + y) / (x * y) and simplify(e) == (x + y) / (x * y) and simplify(e) == e and simplify(e) == 0 and simplify(e) == -2 * y and simplify(e) == 1 + y and simplify(e) == (-cos(pi * n) + 1) / (pi * n) * 2 and simplify(e) == 1 / (x ** 3 + 1) and simplify(e) == x / (x ** 2 + 3 * x + 1) and simplify((A * Matrix([0, f]))[1] - -f * (2 * k - m * w ** 2) / (k ** 2 - (k - m * w ** 2) * (2 * k - m * w ** 2))) == 0 and simplify(f) == (y + a * z) / (z + t) and simplify(expr) == 2 * x / (a ** 2 * (x ** 2 - y ** 2)) and simplify('((-1/2)*Boole(True)*Boole(False)-1)*Boole(True)') == Mul(sympify('(2 + Boole(True)*Boole(False))'), sympify('-Boole(True)/2')) and simplify(A * B - B * A) == A * B - B * A and simplify(A / (1 + y / x)) == x * A / (x + y) and simplify(A * (1 / x + 1 / y)) == A / x + A / y and simplify(log(2) + log(3)) == log(6) and simplify(log(2 * x) - log(2)) == log(x) and simplify(hyper([], [], x)) == exp(x)","over":{"base":"Any"},"name":"test_simplify_expr_correct"},"guarantee":"all((simplify(tmp) == tmp for tmp in [I, E, oo, x, -x, -oo, -E, -I])); e != (x + y) / (x * y); simplify(e) == (x + y) / (x * y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_simplify_expr_correct","statement":"Path(test_simplify_expr(x), all((simplify(tmp) == tmp for tmp in [I, E, oo, x, -x, -oo, -E, -I])); e != (x + y) / (x * y); simplify(e) == (x + y) / (x * y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f875f5e02ddda075","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["all((simplify(tmp) == tmp for tmp in [I, E, oo, x, -x, -oo, -E, -I]))","e != (x + y) / (x * y)","simplify(e) == (x + y) / (x * y)","simplify(e) == e","simplify(e) == 0","simplify(e) == -2 * y","simplify(e) == 1 + y","simplify(e) == (-cos(pi * n) + 1) / (pi * n) * 2","simplify(e) == 1 / (x ** 3 + 1)","simplify(e) == x / (x ** 2 + 3 * x + 1)","simplify((A * Matrix([0, f]))[1] - -f * (2 * k - m * w ** 2) / (k ** 2 - (k - m * w ** 2) * (2 * k - m * w ** 2))) == 0","simplify(f) == (y + a * z) / (z + t)","simplify(expr) == 2 * x / (a ** 2 * (x ** 2 - y ** 2))","simplify('((-1/2)*Boole(True)*Boole(False)-1)*Boole(True)') == Mul(sympify('(2 + Boole(True)*Boole(False))'), sympify('-Boole(True)/2'))","simplify(A * B - B * A) == A * B - B * A","simplify(A / (1 + y / x)) == x * A / (x + y)","simplify(A * (1 / x + 1 / y)) == A / x + A / y","simplify(log(2) + log(3)) == log(6)","simplify(log(2 * x) - log(2)) == log(x)","simplify(hyper([], [], x)) == exp(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.9,"verdict_class":"assumed","binding":true}}
 def test_simplify_expr():
     x, y, z, k, n, m, w, s, A = symbols('x,y,z,k,n,m,w,s,A')
     f = Function('f')
@@ -194,16 +215,22 @@ def test_simplify_expr():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_3557(), test_issue_3557 produces the expected output) over Any ║
+# ║ Path(test_issue_3557(), simplify(solutions[y]) == (a * i + c * d + f * g - a * f - c * g - d * i) / (a * e * i + b * f * g + c * d * h - a * f * h - b * d * i - c * e * g)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_3557 : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(solutions[y]) == (a * i + c * d ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_3557 : Any → {Any | result satisfies: simp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b8d549dac1e8ec6f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb52d7355feded94  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_3557","kind":"function","src_hash":"884db351ce084a86","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_3557()","rhs":"test_issue_3557 produces the expected output","over":{"base":"Any"},"name":"test_issue_3557_correct"},"guarantee":"test_issue_3557 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_3557_correct","statement":"Path(test_issue_3557(x), test_issue_3557 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8d549dac1e8ec6f"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_3557","kind":"function","src_hash":"884db351ce084a86","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(solutions[y]) == (a * i + c * d + f * g - a * f - c * g - d * i) / (a * e * i + b * f * g + c * d * h - a * f * h - b * d * i - c * e * g)"},"spec":{"lhs":"test_issue_3557()","rhs":"simplify(solutions[y]) == (a * i + c * d + f * g - a * f - c * g - d * i) / (a * e * i + b * f * g + c * d * h - a * f * h - b * d * i - c * e * g)","over":{"base":"Any"},"name":"test_issue_3557_correct"},"guarantee":"simplify(solutions[y]) == (a * i + c * d + f * g - a * f - c * g - d * i) / (a * e * i + b * f * g + c * d * h - a * f * h - b * d * i - c * e * g)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_3557_correct","statement":"Path(test_issue_3557(x), simplify(solutions[y]) == (a * i + c * d + f * g - a * f - c * g - d * i) / (a * e * i + b * f * g + c * d * h - a * f * h - b * d * i - c * e * g))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb52d7355feded94","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(solutions[y]) == (a * i + c * d + f * g - a * f - c * g - d * i) / (a * e * i + b * f * g + c * d * h - a * f * h - b * d * i - c * e * g)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_3557():
     f_1 = x*a + y*b + z*c - 1
     f_2 = x*d + y*e + z*f - 1
@@ -217,16 +244,24 @@ def test_issue_3557():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_simplify_other(), test_simplify_other produces the expected output) over Any ║
+# ║ Path(test_simplify_other(), simplify(sin(x) ** 2 + cos(x) ** 2) == 1 and simplify(gamma(x + 1) / gamma(x)) == x and simplify(sin(x) ** 2 + cos(x) ** 2 + factorial(x) / gamma(x)) == 1 + x and simplify(Eq(sin(x) ** 2 + cos(x) ** 2, factorial(x) / gamma(x))) == Eq(x, 1) and simplify(x + x * nc) == x * (1 + nc) and simplify(ans) == -(-1) ** Rational(3, 4) * sqrt(pi) / sqrt(t) and simplify(2 ** (2 + x) / 4) == 2 ** x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_simplify_other : Any → {Any | simplify(sin(x) **...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(sin(x) ** 2 + cos(x) ** 2) == 1       ║
+# ║   ensures:  simplify(gamma(x + 1) / gamma(x)) == x         ║
+# ║   ensures:  simplify(sin(x) ** 2 + cos(x) ** 2 + fact...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_simplify_other : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 590839d97c1fef75  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db50bd3f4c778633  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_simplify_other","kind":"function","src_hash":"20e3fc4005b78ce1","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(sin(x) ** 2 + cos(x) ** 2) == 1 and simplify(gamma(x + 1) / gamma(x)) == x and simplify(sin(x) ** 2 + cos(x) ** 2 + factorial(x) / gamma(x)) == 1 + x and simplify(Eq(sin(x) ** 2 + cos(x) ** 2, factorial(x) / gamma(x))) == Eq(x, 1) and simplify(x + x * nc) == x * (1 + nc) and simplify(ans) == -(-1) ** Rational(3, 4) * sqrt(pi) / sqrt(t) and simplify(2 ** (2 + x) / 4) == 2 ** x"},"spec":{"lhs":"test_simplify_other()","rhs":"test_simplify_other produces the expected output","over":{"base":"Any"},"name":"test_simplify_other_correct"},"guarantee":"test_simplify_other produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_simplify_other_correct","statement":"Path(test_simplify_other(x), test_simplify_other produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"590839d97c1fef75"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_simplify_other","kind":"function","src_hash":"20e3fc4005b78ce1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(sin(x) ** 2 + cos(x) ** 2) == 1 and simplify(gamma(x + 1) / gamma(x)) == x and simplify(sin(x) ** 2 + cos(x) ** 2 + factorial(x) / gamma(x)) == 1 + x and simplify(Eq(sin(x) ** 2 + cos(x) ** 2, factorial(x) / gamma(x))) == Eq(x, 1) and simplify(x + x * nc) == x * (1 + nc) and simplify(ans) == -(-1) ** Rational(3, 4) * sqrt(pi) / sqrt(t) and simplify(2 ** (2 + x) / 4) == 2 ** x"},"spec":{"lhs":"test_simplify_other()","rhs":"simplify(sin(x) ** 2 + cos(x) ** 2) == 1 and simplify(gamma(x + 1) / gamma(x)) == x and simplify(sin(x) ** 2 + cos(x) ** 2 + factorial(x) / gamma(x)) == 1 + x and simplify(Eq(sin(x) ** 2 + cos(x) ** 2, factorial(x) / gamma(x))) == Eq(x, 1) and simplify(x + x * nc) == x * (1 + nc) and simplify(ans) == -(-1) ** Rational(3, 4) * sqrt(pi) / sqrt(t) and simplify(2 ** (2 + x) / 4) == 2 ** x","over":{"base":"Any"},"name":"test_simplify_other_correct"},"guarantee":"simplify(sin(x) ** 2 + cos(x) ** 2) == 1; simplify(gamma(x + 1) / gamma(x)) == x; simplify(sin(x) ** 2 + cos(x) ** 2 + factorial(x) / gamma(x)) == 1 + x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_simplify_other_correct","statement":"Path(test_simplify_other(x), simplify(sin(x) ** 2 + cos(x) ** 2) == 1; simplify(gamma(x + 1) / gamma(x)) == x; simplify(sin(x) ** 2 + cos(x) ** 2 + factorial(x) / gamma(x)) == 1 + x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db50bd3f4c778633","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(sin(x) ** 2 + cos(x) ** 2) == 1","simplify(gamma(x + 1) / gamma(x)) == x","simplify(sin(x) ** 2 + cos(x) ** 2 + factorial(x) / gamma(x)) == 1 + x","simplify(Eq(sin(x) ** 2 + cos(x) ** 2, factorial(x) / gamma(x))) == Eq(x, 1)","simplify(x + x * nc) == x * (1 + nc)","simplify(ans) == -(-1) ** Rational(3, 4) * sqrt(pi) / sqrt(t)","simplify(2 ** (2 + x) / 4) == 2 ** x"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_simplify_other():
     assert simplify(sin(x)**2 + cos(x)**2) == 1
     assert simplify(gamma(x + 1)/gamma(x)) == x
@@ -249,16 +284,23 @@ def test_simplify_other():
 
 @_both_exp_pow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_simplify_complex(), test_simplify_complex produces the expected output) over Any ║
+# ║ Path(test_simplify_complex(), simplify(cosAsExp * tanAsExp) == sin(x) and simplify(exp(Matrix([[0, -1], [1, 0]]))) == Matrix([[cos(1), -sin(1)], [sin(1), cos(1)]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_simplify_complex : Any → {Any | simplify(cosAsEx...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(cosAsExp * tanAsExp) == sin(x)        ║
+# ║   ensures:  simplify(exp(Matrix([[0, -1], [1, 0]]))) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_simplify_complex : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 01d3a3f4a9ae5471  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8eeef234c600db14  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_simplify_complex","kind":"function","src_hash":"6e929ff10f2bd054","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(cosAsExp * tanAsExp) == sin(x)"},"spec":{"lhs":"test_simplify_complex()","rhs":"test_simplify_complex produces the expected output","over":{"base":"Any"},"name":"test_simplify_complex_correct"},"guarantee":"test_simplify_complex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_simplify_complex_correct","statement":"Path(test_simplify_complex(x), test_simplify_complex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01d3a3f4a9ae5471"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_simplify_complex","kind":"function","src_hash":"6e929ff10f2bd054","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(cosAsExp * tanAsExp) == sin(x) and simplify(exp(Matrix([[0, -1], [1, 0]]))) == Matrix([[cos(1), -sin(1)], [sin(1), cos(1)]])"},"spec":{"lhs":"test_simplify_complex()","rhs":"simplify(cosAsExp * tanAsExp) == sin(x) and simplify(exp(Matrix([[0, -1], [1, 0]]))) == Matrix([[cos(1), -sin(1)], [sin(1), cos(1)]])","over":{"base":"Any"},"name":"test_simplify_complex_correct"},"guarantee":"simplify(cosAsExp * tanAsExp) == sin(x); simplify(exp(Matrix([[0, -1], [1, 0]]))) == Matrix([[cos(1), -sin(1)], [sin(1), cos(1)]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_simplify_complex_correct","statement":"Path(test_simplify_complex(x), simplify(cosAsExp * tanAsExp) == sin(x); simplify(exp(Matrix([[0, -1], [1, 0]]))) == Matrix([[cos(1), -sin(1)], [sin(1), cos(1)]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8eeef234c600db14","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(cosAsExp * tanAsExp) == sin(x)","simplify(exp(Matrix([[0, -1], [1, 0]]))) == Matrix([[cos(1), -sin(1)], [sin(1), cos(1)]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_simplify_complex():
     cosAsExp = cos(x)._eval_rewrite_as_exp(x)
     tanAsExp = tan(x)._eval_rewrite_as_exp(x)
@@ -270,16 +312,22 @@ def test_simplify_complex():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_simplify_ratio(), test_simplify_ratio produces the expected output) over Any ║
+# ║ Path(test_simplify_ratio(), <unspecified:test_simplify_ratio>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_simplify_ratio : Any → {Any | count_ops(simplify...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb9bef77b08411cd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_simplify_ratio","kind":"function","src_hash":"e3c433fcda8aab95","in":{"base":"Any"},"out":{"base":"Any","pred":"count_ops(simplify(r, ratio=1)) <= count_ops(r) and simplify(r, ratio=oo) is not r"},"spec":{"lhs":"test_simplify_ratio()","rhs":"test_simplify_ratio produces the expected output","over":{"base":"Any"},"name":"test_simplify_ratio_correct"},"guarantee":"test_simplify_ratio produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_simplify_ratio_correct","statement":"Path(test_simplify_ratio(x), test_simplify_ratio produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb9bef77b08411cd"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_simplify_ratio","kind":"function","src_hash":"e3c433fcda8aab95","in":{"base":"Any"},"out":{"base":"Any","pred":"count_ops(simplify(r, ratio=1)) <= count_ops(r) and simplify(r, ratio=oo) is not r"},"spec":{"lhs":"test_simplify_ratio()","rhs":"<unspecified:test_simplify_ratio>","over":{"base":"Any"},"name":"test_simplify_ratio_correct"},"guarantee":"test_simplify_ratio produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_simplify_ratio_correct","statement":"Path(test_simplify_ratio(x), test_simplify_ratio produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb9bef77b08411cd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_simplify_ratio():
     # roots of x**3-3*x+5
     roots = ['(1/2 - sqrt(3)*I/2)*(sqrt(21)/2 + 5/2)**(1/3) + 1/((1/2 - '
@@ -296,16 +344,24 @@ def test_simplify_ratio():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_simplify_measure(), test_simplify_measure produces the expected output) over Any ║
+# ║ Path(test_simplify_measure(), measure1(simplify(expr, measure=measure1)) <= measure1(expr) and measure2(simplify(expr, measure=measure2)) <= measure2(expr) and measure1(simplify(expr2, measure=measure1)) <= measure1(expr2) and measure2(simplify(expr2, measure=measure2)) <= measure2(expr2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_simplify_measure : Any → {Any | measure1(simplif...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  measure1(simplify(expr, measure=measure1)...   ║
+# ║   ensures:  measure2(simplify(expr, measure=measure2)...   ║
+# ║   ensures:  measure1(simplify(expr2, measure=measure1...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_simplify_measure : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ec09a3f46ff0e16  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38403755809f2d09  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_simplify_measure","kind":"function","src_hash":"3fb83ec90de90b33","in":{"base":"Any"},"out":{"base":"Any","pred":"measure1(simplify(expr, measure=measure1)) <= measure1(expr) and measure2(simplify(expr, measure=measure2)) <= measure2(expr) and measure1(simplify(expr2, measure=measure1)) <= measure1(expr2) and measure2(simplify(expr2, measure=measure2)) <= measure2(expr2)"},"spec":{"lhs":"test_simplify_measure()","rhs":"test_simplify_measure produces the expected output","over":{"base":"Any"},"name":"test_simplify_measure_correct"},"guarantee":"test_simplify_measure produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_simplify_measure_correct","statement":"Path(test_simplify_measure(x), test_simplify_measure produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ec09a3f46ff0e16"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_simplify_measure","kind":"function","src_hash":"3fb83ec90de90b33","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: measure1(simplify(expr, measure=measure1)) <= measure1(expr) and measure2(simplify(expr, measure=measure2)) <= measure2(expr) and measure1(simplify(expr2, measure=measure1)) <= measure1(expr2) and measure2(simplify(expr2, measure=measure2)) <= measure2(expr2)"},"spec":{"lhs":"test_simplify_measure()","rhs":"measure1(simplify(expr, measure=measure1)) <= measure1(expr) and measure2(simplify(expr, measure=measure2)) <= measure2(expr) and measure1(simplify(expr2, measure=measure1)) <= measure1(expr2) and measure2(simplify(expr2, measure=measure2)) <= measure2(expr2)","over":{"base":"Any"},"name":"test_simplify_measure_correct"},"guarantee":"measure1(simplify(expr, measure=measure1)) <= measure1(expr); measure2(simplify(expr, measure=measure2)) <= measure2(expr); measure1(simplify(expr2, measure=measure1)) <= measure1(expr2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_simplify_measure_correct","statement":"Path(test_simplify_measure(x), measure1(simplify(expr, measure=measure1)) <= measure1(expr); measure2(simplify(expr, measure=measure2)) <= measure2(expr); measure1(simplify(expr2, measure=measure1)) <= measure1(expr2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38403755809f2d09","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["measure1(simplify(expr, measure=measure1)) <= measure1(expr)","measure2(simplify(expr, measure=measure2)) <= measure2(expr)","measure1(simplify(expr2, measure=measure1)) <= measure1(expr2)","measure2(simplify(expr2, measure=measure2)) <= measure2(expr2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_simplify_measure():
     measure1 = lambda expr: len(str(expr))
     measure2 = lambda expr: -count_ops(expr)
@@ -320,16 +376,24 @@ def test_simplify_measure():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_simplify_rational(), test_simplify_rational produces the expected output) over Any ║
+# ║ Path(test_simplify_rational(), simplify(expr, rational=True) == 2 ** (x + y) and simplify(expr, rational=None) == 2.0 ** (x + y) and simplify(expr, rational=False) == expr and simplify('0.9 - 0.8 - 0.1', rational=True) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_simplify_rational : Any → {Any | simplify(expr, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(expr, rational=True) == 2 ** (x ...   ║
+# ║   ensures:  simplify(expr, rational=None) == 2.0 ** (...   ║
+# ║   ensures:  simplify(expr, rational=False) == expr         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_simplify_rational : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 616ff3368debc7e4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d7b9ccbac19ce20e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_simplify_rational","kind":"function","src_hash":"27c573c61be75c9b","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(expr, rational=True) == 2 ** (x + y) and simplify(expr, rational=None) == 2.0 ** (x + y) and simplify(expr, rational=False) == expr and simplify('0.9 - 0.8 - 0.1', rational=True) == 0"},"spec":{"lhs":"test_simplify_rational()","rhs":"test_simplify_rational produces the expected output","over":{"base":"Any"},"name":"test_simplify_rational_correct"},"guarantee":"test_simplify_rational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_simplify_rational_correct","statement":"Path(test_simplify_rational(x), test_simplify_rational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"616ff3368debc7e4"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_simplify_rational","kind":"function","src_hash":"27c573c61be75c9b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(expr, rational=True) == 2 ** (x + y) and simplify(expr, rational=None) == 2.0 ** (x + y) and simplify(expr, rational=False) == expr and simplify('0.9 - 0.8 - 0.1', rational=True) == 0"},"spec":{"lhs":"test_simplify_rational()","rhs":"simplify(expr, rational=True) == 2 ** (x + y) and simplify(expr, rational=None) == 2.0 ** (x + y) and simplify(expr, rational=False) == expr and simplify('0.9 - 0.8 - 0.1', rational=True) == 0","over":{"base":"Any"},"name":"test_simplify_rational_correct"},"guarantee":"simplify(expr, rational=True) == 2 ** (x + y); simplify(expr, rational=None) == 2.0 ** (x + y); simplify(expr, rational=False) == expr","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_simplify_rational_correct","statement":"Path(test_simplify_rational(x), simplify(expr, rational=True) == 2 ** (x + y); simplify(expr, rational=None) == 2.0 ** (x + y); simplify(expr, rational=False) == expr)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7b9ccbac19ce20e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(expr, rational=True) == 2 ** (x + y)","simplify(expr, rational=None) == 2.0 ** (x + y)","simplify(expr, rational=False) == expr","simplify('0.9 - 0.8 - 0.1', rational=True) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_simplify_rational():
     expr = 2**x*2.**y
     assert simplify(expr, rational = True) == 2**(x+y)
@@ -339,62 +403,87 @@ def test_simplify_rational():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_simplify_issue_1308(), test_simplify_issue_1308 produces the expected output) over Any ║
+# ║ Path(test_simplify_issue_1308(), simplify(exp(Rational(-1, 2)) + exp(Rational(-3, 2))) == (1 + E) * exp(Rational(-3, 2))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_simplify_issue_1308 : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(exp(Rational(-1, 2)) + exp(Ratio...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_simplify_issue_1308 : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cde26cfbd167b3c3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d82ba875426d5b6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_simplify_issue_1308","kind":"function","src_hash":"9556dd2b1df91f9f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_simplify_issue_1308()","rhs":"test_simplify_issue_1308 produces the expected output","over":{"base":"Any"},"name":"test_simplify_issue_1308_correct"},"guarantee":"test_simplify_issue_1308 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_simplify_issue_1308_correct","statement":"Path(test_simplify_issue_1308(x), test_simplify_issue_1308 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cde26cfbd167b3c3"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_simplify_issue_1308","kind":"function","src_hash":"9556dd2b1df91f9f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(exp(Rational(-1, 2)) + exp(Rational(-3, 2))) == (1 + E) * exp(Rational(-3, 2))"},"spec":{"lhs":"test_simplify_issue_1308()","rhs":"simplify(exp(Rational(-1, 2)) + exp(Rational(-3, 2))) == (1 + E) * exp(Rational(-3, 2))","over":{"base":"Any"},"name":"test_simplify_issue_1308_correct"},"guarantee":"simplify(exp(Rational(-1, 2)) + exp(Rational(-3, 2))) == (1 + E) * exp(Rational(-3, 2))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_simplify_issue_1308_correct","statement":"Path(test_simplify_issue_1308(x), simplify(exp(Rational(-1, 2)) + exp(Rational(-3, 2))) == (1 + E) * exp(Rational(-3, 2)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d82ba875426d5b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(exp(Rational(-1, 2)) + exp(Rational(-3, 2))) == (1 + E) * exp(Rational(-3, 2))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_simplify_issue_1308():
     assert simplify(exp(Rational(-1, 2)) + exp(Rational(-3, 2))) == \
         (1 + E)*exp(Rational(-3, 2))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5652(), test_issue_5652 produces the expected output) over Any ║
+# ║ Path(test_issue_5652(), simplify(E + exp(-E)) == exp(-E) + E and simplify(n + n ** (-n)) == n + n ** (-n)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5652 : Any → {Any | simplify(E + exp(-E)) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(E + exp(-E)) == exp(-E) + E           ║
+# ║   ensures:  simplify(n + n ** (-n)) == n + n ** (-n)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5652 : Any → {Any | result satisfies: simp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0332d1b39ed741ca  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 01b4ac70677226a5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_5652","kind":"function","src_hash":"191192a04156e23f","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(E + exp(-E)) == exp(-E) + E and simplify(n + n ** (-n)) == n + n ** (-n)"},"spec":{"lhs":"test_issue_5652()","rhs":"test_issue_5652 produces the expected output","over":{"base":"Any"},"name":"test_issue_5652_correct"},"guarantee":"test_issue_5652 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_5652_correct","statement":"Path(test_issue_5652(x), test_issue_5652 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0332d1b39ed741ca"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_5652","kind":"function","src_hash":"191192a04156e23f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(E + exp(-E)) == exp(-E) + E and simplify(n + n ** (-n)) == n + n ** (-n)"},"spec":{"lhs":"test_issue_5652()","rhs":"simplify(E + exp(-E)) == exp(-E) + E and simplify(n + n ** (-n)) == n + n ** (-n)","over":{"base":"Any"},"name":"test_issue_5652_correct"},"guarantee":"simplify(E + exp(-E)) == exp(-E) + E; simplify(n + n ** (-n)) == n + n ** (-n)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_5652_correct","statement":"Path(test_issue_5652(x), simplify(E + exp(-E)) == exp(-E) + E; simplify(n + n ** (-n)) == n + n ** (-n))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01b4ac70677226a5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(E + exp(-E)) == exp(-E) + E","simplify(n + n ** (-n)) == n + n ** (-n)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_5652():
     assert simplify(E + exp(-E)) == exp(-E) + E
     n = symbols('n', commutative=False)
     assert simplify(n + n**(-n)) == n + n**(-n)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_27380(), test_issue_27380 produces the expected output) over Any ║
+# ║ Path(test_issue_27380(), simplify(1.0 ** (x + 1) / 1.0 ** x) == 1.0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_27380 : Any → {Any | simplify(1.0 ** (x + ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(1.0 ** (x + 1) / 1.0 ** x) == 1.0     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_27380 : Any → {Any | result satisfies: sim...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d554c46c310fe02  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c4e6192d03d9c25  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_27380","kind":"function","src_hash":"d83eeac9be8209c0","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(1.0 ** (x + 1) / 1.0 ** x) == 1.0"},"spec":{"lhs":"test_issue_27380()","rhs":"test_issue_27380 produces the expected output","over":{"base":"Any"},"name":"test_issue_27380_correct"},"guarantee":"test_issue_27380 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_27380_correct","statement":"Path(test_issue_27380(x), test_issue_27380 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d554c46c310fe02"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_27380","kind":"function","src_hash":"d83eeac9be8209c0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(1.0 ** (x + 1) / 1.0 ** x) == 1.0"},"spec":{"lhs":"test_issue_27380()","rhs":"simplify(1.0 ** (x + 1) / 1.0 ** x) == 1.0","over":{"base":"Any"},"name":"test_issue_27380_correct"},"guarantee":"simplify(1.0 ** (x + 1) / 1.0 ** x) == 1.0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_27380_correct","statement":"Path(test_issue_27380(x), simplify(1.0 ** (x + 1) / 1.0 ** x) == 1.0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c4e6192d03d9c25","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(1.0 ** (x + 1) / 1.0 ** x) == 1.0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_27380():
     assert simplify(1.0**(x+1)/1.0**x) == 1.0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_simplify_fail1(), test_simplify_fail1 produces the expected output) over Any ║
+# ║ Path(test_simplify_fail1(), simplify(e) == 1 / (-2 * y)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_simplify_fail1 : Any → {Any | simplify(e) == 1 /...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(e) == 1 / (-2 * y)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_simplify_fail1 : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c82370b8cd5a09a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 90b31a1adbde936e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_simplify_fail1","kind":"function","src_hash":"25607dc567e6ba34","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(e) == 1 / (-2 * y)"},"spec":{"lhs":"test_simplify_fail1()","rhs":"test_simplify_fail1 produces the expected output","over":{"base":"Any"},"name":"test_simplify_fail1_correct"},"guarantee":"test_simplify_fail1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_simplify_fail1_correct","statement":"Path(test_simplify_fail1(x), test_simplify_fail1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c82370b8cd5a09a"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_simplify_fail1","kind":"function","src_hash":"25607dc567e6ba34","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(e) == 1 / (-2 * y)"},"spec":{"lhs":"test_simplify_fail1()","rhs":"simplify(e) == 1 / (-2 * y)","over":{"base":"Any"},"name":"test_simplify_fail1_correct"},"guarantee":"simplify(e) == 1 / (-2 * y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_simplify_fail1_correct","statement":"Path(test_simplify_fail1(x), simplify(e) == 1 / (-2 * y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90b31a1adbde936e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(e) == 1 / (-2 * y)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_simplify_fail1():
     x = Symbol('x')
     y = Symbol('y')
@@ -403,16 +492,24 @@ def test_simplify_fail1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nthroot(), test_nthroot produces the expected output) over Any ║
+# ║ Path(test_nthroot(), nthroot(90 + 34 * sqrt(7), 3) == sqrt(7) + 3 and nthroot(expand_multinomial(q ** 3), 3) == q and nthroot(41 + 29 * sqrt(2), 5) == 1 + sqrt(2) and nthroot(-41 - 29 * sqrt(2), 5) == -1 - sqrt(2) and nthroot(expr, 5) == 1 + sqrt(6) + sqrt(15) and expand_multinomial(nthroot(expand_multinomial(q ** 5), 5)) == q and nthroot(expand_multinomial(q ** 5), 5, 8) == q and nthroot(expand_multinomial(q ** 6), 6) == q) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_nthroot : Any → {Any | nthroot(90 + 34 * sqrt(7)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  nthroot(90 + 34 * sqrt(7), 3) == sqrt(7) + 3   ║
+# ║   ensures:  nthroot(expand_multinomial(q ** 3), 3) == q    ║
+# ║   ensures:  nthroot(41 + 29 * sqrt(2), 5) == 1 + sqrt(2)   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_nthroot : Any → {Any | result satisfies: nthroot...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eda78051b1b6887d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d2d88c8f4a70dabe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_nthroot","kind":"function","src_hash":"a07b0de0b0afd467","in":{"base":"Any"},"out":{"base":"Any","pred":"nthroot(90 + 34 * sqrt(7), 3) == sqrt(7) + 3 and nthroot(expand_multinomial(q ** 3), 3) == q and nthroot(41 + 29 * sqrt(2), 5) == 1 + sqrt(2) and nthroot(-41 - 29 * sqrt(2), 5) == -1 - sqrt(2) and nthroot(expr, 5) == 1 + sqrt(6) + sqrt(15) and expand_multinomial(nthroot(expand_multinomial(q ** 5), 5)) == q and nthroot(expand_multinomial(q ** 5), 5, 8) == q and nthroot(expand_multinomial(q ** 3), 3) == q and nthroot(expand_multinomial(q ** 6), 6) == q"},"spec":{"lhs":"test_nthroot()","rhs":"test_nthroot produces the expected output","over":{"base":"Any"},"name":"test_nthroot_correct"},"guarantee":"test_nthroot produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_nthroot_correct","statement":"Path(test_nthroot(x), test_nthroot produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eda78051b1b6887d"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_nthroot","kind":"function","src_hash":"a07b0de0b0afd467","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: nthroot(90 + 34 * sqrt(7), 3) == sqrt(7) + 3 and nthroot(expand_multinomial(q ** 3), 3) == q and nthroot(41 + 29 * sqrt(2), 5) == 1 + sqrt(2) and nthroot(-41 - 29 * sqrt(2), 5) == -1 - sqrt(2) and nthroot(expr, 5) == 1 + sqrt(6) + sqrt(15) and expand_multinomial(nthroot(expand_multinomial(q ** 5), 5)) == q and nthroot(expand_multinomial(q ** 5), 5, 8) == q and nthroot(expand_multinomial(q ** 6), 6) == q"},"spec":{"lhs":"test_nthroot()","rhs":"nthroot(90 + 34 * sqrt(7), 3) == sqrt(7) + 3 and nthroot(expand_multinomial(q ** 3), 3) == q and nthroot(41 + 29 * sqrt(2), 5) == 1 + sqrt(2) and nthroot(-41 - 29 * sqrt(2), 5) == -1 - sqrt(2) and nthroot(expr, 5) == 1 + sqrt(6) + sqrt(15) and expand_multinomial(nthroot(expand_multinomial(q ** 5), 5)) == q and nthroot(expand_multinomial(q ** 5), 5, 8) == q and nthroot(expand_multinomial(q ** 6), 6) == q","over":{"base":"Any"},"name":"test_nthroot_correct"},"guarantee":"nthroot(90 + 34 * sqrt(7), 3) == sqrt(7) + 3; nthroot(expand_multinomial(q ** 3), 3) == q; nthroot(41 + 29 * sqrt(2), 5) == 1 + sqrt(2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_nthroot_correct","statement":"Path(test_nthroot(x), nthroot(90 + 34 * sqrt(7), 3) == sqrt(7) + 3; nthroot(expand_multinomial(q ** 3), 3) == q; nthroot(41 + 29 * sqrt(2), 5) == 1 + sqrt(2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d2d88c8f4a70dabe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["nthroot(90 + 34 * sqrt(7), 3) == sqrt(7) + 3","nthroot(expand_multinomial(q ** 3), 3) == q","nthroot(41 + 29 * sqrt(2), 5) == 1 + sqrt(2)","nthroot(-41 - 29 * sqrt(2), 5) == -1 - sqrt(2)","nthroot(expr, 5) == 1 + sqrt(6) + sqrt(15)","expand_multinomial(nthroot(expand_multinomial(q ** 5), 5)) == q","nthroot(expand_multinomial(q ** 5), 5, 8) == q","nthroot(expand_multinomial(q ** 6), 6) == q"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_nthroot():
     assert nthroot(90 + 34*sqrt(7), 3) == sqrt(7) + 3
     q = 1 + sqrt(2) - 2*sqrt(3) + sqrt(6) + sqrt(7)
@@ -431,16 +528,22 @@ def test_nthroot():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nthroot1(), test_nthroot1 produces the expected output) over Any ║
+# ║ Path(test_nthroot1(), nthroot(p, 5) == q) over Any         ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_nthroot1 : Any → {Any | nthroot(p, 5) == q and n...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  nthroot(p, 5) == q                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_nthroot1 : Any → {Any | result satisfies: nthroo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a6de02e92ea3411  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3958a183b14a2c5f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_nthroot1","kind":"function","src_hash":"2f49fd1de495bf44","in":{"base":"Any"},"out":{"base":"Any","pred":"nthroot(p, 5) == q and nthroot(p, 5) == q"},"spec":{"lhs":"test_nthroot1()","rhs":"test_nthroot1 produces the expected output","over":{"base":"Any"},"name":"test_nthroot1_correct"},"guarantee":"test_nthroot1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_nthroot1_correct","statement":"Path(test_nthroot1(x), test_nthroot1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a6de02e92ea3411"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_nthroot1","kind":"function","src_hash":"2f49fd1de495bf44","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: nthroot(p, 5) == q"},"spec":{"lhs":"test_nthroot1()","rhs":"nthroot(p, 5) == q","over":{"base":"Any"},"name":"test_nthroot1_correct"},"guarantee":"nthroot(p, 5) == q","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_nthroot1_correct","statement":"Path(test_nthroot1(x), nthroot(p, 5) == q)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3958a183b14a2c5f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["nthroot(p, 5) == q"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_nthroot1():
     q = 1 + sqrt(2) + sqrt(3) + S.One/10**20
     p = expand_multinomial(q**5)
@@ -452,16 +555,24 @@ def test_nthroot1():
 
 @_both_exp_pow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_separatevars(), test_separatevars produces the expected output) over Any ║
+# ║ Path(test_separatevars(), separatevars(2 * n * x * z + 2 * x * y * z) == 2 * x * z * (n + y) and separatevars(x * z + x * y * z) == x * z * (1 + y) and separatevars(pi * x * z + pi * x * y * z) == pi * x * z * (1 + y) and separatevars(x * y ** 2 * sin(x) + x * sin(x) * sin(y)) == x * (sin(y) + y ** 2) * sin(x) and separatevars(x * exp(x + y) + x * exp(x)) == x * (1 + exp(y)) * exp(x) and separatevars((x * (y + 1)) ** z).is_Pow and separatevars(1 + x + y + x * y) == (x + 1) * (y + 1) and separatevars(y / pi * exp(-(z - x) / cos(n))) == y * exp(x / cos(n)) * exp(-z / cos(n)) / pi and separatevars((x + y) * (x - y) + y ** 2 + 2 * x + 1) == (x + 1) ** 2 and separatevars(sqrt(p ** 2 + x * p ** 2)) == p * sqrt(1 + x) and separatevars(sqrt(y * (p ** 2 + x * p ** 2))) == p * sqrt(y * (1 + x)) and separatevars(sqrt(y * (p ** 2 + x * p ** 2)), force=True) == p * sqrt(y) * sqrt(1 + x) and separatevars(sqrt(x * y)).is_Pow and separatevars(sqrt(x * y), force=True) == sqrt(x) * sqrt(y) and separatevars((2 * x + 2) * y, dict=True, symbols=()) == {'coeff': 1, x: 2 * x + 2, y: y} and separatevars((2 * x + 2) * y, dict=True, symbols=[x]) == {'coeff': y, x: 2 * x + 2} and separatevars((2 * x + 2) * y, dict=True, symbols=[]) == {'coeff': 1, x: 2 * x + 2, y: y} and separatevars((2 * x + 2) * y, dict=True) == {'coeff': 1, x: 2 * x + 2, y: y} and separatevars((2 * x + 2) * y, dict=True, symbols=None) == {'coeff': y * (2 * x + 2)} and separatevars(3, dict=True) is None and separatevars(2 * x + y, dict=True, symbols=()) is None and separatevars(2 * x + y, dict=True) is None and separatevars(2 * x + y, dict=True, symbols=None) == {'coeff': 2 * x + y} and separatevars(m + n * m) == (1 + n) * m and separatevars(x + x * n) == x * (1 + n) and separatevars(f(x) + x * f(x)) == f(x) + x * f(x) and separatevars(eq) == eq and s == abs(x) * abs(y) and s.is_Mul and not a.is_Mul and s.is_Mul and (s == abs(x) * abs(z)) and s == abs(x) * abs(y) * abs(z) and separatevars(abs((x + y) / z)) == abs((x + y) / z)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_separatevars : Any → {Any | separatevars(2 * n *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  separatevars(2 * n * x * z + 2 * x * y * ...   ║
+# ║   ensures:  separatevars(x * z + x * y * z) == x * z ...   ║
+# ║   ensures:  separatevars(pi * x * z + pi * x * y * z)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_separatevars : Any → {Any | result satisfies: se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 835dec473d5174e8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 826d6c37a56adae6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_separatevars","kind":"function","src_hash":"c0b4b427ddad9bcf","in":{"base":"Any"},"out":{"base":"Any","pred":"separatevars(2 * n * x * z + 2 * x * y * z) == 2 * x * z * (n + y) and separatevars(x * z + x * y * z) == x * z * (1 + y) and separatevars(pi * x * z + pi * x * y * z) == pi * x * z * (1 + y) and separatevars(x * exp(x + y) + x * exp(x)) == x * (1 + exp(y)) * exp(x) and separatevars((x * (y + 1)) ** z).is_Pow and separatevars(1 + x + y + x * y) == (x + 1) * (y + 1) and separatevars((x + y) * (x - y) + y ** 2 + 2 * x + 1) == (x + 1) ** 2 and separatevars(sqrt(p ** 2 + x * p ** 2)) == p * sqrt(1 + x) and separatevars(sqrt(y * (p ** 2 + x * p ** 2))) == p * sqrt(y * (1 + x)) and separatevars(sqrt(x * y)).is_Pow and separatevars(sqrt(x * y), force=True) == sqrt(x) * sqrt(y) and separatevars((2 * x + 2) * y, dict=True) == {'coeff': 1, x: 2 * x + 2, y: y} and separatevars(3, dict=True) is None and separatevars(2 * x + y, dict=True, symbols=()) is None and separatevars(2 * x + y, dict=True) is None and separatevars(2 * x + y, dict=True, symbols=None) == {'coeff': 2 * x + y} and separatevars(m + n * m) == (1 + n) * m and separatevars(x + x * n) == x * (1 + n) and separatevars(f(x) + x * f(x)) == f(x) + x * f(x) and separatevars(eq) == eq and s == abs(x) * abs(y) and s.is_Mul and not a.is_Mul and s.is_Mul and (s == abs(x) * abs(z)) and s == abs(x) * abs(y) * abs(z) and separatevars(abs((x + y) / z)) == abs((x + y) / z)"},"spec":{"lhs":"test_separatevars()","rhs":"test_separatevars produces the expected output","over":{"base":"Any"},"name":"test_separatevars_correct"},"guarantee":"test_separatevars produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_separatevars_correct","statement":"Path(test_separatevars(x), test_separatevars produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"835dec473d5174e8"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_separatevars","kind":"function","src_hash":"c0b4b427ddad9bcf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: separatevars(2 * n * x * z + 2 * x * y * z) == 2 * x * z * (n + y) and separatevars(x * z + x * y * z) == x * z * (1 + y) and separatevars(pi * x * z + pi * x * y * z) == pi * x * z * (1 + y) and separatevars(x * y ** 2 * sin(x) + x * sin(x) * sin(y)) == x * (sin(y) + y ** 2) * sin(x) and separatevars(x * exp(x + y) + x * exp(x)) == x * (1 + exp(y)) * exp(x) and separatevars((x * (y + 1)) ** z).is_Pow and separatevars(1 + x + y + x * y) == (x + 1) * (y + 1) and separatevars(y / pi * exp(-(z - x) / cos(n))) == y * exp(x / cos(n)) * exp(-z / cos(n)) / pi and separatevars((x + y) * (x - y) + y ** 2 + 2 * x + 1) == (x + 1) ** 2 and separatevars(sqrt(p ** 2 + x * p ** 2)) == p * sqrt(1 + x) and separatevars(sqrt(y * (p ** 2 + x * p ** 2))) == p * sqrt(y * (1 + x)) and separatevars(sqrt(y * (p ** 2 + x * p ** 2)), force=True) == p * sqrt(y) * sqrt(1 + x) and separatevars(sqrt(x * y)).is_Pow and separatevars(sqrt(x * y), force=True) == sqrt(x) * sqrt(y) and separatevars((2 * x + 2) * y, dict=True, symbols=()) == {'coeff': 1, x: 2 * x + 2, y: y} and separatevars((2 * x + 2) * y, dict=True, symbols=[x]) == {'coeff': y, x: 2 * x + 2} and separatevars((2 * x + 2) * y, dict=True, symbols=[]) == {'coeff': 1, x: 2 * x + 2, y: y} and separatevars((2 * x + 2) * y, dict=True) == {'coeff': 1, x: 2 * x + 2, y: y} and separatevars((2 * x + 2) * y, dict=True, symbols=None) == {'coeff': y * (2 * x + 2)} and separatevars(3, dict=True) is None and separatevars(2 * x + y, dict=True, symbols=()) is None and separatevars(2 * x + y, dict=True) is None and separatevars(2 * x + y, dict=True, symbols=None) == {'coeff': 2 * x + y} and separatevars(m + n * m) == (1 + n) * m and separatevars(x + x * n) == x * (1 + n) and separatevars(f(x) + x * f(x)) == f(x) + x * f(x) and separatevars(eq) == eq and s == abs(x) * abs(y) and s.is_Mul and not a.is_Mul and s.is_Mul and (s == abs(x) * abs(z)) and s == abs(x) * abs(y) * abs(z) and separatevars(abs((x + y) / z)) == abs((x + y) / z)"},"spec":{"lhs":"test_separatevars()","rhs":"separatevars(2 * n * x * z + 2 * x * y * z) == 2 * x * z * (n + y) and separatevars(x * z + x * y * z) == x * z * (1 + y) and separatevars(pi * x * z + pi * x * y * z) == pi * x * z * (1 + y) and separatevars(x * y ** 2 * sin(x) + x * sin(x) * sin(y)) == x * (sin(y) + y ** 2) * sin(x) and separatevars(x * exp(x + y) + x * exp(x)) == x * (1 + exp(y)) * exp(x) and separatevars((x * (y + 1)) ** z).is_Pow and separatevars(1 + x + y + x * y) == (x + 1) * (y + 1) and separatevars(y / pi * exp(-(z - x) / cos(n))) == y * exp(x / cos(n)) * exp(-z / cos(n)) / pi and separatevars((x + y) * (x - y) + y ** 2 + 2 * x + 1) == (x + 1) ** 2 and separatevars(sqrt(p ** 2 + x * p ** 2)) == p * sqrt(1 + x) and separatevars(sqrt(y * (p ** 2 + x * p ** 2))) == p * sqrt(y * (1 + x)) and separatevars(sqrt(y * (p ** 2 + x * p ** 2)), force=True) == p * sqrt(y) * sqrt(1 + x) and separatevars(sqrt(x * y)).is_Pow and separatevars(sqrt(x * y), force=True) == sqrt(x) * sqrt(y) and separatevars((2 * x + 2) * y, dict=True, symbols=()) == {'coeff': 1, x: 2 * x + 2, y: y} and separatevars((2 * x + 2) * y, dict=True, symbols=[x]) == {'coeff': y, x: 2 * x + 2} and separatevars((2 * x + 2) * y, dict=True, symbols=[]) == {'coeff': 1, x: 2 * x + 2, y: y} and separatevars((2 * x + 2) * y, dict=True) == {'coeff': 1, x: 2 * x + 2, y: y} and separatevars((2 * x + 2) * y, dict=True, symbols=None) == {'coeff': y * (2 * x + 2)} and separatevars(3, dict=True) is None and separatevars(2 * x + y, dict=True, symbols=()) is None and separatevars(2 * x + y, dict=True) is None and separatevars(2 * x + y, dict=True, symbols=None) == {'coeff': 2 * x + y} and separatevars(m + n * m) == (1 + n) * m and separatevars(x + x * n) == x * (1 + n) and separatevars(f(x) + x * f(x)) == f(x) + x * f(x) and separatevars(eq) == eq and s == abs(x) * abs(y) and s.is_Mul and not a.is_Mul and s.is_Mul and (s == abs(x) * abs(z)) and s == abs(x) * abs(y) * abs(z) and separatevars(abs((x + y) / z)) == abs((x + y) / z)","over":{"base":"Any"},"name":"test_separatevars_correct"},"guarantee":"separatevars(2 * n * x * z + 2 * x * y * z) == 2 * x * z * (n + y); separatevars(x * z + x * y * z) == x * z * (1 + y); separatevars(pi * x * z + pi * x * y * z) == pi * x * z * (1 + y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_separatevars_correct","statement":"Path(test_separatevars(x), separatevars(2 * n * x * z + 2 * x * y * z) == 2 * x * z * (n + y); separatevars(x * z + x * y * z) == x * z * (1 + y); separatevars(pi * x * z + pi * x * y * z) == pi * x * z * (1 + y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"826d6c37a56adae6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["separatevars(2 * n * x * z + 2 * x * y * z) == 2 * x * z * (n + y)","separatevars(x * z + x * y * z) == x * z * (1 + y)","separatevars(pi * x * z + pi * x * y * z) == pi * x * z * (1 + y)","separatevars(x * y ** 2 * sin(x) + x * sin(x) * sin(y)) == x * (sin(y) + y ** 2) * sin(x)","separatevars(x * exp(x + y) + x * exp(x)) == x * (1 + exp(y)) * exp(x)","separatevars((x * (y + 1)) ** z).is_Pow","separatevars(1 + x + y + x * y) == (x + 1) * (y + 1)","separatevars(y / pi * exp(-(z - x) / cos(n))) == y * exp(x / cos(n)) * exp(-z / cos(n)) / pi","separatevars((x + y) * (x - y) + y ** 2 + 2 * x + 1) == (x + 1) ** 2","separatevars(sqrt(p ** 2 + x * p ** 2)) == p * sqrt(1 + x)","separatevars(sqrt(y * (p ** 2 + x * p ** 2))) == p * sqrt(y * (1 + x))","separatevars(sqrt(y * (p ** 2 + x * p ** 2)), force=True) == p * sqrt(y) * sqrt(1 + x)","separatevars(sqrt(x * y)).is_Pow","separatevars(sqrt(x * y), force=True) == sqrt(x) * sqrt(y)","separatevars((2 * x + 2) * y, dict=True, symbols=()) == {'coeff': 1, x: 2 * x + 2, y: y}","separatevars((2 * x + 2) * y, dict=True, symbols=[x]) == {'coeff': y, x: 2 * x + 2}","separatevars((2 * x + 2) * y, dict=True, symbols=[]) == {'coeff': 1, x: 2 * x + 2, y: y}","separatevars((2 * x + 2) * y, dict=True) == {'coeff': 1, x: 2 * x + 2, y: y}","separatevars((2 * x + 2) * y, dict=True, symbols=None) == {'coeff': y * (2 * x + 2)}","separatevars(3, dict=True) is None","separatevars(2 * x + y, dict=True, symbols=()) is None","separatevars(2 * x + y, dict=True) is None","separatevars(2 * x + y, dict=True, symbols=None) == {'coeff': 2 * x + y}","separatevars(m + n * m) == (1 + n) * m","separatevars(x + x * n) == x * (1 + n)","separatevars(f(x) + x * f(x)) == f(x) + x * f(x)","separatevars(eq) == eq","s == abs(x) * abs(y) and s.is_Mul","not a.is_Mul and s.is_Mul and (s == abs(x) * abs(z))","s == abs(x) * abs(y) * abs(z)","separatevars(abs((x + y) / z)) == abs((x + y) / z)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":true}}
 def test_separatevars():
     x, y, z, n = symbols('x,y,z,n')
     assert separatevars(2*n*x*z + 2*x*y*z) == 2*x*z*(n + y)
@@ -528,16 +639,24 @@ def test_separatevars():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_separatevars_advanced_factor(), test_separatevars_advanced_factor produces the expected output) over Any ║
+# ║ Path(test_separatevars_advanced_factor(), separatevars(1 + log(x) * log(y) + log(x) + log(y)) == (log(x) + 1) * (log(y) + 1) and separatevars(1 + x - log(z) - x * log(z) - exp(y) * log(z) - x * exp(y) * log(z) + x * exp(y) + exp(y)) == -((x + 1) * (log(z) - 1) * (exp(y) + 1)) and separatevars(1 + log(x ** log(y)) + log(x * y)) == (log(x) + 1) * (log(y) + 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_separatevars_advanced_factor : Any → {Any | sepa...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  separatevars(1 + log(x) * log(y) + log(x)...   ║
+# ║   ensures:  separatevars(1 + x - log(z) - x * log(z) ...   ║
+# ║   ensures:  separatevars(1 + log(x ** log(y)) + log(x...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_separatevars_advanced_factor : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1f64f5548190be7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a73e3020a6e7494a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_separatevars_advanced_factor","kind":"function","src_hash":"b006ed4b4cea63fd","in":{"base":"Any"},"out":{"base":"Any","pred":"separatevars(1 + log(x ** log(y)) + log(x * y)) == (log(x) + 1) * (log(y) + 1)"},"spec":{"lhs":"test_separatevars_advanced_factor()","rhs":"test_separatevars_advanced_factor produces the expected output","over":{"base":"Any"},"name":"test_separatevars_advanced_factor_correct"},"guarantee":"test_separatevars_advanced_factor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_separatevars_advanced_factor_correct","statement":"Path(test_separatevars_advanced_factor(x), test_separatevars_advanced_factor produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1f64f5548190be7"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_separatevars_advanced_factor","kind":"function","src_hash":"b006ed4b4cea63fd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: separatevars(1 + log(x) * log(y) + log(x) + log(y)) == (log(x) + 1) * (log(y) + 1) and separatevars(1 + x - log(z) - x * log(z) - exp(y) * log(z) - x * exp(y) * log(z) + x * exp(y) + exp(y)) == -((x + 1) * (log(z) - 1) * (exp(y) + 1)) and separatevars(1 + log(x ** log(y)) + log(x * y)) == (log(x) + 1) * (log(y) + 1)"},"spec":{"lhs":"test_separatevars_advanced_factor()","rhs":"separatevars(1 + log(x) * log(y) + log(x) + log(y)) == (log(x) + 1) * (log(y) + 1) and separatevars(1 + x - log(z) - x * log(z) - exp(y) * log(z) - x * exp(y) * log(z) + x * exp(y) + exp(y)) == -((x + 1) * (log(z) - 1) * (exp(y) + 1)) and separatevars(1 + log(x ** log(y)) + log(x * y)) == (log(x) + 1) * (log(y) + 1)","over":{"base":"Any"},"name":"test_separatevars_advanced_factor_correct"},"guarantee":"separatevars(1 + log(x) * log(y) + log(x) + log(y)) == (log(x) + 1) * (log(y) + 1); separatevars(1 + x - log(z) - x * log(z) - exp(y) * log(z) - x * exp(y) * log(z) + x * exp(y) + exp(y)) == -((x + 1) * (log(z) - 1) * (exp(y) + 1)); separatevars(1 + log(x ** log(y)) + log(x * y)) == (log(x) + 1) * (log(y) + 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_separatevars_advanced_factor_correct","statement":"Path(test_separatevars_advanced_factor(x), separatevars(1 + log(x) * log(y) + log(x) + log(y)) == (log(x) + 1) * (log(y) + 1); separatevars(1 + x - log(z) - x * log(z) - exp(y) * log(z) - x * exp(y) * log(z) + x * exp(y) + exp(y)) == -((x + 1) * (log(z) - 1) * (exp(y) + 1)); separatevars(1 + log(x ** log(y)) + log(x * y)) == (log(x) + 1) * (log(y) + 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a73e3020a6e7494a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["separatevars(1 + log(x) * log(y) + log(x) + log(y)) == (log(x) + 1) * (log(y) + 1)","separatevars(1 + x - log(z) - x * log(z) - exp(y) * log(z) - x * exp(y) * log(z) + x * exp(y) + exp(y)) == -((x + 1) * (log(z) - 1) * (exp(y) + 1))","separatevars(1 + log(x ** log(y)) + log(x * y)) == (log(x) + 1) * (log(y) + 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_separatevars_advanced_factor():
     x, y, z = symbols('x,y,z')
     assert separatevars(1 + log(x)*log(y) + log(x) + log(y)) == \
@@ -551,16 +670,24 @@ def test_separatevars_advanced_factor():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_hypersimp(), test_hypersimp produces the expected output) over Any ║
+# ║ Path(test_hypersimp(), hypersimp(factorial(k), k) == k + 1 and hypersimp(factorial(k ** 2), k) is None and hypersimp(1 / factorial(k), k) == 1 / (k + 1) and hypersimp(2 ** k / factorial(k) ** 2, k) == 2 / (k + 1) ** 2 and hypersimp(binomial(n, k), k) == (n - k) / (k + 1) and hypersimp(binomial(n + 1, k), k) == (n - k + 1) / (k + 1) and hypersimp(term, k) == S.Half * ((4 * k + 5) / (3 + 14 * k + 8 * k ** 2)) and hypersimp(term, k) == (k - S.Half) / ((k + 1) * (2 * k + 1) * (2 * k + 3)) and hypersimp(term, k) == (k - n) / (k + 1) ** 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_hypersimp : Any → {Any | hypersimp(factorial(k),...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hypersimp(factorial(k), k) == k + 1            ║
+# ║   ensures:  hypersimp(factorial(k ** 2), k) is None        ║
+# ║   ensures:  hypersimp(1 / factorial(k), k) == 1 / (k ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_hypersimp : Any → {Any | result satisfies: hyper...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 919590976b5b6548  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e348e0d11da9df9a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_hypersimp","kind":"function","src_hash":"7507b1f5d03d7dc7","in":{"base":"Any"},"out":{"base":"Any","pred":"hypersimp(factorial(k), k) == k + 1 and hypersimp(factorial(k ** 2), k) is None and hypersimp(1 / factorial(k), k) == 1 / (k + 1) and hypersimp(2 ** k / factorial(k) ** 2, k) == 2 / (k + 1) ** 2 and hypersimp(binomial(n, k), k) == (n - k) / (k + 1) and hypersimp(binomial(n + 1, k), k) == (n - k + 1) / (k + 1) and hypersimp(term, k) == S.Half * ((4 * k + 5) / (3 + 14 * k + 8 * k ** 2)) and hypersimp(term, k) == (k - S.Half) / ((k + 1) * (2 * k + 1) * (2 * k + 3)) and hypersimp(term, k) == (k - n) / (k + 1) ** 2"},"spec":{"lhs":"test_hypersimp()","rhs":"test_hypersimp produces the expected output","over":{"base":"Any"},"name":"test_hypersimp_correct"},"guarantee":"test_hypersimp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_hypersimp_correct","statement":"Path(test_hypersimp(x), test_hypersimp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"919590976b5b6548"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_hypersimp","kind":"function","src_hash":"7507b1f5d03d7dc7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hypersimp(factorial(k), k) == k + 1 and hypersimp(factorial(k ** 2), k) is None and hypersimp(1 / factorial(k), k) == 1 / (k + 1) and hypersimp(2 ** k / factorial(k) ** 2, k) == 2 / (k + 1) ** 2 and hypersimp(binomial(n, k), k) == (n - k) / (k + 1) and hypersimp(binomial(n + 1, k), k) == (n - k + 1) / (k + 1) and hypersimp(term, k) == S.Half * ((4 * k + 5) / (3 + 14 * k + 8 * k ** 2)) and hypersimp(term, k) == (k - S.Half) / ((k + 1) * (2 * k + 1) * (2 * k + 3)) and hypersimp(term, k) == (k - n) / (k + 1) ** 2"},"spec":{"lhs":"test_hypersimp()","rhs":"hypersimp(factorial(k), k) == k + 1 and hypersimp(factorial(k ** 2), k) is None and hypersimp(1 / factorial(k), k) == 1 / (k + 1) and hypersimp(2 ** k / factorial(k) ** 2, k) == 2 / (k + 1) ** 2 and hypersimp(binomial(n, k), k) == (n - k) / (k + 1) and hypersimp(binomial(n + 1, k), k) == (n - k + 1) / (k + 1) and hypersimp(term, k) == S.Half * ((4 * k + 5) / (3 + 14 * k + 8 * k ** 2)) and hypersimp(term, k) == (k - S.Half) / ((k + 1) * (2 * k + 1) * (2 * k + 3)) and hypersimp(term, k) == (k - n) / (k + 1) ** 2","over":{"base":"Any"},"name":"test_hypersimp_correct"},"guarantee":"hypersimp(factorial(k), k) == k + 1; hypersimp(factorial(k ** 2), k) is None; hypersimp(1 / factorial(k), k) == 1 / (k + 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_hypersimp_correct","statement":"Path(test_hypersimp(x), hypersimp(factorial(k), k) == k + 1; hypersimp(factorial(k ** 2), k) is None; hypersimp(1 / factorial(k), k) == 1 / (k + 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e348e0d11da9df9a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hypersimp(factorial(k), k) == k + 1","hypersimp(factorial(k ** 2), k) is None","hypersimp(1 / factorial(k), k) == 1 / (k + 1)","hypersimp(2 ** k / factorial(k) ** 2, k) == 2 / (k + 1) ** 2","hypersimp(binomial(n, k), k) == (n - k) / (k + 1)","hypersimp(binomial(n + 1, k), k) == (n - k + 1) / (k + 1)","hypersimp(term, k) == S.Half * ((4 * k + 5) / (3 + 14 * k + 8 * k ** 2))","hypersimp(term, k) == (k - S.Half) / ((k + 1) * (2 * k + 1) * (2 * k + 3))","hypersimp(term, k) == (k - n) / (k + 1) ** 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_hypersimp():
     n, k = symbols('n,k', integer=True)
 
@@ -585,16 +712,24 @@ def test_hypersimp():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nsimplify(), test_nsimplify produces the expected output) over Any ║
+# ║ Path(test_nsimplify(), nsimplify(0) == 0 and nsimplify(-1) == -1 and nsimplify(1) == 1 and nsimplify(1 + x) == 1 + x and nsimplify(2.7) == Rational(27, 10) and nsimplify(1 - GoldenRatio) == (1 - sqrt(5)) / 2 and nsimplify((1 + sqrt(5)) / 4, [GoldenRatio]) == GoldenRatio / 2 and nsimplify(2 / GoldenRatio, [GoldenRatio]) == 2 * GoldenRatio - 2 and nsimplify(exp(pi * I * Rational(5, 3), evaluate=False)) == sympify('1/2 - sqrt(3)*I/2') and nsimplify(sin(pi * Rational(3, 5), evaluate=False)) == sympify('sqrt(sqrt(5)/8 + 5/8)') and nsimplify(sqrt(atan('1', evaluate=False)) * (2 + I), [pi]) == sqrt(pi) + sqrt(pi) / 2 * I and nsimplify(2 + exp(2 * atan('1/4') * I)) == sympify('49/17 + 8*I/17') and nsimplify(pi, tolerance=0.01) == Rational(22, 7) and nsimplify(pi, tolerance=0.001) == Rational(355, 113) and nsimplify(0.33333, tolerance=0.0001) == Rational(1, 3) and nsimplify(2.0 ** (1 / 3.0), tolerance=0.001) == Rational(635, 504) and nsimplify(2.0 ** (1 / 3.0), tolerance=0.001, full=True) == 2 ** Rational(1, 3) and nsimplify(x + 0.5, rational=True) == S.Half + x and nsimplify(1 / 0.3 + x, rational=True) == Rational(10, 3) + x and nsimplify(log(3).n(), rational=True) == sympify('109861228866811/100000000000000') and nsimplify(Float(0.27219826128795), [pi, log(2)]) == pi * log(2) / 8 and nsimplify(Float(0.27219826128795).n(3), [pi, log(2)]) == -pi / 4 - log(2) + Rational(7, 4) and nsimplify(x / 7.0) == x / 7 and nsimplify(pi / 100.0) == pi / 100 and nsimplify(pi / 100.0, rational=False) == pi / 100.0 and nsimplify(pi / 1e-07) == 10000000 * pi and not nsimplify(factor(-3.0 * z ** 2 * (z ** 2) ** (-2.5) + 3 * (z ** 2) ** (-1.5))).atoms(Float) and e.is_Pow and nsimplify(x ** 0.0) == 1 and nsimplify(3.333333, tolerance=0.1, rational=True) == Rational(10, 3) and nsimplify(3.333333, tolerance=0.01, rational=True) == Rational(10, 3) and nsimplify(3.666666, tolerance=0.1, rational=True) == Rational(11, 3) and nsimplify(3.666666, tolerance=0.01, rational=True) == Rational(11, 3) and nsimplify(33, tolerance=10, rational=True) == Rational(33) and nsimplify(33.33, tolerance=10, rational=True) == Rational(30) and nsimplify(37.76, tolerance=10, rational=True) == Rational(40) and nsimplify(-203.1) == Rational(-2031, 10) and nsimplify(0.2, tolerance=0) == Rational(1, 5) and nsimplify(-0.2, tolerance=0) == Rational(-1, 5) and nsimplify(0.2222, tolerance=0) == Rational(1111, 5000) and nsimplify(-0.2222, tolerance=0) == Rational(-1111, 5000) and nsimplify(S(2e-08)) == Rational(1, 50000000) and nsimplify(1e-42, rational=True) != 0 and nsimplify(0.33333333, rational=True, rational_conversion='exact') == Rational(0.33333333) and nsimplify(pi.evalf(100) * x, rational_conversion='exact').evalf(100) == pi.evalf(100) * x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_nsimplify : Any → {Any | nsimplify(0) == 0 and n...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  nsimplify(0) == 0                              ║
+# ║   ensures:  nsimplify(-1) == -1                            ║
+# ║   ensures:  nsimplify(1) == 1                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_nsimplify : Any → {Any | result satisfies: nsimp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2abfc8f8032e5a49  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 42c82f45b3175a2e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_nsimplify","kind":"function","src_hash":"bb94381f5f64e929","in":{"base":"Any"},"out":{"base":"Any","pred":"nsimplify(0) == 0 and nsimplify(-1) == -1 and nsimplify(1) == 1 and nsimplify(1 + x) == 1 + x and nsimplify(2.7) == Rational(27, 10) and nsimplify(1 - GoldenRatio) == (1 - sqrt(5)) / 2 and nsimplify((1 + sqrt(5)) / 4, [GoldenRatio]) == GoldenRatio / 2 and nsimplify(2 / GoldenRatio, [GoldenRatio]) == 2 * GoldenRatio - 2 and nsimplify(2 + exp(2 * atan('1/4') * I)) == sympify('49/17 + 8*I/17') and nsimplify(pi, tolerance=0.01) == Rational(22, 7) and nsimplify(pi, tolerance=0.001) == Rational(355, 113) and nsimplify(0.33333, tolerance=0.0001) == Rational(1, 3) and nsimplify(2.0 ** (1 / 3.0), tolerance=0.001) == Rational(635, 504) and nsimplify(2.0 ** (1 / 3.0), tolerance=0.001, full=True) == 2 ** Rational(1, 3) and nsimplify(x + 0.5, rational=True) == S.Half + x and nsimplify(1 / 0.3 + x, rational=True) == Rational(10, 3) + x and nsimplify(Float(0.27219826128795), [pi, log(2)]) == pi * log(2) / 8 and nsimplify(x / 7.0) == x / 7 and nsimplify(pi / 100.0) == pi / 100 and nsimplify(pi / 100.0, rational=False) == pi / 100.0 and nsimplify(pi / 1e-07) == 10000000 * pi and e.is_Pow and nsimplify(x ** 0.0) == 1 and nsimplify(3.333333, tolerance=0.1, rational=True) == Rational(10, 3) and nsimplify(3.333333, tolerance=0.01, rational=True) == Rational(10, 3) and nsimplify(3.666666, tolerance=0.1, rational=True) == Rational(11, 3) and nsimplify(3.666666, tolerance=0.01, rational=True) == Rational(11, 3) and nsimplify(33, tolerance=10, rational=True) == Rational(33) and nsimplify(33.33, tolerance=10, rational=True) == Rational(30) and nsimplify(37.76, tolerance=10, rational=True) == Rational(40) and nsimplify(-203.1) == Rational(-2031, 10) and nsimplify(0.2, tolerance=0) == Rational(1, 5) and nsimplify(-0.2, tolerance=0) == Rational(-1, 5) and nsimplify(0.2222, tolerance=0) == Rational(1111, 5000) and nsimplify(-0.2222, tolerance=0) == Rational(-1111, 5000) and nsimplify(S(2e-08)) == Rational(1, 50000000) and nsimplify(1e-42, rational=True) != 0 and nsimplify(zi) == ans and nsimplify(zi + x) == x + ans"},"spec":{"lhs":"test_nsimplify()","rhs":"test_nsimplify produces the expected output","over":{"base":"Any"},"name":"test_nsimplify_correct"},"guarantee":"test_nsimplify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_nsimplify_correct","statement":"Path(test_nsimplify(x), test_nsimplify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2abfc8f8032e5a49"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_nsimplify","kind":"function","src_hash":"bb94381f5f64e929","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: nsimplify(0) == 0 and nsimplify(-1) == -1 and nsimplify(1) == 1 and nsimplify(1 + x) == 1 + x and nsimplify(2.7) == Rational(27, 10) and nsimplify(1 - GoldenRatio) == (1 - sqrt(5)) / 2 and nsimplify((1 + sqrt(5)) / 4, [GoldenRatio]) == GoldenRatio / 2 and nsimplify(2 / GoldenRatio, [GoldenRatio]) == 2 * GoldenRatio - 2 and nsimplify(exp(pi * I * Rational(5, 3), evaluate=False)) == sympify('1/2 - sqrt(3)*I/2') and nsimplify(sin(pi * Rational(3, 5), evaluate=False)) == sympify('sqrt(sqrt(5)/8 + 5/8)') and nsimplify(sqrt(atan('1', evaluate=False)) * (2 + I), [pi]) == sqrt(pi) + sqrt(pi) / 2 * I and nsimplify(2 + exp(2 * atan('1/4') * I)) == sympify('49/17 + 8*I/17') and nsimplify(pi, tolerance=0.01) == Rational(22, 7) and nsimplify(pi, tolerance=0.001) == Rational(355, 113) and nsimplify(0.33333, tolerance=0.0001) == Rational(1, 3) and nsimplify(2.0 ** (1 / 3.0), tolerance=0.001) == Rational(635, 504) and nsimplify(2.0 ** (1 / 3.0), tolerance=0.001, full=True) == 2 ** Rational(1, 3) and nsimplify(x + 0.5, rational=True) == S.Half + x and nsimplify(1 / 0.3 + x, rational=True) == Rational(10, 3) + x and nsimplify(log(3).n(), rational=True) == sympify('109861228866811/100000000000000') and nsimplify(Float(0.27219826128795), [pi, log(2)]) == pi * log(2) / 8 and nsimplify(Float(0.27219826128795).n(3), [pi, log(2)]) == -pi / 4 - log(2) + Rational(7, 4) and nsimplify(x / 7.0) == x / 7 and nsimplify(pi / 100.0) == pi / 100 and nsimplify(pi / 100.0, rational=False) == pi / 100.0 and nsimplify(pi / 1e-07) == 10000000 * pi and not nsimplify(factor(-3.0 * z ** 2 * (z ** 2) ** (-2.5) + 3 * (z ** 2) ** (-1.5))).atoms(Float) and e.is_Pow and nsimplify(x ** 0.0) == 1 and nsimplify(3.333333, tolerance=0.1, rational=True) == Rational(10, 3) and nsimplify(3.333333, tolerance=0.01, rational=True) == Rational(10, 3) and nsimplify(3.666666, tolerance=0.1, rational=True) == Rational(11, 3) and nsimplify(3.666666, tolerance=0.01, rational=True) == Rational(11, 3) and nsimplify(33, tolerance=10, rational=True) == Rational(33) and nsimplify(33.33, tolerance=10, rational=True) == Rational(30) and nsimplify(37.76, tolerance=10, rational=True) == Rational(40) and nsimplify(-203.1) == Rational(-2031, 10) and nsimplify(0.2, tolerance=0) == Rational(1, 5) and nsimplify(-0.2, tolerance=0) == Rational(-1, 5) and nsimplify(0.2222, tolerance=0) == Rational(1111, 5000) and nsimplify(-0.2222, tolerance=0) == Rational(-1111, 5000) and nsimplify(S(2e-08)) == Rational(1, 50000000) and nsimplify(1e-42, rational=True) != 0 and nsimplify(0.33333333, rational=True, rational_conversion='exact') == Rational(0.33333333) and nsimplify(pi.evalf(100) * x, rational_conversion='exact').evalf(100) == pi.evalf(100) * x"},"spec":{"lhs":"test_nsimplify()","rhs":"nsimplify(0) == 0 and nsimplify(-1) == -1 and nsimplify(1) == 1 and nsimplify(1 + x) == 1 + x and nsimplify(2.7) == Rational(27, 10) and nsimplify(1 - GoldenRatio) == (1 - sqrt(5)) / 2 and nsimplify((1 + sqrt(5)) / 4, [GoldenRatio]) == GoldenRatio / 2 and nsimplify(2 / GoldenRatio, [GoldenRatio]) == 2 * GoldenRatio - 2 and nsimplify(exp(pi * I * Rational(5, 3), evaluate=False)) == sympify('1/2 - sqrt(3)*I/2') and nsimplify(sin(pi * Rational(3, 5), evaluate=False)) == sympify('sqrt(sqrt(5)/8 + 5/8)') and nsimplify(sqrt(atan('1', evaluate=False)) * (2 + I), [pi]) == sqrt(pi) + sqrt(pi) / 2 * I and nsimplify(2 + exp(2 * atan('1/4') * I)) == sympify('49/17 + 8*I/17') and nsimplify(pi, tolerance=0.01) == Rational(22, 7) and nsimplify(pi, tolerance=0.001) == Rational(355, 113) and nsimplify(0.33333, tolerance=0.0001) == Rational(1, 3) and nsimplify(2.0 ** (1 / 3.0), tolerance=0.001) == Rational(635, 504) and nsimplify(2.0 ** (1 / 3.0), tolerance=0.001, full=True) == 2 ** Rational(1, 3) and nsimplify(x + 0.5, rational=True) == S.Half + x and nsimplify(1 / 0.3 + x, rational=True) == Rational(10, 3) + x and nsimplify(log(3).n(), rational=True) == sympify('109861228866811/100000000000000') and nsimplify(Float(0.27219826128795), [pi, log(2)]) == pi * log(2) / 8 and nsimplify(Float(0.27219826128795).n(3), [pi, log(2)]) == -pi / 4 - log(2) + Rational(7, 4) and nsimplify(x / 7.0) == x / 7 and nsimplify(pi / 100.0) == pi / 100 and nsimplify(pi / 100.0, rational=False) == pi / 100.0 and nsimplify(pi / 1e-07) == 10000000 * pi and not nsimplify(factor(-3.0 * z ** 2 * (z ** 2) ** (-2.5) + 3 * (z ** 2) ** (-1.5))).atoms(Float) and e.is_Pow and nsimplify(x ** 0.0) == 1 and nsimplify(3.333333, tolerance=0.1, rational=True) == Rational(10, 3) and nsimplify(3.333333, tolerance=0.01, rational=True) == Rational(10, 3) and nsimplify(3.666666, tolerance=0.1, rational=True) == Rational(11, 3) and nsimplify(3.666666, tolerance=0.01, rational=True) == Rational(11, 3) and nsimplify(33, tolerance=10, rational=True) == Rational(33) and nsimplify(33.33, tolerance=10, rational=True) == Rational(30) and nsimplify(37.76, tolerance=10, rational=True) == Rational(40) and nsimplify(-203.1) == Rational(-2031, 10) and nsimplify(0.2, tolerance=0) == Rational(1, 5) and nsimplify(-0.2, tolerance=0) == Rational(-1, 5) and nsimplify(0.2222, tolerance=0) == Rational(1111, 5000) and nsimplify(-0.2222, tolerance=0) == Rational(-1111, 5000) and nsimplify(S(2e-08)) == Rational(1, 50000000) and nsimplify(1e-42, rational=True) != 0 and nsimplify(0.33333333, rational=True, rational_conversion='exact') == Rational(0.33333333) and nsimplify(pi.evalf(100) * x, rational_conversion='exact').evalf(100) == pi.evalf(100) * x","over":{"base":"Any"},"name":"test_nsimplify_correct"},"guarantee":"nsimplify(0) == 0; nsimplify(-1) == -1; nsimplify(1) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_nsimplify_correct","statement":"Path(test_nsimplify(x), nsimplify(0) == 0; nsimplify(-1) == -1; nsimplify(1) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42c82f45b3175a2e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["nsimplify(0) == 0","nsimplify(-1) == -1","nsimplify(1) == 1","nsimplify(1 + x) == 1 + x","nsimplify(2.7) == Rational(27, 10)","nsimplify(1 - GoldenRatio) == (1 - sqrt(5)) / 2","nsimplify((1 + sqrt(5)) / 4, [GoldenRatio]) == GoldenRatio / 2","nsimplify(2 / GoldenRatio, [GoldenRatio]) == 2 * GoldenRatio - 2","nsimplify(exp(pi * I * Rational(5, 3), evaluate=False)) == sympify('1/2 - sqrt(3)*I/2')","nsimplify(sin(pi * Rational(3, 5), evaluate=False)) == sympify('sqrt(sqrt(5)/8 + 5/8)')","nsimplify(sqrt(atan('1', evaluate=False)) * (2 + I), [pi]) == sqrt(pi) + sqrt(pi) / 2 * I","nsimplify(2 + exp(2 * atan('1/4') * I)) == sympify('49/17 + 8*I/17')","nsimplify(pi, tolerance=0.01) == Rational(22, 7)","nsimplify(pi, tolerance=0.001) == Rational(355, 113)","nsimplify(0.33333, tolerance=0.0001) == Rational(1, 3)","nsimplify(2.0 ** (1 / 3.0), tolerance=0.001) == Rational(635, 504)","nsimplify(2.0 ** (1 / 3.0), tolerance=0.001, full=True) == 2 ** Rational(1, 3)","nsimplify(x + 0.5, rational=True) == S.Half + x","nsimplify(1 / 0.3 + x, rational=True) == Rational(10, 3) + x","nsimplify(log(3).n(), rational=True) == sympify('109861228866811/100000000000000')","nsimplify(Float(0.27219826128795), [pi, log(2)]) == pi * log(2) / 8","nsimplify(Float(0.27219826128795).n(3), [pi, log(2)]) == -pi / 4 - log(2) + Rational(7, 4)","nsimplify(x / 7.0) == x / 7","nsimplify(pi / 100.0) == pi / 100","nsimplify(pi / 100.0, rational=False) == pi / 100.0","nsimplify(pi / 1e-07) == 10000000 * pi","not nsimplify(factor(-3.0 * z ** 2 * (z ** 2) ** (-2.5) + 3 * (z ** 2) ** (-1.5))).atoms(Float)","e.is_Pow and nsimplify(x ** 0.0) == 1","nsimplify(3.333333, tolerance=0.1, rational=True) == Rational(10, 3)","nsimplify(3.333333, tolerance=0.01, rational=True) == Rational(10, 3)","nsimplify(3.666666, tolerance=0.1, rational=True) == Rational(11, 3)","nsimplify(3.666666, tolerance=0.01, rational=True) == Rational(11, 3)","nsimplify(33, tolerance=10, rational=True) == Rational(33)","nsimplify(33.33, tolerance=10, rational=True) == Rational(30)","nsimplify(37.76, tolerance=10, rational=True) == Rational(40)","nsimplify(-203.1) == Rational(-2031, 10)","nsimplify(0.2, tolerance=0) == Rational(1, 5)","nsimplify(-0.2, tolerance=0) == Rational(-1, 5)","nsimplify(0.2222, tolerance=0) == Rational(1111, 5000)","nsimplify(-0.2222, tolerance=0) == Rational(-1111, 5000)","nsimplify(S(2e-08)) == Rational(1, 50000000)","nsimplify(1e-42, rational=True) != 0","nsimplify(0.33333333, rational=True, rational_conversion='exact') == Rational(0.33333333)","nsimplify(pi.evalf(100) * x, rational_conversion='exact').evalf(100) == pi.evalf(100) * x"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":true}}
 def test_nsimplify():
     x = Symbol("x")
     assert nsimplify(0) == 0
@@ -664,32 +799,46 @@ def test_nsimplify():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_9448(), test_issue_9448 produces the expected output) over Any ║
+# ║ Path(test_issue_9448(), nsimplify(tmp) == S.Half) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_9448 : Any → {Any | nsimplify(tmp) == S.Half}   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  nsimplify(tmp) == S.Half                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_9448 : Any → {Any | result satisfies: nsim...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cccd839ed8262da4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9385bb57bc405d64  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_9448","kind":"function","src_hash":"6ea6851e269fa602","in":{"base":"Any"},"out":{"base":"Any","pred":"nsimplify(tmp) == S.Half"},"spec":{"lhs":"test_issue_9448()","rhs":"test_issue_9448 produces the expected output","over":{"base":"Any"},"name":"test_issue_9448_correct"},"guarantee":"test_issue_9448 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_9448_correct","statement":"Path(test_issue_9448(x), test_issue_9448 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cccd839ed8262da4"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_9448","kind":"function","src_hash":"6ea6851e269fa602","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: nsimplify(tmp) == S.Half"},"spec":{"lhs":"test_issue_9448()","rhs":"nsimplify(tmp) == S.Half","over":{"base":"Any"},"name":"test_issue_9448_correct"},"guarantee":"nsimplify(tmp) == S.Half","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_9448_correct","statement":"Path(test_issue_9448(x), nsimplify(tmp) == S.Half)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9385bb57bc405d64","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["nsimplify(tmp) == S.Half"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_9448():
     tmp = sympify("1/(1 - (-1)**(2/3) - (-1)**(1/3)) + 1/(1 + (-1)**(2/3) + (-1)**(1/3))")
     assert nsimplify(tmp) == S.Half
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_extract_minus_sign(), test_extract_minus_sign produces the expected output) over Any ║
+# ║ Path(test_extract_minus_sign(), simplify(-x / -y) == x / y and simplify(-x / y) == -x / y and simplify(x / y) == x / y and simplify(x / -y) == -x / y and simplify(-x / 0) == zoo * x and simplify(Rational(-5, 0)) is zoo and simplify(-a * x / (-y - b)) == a * x / (b + y)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_extract_minus_sign : Any → {Any | simplify(-x / ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(-x / -y) == x / y                     ║
+# ║   ensures:  simplify(-x / y) == -x / y                     ║
+# ║   ensures:  simplify(x / y) == x / y                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_extract_minus_sign : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b6362ead891d4d8f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd3e35c83e0fb55d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_extract_minus_sign","kind":"function","src_hash":"ff2da653f054aad4","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(-x / -y) == x / y and simplify(-x / y) == -x / y and simplify(x / y) == x / y and simplify(x / -y) == -x / y and simplify(-x / 0) == zoo * x and simplify(Rational(-5, 0)) is zoo and simplify(-a * x / (-y - b)) == a * x / (b + y)"},"spec":{"lhs":"test_extract_minus_sign()","rhs":"test_extract_minus_sign produces the expected output","over":{"base":"Any"},"name":"test_extract_minus_sign_correct"},"guarantee":"test_extract_minus_sign produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_extract_minus_sign_correct","statement":"Path(test_extract_minus_sign(x), test_extract_minus_sign produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6362ead891d4d8f"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_extract_minus_sign","kind":"function","src_hash":"ff2da653f054aad4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(-x / -y) == x / y and simplify(-x / y) == -x / y and simplify(x / y) == x / y and simplify(x / -y) == -x / y and simplify(-x / 0) == zoo * x and simplify(Rational(-5, 0)) is zoo and simplify(-a * x / (-y - b)) == a * x / (b + y)"},"spec":{"lhs":"test_extract_minus_sign()","rhs":"simplify(-x / -y) == x / y and simplify(-x / y) == -x / y and simplify(x / y) == x / y and simplify(x / -y) == -x / y and simplify(-x / 0) == zoo * x and simplify(Rational(-5, 0)) is zoo and simplify(-a * x / (-y - b)) == a * x / (b + y)","over":{"base":"Any"},"name":"test_extract_minus_sign_correct"},"guarantee":"simplify(-x / -y) == x / y; simplify(-x / y) == -x / y; simplify(x / y) == x / y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_extract_minus_sign_correct","statement":"Path(test_extract_minus_sign(x), simplify(-x / -y) == x / y; simplify(-x / y) == -x / y; simplify(x / y) == x / y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd3e35c83e0fb55d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(-x / -y) == x / y","simplify(-x / y) == -x / y","simplify(x / y) == x / y","simplify(x / -y) == -x / y","simplify(-x / 0) == zoo * x","simplify(Rational(-5, 0)) is zoo","simplify(-a * x / (-y - b)) == a * x / (b + y)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_extract_minus_sign():
     x = Symbol("x")
     y = Symbol("y")
@@ -705,16 +854,24 @@ def test_extract_minus_sign():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_diff(), test_diff produces the expected output) over Any ║
+# ║ Path(test_diff(), simplify(g(x).diff(x) * f(x).diff(x) - f(x).diff(x) * g(x).diff(x)) == 0 and simplify(2 * f(x) * f(x).diff(x) - diff(f(x) ** 2, x)) == 0 and simplify(diff(1 / f(x), x) + f(x).diff(x) / f(x) ** 2) == 0 and simplify(f(x).diff(x, y) - f(x).diff(y, x)) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_diff : Any → {Any | simplify(g(x).diff(x) * f(x)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(g(x).diff(x) * f(x).diff(x) - f(...   ║
+# ║   ensures:  simplify(2 * f(x) * f(x).diff(x) - diff(f...   ║
+# ║   ensures:  simplify(diff(1 / f(x), x) + f(x).diff(x)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_diff : Any → {Any | result satisfies: simplify(g...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c52df2c2b65c3549  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c5205b30c304b45  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_diff","kind":"function","src_hash":"781e4a9daf0dfc83","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(g(x).diff(x) * f(x).diff(x) - f(x).diff(x) * g(x).diff(x)) == 0 and simplify(2 * f(x) * f(x).diff(x) - diff(f(x) ** 2, x)) == 0 and simplify(diff(1 / f(x), x) + f(x).diff(x) / f(x) ** 2) == 0 and simplify(f(x).diff(x, y) - f(x).diff(y, x)) == 0"},"spec":{"lhs":"test_diff()","rhs":"test_diff produces the expected output","over":{"base":"Any"},"name":"test_diff_correct"},"guarantee":"test_diff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_diff_correct","statement":"Path(test_diff(x), test_diff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c52df2c2b65c3549"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_diff","kind":"function","src_hash":"781e4a9daf0dfc83","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(g(x).diff(x) * f(x).diff(x) - f(x).diff(x) * g(x).diff(x)) == 0 and simplify(2 * f(x) * f(x).diff(x) - diff(f(x) ** 2, x)) == 0 and simplify(diff(1 / f(x), x) + f(x).diff(x) / f(x) ** 2) == 0 and simplify(f(x).diff(x, y) - f(x).diff(y, x)) == 0"},"spec":{"lhs":"test_diff()","rhs":"simplify(g(x).diff(x) * f(x).diff(x) - f(x).diff(x) * g(x).diff(x)) == 0 and simplify(2 * f(x) * f(x).diff(x) - diff(f(x) ** 2, x)) == 0 and simplify(diff(1 / f(x), x) + f(x).diff(x) / f(x) ** 2) == 0 and simplify(f(x).diff(x, y) - f(x).diff(y, x)) == 0","over":{"base":"Any"},"name":"test_diff_correct"},"guarantee":"simplify(g(x).diff(x) * f(x).diff(x) - f(x).diff(x) * g(x).diff(x)) == 0; simplify(2 * f(x) * f(x).diff(x) - diff(f(x) ** 2, x)) == 0; simplify(diff(1 / f(x), x) + f(x).diff(x) / f(x) ** 2) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_diff_correct","statement":"Path(test_diff(x), simplify(g(x).diff(x) * f(x).diff(x) - f(x).diff(x) * g(x).diff(x)) == 0; simplify(2 * f(x) * f(x).diff(x) - diff(f(x) ** 2, x)) == 0; simplify(diff(1 / f(x), x) + f(x).diff(x) / f(x) ** 2) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c5205b30c304b45","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(g(x).diff(x) * f(x).diff(x) - f(x).diff(x) * g(x).diff(x)) == 0","simplify(2 * f(x) * f(x).diff(x) - diff(f(x) ** 2, x)) == 0","simplify(diff(1 / f(x), x) + f(x).diff(x) / f(x) ** 2) == 0","simplify(f(x).diff(x, y) - f(x).diff(y, x)) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_diff():
     x = Symbol("x")
     y = Symbol("y")
@@ -727,16 +884,24 @@ def test_diff():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_logcombine_1(), test_logcombine_1 produces the expected output) over Any ║
+# ║ Path(test_logcombine_1(), logcombine(log(x) + 2 * log(y)) == log(x) + 2 * log(y) and logcombine(log(x) + 2 * log(y), force=True) == log(x * y ** 2) and logcombine(a * log(w) + log(z)) == a * log(w) + log(z) and logcombine(b * log(z) + b * log(x)) == log(z ** b) + b * log(x) and logcombine(b * log(z) - log(w)) == log(z ** b / w) and logcombine(log(x) * log(z)) == log(x) * log(z) and logcombine(log(w) * log(x)) == log(w) * log(x) and logcombine(cos(-2 * log(z) + b * log(w))) in [cos(log(w ** b / z ** 2)), cos(log(z ** 2 / w ** b))] and logcombine(log(log(x) - log(y)) - log(z), force=True) == log(log(x / y) / z) and logcombine((2 + I) * log(x), force=True) == (2 + I) * log(x) and logcombine((x ** 2 + log(x) - log(y)) / (x * y), force=True) == (x ** 2 + log(x / y)) / (x * y) and logcombine(log(x) * 2 * log(y) + log(z), force=True) == log(z * y ** log(x ** 2)) and logcombine((x * y + sqrt(x ** 4 + y ** 4) + log(x) - log(y)) / (pi * x ** Rational(2, 3) * sqrt(y) ** 3), force=True) == (x * y + sqrt(x ** 4 + y ** 4) + log(x / y)) / (pi * x ** Rational(2, 3) * y ** Rational(3, 2)) and logcombine(gamma(-log(x / y)) * acos(-log(x / y)), force=True) == acos(-log(x / y)) * gamma(-log(x / y)) and logcombine(2 * log(z) * log(w) * log(x) + log(z) + log(w)) == log(z ** log(w ** 2)) * log(x) + log(w * z) and logcombine(3 * log(w) + 3 * log(z)) == log(w ** 3 * z ** 3) and logcombine(x * (y + 1) + log(2) + log(3)) == x * (y + 1) + log(6) and logcombine((x + y) * log(w) + (-x - y) * log(3)) == (x + y) * log(w / 3) and logcombine(log(x) + log(2)) == log(2 * x) and logcombine(eq) == eq and log(abs(x) * abs(y)).subs(reps) != eq.subs(reps)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_logcombine_1 : Any → {Any | logcombine(log(x) + ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  logcombine(log(x) + 2 * log(y)) == log(x)...   ║
+# ║   ensures:  logcombine(log(x) + 2 * log(y), force=Tru...   ║
+# ║   ensures:  logcombine(a * log(w) + log(z)) == a * lo...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_logcombine_1 : Any → {Any | result satisfies: lo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b415b6b39ccd55a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0cfbc4078368b785  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_logcombine_1","kind":"function","src_hash":"a8bd0da16eef16a5","in":{"base":"Any"},"out":{"base":"Any","pred":"logcombine(log(x) + 2 * log(y)) == log(x) + 2 * log(y) and logcombine(log(x) + 2 * log(y), force=True) == log(x * y ** 2) and logcombine(a * log(w) + log(z)) == a * log(w) + log(z) and logcombine(b * log(z) + b * log(x)) == log(z ** b) + b * log(x) and logcombine(b * log(z) - log(w)) == log(z ** b / w) and logcombine(log(x) * log(z)) == log(x) * log(z) and logcombine(log(w) * log(x)) == log(w) * log(x) and logcombine(log(log(x) - log(y)) - log(z), force=True) == log(log(x / y) / z) and logcombine((2 + I) * log(x), force=True) == (2 + I) * log(x) and logcombine(3 * log(w) + 3 * log(z)) == log(w ** 3 * z ** 3) and logcombine(x * (y + 1) + log(2) + log(3)) == x * (y + 1) + log(6) and logcombine((x + y) * log(w) + (-x - y) * log(3)) == (x + y) * log(w / 3) and logcombine(log(x) + log(2)) == log(2 * x) and logcombine(eq) == eq and log(abs(x) * abs(y)).subs(reps) != eq.subs(reps)"},"spec":{"lhs":"test_logcombine_1()","rhs":"test_logcombine_1 produces the expected output","over":{"base":"Any"},"name":"test_logcombine_1_correct"},"guarantee":"test_logcombine_1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_logcombine_1_correct","statement":"Path(test_logcombine_1(x), test_logcombine_1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b415b6b39ccd55a"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_logcombine_1","kind":"function","src_hash":"a8bd0da16eef16a5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: logcombine(log(x) + 2 * log(y)) == log(x) + 2 * log(y) and logcombine(log(x) + 2 * log(y), force=True) == log(x * y ** 2) and logcombine(a * log(w) + log(z)) == a * log(w) + log(z) and logcombine(b * log(z) + b * log(x)) == log(z ** b) + b * log(x) and logcombine(b * log(z) - log(w)) == log(z ** b / w) and logcombine(log(x) * log(z)) == log(x) * log(z) and logcombine(log(w) * log(x)) == log(w) * log(x) and logcombine(cos(-2 * log(z) + b * log(w))) in [cos(log(w ** b / z ** 2)), cos(log(z ** 2 / w ** b))] and logcombine(log(log(x) - log(y)) - log(z), force=True) == log(log(x / y) / z) and logcombine((2 + I) * log(x), force=True) == (2 + I) * log(x) and logcombine((x ** 2 + log(x) - log(y)) / (x * y), force=True) == (x ** 2 + log(x / y)) / (x * y) and logcombine(log(x) * 2 * log(y) + log(z), force=True) == log(z * y ** log(x ** 2)) and logcombine((x * y + sqrt(x ** 4 + y ** 4) + log(x) - log(y)) / (pi * x ** Rational(2, 3) * sqrt(y) ** 3), force=True) == (x * y + sqrt(x ** 4 + y ** 4) + log(x / y)) / (pi * x ** Rational(2, 3) * y ** Rational(3, 2)) and logcombine(gamma(-log(x / y)) * acos(-log(x / y)), force=True) == acos(-log(x / y)) * gamma(-log(x / y)) and logcombine(2 * log(z) * log(w) * log(x) + log(z) + log(w)) == log(z ** log(w ** 2)) * log(x) + log(w * z) and logcombine(3 * log(w) + 3 * log(z)) == log(w ** 3 * z ** 3) and logcombine(x * (y + 1) + log(2) + log(3)) == x * (y + 1) + log(6) and logcombine((x + y) * log(w) + (-x - y) * log(3)) == (x + y) * log(w / 3) and logcombine(log(x) + log(2)) == log(2 * x) and logcombine(eq) == eq and log(abs(x) * abs(y)).subs(reps) != eq.subs(reps)"},"spec":{"lhs":"test_logcombine_1()","rhs":"logcombine(log(x) + 2 * log(y)) == log(x) + 2 * log(y) and logcombine(log(x) + 2 * log(y), force=True) == log(x * y ** 2) and logcombine(a * log(w) + log(z)) == a * log(w) + log(z) and logcombine(b * log(z) + b * log(x)) == log(z ** b) + b * log(x) and logcombine(b * log(z) - log(w)) == log(z ** b / w) and logcombine(log(x) * log(z)) == log(x) * log(z) and logcombine(log(w) * log(x)) == log(w) * log(x) and logcombine(cos(-2 * log(z) + b * log(w))) in [cos(log(w ** b / z ** 2)), cos(log(z ** 2 / w ** b))] and logcombine(log(log(x) - log(y)) - log(z), force=True) == log(log(x / y) / z) and logcombine((2 + I) * log(x), force=True) == (2 + I) * log(x) and logcombine((x ** 2 + log(x) - log(y)) / (x * y), force=True) == (x ** 2 + log(x / y)) / (x * y) and logcombine(log(x) * 2 * log(y) + log(z), force=True) == log(z * y ** log(x ** 2)) and logcombine((x * y + sqrt(x ** 4 + y ** 4) + log(x) - log(y)) / (pi * x ** Rational(2, 3) * sqrt(y) ** 3), force=True) == (x * y + sqrt(x ** 4 + y ** 4) + log(x / y)) / (pi * x ** Rational(2, 3) * y ** Rational(3, 2)) and logcombine(gamma(-log(x / y)) * acos(-log(x / y)), force=True) == acos(-log(x / y)) * gamma(-log(x / y)) and logcombine(2 * log(z) * log(w) * log(x) + log(z) + log(w)) == log(z ** log(w ** 2)) * log(x) + log(w * z) and logcombine(3 * log(w) + 3 * log(z)) == log(w ** 3 * z ** 3) and logcombine(x * (y + 1) + log(2) + log(3)) == x * (y + 1) + log(6) and logcombine((x + y) * log(w) + (-x - y) * log(3)) == (x + y) * log(w / 3) and logcombine(log(x) + log(2)) == log(2 * x) and logcombine(eq) == eq and log(abs(x) * abs(y)).subs(reps) != eq.subs(reps)","over":{"base":"Any"},"name":"test_logcombine_1_correct"},"guarantee":"logcombine(log(x) + 2 * log(y)) == log(x) + 2 * log(y); logcombine(log(x) + 2 * log(y), force=True) == log(x * y ** 2); logcombine(a * log(w) + log(z)) == a * log(w) + log(z)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_logcombine_1_correct","statement":"Path(test_logcombine_1(x), logcombine(log(x) + 2 * log(y)) == log(x) + 2 * log(y); logcombine(log(x) + 2 * log(y), force=True) == log(x * y ** 2); logcombine(a * log(w) + log(z)) == a * log(w) + log(z))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0cfbc4078368b785","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["logcombine(log(x) + 2 * log(y)) == log(x) + 2 * log(y)","logcombine(log(x) + 2 * log(y), force=True) == log(x * y ** 2)","logcombine(a * log(w) + log(z)) == a * log(w) + log(z)","logcombine(b * log(z) + b * log(x)) == log(z ** b) + b * log(x)","logcombine(b * log(z) - log(w)) == log(z ** b / w)","logcombine(log(x) * log(z)) == log(x) * log(z)","logcombine(log(w) * log(x)) == log(w) * log(x)","logcombine(cos(-2 * log(z) + b * log(w))) in [cos(log(w ** b / z ** 2)), cos(log(z ** 2 / w ** b))]","logcombine(log(log(x) - log(y)) - log(z), force=True) == log(log(x / y) / z)","logcombine((2 + I) * log(x), force=True) == (2 + I) * log(x)","logcombine((x ** 2 + log(x) - log(y)) / (x * y), force=True) == (x ** 2 + log(x / y)) / (x * y)","logcombine(log(x) * 2 * log(y) + log(z), force=True) == log(z * y ** log(x ** 2))","logcombine((x * y + sqrt(x ** 4 + y ** 4) + log(x) - log(y)) / (pi * x ** Rational(2, 3) * sqrt(y) ** 3), force=True) == (x * y + sqrt(x ** 4 + y ** 4) + log(x / y)) / (pi * x ** Rational(2, 3) * y ** Rational(3, 2))","logcombine(gamma(-log(x / y)) * acos(-log(x / y)), force=True) == acos(-log(x / y)) * gamma(-log(x / y))","logcombine(2 * log(z) * log(w) * log(x) + log(z) + log(w)) == log(z ** log(w ** 2)) * log(x) + log(w * z)","logcombine(3 * log(w) + 3 * log(z)) == log(w ** 3 * z ** 3)","logcombine(x * (y + 1) + log(2) + log(3)) == x * (y + 1) + log(6)","logcombine((x + y) * log(w) + (-x - y) * log(3)) == (x + y) * log(w / 3)","logcombine(log(x) + log(2)) == log(2 * x)","logcombine(eq) == eq","log(abs(x) * abs(y)).subs(reps) != eq.subs(reps)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def test_logcombine_1():
     x, y = symbols("x,y")
     a = Symbol("a")
@@ -780,16 +945,23 @@ def test_logcombine_1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_logcombine_complex_coeff(), test_logcombine_complex_coeff produces the expected output) over Any ║
+# ║ Path(test_logcombine_complex_coeff(), logcombine(i, force=True) == i and logcombine(i + 2 * log(x), force=True) == i + log(x ** 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_logcombine_complex_coeff : Any → {Any | logcombi...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  logcombine(i, force=True) == i                 ║
+# ║   ensures:  logcombine(i + 2 * log(x), force=True) ==...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_logcombine_complex_coeff : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d100a2f50c956b39  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fbafae5647772e83  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_logcombine_complex_coeff","kind":"function","src_hash":"660bf41defa83ac6","in":{"base":"Any"},"out":{"base":"Any","pred":"logcombine(i, force=True) == i and logcombine(i + 2 * log(x), force=True) == i + log(x ** 2)"},"spec":{"lhs":"test_logcombine_complex_coeff()","rhs":"test_logcombine_complex_coeff produces the expected output","over":{"base":"Any"},"name":"test_logcombine_complex_coeff_correct"},"guarantee":"test_logcombine_complex_coeff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_logcombine_complex_coeff_correct","statement":"Path(test_logcombine_complex_coeff(x), test_logcombine_complex_coeff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d100a2f50c956b39"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_logcombine_complex_coeff","kind":"function","src_hash":"660bf41defa83ac6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: logcombine(i, force=True) == i and logcombine(i + 2 * log(x), force=True) == i + log(x ** 2)"},"spec":{"lhs":"test_logcombine_complex_coeff()","rhs":"logcombine(i, force=True) == i and logcombine(i + 2 * log(x), force=True) == i + log(x ** 2)","over":{"base":"Any"},"name":"test_logcombine_complex_coeff_correct"},"guarantee":"logcombine(i, force=True) == i; logcombine(i + 2 * log(x), force=True) == i + log(x ** 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_logcombine_complex_coeff_correct","statement":"Path(test_logcombine_complex_coeff(x), logcombine(i, force=True) == i; logcombine(i + 2 * log(x), force=True) == i + log(x ** 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbafae5647772e83","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["logcombine(i, force=True) == i","logcombine(i + 2 * log(x), force=True) == i + log(x ** 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_logcombine_complex_coeff():
     i = Integral((sin(x**2) + cos(x**3))/x, x)
     assert logcombine(i, force=True) == i
@@ -798,16 +970,24 @@ def test_logcombine_complex_coeff():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5950(), test_issue_5950 produces the expected output) over Any ║
+# ║ Path(test_issue_5950(), logcombine(log(3) - log(2)) == log(Rational(3, 2), evaluate=False) and logcombine(log(x) - log(y)) == log(x / y) and logcombine(log(Rational(3, 2), evaluate=False) - log(2)) == log(Rational(3, 4), evaluate=False)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5950 : Any → {Any | logcombine(log(3) - lo...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  logcombine(log(3) - log(2)) == log(Ration...   ║
+# ║   ensures:  logcombine(log(x) - log(y)) == log(x / y)      ║
+# ║   ensures:  logcombine(log(Rational(3, 2), evaluate=F...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5950 : Any → {Any | result satisfies: logc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 514fde9bb8a991be  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ca318b5ed101a80  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_5950","kind":"function","src_hash":"588c6a1b30ecfc56","in":{"base":"Any"},"out":{"base":"Any","pred":"logcombine(log(3) - log(2)) == log(Rational(3, 2), evaluate=False) and logcombine(log(x) - log(y)) == log(x / y)"},"spec":{"lhs":"test_issue_5950()","rhs":"test_issue_5950 produces the expected output","over":{"base":"Any"},"name":"test_issue_5950_correct"},"guarantee":"test_issue_5950 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_5950_correct","statement":"Path(test_issue_5950(x), test_issue_5950 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"514fde9bb8a991be"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_5950","kind":"function","src_hash":"588c6a1b30ecfc56","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: logcombine(log(3) - log(2)) == log(Rational(3, 2), evaluate=False) and logcombine(log(x) - log(y)) == log(x / y) and logcombine(log(Rational(3, 2), evaluate=False) - log(2)) == log(Rational(3, 4), evaluate=False)"},"spec":{"lhs":"test_issue_5950()","rhs":"logcombine(log(3) - log(2)) == log(Rational(3, 2), evaluate=False) and logcombine(log(x) - log(y)) == log(x / y) and logcombine(log(Rational(3, 2), evaluate=False) - log(2)) == log(Rational(3, 4), evaluate=False)","over":{"base":"Any"},"name":"test_issue_5950_correct"},"guarantee":"logcombine(log(3) - log(2)) == log(Rational(3, 2), evaluate=False); logcombine(log(x) - log(y)) == log(x / y); logcombine(log(Rational(3, 2), evaluate=False) - log(2)) == log(Rational(3, 4), evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_5950_correct","statement":"Path(test_issue_5950(x), logcombine(log(3) - log(2)) == log(Rational(3, 2), evaluate=False); logcombine(log(x) - log(y)) == log(x / y); logcombine(log(Rational(3, 2), evaluate=False) - log(2)) == log(Rational(3, 4), evaluate=False))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ca318b5ed101a80","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["logcombine(log(3) - log(2)) == log(Rational(3, 2), evaluate=False)","logcombine(log(x) - log(y)) == log(x / y)","logcombine(log(Rational(3, 2), evaluate=False) - log(2)) == log(Rational(3, 4), evaluate=False)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_5950():
     x, y = symbols("x,y", positive=True)
     assert logcombine(log(3) - log(2)) == log(Rational(3,2), evaluate=False)
@@ -817,16 +997,24 @@ def test_issue_5950():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_posify(), test_posify produces the expected output) over Any ║
+# ║ Path(test_posify(), str(posify(x + Symbol('p', positive=True) + Symbol('n', negative=True))) == '(_x + n + p, {_x: x})' and log(eq).expand().subs(rep) == -log(x) and str(posify([x, 1 + x])) == '([_x, _x + 1], {_x: x})' and str(modified) == '[_x, n, p]' and [w.subs(reps) for w in modified] == orig and str(Integral(posify(1 / x + y)[0], (y, 1, 3)).expand()) == 'Integral(1/_x, (y, 1, 3)) + Integral(_y, (y, 1, 3))' and str(Sum(posify(1 / x ** n)[0], (n, 1, 3)).expand()) == 'Sum(_x**(-n), (n, 1, 3))' and Ap == A.subs(*reversed(rep.popitem())) and eq.assumptions0 == {'positive': True, 'zero': False, 'imaginary': False, 'nonpositive': False, 'commutative': True, 'hermitian': True, 'real': True, 'nonzero': True, 'nonnegative': True, 'negative': False, 'complex': True, 'finite': True, 'infinite': False, 'extended_real': True, 'extended_negative': False, 'extended_nonnegative': True, 'extended_nonpositive': False, 'extended_nonzero': True, 'extended_positive': True}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_posify : Any → {Any | log(eq).expand().subs(rep)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(posify(x + Symbol('p', positive=True)...   ║
+# ║   ensures:  log(eq).expand().subs(rep) == -log(x)          ║
+# ║   ensures:  str(posify([x, 1 + x])) == '([_x, _x + 1]...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_posify : Any → {Any | result satisfies: str(posi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 53414bc477c4b3b8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f45574ec0e437568  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_posify","kind":"function","src_hash":"55859f7b3f81a55c","in":{"base":"Any"},"out":{"base":"Any","pred":"log(eq).expand().subs(rep) == -log(x) and str(posify([x, 1 + x])) == '([_x, _x + 1], {_x: x})' and str(modified) == '[_x, n, p]' and [w.subs(reps) for w in modified] == orig and Ap == A.subs(*reversed(rep.popitem()))"},"spec":{"lhs":"test_posify()","rhs":"test_posify produces the expected output","over":{"base":"Any"},"name":"test_posify_correct"},"guarantee":"test_posify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_posify_correct","statement":"Path(test_posify(x), test_posify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53414bc477c4b3b8"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_posify","kind":"function","src_hash":"55859f7b3f81a55c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(posify(x + Symbol('p', positive=True) + Symbol('n', negative=True))) == '(_x + n + p, {_x: x})' and log(eq).expand().subs(rep) == -log(x) and str(posify([x, 1 + x])) == '([_x, _x + 1], {_x: x})' and str(modified) == '[_x, n, p]' and [w.subs(reps) for w in modified] == orig and str(Integral(posify(1 / x + y)[0], (y, 1, 3)).expand()) == 'Integral(1/_x, (y, 1, 3)) + Integral(_y, (y, 1, 3))' and str(Sum(posify(1 / x ** n)[0], (n, 1, 3)).expand()) == 'Sum(_x**(-n), (n, 1, 3))' and Ap == A.subs(*reversed(rep.popitem())) and eq.assumptions0 == {'positive': True, 'zero': False, 'imaginary': False, 'nonpositive': False, 'commutative': True, 'hermitian': True, 'real': True, 'nonzero': True, 'nonnegative': True, 'negative': False, 'complex': True, 'finite': True, 'infinite': False, 'extended_real': True, 'extended_negative': False, 'extended_nonnegative': True, 'extended_nonpositive': False, 'extended_nonzero': True, 'extended_positive': True}"},"spec":{"lhs":"test_posify()","rhs":"str(posify(x + Symbol('p', positive=True) + Symbol('n', negative=True))) == '(_x + n + p, {_x: x})' and log(eq).expand().subs(rep) == -log(x) and str(posify([x, 1 + x])) == '([_x, _x + 1], {_x: x})' and str(modified) == '[_x, n, p]' and [w.subs(reps) for w in modified] == orig and str(Integral(posify(1 / x + y)[0], (y, 1, 3)).expand()) == 'Integral(1/_x, (y, 1, 3)) + Integral(_y, (y, 1, 3))' and str(Sum(posify(1 / x ** n)[0], (n, 1, 3)).expand()) == 'Sum(_x**(-n), (n, 1, 3))' and Ap == A.subs(*reversed(rep.popitem())) and eq.assumptions0 == {'positive': True, 'zero': False, 'imaginary': False, 'nonpositive': False, 'commutative': True, 'hermitian': True, 'real': True, 'nonzero': True, 'nonnegative': True, 'negative': False, 'complex': True, 'finite': True, 'infinite': False, 'extended_real': True, 'extended_negative': False, 'extended_nonnegative': True, 'extended_nonpositive': False, 'extended_nonzero': True, 'extended_positive': True}","over":{"base":"Any"},"name":"test_posify_correct"},"guarantee":"str(posify(x + Symbol('p', positive=True) + Symbol('n', negative=True))) == '(_x + n + p, {_x: x})'; log(eq).expand().subs(rep) == -log(x); str(posify([x, 1 + x])) == '([_x, _x + 1], {_x: x})'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_posify_correct","statement":"Path(test_posify(x), str(posify(x + Symbol('p', positive=True) + Symbol('n', negative=True))) == '(_x + n + p, {_x: x})'; log(eq).expand().subs(rep) == -log(x); str(posify([x, 1 + x])) == '([_x, _x + 1], {_x: x})')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f45574ec0e437568","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(posify(x + Symbol('p', positive=True) + Symbol('n', negative=True))) == '(_x + n + p, {_x: x})'","log(eq).expand().subs(rep) == -log(x)","str(posify([x, 1 + x])) == '([_x, _x + 1], {_x: x})'","str(modified) == '[_x, n, p]'","[w.subs(reps) for w in modified] == orig","str(Integral(posify(1 / x + y)[0], (y, 1, 3)).expand()) == 'Integral(1/_x, (y, 1, 3)) + Integral(_y, (y, 1, 3))'","str(Sum(posify(1 / x ** n)[0], (n, 1, 3)).expand()) == 'Sum(_x**(-n), (n, 1, 3))'","Ap == A.subs(*reversed(rep.popitem()))","eq.assumptions0 == {'positive': True, 'zero': False, 'imaginary': False, 'nonpositive': False, 'commutative': True, 'hermitian': True, 'real': True, 'nonzero': True, 'nonnegative': True, 'negative': False, 'complex': True, 'finite': True, 'infinite': False, 'extended_real': True, 'extended_negative': False, 'extended_nonnegative': True, 'extended_nonpositive': False, 'extended_nonzero': True, 'extended_positive': True}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_posify():
     x = symbols('x')
 
@@ -867,16 +1055,22 @@ def test_posify():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_4194(), test_issue_4194 produces the expected output) over Any ║
+# ║ Path(test_issue_4194(), simplify((4 * x + 6 * f(y)) / (2 * x + 3 * f(y))) == 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_4194 : Any → {Any | simplify((4 * x + 6 * ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify((4 * x + 6 * f(y)) / (2 * x + 3 ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_4194 : Any → {Any | result satisfies: simp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93d9b3aaae8f3bc1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aff052a51700a2f3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_4194","kind":"function","src_hash":"db5fa927114edf28","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify((4 * x + 6 * f(y)) / (2 * x + 3 * f(y))) == 2"},"spec":{"lhs":"test_issue_4194()","rhs":"test_issue_4194 produces the expected output","over":{"base":"Any"},"name":"test_issue_4194_correct"},"guarantee":"test_issue_4194 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_4194_correct","statement":"Path(test_issue_4194(x), test_issue_4194 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93d9b3aaae8f3bc1"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_4194","kind":"function","src_hash":"db5fa927114edf28","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify((4 * x + 6 * f(y)) / (2 * x + 3 * f(y))) == 2"},"spec":{"lhs":"test_issue_4194()","rhs":"simplify((4 * x + 6 * f(y)) / (2 * x + 3 * f(y))) == 2","over":{"base":"Any"},"name":"test_issue_4194_correct"},"guarantee":"simplify((4 * x + 6 * f(y)) / (2 * x + 3 * f(y))) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_4194_correct","statement":"Path(test_issue_4194(x), simplify((4 * x + 6 * f(y)) / (2 * x + 3 * f(y))) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aff052a51700a2f3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify((4 * x + 6 * f(y)) / (2 * x + 3 * f(y))) == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_4194():
     # simplify should call cancel
     f = Function('f')
@@ -885,16 +1079,23 @@ def test_issue_4194():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_simplify_float_vs_integer(), test_simplify_float_vs_integer produces the expected output) over Any ║
+# ║ Path(test_simplify_float_vs_integer(), simplify(x ** 2.0 - x ** 2) == 0 and simplify(x ** 2 - x ** 2.0) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_simplify_float_vs_integer : Any → {Any | simplif...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(x ** 2.0 - x ** 2) == 0               ║
+# ║   ensures:  simplify(x ** 2 - x ** 2.0) == 0               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_simplify_float_vs_integer : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8b352c066cc22d3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fe843b5648441605  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_simplify_float_vs_integer","kind":"function","src_hash":"5756a956462d33c5","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(x ** 2.0 - x ** 2) == 0 and simplify(x ** 2 - x ** 2.0) == 0"},"spec":{"lhs":"test_simplify_float_vs_integer()","rhs":"test_simplify_float_vs_integer produces the expected output","over":{"base":"Any"},"name":"test_simplify_float_vs_integer_correct"},"guarantee":"test_simplify_float_vs_integer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_simplify_float_vs_integer_correct","statement":"Path(test_simplify_float_vs_integer(x), test_simplify_float_vs_integer produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8b352c066cc22d3"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_simplify_float_vs_integer","kind":"function","src_hash":"5756a956462d33c5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(x ** 2.0 - x ** 2) == 0 and simplify(x ** 2 - x ** 2.0) == 0"},"spec":{"lhs":"test_simplify_float_vs_integer()","rhs":"simplify(x ** 2.0 - x ** 2) == 0 and simplify(x ** 2 - x ** 2.0) == 0","over":{"base":"Any"},"name":"test_simplify_float_vs_integer_correct"},"guarantee":"simplify(x ** 2.0 - x ** 2) == 0; simplify(x ** 2 - x ** 2.0) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_simplify_float_vs_integer_correct","statement":"Path(test_simplify_float_vs_integer(x), simplify(x ** 2.0 - x ** 2) == 0; simplify(x ** 2 - x ** 2.0) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe843b5648441605","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(x ** 2.0 - x ** 2) == 0","simplify(x ** 2 - x ** 2.0) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_simplify_float_vs_integer():
     # Test for issue 4473:
     # https://github.com/sympy/sympy/issues/4473
@@ -903,16 +1104,24 @@ def test_simplify_float_vs_integer():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_as_content_primitive(), test_as_content_primitive produces the expected output) over Any ║
+# ║ Path(test_as_content_primitive(), (x / 2 + y).as_content_primitive() == (S.Half, x + 2 * y) and (x / 2 + y).as_content_primitive(clear=False) == (S.One, x / 2 + y) and (y * (x / 2 + y)).as_content_primitive() == (S.Half, y * (x + 2 * y)) and (y * (x / 2 + y)).as_content_primitive(clear=False) == (S.One, y * (x / 2 + y)) and (x * (2 + 2 * x) * (3 * x + 3) ** 2).as_content_primitive() == (18, x * (x + 1) ** 3) and (2 + 2 * x + 2 * y * (3 + 3 * y)).as_content_primitive() == (2, x + 3 * y * (y + 1) + 1) and ((2 + 6 * x) ** 2).as_content_primitive() == (4, (3 * x + 1) ** 2) and ((2 + 6 * x) ** (2 * y)).as_content_primitive() == (1, _keep_coeff(S(2), 3 * x + 1) ** (2 * y)) and (5 + 10 * x + 2 * y * (3 + 3 * y)).as_content_primitive() == (1, 10 * x + 6 * y * (y + 1) + 5) and (5 * (x * (1 + y)) + 2 * x * (3 + 3 * y)).as_content_primitive() == (11, x * (y + 1)) and ((5 * (x * (1 + y)) + 2 * x * (3 + 3 * y)) ** 2).as_content_primitive() == (121, x ** 2 * (y + 1) ** 2) and (y ** 2).as_content_primitive() == (1, y ** 2) and S.Infinity.as_content_primitive() == (1, oo) and eq.as_content_primitive() == (1, eq) and (S.Half ** (2 + x)).as_content_primitive() == (Rational(1, 4), 2 ** (-x)) and (Rational(-1, 2) ** (2 + x)).as_content_primitive() == (Rational(1, 4), Rational(-1, 2) ** x) and (4 ** ((1 + y) / 2)).as_content_primitive() == (2, 4 ** (y / 2)) and (3 ** ((1 + y) / 2)).as_content_primitive() == (1, 3 ** Mul(S.Half, 1 + y, evaluate=False)) and (5 ** Rational(3, 4)).as_content_primitive() == (1, 5 ** Rational(3, 4)) and (5 ** Rational(7, 4)).as_content_primitive() == (5, 5 ** Rational(3, 4)) and Add(z * Rational(5, 7), 0.5 * x, y * Rational(3, 2), evaluate=False).as_content_primitive() == (Rational(1, 14), 7.0 * x + 21 * y + 10 * z) and (2 ** Rational(3, 4) + 2 ** Rational(1, 4) * sqrt(3)).as_content_primitive(radical=True) == (1, 2 ** Rational(1, 4) * (sqrt(2) + sqrt(3)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_as_content_primitive : Any → {Any | (x / 2 + y)....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x / 2 + y).as_content_primitive() == (S....   ║
+# ║   ensures:  (x / 2 + y).as_content_primitive(clear=Fa...   ║
+# ║   ensures:  (y * (x / 2 + y)).as_content_primitive() ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_as_content_primitive : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | adeaac6aa1fd6e9a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f86f418a6a28d4a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_as_content_primitive","kind":"function","src_hash":"710891fffba30dac","in":{"base":"Any"},"out":{"base":"Any","pred":"(x / 2 + y).as_content_primitive() == (S.Half, x + 2 * y) and (x / 2 + y).as_content_primitive(clear=False) == (S.One, x / 2 + y) and (y * (x / 2 + y)).as_content_primitive() == (S.Half, y * (x + 2 * y)) and (y * (x / 2 + y)).as_content_primitive(clear=False) == (S.One, y * (x / 2 + y)) and ((2 + 6 * x) ** 2).as_content_primitive() == (4, (3 * x + 1) ** 2) and (y ** 2).as_content_primitive() == (1, y ** 2) and S.Infinity.as_content_primitive() == (1, oo) and eq.as_content_primitive() == (1, eq) and (S.Half ** (2 + x)).as_content_primitive() == (Rational(1, 4), 2 ** (-x)) and (4 ** ((1 + y) / 2)).as_content_primitive() == (2, 4 ** (y / 2)) and (5 ** Rational(3, 4)).as_content_primitive() == (1, 5 ** Rational(3, 4)) and (5 ** Rational(7, 4)).as_content_primitive() == (5, 5 ** Rational(3, 4))"},"spec":{"lhs":"test_as_content_primitive()","rhs":"test_as_content_primitive produces the expected output","over":{"base":"Any"},"name":"test_as_content_primitive_correct"},"guarantee":"test_as_content_primitive produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_as_content_primitive_correct","statement":"Path(test_as_content_primitive(x), test_as_content_primitive produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"adeaac6aa1fd6e9a"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_as_content_primitive","kind":"function","src_hash":"710891fffba30dac","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (x / 2 + y).as_content_primitive() == (S.Half, x + 2 * y) and (x / 2 + y).as_content_primitive(clear=False) == (S.One, x / 2 + y) and (y * (x / 2 + y)).as_content_primitive() == (S.Half, y * (x + 2 * y)) and (y * (x / 2 + y)).as_content_primitive(clear=False) == (S.One, y * (x / 2 + y)) and (x * (2 + 2 * x) * (3 * x + 3) ** 2).as_content_primitive() == (18, x * (x + 1) ** 3) and (2 + 2 * x + 2 * y * (3 + 3 * y)).as_content_primitive() == (2, x + 3 * y * (y + 1) + 1) and ((2 + 6 * x) ** 2).as_content_primitive() == (4, (3 * x + 1) ** 2) and ((2 + 6 * x) ** (2 * y)).as_content_primitive() == (1, _keep_coeff(S(2), 3 * x + 1) ** (2 * y)) and (5 + 10 * x + 2 * y * (3 + 3 * y)).as_content_primitive() == (1, 10 * x + 6 * y * (y + 1) + 5) and (5 * (x * (1 + y)) + 2 * x * (3 + 3 * y)).as_content_primitive() == (11, x * (y + 1)) and ((5 * (x * (1 + y)) + 2 * x * (3 + 3 * y)) ** 2).as_content_primitive() == (121, x ** 2 * (y + 1) ** 2) and (y ** 2).as_content_primitive() == (1, y ** 2) and S.Infinity.as_content_primitive() == (1, oo) and eq.as_content_primitive() == (1, eq) and (S.Half ** (2 + x)).as_content_primitive() == (Rational(1, 4), 2 ** (-x)) and (Rational(-1, 2) ** (2 + x)).as_content_primitive() == (Rational(1, 4), Rational(-1, 2) ** x) and (4 ** ((1 + y) / 2)).as_content_primitive() == (2, 4 ** (y / 2)) and (3 ** ((1 + y) / 2)).as_content_primitive() == (1, 3 ** Mul(S.Half, 1 + y, evaluate=False)) and (5 ** Rational(3, 4)).as_content_primitive() == (1, 5 ** Rational(3, 4)) and (5 ** Rational(7, 4)).as_content_primitive() == (5, 5 ** Rational(3, 4)) and Add(z * Rational(5, 7), 0.5 * x, y * Rational(3, 2), evaluate=False).as_content_primitive() == (Rational(1, 14), 7.0 * x + 21 * y + 10 * z) and (2 ** Rational(3, 4) + 2 ** Rational(1, 4) * sqrt(3)).as_content_primitive(radical=True) == (1, 2 ** Rational(1, 4) * (sqrt(2) + sqrt(3)))"},"spec":{"lhs":"test_as_content_primitive()","rhs":"(x / 2 + y).as_content_primitive() == (S.Half, x + 2 * y) and (x / 2 + y).as_content_primitive(clear=False) == (S.One, x / 2 + y) and (y * (x / 2 + y)).as_content_primitive() == (S.Half, y * (x + 2 * y)) and (y * (x / 2 + y)).as_content_primitive(clear=False) == (S.One, y * (x / 2 + y)) and (x * (2 + 2 * x) * (3 * x + 3) ** 2).as_content_primitive() == (18, x * (x + 1) ** 3) and (2 + 2 * x + 2 * y * (3 + 3 * y)).as_content_primitive() == (2, x + 3 * y * (y + 1) + 1) and ((2 + 6 * x) ** 2).as_content_primitive() == (4, (3 * x + 1) ** 2) and ((2 + 6 * x) ** (2 * y)).as_content_primitive() == (1, _keep_coeff(S(2), 3 * x + 1) ** (2 * y)) and (5 + 10 * x + 2 * y * (3 + 3 * y)).as_content_primitive() == (1, 10 * x + 6 * y * (y + 1) + 5) and (5 * (x * (1 + y)) + 2 * x * (3 + 3 * y)).as_content_primitive() == (11, x * (y + 1)) and ((5 * (x * (1 + y)) + 2 * x * (3 + 3 * y)) ** 2).as_content_primitive() == (121, x ** 2 * (y + 1) ** 2) and (y ** 2).as_content_primitive() == (1, y ** 2) and S.Infinity.as_content_primitive() == (1, oo) and eq.as_content_primitive() == (1, eq) and (S.Half ** (2 + x)).as_content_primitive() == (Rational(1, 4), 2 ** (-x)) and (Rational(-1, 2) ** (2 + x)).as_content_primitive() == (Rational(1, 4), Rational(-1, 2) ** x) and (4 ** ((1 + y) / 2)).as_content_primitive() == (2, 4 ** (y / 2)) and (3 ** ((1 + y) / 2)).as_content_primitive() == (1, 3 ** Mul(S.Half, 1 + y, evaluate=False)) and (5 ** Rational(3, 4)).as_content_primitive() == (1, 5 ** Rational(3, 4)) and (5 ** Rational(7, 4)).as_content_primitive() == (5, 5 ** Rational(3, 4)) and Add(z * Rational(5, 7), 0.5 * x, y * Rational(3, 2), evaluate=False).as_content_primitive() == (Rational(1, 14), 7.0 * x + 21 * y + 10 * z) and (2 ** Rational(3, 4) + 2 ** Rational(1, 4) * sqrt(3)).as_content_primitive(radical=True) == (1, 2 ** Rational(1, 4) * (sqrt(2) + sqrt(3)))","over":{"base":"Any"},"name":"test_as_content_primitive_correct"},"guarantee":"(x / 2 + y).as_content_primitive() == (S.Half, x + 2 * y); (x / 2 + y).as_content_primitive(clear=False) == (S.One, x / 2 + y); (y * (x / 2 + y)).as_content_primitive() == (S.Half, y * (x + 2 * y))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_as_content_primitive_correct","statement":"Path(test_as_content_primitive(x), (x / 2 + y).as_content_primitive() == (S.Half, x + 2 * y); (x / 2 + y).as_content_primitive(clear=False) == (S.One, x / 2 + y); (y * (x / 2 + y)).as_content_primitive() == (S.Half, y * (x + 2 * y)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f86f418a6a28d4a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x / 2 + y).as_content_primitive() == (S.Half, x + 2 * y)","(x / 2 + y).as_content_primitive(clear=False) == (S.One, x / 2 + y)","(y * (x / 2 + y)).as_content_primitive() == (S.Half, y * (x + 2 * y))","(y * (x / 2 + y)).as_content_primitive(clear=False) == (S.One, y * (x / 2 + y))","(x * (2 + 2 * x) * (3 * x + 3) ** 2).as_content_primitive() == (18, x * (x + 1) ** 3)","(2 + 2 * x + 2 * y * (3 + 3 * y)).as_content_primitive() == (2, x + 3 * y * (y + 1) + 1)","((2 + 6 * x) ** 2).as_content_primitive() == (4, (3 * x + 1) ** 2)","((2 + 6 * x) ** (2 * y)).as_content_primitive() == (1, _keep_coeff(S(2), 3 * x + 1) ** (2 * y))","(5 + 10 * x + 2 * y * (3 + 3 * y)).as_content_primitive() == (1, 10 * x + 6 * y * (y + 1) + 5)","(5 * (x * (1 + y)) + 2 * x * (3 + 3 * y)).as_content_primitive() == (11, x * (y + 1))","((5 * (x * (1 + y)) + 2 * x * (3 + 3 * y)) ** 2).as_content_primitive() == (121, x ** 2 * (y + 1) ** 2)","(y ** 2).as_content_primitive() == (1, y ** 2)","S.Infinity.as_content_primitive() == (1, oo)","eq.as_content_primitive() == (1, eq)","(S.Half ** (2 + x)).as_content_primitive() == (Rational(1, 4), 2 ** (-x))","(Rational(-1, 2) ** (2 + x)).as_content_primitive() == (Rational(1, 4), Rational(-1, 2) ** x)","(4 ** ((1 + y) / 2)).as_content_primitive() == (2, 4 ** (y / 2))","(3 ** ((1 + y) / 2)).as_content_primitive() == (1, 3 ** Mul(S.Half, 1 + y, evaluate=False))","(5 ** Rational(3, 4)).as_content_primitive() == (1, 5 ** Rational(3, 4))","(5 ** Rational(7, 4)).as_content_primitive() == (5, 5 ** Rational(3, 4))","Add(z * Rational(5, 7), 0.5 * x, y * Rational(3, 2), evaluate=False).as_content_primitive() == (Rational(1, 14), 7.0 * x + 21 * y + 10 * z)","(2 ** Rational(3, 4) + 2 ** Rational(1, 4) * sqrt(3)).as_content_primitive(radical=True) == (1, 2 ** Rational(1, 4) * (sqrt(2) + sqrt(3)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def test_as_content_primitive():
     assert (x/2 + y).as_content_primitive() == (S.Half, x + 2*y)
     assert (x/2 + y).as_content_primitive(clear=False) == (S.One, x/2 + y)
@@ -958,16 +1167,24 @@ def test_as_content_primitive():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_signsimp(), test_signsimp produces the expected output) over Any ║
+# ║ Path(test_signsimp(), signsimp(Eq(e, 0)) is S.true and Abs(x - 1) == Abs(1 - x) and signsimp(y - x) == y - x and signsimp(y - x, evaluate=False) == Mul(-1, x - y, evaluate=False)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_signsimp : Any → {Any | signsimp(Eq(e, 0)) is S....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  signsimp(Eq(e, 0)) is S.true                   ║
+# ║   ensures:  Abs(x - 1) == Abs(1 - x)                       ║
+# ║   ensures:  signsimp(y - x) == y - x                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_signsimp : Any → {Any | result satisfies: signsi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3087f5d4c2510cca  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09733eb9aa69a70e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_signsimp","kind":"function","src_hash":"84d60e48e5afaab0","in":{"base":"Any"},"out":{"base":"Any","pred":"signsimp(Eq(e, 0)) is S.true and Abs(x - 1) == Abs(1 - x) and signsimp(y - x) == y - x and signsimp(y - x, evaluate=False) == Mul(-1, x - y, evaluate=False)"},"spec":{"lhs":"test_signsimp()","rhs":"test_signsimp produces the expected output","over":{"base":"Any"},"name":"test_signsimp_correct"},"guarantee":"test_signsimp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_signsimp_correct","statement":"Path(test_signsimp(x), test_signsimp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3087f5d4c2510cca"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_signsimp","kind":"function","src_hash":"84d60e48e5afaab0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: signsimp(Eq(e, 0)) is S.true and Abs(x - 1) == Abs(1 - x) and signsimp(y - x) == y - x and signsimp(y - x, evaluate=False) == Mul(-1, x - y, evaluate=False)"},"spec":{"lhs":"test_signsimp()","rhs":"signsimp(Eq(e, 0)) is S.true and Abs(x - 1) == Abs(1 - x) and signsimp(y - x) == y - x and signsimp(y - x, evaluate=False) == Mul(-1, x - y, evaluate=False)","over":{"base":"Any"},"name":"test_signsimp_correct"},"guarantee":"signsimp(Eq(e, 0)) is S.true; Abs(x - 1) == Abs(1 - x); signsimp(y - x) == y - x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_signsimp_correct","statement":"Path(test_signsimp(x), signsimp(Eq(e, 0)) is S.true; Abs(x - 1) == Abs(1 - x); signsimp(y - x) == y - x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09733eb9aa69a70e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["signsimp(Eq(e, 0)) is S.true","Abs(x - 1) == Abs(1 - x)","signsimp(y - x) == y - x","signsimp(y - x, evaluate=False) == Mul(-1, x - y, evaluate=False)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_signsimp():
     e = x*(-x + 1) + x*(x - 1)
     assert signsimp(Eq(e, 0)) is S.true
@@ -977,16 +1194,24 @@ def test_signsimp():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_besselsimp(), test_besselsimp produces the expected output) over Any ║
+# ║ Path(test_besselsimp(), besselsimp(exp(-I * pi * y / 2) * besseli(y, z * exp_polar(I * pi / 2))) == besselj(y, z) and besselsimp(exp(-I * pi * a / 2) * besseli(a, 2 * sqrt(x) * exp_polar(I * pi / 2))) == besselj(a, 2 * sqrt(x)) and besselsimp(sqrt(2) * sqrt(pi) * x ** Rational(1, 4) * exp(I * pi / 4) * exp(-I * pi * a / 2) * besseli(Rational(-1, 2), sqrt(x) * exp_polar(I * pi / 2)) * besseli(a, sqrt(x) * exp_polar(I * pi / 2)) / 2) == besselj(a, sqrt(x)) * cos(sqrt(x)) and besselsimp(besseli(Rational(-1, 2), z)) == sqrt(2) * cosh(z) / (sqrt(pi) * sqrt(z)) and besselsimp(besseli(a, z * exp_polar(-I * pi / 2))) == exp(-I * pi * a / 2) * besselj(a, z) and cosine_transform(1 / t * sin(a / t), t, y) == sqrt(2) * sqrt(pi) * besselj(0, 2 * sqrt(a) * sqrt(y)) / 2 and besselsimp(x ** 2 * (a * (-2 * besselj(5 * I, x) + besselj(-2 + 5 * I, x) + besselj(2 + 5 * I, x)) + b * (-2 * bessely(5 * I, x) + bessely(-2 + 5 * I, x) + bessely(2 + 5 * I, x))) / 4 + x * (a * (besselj(-1 + 5 * I, x) / 2 - besselj(1 + 5 * I, x) / 2) + b * (bessely(-1 + 5 * I, x) / 2 - bessely(1 + 5 * I, x) / 2)) + (x ** 2 + 25) * (a * besselj(5 * I, x) + b * bessely(5 * I, x))) == 0 and besselsimp(81 * x ** 2 * (a * (besselj(Rational(-5, 3), 9 * x) - 2 * besselj(Rational(1, 3), 9 * x) + besselj(Rational(7, 3), 9 * x)) + b * (bessely(Rational(-5, 3), 9 * x) - 2 * bessely(Rational(1, 3), 9 * x) + bessely(Rational(7, 3), 9 * x))) / 4 + x * (a * (9 * besselj(Rational(-2, 3), 9 * x) / 2 - 9 * besselj(Rational(4, 3), 9 * x) / 2) + b * (9 * bessely(Rational(-2, 3), 9 * x) / 2 - 9 * bessely(Rational(4, 3), 9 * x) / 2)) + (81 * x ** 2 - Rational(1, 9)) * (a * besselj(Rational(1, 3), 9 * x) + b * bessely(Rational(1, 3), 9 * x))) == 0 and besselsimp(besselj(a - 1, x) + besselj(a + 1, x) - 2 * a * besselj(a, x) / x) == 0 and besselsimp(besselj(a - 1, x) + besselj(a + 1, x) + besselj(a, x)) == (2 * a + x) * besselj(a, x) / x and besselsimp(x ** 2 * besselj(a, x) + x ** 3 * besselj(a + 1, x) + besselj(a + 2, x)) == 2 * a * x * besselj(a + 1, x) + x ** 3 * besselj(a + 1, x) - x ** 2 * besselj(a + 2, x) + 2 * x * besselj(a + 1, x) + besselj(a + 2, x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_besselsimp : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  besselsimp(exp(-I * pi * y / 2) * besseli...   ║
+# ║   ensures:  besselsimp(exp(-I * pi * a / 2) * besseli...   ║
+# ║   ensures:  besselsimp(sqrt(2) * sqrt(pi) * x ** Rati...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_besselsimp : Any → {Any | result satisfies: bess...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7295a629dbbbb462  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28ccd15b1005ce22  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_besselsimp","kind":"function","src_hash":"4c70a74fbfd01f88","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_besselsimp()","rhs":"test_besselsimp produces the expected output","over":{"base":"Any"},"name":"test_besselsimp_correct"},"guarantee":"test_besselsimp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_besselsimp_correct","statement":"Path(test_besselsimp(x), test_besselsimp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7295a629dbbbb462"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_besselsimp","kind":"function","src_hash":"4c70a74fbfd01f88","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: besselsimp(exp(-I * pi * y / 2) * besseli(y, z * exp_polar(I * pi / 2))) == besselj(y, z) and besselsimp(exp(-I * pi * a / 2) * besseli(a, 2 * sqrt(x) * exp_polar(I * pi / 2))) == besselj(a, 2 * sqrt(x)) and besselsimp(sqrt(2) * sqrt(pi) * x ** Rational(1, 4) * exp(I * pi / 4) * exp(-I * pi * a / 2) * besseli(Rational(-1, 2), sqrt(x) * exp_polar(I * pi / 2)) * besseli(a, sqrt(x) * exp_polar(I * pi / 2)) / 2) == besselj(a, sqrt(x)) * cos(sqrt(x)) and besselsimp(besseli(Rational(-1, 2), z)) == sqrt(2) * cosh(z) / (sqrt(pi) * sqrt(z)) and besselsimp(besseli(a, z * exp_polar(-I * pi / 2))) == exp(-I * pi * a / 2) * besselj(a, z) and cosine_transform(1 / t * sin(a / t), t, y) == sqrt(2) * sqrt(pi) * besselj(0, 2 * sqrt(a) * sqrt(y)) / 2 and besselsimp(x ** 2 * (a * (-2 * besselj(5 * I, x) + besselj(-2 + 5 * I, x) + besselj(2 + 5 * I, x)) + b * (-2 * bessely(5 * I, x) + bessely(-2 + 5 * I, x) + bessely(2 + 5 * I, x))) / 4 + x * (a * (besselj(-1 + 5 * I, x) / 2 - besselj(1 + 5 * I, x) / 2) + b * (bessely(-1 + 5 * I, x) / 2 - bessely(1 + 5 * I, x) / 2)) + (x ** 2 + 25) * (a * besselj(5 * I, x) + b * bessely(5 * I, x))) == 0 and besselsimp(81 * x ** 2 * (a * (besselj(Rational(-5, 3), 9 * x) - 2 * besselj(Rational(1, 3), 9 * x) + besselj(Rational(7, 3), 9 * x)) + b * (bessely(Rational(-5, 3), 9 * x) - 2 * bessely(Rational(1, 3), 9 * x) + bessely(Rational(7, 3), 9 * x))) / 4 + x * (a * (9 * besselj(Rational(-2, 3), 9 * x) / 2 - 9 * besselj(Rational(4, 3), 9 * x) / 2) + b * (9 * bessely(Rational(-2, 3), 9 * x) / 2 - 9 * bessely(Rational(4, 3), 9 * x) / 2)) + (81 * x ** 2 - Rational(1, 9)) * (a * besselj(Rational(1, 3), 9 * x) + b * bessely(Rational(1, 3), 9 * x))) == 0 and besselsimp(besselj(a - 1, x) + besselj(a + 1, x) - 2 * a * besselj(a, x) / x) == 0 and besselsimp(besselj(a - 1, x) + besselj(a + 1, x) + besselj(a, x)) == (2 * a + x) * besselj(a, x) / x and besselsimp(x ** 2 * besselj(a, x) + x ** 3 * besselj(a + 1, x) + besselj(a + 2, x)) == 2 * a * x * besselj(a + 1, x) + x ** 3 * besselj(a + 1, x) - x ** 2 * besselj(a + 2, x) + 2 * x * besselj(a + 1, x) + besselj(a + 2, x)"},"spec":{"lhs":"test_besselsimp()","rhs":"besselsimp(exp(-I * pi * y / 2) * besseli(y, z * exp_polar(I * pi / 2))) == besselj(y, z) and besselsimp(exp(-I * pi * a / 2) * besseli(a, 2 * sqrt(x) * exp_polar(I * pi / 2))) == besselj(a, 2 * sqrt(x)) and besselsimp(sqrt(2) * sqrt(pi) * x ** Rational(1, 4) * exp(I * pi / 4) * exp(-I * pi * a / 2) * besseli(Rational(-1, 2), sqrt(x) * exp_polar(I * pi / 2)) * besseli(a, sqrt(x) * exp_polar(I * pi / 2)) / 2) == besselj(a, sqrt(x)) * cos(sqrt(x)) and besselsimp(besseli(Rational(-1, 2), z)) == sqrt(2) * cosh(z) / (sqrt(pi) * sqrt(z)) and besselsimp(besseli(a, z * exp_polar(-I * pi / 2))) == exp(-I * pi * a / 2) * besselj(a, z) and cosine_transform(1 / t * sin(a / t), t, y) == sqrt(2) * sqrt(pi) * besselj(0, 2 * sqrt(a) * sqrt(y)) / 2 and besselsimp(x ** 2 * (a * (-2 * besselj(5 * I, x) + besselj(-2 + 5 * I, x) + besselj(2 + 5 * I, x)) + b * (-2 * bessely(5 * I, x) + bessely(-2 + 5 * I, x) + bessely(2 + 5 * I, x))) / 4 + x * (a * (besselj(-1 + 5 * I, x) / 2 - besselj(1 + 5 * I, x) / 2) + b * (bessely(-1 + 5 * I, x) / 2 - bessely(1 + 5 * I, x) / 2)) + (x ** 2 + 25) * (a * besselj(5 * I, x) + b * bessely(5 * I, x))) == 0 and besselsimp(81 * x ** 2 * (a * (besselj(Rational(-5, 3), 9 * x) - 2 * besselj(Rational(1, 3), 9 * x) + besselj(Rational(7, 3), 9 * x)) + b * (bessely(Rational(-5, 3), 9 * x) - 2 * bessely(Rational(1, 3), 9 * x) + bessely(Rational(7, 3), 9 * x))) / 4 + x * (a * (9 * besselj(Rational(-2, 3), 9 * x) / 2 - 9 * besselj(Rational(4, 3), 9 * x) / 2) + b * (9 * bessely(Rational(-2, 3), 9 * x) / 2 - 9 * bessely(Rational(4, 3), 9 * x) / 2)) + (81 * x ** 2 - Rational(1, 9)) * (a * besselj(Rational(1, 3), 9 * x) + b * bessely(Rational(1, 3), 9 * x))) == 0 and besselsimp(besselj(a - 1, x) + besselj(a + 1, x) - 2 * a * besselj(a, x) / x) == 0 and besselsimp(besselj(a - 1, x) + besselj(a + 1, x) + besselj(a, x)) == (2 * a + x) * besselj(a, x) / x and besselsimp(x ** 2 * besselj(a, x) + x ** 3 * besselj(a + 1, x) + besselj(a + 2, x)) == 2 * a * x * besselj(a + 1, x) + x ** 3 * besselj(a + 1, x) - x ** 2 * besselj(a + 2, x) + 2 * x * besselj(a + 1, x) + besselj(a + 2, x)","over":{"base":"Any"},"name":"test_besselsimp_correct"},"guarantee":"besselsimp(exp(-I * pi * y / 2) * besseli(y, z * exp_polar(I * pi / 2))) == besselj(y, z); besselsimp(exp(-I * pi * a / 2) * besseli(a, 2 * sqrt(x) * exp_polar(I * pi / 2))) == besselj(a, 2 * sqrt(x)); besselsimp(sqrt(2) * sqrt(pi) * x ** Rational(1, 4) * exp(I * pi / 4) * exp(-I * pi * a / 2) * besseli(Rational(-1, 2), sqrt(x) * exp_polar(I * pi / 2)) * besseli(a, sqrt(x) * exp_polar(I * pi / 2)) / 2) == besselj(a, sqrt(x)) * cos(sqrt(x))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_besselsimp_correct","statement":"Path(test_besselsimp(x), besselsimp(exp(-I * pi * y / 2) * besseli(y, z * exp_polar(I * pi / 2))) == besselj(y, z); besselsimp(exp(-I * pi * a / 2) * besseli(a, 2 * sqrt(x) * exp_polar(I * pi / 2))) == besselj(a, 2 * sqrt(x)); besselsimp(sqrt(2) * sqrt(pi) * x ** Rational(1, 4) * exp(I * pi / 4) * exp(-I * pi * a / 2) * besseli(Rational(-1, 2), sqrt(x) * exp_polar(I * pi / 2)) * besseli(a, sqrt(x) * exp_polar(I * pi / 2)) / 2) == besselj(a, sqrt(x)) * cos(sqrt(x)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28ccd15b1005ce22","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["besselsimp(exp(-I * pi * y / 2) * besseli(y, z * exp_polar(I * pi / 2))) == besselj(y, z)","besselsimp(exp(-I * pi * a / 2) * besseli(a, 2 * sqrt(x) * exp_polar(I * pi / 2))) == besselj(a, 2 * sqrt(x))","besselsimp(sqrt(2) * sqrt(pi) * x ** Rational(1, 4) * exp(I * pi / 4) * exp(-I * pi * a / 2) * besseli(Rational(-1, 2), sqrt(x) * exp_polar(I * pi / 2)) * besseli(a, sqrt(x) * exp_polar(I * pi / 2)) / 2) == besselj(a, sqrt(x)) * cos(sqrt(x))","besselsimp(besseli(Rational(-1, 2), z)) == sqrt(2) * cosh(z) / (sqrt(pi) * sqrt(z))","besselsimp(besseli(a, z * exp_polar(-I * pi / 2))) == exp(-I * pi * a / 2) * besselj(a, z)","cosine_transform(1 / t * sin(a / t), t, y) == sqrt(2) * sqrt(pi) * besselj(0, 2 * sqrt(a) * sqrt(y)) / 2","besselsimp(x ** 2 * (a * (-2 * besselj(5 * I, x) + besselj(-2 + 5 * I, x) + besselj(2 + 5 * I, x)) + b * (-2 * bessely(5 * I, x) + bessely(-2 + 5 * I, x) + bessely(2 + 5 * I, x))) / 4 + x * (a * (besselj(-1 + 5 * I, x) / 2 - besselj(1 + 5 * I, x) / 2) + b * (bessely(-1 + 5 * I, x) / 2 - bessely(1 + 5 * I, x) / 2)) + (x ** 2 + 25) * (a * besselj(5 * I, x) + b * bessely(5 * I, x))) == 0","besselsimp(81 * x ** 2 * (a * (besselj(Rational(-5, 3), 9 * x) - 2 * besselj(Rational(1, 3), 9 * x) + besselj(Rational(7, 3), 9 * x)) + b * (bessely(Rational(-5, 3), 9 * x) - 2 * bessely(Rational(1, 3), 9 * x) + bessely(Rational(7, 3), 9 * x))) / 4 + x * (a * (9 * besselj(Rational(-2, 3), 9 * x) / 2 - 9 * besselj(Rational(4, 3), 9 * x) / 2) + b * (9 * bessely(Rational(-2, 3), 9 * x) / 2 - 9 * bessely(Rational(4, 3), 9 * x) / 2)) + (81 * x ** 2 - Rational(1, 9)) * (a * besselj(Rational(1, 3), 9 * x) + b * bessely(Rational(1, 3), 9 * x))) == 0","besselsimp(besselj(a - 1, x) + besselj(a + 1, x) - 2 * a * besselj(a, x) / x) == 0","besselsimp(besselj(a - 1, x) + besselj(a + 1, x) + besselj(a, x)) == (2 * a + x) * besselj(a, x) / x","besselsimp(x ** 2 * besselj(a, x) + x ** 3 * besselj(a + 1, x) + besselj(a + 2, x)) == 2 * a * x * besselj(a + 1, x) + x ** 3 * besselj(a + 1, x) - x ** 2 * besselj(a + 2, x) + 2 * x * besselj(a + 1, x) + besselj(a + 2, x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":true}}
 def test_besselsimp():
     from sympy.functions.special.bessel import (besseli, besselj, bessely)
     from sympy.integrals.transforms import cosine_transform
@@ -1024,16 +1249,22 @@ def test_besselsimp():
     2*a*x*besselj(a + 1, x) + x**3*besselj(a + 1, x) - x**2*besselj(a + 2, x) + 2*x*besselj(a + 1, x) + besselj(a + 2, x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Piecewise(), test_Piecewise produces the expected output) over Any ║
+# ║ Path(test_Piecewise(), simplify(Piecewise((e1, x < e2), (e3, True))) == Piecewise((s1, x < s2), (s3, True))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Piecewise : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(Piecewise((e1, x < e2), (e3, Tru...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Piecewise : Any → {Any | result satisfies: simpl...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e0e78aff7442643  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 133e0c7662f0247d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_Piecewise","kind":"function","src_hash":"070835f854b84bcf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Piecewise()","rhs":"test_Piecewise produces the expected output","over":{"base":"Any"},"name":"test_Piecewise_correct"},"guarantee":"test_Piecewise produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_Piecewise_correct","statement":"Path(test_Piecewise(x), test_Piecewise produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e0e78aff7442643"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_Piecewise","kind":"function","src_hash":"070835f854b84bcf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(Piecewise((e1, x < e2), (e3, True))) == Piecewise((s1, x < s2), (s3, True))"},"spec":{"lhs":"test_Piecewise()","rhs":"simplify(Piecewise((e1, x < e2), (e3, True))) == Piecewise((s1, x < s2), (s3, True))","over":{"base":"Any"},"name":"test_Piecewise_correct"},"guarantee":"simplify(Piecewise((e1, x < e2), (e3, True))) == Piecewise((s1, x < s2), (s3, True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_Piecewise_correct","statement":"Path(test_Piecewise(x), simplify(Piecewise((e1, x < e2), (e3, True))) == Piecewise((s1, x < s2), (s3, True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"133e0c7662f0247d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(Piecewise((e1, x < e2), (e3, True))) == Piecewise((s1, x < s2), (s3, True))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Piecewise():
     e1 = x*(x + y) - y*(x + y)
     e2 = sin(x)**2 + cos(x)**2
@@ -1046,16 +1277,23 @@ def test_Piecewise():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_polymorphism(), test_polymorphism produces the expected output) over Any ║
+# ║ Path(test_polymorphism(), S.One) over Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_polymorphism : Any → {Any | simplify(a) == 1}         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(a) == 1                               ║
+# ║   returns:  S.One                                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_polymorphism : Any → {Any | result satisfies: re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 442bcdec33e7bc70  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 226eb7ab7211c8b5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_polymorphism","kind":"function","src_hash":"154388cc9329f189","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(a) == 1"},"spec":{"lhs":"test_polymorphism()","rhs":"test_polymorphism produces the expected output","over":{"base":"Any"},"name":"test_polymorphism_correct"},"guarantee":"test_polymorphism produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_polymorphism_correct","statement":"Path(test_polymorphism(x), test_polymorphism produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"442bcdec33e7bc70"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_polymorphism","kind":"function","src_hash":"154388cc9329f189","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (S.One)"},"spec":{"lhs":"test_polymorphism()","rhs":"S.One","over":{"base":"Any"},"name":"test_polymorphism_correct"},"guarantee":"returns S.One; simplify(a) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_polymorphism_correct","statement":"Path(test_polymorphism(x), returns S.One; simplify(a) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"226eb7ab7211c8b5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(a) == 1"],"returns_expr":"S.One","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_polymorphism():
     class A(Basic):
         def _eval_simplify(x, **kwargs):
@@ -1066,32 +1304,45 @@ def test_polymorphism():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_from_PR1599(), test_issue_from_PR1599 produces the expected output) over Any ║
+# ║ Path(test_issue_from_PR1599(), simplify(I * sqrt(n1)) == -sqrt(-n1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_from_PR1599 : Any → {Any | simplify(I * sq...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(I * sqrt(n1)) == -sqrt(-n1)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_from_PR1599 : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b75d60d635371ada  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 427fca0b85807ddc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_from_PR1599","kind":"function","src_hash":"ab853ce2d6471b77","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(I * sqrt(n1)) == -sqrt(-n1)"},"spec":{"lhs":"test_issue_from_PR1599()","rhs":"test_issue_from_PR1599 produces the expected output","over":{"base":"Any"},"name":"test_issue_from_PR1599_correct"},"guarantee":"test_issue_from_PR1599 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_from_PR1599_correct","statement":"Path(test_issue_from_PR1599(x), test_issue_from_PR1599 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b75d60d635371ada"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_from_PR1599","kind":"function","src_hash":"ab853ce2d6471b77","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(I * sqrt(n1)) == -sqrt(-n1)"},"spec":{"lhs":"test_issue_from_PR1599()","rhs":"simplify(I * sqrt(n1)) == -sqrt(-n1)","over":{"base":"Any"},"name":"test_issue_from_PR1599_correct"},"guarantee":"simplify(I * sqrt(n1)) == -sqrt(-n1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_from_PR1599_correct","statement":"Path(test_issue_from_PR1599(x), simplify(I * sqrt(n1)) == -sqrt(-n1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"427fca0b85807ddc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(I * sqrt(n1)) == -sqrt(-n1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_from_PR1599():
     n1, n2, n3, n4 = symbols('n1 n2 n3 n4', negative=True)
     assert simplify(I*sqrt(n1)) == -sqrt(-n1)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6811(), test_issue_6811 produces the expected output) over Any ║
+# ║ Path(test_issue_6811(), simplify(eq) == (x + 1) * (x + 2 * y) * 2 and simplify(eq.expand()) == 2 * x ** 2 + 4 * x * y + 2 * x + 4 * y) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6811 : Any → {Any | simplify(eq) == (x + 1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(eq) == (x + 1) * (x + 2 * y) * 2      ║
+# ║   ensures:  simplify(eq.expand()) == 2 * x ** 2 + 4 *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6811 : Any → {Any | result satisfies: simp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd14ca8640a70a09  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1508148a9c384cc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_6811","kind":"function","src_hash":"d1d89f895a61329d","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(eq) == (x + 1) * (x + 2 * y) * 2 and simplify(eq.expand()) == 2 * x ** 2 + 4 * x * y + 2 * x + 4 * y"},"spec":{"lhs":"test_issue_6811()","rhs":"test_issue_6811 produces the expected output","over":{"base":"Any"},"name":"test_issue_6811_correct"},"guarantee":"test_issue_6811 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_6811_correct","statement":"Path(test_issue_6811(x), test_issue_6811 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd14ca8640a70a09"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_6811","kind":"function","src_hash":"d1d89f895a61329d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(eq) == (x + 1) * (x + 2 * y) * 2 and simplify(eq.expand()) == 2 * x ** 2 + 4 * x * y + 2 * x + 4 * y"},"spec":{"lhs":"test_issue_6811()","rhs":"simplify(eq) == (x + 1) * (x + 2 * y) * 2 and simplify(eq.expand()) == 2 * x ** 2 + 4 * x * y + 2 * x + 4 * y","over":{"base":"Any"},"name":"test_issue_6811_correct"},"guarantee":"simplify(eq) == (x + 1) * (x + 2 * y) * 2; simplify(eq.expand()) == 2 * x ** 2 + 4 * x * y + 2 * x + 4 * y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_6811_correct","statement":"Path(test_issue_6811(x), simplify(eq) == (x + 1) * (x + 2 * y) * 2; simplify(eq.expand()) == 2 * x ** 2 + 4 * x * y + 2 * x + 4 * y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1508148a9c384cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(eq) == (x + 1) * (x + 2 * y) * 2","simplify(eq.expand()) == 2 * x ** 2 + 4 * x * y + 2 * x + 4 * y"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_6811():
     eq = (x + 2*y)*(2*x + 2)
     assert simplify(eq) == (x + 1)*(x + 2*y)*2
@@ -1101,16 +1352,22 @@ def test_issue_6811():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6920(), test_issue_6920 produces the expected output) over Any ║
+# ║ Path(test_issue_6920(), [simplify(f(ei)).args[0] for ei in e] == ok) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6920 : Any → {Any | [simplify(f(ei)).args[...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  [simplify(f(ei)).args[0] for ei in e] == ok    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6920 : Any → {Any | result satisfies: [sim...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ae91bd7f2e6874a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8edbd917c16f6a72  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_6920","kind":"function","src_hash":"5020be7acc356609","in":{"base":"Any"},"out":{"base":"Any","pred":"[simplify(f(ei)).args[0] for ei in e] == ok"},"spec":{"lhs":"test_issue_6920()","rhs":"test_issue_6920 produces the expected output","over":{"base":"Any"},"name":"test_issue_6920_correct"},"guarantee":"test_issue_6920 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_6920_correct","statement":"Path(test_issue_6920(x), test_issue_6920 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ae91bd7f2e6874a"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_6920","kind":"function","src_hash":"5020be7acc356609","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: [simplify(f(ei)).args[0] for ei in e] == ok"},"spec":{"lhs":"test_issue_6920()","rhs":"[simplify(f(ei)).args[0] for ei in e] == ok","over":{"base":"Any"},"name":"test_issue_6920_correct"},"guarantee":"[simplify(f(ei)).args[0] for ei in e] == ok","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_6920_correct","statement":"Path(test_issue_6920(x), [simplify(f(ei)).args[0] for ei in e] == ok)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8edbd917c16f6a72","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["[simplify(f(ei)).args[0] for ei in e] == ok"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_6920():
     e = [cos(x) + I*sin(x), cos(x) - I*sin(x),
         cosh(x) - sinh(x), cosh(x) + sinh(x)]
@@ -1121,16 +1378,22 @@ def test_issue_6920():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_7001(), test_issue_7001 produces the expected output) over Any ║
+# ║ Path(test_issue_7001(), simplify(-(r * Piecewise((pi * Rational(4, 3), r <= R), (-8 * pi * R ** 3 / (3 * r ** 3), True)) + 2 * Piecewise((pi * r * Rational(4, 3), r <= R), (4 * pi * R ** 3 / (3 * r ** 2), True))) / (4 * pi * r)) == Piecewise((-1, r <= R), (0, True))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_7001 : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(-(r * Piecewise((pi * Rational(4...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_7001 : Any → {Any | result satisfies: simp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 863d01a19bf5bafc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5b4d5ed4fee811f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_7001","kind":"function","src_hash":"d81bcae9814c7b8b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_7001()","rhs":"test_issue_7001 produces the expected output","over":{"base":"Any"},"name":"test_issue_7001_correct"},"guarantee":"test_issue_7001 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_7001_correct","statement":"Path(test_issue_7001(x), test_issue_7001 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"863d01a19bf5bafc"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_7001","kind":"function","src_hash":"d81bcae9814c7b8b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(-(r * Piecewise((pi * Rational(4, 3), r <= R), (-8 * pi * R ** 3 / (3 * r ** 3), True)) + 2 * Piecewise((pi * r * Rational(4, 3), r <= R), (4 * pi * R ** 3 / (3 * r ** 2), True))) / (4 * pi * r)) == Piecewise((-1, r <= R), (0, True))"},"spec":{"lhs":"test_issue_7001()","rhs":"simplify(-(r * Piecewise((pi * Rational(4, 3), r <= R), (-8 * pi * R ** 3 / (3 * r ** 3), True)) + 2 * Piecewise((pi * r * Rational(4, 3), r <= R), (4 * pi * R ** 3 / (3 * r ** 2), True))) / (4 * pi * r)) == Piecewise((-1, r <= R), (0, True))","over":{"base":"Any"},"name":"test_issue_7001_correct"},"guarantee":"simplify(-(r * Piecewise((pi * Rational(4, 3), r <= R), (-8 * pi * R ** 3 / (3 * r ** 3), True)) + 2 * Piecewise((pi * r * Rational(4, 3), r <= R), (4 * pi * R ** 3 / (3 * r ** 2), True))) / (4 * pi * r)) == Piecewise((-1, r <= R), (0, True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_7001_correct","statement":"Path(test_issue_7001(x), simplify(-(r * Piecewise((pi * Rational(4, 3), r <= R), (-8 * pi * R ** 3 / (3 * r ** 3), True)) + 2 * Piecewise((pi * r * Rational(4, 3), r <= R), (4 * pi * R ** 3 / (3 * r ** 2), True))) / (4 * pi * r)) == Piecewise((-1, r <= R), (0, True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5b4d5ed4fee811f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(-(r * Piecewise((pi * Rational(4, 3), r <= R), (-8 * pi * R ** 3 / (3 * r ** 3), True)) + 2 * Piecewise((pi * r * Rational(4, 3), r <= R), (4 * pi * R ** 3 / (3 * r ** 2), True))) / (4 * pi * r)) == Piecewise((-1, r <= R), (0, True))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_7001():
     from sympy.abc import r, R
     assert simplify(-(r*Piecewise((pi*Rational(4, 3), r <= R),
@@ -1140,16 +1403,23 @@ def test_issue_7001():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_inequality_no_auto_simplify(), test_inequality_no_auto_simplify produces the expected output) over Any ║
+# ║ Path(test_inequality_no_auto_simplify(), e is not S.true and simplify(e)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_inequality_no_auto_simplify : Any → {Any | e is ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e is not S.true                                ║
+# ║   ensures:  simplify(e)                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_inequality_no_auto_simplify : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d95d8129228c172  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3394cd98ac9ad991  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_inequality_no_auto_simplify","kind":"function","src_hash":"9f2e9b580d432b43","in":{"base":"Any"},"out":{"base":"Any","pred":"e is not S.true and simplify(e)"},"spec":{"lhs":"test_inequality_no_auto_simplify()","rhs":"test_inequality_no_auto_simplify produces the expected output","over":{"base":"Any"},"name":"test_inequality_no_auto_simplify_correct"},"guarantee":"test_inequality_no_auto_simplify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_inequality_no_auto_simplify_correct","statement":"Path(test_inequality_no_auto_simplify(x), test_inequality_no_auto_simplify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d95d8129228c172"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_inequality_no_auto_simplify","kind":"function","src_hash":"9f2e9b580d432b43","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e is not S.true and simplify(e)"},"spec":{"lhs":"test_inequality_no_auto_simplify()","rhs":"e is not S.true and simplify(e)","over":{"base":"Any"},"name":"test_inequality_no_auto_simplify_correct"},"guarantee":"e is not S.true; simplify(e)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_inequality_no_auto_simplify_correct","statement":"Path(test_inequality_no_auto_simplify(x), e is not S.true; simplify(e))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3394cd98ac9ad991","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e is not S.true","simplify(e)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_inequality_no_auto_simplify():
     # no simplify on creation but can be simplified
     lhs = cos(x)**2 + sin(x)**2
@@ -1160,16 +1430,24 @@ def test_inequality_no_auto_simplify():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_9398(), test_issue_9398 produces the expected output) over Any ║
+# ║ Path(test_issue_9398(), cancel(1e-14) != 0 and cancel(1e-14 * I) != 0 and simplify(1e-14) != 0 and simplify(1e-14 * I) != 0 and (I * Number(1.0) * Number(10) ** Number(-14)).simplify() != 0 and cancel(1e-20) != 0 and cancel(1e-20 * I) != 0 and simplify(1e-20) != 0 and simplify(1e-20 * I) != 0 and cancel(1e-100) != 0 and cancel(1e-100 * I) != 0 and simplify(1e-100) != 0 and simplify(1e-100 * I) != 0 and cancel(f) != 0 and cancel(f * I) != 0 and simplify(f) != 0 and simplify(f * I) != 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_9398 : Any → {Any | cancel(1e-14) != 0 and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  cancel(1e-14) != 0                             ║
+# ║   ensures:  cancel(1e-14 * I) != 0                         ║
+# ║   ensures:  simplify(1e-14) != 0                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_9398 : Any → {Any | result satisfies: canc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81a6ddca35a824b3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b7bf8faf8726306  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_9398","kind":"function","src_hash":"097a3ace1fc3574f","in":{"base":"Any"},"out":{"base":"Any","pred":"cancel(1e-14) != 0 and cancel(1e-14 * I) != 0 and simplify(1e-14) != 0 and simplify(1e-14 * I) != 0 and (I * Number(1.0) * Number(10) ** Number(-14)).simplify() != 0 and cancel(1e-20) != 0 and cancel(1e-20 * I) != 0 and simplify(1e-20) != 0 and simplify(1e-20 * I) != 0 and cancel(1e-100) != 0 and cancel(1e-100 * I) != 0 and simplify(1e-100) != 0 and simplify(1e-100 * I) != 0 and cancel(f) != 0 and cancel(f * I) != 0 and simplify(f) != 0 and simplify(f * I) != 0"},"spec":{"lhs":"test_issue_9398()","rhs":"test_issue_9398 produces the expected output","over":{"base":"Any"},"name":"test_issue_9398_correct"},"guarantee":"test_issue_9398 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_9398_correct","statement":"Path(test_issue_9398(x), test_issue_9398 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81a6ddca35a824b3"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_9398","kind":"function","src_hash":"097a3ace1fc3574f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: cancel(1e-14) != 0 and cancel(1e-14 * I) != 0 and simplify(1e-14) != 0 and simplify(1e-14 * I) != 0 and (I * Number(1.0) * Number(10) ** Number(-14)).simplify() != 0 and cancel(1e-20) != 0 and cancel(1e-20 * I) != 0 and simplify(1e-20) != 0 and simplify(1e-20 * I) != 0 and cancel(1e-100) != 0 and cancel(1e-100 * I) != 0 and simplify(1e-100) != 0 and simplify(1e-100 * I) != 0 and cancel(f) != 0 and cancel(f * I) != 0 and simplify(f) != 0 and simplify(f * I) != 0"},"spec":{"lhs":"test_issue_9398()","rhs":"cancel(1e-14) != 0 and cancel(1e-14 * I) != 0 and simplify(1e-14) != 0 and simplify(1e-14 * I) != 0 and (I * Number(1.0) * Number(10) ** Number(-14)).simplify() != 0 and cancel(1e-20) != 0 and cancel(1e-20 * I) != 0 and simplify(1e-20) != 0 and simplify(1e-20 * I) != 0 and cancel(1e-100) != 0 and cancel(1e-100 * I) != 0 and simplify(1e-100) != 0 and simplify(1e-100 * I) != 0 and cancel(f) != 0 and cancel(f * I) != 0 and simplify(f) != 0 and simplify(f * I) != 0","over":{"base":"Any"},"name":"test_issue_9398_correct"},"guarantee":"cancel(1e-14) != 0; cancel(1e-14 * I) != 0; simplify(1e-14) != 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_9398_correct","statement":"Path(test_issue_9398(x), cancel(1e-14) != 0; cancel(1e-14 * I) != 0; simplify(1e-14) != 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b7bf8faf8726306","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["cancel(1e-14) != 0","cancel(1e-14 * I) != 0","simplify(1e-14) != 0","simplify(1e-14 * I) != 0","(I * Number(1.0) * Number(10) ** Number(-14)).simplify() != 0","cancel(1e-20) != 0","cancel(1e-20 * I) != 0","simplify(1e-20) != 0","simplify(1e-20 * I) != 0","cancel(1e-100) != 0","cancel(1e-100 * I) != 0","simplify(1e-100) != 0","simplify(1e-100 * I) != 0","cancel(f) != 0","cancel(f * I) != 0","simplify(f) != 0","simplify(f * I) != 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_9398():
     from sympy.core.numbers import Number
     from sympy.polys.polytools import cancel
@@ -1202,16 +1480,22 @@ def test_issue_9398():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_9324_simplify(), test_issue_9324_simplify produces the expected output) over Any ║
+# ║ Path(test_issue_9324_simplify(), simplify(e) == e) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_9324_simplify : Any → {Any | simplify(e) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(e) == e                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_9324_simplify : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0bce17ac0523f515  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e5f295e7120b40c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_9324_simplify","kind":"function","src_hash":"9216c807d7c30406","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(e) == e"},"spec":{"lhs":"test_issue_9324_simplify()","rhs":"test_issue_9324_simplify produces the expected output","over":{"base":"Any"},"name":"test_issue_9324_simplify_correct"},"guarantee":"test_issue_9324_simplify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_9324_simplify_correct","statement":"Path(test_issue_9324_simplify(x), test_issue_9324_simplify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0bce17ac0523f515"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_9324_simplify","kind":"function","src_hash":"9216c807d7c30406","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(e) == e"},"spec":{"lhs":"test_issue_9324_simplify()","rhs":"simplify(e) == e","over":{"base":"Any"},"name":"test_issue_9324_simplify_correct"},"guarantee":"simplify(e) == e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_9324_simplify_correct","statement":"Path(test_issue_9324_simplify(x), simplify(e) == e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e5f295e7120b40c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(e) == e"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_9324_simplify():
     M = MatrixSymbol('M', 10, 10)
     e = M[0, 0] + M[5, 4] + 1304
@@ -1219,16 +1503,22 @@ def test_issue_9324_simplify():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_9817_simplify(), test_issue_9817_simplify produces the expected output) over Any ║
+# ║ Path(test_issue_9817_simplify(), simplify(trace(quadratic.as_explicit()).xreplace({v: x, A: X})) == 14) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_9817_simplify : Any → {Any | simplify(trac...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(trace(quadratic.as_explicit()).x...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_9817_simplify : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b0ceaaaadad6bd4a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db2f0f441eba49a6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_9817_simplify","kind":"function","src_hash":"aaa68f6f0e4ac130","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(trace(quadratic.as_explicit()).xreplace({v: x, A: X})) == 14"},"spec":{"lhs":"test_issue_9817_simplify()","rhs":"test_issue_9817_simplify produces the expected output","over":{"base":"Any"},"name":"test_issue_9817_simplify_correct"},"guarantee":"test_issue_9817_simplify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_9817_simplify_correct","statement":"Path(test_issue_9817_simplify(x), test_issue_9817_simplify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0ceaaaadad6bd4a"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_9817_simplify","kind":"function","src_hash":"aaa68f6f0e4ac130","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(trace(quadratic.as_explicit()).xreplace({v: x, A: X})) == 14"},"spec":{"lhs":"test_issue_9817_simplify()","rhs":"simplify(trace(quadratic.as_explicit()).xreplace({v: x, A: X})) == 14","over":{"base":"Any"},"name":"test_issue_9817_simplify_correct"},"guarantee":"simplify(trace(quadratic.as_explicit()).xreplace({v: x, A: X})) == 14","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_9817_simplify_correct","statement":"Path(test_issue_9817_simplify(x), simplify(trace(quadratic.as_explicit()).xreplace({v: x, A: X})) == 14)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db2f0f441eba49a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(trace(quadratic.as_explicit()).xreplace({v: x, A: X})) == 14"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_9817_simplify():
     # simplify on trace of substituted explicit quadratic form of matrix
     # expressions (a scalar) should return without errors (AttributeError)
@@ -1243,16 +1533,22 @@ def test_issue_9817_simplify():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_13474(), test_issue_13474 produces the expected output) over Any ║
+# ║ Path(test_issue_13474(), simplify(x + csch(sinc(1))) == x + csch(sinc(1))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_13474 : Any → {Any | simplify(x + csch(sin...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(x + csch(sinc(1))) == x + csch(s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_13474 : Any → {Any | result satisfies: sim...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4219cd03c1b24fe0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b520ff8a369e69e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_13474","kind":"function","src_hash":"f52365adcb1a44fe","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(x + csch(sinc(1))) == x + csch(sinc(1))"},"spec":{"lhs":"test_issue_13474()","rhs":"test_issue_13474 produces the expected output","over":{"base":"Any"},"name":"test_issue_13474_correct"},"guarantee":"test_issue_13474 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_13474_correct","statement":"Path(test_issue_13474(x), test_issue_13474 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4219cd03c1b24fe0"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_13474","kind":"function","src_hash":"f52365adcb1a44fe","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(x + csch(sinc(1))) == x + csch(sinc(1))"},"spec":{"lhs":"test_issue_13474()","rhs":"simplify(x + csch(sinc(1))) == x + csch(sinc(1))","over":{"base":"Any"},"name":"test_issue_13474_correct"},"guarantee":"simplify(x + csch(sinc(1))) == x + csch(sinc(1))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_13474_correct","statement":"Path(test_issue_13474(x), simplify(x + csch(sinc(1))) == x + csch(sinc(1)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b520ff8a369e69e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(x + csch(sinc(1))) == x + csch(sinc(1))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_13474():
     x = Symbol('x')
     assert simplify(x + csch(sinc(1))) == x + csch(sinc(1))
@@ -1260,16 +1556,24 @@ def test_issue_13474():
 
 @_both_exp_pow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_simplify_function_inverse(), test_simplify_function_inverse produces the expected output) over Any ║
+# ║ Path(test_simplify_function_inverse(), simplify(f(g(x))) == f(g(x)) and inversecombine(f(g(x))) == x and simplify(f(g(x)), inverse=True) == x and simplify(f(g(sin(x) ** 2 + cos(x) ** 2)), inverse=True) == 1 and simplify(f(g(x, y)), inverse=True) == f(g(x, y)) and unchanged(asin, sin(x)) and simplify(asin(sin(x))) == asin(sin(x)) and simplify(2 * asin(sin(3 * x)), inverse=True) == 6 * x and simplify(log(exp(x))) == log(exp(x)) and simplify(log(exp(x)), inverse=True) == x and simplify(exp(log(x)), inverse=True) == x and simplify(log(exp(x), 2), inverse=True) == x / log(2) and simplify(log(exp(x), 2, evaluate=False), inverse=True) == x / log(2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_simplify_function_inverse : Any → {Any | simplif...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(f(g(x))) == f(g(x))                   ║
+# ║   ensures:  inversecombine(f(g(x))) == x                   ║
+# ║   ensures:  simplify(f(g(x)), inverse=True) == x           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_simplify_function_inverse : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ddb7a5dc7973719  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f144adfa3e5b250a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_simplify_function_inverse","kind":"function","src_hash":"f123ce7f25b49b01","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(f(g(x))) == f(g(x)) and inversecombine(f(g(x))) == x and simplify(f(g(x)), inverse=True) == x and simplify(f(g(sin(x) ** 2 + cos(x) ** 2)), inverse=True) == 1 and simplify(f(g(x, y)), inverse=True) == f(g(x, y)) and unchanged(asin, sin(x)) and simplify(asin(sin(x))) == asin(sin(x)) and simplify(2 * asin(sin(3 * x)), inverse=True) == 6 * x and simplify(log(exp(x))) == log(exp(x)) and simplify(log(exp(x)), inverse=True) == x and simplify(exp(log(x)), inverse=True) == x and simplify(log(exp(x), 2), inverse=True) == x / log(2) and simplify(log(exp(x), 2, evaluate=False), inverse=True) == x / log(2)"},"spec":{"lhs":"test_simplify_function_inverse()","rhs":"test_simplify_function_inverse produces the expected output","over":{"base":"Any"},"name":"test_simplify_function_inverse_correct"},"guarantee":"test_simplify_function_inverse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_simplify_function_inverse_correct","statement":"Path(test_simplify_function_inverse(x), test_simplify_function_inverse produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ddb7a5dc7973719"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_simplify_function_inverse","kind":"function","src_hash":"f123ce7f25b49b01","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(f(g(x))) == f(g(x)) and inversecombine(f(g(x))) == x and simplify(f(g(x)), inverse=True) == x and simplify(f(g(sin(x) ** 2 + cos(x) ** 2)), inverse=True) == 1 and simplify(f(g(x, y)), inverse=True) == f(g(x, y)) and unchanged(asin, sin(x)) and simplify(asin(sin(x))) == asin(sin(x)) and simplify(2 * asin(sin(3 * x)), inverse=True) == 6 * x and simplify(log(exp(x))) == log(exp(x)) and simplify(log(exp(x)), inverse=True) == x and simplify(exp(log(x)), inverse=True) == x and simplify(log(exp(x), 2), inverse=True) == x / log(2) and simplify(log(exp(x), 2, evaluate=False), inverse=True) == x / log(2)"},"spec":{"lhs":"test_simplify_function_inverse()","rhs":"simplify(f(g(x))) == f(g(x)) and inversecombine(f(g(x))) == x and simplify(f(g(x)), inverse=True) == x and simplify(f(g(sin(x) ** 2 + cos(x) ** 2)), inverse=True) == 1 and simplify(f(g(x, y)), inverse=True) == f(g(x, y)) and unchanged(asin, sin(x)) and simplify(asin(sin(x))) == asin(sin(x)) and simplify(2 * asin(sin(3 * x)), inverse=True) == 6 * x and simplify(log(exp(x))) == log(exp(x)) and simplify(log(exp(x)), inverse=True) == x and simplify(exp(log(x)), inverse=True) == x and simplify(log(exp(x), 2), inverse=True) == x / log(2) and simplify(log(exp(x), 2, evaluate=False), inverse=True) == x / log(2)","over":{"base":"Any"},"name":"test_simplify_function_inverse_correct"},"guarantee":"simplify(f(g(x))) == f(g(x)); inversecombine(f(g(x))) == x; simplify(f(g(x)), inverse=True) == x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_simplify_function_inverse_correct","statement":"Path(test_simplify_function_inverse(x), simplify(f(g(x))) == f(g(x)); inversecombine(f(g(x))) == x; simplify(f(g(x)), inverse=True) == x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f144adfa3e5b250a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(f(g(x))) == f(g(x))","inversecombine(f(g(x))) == x","simplify(f(g(x)), inverse=True) == x","simplify(f(g(sin(x) ** 2 + cos(x) ** 2)), inverse=True) == 1","simplify(f(g(x, y)), inverse=True) == f(g(x, y))","unchanged(asin, sin(x))","simplify(asin(sin(x))) == asin(sin(x))","simplify(2 * asin(sin(3 * x)), inverse=True) == 6 * x","simplify(log(exp(x))) == log(exp(x))","simplify(log(exp(x)), inverse=True) == x","simplify(exp(log(x)), inverse=True) == x","simplify(log(exp(x), 2), inverse=True) == x / log(2)","simplify(log(exp(x), 2, evaluate=False), inverse=True) == x / log(2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_simplify_function_inverse():
     # "inverse" attribute does not guarantee that f(g(x)) is x
     # so this simplification should not happen automatically.
@@ -1297,16 +1601,24 @@ def test_simplify_function_inverse():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_clear_coefficients(), test_clear_coefficients produces the expected output) over Any ║
+# ║ Path(test_clear_coefficients(), clear_coefficients(4 * y * (6 * x + 3)) == (y * (2 * x + 1), 0) and clear_coefficients(4 * y * (6 * x + 3) - 2) == (y * (2 * x + 1), Rational(1, 6)) and clear_coefficients(4 * y * (6 * x + 3) - 2, x) == (y * (2 * x + 1), x / 12 + Rational(1, 6)) and clear_coefficients(sqrt(2) - 2) == (sqrt(2), 2) and clear_coefficients(4 * sqrt(2) - 2) == (sqrt(2), S.Half) and clear_coefficients(S(3), x) == (0, x - 3) and clear_coefficients(S.Infinity, x) == (S.Infinity, x) and clear_coefficients(-S.Pi, x) == (S.Pi, -x) and clear_coefficients(2 - S.Pi / 3, x) == (pi, -3 * x + 6)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_clear_coefficients : Any → {Any | clear_coeffici...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  clear_coefficients(4 * y * (6 * x + 3)) =...   ║
+# ║   ensures:  clear_coefficients(4 * y * (6 * x + 3) - ...   ║
+# ║   ensures:  clear_coefficients(4 * y * (6 * x + 3) - ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_clear_coefficients : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa33d5ad2719ec18  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0e6892b82fe472d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_clear_coefficients","kind":"function","src_hash":"f7406d1b31bd48db","in":{"base":"Any"},"out":{"base":"Any","pred":"clear_coefficients(4 * y * (6 * x + 3)) == (y * (2 * x + 1), 0) and clear_coefficients(sqrt(2) - 2) == (sqrt(2), 2) and clear_coefficients(4 * sqrt(2) - 2) == (sqrt(2), S.Half) and clear_coefficients(S(3), x) == (0, x - 3) and clear_coefficients(S.Infinity, x) == (S.Infinity, x) and clear_coefficients(-S.Pi, x) == (S.Pi, -x) and clear_coefficients(2 - S.Pi / 3, x) == (pi, -3 * x + 6)"},"spec":{"lhs":"test_clear_coefficients()","rhs":"test_clear_coefficients produces the expected output","over":{"base":"Any"},"name":"test_clear_coefficients_correct"},"guarantee":"test_clear_coefficients produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_clear_coefficients_correct","statement":"Path(test_clear_coefficients(x), test_clear_coefficients produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa33d5ad2719ec18"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_clear_coefficients","kind":"function","src_hash":"f7406d1b31bd48db","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: clear_coefficients(4 * y * (6 * x + 3)) == (y * (2 * x + 1), 0) and clear_coefficients(4 * y * (6 * x + 3) - 2) == (y * (2 * x + 1), Rational(1, 6)) and clear_coefficients(4 * y * (6 * x + 3) - 2, x) == (y * (2 * x + 1), x / 12 + Rational(1, 6)) and clear_coefficients(sqrt(2) - 2) == (sqrt(2), 2) and clear_coefficients(4 * sqrt(2) - 2) == (sqrt(2), S.Half) and clear_coefficients(S(3), x) == (0, x - 3) and clear_coefficients(S.Infinity, x) == (S.Infinity, x) and clear_coefficients(-S.Pi, x) == (S.Pi, -x) and clear_coefficients(2 - S.Pi / 3, x) == (pi, -3 * x + 6)"},"spec":{"lhs":"test_clear_coefficients()","rhs":"clear_coefficients(4 * y * (6 * x + 3)) == (y * (2 * x + 1), 0) and clear_coefficients(4 * y * (6 * x + 3) - 2) == (y * (2 * x + 1), Rational(1, 6)) and clear_coefficients(4 * y * (6 * x + 3) - 2, x) == (y * (2 * x + 1), x / 12 + Rational(1, 6)) and clear_coefficients(sqrt(2) - 2) == (sqrt(2), 2) and clear_coefficients(4 * sqrt(2) - 2) == (sqrt(2), S.Half) and clear_coefficients(S(3), x) == (0, x - 3) and clear_coefficients(S.Infinity, x) == (S.Infinity, x) and clear_coefficients(-S.Pi, x) == (S.Pi, -x) and clear_coefficients(2 - S.Pi / 3, x) == (pi, -3 * x + 6)","over":{"base":"Any"},"name":"test_clear_coefficients_correct"},"guarantee":"clear_coefficients(4 * y * (6 * x + 3)) == (y * (2 * x + 1), 0); clear_coefficients(4 * y * (6 * x + 3) - 2) == (y * (2 * x + 1), Rational(1, 6)); clear_coefficients(4 * y * (6 * x + 3) - 2, x) == (y * (2 * x + 1), x / 12 + Rational(1, 6))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_clear_coefficients_correct","statement":"Path(test_clear_coefficients(x), clear_coefficients(4 * y * (6 * x + 3)) == (y * (2 * x + 1), 0); clear_coefficients(4 * y * (6 * x + 3) - 2) == (y * (2 * x + 1), Rational(1, 6)); clear_coefficients(4 * y * (6 * x + 3) - 2, x) == (y * (2 * x + 1), x / 12 + Rational(1, 6)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0e6892b82fe472d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["clear_coefficients(4 * y * (6 * x + 3)) == (y * (2 * x + 1), 0)","clear_coefficients(4 * y * (6 * x + 3) - 2) == (y * (2 * x + 1), Rational(1, 6))","clear_coefficients(4 * y * (6 * x + 3) - 2, x) == (y * (2 * x + 1), x / 12 + Rational(1, 6))","clear_coefficients(sqrt(2) - 2) == (sqrt(2), 2)","clear_coefficients(4 * sqrt(2) - 2) == (sqrt(2), S.Half)","clear_coefficients(S(3), x) == (0, x - 3)","clear_coefficients(S.Infinity, x) == (S.Infinity, x)","clear_coefficients(-S.Pi, x) == (S.Pi, -x)","clear_coefficients(2 - S.Pi / 3, x) == (pi, -3 * x + 6)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_clear_coefficients():
     from sympy.simplify.simplify import clear_coefficients
     assert clear_coefficients(4*y*(6*x + 3)) == (y*(2*x + 1), 0)
@@ -1320,7 +1632,11 @@ def test_clear_coefficients():
     assert clear_coefficients(2 - S.Pi/3, x) == (pi, -3*x + 6)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nc_simplify(), test_nc_simplify produces the expected output) over {Any | isinstance(expr, Pow) and isinstance(expr, (Add, Mul))} ║
+# ║ Path(test_nc_simplify(), nc_simplify(expr) == (1 - c) ** (-1) and nc_simplify(2 * x ** 2) == 2 * x ** 2) over {Any | isinstance(expr, Pow) and isinstance(expr, (Add, Mul))} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  nc_simplify(expr) == (1 - c) ** (-1)           ║
+# ║   ensures:  nc_simplify(2 * x ** 2) == 2 * x ** 2          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_nc_simplify : {Any | isinstance(expr, Pow) and i...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1333,9 +1649,12 @@ def test_clear_coefficients():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 4.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | fc1f3185...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_nc_simplify","kind":"function","src_hash":"d4ec04d303db1271","in":{"base":"Any","pred":"isinstance(expr, Pow) and isinstance(expr, (Add, Mul))"},"out":{"base":"Any","pred":"nc_simplify(expr) == (1 - c) ** (-1) and nc_simplify(2 * x ** 2) == 2 * x ** 2 and nc_simplify(expr, deep=deep) == simplified and expand(expr) == expand(simplified) and nc_simplify(_to_matrix(expr), deep=deep) == m_simp"},"spec":{"lhs":"test_nc_simplify()","rhs":"test_nc_simplify produces the expected output","over":{"base":"Any","pred":"isinstance(expr, Pow) and isinstance(expr, (Add, Mul))"},"name":"test_nc_simplify_correct"},"guarantee":"test_nc_simplify produces the expected output","fibers":[{"name":"Pow","pred":"isinstance(expr, Pow)","path":{"lhs":"test_nc_simplify(x)","rhs":"test_nc_simplify produces the expected output","over":{"base":"Pow","pred":"isinstance(expr, Pow)"},"name":"test_nc_simplify_Pow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_nc_simplify_Pow_correct","statement":"test_nc_simplify satisfies spec on Pow inputs"},"trust":"LIBRARY"},{"name":"(Add","pred":"isinstance(expr, (Add, Mul))","path":{"lhs":"test_nc_simplify(x)","rhs":"test_nc_simplify produces the expected output","over":{"base":"(Add","pred":"isinstance(expr, (Add, Mul))"},"name":"test_nc_simplify_(Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_nc_simplify_(Add_correct","statement":"test_nc_simplify satisfies spec on (Add inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"fc1f31855f32c1d3"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_nc_simplify","kind":"function","src_hash":"d4ec04d303db1271","in":{"base":"Any","pred":"isinstance(expr, Pow) and isinstance(expr, (Add, Mul))"},"out":{"base":"Any","pred":"result satisfies: nc_simplify(expr) == (1 - c) ** (-1) and nc_simplify(2 * x ** 2) == 2 * x ** 2"},"spec":{"lhs":"test_nc_simplify()","rhs":"nc_simplify(expr) == (1 - c) ** (-1) and nc_simplify(2 * x ** 2) == 2 * x ** 2","over":{"base":"Any","pred":"isinstance(expr, Pow) and isinstance(expr, (Add, Mul))"},"name":"test_nc_simplify_correct"},"guarantee":"nc_simplify(expr) == (1 - c) ** (-1); nc_simplify(2 * x ** 2) == 2 * x ** 2","fibers":[{"name":"Pow","pred":"isinstance(expr, Pow)","path":{"lhs":"test_nc_simplify(x)","rhs":"nc_simplify(expr) == (1 - c) ** (-1); nc_simplify(2 * x ** 2) == 2 * x ** 2","over":{"base":"Pow","pred":"isinstance(expr, Pow)"},"name":"test_nc_simplify_Pow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_nc_simplify_Pow_correct","statement":"test_nc_simplify satisfies spec on Pow inputs"},"trust":"LIBRARY"},{"name":"(Add","pred":"isinstance(expr, (Add, Mul))","path":{"lhs":"test_nc_simplify(x)","rhs":"nc_simplify(expr) == (1 - c) ** (-1); nc_simplify(2 * x ** 2) == 2 * x ** 2","over":{"base":"(Add","pred":"isinstance(expr, (Add, Mul))"},"name":"test_nc_simplify_(Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_nc_simplify_(Add_correct","statement":"test_nc_simplify satisfies spec on (Add inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"fc1f31855f32c1d3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["nc_simplify(expr) == (1 - c) ** (-1)","nc_simplify(2 * x ** 2) == 2 * x ** 2"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expr, (Add, Mul))', 'isinstance(expr, Pow)'}, fibers={'(Add', 'Pow'})"]}}
 def test_nc_simplify():
     from sympy.simplify.simplify import nc_simplify
     from sympy.matrices.expressions import MatPow, Identity
@@ -1391,16 +1710,24 @@ def test_nc_simplify():
     assert nc_simplify(2*x**2) == 2*x**2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_15965(), test_issue_15965 produces the expected output) over Any ║
+# ║ Path(test_issue_15965(), simplify(A + B) == anew + bdo and simplify(A) == anew and simplify(B) == bdo and simplify(B, doit=False) == y * Integral(x, x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_15965 : Any → {Any | simplify(A + B) == an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(A + B) == anew + bdo                  ║
+# ║   ensures:  simplify(A) == anew                            ║
+# ║   ensures:  simplify(B) == bdo                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_15965 : Any → {Any | result satisfies: sim...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f109433bd7345b31  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68eaec992a1db70e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_15965","kind":"function","src_hash":"5d264baa7e93d660","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(A + B) == anew + bdo and simplify(A) == anew and simplify(B) == bdo and simplify(B, doit=False) == y * Integral(x, x)"},"spec":{"lhs":"test_issue_15965()","rhs":"test_issue_15965 produces the expected output","over":{"base":"Any"},"name":"test_issue_15965_correct"},"guarantee":"test_issue_15965 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_15965_correct","statement":"Path(test_issue_15965(x), test_issue_15965 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f109433bd7345b31"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_15965","kind":"function","src_hash":"5d264baa7e93d660","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(A + B) == anew + bdo and simplify(A) == anew and simplify(B) == bdo and simplify(B, doit=False) == y * Integral(x, x)"},"spec":{"lhs":"test_issue_15965()","rhs":"simplify(A + B) == anew + bdo and simplify(A) == anew and simplify(B) == bdo and simplify(B, doit=False) == y * Integral(x, x)","over":{"base":"Any"},"name":"test_issue_15965_correct"},"guarantee":"simplify(A + B) == anew + bdo; simplify(A) == anew; simplify(B) == bdo","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_15965_correct","statement":"Path(test_issue_15965(x), simplify(A + B) == anew + bdo; simplify(A) == anew; simplify(B) == bdo)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68eaec992a1db70e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(A + B) == anew + bdo","simplify(A) == anew","simplify(B) == bdo","simplify(B, doit=False) == y * Integral(x, x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_15965():
     A = Sum(z*x**y, (x, 1, a))
     anew = z*Sum(x**y, (x, 1, a))
@@ -1413,32 +1740,47 @@ def test_issue_15965():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_17137(), test_issue_17137 produces the expected output) over Any ║
+# ║ Path(test_issue_17137(), simplify(cos(x) ** I) == cos(x) ** I and simplify(cos(x) ** (2 + 3 * I)) == cos(x) ** (2 + 3 * I)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_17137 : Any → {Any | simplify(cos(x) ** I)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(cos(x) ** I) == cos(x) ** I           ║
+# ║   ensures:  simplify(cos(x) ** (2 + 3 * I)) == cos(x)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_17137 : Any → {Any | result satisfies: sim...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb38590393fb8e99  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce9ab75bafe7d03c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_17137","kind":"function","src_hash":"5859e66530ed3f1d","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(cos(x) ** I) == cos(x) ** I and simplify(cos(x) ** (2 + 3 * I)) == cos(x) ** (2 + 3 * I)"},"spec":{"lhs":"test_issue_17137()","rhs":"test_issue_17137 produces the expected output","over":{"base":"Any"},"name":"test_issue_17137_correct"},"guarantee":"test_issue_17137 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_17137_correct","statement":"Path(test_issue_17137(x), test_issue_17137 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb38590393fb8e99"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_17137","kind":"function","src_hash":"5859e66530ed3f1d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(cos(x) ** I) == cos(x) ** I and simplify(cos(x) ** (2 + 3 * I)) == cos(x) ** (2 + 3 * I)"},"spec":{"lhs":"test_issue_17137()","rhs":"simplify(cos(x) ** I) == cos(x) ** I and simplify(cos(x) ** (2 + 3 * I)) == cos(x) ** (2 + 3 * I)","over":{"base":"Any"},"name":"test_issue_17137_correct"},"guarantee":"simplify(cos(x) ** I) == cos(x) ** I; simplify(cos(x) ** (2 + 3 * I)) == cos(x) ** (2 + 3 * I)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_17137_correct","statement":"Path(test_issue_17137(x), simplify(cos(x) ** I) == cos(x) ** I; simplify(cos(x) ** (2 + 3 * I)) == cos(x) ** (2 + 3 * I))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce9ab75bafe7d03c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(cos(x) ** I) == cos(x) ** I","simplify(cos(x) ** (2 + 3 * I)) == cos(x) ** (2 + 3 * I)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_17137():
     assert simplify(cos(x)**I) == cos(x)**I
     assert simplify(cos(x)**(2 + 3*I)) == cos(x)**(2 + 3*I)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_21869(), test_issue_21869 produces the expected output) over Any ║
+# ║ Path(test_issue_21869(), expr.simplify() == expr and expr.simplify() == Eq(x, 2) and expr.simplify() == Eq(x, 1) and expr.simplify() == Eq(x, 0) and expr.simplify() == S.false and expr.simplify() == And(Eq(y, 1), Eq(x, 1)) and expr.simplify() == And(Eq(y, 2), Eq(x, 1))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_21869 : Any → {Any | expr.simplify() == ex...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expr.simplify() == expr                        ║
+# ║   ensures:  expr.simplify() == Eq(x, 2)                    ║
+# ║   ensures:  expr.simplify() == Eq(x, 1)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_21869 : Any → {Any | result satisfies: exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b409efb0d0ed4ff2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7163ffb0e808fdf9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_21869","kind":"function","src_hash":"af21b5687aeb8d8c","in":{"base":"Any"},"out":{"base":"Any","pred":"expr.simplify() == expr and expr.simplify() == Eq(x, 2) and expr.simplify() == Eq(x, 1) and expr.simplify() == Eq(x, 0) and expr.simplify() == S.false and expr.simplify() == And(Eq(y, 1), Eq(x, 1)) and expr.simplify() == And(Eq(y, 1), Eq(x, 1)) and expr.simplify() == And(Eq(y, 2), Eq(x, 1)) and expr.simplify() == S.false"},"spec":{"lhs":"test_issue_21869()","rhs":"test_issue_21869 produces the expected output","over":{"base":"Any"},"name":"test_issue_21869_correct"},"guarantee":"test_issue_21869 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_21869_correct","statement":"Path(test_issue_21869(x), test_issue_21869 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b409efb0d0ed4ff2"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_21869","kind":"function","src_hash":"af21b5687aeb8d8c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expr.simplify() == expr and expr.simplify() == Eq(x, 2) and expr.simplify() == Eq(x, 1) and expr.simplify() == Eq(x, 0) and expr.simplify() == S.false and expr.simplify() == And(Eq(y, 1), Eq(x, 1)) and expr.simplify() == And(Eq(y, 2), Eq(x, 1))"},"spec":{"lhs":"test_issue_21869()","rhs":"expr.simplify() == expr and expr.simplify() == Eq(x, 2) and expr.simplify() == Eq(x, 1) and expr.simplify() == Eq(x, 0) and expr.simplify() == S.false and expr.simplify() == And(Eq(y, 1), Eq(x, 1)) and expr.simplify() == And(Eq(y, 2), Eq(x, 1))","over":{"base":"Any"},"name":"test_issue_21869_correct"},"guarantee":"expr.simplify() == expr; expr.simplify() == Eq(x, 2); expr.simplify() == Eq(x, 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_21869_correct","statement":"Path(test_issue_21869(x), expr.simplify() == expr; expr.simplify() == Eq(x, 2); expr.simplify() == Eq(x, 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7163ffb0e808fdf9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expr.simplify() == expr","expr.simplify() == Eq(x, 2)","expr.simplify() == Eq(x, 1)","expr.simplify() == Eq(x, 0)","expr.simplify() == S.false","expr.simplify() == And(Eq(y, 1), Eq(x, 1))","expr.simplify() == And(Eq(y, 2), Eq(x, 1))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_issue_21869():
     x = Symbol('x', real=True)
     y = Symbol('y', real=True)
@@ -1471,16 +1813,24 @@ def test_issue_21869():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_7971_21740(), test_issue_7971_21740 produces the expected output) over Any ║
+# ║ Path(test_issue_7971_21740(), z != 0 and simplify(z) is S.Zero and simplify(S.Zero) is S.Zero and z is not S.Zero and z == 0.0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_7971_21740 : Any → {Any | z != 0 and simpl...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  z != 0                                         ║
+# ║   ensures:  simplify(z) is S.Zero                          ║
+# ║   ensures:  simplify(S.Zero) is S.Zero                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_7971_21740 : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 533f3195665d8b69  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 76ad8ab14a80004d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_7971_21740","kind":"function","src_hash":"25ac2a8ad8c49022","in":{"base":"Any"},"out":{"base":"Any","pred":"z != 0 and simplify(z) is S.Zero and simplify(S.Zero) is S.Zero and z is not S.Zero and z == 0.0"},"spec":{"lhs":"test_issue_7971_21740()","rhs":"test_issue_7971_21740 produces the expected output","over":{"base":"Any"},"name":"test_issue_7971_21740_correct"},"guarantee":"test_issue_7971_21740 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_7971_21740_correct","statement":"Path(test_issue_7971_21740(x), test_issue_7971_21740 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"533f3195665d8b69"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_7971_21740","kind":"function","src_hash":"25ac2a8ad8c49022","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: z != 0 and simplify(z) is S.Zero and simplify(S.Zero) is S.Zero and z is not S.Zero and z == 0.0"},"spec":{"lhs":"test_issue_7971_21740()","rhs":"z != 0 and simplify(z) is S.Zero and simplify(S.Zero) is S.Zero and z is not S.Zero and z == 0.0","over":{"base":"Any"},"name":"test_issue_7971_21740_correct"},"guarantee":"z != 0; simplify(z) is S.Zero; simplify(S.Zero) is S.Zero","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_7971_21740_correct","statement":"Path(test_issue_7971_21740(x), z != 0; simplify(z) is S.Zero; simplify(S.Zero) is S.Zero)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76ad8ab14a80004d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["z != 0","simplify(z) is S.Zero","simplify(S.Zero) is S.Zero","z is not S.Zero and z == 0.0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_7971_21740():
     z = Integral(x, (x, 1, 1))
     assert z != 0
@@ -1492,16 +1842,22 @@ def test_issue_7971_21740():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_17141_slow(), test_issue_17141_slow produces the expected output) over Any ║
+# ║ Path(test_issue_17141_slow(), simplify((2 ** acos(I + 1) ** 2).rewrite('log')) == 2 ** ((pi + 2 * I * log(-1 + sqrt(1 - 2 * I) + I)) ** 2 / 4)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_17141_slow : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify((2 ** acos(I + 1) ** 2).rewrite(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_17141_slow : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c99beaf5aec97d07  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f7c210aca067a0a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_17141_slow","kind":"function","src_hash":"efb5195a2993aab7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_17141_slow()","rhs":"test_issue_17141_slow produces the expected output","over":{"base":"Any"},"name":"test_issue_17141_slow_correct"},"guarantee":"test_issue_17141_slow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_17141_slow_correct","statement":"Path(test_issue_17141_slow(x), test_issue_17141_slow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c99beaf5aec97d07"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_17141_slow","kind":"function","src_hash":"efb5195a2993aab7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify((2 ** acos(I + 1) ** 2).rewrite('log')) == 2 ** ((pi + 2 * I * log(-1 + sqrt(1 - 2 * I) + I)) ** 2 / 4)"},"spec":{"lhs":"test_issue_17141_slow()","rhs":"simplify((2 ** acos(I + 1) ** 2).rewrite('log')) == 2 ** ((pi + 2 * I * log(-1 + sqrt(1 - 2 * I) + I)) ** 2 / 4)","over":{"base":"Any"},"name":"test_issue_17141_slow_correct"},"guarantee":"simplify((2 ** acos(I + 1) ** 2).rewrite('log')) == 2 ** ((pi + 2 * I * log(-1 + sqrt(1 - 2 * I) + I)) ** 2 / 4)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_17141_slow_correct","statement":"Path(test_issue_17141_slow(x), simplify((2 ** acos(I + 1) ** 2).rewrite('log')) == 2 ** ((pi + 2 * I * log(-1 + sqrt(1 - 2 * I) + I)) ** 2 / 4))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f7c210aca067a0a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify((2 ** acos(I + 1) ** 2).rewrite('log')) == 2 ** ((pi + 2 * I * log(-1 + sqrt(1 - 2 * I) + I)) ** 2 / 4)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_17141_slow():
     # Should not give RecursionError
     assert simplify((2**acos(I+1)**2).rewrite('log')) == 2**((pi + 2*I*log(-1 +
@@ -1509,16 +1865,24 @@ def test_issue_17141_slow():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_17141(), test_issue_17141 produces the expected output) over Any ║
+# ║ Path(test_issue_17141(), simplify(x ** (1 / acos(I))) == x ** (2 / (pi - 2 * I * log(1 + sqrt(2)))) and simplify(acos(-I) ** 2 * acos(I) ** 2) == log(1 + sqrt(2)) ** 4 + pi ** 2 * log(1 + sqrt(2)) ** 2 / 2 + pi ** 4 / 16 and simplify(2 ** acos(I) ** 2) == 2 ** ((pi - 2 * I * log(1 + sqrt(2))) ** 2 / 4) and simplify(p) == p) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_17141 : Any → {Any | simplify(x ** (1 / ac...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(x ** (1 / acos(I))) == x ** (2 /...   ║
+# ║   ensures:  simplify(acos(-I) ** 2 * acos(I) ** 2) ==...   ║
+# ║   ensures:  simplify(2 ** acos(I) ** 2) == 2 ** ((pi ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_17141 : Any → {Any | result satisfies: sim...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b720f5ff4dc61fd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13859336186d5ac2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_17141","kind":"function","src_hash":"3f5800711dcb7e64","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(x ** (1 / acos(I))) == x ** (2 / (pi - 2 * I * log(1 + sqrt(2)))) and simplify(2 ** acos(I) ** 2) == 2 ** ((pi - 2 * I * log(1 + sqrt(2))) ** 2 / 4) and simplify(p) == p"},"spec":{"lhs":"test_issue_17141()","rhs":"test_issue_17141 produces the expected output","over":{"base":"Any"},"name":"test_issue_17141_correct"},"guarantee":"test_issue_17141 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_17141_correct","statement":"Path(test_issue_17141(x), test_issue_17141 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b720f5ff4dc61fd"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_17141","kind":"function","src_hash":"3f5800711dcb7e64","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(x ** (1 / acos(I))) == x ** (2 / (pi - 2 * I * log(1 + sqrt(2)))) and simplify(acos(-I) ** 2 * acos(I) ** 2) == log(1 + sqrt(2)) ** 4 + pi ** 2 * log(1 + sqrt(2)) ** 2 / 2 + pi ** 4 / 16 and simplify(2 ** acos(I) ** 2) == 2 ** ((pi - 2 * I * log(1 + sqrt(2))) ** 2 / 4) and simplify(p) == p"},"spec":{"lhs":"test_issue_17141()","rhs":"simplify(x ** (1 / acos(I))) == x ** (2 / (pi - 2 * I * log(1 + sqrt(2)))) and simplify(acos(-I) ** 2 * acos(I) ** 2) == log(1 + sqrt(2)) ** 4 + pi ** 2 * log(1 + sqrt(2)) ** 2 / 2 + pi ** 4 / 16 and simplify(2 ** acos(I) ** 2) == 2 ** ((pi - 2 * I * log(1 + sqrt(2))) ** 2 / 4) and simplify(p) == p","over":{"base":"Any"},"name":"test_issue_17141_correct"},"guarantee":"simplify(x ** (1 / acos(I))) == x ** (2 / (pi - 2 * I * log(1 + sqrt(2)))); simplify(acos(-I) ** 2 * acos(I) ** 2) == log(1 + sqrt(2)) ** 4 + pi ** 2 * log(1 + sqrt(2)) ** 2 / 2 + pi ** 4 / 16; simplify(2 ** acos(I) ** 2) == 2 ** ((pi - 2 * I * log(1 + sqrt(2))) ** 2 / 4)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_17141_correct","statement":"Path(test_issue_17141(x), simplify(x ** (1 / acos(I))) == x ** (2 / (pi - 2 * I * log(1 + sqrt(2)))); simplify(acos(-I) ** 2 * acos(I) ** 2) == log(1 + sqrt(2)) ** 4 + pi ** 2 * log(1 + sqrt(2)) ** 2 / 2 + pi ** 4 / 16; simplify(2 ** acos(I) ** 2) == 2 ** ((pi - 2 * I * log(1 + sqrt(2))) ** 2 / 4))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13859336186d5ac2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(x ** (1 / acos(I))) == x ** (2 / (pi - 2 * I * log(1 + sqrt(2))))","simplify(acos(-I) ** 2 * acos(I) ** 2) == log(1 + sqrt(2)) ** 4 + pi ** 2 * log(1 + sqrt(2)) ** 2 / 2 + pi ** 4 / 16","simplify(2 ** acos(I) ** 2) == 2 ** ((pi - 2 * I * log(1 + sqrt(2))) ** 2 / 4)","simplify(p) == p"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_17141():
     # Check that there is no RecursionError
     assert simplify(x**(1 / acos(I))) == x**(2/(pi - 2*I*log(1 + sqrt(2))))
@@ -1530,16 +1894,24 @@ def test_issue_17141():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_simplify_kroneckerdelta(), test_simplify_kroneckerdelta produces the expected output) over Any ║
+# ║ Path(test_simplify_kroneckerdelta(), simplify(K(i, j)) == K(i, j) and simplify(K(0, j)) == K(0, j) and simplify(K(i, 0)) == K(i, 0) and simplify(K(0, j).rewrite(Piecewise) * K(1, j)) == 0 and simplify(K(1, i) + Piecewise((1, Eq(j, 2)), (0, True))) == K(1, i) + K(2, j) and simplify(K(0, j) * K(1, j)) == 0 and simplify(K(0, n) * K(1, n)) == 0 and simplify(M ** 2) == Matrix([[K(0, n), 0, K(1, n), 0], [0, K(0, n), 0, K(1, n)], [0, 0, K(0, n), 0], [0, 0, 0, K(0, n)]]) and simplify(eye(1) * KroneckerDelta(0, n) * KroneckerDelta(1, n)) == Matrix([[0]]) and simplify(S.Infinity * KroneckerDelta(0, n) * KroneckerDelta(1, n)) is S.NaN) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_simplify_kroneckerdelta : Any → {Any | simplify(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(K(i, j)) == K(i, j)                   ║
+# ║   ensures:  simplify(K(0, j)) == K(0, j)                   ║
+# ║   ensures:  simplify(K(i, 0)) == K(i, 0)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_simplify_kroneckerdelta : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 04057f13759a3e7a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b52c63c70762a32  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_simplify_kroneckerdelta","kind":"function","src_hash":"ecd677372adcfa89","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(K(i, j)) == K(i, j) and simplify(K(0, j)) == K(0, j) and simplify(K(i, 0)) == K(i, 0) and simplify(K(0, j).rewrite(Piecewise) * K(1, j)) == 0 and simplify(K(1, i) + Piecewise((1, Eq(j, 2)), (0, True))) == K(1, i) + K(2, j) and simplify(K(0, j) * K(1, j)) == 0 and simplify(K(0, n) * K(1, n)) == 0 and simplify(eye(1) * KroneckerDelta(0, n) * KroneckerDelta(1, n)) == Matrix([[0]]) and simplify(S.Infinity * KroneckerDelta(0, n) * KroneckerDelta(1, n)) is S.NaN"},"spec":{"lhs":"test_simplify_kroneckerdelta()","rhs":"test_simplify_kroneckerdelta produces the expected output","over":{"base":"Any"},"name":"test_simplify_kroneckerdelta_correct"},"guarantee":"test_simplify_kroneckerdelta produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_simplify_kroneckerdelta_correct","statement":"Path(test_simplify_kroneckerdelta(x), test_simplify_kroneckerdelta produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04057f13759a3e7a"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_simplify_kroneckerdelta","kind":"function","src_hash":"ecd677372adcfa89","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(K(i, j)) == K(i, j) and simplify(K(0, j)) == K(0, j) and simplify(K(i, 0)) == K(i, 0) and simplify(K(0, j).rewrite(Piecewise) * K(1, j)) == 0 and simplify(K(1, i) + Piecewise((1, Eq(j, 2)), (0, True))) == K(1, i) + K(2, j) and simplify(K(0, j) * K(1, j)) == 0 and simplify(K(0, n) * K(1, n)) == 0 and simplify(M ** 2) == Matrix([[K(0, n), 0, K(1, n), 0], [0, K(0, n), 0, K(1, n)], [0, 0, K(0, n), 0], [0, 0, 0, K(0, n)]]) and simplify(eye(1) * KroneckerDelta(0, n) * KroneckerDelta(1, n)) == Matrix([[0]]) and simplify(S.Infinity * KroneckerDelta(0, n) * KroneckerDelta(1, n)) is S.NaN"},"spec":{"lhs":"test_simplify_kroneckerdelta()","rhs":"simplify(K(i, j)) == K(i, j) and simplify(K(0, j)) == K(0, j) and simplify(K(i, 0)) == K(i, 0) and simplify(K(0, j).rewrite(Piecewise) * K(1, j)) == 0 and simplify(K(1, i) + Piecewise((1, Eq(j, 2)), (0, True))) == K(1, i) + K(2, j) and simplify(K(0, j) * K(1, j)) == 0 and simplify(K(0, n) * K(1, n)) == 0 and simplify(M ** 2) == Matrix([[K(0, n), 0, K(1, n), 0], [0, K(0, n), 0, K(1, n)], [0, 0, K(0, n), 0], [0, 0, 0, K(0, n)]]) and simplify(eye(1) * KroneckerDelta(0, n) * KroneckerDelta(1, n)) == Matrix([[0]]) and simplify(S.Infinity * KroneckerDelta(0, n) * KroneckerDelta(1, n)) is S.NaN","over":{"base":"Any"},"name":"test_simplify_kroneckerdelta_correct"},"guarantee":"simplify(K(i, j)) == K(i, j); simplify(K(0, j)) == K(0, j); simplify(K(i, 0)) == K(i, 0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_simplify_kroneckerdelta_correct","statement":"Path(test_simplify_kroneckerdelta(x), simplify(K(i, j)) == K(i, j); simplify(K(0, j)) == K(0, j); simplify(K(i, 0)) == K(i, 0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b52c63c70762a32","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(K(i, j)) == K(i, j)","simplify(K(0, j)) == K(0, j)","simplify(K(i, 0)) == K(i, 0)","simplify(K(0, j).rewrite(Piecewise) * K(1, j)) == 0","simplify(K(1, i) + Piecewise((1, Eq(j, 2)), (0, True))) == K(1, i) + K(2, j)","simplify(K(0, j) * K(1, j)) == 0","simplify(K(0, n) * K(1, n)) == 0","simplify(M ** 2) == Matrix([[K(0, n), 0, K(1, n), 0], [0, K(0, n), 0, K(1, n)], [0, 0, K(0, n), 0], [0, 0, 0, K(0, n)]])","simplify(eye(1) * KroneckerDelta(0, n) * KroneckerDelta(1, n)) == Matrix([[0]])","simplify(S.Infinity * KroneckerDelta(0, n) * KroneckerDelta(1, n)) is S.NaN"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_simplify_kroneckerdelta():
     i, j = symbols("i j")
     K = KroneckerDelta
@@ -1570,16 +1942,23 @@ def test_simplify_kroneckerdelta():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_17292(), test_issue_17292 produces the expected output) over Any ║
+# ║ Path(test_issue_17292(), simplify(abs(x) / abs(x ** 2)) == 1 / abs(x) and simplify(5 * abs((x ** 2 - 1) / (x - 1))) == 5 * Abs(x + 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_17292 : Any → {Any | simplify(abs(x) / abs...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(abs(x) / abs(x ** 2)) == 1 / abs(x)   ║
+# ║   ensures:  simplify(5 * abs((x ** 2 - 1) / (x - 1)))...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_17292 : Any → {Any | result satisfies: sim...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b342d8f7f91ad4ae  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a33e660552168fec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_17292","kind":"function","src_hash":"26cd044fb6bc8e71","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(abs(x) / abs(x ** 2)) == 1 / abs(x) and simplify(5 * abs((x ** 2 - 1) / (x - 1))) == 5 * Abs(x + 1)"},"spec":{"lhs":"test_issue_17292()","rhs":"test_issue_17292 produces the expected output","over":{"base":"Any"},"name":"test_issue_17292_correct"},"guarantee":"test_issue_17292 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_17292_correct","statement":"Path(test_issue_17292(x), test_issue_17292 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b342d8f7f91ad4ae"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_17292","kind":"function","src_hash":"26cd044fb6bc8e71","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(abs(x) / abs(x ** 2)) == 1 / abs(x) and simplify(5 * abs((x ** 2 - 1) / (x - 1))) == 5 * Abs(x + 1)"},"spec":{"lhs":"test_issue_17292()","rhs":"simplify(abs(x) / abs(x ** 2)) == 1 / abs(x) and simplify(5 * abs((x ** 2 - 1) / (x - 1))) == 5 * Abs(x + 1)","over":{"base":"Any"},"name":"test_issue_17292_correct"},"guarantee":"simplify(abs(x) / abs(x ** 2)) == 1 / abs(x); simplify(5 * abs((x ** 2 - 1) / (x - 1))) == 5 * Abs(x + 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_17292_correct","statement":"Path(test_issue_17292(x), simplify(abs(x) / abs(x ** 2)) == 1 / abs(x); simplify(5 * abs((x ** 2 - 1) / (x - 1))) == 5 * Abs(x + 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a33e660552168fec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(abs(x) / abs(x ** 2)) == 1 / abs(x)","simplify(5 * abs((x ** 2 - 1) / (x - 1))) == 5 * Abs(x + 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_17292():
     assert simplify(abs(x)/abs(x**2)) == 1/abs(x)
     # this is bigger than the issue: check that deep processing works
@@ -1587,32 +1966,44 @@ def test_issue_17292():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_19822(), test_issue_19822 produces the expected output) over Any ║
+# ║ Path(test_issue_19822(), simplify(expr) == Gt(n, 3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_19822 : Any → {Any | simplify(expr) == Gt(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(expr) == Gt(n, 3)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_19822 : Any → {Any | result satisfies: sim...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98677d04c270859c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac0f8f70d0f0239a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_19822","kind":"function","src_hash":"62db9534c98d4fe8","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(expr) == Gt(n, 3)"},"spec":{"lhs":"test_issue_19822()","rhs":"test_issue_19822 produces the expected output","over":{"base":"Any"},"name":"test_issue_19822_correct"},"guarantee":"test_issue_19822 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_19822_correct","statement":"Path(test_issue_19822(x), test_issue_19822 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98677d04c270859c"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_19822","kind":"function","src_hash":"62db9534c98d4fe8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(expr) == Gt(n, 3)"},"spec":{"lhs":"test_issue_19822()","rhs":"simplify(expr) == Gt(n, 3)","over":{"base":"Any"},"name":"test_issue_19822_correct"},"guarantee":"simplify(expr) == Gt(n, 3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_19822_correct","statement":"Path(test_issue_19822(x), simplify(expr) == Gt(n, 3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac0f8f70d0f0239a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(expr) == Gt(n, 3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_19822():
     expr = And(Gt(n-2, 1), Gt(n, 1))
     assert simplify(expr) == Gt(n, 3)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_18645(), test_issue_18645 produces the expected output) over Any ║
+# ║ Path(test_issue_18645(), simplify(expr) == Eq(x, 3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_18645 : Any → {Any | simplify(expr) == Eq(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(expr) == Eq(x, 3)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_18645 : Any → {Any | result satisfies: sim...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a972b950c4357e45  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 897864943fd64598  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_18645","kind":"function","src_hash":"5bb5cb5ee318d945","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(expr) == Eq(x, 3) and simplify(expr) == Eq(x, 3)"},"spec":{"lhs":"test_issue_18645()","rhs":"test_issue_18645 produces the expected output","over":{"base":"Any"},"name":"test_issue_18645_correct"},"guarantee":"test_issue_18645 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_18645_correct","statement":"Path(test_issue_18645(x), test_issue_18645 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a972b950c4357e45"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_18645","kind":"function","src_hash":"5bb5cb5ee318d945","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(expr) == Eq(x, 3)"},"spec":{"lhs":"test_issue_18645()","rhs":"simplify(expr) == Eq(x, 3)","over":{"base":"Any"},"name":"test_issue_18645_correct"},"guarantee":"simplify(expr) == Eq(x, 3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_18645_correct","statement":"Path(test_issue_18645(x), simplify(expr) == Eq(x, 3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"897864943fd64598","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(expr) == Eq(x, 3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_18645():
     expr = And(Ge(x, 3), Le(x, 3))
     assert simplify(expr) == Eq(x, 3)
@@ -1622,16 +2013,22 @@ def test_issue_18645():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_18642(), test_issue_18642 produces the expected output) over Any ║
+# ║ Path(test_issue_18642(), simplify(expr) == S.false) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_18642 : Any → {Any | simplify(expr) == S.f...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(expr) == S.false                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_18642 : Any → {Any | result satisfies: sim...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3a9382ccc7a4f970  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec536959d3cdaf5d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_18642","kind":"function","src_hash":"79540347c8c52b2e","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(expr) == S.false"},"spec":{"lhs":"test_issue_18642()","rhs":"test_issue_18642 produces the expected output","over":{"base":"Any"},"name":"test_issue_18642_correct"},"guarantee":"test_issue_18642 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_18642_correct","statement":"Path(test_issue_18642(x), test_issue_18642 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a9382ccc7a4f970"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_18642","kind":"function","src_hash":"79540347c8c52b2e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(expr) == S.false"},"spec":{"lhs":"test_issue_18642()","rhs":"simplify(expr) == S.false","over":{"base":"Any"},"name":"test_issue_18642_correct"},"guarantee":"simplify(expr) == S.false","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_18642_correct","statement":"Path(test_issue_18642(x), simplify(expr) == S.false)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec536959d3cdaf5d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(expr) == S.false"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_18642():
     i = Symbol("i", integer=True)
     n = Symbol("n", integer=True)
@@ -1641,16 +2038,22 @@ def test_issue_18642():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_18389(), test_issue_18389 produces the expected output) over Any ║
+# ║ Path(test_issue_18389(), simplify(expr) == Ge(n, 0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_18389 : Any → {Any | simplify(expr) == Ge(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(expr) == Ge(n, 0)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_18389 : Any → {Any | result satisfies: sim...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 85299817ef097b25  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2d3508508d0715b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_18389","kind":"function","src_hash":"bd4e8c2bce874d7e","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(expr) == Ge(n, 0)"},"spec":{"lhs":"test_issue_18389()","rhs":"test_issue_18389 produces the expected output","over":{"base":"Any"},"name":"test_issue_18389_correct"},"guarantee":"test_issue_18389 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_18389_correct","statement":"Path(test_issue_18389(x), test_issue_18389 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85299817ef097b25"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_18389","kind":"function","src_hash":"bd4e8c2bce874d7e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(expr) == Ge(n, 0)"},"spec":{"lhs":"test_issue_18389()","rhs":"simplify(expr) == Ge(n, 0)","over":{"base":"Any"},"name":"test_issue_18389_correct"},"guarantee":"simplify(expr) == Ge(n, 0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_18389_correct","statement":"Path(test_issue_18389(x), simplify(expr) == Ge(n, 0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2d3508508d0715b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(expr) == Ge(n, 0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_18389():
     n = Symbol("n", integer=True)
     expr = Eq(n, 0) | (n >= 1)
@@ -1658,48 +2061,66 @@ def test_issue_18389():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_8373(), test_issue_8373 produces the expected output) over Any ║
+# ║ Path(test_issue_8373(), simplify(Or(x < 1, x >= 1)) == S.true) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_8373 : Any → {Any | simplify(Or(x < 1, x >...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(Or(x < 1, x >= 1)) == S.true          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_8373 : Any → {Any | result satisfies: simp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38d0bf5ed793a773  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 31af63fb9d143044  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_8373","kind":"function","src_hash":"0fcaa5ca8d65a1b7","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(Or(x < 1, x >= 1)) == S.true"},"spec":{"lhs":"test_issue_8373()","rhs":"test_issue_8373 produces the expected output","over":{"base":"Any"},"name":"test_issue_8373_correct"},"guarantee":"test_issue_8373 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_8373_correct","statement":"Path(test_issue_8373(x), test_issue_8373 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38d0bf5ed793a773"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_8373","kind":"function","src_hash":"0fcaa5ca8d65a1b7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(Or(x < 1, x >= 1)) == S.true"},"spec":{"lhs":"test_issue_8373()","rhs":"simplify(Or(x < 1, x >= 1)) == S.true","over":{"base":"Any"},"name":"test_issue_8373_correct"},"guarantee":"simplify(Or(x < 1, x >= 1)) == S.true","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_8373_correct","statement":"Path(test_issue_8373(x), simplify(Or(x < 1, x >= 1)) == S.true)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31af63fb9d143044","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(Or(x < 1, x >= 1)) == S.true"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_8373():
     x = Symbol('x', real=True)
     assert simplify(Or(x < 1, x >= 1)) == S.true
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_7950(), test_issue_7950 produces the expected output) over Any ║
+# ║ Path(test_issue_7950(), simplify(expr) == S.false) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_7950 : Any → {Any | simplify(expr) == S.fa...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(expr) == S.false                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_7950 : Any → {Any | result satisfies: simp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32e39a2d1ec8befc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 987879c9d65f6229  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_7950","kind":"function","src_hash":"315231071e900234","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(expr) == S.false"},"spec":{"lhs":"test_issue_7950()","rhs":"test_issue_7950 produces the expected output","over":{"base":"Any"},"name":"test_issue_7950_correct"},"guarantee":"test_issue_7950 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_7950_correct","statement":"Path(test_issue_7950(x), test_issue_7950 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32e39a2d1ec8befc"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_7950","kind":"function","src_hash":"315231071e900234","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(expr) == S.false"},"spec":{"lhs":"test_issue_7950()","rhs":"simplify(expr) == S.false","over":{"base":"Any"},"name":"test_issue_7950_correct"},"guarantee":"simplify(expr) == S.false","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_7950_correct","statement":"Path(test_issue_7950(x), simplify(expr) == S.false)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"987879c9d65f6229","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(expr) == S.false"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_7950():
     expr = And(Eq(x, 1), Eq(x, 2))
     assert simplify(expr) == S.false
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_22020(), test_issue_22020 produces the expected output) over Any ║
+# ║ Path(test_issue_22020(), simplify(expr) == expr) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_22020 : Any → {Any | simplify(expr) == expr}    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(expr) == expr                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_22020 : Any → {Any | result satisfies: sim...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ffeb57f8ea87d8d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f5fcf139f42ab8b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_22020","kind":"function","src_hash":"c91f4338b4388636","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(expr) == expr"},"spec":{"lhs":"test_issue_22020()","rhs":"test_issue_22020 produces the expected output","over":{"base":"Any"},"name":"test_issue_22020_correct"},"guarantee":"test_issue_22020 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_22020_correct","statement":"Path(test_issue_22020(x), test_issue_22020 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ffeb57f8ea87d8d"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_22020","kind":"function","src_hash":"c91f4338b4388636","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(expr) == expr"},"spec":{"lhs":"test_issue_22020()","rhs":"simplify(expr) == expr","over":{"base":"Any"},"name":"test_issue_22020_correct"},"guarantee":"simplify(expr) == expr","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_22020_correct","statement":"Path(test_issue_22020(x), simplify(expr) == expr)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f5fcf139f42ab8b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(expr) == expr"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_22020():
     expr = I*pi/2 -oo
     assert simplify(expr) == expr
@@ -1707,16 +2128,24 @@ def test_issue_22020():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_19484(), test_issue_19484 produces the expected output) over Any ║
+# ║ Path(test_issue_19484(), simplify(sign(x) * Abs(x)) == x and simplify(Abs(x + x ** 3) * e) == x ** 3 + x * Abs(x ** 3 + x) + x and simplify(Abs(x ** 3 + 1) * e) == x ** 3 + x ** 2 * Abs(x ** 3 + 1) + 1 and simplify(Abs(x + f(x) ** 3) * e) == x * Abs(x + f(x) ** 3) + x + f(x) ** 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_19484 : Any → {Any | simplify(sign(x) * Ab...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(sign(x) * Abs(x)) == x                ║
+# ║   ensures:  simplify(Abs(x + x ** 3) * e) == x ** 3 +...   ║
+# ║   ensures:  simplify(Abs(x ** 3 + 1) * e) == x ** 3 +...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_19484 : Any → {Any | result satisfies: sim...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d2496ceee3efc49  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d859c40d746fcc2a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_19484","kind":"function","src_hash":"4afa048c0cfa481c","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(sign(x) * Abs(x)) == x and simplify(Abs(x + x ** 3) * e) == x ** 3 + x * Abs(x ** 3 + x) + x and simplify(Abs(x ** 3 + 1) * e) == x ** 3 + x ** 2 * Abs(x ** 3 + 1) + 1 and simplify(Abs(x + f(x) ** 3) * e) == x * Abs(x + f(x) ** 3) + x + f(x) ** 3"},"spec":{"lhs":"test_issue_19484()","rhs":"test_issue_19484 produces the expected output","over":{"base":"Any"},"name":"test_issue_19484_correct"},"guarantee":"test_issue_19484 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_19484_correct","statement":"Path(test_issue_19484(x), test_issue_19484 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d2496ceee3efc49"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_19484","kind":"function","src_hash":"4afa048c0cfa481c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(sign(x) * Abs(x)) == x and simplify(Abs(x + x ** 3) * e) == x ** 3 + x * Abs(x ** 3 + x) + x and simplify(Abs(x ** 3 + 1) * e) == x ** 3 + x ** 2 * Abs(x ** 3 + 1) + 1 and simplify(Abs(x + f(x) ** 3) * e) == x * Abs(x + f(x) ** 3) + x + f(x) ** 3"},"spec":{"lhs":"test_issue_19484()","rhs":"simplify(sign(x) * Abs(x)) == x and simplify(Abs(x + x ** 3) * e) == x ** 3 + x * Abs(x ** 3 + x) + x and simplify(Abs(x ** 3 + 1) * e) == x ** 3 + x ** 2 * Abs(x ** 3 + 1) + 1 and simplify(Abs(x + f(x) ** 3) * e) == x * Abs(x + f(x) ** 3) + x + f(x) ** 3","over":{"base":"Any"},"name":"test_issue_19484_correct"},"guarantee":"simplify(sign(x) * Abs(x)) == x; simplify(Abs(x + x ** 3) * e) == x ** 3 + x * Abs(x ** 3 + x) + x; simplify(Abs(x ** 3 + 1) * e) == x ** 3 + x ** 2 * Abs(x ** 3 + 1) + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_19484_correct","statement":"Path(test_issue_19484(x), simplify(sign(x) * Abs(x)) == x; simplify(Abs(x + x ** 3) * e) == x ** 3 + x * Abs(x ** 3 + x) + x; simplify(Abs(x ** 3 + 1) * e) == x ** 3 + x ** 2 * Abs(x ** 3 + 1) + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d859c40d746fcc2a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(sign(x) * Abs(x)) == x","simplify(Abs(x + x ** 3) * e) == x ** 3 + x * Abs(x ** 3 + x) + x","simplify(Abs(x ** 3 + 1) * e) == x ** 3 + x ** 2 * Abs(x ** 3 + 1) + 1","simplify(Abs(x + f(x) ** 3) * e) == x * Abs(x + f(x) ** 3) + x + f(x) ** 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_19484():
     assert simplify(sign(x) * Abs(x)) == x
 
@@ -1732,16 +2161,22 @@ def test_issue_19484():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_23543(), test_issue_23543 produces the expected output) over Any ║
+# ║ Path(test_issue_23543(), (x * (y + z / 2)).simplify() == x * (2 * y + z) / 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_23543 : Any → {Any | (x * (y + z / 2)).sim...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x * (y + z / 2)).simplify() == x * (2 * ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_23543 : Any → {Any | result satisfies: (x ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 01d71218357c0af0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2420c3be78c5141  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_23543","kind":"function","src_hash":"50cc55cf58ed7dbb","in":{"base":"Any"},"out":{"base":"Any","pred":"(x * (y + z / 2)).simplify() == x * (2 * y + z) / 2"},"spec":{"lhs":"test_issue_23543()","rhs":"test_issue_23543 produces the expected output","over":{"base":"Any"},"name":"test_issue_23543_correct"},"guarantee":"test_issue_23543 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_23543_correct","statement":"Path(test_issue_23543(x), test_issue_23543 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01d71218357c0af0"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_23543","kind":"function","src_hash":"50cc55cf58ed7dbb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (x * (y + z / 2)).simplify() == x * (2 * y + z) / 2"},"spec":{"lhs":"test_issue_23543()","rhs":"(x * (y + z / 2)).simplify() == x * (2 * y + z) / 2","over":{"base":"Any"},"name":"test_issue_23543_correct"},"guarantee":"(x * (y + z / 2)).simplify() == x * (2 * y + z) / 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_23543_correct","statement":"Path(test_issue_23543(x), (x * (y + z / 2)).simplify() == x * (2 * y + z) / 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2420c3be78c5141","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x * (y + z / 2)).simplify() == x * (2 * y + z) / 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_23543():
     # Used to give an error
     x, y, z = symbols("x y z", commutative=False)
@@ -1749,16 +2184,22 @@ def test_issue_23543():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_11004(), test_issue_11004 produces the expected output) over Any ║
+# ║ Path(test_issue_11004(), r == half * k * log(k) - half * k * log(k + 1) + half * log(N) - half * log(k + 1) + Float(0.9189224, 4)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_11004 : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  r == half * k * log(k) - half * k * log(k...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_11004 : Any → {Any | result satisfies: r =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 48ea3f934ccd3962  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3c701266bf5715c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_11004","kind":"function","src_hash":"f74728bbeacb4d14","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_11004()","rhs":"test_issue_11004 produces the expected output","over":{"base":"Any"},"name":"test_issue_11004_correct"},"guarantee":"test_issue_11004 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_11004_correct","statement":"Path(test_issue_11004(x), test_issue_11004 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"48ea3f934ccd3962"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_11004","kind":"function","src_hash":"f74728bbeacb4d14","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: r == half * k * log(k) - half * k * log(k + 1) + half * log(N) - half * log(k + 1) + Float(0.9189224, 4)"},"spec":{"lhs":"test_issue_11004()","rhs":"r == half * k * log(k) - half * k * log(k + 1) + half * log(N) - half * log(k + 1) + Float(0.9189224, 4)","over":{"base":"Any"},"name":"test_issue_11004_correct"},"guarantee":"r == half * k * log(k) - half * k * log(k + 1) + half * log(N) - half * log(k + 1) + Float(0.9189224, 4)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_11004_correct","statement":"Path(test_issue_11004(x), r == half * k * log(k) - half * k * log(k + 1) + half * log(N) - half * log(k + 1) + Float(0.9189224, 4))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3c701266bf5715c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["r == half * k * log(k) - half * k * log(k + 1) + half * log(N) - half * log(k + 1) + Float(0.9189224, 4)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_11004():
 
     def f(n):
@@ -1784,32 +2225,44 @@ def test_issue_11004():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_19161(), test_issue_19161 produces the expected output) over Any ║
+# ║ Path(test_issue_19161(), (polynomial - x ** 2).simplify() == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_19161 : Any → {Any | (polynomial - x ** 2)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (polynomial - x ** 2).simplify() == 0          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_19161 : Any → {Any | result satisfies: (po...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d434691790d11561  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb05c9c504f518c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_19161","kind":"function","src_hash":"b8e1082802199faf","in":{"base":"Any"},"out":{"base":"Any","pred":"(polynomial - x ** 2).simplify() == 0"},"spec":{"lhs":"test_issue_19161()","rhs":"test_issue_19161 produces the expected output","over":{"base":"Any"},"name":"test_issue_19161_correct"},"guarantee":"test_issue_19161 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_19161_correct","statement":"Path(test_issue_19161(x), test_issue_19161 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d434691790d11561"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_19161","kind":"function","src_hash":"b8e1082802199faf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (polynomial - x ** 2).simplify() == 0"},"spec":{"lhs":"test_issue_19161()","rhs":"(polynomial - x ** 2).simplify() == 0","over":{"base":"Any"},"name":"test_issue_19161_correct"},"guarantee":"(polynomial - x ** 2).simplify() == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_19161_correct","statement":"Path(test_issue_19161(x), (polynomial - x ** 2).simplify() == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb05c9c504f518c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(polynomial - x ** 2).simplify() == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_19161():
     polynomial = Poly('x**2').simplify()
     assert (polynomial-x**2).simplify() == 0
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_22210(), test_issue_22210 produces the expected output) over Any ║
+# ║ Path(test_issue_22210(), expr.simplify() == expr) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_22210 : Any → {Any | expr.simplify() == expr}   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expr.simplify() == expr                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_22210 : Any → {Any | result satisfies: exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03d75bc3c052c743  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d1bb96099c33728  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_22210","kind":"function","src_hash":"4a1f225ad86a2b53","in":{"base":"Any"},"out":{"base":"Any","pred":"expr.simplify() == expr"},"spec":{"lhs":"test_issue_22210()","rhs":"test_issue_22210 produces the expected output","over":{"base":"Any"},"name":"test_issue_22210_correct"},"guarantee":"test_issue_22210 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_22210_correct","statement":"Path(test_issue_22210(x), test_issue_22210 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03d75bc3c052c743"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_issue_22210","kind":"function","src_hash":"4a1f225ad86a2b53","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expr.simplify() == expr"},"spec":{"lhs":"test_issue_22210()","rhs":"expr.simplify() == expr","over":{"base":"Any"},"name":"test_issue_22210_correct"},"guarantee":"expr.simplify() == expr","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_issue_22210_correct","statement":"Path(test_issue_22210(x), expr.simplify() == expr)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d1bb96099c33728","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expr.simplify() == expr"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_22210():
     d = Symbol('d', integer=True)
     expr = 2*Derivative(sin(x), (x, d))
@@ -1817,16 +2270,24 @@ def test_issue_22210():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_reduce_inverses_nc_pow(), test_reduce_inverses_nc_pow produces the expected output) over Any ║
+# ║ Path(test_reduce_inverses_nc_pow(), simplify(2 ** Z * y ** Z) == 2 ** Z * y ** Z and simplify(x ** Z * y ** Z) == x ** Z * y ** Z and expand((x * y) ** Z) == x ** Z * y ** Z and simplify(x ** Z * y ** Z) == expand((x * y) ** Z)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_reduce_inverses_nc_pow : Any → {Any | simplify(2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(2 ** Z * y ** Z) == 2 ** Z * y ** Z   ║
+# ║   ensures:  simplify(x ** Z * y ** Z) == x ** Z * y ** Z   ║
+# ║   ensures:  expand((x * y) ** Z) == x ** Z * y ** Z        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_reduce_inverses_nc_pow : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a12df7a8845bf511  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 001281411619bb03  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_reduce_inverses_nc_pow","kind":"function","src_hash":"e28f8027d7c3bba9","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(2 ** Z * y ** Z) == 2 ** Z * y ** Z and simplify(x ** Z * y ** Z) == x ** Z * y ** Z and expand((x * y) ** Z) == x ** Z * y ** Z and simplify(x ** Z * y ** Z) == expand((x * y) ** Z)"},"spec":{"lhs":"test_reduce_inverses_nc_pow()","rhs":"test_reduce_inverses_nc_pow produces the expected output","over":{"base":"Any"},"name":"test_reduce_inverses_nc_pow_correct"},"guarantee":"test_reduce_inverses_nc_pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_reduce_inverses_nc_pow_correct","statement":"Path(test_reduce_inverses_nc_pow(x), test_reduce_inverses_nc_pow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a12df7a8845bf511"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_reduce_inverses_nc_pow","kind":"function","src_hash":"e28f8027d7c3bba9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(2 ** Z * y ** Z) == 2 ** Z * y ** Z and simplify(x ** Z * y ** Z) == x ** Z * y ** Z and expand((x * y) ** Z) == x ** Z * y ** Z and simplify(x ** Z * y ** Z) == expand((x * y) ** Z)"},"spec":{"lhs":"test_reduce_inverses_nc_pow()","rhs":"simplify(2 ** Z * y ** Z) == 2 ** Z * y ** Z and simplify(x ** Z * y ** Z) == x ** Z * y ** Z and expand((x * y) ** Z) == x ** Z * y ** Z and simplify(x ** Z * y ** Z) == expand((x * y) ** Z)","over":{"base":"Any"},"name":"test_reduce_inverses_nc_pow_correct"},"guarantee":"simplify(2 ** Z * y ** Z) == 2 ** Z * y ** Z; simplify(x ** Z * y ** Z) == x ** Z * y ** Z; expand((x * y) ** Z) == x ** Z * y ** Z","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_reduce_inverses_nc_pow_correct","statement":"Path(test_reduce_inverses_nc_pow(x), simplify(2 ** Z * y ** Z) == 2 ** Z * y ** Z; simplify(x ** Z * y ** Z) == x ** Z * y ** Z; expand((x * y) ** Z) == x ** Z * y ** Z)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"001281411619bb03","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(2 ** Z * y ** Z) == 2 ** Z * y ** Z","simplify(x ** Z * y ** Z) == x ** Z * y ** Z","expand((x * y) ** Z) == x ** Z * y ** Z","simplify(x ** Z * y ** Z) == expand((x * y) ** Z)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_reduce_inverses_nc_pow():
     x, y = symbols("x y", commutative=True)
     Z = symbols("Z", commutative=False)
@@ -1837,16 +2298,23 @@ def test_reduce_inverses_nc_pow():
     assert simplify(x**Z * y**Z) == expand((x*y)**Z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nc_recursion_coeff(), test_nc_recursion_coeff produces the expected output) over Any ║
+# ║ Path(test_nc_recursion_coeff(), (2 * cos(pi / 3) * X).simplify() == X and (2.0 * cos(pi / 3) * X).simplify() == X) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_nc_recursion_coeff : Any → {Any | (2 * cos(pi / ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (2 * cos(pi / 3) * X).simplify() == X          ║
+# ║   ensures:  (2.0 * cos(pi / 3) * X).simplify() == X        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_nc_recursion_coeff : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ca0a85591926469  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 35254c2ce54b26bb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_nc_recursion_coeff","kind":"function","src_hash":"532dd72127cc2143","in":{"base":"Any"},"out":{"base":"Any","pred":"(2 * cos(pi / 3) * X).simplify() == X and (2.0 * cos(pi / 3) * X).simplify() == X"},"spec":{"lhs":"test_nc_recursion_coeff()","rhs":"test_nc_recursion_coeff produces the expected output","over":{"base":"Any"},"name":"test_nc_recursion_coeff_correct"},"guarantee":"test_nc_recursion_coeff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_nc_recursion_coeff_correct","statement":"Path(test_nc_recursion_coeff(x), test_nc_recursion_coeff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ca0a85591926469"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_simplify.test_nc_recursion_coeff","kind":"function","src_hash":"532dd72127cc2143","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (2 * cos(pi / 3) * X).simplify() == X and (2.0 * cos(pi / 3) * X).simplify() == X"},"spec":{"lhs":"test_nc_recursion_coeff()","rhs":"(2 * cos(pi / 3) * X).simplify() == X and (2.0 * cos(pi / 3) * X).simplify() == X","over":{"base":"Any"},"name":"test_nc_recursion_coeff_correct"},"guarantee":"(2 * cos(pi / 3) * X).simplify() == X; (2.0 * cos(pi / 3) * X).simplify() == X","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_simplify.test_nc_recursion_coeff_correct","statement":"Path(test_nc_recursion_coeff(x), (2 * cos(pi / 3) * X).simplify() == X; (2.0 * cos(pi / 3) * X).simplify() == X)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35254c2ce54b26bb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(2 * cos(pi / 3) * X).simplify() == X","(2.0 * cos(pi / 3) * X).simplify() == X"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_nc_recursion_coeff():
     X = symbols("X", commutative = False)
     assert (2 * cos(pi/3) * X).simplify() == X

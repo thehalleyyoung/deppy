@@ -276,16 +276,22 @@ from sympy.polys.polyerrors import PolynomialError
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sylvester(f, ), the input polynomials f, g are in z[x] or in q[x]) over Any ║
+# ║ Path(sylvester(f, g, x), <unspecified:sylvester>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sylvester : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b0c3c2a10e4c89fc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.sylvester","kind":"function","src_hash":"b9106a28a8eff845","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sylvester(f, )","rhs":"the input polynomials f, g are in z[x] or in q[x]","over":{"base":"Any"},"name":"sylvester_correct"},"guarantee":"the input polynomials f, g are in z[x] or in q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.sylvester_correct","statement":"Path(sylvester(x), the input polynomials f, g are in z[x] or in q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0c3c2a10e4c89fc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.sylvester","kind":"function","src_hash":"b9106a28a8eff845","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sylvester(f, g, x)","rhs":"<unspecified:sylvester>","over":{"base":"Any"},"name":"sylvester_correct"},"guarantee":"the input polynomials f, g are in z[x] or in q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.sylvester_correct","statement":"Path(sylvester(x), the input polynomials f, g are in z[x] or in q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0c3c2a10e4c89fc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def sylvester(f, g, x, method = 1):
     '''
       The input polynomials f, g are in Z[x] or in Q[x]. Let m = degree(f, x),
@@ -392,16 +398,22 @@ def sylvester(f, g, x, method = 1):
         return M
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(process_matrix_output(pol), poly_seq is a polynomial remainder sequence computed either by (modified_)subresultants_bezout or by (modified_)subresultants_sylv) over Any ║
+# ║ Path(process_matrix_output(poly_seq, x), <unspecified:process_matrix_output>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ process_matrix_output : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c9debb23786a6392  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.process_matrix_output","kind":"function","src_hash":"e059317a4ae9ce3b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"process_matrix_output(pol)","rhs":"poly_seq is a polynomial remainder sequence computed either by (modified_)subresultants_bezout or by (modified_)subresultants_sylv","over":{"base":"Any"},"name":"process_matrix_output_correct"},"guarantee":"poly_seq is a polynomial remainder sequence computed either by (modified_)subresultants_bezout or by (modified_)subresultants_sylv","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.process_matrix_output_correct","statement":"Path(process_matrix_output(x), poly_seq is a polynomial remainder sequence computed either by (modified_)subresultants_bezout or by (modified_)subresultants_sylv)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9debb23786a6392"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.process_matrix_output","kind":"function","src_hash":"e059317a4ae9ce3b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"process_matrix_output(poly_seq, x)","rhs":"<unspecified:process_matrix_output>","over":{"base":"Any"},"name":"process_matrix_output_correct"},"guarantee":"poly_seq is a polynomial remainder sequence computed either by (modified_)subresultants_bezout or by (modified_)subresultants_sylv","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.process_matrix_output_correct","statement":"Path(process_matrix_output(x), poly_seq is a polynomial remainder sequence computed either by (modified_)subresultants_bezout or by (modified_)subresultants_sylv)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9debb23786a6392","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def process_matrix_output(poly_seq, x):
     """
     poly_seq is a polynomial remainder sequence computed either by
@@ -430,16 +442,22 @@ def process_matrix_output(poly_seq, x):
     return L
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(subresultants_sylv(f, ), the input polynomials f, g are in z[x] or in q[x]) over Any ║
+# ║ Path(subresultants_sylv(f, g, x), <unspecified:subresultants_sylv>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ subresultants_sylv : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9fbcf6318f75940  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.subresultants_sylv","kind":"function","src_hash":"34b2f23df5d35e5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subresultants_sylv(f, )","rhs":"the input polynomials f, g are in z[x] or in q[x]","over":{"base":"Any"},"name":"subresultants_sylv_correct"},"guarantee":"the input polynomials f, g are in z[x] or in q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.subresultants_sylv_correct","statement":"Path(subresultants_sylv(x), the input polynomials f, g are in z[x] or in q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9fbcf6318f75940"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.subresultants_sylv","kind":"function","src_hash":"34b2f23df5d35e5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subresultants_sylv(f, g, x)","rhs":"<unspecified:subresultants_sylv>","over":{"base":"Any"},"name":"subresultants_sylv_correct"},"guarantee":"the input polynomials f, g are in z[x] or in q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.subresultants_sylv_correct","statement":"Path(subresultants_sylv(x), the input polynomials f, g are in z[x] or in q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9fbcf6318f75940","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def subresultants_sylv(f, g, x):
     """
     The input polynomials f, g are in Z[x] or in Q[x]. It is assumed
@@ -514,16 +532,22 @@ def subresultants_sylv(f, g, x):
     return process_matrix_output(SR_L, x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(modified_subresultants_sylv(f, ), the input polynomials f, g are in z[x] or in q[x]) over Any ║
+# ║ Path(modified_subresultants_sylv(f, g, x), <unspecified:modified_subresultants_sylv>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ modified_subresultants_sylv : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c60422f0f8a4af7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.modified_subresultants_sylv","kind":"function","src_hash":"60eb828c72009ca0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"modified_subresultants_sylv(f, )","rhs":"the input polynomials f, g are in z[x] or in q[x]","over":{"base":"Any"},"name":"modified_subresultants_sylv_correct"},"guarantee":"the input polynomials f, g are in z[x] or in q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.modified_subresultants_sylv_correct","statement":"Path(modified_subresultants_sylv(x), the input polynomials f, g are in z[x] or in q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c60422f0f8a4af7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.modified_subresultants_sylv","kind":"function","src_hash":"60eb828c72009ca0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"modified_subresultants_sylv(f, g, x)","rhs":"<unspecified:modified_subresultants_sylv>","over":{"base":"Any"},"name":"modified_subresultants_sylv_correct"},"guarantee":"the input polynomials f, g are in z[x] or in q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.modified_subresultants_sylv_correct","statement":"Path(modified_subresultants_sylv(x), the input polynomials f, g are in z[x] or in q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c60422f0f8a4af7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def modified_subresultants_sylv(f, g, x):
     """
     The input polynomials f, g are in Z[x] or in Q[x]. It is assumed
@@ -593,16 +617,24 @@ def modified_subresultants_sylv(f, g, x):
     return process_matrix_output(SR_L, x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(res(f, ), id) over Any                                ║
+# ║ Path(res(f, g, x), id) over {Any | not (f == 0 or g == 0)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ res : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (f == 0 or g == 0)                         ║
+# ║   fiber[zero_or_none]: f == 0 or g == 0                    ║
+# ║   fiber[zero_or_none]: not (f == 0 or g == 0) => sylv...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ res : {Any | not (f == 0 or g == 0)} → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 8c3be94753582626   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.res","kind":"function","src_hash":"88e14d8c1bc3902e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"res(f, )","rhs":"the input polynomials f, g are in z[x] or in q[x]","over":{"base":"Any"},"name":"res_correct","kind":"composition"},"guarantee":"the input polynomials f, g are in z[x] or in q[x]","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sylvester","by":"library_axiom"},{"fn":"det","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c3be94753582626"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.res","kind":"function","src_hash":"88e14d8c1bc3902e","in":{"base":"Any","pred":"not (f == 0 or g == 0)"},"out":{"base":"Any"},"spec":{"lhs":"res(f, g, x)","rhs":"<unspecified:res>","over":{"base":"Any","pred":"not (f == 0 or g == 0)"},"name":"res_correct","kind":"composition"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sylvester","by":"library_axiom"},{"fn":"det","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c3be94753582626","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (f == 0 or g == 0)"],"fibers":[{"name":"zero_or_none","guard":"f == 0 or g == 0","ensures":[],"decidability":"z3"},{"name":"zero_or_none","guard":"not (f == 0 or g == 0)","ensures":["result == sylvester(f, g, x, 1).det()"],"decidability":"z3","returns_expr":"sylvester(f, g, x, 1).det()"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["PolynomialError"]},"state_contract":{"exceptional_post":{"PolynomialError":["isinstance(raised, PolynomialError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def res(f, g, x):
     """
     The input polynomials f, g are in Z[x] or in Q[x].
@@ -622,16 +654,24 @@ def res(f, g, x):
         return sylvester(f, g, x, 1).det()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(res_q(f, ), the input polynomials f, g are in z[x] or in q[x]) over Any ║
+# ║ Path(res_q(f, g, x), <unspecified:res_q>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: m < n => (-1) ** (m * n) * res_q(g, ...   ║
+# ║   fiber[zero_or_none]: n == 0 => g ** m                    ║
+# ║   fiber[zero_or_none]: not (m < n) and not (n == 0)        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ res_q : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b16d0f52957e46c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eba471bf4c506096  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.res_q","kind":"function","src_hash":"67b404f491d23c0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"res_q(f, )","rhs":"the input polynomials f, g are in z[x] or in q[x]","over":{"base":"Any"},"name":"res_q_correct"},"guarantee":"the input polynomials f, g are in z[x] or in q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.res_q_correct","statement":"Path(res_q(x), the input polynomials f, g are in z[x] or in q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b16d0f52957e46c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.res_q","kind":"function","src_hash":"67b404f491d23c0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"res_q(f, g, x)","rhs":"<unspecified:res_q>","over":{"base":"Any"},"name":"res_q_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.res_q_correct","statement":"Path(res_q(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eba471bf4c506096","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"m < n","ensures":["result == (-1) ** (m * n) * res_q(g, f, x)"],"decidability":"z3","returns_expr":"(-1) ** (m * n) * res_q(g, f, x)"},{"name":"zero_or_none","guard":"n == 0","ensures":["result == g ** m"],"decidability":"z3","returns_expr":"g ** m"},{"name":"zero_or_none","guard":"not (m < n) and not (n == 0)","ensures":[],"decidability":"z3"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def res_q(f, g, x):
     """
     The input polynomials f, g are in Z[x] or in Q[x].
@@ -661,16 +701,24 @@ def res_q(f, g, x):
             return (-1)**(m*n) * l**(m-s)*res_q(g, r, x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(res_z(f, ), the input polynomials f, g are in z[x] or in q[x]) over Any ║
+# ║ Path(res_z(f, g, x), <unspecified:res_z>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: m < n => (-1) ** (m * n) * res_z(g, ...   ║
+# ║   fiber[zero_or_none]: n == 0 => g ** m                    ║
+# ║   fiber[zero_or_none]: not (m < n) and not (n == 0)        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ res_z : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e353acf8b37c450b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a10823a3044be10e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.res_z","kind":"function","src_hash":"1b3ccec6d90f7d44","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"res_z(f, )","rhs":"the input polynomials f, g are in z[x] or in q[x]","over":{"base":"Any"},"name":"res_z_correct"},"guarantee":"the input polynomials f, g are in z[x] or in q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.res_z_correct","statement":"Path(res_z(x), the input polynomials f, g are in z[x] or in q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e353acf8b37c450b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.res_z","kind":"function","src_hash":"1b3ccec6d90f7d44","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"res_z(f, g, x)","rhs":"<unspecified:res_z>","over":{"base":"Any"},"name":"res_z_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.res_z_correct","statement":"Path(res_z(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a10823a3044be10e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"m < n","ensures":["result == (-1) ** (m * n) * res_z(g, f, x)"],"decidability":"z3","returns_expr":"(-1) ** (m * n) * res_z(g, f, x)"},{"name":"zero_or_none","guard":"n == 0","ensures":["result == g ** m"],"decidability":"z3","returns_expr":"g ** m"},{"name":"zero_or_none","guard":"not (m < n) and not (n == 0)","ensures":[],"decidability":"z3"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def res_z(f, g, x):
     """
     The input polynomials f, g are in Z[x] or in Q[x].
@@ -703,16 +751,22 @@ def res_z(f, g, x):
             return quo(w, l**k, x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sign_seq(pol), given a sequence of polynomials poly_seq, it returns the sequence of signs of the leading coefficients of the polynomials in poly_seq) over Any ║
+# ║ Path(sign_seq(poly_seq, x), [sign(LC(poly_seq[i], x)) for i in range(len(poly_seq))]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [sign(LC(poly_seq[i], x)) for i in range(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sign_seq : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 412f7c9f60d40f07           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.sign_seq","kind":"function","src_hash":"368702a5a9ebf862","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sign_seq(pol)","rhs":"given a sequence of polynomials poly_seq, it returns the sequence of signs of the leading coefficients of the polynomials in poly_seq","over":{"base":"Any"},"name":"sign_seq_correct"},"guarantee":"given a sequence of polynomials poly_seq, it returns the sequence of signs of the leading coefficients of the polynomials in poly_seq","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"412f7c9f60d40f07"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.sign_seq","kind":"function","src_hash":"368702a5a9ebf862","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sign_seq(poly_seq, x)","rhs":"[sign(LC(poly_seq[i], x)) for i in range(len(poly_seq))]","over":{"base":"Any"},"name":"sign_seq_correct"},"guarantee":"returns [sign(LC(poly_seq[i], x)) for i in range(len(poly_seq))]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"412f7c9f60d40f07","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[sign(LC(poly_seq[i], x)) for i in range(len(poly_seq))]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def sign_seq(poly_seq, x):
     """
     Given a sequence of polynomials poly_seq, it returns
@@ -723,16 +777,24 @@ def sign_seq(poly_seq, x):
     return [sign(LC(poly_seq[i], x)) for i in range(len(poly_seq))]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bezout(p, ), the input polynomials p, q are in z[x] or in q[x]) over Any ║
+# ║ Path(bezout(p, q, x), <unspecified:bezout>) over {Any | hasattr(q, 'subs') and hasattr(p, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ bezout : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(q, 'subs')                             ║
+# ║   requires: hasattr(p, 'subs')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ bezout : {Any | hasattr(q, 'subs') and hasattr(p, 'su...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54a521c54082852b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.bezout","kind":"function","src_hash":"17f980bcce53b97c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bezout(p, )","rhs":"the input polynomials p, q are in z[x] or in q[x]","over":{"base":"Any"},"name":"bezout_correct"},"guarantee":"the input polynomials p, q are in z[x] or in q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.bezout_correct","statement":"Path(bezout(x), the input polynomials p, q are in z[x] or in q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54a521c54082852b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.bezout","kind":"function","src_hash":"17f980bcce53b97c","in":{"base":"Any","pred":"hasattr(q, 'subs') and hasattr(p, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"bezout(p, q, x)","rhs":"<unspecified:bezout>","over":{"base":"Any","pred":"hasattr(q, 'subs') and hasattr(p, 'subs')"},"name":"bezout_correct"},"guarantee":"the input polynomials p, q are in z[x] or in q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.bezout_correct","statement":"Path(bezout(x), the input polynomials p, q are in z[x] or in q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54a521c54082852b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(q, 'subs')","hasattr(p, 'subs')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.subs","q.subs"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def bezout(p, q, x, method='bz'):
     """
     The input polynomials p, q are in Z[x] or in Q[x]. Let
@@ -817,16 +879,22 @@ def bezout(p, q, x, method='bz'):
     return B
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(backward_eye(n), returns the backward identity matrix of dimensions n x n) over Any ║
+# ║ Path(backward_eye(n), <unspecified:backward_eye>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ backward_eye : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da1bbdfec7fa87b8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.backward_eye","kind":"function","src_hash":"76baf2a7aa5a2097","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"backward_eye(n)","rhs":"returns the backward identity matrix of dimensions n x n","over":{"base":"Any"},"name":"backward_eye_correct"},"guarantee":"returns the backward identity matrix of dimensions n x n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.backward_eye_correct","statement":"Path(backward_eye(x), returns the backward identity matrix of dimensions n x n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da1bbdfec7fa87b8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.backward_eye","kind":"function","src_hash":"76baf2a7aa5a2097","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"backward_eye(n)","rhs":"<unspecified:backward_eye>","over":{"base":"Any"},"name":"backward_eye_correct"},"guarantee":"returns the backward identity matrix of dimensions n x n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.backward_eye_correct","statement":"Path(backward_eye(x), returns the backward identity matrix of dimensions n x n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da1bbdfec7fa87b8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def backward_eye(n):
     '''
     Returns the backward identity matrix of dimensions n x n.
@@ -843,16 +911,22 @@ def backward_eye(n):
     return M
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(subresultants_bezout(p, ), the input polynomials p, q are in z[x] or in q[x]) over Any ║
+# ║ Path(subresultants_bezout(p, q, x), <unspecified:subresultants_bezout>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ subresultants_bezout : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 884bc68aa375225f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.subresultants_bezout","kind":"function","src_hash":"355d01a22989ea10","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subresultants_bezout(p, )","rhs":"the input polynomials p, q are in z[x] or in q[x]","over":{"base":"Any"},"name":"subresultants_bezout_correct"},"guarantee":"the input polynomials p, q are in z[x] or in q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.subresultants_bezout_correct","statement":"Path(subresultants_bezout(x), the input polynomials p, q are in z[x] or in q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"884bc68aa375225f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.subresultants_bezout","kind":"function","src_hash":"355d01a22989ea10","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subresultants_bezout(p, q, x)","rhs":"<unspecified:subresultants_bezout>","over":{"base":"Any"},"name":"subresultants_bezout_correct"},"guarantee":"the input polynomials p, q are in z[x] or in q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.subresultants_bezout_correct","statement":"Path(subresultants_bezout(x), the input polynomials p, q are in z[x] or in q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"884bc68aa375225f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def subresultants_bezout(p, q, x):
     """
     The input polynomials p, q are in Z[x] or in Q[x]. It is assumed
@@ -925,16 +999,22 @@ def subresultants_bezout(p, q, x):
     return process_matrix_output(SR_L, x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(modified_subresultants_bezout(p, ), the input polynomials p, q are in z[x] or in q[x]) over Any ║
+# ║ Path(modified_subresultants_bezout(p, q, x), <unspecified:modified_subresultants_bezout>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ modified_subresultants_bezout : Any → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4dea0fe60df1a8d3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.modified_subresultants_bezout","kind":"function","src_hash":"e338e9c21a174477","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"modified_subresultants_bezout(p, )","rhs":"the input polynomials p, q are in z[x] or in q[x]","over":{"base":"Any"},"name":"modified_subresultants_bezout_correct"},"guarantee":"the input polynomials p, q are in z[x] or in q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.modified_subresultants_bezout_correct","statement":"Path(modified_subresultants_bezout(x), the input polynomials p, q are in z[x] or in q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4dea0fe60df1a8d3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.modified_subresultants_bezout","kind":"function","src_hash":"e338e9c21a174477","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"modified_subresultants_bezout(p, q, x)","rhs":"<unspecified:modified_subresultants_bezout>","over":{"base":"Any"},"name":"modified_subresultants_bezout_correct"},"guarantee":"the input polynomials p, q are in z[x] or in q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.modified_subresultants_bezout_correct","statement":"Path(modified_subresultants_bezout(x), the input polynomials p, q are in z[x] or in q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4dea0fe60df1a8d3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def modified_subresultants_bezout(p, q, x):
     """
     The input polynomials p, q are in Z[x] or in Q[x]. It is assumed
@@ -1012,16 +1092,22 @@ def modified_subresultants_bezout(p, q, x):
     return process_matrix_output(SR_L, x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sturm_pg(p, ), p, q are polynomials in z[x] or q[x]) over Any ║
+# ║ Path(sturm_pg(p, q, x), <unspecified:sturm_pg>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sturm_pg : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 773bcd262ab5700d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.sturm_pg","kind":"function","src_hash":"bf4fd73d77d0a91e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sturm_pg(p, )","rhs":"p, q are polynomials in z[x] or q[x]","over":{"base":"Any"},"name":"sturm_pg_correct"},"guarantee":"p, q are polynomials in z[x] or q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.sturm_pg_correct","statement":"Path(sturm_pg(x), p, q are polynomials in z[x] or q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"773bcd262ab5700d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.sturm_pg","kind":"function","src_hash":"bf4fd73d77d0a91e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sturm_pg(p, q, x)","rhs":"<unspecified:sturm_pg>","over":{"base":"Any"},"name":"sturm_pg_correct"},"guarantee":"p, q are polynomials in z[x] or q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.sturm_pg_correct","statement":"Path(sturm_pg(x), p, q are polynomials in z[x] or q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"773bcd262ab5700d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def sturm_pg(p, q, x, method=0):
     """
     p, q are polynomials in Z[x] or Q[x]. It is assumed
@@ -1151,16 +1237,22 @@ def sturm_pg(p, q, x, method=0):
     return sturm_seq
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sturm_q(p, ), p, q are polynomials in z[x] or q[x]) over Any ║
+# ║ Path(sturm_q(p, q, x), <unspecified:sturm_q>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sturm_q : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 18ee309b73c5814e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.sturm_q","kind":"function","src_hash":"b40414d2e1bf9df6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sturm_q(p, )","rhs":"p, q are polynomials in z[x] or q[x]","over":{"base":"Any"},"name":"sturm_q_correct"},"guarantee":"p, q are polynomials in z[x] or q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.sturm_q_correct","statement":"Path(sturm_q(x), p, q are polynomials in z[x] or q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18ee309b73c5814e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.sturm_q","kind":"function","src_hash":"b40414d2e1bf9df6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sturm_q(p, q, x)","rhs":"<unspecified:sturm_q>","over":{"base":"Any"},"name":"sturm_q_correct"},"guarantee":"p, q are polynomials in z[x] or q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.sturm_q_correct","statement":"Path(sturm_q(x), p, q are polynomials in z[x] or q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18ee309b73c5814e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def sturm_q(p, q, x):
     """
     p, q are polynomials in Z[x] or Q[x]. It is assumed
@@ -1240,16 +1332,22 @@ def sturm_q(p, q, x):
     return sturm_seq
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sturm_amv(p, ), p, q are polynomials in z[x] or q[x]) over Any ║
+# ║ Path(sturm_amv(p, q, x), <unspecified:sturm_amv>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sturm_amv : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ad0c82ee2fe207c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.sturm_amv","kind":"function","src_hash":"bbd3ce62377f5992","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sturm_amv(p, )","rhs":"p, q are polynomials in z[x] or q[x]","over":{"base":"Any"},"name":"sturm_amv_correct"},"guarantee":"p, q are polynomials in z[x] or q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.sturm_amv_correct","statement":"Path(sturm_amv(x), p, q are polynomials in z[x] or q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ad0c82ee2fe207c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.sturm_amv","kind":"function","src_hash":"bbd3ce62377f5992","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sturm_amv(p, q, x)","rhs":"<unspecified:sturm_amv>","over":{"base":"Any"},"name":"sturm_amv_correct"},"guarantee":"p, q are polynomials in z[x] or q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.sturm_amv_correct","statement":"Path(sturm_amv(x), p, q are polynomials in z[x] or q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ad0c82ee2fe207c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def sturm_amv(p, q, x, method=0):
     """
     p, q are polynomials in Z[x] or Q[x]. It is assumed
@@ -1352,16 +1450,22 @@ def sturm_amv(p, q, x, method=0):
     return sturm_seq
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(euclid_pg(p, ), p, q are polynomials in z[x] or q[x]) over Any ║
+# ║ Path(euclid_pg(p, q, x), <unspecified:euclid_pg>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ euclid_pg : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd60568a0282e119  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.euclid_pg","kind":"function","src_hash":"b94fd07f19766cbf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"euclid_pg(p, )","rhs":"p, q are polynomials in z[x] or q[x]","over":{"base":"Any"},"name":"euclid_pg_correct"},"guarantee":"p, q are polynomials in z[x] or q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.euclid_pg_correct","statement":"Path(euclid_pg(x), p, q are polynomials in z[x] or q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd60568a0282e119"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.euclid_pg","kind":"function","src_hash":"b94fd07f19766cbf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"euclid_pg(p, q, x)","rhs":"<unspecified:euclid_pg>","over":{"base":"Any"},"name":"euclid_pg_correct"},"guarantee":"p, q are polynomials in z[x] or q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.euclid_pg_correct","statement":"Path(euclid_pg(x), p, q are polynomials in z[x] or q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd60568a0282e119","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def euclid_pg(p, q, x):
     """
     p, q are polynomials in Z[x] or Q[x]. It is assumed
@@ -1437,16 +1541,22 @@ def euclid_pg(p, q, x):
     return euclid_seq
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(euclid_q(p, ), p, q are polynomials in z[x] or q[x]) over Any ║
+# ║ Path(euclid_q(p, q, x), <unspecified:euclid_q>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ euclid_q : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b44d41780e6d5ac4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.euclid_q","kind":"function","src_hash":"26969a0eed670260","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"euclid_q(p, )","rhs":"p, q are polynomials in z[x] or q[x]","over":{"base":"Any"},"name":"euclid_q_correct"},"guarantee":"p, q are polynomials in z[x] or q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.euclid_q_correct","statement":"Path(euclid_q(x), p, q are polynomials in z[x] or q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b44d41780e6d5ac4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.euclid_q","kind":"function","src_hash":"26969a0eed670260","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"euclid_q(p, q, x)","rhs":"<unspecified:euclid_q>","over":{"base":"Any"},"name":"euclid_q_correct"},"guarantee":"p, q are polynomials in z[x] or q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.euclid_q_correct","statement":"Path(euclid_q(x), p, q are polynomials in z[x] or q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b44d41780e6d5ac4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def euclid_q(p, q, x):
     """
     p, q are polynomials in Z[x] or Q[x]. It is assumed
@@ -1527,16 +1637,22 @@ def euclid_q(p, q, x):
     return euclid_seq
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(euclid_amv(f, ), f, g are polynomials in z[x] or q[x]) over Any ║
+# ║ Path(euclid_amv(f, g, x), <unspecified:euclid_amv>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ euclid_amv : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b16caefa42401f83  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.euclid_amv","kind":"function","src_hash":"587c3f054869cefc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"euclid_amv(f, )","rhs":"f, g are polynomials in z[x] or q[x]","over":{"base":"Any"},"name":"euclid_amv_correct"},"guarantee":"f, g are polynomials in z[x] or q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.euclid_amv_correct","statement":"Path(euclid_amv(x), f, g are polynomials in z[x] or q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b16caefa42401f83"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.euclid_amv","kind":"function","src_hash":"587c3f054869cefc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"euclid_amv(f, g, x)","rhs":"<unspecified:euclid_amv>","over":{"base":"Any"},"name":"euclid_amv_correct"},"guarantee":"f, g are polynomials in z[x] or q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.euclid_amv_correct","statement":"Path(euclid_amv(x), f, g are polynomials in z[x] or q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b16caefa42401f83","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def euclid_amv(f, g, x):
     """
     f, g are polynomials in Z[x] or Q[x]. It is assumed
@@ -1617,16 +1733,22 @@ def euclid_amv(f, g, x):
     return euclid_seq
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(modified_subresultants_pg(p, ), p, q are polynomials in z[x] or q[x]) over Any ║
+# ║ Path(modified_subresultants_pg(p, q, x), <unspecified:modified_subresultants_pg>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ modified_subresultants_pg : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca9aaf561536d9ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.modified_subresultants_pg","kind":"function","src_hash":"2846fff7b95704af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"modified_subresultants_pg(p, )","rhs":"p, q are polynomials in z[x] or q[x]","over":{"base":"Any"},"name":"modified_subresultants_pg_correct"},"guarantee":"p, q are polynomials in z[x] or q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.modified_subresultants_pg_correct","statement":"Path(modified_subresultants_pg(x), p, q are polynomials in z[x] or q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca9aaf561536d9ac"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.modified_subresultants_pg","kind":"function","src_hash":"2846fff7b95704af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"modified_subresultants_pg(p, q, x)","rhs":"<unspecified:modified_subresultants_pg>","over":{"base":"Any"},"name":"modified_subresultants_pg_correct"},"guarantee":"p, q are polynomials in z[x] or q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.modified_subresultants_pg_correct","statement":"Path(modified_subresultants_pg(x), p, q are polynomials in z[x] or q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca9aaf561536d9ac","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"assumed","binding":true}}
 def modified_subresultants_pg(p, q, x):
     """
     p, q are polynomials in Z[x] or Q[x]. It is assumed
@@ -1812,16 +1934,22 @@ def modified_subresultants_pg(p, q, x):
     return  subres_l
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(subresultants_pg(p, ), p, q are polynomials in z[x] or q[x]) over Any ║
+# ║ Path(subresultants_pg(p, q, x), <unspecified:subresultants_pg>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ subresultants_pg : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fd9511c1a21e76f3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.subresultants_pg","kind":"function","src_hash":"3c4b095650d7df2f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subresultants_pg(p, )","rhs":"p, q are polynomials in z[x] or q[x]","over":{"base":"Any"},"name":"subresultants_pg_correct"},"guarantee":"p, q are polynomials in z[x] or q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.subresultants_pg_correct","statement":"Path(subresultants_pg(x), p, q are polynomials in z[x] or q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd9511c1a21e76f3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.subresultants_pg","kind":"function","src_hash":"3c4b095650d7df2f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subresultants_pg(p, q, x)","rhs":"<unspecified:subresultants_pg>","over":{"base":"Any"},"name":"subresultants_pg_correct"},"guarantee":"p, q are polynomials in z[x] or q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.subresultants_pg_correct","statement":"Path(subresultants_pg(x), p, q are polynomials in z[x] or q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd9511c1a21e76f3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def subresultants_pg(p, q, x):
     """
     p, q are polynomials in Z[x] or Q[x]. It is assumed
@@ -1888,16 +2016,22 @@ def subresultants_pg(p, q, x):
     return subr_seq
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(subresultants_amv_q(p, ), p, q are polynomials in z[x] or q[x]) over Any ║
+# ║ Path(subresultants_amv_q(p, q, x), <unspecified:subresultants_amv_q>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ subresultants_amv_q : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0e1323758a7dbf8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.subresultants_amv_q","kind":"function","src_hash":"6e8c27acf7c7f18f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subresultants_amv_q(p, )","rhs":"p, q are polynomials in z[x] or q[x]","over":{"base":"Any"},"name":"subresultants_amv_q_correct"},"guarantee":"p, q are polynomials in z[x] or q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.subresultants_amv_q_correct","statement":"Path(subresultants_amv_q(x), p, q are polynomials in z[x] or q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0e1323758a7dbf8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.subresultants_amv_q","kind":"function","src_hash":"6e8c27acf7c7f18f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subresultants_amv_q(p, q, x)","rhs":"<unspecified:subresultants_amv_q>","over":{"base":"Any"},"name":"subresultants_amv_q_correct"},"guarantee":"p, q are polynomials in z[x] or q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.subresultants_amv_q_correct","statement":"Path(subresultants_amv_q(x), p, q are polynomials in z[x] or q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0e1323758a7dbf8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def subresultants_amv_q(p, q, x):
     """
     p, q are polynomials in Z[x] or Q[x]. It is assumed
@@ -2004,16 +2138,22 @@ def subresultants_amv_q(p, q, x):
     return  subres_l
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(compute_sign(bas), base != 0 and expo >= 0 are integers;) over Any ║
+# ║ Path(compute_sign(base, expo), <unspecified:compute_sign>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ compute_sign : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8df3da9c3a1d7889  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.compute_sign","kind":"function","src_hash":"174a0d78a968a050","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compute_sign(bas)","rhs":"base != 0 and expo >= 0 are integers;","over":{"base":"Any"},"name":"compute_sign_correct"},"guarantee":"base != 0 and expo >= 0 are integers;","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.compute_sign_correct","statement":"Path(compute_sign(x), base != 0 and expo >= 0 are integers;)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8df3da9c3a1d7889"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.compute_sign","kind":"function","src_hash":"174a0d78a968a050","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compute_sign(base, expo)","rhs":"<unspecified:compute_sign>","over":{"base":"Any"},"name":"compute_sign_correct"},"guarantee":"base != 0 and expo >= 0 are integers;","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.compute_sign_correct","statement":"Path(compute_sign(x), base != 0 and expo >= 0 are integers;)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8df3da9c3a1d7889","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def compute_sign(base, expo):
     '''
     base != 0 and expo >= 0 are integers;
@@ -2031,16 +2171,27 @@ def compute_sign(base, expo):
         return sb
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rem_z(p, ), id) over Any                              ║
+# ║ Path(rem_z(p, q, x), id) over {Any | hasattr(p, 'as_poly') and hasattr(q, 'as_poly')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rem_z : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p, 'as_poly')                          ║
+# ║   requires: hasattr(q, 'as_poly')                          ║
+# ║   ensures:  result == (rem(Abs(LC(q, x)) ** delta * p...   ║
+# ║   ensures:  result == rem(Abs(LC(q, x)) ** delta * p,...   ║
+# ║   fiber[case_0]: p.as_poly().is_univariate and q.as_p...   ║
+# ║   fiber[case_1]: not (p.as_poly().is_univariate and q...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rem_z : {Any | hasattr(p, 'as_poly') and hasattr(q, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a7dc3c0d2dbb0d4f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.rem_z","kind":"function","src_hash":"9f0a7c6b2bedbdd6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rem_z(p, )","rhs":"intended mainly for p, q polynomials in z[x] so that, on dividing p by q, the remainder will also be in z[x]","over":{"base":"Any"},"name":"rem_z_correct","kind":"composition"},"guarantee":"intended mainly for p, q polynomials in z[x] so that, on dividing p by q, the remainder will also be in z[x]","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"rem","by":"library_axiom"},{"fn":"Abs","by":"library_axiom"},{"fn":"LC","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7dc3c0d2dbb0d4f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.rem_z","kind":"function","src_hash":"9f0a7c6b2bedbdd6","in":{"base":"Any","pred":"hasattr(p, 'as_poly') and hasattr(q, 'as_poly')"},"out":{"base":"Any","pred":"result satisfies: result == (rem(Abs(LC(q, x)) ** delta * p, q, x) if p.as_poly().is_univariate and q.as_poly().is_univariate and (p.as_poly().gens == q.as_poly().gens) else prem(p, q, x)) and result == rem(Abs(LC(q, x)) ** delta * p, q, x) or result == prem(p, q, x)"},"spec":{"lhs":"rem_z(p, q, x)","rhs":"result == (rem(Abs(LC(q, x)) ** delta * p, q, x) if p.as_poly().is_univariate and q.as_poly().is_univariate and (p.as_poly().gens == q.as_poly().gens) else prem(p, q, x)) and result == rem(Abs(LC(q, x)) ** delta * p, q, x) or result == prem(p, q, x)","over":{"base":"Any","pred":"hasattr(p, 'as_poly') and hasattr(q, 'as_poly')"},"name":"rem_z_correct","kind":"composition"},"guarantee":"result == (rem(Abs(LC(q, x)) ** delta * p, q, x) if p.as_poly().is_univariate and q.as_poly().is_univariate and (p.as_poly().gens == q.as_poly().gens) else prem(p, q, x)); result == rem(Abs(LC(q, x)) ** delta * p, q, x) or result == prem(p, q, x); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"rem","by":"library_axiom"},{"fn":"Abs","by":"library_axiom"},{"fn":"LC","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7dc3c0d2dbb0d4f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p, 'as_poly')","hasattr(q, 'as_poly')"],"ensures":["result == (rem(Abs(LC(q, x)) ** delta * p, q, x) if p.as_poly().is_univariate and q.as_poly().is_univariate and (p.as_poly().gens == q.as_poly().gens) else prem(p, q, x))","result == rem(Abs(LC(q, x)) ** delta * p, q, x) or result == prem(p, q, x)"],"fibers":[{"name":"case_0","guard":"p.as_poly().is_univariate and q.as_poly().is_univariate and (p.as_poly().gens == q.as_poly().gens)","ensures":["result == rem(Abs(LC(q, x)) ** delta * p, q, x)"],"decidability":"z3","returns_expr":"rem(Abs(LC(q, x)) ** delta * p, q, x)"},{"name":"case_1","guard":"not (p.as_poly().is_univariate and q.as_poly().is_univariate and (p.as_poly().gens == q.as_poly().gens))","ensures":["result == prem(p, q, x)"],"decidability":"z3","returns_expr":"prem(p, q, x)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.as_poly","q.as_poly"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def rem_z(p, q, x):
     '''
     Intended mainly for p, q polynomials in Z[x] so that,
@@ -2082,16 +2233,27 @@ def rem_z(p, q, x):
         return prem(p, q, x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(quo_z(p, ), id) over Any                              ║
+# ║ Path(quo_z(p, q, x), id) over {Any | hasattr(p, 'as_poly') and hasattr(q, 'as_poly')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ quo_z : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p, 'as_poly')                          ║
+# ║   requires: hasattr(q, 'as_poly')                          ║
+# ║   ensures:  result == (quo(Abs(LC(q, x)) ** delta * p...   ║
+# ║   ensures:  result == quo(Abs(LC(q, x)) ** delta * p,...   ║
+# ║   fiber[case_0]: p.as_poly().is_univariate and q.as_p...   ║
+# ║   fiber[case_1]: not (p.as_poly().is_univariate and q...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ quo_z : {Any | hasattr(p, 'as_poly') and hasattr(q, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 360a05893d42507d   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.quo_z","kind":"function","src_hash":"a364c2ed5d54d80b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quo_z(p, )","rhs":"intended mainly for p, q polynomials in z[x] so that, on dividing p by q, the quotient will also be in z[x]","over":{"base":"Any"},"name":"quo_z_correct","kind":"composition"},"guarantee":"intended mainly for p, q polynomials in z[x] so that, on dividing p by q, the quotient will also be in z[x]","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"quo","by":"library_axiom"},{"fn":"Abs","by":"library_axiom"},{"fn":"LC","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"360a05893d42507d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.quo_z","kind":"function","src_hash":"a364c2ed5d54d80b","in":{"base":"Any","pred":"hasattr(p, 'as_poly') and hasattr(q, 'as_poly')"},"out":{"base":"Any","pred":"result satisfies: result == (quo(Abs(LC(q, x)) ** delta * p, q, x) if p.as_poly().is_univariate and q.as_poly().is_univariate and (p.as_poly().gens == q.as_poly().gens) else pquo(p, q, x)) and result == quo(Abs(LC(q, x)) ** delta * p, q, x) or result == pquo(p, q, x)"},"spec":{"lhs":"quo_z(p, q, x)","rhs":"result == (quo(Abs(LC(q, x)) ** delta * p, q, x) if p.as_poly().is_univariate and q.as_poly().is_univariate and (p.as_poly().gens == q.as_poly().gens) else pquo(p, q, x)) and result == quo(Abs(LC(q, x)) ** delta * p, q, x) or result == pquo(p, q, x)","over":{"base":"Any","pred":"hasattr(p, 'as_poly') and hasattr(q, 'as_poly')"},"name":"quo_z_correct","kind":"composition"},"guarantee":"result == (quo(Abs(LC(q, x)) ** delta * p, q, x) if p.as_poly().is_univariate and q.as_poly().is_univariate and (p.as_poly().gens == q.as_poly().gens) else pquo(p, q, x)); result == quo(Abs(LC(q, x)) ** delta * p, q, x) or result == pquo(p, q, x); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"quo","by":"library_axiom"},{"fn":"Abs","by":"library_axiom"},{"fn":"LC","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"360a05893d42507d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p, 'as_poly')","hasattr(q, 'as_poly')"],"ensures":["result == (quo(Abs(LC(q, x)) ** delta * p, q, x) if p.as_poly().is_univariate and q.as_poly().is_univariate and (p.as_poly().gens == q.as_poly().gens) else pquo(p, q, x))","result == quo(Abs(LC(q, x)) ** delta * p, q, x) or result == pquo(p, q, x)"],"fibers":[{"name":"case_0","guard":"p.as_poly().is_univariate and q.as_poly().is_univariate and (p.as_poly().gens == q.as_poly().gens)","ensures":["result == quo(Abs(LC(q, x)) ** delta * p, q, x)"],"decidability":"z3","returns_expr":"quo(Abs(LC(q, x)) ** delta * p, q, x)"},{"name":"case_1","guard":"not (p.as_poly().is_univariate and q.as_poly().is_univariate and (p.as_poly().gens == q.as_poly().gens))","ensures":["result == pquo(p, q, x)"],"decidability":"z3","returns_expr":"pquo(p, q, x)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.as_poly","q.as_poly"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def quo_z(p, q, x):
     """
     Intended mainly for p, q polynomials in Z[x] so that,
@@ -2117,16 +2279,22 @@ def quo_z(p, q, x):
         return pquo(p, q, x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(subresultants_amv(f, ), p, q are polynomials in z[x] or q[x]) over Any ║
+# ║ Path(subresultants_amv(f, g, x), <unspecified:subresultants_amv>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ subresultants_amv : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 91d44fc582b057a8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.subresultants_amv","kind":"function","src_hash":"90fe8464fcf8b400","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subresultants_amv(f, )","rhs":"p, q are polynomials in z[x] or q[x]","over":{"base":"Any"},"name":"subresultants_amv_correct"},"guarantee":"p, q are polynomials in z[x] or q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.subresultants_amv_correct","statement":"Path(subresultants_amv(x), p, q are polynomials in z[x] or q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91d44fc582b057a8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.subresultants_amv","kind":"function","src_hash":"90fe8464fcf8b400","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subresultants_amv(f, g, x)","rhs":"<unspecified:subresultants_amv>","over":{"base":"Any"},"name":"subresultants_amv_correct"},"guarantee":"p, q are polynomials in z[x] or q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.subresultants_amv_correct","statement":"Path(subresultants_amv(x), p, q are polynomials in z[x] or q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91d44fc582b057a8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def subresultants_amv(f, g, x):
     """
     p, q are polynomials in Z[x] or Q[x]. It is assumed
@@ -2270,16 +2438,22 @@ def subresultants_amv(f, g, x):
     return subres_l
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(modified_subresultants_amv(p, ), p, q are polynomials in z[x] or q[x]) over Any ║
+# ║ Path(modified_subresultants_amv(p, q, x), <unspecified:modified_subresultants_amv>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ modified_subresultants_amv : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 14ecf8e6c7543bb8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.modified_subresultants_amv","kind":"function","src_hash":"5a09725c73916443","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"modified_subresultants_amv(p, )","rhs":"p, q are polynomials in z[x] or q[x]","over":{"base":"Any"},"name":"modified_subresultants_amv_correct"},"guarantee":"p, q are polynomials in z[x] or q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.modified_subresultants_amv_correct","statement":"Path(modified_subresultants_amv(x), p, q are polynomials in z[x] or q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14ecf8e6c7543bb8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.modified_subresultants_amv","kind":"function","src_hash":"5a09725c73916443","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"modified_subresultants_amv(p, q, x)","rhs":"<unspecified:modified_subresultants_amv>","over":{"base":"Any"},"name":"modified_subresultants_amv_correct"},"guarantee":"p, q are polynomials in z[x] or q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.modified_subresultants_amv_correct","statement":"Path(modified_subresultants_amv(x), p, q are polynomials in z[x] or q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14ecf8e6c7543bb8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def modified_subresultants_amv(p, q, x):
     """
     p, q are polynomials in Z[x] or Q[x]. It is assumed
@@ -2345,16 +2519,22 @@ def modified_subresultants_amv(p, q, x):
     return subr_seq
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(correct_sign(deg), used in various subresultant prs algorithms) over Any ║
+# ║ Path(correct_sign(deg_f, deg_g, s1), Md.det()) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Md.det()                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ correct_sign : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 66f129239db37bbc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5768845db4cec12f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.correct_sign","kind":"function","src_hash":"cb4789a459967f0a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"correct_sign(deg)","rhs":"used in various subresultant prs algorithms","over":{"base":"Any"},"name":"correct_sign_correct"},"guarantee":"used in various subresultant prs algorithms","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.correct_sign_correct","statement":"Path(correct_sign(x), used in various subresultant prs algorithms)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66f129239db37bbc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.correct_sign","kind":"function","src_hash":"cb4789a459967f0a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"correct_sign(deg_f, deg_g, s1)","rhs":"Md.det()","over":{"base":"Any"},"name":"correct_sign_correct"},"guarantee":"returns Md.det()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.correct_sign_correct","statement":"Path(correct_sign(x), returns Md.det())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5768845db4cec12f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Md.det()","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def correct_sign(deg_f, deg_g, s1, rdel, cdel):
     """
     Used in various subresultant prs algorithms.
@@ -2401,16 +2581,22 @@ def correct_sign(deg_f, deg_g, s1, rdel, cdel):
     return Md.det()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(subresultants_rem(p, ), p, q are polynomials in z[x] or q[x]) over Any ║
+# ║ Path(subresultants_rem(p, q, x), <unspecified:subresultants_rem>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ subresultants_rem : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d14cf47802d6299d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.subresultants_rem","kind":"function","src_hash":"a14063044f0deeaf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subresultants_rem(p, )","rhs":"p, q are polynomials in z[x] or q[x]","over":{"base":"Any"},"name":"subresultants_rem_correct"},"guarantee":"p, q are polynomials in z[x] or q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.subresultants_rem_correct","statement":"Path(subresultants_rem(x), p, q are polynomials in z[x] or q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d14cf47802d6299d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.subresultants_rem","kind":"function","src_hash":"a14063044f0deeaf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subresultants_rem(p, q, x)","rhs":"<unspecified:subresultants_rem>","over":{"base":"Any"},"name":"subresultants_rem_correct"},"guarantee":"p, q are polynomials in z[x] or q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.subresultants_rem_correct","statement":"Path(subresultants_rem(x), p, q are polynomials in z[x] or q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d14cf47802d6299d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def subresultants_rem(p, q, x):
     """
     p, q are polynomials in Z[x] or Q[x]. It is assumed
@@ -2484,16 +2670,22 @@ def subresultants_rem(p, q, x):
     return sr_list
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pivot(M, ), m is a matrix, and m[i, j] specifies the pivot element) over Any ║
+# ║ Path(pivot(M, i, j), <unspecified:pivot>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pivot : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95aaef872b53c3fa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.pivot","kind":"function","src_hash":"f4ff995a3b764368","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pivot(M, )","rhs":"m is a matrix, and m[i, j] specifies the pivot element","over":{"base":"Any"},"name":"pivot_correct"},"guarantee":"m is a matrix, and m[i, j] specifies the pivot element","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.pivot_correct","statement":"Path(pivot(x), m is a matrix, and m[i, j] specifies the pivot element)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95aaef872b53c3fa"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.pivot","kind":"function","src_hash":"f4ff995a3b764368","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pivot(M, i, j)","rhs":"<unspecified:pivot>","over":{"base":"Any"},"name":"pivot_correct"},"guarantee":"m is a matrix, and m[i, j] specifies the pivot element","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.pivot_correct","statement":"Path(pivot(x), m is a matrix, and m[i, j] specifies the pivot element)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95aaef872b53c3fa","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def pivot(M, i, j):
     '''
     M is a matrix, and M[i, j] specifies the pivot element.
@@ -2524,7 +2716,10 @@ def pivot(M, i, j):
     return ma
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rotate_r(L, ), rotates right by k) over {Any | isinstance(L, list)} ║
+# ║ Path(rotate_r(L, k), <unspecified:rotate_r>) over {Any | isinstance(L, list)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rotate_r : {Any | isinstance(L, list)} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2536,9 +2731,12 @@ def pivot(M, i, j):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 16c29872...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.rotate_r","kind":"function","src_hash":"e7204a8a42d13cfc","in":{"base":"Any","pred":"isinstance(L, list)"},"out":{"base":"Any"},"spec":{"lhs":"rotate_r(L, )","rhs":"rotates right by k","over":{"base":"Any","pred":"isinstance(L, list)"},"name":"rotate_r_correct"},"guarantee":"rotates right by k","fibers":[{"name":"list","pred":"isinstance(L, list)","path":{"lhs":"rotate_r(x)","rhs":"rotates right by k","over":{"base":"list","pred":"isinstance(L, list)"},"name":"rotate_r_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.rotate_r_list_correct","statement":"rotate_r satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"16c298729195c114"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.rotate_r","kind":"function","src_hash":"e7204a8a42d13cfc","in":{"base":"Any","pred":"isinstance(L, list)"},"out":{"base":"Any"},"spec":{"lhs":"rotate_r(L, k)","rhs":"<unspecified:rotate_r>","over":{"base":"Any","pred":"isinstance(L, list)"},"name":"rotate_r_correct"},"guarantee":"rotates right by k","fibers":[{"name":"list","pred":"isinstance(L, list)","path":{"lhs":"rotate_r(x)","rhs":"rotates right by k","over":{"base":"list","pred":"isinstance(L, list)"},"name":"rotate_r_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.rotate_r_list_correct","statement":"rotate_r satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"16c298729195c114","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'ll == []'}, fibers={'list'})"]}}
 def rotate_r(L, k):
     '''
     Rotates right by k. L is a row of a matrix or a list.
@@ -2553,7 +2751,10 @@ def rotate_r(L, k):
     return ll if isinstance(L, list) else Matrix([ll])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rotate_l(L, ), rotates left by k) over {Any | isinstance(L, list)} ║
+# ║ Path(rotate_l(L, k), <unspecified:rotate_l>) over {Any | isinstance(L, list)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rotate_l : {Any | isinstance(L, list)} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2565,9 +2766,12 @@ def rotate_r(L, k):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 619c4b34...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.rotate_l","kind":"function","src_hash":"1f886217452a72fc","in":{"base":"Any","pred":"isinstance(L, list)"},"out":{"base":"Any"},"spec":{"lhs":"rotate_l(L, )","rhs":"rotates left by k","over":{"base":"Any","pred":"isinstance(L, list)"},"name":"rotate_l_correct"},"guarantee":"rotates left by k","fibers":[{"name":"list","pred":"isinstance(L, list)","path":{"lhs":"rotate_l(x)","rhs":"rotates left by k","over":{"base":"list","pred":"isinstance(L, list)"},"name":"rotate_l_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.rotate_l_list_correct","statement":"rotate_l satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"619c4b34f1d40fab"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.rotate_l","kind":"function","src_hash":"1f886217452a72fc","in":{"base":"Any","pred":"isinstance(L, list)"},"out":{"base":"Any"},"spec":{"lhs":"rotate_l(L, k)","rhs":"<unspecified:rotate_l>","over":{"base":"Any","pred":"isinstance(L, list)"},"name":"rotate_l_correct"},"guarantee":"rotates left by k","fibers":[{"name":"list","pred":"isinstance(L, list)","path":{"lhs":"rotate_l(x)","rhs":"rotates left by k","over":{"base":"list","pred":"isinstance(L, list)"},"name":"rotate_l_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.rotate_l_list_correct","statement":"rotate_l satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"619c4b34f1d40fab","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'ll == []'}, fibers={'list'})"]}}
 def rotate_l(L, k):
     '''
     Rotates left by k. L is a row of a matrix or a list.
@@ -2582,16 +2786,22 @@ def rotate_l(L, k):
     return ll if isinstance(L, list) else Matrix([ll])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(row2poly(row), converts the row of a matrix to a poly of degree deg and variable x. some entries at the beginning and/or at the end of the row may be zero) over Any ║
+# ║ Path(row2poly(row, deg, x), Poly(poly, x)) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Poly(poly, x)                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ row2poly : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c5f7fcc84c50de6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08257c4b0f34b4dd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.row2poly","kind":"function","src_hash":"888be307f134934f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"row2poly(row)","rhs":"converts the row of a matrix to a poly of degree deg and variable x. some entries at the beginning and/or at the end of the row may be zero","over":{"base":"Any"},"name":"row2poly_correct"},"guarantee":"converts the row of a matrix to a poly of degree deg and variable x. some entries at the beginning and/or at the end of the row may be zero","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.row2poly_correct","statement":"Path(row2poly(x), converts the row of a matrix to a poly of degree deg and variable x. some entries at the beginning and/or at the end of the row may be zero)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c5f7fcc84c50de6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.row2poly","kind":"function","src_hash":"888be307f134934f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"row2poly(row, deg, x)","rhs":"Poly(poly, x)","over":{"base":"Any"},"name":"row2poly_correct"},"guarantee":"returns Poly(poly, x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.row2poly_correct","statement":"Path(row2poly(x), returns Poly(poly, x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08257c4b0f34b4dd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Poly(poly, x)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def row2poly(row, deg, x):
     '''
     Converts the row of a matrix to a poly of degree deg and variable x.
@@ -2615,16 +2825,22 @@ def row2poly(row, deg, x):
     return Poly(poly, x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(create_ma(deg), creates a ``small'' matrix m to be triangularized) over Any ║
+# ║ Path(create_ma(deg_f, deg_g, row1), <unspecified:create_ma>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ create_ma : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b082686bdece0d4a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.create_ma","kind":"function","src_hash":"d7fa32aaf66d9b2e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"create_ma(deg)","rhs":"creates a ``small'' matrix m to be triangularized","over":{"base":"Any"},"name":"create_ma_correct"},"guarantee":"creates a ``small'' matrix m to be triangularized","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.create_ma_correct","statement":"Path(create_ma(x), creates a ``small'' matrix m to be triangularized)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b082686bdece0d4a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.create_ma","kind":"function","src_hash":"d7fa32aaf66d9b2e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"create_ma(deg_f, deg_g, row1)","rhs":"<unspecified:create_ma>","over":{"base":"Any"},"name":"create_ma_correct"},"guarantee":"creates a ``small'' matrix m to be triangularized","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.create_ma_correct","statement":"Path(create_ma(x), creates a ``small'' matrix m to be triangularized)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b082686bdece0d4a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","io_operations":["print"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def create_ma(deg_f, deg_g, row1, row2, col_num):
     '''
     Creates a ``small'' matrix M to be triangularized.
@@ -2652,16 +2868,24 @@ def create_ma(deg_f, deg_g, row1, row2, col_num):
     return m
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(find_degree(M, ), finds the degree of the poly corresponding (after triangularization) to the _last_ row of the ``small'' matrix m, created by create_ma()) over Any ║
+# ║ Path(find_degree(M, deg_f), max(j, 0)) over {Any | hasattr(M, 'cols') and hasattr(M, 'rows')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ find_degree : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'cols')                             ║
+# ║   requires: hasattr(M, 'rows')                             ║
+# ║   returns:  max(j, 0)                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ find_degree : {Any | hasattr(M, 'cols') and hasattr(M...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dfbf3944cf8c5e51  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 687fcc568af20185  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.find_degree","kind":"function","src_hash":"d492845840d0413b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_degree(M, )","rhs":"finds the degree of the poly corresponding (after triangularization) to the _last_ row of the ``small'' matrix m, created by create_ma()","over":{"base":"Any"},"name":"find_degree_correct"},"guarantee":"finds the degree of the poly corresponding (after triangularization) to the _last_ row of the ``small'' matrix m, created by create_ma()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.find_degree_correct","statement":"Path(find_degree(x), finds the degree of the poly corresponding (after triangularization) to the _last_ row of the ``small'' matrix m, created by create_ma())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfbf3944cf8c5e51"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.find_degree","kind":"function","src_hash":"d492845840d0413b","in":{"base":"Any","pred":"hasattr(M, 'cols') and hasattr(M, 'rows')"},"out":{"base":"Any"},"spec":{"lhs":"find_degree(M, deg_f)","rhs":"max(j, 0)","over":{"base":"Any","pred":"hasattr(M, 'cols') and hasattr(M, 'rows')"},"name":"find_degree_correct"},"guarantee":"returns max(j, 0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.find_degree_correct","statement":"Path(find_degree(x), returns max(j, 0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"687fcc568af20185","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'cols')","hasattr(M, 'rows')"],"returns_expr":"max(j, 0)","pure":false,"effects":{"effect_type":"reads_state","reads":["M.cols","M.rows"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def find_degree(M, deg_f):
     '''
     Finds the degree of the poly corresponding (after triangularization)
@@ -2679,16 +2903,26 @@ def find_degree(M, deg_f):
             return max(j, 0)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(final_touches(s2,), s2 is sylvester2, r is the row pointer in s2, deg_g is the degree of the poly last inserted in s2) over Any ║
+# ║ Path(final_touches(s2, r, deg_g), s2) over {Any | hasattr(s2, 'row') and hasattr(s2, 'cols') and hasattr(s2, 'rows')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ final_touches : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(s2, 'row')                             ║
+# ║   requires: hasattr(s2, 'cols')                            ║
+# ║   requires: hasattr(s2, 'rows')                            ║
+# ║   ensures:  result == s2                                   ║
+# ║   returns:  s2                                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ final_touches : {Any | hasattr(s2, 'row') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 10ff60b1f73b2b40  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 924c7b1e159b34e7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.final_touches","kind":"function","src_hash":"88f5ae4ee528114e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"final_touches(s2,)","rhs":"s2 is sylvester2, r is the row pointer in s2, deg_g is the degree of the poly last inserted in s2","over":{"base":"Any"},"name":"final_touches_correct"},"guarantee":"s2 is sylvester2, r is the row pointer in s2, deg_g is the degree of the poly last inserted in s2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.final_touches_correct","statement":"Path(final_touches(x), s2 is sylvester2, r is the row pointer in s2, deg_g is the degree of the poly last inserted in s2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10ff60b1f73b2b40"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.final_touches","kind":"function","src_hash":"88f5ae4ee528114e","in":{"base":"Any","pred":"hasattr(s2, 'row') and hasattr(s2, 'cols') and hasattr(s2, 'rows')"},"out":{"base":"Any","pred":"result satisfies: result == (s2)"},"spec":{"lhs":"final_touches(s2, r, deg_g)","rhs":"s2","over":{"base":"Any","pred":"hasattr(s2, 'row') and hasattr(s2, 'cols') and hasattr(s2, 'rows')"},"name":"final_touches_correct"},"guarantee":"returns s2; result == s2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.final_touches_correct","statement":"Path(final_touches(x), returns s2; result == s2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"924c7b1e159b34e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(s2, 'row')","hasattr(s2, 'cols')","hasattr(s2, 'rows')"],"ensures":["result == s2"],"returns_expr":"s2","pure":false,"effects":{"effect_type":"mutates_args","reads":["s2.cols","s2.row","s2.rows"],"writes":["s2[*]"]},"state_contract":{"modifies":["s2[*]"],"old_bindings":{"old_s2_star":"s2[*]"}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def final_touches(s2, r, deg_g):
     """
     s2 is sylvester2, r is the row pointer in s2,
@@ -2723,16 +2957,22 @@ def final_touches(s2, r, deg_g):
     return s2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(subresultants_vv(p, ), p, q are polynomials in z[x] (intended) or q[x]) over Any ║
+# ║ Path(subresultants_vv(p, q, x), <unspecified:subresultants_vv>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ subresultants_vv : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93d276fc82aa7b75  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.subresultants_vv","kind":"function","src_hash":"2c0e4cd4c7e3c26f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subresultants_vv(p, )","rhs":"p, q are polynomials in z[x] (intended) or q[x]","over":{"base":"Any"},"name":"subresultants_vv_correct"},"guarantee":"p, q are polynomials in z[x] (intended) or q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.subresultants_vv_correct","statement":"Path(subresultants_vv(x), p, q are polynomials in z[x] (intended) or q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93d276fc82aa7b75"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.subresultants_vv","kind":"function","src_hash":"2c0e4cd4c7e3c26f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subresultants_vv(p, q, x)","rhs":"<unspecified:subresultants_vv>","over":{"base":"Any"},"name":"subresultants_vv_correct"},"guarantee":"p, q are polynomials in z[x] (intended) or q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.subresultants_vv_correct","statement":"Path(subresultants_vv(x), p, q are polynomials in z[x] (intended) or q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93d276fc82aa7b75","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def subresultants_vv(p, q, x, method = 0):
     """
     p, q are polynomials in Z[x] (intended) or Q[x]. It is assumed
@@ -2879,16 +3119,22 @@ def subresultants_vv(p, q, x, method = 0):
     return sr_list
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(subresultants_vv_2(p, ), p, q are polynomials in z[x] (intended) or q[x]) over Any ║
+# ║ Path(subresultants_vv_2(p, q, x), <unspecified:subresultants_vv_2>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ subresultants_vv_2 : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f87bff7bdb3bef3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.subresultants_vv_2","kind":"function","src_hash":"1ff2a0a6de15a5ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subresultants_vv_2(p, )","rhs":"p, q are polynomials in z[x] (intended) or q[x]","over":{"base":"Any"},"name":"subresultants_vv_2_correct"},"guarantee":"p, q are polynomials in z[x] (intended) or q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.subresultants_vv_2_correct","statement":"Path(subresultants_vv_2(x), p, q are polynomials in z[x] (intended) or q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f87bff7bdb3bef3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.subresultants_qq_zz.subresultants_vv_2","kind":"function","src_hash":"1ff2a0a6de15a5ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subresultants_vv_2(p, q, x)","rhs":"<unspecified:subresultants_vv_2>","over":{"base":"Any"},"name":"subresultants_vv_2_correct"},"guarantee":"p, q are polynomials in z[x] (intended) or q[x]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.subresultants_qq_zz.subresultants_vv_2_correct","statement":"Path(subresultants_vv_2(x), p, q are polynomials in z[x] (intended) or q[x])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f87bff7bdb3bef3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def subresultants_vv_2(p, q, x):
     """
     p, q are polynomials in Z[x] (intended) or Q[x]. It is assumed

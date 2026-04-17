@@ -24,16 +24,25 @@ from .sparse import MutableSparseMatrix as SparseMatrix
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_doktocsr(dok), converts a sparse matrix to compressed sparse row (csr) format) over Any ║
+# ║ Path(_doktocsr(dok), [A, JA, IA, shape]) over {Any | hasattr(dok, 'rows') and hasattr(dok, 'cols') and hasattr(dok, 'row_list')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _doktocsr : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(dok, 'rows')                           ║
+# ║   requires: hasattr(dok, 'cols')                           ║
+# ║   requires: hasattr(dok, 'row_list')                       ║
+# ║   returns:  [A, JA, IA, shape]                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _doktocsr : {Any | hasattr(dok, 'rows') and hasattr(d...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ce830b100878869  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b37d55a2692456e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.sparsetools._doktocsr","kind":"function","src_hash":"cd6844d5b0d51b2a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_doktocsr(dok)","rhs":"converts a sparse matrix to compressed sparse row (csr) format","over":{"base":"Any"},"name":"_doktocsr_correct"},"guarantee":"converts a sparse matrix to compressed sparse row (csr) format","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.sparsetools._doktocsr_correct","statement":"Path(_doktocsr(x), converts a sparse matrix to compressed sparse row (csr) format)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ce830b100878869"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.sparsetools._doktocsr","kind":"function","src_hash":"cd6844d5b0d51b2a","in":{"base":"Any","pred":"hasattr(dok, 'rows') and hasattr(dok, 'cols') and hasattr(dok, 'row_list')"},"out":{"base":"Any"},"spec":{"lhs":"_doktocsr(dok)","rhs":"[A, JA, IA, shape]","over":{"base":"Any","pred":"hasattr(dok, 'rows') and hasattr(dok, 'cols') and hasattr(dok, 'row_list')"},"name":"_doktocsr_correct"},"guarantee":"returns [A, JA, IA, shape]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.sparsetools._doktocsr_correct","statement":"Path(_doktocsr(x), returns [A, JA, IA, shape])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b37d55a2692456e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(dok, 'rows')","hasattr(dok, 'cols')","hasattr(dok, 'row_list')"],"returns_expr":"[A, JA, IA, shape]","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _doktocsr(dok):
     """Converts a sparse matrix to Compressed Sparse Row (CSR) format.
 
@@ -68,16 +77,22 @@ def _doktocsr(dok):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_csrtodok(csr), converts a csr representation to dok representation) over Any ║
+# ║ Path(_csrtodok(csr), SparseMatrix(*shape, smat)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  SparseMatrix(*shape, smat)                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _csrtodok : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 25241b92afdf491e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c4f02389245ce05  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.sparsetools._csrtodok","kind":"function","src_hash":"9753ac8b4894b17c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_csrtodok(csr)","rhs":"converts a csr representation to dok representation","over":{"base":"Any"},"name":"_csrtodok_correct"},"guarantee":"converts a csr representation to dok representation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.sparsetools._csrtodok_correct","statement":"Path(_csrtodok(x), converts a csr representation to dok representation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25241b92afdf491e"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.sparsetools._csrtodok","kind":"function","src_hash":"9753ac8b4894b17c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_csrtodok(csr)","rhs":"SparseMatrix(*shape, smat)","over":{"base":"Any"},"name":"_csrtodok_correct"},"guarantee":"returns SparseMatrix(*shape, smat)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.sparsetools._csrtodok_correct","statement":"Path(_csrtodok(x), returns SparseMatrix(*shape, smat))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c4f02389245ce05","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"SparseMatrix(*shape, smat)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _csrtodok(csr):
     """Converts a CSR representation to DOK representation.
 
@@ -103,7 +118,10 @@ def _csrtodok(csr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(banded(*ar), returns a sparsematrix from the given dictionary describing the diagonals of the matrix) over {Any | isinstance(v, (list, tuple)) and isinstance(args[-1], (dict, Dict))} ║
+# ║ Path(banded(*args, **kwargs), len(undone) == old_len_undone + 1) over {Any | isinstance(v, (list, tuple)) and isinstance(args[-1], (dict, Dict))} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(undone) == old_len_undone + 1              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ banded : {Any | isinstance(v, (list, tuple)) and isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -116,9 +134,12 @@ def _csrtodok(csr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 2.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 379b8710...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.sparsetools.banded","kind":"function","src_hash":"c75535796dde05ed","in":{"base":"Any","pred":"isinstance(v, (list, tuple)) and isinstance(args[-1], (dict, Dict))"},"out":{"base":"Any"},"spec":{"lhs":"banded(*ar)","rhs":"returns a sparsematrix from the given dictionary describing the diagonals of the matrix","over":{"base":"Any","pred":"isinstance(v, (list, tuple)) and isinstance(args[-1], (dict, Dict))"},"name":"banded_correct"},"guarantee":"returns a sparsematrix from the given dictionary describing the diagonals of the matrix","fibers":[{"name":"(list","pred":"isinstance(v, (list, tuple))","path":{"lhs":"banded(x)","rhs":"returns a sparsematrix from the given dictionary describing the diagonals of the matrix","over":{"base":"(list","pred":"isinstance(v, (list, tuple))"},"name":"banded_(list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.sparsetools.banded_(list_correct","statement":"banded satisfies spec on (list inputs"},"trust":"LIBRARY"},{"name":"(dict","pred":"isinstance(args[-1], (dict, Dict))","path":{"lhs":"banded(x)","rhs":"returns a sparsematrix from the given dictionary describing the diagonals of the matrix","over":{"base":"(dict","pred":"isinstance(args[-1], (dict, Dict))"},"name":"banded_(dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.sparsetools.banded_(dict_correct","statement":"banded satisfies spec on (dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"379b8710217e1245"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.sparsetools.banded","kind":"function","src_hash":"c75535796dde05ed","in":{"base":"Any","pred":"isinstance(v, (list, tuple)) and isinstance(args[-1], (dict, Dict))"},"out":{"base":"Any","pred":"result satisfies: len(undone) == old_len_undone + 1"},"spec":{"lhs":"banded(*args, **kwargs)","rhs":"len(undone) == old_len_undone + 1","over":{"base":"Any","pred":"isinstance(v, (list, tuple)) and isinstance(args[-1], (dict, Dict))"},"name":"banded_correct"},"guarantee":"len(undone) == old_len_undone + 1","fibers":[{"name":"(list","pred":"isinstance(v, (list, tuple))","path":{"lhs":"banded(x)","rhs":"len(undone) == old_len_undone + 1","over":{"base":"(list","pred":"isinstance(v, (list, tuple))"},"name":"banded_(list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.sparsetools.banded_(list_correct","statement":"banded satisfies spec on (list inputs"},"trust":"LIBRARY"},{"name":"(dict","pred":"isinstance(args[-1], (dict, Dict))","path":{"lhs":"banded(x)","rhs":"len(undone) == old_len_undone + 1","over":{"base":"(dict","pred":"isinstance(args[-1], (dict, Dict))"},"name":"banded_(dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.sparsetools.banded_(dict_correct","statement":"banded satisfies spec on (dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"379b8710217e1245","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(undone) == old_len_undone + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["undone.append"],"raises":["TypeError","ValueError"]},"state_contract":{"modifies":["undone.*"],"old_bindings":{"old_len_undone":"len(undone)"},"post_ensures":["len(undone) == old_len_undone + 1"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.2,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args', '**kwargs']","Poor branch-fiber coverage: 0% (branches={'rows is not None and rows < s.rows', 'rows is not None and cols is None', 'cols is not None and rows is None', 'isinstance(v, (list, tuple))', 'rows is cols is None', 'cols is not None and cols < s.cols', 'not isinstance(args[-1], (dict, Dict))', 'len(args) == 1', 'len(args) == 2'}, fibers={'(list', '(dict'})"]}}
 def banded(*args, **kwargs):
     """Returns a SparseMatrix from the given dictionary describing
     the diagonals of the matrix. The keys are positive for upper

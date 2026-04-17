@@ -38,16 +38,24 @@ ae = lambda a, b, n: comp(a, b, 10**-n)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_refraction_angle(), test_refraction_angle produces the expected output) over Any ║
+# ║ Path(test_refraction_angle(), refraction_angle(r1, 1, 1, n) == Matrix([[1], [1], [-1]]) and refraction_angle([1, 1, 1], 1, 1, n) == Matrix([[1], [1], [-1]]) and refraction_angle((1, 1, 1), 1, 1, n) == Matrix([[1], [1], [-1]]) and refraction_angle(i, 1, 1, [0, 0, 1]) == Matrix([[1], [1], [-1]]) and refraction_angle(i, 1, 1, (0, 0, 1)) == Matrix([[1], [1], [-1]]) and refraction_angle(i, 1, 1, normal_ray) == Matrix([[1], [1], [-1]]) and refraction_angle(i, 1, 1, plane=P) == Matrix([[1], [1], [-1]]) and refraction_angle(r1, 1, 1, plane=P) == Ray3D(Point3D(0, 0, 0), Point3D(1, 1, -1)) and refraction_angle(r1, m1, 1.33, plane=P) == Ray3D(Point3D(0, 0, 0), Point3D(Rational(100, 133), Rational(100, 133), -789378201649271 * sqrt(3) / 1000000000000000)) and refraction_angle(r1, 1, m2, plane=P) == Ray3D(Point3D(0, 0, 0), Point3D(1, 1, -1)) and refraction_angle(r1, n1, n2, plane=P) == Ray3D(Point3D(0, 0, 0), Point3D(n1 / n2, n1 / n2, -sqrt(3) * sqrt(-2 * n1 ** 2 / (3 * n2 ** 2) + 1))) and refraction_angle(r1, 1.33, 1, plane=P) == 0 and refraction_angle(r1, 1, 1, normal_ray) == Ray3D(Point3D(0, 0, 0), direction_ratio=[1, 1, -1]) and ae(refraction_angle(0.5, 1, 2), 0.24207, 5) and ae(refraction_angle(0.5, 2, 1), 1.28293, 5)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_refraction_angle : Any → {Any | refraction_angle...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  refraction_angle(r1, 1, 1, n) == Matrix([...   ║
+# ║   ensures:  refraction_angle([1, 1, 1], 1, 1, n) == M...   ║
+# ║   ensures:  refraction_angle((1, 1, 1), 1, 1, n) == M...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_refraction_angle : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1bef51f03e3c3669  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 510611e7b6ce167a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.tests.test_utils.test_refraction_angle","kind":"function","src_hash":"58bbef569340edc4","in":{"base":"Any"},"out":{"base":"Any","pred":"refraction_angle(r1, 1, 1, n) == Matrix([[1], [1], [-1]]) and refraction_angle([1, 1, 1], 1, 1, n) == Matrix([[1], [1], [-1]]) and refraction_angle((1, 1, 1), 1, 1, n) == Matrix([[1], [1], [-1]]) and refraction_angle(i, 1, 1, [0, 0, 1]) == Matrix([[1], [1], [-1]]) and refraction_angle(i, 1, 1, (0, 0, 1)) == Matrix([[1], [1], [-1]]) and refraction_angle(i, 1, 1, normal_ray) == Matrix([[1], [1], [-1]]) and refraction_angle(i, 1, 1, plane=P) == Matrix([[1], [1], [-1]]) and refraction_angle(r1, 1.33, 1, plane=P) == 0 and ae(refraction_angle(0.5, 1, 2), 0.24207, 5) and ae(refraction_angle(0.5, 2, 1), 1.28293, 5)"},"spec":{"lhs":"test_refraction_angle()","rhs":"test_refraction_angle produces the expected output","over":{"base":"Any"},"name":"test_refraction_angle_correct"},"guarantee":"test_refraction_angle produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.tests.test_utils.test_refraction_angle_correct","statement":"Path(test_refraction_angle(x), test_refraction_angle produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1bef51f03e3c3669"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.tests.test_utils.test_refraction_angle","kind":"function","src_hash":"58bbef569340edc4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: refraction_angle(r1, 1, 1, n) == Matrix([[1], [1], [-1]]) and refraction_angle([1, 1, 1], 1, 1, n) == Matrix([[1], [1], [-1]]) and refraction_angle((1, 1, 1), 1, 1, n) == Matrix([[1], [1], [-1]]) and refraction_angle(i, 1, 1, [0, 0, 1]) == Matrix([[1], [1], [-1]]) and refraction_angle(i, 1, 1, (0, 0, 1)) == Matrix([[1], [1], [-1]]) and refraction_angle(i, 1, 1, normal_ray) == Matrix([[1], [1], [-1]]) and refraction_angle(i, 1, 1, plane=P) == Matrix([[1], [1], [-1]]) and refraction_angle(r1, 1, 1, plane=P) == Ray3D(Point3D(0, 0, 0), Point3D(1, 1, -1)) and refraction_angle(r1, m1, 1.33, plane=P) == Ray3D(Point3D(0, 0, 0), Point3D(Rational(100, 133), Rational(100, 133), -789378201649271 * sqrt(3) / 1000000000000000)) and refraction_angle(r1, 1, m2, plane=P) == Ray3D(Point3D(0, 0, 0), Point3D(1, 1, -1)) and refraction_angle(r1, n1, n2, plane=P) == Ray3D(Point3D(0, 0, 0), Point3D(n1 / n2, n1 / n2, -sqrt(3) * sqrt(-2 * n1 ** 2 / (3 * n2 ** 2) + 1))) and refraction_angle(r1, 1.33, 1, plane=P) == 0 and refraction_angle(r1, 1, 1, normal_ray) == Ray3D(Point3D(0, 0, 0), direction_ratio=[1, 1, -1]) and ae(refraction_angle(0.5, 1, 2), 0.24207, 5) and ae(refraction_angle(0.5, 2, 1), 1.28293, 5)"},"spec":{"lhs":"test_refraction_angle()","rhs":"refraction_angle(r1, 1, 1, n) == Matrix([[1], [1], [-1]]) and refraction_angle([1, 1, 1], 1, 1, n) == Matrix([[1], [1], [-1]]) and refraction_angle((1, 1, 1), 1, 1, n) == Matrix([[1], [1], [-1]]) and refraction_angle(i, 1, 1, [0, 0, 1]) == Matrix([[1], [1], [-1]]) and refraction_angle(i, 1, 1, (0, 0, 1)) == Matrix([[1], [1], [-1]]) and refraction_angle(i, 1, 1, normal_ray) == Matrix([[1], [1], [-1]]) and refraction_angle(i, 1, 1, plane=P) == Matrix([[1], [1], [-1]]) and refraction_angle(r1, 1, 1, plane=P) == Ray3D(Point3D(0, 0, 0), Point3D(1, 1, -1)) and refraction_angle(r1, m1, 1.33, plane=P) == Ray3D(Point3D(0, 0, 0), Point3D(Rational(100, 133), Rational(100, 133), -789378201649271 * sqrt(3) / 1000000000000000)) and refraction_angle(r1, 1, m2, plane=P) == Ray3D(Point3D(0, 0, 0), Point3D(1, 1, -1)) and refraction_angle(r1, n1, n2, plane=P) == Ray3D(Point3D(0, 0, 0), Point3D(n1 / n2, n1 / n2, -sqrt(3) * sqrt(-2 * n1 ** 2 / (3 * n2 ** 2) + 1))) and refraction_angle(r1, 1.33, 1, plane=P) == 0 and refraction_angle(r1, 1, 1, normal_ray) == Ray3D(Point3D(0, 0, 0), direction_ratio=[1, 1, -1]) and ae(refraction_angle(0.5, 1, 2), 0.24207, 5) and ae(refraction_angle(0.5, 2, 1), 1.28293, 5)","over":{"base":"Any"},"name":"test_refraction_angle_correct"},"guarantee":"refraction_angle(r1, 1, 1, n) == Matrix([[1], [1], [-1]]); refraction_angle([1, 1, 1], 1, 1, n) == Matrix([[1], [1], [-1]]); refraction_angle((1, 1, 1), 1, 1, n) == Matrix([[1], [1], [-1]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.tests.test_utils.test_refraction_angle_correct","statement":"Path(test_refraction_angle(x), refraction_angle(r1, 1, 1, n) == Matrix([[1], [1], [-1]]); refraction_angle([1, 1, 1], 1, 1, n) == Matrix([[1], [1], [-1]]); refraction_angle((1, 1, 1), 1, 1, n) == Matrix([[1], [1], [-1]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"510611e7b6ce167a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["refraction_angle(r1, 1, 1, n) == Matrix([[1], [1], [-1]])","refraction_angle([1, 1, 1], 1, 1, n) == Matrix([[1], [1], [-1]])","refraction_angle((1, 1, 1), 1, 1, n) == Matrix([[1], [1], [-1]])","refraction_angle(i, 1, 1, [0, 0, 1]) == Matrix([[1], [1], [-1]])","refraction_angle(i, 1, 1, (0, 0, 1)) == Matrix([[1], [1], [-1]])","refraction_angle(i, 1, 1, normal_ray) == Matrix([[1], [1], [-1]])","refraction_angle(i, 1, 1, plane=P) == Matrix([[1], [1], [-1]])","refraction_angle(r1, 1, 1, plane=P) == Ray3D(Point3D(0, 0, 0), Point3D(1, 1, -1))","refraction_angle(r1, m1, 1.33, plane=P) == Ray3D(Point3D(0, 0, 0), Point3D(Rational(100, 133), Rational(100, 133), -789378201649271 * sqrt(3) / 1000000000000000))","refraction_angle(r1, 1, m2, plane=P) == Ray3D(Point3D(0, 0, 0), Point3D(1, 1, -1))","refraction_angle(r1, n1, n2, plane=P) == Ray3D(Point3D(0, 0, 0), Point3D(n1 / n2, n1 / n2, -sqrt(3) * sqrt(-2 * n1 ** 2 / (3 * n2 ** 2) + 1)))","refraction_angle(r1, 1.33, 1, plane=P) == 0","refraction_angle(r1, 1, 1, normal_ray) == Ray3D(Point3D(0, 0, 0), direction_ratio=[1, 1, -1])","ae(refraction_angle(0.5, 1, 2), 0.24207, 5)","ae(refraction_angle(0.5, 2, 1), 1.28293, 5)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_refraction_angle():
     n1, n2 = symbols('n1, n2')
     m1 = Medium('m1')
@@ -105,16 +113,24 @@ def test_refraction_angle():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_fresnel_coefficients(), test_fresnel_coefficients produces the expected output) over Any ║
+# ║ Path(test_fresnel_coefficients(), all((ae(i, j, 5) for i, j in zip(fresnel_coefficients(0.5, 1, 1.33), [0.11163, -0.17138, 0.83581, 0.82862]))) and all((ae(i, j, 5) for i, j in zip(fresnel_coefficients(0.5, 1.33, 1), [-0.07726, 0.20482, 1.22724, 1.20482]))) and all((ae(i, j, 5) for i, j in zip(fresnel_coefficients(0.3, m1, m2), [0.31784, -0.34865, 0.65892, 0.65135])))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_fresnel_coefficients : Any → {Any | ae(a, b, 5)}      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  all((ae(i, j, 5) for i, j in zip(fresnel_...   ║
+# ║   ensures:  all((ae(i, j, 5) for i, j in zip(fresnel_...   ║
+# ║   ensures:  all((ae(i, j, 5) for i, j in zip(fresnel_...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_fresnel_coefficients : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 04a867bf261b7dc8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 53056479d75266f9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.tests.test_utils.test_fresnel_coefficients","kind":"function","src_hash":"a7387244f6d82157","in":{"base":"Any"},"out":{"base":"Any","pred":"ae(a, b, 5)"},"spec":{"lhs":"test_fresnel_coefficients()","rhs":"test_fresnel_coefficients produces the expected output","over":{"base":"Any"},"name":"test_fresnel_coefficients_correct"},"guarantee":"test_fresnel_coefficients produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.tests.test_utils.test_fresnel_coefficients_correct","statement":"Path(test_fresnel_coefficients(x), test_fresnel_coefficients produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04a867bf261b7dc8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.tests.test_utils.test_fresnel_coefficients","kind":"function","src_hash":"a7387244f6d82157","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: all((ae(i, j, 5) for i, j in zip(fresnel_coefficients(0.5, 1, 1.33), [0.11163, -0.17138, 0.83581, 0.82862]))) and all((ae(i, j, 5) for i, j in zip(fresnel_coefficients(0.5, 1.33, 1), [-0.07726, 0.20482, 1.22724, 1.20482]))) and all((ae(i, j, 5) for i, j in zip(fresnel_coefficients(0.3, m1, m2), [0.31784, -0.34865, 0.65892, 0.65135])))"},"spec":{"lhs":"test_fresnel_coefficients()","rhs":"all((ae(i, j, 5) for i, j in zip(fresnel_coefficients(0.5, 1, 1.33), [0.11163, -0.17138, 0.83581, 0.82862]))) and all((ae(i, j, 5) for i, j in zip(fresnel_coefficients(0.5, 1.33, 1), [-0.07726, 0.20482, 1.22724, 1.20482]))) and all((ae(i, j, 5) for i, j in zip(fresnel_coefficients(0.3, m1, m2), [0.31784, -0.34865, 0.65892, 0.65135])))","over":{"base":"Any"},"name":"test_fresnel_coefficients_correct"},"guarantee":"all((ae(i, j, 5) for i, j in zip(fresnel_coefficients(0.5, 1, 1.33), [0.11163, -0.17138, 0.83581, 0.82862]))); all((ae(i, j, 5) for i, j in zip(fresnel_coefficients(0.5, 1.33, 1), [-0.07726, 0.20482, 1.22724, 1.20482]))); all((ae(i, j, 5) for i, j in zip(fresnel_coefficients(0.3, m1, m2), [0.31784, -0.34865, 0.65892, 0.65135])))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.tests.test_utils.test_fresnel_coefficients_correct","statement":"Path(test_fresnel_coefficients(x), all((ae(i, j, 5) for i, j in zip(fresnel_coefficients(0.5, 1, 1.33), [0.11163, -0.17138, 0.83581, 0.82862]))); all((ae(i, j, 5) for i, j in zip(fresnel_coefficients(0.5, 1.33, 1), [-0.07726, 0.20482, 1.22724, 1.20482]))); all((ae(i, j, 5) for i, j in zip(fresnel_coefficients(0.3, m1, m2), [0.31784, -0.34865, 0.65892, 0.65135]))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53056479d75266f9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["all((ae(i, j, 5) for i, j in zip(fresnel_coefficients(0.5, 1, 1.33), [0.11163, -0.17138, 0.83581, 0.82862])))","all((ae(i, j, 5) for i, j in zip(fresnel_coefficients(0.5, 1.33, 1), [-0.07726, 0.20482, 1.22724, 1.20482])))","all((ae(i, j, 5) for i, j in zip(fresnel_coefficients(0.3, m1, m2), [0.31784, -0.34865, 0.65892, 0.65135])))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_fresnel_coefficients():
     assert all(ae(i, j, 5) for i, j in zip(
         fresnel_coefficients(0.5, 1, 1.33),
@@ -135,16 +151,24 @@ def test_fresnel_coefficients():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_deviation(), test_deviation produces the expected output) over Any ║
+# ║ Path(test_deviation(), deviation(r1, 1, 1, normal=n) == 0 and deviation(r1, 1, 1, plane=P) == 0 and deviation(r1, 1, 1.1, plane=P).evalf(3) + 0.119 < 0.001 and deviation(i, 1, 1.1, normal=normal_ray).evalf(3) + 0.119 < 0.001 and deviation(r1, 1.33, 1, plane=P) is None and deviation(r1, 1, 1, normal=[0, 0, 1]) == 0 and deviation([-1, -1, -1], 1, 1, normal=[0, 0, 1]) == 0 and ae(deviation(0.5, 1, 2), -0.25793, 5) and ae(deviation(0.5, 2, 1), 0.78293, 5)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_deviation : Any → {Any | deviation(r1, 1, 1, nor...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  deviation(r1, 1, 1, normal=n) == 0             ║
+# ║   ensures:  deviation(r1, 1, 1, plane=P) == 0              ║
+# ║   ensures:  deviation(r1, 1, 1.1, plane=P).evalf(3) +...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_deviation : Any → {Any | result satisfies: devia...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b4c78ebc68bcb22  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4fd0cfc96faaeb73  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.tests.test_utils.test_deviation","kind":"function","src_hash":"34cccb6cea9e75ba","in":{"base":"Any"},"out":{"base":"Any","pred":"deviation(r1, 1, 1, normal=n) == 0 and deviation(r1, 1, 1, plane=P) == 0 and deviation(r1, 1, 1.1, plane=P).evalf(3) + 0.119 < 0.001 and deviation(i, 1, 1.1, normal=normal_ray).evalf(3) + 0.119 < 0.001 and deviation(r1, 1.33, 1, plane=P) is None and deviation(r1, 1, 1, normal=[0, 0, 1]) == 0 and deviation([-1, -1, -1], 1, 1, normal=[0, 0, 1]) == 0 and ae(deviation(0.5, 1, 2), -0.25793, 5) and ae(deviation(0.5, 2, 1), 0.78293, 5)"},"spec":{"lhs":"test_deviation()","rhs":"test_deviation produces the expected output","over":{"base":"Any"},"name":"test_deviation_correct"},"guarantee":"test_deviation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.tests.test_utils.test_deviation_correct","statement":"Path(test_deviation(x), test_deviation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b4c78ebc68bcb22"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.tests.test_utils.test_deviation","kind":"function","src_hash":"34cccb6cea9e75ba","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: deviation(r1, 1, 1, normal=n) == 0 and deviation(r1, 1, 1, plane=P) == 0 and deviation(r1, 1, 1.1, plane=P).evalf(3) + 0.119 < 0.001 and deviation(i, 1, 1.1, normal=normal_ray).evalf(3) + 0.119 < 0.001 and deviation(r1, 1.33, 1, plane=P) is None and deviation(r1, 1, 1, normal=[0, 0, 1]) == 0 and deviation([-1, -1, -1], 1, 1, normal=[0, 0, 1]) == 0 and ae(deviation(0.5, 1, 2), -0.25793, 5) and ae(deviation(0.5, 2, 1), 0.78293, 5)"},"spec":{"lhs":"test_deviation()","rhs":"deviation(r1, 1, 1, normal=n) == 0 and deviation(r1, 1, 1, plane=P) == 0 and deviation(r1, 1, 1.1, plane=P).evalf(3) + 0.119 < 0.001 and deviation(i, 1, 1.1, normal=normal_ray).evalf(3) + 0.119 < 0.001 and deviation(r1, 1.33, 1, plane=P) is None and deviation(r1, 1, 1, normal=[0, 0, 1]) == 0 and deviation([-1, -1, -1], 1, 1, normal=[0, 0, 1]) == 0 and ae(deviation(0.5, 1, 2), -0.25793, 5) and ae(deviation(0.5, 2, 1), 0.78293, 5)","over":{"base":"Any"},"name":"test_deviation_correct"},"guarantee":"deviation(r1, 1, 1, normal=n) == 0; deviation(r1, 1, 1, plane=P) == 0; deviation(r1, 1, 1.1, plane=P).evalf(3) + 0.119 < 0.001","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.tests.test_utils.test_deviation_correct","statement":"Path(test_deviation(x), deviation(r1, 1, 1, normal=n) == 0; deviation(r1, 1, 1, plane=P) == 0; deviation(r1, 1, 1.1, plane=P).evalf(3) + 0.119 < 0.001)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4fd0cfc96faaeb73","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["deviation(r1, 1, 1, normal=n) == 0","deviation(r1, 1, 1, plane=P) == 0","deviation(r1, 1, 1.1, plane=P).evalf(3) + 0.119 < 0.001","deviation(i, 1, 1.1, normal=normal_ray).evalf(3) + 0.119 < 0.001","deviation(r1, 1.33, 1, plane=P) is None","deviation(r1, 1, 1, normal=[0, 0, 1]) == 0","deviation([-1, -1, -1], 1, 1, normal=[0, 0, 1]) == 0","ae(deviation(0.5, 1, 2), -0.25793, 5)","ae(deviation(0.5, 2, 1), 0.78293, 5)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_deviation():
     n1, n2 = symbols('n1, n2')
     r1 = Ray3D(Point3D(-1, -1, 1), Point3D(0, 0, 0))
@@ -164,16 +188,23 @@ def test_deviation():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_brewster_angle(), test_brewster_angle produces the expected output) over Any ║
+# ║ Path(test_brewster_angle(), ae(brewster_angle(m1, m2), 0.93, 2) and ae(brewster_angle(1, 1.33), 0.93, 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_brewster_angle : Any → {Any | ae(brewster_angle(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ae(brewster_angle(m1, m2), 0.93, 2)            ║
+# ║   ensures:  ae(brewster_angle(1, 1.33), 0.93, 2)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_brewster_angle : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9982092015fcef80  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac921558a2b2baaa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.tests.test_utils.test_brewster_angle","kind":"function","src_hash":"3f99f8dbab5adf2b","in":{"base":"Any"},"out":{"base":"Any","pred":"ae(brewster_angle(m1, m2), 0.93, 2) and ae(brewster_angle(m1, m2), 0.93, 2) and ae(brewster_angle(1, 1.33), 0.93, 2)"},"spec":{"lhs":"test_brewster_angle()","rhs":"test_brewster_angle produces the expected output","over":{"base":"Any"},"name":"test_brewster_angle_correct"},"guarantee":"test_brewster_angle produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.tests.test_utils.test_brewster_angle_correct","statement":"Path(test_brewster_angle(x), test_brewster_angle produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9982092015fcef80"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.tests.test_utils.test_brewster_angle","kind":"function","src_hash":"3f99f8dbab5adf2b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ae(brewster_angle(m1, m2), 0.93, 2) and ae(brewster_angle(1, 1.33), 0.93, 2)"},"spec":{"lhs":"test_brewster_angle()","rhs":"ae(brewster_angle(m1, m2), 0.93, 2) and ae(brewster_angle(1, 1.33), 0.93, 2)","over":{"base":"Any"},"name":"test_brewster_angle_correct"},"guarantee":"ae(brewster_angle(m1, m2), 0.93, 2); ae(brewster_angle(1, 1.33), 0.93, 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.tests.test_utils.test_brewster_angle_correct","statement":"Path(test_brewster_angle(x), ae(brewster_angle(m1, m2), 0.93, 2); ae(brewster_angle(1, 1.33), 0.93, 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac921558a2b2baaa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ae(brewster_angle(m1, m2), 0.93, 2)","ae(brewster_angle(1, 1.33), 0.93, 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_brewster_angle():
     m1 = Medium('m1', n=1)
     m2 = Medium('m2', n=1.33)
@@ -185,16 +216,22 @@ def test_brewster_angle():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_critical_angle(), test_critical_angle produces the expected output) over Any ║
+# ║ Path(test_critical_angle(), ae(critical_angle(m2, m1), 0.85, 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_critical_angle : Any → {Any | ae(critical_angle(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ae(critical_angle(m2, m1), 0.85, 2)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_critical_angle : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0f5cb985ed2acaef  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58d2281bb2413312  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.tests.test_utils.test_critical_angle","kind":"function","src_hash":"6312ea9ae0b222d0","in":{"base":"Any"},"out":{"base":"Any","pred":"ae(critical_angle(m2, m1), 0.85, 2)"},"spec":{"lhs":"test_critical_angle()","rhs":"test_critical_angle produces the expected output","over":{"base":"Any"},"name":"test_critical_angle_correct"},"guarantee":"test_critical_angle produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.tests.test_utils.test_critical_angle_correct","statement":"Path(test_critical_angle(x), test_critical_angle produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f5cb985ed2acaef"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.tests.test_utils.test_critical_angle","kind":"function","src_hash":"6312ea9ae0b222d0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ae(critical_angle(m2, m1), 0.85, 2)"},"spec":{"lhs":"test_critical_angle()","rhs":"ae(critical_angle(m2, m1), 0.85, 2)","over":{"base":"Any"},"name":"test_critical_angle_correct"},"guarantee":"ae(critical_angle(m2, m1), 0.85, 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.tests.test_utils.test_critical_angle_correct","statement":"Path(test_critical_angle(x), ae(critical_angle(m2, m1), 0.85, 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58d2281bb2413312","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ae(critical_angle(m2, m1), 0.85, 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_critical_angle():
     m1 = Medium('m1', n=1)
     m2 = Medium('m2', n=1.33)
@@ -202,16 +239,24 @@ def test_critical_angle():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lens_makers_formula(), test_lens_makers_formula produces the expected output) over Any ║
+# ║ Path(test_lens_makers_formula(), lens_makers_formula(n1, n2, 10, -10) == 5.0 * n2 / (n1 - n2) and ae(lens_makers_formula(m1, m2, 10, -10), -20.15, 2) and ae(lens_makers_formula(1.33, 1, 10, -10), 15.15, 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lens_makers_formula : Any → {Any | lens_makers_f...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  lens_makers_formula(n1, n2, 10, -10) == 5...   ║
+# ║   ensures:  ae(lens_makers_formula(m1, m2, 10, -10), ...   ║
+# ║   ensures:  ae(lens_makers_formula(1.33, 1, 10, -10),...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lens_makers_formula : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b5c190f09df7a3a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bbb20d0b8019a447  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.tests.test_utils.test_lens_makers_formula","kind":"function","src_hash":"6f1fc74d67de58e3","in":{"base":"Any"},"out":{"base":"Any","pred":"lens_makers_formula(n1, n2, 10, -10) == 5.0 * n2 / (n1 - n2) and ae(lens_makers_formula(m1, m2, 10, -10), -20.15, 2) and ae(lens_makers_formula(1.33, 1, 10, -10), 15.15, 2)"},"spec":{"lhs":"test_lens_makers_formula()","rhs":"test_lens_makers_formula produces the expected output","over":{"base":"Any"},"name":"test_lens_makers_formula_correct"},"guarantee":"test_lens_makers_formula produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.tests.test_utils.test_lens_makers_formula_correct","statement":"Path(test_lens_makers_formula(x), test_lens_makers_formula produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b5c190f09df7a3a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.tests.test_utils.test_lens_makers_formula","kind":"function","src_hash":"6f1fc74d67de58e3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: lens_makers_formula(n1, n2, 10, -10) == 5.0 * n2 / (n1 - n2) and ae(lens_makers_formula(m1, m2, 10, -10), -20.15, 2) and ae(lens_makers_formula(1.33, 1, 10, -10), 15.15, 2)"},"spec":{"lhs":"test_lens_makers_formula()","rhs":"lens_makers_formula(n1, n2, 10, -10) == 5.0 * n2 / (n1 - n2) and ae(lens_makers_formula(m1, m2, 10, -10), -20.15, 2) and ae(lens_makers_formula(1.33, 1, 10, -10), 15.15, 2)","over":{"base":"Any"},"name":"test_lens_makers_formula_correct"},"guarantee":"lens_makers_formula(n1, n2, 10, -10) == 5.0 * n2 / (n1 - n2); ae(lens_makers_formula(m1, m2, 10, -10), -20.15, 2); ae(lens_makers_formula(1.33, 1, 10, -10), 15.15, 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.tests.test_utils.test_lens_makers_formula_correct","statement":"Path(test_lens_makers_formula(x), lens_makers_formula(n1, n2, 10, -10) == 5.0 * n2 / (n1 - n2); ae(lens_makers_formula(m1, m2, 10, -10), -20.15, 2); ae(lens_makers_formula(1.33, 1, 10, -10), 15.15, 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bbb20d0b8019a447","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["lens_makers_formula(n1, n2, 10, -10) == 5.0 * n2 / (n1 - n2)","ae(lens_makers_formula(m1, m2, 10, -10), -20.15, 2)","ae(lens_makers_formula(1.33, 1, 10, -10), 15.15, 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_lens_makers_formula():
     n1, n2 = symbols('n1, n2')
     m1 = Medium('m1', permittivity=e0, n=1)
@@ -222,16 +267,24 @@ def test_lens_makers_formula():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mirror_formula(), test_mirror_formula produces the expected output) over Any ║
+# ║ Path(test_mirror_formula(), mirror_formula(focal_length=f, u=u) == f * u / (-f + u) and mirror_formula(focal_length=f, v=v) == f * v / (-f + v) and mirror_formula(u=u, v=v) == u * v / (u + v) and mirror_formula(u=oo, v=v) == v and mirror_formula(u=oo, v=oo) is oo and mirror_formula(focal_length=oo, u=u) == -u and mirror_formula(u=u, v=oo) == u and mirror_formula(focal_length=oo, v=oo) is oo and mirror_formula(focal_length=f, v=oo) == f and mirror_formula(focal_length=oo, v=v) == -v and mirror_formula(focal_length=oo, u=oo) is oo and mirror_formula(focal_length=f, u=oo) == f) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_mirror_formula : Any → {Any | mirror_formula(foc...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mirror_formula(focal_length=f, u=u) == f ...   ║
+# ║   ensures:  mirror_formula(focal_length=f, v=v) == f ...   ║
+# ║   ensures:  mirror_formula(u=u, v=v) == u * v / (u + v)    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_mirror_formula : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1546e550bdaf4d29  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac0e06268c49ca80  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.tests.test_utils.test_mirror_formula","kind":"function","src_hash":"9c9db2e10615048e","in":{"base":"Any"},"out":{"base":"Any","pred":"mirror_formula(focal_length=f, u=u) == f * u / (-f + u) and mirror_formula(focal_length=f, v=v) == f * v / (-f + v) and mirror_formula(u=u, v=v) == u * v / (u + v) and mirror_formula(u=oo, v=v) == v and mirror_formula(u=oo, v=oo) is oo and mirror_formula(focal_length=oo, u=u) == -u and mirror_formula(u=u, v=oo) == u and mirror_formula(focal_length=oo, v=oo) is oo and mirror_formula(focal_length=f, v=oo) == f and mirror_formula(focal_length=oo, v=v) == -v and mirror_formula(focal_length=oo, u=oo) is oo and mirror_formula(focal_length=f, u=oo) == f and mirror_formula(focal_length=oo, u=u) == -u"},"spec":{"lhs":"test_mirror_formula()","rhs":"test_mirror_formula produces the expected output","over":{"base":"Any"},"name":"test_mirror_formula_correct"},"guarantee":"test_mirror_formula produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.tests.test_utils.test_mirror_formula_correct","statement":"Path(test_mirror_formula(x), test_mirror_formula produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1546e550bdaf4d29"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.tests.test_utils.test_mirror_formula","kind":"function","src_hash":"9c9db2e10615048e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mirror_formula(focal_length=f, u=u) == f * u / (-f + u) and mirror_formula(focal_length=f, v=v) == f * v / (-f + v) and mirror_formula(u=u, v=v) == u * v / (u + v) and mirror_formula(u=oo, v=v) == v and mirror_formula(u=oo, v=oo) is oo and mirror_formula(focal_length=oo, u=u) == -u and mirror_formula(u=u, v=oo) == u and mirror_formula(focal_length=oo, v=oo) is oo and mirror_formula(focal_length=f, v=oo) == f and mirror_formula(focal_length=oo, v=v) == -v and mirror_formula(focal_length=oo, u=oo) is oo and mirror_formula(focal_length=f, u=oo) == f"},"spec":{"lhs":"test_mirror_formula()","rhs":"mirror_formula(focal_length=f, u=u) == f * u / (-f + u) and mirror_formula(focal_length=f, v=v) == f * v / (-f + v) and mirror_formula(u=u, v=v) == u * v / (u + v) and mirror_formula(u=oo, v=v) == v and mirror_formula(u=oo, v=oo) is oo and mirror_formula(focal_length=oo, u=u) == -u and mirror_formula(u=u, v=oo) == u and mirror_formula(focal_length=oo, v=oo) is oo and mirror_formula(focal_length=f, v=oo) == f and mirror_formula(focal_length=oo, v=v) == -v and mirror_formula(focal_length=oo, u=oo) is oo and mirror_formula(focal_length=f, u=oo) == f","over":{"base":"Any"},"name":"test_mirror_formula_correct"},"guarantee":"mirror_formula(focal_length=f, u=u) == f * u / (-f + u); mirror_formula(focal_length=f, v=v) == f * v / (-f + v); mirror_formula(u=u, v=v) == u * v / (u + v)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.tests.test_utils.test_mirror_formula_correct","statement":"Path(test_mirror_formula(x), mirror_formula(focal_length=f, u=u) == f * u / (-f + u); mirror_formula(focal_length=f, v=v) == f * v / (-f + v); mirror_formula(u=u, v=v) == u * v / (u + v))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac0e06268c49ca80","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mirror_formula(focal_length=f, u=u) == f * u / (-f + u)","mirror_formula(focal_length=f, v=v) == f * v / (-f + v)","mirror_formula(u=u, v=v) == u * v / (u + v)","mirror_formula(u=oo, v=v) == v","mirror_formula(u=oo, v=oo) is oo","mirror_formula(focal_length=oo, u=u) == -u","mirror_formula(u=u, v=oo) == u","mirror_formula(focal_length=oo, v=oo) is oo","mirror_formula(focal_length=f, v=oo) == f","mirror_formula(focal_length=oo, v=v) == -v","mirror_formula(focal_length=oo, u=oo) is oo","mirror_formula(focal_length=f, u=oo) == f"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_mirror_formula():
     u, v, f = symbols('u, v, f')
     assert mirror_formula(focal_length=f, u=u) == f*u/(-f + u)
@@ -251,16 +304,24 @@ def test_mirror_formula():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lens_formula(), test_lens_formula produces the expected output) over Any ║
+# ║ Path(test_lens_formula(), lens_formula(focal_length=f, u=u) == f * u / (f + u) and lens_formula(focal_length=f, v=v) == f * v / (f - v) and lens_formula(u=u, v=v) == u * v / (u - v) and lens_formula(u=oo, v=v) == v and lens_formula(u=oo, v=oo) is oo and lens_formula(focal_length=oo, u=u) == u and lens_formula(u=u, v=oo) == -u and lens_formula(focal_length=oo, v=oo) is -oo and lens_formula(focal_length=oo, v=v) == v and lens_formula(focal_length=f, v=oo) == -f and lens_formula(focal_length=oo, u=oo) is oo and lens_formula(focal_length=f, u=oo) == f) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lens_formula : Any → {Any | lens_formula(focal_l...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  lens_formula(focal_length=f, u=u) == f * ...   ║
+# ║   ensures:  lens_formula(focal_length=f, v=v) == f * ...   ║
+# ║   ensures:  lens_formula(u=u, v=v) == u * v / (u - v)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lens_formula : Any → {Any | result satisfies: le...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e97ad6008b42f24b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 41cfbeba66f0a8b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.tests.test_utils.test_lens_formula","kind":"function","src_hash":"aa45edc0641f9897","in":{"base":"Any"},"out":{"base":"Any","pred":"lens_formula(focal_length=f, u=u) == f * u / (f + u) and lens_formula(focal_length=f, v=v) == f * v / (f - v) and lens_formula(u=u, v=v) == u * v / (u - v) and lens_formula(u=oo, v=v) == v and lens_formula(u=oo, v=oo) is oo and lens_formula(focal_length=oo, u=u) == u and lens_formula(u=u, v=oo) == -u and lens_formula(focal_length=oo, v=oo) is -oo and lens_formula(focal_length=oo, v=v) == v and lens_formula(focal_length=f, v=oo) == -f and lens_formula(focal_length=oo, u=oo) is oo and lens_formula(focal_length=oo, u=u) == u and lens_formula(focal_length=f, u=oo) == f"},"spec":{"lhs":"test_lens_formula()","rhs":"test_lens_formula produces the expected output","over":{"base":"Any"},"name":"test_lens_formula_correct"},"guarantee":"test_lens_formula produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.tests.test_utils.test_lens_formula_correct","statement":"Path(test_lens_formula(x), test_lens_formula produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e97ad6008b42f24b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.tests.test_utils.test_lens_formula","kind":"function","src_hash":"aa45edc0641f9897","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: lens_formula(focal_length=f, u=u) == f * u / (f + u) and lens_formula(focal_length=f, v=v) == f * v / (f - v) and lens_formula(u=u, v=v) == u * v / (u - v) and lens_formula(u=oo, v=v) == v and lens_formula(u=oo, v=oo) is oo and lens_formula(focal_length=oo, u=u) == u and lens_formula(u=u, v=oo) == -u and lens_formula(focal_length=oo, v=oo) is -oo and lens_formula(focal_length=oo, v=v) == v and lens_formula(focal_length=f, v=oo) == -f and lens_formula(focal_length=oo, u=oo) is oo and lens_formula(focal_length=f, u=oo) == f"},"spec":{"lhs":"test_lens_formula()","rhs":"lens_formula(focal_length=f, u=u) == f * u / (f + u) and lens_formula(focal_length=f, v=v) == f * v / (f - v) and lens_formula(u=u, v=v) == u * v / (u - v) and lens_formula(u=oo, v=v) == v and lens_formula(u=oo, v=oo) is oo and lens_formula(focal_length=oo, u=u) == u and lens_formula(u=u, v=oo) == -u and lens_formula(focal_length=oo, v=oo) is -oo and lens_formula(focal_length=oo, v=v) == v and lens_formula(focal_length=f, v=oo) == -f and lens_formula(focal_length=oo, u=oo) is oo and lens_formula(focal_length=f, u=oo) == f","over":{"base":"Any"},"name":"test_lens_formula_correct"},"guarantee":"lens_formula(focal_length=f, u=u) == f * u / (f + u); lens_formula(focal_length=f, v=v) == f * v / (f - v); lens_formula(u=u, v=v) == u * v / (u - v)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.tests.test_utils.test_lens_formula_correct","statement":"Path(test_lens_formula(x), lens_formula(focal_length=f, u=u) == f * u / (f + u); lens_formula(focal_length=f, v=v) == f * v / (f - v); lens_formula(u=u, v=v) == u * v / (u - v))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41cfbeba66f0a8b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["lens_formula(focal_length=f, u=u) == f * u / (f + u)","lens_formula(focal_length=f, v=v) == f * v / (f - v)","lens_formula(u=u, v=v) == u * v / (u - v)","lens_formula(u=oo, v=v) == v","lens_formula(u=oo, v=oo) is oo","lens_formula(focal_length=oo, u=u) == u","lens_formula(u=u, v=oo) == -u","lens_formula(focal_length=oo, v=oo) is -oo","lens_formula(focal_length=oo, v=v) == v","lens_formula(focal_length=f, v=oo) == -f","lens_formula(focal_length=oo, u=oo) is oo","lens_formula(focal_length=f, u=oo) == f"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_lens_formula():
     u, v, f = symbols('u, v, f')
     assert lens_formula(focal_length=f, u=u) == f*u/(f + u)
@@ -280,16 +341,23 @@ def test_lens_formula():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_hyperfocal_distance(), test_hyperfocal_distance produces the expected output) over Any ║
+# ║ Path(test_hyperfocal_distance(), hyperfocal_distance(f=f, N=N, c=c) == f ** 2 / (N * c) and ae(hyperfocal_distance(f=0.5, N=8, c=0.0033), 9.47, 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_hyperfocal_distance : Any → {Any | hyperfocal_di...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hyperfocal_distance(f=f, N=N, c=c) == f *...   ║
+# ║   ensures:  ae(hyperfocal_distance(f=0.5, N=8, c=0.00...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_hyperfocal_distance : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 18dcde7734fdd977  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64aec40b247580d9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.tests.test_utils.test_hyperfocal_distance","kind":"function","src_hash":"9f1baafc4e4bddf2","in":{"base":"Any"},"out":{"base":"Any","pred":"hyperfocal_distance(f=f, N=N, c=c) == f ** 2 / (N * c) and ae(hyperfocal_distance(f=0.5, N=8, c=0.0033), 9.47, 2)"},"spec":{"lhs":"test_hyperfocal_distance()","rhs":"test_hyperfocal_distance produces the expected output","over":{"base":"Any"},"name":"test_hyperfocal_distance_correct"},"guarantee":"test_hyperfocal_distance produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.tests.test_utils.test_hyperfocal_distance_correct","statement":"Path(test_hyperfocal_distance(x), test_hyperfocal_distance produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18dcde7734fdd977"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.tests.test_utils.test_hyperfocal_distance","kind":"function","src_hash":"9f1baafc4e4bddf2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hyperfocal_distance(f=f, N=N, c=c) == f ** 2 / (N * c) and ae(hyperfocal_distance(f=0.5, N=8, c=0.0033), 9.47, 2)"},"spec":{"lhs":"test_hyperfocal_distance()","rhs":"hyperfocal_distance(f=f, N=N, c=c) == f ** 2 / (N * c) and ae(hyperfocal_distance(f=0.5, N=8, c=0.0033), 9.47, 2)","over":{"base":"Any"},"name":"test_hyperfocal_distance_correct"},"guarantee":"hyperfocal_distance(f=f, N=N, c=c) == f ** 2 / (N * c); ae(hyperfocal_distance(f=0.5, N=8, c=0.0033), 9.47, 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.tests.test_utils.test_hyperfocal_distance_correct","statement":"Path(test_hyperfocal_distance(x), hyperfocal_distance(f=f, N=N, c=c) == f ** 2 / (N * c); ae(hyperfocal_distance(f=0.5, N=8, c=0.0033), 9.47, 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64aec40b247580d9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hyperfocal_distance(f=f, N=N, c=c) == f ** 2 / (N * c)","ae(hyperfocal_distance(f=0.5, N=8, c=0.0033), 9.47, 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_hyperfocal_distance():
     f, N, c = symbols('f, N, c')
     assert hyperfocal_distance(f=f, N=N, c=c) == f**2/(N*c)
@@ -297,16 +365,23 @@ def test_hyperfocal_distance():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_transverse_magnification(), test_transverse_magnification produces the expected output) over Any ║
+# ║ Path(test_transverse_magnification(), transverse_magnification(si, so) == -si / so and transverse_magnification(30, 15) == -2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_transverse_magnification : Any → {Any | transver...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  transverse_magnification(si, so) == -si / so   ║
+# ║   ensures:  transverse_magnification(30, 15) == -2         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_transverse_magnification : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 46f575a4839c4767  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b6ce3d233ca1ed5d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.tests.test_utils.test_transverse_magnification","kind":"function","src_hash":"a0a5d093549610bc","in":{"base":"Any"},"out":{"base":"Any","pred":"transverse_magnification(si, so) == -si / so and transverse_magnification(30, 15) == -2"},"spec":{"lhs":"test_transverse_magnification()","rhs":"test_transverse_magnification produces the expected output","over":{"base":"Any"},"name":"test_transverse_magnification_correct"},"guarantee":"test_transverse_magnification produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.tests.test_utils.test_transverse_magnification_correct","statement":"Path(test_transverse_magnification(x), test_transverse_magnification produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46f575a4839c4767"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.tests.test_utils.test_transverse_magnification","kind":"function","src_hash":"a0a5d093549610bc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: transverse_magnification(si, so) == -si / so and transverse_magnification(30, 15) == -2"},"spec":{"lhs":"test_transverse_magnification()","rhs":"transverse_magnification(si, so) == -si / so and transverse_magnification(30, 15) == -2","over":{"base":"Any"},"name":"test_transverse_magnification_correct"},"guarantee":"transverse_magnification(si, so) == -si / so; transverse_magnification(30, 15) == -2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.tests.test_utils.test_transverse_magnification_correct","statement":"Path(test_transverse_magnification(x), transverse_magnification(si, so) == -si / so; transverse_magnification(30, 15) == -2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6ce3d233ca1ed5d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["transverse_magnification(si, so) == -si / so","transverse_magnification(30, 15) == -2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_transverse_magnification():
     si, so = symbols('si, so')
     assert transverse_magnification(si, so) == -si/so
@@ -314,16 +389,23 @@ def test_transverse_magnification():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lens_makers_formula_thick_lens(), test_lens_makers_formula_thick_lens produces the expected output) over Any ║
+# ║ Path(test_lens_makers_formula_thick_lens(), ae(lens_makers_formula(m1, m2, 10, -10, d=1), -19.82, 2) and lens_makers_formula(n1, n2, 1, -1, d=0.1) == n2 / ((2.0 - (0.1 * n1 - 0.1 * n2) / n1) * (n1 - n2))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lens_makers_formula_thick_lens : Any → {Any | ae...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ae(lens_makers_formula(m1, m2, 10, -10, d...   ║
+# ║   ensures:  lens_makers_formula(n1, n2, 1, -1, d=0.1)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lens_makers_formula_thick_lens : Any → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a115a58913b2fa3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 79302e0b8bbd928a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.tests.test_utils.test_lens_makers_formula_thick_lens","kind":"function","src_hash":"b21a2f0a5cc82a16","in":{"base":"Any"},"out":{"base":"Any","pred":"ae(lens_makers_formula(m1, m2, 10, -10, d=1), -19.82, 2)"},"spec":{"lhs":"test_lens_makers_formula_thick_lens()","rhs":"test_lens_makers_formula_thick_lens produces the expected output","over":{"base":"Any"},"name":"test_lens_makers_formula_thick_lens_correct"},"guarantee":"test_lens_makers_formula_thick_lens produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.tests.test_utils.test_lens_makers_formula_thick_lens_correct","statement":"Path(test_lens_makers_formula_thick_lens(x), test_lens_makers_formula_thick_lens produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a115a58913b2fa3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.tests.test_utils.test_lens_makers_formula_thick_lens","kind":"function","src_hash":"b21a2f0a5cc82a16","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ae(lens_makers_formula(m1, m2, 10, -10, d=1), -19.82, 2) and lens_makers_formula(n1, n2, 1, -1, d=0.1) == n2 / ((2.0 - (0.1 * n1 - 0.1 * n2) / n1) * (n1 - n2))"},"spec":{"lhs":"test_lens_makers_formula_thick_lens()","rhs":"ae(lens_makers_formula(m1, m2, 10, -10, d=1), -19.82, 2) and lens_makers_formula(n1, n2, 1, -1, d=0.1) == n2 / ((2.0 - (0.1 * n1 - 0.1 * n2) / n1) * (n1 - n2))","over":{"base":"Any"},"name":"test_lens_makers_formula_thick_lens_correct"},"guarantee":"ae(lens_makers_formula(m1, m2, 10, -10, d=1), -19.82, 2); lens_makers_formula(n1, n2, 1, -1, d=0.1) == n2 / ((2.0 - (0.1 * n1 - 0.1 * n2) / n1) * (n1 - n2))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.tests.test_utils.test_lens_makers_formula_thick_lens_correct","statement":"Path(test_lens_makers_formula_thick_lens(x), ae(lens_makers_formula(m1, m2, 10, -10, d=1), -19.82, 2); lens_makers_formula(n1, n2, 1, -1, d=0.1) == n2 / ((2.0 - (0.1 * n1 - 0.1 * n2) / n1) * (n1 - n2)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79302e0b8bbd928a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ae(lens_makers_formula(m1, m2, 10, -10, d=1), -19.82, 2)","lens_makers_formula(n1, n2, 1, -1, d=0.1) == n2 / ((2.0 - (0.1 * n1 - 0.1 * n2) / n1) * (n1 - n2))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_lens_makers_formula_thick_lens():
     n1, n2 = symbols('n1, n2')
     m1 = Medium('m1', permittivity=e0, n=1)
@@ -333,16 +415,23 @@ def test_lens_makers_formula_thick_lens():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lens_makers_formula_plano_lens(), test_lens_makers_formula_plano_lens produces the expected output) over Any ║
+# ║ Path(test_lens_makers_formula_plano_lens(), ae(lens_makers_formula(m1, m2, 10, oo), -40.3, 2) and lens_makers_formula(n1, n2, 10, oo) == 10.0 * n2 / (n1 - n2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lens_makers_formula_plano_lens : Any → {Any | ae...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ae(lens_makers_formula(m1, m2, 10, oo), -...   ║
+# ║   ensures:  lens_makers_formula(n1, n2, 10, oo) == 10...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lens_makers_formula_plano_lens : Any → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 73e49e362eca068d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9fdd59fc4d53f2e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.tests.test_utils.test_lens_makers_formula_plano_lens","kind":"function","src_hash":"23b552f1774725a8","in":{"base":"Any"},"out":{"base":"Any","pred":"ae(lens_makers_formula(m1, m2, 10, oo), -40.3, 2) and lens_makers_formula(n1, n2, 10, oo) == 10.0 * n2 / (n1 - n2)"},"spec":{"lhs":"test_lens_makers_formula_plano_lens()","rhs":"test_lens_makers_formula_plano_lens produces the expected output","over":{"base":"Any"},"name":"test_lens_makers_formula_plano_lens_correct"},"guarantee":"test_lens_makers_formula_plano_lens produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.tests.test_utils.test_lens_makers_formula_plano_lens_correct","statement":"Path(test_lens_makers_formula_plano_lens(x), test_lens_makers_formula_plano_lens produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73e49e362eca068d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.tests.test_utils.test_lens_makers_formula_plano_lens","kind":"function","src_hash":"23b552f1774725a8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ae(lens_makers_formula(m1, m2, 10, oo), -40.3, 2) and lens_makers_formula(n1, n2, 10, oo) == 10.0 * n2 / (n1 - n2)"},"spec":{"lhs":"test_lens_makers_formula_plano_lens()","rhs":"ae(lens_makers_formula(m1, m2, 10, oo), -40.3, 2) and lens_makers_formula(n1, n2, 10, oo) == 10.0 * n2 / (n1 - n2)","over":{"base":"Any"},"name":"test_lens_makers_formula_plano_lens_correct"},"guarantee":"ae(lens_makers_formula(m1, m2, 10, oo), -40.3, 2); lens_makers_formula(n1, n2, 10, oo) == 10.0 * n2 / (n1 - n2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.tests.test_utils.test_lens_makers_formula_plano_lens_correct","statement":"Path(test_lens_makers_formula_plano_lens(x), ae(lens_makers_formula(m1, m2, 10, oo), -40.3, 2); lens_makers_formula(n1, n2, 10, oo) == 10.0 * n2 / (n1 - n2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9fdd59fc4d53f2e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ae(lens_makers_formula(m1, m2, 10, oo), -40.3, 2)","lens_makers_formula(n1, n2, 10, oo) == 10.0 * n2 / (n1 - n2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_lens_makers_formula_plano_lens():
     n1, n2 = symbols('n1, n2')
     m1 = Medium('m1', permittivity=e0, n=1)

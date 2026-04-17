@@ -26,7 +26,13 @@ from sympy.assumptions import ask, Q  # type: ignore
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(refine(exp), simplify an expression using assumptions) over {Any | isinstance(expr, Basic) and isinstance(new_expr, Expr)} ║
+# ║ Path(refine(expr, assumptions), # HINT: refine may be idempotent: refine(refine(x)) == refine(x)) over {Any | isinstance(expr, Basic) and isinstance(new_expr, Expr) and hasattr(expr, 'is_Atom') and hasattr(expr, 'func') and hasattr(expr, '_eval_refine') and hasattr(expr, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'is_Atom')                       ║
+# ║   requires: hasattr(expr, 'func')                          ║
+# ║   requires: hasattr(expr, '_eval_refine')                  ║
+# ║   ensures:  # HINT: refine may be idempotent: refine(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ refine : {Any | isinstance(expr, Basic) and isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -39,9 +45,12 @@ from sympy.assumptions import ask, Q  # type: ignore
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 4.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 1748c514...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.refine.refine","kind":"function","src_hash":"dcb37d595ceff787","in":{"base":"Any","pred":"isinstance(expr, Basic) and isinstance(new_expr, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"refine(exp)","rhs":"simplify an expression using assumptions","over":{"base":"Any","pred":"isinstance(expr, Basic) and isinstance(new_expr, Expr)"},"name":"refine_correct"},"guarantee":"simplify an expression using assumptions","fibers":[{"name":"Basic","pred":"isinstance(expr, Basic)","path":{"lhs":"refine(x)","rhs":"simplify an expression using assumptions","over":{"base":"Basic","pred":"isinstance(expr, Basic)"},"name":"refine_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.refine.refine_Basic_correct","statement":"refine satisfies spec on Basic inputs"},"trust":"LIBRARY"},{"name":"Expr","pred":"isinstance(new_expr, Expr)","path":{"lhs":"refine(x)","rhs":"simplify an expression using assumptions","over":{"base":"Expr","pred":"isinstance(new_expr, Expr)"},"name":"refine_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.refine.refine_Expr_correct","statement":"refine satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1748c514763533e2"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.refine.refine","kind":"function","src_hash":"dcb37d595ceff787","in":{"base":"Any","pred":"isinstance(expr, Basic) and isinstance(new_expr, Expr) and hasattr(expr, 'is_Atom') and hasattr(expr, 'func') and hasattr(expr, '_eval_refine') and hasattr(expr, 'args')"},"out":{"base":"Any","pred":"result satisfies: # HINT: refine may be idempotent: refine(refine(x)) == refine(x)"},"spec":{"lhs":"refine(expr, assumptions)","rhs":"# HINT: refine may be idempotent: refine(refine(x)) == refine(x)","over":{"base":"Any","pred":"isinstance(expr, Basic) and isinstance(new_expr, Expr) and hasattr(expr, 'is_Atom') and hasattr(expr, 'func') and hasattr(expr, '_eval_refine') and hasattr(expr, 'args')"},"name":"refine_correct"},"guarantee":"# HINT: refine may be idempotent: refine(refine(x)) == refine(x)","fibers":[{"name":"Basic","pred":"isinstance(expr, Basic)","path":{"lhs":"refine(x)","rhs":"# HINT: refine may be idempotent: refine(refine(x)) == refine(x)","over":{"base":"Basic","pred":"isinstance(expr, Basic)"},"name":"refine_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.refine.refine_Basic_correct","statement":"refine satisfies spec on Basic inputs"},"trust":"LIBRARY"},{"name":"Expr","pred":"isinstance(new_expr, Expr)","path":{"lhs":"refine(x)","rhs":"# HINT: refine may be idempotent: refine(refine(x)) == refine(x)","over":{"base":"Expr","pred":"isinstance(new_expr, Expr)"},"name":"refine_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.refine.refine_Expr_correct","statement":"refine satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1748c514763533e2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'is_Atom')","hasattr(expr, 'func')","hasattr(expr, '_eval_refine')","hasattr(expr, 'args')"],"ensures":["# HINT: refine may be idempotent: refine(refine(x)) == refine(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","expr.__class__","expr._eval_refine","expr.args","expr.func","expr.is_Atom"]}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(expr, Basic)', 'new_expr is None or expr == new_expr', 'handler is None', 'not isinstance(new_expr, Expr)'}, fibers={'Expr', 'Basic'})"]}}
 def refine(expr, assumptions=True):
     """
     Simplify an expression using assumptions.
@@ -103,7 +112,11 @@ def refine(expr, assumptions=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(refine_abs(exp), handler for the absolute value) over {Any | isinstance(arg, Mul) and isinstance(i, Abs)} ║
+# ║ Path(refine_abs(expr, assumptions), <unspecified:refine_abs>) over {Any | isinstance(arg, Mul) and isinstance(i, Abs) and hasattr(expr, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ refine_abs : {Any | isinstance(arg, Mul) and isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -116,9 +129,12 @@ def refine(expr, assumptions=True):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 3.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 9673833b...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.refine.refine_abs","kind":"function","src_hash":"f40b6c041b2b0d95","in":{"base":"Any","pred":"isinstance(arg, Mul) and isinstance(i, Abs)"},"out":{"base":"Any"},"spec":{"lhs":"refine_abs(exp)","rhs":"handler for the absolute value","over":{"base":"Any","pred":"isinstance(arg, Mul) and isinstance(i, Abs)"},"name":"refine_abs_correct"},"guarantee":"handler for the absolute value","fibers":[{"name":"Mul","pred":"isinstance(arg, Mul)","path":{"lhs":"refine_abs(x)","rhs":"handler for the absolute value","over":{"base":"Mul","pred":"isinstance(arg, Mul)"},"name":"refine_abs_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.refine.refine_abs_Mul_correct","statement":"refine_abs satisfies spec on Mul inputs"},"trust":"LIBRARY"},{"name":"Abs","pred":"isinstance(i, Abs)","path":{"lhs":"refine_abs(x)","rhs":"handler for the absolute value","over":{"base":"Abs","pred":"isinstance(i, Abs)"},"name":"refine_abs_Abs_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.refine.refine_abs_Abs_correct","statement":"refine_abs satisfies spec on Abs inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9673833ba8d90276"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.refine.refine_abs","kind":"function","src_hash":"f40b6c041b2b0d95","in":{"base":"Any","pred":"isinstance(arg, Mul) and isinstance(i, Abs) and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"refine_abs(expr, assumptions)","rhs":"<unspecified:refine_abs>","over":{"base":"Any","pred":"isinstance(arg, Mul) and isinstance(i, Abs) and hasattr(expr, 'args')"},"name":"refine_abs_correct"},"guarantee":"handler for the absolute value","fibers":[{"name":"Mul","pred":"isinstance(arg, Mul)","path":{"lhs":"refine_abs(x)","rhs":"handler for the absolute value","over":{"base":"Mul","pred":"isinstance(arg, Mul)"},"name":"refine_abs_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.refine.refine_abs_Mul_correct","statement":"refine_abs satisfies spec on Mul inputs"},"trust":"LIBRARY"},{"name":"Abs","pred":"isinstance(i, Abs)","path":{"lhs":"refine_abs(x)","rhs":"handler for the absolute value","over":{"base":"Abs","pred":"isinstance(i, Abs)"},"name":"refine_abs_Abs_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.refine.refine_abs_Abs_correct","statement":"refine_abs satisfies spec on Abs inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9673833ba8d90276","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.8,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(arg, Mul)', 'isinstance(i, Abs)'}, fibers={'Abs', 'Mul'})"]}}
 def refine_abs(expr, assumptions):
     """
     Handler for the absolute value.
@@ -158,7 +174,12 @@ def refine_abs(expr, assumptions):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(refine_Pow(exp), handler for instances of pow) over {Any | isinstance(expr.base, Abs) and isinstance(expr.exp, Rational) and isinstance(expr.base, Pow)} ║
+# ║ Path(refine_Pow(expr, assumptions), <unspecified:refine_Pow>) over {Any | isinstance(expr.base, Abs) and isinstance(expr.exp, Rational) and isinstance(expr.base, Pow) and hasattr(expr, 'base') and hasattr(expr, 'exp')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'base')                          ║
+# ║   requires: hasattr(expr, 'exp')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ refine_Pow : {Any | isinstance(expr.base, Abs) and is...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -172,9 +193,12 @@ def refine_abs(expr, assumptions):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?3 ✗4 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | d235d73e...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.refine.refine_Pow","kind":"function","src_hash":"4be65355ecdfb495","in":{"base":"Any","pred":"isinstance(expr.base, Abs) and isinstance(expr.exp, Rational) and isinstance(expr.base, Pow)"},"out":{"base":"Any"},"spec":{"lhs":"refine_Pow(exp)","rhs":"handler for instances of pow","over":{"base":"Any","pred":"isinstance(expr.base, Abs) and isinstance(expr.exp, Rational) and isinstance(expr.base, Pow)"},"name":"refine_Pow_correct"},"guarantee":"handler for instances of pow","fibers":[{"name":"Abs","pred":"isinstance(expr.base, Abs)","path":{"lhs":"refine_Pow(x)","rhs":"handler for instances of pow","over":{"base":"Abs","pred":"isinstance(expr.base, Abs)"},"name":"refine_Pow_Abs_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.refine.refine_Pow_Abs_correct","statement":"refine_Pow satisfies spec on Abs inputs"},"trust":"LIBRARY"},{"name":"Rational","pred":"isinstance(expr.exp, Rational)","path":{"lhs":"refine_Pow(x)","rhs":"handler for instances of pow","over":{"base":"Rational","pred":"isinstance(expr.exp, Rational)"},"name":"refine_Pow_Rational_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.refine.refine_Pow_Rational_correct","statement":"refine_Pow satisfies spec on Rational inputs"},"trust":"LIBRARY"},{"name":"Pow","pred":"isinstance(expr.base, Pow)","path":{"lhs":"refine_Pow(x)","rhs":"handler for instances of pow","over":{"base":"Pow","pred":"isinstance(expr.base, Pow)"},"name":"refine_Pow_Pow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.refine.refine_Pow_Pow_correct","statement":"refine_Pow satisfies spec on Pow inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d235d73eeced4f05"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.refine.refine_Pow","kind":"function","src_hash":"4be65355ecdfb495","in":{"base":"Any","pred":"isinstance(expr.base, Abs) and isinstance(expr.exp, Rational) and isinstance(expr.base, Pow) and hasattr(expr, 'base') and hasattr(expr, 'exp')"},"out":{"base":"Any"},"spec":{"lhs":"refine_Pow(expr, assumptions)","rhs":"<unspecified:refine_Pow>","over":{"base":"Any","pred":"isinstance(expr.base, Abs) and isinstance(expr.exp, Rational) and isinstance(expr.base, Pow) and hasattr(expr, 'base') and hasattr(expr, 'exp')"},"name":"refine_Pow_correct"},"guarantee":"handler for instances of pow","fibers":[{"name":"Abs","pred":"isinstance(expr.base, Abs)","path":{"lhs":"refine_Pow(x)","rhs":"handler for instances of pow","over":{"base":"Abs","pred":"isinstance(expr.base, Abs)"},"name":"refine_Pow_Abs_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.refine.refine_Pow_Abs_correct","statement":"refine_Pow satisfies spec on Abs inputs"},"trust":"LIBRARY"},{"name":"Rational","pred":"isinstance(expr.exp, Rational)","path":{"lhs":"refine_Pow(x)","rhs":"handler for instances of pow","over":{"base":"Rational","pred":"isinstance(expr.exp, Rational)"},"name":"refine_Pow_Rational_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.refine.refine_Pow_Rational_correct","statement":"refine_Pow satisfies spec on Rational inputs"},"trust":"LIBRARY"},{"name":"Pow","pred":"isinstance(expr.base, Pow)","path":{"lhs":"refine_Pow(x)","rhs":"handler for instances of pow","over":{"base":"Pow","pred":"isinstance(expr.base, Pow)"},"name":"refine_Pow_Pow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.refine.refine_Pow_Pow_correct","statement":"refine_Pow satisfies spec on Pow inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d235d73eeced4f05","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'base')","hasattr(expr, 'exp')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":1,"n_assumed":3,"n_failed":4,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expr.exp, Rational)', 'old != expr', 'isinstance(expr.base, Abs)', 'new_coeff != coeff or len(terms) < initial_number_of_terms', 'isinstance(expr.base, Pow)'}, fibers={'Pow', 'Abs', 'Rational'})"]}}
 def refine_Pow(expr, assumptions):
     """
     Handler for instances of Pow.
@@ -276,16 +300,25 @@ def refine_Pow(expr, assumptions):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(refine_atan2(exp), handler for the atan2 function) over Any ║
+# ║ Path(refine_atan2(expr, assumptions), <unspecified:refine_atan2>) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ refine_atan2 : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   fiber[case_0]: ask(Q.real(y) & Q.positive(x), assum...   ║
+# ║   fiber[case_1]: ask(Q.negative(y) & Q.negative(x), a...   ║
+# ║   fiber[case_2]: ask(Q.positive(y) & Q.negative(x), a...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ refine_atan2 : {Any | hasattr(expr, 'args')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc143b1b3ecf917a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97ad375bb8efa913  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.refine.refine_atan2","kind":"function","src_hash":"d88abd4d3773c962","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"refine_atan2(exp)","rhs":"handler for the atan2 function","over":{"base":"Any"},"name":"refine_atan2_correct"},"guarantee":"handler for the atan2 function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.refine.refine_atan2_correct","statement":"Path(refine_atan2(x), handler for the atan2 function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc143b1b3ecf917a"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.refine.refine_atan2","kind":"function","src_hash":"d88abd4d3773c962","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"refine_atan2(expr, assumptions)","rhs":"<unspecified:refine_atan2>","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"refine_atan2_correct"},"guarantee":"8-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.refine.refine_atan2_correct","statement":"Path(refine_atan2(x), 8-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97ad375bb8efa913","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"fibers":[{"name":"case_0","guard":"ask(Q.real(y) & Q.positive(x), assumptions)","ensures":["result == atan(y / x)"],"decidability":"library","returns_expr":"atan(y / x)"},{"name":"case_1","guard":"ask(Q.negative(y) & Q.negative(x), assumptions)","ensures":["result == atan(y / x) - S.Pi"],"decidability":"library","returns_expr":"atan(y / x) - S.Pi"},{"name":"case_2","guard":"ask(Q.positive(y) & Q.negative(x), assumptions)","ensures":["result == atan(y / x) + S.Pi"],"decidability":"library","returns_expr":"atan(y / x) + S.Pi"},{"name":"case_3","guard":"ask(Q.zero(y) & Q.negative(x), assumptions)","ensures":["result == S.Pi"],"decidability":"library","returns_expr":"S.Pi"},{"name":"case_4","guard":"ask(Q.positive(y) & Q.zero(x), assumptions)","ensures":["result == S.Pi / 2"],"decidability":"library","returns_expr":"S.Pi / 2"},{"name":"case_5","guard":"ask(Q.negative(y) & Q.zero(x), assumptions)","ensures":["result == -S.Pi / 2"],"decidability":"library","returns_expr":"-S.Pi / 2"},{"name":"case_6","guard":"ask(Q.zero(y) & Q.zero(x), assumptions)","ensures":["result == S.NaN"],"decidability":"library","returns_expr":"S.NaN"},{"name":"case_7","guard":"not (ask(Q.real(y) & Q.positive(x), assumptions)) and not (ask(Q.negative(y) & Q.negative(x), assumptions)) and not (ask(Q.positive(y) & Q.negative(x), assumptions)) and not (ask(Q.zero(y) & Q.negative(x), assumptions)) and not (ask(Q.positive(y) & Q.zero(x), assumptions)) and not (ask(Q.negative(y) & Q.zero(x), assumptions)) and not (ask(Q.zero(y) & Q.zero(x), assumptions))","ensures":["result == expr"],"decidability":"library","returns_expr":"expr"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def refine_atan2(expr, assumptions):
     """
     Handler for the atan2 function.
@@ -332,16 +365,23 @@ def refine_atan2(expr, assumptions):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(refine_re(exp), handler for real part) over Any       ║
+# ║ Path(refine_re(expr, assumptions), <unspecified:refine_re>) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ refine_re : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ refine_re : {Any | hasattr(expr, 'args')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2378cdcf811058bb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.refine.refine_re","kind":"function","src_hash":"e489fb8727ef8fda","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"refine_re(exp)","rhs":"handler for real part","over":{"base":"Any"},"name":"refine_re_correct"},"guarantee":"handler for real part","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.refine.refine_re_correct","statement":"Path(refine_re(x), handler for real part)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2378cdcf811058bb"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.refine.refine_re","kind":"function","src_hash":"e489fb8727ef8fda","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"refine_re(expr, assumptions)","rhs":"<unspecified:refine_re>","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"refine_re_correct"},"guarantee":"handler for real part","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.refine.refine_re_correct","statement":"Path(refine_re(x), handler for real part)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2378cdcf811058bb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def refine_re(expr, assumptions):
     """
     Handler for real part.
@@ -366,16 +406,23 @@ def refine_re(expr, assumptions):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(refine_im(exp), handler for imaginary part) over Any  ║
+# ║ Path(refine_im(expr, assumptions), <unspecified:refine_im>) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ refine_im : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ refine_im : {Any | hasattr(expr, 'args')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 62ad2ac1ffc95360  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.refine.refine_im","kind":"function","src_hash":"f6358c66e42fe245","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"refine_im(exp)","rhs":"handler for imaginary part","over":{"base":"Any"},"name":"refine_im_correct"},"guarantee":"handler for imaginary part","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.refine.refine_im_correct","statement":"Path(refine_im(x), handler for imaginary part)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62ad2ac1ffc95360"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.refine.refine_im","kind":"function","src_hash":"f6358c66e42fe245","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"refine_im(expr, assumptions)","rhs":"<unspecified:refine_im>","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"refine_im_correct"},"guarantee":"handler for imaginary part","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.refine.refine_im_correct","statement":"Path(refine_im(x), handler for imaginary part)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62ad2ac1ffc95360","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def refine_im(expr, assumptions):
     """
     Handler for imaginary part.
@@ -399,16 +446,23 @@ def refine_im(expr, assumptions):
     return _refine_reim(expr, assumptions)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(refine_arg(exp), handler for complex argument) over Any ║
+# ║ Path(refine_arg(expr, assumptions), <unspecified:refine_arg>) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ refine_arg : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ refine_arg : {Any | hasattr(expr, 'args')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 173a50a9bdd318be  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.refine.refine_arg","kind":"function","src_hash":"eca34ee6f6959dc7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"refine_arg(exp)","rhs":"handler for complex argument","over":{"base":"Any"},"name":"refine_arg_correct"},"guarantee":"handler for complex argument","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.refine.refine_arg_correct","statement":"Path(refine_arg(x), handler for complex argument)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"173a50a9bdd318be"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.refine.refine_arg","kind":"function","src_hash":"eca34ee6f6959dc7","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"refine_arg(expr, assumptions)","rhs":"<unspecified:refine_arg>","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"refine_arg_correct"},"guarantee":"handler for complex argument","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.refine.refine_arg_correct","statement":"Path(refine_arg(x), handler for complex argument)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"173a50a9bdd318be","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def refine_arg(expr, assumptions):
     """
     Handler for complex argument
@@ -433,16 +487,23 @@ def refine_arg(expr, assumptions):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_refine_reim(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_refine_reim(expr, assumptions), <unspecified:_refine_reim>) over {Any | hasattr(expr, 'expand')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _refine_reim : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'expand')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _refine_reim : {Any | hasattr(expr, 'expand')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2fd5057e9c1ae2d4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.refine._refine_reim","kind":"function","src_hash":"75edb3a9e16ee8e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_refine_reim(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_refine_reim_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.refine._refine_reim_correct","statement":"Path(_refine_reim(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fd5057e9c1ae2d4"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.refine._refine_reim","kind":"function","src_hash":"75edb3a9e16ee8e5","in":{"base":"Any","pred":"hasattr(expr, 'expand')"},"out":{"base":"Any"},"spec":{"lhs":"_refine_reim(expr, assumptions)","rhs":"<unspecified:_refine_reim>","over":{"base":"Any","pred":"hasattr(expr, 'expand')"},"name":"_refine_reim_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.refine._refine_reim_correct","statement":"Path(_refine_reim(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fd5057e9c1ae2d4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'expand')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.expand"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _refine_reim(expr, assumptions):
     # Helper function for refine_re & refine_im
     expanded = expr.expand(complex = True)
@@ -455,16 +516,23 @@ def _refine_reim(expr, assumptions):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(refine_sign(exp), handler for sign) over Any          ║
+# ║ Path(refine_sign(expr, assumptions), <unspecified:refine_sign>) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ refine_sign : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ refine_sign : {Any | hasattr(expr, 'args')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e862de1e994f83d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.refine.refine_sign","kind":"function","src_hash":"f0bc942d80794d09","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"refine_sign(exp)","rhs":"handler for sign","over":{"base":"Any"},"name":"refine_sign_correct"},"guarantee":"handler for sign","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.refine.refine_sign_correct","statement":"Path(refine_sign(x), handler for sign)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e862de1e994f83d"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.refine.refine_sign","kind":"function","src_hash":"f0bc942d80794d09","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"refine_sign(expr, assumptions)","rhs":"<unspecified:refine_sign>","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"refine_sign_correct"},"guarantee":"handler for sign","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.refine.refine_sign_correct","statement":"Path(refine_sign(x), handler for sign)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e862de1e994f83d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def refine_sign(expr, assumptions):
     """
     Handler for sign.
@@ -507,16 +575,23 @@ def refine_sign(expr, assumptions):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(refine_matrixelement(exp), handler for symmetric part) over Any ║
+# ║ Path(refine_matrixelement(expr, assumptions), <unspecified:refine_matrixelement>) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ refine_matrixelement : Any → Any                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ refine_matrixelement : {Any | hasattr(expr, 'args')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ffad57adc4b877c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.refine.refine_matrixelement","kind":"function","src_hash":"e62a99c9f22e421b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"refine_matrixelement(exp)","rhs":"handler for symmetric part","over":{"base":"Any"},"name":"refine_matrixelement_correct"},"guarantee":"handler for symmetric part","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.refine.refine_matrixelement_correct","statement":"Path(refine_matrixelement(x), handler for symmetric part)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ffad57adc4b877c"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.refine.refine_matrixelement","kind":"function","src_hash":"e62a99c9f22e421b","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"refine_matrixelement(expr, assumptions)","rhs":"<unspecified:refine_matrixelement>","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"refine_matrixelement_correct"},"guarantee":"handler for symmetric part","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.refine.refine_matrixelement_correct","statement":"Path(refine_matrixelement(x), handler for symmetric part)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ffad57adc4b877c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def refine_matrixelement(expr, assumptions):
     """
     Handler for symmetric part.

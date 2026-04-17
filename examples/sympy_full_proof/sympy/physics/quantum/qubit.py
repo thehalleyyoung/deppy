@@ -70,14 +70,20 @@ __all__ = [
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(QubitState(*args), correctly constructs a QubitState instance) over {Any | isinstance(args[0], QubitState) and isinstance(args[0], str)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, State)                        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ QubitState : {Any | isinstance(args[0], QubitState) a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 48a061d94a6cb6a7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.QubitState","kind":"class","src_hash":"d55896ebb22a967a","in":{"base":"Any","pred":"isinstance(args[0], QubitState) and isinstance(args[0], str)"},"out":{"base":"Any"},"spec":{"lhs":"QubitState(*args)","rhs":"correctly constructs a QubitState instance","over":{"base":"Any","pred":"isinstance(args[0], QubitState) and isinstance(args[0], str)"},"name":"QubitState_class_invariant"},"guarantee":"correctly constructs a QubitState instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"48a061d94a6cb6a7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.QubitState","kind":"class","src_hash":"d55896ebb22a967a","in":{"base":"Any","pred":"isinstance(args[0], QubitState) and isinstance(args[0], str)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, State)"},"spec":{"lhs":"QubitState(*args)","rhs":"correctly constructs a QubitState instance","over":{"base":"Any","pred":"isinstance(args[0], QubitState) and isinstance(args[0], str)"},"name":"QubitState_class_invariant"},"guarantee":"isinstance(self, State)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"48a061d94a6cb6a7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, State)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function QubitState not found in source"]}}
 class QubitState(State):
     """Base class for Qubit and QubitBra."""
 
@@ -87,16 +93,22 @@ class QubitState(State):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_args(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_args(cls, args), <unspecified:_eval_args>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_args : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a35604add9af2c2a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.QubitState._eval_args","kind":"classmethod","src_hash":"4cf769afb272e42c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_args(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_args_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qubit.QubitState._eval_args_correct","statement":"Path(_eval_args(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a35604add9af2c2a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.QubitState._eval_args","kind":"classmethod","src_hash":"4cf769afb272e42c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_args(cls, args)","rhs":"<unspecified:_eval_args>","over":{"base":"Any"},"name":"_eval_args_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qubit.QubitState._eval_args_correct","statement":"Path(_eval_args(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a35604add9af2c2a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_args(cls, args):
         # If we are passed a QubitState or subclass, we just take its qubit
         # values directly.
@@ -119,16 +131,22 @@ class QubitState(State):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_hilbert_space(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_hilbert_space(cls, args), ComplexSpace(2) ** len(args)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ComplexSpace(2) ** len(args)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_hilbert_space : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 21a817740f6ee626           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.QubitState._eval_hilbert_space","kind":"classmethod","src_hash":"4a09b89ddb3b15ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_hilbert_space(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_hilbert_space_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"21a817740f6ee626"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.QubitState._eval_hilbert_space","kind":"classmethod","src_hash":"4a09b89ddb3b15ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_hilbert_space(cls, args)","rhs":"ComplexSpace(2) ** len(args)","over":{"base":"Any"},"name":"_eval_hilbert_space_correct"},"guarantee":"returns ComplexSpace(2) ** len(args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"21a817740f6ee626","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ComplexSpace(2) ** len(args)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_hilbert_space(cls, args):
         return ComplexSpace(2)**len(args)
 
@@ -138,47 +156,65 @@ class QubitState(State):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dimension(), returns the dimension attribute) over Any ║
+# ║ Path(dimension(), len(self.qubit_values)) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(self.qubit_values)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dimension : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bfdb34e10d08af4e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.QubitState.dimension","kind":"property","src_hash":"4bf03de297b96d55","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dimension()","rhs":"returns the dimension attribute","over":{"base":"Any"},"name":"dimension_correct"},"guarantee":"returns the dimension attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bfdb34e10d08af4e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.QubitState.dimension","kind":"property","src_hash":"4bf03de297b96d55","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dimension()","rhs":"len(self.qubit_values)","over":{"base":"Any"},"name":"dimension_correct"},"guarantee":"returns len(self.qubit_values)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bfdb34e10d08af4e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(self.qubit_values)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.qubit_values"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dimension(self):
         """The number of Qubits in the state."""
         return len(self.qubit_values)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nqubits(), returns the nqubits attribute) over Any    ║
+# ║ Path(nqubits(), self.dimension) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.dimension                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ nqubits : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 32dc1f0d9461b84b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.QubitState.nqubits","kind":"property","src_hash":"1a6f266c3d1b4998","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nqubits()","rhs":"returns the nqubits attribute","over":{"base":"Any"},"name":"nqubits_correct"},"guarantee":"returns the nqubits attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"32dc1f0d9461b84b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.QubitState.nqubits","kind":"property","src_hash":"1a6f266c3d1b4998","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nqubits()","rhs":"self.dimension","over":{"base":"Any"},"name":"nqubits_correct"},"guarantee":"returns self.dimension","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"32dc1f0d9461b84b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.dimension","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dimension"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def nqubits(self):
         return self.dimension
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(qubit_values(), returns the qubit_values attribute) over Any ║
+# ║ Path(qubit_values(), self.label) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.label                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ qubit_values : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cfb4a37ea55e30ae           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.QubitState.qubit_values","kind":"property","src_hash":"9b38ff6200d1d3e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"qubit_values()","rhs":"returns the qubit_values attribute","over":{"base":"Any"},"name":"qubit_values_correct"},"guarantee":"returns the qubit_values attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cfb4a37ea55e30ae"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.QubitState.qubit_values","kind":"property","src_hash":"9b38ff6200d1d3e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"qubit_values()","rhs":"self.label","over":{"base":"Any"},"name":"qubit_values_correct"},"guarantee":"returns self.label","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cfb4a37ea55e30ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.label","pure":false,"effects":{"effect_type":"reads_state","reads":["self.label"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def qubit_values(self):
         """Returns the values of the qubits as a tuple."""
         return self.label
@@ -188,30 +224,42 @@ class QubitState(State):
     #-------------------------------------------------------------------------
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__len__(), returns the number of elements) over Any   ║
+# ║ Path(__len__(), self.dimension) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.dimension                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __len__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2abaa362cb6490bd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.QubitState.__len__","kind":"method","src_hash":"4ca6f2fb105b3382","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"returns the number of elements","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns the number of elements","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2abaa362cb6490bd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.QubitState.__len__","kind":"method","src_hash":"4ca6f2fb105b3382","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"self.dimension","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns self.dimension","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2abaa362cb6490bd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.dimension","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dimension"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __len__(self):
         return self.dimension
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(bit), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(bit), self.qubit_values[int(self.dimension - bit - 1)]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.qubit_values[int(self.dimension - bi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 23a05d8c2d6b1053           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.QubitState.__getitem__","kind":"method","src_hash":"3371f2a3ae5d006e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(bit)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"23a05d8c2d6b1053"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.QubitState.__getitem__","kind":"method","src_hash":"3371f2a3ae5d006e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(bit)","rhs":"self.qubit_values[int(self.dimension - bit - 1)]","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns self.qubit_values[int(self.dimension - bit - 1)]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"23a05d8c2d6b1053","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.qubit_values[int(self.dimension - bit - 1)]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dimension","self.qubit_values"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, bit):
         return self.qubit_values[int(self.dimension - bit - 1)]
 
@@ -220,16 +268,22 @@ class QubitState(State):
     #-------------------------------------------------------------------------
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(flip(*bi), id) over Any                               ║
+# ║ Path(flip(*bits), id) over Any                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__class__(*tuple(newargs))                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ flip : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | bdf96bf340b6af8f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.QubitState.flip","kind":"method","src_hash":"0cad46013e4c4379","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"flip(*bi)","rhs":"flip the bit(s) given","over":{"base":"Any"},"name":"flip_correct","kind":"composition"},"guarantee":"flip the bit(s) given","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"__class__","by":"library_axiom"},{"fn":"tuple","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bdf96bf340b6af8f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.QubitState.flip","kind":"method","src_hash":"0cad46013e4c4379","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"flip(*bits)","rhs":"self.__class__(*tuple(newargs))","over":{"base":"Any"},"name":"flip_correct","kind":"composition"},"guarantee":"returns self.__class__(*tuple(newargs))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"__class__","by":"library_axiom"},{"fn":"tuple","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bdf96bf340b6af8f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__class__(*tuple(newargs))","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.dimension","self.qubit_values"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def flip(self, *bits):
         """Flip the bit(s) given."""
         newargs = list(self.qubit_values)
@@ -245,14 +299,21 @@ class QubitState(State):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Qubit(*args), correctly constructs a Qubit instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Qubit : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, QubitState)                   ║
+# ║   ensures:  isinstance(self, Ket)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Qubit : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8f9917bdc57d911  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.Qubit","kind":"class","src_hash":"b6049fc07a8c3777","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Qubit(*args)","rhs":"correctly constructs a Qubit instance","over":{"base":"Any"},"name":"Qubit_class_invariant"},"guarantee":"correctly constructs a Qubit instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8f9917bdc57d911"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.Qubit","kind":"class","src_hash":"b6049fc07a8c3777","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, QubitState) and isinstance(self, Ket)"},"spec":{"lhs":"Qubit(*args)","rhs":"correctly constructs a Qubit instance","over":{"base":"Any"},"name":"Qubit_class_invariant"},"guarantee":"isinstance(self, QubitState); isinstance(self, Ket)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8f9917bdc57d911","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, QubitState)","isinstance(self, Ket)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function Qubit not found in source"]}}
 class Qubit(QubitState, Ket):
     """A multi-qubit ket in the computational (z) basis.
 
@@ -310,30 +371,46 @@ class Qubit(QubitState, Ket):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dual_class(), dual_class produces the expected output) over Any ║
+# ║ Path(dual_class(), <unspecified:dual_class>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dual_class : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d51c480423cf5078           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.Qubit.dual_class","kind":"classmethod","src_hash":"1f57d462d28c64fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"dual_class produces the expected output","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d51c480423cf5078"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.Qubit.dual_class","kind":"classmethod","src_hash":"1f57d462d28c64fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"<unspecified:dual_class>","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d51c480423cf5078","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dual_class(self):
         return QubitBra
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_innerproduct_QubitBra(bra), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_innerproduct_QubitBra(bra, **hints), result == (S.One if self.label == bra.label else S.Zero) and result == S.One or result == S.Zero) over {Any | hasattr(bra, 'label')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_innerproduct_QubitBra : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(bra, 'label')                          ║
+# ║   ensures:  result == (S.One if self.label == bra.lab...   ║
+# ║   ensures:  result == S.One or result == S.Zero            ║
+# ║   fiber[case_0]: self.label == bra.label => S.One          ║
+# ║   fiber[case_1]: not (self.label == bra.label) => S.Zero   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_innerproduct_QubitBra : {Any | hasattr(bra, 'la...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 255920ccb52b3d6b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc7c208b57dc08eb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.Qubit._eval_innerproduct_QubitBra","kind":"method","src_hash":"4c10aca9ad16692c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_innerproduct_QubitBra(bra)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_innerproduct_QubitBra_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qubit.Qubit._eval_innerproduct_QubitBra_correct","statement":"Path(_eval_innerproduct_QubitBra(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"255920ccb52b3d6b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.Qubit._eval_innerproduct_QubitBra","kind":"method","src_hash":"4c10aca9ad16692c","in":{"base":"Any","pred":"hasattr(bra, 'label')"},"out":{"base":"Any","pred":"result satisfies: result == (S.One if self.label == bra.label else S.Zero) and result == S.One or result == S.Zero"},"spec":{"lhs":"_eval_innerproduct_QubitBra(bra, **hints)","rhs":"result == (S.One if self.label == bra.label else S.Zero) and result == S.One or result == S.Zero","over":{"base":"Any","pred":"hasattr(bra, 'label')"},"name":"_eval_innerproduct_QubitBra_correct"},"guarantee":"result == (S.One if self.label == bra.label else S.Zero); result == S.One or result == S.Zero; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qubit.Qubit._eval_innerproduct_QubitBra_correct","statement":"Path(_eval_innerproduct_QubitBra(x), result == (S.One if self.label == bra.label else S.Zero); result == S.One or result == S.Zero; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc7c208b57dc08eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(bra, 'label')"],"ensures":["result == (S.One if self.label == bra.label else S.Zero)","result == S.One or result == S.Zero"],"fibers":[{"name":"case_0","guard":"self.label == bra.label","ensures":["result == S.One"],"decidability":"z3","returns_expr":"S.One"},{"name":"case_1","guard":"not (self.label == bra.label)","ensures":["result == S.Zero"],"decidability":"z3","returns_expr":"S.Zero"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["bra.label","self.label"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_innerproduct_QubitBra(self, bra, **hints):
         if self.label == bra.label:
             return S.One
@@ -341,30 +418,46 @@ class Qubit(QubitState, Ket):
             return S.Zero
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_default_basis(**o), internal helper behaves correctly) over Any ║
+# ║ Path(_represent_default_basis(**options), self._represent_ZGate(None, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._represent_ZGate(None, **options)         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _represent_default_basis : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 61d5e4183eeb481b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.Qubit._represent_default_basis","kind":"method","src_hash":"346da3c542f7c3f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**o)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"61d5e4183eeb481b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.Qubit._represent_default_basis","kind":"method","src_hash":"346da3c542f7c3f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_default_basis(**options)","rhs":"self._represent_ZGate(None, **options)","over":{"base":"Any"},"name":"_represent_default_basis_correct"},"guarantee":"returns self._represent_ZGate(None, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"61d5e4183eeb481b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._represent_ZGate(None, **options)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._represent_ZGate"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_default_basis(self, **options):
         return self._represent_ZGate(None, **options)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_represent_ZGate(bas), represent this qubits in the computational basis (zgate)) over Any ║
+# ║ Path(_represent_ZGate(basis, **options), result == (Matrix(result) if _format == 'sympy' else np.array(result, dtype='complex').transpose() if _format == 'numpy' else sparse.csr_matrix(result, dtype='complex').transpose()) and result == Matrix(result) or result == np.array(result, dtype='complex').transpose() or result == sparse.csr_matrix(result, dtype='complex').transpose()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _represent_ZGate : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (Matrix(result) if _format == '...   ║
+# ║   ensures:  result == Matrix(result) or result == np....   ║
+# ║   fiber[case_0]: _format == 'sympy' => Matrix(result)      ║
+# ║   fiber[case_1]: _format == 'numpy' => np.array(resul...   ║
+# ║   fiber[case_2]: _format == 'scipy.sparse' => sparse....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _represent_ZGate : Any → {Any | result satisfies: res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a61bf0cb3706725e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd762f996a549372  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.Qubit._represent_ZGate","kind":"method","src_hash":"c59414e595659189","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_represent_ZGate(bas)","rhs":"represent this qubits in the computational basis (zgate)","over":{"base":"Any"},"name":"_represent_ZGate_correct"},"guarantee":"represent this qubits in the computational basis (zgate)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qubit.Qubit._represent_ZGate_correct","statement":"Path(_represent_ZGate(x), represent this qubits in the computational basis (zgate))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a61bf0cb3706725e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.Qubit._represent_ZGate","kind":"method","src_hash":"c59414e595659189","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (Matrix(result) if _format == 'sympy' else np.array(result, dtype='complex').transpose() if _format == 'numpy' else sparse.csr_matrix(result, dtype='complex').transpose()) and result == Matrix(result) or result == np.array(result, dtype='complex').transpose() or result == sparse.csr_matrix(result, dtype='complex').transpose()"},"spec":{"lhs":"_represent_ZGate(basis, **options)","rhs":"result == (Matrix(result) if _format == 'sympy' else np.array(result, dtype='complex').transpose() if _format == 'numpy' else sparse.csr_matrix(result, dtype='complex').transpose()) and result == Matrix(result) or result == np.array(result, dtype='complex').transpose() or result == sparse.csr_matrix(result, dtype='complex').transpose()","over":{"base":"Any"},"name":"_represent_ZGate_correct"},"guarantee":"result == (Matrix(result) if _format == 'sympy' else np.array(result, dtype='complex').transpose() if _format == 'numpy' else sparse.csr_matrix(result, dtype='complex').transpose()); result == Matrix(result) or result == np.array(result, dtype='complex').transpose() or result == sparse.csr_matrix(result, dtype='complex').transpose(); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qubit.Qubit._represent_ZGate_correct","statement":"Path(_represent_ZGate(x), result == (Matrix(result) if _format == 'sympy' else np.array(result, dtype='complex').transpose() if _format == 'numpy' else sparse.csr_matrix(result, dtype='complex').transpose()); result == Matrix(result) or result == np.array(result, dtype='complex').transpose() or result == sparse.csr_matrix(result, dtype='complex').transpose(); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd762f996a549372","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (Matrix(result) if _format == 'sympy' else np.array(result, dtype='complex').transpose() if _format == 'numpy' else sparse.csr_matrix(result, dtype='complex').transpose())","result == Matrix(result) or result == np.array(result, dtype='complex').transpose() or result == sparse.csr_matrix(result, dtype='complex').transpose()"],"fibers":[{"name":"case_0","guard":"_format == 'sympy'","ensures":["result == Matrix(result)"],"decidability":"z3","returns_expr":"Matrix(result)"},{"name":"case_1","guard":"_format == 'numpy'","ensures":["result == np.array(result, dtype='complex').transpose()"],"decidability":"z3","returns_expr":"np.array(result, dtype='complex').transpose()"},{"name":"case_2","guard":"_format == 'scipy.sparse'","ensures":["result == sparse.csr_matrix(result, dtype='complex').transpose()"],"decidability":"z3","returns_expr":"sparse.csr_matrix(result, dtype='complex').transpose()"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.dimension","self.qubit_values"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _represent_ZGate(self, basis, **options):
         """Represent this qubits in the computational basis (ZGate).
         """
@@ -386,16 +479,22 @@ class Qubit(QubitState, Ket):
             return sparse.csr_matrix(result, dtype='complex').transpose()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_trace(bra), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_trace(bra, **kwargs), <unspecified:_eval_trace>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_trace : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84e26371a9cb24d7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.Qubit._eval_trace","kind":"method","src_hash":"d6c5454f95f9f7c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_trace(bra)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_trace_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qubit.Qubit._eval_trace_correct","statement":"Path(_eval_trace(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84e26371a9cb24d7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.Qubit._eval_trace","kind":"method","src_hash":"d6c5454f95f9f7c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_trace(bra, **kwargs)","rhs":"<unspecified:_eval_trace>","over":{"base":"Any"},"name":"_eval_trace_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qubit.Qubit._eval_trace_correct","statement":"Path(_eval_trace(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84e26371a9cb24d7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_trace(self, bra, **kwargs):
         indices = kwargs.get('indices', [])
 
@@ -419,16 +518,22 @@ class Qubit(QubitState, Ket):
             return matrix_to_density(new_mat)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_reduced_density(mat), compute the reduced density matrix by tracing out one qubit. the qubit argument should be of type python int, since it is used in bit operations) over Any ║
+# ║ Path(_reduced_density(matrix, qubit, **options), <unspecified:_reduced_density>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _reduced_density : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 759020aa8abb501b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.Qubit._reduced_density","kind":"method","src_hash":"7fa313ab069ea4b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_reduced_density(mat)","rhs":"compute the reduced density matrix by tracing out one qubit. the qubit argument should be of type python int, since it is used in bit operations","over":{"base":"Any"},"name":"_reduced_density_correct"},"guarantee":"compute the reduced density matrix by tracing out one qubit. the qubit argument should be of type python int, since it is used in bit operations","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qubit.Qubit._reduced_density_correct","statement":"Path(_reduced_density(x), compute the reduced density matrix by tracing out one qubit. the qubit argument should be of type python int, since it is used in bit operations)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"759020aa8abb501b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.Qubit._reduced_density","kind":"method","src_hash":"7fa313ab069ea4b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_reduced_density(matrix, qubit, **options)","rhs":"<unspecified:_reduced_density>","over":{"base":"Any"},"name":"_reduced_density_correct"},"guarantee":"compute the reduced density matrix by tracing out one qubit. the qubit argument should be of type python int, since it is used in bit operations","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qubit.Qubit._reduced_density_correct","statement":"Path(_reduced_density(x), compute the reduced density matrix by tracing out one qubit. the qubit argument should be of type python int, since it is used in bit operations)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"759020aa8abb501b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _reduced_density(self, matrix, qubit, **options):
         """Compute the reduced density matrix by tracing out one qubit.
            The qubit argument should be of type Python int, since it is used
@@ -457,14 +562,21 @@ class Qubit(QubitState, Ket):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(QubitBra(*args), correctly constructs a QubitBra instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ QubitBra : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, QubitState)                   ║
+# ║   ensures:  isinstance(self, Bra)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ QubitBra : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b141bab9950b3c0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.QubitBra","kind":"class","src_hash":"ff6356a7a7061426","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"QubitBra(*args)","rhs":"correctly constructs a QubitBra instance","over":{"base":"Any"},"name":"QubitBra_class_invariant"},"guarantee":"correctly constructs a QubitBra instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b141bab9950b3c0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.QubitBra","kind":"class","src_hash":"ff6356a7a7061426","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, QubitState) and isinstance(self, Bra)"},"spec":{"lhs":"QubitBra(*args)","rhs":"correctly constructs a QubitBra instance","over":{"base":"Any"},"name":"QubitBra_class_invariant"},"guarantee":"isinstance(self, QubitState); isinstance(self, Bra)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b141bab9950b3c0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, QubitState)","isinstance(self, Bra)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function QubitBra not found in source"]}}
 class QubitBra(QubitState, Bra):
     """A multi-qubit bra in the computational (z) basis.
 
@@ -485,16 +597,22 @@ class QubitBra(QubitState, Bra):
     """
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dual_class(), dual_class produces the expected output) over Any ║
+# ║ Path(dual_class(), <unspecified:dual_class>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dual_class : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 141f2f0b6add0ede           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.QubitBra.dual_class","kind":"classmethod","src_hash":"19cbab21fffc83e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"dual_class produces the expected output","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"141f2f0b6add0ede"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.QubitBra.dual_class","kind":"classmethod","src_hash":"19cbab21fffc83e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"<unspecified:dual_class>","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"141f2f0b6add0ede","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dual_class(self):
         return Qubit
 
@@ -502,29 +620,42 @@ class QubitBra(QubitState, Bra):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(IntQubitState(*args), correctly constructs a IntQubitState instance) over {Any | isinstance(args[0], QubitState) and isinstance(nqubits, (int, Integer))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, QubitState)                   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ IntQubitState : {Any | isinstance(args[0], QubitState...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 112a74fb5ff94c30  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.IntQubitState","kind":"class","src_hash":"50dbb3ba11575ff9","in":{"base":"Any","pred":"isinstance(args[0], QubitState) and isinstance(nqubits, (int, Integer))"},"out":{"base":"Any"},"spec":{"lhs":"IntQubitState(*args)","rhs":"correctly constructs a IntQubitState instance","over":{"base":"Any","pred":"isinstance(args[0], QubitState) and isinstance(nqubits, (int, Integer))"},"name":"IntQubitState_class_invariant"},"guarantee":"correctly constructs a IntQubitState instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"112a74fb5ff94c30"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.IntQubitState","kind":"class","src_hash":"50dbb3ba11575ff9","in":{"base":"Any","pred":"isinstance(args[0], QubitState) and isinstance(nqubits, (int, Integer))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, QubitState)"},"spec":{"lhs":"IntQubitState(*args)","rhs":"correctly constructs a IntQubitState instance","over":{"base":"Any","pred":"isinstance(args[0], QubitState) and isinstance(nqubits, (int, Integer))"},"name":"IntQubitState_class_invariant"},"guarantee":"isinstance(self, QubitState)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"112a74fb5ff94c30","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, QubitState)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function IntQubitState not found in source"]}}
 class IntQubitState(QubitState):
     """A base class for qubits that work with binary representations."""
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_args(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_args(cls, args, nqubits), <unspecified:_eval_args>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: len(args) == 1 and isinstance(args[0...   ║
+# ║   fiber[case_1]: not all((isinstance(a, (int, Integer...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_args : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f453e62ee99246d5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86a70b41bd846d63  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.IntQubitState._eval_args","kind":"classmethod","src_hash":"6a7bcea5d7e464a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_args(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_args_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qubit.IntQubitState._eval_args_correct","statement":"Path(_eval_args(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f453e62ee99246d5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.IntQubitState._eval_args","kind":"classmethod","src_hash":"6a7bcea5d7e464a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_args(cls, args, nqubits)","rhs":"<unspecified:_eval_args>","over":{"base":"Any"},"name":"_eval_args_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qubit.IntQubitState._eval_args_correct","statement":"Path(_eval_args(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86a70b41bd846d63","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"len(args) == 1 and isinstance(args[0], QubitState)","ensures":["result == QubitState._eval_args(args)"],"decidability":"structural","returns_expr":"QubitState._eval_args(args)"},{"name":"case_1","guard":"not all((isinstance(a, (int, Integer)) for a in args))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._eval_args_with_nqubits"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_args(cls, args, nqubits=None):
         # The case of a QubitState instance
         if len(args) == 1 and isinstance(args[0], QubitState):
@@ -556,16 +687,23 @@ class IntQubitState(QubitState):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_args_with_nqubits(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_args_with_nqubits(cls, number, nqubits), QubitState._eval_args(qubit_values)) over {Any | not (nqubits < need)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_args_with_nqubits : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (nqubits < need)                           ║
+# ║   returns:  QubitState._eval_args(qubit_values)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_args_with_nqubits : {Any | not (nqubits < need)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 90e7feddbc570f68  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2019fb35611dc192  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.IntQubitState._eval_args_with_nqubits","kind":"classmethod","src_hash":"8dfb3a358e9c66f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_args_with_nqubits(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_args_with_nqubits_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qubit.IntQubitState._eval_args_with_nqubits_correct","statement":"Path(_eval_args_with_nqubits(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90e7feddbc570f68"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.IntQubitState._eval_args_with_nqubits","kind":"classmethod","src_hash":"8dfb3a358e9c66f4","in":{"base":"Any","pred":"not (nqubits < need)"},"out":{"base":"Any"},"spec":{"lhs":"_eval_args_with_nqubits(cls, number, nqubits)","rhs":"QubitState._eval_args(qubit_values)","over":{"base":"Any","pred":"not (nqubits < need)"},"name":"_eval_args_with_nqubits_correct"},"guarantee":"returns QubitState._eval_args(qubit_values)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qubit.IntQubitState._eval_args_with_nqubits_correct","statement":"Path(_eval_args_with_nqubits(x), returns QubitState._eval_args(qubit_values))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2019fb35611dc192","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (nqubits < need)"],"returns_expr":"QubitState._eval_args(qubit_values)","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_args_with_nqubits(cls, number, nqubits):
         need = bitcount(abs(number))
         if nqubits < need:
@@ -575,16 +713,22 @@ class IntQubitState(QubitState):
         return QubitState._eval_args(qubit_values)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_int(), return the numerical value of the qubit) over Any ║
+# ║ Path(as_int(), <unspecified:as_int>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_int : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8248605dc72a26f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.IntQubitState.as_int","kind":"method","src_hash":"e6091450a14de9da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_int()","rhs":"return the numerical value of the qubit","over":{"base":"Any"},"name":"as_int_correct"},"guarantee":"return the numerical value of the qubit","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qubit.IntQubitState.as_int_correct","statement":"Path(as_int(x), return the numerical value of the qubit)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8248605dc72a26f0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.IntQubitState.as_int","kind":"method","src_hash":"e6091450a14de9da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_int()","rhs":"<unspecified:as_int>","over":{"base":"Any"},"name":"as_int_correct"},"guarantee":"return the numerical value of the qubit","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qubit.IntQubitState.as_int_correct","statement":"Path(as_int(x), return the numerical value of the qubit)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8248605dc72a26f0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.qubit_values"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_int(self):
         """Return the numerical value of the qubit."""
         number = 0
@@ -595,30 +739,42 @@ class IntQubitState(QubitState):
         return number
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_label(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_print_label(printer, *args), str(self.as_int())) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  str(self.as_int())                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_label : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d0837eaaac3e61e1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.IntQubitState._print_label","kind":"method","src_hash":"a6877262c8009a03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_label(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_label_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d0837eaaac3e61e1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.IntQubitState._print_label","kind":"method","src_hash":"a6877262c8009a03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_label(printer, *args)","rhs":"str(self.as_int())","over":{"base":"Any"},"name":"_print_label_correct"},"guarantee":"returns str(self.as_int())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d0837eaaac3e61e1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"str(self.as_int())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.as_int"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_label(self, printer, *args):
         return str(self.as_int())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_label_pretty(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_print_label_pretty(printer, *args), prettyForm(label)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  prettyForm(label)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_label_pretty : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d038b0d38940899  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e87b01561e9bbc0d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.IntQubitState._print_label_pretty","kind":"method","src_hash":"30193a6ae066ca7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_label_pretty(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_label_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qubit.IntQubitState._print_label_pretty_correct","statement":"Path(_print_label_pretty(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d038b0d38940899"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.IntQubitState._print_label_pretty","kind":"method","src_hash":"30193a6ae066ca7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_label_pretty(printer, *args)","rhs":"prettyForm(label)","over":{"base":"Any"},"name":"_print_label_pretty_correct"},"guarantee":"returns prettyForm(label)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qubit.IntQubitState._print_label_pretty_correct","statement":"Path(_print_label_pretty(x), returns prettyForm(label))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e87b01561e9bbc0d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"prettyForm(label)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_label"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_label_pretty(self, printer, *args):
         label = self._print_label(printer, *args)
         return prettyForm(label)
@@ -630,14 +786,21 @@ class IntQubitState(QubitState):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(IntQubit(*args), correctly constructs a IntQubit instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ IntQubit : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, IntQubitState)                ║
+# ║   ensures:  isinstance(self, Qubit)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ IntQubit : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0283418cd57f3255  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.IntQubit","kind":"class","src_hash":"24f1bfd6a5c96ca1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"IntQubit(*args)","rhs":"correctly constructs a IntQubit instance","over":{"base":"Any"},"name":"IntQubit_class_invariant"},"guarantee":"correctly constructs a IntQubit instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0283418cd57f3255"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.IntQubit","kind":"class","src_hash":"24f1bfd6a5c96ca1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, IntQubitState) and isinstance(self, Qubit)"},"spec":{"lhs":"IntQubit(*args)","rhs":"correctly constructs a IntQubit instance","over":{"base":"Any"},"name":"IntQubit_class_invariant"},"guarantee":"isinstance(self, IntQubitState); isinstance(self, Qubit)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0283418cd57f3255","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, IntQubitState)","isinstance(self, Qubit)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function IntQubit not found in source"]}}
 class IntQubit(IntQubitState, Qubit):
     """A qubit ket that store integers as binary numbers in qubit values.
 
@@ -711,59 +874,84 @@ class IntQubit(IntQubitState, Qubit):
     """
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dual_class(), dual_class produces the expected output) over Any ║
+# ║ Path(dual_class(), <unspecified:dual_class>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dual_class : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6b1bfd4d29636d1f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.IntQubit.dual_class","kind":"classmethod","src_hash":"6828d72a5cf5db35","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"dual_class produces the expected output","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6b1bfd4d29636d1f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.IntQubit.dual_class","kind":"classmethod","src_hash":"6828d72a5cf5db35","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"<unspecified:dual_class>","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6b1bfd4d29636d1f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dual_class(self):
         return IntQubitBra
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_innerproduct_IntQubitBra(bra), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_innerproduct_IntQubitBra(bra, **hints), Qubit._eval_innerproduct_QubitBra(self, bra)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Qubit._eval_innerproduct_QubitBra(self, bra)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_innerproduct_IntQubitBra : Any → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | eefc7d64d11116b7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.IntQubit._eval_innerproduct_IntQubitBra","kind":"method","src_hash":"84900b4d532d4cfd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_innerproduct_IntQubitBra(bra)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_innerproduct_IntQubitBra_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eefc7d64d11116b7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.IntQubit._eval_innerproduct_IntQubitBra","kind":"method","src_hash":"84900b4d532d4cfd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_innerproduct_IntQubitBra(bra, **hints)","rhs":"Qubit._eval_innerproduct_QubitBra(self, bra)","over":{"base":"Any"},"name":"_eval_innerproduct_IntQubitBra_correct"},"guarantee":"returns Qubit._eval_innerproduct_QubitBra(self, bra)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eefc7d64d11116b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Qubit._eval_innerproduct_QubitBra(self, bra)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_innerproduct_IntQubitBra(self, bra, **hints):
         return Qubit._eval_innerproduct_QubitBra(self, bra)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(IntQubitBra(*args), correctly constructs a IntQubitBra instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ IntQubitBra : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, IntQubitState)                ║
+# ║   ensures:  isinstance(self, QubitBra)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ IntQubitBra : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 833ba600a91d59e0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.IntQubitBra","kind":"class","src_hash":"74ccadf3aca4456b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"IntQubitBra(*args)","rhs":"correctly constructs a IntQubitBra instance","over":{"base":"Any"},"name":"IntQubitBra_class_invariant"},"guarantee":"correctly constructs a IntQubitBra instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"833ba600a91d59e0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.IntQubitBra","kind":"class","src_hash":"74ccadf3aca4456b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, IntQubitState) and isinstance(self, QubitBra)"},"spec":{"lhs":"IntQubitBra(*args)","rhs":"correctly constructs a IntQubitBra instance","over":{"base":"Any"},"name":"IntQubitBra_class_invariant"},"guarantee":"isinstance(self, IntQubitState); isinstance(self, QubitBra)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"833ba600a91d59e0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, IntQubitState)","isinstance(self, QubitBra)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function IntQubitBra not found in source"]}}
 class IntQubitBra(IntQubitState, QubitBra):
     """A qubit bra that store integers as binary numbers in qubit values."""
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dual_class(), dual_class produces the expected output) over Any ║
+# ║ Path(dual_class(), <unspecified:dual_class>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dual_class : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a79be3c6fc249100           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.IntQubitBra.dual_class","kind":"classmethod","src_hash":"73d74668e2bf3435","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"dual_class produces the expected output","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a79be3c6fc249100"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.IntQubitBra.dual_class","kind":"classmethod","src_hash":"73d74668e2bf3435","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dual_class()","rhs":"<unspecified:dual_class>","over":{"base":"Any"},"name":"dual_class_correct"},"guarantee":"dual_class produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a79be3c6fc249100","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dual_class(self):
         return IntQubit
 
@@ -774,7 +962,12 @@ class IntQubitBra(IntQubitState, QubitBra):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(matrix_to_qubit(mat), convert from the matrix repr) over {Any | isinstance(matrix, numpy_ndarray) and isinstance(matrix, scipy_sparse_matrix) and isinstance(result, (Mul, Add, Pow))} ║
+# ║ Path(matrix_to_qubit(matrix), len(qubit_array) == old_len_qubit_array) over {Any | isinstance(matrix, numpy_ndarray) and isinstance(matrix, scipy_sparse_matrix) and isinstance(result, (Mul, Add, Pow)) and isinstance(nqubits, Integer) and hasattr(matrix, 'shape')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(nqubits, Integer)                   ║
+# ║   requires: hasattr(matrix, 'shape')                       ║
+# ║   ensures:  len(qubit_array) == old_len_qubit_array        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ matrix_to_qubit : {Any | isinstance(matrix, numpy_nda...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -789,9 +982,12 @@ class IntQubitBra(IntQubitState, QubitBra):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?4 ✗6 VCs | 14.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 1097734d...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.matrix_to_qubit","kind":"function","src_hash":"845580fce75ee303","in":{"base":"Any","pred":"isinstance(matrix, numpy_ndarray) and isinstance(matrix, scipy_sparse_matrix) and isinstance(result, (Mul, Add, Pow))"},"out":{"base":"Any"},"spec":{"lhs":"matrix_to_qubit(mat)","rhs":"convert from the matrix repr","over":{"base":"Any","pred":"isinstance(matrix, numpy_ndarray) and isinstance(matrix, scipy_sparse_matrix) and isinstance(result, (Mul, Add, Pow))"},"name":"matrix_to_qubit_correct"},"guarantee":"convert from the matrix repr","fibers":[{"name":"numpy_ndarray","pred":"isinstance(matrix, numpy_ndarray)","path":{"lhs":"matrix_to_qubit(x)","rhs":"convert from the matrix repr","over":{"base":"numpy_ndarray","pred":"isinstance(matrix, numpy_ndarray)"},"name":"matrix_to_qubit_numpy_ndarray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qubit.matrix_to_qubit_numpy_ndarray_correct","statement":"matrix_to_qubit satisfies spec on numpy_ndarray inputs"},"trust":"LIBRARY"},{"name":"scipy_sparse_matrix","pred":"isinstance(matrix, scipy_sparse_matrix)","path":{"lhs":"matrix_to_qubit(x)","rhs":"convert from the matrix repr","over":{"base":"scipy_sparse_matrix","pred":"isinstance(matrix, scipy_sparse_matrix)"},"name":"matrix_to_qubit_scipy_sparse_matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qubit.matrix_to_qubit_scipy_sparse_matrix_correct","statement":"matrix_to_qubit satisfies spec on scipy_sparse_matrix inputs"},"trust":"LIBRARY"},{"name":"(Mul","pred":"isinstance(result, (Mul, Add, Pow))","path":{"lhs":"matrix_to_qubit(x)","rhs":"convert from the matrix repr","over":{"base":"(Mul","pred":"isinstance(result, (Mul, Add, Pow))"},"name":"matrix_to_qubit_(Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qubit.matrix_to_qubit_(Mul_correct","statement":"matrix_to_qubit satisfies spec on (Mul inputs"},"trust":"LIBRARY"},{"name":"Integer","pred":"isinstance(nqubits, Integer)","path":{"lhs":"matrix_to_qubit(x)","rhs":"convert from the matrix repr","over":{"base":"Integer","pred":"isinstance(nqubits, Integer)"},"name":"matrix_to_qubit_Integer_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qubit.matrix_to_qubit_Integer_correct","statement":"matrix_to_qubit satisfies spec on Integer inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1097734d9c042839"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.matrix_to_qubit","kind":"function","src_hash":"845580fce75ee303","in":{"base":"Any","pred":"isinstance(matrix, numpy_ndarray) and isinstance(matrix, scipy_sparse_matrix) and isinstance(result, (Mul, Add, Pow)) and isinstance(nqubits, Integer) and hasattr(matrix, 'shape')"},"out":{"base":"Any","pred":"result satisfies: len(qubit_array) == old_len_qubit_array"},"spec":{"lhs":"matrix_to_qubit(matrix)","rhs":"len(qubit_array) == old_len_qubit_array","over":{"base":"Any","pred":"isinstance(matrix, numpy_ndarray) and isinstance(matrix, scipy_sparse_matrix) and isinstance(result, (Mul, Add, Pow)) and isinstance(nqubits, Integer) and hasattr(matrix, 'shape')"},"name":"matrix_to_qubit_correct"},"guarantee":"len(qubit_array) == old_len_qubit_array","fibers":[{"name":"numpy_ndarray","pred":"isinstance(matrix, numpy_ndarray)","path":{"lhs":"matrix_to_qubit(x)","rhs":"len(qubit_array) == old_len_qubit_array","over":{"base":"numpy_ndarray","pred":"isinstance(matrix, numpy_ndarray)"},"name":"matrix_to_qubit_numpy_ndarray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qubit.matrix_to_qubit_numpy_ndarray_correct","statement":"matrix_to_qubit satisfies spec on numpy_ndarray inputs"},"trust":"LIBRARY"},{"name":"scipy_sparse_matrix","pred":"isinstance(matrix, scipy_sparse_matrix)","path":{"lhs":"matrix_to_qubit(x)","rhs":"len(qubit_array) == old_len_qubit_array","over":{"base":"scipy_sparse_matrix","pred":"isinstance(matrix, scipy_sparse_matrix)"},"name":"matrix_to_qubit_scipy_sparse_matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qubit.matrix_to_qubit_scipy_sparse_matrix_correct","statement":"matrix_to_qubit satisfies spec on scipy_sparse_matrix inputs"},"trust":"LIBRARY"},{"name":"(Mul","pred":"isinstance(result, (Mul, Add, Pow))","path":{"lhs":"matrix_to_qubit(x)","rhs":"len(qubit_array) == old_len_qubit_array","over":{"base":"(Mul","pred":"isinstance(result, (Mul, Add, Pow))"},"name":"matrix_to_qubit_(Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qubit.matrix_to_qubit_(Mul_correct","statement":"matrix_to_qubit satisfies spec on (Mul inputs"},"trust":"LIBRARY"},{"name":"Integer","pred":"isinstance(nqubits, Integer)","path":{"lhs":"matrix_to_qubit(x)","rhs":"len(qubit_array) == old_len_qubit_array","over":{"base":"Integer","pred":"isinstance(nqubits, Integer)"},"name":"matrix_to_qubit_Integer_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qubit.matrix_to_qubit_Integer_correct","statement":"matrix_to_qubit satisfies spec on Integer inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1097734d9c042839","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(nqubits, Integer)","hasattr(matrix, 'shape')"],"ensures":["len(qubit_array) == old_len_qubit_array"],"pure":false,"effects":{"effect_type":"reads_state","reads":["matrix.shape"],"calls_mutating":["qubit_array.reverse"],"raises":["QuantumError"]},"state_contract":{"modifies":["qubit_array.*"],"old_bindings":{"old_len_qubit_array":"len(qubit_array)"},"post_ensures":["len(qubit_array) == old_len_qubit_array"],"exceptional_post":{"QuantumError":["isinstance(raised, QuantumError)"]}}},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":2,"n_assumed":4,"n_failed":6,"trust_level":"LIBRARY_ASSUMED","compile_ms":14.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(matrix, numpy_ndarray)', 'not isinstance(nqubits, Integer)', 'matrix.shape[1] == 1', 'isinstance(result, (Mul, Add, Pow))', 'matrix.shape[0] == 1', 'isinstance(matrix, scipy_sparse_matrix)'}, fibers={'(Mul', 'Integer', 'numpy_ndarray', 'scipy_sparse_matrix'})"]}}
 def matrix_to_qubit(matrix):
     """Convert from the matrix repr. to a sum of Qubit objects.
 
@@ -863,16 +1059,26 @@ def matrix_to_qubit(matrix):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(matrix_to_density(mat), works by finding the eigenvectors and eigenvalues of the matrix. we know we can decompose rho by doing: sum(eigenval*|eigenvect><eigenvect|)) over Any ║
+# ║ Path(matrix_to_density(mat), result == (S.Zero if len(args) == 0 else Density(*args)) and result == S.Zero or result == Density(*args)) over {Any | hasattr(mat, 'eigenvects')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ matrix_to_density : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(mat, 'eigenvects')                     ║
+# ║   ensures:  result == (S.Zero if len(args) == 0 else ...   ║
+# ║   ensures:  result == S.Zero or result == Density(*args)   ║
+# ║   fiber[zero_or_none]: len(args) == 0 => S.Zero            ║
+# ║   fiber[zero_or_none]: not (len(args) == 0) => Densit...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ matrix_to_density : {Any | hasattr(mat, 'eigenvects')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b49b546f265b793  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 01dc06028f63db6b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.matrix_to_density","kind":"function","src_hash":"159beeeabfdd2809","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matrix_to_density(mat)","rhs":"works by finding the eigenvectors and eigenvalues of the matrix. we know we can decompose rho by doing: sum(eigenval*|eigenvect><eigenvect|)","over":{"base":"Any"},"name":"matrix_to_density_correct"},"guarantee":"works by finding the eigenvectors and eigenvalues of the matrix. we know we can decompose rho by doing: sum(eigenval*|eigenvect><eigenvect|)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qubit.matrix_to_density_correct","statement":"Path(matrix_to_density(x), works by finding the eigenvectors and eigenvalues of the matrix. we know we can decompose rho by doing: sum(eigenval*|eigenvect><eigenvect|))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b49b546f265b793"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.matrix_to_density","kind":"function","src_hash":"159beeeabfdd2809","in":{"base":"Any","pred":"hasattr(mat, 'eigenvects')"},"out":{"base":"Any","pred":"result satisfies: result == (S.Zero if len(args) == 0 else Density(*args)) and result == S.Zero or result == Density(*args)"},"spec":{"lhs":"matrix_to_density(mat)","rhs":"result == (S.Zero if len(args) == 0 else Density(*args)) and result == S.Zero or result == Density(*args)","over":{"base":"Any","pred":"hasattr(mat, 'eigenvects')"},"name":"matrix_to_density_correct"},"guarantee":"result == (S.Zero if len(args) == 0 else Density(*args)); result == S.Zero or result == Density(*args); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qubit.matrix_to_density_correct","statement":"Path(matrix_to_density(x), result == (S.Zero if len(args) == 0 else Density(*args)); result == S.Zero or result == Density(*args); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01dc06028f63db6b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(mat, 'eigenvects')"],"ensures":["result == (S.Zero if len(args) == 0 else Density(*args))","result == S.Zero or result == Density(*args)"],"fibers":[{"name":"zero_or_none","guard":"len(args) == 0","ensures":["result == S.Zero"],"decidability":"z3","returns_expr":"S.Zero"},{"name":"zero_or_none","guard":"not (len(args) == 0)","ensures":["result == Density(*args)"],"decidability":"z3","returns_expr":"Density(*args)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["mat.eigenvects"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def matrix_to_density(mat):
     """
     Works by finding the eigenvectors and eigenvalues of the matrix.
@@ -890,16 +1096,22 @@ def matrix_to_density(mat):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(qubit_to_matrix(qub), converts an add/mul of qubit objects into it's matrix representation) over Any ║
+# ║ Path(qubit_to_matrix(qubit, format), represent(qubit, format=format)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  represent(qubit, format=format)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ qubit_to_matrix : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b3fdde825e85baaa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.qubit_to_matrix","kind":"function","src_hash":"6cd632a97ba644fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"qubit_to_matrix(qub)","rhs":"converts an add/mul of qubit objects into it's matrix representation","over":{"base":"Any"},"name":"qubit_to_matrix_correct"},"guarantee":"converts an add/mul of qubit objects into it's matrix representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b3fdde825e85baaa"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.qubit_to_matrix","kind":"function","src_hash":"6cd632a97ba644fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"qubit_to_matrix(qubit, format)","rhs":"represent(qubit, format=format)","over":{"base":"Any"},"name":"qubit_to_matrix_correct"},"guarantee":"returns represent(qubit, format=format)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b3fdde825e85baaa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"represent(qubit, format=format)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def qubit_to_matrix(qubit, format='sympy'):
     """Converts an Add/Mul of Qubit objects into it's matrix representation
 
@@ -915,16 +1127,24 @@ def qubit_to_matrix(qubit, format='sympy'):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(measure_all(qub), perform an ensemble measurement of all qubits) over Any ║
+# ║ Path(measure_all(qubit, format, normalize), len(results) == old_len_results + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ measure_all : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(results) == old_len_results + 1            ║
+# ║   fiber[case_0]: format == 'sympy' => results              ║
+# ║   fiber[case_1]: not (format == 'sympy')                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ measure_all : Any → {Any | result satisfies: len(resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33ff733e32ae3925  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7d97d00287be479  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.measure_all","kind":"function","src_hash":"3d56533ad6c554ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"measure_all(qub)","rhs":"perform an ensemble measurement of all qubits","over":{"base":"Any"},"name":"measure_all_correct"},"guarantee":"perform an ensemble measurement of all qubits","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qubit.measure_all_correct","statement":"Path(measure_all(x), perform an ensemble measurement of all qubits)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33ff733e32ae3925"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.measure_all","kind":"function","src_hash":"3d56533ad6c554ec","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(results) == old_len_results + 1"},"spec":{"lhs":"measure_all(qubit, format, normalize)","rhs":"len(results) == old_len_results + 1","over":{"base":"Any"},"name":"measure_all_correct"},"guarantee":"len(results) == old_len_results + 1; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qubit.measure_all_correct","statement":"Path(measure_all(x), len(results) == old_len_results + 1; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7d97d00287be479","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(results) == old_len_results + 1"],"fibers":[{"name":"case_0","guard":"format == 'sympy'","ensures":["result == results"],"decidability":"z3","returns_expr":"results"},{"name":"case_1","guard":"not (format == 'sympy')","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["results.append"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["results.*"],"old_bindings":{"old_len_results":"len(results)"},"post_ensures":["len(results) == old_len_results + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def measure_all(qubit, format='sympy', normalize=True):
     """Perform an ensemble measurement of all qubits.
 
@@ -982,7 +1202,10 @@ def measure_all(qubit, format='sympy', normalize=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(measure_partial(qub), perform a partial ensemble measure on the specified qubits) over {Any | isinstance(bits, (SYMPY_INTS, Integer))} ║
+# ║ Path(measure_partial(qubit, bits, format), len(output) == old_len_output + 1) over {Any | isinstance(bits, (SYMPY_INTS, Integer))} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(output) == old_len_output + 1              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ measure_partial : {Any | isinstance(bits, (SYMPY_INTS...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -994,9 +1217,12 @@ def measure_all(qubit, format='sympy', normalize=True):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 8f1d3c65...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.measure_partial","kind":"function","src_hash":"22d89657dd42eb89","in":{"base":"Any","pred":"isinstance(bits, (SYMPY_INTS, Integer))"},"out":{"base":"Any"},"spec":{"lhs":"measure_partial(qub)","rhs":"perform a partial ensemble measure on the specified qubits","over":{"base":"Any","pred":"isinstance(bits, (SYMPY_INTS, Integer))"},"name":"measure_partial_correct"},"guarantee":"perform a partial ensemble measure on the specified qubits","fibers":[{"name":"(SYMPY_INTS","pred":"isinstance(bits, (SYMPY_INTS, Integer))","path":{"lhs":"measure_partial(x)","rhs":"perform a partial ensemble measure on the specified qubits","over":{"base":"(SYMPY_INTS","pred":"isinstance(bits, (SYMPY_INTS, Integer))"},"name":"measure_partial_(SYMPY_INTS_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qubit.measure_partial_(SYMPY_INTS_correct","statement":"measure_partial satisfies spec on (SYMPY_INTS inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8f1d3c6503a59ae2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.measure_partial","kind":"function","src_hash":"22d89657dd42eb89","in":{"base":"Any","pred":"isinstance(bits, (SYMPY_INTS, Integer))"},"out":{"base":"Any","pred":"result satisfies: len(output) == old_len_output + 1"},"spec":{"lhs":"measure_partial(qubit, bits, format)","rhs":"len(output) == old_len_output + 1","over":{"base":"Any","pred":"isinstance(bits, (SYMPY_INTS, Integer))"},"name":"measure_partial_correct"},"guarantee":"len(output) == old_len_output + 1","fibers":[{"name":"(SYMPY_INTS","pred":"isinstance(bits, (SYMPY_INTS, Integer))","path":{"lhs":"measure_partial(x)","rhs":"len(output) == old_len_output + 1","over":{"base":"(SYMPY_INTS","pred":"isinstance(bits, (SYMPY_INTS, Integer))"},"name":"measure_partial_(SYMPY_INTS_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qubit.measure_partial_(SYMPY_INTS_correct","statement":"measure_partial satisfies spec on (SYMPY_INTS inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8f1d3c6503a59ae2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(output) == old_len_output + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["output.append"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["output.*"],"old_bindings":{"old_len_output":"len(output)"},"post_ensures":["len(output) == old_len_output + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(bits, (SYMPY_INTS, Integer))', 'prob_of_outcome != 0', \"format == 'sympy'\"}, fibers={'(SYMPY_INTS'})"]}}
 def measure_partial(qubit, bits, format='sympy', normalize=True):
     """Perform a partial ensemble measure on the specified qubits.
 
@@ -1073,16 +1299,22 @@ def measure_partial(qubit, bits, format='sympy', normalize=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(measure_partial_oneshot(qub), perform a partial oneshot measurement on the specified qubits) over Any ║
+# ║ Path(measure_partial_oneshot(qubit, bits, format), matrix_to_qubit(outcome.normalized())) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  matrix_to_qubit(outcome.normalized())          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ measure_partial_oneshot : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   random.__module__                                        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | ad152dc34405...  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 1fb61f4091b5...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.measure_partial_oneshot","kind":"function","src_hash":"c01e1c99983be06a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"measure_partial_oneshot(qub)","rhs":"perform a partial oneshot measurement on the specified qubits","over":{"base":"Any"},"name":"measure_partial_oneshot_correct"},"guarantee":"perform a partial oneshot measurement on the specified qubits","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qubit.measure_partial_oneshot_correct","statement":"Path(measure_partial_oneshot(x), perform a partial oneshot measurement on the specified qubits)"},"assumes":[],"trust":["random.__module__"],"compiled":true,"vhash":"ad152dc34405177f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.measure_partial_oneshot","kind":"function","src_hash":"c01e1c99983be06a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"measure_partial_oneshot(qubit, bits, format)","rhs":"matrix_to_qubit(outcome.normalized())","over":{"base":"Any"},"name":"measure_partial_oneshot_correct"},"guarantee":"returns matrix_to_qubit(outcome.normalized())","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qubit.measure_partial_oneshot_correct","statement":"Path(measure_partial_oneshot(x), returns matrix_to_qubit(outcome.normalized()))"},"assumes":[],"trust":["random.__module__"],"compiled":true,"vhash":"1fb61f4091b5b83a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"matrix_to_qubit(outcome.normalized())","pure":false,"effects":{"effect_type":"nondeterministic","raises":["NotImplementedError"],"nondeterministic_sources":["random.random"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def measure_partial_oneshot(qubit, bits, format='sympy'):
     """Perform a partial oneshot measurement on the specified qubits.
 
@@ -1132,16 +1364,23 @@ def measure_partial_oneshot(qubit, bits, format='sympy'):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_possible_outcomes(m, ), get the possible states that can be produced in a measurement) over Any ║
+# ║ Path(_get_possible_outcomes(m, bits), <unspecified:_get_possible_outcomes>) over {Any | hasattr(m, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_possible_outcomes : Any → Any                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(m, 'shape')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_possible_outcomes : {Any | hasattr(m, 'shape')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d48d03f17a8f47a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit._get_possible_outcomes","kind":"function","src_hash":"c8232c100da6e5a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_possible_outcomes(m, )","rhs":"get the possible states that can be produced in a measurement","over":{"base":"Any"},"name":"_get_possible_outcomes_correct"},"guarantee":"get the possible states that can be produced in a measurement","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qubit._get_possible_outcomes_correct","statement":"Path(_get_possible_outcomes(x), get the possible states that can be produced in a measurement)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d48d03f17a8f47a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit._get_possible_outcomes","kind":"function","src_hash":"c8232c100da6e5a3","in":{"base":"Any","pred":"hasattr(m, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"_get_possible_outcomes(m, bits)","rhs":"<unspecified:_get_possible_outcomes>","over":{"base":"Any","pred":"hasattr(m, 'shape')"},"name":"_get_possible_outcomes_correct"},"guarantee":"get the possible states that can be produced in a measurement","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qubit._get_possible_outcomes_correct","statement":"Path(_get_possible_outcomes(x), get the possible states that can be produced in a measurement)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d48d03f17a8f47a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(m, 'shape')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _get_possible_outcomes(m, bits):
     """Get the possible states that can be produced in a measurement.
 
@@ -1194,16 +1433,23 @@ def _get_possible_outcomes(m, bits):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(measure_all_oneshot(qub), perform a oneshot ensemble measurement on all qubits) over Any ║
+# ║ Path(measure_all_oneshot(qubit, format), <unspecified:measure_all_oneshot>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: format == 'sympy' => Qubit(IntQubit(...   ║
+# ║   fiber[case_1]: not (format == 'sympy')                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ measure_all_oneshot : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   random.__module__                                        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | c9bda2a00dc6...  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | c77b6917cf53...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.measure_all_oneshot","kind":"function","src_hash":"82b73689c98441fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"measure_all_oneshot(qub)","rhs":"perform a oneshot ensemble measurement on all qubits","over":{"base":"Any"},"name":"measure_all_oneshot_correct"},"guarantee":"perform a oneshot ensemble measurement on all qubits","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qubit.measure_all_oneshot_correct","statement":"Path(measure_all_oneshot(x), perform a oneshot ensemble measurement on all qubits)"},"assumes":[],"trust":["random.__module__"],"compiled":true,"vhash":"c9bda2a00dc64cef"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qubit.measure_all_oneshot","kind":"function","src_hash":"82b73689c98441fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"measure_all_oneshot(qubit, format)","rhs":"<unspecified:measure_all_oneshot>","over":{"base":"Any"},"name":"measure_all_oneshot_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qubit.measure_all_oneshot_correct","statement":"Path(measure_all_oneshot(x), 2-fiber decomposition)"},"assumes":[],"trust":["random.__module__"],"compiled":true,"vhash":"c77b6917cf53e88b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"format == 'sympy'","ensures":["result == Qubit(IntQubit(result, nqubits=int(math.log2(max(m.shape)) + 0.1)))"],"decidability":"z3","returns_expr":"Qubit(IntQubit(result, nqubits=int(math.log2(max(m.shape)) + 0.1)))"},{"name":"case_1","guard":"not (format == 'sympy')","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"nondeterministic","raises":["NotImplementedError"],"nondeterministic_sources":["random.random"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def measure_all_oneshot(qubit, format='sympy'):
     """Perform a oneshot ensemble measurement on all qubits.
 

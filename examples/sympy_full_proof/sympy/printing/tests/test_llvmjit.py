@@ -31,16 +31,22 @@ from sympy.abc import a, b, n
 
 # copied from numpy.isclose documentation
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(isclose(a, ), id) over Any                            ║
+# ║ Path(isclose(a, b), id) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  abs(a - b) <= atol + rtol * abs(b)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ isclose : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 3e5da8fafed89e7a   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_llvmjit.isclose","kind":"function","src_hash":"47410a8052342b25","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"isclose(a, )","rhs":"isclose produces the expected output","over":{"base":"Any"},"name":"isclose_correct","kind":"composition"},"guarantee":"isclose produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"abs","by":"library_axiom"},{"fn":"abs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e5da8fafed89e7a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_llvmjit.isclose","kind":"function","src_hash":"47410a8052342b25","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"isclose(a, b)","rhs":"abs(a - b) <= atol + rtol * abs(b)","over":{"base":"Any"},"name":"isclose_correct","kind":"composition"},"guarantee":"returns abs(a - b) <= atol + rtol * abs(b)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"abs","by":"library_axiom"},{"fn":"abs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e5da8fafed89e7a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"abs(a - b) <= atol + rtol * abs(b)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def isclose(a, b):
     rtol = 1e-5
     atol = 1e-8
@@ -48,16 +54,22 @@ def isclose(a, b):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_simple_expr(), test_simple_expr produces the expected output) over Any ║
+# ║ Path(test_simple_expr(), isclose(jit_res, res)) over Any   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_simple_expr : Any → {Any | isclose(jit_res, res)}     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isclose(jit_res, res)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_simple_expr : Any → {Any | result satisfies: isc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b0be210026e9f9a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d91a682c27344e6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_llvmjit.test_simple_expr","kind":"function","src_hash":"4d6343c5b6518b9f","in":{"base":"Any"},"out":{"base":"Any","pred":"isclose(jit_res, res)"},"spec":{"lhs":"test_simple_expr()","rhs":"test_simple_expr produces the expected output","over":{"base":"Any"},"name":"test_simple_expr_correct"},"guarantee":"test_simple_expr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_llvmjit.test_simple_expr_correct","statement":"Path(test_simple_expr(x), test_simple_expr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b0be210026e9f9a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_llvmjit.test_simple_expr","kind":"function","src_hash":"4d6343c5b6518b9f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isclose(jit_res, res)"},"spec":{"lhs":"test_simple_expr()","rhs":"isclose(jit_res, res)","over":{"base":"Any"},"name":"test_simple_expr_correct"},"guarantee":"isclose(jit_res, res)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_llvmjit.test_simple_expr_correct","statement":"Path(test_simple_expr(x), isclose(jit_res, res))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d91a682c27344e6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isclose(jit_res, res)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_simple_expr():
     e = a + 1.0
     f = g.llvm_callable([a], e)
@@ -68,16 +80,22 @@ def test_simple_expr():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_two_arg(), test_two_arg produces the expected output) over Any ║
+# ║ Path(test_two_arg(), isclose(jit_res, res)) over Any       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_two_arg : Any → {Any | isclose(jit_res, res)}         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isclose(jit_res, res)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_two_arg : Any → {Any | result satisfies: isclose...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b589ef505ceebcc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d365bf2abbeef79e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_llvmjit.test_two_arg","kind":"function","src_hash":"517a70a568b39467","in":{"base":"Any"},"out":{"base":"Any","pred":"isclose(jit_res, res)"},"spec":{"lhs":"test_two_arg()","rhs":"test_two_arg produces the expected output","over":{"base":"Any"},"name":"test_two_arg_correct"},"guarantee":"test_two_arg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_llvmjit.test_two_arg_correct","statement":"Path(test_two_arg(x), test_two_arg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b589ef505ceebcc"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_llvmjit.test_two_arg","kind":"function","src_hash":"517a70a568b39467","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isclose(jit_res, res)"},"spec":{"lhs":"test_two_arg()","rhs":"isclose(jit_res, res)","over":{"base":"Any"},"name":"test_two_arg_correct"},"guarantee":"isclose(jit_res, res)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_llvmjit.test_two_arg_correct","statement":"Path(test_two_arg(x), isclose(jit_res, res))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d365bf2abbeef79e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isclose(jit_res, res)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_two_arg():
     e = 4.0*a + b + 3.0
     f = g.llvm_callable([a, b], e)
@@ -88,16 +106,22 @@ def test_two_arg():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_func(), test_func produces the expected output) over Any ║
+# ║ Path(test_func(), isclose(jit_res, res)) over Any          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_func : Any → {Any | isclose(jit_res, res)}            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isclose(jit_res, res)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_func : Any → {Any | result satisfies: isclose(ji...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b064e1153d05f971  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ee7bdab4fdee433  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_llvmjit.test_func","kind":"function","src_hash":"29af0e728f095f79","in":{"base":"Any"},"out":{"base":"Any","pred":"isclose(jit_res, res)"},"spec":{"lhs":"test_func()","rhs":"test_func produces the expected output","over":{"base":"Any"},"name":"test_func_correct"},"guarantee":"test_func produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_llvmjit.test_func_correct","statement":"Path(test_func(x), test_func produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b064e1153d05f971"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_llvmjit.test_func","kind":"function","src_hash":"29af0e728f095f79","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isclose(jit_res, res)"},"spec":{"lhs":"test_func()","rhs":"isclose(jit_res, res)","over":{"base":"Any"},"name":"test_func_correct"},"guarantee":"isclose(jit_res, res)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_llvmjit.test_func_correct","statement":"Path(test_func(x), isclose(jit_res, res))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ee7bdab4fdee433","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isclose(jit_res, res)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_func():
     e = 4.0*sympy.exp(-a)
     f = g.llvm_callable([a], e)
@@ -108,16 +132,22 @@ def test_func():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_two_func(), test_two_func produces the expected output) over Any ║
+# ║ Path(test_two_func(), isclose(jit_res, res)) over Any      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_two_func : Any → {Any | isclose(jit_res, res)}        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isclose(jit_res, res)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_two_func : Any → {Any | result satisfies: isclos...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f1024c1ee1b20dbc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 251520f9709552cf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_llvmjit.test_two_func","kind":"function","src_hash":"7d27c8b9b76b08db","in":{"base":"Any"},"out":{"base":"Any","pred":"isclose(jit_res, res)"},"spec":{"lhs":"test_two_func()","rhs":"test_two_func produces the expected output","over":{"base":"Any"},"name":"test_two_func_correct"},"guarantee":"test_two_func produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_llvmjit.test_two_func_correct","statement":"Path(test_two_func(x), test_two_func produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1024c1ee1b20dbc"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_llvmjit.test_two_func","kind":"function","src_hash":"7d27c8b9b76b08db","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isclose(jit_res, res)"},"spec":{"lhs":"test_two_func()","rhs":"isclose(jit_res, res)","over":{"base":"Any"},"name":"test_two_func_correct"},"guarantee":"isclose(jit_res, res)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_llvmjit.test_two_func_correct","statement":"Path(test_two_func(x), isclose(jit_res, res))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"251520f9709552cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isclose(jit_res, res)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_two_func():
     e = 4.0*sympy.exp(-a) + sympy.exp(b)
     f = g.llvm_callable([a, b], e)
@@ -128,16 +158,22 @@ def test_two_func():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_two_sqrt(), test_two_sqrt produces the expected output) over Any ║
+# ║ Path(test_two_sqrt(), isclose(jit_res, res)) over Any      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_two_sqrt : Any → {Any | isclose(jit_res, res)}        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isclose(jit_res, res)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_two_sqrt : Any → {Any | result satisfies: isclos...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 51b08d558c7a134a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 139e11462ce06369  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_llvmjit.test_two_sqrt","kind":"function","src_hash":"7ac402fdb11e2953","in":{"base":"Any"},"out":{"base":"Any","pred":"isclose(jit_res, res)"},"spec":{"lhs":"test_two_sqrt()","rhs":"test_two_sqrt produces the expected output","over":{"base":"Any"},"name":"test_two_sqrt_correct"},"guarantee":"test_two_sqrt produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_llvmjit.test_two_sqrt_correct","statement":"Path(test_two_sqrt(x), test_two_sqrt produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51b08d558c7a134a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_llvmjit.test_two_sqrt","kind":"function","src_hash":"7ac402fdb11e2953","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isclose(jit_res, res)"},"spec":{"lhs":"test_two_sqrt()","rhs":"isclose(jit_res, res)","over":{"base":"Any"},"name":"test_two_sqrt_correct"},"guarantee":"isclose(jit_res, res)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_llvmjit.test_two_sqrt_correct","statement":"Path(test_two_sqrt(x), isclose(jit_res, res))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"139e11462ce06369","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isclose(jit_res, res)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_two_sqrt():
     e = 4.0*sympy.sqrt(a) + sympy.sqrt(b)
     f = g.llvm_callable([a, b], e)
@@ -148,16 +184,22 @@ def test_two_sqrt():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_two_pow(), test_two_pow produces the expected output) over Any ║
+# ║ Path(test_two_pow(), isclose(jit_res, res)) over Any       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_two_pow : Any → {Any | isclose(jit_res, res)}         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isclose(jit_res, res)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_two_pow : Any → {Any | result satisfies: isclose...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | effe62855398ac82  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7cb7b8912290693c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_llvmjit.test_two_pow","kind":"function","src_hash":"99bbdb8b25e3441f","in":{"base":"Any"},"out":{"base":"Any","pred":"isclose(jit_res, res)"},"spec":{"lhs":"test_two_pow()","rhs":"test_two_pow produces the expected output","over":{"base":"Any"},"name":"test_two_pow_correct"},"guarantee":"test_two_pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_llvmjit.test_two_pow_correct","statement":"Path(test_two_pow(x), test_two_pow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"effe62855398ac82"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_llvmjit.test_two_pow","kind":"function","src_hash":"99bbdb8b25e3441f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isclose(jit_res, res)"},"spec":{"lhs":"test_two_pow()","rhs":"isclose(jit_res, res)","over":{"base":"Any"},"name":"test_two_pow_correct"},"guarantee":"isclose(jit_res, res)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_llvmjit.test_two_pow_correct","statement":"Path(test_two_pow(x), isclose(jit_res, res))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7cb7b8912290693c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isclose(jit_res, res)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_two_pow():
     e = a**1.5 + b**7
     f = g.llvm_callable([a, b], e)
@@ -168,16 +210,22 @@ def test_two_pow():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_callback(), test_callback produces the expected output) over Any ║
+# ║ Path(test_callback(), isclose(jit_res, res)) over Any      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_callback : Any → {Any | isclose(jit_res, res)}        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isclose(jit_res, res)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_callback : Any → {Any | result satisfies: isclos...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a335670987034b2b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c0c71c04dcc30701  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_llvmjit.test_callback","kind":"function","src_hash":"1e72c355a0bc39f0","in":{"base":"Any"},"out":{"base":"Any","pred":"isclose(jit_res, res)"},"spec":{"lhs":"test_callback()","rhs":"test_callback produces the expected output","over":{"base":"Any"},"name":"test_callback_correct"},"guarantee":"test_callback produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_llvmjit.test_callback_correct","statement":"Path(test_callback(x), test_callback produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a335670987034b2b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_llvmjit.test_callback","kind":"function","src_hash":"1e72c355a0bc39f0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isclose(jit_res, res)"},"spec":{"lhs":"test_callback()","rhs":"isclose(jit_res, res)","over":{"base":"Any"},"name":"test_callback_correct"},"guarantee":"isclose(jit_res, res)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_llvmjit.test_callback_correct","statement":"Path(test_callback(x), isclose(jit_res, res))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c0c71c04dcc30701","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isclose(jit_res, res)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_callback():
     e = a + 1.2
     f = g.llvm_callable([a], e, callback_type='scipy.integrate.test')
@@ -193,16 +241,23 @@ def test_callback():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_callback_cubature(), test_callback_cubature produces the expected output) over Any ║
+# ║ Path(test_callback_cubature(), jit_ret == 0 and isclose(out_array[0], res)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_callback_cubature : Any → {Any | jit_ret == 0 an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  jit_ret == 0                                   ║
+# ║   ensures:  isclose(out_array[0], res)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_callback_cubature : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4d7a54b0758c2514  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03e1da7ca9907fc3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_llvmjit.test_callback_cubature","kind":"function","src_hash":"b8367028a221be76","in":{"base":"Any"},"out":{"base":"Any","pred":"jit_ret == 0 and isclose(out_array[0], res)"},"spec":{"lhs":"test_callback_cubature()","rhs":"test_callback_cubature produces the expected output","over":{"base":"Any"},"name":"test_callback_cubature_correct"},"guarantee":"test_callback_cubature produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_llvmjit.test_callback_cubature_correct","statement":"Path(test_callback_cubature(x), test_callback_cubature produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d7a54b0758c2514"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_llvmjit.test_callback_cubature","kind":"function","src_hash":"b8367028a221be76","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: jit_ret == 0 and isclose(out_array[0], res)"},"spec":{"lhs":"test_callback_cubature()","rhs":"jit_ret == 0 and isclose(out_array[0], res)","over":{"base":"Any"},"name":"test_callback_cubature_correct"},"guarantee":"jit_ret == 0; isclose(out_array[0], res)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_llvmjit.test_callback_cubature_correct","statement":"Path(test_callback_cubature(x), jit_ret == 0; isclose(out_array[0], res))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03e1da7ca9907fc3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["jit_ret == 0","isclose(out_array[0], res)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_callback_cubature():
     e = a + 1.2
     f = g.llvm_callable([a], e, callback_type='cubature')
@@ -221,16 +276,22 @@ def test_callback_cubature():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_callback_two(), test_callback_two produces the expected output) over Any ║
+# ║ Path(test_callback_two(), isclose(jit_res, res)) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_callback_two : Any → {Any | isclose(jit_res, res)}    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isclose(jit_res, res)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_callback_two : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 487f796a1de079d7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b7ba8816f7b0156  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_llvmjit.test_callback_two","kind":"function","src_hash":"04c714d91073d83c","in":{"base":"Any"},"out":{"base":"Any","pred":"isclose(jit_res, res)"},"spec":{"lhs":"test_callback_two()","rhs":"test_callback_two produces the expected output","over":{"base":"Any"},"name":"test_callback_two_correct"},"guarantee":"test_callback_two produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_llvmjit.test_callback_two_correct","statement":"Path(test_callback_two(x), test_callback_two produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"487f796a1de079d7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_llvmjit.test_callback_two","kind":"function","src_hash":"04c714d91073d83c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isclose(jit_res, res)"},"spec":{"lhs":"test_callback_two()","rhs":"isclose(jit_res, res)","over":{"base":"Any"},"name":"test_callback_two_correct"},"guarantee":"isclose(jit_res, res)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_llvmjit.test_callback_two_correct","statement":"Path(test_callback_two(x), isclose(jit_res, res))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b7ba8816f7b0156","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isclose(jit_res, res)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_callback_two():
     e = 3*a*b
     f = g.llvm_callable([a, b], e, callback_type='scipy.integrate.test')
@@ -246,16 +307,22 @@ def test_callback_two():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_callback_alt_two(), test_callback_alt_two produces the expected output) over Any ║
+# ║ Path(test_callback_alt_two(), isclose(jit_res, res)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_callback_alt_two : Any → {Any | isclose(jit_res,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isclose(jit_res, res)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_callback_alt_two : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88b67c35a10e96b2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b0e77ef264ffe32a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_llvmjit.test_callback_alt_two","kind":"function","src_hash":"21d5d8f4d6b9a7a0","in":{"base":"Any"},"out":{"base":"Any","pred":"isclose(jit_res, res)"},"spec":{"lhs":"test_callback_alt_two()","rhs":"test_callback_alt_two produces the expected output","over":{"base":"Any"},"name":"test_callback_alt_two_correct"},"guarantee":"test_callback_alt_two produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_llvmjit.test_callback_alt_two_correct","statement":"Path(test_callback_alt_two(x), test_callback_alt_two produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88b67c35a10e96b2"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_llvmjit.test_callback_alt_two","kind":"function","src_hash":"21d5d8f4d6b9a7a0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isclose(jit_res, res)"},"spec":{"lhs":"test_callback_alt_two()","rhs":"isclose(jit_res, res)","over":{"base":"Any"},"name":"test_callback_alt_two_correct"},"guarantee":"isclose(jit_res, res)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_llvmjit.test_callback_alt_two_correct","statement":"Path(test_callback_alt_two(x), isclose(jit_res, res))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0e77ef264ffe32a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isclose(jit_res, res)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_callback_alt_two():
     d = sympy.IndexedBase('d')
     e = 3*d[0]*d[1]
@@ -272,16 +339,23 @@ def test_callback_alt_two():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_multiple_statements(), test_multiple_statements produces the expected output) over Any ║
+# ║ Path(test_multiple_statements(), isclose(jit_res, res) and isclose(jit_callback_res, res)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_multiple_statements : Any → {Any | isclose(jit_r...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isclose(jit_res, res)                          ║
+# ║   ensures:  isclose(jit_callback_res, res)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_multiple_statements : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3be37077a9f96f5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c9f3c3d583efd9f6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_llvmjit.test_multiple_statements","kind":"function","src_hash":"32a4352fe7f6d7d2","in":{"base":"Any"},"out":{"base":"Any","pred":"isclose(jit_res, res) and isclose(jit_callback_res, res)"},"spec":{"lhs":"test_multiple_statements()","rhs":"test_multiple_statements produces the expected output","over":{"base":"Any"},"name":"test_multiple_statements_correct"},"guarantee":"test_multiple_statements produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_llvmjit.test_multiple_statements_correct","statement":"Path(test_multiple_statements(x), test_multiple_statements produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3be37077a9f96f5"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_llvmjit.test_multiple_statements","kind":"function","src_hash":"32a4352fe7f6d7d2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isclose(jit_res, res) and isclose(jit_callback_res, res)"},"spec":{"lhs":"test_multiple_statements()","rhs":"isclose(jit_res, res) and isclose(jit_callback_res, res)","over":{"base":"Any"},"name":"test_multiple_statements_correct"},"guarantee":"isclose(jit_res, res); isclose(jit_callback_res, res)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_llvmjit.test_multiple_statements_correct","statement":"Path(test_multiple_statements(x), isclose(jit_res, res); isclose(jit_callback_res, res))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9f3c3d583efd9f6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isclose(jit_res, res)","isclose(jit_callback_res, res)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_multiple_statements():
     # Match return from CSE
     e = [[(b, 4.0*a)], [b + 5]]
@@ -300,16 +374,22 @@ def test_multiple_statements():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cse(), test_cse produces the expected output) over Any ║
+# ║ Path(test_cse(), isclose(jit_res, res)) over Any           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cse : Any → {Any | isclose(jit_res, res)}             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isclose(jit_res, res)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cse : Any → {Any | result satisfies: isclose(jit...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ac5730f5962740c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d527fad7a1ef817  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_llvmjit.test_cse","kind":"function","src_hash":"6cdc50679f1c8549","in":{"base":"Any"},"out":{"base":"Any","pred":"isclose(jit_res, res)"},"spec":{"lhs":"test_cse()","rhs":"test_cse produces the expected output","over":{"base":"Any"},"name":"test_cse_correct"},"guarantee":"test_cse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_llvmjit.test_cse_correct","statement":"Path(test_cse(x), test_cse produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ac5730f5962740c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_llvmjit.test_cse","kind":"function","src_hash":"6cdc50679f1c8549","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isclose(jit_res, res)"},"spec":{"lhs":"test_cse()","rhs":"isclose(jit_res, res)","over":{"base":"Any"},"name":"test_cse_correct"},"guarantee":"isclose(jit_res, res)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_llvmjit.test_cse_correct","statement":"Path(test_cse(x), isclose(jit_res, res))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d527fad7a1ef817","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isclose(jit_res, res)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cse():
     e = a*a + b*b + sympy.exp(-a*a - b*b)
     e2 = sympy.cse(e)
@@ -321,16 +401,23 @@ def test_cse():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval_cse(e, ), id) over Any                           ║
+# ║ Path(eval_cse(e, sub_dict), id) over {Any | hasattr(e, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval_cse : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(e, 'subs')                             ║
+# ║   returns:  [e.subs(sub_dict).subs(tmp_dict) for e in...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval_cse : {Any | hasattr(e, 'subs')} → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | bed1e6a027875da4   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_llvmjit.eval_cse","kind":"function","src_hash":"26dfdd4f22d6ae9c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval_cse(e, )","rhs":"eval_cse produces the expected output","over":{"base":"Any"},"name":"eval_cse_correct","kind":"composition"},"guarantee":"eval_cse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"subs","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bed1e6a027875da4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_llvmjit.eval_cse","kind":"function","src_hash":"26dfdd4f22d6ae9c","in":{"base":"Any","pred":"hasattr(e, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"eval_cse(e, sub_dict)","rhs":"[e.subs(sub_dict).subs(tmp_dict) for e in e[1]]","over":{"base":"Any","pred":"hasattr(e, 'subs')"},"name":"eval_cse_correct","kind":"composition"},"guarantee":"returns [e.subs(sub_dict).subs(tmp_dict) for e in e[1]]","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"subs","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bed1e6a027875da4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(e, 'subs')"],"returns_expr":"[e.subs(sub_dict).subs(tmp_dict) for e in e[1]]","pure":false,"effects":{"effect_type":"reads_state","reads":["e.subs"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def eval_cse(e, sub_dict):
     tmp_dict = {}
     for tmp_name, tmp_expr in e[0]:
@@ -341,16 +428,24 @@ def eval_cse(e, sub_dict):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cse_multiple(), test_cse_multiple produces the expected output) over Any ║
+# ║ Path(test_cse_multiple(), len(jit_res) == 2 and isclose(res[0], jit_res[0]) and isclose(res[1], jit_res[1])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cse_multiple : Any → {Any | len(jit_res) == 2 an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(jit_res) == 2                              ║
+# ║   ensures:  isclose(res[0], jit_res[0])                    ║
+# ║   ensures:  isclose(res[1], jit_res[1])                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cse_multiple : Any → {Any | result satisfies: le...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 66a3aa84888c4286  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4625bca2d1ac66ca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_llvmjit.test_cse_multiple","kind":"function","src_hash":"1a51f858af83e410","in":{"base":"Any"},"out":{"base":"Any","pred":"len(jit_res) == 2 and isclose(res[0], jit_res[0]) and isclose(res[1], jit_res[1])"},"spec":{"lhs":"test_cse_multiple()","rhs":"test_cse_multiple produces the expected output","over":{"base":"Any"},"name":"test_cse_multiple_correct"},"guarantee":"test_cse_multiple produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_llvmjit.test_cse_multiple_correct","statement":"Path(test_cse_multiple(x), test_cse_multiple produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66a3aa84888c4286"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_llvmjit.test_cse_multiple","kind":"function","src_hash":"1a51f858af83e410","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(jit_res) == 2 and isclose(res[0], jit_res[0]) and isclose(res[1], jit_res[1])"},"spec":{"lhs":"test_cse_multiple()","rhs":"len(jit_res) == 2 and isclose(res[0], jit_res[0]) and isclose(res[1], jit_res[1])","over":{"base":"Any"},"name":"test_cse_multiple_correct"},"guarantee":"len(jit_res) == 2; isclose(res[0], jit_res[0]); isclose(res[1], jit_res[1])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_llvmjit.test_cse_multiple_correct","statement":"Path(test_cse_multiple(x), len(jit_res) == 2; isclose(res[0], jit_res[0]); isclose(res[1], jit_res[1]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4625bca2d1ac66ca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(jit_res) == 2","isclose(res[0], jit_res[0])","isclose(res[1], jit_res[1])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_cse_multiple():
     e1 = a*a
     e2 = a*a + b*b
@@ -368,16 +463,24 @@ def test_cse_multiple():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_callback_cubature_multiple(), test_callback_cubature_multiple produces the expected output) over Any ║
+# ║ Path(test_callback_cubature_multiple(), jit_ret == 0 and isclose(out_array[0], res[0]) and isclose(out_array[1], res[1]) and isclose(out_array[2], res[2])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_callback_cubature_multiple : Any → {Any | jit_re...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  jit_ret == 0                                   ║
+# ║   ensures:  isclose(out_array[0], res[0])                  ║
+# ║   ensures:  isclose(out_array[1], res[1])                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_callback_cubature_multiple : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1d10526ab7f70118  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d970c3e50f35302  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_llvmjit.test_callback_cubature_multiple","kind":"function","src_hash":"9ad6975a8947062b","in":{"base":"Any"},"out":{"base":"Any","pred":"jit_ret == 0 and isclose(out_array[0], res[0]) and isclose(out_array[1], res[1]) and isclose(out_array[2], res[2])"},"spec":{"lhs":"test_callback_cubature_multiple()","rhs":"test_callback_cubature_multiple produces the expected output","over":{"base":"Any"},"name":"test_callback_cubature_multiple_correct"},"guarantee":"test_callback_cubature_multiple produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_llvmjit.test_callback_cubature_multiple_correct","statement":"Path(test_callback_cubature_multiple(x), test_callback_cubature_multiple produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d10526ab7f70118"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_llvmjit.test_callback_cubature_multiple","kind":"function","src_hash":"9ad6975a8947062b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: jit_ret == 0 and isclose(out_array[0], res[0]) and isclose(out_array[1], res[1]) and isclose(out_array[2], res[2])"},"spec":{"lhs":"test_callback_cubature_multiple()","rhs":"jit_ret == 0 and isclose(out_array[0], res[0]) and isclose(out_array[1], res[1]) and isclose(out_array[2], res[2])","over":{"base":"Any"},"name":"test_callback_cubature_multiple_correct"},"guarantee":"jit_ret == 0; isclose(out_array[0], res[0]); isclose(out_array[1], res[1])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_llvmjit.test_callback_cubature_multiple_correct","statement":"Path(test_callback_cubature_multiple(x), jit_ret == 0; isclose(out_array[0], res[0]); isclose(out_array[1], res[1]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d970c3e50f35302","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["jit_ret == 0","isclose(out_array[0], res[0])","isclose(out_array[1], res[1])","isclose(out_array[2], res[2])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_callback_cubature_multiple():
     e1 = a*a
     e2 = a*a + b*b
@@ -408,32 +511,44 @@ def test_callback_cubature_multiple():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_symbol_not_found(), test_symbol_not_found produces the expected output) over Any ║
+# ║ Path(test_symbol_not_found(), <unspecified:test_symbol_not_found>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_symbol_not_found : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3420ac9ebe7a17b7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_llvmjit.test_symbol_not_found","kind":"function","src_hash":"f3253f796aaf79b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_symbol_not_found()","rhs":"test_symbol_not_found produces the expected output","over":{"base":"Any"},"name":"test_symbol_not_found_correct"},"guarantee":"test_symbol_not_found produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_llvmjit.test_symbol_not_found_correct","statement":"Path(test_symbol_not_found(x), test_symbol_not_found produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3420ac9ebe7a17b7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_llvmjit.test_symbol_not_found","kind":"function","src_hash":"f3253f796aaf79b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_symbol_not_found()","rhs":"<unspecified:test_symbol_not_found>","over":{"base":"Any"},"name":"test_symbol_not_found_correct"},"guarantee":"test_symbol_not_found produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_llvmjit.test_symbol_not_found_correct","statement":"Path(test_symbol_not_found(x), test_symbol_not_found produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3420ac9ebe7a17b7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_symbol_not_found():
     e = a*a + b
     raises(LookupError, lambda: g.llvm_callable([a], e))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bad_callback(), test_bad_callback produces the expected output) over Any ║
+# ║ Path(test_bad_callback(), <unspecified:test_bad_callback>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_bad_callback : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c05b8cd2f38a4a32  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_llvmjit.test_bad_callback","kind":"function","src_hash":"816b68a7223088cf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_bad_callback()","rhs":"test_bad_callback produces the expected output","over":{"base":"Any"},"name":"test_bad_callback_correct"},"guarantee":"test_bad_callback produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_llvmjit.test_bad_callback_correct","statement":"Path(test_bad_callback(x), test_bad_callback produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c05b8cd2f38a4a32"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_llvmjit.test_bad_callback","kind":"function","src_hash":"816b68a7223088cf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_bad_callback()","rhs":"<unspecified:test_bad_callback>","over":{"base":"Any"},"name":"test_bad_callback_correct"},"guarantee":"test_bad_callback produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_llvmjit.test_bad_callback_correct","statement":"Path(test_bad_callback(x), test_bad_callback produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c05b8cd2f38a4a32","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_bad_callback():
     e = a
     raises(ValueError, lambda: g.llvm_callable([a], e, callback_type='bad_callback'))

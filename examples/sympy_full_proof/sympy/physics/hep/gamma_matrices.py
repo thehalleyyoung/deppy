@@ -61,7 +61,11 @@ GammaMatrix = TensorHead("GammaMatrix", [LorentzIndex],
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(extract_type_tens(exp), extract from a ``tensexpr`` all tensors with `component`) over {Any | isinstance(expression, Tensor) and isinstance(expression, TensMul)} ║
+# ║ Path(extract_type_tens(expression, component), (new_expr, residual_expr)) over {Any | isinstance(expression, Tensor) and isinstance(expression, TensMul) and hasattr(expression, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expression, 'args')                    ║
+# ║   returns:  (new_expr, residual_expr)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ extract_type_tens : {Any | isinstance(expression, Ten...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -74,9 +78,12 @@ GammaMatrix = TensorHead("GammaMatrix", [LorentzIndex],
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | f4efb539...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.hep.gamma_matrices.extract_type_tens","kind":"function","src_hash":"ab05e3f990b99a83","in":{"base":"Any","pred":"isinstance(expression, Tensor) and isinstance(expression, TensMul)"},"out":{"base":"Any"},"spec":{"lhs":"extract_type_tens(exp)","rhs":"extract from a ``tensexpr`` all tensors with `component`","over":{"base":"Any","pred":"isinstance(expression, Tensor) and isinstance(expression, TensMul)"},"name":"extract_type_tens_correct"},"guarantee":"extract from a ``tensexpr`` all tensors with `component`","fibers":[{"name":"Tensor","pred":"isinstance(expression, Tensor)","path":{"lhs":"extract_type_tens(x)","rhs":"extract from a ``tensexpr`` all tensors with `component`","over":{"base":"Tensor","pred":"isinstance(expression, Tensor)"},"name":"extract_type_tens_Tensor_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.gamma_matrices.extract_type_tens_Tensor_correct","statement":"extract_type_tens satisfies spec on Tensor inputs"},"trust":"LIBRARY"},{"name":"TensMul","pred":"isinstance(expression, TensMul)","path":{"lhs":"extract_type_tens(x)","rhs":"extract from a ``tensexpr`` all tensors with `component`","over":{"base":"TensMul","pred":"isinstance(expression, TensMul)"},"name":"extract_type_tens_TensMul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.gamma_matrices.extract_type_tens_TensMul_correct","statement":"extract_type_tens satisfies spec on TensMul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f4efb539560b03c6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.hep.gamma_matrices.extract_type_tens","kind":"function","src_hash":"ab05e3f990b99a83","in":{"base":"Any","pred":"isinstance(expression, Tensor) and isinstance(expression, TensMul) and hasattr(expression, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"extract_type_tens(expression, component)","rhs":"(new_expr, residual_expr)","over":{"base":"Any","pred":"isinstance(expression, Tensor) and isinstance(expression, TensMul) and hasattr(expression, 'args')"},"name":"extract_type_tens_correct"},"guarantee":"returns (new_expr, residual_expr)","fibers":[{"name":"Tensor","pred":"isinstance(expression, Tensor)","path":{"lhs":"extract_type_tens(x)","rhs":"returns (new_expr, residual_expr)","over":{"base":"Tensor","pred":"isinstance(expression, Tensor)"},"name":"extract_type_tens_Tensor_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.gamma_matrices.extract_type_tens_Tensor_correct","statement":"extract_type_tens satisfies spec on Tensor inputs"},"trust":"LIBRARY"},{"name":"TensMul","pred":"isinstance(expression, TensMul)","path":{"lhs":"extract_type_tens(x)","rhs":"returns (new_expr, residual_expr)","over":{"base":"TensMul","pred":"isinstance(expression, TensMul)"},"name":"extract_type_tens_TensMul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.gamma_matrices.extract_type_tens_TensMul_correct","statement":"extract_type_tens satisfies spec on TensMul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f4efb539560b03c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expression, 'args')"],"returns_expr":"(new_expr, residual_expr)","pure":false,"effects":{"effect_type":"reads_state","reads":["expression.args"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expression, TensMul)', 'isinstance(expression, Tensor)', 'isinstance(i, Tensor) and i.component == component'}, fibers={'Tensor', 'TensMul'})"]}}
 def extract_type_tens(expression, component):
     """
     Extract from a ``TensExpr`` all tensors with `component`.
@@ -107,16 +114,22 @@ def extract_type_tens(expression, component):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(simplify_gamma_expression(exp), simplify_gamma_expression produces the expected output) over Any ║
+# ║ Path(simplify_gamma_expression(expression), res_expr * residual_expr) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  res_expr * residual_expr                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ simplify_gamma_expression : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 49947f18c0771899  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6fcb22b27e410161  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.hep.gamma_matrices.simplify_gamma_expression","kind":"function","src_hash":"ebac8fa55ad4f48d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"simplify_gamma_expression(exp)","rhs":"simplify_gamma_expression produces the expected output","over":{"base":"Any"},"name":"simplify_gamma_expression_correct"},"guarantee":"simplify_gamma_expression produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.gamma_matrices.simplify_gamma_expression_correct","statement":"Path(simplify_gamma_expression(x), simplify_gamma_expression produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49947f18c0771899"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.hep.gamma_matrices.simplify_gamma_expression","kind":"function","src_hash":"ebac8fa55ad4f48d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"simplify_gamma_expression(expression)","rhs":"res_expr * residual_expr","over":{"base":"Any"},"name":"simplify_gamma_expression_correct"},"guarantee":"returns res_expr * residual_expr","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.gamma_matrices.simplify_gamma_expression_correct","statement":"Path(simplify_gamma_expression(x), returns res_expr * residual_expr)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6fcb22b27e410161","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"res_expr * residual_expr","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def simplify_gamma_expression(expression):
     extracted_expr, residual_expr = extract_type_tens(expression, GammaMatrix)
     res_expr = _simplify_single_line(extracted_expr)
@@ -124,16 +137,25 @@ def simplify_gamma_expression(expression):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(simplify_gpgp(ex,), simplify products ``g(i)*p(-i)*g(j)*p(-j) -> p(i)*p(-i)``) over Any ║
+# ║ Path(simplify_gpgp(ex, sort), <unspecified:simplify_gpgp>) over {Any | hasattr(ex, 'components') and hasattr(ex, 'sorted_components') and hasattr(ex, 'dum') and hasattr(ex, 'coeff') and hasattr(ex, 'split')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ simplify_gpgp : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(ex, 'components')                      ║
+# ║   requires: hasattr(ex, 'sorted_components')               ║
+# ║   requires: hasattr(ex, 'dum')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ simplify_gpgp : {Any | hasattr(ex, 'components') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28ec695b7646d2df  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.hep.gamma_matrices.simplify_gpgp","kind":"function","src_hash":"331a4d205982a553","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"simplify_gpgp(ex,)","rhs":"simplify products ``g(i)*p(-i)*g(j)*p(-j) -> p(i)*p(-i)``","over":{"base":"Any"},"name":"simplify_gpgp_correct"},"guarantee":"simplify products ``g(i)*p(-i)*g(j)*p(-j) -> p(i)*p(-i)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.gamma_matrices.simplify_gpgp_correct","statement":"Path(simplify_gpgp(x), simplify products ``g(i)*p(-i)*g(j)*p(-j) -> p(i)*p(-i)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28ec695b7646d2df"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.hep.gamma_matrices.simplify_gpgp","kind":"function","src_hash":"331a4d205982a553","in":{"base":"Any","pred":"hasattr(ex, 'components') and hasattr(ex, 'sorted_components') and hasattr(ex, 'dum') and hasattr(ex, 'coeff') and hasattr(ex, 'split')"},"out":{"base":"Any"},"spec":{"lhs":"simplify_gpgp(ex, sort)","rhs":"<unspecified:simplify_gpgp>","over":{"base":"Any","pred":"hasattr(ex, 'components') and hasattr(ex, 'sorted_components') and hasattr(ex, 'dum') and hasattr(ex, 'coeff') and hasattr(ex, 'split')"},"name":"simplify_gpgp_correct"},"guarantee":"simplify products ``g(i)*p(-i)*g(j)*p(-j) -> p(i)*p(-i)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.gamma_matrices.simplify_gpgp_correct","statement":"Path(simplify_gpgp(x), simplify products ``g(i)*p(-i)*g(j)*p(-j) -> p(i)*p(-i)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28ec695b7646d2df","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(ex, 'components')","hasattr(ex, 'sorted_components')","hasattr(ex, 'dum')","hasattr(ex, 'coeff')","hasattr(ex, 'split')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def simplify_gpgp(ex, sort=True):
     """
     simplify products ``G(i)*p(-i)*G(j)*p(-j) -> p(i)*p(-i)``
@@ -224,9 +246,13 @@ def simplify_gpgp(ex, sort=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gamma_trace(t), trace of a single line of gamma matrices) over {Any | isinstance(t, TensAdd)} ║
+# ║ Path(gamma_trace(t), # HINT: gamma_trace may be idempotent: gamma_trace(gamma_trace(x)) == gamma_trace(x)) over {Any | isinstance(t, TensAdd) and hasattr(t, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gamma_trace : {Any | isinstance(t, TensAdd)} → Any         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(t, 'args')                             ║
+# ║   ensures:  # HINT: gamma_trace may be idempotent: ga...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gamma_trace : {Any | isinstance(t, TensAdd) and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   TensAdd: {isinstance(t, TensAdd)} → library_axiom        ║
@@ -236,9 +262,12 @@ def simplify_gpgp(ex, sort=True):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 46581497...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.hep.gamma_matrices.gamma_trace","kind":"function","src_hash":"5148636b5190c328","in":{"base":"Any","pred":"isinstance(t, TensAdd)"},"out":{"base":"Any"},"spec":{"lhs":"gamma_trace(t)","rhs":"trace of a single line of gamma matrices","over":{"base":"Any","pred":"isinstance(t, TensAdd)"},"name":"gamma_trace_correct"},"guarantee":"trace of a single line of gamma matrices","fibers":[{"name":"TensAdd","pred":"isinstance(t, TensAdd)","path":{"lhs":"gamma_trace(x)","rhs":"trace of a single line of gamma matrices","over":{"base":"TensAdd","pred":"isinstance(t, TensAdd)"},"name":"gamma_trace_TensAdd_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.gamma_matrices.gamma_trace_TensAdd_correct","statement":"gamma_trace satisfies spec on TensAdd inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"465814972d2cbba1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.hep.gamma_matrices.gamma_trace","kind":"function","src_hash":"5148636b5190c328","in":{"base":"Any","pred":"isinstance(t, TensAdd) and hasattr(t, 'args')"},"out":{"base":"Any","pred":"result satisfies: # HINT: gamma_trace may be idempotent: gamma_trace(gamma_trace(x)) == gamma_trace(x)"},"spec":{"lhs":"gamma_trace(t)","rhs":"# HINT: gamma_trace may be idempotent: gamma_trace(gamma_trace(x)) == gamma_trace(x)","over":{"base":"Any","pred":"isinstance(t, TensAdd) and hasattr(t, 'args')"},"name":"gamma_trace_correct"},"guarantee":"# HINT: gamma_trace may be idempotent: gamma_trace(gamma_trace(x)) == gamma_trace(x)","fibers":[{"name":"TensAdd","pred":"isinstance(t, TensAdd)","path":{"lhs":"gamma_trace(x)","rhs":"# HINT: gamma_trace may be idempotent: gamma_trace(gamma_trace(x)) == gamma_trace(x)","over":{"base":"TensAdd","pred":"isinstance(t, TensAdd)"},"name":"gamma_trace_TensAdd_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.gamma_matrices.gamma_trace_TensAdd_correct","statement":"gamma_trace satisfies spec on TensAdd inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"465814972d2cbba1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(t, 'args')"],"ensures":["# HINT: gamma_trace may be idempotent: gamma_trace(gamma_trace(x)) == gamma_trace(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["t.args"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(t, TensAdd)'}, fibers={'TensAdd'})"]}}
 def gamma_trace(t):
     """
     trace of a single line of gamma matrices
@@ -270,16 +299,22 @@ def gamma_trace(t):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_simplify_single_line(exp), simplify single-line product of gamma matrices) over Any ║
+# ║ Path(_simplify_single_line(expression), <unspecified:_simplify_single_line>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _simplify_single_line : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7af32c1a41057bc6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.hep.gamma_matrices._simplify_single_line","kind":"function","src_hash":"ffc3e29e32c54da8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_simplify_single_line(exp)","rhs":"simplify single-line product of gamma matrices","over":{"base":"Any"},"name":"_simplify_single_line_correct"},"guarantee":"simplify single-line product of gamma matrices","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.gamma_matrices._simplify_single_line_correct","statement":"Path(_simplify_single_line(x), simplify single-line product of gamma matrices)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7af32c1a41057bc6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.hep.gamma_matrices._simplify_single_line","kind":"function","src_hash":"ffc3e29e32c54da8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_simplify_single_line(expression)","rhs":"<unspecified:_simplify_single_line>","over":{"base":"Any"},"name":"_simplify_single_line_correct"},"guarantee":"simplify single-line product of gamma matrices","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.gamma_matrices._simplify_single_line_correct","statement":"Path(_simplify_single_line(x), simplify single-line product of gamma matrices)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7af32c1a41057bc6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _simplify_single_line(expression):
     """
     Simplify single-line product of gamma matrices.
@@ -304,7 +339,17 @@ def _simplify_single_line(expression):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_trace_single_line(t), evaluate the trace of a single gamma matrix line inside a ``tensexpr``) over {Any | isinstance(t, TensAdd) and isinstance(t, (Tensor, TensMul))} ║
+# ║ Path(_trace_single_line(t), result == (TensAdd(*a) if isinstance(t, TensAdd) else r if isinstance(t, (Tensor, TensMul)) else trace(t)) and result == TensAdd(*a) or result == r or result == trace(t)) over {Any | isinstance(t, TensAdd) and isinstance(t, (Tensor, TensMul)) and hasattr(t, 'components') and hasattr(t, 'expand') and hasattr(t, 'sorted_components') and hasattr(t, 'coeff') and hasattr(t, 'nocoeff') and hasattr(t, 'args') and hasattr(t, 'split')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(t, 'components')                       ║
+# ║   requires: hasattr(t, 'expand')                           ║
+# ║   requires: hasattr(t, 'sorted_components')                ║
+# ║   ensures:  result == (TensAdd(*a) if isinstance(t, T...   ║
+# ║   ensures:  result == TensAdd(*a) or result == r or r...   ║
+# ║   fiber[TensAdd]: isinstance(t, TensAdd) => TensAdd(*a)    ║
+# ║   fiber[case_1]: isinstance(t, (Tensor, TensMul)) => r     ║
+# ║   fiber[TensAdd]: not (isinstance(t, TensAdd)) and no...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _trace_single_line : {Any | isinstance(t, TensAdd) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -317,9 +362,12 @@ def _simplify_single_line(expression):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 20bc536b...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.hep.gamma_matrices._trace_single_line","kind":"function","src_hash":"b5584994107cbb0a","in":{"base":"Any","pred":"isinstance(t, TensAdd) and isinstance(t, (Tensor, TensMul))"},"out":{"base":"Any"},"spec":{"lhs":"_trace_single_line(t)","rhs":"evaluate the trace of a single gamma matrix line inside a ``tensexpr``","over":{"base":"Any","pred":"isinstance(t, TensAdd) and isinstance(t, (Tensor, TensMul))"},"name":"_trace_single_line_correct"},"guarantee":"evaluate the trace of a single gamma matrix line inside a ``tensexpr``","fibers":[{"name":"TensAdd","pred":"isinstance(t, TensAdd)","path":{"lhs":"_trace_single_line(x)","rhs":"evaluate the trace of a single gamma matrix line inside a ``tensexpr``","over":{"base":"TensAdd","pred":"isinstance(t, TensAdd)"},"name":"_trace_single_line_TensAdd_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.gamma_matrices._trace_single_line_TensAdd_correct","statement":"_trace_single_line satisfies spec on TensAdd inputs"},"trust":"LIBRARY"},{"name":"(Tensor","pred":"isinstance(t, (Tensor, TensMul))","path":{"lhs":"_trace_single_line(x)","rhs":"evaluate the trace of a single gamma matrix line inside a ``tensexpr``","over":{"base":"(Tensor","pred":"isinstance(t, (Tensor, TensMul))"},"name":"_trace_single_line_(Tensor_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.gamma_matrices._trace_single_line_(Tensor_correct","statement":"_trace_single_line satisfies spec on (Tensor inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"20bc536b8f55f497"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.hep.gamma_matrices._trace_single_line","kind":"function","src_hash":"b5584994107cbb0a","in":{"base":"Any","pred":"isinstance(t, TensAdd) and isinstance(t, (Tensor, TensMul)) and hasattr(t, 'components') and hasattr(t, 'expand') and hasattr(t, 'sorted_components') and hasattr(t, 'coeff') and hasattr(t, 'nocoeff') and hasattr(t, 'args') and hasattr(t, 'split')"},"out":{"base":"Any","pred":"result satisfies: result == (TensAdd(*a) if isinstance(t, TensAdd) else r if isinstance(t, (Tensor, TensMul)) else trace(t)) and result == TensAdd(*a) or result == r or result == trace(t)"},"spec":{"lhs":"_trace_single_line(t)","rhs":"result == (TensAdd(*a) if isinstance(t, TensAdd) else r if isinstance(t, (Tensor, TensMul)) else trace(t)) and result == TensAdd(*a) or result == r or result == trace(t)","over":{"base":"Any","pred":"isinstance(t, TensAdd) and isinstance(t, (Tensor, TensMul)) and hasattr(t, 'components') and hasattr(t, 'expand') and hasattr(t, 'sorted_components') and hasattr(t, 'coeff') and hasattr(t, 'nocoeff') and hasattr(t, 'args') and hasattr(t, 'split')"},"name":"_trace_single_line_correct"},"guarantee":"result == (TensAdd(*a) if isinstance(t, TensAdd) else r if isinstance(t, (Tensor, TensMul)) else trace(t)); result == TensAdd(*a) or result == r or result == trace(t); 3-fiber decomposition","fibers":[{"name":"TensAdd","pred":"isinstance(t, TensAdd)","path":{"lhs":"_trace_single_line(x)","rhs":"result == (TensAdd(*a) if isinstance(t, TensAdd) else r if isinstance(t, (Tensor, TensMul)) else trace(t)); result == TensAdd(*a) or result == r or result == trace(t); 3-fiber decomposition","over":{"base":"TensAdd","pred":"isinstance(t, TensAdd)"},"name":"_trace_single_line_TensAdd_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.gamma_matrices._trace_single_line_TensAdd_correct","statement":"_trace_single_line satisfies spec on TensAdd inputs"},"trust":"LIBRARY"},{"name":"(Tensor","pred":"isinstance(t, (Tensor, TensMul))","path":{"lhs":"_trace_single_line(x)","rhs":"result == (TensAdd(*a) if isinstance(t, TensAdd) else r if isinstance(t, (Tensor, TensMul)) else trace(t)); result == TensAdd(*a) or result == r or result == trace(t); 3-fiber decomposition","over":{"base":"(Tensor","pred":"isinstance(t, (Tensor, TensMul))"},"name":"_trace_single_line_(Tensor_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.gamma_matrices._trace_single_line_(Tensor_correct","statement":"_trace_single_line satisfies spec on (Tensor inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"20bc536b8f55f497","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(t, 'components')","hasattr(t, 'expand')","hasattr(t, 'sorted_components')","hasattr(t, 'coeff')","hasattr(t, 'nocoeff')","hasattr(t, 'args')","hasattr(t, 'split')"],"ensures":["result == (TensAdd(*a) if isinstance(t, TensAdd) else r if isinstance(t, (Tensor, TensMul)) else trace(t))","result == TensAdd(*a) or result == r or result == trace(t)"],"fibers":[{"name":"TensAdd","guard":"isinstance(t, TensAdd)","ensures":["result == TensAdd(*a)"],"decidability":"structural","returns_expr":"TensAdd(*a)"},{"name":"case_1","guard":"isinstance(t, (Tensor, TensMul))","ensures":["result == r"],"decidability":"structural","returns_expr":"r"},{"name":"TensAdd","guard":"not (isinstance(t, TensAdd)) and not (isinstance(t, (Tensor, TensMul)))","ensures":["result == trace(t)"],"decidability":"structural","returns_expr":"trace(t)"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'numG == 0', 'numG > 4', 'components[i] == GammaMatrix', 'numG % 2 == 1', 'components[j] != GammaMatrix', 'isinstance(t, TensAdd)', 'isinstance(t, (Tensor, TensMul))'}, fibers={'TensAdd', '(Tensor'})"]}}
 def _trace_single_line(t):
     """
     Evaluate the trace of a single gamma matrix line inside a ``TensExpr``.
@@ -412,16 +460,22 @@ def _trace_single_line(t):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_gamma_trace1(*a), internal helper behaves correctly) over Any ║
+# ║ Path(_gamma_trace1(*a), <unspecified:_gamma_trace1>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _gamma_trace1 : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dbff16caea8259de  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.hep.gamma_matrices._gamma_trace1","kind":"function","src_hash":"c2488e0ca91f3143","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_gamma_trace1(*a)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_gamma_trace1_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.gamma_matrices._gamma_trace1_correct","statement":"Path(_gamma_trace1(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbff16caea8259de"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.hep.gamma_matrices._gamma_trace1","kind":"function","src_hash":"c2488e0ca91f3143","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_gamma_trace1(*a)","rhs":"<unspecified:_gamma_trace1>","over":{"base":"Any"},"name":"_gamma_trace1_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.gamma_matrices._gamma_trace1_correct","statement":"Path(_gamma_trace1(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbff16caea8259de","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*a']"]}}
 def _gamma_trace1(*a):
     gctr = 4  # FIXME specific for d=4
     g = LorentzIndex.metric
@@ -446,7 +500,13 @@ def _gamma_trace1(*a):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(kahane_simplify(exp), this function cancels contracted elements in a product of four dimensional gamma matrices, resulting in an expression equal to the given one, without the contracted gamma matrices) over {Any | isinstance(expression, Mul) and isinstance(expression, TensAdd) and isinstance(expression, Tensor)} ║
+# ║ Path(kahane_simplify(expression), isinstance(expression, TensMul)) over {Any | isinstance(expression, Mul) and isinstance(expression, TensAdd) and isinstance(expression, Tensor) and hasattr(expression, 'args') and hasattr(expression, 'free') and hasattr(expression, 'dum') and hasattr(expression, 'index_types')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expression, 'args')                    ║
+# ║   requires: hasattr(expression, 'free')                    ║
+# ║   requires: hasattr(expression, 'dum')                     ║
+# ║   ensures:  isinstance(expression, TensMul)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ kahane_simplify : {Any | isinstance(expression, Mul) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -461,9 +521,12 @@ def _gamma_trace1(*a):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓7 ?4 ✗1 VCs | 6.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | eb790ca3...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.hep.gamma_matrices.kahane_simplify","kind":"function","src_hash":"b41e25594571cd54","in":{"base":"Any","pred":"isinstance(expression, Mul) and isinstance(expression, TensAdd) and isinstance(expression, Tensor)"},"out":{"base":"Any","pred":"isinstance(expression, TensMul) and gamma.component == GammaMatrix"},"spec":{"lhs":"kahane_simplify(exp)","rhs":"this function cancels contracted elements in a product of four dimensional gamma matrices, resulting in an expression equal to the given one, without the contracted gamma matrices","over":{"base":"Any","pred":"isinstance(expression, Mul) and isinstance(expression, TensAdd) and isinstance(expression, Tensor)"},"name":"kahane_simplify_correct"},"guarantee":"this function cancels contracted elements in a product of four dimensional gamma matrices, resulting in an expression equal to the given one, without the contracted gamma matrices","fibers":[{"name":"Mul","pred":"isinstance(expression, Mul)","path":{"lhs":"kahane_simplify(x)","rhs":"this function cancels contracted elements in a product of four dimensional gamma matrices, resulting in an expression equal to the given one, without the contracted gamma matrices","over":{"base":"Mul","pred":"isinstance(expression, Mul)"},"name":"kahane_simplify_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.gamma_matrices.kahane_simplify_Mul_correct","statement":"kahane_simplify satisfies spec on Mul inputs"},"trust":"LIBRARY"},{"name":"TensAdd","pred":"isinstance(expression, TensAdd)","path":{"lhs":"kahane_simplify(x)","rhs":"this function cancels contracted elements in a product of four dimensional gamma matrices, resulting in an expression equal to the given one, without the contracted gamma matrices","over":{"base":"TensAdd","pred":"isinstance(expression, TensAdd)"},"name":"kahane_simplify_TensAdd_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.gamma_matrices.kahane_simplify_TensAdd_correct","statement":"kahane_simplify satisfies spec on TensAdd inputs"},"trust":"LIBRARY"},{"name":"Tensor","pred":"isinstance(expression, Tensor)","path":{"lhs":"kahane_simplify(x)","rhs":"this function cancels contracted elements in a product of four dimensional gamma matrices, resulting in an expression equal to the given one, without the contracted gamma matrices","over":{"base":"Tensor","pred":"isinstance(expression, Tensor)"},"name":"kahane_simplify_Tensor_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.gamma_matrices.kahane_simplify_Tensor_correct","statement":"kahane_simplify satisfies spec on Tensor inputs"},"trust":"LIBRARY"},{"name":"TensMul","pred":"isinstance(expression, TensMul)","path":{"lhs":"kahane_simplify(x)","rhs":"this function cancels contracted elements in a product of four dimensional gamma matrices, resulting in an expression equal to the given one, without the contracted gamma matrices","over":{"base":"TensMul","pred":"isinstance(expression, TensMul)"},"name":"kahane_simplify_TensMul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.gamma_matrices.kahane_simplify_TensMul_correct","statement":"kahane_simplify satisfies spec on TensMul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"eb790ca32df0d545"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.hep.gamma_matrices.kahane_simplify","kind":"function","src_hash":"b41e25594571cd54","in":{"base":"Any","pred":"isinstance(expression, Mul) and isinstance(expression, TensAdd) and isinstance(expression, Tensor) and hasattr(expression, 'args') and hasattr(expression, 'free') and hasattr(expression, 'dum') and hasattr(expression, 'index_types')"},"out":{"base":"Any","pred":"result satisfies: isinstance(expression, TensMul)"},"spec":{"lhs":"kahane_simplify(expression)","rhs":"isinstance(expression, TensMul)","over":{"base":"Any","pred":"isinstance(expression, Mul) and isinstance(expression, TensAdd) and isinstance(expression, Tensor) and hasattr(expression, 'args') and hasattr(expression, 'free') and hasattr(expression, 'dum') and hasattr(expression, 'index_types')"},"name":"kahane_simplify_correct"},"guarantee":"isinstance(expression, TensMul)","fibers":[{"name":"Mul","pred":"isinstance(expression, Mul)","path":{"lhs":"kahane_simplify(x)","rhs":"isinstance(expression, TensMul)","over":{"base":"Mul","pred":"isinstance(expression, Mul)"},"name":"kahane_simplify_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.gamma_matrices.kahane_simplify_Mul_correct","statement":"kahane_simplify satisfies spec on Mul inputs"},"trust":"LIBRARY"},{"name":"TensAdd","pred":"isinstance(expression, TensAdd)","path":{"lhs":"kahane_simplify(x)","rhs":"isinstance(expression, TensMul)","over":{"base":"TensAdd","pred":"isinstance(expression, TensAdd)"},"name":"kahane_simplify_TensAdd_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.gamma_matrices.kahane_simplify_TensAdd_correct","statement":"kahane_simplify satisfies spec on TensAdd inputs"},"trust":"LIBRARY"},{"name":"Tensor","pred":"isinstance(expression, Tensor)","path":{"lhs":"kahane_simplify(x)","rhs":"isinstance(expression, TensMul)","over":{"base":"Tensor","pred":"isinstance(expression, Tensor)"},"name":"kahane_simplify_Tensor_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.gamma_matrices.kahane_simplify_Tensor_correct","statement":"kahane_simplify satisfies spec on Tensor inputs"},"trust":"LIBRARY"},{"name":"TensMul","pred":"isinstance(expression, TensMul)","path":{"lhs":"kahane_simplify(x)","rhs":"isinstance(expression, TensMul)","over":{"base":"TensMul","pred":"isinstance(expression, TensMul)"},"name":"kahane_simplify_TensMul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.hep.gamma_matrices.kahane_simplify_TensMul_correct","statement":"kahane_simplify satisfies spec on TensMul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"eb790ca32df0d545","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expression, 'args')","hasattr(expression, 'free')","hasattr(expression, 'dum')","hasattr(expression, 'index_types')"],"ensures":["isinstance(expression, TensMul)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":7,"n_assumed":4,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":6.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'len(next_ones) > 1', 'len(dum) == 0', 'len(prepend_indices) == 0', 'linkpos1 >= total_number', 'block_free_count == 0 and i != first_dum_pos', 'i < first_dum_pos', 'linkpos2 >= 0 and (not index_is_free[linkpos2])', 'isinstance(expression, Mul)', 'linkpos1 < first_dum_pos', 'isinstance(expression, Tensor)', 'linkpos2 >= total_number', 'pointer >= first_dum_pos and free_pos[pointer] is not None', 'linkpos2 < first_dum_pos', 'linkpos1 >= 0 and (not index_is_free[linkpos1])', 'cum_sign == -1', 'block_free_count > 1', 'isinstance(expression, TensAdd)', 'isinstance(t, TensAdd)', 'i != first_dum_pos', 'expression.index_types[dum_pair[0]] == LorentzIndex', 'isinstance(t, TensMul)', 'i - cum_sign < len(index_is_free)', 'pointer == previous_pointer', 'pointer >= 0 and free_pos[pointer] is not None', 'block_free_count != 0'}, fibers={'Tensor', 'TensAdd', 'TensMul', 'Mul'})"]}}
 def kahane_simplify(expression):
     r"""
     This function cancels contracted elements in a product of four

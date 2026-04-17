@@ -72,16 +72,24 @@ k3_rep = represent(k3, basis=N, ndim=4, format='sympy')
 b3_rep = represent(b3, basis=N, ndim=4, format='sympy')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_RaisingOp(), test_RaisingOp produces the expected output) over Any ║
+# ║ Path(test_RaisingOp(), Dagger(ad) == a and Commutator(ad, a).doit() == Integer(-1) and Commutator(ad, N).doit() == Integer(-1) * ad and qapply(ad * k) == (sqrt(k.n + 1) * SHOKet(k.n + 1)).expand() and qapply(ad * kz) == (sqrt(kz.n + 1) * SHOKet(kz.n + 1)).expand() and qapply(ad * kf) == (sqrt(kf.n + 1) * SHOKet(kf.n + 1)).expand() and ad.rewrite('xp').doit() == Integer(1) / sqrt(Integer(2) * hbar * m * omega) * (Integer(-1) * I * Px + m * omega * X) and ad.hilbert_space == ComplexSpace(S.Infinity) and ad_rep_numpy.dtype == 'float64' and ad_rep_scipy.dtype == 'float64') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_RaisingOp : Any → {Any | Dagger(ad) == a and Com...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Dagger(ad) == a                                ║
+# ║   ensures:  Commutator(ad, a).doit() == Integer(-1)        ║
+# ║   ensures:  Commutator(ad, N).doit() == Integer(-1) * ad   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_RaisingOp : Any → {Any | result satisfies: Dagge...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e0be1e918dd8944  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1efe44e4b4fdcdbe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_sho1d.test_RaisingOp","kind":"function","src_hash":"bba04c077ee27472","in":{"base":"Any"},"out":{"base":"Any","pred":"Dagger(ad) == a and Commutator(ad, a).doit() == Integer(-1) and Commutator(ad, N).doit() == Integer(-1) * ad and qapply(ad * k) == (sqrt(k.n + 1) * SHOKet(k.n + 1)).expand() and qapply(ad * kz) == (sqrt(kz.n + 1) * SHOKet(kz.n + 1)).expand() and qapply(ad * kf) == (sqrt(kf.n + 1) * SHOKet(kf.n + 1)).expand() and ad.hilbert_space == ComplexSpace(S.Infinity) and ad_rep_numpy.dtype == 'float64' and ad_rep_scipy.dtype == 'float64' and ad_rep_sympy[i + 1, i] == sqrt(i + 1) and ad_rep_numpy[i + 1, i] == float(sqrt(i + 1)) and ad_rep_scipy[i + 1, i] == float(sqrt(i + 1))"},"spec":{"lhs":"test_RaisingOp()","rhs":"test_RaisingOp produces the expected output","over":{"base":"Any"},"name":"test_RaisingOp_correct"},"guarantee":"test_RaisingOp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_sho1d.test_RaisingOp_correct","statement":"Path(test_RaisingOp(x), test_RaisingOp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e0be1e918dd8944"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_sho1d.test_RaisingOp","kind":"function","src_hash":"bba04c077ee27472","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Dagger(ad) == a and Commutator(ad, a).doit() == Integer(-1) and Commutator(ad, N).doit() == Integer(-1) * ad and qapply(ad * k) == (sqrt(k.n + 1) * SHOKet(k.n + 1)).expand() and qapply(ad * kz) == (sqrt(kz.n + 1) * SHOKet(kz.n + 1)).expand() and qapply(ad * kf) == (sqrt(kf.n + 1) * SHOKet(kf.n + 1)).expand() and ad.rewrite('xp').doit() == Integer(1) / sqrt(Integer(2) * hbar * m * omega) * (Integer(-1) * I * Px + m * omega * X) and ad.hilbert_space == ComplexSpace(S.Infinity) and ad_rep_numpy.dtype == 'float64' and ad_rep_scipy.dtype == 'float64'"},"spec":{"lhs":"test_RaisingOp()","rhs":"Dagger(ad) == a and Commutator(ad, a).doit() == Integer(-1) and Commutator(ad, N).doit() == Integer(-1) * ad and qapply(ad * k) == (sqrt(k.n + 1) * SHOKet(k.n + 1)).expand() and qapply(ad * kz) == (sqrt(kz.n + 1) * SHOKet(kz.n + 1)).expand() and qapply(ad * kf) == (sqrt(kf.n + 1) * SHOKet(kf.n + 1)).expand() and ad.rewrite('xp').doit() == Integer(1) / sqrt(Integer(2) * hbar * m * omega) * (Integer(-1) * I * Px + m * omega * X) and ad.hilbert_space == ComplexSpace(S.Infinity) and ad_rep_numpy.dtype == 'float64' and ad_rep_scipy.dtype == 'float64'","over":{"base":"Any"},"name":"test_RaisingOp_correct"},"guarantee":"Dagger(ad) == a; Commutator(ad, a).doit() == Integer(-1); Commutator(ad, N).doit() == Integer(-1) * ad","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_sho1d.test_RaisingOp_correct","statement":"Path(test_RaisingOp(x), Dagger(ad) == a; Commutator(ad, a).doit() == Integer(-1); Commutator(ad, N).doit() == Integer(-1) * ad)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1efe44e4b4fdcdbe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Dagger(ad) == a","Commutator(ad, a).doit() == Integer(-1)","Commutator(ad, N).doit() == Integer(-1) * ad","qapply(ad * k) == (sqrt(k.n + 1) * SHOKet(k.n + 1)).expand()","qapply(ad * kz) == (sqrt(kz.n + 1) * SHOKet(kz.n + 1)).expand()","qapply(ad * kf) == (sqrt(kf.n + 1) * SHOKet(kf.n + 1)).expand()","ad.rewrite('xp').doit() == Integer(1) / sqrt(Integer(2) * hbar * m * omega) * (Integer(-1) * I * Px + m * omega * X)","ad.hilbert_space == ComplexSpace(S.Infinity)","ad_rep_numpy.dtype == 'float64'","ad_rep_scipy.dtype == 'float64'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_RaisingOp():
     assert Dagger(ad) == a
     assert Commutator(ad, a).doit() == Integer(-1)
@@ -115,16 +123,24 @@ def test_RaisingOp():
     assert ad_rep_scipy.dtype == 'float64'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_LoweringOp(), test_LoweringOp produces the expected output) over Any ║
+# ║ Path(test_LoweringOp(), Dagger(a) == ad and Commutator(a, ad).doit() == Integer(1) and Commutator(a, N).doit() == a and qapply(a * k) == (sqrt(k.n) * SHOKet(k.n - Integer(1))).expand() and qapply(a * kz) == Integer(0) and qapply(a * kf) == (sqrt(kf.n) * SHOKet(kf.n - Integer(1))).expand() and a.rewrite('xp').doit() == Integer(1) / sqrt(Integer(2) * hbar * m * omega) * (I * Px + m * omega * X)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_LoweringOp : Any → {Any | Dagger(a) == ad and Co...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Dagger(a) == ad                                ║
+# ║   ensures:  Commutator(a, ad).doit() == Integer(1)         ║
+# ║   ensures:  Commutator(a, N).doit() == a                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_LoweringOp : Any → {Any | result satisfies: Dagg...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 25289e53e53787a5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1d42074337bf47c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_sho1d.test_LoweringOp","kind":"function","src_hash":"78927561dda7ae01","in":{"base":"Any"},"out":{"base":"Any","pred":"Dagger(a) == ad and Commutator(a, ad).doit() == Integer(1) and Commutator(a, N).doit() == a and qapply(a * k) == (sqrt(k.n) * SHOKet(k.n - Integer(1))).expand() and qapply(a * kz) == Integer(0) and qapply(a * kf) == (sqrt(kf.n) * SHOKet(kf.n - Integer(1))).expand() and a_rep[i, i + 1] == sqrt(i + 1)"},"spec":{"lhs":"test_LoweringOp()","rhs":"test_LoweringOp produces the expected output","over":{"base":"Any"},"name":"test_LoweringOp_correct"},"guarantee":"test_LoweringOp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_sho1d.test_LoweringOp_correct","statement":"Path(test_LoweringOp(x), test_LoweringOp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25289e53e53787a5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_sho1d.test_LoweringOp","kind":"function","src_hash":"78927561dda7ae01","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Dagger(a) == ad and Commutator(a, ad).doit() == Integer(1) and Commutator(a, N).doit() == a and qapply(a * k) == (sqrt(k.n) * SHOKet(k.n - Integer(1))).expand() and qapply(a * kz) == Integer(0) and qapply(a * kf) == (sqrt(kf.n) * SHOKet(kf.n - Integer(1))).expand() and a.rewrite('xp').doit() == Integer(1) / sqrt(Integer(2) * hbar * m * omega) * (I * Px + m * omega * X)"},"spec":{"lhs":"test_LoweringOp()","rhs":"Dagger(a) == ad and Commutator(a, ad).doit() == Integer(1) and Commutator(a, N).doit() == a and qapply(a * k) == (sqrt(k.n) * SHOKet(k.n - Integer(1))).expand() and qapply(a * kz) == Integer(0) and qapply(a * kf) == (sqrt(kf.n) * SHOKet(kf.n - Integer(1))).expand() and a.rewrite('xp').doit() == Integer(1) / sqrt(Integer(2) * hbar * m * omega) * (I * Px + m * omega * X)","over":{"base":"Any"},"name":"test_LoweringOp_correct"},"guarantee":"Dagger(a) == ad; Commutator(a, ad).doit() == Integer(1); Commutator(a, N).doit() == a","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_sho1d.test_LoweringOp_correct","statement":"Path(test_LoweringOp(x), Dagger(a) == ad; Commutator(a, ad).doit() == Integer(1); Commutator(a, N).doit() == a)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1d42074337bf47c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Dagger(a) == ad","Commutator(a, ad).doit() == Integer(1)","Commutator(a, N).doit() == a","qapply(a * k) == (sqrt(k.n) * SHOKet(k.n - Integer(1))).expand()","qapply(a * kz) == Integer(0)","qapply(a * kf) == (sqrt(kf.n) * SHOKet(kf.n - Integer(1))).expand()","a.rewrite('xp').doit() == Integer(1) / sqrt(Integer(2) * hbar * m * omega) * (I * Px + m * omega * X)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_LoweringOp():
     assert Dagger(a) == ad
     assert Commutator(a, ad).doit() == Integer(1)
@@ -138,16 +154,24 @@ def test_LoweringOp():
         assert a_rep[i,i + 1] == sqrt(i + 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_NumberOp(), test_NumberOp produces the expected output) over Any ║
+# ║ Path(test_NumberOp(), Commutator(N, ad).doit() == ad and Commutator(N, a).doit() == Integer(-1) * a and Commutator(N, H).doit() == Integer(0) and qapply(N * k) == (k.n * k).expand() and N.rewrite('a').doit() == ad * a and N.rewrite('xp').doit() == Integer(1) / (Integer(2) * m * hbar * omega) * (Px ** 2 + (m * omega * X) ** 2) - Integer(1) / Integer(2) and N.rewrite('H').doit() == H / (hbar * omega) - Integer(1) / Integer(2) and N_rep == ad_rep_sympy * a_rep) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_NumberOp : Any → {Any | Commutator(N, ad).doit()...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Commutator(N, ad).doit() == ad                 ║
+# ║   ensures:  Commutator(N, a).doit() == Integer(-1) * a     ║
+# ║   ensures:  Commutator(N, H).doit() == Integer(0)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_NumberOp : Any → {Any | result satisfies: Commut...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e4f99ff18e81e63f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5cca59c46f79ff7c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_sho1d.test_NumberOp","kind":"function","src_hash":"3c85341241d38e64","in":{"base":"Any"},"out":{"base":"Any","pred":"Commutator(N, ad).doit() == ad and Commutator(N, a).doit() == Integer(-1) * a and Commutator(N, H).doit() == Integer(0) and qapply(N * k) == (k.n * k).expand() and N.rewrite('a').doit() == ad * a and N.rewrite('H').doit() == H / (hbar * omega) - Integer(1) / Integer(2) and N_rep == ad_rep_sympy * a_rep and N_rep[i, i] == i"},"spec":{"lhs":"test_NumberOp()","rhs":"test_NumberOp produces the expected output","over":{"base":"Any"},"name":"test_NumberOp_correct"},"guarantee":"test_NumberOp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_sho1d.test_NumberOp_correct","statement":"Path(test_NumberOp(x), test_NumberOp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4f99ff18e81e63f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_sho1d.test_NumberOp","kind":"function","src_hash":"3c85341241d38e64","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Commutator(N, ad).doit() == ad and Commutator(N, a).doit() == Integer(-1) * a and Commutator(N, H).doit() == Integer(0) and qapply(N * k) == (k.n * k).expand() and N.rewrite('a').doit() == ad * a and N.rewrite('xp').doit() == Integer(1) / (Integer(2) * m * hbar * omega) * (Px ** 2 + (m * omega * X) ** 2) - Integer(1) / Integer(2) and N.rewrite('H').doit() == H / (hbar * omega) - Integer(1) / Integer(2) and N_rep == ad_rep_sympy * a_rep"},"spec":{"lhs":"test_NumberOp()","rhs":"Commutator(N, ad).doit() == ad and Commutator(N, a).doit() == Integer(-1) * a and Commutator(N, H).doit() == Integer(0) and qapply(N * k) == (k.n * k).expand() and N.rewrite('a').doit() == ad * a and N.rewrite('xp').doit() == Integer(1) / (Integer(2) * m * hbar * omega) * (Px ** 2 + (m * omega * X) ** 2) - Integer(1) / Integer(2) and N.rewrite('H').doit() == H / (hbar * omega) - Integer(1) / Integer(2) and N_rep == ad_rep_sympy * a_rep","over":{"base":"Any"},"name":"test_NumberOp_correct"},"guarantee":"Commutator(N, ad).doit() == ad; Commutator(N, a).doit() == Integer(-1) * a; Commutator(N, H).doit() == Integer(0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_sho1d.test_NumberOp_correct","statement":"Path(test_NumberOp(x), Commutator(N, ad).doit() == ad; Commutator(N, a).doit() == Integer(-1) * a; Commutator(N, H).doit() == Integer(0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5cca59c46f79ff7c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Commutator(N, ad).doit() == ad","Commutator(N, a).doit() == Integer(-1) * a","Commutator(N, H).doit() == Integer(0)","qapply(N * k) == (k.n * k).expand()","N.rewrite('a').doit() == ad * a","N.rewrite('xp').doit() == Integer(1) / (Integer(2) * m * hbar * omega) * (Px ** 2 + (m * omega * X) ** 2) - Integer(1) / Integer(2)","N.rewrite('H').doit() == H / (hbar * omega) - Integer(1) / Integer(2)","N_rep == ad_rep_sympy * a_rep"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_NumberOp():
     assert Commutator(N, ad).doit() == ad
     assert Commutator(N, a).doit() == Integer(-1)*a
@@ -162,16 +186,24 @@ def test_NumberOp():
     assert N_rep == ad_rep_sympy*a_rep
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Hamiltonian(), test_Hamiltonian produces the expected output) over Any ║
+# ║ Path(test_Hamiltonian(), Commutator(H, N).doit() == Integer(0) and qapply(H * k) == (hbar * omega * (k.n + Integer(1) / Integer(2)) * k).expand() and H.rewrite('a').doit() == hbar * omega * (ad * a + Integer(1) / Integer(2)) and H.rewrite('xp').doit() == Integer(1) / (Integer(2) * m) * (Px ** 2 + (m * omega * X) ** 2) and H.rewrite('N').doit() == hbar * omega * (N + Integer(1) / Integer(2))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Hamiltonian : Any → {Any | Commutator(H, N).doit...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Commutator(H, N).doit() == Integer(0)          ║
+# ║   ensures:  qapply(H * k) == (hbar * omega * (k.n + I...   ║
+# ║   ensures:  H.rewrite('a').doit() == hbar * omega * (...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Hamiltonian : Any → {Any | result satisfies: Com...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8656cb129b56f647  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5334d04bd415ae54  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_sho1d.test_Hamiltonian","kind":"function","src_hash":"5fd04291d9939d63","in":{"base":"Any"},"out":{"base":"Any","pred":"Commutator(H, N).doit() == Integer(0) and qapply(H * k) == (hbar * omega * (k.n + Integer(1) / Integer(2)) * k).expand() and H.rewrite('a').doit() == hbar * omega * (ad * a + Integer(1) / Integer(2)) and H.rewrite('N').doit() == hbar * omega * (N + Integer(1) / Integer(2)) and H_rep[i, i] == hbar * omega * (i + Integer(1) / Integer(2))"},"spec":{"lhs":"test_Hamiltonian()","rhs":"test_Hamiltonian produces the expected output","over":{"base":"Any"},"name":"test_Hamiltonian_correct"},"guarantee":"test_Hamiltonian produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_sho1d.test_Hamiltonian_correct","statement":"Path(test_Hamiltonian(x), test_Hamiltonian produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8656cb129b56f647"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_sho1d.test_Hamiltonian","kind":"function","src_hash":"5fd04291d9939d63","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Commutator(H, N).doit() == Integer(0) and qapply(H * k) == (hbar * omega * (k.n + Integer(1) / Integer(2)) * k).expand() and H.rewrite('a').doit() == hbar * omega * (ad * a + Integer(1) / Integer(2)) and H.rewrite('xp').doit() == Integer(1) / (Integer(2) * m) * (Px ** 2 + (m * omega * X) ** 2) and H.rewrite('N').doit() == hbar * omega * (N + Integer(1) / Integer(2))"},"spec":{"lhs":"test_Hamiltonian()","rhs":"Commutator(H, N).doit() == Integer(0) and qapply(H * k) == (hbar * omega * (k.n + Integer(1) / Integer(2)) * k).expand() and H.rewrite('a').doit() == hbar * omega * (ad * a + Integer(1) / Integer(2)) and H.rewrite('xp').doit() == Integer(1) / (Integer(2) * m) * (Px ** 2 + (m * omega * X) ** 2) and H.rewrite('N').doit() == hbar * omega * (N + Integer(1) / Integer(2))","over":{"base":"Any"},"name":"test_Hamiltonian_correct"},"guarantee":"Commutator(H, N).doit() == Integer(0); qapply(H * k) == (hbar * omega * (k.n + Integer(1) / Integer(2)) * k).expand(); H.rewrite('a').doit() == hbar * omega * (ad * a + Integer(1) / Integer(2))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_sho1d.test_Hamiltonian_correct","statement":"Path(test_Hamiltonian(x), Commutator(H, N).doit() == Integer(0); qapply(H * k) == (hbar * omega * (k.n + Integer(1) / Integer(2)) * k).expand(); H.rewrite('a').doit() == hbar * omega * (ad * a + Integer(1) / Integer(2)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5334d04bd415ae54","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Commutator(H, N).doit() == Integer(0)","qapply(H * k) == (hbar * omega * (k.n + Integer(1) / Integer(2)) * k).expand()","H.rewrite('a').doit() == hbar * omega * (ad * a + Integer(1) / Integer(2))","H.rewrite('xp').doit() == Integer(1) / (Integer(2) * m) * (Px ** 2 + (m * omega * X) ** 2)","H.rewrite('N').doit() == hbar * omega * (N + Integer(1) / Integer(2))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Hamiltonian():
     assert Commutator(H, N).doit() == Integer(0)
     assert qapply(H*k) == ((hbar*omega*(k.n + Integer(1)/Integer(2)))*k).expand()
@@ -183,16 +215,24 @@ def test_Hamiltonian():
         assert H_rep[i,i] == hbar*omega*(i + Integer(1)/Integer(2))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_SHOKet(), test_SHOKet produces the expected output) over Any ║
+# ║ Path(test_SHOKet(), SHOKet('k').dual_class() == SHOBra and SHOBra('b').dual_class() == SHOKet and InnerProduct(b, k).doit() == KroneckerDelta(k.n, b.n) and k.hilbert_space == ComplexSpace(S.Infinity) and k3_rep[k3.n, 0] == Integer(1) and b3_rep[0, b3.n] == Integer(1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_SHOKet : Any → {Any | SHOKet('k').dual_class() =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  SHOKet('k').dual_class() == SHOBra             ║
+# ║   ensures:  SHOBra('b').dual_class() == SHOKet             ║
+# ║   ensures:  InnerProduct(b, k).doit() == KroneckerDel...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_SHOKet : Any → {Any | result satisfies: SHOKet('...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d1050d47705a3d6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b4e8214d87a0ed7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_sho1d.test_SHOKet","kind":"function","src_hash":"06d9d7bd0ae8adb7","in":{"base":"Any"},"out":{"base":"Any","pred":"SHOKet('k').dual_class() == SHOBra and SHOBra('b').dual_class() == SHOKet and InnerProduct(b, k).doit() == KroneckerDelta(k.n, b.n) and k.hilbert_space == ComplexSpace(S.Infinity) and k3_rep[k3.n, 0] == Integer(1) and b3_rep[0, b3.n] == Integer(1)"},"spec":{"lhs":"test_SHOKet()","rhs":"test_SHOKet produces the expected output","over":{"base":"Any"},"name":"test_SHOKet_correct"},"guarantee":"test_SHOKet produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_sho1d.test_SHOKet_correct","statement":"Path(test_SHOKet(x), test_SHOKet produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d1050d47705a3d6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_sho1d.test_SHOKet","kind":"function","src_hash":"06d9d7bd0ae8adb7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: SHOKet('k').dual_class() == SHOBra and SHOBra('b').dual_class() == SHOKet and InnerProduct(b, k).doit() == KroneckerDelta(k.n, b.n) and k.hilbert_space == ComplexSpace(S.Infinity) and k3_rep[k3.n, 0] == Integer(1) and b3_rep[0, b3.n] == Integer(1)"},"spec":{"lhs":"test_SHOKet()","rhs":"SHOKet('k').dual_class() == SHOBra and SHOBra('b').dual_class() == SHOKet and InnerProduct(b, k).doit() == KroneckerDelta(k.n, b.n) and k.hilbert_space == ComplexSpace(S.Infinity) and k3_rep[k3.n, 0] == Integer(1) and b3_rep[0, b3.n] == Integer(1)","over":{"base":"Any"},"name":"test_SHOKet_correct"},"guarantee":"SHOKet('k').dual_class() == SHOBra; SHOBra('b').dual_class() == SHOKet; InnerProduct(b, k).doit() == KroneckerDelta(k.n, b.n)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_sho1d.test_SHOKet_correct","statement":"Path(test_SHOKet(x), SHOKet('k').dual_class() == SHOBra; SHOBra('b').dual_class() == SHOKet; InnerProduct(b, k).doit() == KroneckerDelta(k.n, b.n))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b4e8214d87a0ed7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["SHOKet('k').dual_class() == SHOBra","SHOBra('b').dual_class() == SHOKet","InnerProduct(b, k).doit() == KroneckerDelta(k.n, b.n)","k.hilbert_space == ComplexSpace(S.Infinity)","k3_rep[k3.n, 0] == Integer(1)","b3_rep[0, b3.n] == Integer(1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_SHOKet():
     assert SHOKet('k').dual_class() == SHOBra
     assert SHOBra('b').dual_class() == SHOKet
@@ -202,16 +242,24 @@ def test_SHOKet():
     assert b3_rep[0, b3.n] == Integer(1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sho_sums(), test_sho_sums produces the expected output) over Any ║
+# ║ Path(test_sho_sums(), e1.doit() == SHOKet(0) * SHOBra(0) + SHOKet(1) * SHOBra(1) and qapply(Sum(SHOKet(p) * SHOBra(p), (p, 0, oo)) * SHOKet(q), sum_doit=True) == SHOKet(q) and result == a[q]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sho_sums : Any → {Any | e1.doit() == SHOKet(0) *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e1.doit() == SHOKet(0) * SHOBra(0) + SHOK...   ║
+# ║   ensures:  qapply(Sum(SHOKet(p) * SHOBra(p), (p, 0, ...   ║
+# ║   ensures:  result == a[q]                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sho_sums : Any → {Any | result satisfies: e1.doi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de33722f3a5c2e34  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eecea6a63cb9f0d6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_sho1d.test_sho_sums","kind":"function","src_hash":"8eba4c8c148984e3","in":{"base":"Any"},"out":{"base":"Any","pred":"e1.doit() == SHOKet(0) * SHOBra(0) + SHOKet(1) * SHOBra(1) and result == a[q] and result == a[q]"},"spec":{"lhs":"test_sho_sums()","rhs":"test_sho_sums produces the expected output","over":{"base":"Any"},"name":"test_sho_sums_correct"},"guarantee":"test_sho_sums produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_sho1d.test_sho_sums_correct","statement":"Path(test_sho_sums(x), test_sho_sums produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de33722f3a5c2e34"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_sho1d.test_sho_sums","kind":"function","src_hash":"8eba4c8c148984e3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e1.doit() == SHOKet(0) * SHOBra(0) + SHOKet(1) * SHOBra(1) and qapply(Sum(SHOKet(p) * SHOBra(p), (p, 0, oo)) * SHOKet(q), sum_doit=True) == SHOKet(q) and result == a[q]"},"spec":{"lhs":"test_sho_sums()","rhs":"e1.doit() == SHOKet(0) * SHOBra(0) + SHOKet(1) * SHOBra(1) and qapply(Sum(SHOKet(p) * SHOBra(p), (p, 0, oo)) * SHOKet(q), sum_doit=True) == SHOKet(q) and result == a[q]","over":{"base":"Any"},"name":"test_sho_sums_correct"},"guarantee":"e1.doit() == SHOKet(0) * SHOBra(0) + SHOKet(1) * SHOBra(1); qapply(Sum(SHOKet(p) * SHOBra(p), (p, 0, oo)) * SHOKet(q), sum_doit=True) == SHOKet(q); result == a[q]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_sho1d.test_sho_sums_correct","statement":"Path(test_sho_sums(x), e1.doit() == SHOKet(0) * SHOBra(0) + SHOKet(1) * SHOBra(1); qapply(Sum(SHOKet(p) * SHOBra(p), (p, 0, oo)) * SHOKet(q), sum_doit=True) == SHOKet(q); result == a[q])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eecea6a63cb9f0d6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e1.doit() == SHOKet(0) * SHOBra(0) + SHOKet(1) * SHOBra(1)","qapply(Sum(SHOKet(p) * SHOBra(p), (p, 0, oo)) * SHOKet(q), sum_doit=True) == SHOKet(q)","result == a[q]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_sho_sums():
     e1 = Sum(SHOKet(p)*SHOBra(p), (p, 0, 1))
     assert e1.doit() == SHOKet(0)*SHOBra(0) + SHOKet(1)*SHOBra(1)
@@ -242,16 +290,23 @@ def test_sho_sums():
         )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sho_coherant_state(), test_sho_coherant_state produces the expected output) over Any ║
+# ║ Path(test_sho_coherant_state(), qapply(SHOBra(q) * cstate, sum_doit=True) == exp(-Abs(alpha) ** 2 / S(2)) * alpha ** q / sqrt(factorial(q)) and simplify(qapply(SHOBra(q) * a * cstate, sum_doit=True)) == simplify(qapply(SHOBra(q) * alpha * cstate, sum_doit=True))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sho_coherant_state : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  qapply(SHOBra(q) * cstate, sum_doit=True)...   ║
+# ║   ensures:  simplify(qapply(SHOBra(q) * a * cstate, s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sho_coherant_state : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f96d9e8a77dc432c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3ba74eb33dd38c9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_sho1d.test_sho_coherant_state","kind":"function","src_hash":"503016a45d16b3e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_sho_coherant_state()","rhs":"test_sho_coherant_state produces the expected output","over":{"base":"Any"},"name":"test_sho_coherant_state_correct"},"guarantee":"test_sho_coherant_state produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_sho1d.test_sho_coherant_state_correct","statement":"Path(test_sho_coherant_state(x), test_sho_coherant_state produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f96d9e8a77dc432c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_sho1d.test_sho_coherant_state","kind":"function","src_hash":"503016a45d16b3e6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: qapply(SHOBra(q) * cstate, sum_doit=True) == exp(-Abs(alpha) ** 2 / S(2)) * alpha ** q / sqrt(factorial(q)) and simplify(qapply(SHOBra(q) * a * cstate, sum_doit=True)) == simplify(qapply(SHOBra(q) * alpha * cstate, sum_doit=True))"},"spec":{"lhs":"test_sho_coherant_state()","rhs":"qapply(SHOBra(q) * cstate, sum_doit=True) == exp(-Abs(alpha) ** 2 / S(2)) * alpha ** q / sqrt(factorial(q)) and simplify(qapply(SHOBra(q) * a * cstate, sum_doit=True)) == simplify(qapply(SHOBra(q) * alpha * cstate, sum_doit=True))","over":{"base":"Any"},"name":"test_sho_coherant_state_correct"},"guarantee":"qapply(SHOBra(q) * cstate, sum_doit=True) == exp(-Abs(alpha) ** 2 / S(2)) * alpha ** q / sqrt(factorial(q)); simplify(qapply(SHOBra(q) * a * cstate, sum_doit=True)) == simplify(qapply(SHOBra(q) * alpha * cstate, sum_doit=True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_sho1d.test_sho_coherant_state_correct","statement":"Path(test_sho_coherant_state(x), qapply(SHOBra(q) * cstate, sum_doit=True) == exp(-Abs(alpha) ** 2 / S(2)) * alpha ** q / sqrt(factorial(q)); simplify(qapply(SHOBra(q) * a * cstate, sum_doit=True)) == simplify(qapply(SHOBra(q) * alpha * cstate, sum_doit=True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3ba74eb33dd38c9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["qapply(SHOBra(q) * cstate, sum_doit=True) == exp(-Abs(alpha) ** 2 / S(2)) * alpha ** q / sqrt(factorial(q))","simplify(qapply(SHOBra(q) * a * cstate, sum_doit=True)) == simplify(qapply(SHOBra(q) * alpha * cstate, sum_doit=True))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_sho_coherant_state():
     alpha = Symbol('alpha', is_complex=True)
     cstate = exp(-Abs(alpha)**2/S(2))*Sum(((alpha**p)/sqrt(factorial(p)))*SHOKet(p), (p,0,oo))
@@ -261,16 +316,22 @@ def test_sho_coherant_state():
     assert simplify(qapply(SHOBra(q)*a*cstate, sum_doit=True)) == simplify(qapply(SHOBra(q)*alpha*cstate, sum_doit=True))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_26495(), test_issue_26495 produces the expected output) over Any ║
+# ║ Path(test_issue_26495(), simplify(result) == (nbar / (nbar + 1)) ** i * KroneckerDelta(i, j)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_26495 : Any → {Any | simplify(result) == (...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(result) == (nbar / (nbar + 1)) *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_26495 : Any → {Any | result satisfies: sim...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be15be233da81c2f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb223948db0b68e6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_sho1d.test_issue_26495","kind":"function","src_hash":"f83117697b7babbc","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(result) == (nbar / (nbar + 1)) ** i * KroneckerDelta(i, j)"},"spec":{"lhs":"test_issue_26495()","rhs":"test_issue_26495 produces the expected output","over":{"base":"Any"},"name":"test_issue_26495_correct"},"guarantee":"test_issue_26495 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_sho1d.test_issue_26495_correct","statement":"Path(test_issue_26495(x), test_issue_26495 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be15be233da81c2f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_sho1d.test_issue_26495","kind":"function","src_hash":"f83117697b7babbc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(result) == (nbar / (nbar + 1)) ** i * KroneckerDelta(i, j)"},"spec":{"lhs":"test_issue_26495()","rhs":"simplify(result) == (nbar / (nbar + 1)) ** i * KroneckerDelta(i, j)","over":{"base":"Any"},"name":"test_issue_26495_correct"},"guarantee":"simplify(result) == (nbar / (nbar + 1)) ** i * KroneckerDelta(i, j)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_sho1d.test_issue_26495_correct","statement":"Path(test_issue_26495(x), simplify(result) == (nbar / (nbar + 1)) ** i * KroneckerDelta(i, j))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb223948db0b68e6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(result) == (nbar / (nbar + 1)) ** i * KroneckerDelta(i, j)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_26495():
     nbar = Symbol('nbar', real=True, nonnegative=True)
     n = Symbol('n', integer=True)

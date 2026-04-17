@@ -27,16 +27,22 @@ from sympy.utilities.exceptions import sympy_deprecation_warning
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_expected_exception_is_silent_callable(), test_expected_exception_is_silent_callable produces the expected output) over Any ║
+# ║ Path(test_expected_exception_is_silent_callable(), <unspecified:test_expected_exception_is_silent_callable>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_expected_exception_is_silent_callable : Any → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5782aace8e724b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_expected_exception_is_silent_callable","kind":"function","src_hash":"d064ae9a60db29cc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_expected_exception_is_silent_callable()","rhs":"test_expected_exception_is_silent_callable produces the expected output","over":{"base":"Any"},"name":"test_expected_exception_is_silent_callable_correct"},"guarantee":"test_expected_exception_is_silent_callable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_expected_exception_is_silent_callable_correct","statement":"Path(test_expected_exception_is_silent_callable(x), test_expected_exception_is_silent_callable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5782aace8e724b4"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_expected_exception_is_silent_callable","kind":"function","src_hash":"d064ae9a60db29cc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_expected_exception_is_silent_callable()","rhs":"<unspecified:test_expected_exception_is_silent_callable>","over":{"base":"Any"},"name":"test_expected_exception_is_silent_callable_correct"},"guarantee":"test_expected_exception_is_silent_callable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_expected_exception_is_silent_callable_correct","statement":"Path(test_expected_exception_is_silent_callable(x), test_expected_exception_is_silent_callable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5782aace8e724b4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_expected_exception_is_silent_callable():
     def f():
         raise ValueError()
@@ -45,16 +51,22 @@ def test_expected_exception_is_silent_callable():
 
 # Under pytest raises will raise Failed rather than AssertionError
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lack_of_exception_triggers_AssertionError_callable(), test_lack_of_exception_triggers_AssertionError_callable produces the expected output) over Any ║
+# ║ Path(test_lack_of_exception_triggers_AssertionError_callable(), <unspecified:test_lack_of_exception_triggers_AssertionError_callable>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_lack_of_exception_triggers_AssertionError_callab...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 17f7c3d3b57286d2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_lack_of_exception_triggers_AssertionError_callable","kind":"function","src_hash":"664a34a7f762a677","in":{"base":"Any"},"out":{"base":"Any","pred":"False and 'DID NOT RAISE' in str(e)"},"spec":{"lhs":"test_lack_of_exception_triggers_AssertionError_callable()","rhs":"test_lack_of_exception_triggers_AssertionError_callable produces the expected output","over":{"base":"Any"},"name":"test_lack_of_exception_triggers_AssertionError_callable_correct"},"guarantee":"test_lack_of_exception_triggers_AssertionError_callable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_lack_of_exception_triggers_AssertionError_callable_correct","statement":"Path(test_lack_of_exception_triggers_AssertionError_callable(x), test_lack_of_exception_triggers_AssertionError_callable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17f7c3d3b57286d2"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_lack_of_exception_triggers_AssertionError_callable","kind":"function","src_hash":"664a34a7f762a677","in":{"base":"Any"},"out":{"base":"Any","pred":"False and 'DID NOT RAISE' in str(e)"},"spec":{"lhs":"test_lack_of_exception_triggers_AssertionError_callable()","rhs":"<unspecified:test_lack_of_exception_triggers_AssertionError_callable>","over":{"base":"Any"},"name":"test_lack_of_exception_triggers_AssertionError_callable_correct"},"guarantee":"test_lack_of_exception_triggers_AssertionError_callable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_lack_of_exception_triggers_AssertionError_callable_correct","statement":"Path(test_lack_of_exception_triggers_AssertionError_callable(x), test_lack_of_exception_triggers_AssertionError_callable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17f7c3d3b57286d2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_lack_of_exception_triggers_AssertionError_callable():
     try:
         raises(Exception, lambda: 1 + 1)
@@ -64,16 +76,22 @@ def test_lack_of_exception_triggers_AssertionError_callable():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_unexpected_exception_is_passed_through_callable(), test_unexpected_exception_is_passed_through_callable produces the expected output) over Any ║
+# ║ Path(test_unexpected_exception_is_passed_through_callable(), <unspecified:test_unexpected_exception_is_passed_through_callable>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_unexpected_exception_is_passed_through_callable ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80fd8f2ef1f6a094  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_unexpected_exception_is_passed_through_callable","kind":"function","src_hash":"920a50c9a8a7116f","in":{"base":"Any"},"out":{"base":"Any","pred":"False and str(e) == 'some error message'"},"spec":{"lhs":"test_unexpected_exception_is_passed_through_callable()","rhs":"test_unexpected_exception_is_passed_through_callable produces the expected output","over":{"base":"Any"},"name":"test_unexpected_exception_is_passed_through_callable_correct"},"guarantee":"test_unexpected_exception_is_passed_through_callable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_unexpected_exception_is_passed_through_callable_correct","statement":"Path(test_unexpected_exception_is_passed_through_callable(x), test_unexpected_exception_is_passed_through_callable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80fd8f2ef1f6a094"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_unexpected_exception_is_passed_through_callable","kind":"function","src_hash":"920a50c9a8a7116f","in":{"base":"Any"},"out":{"base":"Any","pred":"False and str(e) == 'some error message'"},"spec":{"lhs":"test_unexpected_exception_is_passed_through_callable()","rhs":"<unspecified:test_unexpected_exception_is_passed_through_callable>","over":{"base":"Any"},"name":"test_unexpected_exception_is_passed_through_callable_correct"},"guarantee":"test_unexpected_exception_is_passed_through_callable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_unexpected_exception_is_passed_through_callable_correct","statement":"Path(test_unexpected_exception_is_passed_through_callable(x), test_unexpected_exception_is_passed_through_callable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80fd8f2ef1f6a094","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"],"catches":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_unexpected_exception_is_passed_through_callable():
     def f():
         raise ValueError("some error message")
@@ -86,32 +104,44 @@ def test_unexpected_exception_is_passed_through_callable():
 # Test with statement
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_expected_exception_is_silent_with(), test_expected_exception_is_silent_with produces the expected output) over Any ║
+# ║ Path(test_expected_exception_is_silent_with(), <unspecified:test_expected_exception_is_silent_with>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_expected_exception_is_silent_with : Any → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24f5f55a83ef5395  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_expected_exception_is_silent_with","kind":"function","src_hash":"c219fd536b42ffe0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_expected_exception_is_silent_with()","rhs":"test_expected_exception_is_silent_with produces the expected output","over":{"base":"Any"},"name":"test_expected_exception_is_silent_with_correct"},"guarantee":"test_expected_exception_is_silent_with produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_expected_exception_is_silent_with_correct","statement":"Path(test_expected_exception_is_silent_with(x), test_expected_exception_is_silent_with produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24f5f55a83ef5395"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_expected_exception_is_silent_with","kind":"function","src_hash":"c219fd536b42ffe0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_expected_exception_is_silent_with()","rhs":"<unspecified:test_expected_exception_is_silent_with>","over":{"base":"Any"},"name":"test_expected_exception_is_silent_with_correct"},"guarantee":"test_expected_exception_is_silent_with produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_expected_exception_is_silent_with_correct","statement":"Path(test_expected_exception_is_silent_with(x), test_expected_exception_is_silent_with produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24f5f55a83ef5395","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_expected_exception_is_silent_with():
     with raises(ValueError):
         raise ValueError()
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lack_of_exception_triggers_AssertionError_with(), test_lack_of_exception_triggers_AssertionError_with produces the expected output) over Any ║
+# ║ Path(test_lack_of_exception_triggers_AssertionError_with(), <unspecified:test_lack_of_exception_triggers_AssertionError_with>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_lack_of_exception_triggers_AssertionError_with :...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c529b141d2a7a63  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_lack_of_exception_triggers_AssertionError_with","kind":"function","src_hash":"37e7b252c65dd9e9","in":{"base":"Any"},"out":{"base":"Any","pred":"False and 'DID NOT RAISE' in str(e)"},"spec":{"lhs":"test_lack_of_exception_triggers_AssertionError_with()","rhs":"test_lack_of_exception_triggers_AssertionError_with produces the expected output","over":{"base":"Any"},"name":"test_lack_of_exception_triggers_AssertionError_with_correct"},"guarantee":"test_lack_of_exception_triggers_AssertionError_with produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_lack_of_exception_triggers_AssertionError_with_correct","statement":"Path(test_lack_of_exception_triggers_AssertionError_with(x), test_lack_of_exception_triggers_AssertionError_with produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c529b141d2a7a63"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_lack_of_exception_triggers_AssertionError_with","kind":"function","src_hash":"37e7b252c65dd9e9","in":{"base":"Any"},"out":{"base":"Any","pred":"False and 'DID NOT RAISE' in str(e)"},"spec":{"lhs":"test_lack_of_exception_triggers_AssertionError_with()","rhs":"<unspecified:test_lack_of_exception_triggers_AssertionError_with>","over":{"base":"Any"},"name":"test_lack_of_exception_triggers_AssertionError_with_correct"},"guarantee":"test_lack_of_exception_triggers_AssertionError_with produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_lack_of_exception_triggers_AssertionError_with_correct","statement":"Path(test_lack_of_exception_triggers_AssertionError_with(x), test_lack_of_exception_triggers_AssertionError_with produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c529b141d2a7a63","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_lack_of_exception_triggers_AssertionError_with():
     try:
         with raises(Exception):
@@ -122,16 +152,22 @@ def test_lack_of_exception_triggers_AssertionError_with():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_unexpected_exception_is_passed_through_with(), test_unexpected_exception_is_passed_through_with produces the expected output) over Any ║
+# ║ Path(test_unexpected_exception_is_passed_through_with(), <unspecified:test_unexpected_exception_is_passed_through_with>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_unexpected_exception_is_passed_through_with : An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0cadcb1b9d288955  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_unexpected_exception_is_passed_through_with","kind":"function","src_hash":"4657808202438675","in":{"base":"Any"},"out":{"base":"Any","pred":"False and str(e) == 'some error message'"},"spec":{"lhs":"test_unexpected_exception_is_passed_through_with()","rhs":"test_unexpected_exception_is_passed_through_with produces the expected output","over":{"base":"Any"},"name":"test_unexpected_exception_is_passed_through_with_correct"},"guarantee":"test_unexpected_exception_is_passed_through_with produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_unexpected_exception_is_passed_through_with_correct","statement":"Path(test_unexpected_exception_is_passed_through_with(x), test_unexpected_exception_is_passed_through_with produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0cadcb1b9d288955"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_unexpected_exception_is_passed_through_with","kind":"function","src_hash":"4657808202438675","in":{"base":"Any"},"out":{"base":"Any","pred":"False and str(e) == 'some error message'"},"spec":{"lhs":"test_unexpected_exception_is_passed_through_with()","rhs":"<unspecified:test_unexpected_exception_is_passed_through_with>","over":{"base":"Any"},"name":"test_unexpected_exception_is_passed_through_with_correct"},"guarantee":"test_unexpected_exception_is_passed_through_with produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_unexpected_exception_is_passed_through_with_correct","statement":"Path(test_unexpected_exception_is_passed_through_with(x), test_unexpected_exception_is_passed_through_with produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0cadcb1b9d288955","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"],"catches":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_unexpected_exception_is_passed_through_with():
     try:
         with raises(TypeError):
@@ -145,31 +181,43 @@ def test_unexpected_exception_is_passed_through_with():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_second_argument_should_be_callable_or_string(), test_second_argument_should_be_callable_or_string produces the expected output) over Any ║
+# ║ Path(test_second_argument_should_be_callable_or_string(), <unspecified:test_second_argument_should_be_callable_or_string>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_second_argument_should_be_callable_or_string : A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d5178b087abe66f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_second_argument_should_be_callable_or_string","kind":"function","src_hash":"33429956f3e56d34","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_second_argument_should_be_callable_or_string()","rhs":"test_second_argument_should_be_callable_or_string produces the expected output","over":{"base":"Any"},"name":"test_second_argument_should_be_callable_or_string_correct"},"guarantee":"test_second_argument_should_be_callable_or_string produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_second_argument_should_be_callable_or_string_correct","statement":"Path(test_second_argument_should_be_callable_or_string(x), test_second_argument_should_be_callable_or_string produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d5178b087abe66f"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_second_argument_should_be_callable_or_string","kind":"function","src_hash":"33429956f3e56d34","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_second_argument_should_be_callable_or_string()","rhs":"<unspecified:test_second_argument_should_be_callable_or_string>","over":{"base":"Any"},"name":"test_second_argument_should_be_callable_or_string_correct"},"guarantee":"test_second_argument_should_be_callable_or_string produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_second_argument_should_be_callable_or_string_correct","statement":"Path(test_second_argument_should_be_callable_or_string(x), test_second_argument_should_be_callable_or_string produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d5178b087abe66f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_second_argument_should_be_callable_or_string():
     raises(TypeError, lambda: raises("irrelevant", 42))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_warns_catches_warning(), test_warns_catches_warning produces the expected output) over Any ║
+# ║ Path(test_warns_catches_warning(), <unspecified:test_warns_catches_warning>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_warns_catches_warning : Any → {Any | len(w) == 0}     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 487bdb1f599d4295  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_warns_catches_warning","kind":"function","src_hash":"6a9a91524aa4d776","in":{"base":"Any"},"out":{"base":"Any","pred":"len(w) == 0"},"spec":{"lhs":"test_warns_catches_warning()","rhs":"test_warns_catches_warning produces the expected output","over":{"base":"Any"},"name":"test_warns_catches_warning_correct"},"guarantee":"test_warns_catches_warning produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_warns_catches_warning_correct","statement":"Path(test_warns_catches_warning(x), test_warns_catches_warning produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"487bdb1f599d4295"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_warns_catches_warning","kind":"function","src_hash":"6a9a91524aa4d776","in":{"base":"Any"},"out":{"base":"Any","pred":"len(w) == 0"},"spec":{"lhs":"test_warns_catches_warning()","rhs":"<unspecified:test_warns_catches_warning>","over":{"base":"Any"},"name":"test_warns_catches_warning_correct"},"guarantee":"test_warns_catches_warning produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_warns_catches_warning_correct","statement":"Path(test_warns_catches_warning(x), test_warns_catches_warning produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"487bdb1f599d4295","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_warns_catches_warning():
     with warnings.catch_warnings(record=True) as w:
         with warns(UserWarning):
@@ -178,16 +226,22 @@ def test_warns_catches_warning():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_warns_raises_without_warning(), test_warns_raises_without_warning produces the expected output) over Any ║
+# ║ Path(test_warns_raises_without_warning(), <unspecified:test_warns_raises_without_warning>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_warns_raises_without_warning : Any → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 835c1666f3473ef8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_warns_raises_without_warning","kind":"function","src_hash":"f29060d8b74f2dc5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_warns_raises_without_warning()","rhs":"test_warns_raises_without_warning produces the expected output","over":{"base":"Any"},"name":"test_warns_raises_without_warning_correct"},"guarantee":"test_warns_raises_without_warning produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_warns_raises_without_warning_correct","statement":"Path(test_warns_raises_without_warning(x), test_warns_raises_without_warning produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"835c1666f3473ef8"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_warns_raises_without_warning","kind":"function","src_hash":"f29060d8b74f2dc5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_warns_raises_without_warning()","rhs":"<unspecified:test_warns_raises_without_warning>","over":{"base":"Any"},"name":"test_warns_raises_without_warning_correct"},"guarantee":"test_warns_raises_without_warning produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_warns_raises_without_warning_correct","statement":"Path(test_warns_raises_without_warning(x), test_warns_raises_without_warning produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"835c1666f3473ef8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_warns_raises_without_warning():
     with raises(Failed):
         with warns(UserWarning):
@@ -195,16 +249,22 @@ def test_warns_raises_without_warning():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_warns_hides_other_warnings(), test_warns_hides_other_warnings produces the expected output) over Any ║
+# ║ Path(test_warns_hides_other_warnings(), <unspecified:test_warns_hides_other_warnings>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_warns_hides_other_warnings : Any → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6912686461ed2eeb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_warns_hides_other_warnings","kind":"function","src_hash":"45be1cd576e9359d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_warns_hides_other_warnings()","rhs":"test_warns_hides_other_warnings produces the expected output","over":{"base":"Any"},"name":"test_warns_hides_other_warnings_correct"},"guarantee":"test_warns_hides_other_warnings produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_warns_hides_other_warnings_correct","statement":"Path(test_warns_hides_other_warnings(x), test_warns_hides_other_warnings produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6912686461ed2eeb"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_warns_hides_other_warnings","kind":"function","src_hash":"45be1cd576e9359d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_warns_hides_other_warnings()","rhs":"<unspecified:test_warns_hides_other_warnings>","over":{"base":"Any"},"name":"test_warns_hides_other_warnings_correct"},"guarantee":"test_warns_hides_other_warnings produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_warns_hides_other_warnings_correct","statement":"Path(test_warns_hides_other_warnings(x), test_warns_hides_other_warnings produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6912686461ed2eeb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_warns_hides_other_warnings():
     with raises(RuntimeWarning):
         with warns(UserWarning):
@@ -213,16 +273,22 @@ def test_warns_hides_other_warnings():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_warns_continues_after_warning(), test_warns_continues_after_warning produces the expected output) over Any ║
+# ║ Path(test_warns_continues_after_warning(), <unspecified:test_warns_continues_after_warning>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_warns_continues_after_warning : Any → {Any | fin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 51f444d8bf037686  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_warns_continues_after_warning","kind":"function","src_hash":"4d8361309a21283a","in":{"base":"Any"},"out":{"base":"Any","pred":"finished and len(w) == 0"},"spec":{"lhs":"test_warns_continues_after_warning()","rhs":"test_warns_continues_after_warning produces the expected output","over":{"base":"Any"},"name":"test_warns_continues_after_warning_correct"},"guarantee":"test_warns_continues_after_warning produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_warns_continues_after_warning_correct","statement":"Path(test_warns_continues_after_warning(x), test_warns_continues_after_warning produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51f444d8bf037686"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_warns_continues_after_warning","kind":"function","src_hash":"4d8361309a21283a","in":{"base":"Any"},"out":{"base":"Any","pred":"finished and len(w) == 0"},"spec":{"lhs":"test_warns_continues_after_warning()","rhs":"<unspecified:test_warns_continues_after_warning>","over":{"base":"Any"},"name":"test_warns_continues_after_warning_correct"},"guarantee":"test_warns_continues_after_warning produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_warns_continues_after_warning_correct","statement":"Path(test_warns_continues_after_warning(x), test_warns_continues_after_warning produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51f444d8bf037686","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_warns_continues_after_warning():
     with warnings.catch_warnings(record=True) as w:
         finished = False
@@ -234,16 +300,22 @@ def test_warns_continues_after_warning():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_warns_many_warnings(), test_warns_many_warnings produces the expected output) over Any ║
+# ║ Path(test_warns_many_warnings(), <unspecified:test_warns_many_warnings>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_warns_many_warnings : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d9221da7167e5897  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_warns_many_warnings","kind":"function","src_hash":"3cc13ccce09bcdfa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_warns_many_warnings()","rhs":"test_warns_many_warnings produces the expected output","over":{"base":"Any"},"name":"test_warns_many_warnings_correct"},"guarantee":"test_warns_many_warnings produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_warns_many_warnings_correct","statement":"Path(test_warns_many_warnings(x), test_warns_many_warnings produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9221da7167e5897"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_warns_many_warnings","kind":"function","src_hash":"3cc13ccce09bcdfa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_warns_many_warnings()","rhs":"<unspecified:test_warns_many_warnings>","over":{"base":"Any"},"name":"test_warns_many_warnings_correct"},"guarantee":"test_warns_many_warnings produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_warns_many_warnings_correct","statement":"Path(test_warns_many_warnings(x), test_warns_many_warnings produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9221da7167e5897","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_warns_many_warnings():
     with warns(UserWarning):
         warnings.warn('this is the warning message', UserWarning)
@@ -251,16 +323,22 @@ def test_warns_many_warnings():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_warns_match_matching(), test_warns_match_matching produces the expected output) over Any ║
+# ║ Path(test_warns_match_matching(), <unspecified:test_warns_match_matching>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_warns_match_matching : Any → {Any | len(w) == 0}      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09722e30c500db38  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_warns_match_matching","kind":"function","src_hash":"f2394d0eb5bd8138","in":{"base":"Any"},"out":{"base":"Any","pred":"len(w) == 0"},"spec":{"lhs":"test_warns_match_matching()","rhs":"test_warns_match_matching produces the expected output","over":{"base":"Any"},"name":"test_warns_match_matching_correct"},"guarantee":"test_warns_match_matching produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_warns_match_matching_correct","statement":"Path(test_warns_match_matching(x), test_warns_match_matching produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09722e30c500db38"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_warns_match_matching","kind":"function","src_hash":"f2394d0eb5bd8138","in":{"base":"Any"},"out":{"base":"Any","pred":"len(w) == 0"},"spec":{"lhs":"test_warns_match_matching()","rhs":"<unspecified:test_warns_match_matching>","over":{"base":"Any"},"name":"test_warns_match_matching_correct"},"guarantee":"test_warns_match_matching produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_warns_match_matching_correct","statement":"Path(test_warns_match_matching(x), test_warns_match_matching produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09722e30c500db38","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_warns_match_matching():
     with warnings.catch_warnings(record=True) as w:
         with warns(UserWarning, match='this is the warning message'):
@@ -269,16 +347,22 @@ def test_warns_match_matching():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_warns_match_non_matching(), test_warns_match_non_matching produces the expected output) over Any ║
+# ║ Path(test_warns_match_non_matching(), <unspecified:test_warns_match_non_matching>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_warns_match_non_matching : Any → {Any | len(w) =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83dedb704a380d04  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_warns_match_non_matching","kind":"function","src_hash":"4fcf8409927dbb28","in":{"base":"Any"},"out":{"base":"Any","pred":"len(w) == 0"},"spec":{"lhs":"test_warns_match_non_matching()","rhs":"test_warns_match_non_matching produces the expected output","over":{"base":"Any"},"name":"test_warns_match_non_matching_correct"},"guarantee":"test_warns_match_non_matching produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_warns_match_non_matching_correct","statement":"Path(test_warns_match_non_matching(x), test_warns_match_non_matching produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83dedb704a380d04"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_warns_match_non_matching","kind":"function","src_hash":"4fcf8409927dbb28","in":{"base":"Any"},"out":{"base":"Any","pred":"len(w) == 0"},"spec":{"lhs":"test_warns_match_non_matching()","rhs":"<unspecified:test_warns_match_non_matching>","over":{"base":"Any"},"name":"test_warns_match_non_matching_correct"},"guarantee":"test_warns_match_non_matching produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_warns_match_non_matching_correct","statement":"Path(test_warns_match_non_matching(x), test_warns_match_non_matching produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83dedb704a380d04","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_warns_match_non_matching():
     with warnings.catch_warnings(record=True) as w:
         with raises(Failed):
@@ -287,16 +371,22 @@ def test_warns_match_non_matching():
         assert len(w) == 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_warn_sympy_deprecation(sta), internal helper behaves correctly) over Any ║
+# ║ Path(_warn_sympy_deprecation(stacklevel), <unspecified:_warn_sympy_deprecation>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _warn_sympy_deprecation : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5dc6d10ccef8fec0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest._warn_sympy_deprecation","kind":"function","src_hash":"48896929fcab3f87","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_warn_sympy_deprecation(sta)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_warn_sympy_deprecation_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest._warn_sympy_deprecation_correct","statement":"Path(_warn_sympy_deprecation(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5dc6d10ccef8fec0"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest._warn_sympy_deprecation","kind":"function","src_hash":"48896929fcab3f87","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_warn_sympy_deprecation(stacklevel)","rhs":"<unspecified:_warn_sympy_deprecation>","over":{"base":"Any"},"name":"_warn_sympy_deprecation_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest._warn_sympy_deprecation_correct","statement":"Path(_warn_sympy_deprecation(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5dc6d10ccef8fec0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _warn_sympy_deprecation(stacklevel=3):
     sympy_deprecation_warning(
         "feature",
@@ -306,16 +396,22 @@ def _warn_sympy_deprecation(stacklevel=3):
     )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_warns_deprecated_sympy_catches_warning(), test_warns_deprecated_sympy_catches_warning produces the expected output) over Any ║
+# ║ Path(test_warns_deprecated_sympy_catches_warning(), <unspecified:test_warns_deprecated_sympy_catches_warning>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_warns_deprecated_sympy_catches_warning : Any → {...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb28117bcf2c479c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_warns_deprecated_sympy_catches_warning","kind":"function","src_hash":"d67a8f978bc8d46b","in":{"base":"Any"},"out":{"base":"Any","pred":"len(w) == 0"},"spec":{"lhs":"test_warns_deprecated_sympy_catches_warning()","rhs":"test_warns_deprecated_sympy_catches_warning produces the expected output","over":{"base":"Any"},"name":"test_warns_deprecated_sympy_catches_warning_correct"},"guarantee":"test_warns_deprecated_sympy_catches_warning produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_warns_deprecated_sympy_catches_warning_correct","statement":"Path(test_warns_deprecated_sympy_catches_warning(x), test_warns_deprecated_sympy_catches_warning produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb28117bcf2c479c"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_warns_deprecated_sympy_catches_warning","kind":"function","src_hash":"d67a8f978bc8d46b","in":{"base":"Any"},"out":{"base":"Any","pred":"len(w) == 0"},"spec":{"lhs":"test_warns_deprecated_sympy_catches_warning()","rhs":"<unspecified:test_warns_deprecated_sympy_catches_warning>","over":{"base":"Any"},"name":"test_warns_deprecated_sympy_catches_warning_correct"},"guarantee":"test_warns_deprecated_sympy_catches_warning produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_warns_deprecated_sympy_catches_warning_correct","statement":"Path(test_warns_deprecated_sympy_catches_warning(x), test_warns_deprecated_sympy_catches_warning produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb28117bcf2c479c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_warns_deprecated_sympy_catches_warning():
     with warnings.catch_warnings(record=True) as w:
         with warns_deprecated_sympy():
@@ -324,48 +420,66 @@ def test_warns_deprecated_sympy_catches_warning():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_warns_deprecated_sympy_raises_without_warning(), test_warns_deprecated_sympy_raises_without_warning produces the expected output) over Any ║
+# ║ Path(test_warns_deprecated_sympy_raises_without_warning(), <unspecified:test_warns_deprecated_sympy_raises_without_warning>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_warns_deprecated_sympy_raises_without_warning : ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 042d42c89831ffc2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_warns_deprecated_sympy_raises_without_warning","kind":"function","src_hash":"f8ec30b49c9d72e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_warns_deprecated_sympy_raises_without_warning()","rhs":"test_warns_deprecated_sympy_raises_without_warning produces the expected output","over":{"base":"Any"},"name":"test_warns_deprecated_sympy_raises_without_warning_correct"},"guarantee":"test_warns_deprecated_sympy_raises_without_warning produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_warns_deprecated_sympy_raises_without_warning_correct","statement":"Path(test_warns_deprecated_sympy_raises_without_warning(x), test_warns_deprecated_sympy_raises_without_warning produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"042d42c89831ffc2"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_warns_deprecated_sympy_raises_without_warning","kind":"function","src_hash":"f8ec30b49c9d72e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_warns_deprecated_sympy_raises_without_warning()","rhs":"<unspecified:test_warns_deprecated_sympy_raises_without_warning>","over":{"base":"Any"},"name":"test_warns_deprecated_sympy_raises_without_warning_correct"},"guarantee":"test_warns_deprecated_sympy_raises_without_warning produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_warns_deprecated_sympy_raises_without_warning_correct","statement":"Path(test_warns_deprecated_sympy_raises_without_warning(x), test_warns_deprecated_sympy_raises_without_warning produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"042d42c89831ffc2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_warns_deprecated_sympy_raises_without_warning():
     with raises(Failed):
         with warns_deprecated_sympy():
             pass
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_warns_deprecated_sympy_wrong_stacklevel(), test_warns_deprecated_sympy_wrong_stacklevel produces the expected output) over Any ║
+# ║ Path(test_warns_deprecated_sympy_wrong_stacklevel(), <unspecified:test_warns_deprecated_sympy_wrong_stacklevel>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_warns_deprecated_sympy_wrong_stacklevel : Any → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 321d4181ebcfe44e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_warns_deprecated_sympy_wrong_stacklevel","kind":"function","src_hash":"597512014e08b097","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_warns_deprecated_sympy_wrong_stacklevel()","rhs":"test_warns_deprecated_sympy_wrong_stacklevel produces the expected output","over":{"base":"Any"},"name":"test_warns_deprecated_sympy_wrong_stacklevel_correct"},"guarantee":"test_warns_deprecated_sympy_wrong_stacklevel produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_warns_deprecated_sympy_wrong_stacklevel_correct","statement":"Path(test_warns_deprecated_sympy_wrong_stacklevel(x), test_warns_deprecated_sympy_wrong_stacklevel produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"321d4181ebcfe44e"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_warns_deprecated_sympy_wrong_stacklevel","kind":"function","src_hash":"597512014e08b097","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_warns_deprecated_sympy_wrong_stacklevel()","rhs":"<unspecified:test_warns_deprecated_sympy_wrong_stacklevel>","over":{"base":"Any"},"name":"test_warns_deprecated_sympy_wrong_stacklevel_correct"},"guarantee":"test_warns_deprecated_sympy_wrong_stacklevel produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_warns_deprecated_sympy_wrong_stacklevel_correct","statement":"Path(test_warns_deprecated_sympy_wrong_stacklevel(x), test_warns_deprecated_sympy_wrong_stacklevel produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"321d4181ebcfe44e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_warns_deprecated_sympy_wrong_stacklevel():
     with raises(Failed):
         with warns_deprecated_sympy():
             _warn_sympy_deprecation(stacklevel=1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_warns_deprecated_sympy_doesnt_hide_other_warnings(), test_warns_deprecated_sympy_doesnt_hide_other_warnings produces the expected output) over Any ║
+# ║ Path(test_warns_deprecated_sympy_doesnt_hide_other_warnings(), <unspecified:test_warns_deprecated_sympy_doesnt_hide_other_warnings>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_warns_deprecated_sympy_doesnt_hide_other_warning...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d590ad780d7c7064  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_warns_deprecated_sympy_doesnt_hide_other_warnings","kind":"function","src_hash":"139cb62e096687a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_warns_deprecated_sympy_doesnt_hide_other_warnings()","rhs":"test_warns_deprecated_sympy_doesnt_hide_other_warnings produces the expected output","over":{"base":"Any"},"name":"test_warns_deprecated_sympy_doesnt_hide_other_warnings_correct"},"guarantee":"test_warns_deprecated_sympy_doesnt_hide_other_warnings produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_warns_deprecated_sympy_doesnt_hide_other_warnings_correct","statement":"Path(test_warns_deprecated_sympy_doesnt_hide_other_warnings(x), test_warns_deprecated_sympy_doesnt_hide_other_warnings produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d590ad780d7c7064"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_warns_deprecated_sympy_doesnt_hide_other_warnings","kind":"function","src_hash":"139cb62e096687a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_warns_deprecated_sympy_doesnt_hide_other_warnings()","rhs":"<unspecified:test_warns_deprecated_sympy_doesnt_hide_other_warnings>","over":{"base":"Any"},"name":"test_warns_deprecated_sympy_doesnt_hide_other_warnings_correct"},"guarantee":"test_warns_deprecated_sympy_doesnt_hide_other_warnings produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_warns_deprecated_sympy_doesnt_hide_other_warnings_correct","statement":"Path(test_warns_deprecated_sympy_doesnt_hide_other_warnings(x), test_warns_deprecated_sympy_doesnt_hide_other_warnings produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d590ad780d7c7064","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_warns_deprecated_sympy_doesnt_hide_other_warnings():
     # Unlike pytest's deprecated_call, we should not hide other warnings.
     with raises(RuntimeWarning):
@@ -375,16 +489,22 @@ def test_warns_deprecated_sympy_doesnt_hide_other_warnings():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_warns_deprecated_sympy_continues_after_warning(), test_warns_deprecated_sympy_continues_after_warning produces the expected output) over Any ║
+# ║ Path(test_warns_deprecated_sympy_continues_after_warning(), <unspecified:test_warns_deprecated_sympy_continues_after_warning>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_warns_deprecated_sympy_continues_after_warning :...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f50d99316e95e9c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_warns_deprecated_sympy_continues_after_warning","kind":"function","src_hash":"a7934ec99cb6fde7","in":{"base":"Any"},"out":{"base":"Any","pred":"finished and len(w) == 0"},"spec":{"lhs":"test_warns_deprecated_sympy_continues_after_warning()","rhs":"test_warns_deprecated_sympy_continues_after_warning produces the expected output","over":{"base":"Any"},"name":"test_warns_deprecated_sympy_continues_after_warning_correct"},"guarantee":"test_warns_deprecated_sympy_continues_after_warning produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_warns_deprecated_sympy_continues_after_warning_correct","statement":"Path(test_warns_deprecated_sympy_continues_after_warning(x), test_warns_deprecated_sympy_continues_after_warning produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f50d99316e95e9c"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_warns_deprecated_sympy_continues_after_warning","kind":"function","src_hash":"a7934ec99cb6fde7","in":{"base":"Any"},"out":{"base":"Any","pred":"finished and len(w) == 0"},"spec":{"lhs":"test_warns_deprecated_sympy_continues_after_warning()","rhs":"<unspecified:test_warns_deprecated_sympy_continues_after_warning>","over":{"base":"Any"},"name":"test_warns_deprecated_sympy_continues_after_warning_correct"},"guarantee":"test_warns_deprecated_sympy_continues_after_warning produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_warns_deprecated_sympy_continues_after_warning_correct","statement":"Path(test_warns_deprecated_sympy_continues_after_warning(x), test_warns_deprecated_sympy_continues_after_warning produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f50d99316e95e9c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_warns_deprecated_sympy_continues_after_warning():
     with warnings.catch_warnings(record=True) as w:
         finished = False
@@ -395,16 +515,22 @@ def test_warns_deprecated_sympy_continues_after_warning():
         assert len(w) == 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ignore_ignores_warning(), test_ignore_ignores_warning produces the expected output) over Any ║
+# ║ Path(test_ignore_ignores_warning(), <unspecified:test_ignore_ignores_warning>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_ignore_ignores_warning : Any → {Any | len(w) == 0}    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fbc06bf76c320d3e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_ignore_ignores_warning","kind":"function","src_hash":"72a47fe22e6a300a","in":{"base":"Any"},"out":{"base":"Any","pred":"len(w) == 0"},"spec":{"lhs":"test_ignore_ignores_warning()","rhs":"test_ignore_ignores_warning produces the expected output","over":{"base":"Any"},"name":"test_ignore_ignores_warning_correct"},"guarantee":"test_ignore_ignores_warning produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_ignore_ignores_warning_correct","statement":"Path(test_ignore_ignores_warning(x), test_ignore_ignores_warning produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbc06bf76c320d3e"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_ignore_ignores_warning","kind":"function","src_hash":"72a47fe22e6a300a","in":{"base":"Any"},"out":{"base":"Any","pred":"len(w) == 0"},"spec":{"lhs":"test_ignore_ignores_warning()","rhs":"<unspecified:test_ignore_ignores_warning>","over":{"base":"Any"},"name":"test_ignore_ignores_warning_correct"},"guarantee":"test_ignore_ignores_warning produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_ignore_ignores_warning_correct","statement":"Path(test_ignore_ignores_warning(x), test_ignore_ignores_warning produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbc06bf76c320d3e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_ignore_ignores_warning():
     with warnings.catch_warnings(record=True) as w:
         with ignore_warnings(UserWarning):
@@ -413,16 +539,22 @@ def test_ignore_ignores_warning():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ignore_does_not_raise_without_warning(), test_ignore_does_not_raise_without_warning produces the expected output) over Any ║
+# ║ Path(test_ignore_does_not_raise_without_warning(), <unspecified:test_ignore_does_not_raise_without_warning>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_ignore_does_not_raise_without_warning : Any → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db54f0409c5fde38  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_ignore_does_not_raise_without_warning","kind":"function","src_hash":"b2fb1059e8af1205","in":{"base":"Any"},"out":{"base":"Any","pred":"len(w) == 0"},"spec":{"lhs":"test_ignore_does_not_raise_without_warning()","rhs":"test_ignore_does_not_raise_without_warning produces the expected output","over":{"base":"Any"},"name":"test_ignore_does_not_raise_without_warning_correct"},"guarantee":"test_ignore_does_not_raise_without_warning produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_ignore_does_not_raise_without_warning_correct","statement":"Path(test_ignore_does_not_raise_without_warning(x), test_ignore_does_not_raise_without_warning produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db54f0409c5fde38"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_ignore_does_not_raise_without_warning","kind":"function","src_hash":"b2fb1059e8af1205","in":{"base":"Any"},"out":{"base":"Any","pred":"len(w) == 0"},"spec":{"lhs":"test_ignore_does_not_raise_without_warning()","rhs":"<unspecified:test_ignore_does_not_raise_without_warning>","over":{"base":"Any"},"name":"test_ignore_does_not_raise_without_warning_correct"},"guarantee":"test_ignore_does_not_raise_without_warning produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_ignore_does_not_raise_without_warning_correct","statement":"Path(test_ignore_does_not_raise_without_warning(x), test_ignore_does_not_raise_without_warning produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db54f0409c5fde38","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_ignore_does_not_raise_without_warning():
     with warnings.catch_warnings(record=True) as w:
         with ignore_warnings(UserWarning):
@@ -431,7 +563,10 @@ def test_ignore_does_not_raise_without_warning():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ignore_allows_other_warnings(), test_ignore_allows_other_warnings produces the expected output) over {Any | isinstance(w[0].message, RuntimeWarning)} ║
+# ║ Path(test_ignore_allows_other_warnings(), <unspecified:test_ignore_allows_other_warnings>) over {Any | isinstance(w[0].message, RuntimeWarning)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_ignore_allows_other_warnings : {Any | isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -443,9 +578,12 @@ def test_ignore_does_not_raise_without_warning():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.3ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 7756a887...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_ignore_allows_other_warnings","kind":"function","src_hash":"12b5a8bb288b8971","in":{"base":"Any","pred":"isinstance(w[0].message, RuntimeWarning)"},"out":{"base":"Any","pred":"len(w) == 1 and isinstance(w[0].message, RuntimeWarning) and str(w[0].message) == 'this is the other message'"},"spec":{"lhs":"test_ignore_allows_other_warnings()","rhs":"test_ignore_allows_other_warnings produces the expected output","over":{"base":"Any","pred":"isinstance(w[0].message, RuntimeWarning)"},"name":"test_ignore_allows_other_warnings_correct"},"guarantee":"test_ignore_allows_other_warnings produces the expected output","fibers":[{"name":"RuntimeWarning","pred":"isinstance(w[0].message, RuntimeWarning)","path":{"lhs":"test_ignore_allows_other_warnings(x)","rhs":"test_ignore_allows_other_warnings produces the expected output","over":{"base":"RuntimeWarning","pred":"isinstance(w[0].message, RuntimeWarning)"},"name":"test_ignore_allows_other_warnings_RuntimeWarning_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_ignore_allows_other_warnings_RuntimeWarning_correct","statement":"test_ignore_allows_other_warnings satisfies spec on RuntimeWarning inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7756a887aeb6e29b"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_ignore_allows_other_warnings","kind":"function","src_hash":"12b5a8bb288b8971","in":{"base":"Any","pred":"isinstance(w[0].message, RuntimeWarning)"},"out":{"base":"Any","pred":"len(w) == 1 and isinstance(w[0].message, RuntimeWarning) and str(w[0].message) == 'this is the other message'"},"spec":{"lhs":"test_ignore_allows_other_warnings()","rhs":"<unspecified:test_ignore_allows_other_warnings>","over":{"base":"Any","pred":"isinstance(w[0].message, RuntimeWarning)"},"name":"test_ignore_allows_other_warnings_correct"},"guarantee":"test_ignore_allows_other_warnings produces the expected output","fibers":[{"name":"RuntimeWarning","pred":"isinstance(w[0].message, RuntimeWarning)","path":{"lhs":"test_ignore_allows_other_warnings(x)","rhs":"test_ignore_allows_other_warnings produces the expected output","over":{"base":"RuntimeWarning","pred":"isinstance(w[0].message, RuntimeWarning)"},"name":"test_ignore_allows_other_warnings_RuntimeWarning_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_ignore_allows_other_warnings_RuntimeWarning_correct","statement":"test_ignore_allows_other_warnings satisfies spec on RuntimeWarning inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7756a887aeb6e29b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"failed","binding":true}}
 def test_ignore_allows_other_warnings():
     with warnings.catch_warnings(record=True) as w:
         # This is needed when pytest is run as -Werror
@@ -460,16 +598,22 @@ def test_ignore_allows_other_warnings():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ignore_continues_after_warning(), test_ignore_continues_after_warning produces the expected output) over Any ║
+# ║ Path(test_ignore_continues_after_warning(), <unspecified:test_ignore_continues_after_warning>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_ignore_continues_after_warning : Any → {Any | fi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 468e5823cd3d3657  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_ignore_continues_after_warning","kind":"function","src_hash":"b0e5c6af201816ed","in":{"base":"Any"},"out":{"base":"Any","pred":"finished and len(w) == 0"},"spec":{"lhs":"test_ignore_continues_after_warning()","rhs":"test_ignore_continues_after_warning produces the expected output","over":{"base":"Any"},"name":"test_ignore_continues_after_warning_correct"},"guarantee":"test_ignore_continues_after_warning produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_ignore_continues_after_warning_correct","statement":"Path(test_ignore_continues_after_warning(x), test_ignore_continues_after_warning produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"468e5823cd3d3657"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_ignore_continues_after_warning","kind":"function","src_hash":"b0e5c6af201816ed","in":{"base":"Any"},"out":{"base":"Any","pred":"finished and len(w) == 0"},"spec":{"lhs":"test_ignore_continues_after_warning()","rhs":"<unspecified:test_ignore_continues_after_warning>","over":{"base":"Any"},"name":"test_ignore_continues_after_warning_correct"},"guarantee":"test_ignore_continues_after_warning produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_ignore_continues_after_warning_correct","statement":"Path(test_ignore_continues_after_warning(x), test_ignore_continues_after_warning produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"468e5823cd3d3657","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_ignore_continues_after_warning():
     with warnings.catch_warnings(record=True) as w:
         finished = False
@@ -481,7 +625,10 @@ def test_ignore_continues_after_warning():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ignore_many_warnings(), test_ignore_many_warnings produces the expected output) over {Any | isinstance(wi.message, RuntimeWarning)} ║
+# ║ Path(test_ignore_many_warnings(), <unspecified:test_ignore_many_warnings>) over {Any | isinstance(wi.message, RuntimeWarning)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_ignore_many_warnings : {Any | isinstance(wi.mess...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -493,9 +640,12 @@ def test_ignore_continues_after_warning():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.3ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | d2f2df10...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_ignore_many_warnings","kind":"function","src_hash":"e67942905afeac46","in":{"base":"Any","pred":"isinstance(wi.message, RuntimeWarning)"},"out":{"base":"Any","pred":"len(w) == 3 and isinstance(wi.message, RuntimeWarning) and str(wi.message) == 'this is the other message'"},"spec":{"lhs":"test_ignore_many_warnings()","rhs":"test_ignore_many_warnings produces the expected output","over":{"base":"Any","pred":"isinstance(wi.message, RuntimeWarning)"},"name":"test_ignore_many_warnings_correct"},"guarantee":"test_ignore_many_warnings produces the expected output","fibers":[{"name":"RuntimeWarning","pred":"isinstance(wi.message, RuntimeWarning)","path":{"lhs":"test_ignore_many_warnings(x)","rhs":"test_ignore_many_warnings produces the expected output","over":{"base":"RuntimeWarning","pred":"isinstance(wi.message, RuntimeWarning)"},"name":"test_ignore_many_warnings_RuntimeWarning_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_ignore_many_warnings_RuntimeWarning_correct","statement":"test_ignore_many_warnings satisfies spec on RuntimeWarning inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d2f2df109b7156e9"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_pytest.test_ignore_many_warnings","kind":"function","src_hash":"e67942905afeac46","in":{"base":"Any","pred":"isinstance(wi.message, RuntimeWarning)"},"out":{"base":"Any","pred":"len(w) == 3 and isinstance(wi.message, RuntimeWarning) and str(wi.message) == 'this is the other message'"},"spec":{"lhs":"test_ignore_many_warnings()","rhs":"<unspecified:test_ignore_many_warnings>","over":{"base":"Any","pred":"isinstance(wi.message, RuntimeWarning)"},"name":"test_ignore_many_warnings_correct"},"guarantee":"test_ignore_many_warnings produces the expected output","fibers":[{"name":"RuntimeWarning","pred":"isinstance(wi.message, RuntimeWarning)","path":{"lhs":"test_ignore_many_warnings(x)","rhs":"test_ignore_many_warnings produces the expected output","over":{"base":"RuntimeWarning","pred":"isinstance(wi.message, RuntimeWarning)"},"name":"test_ignore_many_warnings_RuntimeWarning_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_pytest.test_ignore_many_warnings_RuntimeWarning_correct","statement":"test_ignore_many_warnings satisfies spec on RuntimeWarning inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d2f2df109b7156e9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"failed","binding":true}}
 def test_ignore_many_warnings():
     with warnings.catch_warnings(record=True) as w:
         # This is needed when pytest is run as -Werror

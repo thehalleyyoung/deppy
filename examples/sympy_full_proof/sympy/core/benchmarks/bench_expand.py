@@ -24,61 +24,85 @@ e = (x + y + z + 1)**32
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_expand_nothing_todo(), timeit_expand_nothing_todo produces the expected output) over Any ║
+# ║ Path(timeit_expand_nothing_todo(), <unspecified:timeit_expand_nothing_todo>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_expand_nothing_todo : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7625688b589a4611  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_expand.timeit_expand_nothing_todo","kind":"function","src_hash":"b5d1516800af0379","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_expand_nothing_todo()","rhs":"timeit_expand_nothing_todo produces the expected output","over":{"base":"Any"},"name":"timeit_expand_nothing_todo_correct"},"guarantee":"timeit_expand_nothing_todo produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_expand.timeit_expand_nothing_todo_correct","statement":"Path(timeit_expand_nothing_todo(x), timeit_expand_nothing_todo produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7625688b589a4611"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_expand.timeit_expand_nothing_todo","kind":"function","src_hash":"b5d1516800af0379","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_expand_nothing_todo()","rhs":"<unspecified:timeit_expand_nothing_todo>","over":{"base":"Any"},"name":"timeit_expand_nothing_todo_correct"},"guarantee":"timeit_expand_nothing_todo produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_expand.timeit_expand_nothing_todo_correct","statement":"Path(timeit_expand_nothing_todo(x), timeit_expand_nothing_todo produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7625688b589a4611","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_expand_nothing_todo():
     p.expand()
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bench_expand_32(), (x+y+z+1)**32 -> expand) over Any  ║
+# ║ Path(bench_expand_32(), <unspecified:bench_expand_32>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bench_expand_32 : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 445011a5d9d3fb9e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_expand.bench_expand_32","kind":"function","src_hash":"2fda8c0705979fe7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bench_expand_32()","rhs":"(x+y+z+1)**32 -> expand","over":{"base":"Any"},"name":"bench_expand_32_correct"},"guarantee":"(x+y+z+1)**32 -> expand","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_expand.bench_expand_32_correct","statement":"Path(bench_expand_32(x), (x+y+z+1)**32 -> expand)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"445011a5d9d3fb9e"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_expand.bench_expand_32","kind":"function","src_hash":"2fda8c0705979fe7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bench_expand_32()","rhs":"<unspecified:bench_expand_32>","over":{"base":"Any"},"name":"bench_expand_32_correct"},"guarantee":"(x+y+z+1)**32 -> expand","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_expand.bench_expand_32_correct","statement":"Path(bench_expand_32(x), (x+y+z+1)**32 -> expand)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"445011a5d9d3fb9e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def bench_expand_32():
     """(x+y+z+1)**32  -> expand"""
     e.expand()
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_expand_complex_number_1(), timeit_expand_complex_number_1 produces the expected output) over Any ║
+# ║ Path(timeit_expand_complex_number_1(), <unspecified:timeit_expand_complex_number_1>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_expand_complex_number_1 : Any → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aca8b5ab22ce21a2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_expand.timeit_expand_complex_number_1","kind":"function","src_hash":"b0bc668ac695a16c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_expand_complex_number_1()","rhs":"timeit_expand_complex_number_1 produces the expected output","over":{"base":"Any"},"name":"timeit_expand_complex_number_1_correct"},"guarantee":"timeit_expand_complex_number_1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_expand.timeit_expand_complex_number_1_correct","statement":"Path(timeit_expand_complex_number_1(x), timeit_expand_complex_number_1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aca8b5ab22ce21a2"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_expand.timeit_expand_complex_number_1","kind":"function","src_hash":"b0bc668ac695a16c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_expand_complex_number_1()","rhs":"<unspecified:timeit_expand_complex_number_1>","over":{"base":"Any"},"name":"timeit_expand_complex_number_1_correct"},"guarantee":"timeit_expand_complex_number_1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_expand.timeit_expand_complex_number_1_correct","statement":"Path(timeit_expand_complex_number_1(x), timeit_expand_complex_number_1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aca8b5ab22ce21a2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_expand_complex_number_1():
     ((2 + 3*I)**1000).expand(complex=True)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_expand_complex_number_2(), timeit_expand_complex_number_2 produces the expected output) over Any ║
+# ║ Path(timeit_expand_complex_number_2(), <unspecified:timeit_expand_complex_number_2>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_expand_complex_number_2 : Any → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1053f4a7a5fbba0f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_expand.timeit_expand_complex_number_2","kind":"function","src_hash":"a28edb866fedd956","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_expand_complex_number_2()","rhs":"timeit_expand_complex_number_2 produces the expected output","over":{"base":"Any"},"name":"timeit_expand_complex_number_2_correct"},"guarantee":"timeit_expand_complex_number_2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_expand.timeit_expand_complex_number_2_correct","statement":"Path(timeit_expand_complex_number_2(x), timeit_expand_complex_number_2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1053f4a7a5fbba0f"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_expand.timeit_expand_complex_number_2","kind":"function","src_hash":"a28edb866fedd956","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_expand_complex_number_2()","rhs":"<unspecified:timeit_expand_complex_number_2>","over":{"base":"Any"},"name":"timeit_expand_complex_number_2_correct"},"guarantee":"timeit_expand_complex_number_2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_expand.timeit_expand_complex_number_2_correct","statement":"Path(timeit_expand_complex_number_2(x), timeit_expand_complex_number_2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1053f4a7a5fbba0f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_expand_complex_number_2():
     ((2 + 3*I/4)**1000).expand(complex=True)

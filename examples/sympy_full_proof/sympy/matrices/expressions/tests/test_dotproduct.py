@@ -29,16 +29,24 @@ C = Matrix(4, 1, [1, 2, 4, 5])
 D = Matrix(2, 2, [1, 2, 3, 4])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_docproduct(), test_docproduct produces the expected output) over Any ║
+# ║ Path(test_docproduct(), DotProduct(A, B).doit() == 22 and DotProduct(A.T, B).doit() == 22 and DotProduct(A, B.T).doit() == 22 and DotProduct(A.T, B.T).doit() == 22) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_docproduct : Any → {Any | DotProduct(A, B).doit(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  DotProduct(A, B).doit() == 22                  ║
+# ║   ensures:  DotProduct(A.T, B).doit() == 22                ║
+# ║   ensures:  DotProduct(A, B.T).doit() == 22                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_docproduct : Any → {Any | result satisfies: DotP...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | daeef7b1624609ec  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | beff42bc6b748c10  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_dotproduct.test_docproduct","kind":"function","src_hash":"fd6e11971e7c77d8","in":{"base":"Any"},"out":{"base":"Any","pred":"DotProduct(A, B).doit() == 22 and DotProduct(A.T, B).doit() == 22 and DotProduct(A, B.T).doit() == 22 and DotProduct(A.T, B.T).doit() == 22"},"spec":{"lhs":"test_docproduct()","rhs":"test_docproduct produces the expected output","over":{"base":"Any"},"name":"test_docproduct_correct"},"guarantee":"test_docproduct produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_dotproduct.test_docproduct_correct","statement":"Path(test_docproduct(x), test_docproduct produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"daeef7b1624609ec"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_dotproduct.test_docproduct","kind":"function","src_hash":"fd6e11971e7c77d8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: DotProduct(A, B).doit() == 22 and DotProduct(A.T, B).doit() == 22 and DotProduct(A, B.T).doit() == 22 and DotProduct(A.T, B.T).doit() == 22"},"spec":{"lhs":"test_docproduct()","rhs":"DotProduct(A, B).doit() == 22 and DotProduct(A.T, B).doit() == 22 and DotProduct(A, B.T).doit() == 22 and DotProduct(A.T, B.T).doit() == 22","over":{"base":"Any"},"name":"test_docproduct_correct"},"guarantee":"DotProduct(A, B).doit() == 22; DotProduct(A.T, B).doit() == 22; DotProduct(A, B.T).doit() == 22","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_dotproduct.test_docproduct_correct","statement":"Path(test_docproduct(x), DotProduct(A, B).doit() == 22; DotProduct(A.T, B).doit() == 22; DotProduct(A, B.T).doit() == 22)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"beff42bc6b748c10","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["DotProduct(A, B).doit() == 22","DotProduct(A.T, B).doit() == 22","DotProduct(A, B.T).doit() == 22","DotProduct(A.T, B.T).doit() == 22"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_docproduct():
     assert DotProduct(A, B).doit() == 22
     assert DotProduct(A.T, B).doit() == 22
@@ -53,16 +61,24 @@ def test_docproduct():
     raises(TypeError, lambda: DotProduct(B, C).doit())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dotproduct_symbolic(), test_dotproduct_symbolic produces the expected output) over Any ║
+# ║ Path(test_dotproduct_symbolic(), dot.is_scalar == True and unchanged(Mul, 2, dot) and dot * A == (A[0, 0] * B[0, 0] + A[1, 0] * B[1, 0] + A[2, 0] * B[2, 0]) * A) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dotproduct_symbolic : Any → {Any | dot.is_scalar...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dot.is_scalar == True                          ║
+# ║   ensures:  unchanged(Mul, 2, dot)                         ║
+# ║   ensures:  dot * A == (A[0, 0] * B[0, 0] + A[1, 0] *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dotproduct_symbolic : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3330ed2613be920d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ffca3bbd7fc32b5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_dotproduct.test_dotproduct_symbolic","kind":"function","src_hash":"749013248f79af25","in":{"base":"Any"},"out":{"base":"Any","pred":"dot.is_scalar == True and unchanged(Mul, 2, dot) and dot * A == (A[0, 0] * B[0, 0] + A[1, 0] * B[1, 0] + A[2, 0] * B[2, 0]) * A"},"spec":{"lhs":"test_dotproduct_symbolic()","rhs":"test_dotproduct_symbolic produces the expected output","over":{"base":"Any"},"name":"test_dotproduct_symbolic_correct"},"guarantee":"test_dotproduct_symbolic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_dotproduct.test_dotproduct_symbolic_correct","statement":"Path(test_dotproduct_symbolic(x), test_dotproduct_symbolic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3330ed2613be920d"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_dotproduct.test_dotproduct_symbolic","kind":"function","src_hash":"749013248f79af25","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dot.is_scalar == True and unchanged(Mul, 2, dot) and dot * A == (A[0, 0] * B[0, 0] + A[1, 0] * B[1, 0] + A[2, 0] * B[2, 0]) * A"},"spec":{"lhs":"test_dotproduct_symbolic()","rhs":"dot.is_scalar == True and unchanged(Mul, 2, dot) and dot * A == (A[0, 0] * B[0, 0] + A[1, 0] * B[1, 0] + A[2, 0] * B[2, 0]) * A","over":{"base":"Any"},"name":"test_dotproduct_symbolic_correct"},"guarantee":"dot.is_scalar == True; unchanged(Mul, 2, dot); dot * A == (A[0, 0] * B[0, 0] + A[1, 0] * B[1, 0] + A[2, 0] * B[2, 0]) * A","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_dotproduct.test_dotproduct_symbolic_correct","statement":"Path(test_dotproduct_symbolic(x), dot.is_scalar == True; unchanged(Mul, 2, dot); dot * A == (A[0, 0] * B[0, 0] + A[1, 0] * B[1, 0] + A[2, 0] * B[2, 0]) * A)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ffca3bbd7fc32b5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dot.is_scalar == True","unchanged(Mul, 2, dot)","dot * A == (A[0, 0] * B[0, 0] + A[1, 0] * B[1, 0] + A[2, 0] * B[2, 0]) * A"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dotproduct_symbolic():
     A = MatrixSymbol('A', 3, 1)
     B = MatrixSymbol('B', 3, 1)

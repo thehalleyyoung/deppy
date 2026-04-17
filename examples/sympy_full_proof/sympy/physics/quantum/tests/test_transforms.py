@@ -41,16 +41,24 @@ x, y, z = symbols('x y z')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bra_ket(), test_bra_ket produces the expected output) over Any ║
+# ║ Path(test_bra_ket(), b1 * k1 == InnerProduct(b1, k1) and k1 * b1 == OuterProduct(k1, b1) and OuterProduct(k1, b1) * k2 == InnerProduct(b1, k2) * k1 and b1 * OuterProduct(k1, b2) == InnerProduct(b1, k1) * b2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bra_ket : Any → {Any | b1 * k1 == InnerProduct(b...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  b1 * k1 == InnerProduct(b1, k1)                ║
+# ║   ensures:  k1 * b1 == OuterProduct(k1, b1)                ║
+# ║   ensures:  OuterProduct(k1, b1) * k2 == InnerProduct...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bra_ket : Any → {Any | result satisfies: b1 * k1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9029f17ce3f5f7c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eefe0148c919f5d0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_transforms.test_bra_ket","kind":"function","src_hash":"c9b295ac16c19039","in":{"base":"Any"},"out":{"base":"Any","pred":"b1 * k1 == InnerProduct(b1, k1) and k1 * b1 == OuterProduct(k1, b1) and OuterProduct(k1, b1) * k2 == InnerProduct(b1, k2) * k1 and b1 * OuterProduct(k1, b2) == InnerProduct(b1, k1) * b2"},"spec":{"lhs":"test_bra_ket()","rhs":"test_bra_ket produces the expected output","over":{"base":"Any"},"name":"test_bra_ket_correct"},"guarantee":"test_bra_ket produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_transforms.test_bra_ket_correct","statement":"Path(test_bra_ket(x), test_bra_ket produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9029f17ce3f5f7c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_transforms.test_bra_ket","kind":"function","src_hash":"c9b295ac16c19039","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: b1 * k1 == InnerProduct(b1, k1) and k1 * b1 == OuterProduct(k1, b1) and OuterProduct(k1, b1) * k2 == InnerProduct(b1, k2) * k1 and b1 * OuterProduct(k1, b2) == InnerProduct(b1, k1) * b2"},"spec":{"lhs":"test_bra_ket()","rhs":"b1 * k1 == InnerProduct(b1, k1) and k1 * b1 == OuterProduct(k1, b1) and OuterProduct(k1, b1) * k2 == InnerProduct(b1, k2) * k1 and b1 * OuterProduct(k1, b2) == InnerProduct(b1, k1) * b2","over":{"base":"Any"},"name":"test_bra_ket_correct"},"guarantee":"b1 * k1 == InnerProduct(b1, k1); k1 * b1 == OuterProduct(k1, b1); OuterProduct(k1, b1) * k2 == InnerProduct(b1, k2) * k1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_transforms.test_bra_ket_correct","statement":"Path(test_bra_ket(x), b1 * k1 == InnerProduct(b1, k1); k1 * b1 == OuterProduct(k1, b1); OuterProduct(k1, b1) * k2 == InnerProduct(b1, k2) * k1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eefe0148c919f5d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["b1 * k1 == InnerProduct(b1, k1)","k1 * b1 == OuterProduct(k1, b1)","OuterProduct(k1, b1) * k2 == InnerProduct(b1, k2) * k1","b1 * OuterProduct(k1, b2) == InnerProduct(b1, k1) * b2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_bra_ket():
     assert b1*k1 == InnerProduct(b1, k1)
     assert k1*b1 == OuterProduct(k1, b1)
@@ -60,16 +68,24 @@ def test_bra_ket():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tensor_product(), test_tensor_product produces the expected output) over Any ║
+# ║ Path(test_tensor_product(), TensorProduct(A, B, C) * TensorProduct(k1, k2, k3) == TensorProduct(A * k1, B * k2, C * k3) and TensorProduct(b1, b2, b3) * TensorProduct(A, B, C) == TensorProduct(b1 * A, b2 * B, b3 * C) and TensorProduct(b1, b2, b3) * TensorProduct(k1, k2, k3) == InnerProduct(b1, k1) * InnerProduct(b2, k2) * InnerProduct(b3, k3) and TensorProduct(b1, b2, b3) * TensorProduct(A, B, C) * TensorProduct(k1, k2, k3) == TensorProduct(b1 * A * k1, b2 * B * k2, b3 * C * k3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_tensor_product : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  TensorProduct(A, B, C) * TensorProduct(k1...   ║
+# ║   ensures:  TensorProduct(b1, b2, b3) * TensorProduct...   ║
+# ║   ensures:  TensorProduct(b1, b2, b3) * TensorProduct...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_tensor_product : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 46f79fd83dee2f25  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 89d519bb946c4f56  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_transforms.test_tensor_product","kind":"function","src_hash":"d3a7045116578044","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_tensor_product()","rhs":"test_tensor_product produces the expected output","over":{"base":"Any"},"name":"test_tensor_product_correct"},"guarantee":"test_tensor_product produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_transforms.test_tensor_product_correct","statement":"Path(test_tensor_product(x), test_tensor_product produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46f79fd83dee2f25"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_transforms.test_tensor_product","kind":"function","src_hash":"d3a7045116578044","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: TensorProduct(A, B, C) * TensorProduct(k1, k2, k3) == TensorProduct(A * k1, B * k2, C * k3) and TensorProduct(b1, b2, b3) * TensorProduct(A, B, C) == TensorProduct(b1 * A, b2 * B, b3 * C) and TensorProduct(b1, b2, b3) * TensorProduct(k1, k2, k3) == InnerProduct(b1, k1) * InnerProduct(b2, k2) * InnerProduct(b3, k3) and TensorProduct(b1, b2, b3) * TensorProduct(A, B, C) * TensorProduct(k1, k2, k3) == TensorProduct(b1 * A * k1, b2 * B * k2, b3 * C * k3)"},"spec":{"lhs":"test_tensor_product()","rhs":"TensorProduct(A, B, C) * TensorProduct(k1, k2, k3) == TensorProduct(A * k1, B * k2, C * k3) and TensorProduct(b1, b2, b3) * TensorProduct(A, B, C) == TensorProduct(b1 * A, b2 * B, b3 * C) and TensorProduct(b1, b2, b3) * TensorProduct(k1, k2, k3) == InnerProduct(b1, k1) * InnerProduct(b2, k2) * InnerProduct(b3, k3) and TensorProduct(b1, b2, b3) * TensorProduct(A, B, C) * TensorProduct(k1, k2, k3) == TensorProduct(b1 * A * k1, b2 * B * k2, b3 * C * k3)","over":{"base":"Any"},"name":"test_tensor_product_correct"},"guarantee":"TensorProduct(A, B, C) * TensorProduct(k1, k2, k3) == TensorProduct(A * k1, B * k2, C * k3); TensorProduct(b1, b2, b3) * TensorProduct(A, B, C) == TensorProduct(b1 * A, b2 * B, b3 * C); TensorProduct(b1, b2, b3) * TensorProduct(k1, k2, k3) == InnerProduct(b1, k1) * InnerProduct(b2, k2) * InnerProduct(b3, k3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_transforms.test_tensor_product_correct","statement":"Path(test_tensor_product(x), TensorProduct(A, B, C) * TensorProduct(k1, k2, k3) == TensorProduct(A * k1, B * k2, C * k3); TensorProduct(b1, b2, b3) * TensorProduct(A, B, C) == TensorProduct(b1 * A, b2 * B, b3 * C); TensorProduct(b1, b2, b3) * TensorProduct(k1, k2, k3) == InnerProduct(b1, k1) * InnerProduct(b2, k2) * InnerProduct(b3, k3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89d519bb946c4f56","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["TensorProduct(A, B, C) * TensorProduct(k1, k2, k3) == TensorProduct(A * k1, B * k2, C * k3)","TensorProduct(b1, b2, b3) * TensorProduct(A, B, C) == TensorProduct(b1 * A, b2 * B, b3 * C)","TensorProduct(b1, b2, b3) * TensorProduct(k1, k2, k3) == InnerProduct(b1, k1) * InnerProduct(b2, k2) * InnerProduct(b3, k3)","TensorProduct(b1, b2, b3) * TensorProduct(A, B, C) * TensorProduct(k1, k2, k3) == TensorProduct(b1 * A * k1, b2 * B * k2, b3 * C * k3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_tensor_product():
     # We are attempting to be rigourous and raise TypeError when a user tries
     # to combine bras, kets, and operators in a manner that doesn't make sense.
@@ -99,32 +115,45 @@ def test_tensor_product():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_outer_product(), test_outer_product produces the expected output) over Any ║
+# ║ Path(test_outer_product(), OuterProduct(k1, b1) * OuterProduct(k2, b2) == InnerProduct(b1, k2) * OuterProduct(k1, b2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_outer_product : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  OuterProduct(k1, b1) * OuterProduct(k2, b...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_outer_product : Any → {Any | result satisfies: O...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2f8ef8026dbb93e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95911ec54e4af79e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_transforms.test_outer_product","kind":"function","src_hash":"cec1eb1bacb9a12d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_outer_product()","rhs":"test_outer_product produces the expected output","over":{"base":"Any"},"name":"test_outer_product_correct"},"guarantee":"test_outer_product produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_transforms.test_outer_product_correct","statement":"Path(test_outer_product(x), test_outer_product produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2f8ef8026dbb93e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_transforms.test_outer_product","kind":"function","src_hash":"cec1eb1bacb9a12d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: OuterProduct(k1, b1) * OuterProduct(k2, b2) == InnerProduct(b1, k2) * OuterProduct(k1, b2)"},"spec":{"lhs":"test_outer_product()","rhs":"OuterProduct(k1, b1) * OuterProduct(k2, b2) == InnerProduct(b1, k2) * OuterProduct(k1, b2)","over":{"base":"Any"},"name":"test_outer_product_correct"},"guarantee":"OuterProduct(k1, b1) * OuterProduct(k2, b2) == InnerProduct(b1, k2) * OuterProduct(k1, b2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_transforms.test_outer_product_correct","statement":"Path(test_outer_product(x), OuterProduct(k1, b1) * OuterProduct(k2, b2) == InnerProduct(b1, k2) * OuterProduct(k1, b2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95911ec54e4af79e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["OuterProduct(k1, b1) * OuterProduct(k2, b2) == InnerProduct(b1, k2) * OuterProduct(k1, b2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_outer_product():
     assert OuterProduct(k1, b1)*OuterProduct(k2, b2) == \
         InnerProduct(b1, k2)*OuterProduct(k1, b2)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_compound(), test_compound produces the expected output) over Any ║
+# ║ Path(test_compound(), e1 == InnerProduct(b2, k2) * b1 * A * B * OuterProduct(k1, b3) and e2 == TensorProduct(OuterProduct(k1, b1), OuterProduct(k2, b2))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_compound : Any → {Any | e1 == InnerProduct(b2, k...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e1 == InnerProduct(b2, k2) * b1 * A * B *...   ║
+# ║   ensures:  e2 == TensorProduct(OuterProduct(k1, b1),...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_compound : Any → {Any | result satisfies: e1 == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2591e48ac28eb09a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99687beb4f61733c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_transforms.test_compound","kind":"function","src_hash":"8aa8f631cd2f4bea","in":{"base":"Any"},"out":{"base":"Any","pred":"e1 == InnerProduct(b2, k2) * b1 * A * B * OuterProduct(k1, b3) and e2 == TensorProduct(OuterProduct(k1, b1), OuterProduct(k2, b2))"},"spec":{"lhs":"test_compound()","rhs":"test_compound produces the expected output","over":{"base":"Any"},"name":"test_compound_correct"},"guarantee":"test_compound produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_transforms.test_compound_correct","statement":"Path(test_compound(x), test_compound produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2591e48ac28eb09a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_transforms.test_compound","kind":"function","src_hash":"8aa8f631cd2f4bea","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e1 == InnerProduct(b2, k2) * b1 * A * B * OuterProduct(k1, b3) and e2 == TensorProduct(OuterProduct(k1, b1), OuterProduct(k2, b2))"},"spec":{"lhs":"test_compound()","rhs":"e1 == InnerProduct(b2, k2) * b1 * A * B * OuterProduct(k1, b3) and e2 == TensorProduct(OuterProduct(k1, b1), OuterProduct(k2, b2))","over":{"base":"Any"},"name":"test_compound_correct"},"guarantee":"e1 == InnerProduct(b2, k2) * b1 * A * B * OuterProduct(k1, b3); e2 == TensorProduct(OuterProduct(k1, b1), OuterProduct(k2, b2))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_transforms.test_compound_correct","statement":"Path(test_compound(x), e1 == InnerProduct(b2, k2) * b1 * A * B * OuterProduct(k1, b3); e2 == TensorProduct(OuterProduct(k1, b1), OuterProduct(k2, b2)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99687beb4f61733c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e1 == InnerProduct(b2, k2) * b1 * A * B * OuterProduct(k1, b3)","e2 == TensorProduct(OuterProduct(k1, b1), OuterProduct(k2, b2))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_compound():
     e1 = b1*A*B*k1*b2*k2*b3
     assert e1 == InnerProduct(b2, k2)*b1*A*B*OuterProduct(k1, b3)

@@ -27,16 +27,24 @@ from sympy.testing.pytest import raises
 x, y, z = symbols('x y z')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_logaddexp(), test_logaddexp produces the expected output) over Any ║
+# ║ Path(test_logaddexp(), lae_sum_to_e.rewrite(log) == 1 and lae_sum_to_e.simplify() == 1 and srepr(was) == srepr(was.simplify())) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_logaddexp : Any → {Any | lae_sum_to_e.rewrite(lo...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  lae_sum_to_e.rewrite(log) == 1                 ║
+# ║   ensures:  lae_sum_to_e.simplify() == 1                   ║
+# ║   ensures:  srepr(was) == srepr(was.simplify())            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_logaddexp : Any → {Any | result satisfies: lae_s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b20ec1976be80c0a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f08098eb380f11c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_numpy_nodes.test_logaddexp","kind":"function","src_hash":"ccee4aff46408e15","in":{"base":"Any"},"out":{"base":"Any","pred":"lae_sum_to_e.rewrite(log) == 1 and lae_sum_to_e.simplify() == 1 and srepr(was) == srepr(was.simplify())"},"spec":{"lhs":"test_logaddexp()","rhs":"test_logaddexp produces the expected output","over":{"base":"Any"},"name":"test_logaddexp_correct"},"guarantee":"test_logaddexp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_numpy_nodes.test_logaddexp_correct","statement":"Path(test_logaddexp(x), test_logaddexp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b20ec1976be80c0a"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_numpy_nodes.test_logaddexp","kind":"function","src_hash":"ccee4aff46408e15","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: lae_sum_to_e.rewrite(log) == 1 and lae_sum_to_e.simplify() == 1 and srepr(was) == srepr(was.simplify())"},"spec":{"lhs":"test_logaddexp()","rhs":"lae_sum_to_e.rewrite(log) == 1 and lae_sum_to_e.simplify() == 1 and srepr(was) == srepr(was.simplify())","over":{"base":"Any"},"name":"test_logaddexp_correct"},"guarantee":"lae_sum_to_e.rewrite(log) == 1; lae_sum_to_e.simplify() == 1; srepr(was) == srepr(was.simplify())","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_numpy_nodes.test_logaddexp_correct","statement":"Path(test_logaddexp(x), lae_sum_to_e.rewrite(log) == 1; lae_sum_to_e.simplify() == 1; srepr(was) == srepr(was.simplify()))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f08098eb380f11c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["lae_sum_to_e.rewrite(log) == 1","lae_sum_to_e.simplify() == 1","srepr(was) == srepr(was.simplify())"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_logaddexp():
     lae_xy = logaddexp(x, y)
     ref_xy = log(exp(x) + exp(y))
@@ -60,14 +68,23 @@ def test_logaddexp():
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(test_logaddexp2(), id) over Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_logaddexp2 : Any → {Any | lae2_sum_to_2.rewrite(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  lae2_sum_to_2.rewrite(log) == 1                ║
+# ║   ensures:  lae2_sum_to_2.simplify() == 1                  ║
+# ║   ensures:  srepr(was) == srepr(was.simplify())            ║
+# ║   returns:  log(x) / log(2)                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_logaddexp2 : Any → {Any | result satisfies: resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b005356c8e04e766   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_numpy_nodes.test_logaddexp2","kind":"function","src_hash":"8fbf49ec16a19e4c","in":{"base":"Any"},"out":{"base":"Any","pred":"lae2_sum_to_2.rewrite(log) == 1 and lae2_sum_to_2.simplify() == 1 and srepr(was) == srepr(was.simplify())"},"spec":{"lhs":"test_logaddexp2()","rhs":"test_logaddexp2 produces the expected output","over":{"base":"Any"},"name":"test_logaddexp2_correct","kind":"composition"},"guarantee":"test_logaddexp2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"log","by":"library_axiom"},{"fn":"log","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b005356c8e04e766"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_numpy_nodes.test_logaddexp2","kind":"function","src_hash":"8fbf49ec16a19e4c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (log(x) / log(2))"},"spec":{"lhs":"test_logaddexp2()","rhs":"log(x) / log(2)","over":{"base":"Any"},"name":"test_logaddexp2_correct","kind":"composition"},"guarantee":"returns log(x) / log(2); lae2_sum_to_2.rewrite(log) == 1; lae2_sum_to_2.simplify() == 1; srepr(was) == srepr(was.simplify())","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"log","by":"library_axiom"},{"fn":"log","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b005356c8e04e766","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["lae2_sum_to_2.rewrite(log) == 1","lae2_sum_to_2.simplify() == 1","srepr(was) == srepr(was.simplify())"],"returns_expr":"log(x) / log(2)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_logaddexp2():
     lae2_xy = logaddexp2(x, y)
     ref2_xy = log(2**x + 2**y)/log(2)
@@ -92,16 +109,22 @@ def test_logaddexp2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_minimum_maximum(), test_minimum_maximum produces the expected output) over Any ║
+# ║ Path(test_minimum_maximum(), <unspecified:test_minimum_maximum>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_minimum_maximum : Any → {Any | m != ref and m.re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 90120a31fdc0669f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_numpy_nodes.test_minimum_maximum","kind":"function","src_hash":"6e1980e1f3fa9524","in":{"base":"Any"},"out":{"base":"Any","pred":"m != ref and m.rewrite(MM) == ref"},"spec":{"lhs":"test_minimum_maximum()","rhs":"test_minimum_maximum produces the expected output","over":{"base":"Any"},"name":"test_minimum_maximum_correct"},"guarantee":"test_minimum_maximum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_numpy_nodes.test_minimum_maximum_correct","statement":"Path(test_minimum_maximum(x), test_minimum_maximum produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90120a31fdc0669f"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_numpy_nodes.test_minimum_maximum","kind":"function","src_hash":"6e1980e1f3fa9524","in":{"base":"Any"},"out":{"base":"Any","pred":"m != ref and m.rewrite(MM) == ref"},"spec":{"lhs":"test_minimum_maximum()","rhs":"<unspecified:test_minimum_maximum>","over":{"base":"Any"},"name":"test_minimum_maximum_correct"},"guarantee":"test_minimum_maximum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_numpy_nodes.test_minimum_maximum_correct","statement":"Path(test_minimum_maximum(x), test_minimum_maximum produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90120a31fdc0669f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_minimum_maximum():
     for MM, mm in zip([Min, Max], [minimum, maximum]):
         ref = MM(x, y, z)
@@ -111,16 +134,22 @@ def test_minimum_maximum():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_amin_amax(), test_amin_amax produces the expected output) over Any ║
+# ║ Path(test_amin_amax(), <unspecified:test_amin_amax>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_amin_amax : Any → {Any | am(x).array == x and am...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2354828542478b6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_numpy_nodes.test_amin_amax","kind":"function","src_hash":"f30ea6b5f9817bff","in":{"base":"Any"},"out":{"base":"Any","pred":"am(x).array == x and am(x).axis == None and am(x, axis=3).axis == 3"},"spec":{"lhs":"test_amin_amax()","rhs":"test_amin_amax produces the expected output","over":{"base":"Any"},"name":"test_amin_amax_correct"},"guarantee":"test_amin_amax produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_numpy_nodes.test_amin_amax_correct","statement":"Path(test_amin_amax(x), test_amin_amax produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2354828542478b6"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_numpy_nodes.test_amin_amax","kind":"function","src_hash":"f30ea6b5f9817bff","in":{"base":"Any"},"out":{"base":"Any","pred":"am(x).array == x and am(x).axis == None and am(x, axis=3).axis == 3"},"spec":{"lhs":"test_amin_amax()","rhs":"<unspecified:test_amin_amax>","over":{"base":"Any"},"name":"test_amin_amax_correct"},"guarantee":"test_amin_amax produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_numpy_nodes.test_amin_amax_correct","statement":"Path(test_amin_amax(x), test_amin_amax produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2354828542478b6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_amin_amax():
     for am in [amin, amax]:
         assert am(x).array == x

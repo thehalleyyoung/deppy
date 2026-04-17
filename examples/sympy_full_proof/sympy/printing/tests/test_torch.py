@@ -58,7 +58,11 @@ if torch is not None:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_compare_torch_matrix(var), internal helper behaves correctly) over {Any | isinstance(e, _CodegenArrayAbstract) and isinstance(e, NDimArray) and isinstance(r, torch.Tensor)} ║
+# ║ Path(_compare_torch_matrix(variables, expr), <unspecified:_compare_torch_matrix>) over {Any | isinstance(e, _CodegenArrayAbstract) and isinstance(e, NDimArray) and isinstance(r, torch.Tensor) and hasattr(expr, 'subs')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'subs')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _compare_torch_matrix : {Any | isinstance(e, _Codegen...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -72,9 +76,12 @@ if torch is not None:
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?3 ✗3 VCs | 8.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ae0d5d54...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_torch._compare_torch_matrix","kind":"function","src_hash":"a67ad9fbe6f7b671","in":{"base":"Any","pred":"isinstance(e, _CodegenArrayAbstract) and isinstance(e, NDimArray) and isinstance(r, torch.Tensor)"},"out":{"base":"Any","pred":"torch.allclose(r, e, atol=1e-06) and abs(r - e) < 1e-06"},"spec":{"lhs":"_compare_torch_matrix(var)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(e, _CodegenArrayAbstract) and isinstance(e, NDimArray) and isinstance(r, torch.Tensor)"},"name":"_compare_torch_matrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"_CodegenArrayAbstract","pred":"isinstance(e, _CodegenArrayAbstract)","path":{"lhs":"_compare_torch_matrix(x)","rhs":"internal helper behaves correctly","over":{"base":"_CodegenArrayAbstract","pred":"isinstance(e, _CodegenArrayAbstract)"},"name":"_compare_torch_matrix__CodegenArrayAbstract_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_torch._compare_torch_matrix__CodegenArrayAbstract_correct","statement":"_compare_torch_matrix satisfies spec on _CodegenArrayAbstract inputs"},"trust":"LIBRARY"},{"name":"NDimArray","pred":"isinstance(e, NDimArray)","path":{"lhs":"_compare_torch_matrix(x)","rhs":"internal helper behaves correctly","over":{"base":"NDimArray","pred":"isinstance(e, NDimArray)"},"name":"_compare_torch_matrix_NDimArray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_torch._compare_torch_matrix_NDimArray_correct","statement":"_compare_torch_matrix satisfies spec on NDimArray inputs"},"trust":"LIBRARY"},{"name":"torch_Tensor","pred":"isinstance(r, torch.Tensor)","path":{"lhs":"_compare_torch_matrix(x)","rhs":"internal helper behaves correctly","over":{"base":"torch.Tensor","pred":"isinstance(r, torch.Tensor)"},"name":"_compare_torch_matrix_torch.Tensor_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_torch._compare_torch_matrix_torch.Tensor_correct","statement":"_compare_torch_matrix satisfies spec on torch.Tensor inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ae0d5d54de5f5b09"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_torch._compare_torch_matrix","kind":"function","src_hash":"a67ad9fbe6f7b671","in":{"base":"Any","pred":"isinstance(e, _CodegenArrayAbstract) and isinstance(e, NDimArray) and isinstance(r, torch.Tensor) and hasattr(expr, 'subs')"},"out":{"base":"Any","pred":"torch.allclose(r, e, atol=1e-06) and abs(r - e) < 1e-06"},"spec":{"lhs":"_compare_torch_matrix(variables, expr)","rhs":"<unspecified:_compare_torch_matrix>","over":{"base":"Any","pred":"isinstance(e, _CodegenArrayAbstract) and isinstance(e, NDimArray) and isinstance(r, torch.Tensor) and hasattr(expr, 'subs')"},"name":"_compare_torch_matrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"_CodegenArrayAbstract","pred":"isinstance(e, _CodegenArrayAbstract)","path":{"lhs":"_compare_torch_matrix(x)","rhs":"internal helper behaves correctly","over":{"base":"_CodegenArrayAbstract","pred":"isinstance(e, _CodegenArrayAbstract)"},"name":"_compare_torch_matrix__CodegenArrayAbstract_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_torch._compare_torch_matrix__CodegenArrayAbstract_correct","statement":"_compare_torch_matrix satisfies spec on _CodegenArrayAbstract inputs"},"trust":"LIBRARY"},{"name":"NDimArray","pred":"isinstance(e, NDimArray)","path":{"lhs":"_compare_torch_matrix(x)","rhs":"internal helper behaves correctly","over":{"base":"NDimArray","pred":"isinstance(e, NDimArray)"},"name":"_compare_torch_matrix_NDimArray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_torch._compare_torch_matrix_NDimArray_correct","statement":"_compare_torch_matrix satisfies spec on NDimArray inputs"},"trust":"LIBRARY"},{"name":"torch_Tensor","pred":"isinstance(r, torch.Tensor)","path":{"lhs":"_compare_torch_matrix(x)","rhs":"internal helper behaves correctly","over":{"base":"torch.Tensor","pred":"isinstance(r, torch.Tensor)"},"name":"_compare_torch_matrix_torch.Tensor_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_torch._compare_torch_matrix_torch.Tensor_correct","statement":"_compare_torch_matrix satisfies spec on torch.Tensor inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ae0d5d54de5f5b09","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'subs')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.subs"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":2,"n_assumed":3,"n_failed":3,"trust_level":"LIBRARY_ASSUMED","compile_ms":8.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(r, torch.Tensor) and r.dim() == 0', 'isinstance(e, _CodegenArrayAbstract)', 'e.is_Matrix or isinstance(e, NDimArray)'}, fibers={'torch_Tensor', '_CodegenArrayAbstract', 'NDimArray'})"]}}
 def _compare_torch_matrix(variables, expr):
     f = lambdify(variables, expr, 'torch')
 
@@ -101,7 +108,11 @@ def _compare_torch_matrix(variables, expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_compare_torch_scalar(var), internal helper behaves correctly) over {Any | isinstance(r, torch.Tensor)} ║
+# ║ Path(_compare_torch_scalar(variables, expr, rng), abs(r - e) < 1e-06) over {Any | isinstance(r, torch.Tensor) and hasattr(expr, 'subs')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'subs')                          ║
+# ║   ensures:  abs(r - e) < 1e-06                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _compare_torch_scalar : {Any | isinstance(r, torch.Te...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -113,9 +124,12 @@ def _compare_torch_matrix(variables, expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 1a826285...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_torch._compare_torch_scalar","kind":"function","src_hash":"ab1374b4187b8023","in":{"base":"Any","pred":"isinstance(r, torch.Tensor)"},"out":{"base":"Any","pred":"abs(r - e) < 1e-06"},"spec":{"lhs":"_compare_torch_scalar(var)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(r, torch.Tensor)"},"name":"_compare_torch_scalar_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"torch_Tensor","pred":"isinstance(r, torch.Tensor)","path":{"lhs":"_compare_torch_scalar(x)","rhs":"internal helper behaves correctly","over":{"base":"torch.Tensor","pred":"isinstance(r, torch.Tensor)"},"name":"_compare_torch_scalar_torch.Tensor_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_torch._compare_torch_scalar_torch.Tensor_correct","statement":"_compare_torch_scalar satisfies spec on torch.Tensor inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1a826285dfe63527"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_torch._compare_torch_scalar","kind":"function","src_hash":"ab1374b4187b8023","in":{"base":"Any","pred":"isinstance(r, torch.Tensor) and hasattr(expr, 'subs')"},"out":{"base":"Any","pred":"result satisfies: abs(r - e) < 1e-06"},"spec":{"lhs":"_compare_torch_scalar(variables, expr, rng)","rhs":"abs(r - e) < 1e-06","over":{"base":"Any","pred":"isinstance(r, torch.Tensor) and hasattr(expr, 'subs')"},"name":"_compare_torch_scalar_correct"},"guarantee":"abs(r - e) < 1e-06","fibers":[{"name":"torch_Tensor","pred":"isinstance(r, torch.Tensor)","path":{"lhs":"_compare_torch_scalar(x)","rhs":"abs(r - e) < 1e-06","over":{"base":"torch.Tensor","pred":"isinstance(r, torch.Tensor)"},"name":"_compare_torch_scalar_torch.Tensor_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_torch._compare_torch_scalar_torch.Tensor_correct","statement":"_compare_torch_scalar satisfies spec on torch.Tensor inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1a826285dfe63527","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'subs')"],"ensures":["abs(r - e) < 1e-06"],"pure":false,"effects":{"effect_type":"nondeterministic","reads":["expr.subs"],"nondeterministic_sources":["random.uniform"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(r, torch.Tensor)'}, fibers={'torch_Tensor'})"]}}
 def _compare_torch_scalar(variables, expr, rng=lambda: random.uniform(-5, 5)):
     f = lambdify(variables, expr, 'torch')
     rvs = [rng() for v in variables]
@@ -128,16 +142,23 @@ def _compare_torch_scalar(variables, expr, rng=lambda: random.uniform(-5, 5)):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_compare_torch_relational(var), internal helper behaves correctly) over Any ║
+# ║ Path(_compare_torch_relational(variables, expr, rng), r.item() == e) over {Any | hasattr(expr, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _compare_torch_relational : Any → {Any | r.item() == e}    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'subs')                          ║
+# ║   ensures:  r.item() == e                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _compare_torch_relational : {Any | hasattr(expr, 'sub...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 308f8003d5e47e71  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92f8c3da019afbf2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_torch._compare_torch_relational","kind":"function","src_hash":"4c1452207eff28fa","in":{"base":"Any"},"out":{"base":"Any","pred":"r.item() == e"},"spec":{"lhs":"_compare_torch_relational(var)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_compare_torch_relational_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_torch._compare_torch_relational_correct","statement":"Path(_compare_torch_relational(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"308f8003d5e47e71"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_torch._compare_torch_relational","kind":"function","src_hash":"4c1452207eff28fa","in":{"base":"Any","pred":"hasattr(expr, 'subs')"},"out":{"base":"Any","pred":"result satisfies: r.item() == e"},"spec":{"lhs":"_compare_torch_relational(variables, expr, rng)","rhs":"r.item() == e","over":{"base":"Any","pred":"hasattr(expr, 'subs')"},"name":"_compare_torch_relational_correct"},"guarantee":"r.item() == e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_torch._compare_torch_relational_correct","statement":"Path(_compare_torch_relational(x), r.item() == e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92f8c3da019afbf2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'subs')"],"ensures":["r.item() == e"],"pure":false,"effects":{"effect_type":"nondeterministic","reads":["expr.subs"],"nondeterministic_sources":["random.randint"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _compare_torch_relational(variables, expr, rng=lambda: random.randint(0, 10)):
     f = lambdify(variables, expr, 'torch')
     rvs = [rng() for v in variables]
@@ -148,16 +169,24 @@ def _compare_torch_relational(variables, expr, rng=lambda: random.randint(0, 10)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_torch_math(), test_torch_math produces the expected output) over Any ║
+# ║ Path(test_torch_math(), torch_code(expr) == 'torch.abs(x)' and torch.all(y_abs == c) and torch_code(expr) == 'torch.sign(x)' and torch_code(expr) == 'torch.ceil(x)' and torch_code(expr) == 'torch.floor(x)' and torch_code(expr) == 'torch.exp(x)' and torch_code(expr) == 'torch.sqrt(x)' and torch_code(expr) == 'torch.pow(x, 4)' and torch_code(expr) == 'torch.cos(x)' and torch_code(expr) == 'torch.acos(x)' and torch_code(expr) == 'torch.sin(x)' and torch_code(expr) == 'torch.asin(x)' and torch_code(expr) == 'torch.tan(x)' and torch_code(expr) == 'torch.atan(x)' and torch_code(expr) == 'torch.atan2(y, x)' and torch_code(expr) == 'torch.cosh(x)' and torch_code(expr) == 'torch.acosh(x)' and torch_code(expr) == 'torch.sinh(x)' and torch_code(expr) == 'torch.asinh(x)' and torch_code(expr) == 'torch.tanh(x)' and torch_code(expr) == 'torch.atanh(x)' and torch_code(expr) == 'torch.erf(x)' and torch_code(expr) == 'torch.lgamma(x)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_torch_math : Any → {Any | torch_code(expr) == 't...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  torch_code(expr) == 'torch.abs(x)'             ║
+# ║   ensures:  torch.all(y_abs == c)                          ║
+# ║   ensures:  torch_code(expr) == 'torch.sign(x)'            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_torch_math : Any → {Any | result satisfies: torc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef2fd4537cfba8dd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e2f34335fc1e1d8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_torch.test_torch_math","kind":"function","src_hash":"50ebdf41b8a18db7","in":{"base":"Any"},"out":{"base":"Any","pred":"torch_code(expr) == 'torch.abs(x)' and torch.all(y_abs == c) and torch_code(expr) == 'torch.sign(x)' and torch_code(expr) == 'torch.ceil(x)' and torch_code(expr) == 'torch.floor(x)' and torch_code(expr) == 'torch.exp(x)' and torch_code(expr) == 'torch.sqrt(x)' and torch_code(expr) == 'torch.pow(x, 4)' and torch_code(expr) == 'torch.cos(x)' and torch_code(expr) == 'torch.acos(x)' and torch_code(expr) == 'torch.sin(x)' and torch_code(expr) == 'torch.asin(x)' and torch_code(expr) == 'torch.tan(x)' and torch_code(expr) == 'torch.atan(x)' and torch_code(expr) == 'torch.atan2(y, x)' and torch_code(expr) == 'torch.cosh(x)' and torch_code(expr) == 'torch.acosh(x)' and torch_code(expr) == 'torch.sinh(x)' and torch_code(expr) == 'torch.asinh(x)' and torch_code(expr) == 'torch.tanh(x)' and torch_code(expr) == 'torch.atanh(x)' and torch_code(expr) == 'torch.erf(x)' and torch_code(expr) == 'torch.lgamma(x)'"},"spec":{"lhs":"test_torch_math()","rhs":"test_torch_math produces the expected output","over":{"base":"Any"},"name":"test_torch_math_correct"},"guarantee":"test_torch_math produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_torch.test_torch_math_correct","statement":"Path(test_torch_math(x), test_torch_math produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef2fd4537cfba8dd"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_torch.test_torch_math","kind":"function","src_hash":"50ebdf41b8a18db7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: torch_code(expr) == 'torch.abs(x)' and torch.all(y_abs == c) and torch_code(expr) == 'torch.sign(x)' and torch_code(expr) == 'torch.ceil(x)' and torch_code(expr) == 'torch.floor(x)' and torch_code(expr) == 'torch.exp(x)' and torch_code(expr) == 'torch.sqrt(x)' and torch_code(expr) == 'torch.pow(x, 4)' and torch_code(expr) == 'torch.cos(x)' and torch_code(expr) == 'torch.acos(x)' and torch_code(expr) == 'torch.sin(x)' and torch_code(expr) == 'torch.asin(x)' and torch_code(expr) == 'torch.tan(x)' and torch_code(expr) == 'torch.atan(x)' and torch_code(expr) == 'torch.atan2(y, x)' and torch_code(expr) == 'torch.cosh(x)' and torch_code(expr) == 'torch.acosh(x)' and torch_code(expr) == 'torch.sinh(x)' and torch_code(expr) == 'torch.asinh(x)' and torch_code(expr) == 'torch.tanh(x)' and torch_code(expr) == 'torch.atanh(x)' and torch_code(expr) == 'torch.erf(x)' and torch_code(expr) == 'torch.lgamma(x)'"},"spec":{"lhs":"test_torch_math()","rhs":"torch_code(expr) == 'torch.abs(x)' and torch.all(y_abs == c) and torch_code(expr) == 'torch.sign(x)' and torch_code(expr) == 'torch.ceil(x)' and torch_code(expr) == 'torch.floor(x)' and torch_code(expr) == 'torch.exp(x)' and torch_code(expr) == 'torch.sqrt(x)' and torch_code(expr) == 'torch.pow(x, 4)' and torch_code(expr) == 'torch.cos(x)' and torch_code(expr) == 'torch.acos(x)' and torch_code(expr) == 'torch.sin(x)' and torch_code(expr) == 'torch.asin(x)' and torch_code(expr) == 'torch.tan(x)' and torch_code(expr) == 'torch.atan(x)' and torch_code(expr) == 'torch.atan2(y, x)' and torch_code(expr) == 'torch.cosh(x)' and torch_code(expr) == 'torch.acosh(x)' and torch_code(expr) == 'torch.sinh(x)' and torch_code(expr) == 'torch.asinh(x)' and torch_code(expr) == 'torch.tanh(x)' and torch_code(expr) == 'torch.atanh(x)' and torch_code(expr) == 'torch.erf(x)' and torch_code(expr) == 'torch.lgamma(x)'","over":{"base":"Any"},"name":"test_torch_math_correct"},"guarantee":"torch_code(expr) == 'torch.abs(x)'; torch.all(y_abs == c); torch_code(expr) == 'torch.sign(x)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_torch.test_torch_math_correct","statement":"Path(test_torch_math(x), torch_code(expr) == 'torch.abs(x)'; torch.all(y_abs == c); torch_code(expr) == 'torch.sign(x)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e2f34335fc1e1d8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["torch_code(expr) == 'torch.abs(x)'","torch.all(y_abs == c)","torch_code(expr) == 'torch.sign(x)'","torch_code(expr) == 'torch.ceil(x)'","torch_code(expr) == 'torch.floor(x)'","torch_code(expr) == 'torch.exp(x)'","torch_code(expr) == 'torch.sqrt(x)'","torch_code(expr) == 'torch.pow(x, 4)'","torch_code(expr) == 'torch.cos(x)'","torch_code(expr) == 'torch.acos(x)'","torch_code(expr) == 'torch.sin(x)'","torch_code(expr) == 'torch.asin(x)'","torch_code(expr) == 'torch.tan(x)'","torch_code(expr) == 'torch.atan(x)'","torch_code(expr) == 'torch.atan2(y, x)'","torch_code(expr) == 'torch.cosh(x)'","torch_code(expr) == 'torch.acosh(x)'","torch_code(expr) == 'torch.sinh(x)'","torch_code(expr) == 'torch.asinh(x)'","torch_code(expr) == 'torch.tanh(x)'","torch_code(expr) == 'torch.atanh(x)'","torch_code(expr) == 'torch.erf(x)'","torch_code(expr) == 'torch.lgamma(x)'"],"pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["random.random","random.uniform"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def test_torch_math():
     if not torch:
         skip("PyTorch not installed")
@@ -256,16 +285,24 @@ def test_torch_math():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_torch_complexes(), test_torch_complexes produces the expected output) over Any ║
+# ║ Path(test_torch_complexes(), torch_code(re(x)) == 'torch.real(x)' and torch_code(im(x)) == 'torch.imag(x)' and torch_code(arg(x)) == 'torch.angle(x)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_torch_complexes : Any → {Any | torch_code(re(x))...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  torch_code(re(x)) == 'torch.real(x)'           ║
+# ║   ensures:  torch_code(im(x)) == 'torch.imag(x)'           ║
+# ║   ensures:  torch_code(arg(x)) == 'torch.angle(x)'         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_torch_complexes : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4002104a84ff0e46  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2366e1601f9eba61  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_torch.test_torch_complexes","kind":"function","src_hash":"80e6dc09c5b55771","in":{"base":"Any"},"out":{"base":"Any","pred":"torch_code(re(x)) == 'torch.real(x)' and torch_code(im(x)) == 'torch.imag(x)' and torch_code(arg(x)) == 'torch.angle(x)'"},"spec":{"lhs":"test_torch_complexes()","rhs":"test_torch_complexes produces the expected output","over":{"base":"Any"},"name":"test_torch_complexes_correct"},"guarantee":"test_torch_complexes produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_torch.test_torch_complexes_correct","statement":"Path(test_torch_complexes(x), test_torch_complexes produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4002104a84ff0e46"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_torch.test_torch_complexes","kind":"function","src_hash":"80e6dc09c5b55771","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: torch_code(re(x)) == 'torch.real(x)' and torch_code(im(x)) == 'torch.imag(x)' and torch_code(arg(x)) == 'torch.angle(x)'"},"spec":{"lhs":"test_torch_complexes()","rhs":"torch_code(re(x)) == 'torch.real(x)' and torch_code(im(x)) == 'torch.imag(x)' and torch_code(arg(x)) == 'torch.angle(x)'","over":{"base":"Any"},"name":"test_torch_complexes_correct"},"guarantee":"torch_code(re(x)) == 'torch.real(x)'; torch_code(im(x)) == 'torch.imag(x)'; torch_code(arg(x)) == 'torch.angle(x)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_torch.test_torch_complexes_correct","statement":"Path(test_torch_complexes(x), torch_code(re(x)) == 'torch.real(x)'; torch_code(im(x)) == 'torch.imag(x)'; torch_code(arg(x)) == 'torch.angle(x)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2366e1601f9eba61","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["torch_code(re(x)) == 'torch.real(x)'","torch_code(im(x)) == 'torch.imag(x)'","torch_code(arg(x)) == 'torch.angle(x)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_torch_complexes():
     assert torch_code(re(x)) == "torch.real(x)"
     assert torch_code(im(x)) == "torch.imag(x)"
@@ -273,16 +310,24 @@ def test_torch_complexes():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_torch_relational(), test_torch_relational produces the expected output) over Any ║
+# ║ Path(test_torch_relational(), torch_code(expr) == 'torch.eq(x, y)' and torch_code(expr) == 'torch.ne(x, y)' and torch_code(expr) == 'torch.ge(x, y)' and torch_code(expr) == 'torch.gt(x, y)' and torch_code(expr) == 'torch.le(x, y)' and torch_code(expr) == 'torch.lt(x, y)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_torch_relational : Any → {Any | torch_code(expr)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  torch_code(expr) == 'torch.eq(x, y)'           ║
+# ║   ensures:  torch_code(expr) == 'torch.ne(x, y)'           ║
+# ║   ensures:  torch_code(expr) == 'torch.ge(x, y)'           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_torch_relational : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98486a079ccb9b4c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 316fe9decd15db07  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_torch.test_torch_relational","kind":"function","src_hash":"aae7b0c54daf0b6d","in":{"base":"Any"},"out":{"base":"Any","pred":"torch_code(expr) == 'torch.eq(x, y)' and torch_code(expr) == 'torch.ne(x, y)' and torch_code(expr) == 'torch.ge(x, y)' and torch_code(expr) == 'torch.gt(x, y)' and torch_code(expr) == 'torch.le(x, y)' and torch_code(expr) == 'torch.lt(x, y)'"},"spec":{"lhs":"test_torch_relational()","rhs":"test_torch_relational produces the expected output","over":{"base":"Any"},"name":"test_torch_relational_correct"},"guarantee":"test_torch_relational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_torch.test_torch_relational_correct","statement":"Path(test_torch_relational(x), test_torch_relational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98486a079ccb9b4c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_torch.test_torch_relational","kind":"function","src_hash":"aae7b0c54daf0b6d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: torch_code(expr) == 'torch.eq(x, y)' and torch_code(expr) == 'torch.ne(x, y)' and torch_code(expr) == 'torch.ge(x, y)' and torch_code(expr) == 'torch.gt(x, y)' and torch_code(expr) == 'torch.le(x, y)' and torch_code(expr) == 'torch.lt(x, y)'"},"spec":{"lhs":"test_torch_relational()","rhs":"torch_code(expr) == 'torch.eq(x, y)' and torch_code(expr) == 'torch.ne(x, y)' and torch_code(expr) == 'torch.ge(x, y)' and torch_code(expr) == 'torch.gt(x, y)' and torch_code(expr) == 'torch.le(x, y)' and torch_code(expr) == 'torch.lt(x, y)'","over":{"base":"Any"},"name":"test_torch_relational_correct"},"guarantee":"torch_code(expr) == 'torch.eq(x, y)'; torch_code(expr) == 'torch.ne(x, y)'; torch_code(expr) == 'torch.ge(x, y)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_torch.test_torch_relational_correct","statement":"Path(test_torch_relational(x), torch_code(expr) == 'torch.eq(x, y)'; torch_code(expr) == 'torch.ne(x, y)'; torch_code(expr) == 'torch.ge(x, y)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"316fe9decd15db07","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["torch_code(expr) == 'torch.eq(x, y)'","torch_code(expr) == 'torch.ne(x, y)'","torch_code(expr) == 'torch.ge(x, y)'","torch_code(expr) == 'torch.gt(x, y)'","torch_code(expr) == 'torch.le(x, y)'","torch_code(expr) == 'torch.lt(x, y)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_torch_relational():
     if not torch:
         skip("PyTorch not installed")
@@ -313,16 +358,24 @@ def test_torch_relational():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_torch_matrix(), test_torch_matrix produces the expected output) over Any ║
+# ║ Path(test_torch_matrix(), torch_code(expr) == 'M' and torch.allclose(f(eye_tensor), eye_tensor) and torch_code(expr) == 'torch.matmul(M, N)' and torch_code(expr) == 'torch.mm(torch.mm(M, M), M)' and torch_code(expr) == 'torch.matmul(torch.matmul(torch.matmul(M, N), P), Q)' and torch_code(expr) == 'torch.trace(M)' and torch_code(expr) == 'torch.det(M)' and torch_code(expr) == 'torch.mul(M, N)' and torch_code(expr) == 'torch.linalg.inv(M)' and torch.allclose(result, expected)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_torch_matrix : Any → {Any | torch_code(expr) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  torch_code(expr) == 'M'                        ║
+# ║   ensures:  torch.allclose(f(eye_tensor), eye_tensor)      ║
+# ║   ensures:  torch_code(expr) == 'torch.matmul(M, N)'       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_torch_matrix : Any → {Any | result satisfies: to...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f60e09dd16016637  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 85f5011b8f577d23  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_torch.test_torch_matrix","kind":"function","src_hash":"dc7047670b748406","in":{"base":"Any"},"out":{"base":"Any","pred":"torch_code(expr) == 'M' and torch.allclose(f(eye_tensor), eye_tensor) and torch_code(expr) == 'torch.matmul(M, N)' and torch_code(expr) == 'torch.mm(torch.mm(M, M), M)' and torch_code(expr) == 'torch.matmul(torch.matmul(torch.matmul(M, N), P), Q)' and torch_code(expr) == 'torch.trace(M)' and torch_code(expr) == 'torch.det(M)' and torch_code(expr) == 'torch.mul(M, N)' and torch_code(expr) == 'torch.linalg.inv(M)' and torch.allclose(result, expected)"},"spec":{"lhs":"test_torch_matrix()","rhs":"test_torch_matrix produces the expected output","over":{"base":"Any"},"name":"test_torch_matrix_correct"},"guarantee":"test_torch_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_torch.test_torch_matrix_correct","statement":"Path(test_torch_matrix(x), test_torch_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f60e09dd16016637"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_torch.test_torch_matrix","kind":"function","src_hash":"dc7047670b748406","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: torch_code(expr) == 'M' and torch.allclose(f(eye_tensor), eye_tensor) and torch_code(expr) == 'torch.matmul(M, N)' and torch_code(expr) == 'torch.mm(torch.mm(M, M), M)' and torch_code(expr) == 'torch.matmul(torch.matmul(torch.matmul(M, N), P), Q)' and torch_code(expr) == 'torch.trace(M)' and torch_code(expr) == 'torch.det(M)' and torch_code(expr) == 'torch.mul(M, N)' and torch_code(expr) == 'torch.linalg.inv(M)' and torch.allclose(result, expected)"},"spec":{"lhs":"test_torch_matrix()","rhs":"torch_code(expr) == 'M' and torch.allclose(f(eye_tensor), eye_tensor) and torch_code(expr) == 'torch.matmul(M, N)' and torch_code(expr) == 'torch.mm(torch.mm(M, M), M)' and torch_code(expr) == 'torch.matmul(torch.matmul(torch.matmul(M, N), P), Q)' and torch_code(expr) == 'torch.trace(M)' and torch_code(expr) == 'torch.det(M)' and torch_code(expr) == 'torch.mul(M, N)' and torch_code(expr) == 'torch.linalg.inv(M)' and torch.allclose(result, expected)","over":{"base":"Any"},"name":"test_torch_matrix_correct"},"guarantee":"torch_code(expr) == 'M'; torch.allclose(f(eye_tensor), eye_tensor); torch_code(expr) == 'torch.matmul(M, N)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_torch.test_torch_matrix_correct","statement":"Path(test_torch_matrix(x), torch_code(expr) == 'M'; torch.allclose(f(eye_tensor), eye_tensor); torch_code(expr) == 'torch.matmul(M, N)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85f5011b8f577d23","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["torch_code(expr) == 'M'","torch.allclose(f(eye_tensor), eye_tensor)","torch_code(expr) == 'torch.matmul(M, N)'","torch_code(expr) == 'torch.mm(torch.mm(M, M), M)'","torch_code(expr) == 'torch.matmul(torch.matmul(torch.matmul(M, N), P), Q)'","torch_code(expr) == 'torch.trace(M)'","torch_code(expr) == 'torch.det(M)'","torch_code(expr) == 'torch.mul(M, N)'","torch_code(expr) == 'torch.linalg.inv(M)'","torch.allclose(result, expected)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_torch_matrix():
     if torch is None:
         skip("PyTorch not installed")
@@ -371,16 +424,24 @@ def test_torch_matrix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_torch_array_operations(), test_torch_array_operations produces the expected output) over Any ║
+# ║ Path(test_torch_array_operations(), torch_code(cg) == 'torch.einsum("ab,cd", M, N)' and torch.allclose(y, c) and torch_code(cg) == 'torch.add(M, N)' and torch_code(cg) == 'torch.add(torch.add(M, N), P)' and torch_code(cg) == 'torch.add(torch.add(torch.add(M, N), P), Q)' and torch_code(cg) == 'M.permute(1, 0)' and torch_code(cg) == 'torch.einsum("ab,cd", M, N).permute(1, 2, 3, 0)' and torch_code(cg) == 'torch.einsum("ab,bc->acb", M, N)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_torch_array_operations : Any → {Any | torch_code...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  torch_code(cg) == 'torch.einsum("ab,cd", ...   ║
+# ║   ensures:  torch.allclose(y, c)                           ║
+# ║   ensures:  torch_code(cg) == 'torch.add(M, N)'            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_torch_array_operations : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3920184798727a59  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fe6332804863f4df  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_torch.test_torch_array_operations","kind":"function","src_hash":"65f419538dd27149","in":{"base":"Any"},"out":{"base":"Any","pred":"torch_code(cg) == 'torch.einsum(\"ab,cd\", M, N)' and torch.allclose(y, c) and torch_code(cg) == 'torch.add(M, N)' and torch.allclose(y, c) and torch_code(cg) == 'torch.add(torch.add(M, N), P)' and torch.allclose(y, c) and torch_code(cg) == 'torch.add(torch.add(torch.add(M, N), P), Q)' and torch.allclose(y, c) and torch_code(cg) == 'M.permute(1, 0)' and torch.allclose(y, c) and torch_code(cg) == 'torch.einsum(\"ab,cd\", M, N).permute(1, 2, 3, 0)' and torch.allclose(y, c) and torch_code(cg) == 'torch.einsum(\"ab,bc->acb\", M, N)' and torch.allclose(y, c)"},"spec":{"lhs":"test_torch_array_operations()","rhs":"test_torch_array_operations produces the expected output","over":{"base":"Any"},"name":"test_torch_array_operations_correct"},"guarantee":"test_torch_array_operations produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_torch.test_torch_array_operations_correct","statement":"Path(test_torch_array_operations(x), test_torch_array_operations produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3920184798727a59"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_torch.test_torch_array_operations","kind":"function","src_hash":"65f419538dd27149","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: torch_code(cg) == 'torch.einsum(\"ab,cd\", M, N)' and torch.allclose(y, c) and torch_code(cg) == 'torch.add(M, N)' and torch_code(cg) == 'torch.add(torch.add(M, N), P)' and torch_code(cg) == 'torch.add(torch.add(torch.add(M, N), P), Q)' and torch_code(cg) == 'M.permute(1, 0)' and torch_code(cg) == 'torch.einsum(\"ab,cd\", M, N).permute(1, 2, 3, 0)' and torch_code(cg) == 'torch.einsum(\"ab,bc->acb\", M, N)'"},"spec":{"lhs":"test_torch_array_operations()","rhs":"torch_code(cg) == 'torch.einsum(\"ab,cd\", M, N)' and torch.allclose(y, c) and torch_code(cg) == 'torch.add(M, N)' and torch_code(cg) == 'torch.add(torch.add(M, N), P)' and torch_code(cg) == 'torch.add(torch.add(torch.add(M, N), P), Q)' and torch_code(cg) == 'M.permute(1, 0)' and torch_code(cg) == 'torch.einsum(\"ab,cd\", M, N).permute(1, 2, 3, 0)' and torch_code(cg) == 'torch.einsum(\"ab,bc->acb\", M, N)'","over":{"base":"Any"},"name":"test_torch_array_operations_correct"},"guarantee":"torch_code(cg) == 'torch.einsum(\"ab,cd\", M, N)'; torch.allclose(y, c); torch_code(cg) == 'torch.add(M, N)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_torch.test_torch_array_operations_correct","statement":"Path(test_torch_array_operations(x), torch_code(cg) == 'torch.einsum(\"ab,cd\", M, N)'; torch.allclose(y, c); torch_code(cg) == 'torch.add(M, N)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe6332804863f4df","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["torch_code(cg) == 'torch.einsum(\"ab,cd\", M, N)'","torch.allclose(y, c)","torch_code(cg) == 'torch.add(M, N)'","torch_code(cg) == 'torch.add(torch.add(M, N), P)'","torch_code(cg) == 'torch.add(torch.add(torch.add(M, N), P), Q)'","torch_code(cg) == 'M.permute(1, 0)'","torch_code(cg) == 'torch.einsum(\"ab,cd\", M, N).permute(1, 2, 3, 0)'","torch_code(cg) == 'torch.einsum(\"ab,bc->acb\", M, N)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_torch_array_operations():
     if not torch:
         skip("PyTorch not installed")
@@ -446,16 +507,22 @@ def test_torch_array_operations():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_torch_derivative(), test derivative handling) over Any ║
+# ║ Path(test_torch_derivative(), torch_code(expr) == 'torch.autograd.grad(torch.sin(x), x)[0]') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_torch_derivative : Any → {Any | torch_code(expr)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  torch_code(expr) == 'torch.autograd.grad(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_torch_derivative : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 330b38fc0443e841  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd9e0d74ef3a26d1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_torch.test_torch_derivative","kind":"function","src_hash":"bb03103aea03fb83","in":{"base":"Any"},"out":{"base":"Any","pred":"torch_code(expr) == 'torch.autograd.grad(torch.sin(x), x)[0]'"},"spec":{"lhs":"test_torch_derivative()","rhs":"test derivative handling","over":{"base":"Any"},"name":"test_torch_derivative_correct"},"guarantee":"test derivative handling","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_torch.test_torch_derivative_correct","statement":"Path(test_torch_derivative(x), test derivative handling)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"330b38fc0443e841"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_torch.test_torch_derivative","kind":"function","src_hash":"bb03103aea03fb83","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: torch_code(expr) == 'torch.autograd.grad(torch.sin(x), x)[0]'"},"spec":{"lhs":"test_torch_derivative()","rhs":"torch_code(expr) == 'torch.autograd.grad(torch.sin(x), x)[0]'","over":{"base":"Any"},"name":"test_torch_derivative_correct"},"guarantee":"torch_code(expr) == 'torch.autograd.grad(torch.sin(x), x)[0]'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_torch.test_torch_derivative_correct","statement":"Path(test_torch_derivative(x), torch_code(expr) == 'torch.autograd.grad(torch.sin(x), x)[0]')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd9e0d74ef3a26d1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["torch_code(expr) == 'torch.autograd.grad(torch.sin(x), x)[0]'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_torch_derivative():
     """Test derivative handling."""
     expr = Derivative(sin(x), x)
@@ -463,16 +530,24 @@ def test_torch_derivative():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_torch_printing_dtype(), test_torch_printing_dtype produces the expected output) over Any ║
+# ║ Path(test_torch_printing_dtype(), 'dtype=torch.float64' in torch_code(expr) and 'dtype=torch.float32' in torch_code(expr, dtype='torch.float32') and 'requires_grad=True' in result and 'dtype=torch.float64' in result and 'dtype=torch.float32' in result) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_torch_printing_dtype : Any → {Any | 'dtype=torch...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  'dtype=torch.float64' in torch_code(expr)      ║
+# ║   ensures:  'dtype=torch.float32' in torch_code(expr,...   ║
+# ║   ensures:  'requires_grad=True' in result                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_torch_printing_dtype : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93f64500b93f2eee  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed4c38c9c22d5eb3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_torch.test_torch_printing_dtype","kind":"function","src_hash":"4fbb7b9255df5646","in":{"base":"Any"},"out":{"base":"Any","pred":"'dtype=torch.float64' in torch_code(expr) and 'dtype=torch.float32' in torch_code(expr, dtype='torch.float32') and 'requires_grad=True' in result and 'dtype=torch.float64' in result and 'requires_grad=True' in result and 'dtype=torch.float32' in result"},"spec":{"lhs":"test_torch_printing_dtype()","rhs":"test_torch_printing_dtype produces the expected output","over":{"base":"Any"},"name":"test_torch_printing_dtype_correct"},"guarantee":"test_torch_printing_dtype produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_torch.test_torch_printing_dtype_correct","statement":"Path(test_torch_printing_dtype(x), test_torch_printing_dtype produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93f64500b93f2eee"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_torch.test_torch_printing_dtype","kind":"function","src_hash":"4fbb7b9255df5646","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: 'dtype=torch.float64' in torch_code(expr) and 'dtype=torch.float32' in torch_code(expr, dtype='torch.float32') and 'requires_grad=True' in result and 'dtype=torch.float64' in result and 'dtype=torch.float32' in result"},"spec":{"lhs":"test_torch_printing_dtype()","rhs":"'dtype=torch.float64' in torch_code(expr) and 'dtype=torch.float32' in torch_code(expr, dtype='torch.float32') and 'requires_grad=True' in result and 'dtype=torch.float64' in result and 'dtype=torch.float32' in result","over":{"base":"Any"},"name":"test_torch_printing_dtype_correct"},"guarantee":"'dtype=torch.float64' in torch_code(expr); 'dtype=torch.float32' in torch_code(expr, dtype='torch.float32'); 'requires_grad=True' in result","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_torch.test_torch_printing_dtype_correct","statement":"Path(test_torch_printing_dtype(x), 'dtype=torch.float64' in torch_code(expr); 'dtype=torch.float32' in torch_code(expr, dtype='torch.float32'); 'requires_grad=True' in result)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed4c38c9c22d5eb3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["'dtype=torch.float64' in torch_code(expr)","'dtype=torch.float32' in torch_code(expr, dtype='torch.float32')","'requires_grad=True' in result","'dtype=torch.float64' in result","'dtype=torch.float32' in result"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_torch_printing_dtype():
     if not torch:
         skip("PyTorch not installed")
@@ -496,16 +571,24 @@ def test_torch_printing_dtype():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_requires_grad(), test_requires_grad produces the expected output) over Any ║
+# ║ Path(test_requires_grad(), result.requires_grad and abs(x_val.grad.item() - float(cos(1.0).evalf())) < 1e-06 and abs(y_val.grad.item() - float(-sin(2.0).evalf())) < 1e-06) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_requires_grad : Any → {Any | result.requires_gra...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result.requires_grad                           ║
+# ║   ensures:  abs(x_val.grad.item() - float(cos(1.0).ev...   ║
+# ║   ensures:  abs(y_val.grad.item() - float(-sin(2.0).e...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_requires_grad : Any → {Any | result satisfies: r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e38ffde54adde1b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c6ea1a950b427e4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_torch.test_requires_grad","kind":"function","src_hash":"dbf73603f37140e2","in":{"base":"Any"},"out":{"base":"Any","pred":"result.requires_grad and abs(x_val.grad.item() - float(cos(1.0).evalf())) < 1e-06 and abs(y_val.grad.item() - float(-sin(2.0).evalf())) < 1e-06"},"spec":{"lhs":"test_requires_grad()","rhs":"test_requires_grad produces the expected output","over":{"base":"Any"},"name":"test_requires_grad_correct"},"guarantee":"test_requires_grad produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_torch.test_requires_grad_correct","statement":"Path(test_requires_grad(x), test_requires_grad produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e38ffde54adde1b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_torch.test_requires_grad","kind":"function","src_hash":"dbf73603f37140e2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result.requires_grad and abs(x_val.grad.item() - float(cos(1.0).evalf())) < 1e-06 and abs(y_val.grad.item() - float(-sin(2.0).evalf())) < 1e-06"},"spec":{"lhs":"test_requires_grad()","rhs":"result.requires_grad and abs(x_val.grad.item() - float(cos(1.0).evalf())) < 1e-06 and abs(y_val.grad.item() - float(-sin(2.0).evalf())) < 1e-06","over":{"base":"Any"},"name":"test_requires_grad_correct"},"guarantee":"result.requires_grad; abs(x_val.grad.item() - float(cos(1.0).evalf())) < 1e-06; abs(y_val.grad.item() - float(-sin(2.0).evalf())) < 1e-06","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_torch.test_requires_grad_correct","statement":"Path(test_requires_grad(x), result.requires_grad; abs(x_val.grad.item() - float(cos(1.0).evalf())) < 1e-06; abs(y_val.grad.item() - float(-sin(2.0).evalf())) < 1e-06)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c6ea1a950b427e4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result.requires_grad","abs(x_val.grad.item() - float(cos(1.0).evalf())) < 1e-06","abs(y_val.grad.item() - float(-sin(2.0).evalf())) < 1e-06"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_requires_grad():
     if not torch:
         skip("PyTorch not installed")
@@ -528,16 +611,24 @@ def test_requires_grad():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_torch_multi_variable_derivatives(), test_torch_multi_variable_derivatives produces the expected output) over Any ║
+# ║ Path(test_torch_multi_variable_derivatives(), torch_code(expr) == 'torch.autograd.grad(torch.sin(x), x)[0]' and torch_code(expr) == 'torch.autograd.grad(torch.autograd.grad(torch.sin(x), x, create_graph=True)[0], x, create_graph=True)[0]' and normalized_result == normalized_expected and result == expected) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  torch_code(expr) == 'torch.autograd.grad(...   ║
+# ║   ensures:  torch_code(expr) == 'torch.autograd.grad(...   ║
+# ║   ensures:  normalized_result == normalized_expected       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_torch_multi_variable_derivatives : Any → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 94bec3e34fc6954f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 19e2057fd171d115  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_torch.test_torch_multi_variable_derivatives","kind":"function","src_hash":"7a49e292998bae06","in":{"base":"Any"},"out":{"base":"Any","pred":"torch_code(expr) == 'torch.autograd.grad(torch.sin(x), x)[0]' and normalized_result == normalized_expected and result == expected and normalized_result == normalized_expected"},"spec":{"lhs":"test_torch_multi_variable_derivatives()","rhs":"test_torch_multi_variable_derivatives produces the expected output","over":{"base":"Any"},"name":"test_torch_multi_variable_derivatives_correct"},"guarantee":"test_torch_multi_variable_derivatives produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_torch.test_torch_multi_variable_derivatives_correct","statement":"Path(test_torch_multi_variable_derivatives(x), test_torch_multi_variable_derivatives produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94bec3e34fc6954f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_torch.test_torch_multi_variable_derivatives","kind":"function","src_hash":"7a49e292998bae06","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: torch_code(expr) == 'torch.autograd.grad(torch.sin(x), x)[0]' and torch_code(expr) == 'torch.autograd.grad(torch.autograd.grad(torch.sin(x), x, create_graph=True)[0], x, create_graph=True)[0]' and normalized_result == normalized_expected and result == expected"},"spec":{"lhs":"test_torch_multi_variable_derivatives()","rhs":"torch_code(expr) == 'torch.autograd.grad(torch.sin(x), x)[0]' and torch_code(expr) == 'torch.autograd.grad(torch.autograd.grad(torch.sin(x), x, create_graph=True)[0], x, create_graph=True)[0]' and normalized_result == normalized_expected and result == expected","over":{"base":"Any"},"name":"test_torch_multi_variable_derivatives_correct"},"guarantee":"torch_code(expr) == 'torch.autograd.grad(torch.sin(x), x)[0]'; torch_code(expr) == 'torch.autograd.grad(torch.autograd.grad(torch.sin(x), x, create_graph=True)[0], x, create_graph=True)[0]'; normalized_result == normalized_expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_torch.test_torch_multi_variable_derivatives_correct","statement":"Path(test_torch_multi_variable_derivatives(x), torch_code(expr) == 'torch.autograd.grad(torch.sin(x), x)[0]'; torch_code(expr) == 'torch.autograd.grad(torch.autograd.grad(torch.sin(x), x, create_graph=True)[0], x, create_graph=True)[0]'; normalized_result == normalized_expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19e2057fd171d115","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["torch_code(expr) == 'torch.autograd.grad(torch.sin(x), x)[0]'","torch_code(expr) == 'torch.autograd.grad(torch.autograd.grad(torch.sin(x), x, create_graph=True)[0], x, create_graph=True)[0]'","normalized_result == normalized_expected","result == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_torch_multi_variable_derivatives():
     if not torch:
         skip("PyTorch not installed")
@@ -572,16 +663,24 @@ def test_torch_multi_variable_derivatives():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_torch_derivative_lambdify(), test_torch_derivative_lambdify produces the expected output) over Any ║
+# ║ Path(test_torch_derivative_lambdify(), torch.isclose(result, torch.tensor(4.0)) and torch.isclose(result, torch.tensor(0.0), atol=1e-05) and torch.isclose(result, torch.tensor(-1.0), atol=1e-05) and torch.isclose(result, torch.tensor(6.0))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_torch_derivative_lambdify : Any → {Any | torch.i...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  torch.isclose(result, torch.tensor(4.0))       ║
+# ║   ensures:  torch.isclose(result, torch.tensor(0.0), ...   ║
+# ║   ensures:  torch.isclose(result, torch.tensor(-1.0),...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_torch_derivative_lambdify : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8941c10a0e17bc95  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | abd4146c631a9469  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_torch.test_torch_derivative_lambdify","kind":"function","src_hash":"4d9b4f59fca569bb","in":{"base":"Any"},"out":{"base":"Any","pred":"torch.isclose(result, torch.tensor(4.0)) and torch.isclose(result, torch.tensor(0.0), atol=1e-05) and torch.isclose(result, torch.tensor(-1.0), atol=1e-05) and torch.isclose(result, torch.tensor(6.0))"},"spec":{"lhs":"test_torch_derivative_lambdify()","rhs":"test_torch_derivative_lambdify produces the expected output","over":{"base":"Any"},"name":"test_torch_derivative_lambdify_correct"},"guarantee":"test_torch_derivative_lambdify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_torch.test_torch_derivative_lambdify_correct","statement":"Path(test_torch_derivative_lambdify(x), test_torch_derivative_lambdify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8941c10a0e17bc95"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_torch.test_torch_derivative_lambdify","kind":"function","src_hash":"4d9b4f59fca569bb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: torch.isclose(result, torch.tensor(4.0)) and torch.isclose(result, torch.tensor(0.0), atol=1e-05) and torch.isclose(result, torch.tensor(-1.0), atol=1e-05) and torch.isclose(result, torch.tensor(6.0))"},"spec":{"lhs":"test_torch_derivative_lambdify()","rhs":"torch.isclose(result, torch.tensor(4.0)) and torch.isclose(result, torch.tensor(0.0), atol=1e-05) and torch.isclose(result, torch.tensor(-1.0), atol=1e-05) and torch.isclose(result, torch.tensor(6.0))","over":{"base":"Any"},"name":"test_torch_derivative_lambdify_correct"},"guarantee":"torch.isclose(result, torch.tensor(4.0)); torch.isclose(result, torch.tensor(0.0), atol=1e-05); torch.isclose(result, torch.tensor(-1.0), atol=1e-05)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_torch.test_torch_derivative_lambdify_correct","statement":"Path(test_torch_derivative_lambdify(x), torch.isclose(result, torch.tensor(4.0)); torch.isclose(result, torch.tensor(0.0), atol=1e-05); torch.isclose(result, torch.tensor(-1.0), atol=1e-05))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"abd4146c631a9469","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["torch.isclose(result, torch.tensor(4.0))","torch.isclose(result, torch.tensor(0.0), atol=1e-05)","torch.isclose(result, torch.tensor(-1.0), atol=1e-05)","torch.isclose(result, torch.tensor(6.0))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_torch_derivative_lambdify():
     if not torch:
         skip("PyTorch not installed")
@@ -615,16 +714,24 @@ def test_torch_derivative_lambdify():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_torch_special_matrices(), test_torch_special_matrices produces the expected output) over Any ║
+# ║ Path(test_torch_special_matrices(), torch_code(expr) == 'torch.eye(3)' and torch_code(expr) == 'torch.eye(n, n)' and torch_code(expr) == 'torch.zeros((2, 3))' and torch_code(expr) == 'torch.zeros((m, n))' and torch_code(expr) == 'torch.ones((2, 3))' and torch_code(expr) == 'torch.ones((m, n))') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_torch_special_matrices : Any → {Any | torch_code...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  torch_code(expr) == 'torch.eye(3)'             ║
+# ║   ensures:  torch_code(expr) == 'torch.eye(n, n)'          ║
+# ║   ensures:  torch_code(expr) == 'torch.zeros((2, 3))'      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_torch_special_matrices : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f968719b1e460661  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7aa4e8ba41e3d1b5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_torch.test_torch_special_matrices","kind":"function","src_hash":"42c7f53d63c07417","in":{"base":"Any"},"out":{"base":"Any","pred":"torch_code(expr) == 'torch.eye(3)' and torch_code(expr) == 'torch.eye(n, n)' and torch_code(expr) == 'torch.zeros((2, 3))' and torch_code(expr) == 'torch.zeros((m, n))' and torch_code(expr) == 'torch.ones((2, 3))' and torch_code(expr) == 'torch.ones((m, n))'"},"spec":{"lhs":"test_torch_special_matrices()","rhs":"test_torch_special_matrices produces the expected output","over":{"base":"Any"},"name":"test_torch_special_matrices_correct"},"guarantee":"test_torch_special_matrices produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_torch.test_torch_special_matrices_correct","statement":"Path(test_torch_special_matrices(x), test_torch_special_matrices produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f968719b1e460661"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_torch.test_torch_special_matrices","kind":"function","src_hash":"42c7f53d63c07417","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: torch_code(expr) == 'torch.eye(3)' and torch_code(expr) == 'torch.eye(n, n)' and torch_code(expr) == 'torch.zeros((2, 3))' and torch_code(expr) == 'torch.zeros((m, n))' and torch_code(expr) == 'torch.ones((2, 3))' and torch_code(expr) == 'torch.ones((m, n))'"},"spec":{"lhs":"test_torch_special_matrices()","rhs":"torch_code(expr) == 'torch.eye(3)' and torch_code(expr) == 'torch.eye(n, n)' and torch_code(expr) == 'torch.zeros((2, 3))' and torch_code(expr) == 'torch.zeros((m, n))' and torch_code(expr) == 'torch.ones((2, 3))' and torch_code(expr) == 'torch.ones((m, n))'","over":{"base":"Any"},"name":"test_torch_special_matrices_correct"},"guarantee":"torch_code(expr) == 'torch.eye(3)'; torch_code(expr) == 'torch.eye(n, n)'; torch_code(expr) == 'torch.zeros((2, 3))'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_torch.test_torch_special_matrices_correct","statement":"Path(test_torch_special_matrices(x), torch_code(expr) == 'torch.eye(3)'; torch_code(expr) == 'torch.eye(n, n)'; torch_code(expr) == 'torch.zeros((2, 3))')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7aa4e8ba41e3d1b5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["torch_code(expr) == 'torch.eye(3)'","torch_code(expr) == 'torch.eye(n, n)'","torch_code(expr) == 'torch.zeros((2, 3))'","torch_code(expr) == 'torch.zeros((m, n))'","torch_code(expr) == 'torch.ones((2, 3))'","torch_code(expr) == 'torch.ones((m, n))'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_torch_special_matrices():
     if not torch:
         skip("PyTorch not installed")
@@ -651,16 +758,22 @@ def test_torch_special_matrices():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_torch_special_matrices_lambdify(), test_torch_special_matrices_lambdify produces the expected output) over Any ║
+# ║ Path(test_torch_special_matrices_lambdify(), torch.allclose(result, expected)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_torch_special_matrices_lambdify : Any → {Any | t...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  torch.allclose(result, expected)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_torch_special_matrices_lambdify : Any → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c4f16b0d172f584  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e9cfd672cc50772  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_torch.test_torch_special_matrices_lambdify","kind":"function","src_hash":"91cb212a5b7669b8","in":{"base":"Any"},"out":{"base":"Any","pred":"torch.allclose(result, expected) and torch.allclose(result, expected) and torch.allclose(result, expected)"},"spec":{"lhs":"test_torch_special_matrices_lambdify()","rhs":"test_torch_special_matrices_lambdify produces the expected output","over":{"base":"Any"},"name":"test_torch_special_matrices_lambdify_correct"},"guarantee":"test_torch_special_matrices_lambdify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_torch.test_torch_special_matrices_lambdify_correct","statement":"Path(test_torch_special_matrices_lambdify(x), test_torch_special_matrices_lambdify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c4f16b0d172f584"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_torch.test_torch_special_matrices_lambdify","kind":"function","src_hash":"91cb212a5b7669b8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: torch.allclose(result, expected)"},"spec":{"lhs":"test_torch_special_matrices_lambdify()","rhs":"torch.allclose(result, expected)","over":{"base":"Any"},"name":"test_torch_special_matrices_lambdify_correct"},"guarantee":"torch.allclose(result, expected)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_torch.test_torch_special_matrices_lambdify_correct","statement":"Path(test_torch_special_matrices_lambdify(x), torch.allclose(result, expected))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e9cfd672cc50772","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["torch.allclose(result, expected)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_torch_special_matrices_lambdify():
     if not torch:
         skip("PyTorch not installed")
@@ -685,16 +798,24 @@ def test_torch_special_matrices_lambdify():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_torch_complex_operations(), test_torch_complex_operations produces the expected output) over Any ║
+# ║ Path(test_torch_complex_operations(), torch_code(expr) == 'torch.conj(x)' and torch_code(expr) == 'torch.sin(torch.conj(x)) - 1j*torch.cos(torch.conj(y))' and torch_code(expr) == '1j' and torch_code(expr) == 'x + 2*1j' and torch_code(expr) == 'torch.exp(1j*x)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_torch_complex_operations : Any → {Any | torch_co...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  torch_code(expr) == 'torch.conj(x)'            ║
+# ║   ensures:  torch_code(expr) == 'torch.sin(torch.conj...   ║
+# ║   ensures:  torch_code(expr) == '1j'                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_torch_complex_operations : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 21a868f343c88f23  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9dad45d0ea01a670  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_torch.test_torch_complex_operations","kind":"function","src_hash":"527706f1e53ddddd","in":{"base":"Any"},"out":{"base":"Any","pred":"torch_code(expr) == 'torch.conj(x)' and torch_code(expr) == 'torch.sin(torch.conj(x)) - 1j*torch.cos(torch.conj(y))' and torch_code(expr) == '1j' and torch_code(expr) == 'x + 2*1j' and torch_code(expr) == 'torch.exp(1j*x)'"},"spec":{"lhs":"test_torch_complex_operations()","rhs":"test_torch_complex_operations produces the expected output","over":{"base":"Any"},"name":"test_torch_complex_operations_correct"},"guarantee":"test_torch_complex_operations produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_torch.test_torch_complex_operations_correct","statement":"Path(test_torch_complex_operations(x), test_torch_complex_operations produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21a868f343c88f23"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_torch.test_torch_complex_operations","kind":"function","src_hash":"527706f1e53ddddd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: torch_code(expr) == 'torch.conj(x)' and torch_code(expr) == 'torch.sin(torch.conj(x)) - 1j*torch.cos(torch.conj(y))' and torch_code(expr) == '1j' and torch_code(expr) == 'x + 2*1j' and torch_code(expr) == 'torch.exp(1j*x)'"},"spec":{"lhs":"test_torch_complex_operations()","rhs":"torch_code(expr) == 'torch.conj(x)' and torch_code(expr) == 'torch.sin(torch.conj(x)) - 1j*torch.cos(torch.conj(y))' and torch_code(expr) == '1j' and torch_code(expr) == 'x + 2*1j' and torch_code(expr) == 'torch.exp(1j*x)'","over":{"base":"Any"},"name":"test_torch_complex_operations_correct"},"guarantee":"torch_code(expr) == 'torch.conj(x)'; torch_code(expr) == 'torch.sin(torch.conj(x)) - 1j*torch.cos(torch.conj(y))'; torch_code(expr) == '1j'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_torch.test_torch_complex_operations_correct","statement":"Path(test_torch_complex_operations(x), torch_code(expr) == 'torch.conj(x)'; torch_code(expr) == 'torch.sin(torch.conj(x)) - 1j*torch.cos(torch.conj(y))'; torch_code(expr) == '1j')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9dad45d0ea01a670","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["torch_code(expr) == 'torch.conj(x)'","torch_code(expr) == 'torch.sin(torch.conj(x)) - 1j*torch.cos(torch.conj(y))'","torch_code(expr) == '1j'","torch_code(expr) == 'x + 2*1j'","torch_code(expr) == 'torch.exp(1j*x)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_torch_complex_operations():
     if not torch:
         skip("PyTorch not installed")
@@ -717,16 +838,24 @@ def test_torch_complex_operations():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_torch_special_functions(), test_torch_special_functions produces the expected output) over Any ║
+# ║ Path(test_torch_special_functions(), torch_code(expr) == 'torch.heaviside(x, 1/2)' and torch_code(expr) == 'torch.heaviside(x, 0)' and torch_code(expr) == 'torch.special.gamma(x)' and torch_code(expr) == 'torch.special.digamma(x)' and torch_code(expr) == 'torch.special.gamma(torch.sin(x))') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_torch_special_functions : Any → {Any | torch_cod...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  torch_code(expr) == 'torch.heaviside(x, 1...   ║
+# ║   ensures:  torch_code(expr) == 'torch.heaviside(x, 0)'    ║
+# ║   ensures:  torch_code(expr) == 'torch.special.gamma(x)'   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_torch_special_functions : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0277eb198f910d6e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3dd3185b2f5973d7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_torch.test_torch_special_functions","kind":"function","src_hash":"d3899f984cd2d59a","in":{"base":"Any"},"out":{"base":"Any","pred":"torch_code(expr) == 'torch.heaviside(x, 1/2)' and torch_code(expr) == 'torch.heaviside(x, 0)' and torch_code(expr) == 'torch.special.gamma(x)' and torch_code(expr) == 'torch.special.digamma(x)' and torch_code(expr) == 'torch.special.gamma(torch.sin(x))'"},"spec":{"lhs":"test_torch_special_functions()","rhs":"test_torch_special_functions produces the expected output","over":{"base":"Any"},"name":"test_torch_special_functions_correct"},"guarantee":"test_torch_special_functions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_torch.test_torch_special_functions_correct","statement":"Path(test_torch_special_functions(x), test_torch_special_functions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0277eb198f910d6e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_torch.test_torch_special_functions","kind":"function","src_hash":"d3899f984cd2d59a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: torch_code(expr) == 'torch.heaviside(x, 1/2)' and torch_code(expr) == 'torch.heaviside(x, 0)' and torch_code(expr) == 'torch.special.gamma(x)' and torch_code(expr) == 'torch.special.digamma(x)' and torch_code(expr) == 'torch.special.gamma(torch.sin(x))'"},"spec":{"lhs":"test_torch_special_functions()","rhs":"torch_code(expr) == 'torch.heaviside(x, 1/2)' and torch_code(expr) == 'torch.heaviside(x, 0)' and torch_code(expr) == 'torch.special.gamma(x)' and torch_code(expr) == 'torch.special.digamma(x)' and torch_code(expr) == 'torch.special.gamma(torch.sin(x))'","over":{"base":"Any"},"name":"test_torch_special_functions_correct"},"guarantee":"torch_code(expr) == 'torch.heaviside(x, 1/2)'; torch_code(expr) == 'torch.heaviside(x, 0)'; torch_code(expr) == 'torch.special.gamma(x)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_torch.test_torch_special_functions_correct","statement":"Path(test_torch_special_functions(x), torch_code(expr) == 'torch.heaviside(x, 1/2)'; torch_code(expr) == 'torch.heaviside(x, 0)'; torch_code(expr) == 'torch.special.gamma(x)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3dd3185b2f5973d7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["torch_code(expr) == 'torch.heaviside(x, 1/2)'","torch_code(expr) == 'torch.heaviside(x, 0)'","torch_code(expr) == 'torch.special.gamma(x)'","torch_code(expr) == 'torch.special.digamma(x)'","torch_code(expr) == 'torch.special.gamma(torch.sin(x))'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_torch_special_functions():
     if not torch:
         skip("PyTorch not installed")

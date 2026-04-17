@@ -56,16 +56,22 @@ _combined_printing = False
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(combined_tensor_printing(com), set flag controlling whether tensor products of states should be printed as a combined bra/ket or as an explicit tensor product of different bra/kets) over Any ║
+# ║ Path(combined_tensor_printing(combined), <unspecified:combined_tensor_printing>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ combined_tensor_printing : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ac2521244d342b1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tensorproduct.combined_tensor_printing","kind":"function","src_hash":"64a789253ad05987","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"combined_tensor_printing(com)","rhs":"set flag controlling whether tensor products of states should be printed as a combined bra/ket or as an explicit tensor product of different bra/kets","over":{"base":"Any"},"name":"combined_tensor_printing_correct"},"guarantee":"set flag controlling whether tensor products of states should be printed as a combined bra/ket or as an explicit tensor product of different bra/kets","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tensorproduct.combined_tensor_printing_correct","statement":"Path(combined_tensor_printing(x), set flag controlling whether tensor products of states should be printed as a combined bra/ket or as an explicit tensor product of different bra/kets)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ac2521244d342b1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tensorproduct.combined_tensor_printing","kind":"function","src_hash":"64a789253ad05987","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"combined_tensor_printing(combined)","rhs":"<unspecified:combined_tensor_printing>","over":{"base":"Any"},"name":"combined_tensor_printing_correct"},"guarantee":"set flag controlling whether tensor products of states should be printed as a combined bra/ket or as an explicit tensor product of different bra/kets","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tensorproduct.combined_tensor_printing_correct","statement":"Path(combined_tensor_printing(x), set flag controlling whether tensor products of states should be printed as a combined bra/ket or as an explicit tensor product of different bra/kets)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ac2521244d342b1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_global","globals_read":["_combined_printing"],"globals_written":["_combined_printing"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def combined_tensor_printing(combined):
     """Set flag controlling whether tensor products of states should be
     printed as a combined bra/ket or as an explicit tensor product of different
@@ -85,14 +91,20 @@ def combined_tensor_printing(combined):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TensorProduct(*args), correctly constructs a TensorProduct instance) over {Any | isinstance(args[0], (Matrix, ImmutableMatrix, numpy_ndarray, scipy_sparse_matrix)) and isinstance(self.args[i], (Add, Pow, Mul)) and isinstance(self.args[i], (Add, Mul))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TensorProduct : {Any | isinstance(args[0], (Matrix, I...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0eba1d8a8ec6e18b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tensorproduct.TensorProduct","kind":"class","src_hash":"aea1527e590a45c8","in":{"base":"Any","pred":"isinstance(args[0], (Matrix, ImmutableMatrix, numpy_ndarray, scipy_sparse_matrix)) and isinstance(self.args[i], (Add, Pow, Mul)) and isinstance(self.args[i], (Add, Mul))"},"out":{"base":"Any"},"spec":{"lhs":"TensorProduct(*args)","rhs":"correctly constructs a TensorProduct instance","over":{"base":"Any","pred":"isinstance(args[0], (Matrix, ImmutableMatrix, numpy_ndarray, scipy_sparse_matrix)) and isinstance(self.args[i], (Add, Pow, Mul)) and isinstance(self.args[i], (Add, Mul))"},"name":"TensorProduct_class_invariant"},"guarantee":"correctly constructs a TensorProduct instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0eba1d8a8ec6e18b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tensorproduct.TensorProduct","kind":"class","src_hash":"aea1527e590a45c8","in":{"base":"Any","pred":"isinstance(args[0], (Matrix, ImmutableMatrix, numpy_ndarray, scipy_sparse_matrix)) and isinstance(self.args[i], (Add, Pow, Mul)) and isinstance(self.args[i], (Add, Mul))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"TensorProduct(*args)","rhs":"correctly constructs a TensorProduct instance","over":{"base":"Any","pred":"isinstance(args[0], (Matrix, ImmutableMatrix, numpy_ndarray, scipy_sparse_matrix)) and isinstance(self.args[i], (Add, Pow, Mul)) and isinstance(self.args[i], (Add, Mul))"},"name":"TensorProduct_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0eba1d8a8ec6e18b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function TensorProduct not found in source"]}}
 class TensorProduct(Expr):
     """The tensor product of two or more arguments.
 
@@ -167,32 +179,44 @@ class TensorProduct(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(kind(), returns the kind attribute) over Any          ║
+# ║ Path(kind(), self._kind_dispatcher(*arg_kinds)) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._kind_dispatcher(*arg_kinds)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ kind : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9b54400ffaa6de7c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tensorproduct.TensorProduct.kind","kind":"property","src_hash":"597c75ed3553432c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kind()","rhs":"returns the kind attribute","over":{"base":"Any"},"name":"kind_correct"},"guarantee":"returns the kind attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9b54400ffaa6de7c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tensorproduct.TensorProduct.kind","kind":"property","src_hash":"597c75ed3553432c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kind()","rhs":"self._kind_dispatcher(*arg_kinds)","over":{"base":"Any"},"name":"kind_correct"},"guarantee":"returns self._kind_dispatcher(*arg_kinds)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9b54400ffaa6de7c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._kind_dispatcher(*arg_kinds)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._kind_dispatcher","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def kind(self):
         """Calculate the kind of a tensor product by looking at its children."""
         arg_kinds = (a.kind for a in self.args)
         return self._kind_dispatcher(*arg_kinds)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args), <unspecified:__new__>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d8e0f1e944a5e3aa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tensorproduct.TensorProduct.__new__","kind":"method","src_hash":"2bc42a336bdaf4fa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d8e0f1e944a5e3aa"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tensorproduct.TensorProduct.__new__","kind":"method","src_hash":"2bc42a336bdaf4fa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d8e0f1e944a5e3aa","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["cls.flatten"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args):
         if isinstance(args[0], (Matrix, ImmutableMatrix, numpy_ndarray,
                                                     scipy_sparse_matrix)):
@@ -209,16 +233,22 @@ class TensorProduct(Expr):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(flatten(cls), flatten produces the expected output) over Any ║
+# ║ Path(flatten(cls, args), (c_part, nc_parts)) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (c_part, nc_parts)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ flatten : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d134aeb5fb4222fb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 978ca29e3131bacd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tensorproduct.TensorProduct.flatten","kind":"classmethod","src_hash":"d2317fc39f20f6e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"flatten(cls)","rhs":"flatten produces the expected output","over":{"base":"Any"},"name":"flatten_correct"},"guarantee":"flatten produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tensorproduct.TensorProduct.flatten_correct","statement":"Path(flatten(x), flatten produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d134aeb5fb4222fb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tensorproduct.TensorProduct.flatten","kind":"classmethod","src_hash":"d2317fc39f20f6e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"flatten(cls, args)","rhs":"(c_part, nc_parts)","over":{"base":"Any"},"name":"flatten_correct"},"guarantee":"returns (c_part, nc_parts)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tensorproduct.TensorProduct.flatten_correct","statement":"Path(flatten(x), returns (c_part, nc_parts))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"978ca29e3131bacd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(c_part, nc_parts)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def flatten(cls, args):
         # TODO: disallow nested TensorProducts.
         c_part = []
@@ -230,44 +260,63 @@ class TensorProduct(Expr):
         return c_part, nc_parts
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_adjoint(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_adjoint(), TensorProduct(*[Dagger(i) for i in self.args])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  TensorProduct(*[Dagger(i) for i in self.a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_adjoint : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 85031540b60d116d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tensorproduct.TensorProduct._eval_adjoint","kind":"method","src_hash":"5d9415ac2a28d288","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_adjoint()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_adjoint_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"85031540b60d116d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tensorproduct.TensorProduct._eval_adjoint","kind":"method","src_hash":"5d9415ac2a28d288","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_adjoint()","rhs":"TensorProduct(*[Dagger(i) for i in self.args])","over":{"base":"Any"},"name":"_eval_adjoint_correct"},"guarantee":"returns TensorProduct(*[Dagger(i) for i in self.args])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"85031540b60d116d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"TensorProduct(*[Dagger(i) for i in self.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_adjoint(self):
         return TensorProduct(*[Dagger(i) for i in self.args])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite(rul), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite(rule, args, **hints), TensorProduct(*args).expand(tensorproduct=True)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  TensorProduct(*args).expand(tensorproduct...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 56c69c33021d43dc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tensorproduct.TensorProduct._eval_rewrite","kind":"method","src_hash":"a0f67c35c36963fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite(rul)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"56c69c33021d43dc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tensorproduct.TensorProduct._eval_rewrite","kind":"method","src_hash":"a0f67c35c36963fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite(rule, args, **hints)","rhs":"TensorProduct(*args).expand(tensorproduct=True)","over":{"base":"Any"},"name":"_eval_rewrite_correct"},"guarantee":"returns TensorProduct(*args).expand(tensorproduct=True)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"56c69c33021d43dc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"TensorProduct(*args).expand(tensorproduct=True)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite(self, rule, args, **hints):
         return TensorProduct(*args).expand(tensorproduct=True)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympystr(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_sympystr(printer, *args), <unspecified:_sympystr>) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sympystr : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sympystr : {Any | hasattr(printer, '_print')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fbb0f04ca4c548e7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tensorproduct.TensorProduct._sympystr","kind":"method","src_hash":"19966d7d5da51f93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tensorproduct.TensorProduct._sympystr_correct","statement":"Path(_sympystr(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbb0f04ca4c548e7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tensorproduct.TensorProduct._sympystr","kind":"method","src_hash":"19966d7d5da51f93","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(printer, *args)","rhs":"<unspecified:_sympystr>","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_sympystr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tensorproduct.TensorProduct._sympystr_correct","statement":"Path(_sympystr(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbb0f04ca4c548e7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(printer, '_print')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympystr(self, printer, *args):
         length = len(self.args)
         s = ''
@@ -282,16 +331,24 @@ class TensorProduct(Expr):
         return s
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pretty(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_pretty(printer, *args), <unspecified:_pretty>) over {Any | hasattr(printer, '_print') and hasattr(printer, '_use_unicode')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _pretty : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   requires: hasattr(printer, '_use_unicode')               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _pretty : {Any | hasattr(printer, '_print') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81d1ca84485226c4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tensorproduct.TensorProduct._pretty","kind":"method","src_hash":"e16ac4a1c67fcb28","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pretty(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tensorproduct.TensorProduct._pretty_correct","statement":"Path(_pretty(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81d1ca84485226c4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tensorproduct.TensorProduct._pretty","kind":"method","src_hash":"e16ac4a1c67fcb28","in":{"base":"Any","pred":"hasattr(printer, '_print') and hasattr(printer, '_use_unicode')"},"out":{"base":"Any"},"spec":{"lhs":"_pretty(printer, *args)","rhs":"<unspecified:_pretty>","over":{"base":"Any","pred":"hasattr(printer, '_print') and hasattr(printer, '_use_unicode')"},"name":"_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tensorproduct.TensorProduct._pretty_correct","statement":"Path(_pretty(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81d1ca84485226c4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(printer, '_print')","hasattr(printer, '_use_unicode')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","printer._use_unicode","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _pretty(self, printer, *args):
 
         if (_combined_printing and
@@ -337,16 +394,23 @@ class TensorProduct(Expr):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_latex(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_latex(printer, *args), <unspecified:_latex>) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _latex : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _latex : {Any | hasattr(printer, '_print')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bca8f482bd7fba3c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tensorproduct.TensorProduct._latex","kind":"method","src_hash":"09b33818b1ab0b72","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_latex(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tensorproduct.TensorProduct._latex_correct","statement":"Path(_latex(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bca8f482bd7fba3c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tensorproduct.TensorProduct._latex","kind":"method","src_hash":"09b33818b1ab0b72","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_latex(printer, *args)","rhs":"<unspecified:_latex>","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tensorproduct.TensorProduct._latex_correct","statement":"Path(_latex(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bca8f482bd7fba3c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(printer, '_print')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _latex(self, printer, *args):
 
         if (_combined_printing and
@@ -377,30 +441,45 @@ class TensorProduct(Expr):
         return s
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), doit produces the expected output) over Any ║
+# ║ Path(doit(**hints), TensorProduct(*[item.doit(**hints) for item in self.args])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  TensorProduct(*[item.doit(**hints) for it...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5fc9896ca09590c1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tensorproduct.TensorProduct.doit","kind":"method","src_hash":"c77c48182fe0720d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"doit produces the expected output","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5fc9896ca09590c1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tensorproduct.TensorProduct.doit","kind":"method","src_hash":"c77c48182fe0720d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**hints)","rhs":"TensorProduct(*[item.doit(**hints) for item in self.args])","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"returns TensorProduct(*[item.doit(**hints) for item in self.args])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5fc9896ca09590c1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"TensorProduct(*[item.doit(**hints) for item in self.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         return TensorProduct(*[item.doit(**hints) for item in self.args])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_expand_tensorproduct(**h), distribute tensorproducts across addition) over Any ║
+# ║ Path(_eval_expand_tensorproduct(**hints), result == (Add(*add_args) if add_args else self) and result == Add(*add_args) or result == self) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_expand_tensorproduct : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (Add(*add_args) if add_args els...   ║
+# ║   ensures:  result == Add(*add_args) or result == self     ║
+# ║   fiber[case_0]: add_args => Add(*add_args)                ║
+# ║   fiber[case_1]: not (add_args) => self                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_expand_tensorproduct : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 01d992522c5780b1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 663060515abac731  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tensorproduct.TensorProduct._eval_expand_tensorproduct","kind":"method","src_hash":"2ebf56c558b4cc4c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_tensorproduct(**h)","rhs":"distribute tensorproducts across addition","over":{"base":"Any"},"name":"_eval_expand_tensorproduct_correct"},"guarantee":"distribute tensorproducts across addition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tensorproduct.TensorProduct._eval_expand_tensorproduct_correct","statement":"Path(_eval_expand_tensorproduct(x), distribute tensorproducts across addition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01d992522c5780b1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tensorproduct.TensorProduct._eval_expand_tensorproduct","kind":"method","src_hash":"2ebf56c558b4cc4c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (Add(*add_args) if add_args else self) and result == Add(*add_args) or result == self"},"spec":{"lhs":"_eval_expand_tensorproduct(**hints)","rhs":"result == (Add(*add_args) if add_args else self) and result == Add(*add_args) or result == self","over":{"base":"Any"},"name":"_eval_expand_tensorproduct_correct"},"guarantee":"result == (Add(*add_args) if add_args else self); result == Add(*add_args) or result == self; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tensorproduct.TensorProduct._eval_expand_tensorproduct_correct","statement":"Path(_eval_expand_tensorproduct(x), result == (Add(*add_args) if add_args else self); result == Add(*add_args) or result == self; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"663060515abac731","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (Add(*add_args) if add_args else self)","result == Add(*add_args) or result == self"],"fibers":[{"name":"case_0","guard":"add_args","ensures":["result == Add(*add_args)"],"decidability":"library","returns_expr":"Add(*add_args)"},{"name":"case_1","guard":"not (add_args)","ensures":["result == self"],"decidability":"library","returns_expr":"self"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_expand_tensorproduct(self, **hints):
         """Distribute TensorProducts across addition."""
         args = self.args
@@ -423,16 +502,25 @@ class TensorProduct(Expr):
             return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_trace(**k), id) over Any                        ║
+# ║ Path(_eval_trace(**kwargs), id) over Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_trace : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (Mul(*[Tr(arg).doit() for arg i...   ║
+# ║   ensures:  result == Mul(*[Tr(arg).doit() for arg in...   ║
+# ║   fiber[zero_or_none]: indices is None or len(indices...   ║
+# ║   fiber[zero_or_none]: not (indices is None or len(in...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_trace : Any → {Any | result satisfies: result =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5e3445e3b8e3a98a   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tensorproduct.TensorProduct._eval_trace","kind":"method","src_hash":"b08b21b74c41b9f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_trace(**k)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_trace_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Mul","by":"library_axiom"},{"fn":"Tr","by":"library_axiom"},{"fn":"doit","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e3445e3b8e3a98a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tensorproduct.TensorProduct._eval_trace","kind":"method","src_hash":"b08b21b74c41b9f8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (Mul(*[Tr(arg).doit() for arg in exp.args]) if indices is None or len(indices) == 0 else Mul(*[Tr(value).doit() if idx in indices else value for idx, value in enumerate(exp.args)])) and result == Mul(*[Tr(arg).doit() for arg in exp.args]) or result == Mul(*[Tr(value).doit() if idx in indices else value for idx, value in enumerate(exp.args)])"},"spec":{"lhs":"_eval_trace(**kwargs)","rhs":"result == (Mul(*[Tr(arg).doit() for arg in exp.args]) if indices is None or len(indices) == 0 else Mul(*[Tr(value).doit() if idx in indices else value for idx, value in enumerate(exp.args)])) and result == Mul(*[Tr(arg).doit() for arg in exp.args]) or result == Mul(*[Tr(value).doit() if idx in indices else value for idx, value in enumerate(exp.args)])","over":{"base":"Any"},"name":"_eval_trace_correct","kind":"composition"},"guarantee":"result == (Mul(*[Tr(arg).doit() for arg in exp.args]) if indices is None or len(indices) == 0 else Mul(*[Tr(value).doit() if idx in indices else value for idx, value in enumerate(exp.args)])); result == Mul(*[Tr(arg).doit() for arg in exp.args]) or result == Mul(*[Tr(value).doit() if idx in indices else value for idx, value in enumerate(exp.args)]); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Mul","by":"library_axiom"},{"fn":"Tr","by":"library_axiom"},{"fn":"doit","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e3445e3b8e3a98a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (Mul(*[Tr(arg).doit() for arg in exp.args]) if indices is None or len(indices) == 0 else Mul(*[Tr(value).doit() if idx in indices else value for idx, value in enumerate(exp.args)]))","result == Mul(*[Tr(arg).doit() for arg in exp.args]) or result == Mul(*[Tr(value).doit() if idx in indices else value for idx, value in enumerate(exp.args)])"],"fibers":[{"name":"zero_or_none","guard":"indices is None or len(indices) == 0","ensures":["result == Mul(*[Tr(arg).doit() for arg in exp.args])"],"decidability":"structural","returns_expr":"Mul(*[Tr(arg).doit() for arg in exp.args])"},{"name":"zero_or_none","guard":"not (indices is None or len(indices) == 0)","ensures":["result == Mul(*[Tr(value).doit() if idx in indices else value for idx, value in enumerate(exp.args)])"],"decidability":"structural","returns_expr":"Mul(*[Tr(value).doit() if idx in indices else value for idx, value in enumerate(exp.args)])"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_trace(self, **kwargs):
         indices = kwargs.get('indices', None)
         exp = self
@@ -445,16 +533,23 @@ class TensorProduct(Expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tensor_product_simp_Mul(e), simplify a mul with tensor products) over Any ║
+# ║ Path(tensor_product_simp_Mul(e), e) over Any               ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ tensor_product_simp_Mul : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == e                                    ║
+# ║   returns:  e                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ tensor_product_simp_Mul : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a5eb9ff988696828  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58e7ac09a5b0ae57  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tensorproduct.tensor_product_simp_Mul","kind":"function","src_hash":"ccb7e1fbcec5aca7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tensor_product_simp_Mul(e)","rhs":"simplify a mul with tensor products","over":{"base":"Any"},"name":"tensor_product_simp_Mul_correct"},"guarantee":"simplify a mul with tensor products","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tensorproduct.tensor_product_simp_Mul_correct","statement":"Path(tensor_product_simp_Mul(x), simplify a mul with tensor products)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a5eb9ff988696828"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tensorproduct.tensor_product_simp_Mul","kind":"function","src_hash":"ccb7e1fbcec5aca7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (e)"},"spec":{"lhs":"tensor_product_simp_Mul(e)","rhs":"e","over":{"base":"Any"},"name":"tensor_product_simp_Mul_correct"},"guarantee":"returns e; result == e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tensorproduct.tensor_product_simp_Mul_correct","statement":"Path(tensor_product_simp_Mul(x), returns e; result == e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58e7ac09a5b0ae57","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == e"],"returns_expr":"e","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def tensor_product_simp_Mul(e):
     """Simplify a Mul with tensor products.
 
@@ -477,16 +572,23 @@ def tensor_product_simp_Mul(e):
     return e
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tensor_product_simp_Pow(e), evaluates ``pow`` expressions whose base is ``tensorproduct``) over Any ║
+# ║ Path(tensor_product_simp_Pow(e), e) over Any               ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ tensor_product_simp_Pow : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == e                                    ║
+# ║   returns:  e                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ tensor_product_simp_Pow : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 214018ce86c4dd68  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad9d6e032693502d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tensorproduct.tensor_product_simp_Pow","kind":"function","src_hash":"0b91777231dedd0a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tensor_product_simp_Pow(e)","rhs":"evaluates ``pow`` expressions whose base is ``tensorproduct``","over":{"base":"Any"},"name":"tensor_product_simp_Pow_correct"},"guarantee":"evaluates ``pow`` expressions whose base is ``tensorproduct``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tensorproduct.tensor_product_simp_Pow_correct","statement":"Path(tensor_product_simp_Pow(x), evaluates ``pow`` expressions whose base is ``tensorproduct``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"214018ce86c4dd68"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tensorproduct.tensor_product_simp_Pow","kind":"function","src_hash":"0b91777231dedd0a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (e)"},"spec":{"lhs":"tensor_product_simp_Pow(e)","rhs":"e","over":{"base":"Any"},"name":"tensor_product_simp_Pow_correct"},"guarantee":"returns e; result == e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tensorproduct.tensor_product_simp_Pow_correct","statement":"Path(tensor_product_simp_Pow(x), returns e; result == e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad9d6e032693502d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == e"],"returns_expr":"e","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def tensor_product_simp_Pow(e):
     """Evaluates ``Pow`` expressions whose base is ``TensorProduct``
 
@@ -507,16 +609,23 @@ def tensor_product_simp_Pow(e):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tensor_product_simp(e, ), try to simplify and combine tensor products) over Any ║
+# ║ Path(tensor_product_simp(e, **hints), e) over Any          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ tensor_product_simp : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == e                                    ║
+# ║   returns:  e                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ tensor_product_simp : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2cf0c7f71b4d23b7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5989eee7932ade29  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tensorproduct.tensor_product_simp","kind":"function","src_hash":"ccf69cbe10210541","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tensor_product_simp(e, )","rhs":"try to simplify and combine tensor products","over":{"base":"Any"},"name":"tensor_product_simp_correct"},"guarantee":"try to simplify and combine tensor products","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tensorproduct.tensor_product_simp_correct","statement":"Path(tensor_product_simp(x), try to simplify and combine tensor products)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2cf0c7f71b4d23b7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tensorproduct.tensor_product_simp","kind":"function","src_hash":"ccf69cbe10210541","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (e)"},"spec":{"lhs":"tensor_product_simp(e, **hints)","rhs":"e","over":{"base":"Any"},"name":"tensor_product_simp_correct"},"guarantee":"returns e; result == e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tensorproduct.tensor_product_simp_correct","statement":"Path(tensor_product_simp(x), returns e; result == e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5989eee7932ade29","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == e"],"returns_expr":"e","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['e'], spec=['e', '**hints']"]}}
 def tensor_product_simp(e, **hints):
     """Try to simplify and combine tensor products.
 
@@ -543,47 +652,65 @@ def tensor_product_simp(e, **hints):
 
 @TensorProduct._kind_dispatcher.register(_OperatorKind, _OperatorKind)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(find_op_kind(e1,), find_op_kind produces the expected output) over Any ║
+# ║ Path(find_op_kind(e1, e2), <unspecified:find_op_kind>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ find_op_kind : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c890c6a8443ee751           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tensorproduct.find_op_kind","kind":"function","src_hash":"b12fa6f4802e65d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_op_kind(e1,)","rhs":"find_op_kind produces the expected output","over":{"base":"Any"},"name":"find_op_kind_correct"},"guarantee":"find_op_kind produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c890c6a8443ee751"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tensorproduct.find_op_kind","kind":"function","src_hash":"b12fa6f4802e65d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_op_kind(e1, e2)","rhs":"<unspecified:find_op_kind>","over":{"base":"Any"},"name":"find_op_kind_correct"},"guarantee":"find_op_kind produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c890c6a8443ee751","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def find_op_kind(e1, e2):
     return OperatorKind
 
 
 @TensorProduct._kind_dispatcher.register(_KetKind, _KetKind)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(find_ket_kind(e1,), find_ket_kind produces the expected output) over Any ║
+# ║ Path(find_ket_kind(e1, e2), <unspecified:find_ket_kind>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ find_ket_kind : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0f33522a5064c010           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tensorproduct.find_ket_kind","kind":"function","src_hash":"f896499b208abf65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_ket_kind(e1,)","rhs":"find_ket_kind produces the expected output","over":{"base":"Any"},"name":"find_ket_kind_correct"},"guarantee":"find_ket_kind produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0f33522a5064c010"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tensorproduct.find_ket_kind","kind":"function","src_hash":"f896499b208abf65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_ket_kind(e1, e2)","rhs":"<unspecified:find_ket_kind>","over":{"base":"Any"},"name":"find_ket_kind_correct"},"guarantee":"find_ket_kind produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0f33522a5064c010","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def find_ket_kind(e1, e2):
     return KetKind
 
 
 @TensorProduct._kind_dispatcher.register(_BraKind, _BraKind)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(find_bra_kind(e1,), find_bra_kind produces the expected output) over Any ║
+# ║ Path(find_bra_kind(e1, e2), <unspecified:find_bra_kind>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ find_bra_kind : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 24c0080c0a2cce4b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tensorproduct.find_bra_kind","kind":"function","src_hash":"60cce0899d694103","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_bra_kind(e1,)","rhs":"find_bra_kind produces the expected output","over":{"base":"Any"},"name":"find_bra_kind_correct"},"guarantee":"find_bra_kind produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"24c0080c0a2cce4b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tensorproduct.find_bra_kind","kind":"function","src_hash":"60cce0899d694103","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_bra_kind(e1, e2)","rhs":"<unspecified:find_bra_kind>","over":{"base":"Any"},"name":"find_bra_kind_correct"},"guarantee":"find_bra_kind produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"24c0080c0a2cce4b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def find_bra_kind(e1, e2):
     return BraKind

@@ -40,16 +40,24 @@ from sympy.abc import x, y
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_trigsimp1(), test_trigsimp1 produces the expected output) over Any ║
+# ║ Path(test_trigsimp1(), trigsimp(1 - sin(x) ** 2) == cos(x) ** 2 and trigsimp(1 - cos(x) ** 2) == sin(x) ** 2 and trigsimp(sin(x) ** 2 + cos(x) ** 2) == 1 and trigsimp(1 + tan(x) ** 2) == 1 / cos(x) ** 2 and trigsimp(1 / cos(x) ** 2 - 1) == tan(x) ** 2 and trigsimp(1 / cos(x) ** 2 - tan(x) ** 2) == 1 and trigsimp(1 + cot(x) ** 2) == 1 / sin(x) ** 2 and trigsimp(1 / sin(x) ** 2 - 1) == 1 / tan(x) ** 2 and trigsimp(1 / sin(x) ** 2 - cot(x) ** 2) == 1 and trigsimp(5 * cos(x) ** 2 + 5 * sin(x) ** 2) == 5 and trigsimp(5 * cos(x / 2) ** 2 + 2 * sin(x / 2) ** 2) == 3 * cos(x) / 2 + Rational(7, 2) and trigsimp(sin(x) / cos(x)) == tan(x) and trigsimp(2 * tan(x) * cos(x)) == 2 * sin(x) and trigsimp(cot(x) ** 3 * sin(x) ** 3) == cos(x) ** 3 and trigsimp(y * tan(x) ** 2 / sin(x) ** 2) == y / cos(x) ** 2 and trigsimp(cot(x) / cos(x)) == 1 / sin(x) and trigsimp(sin(x + y) + sin(x - y)) == 2 * sin(x) * cos(y) and trigsimp(sin(x + y) - sin(x - y)) == 2 * sin(y) * cos(x) and trigsimp(cos(x + y) + cos(x - y)) == 2 * cos(x) * cos(y) and trigsimp(cos(x + y) - cos(x - y)) == -2 * sin(x) * sin(y) and trigsimp(tan(x + y) - tan(x) / (1 - tan(x) * tan(y))) == sin(y) / (-sin(y) * tan(x) + cos(y)) and trigsimp(sinh(x + y) + sinh(x - y)) == 2 * sinh(x) * cosh(y) and trigsimp(sinh(x + y) - sinh(x - y)) == 2 * sinh(y) * cosh(x) and trigsimp(cosh(x + y) + cosh(x - y)) == 2 * cosh(x) * cosh(y) and trigsimp(cosh(x + y) - cosh(x - y)) == 2 * sinh(x) * sinh(y) and trigsimp(tanh(x + y) - tanh(x) / (1 + tanh(x) * tanh(y))) == sinh(y) / (sinh(y) * tanh(x) + cosh(y)) and trigsimp(cos(0.12345) ** 2 + sin(0.12345) ** 2) == 1.0 and trigsimp(log(e)) == log(2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_trigsimp1 : Any → {Any | trigsimp(1 - sin(x) ** ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  trigsimp(1 - sin(x) ** 2) == cos(x) ** 2       ║
+# ║   ensures:  trigsimp(1 - cos(x) ** 2) == sin(x) ** 2       ║
+# ║   ensures:  trigsimp(sin(x) ** 2 + cos(x) ** 2) == 1       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_trigsimp1 : Any → {Any | result satisfies: trigs...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eea53512e9952a6a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cbc40a1906683f27  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_trigsimp1","kind":"function","src_hash":"64d2307c3a96999a","in":{"base":"Any"},"out":{"base":"Any","pred":"trigsimp(1 - sin(x) ** 2) == cos(x) ** 2 and trigsimp(1 - cos(x) ** 2) == sin(x) ** 2 and trigsimp(sin(x) ** 2 + cos(x) ** 2) == 1 and trigsimp(1 + tan(x) ** 2) == 1 / cos(x) ** 2 and trigsimp(1 / cos(x) ** 2 - 1) == tan(x) ** 2 and trigsimp(1 / cos(x) ** 2 - tan(x) ** 2) == 1 and trigsimp(1 + cot(x) ** 2) == 1 / sin(x) ** 2 and trigsimp(1 / sin(x) ** 2 - 1) == 1 / tan(x) ** 2 and trigsimp(1 / sin(x) ** 2 - cot(x) ** 2) == 1 and trigsimp(5 * cos(x) ** 2 + 5 * sin(x) ** 2) == 5 and trigsimp(sin(x) / cos(x)) == tan(x) and trigsimp(2 * tan(x) * cos(x)) == 2 * sin(x) and trigsimp(cot(x) ** 3 * sin(x) ** 3) == cos(x) ** 3 and trigsimp(y * tan(x) ** 2 / sin(x) ** 2) == y / cos(x) ** 2 and trigsimp(cot(x) / cos(x)) == 1 / sin(x) and trigsimp(sin(x + y) + sin(x - y)) == 2 * sin(x) * cos(y) and trigsimp(sin(x + y) - sin(x - y)) == 2 * sin(y) * cos(x) and trigsimp(cos(x + y) + cos(x - y)) == 2 * cos(x) * cos(y) and trigsimp(cos(x + y) - cos(x - y)) == -2 * sin(x) * sin(y) and trigsimp(sinh(x + y) + sinh(x - y)) == 2 * sinh(x) * cosh(y) and trigsimp(sinh(x + y) - sinh(x - y)) == 2 * sinh(y) * cosh(x) and trigsimp(cosh(x + y) + cosh(x - y)) == 2 * cosh(x) * cosh(y) and trigsimp(cosh(x + y) - cosh(x - y)) == 2 * sinh(x) * sinh(y) and trigsimp(cos(0.12345) ** 2 + sin(0.12345) ** 2) == 1.0 and trigsimp(log(e)) == log(2)"},"spec":{"lhs":"test_trigsimp1()","rhs":"test_trigsimp1 produces the expected output","over":{"base":"Any"},"name":"test_trigsimp1_correct"},"guarantee":"test_trigsimp1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_trigsimp1_correct","statement":"Path(test_trigsimp1(x), test_trigsimp1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eea53512e9952a6a"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_trigsimp1","kind":"function","src_hash":"64d2307c3a96999a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: trigsimp(1 - sin(x) ** 2) == cos(x) ** 2 and trigsimp(1 - cos(x) ** 2) == sin(x) ** 2 and trigsimp(sin(x) ** 2 + cos(x) ** 2) == 1 and trigsimp(1 + tan(x) ** 2) == 1 / cos(x) ** 2 and trigsimp(1 / cos(x) ** 2 - 1) == tan(x) ** 2 and trigsimp(1 / cos(x) ** 2 - tan(x) ** 2) == 1 and trigsimp(1 + cot(x) ** 2) == 1 / sin(x) ** 2 and trigsimp(1 / sin(x) ** 2 - 1) == 1 / tan(x) ** 2 and trigsimp(1 / sin(x) ** 2 - cot(x) ** 2) == 1 and trigsimp(5 * cos(x) ** 2 + 5 * sin(x) ** 2) == 5 and trigsimp(5 * cos(x / 2) ** 2 + 2 * sin(x / 2) ** 2) == 3 * cos(x) / 2 + Rational(7, 2) and trigsimp(sin(x) / cos(x)) == tan(x) and trigsimp(2 * tan(x) * cos(x)) == 2 * sin(x) and trigsimp(cot(x) ** 3 * sin(x) ** 3) == cos(x) ** 3 and trigsimp(y * tan(x) ** 2 / sin(x) ** 2) == y / cos(x) ** 2 and trigsimp(cot(x) / cos(x)) == 1 / sin(x) and trigsimp(sin(x + y) + sin(x - y)) == 2 * sin(x) * cos(y) and trigsimp(sin(x + y) - sin(x - y)) == 2 * sin(y) * cos(x) and trigsimp(cos(x + y) + cos(x - y)) == 2 * cos(x) * cos(y) and trigsimp(cos(x + y) - cos(x - y)) == -2 * sin(x) * sin(y) and trigsimp(tan(x + y) - tan(x) / (1 - tan(x) * tan(y))) == sin(y) / (-sin(y) * tan(x) + cos(y)) and trigsimp(sinh(x + y) + sinh(x - y)) == 2 * sinh(x) * cosh(y) and trigsimp(sinh(x + y) - sinh(x - y)) == 2 * sinh(y) * cosh(x) and trigsimp(cosh(x + y) + cosh(x - y)) == 2 * cosh(x) * cosh(y) and trigsimp(cosh(x + y) - cosh(x - y)) == 2 * sinh(x) * sinh(y) and trigsimp(tanh(x + y) - tanh(x) / (1 + tanh(x) * tanh(y))) == sinh(y) / (sinh(y) * tanh(x) + cosh(y)) and trigsimp(cos(0.12345) ** 2 + sin(0.12345) ** 2) == 1.0 and trigsimp(log(e)) == log(2)"},"spec":{"lhs":"test_trigsimp1()","rhs":"trigsimp(1 - sin(x) ** 2) == cos(x) ** 2 and trigsimp(1 - cos(x) ** 2) == sin(x) ** 2 and trigsimp(sin(x) ** 2 + cos(x) ** 2) == 1 and trigsimp(1 + tan(x) ** 2) == 1 / cos(x) ** 2 and trigsimp(1 / cos(x) ** 2 - 1) == tan(x) ** 2 and trigsimp(1 / cos(x) ** 2 - tan(x) ** 2) == 1 and trigsimp(1 + cot(x) ** 2) == 1 / sin(x) ** 2 and trigsimp(1 / sin(x) ** 2 - 1) == 1 / tan(x) ** 2 and trigsimp(1 / sin(x) ** 2 - cot(x) ** 2) == 1 and trigsimp(5 * cos(x) ** 2 + 5 * sin(x) ** 2) == 5 and trigsimp(5 * cos(x / 2) ** 2 + 2 * sin(x / 2) ** 2) == 3 * cos(x) / 2 + Rational(7, 2) and trigsimp(sin(x) / cos(x)) == tan(x) and trigsimp(2 * tan(x) * cos(x)) == 2 * sin(x) and trigsimp(cot(x) ** 3 * sin(x) ** 3) == cos(x) ** 3 and trigsimp(y * tan(x) ** 2 / sin(x) ** 2) == y / cos(x) ** 2 and trigsimp(cot(x) / cos(x)) == 1 / sin(x) and trigsimp(sin(x + y) + sin(x - y)) == 2 * sin(x) * cos(y) and trigsimp(sin(x + y) - sin(x - y)) == 2 * sin(y) * cos(x) and trigsimp(cos(x + y) + cos(x - y)) == 2 * cos(x) * cos(y) and trigsimp(cos(x + y) - cos(x - y)) == -2 * sin(x) * sin(y) and trigsimp(tan(x + y) - tan(x) / (1 - tan(x) * tan(y))) == sin(y) / (-sin(y) * tan(x) + cos(y)) and trigsimp(sinh(x + y) + sinh(x - y)) == 2 * sinh(x) * cosh(y) and trigsimp(sinh(x + y) - sinh(x - y)) == 2 * sinh(y) * cosh(x) and trigsimp(cosh(x + y) + cosh(x - y)) == 2 * cosh(x) * cosh(y) and trigsimp(cosh(x + y) - cosh(x - y)) == 2 * sinh(x) * sinh(y) and trigsimp(tanh(x + y) - tanh(x) / (1 + tanh(x) * tanh(y))) == sinh(y) / (sinh(y) * tanh(x) + cosh(y)) and trigsimp(cos(0.12345) ** 2 + sin(0.12345) ** 2) == 1.0 and trigsimp(log(e)) == log(2)","over":{"base":"Any"},"name":"test_trigsimp1_correct"},"guarantee":"trigsimp(1 - sin(x) ** 2) == cos(x) ** 2; trigsimp(1 - cos(x) ** 2) == sin(x) ** 2; trigsimp(sin(x) ** 2 + cos(x) ** 2) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_trigsimp1_correct","statement":"Path(test_trigsimp1(x), trigsimp(1 - sin(x) ** 2) == cos(x) ** 2; trigsimp(1 - cos(x) ** 2) == sin(x) ** 2; trigsimp(sin(x) ** 2 + cos(x) ** 2) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cbc40a1906683f27","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["trigsimp(1 - sin(x) ** 2) == cos(x) ** 2","trigsimp(1 - cos(x) ** 2) == sin(x) ** 2","trigsimp(sin(x) ** 2 + cos(x) ** 2) == 1","trigsimp(1 + tan(x) ** 2) == 1 / cos(x) ** 2","trigsimp(1 / cos(x) ** 2 - 1) == tan(x) ** 2","trigsimp(1 / cos(x) ** 2 - tan(x) ** 2) == 1","trigsimp(1 + cot(x) ** 2) == 1 / sin(x) ** 2","trigsimp(1 / sin(x) ** 2 - 1) == 1 / tan(x) ** 2","trigsimp(1 / sin(x) ** 2 - cot(x) ** 2) == 1","trigsimp(5 * cos(x) ** 2 + 5 * sin(x) ** 2) == 5","trigsimp(5 * cos(x / 2) ** 2 + 2 * sin(x / 2) ** 2) == 3 * cos(x) / 2 + Rational(7, 2)","trigsimp(sin(x) / cos(x)) == tan(x)","trigsimp(2 * tan(x) * cos(x)) == 2 * sin(x)","trigsimp(cot(x) ** 3 * sin(x) ** 3) == cos(x) ** 3","trigsimp(y * tan(x) ** 2 / sin(x) ** 2) == y / cos(x) ** 2","trigsimp(cot(x) / cos(x)) == 1 / sin(x)","trigsimp(sin(x + y) + sin(x - y)) == 2 * sin(x) * cos(y)","trigsimp(sin(x + y) - sin(x - y)) == 2 * sin(y) * cos(x)","trigsimp(cos(x + y) + cos(x - y)) == 2 * cos(x) * cos(y)","trigsimp(cos(x + y) - cos(x - y)) == -2 * sin(x) * sin(y)","trigsimp(tan(x + y) - tan(x) / (1 - tan(x) * tan(y))) == sin(y) / (-sin(y) * tan(x) + cos(y))","trigsimp(sinh(x + y) + sinh(x - y)) == 2 * sinh(x) * cosh(y)","trigsimp(sinh(x + y) - sinh(x - y)) == 2 * sinh(y) * cosh(x)","trigsimp(cosh(x + y) + cosh(x - y)) == 2 * cosh(x) * cosh(y)","trigsimp(cosh(x + y) - cosh(x - y)) == 2 * sinh(x) * sinh(y)","trigsimp(tanh(x + y) - tanh(x) / (1 + tanh(x) * tanh(y))) == sinh(y) / (sinh(y) * tanh(x) + cosh(y))","trigsimp(cos(0.12345) ** 2 + sin(0.12345) ** 2) == 1.0","trigsimp(log(e)) == log(2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def test_trigsimp1():
     x, y = symbols('x,y')
 
@@ -92,16 +100,24 @@ def test_trigsimp1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_trigsimp1a(), test_trigsimp1a produces the expected output) over Any ║
+# ║ Path(test_trigsimp1a(), trigsimp(sin(2) ** 2 * cos(3) * exp(2) / cos(2) ** 2) == tan(2) ** 2 * cos(3) * exp(2) and trigsimp(tan(2) ** 2 * cos(3) * exp(2) * cos(2) ** 2) == sin(2) ** 2 * cos(3) * exp(2) and trigsimp(cot(2) * cos(3) * exp(2) * sin(2)) == cos(3) * exp(2) * cos(2) and trigsimp(tan(2) * cos(3) * exp(2) / sin(2)) == cos(3) * exp(2) / cos(2) and trigsimp(cot(2) * cos(3) * exp(2) / cos(2)) == cos(3) * exp(2) / sin(2) and trigsimp(cot(2) * cos(3) * exp(2) * tan(2)) == cos(3) * exp(2) and trigsimp(sinh(2) * cos(3) * exp(2) / cosh(2)) == tanh(2) * cos(3) * exp(2) and trigsimp(tanh(2) * cos(3) * exp(2) * cosh(2)) == sinh(2) * cos(3) * exp(2) and trigsimp(coth(2) * cos(3) * exp(2) * sinh(2)) == cosh(2) * cos(3) * exp(2) and trigsimp(tanh(2) * cos(3) * exp(2) / sinh(2)) == cos(3) * exp(2) / cosh(2) and trigsimp(coth(2) * cos(3) * exp(2) / cosh(2)) == cos(3) * exp(2) / sinh(2) and trigsimp(coth(2) * cos(3) * exp(2) * tanh(2)) == cos(3) * exp(2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_trigsimp1a : Any → {Any | trigsimp(cot(2) * cos(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  trigsimp(sin(2) ** 2 * cos(3) * exp(2) / ...   ║
+# ║   ensures:  trigsimp(tan(2) ** 2 * cos(3) * exp(2) * ...   ║
+# ║   ensures:  trigsimp(cot(2) * cos(3) * exp(2) * sin(2...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_trigsimp1a : Any → {Any | result satisfies: trig...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 607381859a70e147  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5acf6984b0e6a24e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_trigsimp1a","kind":"function","src_hash":"1ffb49f1e5b2c22c","in":{"base":"Any"},"out":{"base":"Any","pred":"trigsimp(cot(2) * cos(3) * exp(2) * sin(2)) == cos(3) * exp(2) * cos(2) and trigsimp(tan(2) * cos(3) * exp(2) / sin(2)) == cos(3) * exp(2) / cos(2) and trigsimp(cot(2) * cos(3) * exp(2) / cos(2)) == cos(3) * exp(2) / sin(2) and trigsimp(cot(2) * cos(3) * exp(2) * tan(2)) == cos(3) * exp(2) and trigsimp(sinh(2) * cos(3) * exp(2) / cosh(2)) == tanh(2) * cos(3) * exp(2) and trigsimp(tanh(2) * cos(3) * exp(2) * cosh(2)) == sinh(2) * cos(3) * exp(2) and trigsimp(coth(2) * cos(3) * exp(2) * sinh(2)) == cosh(2) * cos(3) * exp(2) and trigsimp(tanh(2) * cos(3) * exp(2) / sinh(2)) == cos(3) * exp(2) / cosh(2) and trigsimp(coth(2) * cos(3) * exp(2) / cosh(2)) == cos(3) * exp(2) / sinh(2) and trigsimp(coth(2) * cos(3) * exp(2) * tanh(2)) == cos(3) * exp(2)"},"spec":{"lhs":"test_trigsimp1a()","rhs":"test_trigsimp1a produces the expected output","over":{"base":"Any"},"name":"test_trigsimp1a_correct"},"guarantee":"test_trigsimp1a produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_trigsimp1a_correct","statement":"Path(test_trigsimp1a(x), test_trigsimp1a produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"607381859a70e147"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_trigsimp1a","kind":"function","src_hash":"1ffb49f1e5b2c22c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: trigsimp(sin(2) ** 2 * cos(3) * exp(2) / cos(2) ** 2) == tan(2) ** 2 * cos(3) * exp(2) and trigsimp(tan(2) ** 2 * cos(3) * exp(2) * cos(2) ** 2) == sin(2) ** 2 * cos(3) * exp(2) and trigsimp(cot(2) * cos(3) * exp(2) * sin(2)) == cos(3) * exp(2) * cos(2) and trigsimp(tan(2) * cos(3) * exp(2) / sin(2)) == cos(3) * exp(2) / cos(2) and trigsimp(cot(2) * cos(3) * exp(2) / cos(2)) == cos(3) * exp(2) / sin(2) and trigsimp(cot(2) * cos(3) * exp(2) * tan(2)) == cos(3) * exp(2) and trigsimp(sinh(2) * cos(3) * exp(2) / cosh(2)) == tanh(2) * cos(3) * exp(2) and trigsimp(tanh(2) * cos(3) * exp(2) * cosh(2)) == sinh(2) * cos(3) * exp(2) and trigsimp(coth(2) * cos(3) * exp(2) * sinh(2)) == cosh(2) * cos(3) * exp(2) and trigsimp(tanh(2) * cos(3) * exp(2) / sinh(2)) == cos(3) * exp(2) / cosh(2) and trigsimp(coth(2) * cos(3) * exp(2) / cosh(2)) == cos(3) * exp(2) / sinh(2) and trigsimp(coth(2) * cos(3) * exp(2) * tanh(2)) == cos(3) * exp(2)"},"spec":{"lhs":"test_trigsimp1a()","rhs":"trigsimp(sin(2) ** 2 * cos(3) * exp(2) / cos(2) ** 2) == tan(2) ** 2 * cos(3) * exp(2) and trigsimp(tan(2) ** 2 * cos(3) * exp(2) * cos(2) ** 2) == sin(2) ** 2 * cos(3) * exp(2) and trigsimp(cot(2) * cos(3) * exp(2) * sin(2)) == cos(3) * exp(2) * cos(2) and trigsimp(tan(2) * cos(3) * exp(2) / sin(2)) == cos(3) * exp(2) / cos(2) and trigsimp(cot(2) * cos(3) * exp(2) / cos(2)) == cos(3) * exp(2) / sin(2) and trigsimp(cot(2) * cos(3) * exp(2) * tan(2)) == cos(3) * exp(2) and trigsimp(sinh(2) * cos(3) * exp(2) / cosh(2)) == tanh(2) * cos(3) * exp(2) and trigsimp(tanh(2) * cos(3) * exp(2) * cosh(2)) == sinh(2) * cos(3) * exp(2) and trigsimp(coth(2) * cos(3) * exp(2) * sinh(2)) == cosh(2) * cos(3) * exp(2) and trigsimp(tanh(2) * cos(3) * exp(2) / sinh(2)) == cos(3) * exp(2) / cosh(2) and trigsimp(coth(2) * cos(3) * exp(2) / cosh(2)) == cos(3) * exp(2) / sinh(2) and trigsimp(coth(2) * cos(3) * exp(2) * tanh(2)) == cos(3) * exp(2)","over":{"base":"Any"},"name":"test_trigsimp1a_correct"},"guarantee":"trigsimp(sin(2) ** 2 * cos(3) * exp(2) / cos(2) ** 2) == tan(2) ** 2 * cos(3) * exp(2); trigsimp(tan(2) ** 2 * cos(3) * exp(2) * cos(2) ** 2) == sin(2) ** 2 * cos(3) * exp(2); trigsimp(cot(2) * cos(3) * exp(2) * sin(2)) == cos(3) * exp(2) * cos(2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_trigsimp1a_correct","statement":"Path(test_trigsimp1a(x), trigsimp(sin(2) ** 2 * cos(3) * exp(2) / cos(2) ** 2) == tan(2) ** 2 * cos(3) * exp(2); trigsimp(tan(2) ** 2 * cos(3) * exp(2) * cos(2) ** 2) == sin(2) ** 2 * cos(3) * exp(2); trigsimp(cot(2) * cos(3) * exp(2) * sin(2)) == cos(3) * exp(2) * cos(2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5acf6984b0e6a24e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["trigsimp(sin(2) ** 2 * cos(3) * exp(2) / cos(2) ** 2) == tan(2) ** 2 * cos(3) * exp(2)","trigsimp(tan(2) ** 2 * cos(3) * exp(2) * cos(2) ** 2) == sin(2) ** 2 * cos(3) * exp(2)","trigsimp(cot(2) * cos(3) * exp(2) * sin(2)) == cos(3) * exp(2) * cos(2)","trigsimp(tan(2) * cos(3) * exp(2) / sin(2)) == cos(3) * exp(2) / cos(2)","trigsimp(cot(2) * cos(3) * exp(2) / cos(2)) == cos(3) * exp(2) / sin(2)","trigsimp(cot(2) * cos(3) * exp(2) * tan(2)) == cos(3) * exp(2)","trigsimp(sinh(2) * cos(3) * exp(2) / cosh(2)) == tanh(2) * cos(3) * exp(2)","trigsimp(tanh(2) * cos(3) * exp(2) * cosh(2)) == sinh(2) * cos(3) * exp(2)","trigsimp(coth(2) * cos(3) * exp(2) * sinh(2)) == cosh(2) * cos(3) * exp(2)","trigsimp(tanh(2) * cos(3) * exp(2) / sinh(2)) == cos(3) * exp(2) / cosh(2)","trigsimp(coth(2) * cos(3) * exp(2) / cosh(2)) == cos(3) * exp(2) / sinh(2)","trigsimp(coth(2) * cos(3) * exp(2) * tanh(2)) == cos(3) * exp(2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_trigsimp1a():
     assert trigsimp(sin(2)**2*cos(3)*exp(2)/cos(2)**2) == tan(2)**2*cos(3)*exp(2)
     assert trigsimp(tan(2)**2*cos(3)*exp(2)*cos(2)**2) == sin(2)**2*cos(3)*exp(2)
@@ -118,16 +134,24 @@ def test_trigsimp1a():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_trigsimp2(), test_trigsimp2 produces the expected output) over Any ║
+# ║ Path(test_trigsimp2(), trigsimp(cos(x) ** 2 * sin(y) ** 2 + cos(x) ** 2 * cos(y) ** 2 + sin(x) ** 2, recursive=True) == 1 and trigsimp(sin(x) ** 2 * sin(y) ** 2 + sin(x) ** 2 * cos(y) ** 2 + cos(x) ** 2, recursive=True) == 1 and trigsimp(Subs(x, x, sin(y) ** 2 + cos(y) ** 2)) == Subs(x, x, 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_trigsimp2 : Any → {Any | trigsimp(Subs(x, x, sin...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  trigsimp(cos(x) ** 2 * sin(y) ** 2 + cos(...   ║
+# ║   ensures:  trigsimp(sin(x) ** 2 * sin(y) ** 2 + sin(...   ║
+# ║   ensures:  trigsimp(Subs(x, x, sin(y) ** 2 + cos(y) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_trigsimp2 : Any → {Any | result satisfies: trigs...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ac8b87803926ade  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e075b207697978d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_trigsimp2","kind":"function","src_hash":"0712141731f638a9","in":{"base":"Any"},"out":{"base":"Any","pred":"trigsimp(Subs(x, x, sin(y) ** 2 + cos(y) ** 2)) == Subs(x, x, 1)"},"spec":{"lhs":"test_trigsimp2()","rhs":"test_trigsimp2 produces the expected output","over":{"base":"Any"},"name":"test_trigsimp2_correct"},"guarantee":"test_trigsimp2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_trigsimp2_correct","statement":"Path(test_trigsimp2(x), test_trigsimp2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ac8b87803926ade"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_trigsimp2","kind":"function","src_hash":"0712141731f638a9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: trigsimp(cos(x) ** 2 * sin(y) ** 2 + cos(x) ** 2 * cos(y) ** 2 + sin(x) ** 2, recursive=True) == 1 and trigsimp(sin(x) ** 2 * sin(y) ** 2 + sin(x) ** 2 * cos(y) ** 2 + cos(x) ** 2, recursive=True) == 1 and trigsimp(Subs(x, x, sin(y) ** 2 + cos(y) ** 2)) == Subs(x, x, 1)"},"spec":{"lhs":"test_trigsimp2()","rhs":"trigsimp(cos(x) ** 2 * sin(y) ** 2 + cos(x) ** 2 * cos(y) ** 2 + sin(x) ** 2, recursive=True) == 1 and trigsimp(sin(x) ** 2 * sin(y) ** 2 + sin(x) ** 2 * cos(y) ** 2 + cos(x) ** 2, recursive=True) == 1 and trigsimp(Subs(x, x, sin(y) ** 2 + cos(y) ** 2)) == Subs(x, x, 1)","over":{"base":"Any"},"name":"test_trigsimp2_correct"},"guarantee":"trigsimp(cos(x) ** 2 * sin(y) ** 2 + cos(x) ** 2 * cos(y) ** 2 + sin(x) ** 2, recursive=True) == 1; trigsimp(sin(x) ** 2 * sin(y) ** 2 + sin(x) ** 2 * cos(y) ** 2 + cos(x) ** 2, recursive=True) == 1; trigsimp(Subs(x, x, sin(y) ** 2 + cos(y) ** 2)) == Subs(x, x, 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_trigsimp2_correct","statement":"Path(test_trigsimp2(x), trigsimp(cos(x) ** 2 * sin(y) ** 2 + cos(x) ** 2 * cos(y) ** 2 + sin(x) ** 2, recursive=True) == 1; trigsimp(sin(x) ** 2 * sin(y) ** 2 + sin(x) ** 2 * cos(y) ** 2 + cos(x) ** 2, recursive=True) == 1; trigsimp(Subs(x, x, sin(y) ** 2 + cos(y) ** 2)) == Subs(x, x, 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e075b207697978d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["trigsimp(cos(x) ** 2 * sin(y) ** 2 + cos(x) ** 2 * cos(y) ** 2 + sin(x) ** 2, recursive=True) == 1","trigsimp(sin(x) ** 2 * sin(y) ** 2 + sin(x) ** 2 * cos(y) ** 2 + cos(x) ** 2, recursive=True) == 1","trigsimp(Subs(x, x, sin(y) ** 2 + cos(y) ** 2)) == Subs(x, x, 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_trigsimp2():
     x, y = symbols('x,y')
     assert trigsimp(cos(x)**2*sin(y)**2 + cos(x)**2*cos(y)**2 + sin(x)**2,
@@ -139,32 +163,46 @@ def test_trigsimp2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_4373(), test_issue_4373 produces the expected output) over Any ║
+# ║ Path(test_issue_4373(), abs(trigsimp(2.0 * sin(x) ** 2 + 2.0 * cos(x) ** 2) - 2.0) < 1e-10) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_4373 : Any → {Any | abs(trigsimp(2.0 * sin...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(trigsimp(2.0 * sin(x) ** 2 + 2.0 * co...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_4373 : Any → {Any | result satisfies: abs(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a8116a6abfc25735  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 208b1a416f901937  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_issue_4373","kind":"function","src_hash":"1373bc2290e9dccc","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(trigsimp(2.0 * sin(x) ** 2 + 2.0 * cos(x) ** 2) - 2.0) < 1e-10"},"spec":{"lhs":"test_issue_4373()","rhs":"test_issue_4373 produces the expected output","over":{"base":"Any"},"name":"test_issue_4373_correct"},"guarantee":"test_issue_4373 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_issue_4373_correct","statement":"Path(test_issue_4373(x), test_issue_4373 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8116a6abfc25735"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_issue_4373","kind":"function","src_hash":"1373bc2290e9dccc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(trigsimp(2.0 * sin(x) ** 2 + 2.0 * cos(x) ** 2) - 2.0) < 1e-10"},"spec":{"lhs":"test_issue_4373()","rhs":"abs(trigsimp(2.0 * sin(x) ** 2 + 2.0 * cos(x) ** 2) - 2.0) < 1e-10","over":{"base":"Any"},"name":"test_issue_4373_correct"},"guarantee":"abs(trigsimp(2.0 * sin(x) ** 2 + 2.0 * cos(x) ** 2) - 2.0) < 1e-10","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_issue_4373_correct","statement":"Path(test_issue_4373(x), abs(trigsimp(2.0 * sin(x) ** 2 + 2.0 * cos(x) ** 2) - 2.0) < 1e-10)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"208b1a416f901937","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(trigsimp(2.0 * sin(x) ** 2 + 2.0 * cos(x) ** 2) - 2.0) < 1e-10"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_4373():
     x = Symbol("x")
     assert abs(trigsimp(2.0*sin(x)**2 + 2.0*cos(x)**2) - 2.0) < 1e-10
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_trigsimp3(), test_trigsimp3 produces the expected output) over Any ║
+# ║ Path(test_trigsimp3(), trigsimp(sin(x) / cos(x)) == tan(x) and trigsimp(sin(x) ** 2 / cos(x) ** 2) == tan(x) ** 2 and trigsimp(sin(x) ** 3 / cos(x) ** 3) == tan(x) ** 3 and trigsimp(sin(x) ** 10 / cos(x) ** 10) == tan(x) ** 10 and trigsimp(cos(x) / sin(x)) == 1 / tan(x) and trigsimp(cos(x) ** 2 / sin(x) ** 2) == 1 / tan(x) ** 2 and trigsimp(cos(x) ** 10 / sin(x) ** 10) == 1 / tan(x) ** 10 and trigsimp(tan(x)) == trigsimp(sin(x) / cos(x))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_trigsimp3 : Any → {Any | trigsimp(sin(x) / cos(x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  trigsimp(sin(x) / cos(x)) == tan(x)            ║
+# ║   ensures:  trigsimp(sin(x) ** 2 / cos(x) ** 2) == ta...   ║
+# ║   ensures:  trigsimp(sin(x) ** 3 / cos(x) ** 3) == ta...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_trigsimp3 : Any → {Any | result satisfies: trigs...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 46882e29b11620ff  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3eb7b32affd58bf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_trigsimp3","kind":"function","src_hash":"fa984be3d46b67cd","in":{"base":"Any"},"out":{"base":"Any","pred":"trigsimp(sin(x) / cos(x)) == tan(x) and trigsimp(sin(x) ** 2 / cos(x) ** 2) == tan(x) ** 2 and trigsimp(sin(x) ** 3 / cos(x) ** 3) == tan(x) ** 3 and trigsimp(sin(x) ** 10 / cos(x) ** 10) == tan(x) ** 10 and trigsimp(cos(x) / sin(x)) == 1 / tan(x) and trigsimp(cos(x) ** 2 / sin(x) ** 2) == 1 / tan(x) ** 2 and trigsimp(cos(x) ** 10 / sin(x) ** 10) == 1 / tan(x) ** 10 and trigsimp(tan(x)) == trigsimp(sin(x) / cos(x))"},"spec":{"lhs":"test_trigsimp3()","rhs":"test_trigsimp3 produces the expected output","over":{"base":"Any"},"name":"test_trigsimp3_correct"},"guarantee":"test_trigsimp3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_trigsimp3_correct","statement":"Path(test_trigsimp3(x), test_trigsimp3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46882e29b11620ff"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_trigsimp3","kind":"function","src_hash":"fa984be3d46b67cd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: trigsimp(sin(x) / cos(x)) == tan(x) and trigsimp(sin(x) ** 2 / cos(x) ** 2) == tan(x) ** 2 and trigsimp(sin(x) ** 3 / cos(x) ** 3) == tan(x) ** 3 and trigsimp(sin(x) ** 10 / cos(x) ** 10) == tan(x) ** 10 and trigsimp(cos(x) / sin(x)) == 1 / tan(x) and trigsimp(cos(x) ** 2 / sin(x) ** 2) == 1 / tan(x) ** 2 and trigsimp(cos(x) ** 10 / sin(x) ** 10) == 1 / tan(x) ** 10 and trigsimp(tan(x)) == trigsimp(sin(x) / cos(x))"},"spec":{"lhs":"test_trigsimp3()","rhs":"trigsimp(sin(x) / cos(x)) == tan(x) and trigsimp(sin(x) ** 2 / cos(x) ** 2) == tan(x) ** 2 and trigsimp(sin(x) ** 3 / cos(x) ** 3) == tan(x) ** 3 and trigsimp(sin(x) ** 10 / cos(x) ** 10) == tan(x) ** 10 and trigsimp(cos(x) / sin(x)) == 1 / tan(x) and trigsimp(cos(x) ** 2 / sin(x) ** 2) == 1 / tan(x) ** 2 and trigsimp(cos(x) ** 10 / sin(x) ** 10) == 1 / tan(x) ** 10 and trigsimp(tan(x)) == trigsimp(sin(x) / cos(x))","over":{"base":"Any"},"name":"test_trigsimp3_correct"},"guarantee":"trigsimp(sin(x) / cos(x)) == tan(x); trigsimp(sin(x) ** 2 / cos(x) ** 2) == tan(x) ** 2; trigsimp(sin(x) ** 3 / cos(x) ** 3) == tan(x) ** 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_trigsimp3_correct","statement":"Path(test_trigsimp3(x), trigsimp(sin(x) / cos(x)) == tan(x); trigsimp(sin(x) ** 2 / cos(x) ** 2) == tan(x) ** 2; trigsimp(sin(x) ** 3 / cos(x) ** 3) == tan(x) ** 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3eb7b32affd58bf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["trigsimp(sin(x) / cos(x)) == tan(x)","trigsimp(sin(x) ** 2 / cos(x) ** 2) == tan(x) ** 2","trigsimp(sin(x) ** 3 / cos(x) ** 3) == tan(x) ** 3","trigsimp(sin(x) ** 10 / cos(x) ** 10) == tan(x) ** 10","trigsimp(cos(x) / sin(x)) == 1 / tan(x)","trigsimp(cos(x) ** 2 / sin(x) ** 2) == 1 / tan(x) ** 2","trigsimp(cos(x) ** 10 / sin(x) ** 10) == 1 / tan(x) ** 10","trigsimp(tan(x)) == trigsimp(sin(x) / cos(x))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_trigsimp3():
     x, y = symbols('x,y')
     assert trigsimp(sin(x)/cos(x)) == tan(x)
@@ -180,16 +218,24 @@ def test_trigsimp3():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_4661(), test_issue_4661 produces the expected output) over Any ║
+# ║ Path(test_issue_4661(), trigsimp(eq) == -4 and simplify(n / d) == -1 and trigsimp(-2 * cos(x) ** 2 + cos(x) ** 4 - sin(x) ** 4) == -1 and trigsimp(eq) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_4661 : Any → {Any | trigsimp(eq) == -4 and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  trigsimp(eq) == -4                             ║
+# ║   ensures:  simplify(n / d) == -1                          ║
+# ║   ensures:  trigsimp(-2 * cos(x) ** 2 + cos(x) ** 4 -...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_4661 : Any → {Any | result satisfies: trig...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 23d139a3120c9820  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f2c3345a739e1990  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_issue_4661","kind":"function","src_hash":"9bb170927b3900bb","in":{"base":"Any"},"out":{"base":"Any","pred":"trigsimp(eq) == -4 and simplify(n / d) == -1 and trigsimp(-2 * cos(x) ** 2 + cos(x) ** 4 - sin(x) ** 4) == -1 and trigsimp(eq) == 0"},"spec":{"lhs":"test_issue_4661()","rhs":"test_issue_4661 produces the expected output","over":{"base":"Any"},"name":"test_issue_4661_correct"},"guarantee":"test_issue_4661 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_issue_4661_correct","statement":"Path(test_issue_4661(x), test_issue_4661 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23d139a3120c9820"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_issue_4661","kind":"function","src_hash":"9bb170927b3900bb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: trigsimp(eq) == -4 and simplify(n / d) == -1 and trigsimp(-2 * cos(x) ** 2 + cos(x) ** 4 - sin(x) ** 4) == -1 and trigsimp(eq) == 0"},"spec":{"lhs":"test_issue_4661()","rhs":"trigsimp(eq) == -4 and simplify(n / d) == -1 and trigsimp(-2 * cos(x) ** 2 + cos(x) ** 4 - sin(x) ** 4) == -1 and trigsimp(eq) == 0","over":{"base":"Any"},"name":"test_issue_4661_correct"},"guarantee":"trigsimp(eq) == -4; simplify(n / d) == -1; trigsimp(-2 * cos(x) ** 2 + cos(x) ** 4 - sin(x) ** 4) == -1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_issue_4661_correct","statement":"Path(test_issue_4661(x), trigsimp(eq) == -4; simplify(n / d) == -1; trigsimp(-2 * cos(x) ** 2 + cos(x) ** 4 - sin(x) ** 4) == -1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2c3345a739e1990","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["trigsimp(eq) == -4","simplify(n / d) == -1","trigsimp(-2 * cos(x) ** 2 + cos(x) ** 4 - sin(x) ** 4) == -1","trigsimp(eq) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_issue_4661():
     a, x, y = symbols('a x y')
     eq = -4*sin(x)**4 + 4*cos(x)**4 - 8*cos(x)**2
@@ -203,16 +249,22 @@ def test_issue_4661():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_4494(), test_issue_4494 produces the expected output) over Any ║
+# ║ Path(test_issue_4494(), trigsimp(eq) == 1) over Any        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_4494 : Any → {Any | trigsimp(eq) == 1}          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  trigsimp(eq) == 1                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_4494 : Any → {Any | result satisfies: trig...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d6910b77f7d4e8d5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e92da5d250c57f7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_issue_4494","kind":"function","src_hash":"9975b519763c7e3f","in":{"base":"Any"},"out":{"base":"Any","pred":"trigsimp(eq) == 1"},"spec":{"lhs":"test_issue_4494()","rhs":"test_issue_4494 produces the expected output","over":{"base":"Any"},"name":"test_issue_4494_correct"},"guarantee":"test_issue_4494 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_issue_4494_correct","statement":"Path(test_issue_4494(x), test_issue_4494 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6910b77f7d4e8d5"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_issue_4494","kind":"function","src_hash":"9975b519763c7e3f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: trigsimp(eq) == 1"},"spec":{"lhs":"test_issue_4494()","rhs":"trigsimp(eq) == 1","over":{"base":"Any"},"name":"test_issue_4494_correct"},"guarantee":"trigsimp(eq) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_issue_4494_correct","statement":"Path(test_issue_4494(x), trigsimp(eq) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e92da5d250c57f7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["trigsimp(eq) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_4494():
     a, b = symbols('a b')
     eq = sin(a)**2*sin(b)**2 + cos(a)**2*cos(b)**2*tan(a)**2 + cos(a)**2
@@ -220,16 +272,22 @@ def test_issue_4494():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5948(), test_issue_5948 produces the expected output) over Any ║
+# ║ Path(test_issue_5948(), trigsimp(diff(integrate(cos(x) / sin(x) ** 7, x), x)) == cos(x) / sin(x) ** 7) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5948 : Any → {Any | trigsimp(diff(integrat...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  trigsimp(diff(integrate(cos(x) / sin(x) *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5948 : Any → {Any | result satisfies: trig...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd9ca77850406d55  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05ab03a7991e36be  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_issue_5948","kind":"function","src_hash":"a16aaab323c5c2d4","in":{"base":"Any"},"out":{"base":"Any","pred":"trigsimp(diff(integrate(cos(x) / sin(x) ** 7, x), x)) == cos(x) / sin(x) ** 7"},"spec":{"lhs":"test_issue_5948()","rhs":"test_issue_5948 produces the expected output","over":{"base":"Any"},"name":"test_issue_5948_correct"},"guarantee":"test_issue_5948 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_issue_5948_correct","statement":"Path(test_issue_5948(x), test_issue_5948 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd9ca77850406d55"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_issue_5948","kind":"function","src_hash":"a16aaab323c5c2d4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: trigsimp(diff(integrate(cos(x) / sin(x) ** 7, x), x)) == cos(x) / sin(x) ** 7"},"spec":{"lhs":"test_issue_5948()","rhs":"trigsimp(diff(integrate(cos(x) / sin(x) ** 7, x), x)) == cos(x) / sin(x) ** 7","over":{"base":"Any"},"name":"test_issue_5948_correct"},"guarantee":"trigsimp(diff(integrate(cos(x) / sin(x) ** 7, x), x)) == cos(x) / sin(x) ** 7","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_issue_5948_correct","statement":"Path(test_issue_5948(x), trigsimp(diff(integrate(cos(x) / sin(x) ** 7, x), x)) == cos(x) / sin(x) ** 7)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05ab03a7991e36be","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["trigsimp(diff(integrate(cos(x) / sin(x) ** 7, x), x)) == cos(x) / sin(x) ** 7"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_5948():
     a, x, y = symbols('a x y')
     assert trigsimp(diff(integrate(cos(x)/sin(x)**7, x), x)) == \
@@ -237,16 +295,23 @@ def test_issue_5948():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_4775(), test_issue_4775 produces the expected output) over Any ║
+# ║ Path(test_issue_4775(), trigsimp(sin(x) * cos(y) + cos(x) * sin(y)) == sin(x + y) and trigsimp(sin(x) * cos(y) + cos(x) * sin(y) + 3) == sin(x + y) + 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_4775 : Any → {Any | trigsimp(sin(x) * cos(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  trigsimp(sin(x) * cos(y) + cos(x) * sin(y...   ║
+# ║   ensures:  trigsimp(sin(x) * cos(y) + cos(x) * sin(y...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_4775 : Any → {Any | result satisfies: trig...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 639df1a564179868  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 088104b545812be7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_issue_4775","kind":"function","src_hash":"6e4b62ff3f1e8491","in":{"base":"Any"},"out":{"base":"Any","pred":"trigsimp(sin(x) * cos(y) + cos(x) * sin(y)) == sin(x + y) and trigsimp(sin(x) * cos(y) + cos(x) * sin(y) + 3) == sin(x + y) + 3"},"spec":{"lhs":"test_issue_4775()","rhs":"test_issue_4775 produces the expected output","over":{"base":"Any"},"name":"test_issue_4775_correct"},"guarantee":"test_issue_4775 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_issue_4775_correct","statement":"Path(test_issue_4775(x), test_issue_4775 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"639df1a564179868"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_issue_4775","kind":"function","src_hash":"6e4b62ff3f1e8491","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: trigsimp(sin(x) * cos(y) + cos(x) * sin(y)) == sin(x + y) and trigsimp(sin(x) * cos(y) + cos(x) * sin(y) + 3) == sin(x + y) + 3"},"spec":{"lhs":"test_issue_4775()","rhs":"trigsimp(sin(x) * cos(y) + cos(x) * sin(y)) == sin(x + y) and trigsimp(sin(x) * cos(y) + cos(x) * sin(y) + 3) == sin(x + y) + 3","over":{"base":"Any"},"name":"test_issue_4775_correct"},"guarantee":"trigsimp(sin(x) * cos(y) + cos(x) * sin(y)) == sin(x + y); trigsimp(sin(x) * cos(y) + cos(x) * sin(y) + 3) == sin(x + y) + 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_issue_4775_correct","statement":"Path(test_issue_4775(x), trigsimp(sin(x) * cos(y) + cos(x) * sin(y)) == sin(x + y); trigsimp(sin(x) * cos(y) + cos(x) * sin(y) + 3) == sin(x + y) + 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"088104b545812be7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["trigsimp(sin(x) * cos(y) + cos(x) * sin(y)) == sin(x + y)","trigsimp(sin(x) * cos(y) + cos(x) * sin(y) + 3) == sin(x + y) + 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_4775():
     a, x, y = symbols('a x y')
     assert trigsimp(sin(x)*cos(y)+cos(x)*sin(y)) == sin(x + y)
@@ -254,16 +319,24 @@ def test_issue_4775():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_4280(), test_issue_4280 produces the expected output) over Any ║
+# ║ Path(test_issue_4280(), trigsimp(cos(x) ** 2 + cos(y) ** 2 * sin(x) ** 2 + sin(y) ** 2 * sin(x) ** 2) == 1 and trigsimp(a ** 2 * sin(x) ** 2 + a ** 2 * cos(y) ** 2 * cos(x) ** 2 + a ** 2 * cos(x) ** 2 * sin(y) ** 2) == a ** 2 and trigsimp(a ** 2 * cos(y) ** 2 * sin(x) ** 2 + a ** 2 * sin(y) ** 2 * sin(x) ** 2) == a ** 2 * sin(x) ** 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_4280 : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  trigsimp(cos(x) ** 2 + cos(y) ** 2 * sin(...   ║
+# ║   ensures:  trigsimp(a ** 2 * sin(x) ** 2 + a ** 2 * ...   ║
+# ║   ensures:  trigsimp(a ** 2 * cos(y) ** 2 * sin(x) **...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_4280 : Any → {Any | result satisfies: trig...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b10c20a763f852f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 18bb4410e371a826  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_issue_4280","kind":"function","src_hash":"fb6c93331c5ababc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_4280()","rhs":"test_issue_4280 produces the expected output","over":{"base":"Any"},"name":"test_issue_4280_correct"},"guarantee":"test_issue_4280 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_issue_4280_correct","statement":"Path(test_issue_4280(x), test_issue_4280 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b10c20a763f852f"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_issue_4280","kind":"function","src_hash":"fb6c93331c5ababc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: trigsimp(cos(x) ** 2 + cos(y) ** 2 * sin(x) ** 2 + sin(y) ** 2 * sin(x) ** 2) == 1 and trigsimp(a ** 2 * sin(x) ** 2 + a ** 2 * cos(y) ** 2 * cos(x) ** 2 + a ** 2 * cos(x) ** 2 * sin(y) ** 2) == a ** 2 and trigsimp(a ** 2 * cos(y) ** 2 * sin(x) ** 2 + a ** 2 * sin(y) ** 2 * sin(x) ** 2) == a ** 2 * sin(x) ** 2"},"spec":{"lhs":"test_issue_4280()","rhs":"trigsimp(cos(x) ** 2 + cos(y) ** 2 * sin(x) ** 2 + sin(y) ** 2 * sin(x) ** 2) == 1 and trigsimp(a ** 2 * sin(x) ** 2 + a ** 2 * cos(y) ** 2 * cos(x) ** 2 + a ** 2 * cos(x) ** 2 * sin(y) ** 2) == a ** 2 and trigsimp(a ** 2 * cos(y) ** 2 * sin(x) ** 2 + a ** 2 * sin(y) ** 2 * sin(x) ** 2) == a ** 2 * sin(x) ** 2","over":{"base":"Any"},"name":"test_issue_4280_correct"},"guarantee":"trigsimp(cos(x) ** 2 + cos(y) ** 2 * sin(x) ** 2 + sin(y) ** 2 * sin(x) ** 2) == 1; trigsimp(a ** 2 * sin(x) ** 2 + a ** 2 * cos(y) ** 2 * cos(x) ** 2 + a ** 2 * cos(x) ** 2 * sin(y) ** 2) == a ** 2; trigsimp(a ** 2 * cos(y) ** 2 * sin(x) ** 2 + a ** 2 * sin(y) ** 2 * sin(x) ** 2) == a ** 2 * sin(x) ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_issue_4280_correct","statement":"Path(test_issue_4280(x), trigsimp(cos(x) ** 2 + cos(y) ** 2 * sin(x) ** 2 + sin(y) ** 2 * sin(x) ** 2) == 1; trigsimp(a ** 2 * sin(x) ** 2 + a ** 2 * cos(y) ** 2 * cos(x) ** 2 + a ** 2 * cos(x) ** 2 * sin(y) ** 2) == a ** 2; trigsimp(a ** 2 * cos(y) ** 2 * sin(x) ** 2 + a ** 2 * sin(y) ** 2 * sin(x) ** 2) == a ** 2 * sin(x) ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18bb4410e371a826","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["trigsimp(cos(x) ** 2 + cos(y) ** 2 * sin(x) ** 2 + sin(y) ** 2 * sin(x) ** 2) == 1","trigsimp(a ** 2 * sin(x) ** 2 + a ** 2 * cos(y) ** 2 * cos(x) ** 2 + a ** 2 * cos(x) ** 2 * sin(y) ** 2) == a ** 2","trigsimp(a ** 2 * cos(y) ** 2 * sin(x) ** 2 + a ** 2 * sin(y) ** 2 * sin(x) ** 2) == a ** 2 * sin(x) ** 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_4280():
     a, x, y = symbols('a x y')
     assert trigsimp(cos(x)**2 + cos(y)**2*sin(x)**2 + sin(y)**2*sin(x)**2) == 1
@@ -272,16 +345,22 @@ def test_issue_4280():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_3210(), test_issue_3210 produces the expected output) over Any ║
+# ║ Path(test_issue_3210(), [trigsimp(e) for e in eqs] == [sin(5), cos(5), -sin(1), cos(1), cos(1) + cos(2), sinh(5), cosh(5)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_3210 : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  [trigsimp(e) for e in eqs] == [sin(5), co...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_3210 : Any → {Any | result satisfies: [tri...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b61b1f3adea68194  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab3e8610852c3c24  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_issue_3210","kind":"function","src_hash":"3123a623bed21127","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_3210()","rhs":"test_issue_3210 produces the expected output","over":{"base":"Any"},"name":"test_issue_3210_correct"},"guarantee":"test_issue_3210 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_issue_3210_correct","statement":"Path(test_issue_3210(x), test_issue_3210 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b61b1f3adea68194"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_issue_3210","kind":"function","src_hash":"3123a623bed21127","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: [trigsimp(e) for e in eqs] == [sin(5), cos(5), -sin(1), cos(1), cos(1) + cos(2), sinh(5), cosh(5)]"},"spec":{"lhs":"test_issue_3210()","rhs":"[trigsimp(e) for e in eqs] == [sin(5), cos(5), -sin(1), cos(1), cos(1) + cos(2), sinh(5), cosh(5)]","over":{"base":"Any"},"name":"test_issue_3210_correct"},"guarantee":"[trigsimp(e) for e in eqs] == [sin(5), cos(5), -sin(1), cos(1), cos(1) + cos(2), sinh(5), cosh(5)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_issue_3210_correct","statement":"Path(test_issue_3210(x), [trigsimp(e) for e in eqs] == [sin(5), cos(5), -sin(1), cos(1), cos(1) + cos(2), sinh(5), cosh(5)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab3e8610852c3c24","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["[trigsimp(e) for e in eqs] == [sin(5), cos(5), -sin(1), cos(1), cos(1) + cos(2), sinh(5), cosh(5)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_issue_3210():
     eqs = (sin(2)*cos(3) + sin(3)*cos(2),
         -sin(2)*sin(3) + cos(2)*cos(3),
@@ -303,16 +382,24 @@ def test_issue_3210():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_trigsimp_issues(), test_trigsimp_issues produces the expected output) over Any ║
+# ║ Path(test_trigsimp_issues(), trigsimp(sin(x) ** 3 + cos(x) ** 2 * sin(x)) == sin(x) and trigsimp(diff(integrate(cos(x) / sin(x) ** 3, x), x)) == cos(x) / sin(x) ** 3 and trigsimp(diff(integrate(sin(x) / cos(x) ** 3, x), x)) == sin(x) / cos(x) ** 3 and trigsimp(e) == e and trigsimp(e.subs(y, 2)) == tan(x) ** 2 and trigsimp(e.subs(x, 1)) == tan(1) ** y and (cos(x) ** 2 / sin(x) ** 2 * cos(y) ** 2 / sin(y) ** 2).trigsimp() == 1 / tan(x) ** 2 / tan(y) ** 2 and trigsimp(cos(x) / sin(x) * cos(x + y) / sin(x + y)) == 1 / (tan(x) * tan(x + y)) and trigsimp(eq) == eq.factor() and trigsimp(cos(2) * (cos(3) + 1) ** 2 * (cos(3) - 1) ** 2) == cos(2) * sin(3) ** 4 and cot(x).equals(tan(x)) is False and trigsimp(sin(n)) != sin(1) and trigsimp(eq) is S.NaN and trigsimp(eq, recursive=True) is S.NaN and trigsimp(1).is_Integer and trigsimp(-sin(x) ** 4 - 2 * sin(x) ** 2 * cos(x) ** 2 - cos(x) ** 4) == -1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_trigsimp_issues : Any → {Any | trigsimp(sin(x) *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  trigsimp(sin(x) ** 3 + cos(x) ** 2 * sin(...   ║
+# ║   ensures:  trigsimp(diff(integrate(cos(x) / sin(x) *...   ║
+# ║   ensures:  trigsimp(diff(integrate(sin(x) / cos(x) *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_trigsimp_issues : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d607e320bbb2f81b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b0949bf259334bba  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_trigsimp_issues","kind":"function","src_hash":"33b32ec586695d75","in":{"base":"Any"},"out":{"base":"Any","pred":"trigsimp(sin(x) ** 3 + cos(x) ** 2 * sin(x)) == sin(x) and trigsimp(diff(integrate(cos(x) / sin(x) ** 3, x), x)) == cos(x) / sin(x) ** 3 and trigsimp(diff(integrate(sin(x) / cos(x) ** 3, x), x)) == sin(x) / cos(x) ** 3 and trigsimp(e) == e and trigsimp(e.subs(y, 2)) == tan(x) ** 2 and trigsimp(e.subs(x, 1)) == tan(1) ** y and trigsimp(eq) == eq.factor() and cot(x).equals(tan(x)) is False and trigsimp(sin(n)) != sin(1) and trigsimp(eq) is S.NaN and trigsimp(eq, recursive=True) is S.NaN and trigsimp(1).is_Integer and trigsimp(-sin(x) ** 4 - 2 * sin(x) ** 2 * cos(x) ** 2 - cos(x) ** 4) == -1"},"spec":{"lhs":"test_trigsimp_issues()","rhs":"test_trigsimp_issues produces the expected output","over":{"base":"Any"},"name":"test_trigsimp_issues_correct"},"guarantee":"test_trigsimp_issues produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_trigsimp_issues_correct","statement":"Path(test_trigsimp_issues(x), test_trigsimp_issues produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d607e320bbb2f81b"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_trigsimp_issues","kind":"function","src_hash":"33b32ec586695d75","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: trigsimp(sin(x) ** 3 + cos(x) ** 2 * sin(x)) == sin(x) and trigsimp(diff(integrate(cos(x) / sin(x) ** 3, x), x)) == cos(x) / sin(x) ** 3 and trigsimp(diff(integrate(sin(x) / cos(x) ** 3, x), x)) == sin(x) / cos(x) ** 3 and trigsimp(e) == e and trigsimp(e.subs(y, 2)) == tan(x) ** 2 and trigsimp(e.subs(x, 1)) == tan(1) ** y and (cos(x) ** 2 / sin(x) ** 2 * cos(y) ** 2 / sin(y) ** 2).trigsimp() == 1 / tan(x) ** 2 / tan(y) ** 2 and trigsimp(cos(x) / sin(x) * cos(x + y) / sin(x + y)) == 1 / (tan(x) * tan(x + y)) and trigsimp(eq) == eq.factor() and trigsimp(cos(2) * (cos(3) + 1) ** 2 * (cos(3) - 1) ** 2) == cos(2) * sin(3) ** 4 and cot(x).equals(tan(x)) is False and trigsimp(sin(n)) != sin(1) and trigsimp(eq) is S.NaN and trigsimp(eq, recursive=True) is S.NaN and trigsimp(1).is_Integer and trigsimp(-sin(x) ** 4 - 2 * sin(x) ** 2 * cos(x) ** 2 - cos(x) ** 4) == -1"},"spec":{"lhs":"test_trigsimp_issues()","rhs":"trigsimp(sin(x) ** 3 + cos(x) ** 2 * sin(x)) == sin(x) and trigsimp(diff(integrate(cos(x) / sin(x) ** 3, x), x)) == cos(x) / sin(x) ** 3 and trigsimp(diff(integrate(sin(x) / cos(x) ** 3, x), x)) == sin(x) / cos(x) ** 3 and trigsimp(e) == e and trigsimp(e.subs(y, 2)) == tan(x) ** 2 and trigsimp(e.subs(x, 1)) == tan(1) ** y and (cos(x) ** 2 / sin(x) ** 2 * cos(y) ** 2 / sin(y) ** 2).trigsimp() == 1 / tan(x) ** 2 / tan(y) ** 2 and trigsimp(cos(x) / sin(x) * cos(x + y) / sin(x + y)) == 1 / (tan(x) * tan(x + y)) and trigsimp(eq) == eq.factor() and trigsimp(cos(2) * (cos(3) + 1) ** 2 * (cos(3) - 1) ** 2) == cos(2) * sin(3) ** 4 and cot(x).equals(tan(x)) is False and trigsimp(sin(n)) != sin(1) and trigsimp(eq) is S.NaN and trigsimp(eq, recursive=True) is S.NaN and trigsimp(1).is_Integer and trigsimp(-sin(x) ** 4 - 2 * sin(x) ** 2 * cos(x) ** 2 - cos(x) ** 4) == -1","over":{"base":"Any"},"name":"test_trigsimp_issues_correct"},"guarantee":"trigsimp(sin(x) ** 3 + cos(x) ** 2 * sin(x)) == sin(x); trigsimp(diff(integrate(cos(x) / sin(x) ** 3, x), x)) == cos(x) / sin(x) ** 3; trigsimp(diff(integrate(sin(x) / cos(x) ** 3, x), x)) == sin(x) / cos(x) ** 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_trigsimp_issues_correct","statement":"Path(test_trigsimp_issues(x), trigsimp(sin(x) ** 3 + cos(x) ** 2 * sin(x)) == sin(x); trigsimp(diff(integrate(cos(x) / sin(x) ** 3, x), x)) == cos(x) / sin(x) ** 3; trigsimp(diff(integrate(sin(x) / cos(x) ** 3, x), x)) == sin(x) / cos(x) ** 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0949bf259334bba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["trigsimp(sin(x) ** 3 + cos(x) ** 2 * sin(x)) == sin(x)","trigsimp(diff(integrate(cos(x) / sin(x) ** 3, x), x)) == cos(x) / sin(x) ** 3","trigsimp(diff(integrate(sin(x) / cos(x) ** 3, x), x)) == sin(x) / cos(x) ** 3","trigsimp(e) == e","trigsimp(e.subs(y, 2)) == tan(x) ** 2","trigsimp(e.subs(x, 1)) == tan(1) ** y","(cos(x) ** 2 / sin(x) ** 2 * cos(y) ** 2 / sin(y) ** 2).trigsimp() == 1 / tan(x) ** 2 / tan(y) ** 2","trigsimp(cos(x) / sin(x) * cos(x + y) / sin(x + y)) == 1 / (tan(x) * tan(x + y))","trigsimp(eq) == eq.factor()","trigsimp(cos(2) * (cos(3) + 1) ** 2 * (cos(3) - 1) ** 2) == cos(2) * sin(3) ** 4","cot(x).equals(tan(x)) is False","trigsimp(sin(n)) != sin(1)","trigsimp(eq) is S.NaN","trigsimp(eq, recursive=True) is S.NaN","trigsimp(1).is_Integer","trigsimp(-sin(x) ** 4 - 2 * sin(x) ** 2 * cos(x) ** 2 - cos(x) ** 4) == -1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_trigsimp_issues():
     a, x, y = symbols('a x y')
 
@@ -360,16 +447,23 @@ def test_trigsimp_issues():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_trigsimp_issue_2515(), test_trigsimp_issue_2515 produces the expected output) over Any ║
+# ║ Path(test_trigsimp_issue_2515(), trigsimp(x * cos(x) * tan(x)) == x * sin(x) and trigsimp(-sin(x) + cos(x) * tan(x)) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_trigsimp_issue_2515 : Any → {Any | trigsimp(x * ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  trigsimp(x * cos(x) * tan(x)) == x * sin(x)    ║
+# ║   ensures:  trigsimp(-sin(x) + cos(x) * tan(x)) == 0       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_trigsimp_issue_2515 : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2e369fe195d977c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 61605e8504887eab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_trigsimp_issue_2515","kind":"function","src_hash":"8586e2382498545d","in":{"base":"Any"},"out":{"base":"Any","pred":"trigsimp(x * cos(x) * tan(x)) == x * sin(x) and trigsimp(-sin(x) + cos(x) * tan(x)) == 0"},"spec":{"lhs":"test_trigsimp_issue_2515()","rhs":"test_trigsimp_issue_2515 produces the expected output","over":{"base":"Any"},"name":"test_trigsimp_issue_2515_correct"},"guarantee":"test_trigsimp_issue_2515 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_trigsimp_issue_2515_correct","statement":"Path(test_trigsimp_issue_2515(x), test_trigsimp_issue_2515 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2e369fe195d977c"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_trigsimp_issue_2515","kind":"function","src_hash":"8586e2382498545d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: trigsimp(x * cos(x) * tan(x)) == x * sin(x) and trigsimp(-sin(x) + cos(x) * tan(x)) == 0"},"spec":{"lhs":"test_trigsimp_issue_2515()","rhs":"trigsimp(x * cos(x) * tan(x)) == x * sin(x) and trigsimp(-sin(x) + cos(x) * tan(x)) == 0","over":{"base":"Any"},"name":"test_trigsimp_issue_2515_correct"},"guarantee":"trigsimp(x * cos(x) * tan(x)) == x * sin(x); trigsimp(-sin(x) + cos(x) * tan(x)) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_trigsimp_issue_2515_correct","statement":"Path(test_trigsimp_issue_2515(x), trigsimp(x * cos(x) * tan(x)) == x * sin(x); trigsimp(-sin(x) + cos(x) * tan(x)) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61605e8504887eab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["trigsimp(x * cos(x) * tan(x)) == x * sin(x)","trigsimp(-sin(x) + cos(x) * tan(x)) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_trigsimp_issue_2515():
     x = Symbol('x')
     assert trigsimp(x*cos(x)*tan(x)) == x*sin(x)
@@ -377,31 +471,43 @@ def test_trigsimp_issue_2515():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_trigsimp_issue_3826(), test_trigsimp_issue_3826 produces the expected output) over Any ║
+# ║ Path(test_trigsimp_issue_3826(), trigsimp(tan(2 * x).expand(trig=True)) == tan(2 * x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_trigsimp_issue_3826 : Any → {Any | trigsimp(tan(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  trigsimp(tan(2 * x).expand(trig=True)) ==...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_trigsimp_issue_3826 : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68ffa80c46377b52  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 73ec46ed7aefa08f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_trigsimp_issue_3826","kind":"function","src_hash":"ab853076b13a62cf","in":{"base":"Any"},"out":{"base":"Any","pred":"trigsimp(tan(2 * x).expand(trig=True)) == tan(2 * x)"},"spec":{"lhs":"test_trigsimp_issue_3826()","rhs":"test_trigsimp_issue_3826 produces the expected output","over":{"base":"Any"},"name":"test_trigsimp_issue_3826_correct"},"guarantee":"test_trigsimp_issue_3826 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_trigsimp_issue_3826_correct","statement":"Path(test_trigsimp_issue_3826(x), test_trigsimp_issue_3826 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68ffa80c46377b52"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_trigsimp_issue_3826","kind":"function","src_hash":"ab853076b13a62cf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: trigsimp(tan(2 * x).expand(trig=True)) == tan(2 * x)"},"spec":{"lhs":"test_trigsimp_issue_3826()","rhs":"trigsimp(tan(2 * x).expand(trig=True)) == tan(2 * x)","over":{"base":"Any"},"name":"test_trigsimp_issue_3826_correct"},"guarantee":"trigsimp(tan(2 * x).expand(trig=True)) == tan(2 * x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_trigsimp_issue_3826_correct","statement":"Path(test_trigsimp_issue_3826(x), trigsimp(tan(2 * x).expand(trig=True)) == tan(2 * x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73ec46ed7aefa08f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["trigsimp(tan(2 * x).expand(trig=True)) == tan(2 * x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_trigsimp_issue_3826():
     assert trigsimp(tan(2*x).expand(trig=True)) == tan(2*x)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_trigsimp_issue_4032(), test_trigsimp_issue_4032 produces the expected output) over Any ║
+# ║ Path(test_trigsimp_issue_4032(), trigsimp(2 ** (n / 2) * cos(pi * n / 4) / 2 + 2 ** (n - 1) / 2) == 2 ** (n / 2) * cos(pi * n / 4) / 2 + 2 ** n / 4) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_trigsimp_issue_4032 : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  trigsimp(2 ** (n / 2) * cos(pi * n / 4) /...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_trigsimp_issue_4032 : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 57a9f0e68f2be13a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5c67d8eea3c9ebe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_trigsimp_issue_4032","kind":"function","src_hash":"a936545206fdcd39","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_trigsimp_issue_4032()","rhs":"test_trigsimp_issue_4032 produces the expected output","over":{"base":"Any"},"name":"test_trigsimp_issue_4032_correct"},"guarantee":"test_trigsimp_issue_4032 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_trigsimp_issue_4032_correct","statement":"Path(test_trigsimp_issue_4032(x), test_trigsimp_issue_4032 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57a9f0e68f2be13a"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_trigsimp_issue_4032","kind":"function","src_hash":"a936545206fdcd39","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: trigsimp(2 ** (n / 2) * cos(pi * n / 4) / 2 + 2 ** (n - 1) / 2) == 2 ** (n / 2) * cos(pi * n / 4) / 2 + 2 ** n / 4"},"spec":{"lhs":"test_trigsimp_issue_4032()","rhs":"trigsimp(2 ** (n / 2) * cos(pi * n / 4) / 2 + 2 ** (n - 1) / 2) == 2 ** (n / 2) * cos(pi * n / 4) / 2 + 2 ** n / 4","over":{"base":"Any"},"name":"test_trigsimp_issue_4032_correct"},"guarantee":"trigsimp(2 ** (n / 2) * cos(pi * n / 4) / 2 + 2 ** (n - 1) / 2) == 2 ** (n / 2) * cos(pi * n / 4) / 2 + 2 ** n / 4","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_trigsimp_issue_4032_correct","statement":"Path(test_trigsimp_issue_4032(x), trigsimp(2 ** (n / 2) * cos(pi * n / 4) / 2 + 2 ** (n - 1) / 2) == 2 ** (n / 2) * cos(pi * n / 4) / 2 + 2 ** n / 4)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5c67d8eea3c9ebe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["trigsimp(2 ** (n / 2) * cos(pi * n / 4) / 2 + 2 ** (n - 1) / 2) == 2 ** (n / 2) * cos(pi * n / 4) / 2 + 2 ** n / 4"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_trigsimp_issue_4032():
     n = Symbol('n', integer=True, positive=True)
     assert trigsimp(2**(n/2)*cos(pi*n/4)/2 + 2**(n - 1)/2) == \
@@ -409,31 +515,45 @@ def test_trigsimp_issue_4032():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_trigsimp_issue_7761(), test_trigsimp_issue_7761 produces the expected output) over Any ║
+# ║ Path(test_trigsimp_issue_7761(), trigsimp(cosh(pi / 4)) == cosh(pi / 4)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_trigsimp_issue_7761 : Any → {Any | trigsimp(cosh...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  trigsimp(cosh(pi / 4)) == cosh(pi / 4)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_trigsimp_issue_7761 : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f955f10f4bf1ac1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa471828b1db4124  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_trigsimp_issue_7761","kind":"function","src_hash":"abb6303a0c8a1517","in":{"base":"Any"},"out":{"base":"Any","pred":"trigsimp(cosh(pi / 4)) == cosh(pi / 4)"},"spec":{"lhs":"test_trigsimp_issue_7761()","rhs":"test_trigsimp_issue_7761 produces the expected output","over":{"base":"Any"},"name":"test_trigsimp_issue_7761_correct"},"guarantee":"test_trigsimp_issue_7761 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_trigsimp_issue_7761_correct","statement":"Path(test_trigsimp_issue_7761(x), test_trigsimp_issue_7761 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f955f10f4bf1ac1"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_trigsimp_issue_7761","kind":"function","src_hash":"abb6303a0c8a1517","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: trigsimp(cosh(pi / 4)) == cosh(pi / 4)"},"spec":{"lhs":"test_trigsimp_issue_7761()","rhs":"trigsimp(cosh(pi / 4)) == cosh(pi / 4)","over":{"base":"Any"},"name":"test_trigsimp_issue_7761_correct"},"guarantee":"trigsimp(cosh(pi / 4)) == cosh(pi / 4)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_trigsimp_issue_7761_correct","statement":"Path(test_trigsimp_issue_7761(x), trigsimp(cosh(pi / 4)) == cosh(pi / 4))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa471828b1db4124","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["trigsimp(cosh(pi / 4)) == cosh(pi / 4)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_trigsimp_issue_7761():
     assert trigsimp(cosh(pi/4)) == cosh(pi/4)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_trigsimp_noncommutative(), test_trigsimp_noncommutative produces the expected output) over Any ║
+# ║ Path(test_trigsimp_noncommutative(), trigsimp(A - A * sin(x) ** 2) == A * cos(x) ** 2 and trigsimp(A - A * cos(x) ** 2) == A * sin(x) ** 2 and trigsimp(A * sin(x) ** 2 + A * cos(x) ** 2) == A and trigsimp(A + A * tan(x) ** 2) == A / cos(x) ** 2 and trigsimp(A / cos(x) ** 2 - A) == A * tan(x) ** 2 and trigsimp(A / cos(x) ** 2 - A * tan(x) ** 2) == A and trigsimp(A + A * cot(x) ** 2) == A / sin(x) ** 2 and trigsimp(A / sin(x) ** 2 - A) == A / tan(x) ** 2 and trigsimp(A / sin(x) ** 2 - A * cot(x) ** 2) == A and trigsimp(y * A * cos(x) ** 2 + y * A * sin(x) ** 2) == y * A and trigsimp(A * sin(x) / cos(x)) == A * tan(x) and trigsimp(A * tan(x) * cos(x)) == A * sin(x) and trigsimp(A * cot(x) ** 3 * sin(x) ** 3) == A * cos(x) ** 3 and trigsimp(y * A * tan(x) ** 2 / sin(x) ** 2) == y * A / cos(x) ** 2 and trigsimp(A * cot(x) / cos(x)) == A / sin(x) and trigsimp(A * sin(x + y) + A * sin(x - y)) == 2 * A * sin(x) * cos(y) and trigsimp(A * sin(x + y) - A * sin(x - y)) == 2 * A * sin(y) * cos(x) and trigsimp(A * cos(x + y) + A * cos(x - y)) == 2 * A * cos(x) * cos(y) and trigsimp(A * cos(x + y) - A * cos(x - y)) == -2 * A * sin(x) * sin(y) and trigsimp(A * sinh(x + y) + A * sinh(x - y)) == 2 * A * sinh(x) * cosh(y) and trigsimp(A * sinh(x + y) - A * sinh(x - y)) == 2 * A * sinh(y) * cosh(x) and trigsimp(A * cosh(x + y) + A * cosh(x - y)) == 2 * A * cosh(x) * cosh(y) and trigsimp(A * cosh(x + y) - A * cosh(x - y)) == 2 * A * sinh(x) * sinh(y) and trigsimp(A * cos(0.12345) ** 2 + A * sin(0.12345) ** 2) == 1.0 * A) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_trigsimp_noncommutative : Any → {Any | trigsimp(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  trigsimp(A - A * sin(x) ** 2) == A * cos(...   ║
+# ║   ensures:  trigsimp(A - A * cos(x) ** 2) == A * sin(...   ║
+# ║   ensures:  trigsimp(A * sin(x) ** 2 + A * cos(x) ** ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_trigsimp_noncommutative : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c8976d5bc228d02  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 27b2662e5775bf38  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_trigsimp_noncommutative","kind":"function","src_hash":"c1b9bb6e42475065","in":{"base":"Any"},"out":{"base":"Any","pred":"trigsimp(A - A * sin(x) ** 2) == A * cos(x) ** 2 and trigsimp(A - A * cos(x) ** 2) == A * sin(x) ** 2 and trigsimp(A * sin(x) ** 2 + A * cos(x) ** 2) == A and trigsimp(A + A * tan(x) ** 2) == A / cos(x) ** 2 and trigsimp(A / cos(x) ** 2 - A) == A * tan(x) ** 2 and trigsimp(A / cos(x) ** 2 - A * tan(x) ** 2) == A and trigsimp(A + A * cot(x) ** 2) == A / sin(x) ** 2 and trigsimp(A / sin(x) ** 2 - A) == A / tan(x) ** 2 and trigsimp(A / sin(x) ** 2 - A * cot(x) ** 2) == A and trigsimp(y * A * cos(x) ** 2 + y * A * sin(x) ** 2) == y * A and trigsimp(A * sin(x) / cos(x)) == A * tan(x) and trigsimp(A * tan(x) * cos(x)) == A * sin(x) and trigsimp(A * cot(x) ** 3 * sin(x) ** 3) == A * cos(x) ** 3 and trigsimp(y * A * tan(x) ** 2 / sin(x) ** 2) == y * A / cos(x) ** 2 and trigsimp(A * cot(x) / cos(x)) == A / sin(x) and trigsimp(A * sin(x + y) + A * sin(x - y)) == 2 * A * sin(x) * cos(y) and trigsimp(A * sin(x + y) - A * sin(x - y)) == 2 * A * sin(y) * cos(x) and trigsimp(A * cos(x + y) + A * cos(x - y)) == 2 * A * cos(x) * cos(y) and trigsimp(A * cos(x + y) - A * cos(x - y)) == -2 * A * sin(x) * sin(y) and trigsimp(A * sinh(x + y) + A * sinh(x - y)) == 2 * A * sinh(x) * cosh(y) and trigsimp(A * sinh(x + y) - A * sinh(x - y)) == 2 * A * sinh(y) * cosh(x) and trigsimp(A * cosh(x + y) + A * cosh(x - y)) == 2 * A * cosh(x) * cosh(y) and trigsimp(A * cosh(x + y) - A * cosh(x - y)) == 2 * A * sinh(x) * sinh(y) and trigsimp(A * cos(0.12345) ** 2 + A * sin(0.12345) ** 2) == 1.0 * A"},"spec":{"lhs":"test_trigsimp_noncommutative()","rhs":"test_trigsimp_noncommutative produces the expected output","over":{"base":"Any"},"name":"test_trigsimp_noncommutative_correct"},"guarantee":"test_trigsimp_noncommutative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_trigsimp_noncommutative_correct","statement":"Path(test_trigsimp_noncommutative(x), test_trigsimp_noncommutative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c8976d5bc228d02"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_trigsimp_noncommutative","kind":"function","src_hash":"c1b9bb6e42475065","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: trigsimp(A - A * sin(x) ** 2) == A * cos(x) ** 2 and trigsimp(A - A * cos(x) ** 2) == A * sin(x) ** 2 and trigsimp(A * sin(x) ** 2 + A * cos(x) ** 2) == A and trigsimp(A + A * tan(x) ** 2) == A / cos(x) ** 2 and trigsimp(A / cos(x) ** 2 - A) == A * tan(x) ** 2 and trigsimp(A / cos(x) ** 2 - A * tan(x) ** 2) == A and trigsimp(A + A * cot(x) ** 2) == A / sin(x) ** 2 and trigsimp(A / sin(x) ** 2 - A) == A / tan(x) ** 2 and trigsimp(A / sin(x) ** 2 - A * cot(x) ** 2) == A and trigsimp(y * A * cos(x) ** 2 + y * A * sin(x) ** 2) == y * A and trigsimp(A * sin(x) / cos(x)) == A * tan(x) and trigsimp(A * tan(x) * cos(x)) == A * sin(x) and trigsimp(A * cot(x) ** 3 * sin(x) ** 3) == A * cos(x) ** 3 and trigsimp(y * A * tan(x) ** 2 / sin(x) ** 2) == y * A / cos(x) ** 2 and trigsimp(A * cot(x) / cos(x)) == A / sin(x) and trigsimp(A * sin(x + y) + A * sin(x - y)) == 2 * A * sin(x) * cos(y) and trigsimp(A * sin(x + y) - A * sin(x - y)) == 2 * A * sin(y) * cos(x) and trigsimp(A * cos(x + y) + A * cos(x - y)) == 2 * A * cos(x) * cos(y) and trigsimp(A * cos(x + y) - A * cos(x - y)) == -2 * A * sin(x) * sin(y) and trigsimp(A * sinh(x + y) + A * sinh(x - y)) == 2 * A * sinh(x) * cosh(y) and trigsimp(A * sinh(x + y) - A * sinh(x - y)) == 2 * A * sinh(y) * cosh(x) and trigsimp(A * cosh(x + y) + A * cosh(x - y)) == 2 * A * cosh(x) * cosh(y) and trigsimp(A * cosh(x + y) - A * cosh(x - y)) == 2 * A * sinh(x) * sinh(y) and trigsimp(A * cos(0.12345) ** 2 + A * sin(0.12345) ** 2) == 1.0 * A"},"spec":{"lhs":"test_trigsimp_noncommutative()","rhs":"trigsimp(A - A * sin(x) ** 2) == A * cos(x) ** 2 and trigsimp(A - A * cos(x) ** 2) == A * sin(x) ** 2 and trigsimp(A * sin(x) ** 2 + A * cos(x) ** 2) == A and trigsimp(A + A * tan(x) ** 2) == A / cos(x) ** 2 and trigsimp(A / cos(x) ** 2 - A) == A * tan(x) ** 2 and trigsimp(A / cos(x) ** 2 - A * tan(x) ** 2) == A and trigsimp(A + A * cot(x) ** 2) == A / sin(x) ** 2 and trigsimp(A / sin(x) ** 2 - A) == A / tan(x) ** 2 and trigsimp(A / sin(x) ** 2 - A * cot(x) ** 2) == A and trigsimp(y * A * cos(x) ** 2 + y * A * sin(x) ** 2) == y * A and trigsimp(A * sin(x) / cos(x)) == A * tan(x) and trigsimp(A * tan(x) * cos(x)) == A * sin(x) and trigsimp(A * cot(x) ** 3 * sin(x) ** 3) == A * cos(x) ** 3 and trigsimp(y * A * tan(x) ** 2 / sin(x) ** 2) == y * A / cos(x) ** 2 and trigsimp(A * cot(x) / cos(x)) == A / sin(x) and trigsimp(A * sin(x + y) + A * sin(x - y)) == 2 * A * sin(x) * cos(y) and trigsimp(A * sin(x + y) - A * sin(x - y)) == 2 * A * sin(y) * cos(x) and trigsimp(A * cos(x + y) + A * cos(x - y)) == 2 * A * cos(x) * cos(y) and trigsimp(A * cos(x + y) - A * cos(x - y)) == -2 * A * sin(x) * sin(y) and trigsimp(A * sinh(x + y) + A * sinh(x - y)) == 2 * A * sinh(x) * cosh(y) and trigsimp(A * sinh(x + y) - A * sinh(x - y)) == 2 * A * sinh(y) * cosh(x) and trigsimp(A * cosh(x + y) + A * cosh(x - y)) == 2 * A * cosh(x) * cosh(y) and trigsimp(A * cosh(x + y) - A * cosh(x - y)) == 2 * A * sinh(x) * sinh(y) and trigsimp(A * cos(0.12345) ** 2 + A * sin(0.12345) ** 2) == 1.0 * A","over":{"base":"Any"},"name":"test_trigsimp_noncommutative_correct"},"guarantee":"trigsimp(A - A * sin(x) ** 2) == A * cos(x) ** 2; trigsimp(A - A * cos(x) ** 2) == A * sin(x) ** 2; trigsimp(A * sin(x) ** 2 + A * cos(x) ** 2) == A","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_trigsimp_noncommutative_correct","statement":"Path(test_trigsimp_noncommutative(x), trigsimp(A - A * sin(x) ** 2) == A * cos(x) ** 2; trigsimp(A - A * cos(x) ** 2) == A * sin(x) ** 2; trigsimp(A * sin(x) ** 2 + A * cos(x) ** 2) == A)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27b2662e5775bf38","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["trigsimp(A - A * sin(x) ** 2) == A * cos(x) ** 2","trigsimp(A - A * cos(x) ** 2) == A * sin(x) ** 2","trigsimp(A * sin(x) ** 2 + A * cos(x) ** 2) == A","trigsimp(A + A * tan(x) ** 2) == A / cos(x) ** 2","trigsimp(A / cos(x) ** 2 - A) == A * tan(x) ** 2","trigsimp(A / cos(x) ** 2 - A * tan(x) ** 2) == A","trigsimp(A + A * cot(x) ** 2) == A / sin(x) ** 2","trigsimp(A / sin(x) ** 2 - A) == A / tan(x) ** 2","trigsimp(A / sin(x) ** 2 - A * cot(x) ** 2) == A","trigsimp(y * A * cos(x) ** 2 + y * A * sin(x) ** 2) == y * A","trigsimp(A * sin(x) / cos(x)) == A * tan(x)","trigsimp(A * tan(x) * cos(x)) == A * sin(x)","trigsimp(A * cot(x) ** 3 * sin(x) ** 3) == A * cos(x) ** 3","trigsimp(y * A * tan(x) ** 2 / sin(x) ** 2) == y * A / cos(x) ** 2","trigsimp(A * cot(x) / cos(x)) == A / sin(x)","trigsimp(A * sin(x + y) + A * sin(x - y)) == 2 * A * sin(x) * cos(y)","trigsimp(A * sin(x + y) - A * sin(x - y)) == 2 * A * sin(y) * cos(x)","trigsimp(A * cos(x + y) + A * cos(x - y)) == 2 * A * cos(x) * cos(y)","trigsimp(A * cos(x + y) - A * cos(x - y)) == -2 * A * sin(x) * sin(y)","trigsimp(A * sinh(x + y) + A * sinh(x - y)) == 2 * A * sinh(x) * cosh(y)","trigsimp(A * sinh(x + y) - A * sinh(x - y)) == 2 * A * sinh(y) * cosh(x)","trigsimp(A * cosh(x + y) + A * cosh(x - y)) == 2 * A * cosh(x) * cosh(y)","trigsimp(A * cosh(x + y) - A * cosh(x - y)) == 2 * A * sinh(x) * sinh(y)","trigsimp(A * cos(0.12345) ** 2 + A * sin(0.12345) ** 2) == 1.0 * A"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def test_trigsimp_noncommutative():
     x, y = symbols('x,y')
     A, B = symbols('A,B', commutative=False)
@@ -470,16 +590,24 @@ def test_trigsimp_noncommutative():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_hyperbolic_simp(), test_hyperbolic_simp produces the expected output) over Any ║
+# ║ Path(test_hyperbolic_simp(), trigsimp(sinh(x) ** 2 + 1) == cosh(x) ** 2 and trigsimp(cosh(x) ** 2 - 1) == sinh(x) ** 2 and trigsimp(cosh(x) ** 2 - sinh(x) ** 2) == 1 and trigsimp(1 - tanh(x) ** 2) == 1 / cosh(x) ** 2 and trigsimp(1 - 1 / cosh(x) ** 2) == tanh(x) ** 2 and trigsimp(tanh(x) ** 2 + 1 / cosh(x) ** 2) == 1 and trigsimp(coth(x) ** 2 - 1) == 1 / sinh(x) ** 2 and trigsimp(1 / sinh(x) ** 2 + 1) == 1 / tanh(x) ** 2 and trigsimp(coth(x) ** 2 - 1 / sinh(x) ** 2) == 1 and trigsimp(5 * cosh(x) ** 2 - 5 * sinh(x) ** 2) == 5 and trigsimp(5 * cosh(x / 2) ** 2 - 2 * sinh(x / 2) ** 2) == 3 * cosh(x) / 2 + Rational(7, 2) and trigsimp(sinh(x) / cosh(x)) == tanh(x) and trigsimp(tanh(x)) == trigsimp(sinh(x) / cosh(x)) and trigsimp(cosh(x) / sinh(x)) == 1 / tanh(x) and trigsimp(2 * tanh(x) * cosh(x)) == 2 * sinh(x) and trigsimp(coth(x) ** 3 * sinh(x) ** 3) == cosh(x) ** 3 and trigsimp(y * tanh(x) ** 2 / sinh(x) ** 2) == y / cosh(x) ** 2 and trigsimp(coth(x) / cosh(x)) == 1 / sinh(x) and trigsimp(log(e)) == log(2) and trigsimp(sqrt(cosh(x) ** 2 - 1)) == sqrt(sinh(x) ** 2) and trigsimp(cosh(x) ** 2 * cosh(y) ** 2 - cosh(x) ** 2 * sinh(y) ** 2 - sinh(x) ** 2, recursive=True) == 1 and trigsimp(sinh(x) ** 2 * sinh(y) ** 2 - sinh(x) ** 2 * cosh(y) ** 2 + cosh(x) ** 2, recursive=True) == 1 and abs(trigsimp(2.0 * cosh(x) ** 2 - 2.0 * sinh(x) ** 2) - 2.0) < 1e-10 and trigsimp(sinh(x) ** 2 / cosh(x) ** 2) == tanh(x) ** 2 and trigsimp(sinh(x) ** 3 / cosh(x) ** 3) == tanh(x) ** 3 and trigsimp(sinh(x) ** 10 / cosh(x) ** 10) == tanh(x) ** 10 and trigsimp(cosh(x) ** 3 / sinh(x) ** 3) == 1 / tanh(x) ** 3 and trigsimp(cosh(x) ** 2 / sinh(x) ** 2) == 1 / tanh(x) ** 2 and trigsimp(cosh(x) ** 10 / sinh(x) ** 10) == 1 / tanh(x) ** 10 and trigsimp(x * cosh(x) * tanh(x)) == x * sinh(x) and trigsimp(-sinh(x) + cosh(x) * tanh(x)) == 0 and tan(x) != 1 / cot(x) and trigsimp(tan(x) - 1 / cot(x)) == 0 and trigsimp(3 * tanh(x) ** 7 - 2 / coth(x) ** 7) == tanh(x) ** 7) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_hyperbolic_simp : Any → {Any | trigsimp(sinh(x) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  trigsimp(sinh(x) ** 2 + 1) == cosh(x) ** 2     ║
+# ║   ensures:  trigsimp(cosh(x) ** 2 - 1) == sinh(x) ** 2     ║
+# ║   ensures:  trigsimp(cosh(x) ** 2 - sinh(x) ** 2) == 1     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_hyperbolic_simp : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c851b72515f44683  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f0c8922090d52ee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_hyperbolic_simp","kind":"function","src_hash":"faee7cda3f8b6e85","in":{"base":"Any"},"out":{"base":"Any","pred":"trigsimp(sinh(x) ** 2 + 1) == cosh(x) ** 2 and trigsimp(cosh(x) ** 2 - 1) == sinh(x) ** 2 and trigsimp(cosh(x) ** 2 - sinh(x) ** 2) == 1 and trigsimp(1 - tanh(x) ** 2) == 1 / cosh(x) ** 2 and trigsimp(1 - 1 / cosh(x) ** 2) == tanh(x) ** 2 and trigsimp(tanh(x) ** 2 + 1 / cosh(x) ** 2) == 1 and trigsimp(coth(x) ** 2 - 1) == 1 / sinh(x) ** 2 and trigsimp(1 / sinh(x) ** 2 + 1) == 1 / tanh(x) ** 2 and trigsimp(coth(x) ** 2 - 1 / sinh(x) ** 2) == 1 and trigsimp(5 * cosh(x) ** 2 - 5 * sinh(x) ** 2) == 5 and trigsimp(sinh(x) / cosh(x)) == tanh(x) and trigsimp(tanh(x)) == trigsimp(sinh(x) / cosh(x)) and trigsimp(cosh(x) / sinh(x)) == 1 / tanh(x) and trigsimp(2 * tanh(x) * cosh(x)) == 2 * sinh(x) and trigsimp(coth(x) ** 3 * sinh(x) ** 3) == cosh(x) ** 3 and trigsimp(y * tanh(x) ** 2 / sinh(x) ** 2) == y / cosh(x) ** 2 and trigsimp(coth(x) / cosh(x)) == 1 / sinh(x) and trigsimp(log(e)) == log(2) and trigsimp(sqrt(cosh(x) ** 2 - 1)) == sqrt(sinh(x) ** 2) and abs(trigsimp(2.0 * cosh(x) ** 2 - 2.0 * sinh(x) ** 2) - 2.0) < 1e-10 and trigsimp(sinh(x) ** 2 / cosh(x) ** 2) == tanh(x) ** 2 and trigsimp(sinh(x) ** 3 / cosh(x) ** 3) == tanh(x) ** 3 and trigsimp(sinh(x) ** 10 / cosh(x) ** 10) == tanh(x) ** 10 and trigsimp(cosh(x) ** 3 / sinh(x) ** 3) == 1 / tanh(x) ** 3 and trigsimp(cosh(x) / sinh(x)) == 1 / tanh(x) and trigsimp(cosh(x) ** 2 / sinh(x) ** 2) == 1 / tanh(x) ** 2 and trigsimp(cosh(x) ** 10 / sinh(x) ** 10) == 1 / tanh(x) ** 10 and trigsimp(x * cosh(x) * tanh(x)) == x * sinh(x) and trigsimp(-sinh(x) + cosh(x) * tanh(x)) == 0 and tan(x) != 1 / cot(x) and trigsimp(tan(x) - 1 / cot(x)) == 0 and trigsimp(3 * tanh(x) ** 7 - 2 / coth(x) ** 7) == tanh(x) ** 7 and trigsimp(sinh(a) * cosh(x) + cosh(a) * sinh(x)) == sinh(x + a) and trigsimp(-sinh(a) * cosh(x) + cosh(a) * sinh(x)) == sinh(x - a)"},"spec":{"lhs":"test_hyperbolic_simp()","rhs":"test_hyperbolic_simp produces the expected output","over":{"base":"Any"},"name":"test_hyperbolic_simp_correct"},"guarantee":"test_hyperbolic_simp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_hyperbolic_simp_correct","statement":"Path(test_hyperbolic_simp(x), test_hyperbolic_simp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c851b72515f44683"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_hyperbolic_simp","kind":"function","src_hash":"faee7cda3f8b6e85","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: trigsimp(sinh(x) ** 2 + 1) == cosh(x) ** 2 and trigsimp(cosh(x) ** 2 - 1) == sinh(x) ** 2 and trigsimp(cosh(x) ** 2 - sinh(x) ** 2) == 1 and trigsimp(1 - tanh(x) ** 2) == 1 / cosh(x) ** 2 and trigsimp(1 - 1 / cosh(x) ** 2) == tanh(x) ** 2 and trigsimp(tanh(x) ** 2 + 1 / cosh(x) ** 2) == 1 and trigsimp(coth(x) ** 2 - 1) == 1 / sinh(x) ** 2 and trigsimp(1 / sinh(x) ** 2 + 1) == 1 / tanh(x) ** 2 and trigsimp(coth(x) ** 2 - 1 / sinh(x) ** 2) == 1 and trigsimp(5 * cosh(x) ** 2 - 5 * sinh(x) ** 2) == 5 and trigsimp(5 * cosh(x / 2) ** 2 - 2 * sinh(x / 2) ** 2) == 3 * cosh(x) / 2 + Rational(7, 2) and trigsimp(sinh(x) / cosh(x)) == tanh(x) and trigsimp(tanh(x)) == trigsimp(sinh(x) / cosh(x)) and trigsimp(cosh(x) / sinh(x)) == 1 / tanh(x) and trigsimp(2 * tanh(x) * cosh(x)) == 2 * sinh(x) and trigsimp(coth(x) ** 3 * sinh(x) ** 3) == cosh(x) ** 3 and trigsimp(y * tanh(x) ** 2 / sinh(x) ** 2) == y / cosh(x) ** 2 and trigsimp(coth(x) / cosh(x)) == 1 / sinh(x) and trigsimp(log(e)) == log(2) and trigsimp(sqrt(cosh(x) ** 2 - 1)) == sqrt(sinh(x) ** 2) and trigsimp(cosh(x) ** 2 * cosh(y) ** 2 - cosh(x) ** 2 * sinh(y) ** 2 - sinh(x) ** 2, recursive=True) == 1 and trigsimp(sinh(x) ** 2 * sinh(y) ** 2 - sinh(x) ** 2 * cosh(y) ** 2 + cosh(x) ** 2, recursive=True) == 1 and abs(trigsimp(2.0 * cosh(x) ** 2 - 2.0 * sinh(x) ** 2) - 2.0) < 1e-10 and trigsimp(sinh(x) ** 2 / cosh(x) ** 2) == tanh(x) ** 2 and trigsimp(sinh(x) ** 3 / cosh(x) ** 3) == tanh(x) ** 3 and trigsimp(sinh(x) ** 10 / cosh(x) ** 10) == tanh(x) ** 10 and trigsimp(cosh(x) ** 3 / sinh(x) ** 3) == 1 / tanh(x) ** 3 and trigsimp(cosh(x) ** 2 / sinh(x) ** 2) == 1 / tanh(x) ** 2 and trigsimp(cosh(x) ** 10 / sinh(x) ** 10) == 1 / tanh(x) ** 10 and trigsimp(x * cosh(x) * tanh(x)) == x * sinh(x) and trigsimp(-sinh(x) + cosh(x) * tanh(x)) == 0 and tan(x) != 1 / cot(x) and trigsimp(tan(x) - 1 / cot(x)) == 0 and trigsimp(3 * tanh(x) ** 7 - 2 / coth(x) ** 7) == tanh(x) ** 7"},"spec":{"lhs":"test_hyperbolic_simp()","rhs":"trigsimp(sinh(x) ** 2 + 1) == cosh(x) ** 2 and trigsimp(cosh(x) ** 2 - 1) == sinh(x) ** 2 and trigsimp(cosh(x) ** 2 - sinh(x) ** 2) == 1 and trigsimp(1 - tanh(x) ** 2) == 1 / cosh(x) ** 2 and trigsimp(1 - 1 / cosh(x) ** 2) == tanh(x) ** 2 and trigsimp(tanh(x) ** 2 + 1 / cosh(x) ** 2) == 1 and trigsimp(coth(x) ** 2 - 1) == 1 / sinh(x) ** 2 and trigsimp(1 / sinh(x) ** 2 + 1) == 1 / tanh(x) ** 2 and trigsimp(coth(x) ** 2 - 1 / sinh(x) ** 2) == 1 and trigsimp(5 * cosh(x) ** 2 - 5 * sinh(x) ** 2) == 5 and trigsimp(5 * cosh(x / 2) ** 2 - 2 * sinh(x / 2) ** 2) == 3 * cosh(x) / 2 + Rational(7, 2) and trigsimp(sinh(x) / cosh(x)) == tanh(x) and trigsimp(tanh(x)) == trigsimp(sinh(x) / cosh(x)) and trigsimp(cosh(x) / sinh(x)) == 1 / tanh(x) and trigsimp(2 * tanh(x) * cosh(x)) == 2 * sinh(x) and trigsimp(coth(x) ** 3 * sinh(x) ** 3) == cosh(x) ** 3 and trigsimp(y * tanh(x) ** 2 / sinh(x) ** 2) == y / cosh(x) ** 2 and trigsimp(coth(x) / cosh(x)) == 1 / sinh(x) and trigsimp(log(e)) == log(2) and trigsimp(sqrt(cosh(x) ** 2 - 1)) == sqrt(sinh(x) ** 2) and trigsimp(cosh(x) ** 2 * cosh(y) ** 2 - cosh(x) ** 2 * sinh(y) ** 2 - sinh(x) ** 2, recursive=True) == 1 and trigsimp(sinh(x) ** 2 * sinh(y) ** 2 - sinh(x) ** 2 * cosh(y) ** 2 + cosh(x) ** 2, recursive=True) == 1 and abs(trigsimp(2.0 * cosh(x) ** 2 - 2.0 * sinh(x) ** 2) - 2.0) < 1e-10 and trigsimp(sinh(x) ** 2 / cosh(x) ** 2) == tanh(x) ** 2 and trigsimp(sinh(x) ** 3 / cosh(x) ** 3) == tanh(x) ** 3 and trigsimp(sinh(x) ** 10 / cosh(x) ** 10) == tanh(x) ** 10 and trigsimp(cosh(x) ** 3 / sinh(x) ** 3) == 1 / tanh(x) ** 3 and trigsimp(cosh(x) ** 2 / sinh(x) ** 2) == 1 / tanh(x) ** 2 and trigsimp(cosh(x) ** 10 / sinh(x) ** 10) == 1 / tanh(x) ** 10 and trigsimp(x * cosh(x) * tanh(x)) == x * sinh(x) and trigsimp(-sinh(x) + cosh(x) * tanh(x)) == 0 and tan(x) != 1 / cot(x) and trigsimp(tan(x) - 1 / cot(x)) == 0 and trigsimp(3 * tanh(x) ** 7 - 2 / coth(x) ** 7) == tanh(x) ** 7","over":{"base":"Any"},"name":"test_hyperbolic_simp_correct"},"guarantee":"trigsimp(sinh(x) ** 2 + 1) == cosh(x) ** 2; trigsimp(cosh(x) ** 2 - 1) == sinh(x) ** 2; trigsimp(cosh(x) ** 2 - sinh(x) ** 2) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_hyperbolic_simp_correct","statement":"Path(test_hyperbolic_simp(x), trigsimp(sinh(x) ** 2 + 1) == cosh(x) ** 2; trigsimp(cosh(x) ** 2 - 1) == sinh(x) ** 2; trigsimp(cosh(x) ** 2 - sinh(x) ** 2) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f0c8922090d52ee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["trigsimp(sinh(x) ** 2 + 1) == cosh(x) ** 2","trigsimp(cosh(x) ** 2 - 1) == sinh(x) ** 2","trigsimp(cosh(x) ** 2 - sinh(x) ** 2) == 1","trigsimp(1 - tanh(x) ** 2) == 1 / cosh(x) ** 2","trigsimp(1 - 1 / cosh(x) ** 2) == tanh(x) ** 2","trigsimp(tanh(x) ** 2 + 1 / cosh(x) ** 2) == 1","trigsimp(coth(x) ** 2 - 1) == 1 / sinh(x) ** 2","trigsimp(1 / sinh(x) ** 2 + 1) == 1 / tanh(x) ** 2","trigsimp(coth(x) ** 2 - 1 / sinh(x) ** 2) == 1","trigsimp(5 * cosh(x) ** 2 - 5 * sinh(x) ** 2) == 5","trigsimp(5 * cosh(x / 2) ** 2 - 2 * sinh(x / 2) ** 2) == 3 * cosh(x) / 2 + Rational(7, 2)","trigsimp(sinh(x) / cosh(x)) == tanh(x)","trigsimp(tanh(x)) == trigsimp(sinh(x) / cosh(x))","trigsimp(cosh(x) / sinh(x)) == 1 / tanh(x)","trigsimp(2 * tanh(x) * cosh(x)) == 2 * sinh(x)","trigsimp(coth(x) ** 3 * sinh(x) ** 3) == cosh(x) ** 3","trigsimp(y * tanh(x) ** 2 / sinh(x) ** 2) == y / cosh(x) ** 2","trigsimp(coth(x) / cosh(x)) == 1 / sinh(x)","trigsimp(log(e)) == log(2)","trigsimp(sqrt(cosh(x) ** 2 - 1)) == sqrt(sinh(x) ** 2)","trigsimp(cosh(x) ** 2 * cosh(y) ** 2 - cosh(x) ** 2 * sinh(y) ** 2 - sinh(x) ** 2, recursive=True) == 1","trigsimp(sinh(x) ** 2 * sinh(y) ** 2 - sinh(x) ** 2 * cosh(y) ** 2 + cosh(x) ** 2, recursive=True) == 1","abs(trigsimp(2.0 * cosh(x) ** 2 - 2.0 * sinh(x) ** 2) - 2.0) < 1e-10","trigsimp(sinh(x) ** 2 / cosh(x) ** 2) == tanh(x) ** 2","trigsimp(sinh(x) ** 3 / cosh(x) ** 3) == tanh(x) ** 3","trigsimp(sinh(x) ** 10 / cosh(x) ** 10) == tanh(x) ** 10","trigsimp(cosh(x) ** 3 / sinh(x) ** 3) == 1 / tanh(x) ** 3","trigsimp(cosh(x) ** 2 / sinh(x) ** 2) == 1 / tanh(x) ** 2","trigsimp(cosh(x) ** 10 / sinh(x) ** 10) == 1 / tanh(x) ** 10","trigsimp(x * cosh(x) * tanh(x)) == x * sinh(x)","trigsimp(-sinh(x) + cosh(x) * tanh(x)) == 0","tan(x) != 1 / cot(x)","trigsimp(tan(x) - 1 / cot(x)) == 0","trigsimp(3 * tanh(x) ** 7 - 2 / coth(x) ** 7) == tanh(x) ** 7"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":true}}
 def test_hyperbolic_simp():
     x, y = symbols('x,y')
 
@@ -540,16 +668,24 @@ def test_hyperbolic_simp():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_trigsimp_groebner(), test_trigsimp_groebner produces the expected output) over Any ║
+# ║ Path(test_trigsimp_groebner(), trigsimp_groebner(ex) in results and trigsimp_groebner(s / c, hints=[tan]) == tan(x) and trigsimp_groebner(c * s) == c * s and trigsimp((-s + 1) / c + c / (-s + 1), method='groebner') == 2 / c and trigsimp((-s + 1) / c + c / (-s + 1), method='groebner', polynomial=True) == 2 / c and trigsimp_groebner(ex, hints=[2]) in results and trigsimp_groebner(ex, hints=[int(2)]) in results and trigsimp_groebner(sin(I * x) / cos(I * x), hints=[tanh]) == I * tanh(x) and trigsimp_groebner((tanh(x) + tanh(y)) / (1 + tanh(x) * tanh(y)), hints=[(tanh, x, y)]) == tanh(x + y)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_trigsimp_groebner : Any → {Any | trigsimp_groebn...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  trigsimp_groebner(ex) in results               ║
+# ║   ensures:  trigsimp_groebner(s / c, hints=[tan]) == ...   ║
+# ║   ensures:  trigsimp_groebner(c * s) == c * s              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_trigsimp_groebner : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 02e30de0e3d50ff8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 611285e7c4d7fea0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_trigsimp_groebner","kind":"function","src_hash":"a78dd726794d9a34","in":{"base":"Any"},"out":{"base":"Any","pred":"trigsimp_groebner(ex) in results and trigsimp_groebner(s / c, hints=[tan]) == tan(x) and trigsimp_groebner(c * s) == c * s and trigsimp((-s + 1) / c + c / (-s + 1), method='groebner') == 2 / c and trigsimp_groebner(ex, hints=[2]) in results and trigsimp_groebner(ex, hints=[int(2)]) in results and trigsimp_groebner(sin(I * x) / cos(I * x), hints=[tanh]) == I * tanh(x)"},"spec":{"lhs":"test_trigsimp_groebner()","rhs":"test_trigsimp_groebner produces the expected output","over":{"base":"Any"},"name":"test_trigsimp_groebner_correct"},"guarantee":"test_trigsimp_groebner produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_trigsimp_groebner_correct","statement":"Path(test_trigsimp_groebner(x), test_trigsimp_groebner produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"02e30de0e3d50ff8"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_trigsimp_groebner","kind":"function","src_hash":"a78dd726794d9a34","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: trigsimp_groebner(ex) in results and trigsimp_groebner(s / c, hints=[tan]) == tan(x) and trigsimp_groebner(c * s) == c * s and trigsimp((-s + 1) / c + c / (-s + 1), method='groebner') == 2 / c and trigsimp((-s + 1) / c + c / (-s + 1), method='groebner', polynomial=True) == 2 / c and trigsimp_groebner(ex, hints=[2]) in results and trigsimp_groebner(ex, hints=[int(2)]) in results and trigsimp_groebner(sin(I * x) / cos(I * x), hints=[tanh]) == I * tanh(x) and trigsimp_groebner((tanh(x) + tanh(y)) / (1 + tanh(x) * tanh(y)), hints=[(tanh, x, y)]) == tanh(x + y)"},"spec":{"lhs":"test_trigsimp_groebner()","rhs":"trigsimp_groebner(ex) in results and trigsimp_groebner(s / c, hints=[tan]) == tan(x) and trigsimp_groebner(c * s) == c * s and trigsimp((-s + 1) / c + c / (-s + 1), method='groebner') == 2 / c and trigsimp((-s + 1) / c + c / (-s + 1), method='groebner', polynomial=True) == 2 / c and trigsimp_groebner(ex, hints=[2]) in results and trigsimp_groebner(ex, hints=[int(2)]) in results and trigsimp_groebner(sin(I * x) / cos(I * x), hints=[tanh]) == I * tanh(x) and trigsimp_groebner((tanh(x) + tanh(y)) / (1 + tanh(x) * tanh(y)), hints=[(tanh, x, y)]) == tanh(x + y)","over":{"base":"Any"},"name":"test_trigsimp_groebner_correct"},"guarantee":"trigsimp_groebner(ex) in results; trigsimp_groebner(s / c, hints=[tan]) == tan(x); trigsimp_groebner(c * s) == c * s","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_trigsimp_groebner_correct","statement":"Path(test_trigsimp_groebner(x), trigsimp_groebner(ex) in results; trigsimp_groebner(s / c, hints=[tan]) == tan(x); trigsimp_groebner(c * s) == c * s)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"611285e7c4d7fea0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["trigsimp_groebner(ex) in results","trigsimp_groebner(s / c, hints=[tan]) == tan(x)","trigsimp_groebner(c * s) == c * s","trigsimp((-s + 1) / c + c / (-s + 1), method='groebner') == 2 / c","trigsimp((-s + 1) / c + c / (-s + 1), method='groebner', polynomial=True) == 2 / c","trigsimp_groebner(ex, hints=[2]) in results","trigsimp_groebner(ex, hints=[int(2)]) in results","trigsimp_groebner(sin(I * x) / cos(I * x), hints=[tanh]) == I * tanh(x)","trigsimp_groebner((tanh(x) + tanh(y)) / (1 + tanh(x) * tanh(y)), hints=[(tanh, x, y)]) == tanh(x + y)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_trigsimp_groebner():
     from sympy.simplify.trigsimp import trigsimp_groebner
 
@@ -581,16 +717,24 @@ def test_trigsimp_groebner():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_2827_trigsimp_methods(), test_issue_2827_trigsimp_methods produces the expected output) over Any ║
+# ║ Path(test_issue_2827_trigsimp_methods(), trigsimp(M, method='fu', measure=measure1) == ans and trigsimp(M, method='fu', measure=measure2) != ans and all((trigsimp(M, method=m) == M for m in 'fu matching groebner old'.split())) and exptrigsimp(eq) == eq) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_2827_trigsimp_methods : Any → {Any | trigs...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  trigsimp(M, method='fu', measure=measure1...   ║
+# ║   ensures:  trigsimp(M, method='fu', measure=measure2...   ║
+# ║   ensures:  all((trigsimp(M, method=m) == M for m in ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_2827_trigsimp_methods : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24ef9a2d068b62d7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3b72dd82372d78e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_issue_2827_trigsimp_methods","kind":"function","src_hash":"8447e41e1c200be2","in":{"base":"Any"},"out":{"base":"Any","pred":"trigsimp(M, method='fu', measure=measure1) == ans and trigsimp(M, method='fu', measure=measure2) != ans and all((trigsimp(M, method=m) == M for m in 'fu matching groebner old'.split())) and exptrigsimp(eq) == eq"},"spec":{"lhs":"test_issue_2827_trigsimp_methods()","rhs":"test_issue_2827_trigsimp_methods produces the expected output","over":{"base":"Any"},"name":"test_issue_2827_trigsimp_methods_correct"},"guarantee":"test_issue_2827_trigsimp_methods produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_issue_2827_trigsimp_methods_correct","statement":"Path(test_issue_2827_trigsimp_methods(x), test_issue_2827_trigsimp_methods produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24ef9a2d068b62d7"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_issue_2827_trigsimp_methods","kind":"function","src_hash":"8447e41e1c200be2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: trigsimp(M, method='fu', measure=measure1) == ans and trigsimp(M, method='fu', measure=measure2) != ans and all((trigsimp(M, method=m) == M for m in 'fu matching groebner old'.split())) and exptrigsimp(eq) == eq"},"spec":{"lhs":"test_issue_2827_trigsimp_methods()","rhs":"trigsimp(M, method='fu', measure=measure1) == ans and trigsimp(M, method='fu', measure=measure2) != ans and all((trigsimp(M, method=m) == M for m in 'fu matching groebner old'.split())) and exptrigsimp(eq) == eq","over":{"base":"Any"},"name":"test_issue_2827_trigsimp_methods_correct"},"guarantee":"trigsimp(M, method='fu', measure=measure1) == ans; trigsimp(M, method='fu', measure=measure2) != ans; all((trigsimp(M, method=m) == M for m in 'fu matching groebner old'.split()))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_issue_2827_trigsimp_methods_correct","statement":"Path(test_issue_2827_trigsimp_methods(x), trigsimp(M, method='fu', measure=measure1) == ans; trigsimp(M, method='fu', measure=measure2) != ans; all((trigsimp(M, method=m) == M for m in 'fu matching groebner old'.split())))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3b72dd82372d78e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["trigsimp(M, method='fu', measure=measure1) == ans","trigsimp(M, method='fu', measure=measure2) != ans","all((trigsimp(M, method=m) == M for m in 'fu matching groebner old'.split()))","exptrigsimp(eq) == eq"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_2827_trigsimp_methods():
     measure1 = lambda expr: len(str(expr))
     measure2 = lambda expr: -count_ops(expr)
@@ -610,16 +754,23 @@ def test_issue_2827_trigsimp_methods():
     assert exptrigsimp(eq) == eq
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_15129_trigsimp_methods(), test_issue_15129_trigsimp_methods produces the expected output) over Any ║
+# ║ Path(test_issue_15129_trigsimp_methods(), trigsimp(r1) == cos(Rational(1, 50)) and trigsimp(r2) == sin(Rational(3, 50))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_15129_trigsimp_methods : Any → {Any | trig...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  trigsimp(r1) == cos(Rational(1, 50))           ║
+# ║   ensures:  trigsimp(r2) == sin(Rational(3, 50))           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_15129_trigsimp_methods : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68af382bc6569081  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 702f3cce846733c3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_issue_15129_trigsimp_methods","kind":"function","src_hash":"3f236ec1ff1420c1","in":{"base":"Any"},"out":{"base":"Any","pred":"trigsimp(r1) == cos(Rational(1, 50)) and trigsimp(r2) == sin(Rational(3, 50))"},"spec":{"lhs":"test_issue_15129_trigsimp_methods()","rhs":"test_issue_15129_trigsimp_methods produces the expected output","over":{"base":"Any"},"name":"test_issue_15129_trigsimp_methods_correct"},"guarantee":"test_issue_15129_trigsimp_methods produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_issue_15129_trigsimp_methods_correct","statement":"Path(test_issue_15129_trigsimp_methods(x), test_issue_15129_trigsimp_methods produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68af382bc6569081"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_issue_15129_trigsimp_methods","kind":"function","src_hash":"3f236ec1ff1420c1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: trigsimp(r1) == cos(Rational(1, 50)) and trigsimp(r2) == sin(Rational(3, 50))"},"spec":{"lhs":"test_issue_15129_trigsimp_methods()","rhs":"trigsimp(r1) == cos(Rational(1, 50)) and trigsimp(r2) == sin(Rational(3, 50))","over":{"base":"Any"},"name":"test_issue_15129_trigsimp_methods_correct"},"guarantee":"trigsimp(r1) == cos(Rational(1, 50)); trigsimp(r2) == sin(Rational(3, 50))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_issue_15129_trigsimp_methods_correct","statement":"Path(test_issue_15129_trigsimp_methods(x), trigsimp(r1) == cos(Rational(1, 50)); trigsimp(r2) == sin(Rational(3, 50)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"702f3cce846733c3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["trigsimp(r1) == cos(Rational(1, 50))","trigsimp(r2) == sin(Rational(3, 50))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_15129_trigsimp_methods():
     t1 = Matrix([sin(Rational(1, 50)), cos(Rational(1, 50)), 0])
     t2 = Matrix([sin(Rational(1, 25)), cos(Rational(1, 25)), 0])
@@ -630,16 +781,24 @@ def test_issue_15129_trigsimp_methods():
     assert trigsimp(r2) == sin(Rational(3, 50))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exptrigsimp(), test_exptrigsimp produces the expected output) over Any ║
+# ║ Path(test_exptrigsimp(), exptrigsimp(exp(x) + exp(-x)) == 2 * cosh(x) and exptrigsimp(exp(x) - exp(-x)) == 2 * sinh(x) and exptrigsimp((2 * exp(x) - 2 * exp(-x)) / (exp(x) + exp(-x))) == 2 * tanh(x) and exptrigsimp((2 * exp(2 * x) - 2) / (exp(2 * x) + 1)) == 2 * tanh(x) and all((valid(i, j) for i, j in zip([exptrigsimp(ei) for ei in e], ok))) and [exptrigsimp(ei) == ei for ei in ue] and all((valid(i, j) for i, j in zip(res, ok)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exptrigsimp : Any → {Any | exptrigsimp(exp(x) + ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  exptrigsimp(exp(x) + exp(-x)) == 2 * cosh(x)   ║
+# ║   ensures:  exptrigsimp(exp(x) - exp(-x)) == 2 * sinh(x)   ║
+# ║   ensures:  exptrigsimp((2 * exp(x) - 2 * exp(-x)) / ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exptrigsimp : Any → {Any | result satisfies: exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d4d81eea62c9f6b8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8991a2f725433bfb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_exptrigsimp","kind":"function","src_hash":"e8cbcf0bbe152380","in":{"base":"Any"},"out":{"base":"Any","pred":"exptrigsimp(exp(x) + exp(-x)) == 2 * cosh(x) and exptrigsimp(exp(x) - exp(-x)) == 2 * sinh(x) and exptrigsimp((2 * exp(x) - 2 * exp(-x)) / (exp(x) + exp(-x))) == 2 * tanh(x) and exptrigsimp((2 * exp(2 * x) - 2) / (exp(2 * x) + 1)) == 2 * tanh(x) and all((valid(i, j) for i, j in zip([exptrigsimp(ei) for ei in e], ok))) and [exptrigsimp(ei) == ei for ei in ue] and all((valid(i, j) for i, j in zip(res, ok))) and s == exptrigsimp(e) and valid(s, 2 * cosh(a)) and s == exptrigsimp(e) and valid(s, 2 * sinh(a))"},"spec":{"lhs":"test_exptrigsimp()","rhs":"test_exptrigsimp produces the expected output","over":{"base":"Any"},"name":"test_exptrigsimp_correct"},"guarantee":"test_exptrigsimp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_exptrigsimp_correct","statement":"Path(test_exptrigsimp(x), test_exptrigsimp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4d81eea62c9f6b8"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_exptrigsimp","kind":"function","src_hash":"e8cbcf0bbe152380","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: exptrigsimp(exp(x) + exp(-x)) == 2 * cosh(x) and exptrigsimp(exp(x) - exp(-x)) == 2 * sinh(x) and exptrigsimp((2 * exp(x) - 2 * exp(-x)) / (exp(x) + exp(-x))) == 2 * tanh(x) and exptrigsimp((2 * exp(2 * x) - 2) / (exp(2 * x) + 1)) == 2 * tanh(x) and all((valid(i, j) for i, j in zip([exptrigsimp(ei) for ei in e], ok))) and [exptrigsimp(ei) == ei for ei in ue] and all((valid(i, j) for i, j in zip(res, ok)))"},"spec":{"lhs":"test_exptrigsimp()","rhs":"exptrigsimp(exp(x) + exp(-x)) == 2 * cosh(x) and exptrigsimp(exp(x) - exp(-x)) == 2 * sinh(x) and exptrigsimp((2 * exp(x) - 2 * exp(-x)) / (exp(x) + exp(-x))) == 2 * tanh(x) and exptrigsimp((2 * exp(2 * x) - 2) / (exp(2 * x) + 1)) == 2 * tanh(x) and all((valid(i, j) for i, j in zip([exptrigsimp(ei) for ei in e], ok))) and [exptrigsimp(ei) == ei for ei in ue] and all((valid(i, j) for i, j in zip(res, ok)))","over":{"base":"Any"},"name":"test_exptrigsimp_correct"},"guarantee":"exptrigsimp(exp(x) + exp(-x)) == 2 * cosh(x); exptrigsimp(exp(x) - exp(-x)) == 2 * sinh(x); exptrigsimp((2 * exp(x) - 2 * exp(-x)) / (exp(x) + exp(-x))) == 2 * tanh(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_exptrigsimp_correct","statement":"Path(test_exptrigsimp(x), exptrigsimp(exp(x) + exp(-x)) == 2 * cosh(x); exptrigsimp(exp(x) - exp(-x)) == 2 * sinh(x); exptrigsimp((2 * exp(x) - 2 * exp(-x)) / (exp(x) + exp(-x))) == 2 * tanh(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8991a2f725433bfb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["exptrigsimp(exp(x) + exp(-x)) == 2 * cosh(x)","exptrigsimp(exp(x) - exp(-x)) == 2 * sinh(x)","exptrigsimp((2 * exp(x) - 2 * exp(-x)) / (exp(x) + exp(-x))) == 2 * tanh(x)","exptrigsimp((2 * exp(2 * x) - 2) / (exp(2 * x) + 1)) == 2 * tanh(x)","all((valid(i, j) for i, j in zip([exptrigsimp(ei) for ei in e], ok)))","[exptrigsimp(ei) == ei for ei in ue]","all((valid(i, j) for i, j in zip(res, ok)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_exptrigsimp():
     def valid(a, b):
         from sympy.core.random import verify_numerically as tn
@@ -684,16 +843,23 @@ def test_exptrigsimp():
         assert valid(s, 2*sinh(a))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exptrigsimp_noncommutative(), test_exptrigsimp_noncommutative produces the expected output) over Any ║
+# ║ Path(test_exptrigsimp_noncommutative(), exp(a + x) == exptrigsimp(exp(a) * exp(x)) and p == exptrigsimp(p) != 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exptrigsimp_noncommutative : Any → {Any | exp(a ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  exp(a + x) == exptrigsimp(exp(a) * exp(x))     ║
+# ║   ensures:  p == exptrigsimp(p) != 0                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exptrigsimp_noncommutative : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 72dd562551a81a84  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dce042d4d6837ca3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_exptrigsimp_noncommutative","kind":"function","src_hash":"dc07da57622134c6","in":{"base":"Any"},"out":{"base":"Any","pred":"exp(a + x) == exptrigsimp(exp(a) * exp(x)) and p == exptrigsimp(p) != 0"},"spec":{"lhs":"test_exptrigsimp_noncommutative()","rhs":"test_exptrigsimp_noncommutative produces the expected output","over":{"base":"Any"},"name":"test_exptrigsimp_noncommutative_correct"},"guarantee":"test_exptrigsimp_noncommutative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_exptrigsimp_noncommutative_correct","statement":"Path(test_exptrigsimp_noncommutative(x), test_exptrigsimp_noncommutative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72dd562551a81a84"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_exptrigsimp_noncommutative","kind":"function","src_hash":"dc07da57622134c6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: exp(a + x) == exptrigsimp(exp(a) * exp(x)) and p == exptrigsimp(p) != 0"},"spec":{"lhs":"test_exptrigsimp_noncommutative()","rhs":"exp(a + x) == exptrigsimp(exp(a) * exp(x)) and p == exptrigsimp(p) != 0","over":{"base":"Any"},"name":"test_exptrigsimp_noncommutative_correct"},"guarantee":"exp(a + x) == exptrigsimp(exp(a) * exp(x)); p == exptrigsimp(p) != 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_exptrigsimp_noncommutative_correct","statement":"Path(test_exptrigsimp_noncommutative(x), exp(a + x) == exptrigsimp(exp(a) * exp(x)); p == exptrigsimp(p) != 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dce042d4d6837ca3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["exp(a + x) == exptrigsimp(exp(a) * exp(x))","p == exptrigsimp(p) != 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_exptrigsimp_noncommutative():
     a,b = symbols('a b', commutative=False)
     x = Symbol('x', commutative=True)
@@ -702,32 +868,44 @@ def test_exptrigsimp_noncommutative():
     assert p == exptrigsimp(p) != 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_powsimp_on_numbers(), test_powsimp_on_numbers produces the expected output) over Any ║
+# ║ Path(test_powsimp_on_numbers(), 2 ** (Rational(1, 3) - 2) == 2 ** Rational(1, 3) / 4) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_powsimp_on_numbers : Any → {Any | 2 ** (Rational...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  2 ** (Rational(1, 3) - 2) == 2 ** Rationa...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_powsimp_on_numbers : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 27956d5defea62fd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d8781af599bd0c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_powsimp_on_numbers","kind":"function","src_hash":"bf5d9b17b7509df9","in":{"base":"Any"},"out":{"base":"Any","pred":"2 ** (Rational(1, 3) - 2) == 2 ** Rational(1, 3) / 4"},"spec":{"lhs":"test_powsimp_on_numbers()","rhs":"test_powsimp_on_numbers produces the expected output","over":{"base":"Any"},"name":"test_powsimp_on_numbers_correct"},"guarantee":"test_powsimp_on_numbers produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_powsimp_on_numbers_correct","statement":"Path(test_powsimp_on_numbers(x), test_powsimp_on_numbers produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27956d5defea62fd"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_powsimp_on_numbers","kind":"function","src_hash":"bf5d9b17b7509df9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: 2 ** (Rational(1, 3) - 2) == 2 ** Rational(1, 3) / 4"},"spec":{"lhs":"test_powsimp_on_numbers()","rhs":"2 ** (Rational(1, 3) - 2) == 2 ** Rational(1, 3) / 4","over":{"base":"Any"},"name":"test_powsimp_on_numbers_correct"},"guarantee":"2 ** (Rational(1, 3) - 2) == 2 ** Rational(1, 3) / 4","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_powsimp_on_numbers_correct","statement":"Path(test_powsimp_on_numbers(x), 2 ** (Rational(1, 3) - 2) == 2 ** Rational(1, 3) / 4)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d8781af599bd0c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["2 ** (Rational(1, 3) - 2) == 2 ** Rational(1, 3) / 4"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_powsimp_on_numbers():
     assert 2**(Rational(1, 3) - 2) == 2**Rational(1, 3)/4
 
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6811_fail(), test_issue_6811_fail produces the expected output) over Any ║
+# ║ Path(test_issue_6811_fail(), trigsimp(eq) == -2 * (2 * cos(x) * tan(x) * y + 3 * z) * xp / cos(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6811_fail : Any → {Any | trigsimp(eq) == -...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  trigsimp(eq) == -2 * (2 * cos(x) * tan(x)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6811_fail : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5587dc2bf80ac756  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d398d791952ae241  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_issue_6811_fail","kind":"function","src_hash":"c8f58b0a2565a489","in":{"base":"Any"},"out":{"base":"Any","pred":"trigsimp(eq) == -2 * (2 * cos(x) * tan(x) * y + 3 * z) * xp / cos(x)"},"spec":{"lhs":"test_issue_6811_fail()","rhs":"test_issue_6811_fail produces the expected output","over":{"base":"Any"},"name":"test_issue_6811_fail_correct"},"guarantee":"test_issue_6811_fail produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_issue_6811_fail_correct","statement":"Path(test_issue_6811_fail(x), test_issue_6811_fail produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5587dc2bf80ac756"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_issue_6811_fail","kind":"function","src_hash":"c8f58b0a2565a489","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: trigsimp(eq) == -2 * (2 * cos(x) * tan(x) * y + 3 * z) * xp / cos(x)"},"spec":{"lhs":"test_issue_6811_fail()","rhs":"trigsimp(eq) == -2 * (2 * cos(x) * tan(x) * y + 3 * z) * xp / cos(x)","over":{"base":"Any"},"name":"test_issue_6811_fail_correct"},"guarantee":"trigsimp(eq) == -2 * (2 * cos(x) * tan(x) * y + 3 * z) * xp / cos(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_issue_6811_fail_correct","statement":"Path(test_issue_6811_fail(x), trigsimp(eq) == -2 * (2 * cos(x) * tan(x) * y + 3 * z) * xp / cos(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d398d791952ae241","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["trigsimp(eq) == -2 * (2 * cos(x) * tan(x) * y + 3 * z) * xp / cos(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_6811_fail():
     # from doc/src/modules/physics/mechanics/examples.rst, the current `eq`
     # at Line 576 (in different variables) was formerly the equivalent and
@@ -739,16 +917,22 @@ def test_issue_6811_fail():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Piecewise(), test_Piecewise produces the expected output) over Any ║
+# ║ Path(test_Piecewise(), trigsimp(Piecewise((e1, e3 < e2), (e3, True))) == Piecewise((e1, e3 < s2), (e3, True))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Piecewise : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  trigsimp(Piecewise((e1, e3 < e2), (e3, Tr...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Piecewise : Any → {Any | result satisfies: trigs...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ceac75f135fea471  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 059ea372d807cb78  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_Piecewise","kind":"function","src_hash":"2cfb793fabb5db40","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Piecewise()","rhs":"test_Piecewise produces the expected output","over":{"base":"Any"},"name":"test_Piecewise_correct"},"guarantee":"test_Piecewise produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_Piecewise_correct","statement":"Path(test_Piecewise(x), test_Piecewise produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ceac75f135fea471"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_Piecewise","kind":"function","src_hash":"2cfb793fabb5db40","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: trigsimp(Piecewise((e1, e3 < e2), (e3, True))) == Piecewise((e1, e3 < s2), (e3, True))"},"spec":{"lhs":"test_Piecewise()","rhs":"trigsimp(Piecewise((e1, e3 < e2), (e3, True))) == Piecewise((e1, e3 < s2), (e3, True))","over":{"base":"Any"},"name":"test_Piecewise_correct"},"guarantee":"trigsimp(Piecewise((e1, e3 < e2), (e3, True))) == Piecewise((e1, e3 < s2), (e3, True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_Piecewise_correct","statement":"Path(test_Piecewise(x), trigsimp(Piecewise((e1, e3 < e2), (e3, True))) == Piecewise((e1, e3 < s2), (e3, True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"059ea372d807cb78","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["trigsimp(Piecewise((e1, e3 < e2), (e3, True))) == Piecewise((e1, e3 < s2), (e3, True))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Piecewise():
     e1 = x*(x + y) - y*(x + y)
     e2 = sin(x)**2 + cos(x)**2
@@ -763,31 +947,45 @@ def test_Piecewise():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_21594(), test_issue_21594 produces the expected output) over Any ║
+# ║ Path(test_issue_21594(), simplify(exp(Rational(1, 2)) + exp(Rational(-1, 2))) == cosh(S.Half) * 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_21594 : Any → {Any | simplify(exp(Rational...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(exp(Rational(1, 2)) + exp(Ration...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_21594 : Any → {Any | result satisfies: sim...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9564881e3c4eded  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a363d56d238df4d2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_issue_21594","kind":"function","src_hash":"e77012a8935e1930","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(exp(Rational(1, 2)) + exp(Rational(-1, 2))) == cosh(S.Half) * 2"},"spec":{"lhs":"test_issue_21594()","rhs":"test_issue_21594 produces the expected output","over":{"base":"Any"},"name":"test_issue_21594_correct"},"guarantee":"test_issue_21594 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_issue_21594_correct","statement":"Path(test_issue_21594(x), test_issue_21594 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9564881e3c4eded"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_issue_21594","kind":"function","src_hash":"e77012a8935e1930","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(exp(Rational(1, 2)) + exp(Rational(-1, 2))) == cosh(S.Half) * 2"},"spec":{"lhs":"test_issue_21594()","rhs":"simplify(exp(Rational(1, 2)) + exp(Rational(-1, 2))) == cosh(S.Half) * 2","over":{"base":"Any"},"name":"test_issue_21594_correct"},"guarantee":"simplify(exp(Rational(1, 2)) + exp(Rational(-1, 2))) == cosh(S.Half) * 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_issue_21594_correct","statement":"Path(test_issue_21594(x), simplify(exp(Rational(1, 2)) + exp(Rational(-1, 2))) == cosh(S.Half) * 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a363d56d238df4d2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(exp(Rational(1, 2)) + exp(Rational(-1, 2))) == cosh(S.Half) * 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_21594():
     assert simplify(exp(Rational(1,2)) + exp(Rational(-1,2))) == cosh(S.Half)*2
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_trigsimp_old(), test_trigsimp_old produces the expected output) over Any ║
+# ║ Path(test_trigsimp_old(), trigsimp(1 - sin(x) ** 2, old=True) == cos(x) ** 2 and trigsimp(1 - cos(x) ** 2, old=True) == sin(x) ** 2 and trigsimp(sin(x) ** 2 + cos(x) ** 2, old=True) == 1 and trigsimp(1 + tan(x) ** 2, old=True) == 1 / cos(x) ** 2 and trigsimp(1 / cos(x) ** 2 - 1, old=True) == tan(x) ** 2 and trigsimp(1 / cos(x) ** 2 - tan(x) ** 2, old=True) == 1 and trigsimp(1 + cot(x) ** 2, old=True) == 1 / sin(x) ** 2 and trigsimp(1 / sin(x) ** 2 - cot(x) ** 2, old=True) == 1 and trigsimp(5 * cos(x) ** 2 + 5 * sin(x) ** 2, old=True) == 5 and trigsimp(sin(x) / cos(x), old=True) == tan(x) and trigsimp(2 * tan(x) * cos(x), old=True) == 2 * sin(x) and trigsimp(cot(x) ** 3 * sin(x) ** 3, old=True) == cos(x) ** 3 and trigsimp(y * tan(x) ** 2 / sin(x) ** 2, old=True) == y / cos(x) ** 2 and trigsimp(cot(x) / cos(x), old=True) == 1 / sin(x) and trigsimp(sin(x + y) + sin(x - y), old=True) == 2 * sin(x) * cos(y) and trigsimp(sin(x + y) - sin(x - y), old=True) == 2 * sin(y) * cos(x) and trigsimp(cos(x + y) + cos(x - y), old=True) == 2 * cos(x) * cos(y) and trigsimp(cos(x + y) - cos(x - y), old=True) == -2 * sin(x) * sin(y) and trigsimp(sinh(x + y) + sinh(x - y), old=True) == 2 * sinh(x) * cosh(y) and trigsimp(sinh(x + y) - sinh(x - y), old=True) == 2 * sinh(y) * cosh(x) and trigsimp(cosh(x + y) + cosh(x - y), old=True) == 2 * cosh(x) * cosh(y) and trigsimp(cosh(x + y) - cosh(x - y), old=True) == 2 * sinh(x) * sinh(y) and trigsimp(cos(0.12345) ** 2 + sin(0.12345) ** 2, old=True) == 1.0 and trigsimp(sin(x) / cos(x), old=True, method='combined') == tan(x) and trigsimp(sin(x) / cos(x), old=True, method='groebner') == sin(x) / cos(x) and trigsimp(sin(x) / cos(x), old=True, method='groebner', hints=[tan]) == tan(x) and trigsimp(1 - sin(sin(x) ** 2 + cos(x) ** 2) ** 2, old=True, deep=True) == cos(1) ** 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_trigsimp_old : Any → {Any | trigsimp(1 - sin(x) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  trigsimp(1 - sin(x) ** 2, old=True) == co...   ║
+# ║   ensures:  trigsimp(1 - cos(x) ** 2, old=True) == si...   ║
+# ║   ensures:  trigsimp(sin(x) ** 2 + cos(x) ** 2, old=T...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_trigsimp_old : Any → {Any | result satisfies: tr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | acd2049bbcfa69af  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45bc5488e7cf63ec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_trigsimp_old","kind":"function","src_hash":"a7a9c3a33af9beef","in":{"base":"Any"},"out":{"base":"Any","pred":"trigsimp(1 - sin(x) ** 2, old=True) == cos(x) ** 2 and trigsimp(1 - cos(x) ** 2, old=True) == sin(x) ** 2 and trigsimp(sin(x) ** 2 + cos(x) ** 2, old=True) == 1 and trigsimp(1 + tan(x) ** 2, old=True) == 1 / cos(x) ** 2 and trigsimp(1 / cos(x) ** 2 - 1, old=True) == tan(x) ** 2 and trigsimp(1 / cos(x) ** 2 - tan(x) ** 2, old=True) == 1 and trigsimp(1 + cot(x) ** 2, old=True) == 1 / sin(x) ** 2 and trigsimp(1 / sin(x) ** 2 - cot(x) ** 2, old=True) == 1 and trigsimp(5 * cos(x) ** 2 + 5 * sin(x) ** 2, old=True) == 5 and trigsimp(sin(x) / cos(x), old=True) == tan(x) and trigsimp(2 * tan(x) * cos(x), old=True) == 2 * sin(x) and trigsimp(cot(x) ** 3 * sin(x) ** 3, old=True) == cos(x) ** 3 and trigsimp(y * tan(x) ** 2 / sin(x) ** 2, old=True) == y / cos(x) ** 2 and trigsimp(cot(x) / cos(x), old=True) == 1 / sin(x) and trigsimp(sin(x + y) + sin(x - y), old=True) == 2 * sin(x) * cos(y) and trigsimp(sin(x + y) - sin(x - y), old=True) == 2 * sin(y) * cos(x) and trigsimp(cos(x + y) + cos(x - y), old=True) == 2 * cos(x) * cos(y) and trigsimp(cos(x + y) - cos(x - y), old=True) == -2 * sin(x) * sin(y) and trigsimp(sinh(x + y) + sinh(x - y), old=True) == 2 * sinh(x) * cosh(y) and trigsimp(sinh(x + y) - sinh(x - y), old=True) == 2 * sinh(y) * cosh(x) and trigsimp(cosh(x + y) + cosh(x - y), old=True) == 2 * cosh(x) * cosh(y) and trigsimp(cosh(x + y) - cosh(x - y), old=True) == 2 * sinh(x) * sinh(y) and trigsimp(cos(0.12345) ** 2 + sin(0.12345) ** 2, old=True) == 1.0 and trigsimp(sin(x) / cos(x), old=True, method='combined') == tan(x) and trigsimp(sin(x) / cos(x), old=True, method='groebner') == sin(x) / cos(x) and trigsimp(sin(x) / cos(x), old=True, method='groebner', hints=[tan]) == tan(x)"},"spec":{"lhs":"test_trigsimp_old()","rhs":"test_trigsimp_old produces the expected output","over":{"base":"Any"},"name":"test_trigsimp_old_correct"},"guarantee":"test_trigsimp_old produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_trigsimp_old_correct","statement":"Path(test_trigsimp_old(x), test_trigsimp_old produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"acd2049bbcfa69af"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_trigsimp_old","kind":"function","src_hash":"a7a9c3a33af9beef","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: trigsimp(1 - sin(x) ** 2, old=True) == cos(x) ** 2 and trigsimp(1 - cos(x) ** 2, old=True) == sin(x) ** 2 and trigsimp(sin(x) ** 2 + cos(x) ** 2, old=True) == 1 and trigsimp(1 + tan(x) ** 2, old=True) == 1 / cos(x) ** 2 and trigsimp(1 / cos(x) ** 2 - 1, old=True) == tan(x) ** 2 and trigsimp(1 / cos(x) ** 2 - tan(x) ** 2, old=True) == 1 and trigsimp(1 + cot(x) ** 2, old=True) == 1 / sin(x) ** 2 and trigsimp(1 / sin(x) ** 2 - cot(x) ** 2, old=True) == 1 and trigsimp(5 * cos(x) ** 2 + 5 * sin(x) ** 2, old=True) == 5 and trigsimp(sin(x) / cos(x), old=True) == tan(x) and trigsimp(2 * tan(x) * cos(x), old=True) == 2 * sin(x) and trigsimp(cot(x) ** 3 * sin(x) ** 3, old=True) == cos(x) ** 3 and trigsimp(y * tan(x) ** 2 / sin(x) ** 2, old=True) == y / cos(x) ** 2 and trigsimp(cot(x) / cos(x), old=True) == 1 / sin(x) and trigsimp(sin(x + y) + sin(x - y), old=True) == 2 * sin(x) * cos(y) and trigsimp(sin(x + y) - sin(x - y), old=True) == 2 * sin(y) * cos(x) and trigsimp(cos(x + y) + cos(x - y), old=True) == 2 * cos(x) * cos(y) and trigsimp(cos(x + y) - cos(x - y), old=True) == -2 * sin(x) * sin(y) and trigsimp(sinh(x + y) + sinh(x - y), old=True) == 2 * sinh(x) * cosh(y) and trigsimp(sinh(x + y) - sinh(x - y), old=True) == 2 * sinh(y) * cosh(x) and trigsimp(cosh(x + y) + cosh(x - y), old=True) == 2 * cosh(x) * cosh(y) and trigsimp(cosh(x + y) - cosh(x - y), old=True) == 2 * sinh(x) * sinh(y) and trigsimp(cos(0.12345) ** 2 + sin(0.12345) ** 2, old=True) == 1.0 and trigsimp(sin(x) / cos(x), old=True, method='combined') == tan(x) and trigsimp(sin(x) / cos(x), old=True, method='groebner') == sin(x) / cos(x) and trigsimp(sin(x) / cos(x), old=True, method='groebner', hints=[tan]) == tan(x) and trigsimp(1 - sin(sin(x) ** 2 + cos(x) ** 2) ** 2, old=True, deep=True) == cos(1) ** 2"},"spec":{"lhs":"test_trigsimp_old()","rhs":"trigsimp(1 - sin(x) ** 2, old=True) == cos(x) ** 2 and trigsimp(1 - cos(x) ** 2, old=True) == sin(x) ** 2 and trigsimp(sin(x) ** 2 + cos(x) ** 2, old=True) == 1 and trigsimp(1 + tan(x) ** 2, old=True) == 1 / cos(x) ** 2 and trigsimp(1 / cos(x) ** 2 - 1, old=True) == tan(x) ** 2 and trigsimp(1 / cos(x) ** 2 - tan(x) ** 2, old=True) == 1 and trigsimp(1 + cot(x) ** 2, old=True) == 1 / sin(x) ** 2 and trigsimp(1 / sin(x) ** 2 - cot(x) ** 2, old=True) == 1 and trigsimp(5 * cos(x) ** 2 + 5 * sin(x) ** 2, old=True) == 5 and trigsimp(sin(x) / cos(x), old=True) == tan(x) and trigsimp(2 * tan(x) * cos(x), old=True) == 2 * sin(x) and trigsimp(cot(x) ** 3 * sin(x) ** 3, old=True) == cos(x) ** 3 and trigsimp(y * tan(x) ** 2 / sin(x) ** 2, old=True) == y / cos(x) ** 2 and trigsimp(cot(x) / cos(x), old=True) == 1 / sin(x) and trigsimp(sin(x + y) + sin(x - y), old=True) == 2 * sin(x) * cos(y) and trigsimp(sin(x + y) - sin(x - y), old=True) == 2 * sin(y) * cos(x) and trigsimp(cos(x + y) + cos(x - y), old=True) == 2 * cos(x) * cos(y) and trigsimp(cos(x + y) - cos(x - y), old=True) == -2 * sin(x) * sin(y) and trigsimp(sinh(x + y) + sinh(x - y), old=True) == 2 * sinh(x) * cosh(y) and trigsimp(sinh(x + y) - sinh(x - y), old=True) == 2 * sinh(y) * cosh(x) and trigsimp(cosh(x + y) + cosh(x - y), old=True) == 2 * cosh(x) * cosh(y) and trigsimp(cosh(x + y) - cosh(x - y), old=True) == 2 * sinh(x) * sinh(y) and trigsimp(cos(0.12345) ** 2 + sin(0.12345) ** 2, old=True) == 1.0 and trigsimp(sin(x) / cos(x), old=True, method='combined') == tan(x) and trigsimp(sin(x) / cos(x), old=True, method='groebner') == sin(x) / cos(x) and trigsimp(sin(x) / cos(x), old=True, method='groebner', hints=[tan]) == tan(x) and trigsimp(1 - sin(sin(x) ** 2 + cos(x) ** 2) ** 2, old=True, deep=True) == cos(1) ** 2","over":{"base":"Any"},"name":"test_trigsimp_old_correct"},"guarantee":"trigsimp(1 - sin(x) ** 2, old=True) == cos(x) ** 2; trigsimp(1 - cos(x) ** 2, old=True) == sin(x) ** 2; trigsimp(sin(x) ** 2 + cos(x) ** 2, old=True) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_trigsimp_old_correct","statement":"Path(test_trigsimp_old(x), trigsimp(1 - sin(x) ** 2, old=True) == cos(x) ** 2; trigsimp(1 - cos(x) ** 2, old=True) == sin(x) ** 2; trigsimp(sin(x) ** 2 + cos(x) ** 2, old=True) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45bc5488e7cf63ec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["trigsimp(1 - sin(x) ** 2, old=True) == cos(x) ** 2","trigsimp(1 - cos(x) ** 2, old=True) == sin(x) ** 2","trigsimp(sin(x) ** 2 + cos(x) ** 2, old=True) == 1","trigsimp(1 + tan(x) ** 2, old=True) == 1 / cos(x) ** 2","trigsimp(1 / cos(x) ** 2 - 1, old=True) == tan(x) ** 2","trigsimp(1 / cos(x) ** 2 - tan(x) ** 2, old=True) == 1","trigsimp(1 + cot(x) ** 2, old=True) == 1 / sin(x) ** 2","trigsimp(1 / sin(x) ** 2 - cot(x) ** 2, old=True) == 1","trigsimp(5 * cos(x) ** 2 + 5 * sin(x) ** 2, old=True) == 5","trigsimp(sin(x) / cos(x), old=True) == tan(x)","trigsimp(2 * tan(x) * cos(x), old=True) == 2 * sin(x)","trigsimp(cot(x) ** 3 * sin(x) ** 3, old=True) == cos(x) ** 3","trigsimp(y * tan(x) ** 2 / sin(x) ** 2, old=True) == y / cos(x) ** 2","trigsimp(cot(x) / cos(x), old=True) == 1 / sin(x)","trigsimp(sin(x + y) + sin(x - y), old=True) == 2 * sin(x) * cos(y)","trigsimp(sin(x + y) - sin(x - y), old=True) == 2 * sin(y) * cos(x)","trigsimp(cos(x + y) + cos(x - y), old=True) == 2 * cos(x) * cos(y)","trigsimp(cos(x + y) - cos(x - y), old=True) == -2 * sin(x) * sin(y)","trigsimp(sinh(x + y) + sinh(x - y), old=True) == 2 * sinh(x) * cosh(y)","trigsimp(sinh(x + y) - sinh(x - y), old=True) == 2 * sinh(y) * cosh(x)","trigsimp(cosh(x + y) + cosh(x - y), old=True) == 2 * cosh(x) * cosh(y)","trigsimp(cosh(x + y) - cosh(x - y), old=True) == 2 * sinh(x) * sinh(y)","trigsimp(cos(0.12345) ** 2 + sin(0.12345) ** 2, old=True) == 1.0","trigsimp(sin(x) / cos(x), old=True, method='combined') == tan(x)","trigsimp(sin(x) / cos(x), old=True, method='groebner') == sin(x) / cos(x)","trigsimp(sin(x) / cos(x), old=True, method='groebner', hints=[tan]) == tan(x)","trigsimp(1 - sin(sin(x) ** 2 + cos(x) ** 2) ** 2, old=True, deep=True) == cos(1) ** 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def test_trigsimp_old():
     x, y = symbols('x,y')
 
@@ -828,16 +1026,22 @@ def test_trigsimp_old():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_trigsimp_inverse(), test_trigsimp_inverse produces the expected output) over Any ║
+# ║ Path(test_trigsimp_inverse(), <unspecified:test_trigsimp_inverse>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_trigsimp_inverse : Any → {Any | alpha == trigsim...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c9e5e1ac388abfc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_trigsimp_inverse","kind":"function","src_hash":"827cce2be19bc32e","in":{"base":"Any"},"out":{"base":"Any","pred":"alpha == trigsimp(finv(f(alpha)), inverse=True) and angle_inverted != angle and sin(angle_inverted) == trigsimp(sin(angle)) and cos(angle_inverted) == trigsimp(cos(angle))"},"spec":{"lhs":"test_trigsimp_inverse()","rhs":"test_trigsimp_inverse produces the expected output","over":{"base":"Any"},"name":"test_trigsimp_inverse_correct"},"guarantee":"test_trigsimp_inverse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_trigsimp_inverse_correct","statement":"Path(test_trigsimp_inverse(x), test_trigsimp_inverse produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c9e5e1ac388abfc"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_trigsimp.test_trigsimp_inverse","kind":"function","src_hash":"827cce2be19bc32e","in":{"base":"Any"},"out":{"base":"Any","pred":"alpha == trigsimp(finv(f(alpha)), inverse=True) and angle_inverted != angle and sin(angle_inverted) == trigsimp(sin(angle)) and cos(angle_inverted) == trigsimp(cos(angle))"},"spec":{"lhs":"test_trigsimp_inverse()","rhs":"<unspecified:test_trigsimp_inverse>","over":{"base":"Any"},"name":"test_trigsimp_inverse_correct"},"guarantee":"test_trigsimp_inverse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_trigsimp.test_trigsimp_inverse_correct","statement":"Path(test_trigsimp_inverse(x), test_trigsimp_inverse produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c9e5e1ac388abfc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_trigsimp_inverse():
     alpha = symbols('alpha')
     s, c = sin(alpha), cos(alpha)

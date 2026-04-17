@@ -49,16 +49,22 @@ else:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_modular_int_factory_nmod(mod), internal helper behaves correctly) over Any ║
+# ║ Path(_modular_int_factory_nmod(mod), <unspecified:_modular_int_factory_nmod>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _modular_int_factory_nmod : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c28427d02b0bf117  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield._modular_int_factory_nmod","kind":"function","src_hash":"2b45df8acdb45d30","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_modular_int_factory_nmod(mod)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_modular_int_factory_nmod_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.finitefield._modular_int_factory_nmod_correct","statement":"Path(_modular_int_factory_nmod(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c28427d02b0bf117"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield._modular_int_factory_nmod","kind":"function","src_hash":"2b45df8acdb45d30","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_modular_int_factory_nmod(mod)","rhs":"<unspecified:_modular_int_factory_nmod>","over":{"base":"Any"},"name":"_modular_int_factory_nmod_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.finitefield._modular_int_factory_nmod_correct","statement":"Path(_modular_int_factory_nmod(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c28427d02b0bf117","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _modular_int_factory_nmod(mod):
     # nmod only recognises int
     index = operator.index
@@ -85,16 +91,22 @@ def _modular_int_factory_nmod(mod):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_modular_int_factory_fmpz_mod(mod), internal helper behaves correctly) over Any ║
+# ║ Path(_modular_int_factory_fmpz_mod(mod), <unspecified:_modular_int_factory_fmpz_mod>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _modular_int_factory_fmpz_mod : Any → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98328a4c03c85453  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield._modular_int_factory_fmpz_mod","kind":"function","src_hash":"9e43318bf89b5a1c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_modular_int_factory_fmpz_mod(mod)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_modular_int_factory_fmpz_mod_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.finitefield._modular_int_factory_fmpz_mod_correct","statement":"Path(_modular_int_factory_fmpz_mod(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98328a4c03c85453"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield._modular_int_factory_fmpz_mod","kind":"function","src_hash":"9e43318bf89b5a1c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_modular_int_factory_fmpz_mod(mod)","rhs":"<unspecified:_modular_int_factory_fmpz_mod>","over":{"base":"Any"},"name":"_modular_int_factory_fmpz_mod_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.finitefield._modular_int_factory_fmpz_mod_correct","statement":"Path(_modular_int_factory_fmpz_mod(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98328a4c03c85453","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _modular_int_factory_fmpz_mod(mod):
     index = operator.index
     fctx = flint.fmpz_mod_ctx(mod)
@@ -115,16 +127,24 @@ def _modular_int_factory_fmpz_mod(mod):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_modular_int_factory(mod), internal helper behaves correctly) over Any ║
+# ║ Path(_modular_int_factory(mod, dom, symmetric), (ctx, poly_ctx, is_flint)) over {Any | hasattr(dom, 'convert') and hasattr(mod, 'is_prime')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _modular_int_factory : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(dom, 'convert')                        ║
+# ║   requires: hasattr(mod, 'is_prime')                       ║
+# ║   returns:  (ctx, poly_ctx, is_flint)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _modular_int_factory : {Any | hasattr(dom, 'convert')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc8930182bba9886  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e6164067c5a1963  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield._modular_int_factory","kind":"function","src_hash":"85f2d09f0b36e392","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_modular_int_factory(mod)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_modular_int_factory_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.finitefield._modular_int_factory_correct","statement":"Path(_modular_int_factory(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc8930182bba9886"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield._modular_int_factory","kind":"function","src_hash":"85f2d09f0b36e392","in":{"base":"Any","pred":"hasattr(dom, 'convert') and hasattr(mod, 'is_prime')"},"out":{"base":"Any"},"spec":{"lhs":"_modular_int_factory(mod, dom, symmetric)","rhs":"(ctx, poly_ctx, is_flint)","over":{"base":"Any","pred":"hasattr(dom, 'convert') and hasattr(mod, 'is_prime')"},"name":"_modular_int_factory_correct"},"guarantee":"returns (ctx, poly_ctx, is_flint)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.finitefield._modular_int_factory_correct","statement":"Path(_modular_int_factory(x), returns (ctx, poly_ctx, is_flint))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e6164067c5a1963","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(dom, 'convert')","hasattr(mod, 'is_prime')"],"returns_expr":"(ctx, poly_ctx, is_flint)","pure":false,"effects":{"effect_type":"reads_state","reads":["dom.convert","mod.is_prime"],"raises":["ValueError"],"catches":["CoercionFailed"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _modular_int_factory(mod, dom, symmetric, self):
     # Convert the modulus to ZZ
     try:
@@ -160,14 +180,21 @@ def _modular_int_factory(mod, dom, symmetric, self):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a FiniteField instance) preserved by FiniteField(*args) over {Any | isinstance(other, FiniteField)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Field)                        ║
+# ║   ensures:  isinstance(self, SimpleDomain)                 ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ FiniteField : {Any | isinstance(other, FiniteField)} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b0787efdfcdc815e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField","kind":"class","src_hash":"ca30d8e23c7d5e5b","in":{"base":"Any","pred":"isinstance(other, FiniteField)"},"out":{"base":"Any"},"spec":{"lhs":"FiniteField(*args)","rhs":"correctly constructs a FiniteField instance","over":{"base":"Any","pred":"isinstance(other, FiniteField)"},"name":"FiniteField_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a FiniteField instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_Field","pred":"self.is_Field","kind":"class"},{"name":"representation","pred":"hasattr(self, 'dtype') and hasattr(self, '_poly_ctx') and hasattr(self, '_is_flint') and hasattr(self, 'zero') and hasattr(self, 'one') and hasattr(self, 'dom') and hasattr(self, 'mod') and hasattr(self, 'sym')","kind":"class","induction":"structural on dtype, _poly_ctx, _is_flint, zero"}],"methods_preserving":["__init__","tp","is_Field","__str__","__hash__","__eq__","characteristic","get_field","to_sympy","from_sympy","to_int","is_positive","is_nonnegative","is_negative","is_nonpositive","is_square","exsqrt"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0787efdfcdc815e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField","kind":"class","src_hash":"ca30d8e23c7d5e5b","in":{"base":"Any","pred":"isinstance(other, FiniteField)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Field) and isinstance(self, SimpleDomain)"},"spec":{"lhs":"FiniteField(*args)","rhs":"correctly constructs a FiniteField instance","over":{"base":"Any","pred":"isinstance(other, FiniteField)"},"name":"FiniteField_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Field); isinstance(self, SimpleDomain); preserves 9 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_Field","pred":"self.is_Field","kind":"class"},{"name":"representation","pred":"hasattr(self, 'dtype') and hasattr(self, '_poly_ctx') and hasattr(self, '_is_flint') and hasattr(self, 'zero') and hasattr(self, 'one') and hasattr(self, 'dom') and hasattr(self, 'mod') and hasattr(self, 'sym')","kind":"class","induction":"structural on dtype, _poly_ctx, _is_flint, zero"}],"methods_preserving":["__init__","tp","is_Field","__str__","__hash__","__eq__","characteristic","get_field","to_sympy","from_sympy","to_int","is_positive","is_nonnegative","is_negative","is_nonpositive","is_square","exsqrt"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0787efdfcdc815e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Field)","isinstance(self, SimpleDomain)"],"invariants":["hasattr(self, 'dtype')","hasattr(self, '_poly_ctx')","hasattr(self, '_is_flint')","hasattr(self, 'zero')","hasattr(self, 'one')","hasattr(self, 'dom')","hasattr(self, 'mod')","hasattr(self, 'sym')","hasattr(self, '_tp')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function FiniteField not found in source"]}}
 class FiniteField(Field, SimpleDomain):
     r"""Finite field of prime order :ref:`GF(p)`
 
@@ -270,16 +297,24 @@ class FiniteField(Field, SimpleDomain):
     mod = None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(mod), initializes the instance correctly) over Any ║
+# ║ Path(__init__(mod, symmetric), self.mod == mod and self.sym == symmetric) over {Any | not (mod <= 0)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (mod <= 0)                                 ║
+# ║   ensures:  self.mod == mod                                ║
+# ║   ensures:  self.sym == symmetric                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | not (mod <= 0)} → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f5da462e05677abe           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.__init__","kind":"method","src_hash":"771777893bb2f67e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(mod)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f5da462e05677abe"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.__init__","kind":"method","src_hash":"771777893bb2f67e","in":{"base":"Any","pred":"not (mod <= 0)"},"out":{"base":"Any","pred":"result satisfies: self.mod == mod and self.sym == symmetric"},"spec":{"lhs":"__init__(mod, symmetric)","rhs":"self.mod == mod and self.sym == symmetric","over":{"base":"Any","pred":"not (mod <= 0)"},"name":"__init___correct"},"guarantee":"self.mod == mod; self.sym == symmetric","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f5da462e05677abe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (mod <= 0)"],"ensures":["self.mod == mod","self.sym == symmetric"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.dtype","self.zero"],"writes":["self._is_flint","self._poly_ctx","self._tp","self.dom","self.dtype","self.mod","self.one","self.sym","self.zero"],"raises":["ValueError"]},"state_contract":{"modifies":["self._is_flint","self._poly_ctx","self._tp","self.dom","self.dtype","self.mod","self.one","self.sym","self.zero"],"old_bindings":{"old_self__is_flint":"self._is_flint","old_self__poly_ctx":"self._poly_ctx","old_self__tp":"self._tp","old_self_dom":"self.dom","old_self_dtype":"self.dtype","old_self_mod":"self.mod","old_self_one":"self.one","old_self_sym":"self.sym","old_self_zero":"self.zero"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, mod, symmetric=True):
         from sympy.polys.domains import ZZ
         dom = ZZ
@@ -302,31 +337,43 @@ class FiniteField(Field, SimpleDomain):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tp(), returns the tp attribute) over Any              ║
+# ║ Path(tp(), self._tp) over Any                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._tp                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ tp : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e05b2f8dcda7762e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.tp","kind":"property","src_hash":"5f07e8ec0d35915a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tp()","rhs":"returns the tp attribute","over":{"base":"Any"},"name":"tp_correct"},"guarantee":"returns the tp attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e05b2f8dcda7762e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.tp","kind":"property","src_hash":"5f07e8ec0d35915a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tp()","rhs":"self._tp","over":{"base":"Any"},"name":"tp_correct"},"guarantee":"returns self._tp","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e05b2f8dcda7762e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._tp","pure":false,"effects":{"effect_type":"reads_state","reads":["self._tp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def tp(self):
         return self._tp
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_Field(), returns the is_Field attribute) over Any  ║
+# ║ Path(is_Field(), <unspecified:is_Field>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_Field : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | edb457d98afd5aa0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.is_Field","kind":"property","src_hash":"787ab442fcc3b61d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_Field()","rhs":"returns the is_Field attribute","over":{"base":"Any"},"name":"is_Field_correct"},"guarantee":"returns the is_Field attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"edb457d98afd5aa0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.is_Field","kind":"property","src_hash":"787ab442fcc3b61d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_Field()","rhs":"<unspecified:is_Field>","over":{"base":"Any"},"name":"is_Field_correct"},"guarantee":"returns the is_Field attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"edb457d98afd5aa0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.mod"],"writes":["self._is_field"]},"state_contract":{"modifies":["self._is_field"],"old_bindings":{"old_self__is_field":"self._is_field"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_Field(self):
         is_field = getattr(self, '_is_field', None)
         if is_field is None:
@@ -335,105 +382,153 @@ class FiniteField(Field, SimpleDomain):
         return is_field
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), 'GF(%s)' % self.mod) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'GF(%s)' % self.mod                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c587cb564143956e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.__str__","kind":"method","src_hash":"1b5b8901d004dab5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c587cb564143956e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.__str__","kind":"method","src_hash":"1b5b8901d004dab5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'GF(%s)' % self.mod","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns 'GF(%s)' % self.mod","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c587cb564143956e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'GF(%s)' % self.mod","pure":false,"effects":{"effect_type":"reads_state","reads":["self.mod"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return 'GF(%s)' % self.mod
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), hash((self.__class__.__name__, self.dtype, self.mod, self.dom))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hash((self.__class__.__name__, self.dtype...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2b54256f98b0794e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.__hash__","kind":"method","src_hash":"8d139d67905716e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2b54256f98b0794e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.__hash__","kind":"method","src_hash":"8d139d67905716e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"hash((self.__class__.__name__, self.dtype, self.mod, self.dom))","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns hash((self.__class__.__name__, self.dtype, self.mod, self.dom))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2b54256f98b0794e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hash((self.__class__.__name__, self.dtype, self.mod, self.dom))","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.dom","self.dtype","self.mod"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         return hash((self.__class__.__name__, self.dtype, self.mod, self.dom))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), isinstance(other, FiniteField) and self.mod == other.mod and (self.dom == other.dom)) over {Any | hasattr(other, 'mod') and hasattr(other, 'dom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'mod')                          ║
+# ║   requires: hasattr(other, 'dom')                          ║
+# ║   returns:  isinstance(other, FiniteField) and self.m...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'mod') and hasattr(oth...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fbb67eeee7573fff           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.__eq__","kind":"method","src_hash":"d1ae7fc60473e119","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fbb67eeee7573fff"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.__eq__","kind":"method","src_hash":"d1ae7fc60473e119","in":{"base":"Any","pred":"hasattr(other, 'mod') and hasattr(other, 'dom')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"isinstance(other, FiniteField) and self.mod == other.mod and (self.dom == other.dom)","over":{"base":"Any","pred":"hasattr(other, 'mod') and hasattr(other, 'dom')"},"name":"__eq___correct"},"guarantee":"returns isinstance(other, FiniteField) and self.mod == other.mod and (self.dom == other.dom)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fbb67eeee7573fff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'mod')","hasattr(other, 'dom')"],"returns_expr":"isinstance(other, FiniteField) and self.mod == other.mod and (self.dom == other.dom)","pure":false,"effects":{"effect_type":"reads_state","reads":["other.dom","other.mod","self.dom","self.mod"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         """Returns ``True`` if two domains are equivalent. """
         return isinstance(other, FiniteField) and \
             self.mod == other.mod and self.dom == other.dom
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(characteristic(), return the characteristic of this domain) over Any ║
+# ║ Path(characteristic(), self.mod) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.mod                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ characteristic : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8725ac7edc36b9ce           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.characteristic","kind":"method","src_hash":"d0e0ee68dcb69bf7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"characteristic()","rhs":"return the characteristic of this domain","over":{"base":"Any"},"name":"characteristic_correct"},"guarantee":"return the characteristic of this domain","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8725ac7edc36b9ce"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.characteristic","kind":"method","src_hash":"d0e0ee68dcb69bf7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"characteristic()","rhs":"self.mod","over":{"base":"Any"},"name":"characteristic_correct"},"guarantee":"returns self.mod","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8725ac7edc36b9ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.mod","pure":false,"effects":{"effect_type":"reads_state","reads":["self.mod"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def characteristic(self):
         """Return the characteristic of this domain. """
         return self.mod
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_field(), returns a field associated with ``self``) over Any ║
+# ║ Path(get_field(), self) over Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_field : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == self                                 ║
+# ║   returns:  self                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_field : Any → {Any | result satisfies: result == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 40d8eb459c6701b1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.get_field","kind":"method","src_hash":"b66170dc58340807","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_field()","rhs":"returns a field associated with ``self``","over":{"base":"Any"},"name":"get_field_correct"},"guarantee":"returns a field associated with ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"40d8eb459c6701b1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.get_field","kind":"method","src_hash":"b66170dc58340807","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self)"},"spec":{"lhs":"get_field()","rhs":"self","over":{"base":"Any"},"name":"get_field_correct"},"guarantee":"returns self; result == self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"40d8eb459c6701b1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == self"],"returns_expr":"self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_field(self):
         """Returns a field associated with ``self``. """
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_sympy(a), convert ``a`` to a sympy object) over Any ║
+# ║ Path(to_sympy(a), SymPyInteger(self.to_int(a))) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  SymPyInteger(self.to_int(a))                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_sympy : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8d0ec8c1807e78a4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.to_sympy","kind":"method","src_hash":"53c5ff9a0f5148c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_sympy(a)","rhs":"convert ``a`` to a sympy object","over":{"base":"Any"},"name":"to_sympy_correct"},"guarantee":"convert ``a`` to a sympy object","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8d0ec8c1807e78a4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.to_sympy","kind":"method","src_hash":"53c5ff9a0f5148c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_sympy(a)","rhs":"SymPyInteger(self.to_int(a))","over":{"base":"Any"},"name":"to_sympy_correct"},"guarantee":"returns SymPyInteger(self.to_int(a))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8d0ec8c1807e78a4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"SymPyInteger(self.to_int(a))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.to_int"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_sympy(self, a):
         """Convert ``a`` to a SymPy object. """
         return SymPyInteger(self.to_int(a))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_sympy(a), id) over Any                           ║
+# ║ Path(from_sympy(a), id) over {Any | hasattr(a, 'is_Integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_sympy : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'is_Integer')                       ║
+# ║   fiber[case_0]: a.is_Integer => self.dtype(self.dom....   ║
+# ║   fiber[case_1]: int_valued(a) => self.dtype(self.dom...   ║
+# ║   fiber[case_2]: not (a.is_Integer) and not (int_valu...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_sympy : {Any | hasattr(a, 'is_Integer')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 822ab6d2f6f170ad   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.from_sympy","kind":"method","src_hash":"b039b6d268cd2d29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_sympy(a)","rhs":"convert sympy's integer to sympy's ``integer``","over":{"base":"Any"},"name":"from_sympy_correct","kind":"composition"},"guarantee":"convert sympy's integer to sympy's ``integer``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"dtype","by":"library_axiom"},{"fn":"dtype","by":"library_axiom"},{"fn":"int","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"822ab6d2f6f170ad"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.from_sympy","kind":"method","src_hash":"b039b6d268cd2d29","in":{"base":"Any","pred":"hasattr(a, 'is_Integer')"},"out":{"base":"Any"},"spec":{"lhs":"from_sympy(a)","rhs":"<unspecified:from_sympy>","over":{"base":"Any","pred":"hasattr(a, 'is_Integer')"},"name":"from_sympy_correct","kind":"composition"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"dtype","by":"library_axiom"},{"fn":"dtype","by":"library_axiom"},{"fn":"int","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"822ab6d2f6f170ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'is_Integer')"],"fibers":[{"name":"case_0","guard":"a.is_Integer","ensures":["result == self.dtype(self.dom.dtype(int(a)))"],"decidability":"library","returns_expr":"self.dtype(self.dom.dtype(int(a)))"},{"name":"case_1","guard":"int_valued(a)","ensures":["result == self.dtype(self.dom.dtype(int(a)))"],"decidability":"library","returns_expr":"self.dtype(self.dom.dtype(int(a)))"},{"name":"case_2","guard":"not (a.is_Integer) and not (int_valued(a))","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.is_Integer","self.dom","self.dtype"],"raises":["CoercionFailed"]},"state_contract":{"exceptional_post":{"CoercionFailed":["isinstance(raised, CoercionFailed)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_sympy(self, a):
         """Convert SymPy's Integer to SymPy's ``Integer``. """
         if a.is_Integer:
@@ -444,16 +539,22 @@ class FiniteField(Field, SimpleDomain):
             raise CoercionFailed("expected an integer, got %s" % a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_int(a), convert ``val`` to a python ``int`` object) over Any ║
+# ║ Path(to_int(a), <unspecified:to_int>) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_int : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1aaa691f70d25abc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.to_int","kind":"method","src_hash":"a149b4f0fb9361ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_int(a)","rhs":"convert ``val`` to a python ``int`` object","over":{"base":"Any"},"name":"to_int_correct"},"guarantee":"convert ``val`` to a python ``int`` object","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.finitefield.FiniteField.to_int_correct","statement":"Path(to_int(x), convert ``val`` to a python ``int`` object)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1aaa691f70d25abc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.to_int","kind":"method","src_hash":"a149b4f0fb9361ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_int(a)","rhs":"<unspecified:to_int>","over":{"base":"Any"},"name":"to_int_correct"},"guarantee":"convert ``val`` to a python ``int`` object","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.finitefield.FiniteField.to_int_correct","statement":"Path(to_int(x), convert ``val`` to a python ``int`` object)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1aaa691f70d25abc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.mod","self.sym"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_int(self, a):
         """Convert ``val`` to a Python ``int`` object. """
         aval = int(a)
@@ -462,214 +563,325 @@ class FiniteField(Field, SimpleDomain):
         return aval
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_positive(a), returns true if ``a`` is positive) over Any ║
+# ║ Path(is_positive(a), bool(a)) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  bool(a)                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_positive : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 33abd24dfa4b10c3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.is_positive","kind":"method","src_hash":"fdf2eeb695378417","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_positive(a)","rhs":"returns true if ``a`` is positive","over":{"base":"Any"},"name":"is_positive_correct"},"guarantee":"returns true if ``a`` is positive","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"33abd24dfa4b10c3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.is_positive","kind":"method","src_hash":"fdf2eeb695378417","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_positive(a)","rhs":"bool(a)","over":{"base":"Any"},"name":"is_positive_correct"},"guarantee":"returns bool(a)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"33abd24dfa4b10c3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"bool(a)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_positive(self, a):
         """Returns True if ``a`` is positive. """
         return bool(a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_nonnegative(a), returns true if ``a`` is non-negative) over Any ║
+# ║ Path(is_nonnegative(a), True) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_nonnegative : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bb5b341254e819a6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.is_nonnegative","kind":"method","src_hash":"d4975182e3852a44","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_nonnegative(a)","rhs":"returns true if ``a`` is non-negative","over":{"base":"Any"},"name":"is_nonnegative_correct"},"guarantee":"returns true if ``a`` is non-negative","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bb5b341254e819a6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.is_nonnegative","kind":"method","src_hash":"d4975182e3852a44","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_nonnegative(a)","rhs":"True","over":{"base":"Any"},"name":"is_nonnegative_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bb5b341254e819a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_nonnegative(self, a):
         """Returns True if ``a`` is non-negative. """
         return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_negative(a), returns true if ``a`` is negative) over Any ║
+# ║ Path(is_negative(a), False) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  False                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_negative : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d8f2cc5d631b424f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.is_negative","kind":"method","src_hash":"d55fbe3d1a904565","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_negative(a)","rhs":"returns true if ``a`` is negative","over":{"base":"Any"},"name":"is_negative_correct"},"guarantee":"returns true if ``a`` is negative","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d8f2cc5d631b424f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.is_negative","kind":"method","src_hash":"d55fbe3d1a904565","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_negative(a)","rhs":"False","over":{"base":"Any"},"name":"is_negative_correct"},"guarantee":"returns False","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d8f2cc5d631b424f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"False","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_negative(self, a):
         """Returns True if ``a`` is negative. """
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_nonpositive(a), returns true if ``a`` is non-positive) over Any ║
+# ║ Path(is_nonpositive(a), not a) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not a                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_nonpositive : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 137a6235eb881fc0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.is_nonpositive","kind":"method","src_hash":"25b37ee06c77960c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_nonpositive(a)","rhs":"returns true if ``a`` is non-positive","over":{"base":"Any"},"name":"is_nonpositive_correct"},"guarantee":"returns true if ``a`` is non-positive","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"137a6235eb881fc0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.is_nonpositive","kind":"method","src_hash":"25b37ee06c77960c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_nonpositive(a)","rhs":"not a","over":{"base":"Any"},"name":"is_nonpositive_correct"},"guarantee":"returns not a","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"137a6235eb881fc0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not a","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_nonpositive(self, a):
         """Returns True if ``a`` is non-positive. """
         return not a
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_FF(K1,), convert ``modularinteger(int)`` to ``dtype``) over Any ║
+# ║ Path(from_FF(K1, a, K0), K1.dtype(K1.dom.from_ZZ(int(a), K0.dom))) over {Any | hasattr(K1, 'dtype') and hasattr(K0, 'dom') and hasattr(K1, 'dom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_FF : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, 'dtype')                           ║
+# ║   requires: hasattr(K0, 'dom')                             ║
+# ║   requires: hasattr(K1, 'dom')                             ║
+# ║   returns:  K1.dtype(K1.dom.from_ZZ(int(a), K0.dom))       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_FF : {Any | hasattr(K1, 'dtype') and hasattr(K0,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 712a3e1ccaed57d4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.from_FF","kind":"method","src_hash":"1c9c01acd290f875","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_FF(K1,)","rhs":"convert ``modularinteger(int)`` to ``dtype``","over":{"base":"Any"},"name":"from_FF_correct"},"guarantee":"convert ``modularinteger(int)`` to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"712a3e1ccaed57d4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.from_FF","kind":"method","src_hash":"1c9c01acd290f875","in":{"base":"Any","pred":"hasattr(K1, 'dtype') and hasattr(K0, 'dom') and hasattr(K1, 'dom')"},"out":{"base":"Any"},"spec":{"lhs":"from_FF(K1, a, K0)","rhs":"K1.dtype(K1.dom.from_ZZ(int(a), K0.dom))","over":{"base":"Any","pred":"hasattr(K1, 'dtype') and hasattr(K0, 'dom') and hasattr(K1, 'dom')"},"name":"from_FF_correct"},"guarantee":"returns K1.dtype(K1.dom.from_ZZ(int(a), K0.dom))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"712a3e1ccaed57d4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, 'dtype')","hasattr(K0, 'dom')","hasattr(K1, 'dom')"],"returns_expr":"K1.dtype(K1.dom.from_ZZ(int(a), K0.dom))","pure":false,"effects":{"effect_type":"reads_state","reads":["K0.dom","K1.dom","K1.dtype"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_FF(K1, a, K0=None):
         """Convert ``ModularInteger(int)`` to ``dtype``. """
         return K1.dtype(K1.dom.from_ZZ(int(a), K0.dom))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_FF_python(K1,), convert ``modularinteger(int)`` to ``dtype``) over Any ║
+# ║ Path(from_FF_python(K1, a, K0), K1.dtype(K1.dom.from_ZZ_python(int(a), K0.dom))) over {Any | hasattr(K1, 'dtype') and hasattr(K0, 'dom') and hasattr(K1, 'dom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_FF_python : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, 'dtype')                           ║
+# ║   requires: hasattr(K0, 'dom')                             ║
+# ║   requires: hasattr(K1, 'dom')                             ║
+# ║   returns:  K1.dtype(K1.dom.from_ZZ_python(int(a), K0...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_FF_python : {Any | hasattr(K1, 'dtype') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 83c1b8a6fe9f4f45           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.from_FF_python","kind":"method","src_hash":"ba1a135f9adfc3ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_FF_python(K1,)","rhs":"convert ``modularinteger(int)`` to ``dtype``","over":{"base":"Any"},"name":"from_FF_python_correct"},"guarantee":"convert ``modularinteger(int)`` to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"83c1b8a6fe9f4f45"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.from_FF_python","kind":"method","src_hash":"ba1a135f9adfc3ca","in":{"base":"Any","pred":"hasattr(K1, 'dtype') and hasattr(K0, 'dom') and hasattr(K1, 'dom')"},"out":{"base":"Any"},"spec":{"lhs":"from_FF_python(K1, a, K0)","rhs":"K1.dtype(K1.dom.from_ZZ_python(int(a), K0.dom))","over":{"base":"Any","pred":"hasattr(K1, 'dtype') and hasattr(K0, 'dom') and hasattr(K1, 'dom')"},"name":"from_FF_python_correct"},"guarantee":"returns K1.dtype(K1.dom.from_ZZ_python(int(a), K0.dom))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"83c1b8a6fe9f4f45","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, 'dtype')","hasattr(K0, 'dom')","hasattr(K1, 'dom')"],"returns_expr":"K1.dtype(K1.dom.from_ZZ_python(int(a), K0.dom))","pure":false,"effects":{"effect_type":"reads_state","reads":["K0.dom","K1.dom","K1.dtype"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_FF_python(K1, a, K0=None):
         """Convert ``ModularInteger(int)`` to ``dtype``. """
         return K1.dtype(K1.dom.from_ZZ_python(int(a), K0.dom))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_ZZ(K1,), convert python's ``int`` to ``dtype``) over Any ║
+# ║ Path(from_ZZ(K1, a, K0), K1.dtype(K1.dom.from_ZZ_python(a, K0))) over {Any | hasattr(K1, 'dtype') and hasattr(K1, 'dom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_ZZ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, 'dtype')                           ║
+# ║   requires: hasattr(K1, 'dom')                             ║
+# ║   returns:  K1.dtype(K1.dom.from_ZZ_python(a, K0))         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_ZZ : {Any | hasattr(K1, 'dtype') and hasattr(K1,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 234402370150f598           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.from_ZZ","kind":"method","src_hash":"75487386178594b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ(K1,)","rhs":"convert python's ``int`` to ``dtype``","over":{"base":"Any"},"name":"from_ZZ_correct"},"guarantee":"convert python's ``int`` to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"234402370150f598"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.from_ZZ","kind":"method","src_hash":"75487386178594b3","in":{"base":"Any","pred":"hasattr(K1, 'dtype') and hasattr(K1, 'dom')"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ(K1, a, K0)","rhs":"K1.dtype(K1.dom.from_ZZ_python(a, K0))","over":{"base":"Any","pred":"hasattr(K1, 'dtype') and hasattr(K1, 'dom')"},"name":"from_ZZ_correct"},"guarantee":"returns K1.dtype(K1.dom.from_ZZ_python(a, K0))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"234402370150f598","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, 'dtype')","hasattr(K1, 'dom')"],"returns_expr":"K1.dtype(K1.dom.from_ZZ_python(a, K0))","pure":false,"effects":{"effect_type":"reads_state","reads":["K1.dom","K1.dtype"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_ZZ(K1, a, K0=None):
         """Convert Python's ``int`` to ``dtype``. """
         return K1.dtype(K1.dom.from_ZZ_python(a, K0))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_ZZ_python(K1,), convert python's ``int`` to ``dtype``) over Any ║
+# ║ Path(from_ZZ_python(K1, a, K0), K1.dtype(K1.dom.from_ZZ_python(a, K0))) over {Any | hasattr(K1, 'dtype') and hasattr(K1, 'dom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_ZZ_python : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, 'dtype')                           ║
+# ║   requires: hasattr(K1, 'dom')                             ║
+# ║   returns:  K1.dtype(K1.dom.from_ZZ_python(a, K0))         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_ZZ_python : {Any | hasattr(K1, 'dtype') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 45fc0d90cbe00c94           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.from_ZZ_python","kind":"method","src_hash":"1c995832af37a93a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ_python(K1,)","rhs":"convert python's ``int`` to ``dtype``","over":{"base":"Any"},"name":"from_ZZ_python_correct"},"guarantee":"convert python's ``int`` to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"45fc0d90cbe00c94"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.from_ZZ_python","kind":"method","src_hash":"1c995832af37a93a","in":{"base":"Any","pred":"hasattr(K1, 'dtype') and hasattr(K1, 'dom')"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ_python(K1, a, K0)","rhs":"K1.dtype(K1.dom.from_ZZ_python(a, K0))","over":{"base":"Any","pred":"hasattr(K1, 'dtype') and hasattr(K1, 'dom')"},"name":"from_ZZ_python_correct"},"guarantee":"returns K1.dtype(K1.dom.from_ZZ_python(a, K0))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"45fc0d90cbe00c94","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, 'dtype')","hasattr(K1, 'dom')"],"returns_expr":"K1.dtype(K1.dom.from_ZZ_python(a, K0))","pure":false,"effects":{"effect_type":"reads_state","reads":["K1.dom","K1.dtype"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_ZZ_python(K1, a, K0=None):
         """Convert Python's ``int`` to ``dtype``. """
         return K1.dtype(K1.dom.from_ZZ_python(a, K0))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_QQ(K1,), convert python's ``fraction`` to ``dtype``) over Any ║
+# ║ Path(from_QQ(K1, a, K0), K1.from_ZZ_python(a.numerator)) over {Any | hasattr(a, 'denominator') and hasattr(K1, 'from_ZZ_python') and hasattr(a, 'numerator')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_QQ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'denominator')                      ║
+# ║   requires: hasattr(K1, 'from_ZZ_python')                  ║
+# ║   requires: hasattr(a, 'numerator')                        ║
+# ║   returns:  K1.from_ZZ_python(a.numerator)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_QQ : {Any | hasattr(a, 'denominator') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae442d6afa0ae9c9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 076a413e4c2f278f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.from_QQ","kind":"method","src_hash":"3890fed58aeb3bc4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ(K1,)","rhs":"convert python's ``fraction`` to ``dtype``","over":{"base":"Any"},"name":"from_QQ_correct"},"guarantee":"convert python's ``fraction`` to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.finitefield.FiniteField.from_QQ_correct","statement":"Path(from_QQ(x), convert python's ``fraction`` to ``dtype``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae442d6afa0ae9c9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.from_QQ","kind":"method","src_hash":"3890fed58aeb3bc4","in":{"base":"Any","pred":"hasattr(a, 'denominator') and hasattr(K1, 'from_ZZ_python') and hasattr(a, 'numerator')"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ(K1, a, K0)","rhs":"K1.from_ZZ_python(a.numerator)","over":{"base":"Any","pred":"hasattr(a, 'denominator') and hasattr(K1, 'from_ZZ_python') and hasattr(a, 'numerator')"},"name":"from_QQ_correct"},"guarantee":"returns K1.from_ZZ_python(a.numerator)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.finitefield.FiniteField.from_QQ_correct","statement":"Path(from_QQ(x), returns K1.from_ZZ_python(a.numerator))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"076a413e4c2f278f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'denominator')","hasattr(K1, 'from_ZZ_python')","hasattr(a, 'numerator')"],"returns_expr":"K1.from_ZZ_python(a.numerator)","pure":false,"effects":{"effect_type":"reads_state","reads":["K1.from_ZZ_python","a.denominator","a.numerator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_QQ(K1, a, K0=None):
         """Convert Python's ``Fraction`` to ``dtype``. """
         if a.denominator == 1:
             return K1.from_ZZ_python(a.numerator)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_QQ_python(K1,), convert python's ``fraction`` to ``dtype``) over Any ║
+# ║ Path(from_QQ_python(K1, a, K0), K1.from_ZZ_python(a.numerator)) over {Any | hasattr(a, 'denominator') and hasattr(K1, 'from_ZZ_python') and hasattr(a, 'numerator')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_QQ_python : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'denominator')                      ║
+# ║   requires: hasattr(K1, 'from_ZZ_python')                  ║
+# ║   requires: hasattr(a, 'numerator')                        ║
+# ║   returns:  K1.from_ZZ_python(a.numerator)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_QQ_python : {Any | hasattr(a, 'denominator') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 277e47d031362352  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15f12570f000ab75  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.from_QQ_python","kind":"method","src_hash":"658ecfd0ec71ebb9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ_python(K1,)","rhs":"convert python's ``fraction`` to ``dtype``","over":{"base":"Any"},"name":"from_QQ_python_correct"},"guarantee":"convert python's ``fraction`` to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.finitefield.FiniteField.from_QQ_python_correct","statement":"Path(from_QQ_python(x), convert python's ``fraction`` to ``dtype``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"277e47d031362352"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.from_QQ_python","kind":"method","src_hash":"658ecfd0ec71ebb9","in":{"base":"Any","pred":"hasattr(a, 'denominator') and hasattr(K1, 'from_ZZ_python') and hasattr(a, 'numerator')"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ_python(K1, a, K0)","rhs":"K1.from_ZZ_python(a.numerator)","over":{"base":"Any","pred":"hasattr(a, 'denominator') and hasattr(K1, 'from_ZZ_python') and hasattr(a, 'numerator')"},"name":"from_QQ_python_correct"},"guarantee":"returns K1.from_ZZ_python(a.numerator)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.finitefield.FiniteField.from_QQ_python_correct","statement":"Path(from_QQ_python(x), returns K1.from_ZZ_python(a.numerator))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15f12570f000ab75","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'denominator')","hasattr(K1, 'from_ZZ_python')","hasattr(a, 'numerator')"],"returns_expr":"K1.from_ZZ_python(a.numerator)","pure":false,"effects":{"effect_type":"reads_state","reads":["K1.from_ZZ_python","a.denominator","a.numerator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_QQ_python(K1, a, K0=None):
         """Convert Python's ``Fraction`` to ``dtype``. """
         if a.denominator == 1:
             return K1.from_ZZ_python(a.numerator)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_FF_gmpy(K1,), convert ``modularinteger(mpz)`` to ``dtype``) over Any ║
+# ║ Path(from_FF_gmpy(K1, a, K0), K1.dtype(K1.dom.from_ZZ_gmpy(a.val, K0.dom))) over {Any | hasattr(K1, 'dtype') and hasattr(a, 'val') and hasattr(K0, 'dom') and hasattr(K1, 'dom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_FF_gmpy : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, 'dtype')                           ║
+# ║   requires: hasattr(a, 'val')                              ║
+# ║   requires: hasattr(K0, 'dom')                             ║
+# ║   returns:  K1.dtype(K1.dom.from_ZZ_gmpy(a.val, K0.dom))   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_FF_gmpy : {Any | hasattr(K1, 'dtype') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c34c8911bf699f9e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.from_FF_gmpy","kind":"method","src_hash":"aebcce56e635894c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_FF_gmpy(K1,)","rhs":"convert ``modularinteger(mpz)`` to ``dtype``","over":{"base":"Any"},"name":"from_FF_gmpy_correct"},"guarantee":"convert ``modularinteger(mpz)`` to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c34c8911bf699f9e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.from_FF_gmpy","kind":"method","src_hash":"aebcce56e635894c","in":{"base":"Any","pred":"hasattr(K1, 'dtype') and hasattr(a, 'val') and hasattr(K0, 'dom') and hasattr(K1, 'dom')"},"out":{"base":"Any"},"spec":{"lhs":"from_FF_gmpy(K1, a, K0)","rhs":"K1.dtype(K1.dom.from_ZZ_gmpy(a.val, K0.dom))","over":{"base":"Any","pred":"hasattr(K1, 'dtype') and hasattr(a, 'val') and hasattr(K0, 'dom') and hasattr(K1, 'dom')"},"name":"from_FF_gmpy_correct"},"guarantee":"returns K1.dtype(K1.dom.from_ZZ_gmpy(a.val, K0.dom))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c34c8911bf699f9e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, 'dtype')","hasattr(a, 'val')","hasattr(K0, 'dom')","hasattr(K1, 'dom')"],"returns_expr":"K1.dtype(K1.dom.from_ZZ_gmpy(a.val, K0.dom))","pure":false,"effects":{"effect_type":"reads_state","reads":["K0.dom","K1.dom","K1.dtype","a.val"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_FF_gmpy(K1, a, K0=None):
         """Convert ``ModularInteger(mpz)`` to ``dtype``. """
         return K1.dtype(K1.dom.from_ZZ_gmpy(a.val, K0.dom))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_ZZ_gmpy(K1,), convert gmpy's ``mpz`` to ``dtype``) over Any ║
+# ║ Path(from_ZZ_gmpy(K1, a, K0), K1.dtype(K1.dom.from_ZZ_gmpy(a, K0))) over {Any | hasattr(K1, 'dtype') and hasattr(K1, 'dom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_ZZ_gmpy : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, 'dtype')                           ║
+# ║   requires: hasattr(K1, 'dom')                             ║
+# ║   returns:  K1.dtype(K1.dom.from_ZZ_gmpy(a, K0))           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_ZZ_gmpy : {Any | hasattr(K1, 'dtype') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | df47eef853ae1c30           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.from_ZZ_gmpy","kind":"method","src_hash":"e497bcad7f5922f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ_gmpy(K1,)","rhs":"convert gmpy's ``mpz`` to ``dtype``","over":{"base":"Any"},"name":"from_ZZ_gmpy_correct"},"guarantee":"convert gmpy's ``mpz`` to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df47eef853ae1c30"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.from_ZZ_gmpy","kind":"method","src_hash":"e497bcad7f5922f9","in":{"base":"Any","pred":"hasattr(K1, 'dtype') and hasattr(K1, 'dom')"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ_gmpy(K1, a, K0)","rhs":"K1.dtype(K1.dom.from_ZZ_gmpy(a, K0))","over":{"base":"Any","pred":"hasattr(K1, 'dtype') and hasattr(K1, 'dom')"},"name":"from_ZZ_gmpy_correct"},"guarantee":"returns K1.dtype(K1.dom.from_ZZ_gmpy(a, K0))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df47eef853ae1c30","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, 'dtype')","hasattr(K1, 'dom')"],"returns_expr":"K1.dtype(K1.dom.from_ZZ_gmpy(a, K0))","pure":false,"effects":{"effect_type":"reads_state","reads":["K1.dom","K1.dtype"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_ZZ_gmpy(K1, a, K0=None):
         """Convert GMPY's ``mpz`` to ``dtype``. """
         return K1.dtype(K1.dom.from_ZZ_gmpy(a, K0))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_QQ_gmpy(K1,), convert gmpy's ``mpq`` to ``dtype``) over Any ║
+# ║ Path(from_QQ_gmpy(K1, a, K0), K1.from_ZZ_gmpy(a.numerator)) over {Any | hasattr(a, 'denominator') and hasattr(K1, 'from_ZZ_gmpy') and hasattr(a, 'numerator')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_QQ_gmpy : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'denominator')                      ║
+# ║   requires: hasattr(K1, 'from_ZZ_gmpy')                    ║
+# ║   requires: hasattr(a, 'numerator')                        ║
+# ║   returns:  K1.from_ZZ_gmpy(a.numerator)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_QQ_gmpy : {Any | hasattr(a, 'denominator') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d7b728b2bf9f702  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd48258c9793b35a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.from_QQ_gmpy","kind":"method","src_hash":"d0f7dbeeaac8f64f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ_gmpy(K1,)","rhs":"convert gmpy's ``mpq`` to ``dtype``","over":{"base":"Any"},"name":"from_QQ_gmpy_correct"},"guarantee":"convert gmpy's ``mpq`` to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.finitefield.FiniteField.from_QQ_gmpy_correct","statement":"Path(from_QQ_gmpy(x), convert gmpy's ``mpq`` to ``dtype``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d7b728b2bf9f702"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.from_QQ_gmpy","kind":"method","src_hash":"d0f7dbeeaac8f64f","in":{"base":"Any","pred":"hasattr(a, 'denominator') and hasattr(K1, 'from_ZZ_gmpy') and hasattr(a, 'numerator')"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ_gmpy(K1, a, K0)","rhs":"K1.from_ZZ_gmpy(a.numerator)","over":{"base":"Any","pred":"hasattr(a, 'denominator') and hasattr(K1, 'from_ZZ_gmpy') and hasattr(a, 'numerator')"},"name":"from_QQ_gmpy_correct"},"guarantee":"returns K1.from_ZZ_gmpy(a.numerator)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.finitefield.FiniteField.from_QQ_gmpy_correct","statement":"Path(from_QQ_gmpy(x), returns K1.from_ZZ_gmpy(a.numerator))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd48258c9793b35a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'denominator')","hasattr(K1, 'from_ZZ_gmpy')","hasattr(a, 'numerator')"],"returns_expr":"K1.from_ZZ_gmpy(a.numerator)","pure":false,"effects":{"effect_type":"reads_state","reads":["K1.from_ZZ_gmpy","a.denominator","a.numerator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_QQ_gmpy(K1, a, K0=None):
         """Convert GMPY's ``mpq`` to ``dtype``. """
         if a.denominator == 1:
             return K1.from_ZZ_gmpy(a.numerator)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_RealField(K1,), id) over Any                     ║
+# ║ Path(from_RealField(K1, a, K0), id) over {Any | hasattr(K0, 'to_rational') and hasattr(K1, 'dtype') and hasattr(K1, 'dom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_RealField : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K0, 'to_rational')                     ║
+# ║   requires: hasattr(K1, 'dtype')                           ║
+# ║   requires: hasattr(K1, 'dom')                             ║
+# ║   returns:  K1.dtype(K1.dom.dtype(p))                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_RealField : {Any | hasattr(K0, 'to_rational') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | cf4c11d38e26395f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.from_RealField","kind":"method","src_hash":"194c1582140fa491","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_RealField(K1,)","rhs":"convert mpmath's ``mpf`` to ``dtype``","over":{"base":"Any"},"name":"from_RealField_correct","kind":"composition"},"guarantee":"convert mpmath's ``mpf`` to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"dtype","by":"library_axiom"},{"fn":"dtype","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf4c11d38e26395f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.from_RealField","kind":"method","src_hash":"194c1582140fa491","in":{"base":"Any","pred":"hasattr(K0, 'to_rational') and hasattr(K1, 'dtype') and hasattr(K1, 'dom')"},"out":{"base":"Any"},"spec":{"lhs":"from_RealField(K1, a, K0)","rhs":"K1.dtype(K1.dom.dtype(p))","over":{"base":"Any","pred":"hasattr(K0, 'to_rational') and hasattr(K1, 'dtype') and hasattr(K1, 'dom')"},"name":"from_RealField_correct","kind":"composition"},"guarantee":"returns K1.dtype(K1.dom.dtype(p))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"dtype","by":"library_axiom"},{"fn":"dtype","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf4c11d38e26395f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K0, 'to_rational')","hasattr(K1, 'dtype')","hasattr(K1, 'dom')"],"returns_expr":"K1.dtype(K1.dom.dtype(p))","pure":false,"effects":{"effect_type":"reads_state","reads":["K0.to_rational","K1.dom","K1.dtype"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_RealField(K1, a, K0):
         """Convert mpmath's ``mpf`` to ``dtype``. """
         p, q = K0.to_rational(a)
@@ -678,16 +890,22 @@ class FiniteField(Field, SimpleDomain):
             return K1.dtype(K1.dom.dtype(p))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_square(a), returns true if ``a`` is a quadratic residue modulo p) over Any ║
+# ║ Path(is_square(a), not gf_irred_p_rabin(poly, self.mod, self.dom)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not gf_irred_p_rabin(poly, self.mod, self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_square : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 979b5620167ac7ab  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c399b8b45a766cd0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.is_square","kind":"method","src_hash":"94131388ba5664c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_square(a)","rhs":"returns true if ``a`` is a quadratic residue modulo p","over":{"base":"Any"},"name":"is_square_correct"},"guarantee":"returns true if ``a`` is a quadratic residue modulo p","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.finitefield.FiniteField.is_square_correct","statement":"Path(is_square(x), returns true if ``a`` is a quadratic residue modulo p)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"979b5620167ac7ab"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.is_square","kind":"method","src_hash":"94131388ba5664c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_square(a)","rhs":"not gf_irred_p_rabin(poly, self.mod, self.dom)","over":{"base":"Any"},"name":"is_square_correct"},"guarantee":"returns not gf_irred_p_rabin(poly, self.mod, self.dom)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.finitefield.FiniteField.is_square_correct","statement":"Path(is_square(x), returns not gf_irred_p_rabin(poly, self.mod, self.dom))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c399b8b45a766cd0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not gf_irred_p_rabin(poly, self.mod, self.dom)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dom","self.mod","self.one","self.zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_square(self, a):
         """Returns True if ``a`` is a quadratic residue modulo p. """
         # a is not a square <=> x**2-a is irreducible
@@ -695,16 +913,22 @@ class FiniteField(Field, SimpleDomain):
         return not gf_irred_p_rabin(poly, self.mod, self.dom)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(exsqrt(a), square root modulo p of ``a`` if it is a quadratic residue) over Any ║
+# ║ Path(exsqrt(a), <unspecified:exsqrt>) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ exsqrt : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38e44973377598f6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.exsqrt","kind":"method","src_hash":"69f97ac8f7147708","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exsqrt(a)","rhs":"square root modulo p of ``a`` if it is a quadratic residue","over":{"base":"Any"},"name":"exsqrt_correct"},"guarantee":"square root modulo p of ``a`` if it is a quadratic residue","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.finitefield.FiniteField.exsqrt_correct","statement":"Path(exsqrt(x), square root modulo p of ``a`` if it is a quadratic residue)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38e44973377598f6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.finitefield.FiniteField.exsqrt","kind":"method","src_hash":"69f97ac8f7147708","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exsqrt(a)","rhs":"<unspecified:exsqrt>","over":{"base":"Any"},"name":"exsqrt_correct"},"guarantee":"square root modulo p of ``a`` if it is a quadratic residue","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.finitefield.FiniteField.exsqrt_correct","statement":"Path(exsqrt(x), square root modulo p of ``a`` if it is a quadratic residue)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38e44973377598f6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dom","self.dtype","self.mod","self.one","self.zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def exsqrt(self, a):
         """Square root modulo p of ``a`` if it is a quadratic residue.
 

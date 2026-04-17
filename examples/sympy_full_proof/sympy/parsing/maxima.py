@@ -25,110 +25,161 @@ from sympy.functions.elementary.trigonometric import (cos, sin)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MaximaHelpers(*args), correctly constructs a MaximaHelpers instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ MaximaHelpers : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 099b6e822be59595  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.maxima.MaximaHelpers","kind":"class","src_hash":"a24f2be91fd67179","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MaximaHelpers(*args)","rhs":"correctly constructs a MaximaHelpers instance","over":{"base":"Any"},"name":"MaximaHelpers_class_invariant"},"guarantee":"correctly constructs a MaximaHelpers instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"099b6e822be59595"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.maxima.MaximaHelpers","kind":"class","src_hash":"a24f2be91fd67179","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MaximaHelpers(*args)","rhs":"correctly constructs a MaximaHelpers instance","over":{"base":"Any"},"name":"MaximaHelpers_class_invariant"},"guarantee":"correctly constructs a MaximaHelpers instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"099b6e822be59595","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function MaximaHelpers not found in source"]}}
 class MaximaHelpers:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(maxima_expand(exp), maxima_expand produces the expected output) over Any ║
+# ║ Path(maxima_expand(expr), expr.expand()) over {Any | hasattr(expr, 'expand')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ maxima_expand : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'expand')                        ║
+# ║   returns:  expr.expand()                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ maxima_expand : {Any | hasattr(expr, 'expand')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2b386c4b65b31399           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.maxima.MaximaHelpers.maxima_expand","kind":"method","src_hash":"3e5b82de9c6cf145","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"maxima_expand(exp)","rhs":"maxima_expand produces the expected output","over":{"base":"Any"},"name":"maxima_expand_correct"},"guarantee":"maxima_expand produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2b386c4b65b31399"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.maxima.MaximaHelpers.maxima_expand","kind":"method","src_hash":"3e5b82de9c6cf145","in":{"base":"Any","pred":"hasattr(expr, 'expand')"},"out":{"base":"Any"},"spec":{"lhs":"maxima_expand(expr)","rhs":"expr.expand()","over":{"base":"Any","pred":"hasattr(expr, 'expand')"},"name":"maxima_expand_correct"},"guarantee":"returns expr.expand()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2b386c4b65b31399","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'expand')"],"returns_expr":"expr.expand()","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.expand"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def maxima_expand(expr):
         return expr.expand()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(maxima_float(exp), maxima_float produces the expected output) over Any ║
+# ║ Path(maxima_float(expr), expr.evalf()) over {Any | hasattr(expr, 'evalf')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ maxima_float : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'evalf')                         ║
+# ║   returns:  expr.evalf()                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ maxima_float : {Any | hasattr(expr, 'evalf')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 75966f2293af3326           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.maxima.MaximaHelpers.maxima_float","kind":"method","src_hash":"b320276411b0dd5a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"maxima_float(exp)","rhs":"maxima_float produces the expected output","over":{"base":"Any"},"name":"maxima_float_correct"},"guarantee":"maxima_float produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"75966f2293af3326"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.maxima.MaximaHelpers.maxima_float","kind":"method","src_hash":"b320276411b0dd5a","in":{"base":"Any","pred":"hasattr(expr, 'evalf')"},"out":{"base":"Any"},"spec":{"lhs":"maxima_float(expr)","rhs":"expr.evalf()","over":{"base":"Any","pred":"hasattr(expr, 'evalf')"},"name":"maxima_float_correct"},"guarantee":"returns expr.evalf()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"75966f2293af3326","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'evalf')"],"returns_expr":"expr.evalf()","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.evalf"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def maxima_float(expr):
         return expr.evalf()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(maxima_trigexpand(exp), maxima_trigexpand produces the expected output) over Any ║
+# ║ Path(maxima_trigexpand(expr), expr.expand(trig=True)) over {Any | hasattr(expr, 'expand')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ maxima_trigexpand : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'expand')                        ║
+# ║   returns:  expr.expand(trig=True)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ maxima_trigexpand : {Any | hasattr(expr, 'expand')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5fe45cc8c1698552           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.maxima.MaximaHelpers.maxima_trigexpand","kind":"method","src_hash":"5daae1afe3aa783d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"maxima_trigexpand(exp)","rhs":"maxima_trigexpand produces the expected output","over":{"base":"Any"},"name":"maxima_trigexpand_correct"},"guarantee":"maxima_trigexpand produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5fe45cc8c1698552"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.maxima.MaximaHelpers.maxima_trigexpand","kind":"method","src_hash":"5daae1afe3aa783d","in":{"base":"Any","pred":"hasattr(expr, 'expand')"},"out":{"base":"Any"},"spec":{"lhs":"maxima_trigexpand(expr)","rhs":"expr.expand(trig=True)","over":{"base":"Any","pred":"hasattr(expr, 'expand')"},"name":"maxima_trigexpand_correct"},"guarantee":"returns expr.expand(trig=True)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5fe45cc8c1698552","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'expand')"],"returns_expr":"expr.expand(trig=True)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.expand"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def maxima_trigexpand(expr):
         return expr.expand(trig=True)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(maxima_sum(a1,), maxima_sum produces the expected output) over Any ║
+# ║ Path(maxima_sum(a1, a2, a3), Sum(a1, (a2, a3, a4)).doit()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Sum(a1, (a2, a3, a4)).doit()                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ maxima_sum : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7020cf05e086cb36           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.maxima.MaximaHelpers.maxima_sum","kind":"method","src_hash":"0ff0434ee378f49b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"maxima_sum(a1,)","rhs":"maxima_sum produces the expected output","over":{"base":"Any"},"name":"maxima_sum_correct"},"guarantee":"maxima_sum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7020cf05e086cb36"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.maxima.MaximaHelpers.maxima_sum","kind":"method","src_hash":"0ff0434ee378f49b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"maxima_sum(a1, a2, a3)","rhs":"Sum(a1, (a2, a3, a4)).doit()","over":{"base":"Any"},"name":"maxima_sum_correct"},"guarantee":"returns Sum(a1, (a2, a3, a4)).doit()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7020cf05e086cb36","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Sum(a1, (a2, a3, a4)).doit()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def maxima_sum(a1, a2, a3, a4):
         return Sum(a1, (a2, a3, a4)).doit()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(maxima_product(a1,), maxima_product produces the expected output) over Any ║
+# ║ Path(maxima_product(a1, a2, a3), product(a1, (a2, a3, a4))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  product(a1, (a2, a3, a4))                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ maxima_product : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e8ca7d079651757b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.maxima.MaximaHelpers.maxima_product","kind":"method","src_hash":"7a739806f2883ff1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"maxima_product(a1,)","rhs":"maxima_product produces the expected output","over":{"base":"Any"},"name":"maxima_product_correct"},"guarantee":"maxima_product produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e8ca7d079651757b"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.maxima.MaximaHelpers.maxima_product","kind":"method","src_hash":"7a739806f2883ff1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"maxima_product(a1, a2, a3)","rhs":"product(a1, (a2, a3, a4))","over":{"base":"Any"},"name":"maxima_product_correct"},"guarantee":"returns product(a1, (a2, a3, a4))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e8ca7d079651757b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"product(a1, (a2, a3, a4))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def maxima_product(a1, a2, a3, a4):
         return product(a1, (a2, a3, a4))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(maxima_csc(exp), maxima_csc produces the expected output) over Any ║
+# ║ Path(maxima_csc(expr), 1 / sin(expr)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  1 / sin(expr)                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ maxima_csc : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9574fc62ab7d9f88           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.maxima.MaximaHelpers.maxima_csc","kind":"method","src_hash":"f60ebf1f5b997492","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"maxima_csc(exp)","rhs":"maxima_csc produces the expected output","over":{"base":"Any"},"name":"maxima_csc_correct"},"guarantee":"maxima_csc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9574fc62ab7d9f88"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.maxima.MaximaHelpers.maxima_csc","kind":"method","src_hash":"f60ebf1f5b997492","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"maxima_csc(expr)","rhs":"1 / sin(expr)","over":{"base":"Any"},"name":"maxima_csc_correct"},"guarantee":"returns 1 / sin(expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9574fc62ab7d9f88","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"1 / sin(expr)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def maxima_csc(expr):
         return 1/sin(expr)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(maxima_sec(exp), maxima_sec produces the expected output) over Any ║
+# ║ Path(maxima_sec(expr), 1 / cos(expr)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  1 / cos(expr)                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ maxima_sec : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dbed94f7d46f47c0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.maxima.MaximaHelpers.maxima_sec","kind":"method","src_hash":"86da65adb6c0baee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"maxima_sec(exp)","rhs":"maxima_sec produces the expected output","over":{"base":"Any"},"name":"maxima_sec_correct"},"guarantee":"maxima_sec produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dbed94f7d46f47c0"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.maxima.MaximaHelpers.maxima_sec","kind":"method","src_hash":"86da65adb6c0baee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"maxima_sec(expr)","rhs":"1 / cos(expr)","over":{"base":"Any"},"name":"maxima_sec_correct"},"guarantee":"returns 1 / cos(expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dbed94f7d46f47c0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"1 / cos(expr)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def maxima_sec(expr):
         return 1/cos(expr)
 
@@ -154,16 +205,24 @@ var_name = re.compile(r'^\s*(\w+)\s*:')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parse_maxima(str), parse_maxima produces the expected output) over Any ║
+# ║ Path(parse_maxima(str, globals, name_dict), <unspecified:parse_maxima>) over {Any | hasattr(str, 'strip') and hasattr(str, 'rstrip')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ parse_maxima : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(str, 'strip')                          ║
+# ║   requires: hasattr(str, 'rstrip')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ parse_maxima : {Any | hasattr(str, 'strip') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 654ec22ad5f84294  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.maxima.parse_maxima","kind":"function","src_hash":"db0b99254138b91c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parse_maxima(str)","rhs":"parse_maxima produces the expected output","over":{"base":"Any"},"name":"parse_maxima_correct"},"guarantee":"parse_maxima produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.maxima.parse_maxima_correct","statement":"Path(parse_maxima(x), parse_maxima produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"654ec22ad5f84294"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.maxima.parse_maxima","kind":"function","src_hash":"db0b99254138b91c","in":{"base":"Any","pred":"hasattr(str, 'strip') and hasattr(str, 'rstrip')"},"out":{"base":"Any"},"spec":{"lhs":"parse_maxima(str, globals, name_dict)","rhs":"<unspecified:parse_maxima>","over":{"base":"Any","pred":"hasattr(str, 'strip') and hasattr(str, 'rstrip')"},"name":"parse_maxima_correct"},"guarantee":"parse_maxima produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.maxima.parse_maxima_correct","statement":"Path(parse_maxima(x), parse_maxima produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"654ec22ad5f84294","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(str, 'strip')","hasattr(str, 'rstrip')"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["*.__dict__","str.rstrip","str.strip"],"writes":["globals[*]"],"calls_mutating":["dct.update"]},"state_contract":{"modifies":["dct.*","globals[*]"],"old_bindings":{"old_globals_star":"globals[*]","old_len_dct":"len(dct)"}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def parse_maxima(str, globals=None, name_dict={}):
     str = str.strip()
     str = str.rstrip('; ')

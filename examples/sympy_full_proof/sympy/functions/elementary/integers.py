@@ -38,14 +38,20 @@ from sympy.multipledispatch import dispatch
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(RoundFunction(*args), correctly constructs a RoundFunction instance) over {Any | isinstance(spart, (floor, ceiling))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ RoundFunction : {Any | isinstance(spart, (floor, ceil...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eacf50f20123e7a7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.RoundFunction","kind":"class","src_hash":"3f1ac8ee372362ab","in":{"base":"Any","pred":"isinstance(spart, (floor, ceiling))"},"out":{"base":"Any"},"spec":{"lhs":"RoundFunction(*args)","rhs":"correctly constructs a RoundFunction instance","over":{"base":"Any","pred":"isinstance(spart, (floor, ceiling))"},"name":"RoundFunction_class_invariant"},"guarantee":"correctly constructs a RoundFunction instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eacf50f20123e7a7"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.RoundFunction","kind":"class","src_hash":"3f1ac8ee372362ab","in":{"base":"Any","pred":"isinstance(spart, (floor, ceiling))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"RoundFunction(*args)","rhs":"correctly constructs a RoundFunction instance","over":{"base":"Any","pred":"isinstance(spart, (floor, ceiling))"},"name":"RoundFunction_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eacf50f20123e7a7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function RoundFunction not found in source"]}}
 class RoundFunction(DefinedFunction):
     """Abstract base class for rounding functions."""
 
@@ -53,16 +59,25 @@ class RoundFunction(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, arg), <unspecified:eval>) over {Any | hasattr(arg, 'is_integer') and hasattr(arg, 'is_imaginary') and hasattr(arg, 'is_finite')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(arg, 'is_integer')                     ║
+# ║   requires: hasattr(arg, 'is_imaginary')                   ║
+# ║   requires: hasattr(arg, 'is_finite')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(arg, 'is_integer') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 449daefe3a1bb18c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.RoundFunction.eval","kind":"classmethod","src_hash":"439b8437248930fe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.integers.RoundFunction.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"449daefe3a1bb18c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.RoundFunction.eval","kind":"classmethod","src_hash":"439b8437248930fe","in":{"base":"Any","pred":"hasattr(arg, 'is_integer') and hasattr(arg, 'is_imaginary') and hasattr(arg, 'is_finite')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, arg)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(arg, 'is_integer') and hasattr(arg, 'is_imaginary') and hasattr(arg, 'is_finite')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.integers.RoundFunction.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"449daefe3a1bb18c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(arg, 'is_integer')","hasattr(arg, 'is_imaginary')","hasattr(arg, 'is_finite')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg.is_finite","arg.is_imaginary","arg.is_integer","cls._dir","cls._eval_const_number","cls._eval_number"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, arg):
         if (v := cls._eval_number(arg)) is not None:
             return v
@@ -121,58 +136,82 @@ class RoundFunction(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_number(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_number(cls, arg), <unspecified:_eval_number>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_number : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b9db245160f94822           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.RoundFunction._eval_number","kind":"classmethod","src_hash":"d3ca1ff2b0ef9e03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_number(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_number_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b9db245160f94822"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.RoundFunction._eval_number","kind":"classmethod","src_hash":"d3ca1ff2b0ef9e03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_number(cls, arg)","rhs":"<unspecified:_eval_number>","over":{"base":"Any"},"name":"_eval_number_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b9db245160f94822","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_number(cls, arg):
         raise NotImplementedError()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_finite(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_finite(), self.args[0].is_finite) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].is_finite                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_finite : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a04d7349453235ff           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.RoundFunction._eval_is_finite","kind":"method","src_hash":"8d871050dfaef4ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_finite()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_finite_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a04d7349453235ff"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.RoundFunction._eval_is_finite","kind":"method","src_hash":"8d871050dfaef4ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_finite()","rhs":"self.args[0].is_finite","over":{"base":"Any"},"name":"_eval_is_finite_correct"},"guarantee":"returns self.args[0].is_finite","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a04d7349453235ff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].is_finite","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_finite(self):
         return self.args[0].is_finite
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_real(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_real(), self.args[0].is_real) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].is_real                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_real : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7dc4d3a5d5743565           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.RoundFunction._eval_is_real","kind":"method","src_hash":"4fab18d429b84194","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_real()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7dc4d3a5d5743565"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.RoundFunction._eval_is_real","kind":"method","src_hash":"4fab18d429b84194","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_real()","rhs":"self.args[0].is_real","over":{"base":"Any"},"name":"_eval_is_real_correct"},"guarantee":"returns self.args[0].is_real","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7dc4d3a5d5743565","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].is_real","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_real(self):
         return self.args[0].is_real
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_integer(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_integer(), self.args[0].is_real) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].is_real                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_integer : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 66bb263ac31f4796           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.RoundFunction._eval_is_integer","kind":"method","src_hash":"7e2b7cecba4ee32e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_integer()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_integer_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"66bb263ac31f4796"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.RoundFunction._eval_is_integer","kind":"method","src_hash":"7e2b7cecba4ee32e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_integer()","rhs":"self.args[0].is_real","over":{"base":"Any"},"name":"_eval_is_integer_correct"},"guarantee":"returns self.args[0].is_real","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"66bb263ac31f4796","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].is_real","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_integer(self):
         return self.args[0].is_real
 
@@ -180,14 +219,20 @@ class RoundFunction(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(floor(*args), correctly constructs a floor instance) over {Any | isinstance(arg0, AccumBounds) and isinstance(i, j)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, RoundFunction)                ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ floor : {Any | isinstance(arg0, AccumBounds) and isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43bc98fd183ac2cb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.floor","kind":"class","src_hash":"11a51e18260f3d2b","in":{"base":"Any","pred":"isinstance(arg0, AccumBounds) and isinstance(i, j)"},"out":{"base":"Any"},"spec":{"lhs":"floor(*args)","rhs":"correctly constructs a floor instance","over":{"base":"Any","pred":"isinstance(arg0, AccumBounds) and isinstance(i, j)"},"name":"floor_class_invariant"},"guarantee":"correctly constructs a floor instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43bc98fd183ac2cb"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.floor","kind":"class","src_hash":"11a51e18260f3d2b","in":{"base":"Any","pred":"isinstance(arg0, AccumBounds) and isinstance(i, j)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, RoundFunction)"},"spec":{"lhs":"floor(*args)","rhs":"correctly constructs a floor instance","over":{"base":"Any","pred":"isinstance(arg0, AccumBounds) and isinstance(i, j)"},"name":"floor_class_invariant"},"guarantee":"isinstance(self, RoundFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43bc98fd183ac2cb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, RoundFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function floor not found in source"]}}
 class floor(RoundFunction):
     """
     Floor is a univariate function which returns the largest integer
@@ -228,16 +273,25 @@ class floor(RoundFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_number(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_number(cls, arg), <unspecified:_eval_number>) over {Any | hasattr(arg, 'is_Number') and hasattr(arg, 'is_NumberSymbol') and hasattr(arg, 'floor') and hasattr(arg, 'approximation_interval')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_number : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(arg, 'is_Number')                      ║
+# ║   requires: hasattr(arg, 'is_NumberSymbol')                ║
+# ║   requires: hasattr(arg, 'floor')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_number : {Any | hasattr(arg, 'is_Number') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e0641f72ec9a780b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.floor._eval_number","kind":"classmethod","src_hash":"43475912c273319b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_number(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_number_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.integers.floor._eval_number_correct","statement":"Path(_eval_number(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0641f72ec9a780b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.floor._eval_number","kind":"classmethod","src_hash":"43475912c273319b","in":{"base":"Any","pred":"hasattr(arg, 'is_Number') and hasattr(arg, 'is_NumberSymbol') and hasattr(arg, 'floor') and hasattr(arg, 'approximation_interval')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_number(cls, arg)","rhs":"<unspecified:_eval_number>","over":{"base":"Any","pred":"hasattr(arg, 'is_Number') and hasattr(arg, 'is_NumberSymbol') and hasattr(arg, 'floor') and hasattr(arg, 'approximation_interval')"},"name":"_eval_number_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.integers.floor._eval_number_correct","statement":"Path(_eval_number(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0641f72ec9a780b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(arg, 'is_Number')","hasattr(arg, 'is_NumberSymbol')","hasattr(arg, 'floor')","hasattr(arg, 'approximation_interval')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg.approximation_interval","arg.floor","arg.is_Number","arg.is_NumberSymbol"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_number(cls, arg):
         if arg.is_Number:
             return arg.floor()
@@ -249,16 +303,25 @@ class floor(RoundFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_const_number(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_const_number(cls, arg), <unspecified:_eval_const_number>) over {Any | hasattr(arg, 'is_real') and hasattr(arg, 'is_zero') and hasattr(arg, 'is_positive') and hasattr(arg, 'is_negative') and hasattr(arg, 'as_numer_denom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_const_number : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(arg, 'is_real')                        ║
+# ║   requires: hasattr(arg, 'is_zero')                        ║
+# ║   requires: hasattr(arg, 'is_positive')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_const_number : {Any | hasattr(arg, 'is_real') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 79fe6f2ec0adc706  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.floor._eval_const_number","kind":"classmethod","src_hash":"115a9922955d35c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_const_number(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_const_number_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.integers.floor._eval_const_number_correct","statement":"Path(_eval_const_number(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79fe6f2ec0adc706"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.floor._eval_const_number","kind":"classmethod","src_hash":"115a9922955d35c4","in":{"base":"Any","pred":"hasattr(arg, 'is_real') and hasattr(arg, 'is_zero') and hasattr(arg, 'is_positive') and hasattr(arg, 'is_negative') and hasattr(arg, 'as_numer_denom')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_const_number(cls, arg)","rhs":"<unspecified:_eval_const_number>","over":{"base":"Any","pred":"hasattr(arg, 'is_real') and hasattr(arg, 'is_zero') and hasattr(arg, 'is_positive') and hasattr(arg, 'is_negative') and hasattr(arg, 'as_numer_denom')"},"name":"_eval_const_number_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.integers.floor._eval_const_number_correct","statement":"Path(_eval_const_number(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79fe6f2ec0adc706","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(arg, 'is_real')","hasattr(arg, 'is_zero')","hasattr(arg, 'is_positive')","hasattr(arg, 'is_negative')","hasattr(arg, 'as_numer_denom')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg.as_numer_denom","arg.is_negative","arg.is_positive","arg.is_real","arg.is_zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_const_number(cls, arg):
         if arg.is_real:
             if arg.is_zero:
@@ -291,16 +354,22 @@ class floor(RoundFunction):
                     return Integer(-2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_leading_term(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_as_leading_term(x, logx, cdir), <unspecified:_eval_as_leading_term>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_as_leading_term : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef0d83bf51dc6f5f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.floor._eval_as_leading_term","kind":"method","src_hash":"e2391a7d92a70048","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.integers.floor._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef0d83bf51dc6f5f"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.floor._eval_as_leading_term","kind":"method","src_hash":"e2391a7d92a70048","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, logx, cdir)","rhs":"<unspecified:_eval_as_leading_term>","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.integers.floor._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef0d83bf51dc6f5f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.subs"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_leading_term(self, x, logx, cdir):
         from sympy.calculus.accumulationbounds import AccumBounds
         arg = self.args[0]
@@ -323,16 +392,22 @@ class floor(RoundFunction):
         return arg.as_leading_term(x, logx=logx, cdir=cdir)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_nseries(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_nseries(x, n, logx), <unspecified:_eval_nseries>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_nseries : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a94111ac4d82d063  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.floor._eval_nseries","kind":"method","src_hash":"b34e0362dfda460c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_nseries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.integers.floor._eval_nseries_correct","statement":"Path(_eval_nseries(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a94111ac4d82d063"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.floor._eval_nseries","kind":"method","src_hash":"b34e0362dfda460c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, n, logx)","rhs":"<unspecified:_eval_nseries>","over":{"base":"Any"},"name":"_eval_nseries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.integers.floor._eval_nseries_correct","statement":"Path(_eval_nseries(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a94111ac4d82d063","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.subs"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_nseries(self, x, n, logx, cdir=0):
         arg = self.args[0]
         arg0 = arg.subs(x, 0)
@@ -358,72 +433,105 @@ class floor(RoundFunction):
             return r
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_negative(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_negative(), self.args[0].is_negative) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].is_negative                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_negative : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a70cd691a6940f71           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.floor._eval_is_negative","kind":"method","src_hash":"ecf6c89fa0c7eb0e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_negative()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_negative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a70cd691a6940f71"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.floor._eval_is_negative","kind":"method","src_hash":"ecf6c89fa0c7eb0e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_negative()","rhs":"self.args[0].is_negative","over":{"base":"Any"},"name":"_eval_is_negative_correct"},"guarantee":"returns self.args[0].is_negative","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a70cd691a6940f71","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].is_negative","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_negative(self):
         return self.args[0].is_negative
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_nonnegative(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_nonnegative(), self.args[0].is_nonnegative) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].is_nonnegative                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_nonnegative : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 613cf041bb6fe097           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.floor._eval_is_nonnegative","kind":"method","src_hash":"98b58f493b184b75","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_nonnegative()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_nonnegative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"613cf041bb6fe097"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.floor._eval_is_nonnegative","kind":"method","src_hash":"98b58f493b184b75","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_nonnegative()","rhs":"self.args[0].is_nonnegative","over":{"base":"Any"},"name":"_eval_is_nonnegative_correct"},"guarantee":"returns self.args[0].is_nonnegative","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"613cf041bb6fe097","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].is_nonnegative","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_nonnegative(self):
         return self.args[0].is_nonnegative
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_ceiling(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_ceiling(arg, **kwargs), -ceiling(-arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  -ceiling(-arg)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_ceiling : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | df195567a92dd7f1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.floor._eval_rewrite_as_ceiling","kind":"method","src_hash":"bdcfcc07ef099a17","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_ceiling(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_ceiling_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df195567a92dd7f1"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.floor._eval_rewrite_as_ceiling","kind":"method","src_hash":"bdcfcc07ef099a17","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_ceiling(arg, **kwargs)","rhs":"-ceiling(-arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_ceiling_correct"},"guarantee":"returns -ceiling(-arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df195567a92dd7f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"-ceiling(-arg)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_ceiling(self, arg, **kwargs):
         return -ceiling(-arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_frac(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_frac(arg, **kwargs), arg - frac(arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  arg - frac(arg)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_frac : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 21e48151ca0f4c29           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.floor._eval_rewrite_as_frac","kind":"method","src_hash":"909ba7f39c367011","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_frac(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_frac_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"21e48151ca0f4c29"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.floor._eval_rewrite_as_frac","kind":"method","src_hash":"909ba7f39c367011","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_frac(arg, **kwargs)","rhs":"arg - frac(arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_frac_correct"},"guarantee":"returns arg - frac(arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"21e48151ca0f4c29","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"arg - frac(arg)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_frac(self, arg, **kwargs):
         return arg - frac(arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__le__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__le__(other), <unspecified:__le__>) over {Any | hasattr(other, 'is_integer') and hasattr(other, 'is_real') and hasattr(other, 'is_number')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __le__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'is_integer')                   ║
+# ║   requires: hasattr(other, 'is_real')                      ║
+# ║   requires: hasattr(other, 'is_number')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __le__ : {Any | hasattr(other, 'is_integer') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ceb98f2df334a7c1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.floor.__le__","kind":"method","src_hash":"1d23dee9eb90f125","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__le__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__le___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ceb98f2df334a7c1"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.floor.__le__","kind":"method","src_hash":"1d23dee9eb90f125","in":{"base":"Any","pred":"hasattr(other, 'is_integer') and hasattr(other, 'is_real') and hasattr(other, 'is_number')"},"out":{"base":"Any"},"spec":{"lhs":"__le__(other)","rhs":"<unspecified:__le__>","over":{"base":"Any","pred":"hasattr(other, 'is_integer') and hasattr(other, 'is_real') and hasattr(other, 'is_number')"},"name":"__le___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ceb98f2df334a7c1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'is_integer')","hasattr(other, 'is_real')","hasattr(other, 'is_number')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.is_integer","other.is_number","other.is_real","self.args","self.is_finite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __le__(self, other):
         other = S(other)
         if self.args[0].is_real:
@@ -439,16 +547,25 @@ class floor(RoundFunction):
         return Le(self, other, evaluate=False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__ge__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__ge__(other), <unspecified:__ge__>) over {Any | hasattr(other, 'is_integer') and hasattr(other, 'is_real') and hasattr(other, 'is_noninteger') and hasattr(other, 'is_number')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __ge__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'is_integer')                   ║
+# ║   requires: hasattr(other, 'is_real')                      ║
+# ║   requires: hasattr(other, 'is_noninteger')                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __ge__ : {Any | hasattr(other, 'is_integer') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5f4b3e55b73e4748           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.floor.__ge__","kind":"method","src_hash":"2c0a4d9a6061384a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ge__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__ge___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5f4b3e55b73e4748"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.floor.__ge__","kind":"method","src_hash":"2c0a4d9a6061384a","in":{"base":"Any","pred":"hasattr(other, 'is_integer') and hasattr(other, 'is_real') and hasattr(other, 'is_noninteger') and hasattr(other, 'is_number')"},"out":{"base":"Any"},"spec":{"lhs":"__ge__(other)","rhs":"<unspecified:__ge__>","over":{"base":"Any","pred":"hasattr(other, 'is_integer') and hasattr(other, 'is_real') and hasattr(other, 'is_noninteger') and hasattr(other, 'is_number')"},"name":"__ge___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5f4b3e55b73e4748","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'is_integer')","hasattr(other, 'is_real')","hasattr(other, 'is_noninteger')","hasattr(other, 'is_number')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.is_integer","other.is_noninteger","other.is_number","other.is_real","self.args","self.is_finite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __ge__(self, other):
         other = S(other)
         if self.args[0].is_real:
@@ -464,16 +581,25 @@ class floor(RoundFunction):
         return Ge(self, other, evaluate=False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__gt__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__gt__(other), <unspecified:__gt__>) over {Any | hasattr(other, 'is_integer') and hasattr(other, 'is_real') and hasattr(other, 'is_number')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __gt__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'is_integer')                   ║
+# ║   requires: hasattr(other, 'is_real')                      ║
+# ║   requires: hasattr(other, 'is_number')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __gt__ : {Any | hasattr(other, 'is_integer') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 79e15685f8dfea45           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.floor.__gt__","kind":"method","src_hash":"c528b312a5de02e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__gt__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__gt___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"79e15685f8dfea45"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.floor.__gt__","kind":"method","src_hash":"c528b312a5de02e3","in":{"base":"Any","pred":"hasattr(other, 'is_integer') and hasattr(other, 'is_real') and hasattr(other, 'is_number')"},"out":{"base":"Any"},"spec":{"lhs":"__gt__(other)","rhs":"<unspecified:__gt__>","over":{"base":"Any","pred":"hasattr(other, 'is_integer') and hasattr(other, 'is_real') and hasattr(other, 'is_number')"},"name":"__gt___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"79e15685f8dfea45","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'is_integer')","hasattr(other, 'is_real')","hasattr(other, 'is_number')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.is_integer","other.is_number","other.is_real","self.args","self.is_finite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __gt__(self, other):
         other = S(other)
         if self.args[0].is_real:
@@ -489,16 +615,25 @@ class floor(RoundFunction):
         return Gt(self, other, evaluate=False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__lt__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__lt__(other), <unspecified:__lt__>) over {Any | hasattr(other, 'is_integer') and hasattr(other, 'is_real') and hasattr(other, 'is_noninteger') and hasattr(other, 'is_number')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __lt__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'is_integer')                   ║
+# ║   requires: hasattr(other, 'is_real')                      ║
+# ║   requires: hasattr(other, 'is_noninteger')                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __lt__ : {Any | hasattr(other, 'is_integer') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9834a20da3192a3a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.floor.__lt__","kind":"method","src_hash":"85bdf919a67d223e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__lt__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__lt___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9834a20da3192a3a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.floor.__lt__","kind":"method","src_hash":"85bdf919a67d223e","in":{"base":"Any","pred":"hasattr(other, 'is_integer') and hasattr(other, 'is_real') and hasattr(other, 'is_noninteger') and hasattr(other, 'is_number')"},"out":{"base":"Any"},"spec":{"lhs":"__lt__(other)","rhs":"<unspecified:__lt__>","over":{"base":"Any","pred":"hasattr(other, 'is_integer') and hasattr(other, 'is_real') and hasattr(other, 'is_noninteger') and hasattr(other, 'is_number')"},"name":"__lt___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9834a20da3192a3a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'is_integer')","hasattr(other, 'is_real')","hasattr(other, 'is_noninteger')","hasattr(other, 'is_number')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.is_integer","other.is_noninteger","other.is_number","other.is_real","self.args","self.is_finite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __lt__(self, other):
         other = S(other)
         if self.args[0].is_real:
@@ -516,16 +651,23 @@ class floor(RoundFunction):
 
 @dispatch(floor, Expr)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_eq(lhs), id) over Any                        ║
+# ║ Path(_eval_is_eq(lhs, rhs), id) over {Any | hasattr(lhs, 'rewrite')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_is_eq : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(lhs, 'rewrite')                        ║
+# ║   returns:  is_eq(lhs.rewrite(ceiling), rhs) or is_eq...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_is_eq : {Any | hasattr(lhs, 'rewrite')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 94c063475d72afb2   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers._eval_is_eq","kind":"function","src_hash":"85a3a8d4a5e71482","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_eq(lhs)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_eq_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"is_eq","by":"library_axiom"},{"fn":"rewrite","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94c063475d72afb2"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers._eval_is_eq","kind":"function","src_hash":"85a3a8d4a5e71482","in":{"base":"Any","pred":"hasattr(lhs, 'rewrite')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_eq(lhs, rhs)","rhs":"is_eq(lhs.rewrite(ceiling), rhs) or is_eq(lhs.rewrite(frac), rhs)","over":{"base":"Any","pred":"hasattr(lhs, 'rewrite')"},"name":"_eval_is_eq_correct","kind":"composition"},"guarantee":"returns is_eq(lhs.rewrite(ceiling), rhs) or is_eq(lhs.rewrite(frac), rhs)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"is_eq","by":"library_axiom"},{"fn":"rewrite","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94c063475d72afb2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(lhs, 'rewrite')"],"returns_expr":"is_eq(lhs.rewrite(ceiling), rhs) or is_eq(lhs.rewrite(frac), rhs)","pure":false,"effects":{"effect_type":"reads_state","reads":["lhs.rewrite"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _eval_is_eq(lhs, rhs): # noqa:F811
     return is_eq(lhs.rewrite(ceiling), rhs) or \
         is_eq(lhs.rewrite(frac),rhs)
@@ -534,14 +676,20 @@ def _eval_is_eq(lhs, rhs): # noqa:F811
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ceiling(*args), correctly constructs a ceiling instance) over {Any | isinstance(arg0, AccumBounds) and isinstance(i, j)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, RoundFunction)                ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ ceiling : {Any | isinstance(arg0, AccumBounds) and is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a5f5fb2a9fc36b84  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.ceiling","kind":"class","src_hash":"8ca3e49224a57ab5","in":{"base":"Any","pred":"isinstance(arg0, AccumBounds) and isinstance(i, j)"},"out":{"base":"Any"},"spec":{"lhs":"ceiling(*args)","rhs":"correctly constructs a ceiling instance","over":{"base":"Any","pred":"isinstance(arg0, AccumBounds) and isinstance(i, j)"},"name":"ceiling_class_invariant"},"guarantee":"correctly constructs a ceiling instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a5f5fb2a9fc36b84"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.ceiling","kind":"class","src_hash":"8ca3e49224a57ab5","in":{"base":"Any","pred":"isinstance(arg0, AccumBounds) and isinstance(i, j)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, RoundFunction)"},"spec":{"lhs":"ceiling(*args)","rhs":"correctly constructs a ceiling instance","over":{"base":"Any","pred":"isinstance(arg0, AccumBounds) and isinstance(i, j)"},"name":"ceiling_class_invariant"},"guarantee":"isinstance(self, RoundFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a5f5fb2a9fc36b84","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, RoundFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function ceiling not found in source"]}}
 class ceiling(RoundFunction):
     """
     Ceiling is a univariate function which returns the smallest integer
@@ -582,16 +730,25 @@ class ceiling(RoundFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_number(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_number(cls, arg), <unspecified:_eval_number>) over {Any | hasattr(arg, 'is_Number') and hasattr(arg, 'is_NumberSymbol') and hasattr(arg, 'ceiling') and hasattr(arg, 'approximation_interval')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_number : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(arg, 'is_Number')                      ║
+# ║   requires: hasattr(arg, 'is_NumberSymbol')                ║
+# ║   requires: hasattr(arg, 'ceiling')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_number : {Any | hasattr(arg, 'is_Number') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de3fcae016bb34e7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.ceiling._eval_number","kind":"classmethod","src_hash":"918e979c15cc8976","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_number(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_number_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.integers.ceiling._eval_number_correct","statement":"Path(_eval_number(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de3fcae016bb34e7"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.ceiling._eval_number","kind":"classmethod","src_hash":"918e979c15cc8976","in":{"base":"Any","pred":"hasattr(arg, 'is_Number') and hasattr(arg, 'is_NumberSymbol') and hasattr(arg, 'ceiling') and hasattr(arg, 'approximation_interval')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_number(cls, arg)","rhs":"<unspecified:_eval_number>","over":{"base":"Any","pred":"hasattr(arg, 'is_Number') and hasattr(arg, 'is_NumberSymbol') and hasattr(arg, 'ceiling') and hasattr(arg, 'approximation_interval')"},"name":"_eval_number_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.integers.ceiling._eval_number_correct","statement":"Path(_eval_number(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de3fcae016bb34e7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(arg, 'is_Number')","hasattr(arg, 'is_NumberSymbol')","hasattr(arg, 'ceiling')","hasattr(arg, 'approximation_interval')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg.approximation_interval","arg.ceiling","arg.is_Number","arg.is_NumberSymbol"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_number(cls, arg):
         if arg.is_Number:
             return arg.ceiling()
@@ -603,16 +760,25 @@ class ceiling(RoundFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_const_number(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_const_number(cls, arg), <unspecified:_eval_const_number>) over {Any | hasattr(arg, 'is_real') and hasattr(arg, 'is_zero') and hasattr(arg, 'is_positive') and hasattr(arg, 'is_negative') and hasattr(arg, 'as_numer_denom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_const_number : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(arg, 'is_real')                        ║
+# ║   requires: hasattr(arg, 'is_zero')                        ║
+# ║   requires: hasattr(arg, 'is_positive')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_const_number : {Any | hasattr(arg, 'is_real') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a45e73bc2bb08ca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.ceiling._eval_const_number","kind":"classmethod","src_hash":"ff8b28f8804f58a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_const_number(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_const_number_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.integers.ceiling._eval_const_number_correct","statement":"Path(_eval_const_number(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a45e73bc2bb08ca"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.ceiling._eval_const_number","kind":"classmethod","src_hash":"ff8b28f8804f58a5","in":{"base":"Any","pred":"hasattr(arg, 'is_real') and hasattr(arg, 'is_zero') and hasattr(arg, 'is_positive') and hasattr(arg, 'is_negative') and hasattr(arg, 'as_numer_denom')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_const_number(cls, arg)","rhs":"<unspecified:_eval_const_number>","over":{"base":"Any","pred":"hasattr(arg, 'is_real') and hasattr(arg, 'is_zero') and hasattr(arg, 'is_positive') and hasattr(arg, 'is_negative') and hasattr(arg, 'as_numer_denom')"},"name":"_eval_const_number_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.integers.ceiling._eval_const_number_correct","statement":"Path(_eval_const_number(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a45e73bc2bb08ca","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(arg, 'is_real')","hasattr(arg, 'is_zero')","hasattr(arg, 'is_positive')","hasattr(arg, 'is_negative')","hasattr(arg, 'as_numer_denom')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg.as_numer_denom","arg.is_negative","arg.is_positive","arg.is_real","arg.is_zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_const_number(cls, arg):
         if arg.is_real:
             if arg.is_zero:
@@ -645,16 +811,22 @@ class ceiling(RoundFunction):
                     return S.NegativeOne
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_leading_term(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_as_leading_term(x, logx, cdir), <unspecified:_eval_as_leading_term>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_as_leading_term : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed2754effb7f3acb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.ceiling._eval_as_leading_term","kind":"method","src_hash":"8ea9dac7f7688055","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.integers.ceiling._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed2754effb7f3acb"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.ceiling._eval_as_leading_term","kind":"method","src_hash":"8ea9dac7f7688055","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, logx, cdir)","rhs":"<unspecified:_eval_as_leading_term>","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.integers.ceiling._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed2754effb7f3acb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.subs"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_leading_term(self, x, logx, cdir):
         from sympy.calculus.accumulationbounds import AccumBounds
         arg = self.args[0]
@@ -677,16 +849,22 @@ class ceiling(RoundFunction):
         return arg.as_leading_term(x, logx=logx, cdir=cdir)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_nseries(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_nseries(x, n, logx), <unspecified:_eval_nseries>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_nseries : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81943d25c257ab85  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.ceiling._eval_nseries","kind":"method","src_hash":"72aa68a36c21d759","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_nseries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.integers.ceiling._eval_nseries_correct","statement":"Path(_eval_nseries(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81943d25c257ab85"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.ceiling._eval_nseries","kind":"method","src_hash":"72aa68a36c21d759","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, n, logx)","rhs":"<unspecified:_eval_nseries>","over":{"base":"Any"},"name":"_eval_nseries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.integers.ceiling._eval_nseries_correct","statement":"Path(_eval_nseries(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81943d25c257ab85","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.subs"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_nseries(self, x, n, logx, cdir=0):
         arg = self.args[0]
         arg0 = arg.subs(x, 0)
@@ -712,72 +890,105 @@ class ceiling(RoundFunction):
             return r
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_floor(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_floor(arg, **kwargs), -floor(-arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  -floor(-arg)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_floor : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5486e7c7611eb2de           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.ceiling._eval_rewrite_as_floor","kind":"method","src_hash":"5338b69e1adca3a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_floor(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_floor_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5486e7c7611eb2de"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.ceiling._eval_rewrite_as_floor","kind":"method","src_hash":"5338b69e1adca3a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_floor(arg, **kwargs)","rhs":"-floor(-arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_floor_correct"},"guarantee":"returns -floor(-arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5486e7c7611eb2de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"-floor(-arg)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_floor(self, arg, **kwargs):
         return -floor(-arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_frac(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_frac(arg, **kwargs), arg + frac(-arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  arg + frac(-arg)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_frac : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a0085a6927410348           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.ceiling._eval_rewrite_as_frac","kind":"method","src_hash":"ccbf4f458c967f6e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_frac(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_frac_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a0085a6927410348"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.ceiling._eval_rewrite_as_frac","kind":"method","src_hash":"ccbf4f458c967f6e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_frac(arg, **kwargs)","rhs":"arg + frac(-arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_frac_correct"},"guarantee":"returns arg + frac(-arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a0085a6927410348","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"arg + frac(-arg)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_frac(self, arg, **kwargs):
         return arg + frac(-arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_positive(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_positive(), self.args[0].is_positive) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].is_positive                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_positive : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9b7f749fc81aaf10           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.ceiling._eval_is_positive","kind":"method","src_hash":"c59e49e81ceecea3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_positive()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_positive_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9b7f749fc81aaf10"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.ceiling._eval_is_positive","kind":"method","src_hash":"c59e49e81ceecea3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_positive()","rhs":"self.args[0].is_positive","over":{"base":"Any"},"name":"_eval_is_positive_correct"},"guarantee":"returns self.args[0].is_positive","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9b7f749fc81aaf10","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].is_positive","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_positive(self):
         return self.args[0].is_positive
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_nonpositive(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_nonpositive(), self.args[0].is_nonpositive) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].is_nonpositive                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_nonpositive : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ffb89710538413df           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.ceiling._eval_is_nonpositive","kind":"method","src_hash":"a701c53826d3278d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_nonpositive()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_nonpositive_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ffb89710538413df"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.ceiling._eval_is_nonpositive","kind":"method","src_hash":"a701c53826d3278d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_nonpositive()","rhs":"self.args[0].is_nonpositive","over":{"base":"Any"},"name":"_eval_is_nonpositive_correct"},"guarantee":"returns self.args[0].is_nonpositive","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ffb89710538413df","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].is_nonpositive","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_nonpositive(self):
         return self.args[0].is_nonpositive
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__lt__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__lt__(other), <unspecified:__lt__>) over {Any | hasattr(other, 'is_integer') and hasattr(other, 'is_real') and hasattr(other, 'is_number')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __lt__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'is_integer')                   ║
+# ║   requires: hasattr(other, 'is_real')                      ║
+# ║   requires: hasattr(other, 'is_number')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __lt__ : {Any | hasattr(other, 'is_integer') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9459869bf220d67a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.ceiling.__lt__","kind":"method","src_hash":"3631a347ad3b94ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__lt__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__lt___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9459869bf220d67a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.ceiling.__lt__","kind":"method","src_hash":"3631a347ad3b94ca","in":{"base":"Any","pred":"hasattr(other, 'is_integer') and hasattr(other, 'is_real') and hasattr(other, 'is_number')"},"out":{"base":"Any"},"spec":{"lhs":"__lt__(other)","rhs":"<unspecified:__lt__>","over":{"base":"Any","pred":"hasattr(other, 'is_integer') and hasattr(other, 'is_real') and hasattr(other, 'is_number')"},"name":"__lt___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9459869bf220d67a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'is_integer')","hasattr(other, 'is_real')","hasattr(other, 'is_number')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.is_integer","other.is_number","other.is_real","self.args","self.is_finite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __lt__(self, other):
         other = S(other)
         if self.args[0].is_real:
@@ -793,16 +1004,25 @@ class ceiling(RoundFunction):
         return Lt(self, other, evaluate=False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__gt__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__gt__(other), <unspecified:__gt__>) over {Any | hasattr(other, 'is_integer') and hasattr(other, 'is_real') and hasattr(other, 'is_noninteger') and hasattr(other, 'is_number')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __gt__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'is_integer')                   ║
+# ║   requires: hasattr(other, 'is_real')                      ║
+# ║   requires: hasattr(other, 'is_noninteger')                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __gt__ : {Any | hasattr(other, 'is_integer') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 46077886ec0a90c8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.ceiling.__gt__","kind":"method","src_hash":"5c37929fcea1ab27","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__gt__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__gt___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"46077886ec0a90c8"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.ceiling.__gt__","kind":"method","src_hash":"5c37929fcea1ab27","in":{"base":"Any","pred":"hasattr(other, 'is_integer') and hasattr(other, 'is_real') and hasattr(other, 'is_noninteger') and hasattr(other, 'is_number')"},"out":{"base":"Any"},"spec":{"lhs":"__gt__(other)","rhs":"<unspecified:__gt__>","over":{"base":"Any","pred":"hasattr(other, 'is_integer') and hasattr(other, 'is_real') and hasattr(other, 'is_noninteger') and hasattr(other, 'is_number')"},"name":"__gt___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"46077886ec0a90c8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'is_integer')","hasattr(other, 'is_real')","hasattr(other, 'is_noninteger')","hasattr(other, 'is_number')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.is_integer","other.is_noninteger","other.is_number","other.is_real","self.args","self.is_finite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __gt__(self, other):
         other = S(other)
         if self.args[0].is_real:
@@ -818,16 +1038,25 @@ class ceiling(RoundFunction):
         return Gt(self, other, evaluate=False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__ge__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__ge__(other), <unspecified:__ge__>) over {Any | hasattr(other, 'is_integer') and hasattr(other, 'is_real') and hasattr(other, 'is_number')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __ge__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'is_integer')                   ║
+# ║   requires: hasattr(other, 'is_real')                      ║
+# ║   requires: hasattr(other, 'is_number')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __ge__ : {Any | hasattr(other, 'is_integer') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5f9293615a0eda4c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.ceiling.__ge__","kind":"method","src_hash":"4a45278a0ac30361","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ge__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__ge___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5f9293615a0eda4c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.ceiling.__ge__","kind":"method","src_hash":"4a45278a0ac30361","in":{"base":"Any","pred":"hasattr(other, 'is_integer') and hasattr(other, 'is_real') and hasattr(other, 'is_number')"},"out":{"base":"Any"},"spec":{"lhs":"__ge__(other)","rhs":"<unspecified:__ge__>","over":{"base":"Any","pred":"hasattr(other, 'is_integer') and hasattr(other, 'is_real') and hasattr(other, 'is_number')"},"name":"__ge___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5f9293615a0eda4c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'is_integer')","hasattr(other, 'is_real')","hasattr(other, 'is_number')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.is_integer","other.is_number","other.is_real","self.args","self.is_finite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __ge__(self, other):
         other = S(other)
         if self.args[0].is_real:
@@ -843,16 +1072,25 @@ class ceiling(RoundFunction):
         return Ge(self, other, evaluate=False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__le__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__le__(other), <unspecified:__le__>) over {Any | hasattr(other, 'is_integer') and hasattr(other, 'is_real') and hasattr(other, 'is_noninteger') and hasattr(other, 'is_number')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __le__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'is_integer')                   ║
+# ║   requires: hasattr(other, 'is_real')                      ║
+# ║   requires: hasattr(other, 'is_noninteger')                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __le__ : {Any | hasattr(other, 'is_integer') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cc97bf2b6ab44e11           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.ceiling.__le__","kind":"method","src_hash":"3261d3917adb6afb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__le__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__le___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc97bf2b6ab44e11"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.ceiling.__le__","kind":"method","src_hash":"3261d3917adb6afb","in":{"base":"Any","pred":"hasattr(other, 'is_integer') and hasattr(other, 'is_real') and hasattr(other, 'is_noninteger') and hasattr(other, 'is_number')"},"out":{"base":"Any"},"spec":{"lhs":"__le__(other)","rhs":"<unspecified:__le__>","over":{"base":"Any","pred":"hasattr(other, 'is_integer') and hasattr(other, 'is_real') and hasattr(other, 'is_noninteger') and hasattr(other, 'is_number')"},"name":"__le___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc97bf2b6ab44e11","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'is_integer')","hasattr(other, 'is_real')","hasattr(other, 'is_noninteger')","hasattr(other, 'is_number')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.is_integer","other.is_noninteger","other.is_number","other.is_real","self.args","self.is_finite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __le__(self, other):
         other = S(other)
         if self.args[0].is_real:
@@ -870,16 +1108,23 @@ class ceiling(RoundFunction):
 
 @dispatch(ceiling, Basic)  # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_eq(lhs), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_eq(lhs, rhs), is_eq(lhs.rewrite(floor), rhs) or is_eq(lhs.rewrite(frac), rhs)) over {Any | hasattr(lhs, 'rewrite')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_is_eq : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(lhs, 'rewrite')                        ║
+# ║   returns:  is_eq(lhs.rewrite(floor), rhs) or is_eq(l...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_is_eq : {Any | hasattr(lhs, 'rewrite')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 90a4bb7a6e291bb0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers._eval_is_eq","kind":"function","src_hash":"dc0fdefa027e6412","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_eq(lhs)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_eq_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"90a4bb7a6e291bb0"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers._eval_is_eq","kind":"function","src_hash":"dc0fdefa027e6412","in":{"base":"Any","pred":"hasattr(lhs, 'rewrite')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_eq(lhs, rhs)","rhs":"is_eq(lhs.rewrite(floor), rhs) or is_eq(lhs.rewrite(frac), rhs)","over":{"base":"Any","pred":"hasattr(lhs, 'rewrite')"},"name":"_eval_is_eq_correct"},"guarantee":"returns is_eq(lhs.rewrite(floor), rhs) or is_eq(lhs.rewrite(frac), rhs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"90a4bb7a6e291bb0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(lhs, 'rewrite')"],"returns_expr":"is_eq(lhs.rewrite(floor), rhs) or is_eq(lhs.rewrite(frac), rhs)","pure":false,"effects":{"effect_type":"reads_state","reads":["lhs.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def _eval_is_eq(lhs, rhs): # noqa:F811
     return is_eq(lhs.rewrite(floor), rhs) or is_eq(lhs.rewrite(frac),rhs)
 
@@ -887,14 +1132,20 @@ def _eval_is_eq(lhs, rhs): # noqa:F811
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(frac(*args), correctly constructs a frac instance) over {Any | isinstance(res, Relational)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ frac : {Any | isinstance(res, Relational)} → Any           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ frac : {Any | isinstance(res, Relational)} → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 050004c84653a331  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.frac","kind":"class","src_hash":"24f5b93333467771","in":{"base":"Any","pred":"isinstance(res, Relational)"},"out":{"base":"Any"},"spec":{"lhs":"frac(*args)","rhs":"correctly constructs a frac instance","over":{"base":"Any","pred":"isinstance(res, Relational)"},"name":"frac_class_invariant"},"guarantee":"correctly constructs a frac instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"050004c84653a331"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.frac","kind":"class","src_hash":"24f5b93333467771","in":{"base":"Any","pred":"isinstance(res, Relational)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"frac(*args)","rhs":"correctly constructs a frac instance","over":{"base":"Any","pred":"isinstance(res, Relational)"},"name":"frac_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"050004c84653a331","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function frac not found in source"]}}
 class frac(DefinedFunction):
     r"""Represents the fractional part of x
 
@@ -946,16 +1197,24 @@ class frac(DefinedFunction):
     """
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, arg), <unspecified:eval>) over {Any | hasattr(arg, 'is_integer') and hasattr(arg, 'is_number')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(arg, 'is_integer')                     ║
+# ║   requires: hasattr(arg, 'is_number')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(arg, 'is_integer') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22f4ba369f57e088  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.frac.eval","kind":"classmethod","src_hash":"f3504cc868c63cb3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.integers.frac.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22f4ba369f57e088"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.frac.eval","kind":"classmethod","src_hash":"f3504cc868c63cb3","in":{"base":"Any","pred":"hasattr(arg, 'is_integer') and hasattr(arg, 'is_number')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, arg)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(arg, 'is_integer') and hasattr(arg, 'is_number')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.integers.frac.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22f4ba369f57e088","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(arg, 'is_integer')","hasattr(arg, 'is_number')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg.is_integer","arg.is_number"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, arg):
         from sympy.calculus.accumulationbounds import AccumBounds
 
@@ -991,128 +1250,183 @@ class frac(DefinedFunction):
         return real + S.ImaginaryUnit*imag
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_floor(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_floor(arg, **kwargs), arg - floor(arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  arg - floor(arg)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_floor : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 45d9cbff34cab322           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.frac._eval_rewrite_as_floor","kind":"method","src_hash":"0e1175ecad4186c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_floor(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_floor_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"45d9cbff34cab322"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.frac._eval_rewrite_as_floor","kind":"method","src_hash":"0e1175ecad4186c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_floor(arg, **kwargs)","rhs":"arg - floor(arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_floor_correct"},"guarantee":"returns arg - floor(arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"45d9cbff34cab322","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"arg - floor(arg)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_floor(self, arg, **kwargs):
         return arg - floor(arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_ceiling(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_ceiling(arg, **kwargs), arg + ceiling(-arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  arg + ceiling(-arg)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_ceiling : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d1d229e143efc612           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.frac._eval_rewrite_as_ceiling","kind":"method","src_hash":"9ba548b7736a40a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_ceiling(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_ceiling_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d1d229e143efc612"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.frac._eval_rewrite_as_ceiling","kind":"method","src_hash":"9ba548b7736a40a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_ceiling(arg, **kwargs)","rhs":"arg + ceiling(-arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_ceiling_correct"},"guarantee":"returns arg + ceiling(-arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d1d229e143efc612","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"arg + ceiling(-arg)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_ceiling(self, arg, **kwargs):
         return arg + ceiling(-arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_finite(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_finite(), True) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_finite : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ad99a58211c89858           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.frac._eval_is_finite","kind":"method","src_hash":"18183647788ba4e4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_finite()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_finite_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ad99a58211c89858"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.frac._eval_is_finite","kind":"method","src_hash":"18183647788ba4e4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_finite()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_finite_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ad99a58211c89858","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_finite(self):
         return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_real(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_real(), self.args[0].is_extended_real) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].is_extended_real                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_real : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 671b70d920a92bbd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.frac._eval_is_real","kind":"method","src_hash":"084377b805efddf6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_real()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"671b70d920a92bbd"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.frac._eval_is_real","kind":"method","src_hash":"084377b805efddf6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_real()","rhs":"self.args[0].is_extended_real","over":{"base":"Any"},"name":"_eval_is_real_correct"},"guarantee":"returns self.args[0].is_extended_real","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"671b70d920a92bbd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].is_extended_real","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_real(self):
         return self.args[0].is_extended_real
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_imaginary(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_imaginary(), self.args[0].is_imaginary) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].is_imaginary                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_imaginary : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d407274d45bbda25           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.frac._eval_is_imaginary","kind":"method","src_hash":"4842eb34908a1cb3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_imaginary()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_imaginary_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d407274d45bbda25"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.frac._eval_is_imaginary","kind":"method","src_hash":"4842eb34908a1cb3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_imaginary()","rhs":"self.args[0].is_imaginary","over":{"base":"Any"},"name":"_eval_is_imaginary_correct"},"guarantee":"returns self.args[0].is_imaginary","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d407274d45bbda25","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].is_imaginary","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_imaginary(self):
         return self.args[0].is_imaginary
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_integer(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_integer(), self.args[0].is_integer) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].is_integer                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_integer : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ff17ce46835d29e1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.frac._eval_is_integer","kind":"method","src_hash":"f36940fd663a07d9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_integer()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_integer_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ff17ce46835d29e1"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.frac._eval_is_integer","kind":"method","src_hash":"f36940fd663a07d9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_integer()","rhs":"self.args[0].is_integer","over":{"base":"Any"},"name":"_eval_is_integer_correct"},"guarantee":"returns self.args[0].is_integer","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ff17ce46835d29e1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].is_integer","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_integer(self):
         return self.args[0].is_integer
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_zero(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_zero(), fuzzy_or([self.args[0].is_zero, self.args[0].is_integer])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  fuzzy_or([self.args[0].is_zero, self.args...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_zero : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 74df0ee1dacded91           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.frac._eval_is_zero","kind":"method","src_hash":"7f53d22b1e7c71df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_zero()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_zero_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"74df0ee1dacded91"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.frac._eval_is_zero","kind":"method","src_hash":"7f53d22b1e7c71df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_zero()","rhs":"fuzzy_or([self.args[0].is_zero, self.args[0].is_integer])","over":{"base":"Any"},"name":"_eval_is_zero_correct"},"guarantee":"returns fuzzy_or([self.args[0].is_zero, self.args[0].is_integer])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"74df0ee1dacded91","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"fuzzy_or([self.args[0].is_zero, self.args[0].is_integer])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_zero(self):
         return fuzzy_or([self.args[0].is_zero, self.args[0].is_integer])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_negative(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_negative(), False) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  False                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_negative : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fb36350cf376f767           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.frac._eval_is_negative","kind":"method","src_hash":"917a38c4bb93b039","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_negative()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_negative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fb36350cf376f767"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.frac._eval_is_negative","kind":"method","src_hash":"917a38c4bb93b039","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_negative()","rhs":"False","over":{"base":"Any"},"name":"_eval_is_negative_correct"},"guarantee":"returns False","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fb36350cf376f767","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"False","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_negative(self):
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__ge__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__ge__(other), <unspecified:__ge__>) over {Any | hasattr(other, 'is_extended_nonpositive')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __ge__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'is_extended_nonpositive')      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __ge__ : {Any | hasattr(other, 'is_extended_nonpositi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 166587449fb9df07           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.frac.__ge__","kind":"method","src_hash":"38967ef9e2dc9e57","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ge__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__ge___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"166587449fb9df07"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.frac.__ge__","kind":"method","src_hash":"38967ef9e2dc9e57","in":{"base":"Any","pred":"hasattr(other, 'is_extended_nonpositive')"},"out":{"base":"Any"},"spec":{"lhs":"__ge__(other)","rhs":"<unspecified:__ge__>","over":{"base":"Any","pred":"hasattr(other, 'is_extended_nonpositive')"},"name":"__ge___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"166587449fb9df07","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'is_extended_nonpositive')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.is_extended_nonpositive","self._value_one_or_more","self.is_extended_real"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __ge__(self, other):
         if self.is_extended_real:
             other = _sympify(other)
@@ -1126,16 +1440,23 @@ class frac(DefinedFunction):
         return Ge(self, other, evaluate=False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__gt__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__gt__(other), <unspecified:__gt__>) over {Any | hasattr(other, 'is_extended_negative')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __gt__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'is_extended_negative')         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __gt__ : {Any | hasattr(other, 'is_extended_negative'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ad9d33ff17cc2f0c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.frac.__gt__","kind":"method","src_hash":"1e92bf3e9911316b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__gt__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__gt___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ad9d33ff17cc2f0c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.frac.__gt__","kind":"method","src_hash":"1e92bf3e9911316b","in":{"base":"Any","pred":"hasattr(other, 'is_extended_negative')"},"out":{"base":"Any"},"spec":{"lhs":"__gt__(other)","rhs":"<unspecified:__gt__>","over":{"base":"Any","pred":"hasattr(other, 'is_extended_negative')"},"name":"__gt___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ad9d33ff17cc2f0c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'is_extended_negative')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.is_extended_negative","self._value_one_or_more","self.is_extended_real"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __gt__(self, other):
         if self.is_extended_real:
             other = _sympify(other)
@@ -1149,16 +1470,23 @@ class frac(DefinedFunction):
         return Gt(self, other, evaluate=False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__le__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__le__(other), <unspecified:__le__>) over {Any | hasattr(other, 'is_extended_negative')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __le__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'is_extended_negative')         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __le__ : {Any | hasattr(other, 'is_extended_negative'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | acfb5a4c5384f8b2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.frac.__le__","kind":"method","src_hash":"1e13b7f75c08b11f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__le__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__le___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"acfb5a4c5384f8b2"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.frac.__le__","kind":"method","src_hash":"1e13b7f75c08b11f","in":{"base":"Any","pred":"hasattr(other, 'is_extended_negative')"},"out":{"base":"Any"},"spec":{"lhs":"__le__(other)","rhs":"<unspecified:__le__>","over":{"base":"Any","pred":"hasattr(other, 'is_extended_negative')"},"name":"__le___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"acfb5a4c5384f8b2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'is_extended_negative')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.is_extended_negative","self._value_one_or_more","self.is_extended_real"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __le__(self, other):
         if self.is_extended_real:
             other = _sympify(other)
@@ -1172,16 +1500,23 @@ class frac(DefinedFunction):
         return Le(self, other, evaluate=False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__lt__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__lt__(other), <unspecified:__lt__>) over {Any | hasattr(other, 'is_extended_nonpositive')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __lt__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'is_extended_nonpositive')      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __lt__ : {Any | hasattr(other, 'is_extended_nonpositi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8ac0cdc9fe76a6f1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.frac.__lt__","kind":"method","src_hash":"5eff40f74b768fcc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__lt__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__lt___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ac0cdc9fe76a6f1"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.frac.__lt__","kind":"method","src_hash":"5eff40f74b768fcc","in":{"base":"Any","pred":"hasattr(other, 'is_extended_nonpositive')"},"out":{"base":"Any"},"spec":{"lhs":"__lt__(other)","rhs":"<unspecified:__lt__>","over":{"base":"Any","pred":"hasattr(other, 'is_extended_nonpositive')"},"name":"__lt___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ac0cdc9fe76a6f1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'is_extended_nonpositive')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.is_extended_nonpositive","self._value_one_or_more","self.is_extended_real"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __lt__(self, other):
         if self.is_extended_real:
             other = _sympify(other)
@@ -1195,16 +1530,25 @@ class frac(DefinedFunction):
         return Lt(self, other, evaluate=False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_value_one_or_more(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_value_one_or_more(other), <unspecified:_value_one_or_more>) over {Any | hasattr(other, 'is_extended_real') and hasattr(other, 'is_number') and hasattr(other, 'is_integer') and hasattr(other, 'is_positive')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _value_one_or_more : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'is_extended_real')             ║
+# ║   requires: hasattr(other, 'is_number')                    ║
+# ║   requires: hasattr(other, 'is_integer')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _value_one_or_more : {Any | hasattr(other, 'is_extend...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb5ce95f487897d2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.frac._value_one_or_more","kind":"method","src_hash":"025665e1994f5a23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_value_one_or_more(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_value_one_or_more_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.integers.frac._value_one_or_more_correct","statement":"Path(_value_one_or_more(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb5ce95f487897d2"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.frac._value_one_or_more","kind":"method","src_hash":"025665e1994f5a23","in":{"base":"Any","pred":"hasattr(other, 'is_extended_real') and hasattr(other, 'is_number') and hasattr(other, 'is_integer') and hasattr(other, 'is_positive')"},"out":{"base":"Any"},"spec":{"lhs":"_value_one_or_more(other)","rhs":"<unspecified:_value_one_or_more>","over":{"base":"Any","pred":"hasattr(other, 'is_extended_real') and hasattr(other, 'is_number') and hasattr(other, 'is_integer') and hasattr(other, 'is_positive')"},"name":"_value_one_or_more_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.integers.frac._value_one_or_more_correct","statement":"Path(_value_one_or_more(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb5ce95f487897d2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'is_extended_real')","hasattr(other, 'is_number')","hasattr(other, 'is_integer')","hasattr(other, 'is_positive')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.is_extended_real","other.is_integer","other.is_number","other.is_positive"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _value_one_or_more(self, other):
         if other.is_extended_real:
             if other.is_number:
@@ -1215,16 +1559,23 @@ class frac(DefinedFunction):
                 return S.true
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_leading_term(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_as_leading_term(x, logx, cdir), <unspecified:_eval_as_leading_term>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: arg0.is_finite                            ║
+# ║   fiber[case_1]: arg0 in (S.ComplexInfinity, S.Infini...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_as_leading_term : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c48e35a4cff31d7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c291cc607e4cf67f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.frac._eval_as_leading_term","kind":"method","src_hash":"42c4227bd1be6027","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.integers.frac._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c48e35a4cff31d7"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.frac._eval_as_leading_term","kind":"method","src_hash":"42c4227bd1be6027","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, logx, cdir)","rhs":"<unspecified:_eval_as_leading_term>","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.integers.frac._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c291cc607e4cf67f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"arg0.is_finite","ensures":[],"decidability":"library"},{"name":"case_1","guard":"arg0 in (S.ComplexInfinity, S.Infinity, S.NegativeInfinity)","ensures":["result == AccumBounds(0, 1)"],"decidability":"library","returns_expr":"AccumBounds(0, 1)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.subs"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_leading_term(self, x, logx, cdir):
         from sympy.calculus.accumulationbounds import AccumBounds
         arg = self.args[0]
@@ -1244,16 +1595,25 @@ class frac(DefinedFunction):
         return arg.as_leading_term(x, logx=logx, cdir=cdir)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_nseries(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_nseries(x, n, logx), result == (o if arg0.is_infinite else res) and result == o or result == res) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_nseries : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (o if arg0.is_infinite else res)     ║
+# ║   ensures:  result == o or result == res                   ║
+# ║   fiber[case_0]: arg0.is_infinite => o                     ║
+# ║   fiber[case_1]: not (arg0.is_infinite) => res             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_nseries : Any → {Any | result satisfies: result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f18cb89bba8f3027  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45c50b91d4990dba  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.frac._eval_nseries","kind":"method","src_hash":"c5e127bceb8f403f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_nseries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.integers.frac._eval_nseries_correct","statement":"Path(_eval_nseries(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f18cb89bba8f3027"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers.frac._eval_nseries","kind":"method","src_hash":"c5e127bceb8f403f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (o if arg0.is_infinite else res) and result == o or result == res"},"spec":{"lhs":"_eval_nseries(x, n, logx)","rhs":"result == (o if arg0.is_infinite else res) and result == o or result == res","over":{"base":"Any"},"name":"_eval_nseries_correct"},"guarantee":"result == (o if arg0.is_infinite else res); result == o or result == res; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.integers.frac._eval_nseries_correct","statement":"Path(_eval_nseries(x), result == (o if arg0.is_infinite else res); result == o or result == res; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45c50b91d4990dba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (o if arg0.is_infinite else res)","result == o or result == res"],"fibers":[{"name":"case_0","guard":"arg0.is_infinite","ensures":["result == o"],"decidability":"library","returns_expr":"o"},{"name":"case_1","guard":"not (arg0.is_infinite)","ensures":["result == res"],"decidability":"library","returns_expr":"res"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.subs"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_nseries(self, x, n, logx, cdir=0):
         from sympy.series.order import Order
         arg = self.args[0]
@@ -1276,16 +1636,25 @@ class frac(DefinedFunction):
 
 @dispatch(frac, Basic)  # type:ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_eq(lhs), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_eq(lhs, rhs), <unspecified:_eval_is_eq>) over {Any | hasattr(rhs, 'is_extended_negative') and hasattr(lhs, '_value_one_or_more') and hasattr(lhs, 'rewrite')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_is_eq : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(rhs, 'is_extended_negative')           ║
+# ║   requires: hasattr(lhs, '_value_one_or_more')             ║
+# ║   requires: hasattr(lhs, 'rewrite')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_is_eq : {Any | hasattr(rhs, 'is_extended_negati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff557db054314a78  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers._eval_is_eq","kind":"function","src_hash":"ecc0c410efc93679","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_eq(lhs)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_eq_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.integers._eval_is_eq_correct","statement":"Path(_eval_is_eq(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff557db054314a78"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.integers._eval_is_eq","kind":"function","src_hash":"ecc0c410efc93679","in":{"base":"Any","pred":"hasattr(rhs, 'is_extended_negative') and hasattr(lhs, '_value_one_or_more') and hasattr(lhs, 'rewrite')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_eq(lhs, rhs)","rhs":"<unspecified:_eval_is_eq>","over":{"base":"Any","pred":"hasattr(rhs, 'is_extended_negative') and hasattr(lhs, '_value_one_or_more') and hasattr(lhs, 'rewrite')"},"name":"_eval_is_eq_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.integers._eval_is_eq_correct","statement":"Path(_eval_is_eq(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff557db054314a78","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(rhs, 'is_extended_negative')","hasattr(lhs, '_value_one_or_more')","hasattr(lhs, 'rewrite')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["lhs._value_one_or_more","lhs.rewrite","rhs.is_extended_negative"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _eval_is_eq(lhs, rhs): # noqa:F811
     if (lhs.rewrite(floor) == rhs) or \
         (lhs.rewrite(ceiling) == rhs):

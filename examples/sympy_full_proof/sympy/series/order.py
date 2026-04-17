@@ -28,14 +28,20 @@ from sympy.utilities.iterables import uniq, is_sequence
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Order(*args), correctly constructs a Order instance) over {Any | isinstance(l, Limit) and isinstance(sol, Complement) and isinstance(expr, Function)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Order : {Any | isinstance(l, Limit) and isinstance(so...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 3.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac62a5ab24765d44  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.order.Order","kind":"class","src_hash":"8085be5a0978f902","in":{"base":"Any","pred":"isinstance(l, Limit) and isinstance(sol, Complement) and isinstance(expr, Function)"},"out":{"base":"Any"},"spec":{"lhs":"Order(*args)","rhs":"correctly constructs a Order instance","over":{"base":"Any","pred":"isinstance(l, Limit) and isinstance(sol, Complement) and isinstance(expr, Function)"},"name":"Order_class_invariant"},"guarantee":"correctly constructs a Order instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac62a5ab24765d44"}
+# @cctt_verify {"v":2,"sym":"sympy.series.order.Order","kind":"class","src_hash":"8085be5a0978f902","in":{"base":"Any","pred":"isinstance(l, Limit) and isinstance(sol, Complement) and isinstance(expr, Function)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"Order(*args)","rhs":"correctly constructs a Order instance","over":{"base":"Any","pred":"isinstance(l, Limit) and isinstance(sol, Complement) and isinstance(expr, Function)"},"name":"Order_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac62a5ab24765d44","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function Order not found in source"]}}
 class Order(Expr):
     r""" Represents the limiting behavior of some function.
 
@@ -157,16 +163,27 @@ class Order(Expr):
 
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, expr, *args), len(orders) == old_len_orders + 1 and len(point) == old_len_point + 1 and len(variables) == old_len_variables + 1 and len(variables) == old_len_variables) over {Any | all((v.is_symbol for v in variables)) and not (len(list(uniq(variables))) != len(variables)) and hasattr(expr, 'is_Order') and hasattr(expr, 'is_Add') and hasattr(expr, 'expr') and hasattr(expr, 'variables') and hasattr(expr, 'point') and hasattr(expr, 'subs') and hasattr(expr, 'is_zero') and hasattr(expr, 'free_symbols') and hasattr(expr, 'args') and hasattr(expr, 'factor') and hasattr(expr, 'expand') and hasattr(expr, 'has') and hasattr(expr, 'extract_leading_order') and hasattr(expr, 'as_leading_term') and hasattr(expr, 'as_independent') and hasattr(expr, 'is_Mul') and hasattr(expr, 'is_Pow') and hasattr(expr, 'exp') and hasattr(expr, 'base')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: all((v.is_symbol for v in variables))          ║
+# ║   requires: not (len(list(uniq(variables))) != len(va...   ║
+# ║   requires: hasattr(expr, 'is_Order')                      ║
+# ║   ensures:  len(orders) == old_len_orders + 1              ║
+# ║   ensures:  len(point) == old_len_point + 1                ║
+# ║   ensures:  len(variables) == old_len_variables + 1        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | all((v.is_symbol for v in variables)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 82f1f6b777f30e7f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.order.Order.__new__","kind":"method","src_hash":"3ed051799c0143bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"82f1f6b777f30e7f"}
+# @cctt_verify {"v":2,"sym":"sympy.series.order.Order.__new__","kind":"method","src_hash":"3ed051799c0143bb","in":{"base":"Any","pred":"all((v.is_symbol for v in variables)) and not (len(list(uniq(variables))) != len(variables)) and hasattr(expr, 'is_Order') and hasattr(expr, 'is_Add') and hasattr(expr, 'expr') and hasattr(expr, 'variables') and hasattr(expr, 'point') and hasattr(expr, 'subs') and hasattr(expr, 'is_zero') and hasattr(expr, 'free_symbols') and hasattr(expr, 'args') and hasattr(expr, 'factor') and hasattr(expr, 'expand') and hasattr(expr, 'has') and hasattr(expr, 'extract_leading_order') and hasattr(expr, 'as_leading_term') and hasattr(expr, 'as_independent') and hasattr(expr, 'is_Mul') and hasattr(expr, 'is_Pow') and hasattr(expr, 'exp') and hasattr(expr, 'base')"},"out":{"base":"Any","pred":"result satisfies: len(orders) == old_len_orders + 1 and len(point) == old_len_point + 1 and len(variables) == old_len_variables + 1 and len(variables) == old_len_variables"},"spec":{"lhs":"__new__(cls, expr, *args)","rhs":"len(orders) == old_len_orders + 1 and len(point) == old_len_point + 1 and len(variables) == old_len_variables + 1 and len(variables) == old_len_variables","over":{"base":"Any","pred":"all((v.is_symbol for v in variables)) and not (len(list(uniq(variables))) != len(variables)) and hasattr(expr, 'is_Order') and hasattr(expr, 'is_Add') and hasattr(expr, 'expr') and hasattr(expr, 'variables') and hasattr(expr, 'point') and hasattr(expr, 'subs') and hasattr(expr, 'is_zero') and hasattr(expr, 'free_symbols') and hasattr(expr, 'args') and hasattr(expr, 'factor') and hasattr(expr, 'expand') and hasattr(expr, 'has') and hasattr(expr, 'extract_leading_order') and hasattr(expr, 'as_leading_term') and hasattr(expr, 'as_independent') and hasattr(expr, 'is_Mul') and hasattr(expr, 'is_Pow') and hasattr(expr, 'exp') and hasattr(expr, 'base')"},"name":"__new___correct"},"guarantee":"len(orders) == old_len_orders + 1; len(point) == old_len_point + 1; len(variables) == old_len_variables + 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"82f1f6b777f30e7f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["all((v.is_symbol for v in variables))","not (len(list(uniq(variables))) != len(variables))","hasattr(expr, 'is_Order')","hasattr(expr, 'is_Add')","hasattr(expr, 'expr')","hasattr(expr, 'variables')","hasattr(expr, 'point')","hasattr(expr, 'subs')","hasattr(expr, 'is_zero')","hasattr(expr, 'free_symbols')","hasattr(expr, 'args')","hasattr(expr, 'factor')","hasattr(expr, 'expand')","hasattr(expr, 'has')","hasattr(expr, 'extract_leading_order')","hasattr(expr, 'as_leading_term')","hasattr(expr, 'as_independent')","hasattr(expr, 'is_Mul')","hasattr(expr, 'is_Pow')","hasattr(expr, 'exp')","hasattr(expr, 'base')"],"ensures":["len(orders) == old_len_orders + 1","len(point) == old_len_point + 1","len(variables) == old_len_variables + 1","len(variables) == old_len_variables"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.as_independent","expr.as_leading_term","expr.base","expr.exp","expr.expand","expr.expr","expr.extract_leading_order","expr.factor","expr.free_symbols","expr.has","expr.is_Add","expr.is_Mul","expr.is_Order","expr.is_Pow","expr.is_zero","expr.point","expr.subs","expr.variables"],"calls_mutating":["orders.append","point.append","variables.append","variables.sort"],"raises":["NotImplementedError","TypeError","ValueError"],"catches":["PoleError"]},"state_contract":{"modifies":["orders.*","point.*","variables.*"],"old_bindings":{"old_len_orders":"len(orders)","old_len_point":"len(point)","old_len_variables":"len(variables)"},"post_ensures":["len(orders) == old_len_orders + 1","len(point) == old_len_point + 1","len(variables) == old_len_variables + 1","len(variables) == old_len_variables"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, expr, *args, **kwargs):
         expr = sympify(expr)
 
@@ -355,46 +372,67 @@ class Order(Expr):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_nseries(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_nseries(x, n, logx), <unspecified:_eval_nseries>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_nseries : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d7c278391362b5e4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.order.Order._eval_nseries","kind":"method","src_hash":"02086f0c5f2b3630","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_nseries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d7c278391362b5e4"}
+# @cctt_verify {"v":2,"sym":"sympy.series.order.Order._eval_nseries","kind":"method","src_hash":"02086f0c5f2b3630","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, n, logx)","rhs":"<unspecified:_eval_nseries>","over":{"base":"Any"},"name":"_eval_nseries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d7c278391362b5e4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_nseries(self, x, n, logx, cdir=0):
         return self
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expr(), returns the expr attribute) over Any          ║
+# ║ Path(expr(), self.args[0]) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ expr : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 133b686a27762ad7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.order.Order.expr","kind":"property","src_hash":"8e47c443b9fdeae3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expr()","rhs":"returns the expr attribute","over":{"base":"Any"},"name":"expr_correct"},"guarantee":"returns the expr attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"133b686a27762ad7"}
+# @cctt_verify {"v":2,"sym":"sympy.series.order.Order.expr","kind":"property","src_hash":"8e47c443b9fdeae3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expr()","rhs":"self.args[0]","over":{"base":"Any"},"name":"expr_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"133b686a27762ad7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def expr(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(variables(), returns the variables attribute) over Any ║
+# ║ Path(variables(), result == (tuple((x[0] for x in self.args[1:])) if self.args[1:] else ()) and result == tuple((x[0] for x in self.args[1:])) or result == ()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ variables : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (tuple((x[0] for x in self.args...   ║
+# ║   ensures:  result == tuple((x[0] for x in self.args[...   ║
+# ║   fiber[case_0]: self.args[1:] => tuple((x[0] for x i...   ║
+# ║   fiber[case_1]: not (self.args[1:]) => ()                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ variables : Any → {Any | result satisfies: result == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2e64fc10e950ea5d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.order.Order.variables","kind":"property","src_hash":"3d80b63c79cc2793","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"variables()","rhs":"returns the variables attribute","over":{"base":"Any"},"name":"variables_correct"},"guarantee":"returns the variables attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2e64fc10e950ea5d"}
+# @cctt_verify {"v":2,"sym":"sympy.series.order.Order.variables","kind":"property","src_hash":"3d80b63c79cc2793","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (tuple((x[0] for x in self.args[1:])) if self.args[1:] else ()) and result == tuple((x[0] for x in self.args[1:])) or result == ()"},"spec":{"lhs":"variables()","rhs":"result == (tuple((x[0] for x in self.args[1:])) if self.args[1:] else ()) and result == tuple((x[0] for x in self.args[1:])) or result == ()","over":{"base":"Any"},"name":"variables_correct"},"guarantee":"result == (tuple((x[0] for x in self.args[1:])) if self.args[1:] else ()); result == tuple((x[0] for x in self.args[1:])) or result == (); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2e64fc10e950ea5d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (tuple((x[0] for x in self.args[1:])) if self.args[1:] else ())","result == tuple((x[0] for x in self.args[1:])) or result == ()"],"fibers":[{"name":"case_0","guard":"self.args[1:]","ensures":["result == tuple((x[0] for x in self.args[1:]))"],"decidability":"library","returns_expr":"tuple((x[0] for x in self.args[1:]))"},{"name":"case_1","guard":"not (self.args[1:])","ensures":["result == ()"],"decidability":"library","returns_expr":"()"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def variables(self):
         if self.args[1:]:
             return tuple(x[0] for x in self.args[1:])
@@ -403,16 +441,25 @@ class Order(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(point(), returns the point attribute) over Any        ║
+# ║ Path(point(), result == (tuple((x[1] for x in self.args[1:])) if self.args[1:] else ()) and result == tuple((x[1] for x in self.args[1:])) or result == ()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ point : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (tuple((x[1] for x in self.args...   ║
+# ║   ensures:  result == tuple((x[1] for x in self.args[...   ║
+# ║   fiber[case_0]: self.args[1:] => tuple((x[1] for x i...   ║
+# ║   fiber[case_1]: not (self.args[1:]) => ()                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ point : Any → {Any | result satisfies: result == (tup...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6252f2aa5d25a64f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.order.Order.point","kind":"property","src_hash":"67d51b62f93729b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"point()","rhs":"returns the point attribute","over":{"base":"Any"},"name":"point_correct"},"guarantee":"returns the point attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6252f2aa5d25a64f"}
+# @cctt_verify {"v":2,"sym":"sympy.series.order.Order.point","kind":"property","src_hash":"67d51b62f93729b3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (tuple((x[1] for x in self.args[1:])) if self.args[1:] else ()) and result == tuple((x[1] for x in self.args[1:])) or result == ()"},"spec":{"lhs":"point()","rhs":"result == (tuple((x[1] for x in self.args[1:])) if self.args[1:] else ()) and result == tuple((x[1] for x in self.args[1:])) or result == ()","over":{"base":"Any"},"name":"point_correct"},"guarantee":"result == (tuple((x[1] for x in self.args[1:])) if self.args[1:] else ()); result == tuple((x[1] for x in self.args[1:])) or result == (); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6252f2aa5d25a64f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (tuple((x[1] for x in self.args[1:])) if self.args[1:] else ())","result == tuple((x[1] for x in self.args[1:])) or result == ()"],"fibers":[{"name":"case_0","guard":"self.args[1:]","ensures":["result == tuple((x[1] for x in self.args[1:]))"],"decidability":"library","returns_expr":"tuple((x[1] for x in self.args[1:]))"},{"name":"case_1","guard":"not (self.args[1:])","ensures":["result == ()"],"decidability":"library","returns_expr":"()"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def point(self):
         if self.args[1:]:
             return tuple(x[1] for x in self.args[1:])
@@ -421,30 +468,45 @@ class Order(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(free_symbols(), returns the free_symbols attribute) over Any ║
+# ║ Path(free_symbols(), self.expr.free_symbols | set(self.variables)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.expr.free_symbols | set(self.variables)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ free_symbols : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | def2c8a83a88a53c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.order.Order.free_symbols","kind":"property","src_hash":"55aa5acdce191229","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"returns the free_symbols attribute","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns the free_symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"def2c8a83a88a53c"}
+# @cctt_verify {"v":2,"sym":"sympy.series.order.Order.free_symbols","kind":"property","src_hash":"55aa5acdce191229","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"self.expr.free_symbols | set(self.variables)","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns self.expr.free_symbols | set(self.variables)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"def2c8a83a88a53c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.expr.free_symbols | set(self.variables)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.expr","self.variables"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def free_symbols(self):
         return self.expr.free_symbols | set(self.variables)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_power(b, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_power(b, e), <unspecified:_eval_power>) over {Any | hasattr(e, 'is_Number') and hasattr(e, 'is_nonnegative') and hasattr(b, 'func') and hasattr(b, 'expr') and hasattr(b, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_power : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'is_Number')                        ║
+# ║   requires: hasattr(e, 'is_nonnegative')                   ║
+# ║   requires: hasattr(b, 'func')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_power : {Any | hasattr(e, 'is_Number') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 673b4e7f04b55925  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.order.Order._eval_power","kind":"method","src_hash":"82e683c38158d584","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_power(b, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_power_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.order.Order._eval_power_correct","statement":"Path(_eval_power(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"673b4e7f04b55925"}
+# @cctt_verify {"v":2,"sym":"sympy.series.order.Order._eval_power","kind":"method","src_hash":"82e683c38158d584","in":{"base":"Any","pred":"hasattr(e, 'is_Number') and hasattr(e, 'is_nonnegative') and hasattr(b, 'func') and hasattr(b, 'expr') and hasattr(b, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_power(b, e)","rhs":"<unspecified:_eval_power>","over":{"base":"Any","pred":"hasattr(e, 'is_Number') and hasattr(e, 'is_nonnegative') and hasattr(b, 'func') and hasattr(b, 'expr') and hasattr(b, 'args')"},"name":"_eval_power_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.order.Order._eval_power_correct","statement":"Path(_eval_power(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"673b4e7f04b55925","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'is_Number')","hasattr(e, 'is_nonnegative')","hasattr(b, 'func')","hasattr(b, 'expr')","hasattr(b, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["b.args","b.expr","b.func","e.is_Number","e.is_nonnegative"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_power(b, e):
         if e.is_Number and e.is_nonnegative:
             return b.func(b.expr ** e, *b.args[1:])
@@ -453,16 +515,24 @@ class Order(Expr):
         return
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_expr_variables(ord), as_expr_variables produces the expected output) over Any ║
+# ║ Path(as_expr_variables(order_symbols), (self.expr, tuple(order_symbols))) over {Any | hasattr(order_symbols, 'items') and hasattr(order_symbols, 'keys')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ as_expr_variables : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(order_symbols, 'items')                ║
+# ║   requires: hasattr(order_symbols, 'keys')                 ║
+# ║   returns:  (self.expr, tuple(order_symbols))              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ as_expr_variables : {Any | hasattr(order_symbols, 'it...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a006b2ecd194c61a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6071cef550e69ca5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.order.Order.as_expr_variables","kind":"method","src_hash":"9bb53601f5d70266","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_expr_variables(ord)","rhs":"as_expr_variables produces the expected output","over":{"base":"Any"},"name":"as_expr_variables_correct"},"guarantee":"as_expr_variables produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.order.Order.as_expr_variables_correct","statement":"Path(as_expr_variables(x), as_expr_variables produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a006b2ecd194c61a"}
+# @cctt_verify {"v":2,"sym":"sympy.series.order.Order.as_expr_variables","kind":"method","src_hash":"9bb53601f5d70266","in":{"base":"Any","pred":"hasattr(order_symbols, 'items') and hasattr(order_symbols, 'keys')"},"out":{"base":"Any"},"spec":{"lhs":"as_expr_variables(order_symbols)","rhs":"(self.expr, tuple(order_symbols))","over":{"base":"Any","pred":"hasattr(order_symbols, 'items') and hasattr(order_symbols, 'keys')"},"name":"as_expr_variables_correct"},"guarantee":"returns (self.expr, tuple(order_symbols))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.order.Order.as_expr_variables_correct","statement":"Path(as_expr_variables(x), returns (self.expr, tuple(order_symbols)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6071cef550e69ca5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(order_symbols, 'items')","hasattr(order_symbols, 'keys')"],"returns_expr":"(self.expr, tuple(order_symbols))","pure":false,"effects":{"effect_type":"mutates_args","reads":["order_symbols.items","order_symbols.keys","self.args","self.expr","self.point"],"writes":["order_symbols[*]"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["order_symbols[*]"],"old_bindings":{"old_order_symbols_star":"order_symbols[*]"},"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_expr_variables(self, order_symbols):
         if order_symbols is None:
             order_symbols = self.args[1:]
@@ -482,45 +552,67 @@ class Order(Expr):
         return self.expr, tuple(order_symbols)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(removeO(), removeO produces the expected output) over Any ║
+# ║ Path(removeO(), S.Zero) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.Zero                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ removeO : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fb901a052970cec2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.order.Order.removeO","kind":"method","src_hash":"005590358d3acc24","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"removeO()","rhs":"removeO produces the expected output","over":{"base":"Any"},"name":"removeO_correct"},"guarantee":"removeO produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fb901a052970cec2"}
+# @cctt_verify {"v":2,"sym":"sympy.series.order.Order.removeO","kind":"method","src_hash":"005590358d3acc24","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"removeO()","rhs":"S.Zero","over":{"base":"Any"},"name":"removeO_correct"},"guarantee":"returns S.Zero","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fb901a052970cec2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.Zero","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def removeO(self):
         return S.Zero
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(getO(), getO produces the expected output) over Any   ║
+# ║ Path(getO(), self) over Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ getO : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == self                                 ║
+# ║   returns:  self                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ getO : Any → {Any | result satisfies: result == (self)}    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 58098859c56641aa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.order.Order.getO","kind":"method","src_hash":"76b725a6355d27a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"getO()","rhs":"getO produces the expected output","over":{"base":"Any"},"name":"getO_correct"},"guarantee":"getO produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"58098859c56641aa"}
+# @cctt_verify {"v":2,"sym":"sympy.series.order.Order.getO","kind":"method","src_hash":"76b725a6355d27a1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self)"},"spec":{"lhs":"getO()","rhs":"self","over":{"base":"Any"},"name":"getO_correct"},"guarantee":"returns self; result == self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"58098859c56641aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == self"],"returns_expr":"self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def getO(self):
         return self
 
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(contains(exp), return true if expr belongs to order(self.expr, \*self.variables). return false if self belongs to expr. return none if the inclusion relation cannot be determined (e.g) over Any ║
+# ║ Path(contains(expr), <unspecified:contains>) over {Any | hasattr(expr, 'is_zero') and hasattr(expr, 'is_Order') and hasattr(expr, 'expr') and hasattr(expr, 'variables') and hasattr(expr, 'as_independent') and hasattr(expr, 'point') and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ contains : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'is_zero')                       ║
+# ║   requires: hasattr(expr, 'is_Order')                      ║
+# ║   requires: hasattr(expr, 'expr')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ contains : {Any | hasattr(expr, 'is_zero') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7425f2eae24d2b19  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.order.Order.contains","kind":"method","src_hash":"25edf7c852dca97d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"contains(exp)","rhs":"return true if expr belongs to order(self.expr, \\*self.variables). return false if self belongs to expr. return none if the inclusion relation cannot be determined (e.g","over":{"base":"Any"},"name":"contains_correct"},"guarantee":"return true if expr belongs to order(self.expr, \\*self.variables). return false if self belongs to expr. return none if the inclusion relation cannot be determined (e.g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.order.Order.contains_correct","statement":"Path(contains(x), return true if expr belongs to order(self.expr, \\*self.variables). return false if self belongs to expr. return none if the inclusion relation cannot be determined (e.g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7425f2eae24d2b19"}
+# @cctt_verify {"v":2,"sym":"sympy.series.order.Order.contains","kind":"method","src_hash":"25edf7c852dca97d","in":{"base":"Any","pred":"hasattr(expr, 'is_zero') and hasattr(expr, 'is_Order') and hasattr(expr, 'expr') and hasattr(expr, 'variables') and hasattr(expr, 'as_independent') and hasattr(expr, 'point') and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"contains(expr)","rhs":"<unspecified:contains>","over":{"base":"Any","pred":"hasattr(expr, 'is_zero') and hasattr(expr, 'is_Order') and hasattr(expr, 'expr') and hasattr(expr, 'variables') and hasattr(expr, 'as_independent') and hasattr(expr, 'point') and hasattr(expr, 'args')"},"name":"contains_correct"},"guarantee":"return true if expr belongs to order(self.expr, \\*self.variables). return false if self belongs to expr. return none if the inclusion relation cannot be determined (e.g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.order.Order.contains_correct","statement":"Path(contains(x), return true if expr belongs to order(self.expr, \\*self.variables). return false if self belongs to expr. return none if the inclusion relation cannot be determined (e.g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7425f2eae24d2b19","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'is_zero')","hasattr(expr, 'is_Order')","hasattr(expr, 'expr')","hasattr(expr, 'variables')","hasattr(expr, 'as_independent')","hasattr(expr, 'point')","hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.as_independent","expr.expr","expr.is_Order","expr.is_zero","expr.point","expr.variables","self.args","self.contains","self.expr","self.func","self.point","self.variables"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def contains(self, expr):
         r"""
         Return True if expr belongs to Order(self.expr, \*self.variables).
@@ -602,16 +694,23 @@ class Order(Expr):
         return self.contains(obj)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__contains__(oth), correctly tests membership) over Any ║
+# ║ Path(__contains__(other), <unspecified:__contains__>) over {Any | not (result is None)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __contains__ : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (result is None)                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __contains__ : {Any | not (result is None)} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 552680ca93ceeff1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.order.Order.__contains__","kind":"method","src_hash":"5a3e4f5c23367e17","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(oth)","rhs":"correctly tests membership","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"552680ca93ceeff1"}
+# @cctt_verify {"v":2,"sym":"sympy.series.order.Order.__contains__","kind":"method","src_hash":"5a3e4f5c23367e17","in":{"base":"Any","pred":"not (result is None)"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(other)","rhs":"<unspecified:__contains__>","over":{"base":"Any","pred":"not (result is None)"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"552680ca93ceeff1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (result is None)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.contains"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __contains__(self, other):
         result = self.contains(other)
         if result is None:
@@ -619,16 +718,25 @@ class Order(Expr):
         return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_subs(old), id) over Any                         ║
+# ║ Path(_eval_subs(old, new), id) over {Any | hasattr(new, 'is_symbol') and hasattr(new, 'free_symbols') and hasattr(new, 'has') and hasattr(new, 'subs') and hasattr(new, 'getO')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_subs : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(new, 'is_symbol')                      ║
+# ║   requires: hasattr(new, 'free_symbols')                   ║
+# ║   requires: hasattr(new, 'has')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_subs : {Any | hasattr(new, 'is_symbol') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 1054236a1e503fe1   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.order.Order._eval_subs","kind":"method","src_hash":"41aae90ae981143f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_subs(old)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_subs_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Order","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1054236a1e503fe1"}
+# @cctt_verify {"v":2,"sym":"sympy.series.order.Order._eval_subs","kind":"method","src_hash":"41aae90ae981143f","in":{"base":"Any","pred":"hasattr(new, 'is_symbol') and hasattr(new, 'free_symbols') and hasattr(new, 'has') and hasattr(new, 'subs') and hasattr(new, 'getO')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_subs(old, new)","rhs":"<unspecified:_eval_subs>","over":{"base":"Any","pred":"hasattr(new, 'is_symbol') and hasattr(new, 'free_symbols') and hasattr(new, 'has') and hasattr(new, 'subs') and hasattr(new, 'getO')"},"name":"_eval_subs_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Order","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1054236a1e503fe1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(new, 'is_symbol')","hasattr(new, 'free_symbols')","hasattr(new, 'has')","hasattr(new, 'subs')","hasattr(new, 'getO')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_subs(self, old, new):
         if old in self.variables:
             newexpr = self.expr.subs(old, new)
@@ -675,62 +783,87 @@ class Order(Expr):
             return Order(newexpr, *zip(newvars, newpt))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_conjugate(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_conjugate(), self.func(expr, *self.args[1:])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(expr, *self.args[1:])                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_conjugate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86fad52209a9e0e1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7031f75966ea244d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.order.Order._eval_conjugate","kind":"method","src_hash":"21d21b0f05c0b4df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.order.Order._eval_conjugate_correct","statement":"Path(_eval_conjugate(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86fad52209a9e0e1"}
+# @cctt_verify {"v":2,"sym":"sympy.series.order.Order._eval_conjugate","kind":"method","src_hash":"21d21b0f05c0b4df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"self.func(expr, *self.args[1:])","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"returns self.func(expr, *self.args[1:])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.order.Order._eval_conjugate_correct","statement":"Path(_eval_conjugate(x), returns self.func(expr, *self.args[1:]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7031f75966ea244d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(expr, *self.args[1:])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.expr","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         expr = self.expr._eval_conjugate()
         if expr is not None:
             return self.func(expr, *self.args[1:])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_derivative(x), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_derivative(x), self.func(self.expr.diff(x), *self.args[1:]) or self) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(self.expr.diff(x), *self.args[1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_derivative : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 780b2a322f8da762           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.order.Order._eval_derivative","kind":"method","src_hash":"9553ac8fdb7f120d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative(x)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_derivative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"780b2a322f8da762"}
+# @cctt_verify {"v":2,"sym":"sympy.series.order.Order._eval_derivative","kind":"method","src_hash":"9553ac8fdb7f120d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative(x)","rhs":"self.func(self.expr.diff(x), *self.args[1:]) or self","over":{"base":"Any"},"name":"_eval_derivative_correct"},"guarantee":"returns self.func(self.expr.diff(x), *self.args[1:]) or self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"780b2a322f8da762","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(self.expr.diff(x), *self.args[1:]) or self","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.expr","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_derivative(self, x):
         return self.func(self.expr.diff(x), *self.args[1:]) or self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_transpose(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_transpose(), self.func(expr, *self.args[1:])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(expr, *self.args[1:])                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_transpose : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc1a560cd265cd72  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 773d6192e0f9528a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.order.Order._eval_transpose","kind":"method","src_hash":"79cd15426153a79a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_transpose()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_transpose_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.order.Order._eval_transpose_correct","statement":"Path(_eval_transpose(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc1a560cd265cd72"}
+# @cctt_verify {"v":2,"sym":"sympy.series.order.Order._eval_transpose","kind":"method","src_hash":"79cd15426153a79a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_transpose()","rhs":"self.func(expr, *self.args[1:])","over":{"base":"Any"},"name":"_eval_transpose_correct"},"guarantee":"returns self.func(expr, *self.args[1:])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.order.Order._eval_transpose_correct","statement":"Path(_eval_transpose(x), returns self.func(expr, *self.args[1:]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"773d6192e0f9528a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(expr, *self.args[1:])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.expr","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_transpose(self):
         expr = self.expr._eval_transpose()
         if expr is not None:
             return self.func(expr, *self.args[1:])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__neg__(), returns the additive inverse) over Any     ║
+# ║ Path(__neg__(), self) over Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __neg__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == self                                 ║
+# ║   returns:  self                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __neg__ : Any → {Any | result satisfies: result == (s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ad9ee43cb385776f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.order.Order.__neg__","kind":"method","src_hash":"31c41fa24cf348f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"returns the additive inverse","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns the additive inverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ad9ee43cb385776f"}
+# @cctt_verify {"v":2,"sym":"sympy.series.order.Order.__neg__","kind":"method","src_hash":"31c41fa24cf348f8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self)"},"spec":{"lhs":"__neg__()","rhs":"self","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns self; result == self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ad9ee43cb385776f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == self"],"returns_expr":"self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __neg__(self):
         return self
 

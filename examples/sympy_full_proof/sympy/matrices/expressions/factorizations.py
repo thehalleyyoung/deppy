@@ -19,16 +19,22 @@ from sympy.matrices.expressions import MatrixExpr
 from sympy.assumptions.ask import Q
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Factorization(), correctly constructs a Factorization instance) over Any ║
+# ║ Path(Factorization(), isinstance(self, MatrixExpr)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Factorization : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MatrixExpr)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Factorization : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3e86db1862f5cd8e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.Factorization","kind":"class","src_hash":"a41f5c98cefc80fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Factorization()","rhs":"correctly constructs a Factorization instance","over":{"base":"Any"},"name":"Factorization_correct"},"guarantee":"correctly constructs a Factorization instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e86db1862f5cd8e"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.Factorization","kind":"class","src_hash":"a41f5c98cefc80fc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MatrixExpr)"},"spec":{"lhs":"Factorization()","rhs":"isinstance(self, MatrixExpr)","over":{"base":"Any"},"name":"Factorization_correct"},"guarantee":"isinstance(self, MatrixExpr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e86db1862f5cd8e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MatrixExpr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function Factorization not found in source"]}}
 class Factorization(MatrixExpr):
     arg = property(lambda self: self.args[0])
     shape = property(lambda self: self.arg.shape)  # type: ignore
@@ -36,319 +42,463 @@ class Factorization(MatrixExpr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(LofLU(*args), correctly constructs a LofLU instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ LofLU : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Factorization)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ LofLU : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d67f4ba4af80f2a9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.LofLU","kind":"class","src_hash":"c22f8695a8935570","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LofLU(*args)","rhs":"correctly constructs a LofLU instance","over":{"base":"Any"},"name":"LofLU_class_invariant"},"guarantee":"correctly constructs a LofLU instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d67f4ba4af80f2a9"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.LofLU","kind":"class","src_hash":"c22f8695a8935570","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Factorization)"},"spec":{"lhs":"LofLU(*args)","rhs":"correctly constructs a LofLU instance","over":{"base":"Any"},"name":"LofLU_class_invariant"},"guarantee":"isinstance(self, Factorization)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d67f4ba4af80f2a9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Factorization)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function LofLU not found in source"]}}
 class LofLU(Factorization):
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(predicates(), returns the predicates attribute) over Any ║
+# ║ Path(predicates(), (Q.lower_triangular,)) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (Q.lower_triangular,)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ predicates : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0e484ae1235c0631           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.LofLU.predicates","kind":"property","src_hash":"4b513654ee6285d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"predicates()","rhs":"returns the predicates attribute","over":{"base":"Any"},"name":"predicates_correct"},"guarantee":"returns the predicates attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0e484ae1235c0631"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.LofLU.predicates","kind":"property","src_hash":"4b513654ee6285d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"predicates()","rhs":"(Q.lower_triangular,)","over":{"base":"Any"},"name":"predicates_correct"},"guarantee":"returns (Q.lower_triangular,)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0e484ae1235c0631","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(Q.lower_triangular,)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def predicates(self):
         return (Q.lower_triangular,)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(UofLU(*args), correctly constructs a UofLU instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ UofLU : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Factorization)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ UofLU : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce87cfc5bd68c854  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.UofLU","kind":"class","src_hash":"1e0a92191cceecfa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"UofLU(*args)","rhs":"correctly constructs a UofLU instance","over":{"base":"Any"},"name":"UofLU_class_invariant"},"guarantee":"correctly constructs a UofLU instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce87cfc5bd68c854"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.UofLU","kind":"class","src_hash":"1e0a92191cceecfa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Factorization)"},"spec":{"lhs":"UofLU(*args)","rhs":"correctly constructs a UofLU instance","over":{"base":"Any"},"name":"UofLU_class_invariant"},"guarantee":"isinstance(self, Factorization)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce87cfc5bd68c854","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Factorization)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function UofLU not found in source"]}}
 class UofLU(Factorization):
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(predicates(), returns the predicates attribute) over Any ║
+# ║ Path(predicates(), (Q.upper_triangular,)) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (Q.upper_triangular,)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ predicates : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ab4408530dcf4cc0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.UofLU.predicates","kind":"property","src_hash":"883ee69851dabcc2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"predicates()","rhs":"returns the predicates attribute","over":{"base":"Any"},"name":"predicates_correct"},"guarantee":"returns the predicates attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ab4408530dcf4cc0"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.UofLU.predicates","kind":"property","src_hash":"883ee69851dabcc2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"predicates()","rhs":"(Q.upper_triangular,)","over":{"base":"Any"},"name":"predicates_correct"},"guarantee":"returns (Q.upper_triangular,)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ab4408530dcf4cc0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(Q.upper_triangular,)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def predicates(self):
         return (Q.upper_triangular,)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(LofCholesky(), correctly constructs a LofCholesky instance) over Any ║
+# ║ Path(LofCholesky(), isinstance(self, LofLU)) over Any      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ LofCholesky : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, LofLU)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ LofCholesky : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 98b9c7f34c101707           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.LofCholesky","kind":"class","src_hash":"68064925ec28278b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LofCholesky()","rhs":"correctly constructs a LofCholesky instance","over":{"base":"Any"},"name":"LofCholesky_correct"},"guarantee":"correctly constructs a LofCholesky instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"98b9c7f34c101707"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.LofCholesky","kind":"class","src_hash":"68064925ec28278b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, LofLU)"},"spec":{"lhs":"LofCholesky()","rhs":"isinstance(self, LofLU)","over":{"base":"Any"},"name":"LofCholesky_correct"},"guarantee":"isinstance(self, LofLU)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"98b9c7f34c101707","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, LofLU)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function LofCholesky not found in source"]}}
 class LofCholesky(LofLU): pass
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(UofCholesky(), correctly constructs a UofCholesky instance) over Any ║
+# ║ Path(UofCholesky(), isinstance(self, UofLU)) over Any      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ UofCholesky : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, UofLU)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ UofCholesky : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2050dfa9b0b6b89c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.UofCholesky","kind":"class","src_hash":"a206bdbdae88bfc6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"UofCholesky()","rhs":"correctly constructs a UofCholesky instance","over":{"base":"Any"},"name":"UofCholesky_correct"},"guarantee":"correctly constructs a UofCholesky instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2050dfa9b0b6b89c"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.UofCholesky","kind":"class","src_hash":"a206bdbdae88bfc6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, UofLU)"},"spec":{"lhs":"UofCholesky()","rhs":"isinstance(self, UofLU)","over":{"base":"Any"},"name":"UofCholesky_correct"},"guarantee":"isinstance(self, UofLU)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2050dfa9b0b6b89c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, UofLU)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function UofCholesky not found in source"]}}
 class UofCholesky(UofLU): pass
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(QofQR(*args), correctly constructs a QofQR instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ QofQR : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Factorization)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ QofQR : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 905e639ff104b14d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.QofQR","kind":"class","src_hash":"be783046fc1da0da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"QofQR(*args)","rhs":"correctly constructs a QofQR instance","over":{"base":"Any"},"name":"QofQR_class_invariant"},"guarantee":"correctly constructs a QofQR instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"905e639ff104b14d"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.QofQR","kind":"class","src_hash":"be783046fc1da0da","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Factorization)"},"spec":{"lhs":"QofQR(*args)","rhs":"correctly constructs a QofQR instance","over":{"base":"Any"},"name":"QofQR_class_invariant"},"guarantee":"isinstance(self, Factorization)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"905e639ff104b14d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Factorization)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function QofQR not found in source"]}}
 class QofQR(Factorization):
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(predicates(), returns the predicates attribute) over Any ║
+# ║ Path(predicates(), (Q.orthogonal,)) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (Q.orthogonal,)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ predicates : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4267f26ee416226f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.QofQR.predicates","kind":"property","src_hash":"49f9e197a4c10b26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"predicates()","rhs":"returns the predicates attribute","over":{"base":"Any"},"name":"predicates_correct"},"guarantee":"returns the predicates attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4267f26ee416226f"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.QofQR.predicates","kind":"property","src_hash":"49f9e197a4c10b26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"predicates()","rhs":"(Q.orthogonal,)","over":{"base":"Any"},"name":"predicates_correct"},"guarantee":"returns (Q.orthogonal,)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4267f26ee416226f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(Q.orthogonal,)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def predicates(self):
         return (Q.orthogonal,)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(RofQR(*args), correctly constructs a RofQR instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ RofQR : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Factorization)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ RofQR : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15cb01605ae0f761  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.RofQR","kind":"class","src_hash":"f07ec86b33788f6e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"RofQR(*args)","rhs":"correctly constructs a RofQR instance","over":{"base":"Any"},"name":"RofQR_class_invariant"},"guarantee":"correctly constructs a RofQR instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15cb01605ae0f761"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.RofQR","kind":"class","src_hash":"f07ec86b33788f6e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Factorization)"},"spec":{"lhs":"RofQR(*args)","rhs":"correctly constructs a RofQR instance","over":{"base":"Any"},"name":"RofQR_class_invariant"},"guarantee":"isinstance(self, Factorization)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15cb01605ae0f761","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Factorization)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function RofQR not found in source"]}}
 class RofQR(Factorization):
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(predicates(), returns the predicates attribute) over Any ║
+# ║ Path(predicates(), (Q.upper_triangular,)) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (Q.upper_triangular,)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ predicates : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3e22d779532ae094           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.RofQR.predicates","kind":"property","src_hash":"883ee69851dabcc2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"predicates()","rhs":"returns the predicates attribute","over":{"base":"Any"},"name":"predicates_correct"},"guarantee":"returns the predicates attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e22d779532ae094"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.RofQR.predicates","kind":"property","src_hash":"883ee69851dabcc2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"predicates()","rhs":"(Q.upper_triangular,)","over":{"base":"Any"},"name":"predicates_correct"},"guarantee":"returns (Q.upper_triangular,)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e22d779532ae094","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(Q.upper_triangular,)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def predicates(self):
         return (Q.upper_triangular,)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(EigenVectors(*args), correctly constructs a EigenVectors instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ EigenVectors : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Factorization)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ EigenVectors : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab4b532f24e2a625  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.EigenVectors","kind":"class","src_hash":"ff66f5b8d9b024d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"EigenVectors(*args)","rhs":"correctly constructs a EigenVectors instance","over":{"base":"Any"},"name":"EigenVectors_class_invariant"},"guarantee":"correctly constructs a EigenVectors instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab4b532f24e2a625"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.EigenVectors","kind":"class","src_hash":"ff66f5b8d9b024d5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Factorization)"},"spec":{"lhs":"EigenVectors(*args)","rhs":"correctly constructs a EigenVectors instance","over":{"base":"Any"},"name":"EigenVectors_class_invariant"},"guarantee":"isinstance(self, Factorization)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab4b532f24e2a625","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Factorization)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function EigenVectors not found in source"]}}
 class EigenVectors(Factorization):
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(predicates(), returns the predicates attribute) over Any ║
+# ║ Path(predicates(), (Q.orthogonal,)) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (Q.orthogonal,)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ predicates : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 440f2c1f5be10900           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.EigenVectors.predicates","kind":"property","src_hash":"49f9e197a4c10b26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"predicates()","rhs":"returns the predicates attribute","over":{"base":"Any"},"name":"predicates_correct"},"guarantee":"returns the predicates attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"440f2c1f5be10900"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.EigenVectors.predicates","kind":"property","src_hash":"49f9e197a4c10b26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"predicates()","rhs":"(Q.orthogonal,)","over":{"base":"Any"},"name":"predicates_correct"},"guarantee":"returns (Q.orthogonal,)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"440f2c1f5be10900","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(Q.orthogonal,)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def predicates(self):
         return (Q.orthogonal,)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(EigenValues(*args), correctly constructs a EigenValues instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ EigenValues : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Factorization)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ EigenValues : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9faf5786b575b3c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.EigenValues","kind":"class","src_hash":"77d3b9df2adbecce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"EigenValues(*args)","rhs":"correctly constructs a EigenValues instance","over":{"base":"Any"},"name":"EigenValues_class_invariant"},"guarantee":"correctly constructs a EigenValues instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9faf5786b575b3c"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.EigenValues","kind":"class","src_hash":"77d3b9df2adbecce","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Factorization)"},"spec":{"lhs":"EigenValues(*args)","rhs":"correctly constructs a EigenValues instance","over":{"base":"Any"},"name":"EigenValues_class_invariant"},"guarantee":"isinstance(self, Factorization)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9faf5786b575b3c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Factorization)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function EigenValues not found in source"]}}
 class EigenValues(Factorization):
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(predicates(), returns the predicates attribute) over Any ║
+# ║ Path(predicates(), (Q.diagonal,)) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (Q.diagonal,)                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ predicates : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 501136efbd3fc008           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.EigenValues.predicates","kind":"property","src_hash":"2b05f54c529add6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"predicates()","rhs":"returns the predicates attribute","over":{"base":"Any"},"name":"predicates_correct"},"guarantee":"returns the predicates attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"501136efbd3fc008"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.EigenValues.predicates","kind":"property","src_hash":"2b05f54c529add6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"predicates()","rhs":"(Q.diagonal,)","over":{"base":"Any"},"name":"predicates_correct"},"guarantee":"returns (Q.diagonal,)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"501136efbd3fc008","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(Q.diagonal,)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def predicates(self):
         return (Q.diagonal,)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(UofSVD(*args), correctly constructs a UofSVD instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ UofSVD : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Factorization)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ UofSVD : Any → {Any | result satisfies: isinstance(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3749a8978020b977  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.UofSVD","kind":"class","src_hash":"03db5032bb4cf806","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"UofSVD(*args)","rhs":"correctly constructs a UofSVD instance","over":{"base":"Any"},"name":"UofSVD_class_invariant"},"guarantee":"correctly constructs a UofSVD instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3749a8978020b977"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.UofSVD","kind":"class","src_hash":"03db5032bb4cf806","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Factorization)"},"spec":{"lhs":"UofSVD(*args)","rhs":"correctly constructs a UofSVD instance","over":{"base":"Any"},"name":"UofSVD_class_invariant"},"guarantee":"isinstance(self, Factorization)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3749a8978020b977","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Factorization)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function UofSVD not found in source"]}}
 class UofSVD(Factorization):
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(predicates(), returns the predicates attribute) over Any ║
+# ║ Path(predicates(), (Q.orthogonal,)) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (Q.orthogonal,)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ predicates : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cc1f958767e47514           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.UofSVD.predicates","kind":"property","src_hash":"49f9e197a4c10b26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"predicates()","rhs":"returns the predicates attribute","over":{"base":"Any"},"name":"predicates_correct"},"guarantee":"returns the predicates attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc1f958767e47514"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.UofSVD.predicates","kind":"property","src_hash":"49f9e197a4c10b26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"predicates()","rhs":"(Q.orthogonal,)","over":{"base":"Any"},"name":"predicates_correct"},"guarantee":"returns (Q.orthogonal,)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc1f958767e47514","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(Q.orthogonal,)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def predicates(self):
         return (Q.orthogonal,)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SofSVD(*args), correctly constructs a SofSVD instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SofSVD : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Factorization)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SofSVD : Any → {Any | result satisfies: isinstance(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b7de9e948e805d56  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.SofSVD","kind":"class","src_hash":"ac4b5c372eb1bd7e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SofSVD(*args)","rhs":"correctly constructs a SofSVD instance","over":{"base":"Any"},"name":"SofSVD_class_invariant"},"guarantee":"correctly constructs a SofSVD instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7de9e948e805d56"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.SofSVD","kind":"class","src_hash":"ac4b5c372eb1bd7e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Factorization)"},"spec":{"lhs":"SofSVD(*args)","rhs":"correctly constructs a SofSVD instance","over":{"base":"Any"},"name":"SofSVD_class_invariant"},"guarantee":"isinstance(self, Factorization)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7de9e948e805d56","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Factorization)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function SofSVD not found in source"]}}
 class SofSVD(Factorization):
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(predicates(), returns the predicates attribute) over Any ║
+# ║ Path(predicates(), (Q.diagonal,)) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (Q.diagonal,)                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ predicates : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8846ee82a4735945           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.SofSVD.predicates","kind":"property","src_hash":"2b05f54c529add6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"predicates()","rhs":"returns the predicates attribute","over":{"base":"Any"},"name":"predicates_correct"},"guarantee":"returns the predicates attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8846ee82a4735945"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.SofSVD.predicates","kind":"property","src_hash":"2b05f54c529add6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"predicates()","rhs":"(Q.diagonal,)","over":{"base":"Any"},"name":"predicates_correct"},"guarantee":"returns (Q.diagonal,)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8846ee82a4735945","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(Q.diagonal,)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def predicates(self):
         return (Q.diagonal,)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(VofSVD(*args), correctly constructs a VofSVD instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ VofSVD : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Factorization)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ VofSVD : Any → {Any | result satisfies: isinstance(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a8455f86e9de305  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.VofSVD","kind":"class","src_hash":"b83a266cf57301f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"VofSVD(*args)","rhs":"correctly constructs a VofSVD instance","over":{"base":"Any"},"name":"VofSVD_class_invariant"},"guarantee":"correctly constructs a VofSVD instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a8455f86e9de305"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.VofSVD","kind":"class","src_hash":"b83a266cf57301f6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Factorization)"},"spec":{"lhs":"VofSVD(*args)","rhs":"correctly constructs a VofSVD instance","over":{"base":"Any"},"name":"VofSVD_class_invariant"},"guarantee":"isinstance(self, Factorization)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a8455f86e9de305","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Factorization)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function VofSVD not found in source"]}}
 class VofSVD(Factorization):
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(predicates(), returns the predicates attribute) over Any ║
+# ║ Path(predicates(), (Q.orthogonal,)) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (Q.orthogonal,)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ predicates : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c1774f06cd34a912           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.VofSVD.predicates","kind":"property","src_hash":"49f9e197a4c10b26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"predicates()","rhs":"returns the predicates attribute","over":{"base":"Any"},"name":"predicates_correct"},"guarantee":"returns the predicates attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c1774f06cd34a912"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.VofSVD.predicates","kind":"property","src_hash":"49f9e197a4c10b26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"predicates()","rhs":"(Q.orthogonal,)","over":{"base":"Any"},"name":"predicates_correct"},"guarantee":"returns (Q.orthogonal,)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c1774f06cd34a912","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(Q.orthogonal,)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def predicates(self):
         return (Q.orthogonal,)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lu(exp), lu produces the expected output) over Any    ║
+# ║ Path(lu(expr), (LofLU(expr), UofLU(expr))) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (LofLU(expr), UofLU(expr))                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lu : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3bad7ade2ac5c7e7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.lu","kind":"function","src_hash":"332e22e70177d26c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lu(exp)","rhs":"lu produces the expected output","over":{"base":"Any"},"name":"lu_correct"},"guarantee":"lu produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3bad7ade2ac5c7e7"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.lu","kind":"function","src_hash":"332e22e70177d26c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lu(expr)","rhs":"(LofLU(expr), UofLU(expr))","over":{"base":"Any"},"name":"lu_correct"},"guarantee":"returns (LofLU(expr), UofLU(expr))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3bad7ade2ac5c7e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(LofLU(expr), UofLU(expr))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def lu(expr):
     return LofLU(expr), UofLU(expr)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(qr(exp), qr produces the expected output) over Any    ║
+# ║ Path(qr(expr), (QofQR(expr), RofQR(expr))) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (QofQR(expr), RofQR(expr))                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ qr : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0f52e893bb7696e8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.qr","kind":"function","src_hash":"7d1a117465cc2716","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"qr(exp)","rhs":"qr produces the expected output","over":{"base":"Any"},"name":"qr_correct"},"guarantee":"qr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0f52e893bb7696e8"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.qr","kind":"function","src_hash":"7d1a117465cc2716","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"qr(expr)","rhs":"(QofQR(expr), RofQR(expr))","over":{"base":"Any"},"name":"qr_correct"},"guarantee":"returns (QofQR(expr), RofQR(expr))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0f52e893bb7696e8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(QofQR(expr), RofQR(expr))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def qr(expr):
     return QofQR(expr), RofQR(expr)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eig(exp), eig produces the expected output) over Any  ║
+# ║ Path(eig(expr), (EigenValues(expr), EigenVectors(expr))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (EigenValues(expr), EigenVectors(expr))        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eig : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9654ebf7bce9ce9b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.eig","kind":"function","src_hash":"c876d7fb2f19dd0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eig(exp)","rhs":"eig produces the expected output","over":{"base":"Any"},"name":"eig_correct"},"guarantee":"eig produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9654ebf7bce9ce9b"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.eig","kind":"function","src_hash":"c876d7fb2f19dd0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eig(expr)","rhs":"(EigenValues(expr), EigenVectors(expr))","over":{"base":"Any"},"name":"eig_correct"},"guarantee":"returns (EigenValues(expr), EigenVectors(expr))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9654ebf7bce9ce9b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(EigenValues(expr), EigenVectors(expr))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def eig(expr):
     return EigenValues(expr), EigenVectors(expr)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(svd(exp), svd produces the expected output) over Any  ║
+# ║ Path(svd(expr), (UofSVD(expr), SofSVD(expr), VofSVD(expr))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (UofSVD(expr), SofSVD(expr), VofSVD(expr))     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ svd : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9fc9a67cb92c7240           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.svd","kind":"function","src_hash":"15293e228a3ce0c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"svd(exp)","rhs":"svd produces the expected output","over":{"base":"Any"},"name":"svd_correct"},"guarantee":"svd produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9fc9a67cb92c7240"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.factorizations.svd","kind":"function","src_hash":"15293e228a3ce0c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"svd(expr)","rhs":"(UofSVD(expr), SofSVD(expr), VofSVD(expr))","over":{"base":"Any"},"name":"svd_correct"},"guarantee":"returns (UofSVD(expr), SofSVD(expr), VofSVD(expr))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9fc9a67cb92c7240","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(UofSVD(expr), SofSVD(expr), VofSVD(expr))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def svd(expr):
     return UofSVD(expr), SofSVD(expr), VofSVD(expr)

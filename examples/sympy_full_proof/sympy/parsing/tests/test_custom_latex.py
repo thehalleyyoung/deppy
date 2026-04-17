@@ -41,16 +41,22 @@ modification2 = r"""
 """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(init_custom_parser(mod), init_custom_parser produces the expected output) over Any ║
+# ║ Path(init_custom_parser(modification, transformer), <unspecified:init_custom_parser>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ init_custom_parser : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f1f54c6eec084cec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_custom_latex.init_custom_parser","kind":"function","src_hash":"932bc60a93de8f7c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"init_custom_parser(mod)","rhs":"init_custom_parser produces the expected output","over":{"base":"Any"},"name":"init_custom_parser_correct"},"guarantee":"init_custom_parser produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_custom_latex.init_custom_parser_correct","statement":"Path(init_custom_parser(x), init_custom_parser produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1f54c6eec084cec"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_custom_latex.init_custom_parser","kind":"function","src_hash":"932bc60a93de8f7c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"init_custom_parser(modification, transformer)","rhs":"<unspecified:init_custom_parser>","over":{"base":"Any"},"name":"init_custom_parser_correct"},"guarantee":"init_custom_parser produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_custom_latex.init_custom_parser_correct","statement":"Path(init_custom_parser(x), init_custom_parser produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1f54c6eec084cec","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","calls_mutating":["f.flush","f.write"],"io_operations":["f.flush","f.write"]},"state_contract":{"modifies":["f.*"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def init_custom_parser(modification, transformer=None):
     latex_grammar = Path(grammar_file).read_text(encoding="utf-8")
     latex_grammar += modification
@@ -64,16 +70,22 @@ def init_custom_parser(modification, transformer=None):
     return parser
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_custom1(), test_custom1 produces the expected output) over Any ║
+# ║ Path(test_custom1(), <unspecified:test_custom1>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_custom1 : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8fb7a365fb162f10  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_custom_latex.test_custom1","kind":"function","src_hash":"75ad75a2ba88335e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_custom1()","rhs":"test_custom1 produces the expected output","over":{"base":"Any"},"name":"test_custom1_correct"},"guarantee":"test_custom1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_custom_latex.test_custom1_correct","statement":"Path(test_custom1(x), test_custom1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fb7a365fb162f10"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_custom_latex.test_custom1","kind":"function","src_hash":"75ad75a2ba88335e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_custom1()","rhs":"<unspecified:test_custom1>","over":{"base":"Any"},"name":"test_custom1_correct"},"guarantee":"test_custom1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_custom_latex.test_custom1_correct","statement":"Path(test_custom1(x), test_custom1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fb7a365fb162f10","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_custom1():
     # Removes the parser's ability to understand \cdot and \div.
 
@@ -86,26 +98,41 @@ def test_custom1():
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(CustomTransformer(*args), correctly constructs a CustomTransformer instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CustomTransformer : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, TransformToSymPyExpr)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CustomTransformer : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c4a31c1767ff85cd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_custom_latex.CustomTransformer","kind":"class","src_hash":"23b60aa7d23e33fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CustomTransformer(*args)","rhs":"correctly constructs a CustomTransformer instance","over":{"base":"Any"},"name":"CustomTransformer_class_invariant"},"guarantee":"correctly constructs a CustomTransformer instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4a31c1767ff85cd"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_custom_latex.CustomTransformer","kind":"class","src_hash":"23b60aa7d23e33fd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, TransformToSymPyExpr)"},"spec":{"lhs":"CustomTransformer(*args)","rhs":"correctly constructs a CustomTransformer instance","over":{"base":"Any"},"name":"CustomTransformer_class_invariant"},"guarantee":"isinstance(self, TransformToSymPyExpr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4a31c1767ff85cd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, TransformToSymPyExpr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function CustomTransformer not found in source"]}}
 class CustomTransformer(TransformToSymPyExpr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(number(tok), id) over Any                             ║
+# ║ Path(number(tokens), id) over Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ number : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (sympy.core.numbers.Float(token...   ║
+# ║   ensures:  result == sympy.core.numbers.Float(tokens...   ║
+# ║   fiber[case_0]: ',' in tokens[0] => sympy.core.numbe...   ║
+# ║   fiber[case_1]: not (',' in tokens[0]) => sympy.core...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ number : Any → {Any | result satisfies: result == (sy...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 39b75254c21c24c3   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_custom_latex.CustomTransformer.number","kind":"method","src_hash":"e66c4939c1af5d6c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"number(tok)","rhs":"number produces the expected output","over":{"base":"Any"},"name":"number_correct","kind":"composition"},"guarantee":"number produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Float","by":"library_axiom"},{"fn":"replace","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39b75254c21c24c3"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_custom_latex.CustomTransformer.number","kind":"method","src_hash":"e66c4939c1af5d6c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (sympy.core.numbers.Float(tokens[0].replace(',', '.')) if ',' in tokens[0] else sympy.core.numbers.Integer(tokens[0])) and result == sympy.core.numbers.Float(tokens[0].replace(',', '.')) or result == sympy.core.numbers.Integer(tokens[0])"},"spec":{"lhs":"number(tokens)","rhs":"result == (sympy.core.numbers.Float(tokens[0].replace(',', '.')) if ',' in tokens[0] else sympy.core.numbers.Integer(tokens[0])) and result == sympy.core.numbers.Float(tokens[0].replace(',', '.')) or result == sympy.core.numbers.Integer(tokens[0])","over":{"base":"Any"},"name":"number_correct","kind":"composition"},"guarantee":"result == (sympy.core.numbers.Float(tokens[0].replace(',', '.')) if ',' in tokens[0] else sympy.core.numbers.Integer(tokens[0])); result == sympy.core.numbers.Float(tokens[0].replace(',', '.')) or result == sympy.core.numbers.Integer(tokens[0]); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Float","by":"library_axiom"},{"fn":"replace","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39b75254c21c24c3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (sympy.core.numbers.Float(tokens[0].replace(',', '.')) if ',' in tokens[0] else sympy.core.numbers.Integer(tokens[0]))","result == sympy.core.numbers.Float(tokens[0].replace(',', '.')) or result == sympy.core.numbers.Integer(tokens[0])"],"fibers":[{"name":"case_0","guard":"',' in tokens[0]","ensures":["result == sympy.core.numbers.Float(tokens[0].replace(',', '.'))"],"decidability":"library","returns_expr":"sympy.core.numbers.Float(tokens[0].replace(',', '.'))"},{"name":"case_1","guard":"not (',' in tokens[0])","ensures":["result == sympy.core.numbers.Integer(tokens[0])"],"decidability":"library","returns_expr":"sympy.core.numbers.Integer(tokens[0])"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def number(self, tokens):
         if "," in tokens[0]:
             # The Float constructor expects a dot as the decimal separator
@@ -114,16 +141,22 @@ class CustomTransformer(TransformToSymPyExpr):
             return sympy.core.numbers.Integer(tokens[0])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_custom2(), test_custom2 produces the expected output) over Any ║
+# ║ Path(test_custom2(), <unspecified:test_custom2>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_custom2 : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b2bdf41d08c83e0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_custom_latex.test_custom2","kind":"function","src_hash":"8920f9cd1877174d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_custom2()","rhs":"test_custom2 produces the expected output","over":{"base":"Any"},"name":"test_custom2_correct"},"guarantee":"test_custom2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_custom_latex.test_custom2_correct","statement":"Path(test_custom2(x), test_custom2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b2bdf41d08c83e0"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_custom_latex.test_custom2","kind":"function","src_hash":"8920f9cd1877174d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_custom2()","rhs":"<unspecified:test_custom2>","over":{"base":"Any"},"name":"test_custom2_correct"},"guarantee":"test_custom2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_custom_latex.test_custom2_correct","statement":"Path(test_custom2(x), test_custom2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b2bdf41d08c83e0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_custom2():
     # Makes the parser parse commas as the decimal separator instead of dots
 

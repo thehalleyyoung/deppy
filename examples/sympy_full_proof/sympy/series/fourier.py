@@ -36,16 +36,22 @@ __doctest_requires__ = {('fourier_series',): ['matplotlib']}
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fourier_cos_seq(fun), id) over Any                    ║
+# ║ Path(fourier_cos_seq(func, limits, n), id) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (a0, SeqFormula(2 * cos_term * integrate(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fourier_cos_seq : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 1d3234f445bb5ac4   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier.fourier_cos_seq","kind":"function","src_hash":"f2e24f531d659e97","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fourier_cos_seq(fun)","rhs":"returns the cos sequence in a fourier series","over":{"base":"Any"},"name":"fourier_cos_seq_correct","kind":"composition"},"guarantee":"returns the cos sequence in a fourier series","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"SeqFormula","by":"library_axiom"},{"fn":"integrate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d3234f445bb5ac4"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier.fourier_cos_seq","kind":"function","src_hash":"f2e24f531d659e97","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fourier_cos_seq(func, limits, n)","rhs":"(a0, SeqFormula(2 * cos_term * integrate(func * cos_term, limits) / L, (n, 1, oo)))","over":{"base":"Any"},"name":"fourier_cos_seq_correct","kind":"composition"},"guarantee":"returns (a0, SeqFormula(2 * cos_term * integrate(func * cos_term, limits) / L, (n, 1, oo)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"SeqFormula","by":"library_axiom"},{"fn":"integrate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d3234f445bb5ac4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(a0, SeqFormula(2 * cos_term * integrate(func * cos_term, limits) / L, (n, 1, oo)))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def fourier_cos_seq(func, limits, n):
     """Returns the cos sequence in a Fourier series"""
     from sympy.integrals import integrate
@@ -58,16 +64,22 @@ def fourier_cos_seq(func, limits, n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fourier_sin_seq(fun), id) over Any                    ║
+# ║ Path(fourier_sin_seq(func, limits, n), id) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  SeqFormula(2 * sin_term * integrate(func ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fourier_sin_seq : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 7a7f32589586c57a   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier.fourier_sin_seq","kind":"function","src_hash":"76e4b63f34f206d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fourier_sin_seq(fun)","rhs":"returns the sin sequence in a fourier series","over":{"base":"Any"},"name":"fourier_sin_seq_correct","kind":"composition"},"guarantee":"returns the sin sequence in a fourier series","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"SeqFormula","by":"library_axiom"},{"fn":"integrate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a7f32589586c57a"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier.fourier_sin_seq","kind":"function","src_hash":"76e4b63f34f206d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fourier_sin_seq(func, limits, n)","rhs":"SeqFormula(2 * sin_term * integrate(func * sin_term, limits) / L, (n, 1, oo))","over":{"base":"Any"},"name":"fourier_sin_seq_correct","kind":"composition"},"guarantee":"returns SeqFormula(2 * sin_term * integrate(func * sin_term, limits) / L, (n, 1, oo))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"SeqFormula","by":"library_axiom"},{"fn":"integrate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a7f32589586c57a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"SeqFormula(2 * sin_term * integrate(func * sin_term, limits) / L, (n, 1, oo))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def fourier_sin_seq(func, limits, n):
     """Returns the sin sequence in a Fourier series"""
     from sympy.integrals import integrate
@@ -78,9 +90,15 @@ def fourier_sin_seq(func, limits, n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_process_limits(fun), limits should be of the form (x, start, stop). x should be a symbol) over {Any | isinstance(x, Symbol)} ║
+# ║ Path(_process_limits(func, limits), len(free) == old_len_free - 1) over {Any | isinstance(x, Symbol) and not (not isinstance(x, Symbol) or start is None or stop is None) and hasattr(func, 'free_symbols') and len(free) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _process_limits : {Any | isinstance(x, Symbol)} → Any      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (not isinstance(x, Symbol) or start i...   ║
+# ║   requires: hasattr(func, 'free_symbols')                  ║
+# ║   requires: len(free) > 0                                  ║
+# ║   ensures:  len(free) == old_len_free - 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _process_limits : {Any | isinstance(x, Symbol) and no...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Symbol: {isinstance(x, Symbol)} → library_axiom          ║
@@ -90,9 +108,12 @@ def fourier_sin_seq(func, limits, n):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b804d6cc...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier._process_limits","kind":"function","src_hash":"3a727718890ff2c2","in":{"base":"Any","pred":"isinstance(x, Symbol)"},"out":{"base":"Any"},"spec":{"lhs":"_process_limits(fun)","rhs":"limits should be of the form (x, start, stop). x should be a symbol","over":{"base":"Any","pred":"isinstance(x, Symbol)"},"name":"_process_limits_correct"},"guarantee":"limits should be of the form (x, start, stop). x should be a symbol","fibers":[{"name":"Symbol","pred":"isinstance(x, Symbol)","path":{"lhs":"_process_limits(x)","rhs":"limits should be of the form (x, start, stop). x should be a symbol","over":{"base":"Symbol","pred":"isinstance(x, Symbol)"},"name":"_process_limits_Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.fourier._process_limits_Symbol_correct","statement":"_process_limits satisfies spec on Symbol inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b804d6cce0205dca"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier._process_limits","kind":"function","src_hash":"3a727718890ff2c2","in":{"base":"Any","pred":"isinstance(x, Symbol) and not (not isinstance(x, Symbol) or start is None or stop is None) and hasattr(func, 'free_symbols') and len(free) > 0"},"out":{"base":"Any","pred":"result satisfies: len(free) == old_len_free - 1"},"spec":{"lhs":"_process_limits(func, limits)","rhs":"len(free) == old_len_free - 1","over":{"base":"Any","pred":"isinstance(x, Symbol) and not (not isinstance(x, Symbol) or start is None or stop is None) and hasattr(func, 'free_symbols') and len(free) > 0"},"name":"_process_limits_correct"},"guarantee":"len(free) == old_len_free - 1","fibers":[{"name":"Symbol","pred":"isinstance(x, Symbol)","path":{"lhs":"_process_limits(x)","rhs":"len(free) == old_len_free - 1","over":{"base":"Symbol","pred":"isinstance(x, Symbol)"},"name":"_process_limits_Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.fourier._process_limits_Symbol_correct","statement":"_process_limits satisfies spec on Symbol inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b804d6cce0205dca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (not isinstance(x, Symbol) or start is None or stop is None)","hasattr(func, 'free_symbols')","len(free) > 0"],"ensures":["len(free) == old_len_free - 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["func.free_symbols"],"calls_mutating":["free.pop"],"raises":["ValueError"]},"state_contract":{"modifies":["free.*"],"old_bindings":{"old_len_free":"len(free)"},"pre_requires":["len(free) > 0"],"post_ensures":["len(free) == old_len_free - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'len(limits) == 3', 'not isinstance(x, Symbol) or start is None or stop is None', 'limits is None', 'len(free) == 1', 'len(limits) == 2'}, fibers={'Symbol'})"]}}
 def _process_limits(func, limits):
     """
     Limits should be of the form (x, start, stop).
@@ -150,7 +171,10 @@ def _process_limits(func, limits):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(finite_check(f, ), finite_check produces the expected output) over {Any | isinstance(_expr, (sin, cos))} ║
+# ║ Path(finite_check(f, x, L), <unspecified:finite_check>) over {Any | isinstance(_expr, (sin, cos))} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ finite_check : {Any | isinstance(_expr, (sin, cos))} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -162,9 +186,12 @@ def _process_limits(func, limits):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | c3c98a62...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier.finite_check","kind":"function","src_hash":"2729098b177610a3","in":{"base":"Any","pred":"isinstance(_expr, (sin, cos))"},"out":{"base":"Any"},"spec":{"lhs":"finite_check(f, )","rhs":"finite_check produces the expected output","over":{"base":"Any","pred":"isinstance(_expr, (sin, cos))"},"name":"finite_check_correct"},"guarantee":"finite_check produces the expected output","fibers":[{"name":"(sin","pred":"isinstance(_expr, (sin, cos))","path":{"lhs":"finite_check(x)","rhs":"finite_check produces the expected output","over":{"base":"(sin","pred":"isinstance(_expr, (sin, cos))"},"name":"finite_check_(sin_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.fourier.finite_check_(sin_correct","statement":"finite_check satisfies spec on (sin inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c3c98a6292e593b5"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier.finite_check","kind":"function","src_hash":"2729098b177610a3","in":{"base":"Any","pred":"isinstance(_expr, (sin, cos))"},"out":{"base":"Any"},"spec":{"lhs":"finite_check(f, x, L)","rhs":"<unspecified:finite_check>","over":{"base":"Any","pred":"isinstance(_expr, (sin, cos))"},"name":"finite_check_correct"},"guarantee":"finite_check produces the expected output","fibers":[{"name":"(sin","pred":"isinstance(_expr, (sin, cos))","path":{"lhs":"finite_check(x)","rhs":"finite_check produces the expected output","over":{"base":"(sin","pred":"isinstance(_expr, (sin, cos))"},"name":"finite_check_(sin_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.fourier.finite_check_(sin_correct","statement":"finite_check satisfies spec on (sin inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c3c98a6292e593b5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(_expr, (sin, cos))'}, fibers={'(sin'})"]}}
 def finite_check(f, x, L):
 
     def check_fx(exprs, x):
@@ -198,14 +225,20 @@ def finite_check(f, x, L):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(FourierSeries(*args), correctly constructs a FourierSeries instance) over {Any | isinstance(other, FourierSeries)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SeriesBase)                   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ FourierSeries : {Any | isinstance(other, FourierSerie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f77ab0c865883645  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries","kind":"class","src_hash":"da9e280f16e373ca","in":{"base":"Any","pred":"isinstance(other, FourierSeries)"},"out":{"base":"Any"},"spec":{"lhs":"FourierSeries(*args)","rhs":"correctly constructs a FourierSeries instance","over":{"base":"Any","pred":"isinstance(other, FourierSeries)"},"name":"FourierSeries_class_invariant"},"guarantee":"correctly constructs a FourierSeries instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f77ab0c865883645"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries","kind":"class","src_hash":"da9e280f16e373ca","in":{"base":"Any","pred":"isinstance(other, FourierSeries)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SeriesBase)"},"spec":{"lhs":"FourierSeries(*args)","rhs":"correctly constructs a FourierSeries instance","over":{"base":"Any","pred":"isinstance(other, FourierSeries)"},"name":"FourierSeries_class_invariant"},"guarantee":"isinstance(self, SeriesBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f77ab0c865883645","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SeriesBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function FourierSeries not found in source"]}}
 class FourierSeries(SeriesBase):
     r"""Represents Fourier sine/cosine series.
 
@@ -224,212 +257,297 @@ class FourierSeries(SeriesBase):
     sympy.series.fourier.fourier_series
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args), Expr.__new__(cls, *args)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Expr.__new__(cls, *args)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5b0dbfbd28700b5e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.__new__","kind":"method","src_hash":"8ed614a3aa0bd3ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5b0dbfbd28700b5e"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.__new__","kind":"method","src_hash":"8ed614a3aa0bd3ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args)","rhs":"Expr.__new__(cls, *args)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns Expr.__new__(cls, *args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5b0dbfbd28700b5e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Expr.__new__(cls, *args)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args):
         args = map(sympify, args)
         return Expr.__new__(cls, *args)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(function(), returns the function attribute) over Any  ║
+# ║ Path(function(), self.args[0]) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ function : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 60dba3b9e89f796f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.function","kind":"property","src_hash":"7a40acf2b57dabde","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"function()","rhs":"returns the function attribute","over":{"base":"Any"},"name":"function_correct"},"guarantee":"returns the function attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"60dba3b9e89f796f"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.function","kind":"property","src_hash":"7a40acf2b57dabde","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"function()","rhs":"self.args[0]","over":{"base":"Any"},"name":"function_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"60dba3b9e89f796f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def function(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(x(), returns the x attribute) over Any                ║
+# ║ Path(x(), self.args[1][0]) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1][0]                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ x : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c75ec45b473aefc0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.x","kind":"property","src_hash":"95978cb25f5667d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"x()","rhs":"returns the x attribute","over":{"base":"Any"},"name":"x_correct"},"guarantee":"returns the x attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c75ec45b473aefc0"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.x","kind":"property","src_hash":"95978cb25f5667d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"x()","rhs":"self.args[1][0]","over":{"base":"Any"},"name":"x_correct"},"guarantee":"returns self.args[1][0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c75ec45b473aefc0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1][0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def x(self):
         return self.args[1][0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(period(), returns the period attribute) over Any      ║
+# ║ Path(period(), (self.args[1][1], self.args[1][2])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.args[1][1], self.args[1][2])             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ period : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3fc226068993a649           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.period","kind":"property","src_hash":"72c2c76695934d60","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"period()","rhs":"returns the period attribute","over":{"base":"Any"},"name":"period_correct"},"guarantee":"returns the period attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3fc226068993a649"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.period","kind":"property","src_hash":"72c2c76695934d60","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"period()","rhs":"(self.args[1][1], self.args[1][2])","over":{"base":"Any"},"name":"period_correct"},"guarantee":"returns (self.args[1][1], self.args[1][2])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3fc226068993a649","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.args[1][1], self.args[1][2])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def period(self):
         return (self.args[1][1], self.args[1][2])
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(a0(), returns the a0 attribute) over Any              ║
+# ║ Path(a0(), self.args[2][0]) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[2][0]                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ a0 : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aef04df922846d7e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.a0","kind":"property","src_hash":"f24dd4cb83bf2bbb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"a0()","rhs":"returns the a0 attribute","over":{"base":"Any"},"name":"a0_correct"},"guarantee":"returns the a0 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aef04df922846d7e"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.a0","kind":"property","src_hash":"f24dd4cb83bf2bbb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"a0()","rhs":"self.args[2][0]","over":{"base":"Any"},"name":"a0_correct"},"guarantee":"returns self.args[2][0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aef04df922846d7e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[2][0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def a0(self):
         return self.args[2][0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(an(), returns the an attribute) over Any              ║
+# ║ Path(an(), self.args[2][1]) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[2][1]                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ an : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 86cc354caf0fec1d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.an","kind":"property","src_hash":"0ba677fb387d4617","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"an()","rhs":"returns the an attribute","over":{"base":"Any"},"name":"an_correct"},"guarantee":"returns the an attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"86cc354caf0fec1d"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.an","kind":"property","src_hash":"0ba677fb387d4617","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"an()","rhs":"self.args[2][1]","over":{"base":"Any"},"name":"an_correct"},"guarantee":"returns self.args[2][1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"86cc354caf0fec1d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[2][1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def an(self):
         return self.args[2][1]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bn(), returns the bn attribute) over Any              ║
+# ║ Path(bn(), self.args[2][2]) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[2][2]                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bn : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 70b8b5ca1d64a066           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.bn","kind":"property","src_hash":"d79ec96409bcc669","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bn()","rhs":"returns the bn attribute","over":{"base":"Any"},"name":"bn_correct"},"guarantee":"returns the bn attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"70b8b5ca1d64a066"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.bn","kind":"property","src_hash":"d79ec96409bcc669","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bn()","rhs":"self.args[2][2]","over":{"base":"Any"},"name":"bn_correct"},"guarantee":"returns self.args[2][2]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"70b8b5ca1d64a066","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[2][2]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def bn(self):
         return self.args[2][2]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(interval(), returns the interval attribute) over Any  ║
+# ║ Path(interval(), Interval(0, oo)) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Interval(0, oo)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ interval : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d83885076bd6a06c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.interval","kind":"property","src_hash":"5765ca046d9b962f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"interval()","rhs":"returns the interval attribute","over":{"base":"Any"},"name":"interval_correct"},"guarantee":"returns the interval attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d83885076bd6a06c"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.interval","kind":"property","src_hash":"5765ca046d9b962f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"interval()","rhs":"Interval(0, oo)","over":{"base":"Any"},"name":"interval_correct"},"guarantee":"returns Interval(0, oo)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d83885076bd6a06c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Interval(0, oo)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def interval(self):
         return Interval(0, oo)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(start(), returns the start attribute) over Any        ║
+# ║ Path(start(), self.interval.inf) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.interval.inf                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ start : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cececc83e7d5f4f5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.start","kind":"property","src_hash":"da9fdf47fb153091","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"start()","rhs":"returns the start attribute","over":{"base":"Any"},"name":"start_correct"},"guarantee":"returns the start attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cececc83e7d5f4f5"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.start","kind":"property","src_hash":"da9fdf47fb153091","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"start()","rhs":"self.interval.inf","over":{"base":"Any"},"name":"start_correct"},"guarantee":"returns self.interval.inf","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cececc83e7d5f4f5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.interval.inf","pure":false,"effects":{"effect_type":"reads_state","reads":["self.interval"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def start(self):
         return self.interval.inf
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(stop(), returns the stop attribute) over Any          ║
+# ║ Path(stop(), self.interval.sup) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.interval.sup                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ stop : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 65d9668db2c9c5e5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.stop","kind":"property","src_hash":"93d8d3be09415a30","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"stop()","rhs":"returns the stop attribute","over":{"base":"Any"},"name":"stop_correct"},"guarantee":"returns the stop attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"65d9668db2c9c5e5"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.stop","kind":"property","src_hash":"93d8d3be09415a30","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"stop()","rhs":"self.interval.sup","over":{"base":"Any"},"name":"stop_correct"},"guarantee":"returns self.interval.sup","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"65d9668db2c9c5e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.interval.sup","pure":false,"effects":{"effect_type":"reads_state","reads":["self.interval"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def stop(self):
         return self.interval.sup
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(length(), returns the length attribute) over Any      ║
+# ║ Path(length(), <unspecified:length>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ length : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2b1b29fc90a627e3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.length","kind":"property","src_hash":"4023ad4b5e915827","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"returns the length attribute","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns the length attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2b1b29fc90a627e3"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.length","kind":"property","src_hash":"4023ad4b5e915827","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"<unspecified:length>","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns the length attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2b1b29fc90a627e3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def length(self):
         return oo
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(L(), returns the L attribute) over Any                ║
+# ║ Path(L(), abs(self.period[1] - self.period[0]) / 2) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  abs(self.period[1] - self.period[0]) / 2       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ L : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ab79764eac5193fd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.L","kind":"property","src_hash":"cde5fdaf1d3c2777","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"L()","rhs":"returns the L attribute","over":{"base":"Any"},"name":"L_correct"},"guarantee":"returns the L attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ab79764eac5193fd"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.L","kind":"property","src_hash":"cde5fdaf1d3c2777","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"L()","rhs":"abs(self.period[1] - self.period[0]) / 2","over":{"base":"Any"},"name":"L_correct"},"guarantee":"returns abs(self.period[1] - self.period[0]) / 2","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ab79764eac5193fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"abs(self.period[1] - self.period[0]) / 2","pure":false,"effects":{"effect_type":"reads_state","reads":["self.period"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def L(self):
         return abs(self.period[1] - self.period[0]) / 2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_subs(old), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_subs(old, new), <unspecified:_eval_subs>) over {Any | hasattr(old, 'has')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_subs : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(old, 'has')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_subs : {Any | hasattr(old, 'has')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a29f4ef9956f1c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries._eval_subs","kind":"method","src_hash":"adf2e8ada57cf10f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_subs(old)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_subs_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.fourier.FourierSeries._eval_subs_correct","statement":"Path(_eval_subs(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a29f4ef9956f1c6"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries._eval_subs","kind":"method","src_hash":"adf2e8ada57cf10f","in":{"base":"Any","pred":"hasattr(old, 'has')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_subs(old, new)","rhs":"<unspecified:_eval_subs>","over":{"base":"Any","pred":"hasattr(old, 'has')"},"name":"_eval_subs_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.fourier.FourierSeries._eval_subs_correct","statement":"Path(_eval_subs(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a29f4ef9956f1c6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(old, 'has')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["old.has","self.x"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_subs(self, old, new):
         x = self.x
         if old.has(x):
             return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(truncate(n), return the first n nonzero terms of the series) over Any ║
+# ║ Path(truncate(n), <unspecified:truncate>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ truncate : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4eafa8606f244c73  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.truncate","kind":"method","src_hash":"40acb6caf94c4178","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"truncate(n)","rhs":"return the first n nonzero terms of the series","over":{"base":"Any"},"name":"truncate_correct"},"guarantee":"return the first n nonzero terms of the series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.fourier.FourierSeries.truncate_correct","statement":"Path(truncate(x), return the first n nonzero terms of the series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4eafa8606f244c73"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.truncate","kind":"method","src_hash":"40acb6caf94c4178","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"truncate(n)","rhs":"<unspecified:truncate>","over":{"base":"Any"},"name":"truncate_correct"},"guarantee":"return the first n nonzero terms of the series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.fourier.FourierSeries.truncate_correct","statement":"Path(truncate(x), return the first n nonzero terms of the series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4eafa8606f244c73","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def truncate(self, n=3):
         """
         Return the first n nonzero terms of the series.
@@ -475,16 +593,22 @@ class FourierSeries(SeriesBase):
         return Add(*terms)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sigma_approximation(n), return :math:`\sigma`-approximation of fourier series with respect to order n) over Any ║
+# ║ Path(sigma_approximation(n), Add(*terms)) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Add(*terms)                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sigma_approximation : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5f8c2d01b9b2dae  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 922da2b5423c430f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.sigma_approximation","kind":"method","src_hash":"e7a86dbdec105ee8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: math:`\\sigma`-approximation of fourier series with respect"},"spec":{"lhs":"sigma_approximation(n)","rhs":"return :math:`\\sigma`-approximation of fourier series with respect to order n","over":{"base":"Any"},"name":"sigma_approximation_correct"},"guarantee":"return :math:`\\sigma`-approximation of fourier series with respect to order n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.fourier.FourierSeries.sigma_approximation_correct","statement":"Path(sigma_approximation(x), return :math:`\\sigma`-approximation of fourier series with respect to order n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5f8c2d01b9b2dae"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.sigma_approximation","kind":"method","src_hash":"e7a86dbdec105ee8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: math:`\\sigma`-approximation of fourier series with respect"},"spec":{"lhs":"sigma_approximation(n)","rhs":"Add(*terms)","over":{"base":"Any"},"name":"sigma_approximation_correct"},"guarantee":"returns Add(*terms)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.fourier.FourierSeries.sigma_approximation_correct","statement":"Path(sigma_approximation(x), returns Add(*terms))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"922da2b5423c430f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Add(*terms)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def sigma_approximation(self, n=3):
         r"""
         Return :math:`\sigma`-approximation of Fourier series with respect
@@ -556,16 +680,24 @@ class FourierSeries(SeriesBase):
         return Add(*terms)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shift(s), shift the function by a term independent of x) over Any ║
+# ║ Path(shift(s), self.func(sfunc, self.args[1], (a0, self.an, self.bn))) over {Any | not (x in s.free_symbols) and hasattr(s, 'free_symbols')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ shift : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (x in s.free_symbols)                      ║
+# ║   requires: hasattr(s, 'free_symbols')                     ║
+# ║   returns:  self.func(sfunc, self.args[1], (a0, self....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ shift : {Any | not (x in s.free_symbols) and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | acf90b2a9b463618  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a4655ff7d76b924e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.shift","kind":"method","src_hash":"888cf132d4619f50","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shift(s)","rhs":"shift the function by a term independent of x","over":{"base":"Any"},"name":"shift_correct"},"guarantee":"shift the function by a term independent of x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.fourier.FourierSeries.shift_correct","statement":"Path(shift(x), shift the function by a term independent of x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"acf90b2a9b463618"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.shift","kind":"method","src_hash":"888cf132d4619f50","in":{"base":"Any","pred":"not (x in s.free_symbols) and hasattr(s, 'free_symbols')"},"out":{"base":"Any"},"spec":{"lhs":"shift(s)","rhs":"self.func(sfunc, self.args[1], (a0, self.an, self.bn))","over":{"base":"Any","pred":"not (x in s.free_symbols) and hasattr(s, 'free_symbols')"},"name":"shift_correct"},"guarantee":"returns self.func(sfunc, self.args[1], (a0, self.an, self.bn))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.fourier.FourierSeries.shift_correct","statement":"Path(shift(x), returns self.func(sfunc, self.args[1], (a0, self.an, self.bn)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4655ff7d76b924e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (x in s.free_symbols)","hasattr(s, 'free_symbols')"],"returns_expr":"self.func(sfunc, self.args[1], (a0, self.an, self.bn))","pure":false,"effects":{"effect_type":"reads_state","reads":["s.free_symbols","self.a0","self.an","self.args","self.bn","self.func","self.function","self.x"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shift(self, s):
         """
         Shift the function by a term independent of x.
@@ -598,16 +730,24 @@ class FourierSeries(SeriesBase):
         return self.func(sfunc, self.args[1], (a0, self.an, self.bn))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shiftx(s), shift x by a term independent of x) over Any ║
+# ║ Path(shiftx(s), self.func(sfunc, self.args[1], (self.a0, an, bn))) over {Any | not (x in s.free_symbols) and hasattr(s, 'free_symbols')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ shiftx : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (x in s.free_symbols)                      ║
+# ║   requires: hasattr(s, 'free_symbols')                     ║
+# ║   returns:  self.func(sfunc, self.args[1], (self.a0, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ shiftx : {Any | not (x in s.free_symbols) and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3390674876770eec  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c9b8fa5f37c4740  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.shiftx","kind":"method","src_hash":"5588704b3c268bbc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shiftx(s)","rhs":"shift x by a term independent of x","over":{"base":"Any"},"name":"shiftx_correct"},"guarantee":"shift x by a term independent of x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.fourier.FourierSeries.shiftx_correct","statement":"Path(shiftx(x), shift x by a term independent of x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3390674876770eec"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.shiftx","kind":"method","src_hash":"5588704b3c268bbc","in":{"base":"Any","pred":"not (x in s.free_symbols) and hasattr(s, 'free_symbols')"},"out":{"base":"Any"},"spec":{"lhs":"shiftx(s)","rhs":"self.func(sfunc, self.args[1], (self.a0, an, bn))","over":{"base":"Any","pred":"not (x in s.free_symbols) and hasattr(s, 'free_symbols')"},"name":"shiftx_correct"},"guarantee":"returns self.func(sfunc, self.args[1], (self.a0, an, bn))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.fourier.FourierSeries.shiftx_correct","statement":"Path(shiftx(x), returns self.func(sfunc, self.args[1], (self.a0, an, bn)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c9b8fa5f37c4740","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (x in s.free_symbols)","hasattr(s, 'free_symbols')"],"returns_expr":"self.func(sfunc, self.args[1], (self.a0, an, bn))","pure":false,"effects":{"effect_type":"reads_state","reads":["s.free_symbols","self.a0","self.an","self.args","self.bn","self.func","self.function","self.x"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shiftx(self, s):
         """
         Shift x by a term independent of x.
@@ -641,16 +781,24 @@ class FourierSeries(SeriesBase):
         return self.func(sfunc, self.args[1], (self.a0, an, bn))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(scale(s), scale the function by a term independent of x) over Any ║
+# ║ Path(scale(s), self.func(sfunc, self.args[1], (a0, an, bn))) over {Any | not (x in s.free_symbols) and hasattr(s, 'free_symbols')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ scale : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (x in s.free_symbols)                      ║
+# ║   requires: hasattr(s, 'free_symbols')                     ║
+# ║   returns:  self.func(sfunc, self.args[1], (a0, an, bn))   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ scale : {Any | not (x in s.free_symbols) and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ede138847b7e875a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f0193a8ead53c0b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.scale","kind":"method","src_hash":"3e7bc8019667a974","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scale(s)","rhs":"scale the function by a term independent of x","over":{"base":"Any"},"name":"scale_correct"},"guarantee":"scale the function by a term independent of x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.fourier.FourierSeries.scale_correct","statement":"Path(scale(x), scale the function by a term independent of x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ede138847b7e875a"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.scale","kind":"method","src_hash":"3e7bc8019667a974","in":{"base":"Any","pred":"not (x in s.free_symbols) and hasattr(s, 'free_symbols')"},"out":{"base":"Any"},"spec":{"lhs":"scale(s)","rhs":"self.func(sfunc, self.args[1], (a0, an, bn))","over":{"base":"Any","pred":"not (x in s.free_symbols) and hasattr(s, 'free_symbols')"},"name":"scale_correct"},"guarantee":"returns self.func(sfunc, self.args[1], (a0, an, bn))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.fourier.FourierSeries.scale_correct","statement":"Path(scale(x), returns self.func(sfunc, self.args[1], (a0, an, bn)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f0193a8ead53c0b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (x in s.free_symbols)","hasattr(s, 'free_symbols')"],"returns_expr":"self.func(sfunc, self.args[1], (a0, an, bn))","pure":false,"effects":{"effect_type":"reads_state","reads":["s.free_symbols","self.a0","self.an","self.args","self.bn","self.func","self.x"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def scale(self, s):
         """
         Scale the function by a term independent of x.
@@ -685,16 +833,24 @@ class FourierSeries(SeriesBase):
         return self.func(sfunc, self.args[1], (a0, an, bn))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(scalex(s), scale x by a term independent of x) over Any ║
+# ║ Path(scalex(s), self.func(sfunc, self.args[1], (self.a0, an, bn))) over {Any | not (x in s.free_symbols) and hasattr(s, 'free_symbols')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ scalex : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (x in s.free_symbols)                      ║
+# ║   requires: hasattr(s, 'free_symbols')                     ║
+# ║   returns:  self.func(sfunc, self.args[1], (self.a0, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ scalex : {Any | not (x in s.free_symbols) and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb35ba75efa1e779  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75fdd5a93a3f7287  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.scalex","kind":"method","src_hash":"9a761333624c7dbd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scalex(s)","rhs":"scale x by a term independent of x","over":{"base":"Any"},"name":"scalex_correct"},"guarantee":"scale x by a term independent of x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.fourier.FourierSeries.scalex_correct","statement":"Path(scalex(x), scale x by a term independent of x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb35ba75efa1e779"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.scalex","kind":"method","src_hash":"9a761333624c7dbd","in":{"base":"Any","pred":"not (x in s.free_symbols) and hasattr(s, 'free_symbols')"},"out":{"base":"Any"},"spec":{"lhs":"scalex(s)","rhs":"self.func(sfunc, self.args[1], (self.a0, an, bn))","over":{"base":"Any","pred":"not (x in s.free_symbols) and hasattr(s, 'free_symbols')"},"name":"scalex_correct"},"guarantee":"returns self.func(sfunc, self.args[1], (self.a0, an, bn))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.fourier.FourierSeries.scalex_correct","statement":"Path(scalex(x), returns self.func(sfunc, self.args[1], (self.a0, an, bn)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75fdd5a93a3f7287","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (x in s.free_symbols)","hasattr(s, 'free_symbols')"],"returns_expr":"self.func(sfunc, self.args[1], (self.a0, an, bn))","pure":false,"effects":{"effect_type":"reads_state","reads":["s.free_symbols","self.a0","self.an","self.args","self.bn","self.func","self.function","self.x"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def scalex(self, s):
         """
         Scale x by a term independent of x.
@@ -728,62 +884,89 @@ class FourierSeries(SeriesBase):
         return self.func(sfunc, self.args[1], (self.a0, an, bn))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_leading_term(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_as_leading_term(x, logx, cdir), <unspecified:_eval_as_leading_term>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_as_leading_term : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0d4ec0bde7f288b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries._eval_as_leading_term","kind":"method","src_hash":"34e0f59fd541aefe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.fourier.FourierSeries._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0d4ec0bde7f288b"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries._eval_as_leading_term","kind":"method","src_hash":"34e0f59fd541aefe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, logx, cdir)","rhs":"<unspecified:_eval_as_leading_term>","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.fourier.FourierSeries._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0d4ec0bde7f288b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_leading_term(self, x, logx, cdir):
         for t in self:
             if t is not S.Zero:
                 return t
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_term(pt), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_term(pt), <unspecified:_eval_term>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_term : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b915b5b8153f62b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries._eval_term","kind":"method","src_hash":"8dc70840beae9029","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_term(pt)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.fourier.FourierSeries._eval_term_correct","statement":"Path(_eval_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b915b5b8153f62b"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries._eval_term","kind":"method","src_hash":"8dc70840beae9029","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_term(pt)","rhs":"<unspecified:_eval_term>","over":{"base":"Any"},"name":"_eval_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.fourier.FourierSeries._eval_term_correct","statement":"Path(_eval_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b915b5b8153f62b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.a0","self.an","self.bn"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_term(self, pt):
         if pt == 0:
             return self.a0
         return self.an.coeff(pt) + self.bn.coeff(pt)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__neg__(), returns the additive inverse) over Any     ║
+# ║ Path(__neg__(), self.scale(-1)) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.scale(-1)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __neg__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b09b593da4dfedd0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.__neg__","kind":"method","src_hash":"5969f52310ae704d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"returns the additive inverse","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns the additive inverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b09b593da4dfedd0"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.__neg__","kind":"method","src_hash":"5969f52310ae704d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"self.scale(-1)","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns self.scale(-1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b09b593da4dfedd0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.scale(-1)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.scale"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __neg__(self):
         return self.scale(-1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), <unspecified:__add__>) over {Any | hasattr(other, 'period') and hasattr(other, 'x') and hasattr(other, 'an') and hasattr(other, 'bn') and hasattr(other, 'a0') and hasattr(other, 'function')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __add__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'period')                       ║
+# ║   requires: hasattr(other, 'x')                            ║
+# ║   requires: hasattr(other, 'an')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __add__ : {Any | hasattr(other, 'period') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0b25c3f7429e7a14           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.__add__","kind":"method","src_hash":"10c43d99a7dcb920","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0b25c3f7429e7a14"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.__add__","kind":"method","src_hash":"10c43d99a7dcb920","in":{"base":"Any","pred":"hasattr(other, 'period') and hasattr(other, 'x') and hasattr(other, 'an') and hasattr(other, 'bn') and hasattr(other, 'a0') and hasattr(other, 'function')"},"out":{"base":"Any"},"spec":{"lhs":"__add__(other)","rhs":"<unspecified:__add__>","over":{"base":"Any","pred":"hasattr(other, 'period') and hasattr(other, 'x') and hasattr(other, 'an') and hasattr(other, 'bn') and hasattr(other, 'a0') and hasattr(other, 'function')"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0b25c3f7429e7a14","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'period')","hasattr(other, 'x')","hasattr(other, 'an')","hasattr(other, 'bn')","hasattr(other, 'a0')","hasattr(other, 'function')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.a0","other.an","other.bn","other.function","other.period","other.x","self.a0","self.an","self.args","self.bn","self.func","self.function","self.period","self.x"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
         if isinstance(other, FourierSeries):
             if self.period != other.period:
@@ -804,16 +987,22 @@ class FourierSeries(SeriesBase):
         return Add(self, other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__sub__(other), self.__add__(-other)) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__add__(-other)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __sub__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3487d504710d4ced           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.__sub__","kind":"method","src_hash":"21c148c0e418d582","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3487d504710d4ced"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FourierSeries.__sub__","kind":"method","src_hash":"21c148c0e418d582","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(other)","rhs":"self.__add__(-other)","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"returns self.__add__(-other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3487d504710d4ced","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__add__(-other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.__add__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(self, other):
         return self.__add__(-other)
 
@@ -821,14 +1010,20 @@ class FourierSeries(SeriesBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(FiniteFourierSeries(*args), correctly constructs a FiniteFourierSeries instance) over {Any | isinstance(other, FourierSeries) and isinstance(other, FiniteFourierSeries) and isinstance(exprs, Tuple)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, FourierSeries)                ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ FiniteFourierSeries : {Any | isinstance(other, Fourie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9d3153a4ff2a7fe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FiniteFourierSeries","kind":"class","src_hash":"654ad068667d7e1b","in":{"base":"Any","pred":"isinstance(other, FourierSeries) and isinstance(other, FiniteFourierSeries) and isinstance(exprs, Tuple)"},"out":{"base":"Any"},"spec":{"lhs":"FiniteFourierSeries(*args)","rhs":"correctly constructs a FiniteFourierSeries instance","over":{"base":"Any","pred":"isinstance(other, FourierSeries) and isinstance(other, FiniteFourierSeries) and isinstance(exprs, Tuple)"},"name":"FiniteFourierSeries_class_invariant"},"guarantee":"correctly constructs a FiniteFourierSeries instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9d3153a4ff2a7fe"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FiniteFourierSeries","kind":"class","src_hash":"654ad068667d7e1b","in":{"base":"Any","pred":"isinstance(other, FourierSeries) and isinstance(other, FiniteFourierSeries) and isinstance(exprs, Tuple)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, FourierSeries)"},"spec":{"lhs":"FiniteFourierSeries(*args)","rhs":"correctly constructs a FiniteFourierSeries instance","over":{"base":"Any","pred":"isinstance(other, FourierSeries) and isinstance(other, FiniteFourierSeries) and isinstance(exprs, Tuple)"},"name":"FiniteFourierSeries_class_invariant"},"guarantee":"isinstance(self, FourierSeries)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9d3153a4ff2a7fe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, FourierSeries)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function FiniteFourierSeries not found in source"]}}
 class FiniteFourierSeries(FourierSeries):
     r"""Represents Finite Fourier sine/cosine series.
 
@@ -869,16 +1064,23 @@ class FiniteFourierSeries(FourierSeries):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, f, limits), Expr.__new__(cls, f, limits, exprs)) over {Any | hasattr(exprs, 'as_coeff_add')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(exprs, 'as_coeff_add')                 ║
+# ║   returns:  Expr.__new__(cls, f, limits, exprs)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | hasattr(exprs, 'as_coeff_add')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f3348b7f813ca424           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FiniteFourierSeries.__new__","kind":"method","src_hash":"ca982df9ed5f6497","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f3348b7f813ca424"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FiniteFourierSeries.__new__","kind":"method","src_hash":"ca982df9ed5f6497","in":{"base":"Any","pred":"hasattr(exprs, 'as_coeff_add')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, f, limits)","rhs":"Expr.__new__(cls, f, limits, exprs)","over":{"base":"Any","pred":"hasattr(exprs, 'as_coeff_add')"},"name":"__new___correct"},"guarantee":"returns Expr.__new__(cls, f, limits, exprs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f3348b7f813ca424","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(exprs, 'as_coeff_add')"],"returns_expr":"Expr.__new__(cls, f, limits, exprs)","pure":false,"effects":{"effect_type":"reads_state","reads":["exprs.as_coeff_add"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, f, limits, exprs):
         f = sympify(f)
         limits = sympify(limits)
@@ -917,16 +1119,22 @@ class FiniteFourierSeries(FourierSeries):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(interval(), returns the interval attribute) over Any  ║
+# ║ Path(interval(), Interval(0, _length)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Interval(0, _length)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ interval : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d37bbdd005d11173           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FiniteFourierSeries.interval","kind":"property","src_hash":"8adbe696fe1b5566","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"interval()","rhs":"returns the interval attribute","over":{"base":"Any"},"name":"interval_correct"},"guarantee":"returns the interval attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d37bbdd005d11173"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FiniteFourierSeries.interval","kind":"property","src_hash":"8adbe696fe1b5566","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"interval()","rhs":"Interval(0, _length)","over":{"base":"Any"},"name":"interval_correct"},"guarantee":"returns Interval(0, _length)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d37bbdd005d11173","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Interval(0, _length)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.a0","self.an","self.bn"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def interval(self):
         _length = 1 if self.a0 else 0
         _length += max(set(self.an.keys()).union(set(self.bn.keys()))) + 1
@@ -934,30 +1142,44 @@ class FiniteFourierSeries(FourierSeries):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(length(), returns the length attribute) over Any      ║
+# ║ Path(length(), self.stop - self.start) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.stop - self.start                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ length : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 37ae29260fe1396a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FiniteFourierSeries.length","kind":"property","src_hash":"d508e4650271ec14","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"returns the length attribute","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns the length attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"37ae29260fe1396a"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FiniteFourierSeries.length","kind":"property","src_hash":"d508e4650271ec14","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"self.stop - self.start","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns self.stop - self.start","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"37ae29260fe1396a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.stop - self.start","pure":false,"effects":{"effect_type":"reads_state","reads":["self.start","self.stop"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def length(self):
         return self.stop - self.start
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shiftx(s), shiftx produces the expected output) over Any ║
+# ║ Path(shiftx(s), self.func(sfunc, self.args[1], _expr)) over {Any | not (x in s.free_symbols) and hasattr(s, 'free_symbols')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ shiftx : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (x in s.free_symbols)                      ║
+# ║   requires: hasattr(s, 'free_symbols')                     ║
+# ║   returns:  self.func(sfunc, self.args[1], _expr)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ shiftx : {Any | not (x in s.free_symbols) and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 088fb0c4dfb36b31  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 19ba6f8f734c19fd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FiniteFourierSeries.shiftx","kind":"method","src_hash":"4c1b053595ac98f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shiftx(s)","rhs":"shiftx produces the expected output","over":{"base":"Any"},"name":"shiftx_correct"},"guarantee":"shiftx produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.fourier.FiniteFourierSeries.shiftx_correct","statement":"Path(shiftx(x), shiftx produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"088fb0c4dfb36b31"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FiniteFourierSeries.shiftx","kind":"method","src_hash":"4c1b053595ac98f0","in":{"base":"Any","pred":"not (x in s.free_symbols) and hasattr(s, 'free_symbols')"},"out":{"base":"Any"},"spec":{"lhs":"shiftx(s)","rhs":"self.func(sfunc, self.args[1], _expr)","over":{"base":"Any","pred":"not (x in s.free_symbols) and hasattr(s, 'free_symbols')"},"name":"shiftx_correct"},"guarantee":"returns self.func(sfunc, self.args[1], _expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.fourier.FiniteFourierSeries.shiftx_correct","statement":"Path(shiftx(x), returns self.func(sfunc, self.args[1], _expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19ba6f8f734c19fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (x in s.free_symbols)","hasattr(s, 'free_symbols')"],"returns_expr":"self.func(sfunc, self.args[1], _expr)","pure":false,"effects":{"effect_type":"io","reads":["s.free_symbols","self.args","self.func","self.function","self.truncate","self.x"],"calls_mutating":["self.truncate"],"raises":["ValueError"],"io_operations":["self.truncate"]},"state_contract":{"modifies":["self.*"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shiftx(self, s):
         s, x = sympify(s), self.x
 
@@ -970,16 +1192,24 @@ class FiniteFourierSeries(FourierSeries):
         return self.func(sfunc, self.args[1], _expr)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(scale(s), scale produces the expected output) over Any ║
+# ║ Path(scale(s), self.func(sfunc, self.args[1], _expr)) over {Any | not (x in s.free_symbols) and hasattr(s, 'free_symbols')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ scale : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (x in s.free_symbols)                      ║
+# ║   requires: hasattr(s, 'free_symbols')                     ║
+# ║   returns:  self.func(sfunc, self.args[1], _expr)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ scale : {Any | not (x in s.free_symbols) and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 60df91f988b70128  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c45ee4761ea74a6f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FiniteFourierSeries.scale","kind":"method","src_hash":"b8dae454be5bf3bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scale(s)","rhs":"scale produces the expected output","over":{"base":"Any"},"name":"scale_correct"},"guarantee":"scale produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.fourier.FiniteFourierSeries.scale_correct","statement":"Path(scale(x), scale produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60df91f988b70128"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FiniteFourierSeries.scale","kind":"method","src_hash":"b8dae454be5bf3bb","in":{"base":"Any","pred":"not (x in s.free_symbols) and hasattr(s, 'free_symbols')"},"out":{"base":"Any"},"spec":{"lhs":"scale(s)","rhs":"self.func(sfunc, self.args[1], _expr)","over":{"base":"Any","pred":"not (x in s.free_symbols) and hasattr(s, 'free_symbols')"},"name":"scale_correct"},"guarantee":"returns self.func(sfunc, self.args[1], _expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.fourier.FiniteFourierSeries.scale_correct","statement":"Path(scale(x), returns self.func(sfunc, self.args[1], _expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c45ee4761ea74a6f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (x in s.free_symbols)","hasattr(s, 'free_symbols')"],"returns_expr":"self.func(sfunc, self.args[1], _expr)","pure":false,"effects":{"effect_type":"io","reads":["s.free_symbols","self.args","self.func","self.function","self.truncate","self.x"],"calls_mutating":["self.truncate"],"raises":["ValueError"],"io_operations":["self.truncate"]},"state_contract":{"modifies":["self.*"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def scale(self, s):
         s, x = sympify(s), self.x
 
@@ -992,16 +1222,24 @@ class FiniteFourierSeries(FourierSeries):
         return self.func(sfunc, self.args[1], _expr)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(scalex(s), scalex produces the expected output) over Any ║
+# ║ Path(scalex(s), self.func(sfunc, self.args[1], _expr)) over {Any | not (x in s.free_symbols) and hasattr(s, 'free_symbols')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ scalex : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (x in s.free_symbols)                      ║
+# ║   requires: hasattr(s, 'free_symbols')                     ║
+# ║   returns:  self.func(sfunc, self.args[1], _expr)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ scalex : {Any | not (x in s.free_symbols) and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0fd0874b41ad3895  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b12a84da99433a0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FiniteFourierSeries.scalex","kind":"method","src_hash":"b87334594356e97c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scalex(s)","rhs":"scalex produces the expected output","over":{"base":"Any"},"name":"scalex_correct"},"guarantee":"scalex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.fourier.FiniteFourierSeries.scalex_correct","statement":"Path(scalex(x), scalex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0fd0874b41ad3895"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FiniteFourierSeries.scalex","kind":"method","src_hash":"b87334594356e97c","in":{"base":"Any","pred":"not (x in s.free_symbols) and hasattr(s, 'free_symbols')"},"out":{"base":"Any"},"spec":{"lhs":"scalex(s)","rhs":"self.func(sfunc, self.args[1], _expr)","over":{"base":"Any","pred":"not (x in s.free_symbols) and hasattr(s, 'free_symbols')"},"name":"scalex_correct"},"guarantee":"returns self.func(sfunc, self.args[1], _expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.fourier.FiniteFourierSeries.scalex_correct","statement":"Path(scalex(x), returns self.func(sfunc, self.args[1], _expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b12a84da99433a0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (x in s.free_symbols)","hasattr(s, 'free_symbols')"],"returns_expr":"self.func(sfunc, self.args[1], _expr)","pure":false,"effects":{"effect_type":"io","reads":["s.free_symbols","self.args","self.func","self.function","self.truncate","self.x"],"calls_mutating":["self.truncate"],"raises":["ValueError"],"io_operations":["self.truncate"]},"state_contract":{"modifies":["self.*"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def scalex(self, s):
         s, x = sympify(s), self.x
 
@@ -1014,16 +1252,22 @@ class FiniteFourierSeries(FourierSeries):
         return self.func(sfunc, self.args[1], _expr)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_term(pt), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_term(pt), <unspecified:_eval_term>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_term : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ba6813f59e9d8c3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FiniteFourierSeries._eval_term","kind":"method","src_hash":"0da52e9598013d9f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_term(pt)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.fourier.FiniteFourierSeries._eval_term_correct","statement":"Path(_eval_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ba6813f59e9d8c3"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FiniteFourierSeries._eval_term","kind":"method","src_hash":"0da52e9598013d9f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_term(pt)","rhs":"<unspecified:_eval_term>","over":{"base":"Any"},"name":"_eval_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.fourier.FiniteFourierSeries._eval_term_correct","statement":"Path(_eval_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ba6813f59e9d8c3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.L","self.a0","self.an","self.bn","self.x"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_term(self, pt):
         if pt == 0:
             return self.a0
@@ -1033,16 +1277,28 @@ class FiniteFourierSeries(FourierSeries):
         return _term
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), result == (other.__add__(fourier_series(self.function, self.args[1], finite=False)) if isinstance(other, FourierSeries) else fourier_series(function, limits=self.args[1])) and result == other.__add__(fourier_series(self.function, self.args[1], finite=False)) or result == fourier_series(function, limits=self.args[1])) over {Any | hasattr(other, '__add__') and hasattr(other, 'period') and hasattr(other, 'x') and hasattr(other, 'function')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __add__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, '__add__')                      ║
+# ║   requires: hasattr(other, 'period')                       ║
+# ║   requires: hasattr(other, 'x')                            ║
+# ║   ensures:  result == (other.__add__(fourier_series(s...   ║
+# ║   ensures:  result == other.__add__(fourier_series(se...   ║
+# ║   fiber[FourierSeries]: isinstance(other, FourierSeri...   ║
+# ║   fiber[FiniteFourierSeries]: isinstance(other, Finit...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __add__ : {Any | hasattr(other, '__add__') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8f8cc76cbe9eccb5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FiniteFourierSeries.__add__","kind":"method","src_hash":"fc2df71e605c379b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f8cc76cbe9eccb5"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier.FiniteFourierSeries.__add__","kind":"method","src_hash":"fc2df71e605c379b","in":{"base":"Any","pred":"hasattr(other, '__add__') and hasattr(other, 'period') and hasattr(other, 'x') and hasattr(other, 'function')"},"out":{"base":"Any","pred":"result satisfies: result == (other.__add__(fourier_series(self.function, self.args[1], finite=False)) if isinstance(other, FourierSeries) else fourier_series(function, limits=self.args[1])) and result == other.__add__(fourier_series(self.function, self.args[1], finite=False)) or result == fourier_series(function, limits=self.args[1])"},"spec":{"lhs":"__add__(other)","rhs":"result == (other.__add__(fourier_series(self.function, self.args[1], finite=False)) if isinstance(other, FourierSeries) else fourier_series(function, limits=self.args[1])) and result == other.__add__(fourier_series(self.function, self.args[1], finite=False)) or result == fourier_series(function, limits=self.args[1])","over":{"base":"Any","pred":"hasattr(other, '__add__') and hasattr(other, 'period') and hasattr(other, 'x') and hasattr(other, 'function')"},"name":"__add___correct"},"guarantee":"result == (other.__add__(fourier_series(self.function, self.args[1], finite=False)) if isinstance(other, FourierSeries) else fourier_series(function, limits=self.args[1])); result == other.__add__(fourier_series(self.function, self.args[1], finite=False)) or result == fourier_series(function, limits=self.args[1]); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f8cc76cbe9eccb5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, '__add__')","hasattr(other, 'period')","hasattr(other, 'x')","hasattr(other, 'function')"],"ensures":["result == (other.__add__(fourier_series(self.function, self.args[1], finite=False)) if isinstance(other, FourierSeries) else fourier_series(function, limits=self.args[1]))","result == other.__add__(fourier_series(self.function, self.args[1], finite=False)) or result == fourier_series(function, limits=self.args[1])"],"fibers":[{"name":"FourierSeries","guard":"isinstance(other, FourierSeries)","ensures":["result == other.__add__(fourier_series(self.function, self.args[1], finite=False))"],"decidability":"structural","returns_expr":"other.__add__(fourier_series(self.function, self.args[1], finite=False))"},{"name":"FiniteFourierSeries","guard":"isinstance(other, FiniteFourierSeries)","ensures":["result == fourier_series(function, limits=self.args[1])"],"decidability":"structural","returns_expr":"fourier_series(function, limits=self.args[1])"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.__add__","other.function","other.period","other.x","self.args","self.function","self.period","self.x"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
         if isinstance(other, FourierSeries):
             return other.__add__(fourier_series(self.function, self.args[1],\
@@ -1061,16 +1317,24 @@ class FiniteFourierSeries(FourierSeries):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fourier_series(f, ), computes the fourier trigonometric series expansion) over Any ║
+# ║ Path(fourier_series(f, limits, finite), <unspecified:fourier_series>) over {Any | hasattr(f, 'free_symbols') and hasattr(f, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ fourier_series : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'free_symbols')                     ║
+# ║   requires: hasattr(f, 'subs')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ fourier_series : {Any | hasattr(f, 'free_symbols') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 71b6308e7a5809ef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.fourier.fourier_series","kind":"function","src_hash":"6a5101d4fcdb4be7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fourier_series(f, )","rhs":"computes the fourier trigonometric series expansion","over":{"base":"Any"},"name":"fourier_series_correct"},"guarantee":"computes the fourier trigonometric series expansion","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.fourier.fourier_series_correct","statement":"Path(fourier_series(x), computes the fourier trigonometric series expansion)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71b6308e7a5809ef"}
+# @cctt_verify {"v":2,"sym":"sympy.series.fourier.fourier_series","kind":"function","src_hash":"6a5101d4fcdb4be7","in":{"base":"Any","pred":"hasattr(f, 'free_symbols') and hasattr(f, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"fourier_series(f, limits, finite)","rhs":"<unspecified:fourier_series>","over":{"base":"Any","pred":"hasattr(f, 'free_symbols') and hasattr(f, 'subs')"},"name":"fourier_series_correct"},"guarantee":"computes the fourier trigonometric series expansion","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.fourier.fourier_series_correct","statement":"Path(fourier_series(x), computes the fourier trigonometric series expansion)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71b6308e7a5809ef","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'free_symbols')","hasattr(f, 'subs')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.free_symbols","f.subs"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def fourier_series(f, limits=None, finite=True):
     r"""Computes the Fourier trigonometric series expansion.
 

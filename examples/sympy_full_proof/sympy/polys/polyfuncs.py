@@ -31,16 +31,22 @@ from sympy.utilities import numbered_symbols, take, public
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(symmetrize(F, ), rewrite a polynomial in terms of elementary symmetric polynomials) over Any ║
+# ║ Path(symmetrize(F, *gens, **args), <unspecified:symmetrize>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ symmetrize : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4d06c4792997a7ab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyfuncs.symmetrize","kind":"function","src_hash":"333926a9c56325bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"symmetrize(F, )","rhs":"rewrite a polynomial in terms of elementary symmetric polynomials","over":{"base":"Any"},"name":"symmetrize_correct"},"guarantee":"rewrite a polynomial in terms of elementary symmetric polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyfuncs.symmetrize_correct","statement":"Path(symmetrize(x), rewrite a polynomial in terms of elementary symmetric polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d06c4792997a7ab"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyfuncs.symmetrize","kind":"function","src_hash":"333926a9c56325bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"symmetrize(F, *gens, **args)","rhs":"<unspecified:symmetrize>","over":{"base":"Any"},"name":"symmetrize_correct"},"guarantee":"rewrite a polynomial in terms of elementary symmetric polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyfuncs.symmetrize_correct","statement":"Path(symmetrize(x), rewrite a polynomial in terms of elementary symmetric polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d06c4792997a7ab","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['F'], spec=['F', '*gens', '**args']"]}}
 def symmetrize(F, *gens, **args):
     r"""
     Rewrite a polynomial in terms of elementary symmetric polynomials.
@@ -114,16 +120,22 @@ def symmetrize(F, *gens, **args):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(horner(f, ), rewrite a polynomial in horner form) over Any ║
+# ║ Path(horner(f, *gens, **args), # HINT: horner may be idempotent: horner(horner(x)) == horner(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ horner : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: horner may be idempotent: horner(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ horner : Any → {Any | result satisfies: # HINT: horne...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6eb10fb6943a47bc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a17ee396df51a8a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyfuncs.horner","kind":"function","src_hash":"f9e98ae8b8dff876","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"horner(f, )","rhs":"rewrite a polynomial in horner form","over":{"base":"Any"},"name":"horner_correct"},"guarantee":"rewrite a polynomial in horner form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyfuncs.horner_correct","statement":"Path(horner(x), rewrite a polynomial in horner form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6eb10fb6943a47bc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyfuncs.horner","kind":"function","src_hash":"f9e98ae8b8dff876","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: horner may be idempotent: horner(horner(x)) == horner(x)"},"spec":{"lhs":"horner(f, *gens, **args)","rhs":"# HINT: horner may be idempotent: horner(horner(x)) == horner(x)","over":{"base":"Any"},"name":"horner_correct"},"guarantee":"# HINT: horner may be idempotent: horner(horner(x)) == horner(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyfuncs.horner_correct","statement":"Path(horner(x), # HINT: horner may be idempotent: horner(horner(x)) == horner(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a17ee396df51a8a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: horner may be idempotent: horner(horner(x)) == horner(x)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['f'], spec=['f', '*gens', '**args']"]}}
 def horner(f, *gens, **args):
     """
     Rewrite a polynomial in Horner form.
@@ -179,7 +191,11 @@ def horner(f, *gens, **args):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(interpolate(dat), construct an interpolating polynomial for the data points evaluated at point x (which can be symbolic or numeric)) over {Any | isinstance(data, dict) and isinstance(data[0], tuple)} ║
+# ║ Path(interpolate(data, x), <unspecified:interpolate>) over {Any | isinstance(data, dict) and isinstance(data[0], tuple) and hasattr(data, 'items')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(data, 'items')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ interpolate : {Any | isinstance(data, dict) and isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -192,9 +208,12 @@ def horner(f, *gens, **args):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 0.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 739d0514...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyfuncs.interpolate","kind":"function","src_hash":"e20e41327bdaab75","in":{"base":"Any","pred":"isinstance(data, dict) and isinstance(data[0], tuple)"},"out":{"base":"Any"},"spec":{"lhs":"interpolate(dat)","rhs":"construct an interpolating polynomial for the data points evaluated at point x (which can be symbolic or numeric)","over":{"base":"Any","pred":"isinstance(data, dict) and isinstance(data[0], tuple)"},"name":"interpolate_correct"},"guarantee":"construct an interpolating polynomial for the data points evaluated at point x (which can be symbolic or numeric)","fibers":[{"name":"dict","pred":"isinstance(data, dict)","path":{"lhs":"interpolate(x)","rhs":"construct an interpolating polynomial for the data points evaluated at point x (which can be symbolic or numeric)","over":{"base":"dict","pred":"isinstance(data, dict)"},"name":"interpolate_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyfuncs.interpolate_dict_correct","statement":"interpolate satisfies spec on dict inputs"},"trust":"LIBRARY"},{"name":"tuple","pred":"isinstance(data[0], tuple)","path":{"lhs":"interpolate(x)","rhs":"construct an interpolating polynomial for the data points evaluated at point x (which can be symbolic or numeric)","over":{"base":"tuple","pred":"isinstance(data[0], tuple)"},"name":"interpolate_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyfuncs.interpolate_tuple_correct","statement":"interpolate satisfies spec on tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"739d0514d3f1da60"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyfuncs.interpolate","kind":"function","src_hash":"e20e41327bdaab75","in":{"base":"Any","pred":"isinstance(data, dict) and isinstance(data[0], tuple) and hasattr(data, 'items')"},"out":{"base":"Any"},"spec":{"lhs":"interpolate(data, x)","rhs":"<unspecified:interpolate>","over":{"base":"Any","pred":"isinstance(data, dict) and isinstance(data[0], tuple) and hasattr(data, 'items')"},"name":"interpolate_correct"},"guarantee":"construct an interpolating polynomial for the data points evaluated at point x (which can be symbolic or numeric)","fibers":[{"name":"dict","pred":"isinstance(data, dict)","path":{"lhs":"interpolate(x)","rhs":"construct an interpolating polynomial for the data points evaluated at point x (which can be symbolic or numeric)","over":{"base":"dict","pred":"isinstance(data, dict)"},"name":"interpolate_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyfuncs.interpolate_dict_correct","statement":"interpolate satisfies spec on dict inputs"},"trust":"LIBRARY"},{"name":"tuple","pred":"isinstance(data[0], tuple)","path":{"lhs":"interpolate(x)","rhs":"construct an interpolating polynomial for the data points evaluated at point x (which can be symbolic or numeric)","over":{"base":"tuple","pred":"isinstance(data[0], tuple)"},"name":"interpolate_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyfuncs.interpolate_tuple_correct","statement":"interpolate satisfies spec on tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"739d0514d3f1da60","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(data, 'items')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["data.items"],"catches":["ValueError"]}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(data[0], tuple)', 'isinstance(data, dict)'}, fibers={'dict', 'tuple'})"]}}
 def interpolate(data, x):
     """
     Construct an interpolating polynomial for the data points
@@ -262,16 +281,23 @@ def interpolate(data, x):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rational_interpolate(dat), id) over Any               ║
+# ║ Path(rational_interpolate(data, degnum, X), id) over {Any | not (k < 0)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rational_interpolate : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (k < 0)                                    ║
+# ║   returns:  sum((r[i] * X ** i for i in range(degnum ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rational_interpolate : {Any | not (k < 0)} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a2bd41eee6d1baaf   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyfuncs.rational_interpolate","kind":"function","src_hash":"e54800f528dcc689","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rational_interpolate(dat)","rhs":"returns a rational interpolation, where the data points are element of any integral domain","over":{"base":"Any"},"name":"rational_interpolate_correct","kind":"composition"},"guarantee":"returns a rational interpolation, where the data points are element of any integral domain","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sum","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2bd41eee6d1baaf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyfuncs.rational_interpolate","kind":"function","src_hash":"e54800f528dcc689","in":{"base":"Any","pred":"not (k < 0)"},"out":{"base":"Any"},"spec":{"lhs":"rational_interpolate(data, degnum, X)","rhs":"sum((r[i] * X ** i for i in range(degnum + 1))) / sum((r[i + degnum + 1] * X ** i for i in range(k + 1)))","over":{"base":"Any","pred":"not (k < 0)"},"name":"rational_interpolate_correct","kind":"composition"},"guarantee":"returns sum((r[i] * X ** i for i in range(degnum + 1))) / sum((r[i + degnum + 1] * X ** i for i in range(k + 1)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sum","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2bd41eee6d1baaf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (k < 0)"],"returns_expr":"sum((r[i] * X ** i for i in range(degnum + 1))) / sum((r[i + degnum + 1] * X ** i for i in range(k + 1)))","pure":false,"effects":{"effect_type":"reads_state","raises":["OptionError"]},"state_contract":{"exceptional_post":{"OptionError":["isinstance(raised, OptionError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def rational_interpolate(data, degnum, X=symbols('x')):
     """
     Returns a rational interpolation, where the data points are element of
@@ -333,9 +359,15 @@ def rational_interpolate(data, degnum, X=symbols('x')):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(viete(f, ), generate viete's formulas for ``f``) over {Any | isinstance(roots, Basic)} ║
+# ║ Path(viete(f, roots, *gens), len(result) == old_len_result + 1) over {Any | isinstance(roots, Basic) and not (f.is_multivariate) and hasattr(f, 'is_multivariate') and hasattr(f, 'degree') and hasattr(f, 'LC') and hasattr(f, 'all_coeffs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ viete : {Any | isinstance(roots, Basic)} → Any             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (f.is_multivariate)                        ║
+# ║   requires: hasattr(f, 'is_multivariate')                  ║
+# ║   requires: hasattr(f, 'degree')                           ║
+# ║   ensures:  len(result) == old_len_result + 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ viete : {Any | isinstance(roots, Basic) and not (f.is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Basic: {isinstance(roots, Basic)} → library_axiom        ║
@@ -345,9 +377,12 @@ def rational_interpolate(data, degnum, X=symbols('x')):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 502ca928...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyfuncs.viete","kind":"function","src_hash":"c99ad9168b4472c6","in":{"base":"Any","pred":"isinstance(roots, Basic)"},"out":{"base":"Any"},"spec":{"lhs":"viete(f, )","rhs":"generate viete's formulas for ``f``","over":{"base":"Any","pred":"isinstance(roots, Basic)"},"name":"viete_correct"},"guarantee":"generate viete's formulas for ``f``","fibers":[{"name":"Basic","pred":"isinstance(roots, Basic)","path":{"lhs":"viete(x)","rhs":"generate viete's formulas for ``f``","over":{"base":"Basic","pred":"isinstance(roots, Basic)"},"name":"viete_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyfuncs.viete_Basic_correct","statement":"viete satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"502ca9285ccd8535"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyfuncs.viete","kind":"function","src_hash":"c99ad9168b4472c6","in":{"base":"Any","pred":"isinstance(roots, Basic) and not (f.is_multivariate) and hasattr(f, 'is_multivariate') and hasattr(f, 'degree') and hasattr(f, 'LC') and hasattr(f, 'all_coeffs')"},"out":{"base":"Any","pred":"result satisfies: len(result) == old_len_result + 1"},"spec":{"lhs":"viete(f, roots, *gens)","rhs":"len(result) == old_len_result + 1","over":{"base":"Any","pred":"isinstance(roots, Basic) and not (f.is_multivariate) and hasattr(f, 'is_multivariate') and hasattr(f, 'degree') and hasattr(f, 'LC') and hasattr(f, 'all_coeffs')"},"name":"viete_correct"},"guarantee":"len(result) == old_len_result + 1","fibers":[{"name":"Basic","pred":"isinstance(roots, Basic)","path":{"lhs":"viete(x)","rhs":"len(result) == old_len_result + 1","over":{"base":"Basic","pred":"isinstance(roots, Basic)"},"name":"viete_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyfuncs.viete_Basic_correct","statement":"viete satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"502ca9285ccd8535","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (f.is_multivariate)","hasattr(f, 'is_multivariate')","hasattr(f, 'degree')","hasattr(f, 'LC')","hasattr(f, 'all_coeffs')"],"ensures":["len(result) == old_len_result + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.LC","f.all_coeffs","f.degree","f.is_multivariate"],"calls_mutating":["result.append"],"raises":["ComputationFailed","MultivariatePolynomialError","ValueError"],"catches":["PolificationFailed"]},"state_contract":{"modifies":["result.*"],"old_bindings":{"old_len_result":"len(result)"},"post_ensures":["len(result) == old_len_result + 1"],"exceptional_post":{"ComputationFailed":["isinstance(raised, ComputationFailed)"],"MultivariatePolynomialError":["isinstance(raised, MultivariatePolynomialError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['f', 'roots'], spec=['f', 'roots', '*gens', '**args']","Poor branch-fiber coverage: 0% (branches={'isinstance(roots, Basic)', 'n != len(roots)', 'roots is None', 'n < 1'}, fibers={'Basic'})"]}}
 def viete(f, roots=None, *gens, **args):
     """
     Generate Viete's formulas for ``f``.

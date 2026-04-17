@@ -65,14 +65,20 @@ known_fcns_src2 = {
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a JuliaCodePrinter instance) preserved by JuliaCodePrinter(*args) over {Any | isinstance(code, str) and isinstance(expr.rhs, Piecewise) and isinstance(item.base, Mul)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CodePrinter)                  ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ JuliaCodePrinter : {Any | isinstance(code, str) and i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 3.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 547483d8262c15e6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter","kind":"class","src_hash":"063bb409fb847454","in":{"base":"Any","pred":"isinstance(code, str) and isinstance(expr.rhs, Piecewise) and isinstance(item.base, Mul)"},"out":{"base":"Any"},"spec":{"lhs":"JuliaCodePrinter(*args)","rhs":"correctly constructs a JuliaCodePrinter instance","over":{"base":"Any","pred":"isinstance(code, str) and isinstance(expr.rhs, Piecewise) and isinstance(item.base, Mul)"},"name":"JuliaCodePrinter_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a JuliaCodePrinter instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'known_functions')","kind":"class","induction":"structural on known_functions"}],"methods_preserving":["__init__","_rate_index_position","_get_statement","_get_comment","_declare_number_const","_format_code","_traverse_matrix_indices","_get_loop_opening_ending","_print_Mul","_print_Relational","_print_Pow","_print_MatPow","_print_Pi","_print_ImaginaryUnit","_print_Exp1","_print_EulerGamma","_print_Catalan","_print_GoldenRatio","_print_Assignment","_print_Infinity","_print_NegativeInfinity","_print_NaN","_print_list","_print_tuple","_print_BooleanTrue","_print_BooleanFalse","_print_bool","_print_MatrixBase","_print_SparseRepMatrix","_print_MatrixElement","_print_MatrixSlice","_print_Indexed","_print_Identity","_print_HadamardProduct","_print_HadamardPower","_print_Rational","_print_jn","_print_yn","_print_sinc","_print_Piecewise","_print_MatMul","indent_code"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"547483d8262c15e6"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter","kind":"class","src_hash":"063bb409fb847454","in":{"base":"Any","pred":"isinstance(code, str) and isinstance(expr.rhs, Piecewise) and isinstance(item.base, Mul)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CodePrinter)"},"spec":{"lhs":"JuliaCodePrinter(*args)","rhs":"correctly constructs a JuliaCodePrinter instance","over":{"base":"Any","pred":"isinstance(code, str) and isinstance(expr.rhs, Piecewise) and isinstance(item.base, Mul)"},"name":"JuliaCodePrinter_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, CodePrinter); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'known_functions')","kind":"class","induction":"structural on known_functions"}],"methods_preserving":["__init__","_rate_index_position","_get_statement","_get_comment","_declare_number_const","_format_code","_traverse_matrix_indices","_get_loop_opening_ending","_print_Mul","_print_Relational","_print_Pow","_print_MatPow","_print_Pi","_print_ImaginaryUnit","_print_Exp1","_print_EulerGamma","_print_Catalan","_print_GoldenRatio","_print_Assignment","_print_Infinity","_print_NegativeInfinity","_print_NaN","_print_list","_print_tuple","_print_BooleanTrue","_print_BooleanFalse","_print_bool","_print_MatrixBase","_print_SparseRepMatrix","_print_MatrixElement","_print_MatrixSlice","_print_Indexed","_print_Identity","_print_HadamardProduct","_print_HadamardPower","_print_Rational","_print_jn","_print_yn","_print_sinc","_print_Piecewise","_print_MatMul","indent_code"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"547483d8262c15e6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CodePrinter)"],"invariants":["hasattr(self, 'known_functions')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function JuliaCodePrinter not found in source"]}}
 class JuliaCodePrinter(CodePrinter):
     """
     A printer to convert expressions to strings of Julia code.
@@ -97,16 +103,23 @@ class JuliaCodePrinter(CodePrinter):
     # for Julia.
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(set), initializes the instance correctly) over Any ║
+# ║ Path(__init__(settings), <unspecified:__init__>) over {Any | hasattr(settings, 'get')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(settings, 'get')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | hasattr(settings, 'get')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 13f124f3c0cf0d09           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter.__init__","kind":"method","src_hash":"3e292b6c315a6485","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(set)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"13f124f3c0cf0d09"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter.__init__","kind":"method","src_hash":"3e292b6c315a6485","in":{"base":"Any","pred":"hasattr(settings, 'get')"},"out":{"base":"Any"},"spec":{"lhs":"__init__(settings)","rhs":"<unspecified:__init__>","over":{"base":"Any","pred":"hasattr(settings, 'get')"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"13f124f3c0cf0d09","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(settings, 'get')"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.known_functions","settings.get"],"writes":["self.known_functions"],"calls_mutating":["self.known_functions.update"]},"state_contract":{"modifies":["self.*","self.known_functions"],"old_bindings":{"old_self_known_functions":"self.known_functions"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, settings={}):
         super().__init__(settings)
         self.known_functions = dict(zip(known_fcns_src1, known_fcns_src1))
@@ -116,91 +129,128 @@ class JuliaCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rate_index_position(p), internal helper behaves correctly) over Any ║
+# ║ Path(_rate_index_position(p), p * 5) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  p * 5                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _rate_index_position : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b43758da3859fade           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._rate_index_position","kind":"method","src_hash":"b056d20fa49cff81","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rate_index_position(p)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_rate_index_position_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b43758da3859fade"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._rate_index_position","kind":"method","src_hash":"b056d20fa49cff81","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rate_index_position(p)","rhs":"p * 5","over":{"base":"Any"},"name":"_rate_index_position_correct"},"guarantee":"returns p * 5","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b43758da3859fade","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"p * 5","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _rate_index_position(self, p):
         return p*5
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_statement(cod), internal helper behaves correctly) over Any ║
+# ║ Path(_get_statement(codestring), '%s' % codestring) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '%s' % codestring                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_statement : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0bf69f6f41f22c34           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._get_statement","kind":"method","src_hash":"67f93d34a0d2044c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_statement(cod)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_statement_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0bf69f6f41f22c34"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._get_statement","kind":"method","src_hash":"67f93d34a0d2044c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_statement(codestring)","rhs":"'%s' % codestring","over":{"base":"Any"},"name":"_get_statement_correct"},"guarantee":"returns '%s' % codestring","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0bf69f6f41f22c34","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'%s' % codestring","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_statement(self, codestring):
         return "%s" % codestring
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_comment(tex), internal helper behaves correctly) over Any ║
+# ║ Path(_get_comment(text), '# {}'.format(text)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '# {}'.format(text)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_comment : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f82cc6b1576e90a5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._get_comment","kind":"method","src_hash":"42c506cb576b0a0c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_comment(tex)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_comment_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f82cc6b1576e90a5"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._get_comment","kind":"method","src_hash":"42c506cb576b0a0c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_comment(text)","rhs":"'# {}'.format(text)","over":{"base":"Any"},"name":"_get_comment_correct"},"guarantee":"returns '# {}'.format(text)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f82cc6b1576e90a5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'# {}'.format(text)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_comment(self, text):
         return "# {}".format(text)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_declare_number_const(nam), internal helper behaves correctly) over Any ║
+# ║ Path(_declare_number_const(name, value), 'const {} = {}'.format(name, value)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'const {} = {}'.format(name, value)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _declare_number_const : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 95f9cec250937319           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._declare_number_const","kind":"method","src_hash":"412db03f5fd4f869","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_declare_number_const(nam)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_declare_number_const_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"95f9cec250937319"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._declare_number_const","kind":"method","src_hash":"412db03f5fd4f869","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_declare_number_const(name, value)","rhs":"'const {} = {}'.format(name, value)","over":{"base":"Any"},"name":"_declare_number_const_correct"},"guarantee":"returns 'const {} = {}'.format(name, value)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"95f9cec250937319","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'const {} = {}'.format(name, value)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _declare_number_const(self, name, value):
         return "const {} = {}".format(name, value)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_format_code(lin), internal helper behaves correctly) over Any ║
+# ║ Path(_format_code(lines), self.indent_code(lines)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.indent_code(lines)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _format_code : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 06998a64119d0741           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._format_code","kind":"method","src_hash":"7bd71f7b561c870b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_format_code(lin)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_format_code_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"06998a64119d0741"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._format_code","kind":"method","src_hash":"7bd71f7b561c870b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_format_code(lines)","rhs":"self.indent_code(lines)","over":{"base":"Any"},"name":"_format_code_correct"},"guarantee":"returns self.indent_code(lines)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"06998a64119d0741","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.indent_code(lines)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.indent_code"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _format_code(self, lines):
         return self.indent_code(lines)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_traverse_matrix_indices(mat), id) over Any           ║
+# ║ Path(_traverse_matrix_indices(mat), id) over {Any | hasattr(mat, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _traverse_matrix_indices : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(mat, 'shape')                          ║
+# ║   returns:  ((i, j) for j in range(cols) for i in ran...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _traverse_matrix_indices : {Any | hasattr(mat, 'shape...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | fcd10a534265e45f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._traverse_matrix_indices","kind":"method","src_hash":"0fefe0acf861c408","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_traverse_matrix_indices(mat)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_traverse_matrix_indices_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"range","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fcd10a534265e45f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._traverse_matrix_indices","kind":"method","src_hash":"0fefe0acf861c408","in":{"base":"Any","pred":"hasattr(mat, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"_traverse_matrix_indices(mat)","rhs":"((i, j) for j in range(cols) for i in range(rows))","over":{"base":"Any","pred":"hasattr(mat, 'shape')"},"name":"_traverse_matrix_indices_correct","kind":"composition"},"guarantee":"returns ((i, j) for j in range(cols) for i in range(rows))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"range","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fcd10a534265e45f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(mat, 'shape')"],"returns_expr":"((i, j) for j in range(cols) for i in range(rows))","pure":false,"effects":{"effect_type":"reads_state","reads":["mat.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _traverse_matrix_indices(self, mat):
         # Julia uses Fortran order (column-major)
         rows, cols = mat.shape
@@ -208,16 +258,22 @@ class JuliaCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_loop_opening_ending(ind), internal helper behaves correctly) over Any ║
+# ║ Path(_get_loop_opening_ending(indices), (open_lines, close_lines)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (open_lines, close_lines)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_loop_opening_ending : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9616e89d70bc8225  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84681583de387cf5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._get_loop_opening_ending","kind":"method","src_hash":"238378c937cf8023","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_loop_opening_ending(ind)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_loop_opening_ending_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._get_loop_opening_ending_correct","statement":"Path(_get_loop_opening_ending(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9616e89d70bc8225"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._get_loop_opening_ending","kind":"method","src_hash":"238378c937cf8023","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_loop_opening_ending(indices)","rhs":"(open_lines, close_lines)","over":{"base":"Any"},"name":"_get_loop_opening_ending_correct"},"guarantee":"returns (open_lines, close_lines)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._get_loop_opening_ending_correct","statement":"Path(_get_loop_opening_ending(x), returns (open_lines, close_lines))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84681583de387cf5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(open_lines, close_lines)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_loop_opening_ending(self, indices):
         open_lines = []
         close_lines = []
@@ -231,16 +287,25 @@ class JuliaCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Mul(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Mul(expr), <unspecified:_print_Mul>) over {Any | hasattr(expr, 'is_number') and hasattr(expr, 'is_imaginary') and hasattr(expr, 'as_coeff_Mul') and hasattr(expr, 'as_ordered_factors')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Mul : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'is_number')                     ║
+# ║   requires: hasattr(expr, 'is_imaginary')                  ║
+# ║   requires: hasattr(expr, 'as_coeff_Mul')                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Mul : {Any | hasattr(expr, 'is_number') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c3155dc43d376e3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_Mul","kind":"method","src_hash":"22a22d532e21c65a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Mul(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Mul_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._print_Mul_correct","statement":"Path(_print_Mul(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c3155dc43d376e3"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_Mul","kind":"method","src_hash":"22a22d532e21c65a","in":{"base":"Any","pred":"hasattr(expr, 'is_number') and hasattr(expr, 'is_imaginary') and hasattr(expr, 'as_coeff_Mul') and hasattr(expr, 'as_ordered_factors')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Mul(expr)","rhs":"<unspecified:_print_Mul>","over":{"base":"Any","pred":"hasattr(expr, 'is_number') and hasattr(expr, 'is_imaginary') and hasattr(expr, 'as_coeff_Mul') and hasattr(expr, 'as_ordered_factors')"},"name":"_print_Mul_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._print_Mul_correct","statement":"Path(_print_Mul(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c3155dc43d376e3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'is_number')","hasattr(expr, 'is_imaginary')","hasattr(expr, 'as_coeff_Mul')","hasattr(expr, 'as_ordered_factors')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Mul(self, expr):
         # print complex numbers nicely in Julia
         if (expr.is_number and expr.is_imaginary and
@@ -316,16 +381,25 @@ class JuliaCodePrinter(CodePrinter):
             return "%s %s (%s)" % (sign + multjoin(a, a_str), divsym, multjoin(b, b_str))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Relational(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Relational(expr), '{} {} {}'.format(lhs_code, op, rhs_code)) over {Any | hasattr(expr, 'rel_op') and hasattr(expr, 'lhs') and hasattr(expr, 'rhs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Relational : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'rel_op')                        ║
+# ║   requires: hasattr(expr, 'lhs')                           ║
+# ║   requires: hasattr(expr, 'rhs')                           ║
+# ║   returns:  '{} {} {}'.format(lhs_code, op, rhs_code)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Relational : {Any | hasattr(expr, 'rel_op') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0eb042249e704bb2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97ff63d4a247f367  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_Relational","kind":"method","src_hash":"1c926c8323695775","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Relational(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Relational_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._print_Relational_correct","statement":"Path(_print_Relational(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0eb042249e704bb2"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_Relational","kind":"method","src_hash":"1c926c8323695775","in":{"base":"Any","pred":"hasattr(expr, 'rel_op') and hasattr(expr, 'lhs') and hasattr(expr, 'rhs')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Relational(expr)","rhs":"'{} {} {}'.format(lhs_code, op, rhs_code)","over":{"base":"Any","pred":"hasattr(expr, 'rel_op') and hasattr(expr, 'lhs') and hasattr(expr, 'rhs')"},"name":"_print_Relational_correct"},"guarantee":"returns '{} {} {}'.format(lhs_code, op, rhs_code)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._print_Relational_correct","statement":"Path(_print_Relational(x), returns '{} {} {}'.format(lhs_code, op, rhs_code))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97ff63d4a247f367","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'rel_op')","hasattr(expr, 'lhs')","hasattr(expr, 'rhs')"],"returns_expr":"'{} {} {}'.format(lhs_code, op, rhs_code)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.lhs","expr.rel_op","expr.rhs","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Relational(self, expr):
         lhs_code = self._print(expr.lhs)
         rhs_code = self._print(expr.rhs)
@@ -333,16 +407,25 @@ class JuliaCodePrinter(CodePrinter):
         return "{} {} {}".format(lhs_code, op, rhs_code)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Pow(exp), id) over Any                         ║
+# ║ Path(_print_Pow(expr), id) over {Any | hasattr(expr, 'is_commutative') and hasattr(expr, 'exp') and hasattr(expr, 'base') and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Pow : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'is_commutative')                ║
+# ║   requires: hasattr(expr, 'exp')                           ║
+# ║   requires: hasattr(expr, 'base')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Pow : {Any | hasattr(expr, 'is_commutative') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ef33ac2885a33e7f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_Pow","kind":"method","src_hash":"2c5e849f0e96e75b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Pow(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Pow_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef33ac2885a33e7f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_Pow","kind":"method","src_hash":"2c5e849f0e96e75b","in":{"base":"Any","pred":"hasattr(expr, 'is_commutative') and hasattr(expr, 'exp') and hasattr(expr, 'base') and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Pow(expr)","rhs":"<unspecified:_print_Pow>","over":{"base":"Any","pred":"hasattr(expr, 'is_commutative') and hasattr(expr, 'exp') and hasattr(expr, 'base') and hasattr(expr, 'args')"},"name":"_print_Pow_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef33ac2885a33e7f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'is_commutative')","hasattr(expr, 'exp')","hasattr(expr, 'base')","hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.base","expr.exp","expr.is_commutative","self._print","self.parenthesize"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Pow(self, expr):
         powsymbol = '^' if all(x.is_number for x in expr.args) else '.^'
 
@@ -364,16 +447,24 @@ class JuliaCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MatPow(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_MatPow(expr), '%s ^ %s' % (self.parenthesize(expr.base, PREC), self.parenthesize(expr.exp, PREC))) over {Any | hasattr(expr, 'base') and hasattr(expr, 'exp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_MatPow : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'base')                          ║
+# ║   requires: hasattr(expr, 'exp')                           ║
+# ║   returns:  '%s ^ %s' % (self.parenthesize(expr.base,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_MatPow : {Any | hasattr(expr, 'base') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2befcd4fa8a07ca9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5c32f5500101ef5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_MatPow","kind":"method","src_hash":"f6ec5fd84f3bb069","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatPow(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MatPow_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._print_MatPow_correct","statement":"Path(_print_MatPow(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2befcd4fa8a07ca9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_MatPow","kind":"method","src_hash":"f6ec5fd84f3bb069","in":{"base":"Any","pred":"hasattr(expr, 'base') and hasattr(expr, 'exp')"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatPow(expr)","rhs":"'%s ^ %s' % (self.parenthesize(expr.base, PREC), self.parenthesize(expr.exp, PREC))","over":{"base":"Any","pred":"hasattr(expr, 'base') and hasattr(expr, 'exp')"},"name":"_print_MatPow_correct"},"guarantee":"returns '%s ^ %s' % (self.parenthesize(expr.base, PREC), self.parenthesize(expr.exp, PREC))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._print_MatPow_correct","statement":"Path(_print_MatPow(x), returns '%s ^ %s' % (self.parenthesize(expr.base, PREC), self.parenthesize(expr.exp, PREC)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5c32f5500101ef5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'base')","hasattr(expr, 'exp')"],"returns_expr":"'%s ^ %s' % (self.parenthesize(expr.base, PREC), self.parenthesize(expr.exp, PREC))","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.base","expr.exp","self.parenthesize"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MatPow(self, expr):
         PREC = precedence(expr)
         return '%s ^ %s' % (self.parenthesize(expr.base, PREC),
@@ -381,16 +472,25 @@ class JuliaCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Pi(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Pi(expr), result == ('pi' if self._settings['inline'] else super()._print_NumberSymbol(expr)) and result == 'pi' or result == super()._print_NumberSymbol(expr)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Pi : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ('pi' if self._settings['inline...   ║
+# ║   ensures:  result == 'pi' or result == super()._prin...   ║
+# ║   fiber[case_0]: self._settings['inline'] => 'pi'          ║
+# ║   fiber[case_1]: not (self._settings['inline']) => su...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Pi : Any → {Any | result satisfies: result == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 914753ee3faca5bc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ac9bd96c4f96850  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_Pi","kind":"method","src_hash":"9db24a9be383737d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Pi(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Pi_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._print_Pi_correct","statement":"Path(_print_Pi(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"914753ee3faca5bc"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_Pi","kind":"method","src_hash":"9db24a9be383737d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ('pi' if self._settings['inline'] else super()._print_NumberSymbol(expr)) and result == 'pi' or result == super()._print_NumberSymbol(expr)"},"spec":{"lhs":"_print_Pi(expr)","rhs":"result == ('pi' if self._settings['inline'] else super()._print_NumberSymbol(expr)) and result == 'pi' or result == super()._print_NumberSymbol(expr)","over":{"base":"Any"},"name":"_print_Pi_correct"},"guarantee":"result == ('pi' if self._settings['inline'] else super()._print_NumberSymbol(expr)); result == 'pi' or result == super()._print_NumberSymbol(expr); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._print_Pi_correct","statement":"Path(_print_Pi(x), result == ('pi' if self._settings['inline'] else super()._print_NumberSymbol(expr)); result == 'pi' or result == super()._print_NumberSymbol(expr); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ac9bd96c4f96850","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ('pi' if self._settings['inline'] else super()._print_NumberSymbol(expr))","result == 'pi' or result == super()._print_NumberSymbol(expr)"],"fibers":[{"name":"case_0","guard":"self._settings['inline']","ensures":["result == 'pi'"],"decidability":"library","returns_expr":"'pi'"},{"name":"case_1","guard":"not (self._settings['inline'])","ensures":["result == super()._print_NumberSymbol(expr)"],"decidability":"library","returns_expr":"super()._print_NumberSymbol(expr)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._settings"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Pi(self, expr):
         if self._settings["inline"]:
             return "pi"
@@ -399,31 +499,46 @@ class JuliaCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_ImaginaryUnit(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_ImaginaryUnit(expr), 'im') over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'im'                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_ImaginaryUnit : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f05826e5f68087bc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_ImaginaryUnit","kind":"method","src_hash":"f9ba56de822782e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_ImaginaryUnit(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_ImaginaryUnit_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f05826e5f68087bc"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_ImaginaryUnit","kind":"method","src_hash":"f9ba56de822782e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_ImaginaryUnit(expr)","rhs":"'im'","over":{"base":"Any"},"name":"_print_ImaginaryUnit_correct"},"guarantee":"returns 'im'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f05826e5f68087bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'im'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_ImaginaryUnit(self, expr):
         return "im"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Exp1(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Exp1(expr), result == ('e' if self._settings['inline'] else super()._print_NumberSymbol(expr)) and result == 'e' or result == super()._print_NumberSymbol(expr)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Exp1 : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ('e' if self._settings['inline'...   ║
+# ║   ensures:  result == 'e' or result == super()._print...   ║
+# ║   fiber[case_0]: self._settings['inline'] => 'e'           ║
+# ║   fiber[case_1]: not (self._settings['inline']) => su...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Exp1 : Any → {Any | result satisfies: result =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 252dd24d49acd3f9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a8ed620e7b184c49  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_Exp1","kind":"method","src_hash":"3c9dc8fc19854c93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Exp1(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Exp1_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._print_Exp1_correct","statement":"Path(_print_Exp1(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"252dd24d49acd3f9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_Exp1","kind":"method","src_hash":"3c9dc8fc19854c93","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ('e' if self._settings['inline'] else super()._print_NumberSymbol(expr)) and result == 'e' or result == super()._print_NumberSymbol(expr)"},"spec":{"lhs":"_print_Exp1(expr)","rhs":"result == ('e' if self._settings['inline'] else super()._print_NumberSymbol(expr)) and result == 'e' or result == super()._print_NumberSymbol(expr)","over":{"base":"Any"},"name":"_print_Exp1_correct"},"guarantee":"result == ('e' if self._settings['inline'] else super()._print_NumberSymbol(expr)); result == 'e' or result == super()._print_NumberSymbol(expr); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._print_Exp1_correct","statement":"Path(_print_Exp1(x), result == ('e' if self._settings['inline'] else super()._print_NumberSymbol(expr)); result == 'e' or result == super()._print_NumberSymbol(expr); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8ed620e7b184c49","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ('e' if self._settings['inline'] else super()._print_NumberSymbol(expr))","result == 'e' or result == super()._print_NumberSymbol(expr)"],"fibers":[{"name":"case_0","guard":"self._settings['inline']","ensures":["result == 'e'"],"decidability":"library","returns_expr":"'e'"},{"name":"case_1","guard":"not (self._settings['inline'])","ensures":["result == super()._print_NumberSymbol(expr)"],"decidability":"library","returns_expr":"super()._print_NumberSymbol(expr)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._settings"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Exp1(self, expr):
         if self._settings["inline"]:
             return "e"
@@ -432,16 +547,25 @@ class JuliaCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_EulerGamma(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_EulerGamma(expr), result == ('eulergamma' if self._settings['inline'] else super()._print_NumberSymbol(expr)) and result == 'eulergamma' or result == super()._print_NumberSymbol(expr)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_EulerGamma : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ('eulergamma' if self._settings...   ║
+# ║   ensures:  result == 'eulergamma' or result == super...   ║
+# ║   fiber[case_0]: self._settings['inline'] => 'eulerga...   ║
+# ║   fiber[case_1]: not (self._settings['inline']) => su...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_EulerGamma : Any → {Any | result satisfies: re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fbb0cdecbae28a21  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b2c8e3e6d31af445  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_EulerGamma","kind":"method","src_hash":"5d9e534435f2418e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_EulerGamma(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_EulerGamma_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._print_EulerGamma_correct","statement":"Path(_print_EulerGamma(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbb0cdecbae28a21"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_EulerGamma","kind":"method","src_hash":"5d9e534435f2418e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ('eulergamma' if self._settings['inline'] else super()._print_NumberSymbol(expr)) and result == 'eulergamma' or result == super()._print_NumberSymbol(expr)"},"spec":{"lhs":"_print_EulerGamma(expr)","rhs":"result == ('eulergamma' if self._settings['inline'] else super()._print_NumberSymbol(expr)) and result == 'eulergamma' or result == super()._print_NumberSymbol(expr)","over":{"base":"Any"},"name":"_print_EulerGamma_correct"},"guarantee":"result == ('eulergamma' if self._settings['inline'] else super()._print_NumberSymbol(expr)); result == 'eulergamma' or result == super()._print_NumberSymbol(expr); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._print_EulerGamma_correct","statement":"Path(_print_EulerGamma(x), result == ('eulergamma' if self._settings['inline'] else super()._print_NumberSymbol(expr)); result == 'eulergamma' or result == super()._print_NumberSymbol(expr); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2c8e3e6d31af445","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ('eulergamma' if self._settings['inline'] else super()._print_NumberSymbol(expr))","result == 'eulergamma' or result == super()._print_NumberSymbol(expr)"],"fibers":[{"name":"case_0","guard":"self._settings['inline']","ensures":["result == 'eulergamma'"],"decidability":"library","returns_expr":"'eulergamma'"},{"name":"case_1","guard":"not (self._settings['inline'])","ensures":["result == super()._print_NumberSymbol(expr)"],"decidability":"library","returns_expr":"super()._print_NumberSymbol(expr)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._settings"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_EulerGamma(self, expr):
         if self._settings["inline"]:
             return "eulergamma"
@@ -450,16 +574,25 @@ class JuliaCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Catalan(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Catalan(expr), result == ('catalan' if self._settings['inline'] else super()._print_NumberSymbol(expr)) and result == 'catalan' or result == super()._print_NumberSymbol(expr)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Catalan : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ('catalan' if self._settings['i...   ║
+# ║   ensures:  result == 'catalan' or result == super()....   ║
+# ║   fiber[case_0]: self._settings['inline'] => 'catalan'     ║
+# ║   fiber[case_1]: not (self._settings['inline']) => su...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Catalan : Any → {Any | result satisfies: resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b59a15717098805f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ce259727e0db206  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_Catalan","kind":"method","src_hash":"3e193e708bb2cd84","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Catalan(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Catalan_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._print_Catalan_correct","statement":"Path(_print_Catalan(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b59a15717098805f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_Catalan","kind":"method","src_hash":"3e193e708bb2cd84","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ('catalan' if self._settings['inline'] else super()._print_NumberSymbol(expr)) and result == 'catalan' or result == super()._print_NumberSymbol(expr)"},"spec":{"lhs":"_print_Catalan(expr)","rhs":"result == ('catalan' if self._settings['inline'] else super()._print_NumberSymbol(expr)) and result == 'catalan' or result == super()._print_NumberSymbol(expr)","over":{"base":"Any"},"name":"_print_Catalan_correct"},"guarantee":"result == ('catalan' if self._settings['inline'] else super()._print_NumberSymbol(expr)); result == 'catalan' or result == super()._print_NumberSymbol(expr); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._print_Catalan_correct","statement":"Path(_print_Catalan(x), result == ('catalan' if self._settings['inline'] else super()._print_NumberSymbol(expr)); result == 'catalan' or result == super()._print_NumberSymbol(expr); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ce259727e0db206","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ('catalan' if self._settings['inline'] else super()._print_NumberSymbol(expr))","result == 'catalan' or result == super()._print_NumberSymbol(expr)"],"fibers":[{"name":"case_0","guard":"self._settings['inline']","ensures":["result == 'catalan'"],"decidability":"library","returns_expr":"'catalan'"},{"name":"case_1","guard":"not (self._settings['inline'])","ensures":["result == super()._print_NumberSymbol(expr)"],"decidability":"library","returns_expr":"super()._print_NumberSymbol(expr)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._settings"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Catalan(self, expr):
         if self._settings["inline"]:
             return "catalan"
@@ -468,16 +601,25 @@ class JuliaCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_GoldenRatio(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_GoldenRatio(expr), result == ('golden' if self._settings['inline'] else super()._print_NumberSymbol(expr)) and result == 'golden' or result == super()._print_NumberSymbol(expr)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_GoldenRatio : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ('golden' if self._settings['in...   ║
+# ║   ensures:  result == 'golden' or result == super()._...   ║
+# ║   fiber[case_0]: self._settings['inline'] => 'golden'      ║
+# ║   fiber[case_1]: not (self._settings['inline']) => su...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_GoldenRatio : Any → {Any | result satisfies: r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c843471f8bfa0a73  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 696af89e24d42ff6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_GoldenRatio","kind":"method","src_hash":"a5f978d506de134c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_GoldenRatio(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_GoldenRatio_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._print_GoldenRatio_correct","statement":"Path(_print_GoldenRatio(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c843471f8bfa0a73"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_GoldenRatio","kind":"method","src_hash":"a5f978d506de134c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ('golden' if self._settings['inline'] else super()._print_NumberSymbol(expr)) and result == 'golden' or result == super()._print_NumberSymbol(expr)"},"spec":{"lhs":"_print_GoldenRatio(expr)","rhs":"result == ('golden' if self._settings['inline'] else super()._print_NumberSymbol(expr)) and result == 'golden' or result == super()._print_NumberSymbol(expr)","over":{"base":"Any"},"name":"_print_GoldenRatio_correct"},"guarantee":"result == ('golden' if self._settings['inline'] else super()._print_NumberSymbol(expr)); result == 'golden' or result == super()._print_NumberSymbol(expr); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._print_GoldenRatio_correct","statement":"Path(_print_GoldenRatio(x), result == ('golden' if self._settings['inline'] else super()._print_NumberSymbol(expr)); result == 'golden' or result == super()._print_NumberSymbol(expr); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"696af89e24d42ff6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ('golden' if self._settings['inline'] else super()._print_NumberSymbol(expr))","result == 'golden' or result == super()._print_NumberSymbol(expr)"],"fibers":[{"name":"case_0","guard":"self._settings['inline']","ensures":["result == 'golden'"],"decidability":"library","returns_expr":"'golden'"},{"name":"case_1","guard":"not (self._settings['inline'])","ensures":["result == super()._print_NumberSymbol(expr)"],"decidability":"library","returns_expr":"super()._print_NumberSymbol(expr)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._settings"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_GoldenRatio(self, expr):
         if self._settings["inline"]:
             return "golden"
@@ -486,16 +628,24 @@ class JuliaCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Assignment(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Assignment(expr), <unspecified:_print_Assignment>) over {Any | hasattr(expr, 'lhs') and hasattr(expr, 'rhs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Assignment : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'lhs')                           ║
+# ║   requires: hasattr(expr, 'rhs')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Assignment : {Any | hasattr(expr, 'lhs') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e0de08c98f94741  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_Assignment","kind":"method","src_hash":"81694af97c0f0682","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Assignment(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Assignment_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._print_Assignment_correct","statement":"Path(_print_Assignment(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e0de08c98f94741"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_Assignment","kind":"method","src_hash":"81694af97c0f0682","in":{"base":"Any","pred":"hasattr(expr, 'lhs') and hasattr(expr, 'rhs')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Assignment(expr)","rhs":"<unspecified:_print_Assignment>","over":{"base":"Any","pred":"hasattr(expr, 'lhs') and hasattr(expr, 'rhs')"},"name":"_print_Assignment_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._print_Assignment_correct","statement":"Path(_print_Assignment(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e0de08c98f94741","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'lhs')","hasattr(expr, 'rhs')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Assignment(self, expr):
         from sympy.codegen.ast import Assignment
         from sympy.functions.elementary.piecewise import Piecewise
@@ -526,76 +676,109 @@ class JuliaCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Infinity(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Infinity(expr), 'Inf') over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'Inf'                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_Infinity : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 284f9cac93174e8b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_Infinity","kind":"method","src_hash":"694d6a7149297f5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Infinity(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Infinity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"284f9cac93174e8b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_Infinity","kind":"method","src_hash":"694d6a7149297f5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Infinity(expr)","rhs":"'Inf'","over":{"base":"Any"},"name":"_print_Infinity_correct"},"guarantee":"returns 'Inf'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"284f9cac93174e8b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'Inf'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Infinity(self, expr):
         return 'Inf'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_NegativeInfinity(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_NegativeInfinity(expr), '-Inf') over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '-Inf'                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_NegativeInfinity : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fa58953aad14e3ed           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_NegativeInfinity","kind":"method","src_hash":"791b0e95b7a50cda","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_NegativeInfinity(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_NegativeInfinity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fa58953aad14e3ed"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_NegativeInfinity","kind":"method","src_hash":"791b0e95b7a50cda","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_NegativeInfinity(expr)","rhs":"'-Inf'","over":{"base":"Any"},"name":"_print_NegativeInfinity_correct"},"guarantee":"returns '-Inf'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fa58953aad14e3ed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'-Inf'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_NegativeInfinity(self, expr):
         return '-Inf'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_NaN(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_NaN(expr), 'NaN') over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'NaN'                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_NaN : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 216cccac30f8bfac           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_NaN","kind":"method","src_hash":"2ad217034598769b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_NaN(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_NaN_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"216cccac30f8bfac"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_NaN","kind":"method","src_hash":"2ad217034598769b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_NaN(expr)","rhs":"'NaN'","over":{"base":"Any"},"name":"_print_NaN_correct"},"guarantee":"returns 'NaN'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"216cccac30f8bfac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'NaN'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_NaN(self, expr):
         return 'NaN'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_list(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_list(expr), 'Any[' + ', '.join((self._print(a) for a in expr)) + ']') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'Any[' + ', '.join((self._print(a) for a ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_list : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f388d2821d6c4ba0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_list","kind":"method","src_hash":"7c065bbe8861f640","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_list(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_list_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f388d2821d6c4ba0"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_list","kind":"method","src_hash":"7c065bbe8861f640","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_list(expr)","rhs":"'Any[' + ', '.join((self._print(a) for a in expr)) + ']'","over":{"base":"Any"},"name":"_print_list_correct"},"guarantee":"returns 'Any[' + ', '.join((self._print(a) for a in expr)) + ']'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f388d2821d6c4ba0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'Any[' + ', '.join((self._print(a) for a in expr)) + ']'","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_list(self, expr):
         return 'Any[' + ', '.join(self._print(a) for a in expr) + ']'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_tuple(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_tuple(expr), result == ('(%s,)' % self._print(expr[0]) if len(expr) == 1 else '(%s)' % self.stringify(expr, ', ')) and result == '(%s,)' % self._print(expr[0]) or result == '(%s)' % self.stringify(expr, ', ')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_tuple : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ('(%s,)' % self._print(expr[0])...   ║
+# ║   ensures:  result == '(%s,)' % self._print(expr[0]) ...   ║
+# ║   fiber[case_0]: len(expr) == 1 => '(%s,)' % self._pr...   ║
+# ║   fiber[case_1]: not (len(expr) == 1) => '(%s)' % sel...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_tuple : Any → {Any | result satisfies: result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fd9879698f3faeb6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 74f23b6219517a6f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_tuple","kind":"method","src_hash":"7661ab8622e72de5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_tuple(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_tuple_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._print_tuple_correct","statement":"Path(_print_tuple(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd9879698f3faeb6"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_tuple","kind":"method","src_hash":"7661ab8622e72de5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ('(%s,)' % self._print(expr[0]) if len(expr) == 1 else '(%s)' % self.stringify(expr, ', ')) and result == '(%s,)' % self._print(expr[0]) or result == '(%s)' % self.stringify(expr, ', ')"},"spec":{"lhs":"_print_tuple(expr)","rhs":"result == ('(%s,)' % self._print(expr[0]) if len(expr) == 1 else '(%s)' % self.stringify(expr, ', ')) and result == '(%s,)' % self._print(expr[0]) or result == '(%s)' % self.stringify(expr, ', ')","over":{"base":"Any"},"name":"_print_tuple_correct"},"guarantee":"result == ('(%s,)' % self._print(expr[0]) if len(expr) == 1 else '(%s)' % self.stringify(expr, ', ')); result == '(%s,)' % self._print(expr[0]) or result == '(%s)' % self.stringify(expr, ', '); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._print_tuple_correct","statement":"Path(_print_tuple(x), result == ('(%s,)' % self._print(expr[0]) if len(expr) == 1 else '(%s)' % self.stringify(expr, ', ')); result == '(%s,)' % self._print(expr[0]) or result == '(%s)' % self.stringify(expr, ', '); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"74f23b6219517a6f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ('(%s,)' % self._print(expr[0]) if len(expr) == 1 else '(%s)' % self.stringify(expr, ', '))","result == '(%s,)' % self._print(expr[0]) or result == '(%s)' % self.stringify(expr, ', ')"],"fibers":[{"name":"case_0","guard":"len(expr) == 1","ensures":["result == '(%s,)' % self._print(expr[0])"],"decidability":"z3","returns_expr":"'(%s,)' % self._print(expr[0])"},{"name":"case_1","guard":"not (len(expr) == 1)","ensures":["result == '(%s)' % self.stringify(expr, ', ')"],"decidability":"z3","returns_expr":"'(%s)' % self.stringify(expr, ', ')"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._print","self.stringify"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_tuple(self, expr):
         if len(expr) == 1:
             return "(%s,)" % self._print(expr[0])
@@ -605,46 +788,64 @@ class JuliaCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_BooleanTrue(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_BooleanTrue(expr), 'true') over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'true'                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_BooleanTrue : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6aa966da560cbac6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_BooleanTrue","kind":"method","src_hash":"170ccb3e85f14e15","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_BooleanTrue(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_BooleanTrue_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6aa966da560cbac6"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_BooleanTrue","kind":"method","src_hash":"170ccb3e85f14e15","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_BooleanTrue(expr)","rhs":"'true'","over":{"base":"Any"},"name":"_print_BooleanTrue_correct"},"guarantee":"returns 'true'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6aa966da560cbac6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'true'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_BooleanTrue(self, expr):
         return "true"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_BooleanFalse(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_BooleanFalse(expr), 'false') over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'false'                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_BooleanFalse : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fb2c844c6adff458           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_BooleanFalse","kind":"method","src_hash":"0d8eb671eb3107f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_BooleanFalse(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_BooleanFalse_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fb2c844c6adff458"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_BooleanFalse","kind":"method","src_hash":"0d8eb671eb3107f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_BooleanFalse(expr)","rhs":"'false'","over":{"base":"Any"},"name":"_print_BooleanFalse_correct"},"guarantee":"returns 'false'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fb2c844c6adff458","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'false'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_BooleanFalse(self, expr):
         return "false"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_bool(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_bool(expr), str(expr).lower()) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  str(expr).lower()                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_bool : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ebec405fd7ba33cf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_bool","kind":"method","src_hash":"6ff7eae9d26eb215","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_bool(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_bool_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ebec405fd7ba33cf"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_bool","kind":"method","src_hash":"6ff7eae9d26eb215","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_bool(expr)","rhs":"str(expr).lower()","over":{"base":"Any"},"name":"_print_bool_correct"},"guarantee":"returns str(expr).lower()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ebec405fd7ba33cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"str(expr).lower()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_bool(self, expr):
         return str(expr).lower()
 
@@ -654,16 +855,29 @@ class JuliaCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MatrixBase(A), internal helper behaves correctly) over Any ║
+# ║ Path(_print_MatrixBase(A), result == ('zeros(%s, %s)' % (A.rows, A.cols) if S.Zero in A.shape else '[%s]' % A[0, 0] if (A.rows, A.cols) == (1, 1) else '[%s]' % A.table(self, rowstart='', rowend='', colsep=' ') if A.rows == 1 else '[%s]' % ', '.join([self._print(a) for a in A])) and result == 'zeros(%s, %s)' % (A.rows, A.cols) or result == '[%s]' % A[0, 0] or result == '[%s]' % A.table(self, rowstart='', rowend='', colsep=' ') or result == '[%s]' % ', '.join([self._print(a) for a in A])) over {Any | hasattr(A, 'shape') and hasattr(A, 'table') and hasattr(A, 'rows') and hasattr(A, 'cols')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_MatrixBase : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(A, 'shape')                            ║
+# ║   requires: hasattr(A, 'table')                            ║
+# ║   requires: hasattr(A, 'rows')                             ║
+# ║   ensures:  result == ('zeros(%s, %s)' % (A.rows, A.c...   ║
+# ║   ensures:  result == 'zeros(%s, %s)' % (A.rows, A.co...   ║
+# ║   fiber[case_0]: S.Zero in A.shape => 'zeros(%s, %s)'...   ║
+# ║   fiber[case_1]: (A.rows, A.cols) == (1, 1) => '[%s]'...   ║
+# ║   fiber[case_2]: A.rows == 1 => '[%s]' % A.table(self...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_MatrixBase : {Any | hasattr(A, 'shape') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a196d4d9a330cfe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 326a4e8edb323593  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_MatrixBase","kind":"method","src_hash":"ec2241992f024555","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixBase(A)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MatrixBase_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._print_MatrixBase_correct","statement":"Path(_print_MatrixBase(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a196d4d9a330cfe"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_MatrixBase","kind":"method","src_hash":"ec2241992f024555","in":{"base":"Any","pred":"hasattr(A, 'shape') and hasattr(A, 'table') and hasattr(A, 'rows') and hasattr(A, 'cols')"},"out":{"base":"Any","pred":"result satisfies: result == ('zeros(%s, %s)' % (A.rows, A.cols) if S.Zero in A.shape else '[%s]' % A[0, 0] if (A.rows, A.cols) == (1, 1) else '[%s]' % A.table(self, rowstart='', rowend='', colsep=' ') if A.rows == 1 else '[%s]' % ', '.join([self._print(a) for a in A])) and result == 'zeros(%s, %s)' % (A.rows, A.cols) or result == '[%s]' % A[0, 0] or result == '[%s]' % A.table(self, rowstart='', rowend='', colsep=' ') or result == '[%s]' % ', '.join([self._print(a) for a in A])"},"spec":{"lhs":"_print_MatrixBase(A)","rhs":"result == ('zeros(%s, %s)' % (A.rows, A.cols) if S.Zero in A.shape else '[%s]' % A[0, 0] if (A.rows, A.cols) == (1, 1) else '[%s]' % A.table(self, rowstart='', rowend='', colsep=' ') if A.rows == 1 else '[%s]' % ', '.join([self._print(a) for a in A])) and result == 'zeros(%s, %s)' % (A.rows, A.cols) or result == '[%s]' % A[0, 0] or result == '[%s]' % A.table(self, rowstart='', rowend='', colsep=' ') or result == '[%s]' % ', '.join([self._print(a) for a in A])","over":{"base":"Any","pred":"hasattr(A, 'shape') and hasattr(A, 'table') and hasattr(A, 'rows') and hasattr(A, 'cols')"},"name":"_print_MatrixBase_correct"},"guarantee":"result == ('zeros(%s, %s)' % (A.rows, A.cols) if S.Zero in A.shape else '[%s]' % A[0, 0] if (A.rows, A.cols) == (1, 1) else '[%s]' % A.table(self, rowstart='', rowend='', colsep=' ') if A.rows == 1 else '[%s]' % ', '.join([self._print(a) for a in A])); result == 'zeros(%s, %s)' % (A.rows, A.cols) or result == '[%s]' % A[0, 0] or result == '[%s]' % A.table(self, rowstart='', rowend='', colsep=' ') or result == '[%s]' % ', '.join([self._print(a) for a in A]); 4-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._print_MatrixBase_correct","statement":"Path(_print_MatrixBase(x), result == ('zeros(%s, %s)' % (A.rows, A.cols) if S.Zero in A.shape else '[%s]' % A[0, 0] if (A.rows, A.cols) == (1, 1) else '[%s]' % A.table(self, rowstart='', rowend='', colsep=' ') if A.rows == 1 else '[%s]' % ', '.join([self._print(a) for a in A])); result == 'zeros(%s, %s)' % (A.rows, A.cols) or result == '[%s]' % A[0, 0] or result == '[%s]' % A.table(self, rowstart='', rowend='', colsep=' ') or result == '[%s]' % ', '.join([self._print(a) for a in A]); 4-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"326a4e8edb323593","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(A, 'shape')","hasattr(A, 'table')","hasattr(A, 'rows')","hasattr(A, 'cols')"],"ensures":["result == ('zeros(%s, %s)' % (A.rows, A.cols) if S.Zero in A.shape else '[%s]' % A[0, 0] if (A.rows, A.cols) == (1, 1) else '[%s]' % A.table(self, rowstart='', rowend='', colsep=' ') if A.rows == 1 else '[%s]' % ', '.join([self._print(a) for a in A]))","result == 'zeros(%s, %s)' % (A.rows, A.cols) or result == '[%s]' % A[0, 0] or result == '[%s]' % A.table(self, rowstart='', rowend='', colsep=' ') or result == '[%s]' % ', '.join([self._print(a) for a in A])"],"fibers":[{"name":"case_0","guard":"S.Zero in A.shape","ensures":["result == 'zeros(%s, %s)' % (A.rows, A.cols)"],"decidability":"library","returns_expr":"'zeros(%s, %s)' % (A.rows, A.cols)"},{"name":"case_1","guard":"(A.rows, A.cols) == (1, 1)","ensures":["result == '[%s]' % A[0, 0]"],"decidability":"z3","returns_expr":"'[%s]' % A[0, 0]"},{"name":"case_2","guard":"A.rows == 1","ensures":["result == '[%s]' % A.table(self, rowstart='', rowend='', colsep=' ')"],"decidability":"z3","returns_expr":"'[%s]' % A.table(self, rowstart='', rowend='', colsep=' ')"},{"name":"case_3","guard":"A.cols == 1","ensures":["result == '[%s]' % ', '.join([self._print(a) for a in A])"],"decidability":"z3","returns_expr":"'[%s]' % ', '.join([self._print(a) for a in A])"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.cols","A.rows","A.shape","A.table","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MatrixBase(self, A):
         # Handle zero dimensions:
         if S.Zero in A.shape:
@@ -680,16 +894,25 @@ class JuliaCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_SparseRepMatrix(A), id) over Any               ║
+# ║ Path(_print_SparseRepMatrix(A), id) over {Any | hasattr(A, 'col_list') and hasattr(A, 'rows') and hasattr(A, 'cols')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_SparseRepMatrix : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(A, 'col_list')                         ║
+# ║   requires: hasattr(A, 'rows')                             ║
+# ║   requires: hasattr(A, 'cols')                             ║
+# ║   returns:  'sparse(%s, %s, %s, %s, %s)' % (self._pri...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_SparseRepMatrix : {Any | hasattr(A, 'col_list'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c13a005f0f84af62   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_SparseRepMatrix","kind":"method","src_hash":"bc972d0909662fe3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_SparseRepMatrix(A)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_SparseRepMatrix_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sparse","by":"library_axiom"},{"fn":"_print","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c13a005f0f84af62"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_SparseRepMatrix","kind":"method","src_hash":"bc972d0909662fe3","in":{"base":"Any","pred":"hasattr(A, 'col_list') and hasattr(A, 'rows') and hasattr(A, 'cols')"},"out":{"base":"Any"},"spec":{"lhs":"_print_SparseRepMatrix(A)","rhs":"'sparse(%s, %s, %s, %s, %s)' % (self._print(I), self._print(J), self._print(AIJ), A.rows, A.cols)","over":{"base":"Any","pred":"hasattr(A, 'col_list') and hasattr(A, 'rows') and hasattr(A, 'cols')"},"name":"_print_SparseRepMatrix_correct","kind":"composition"},"guarantee":"returns 'sparse(%s, %s, %s, %s, %s)' % (self._print(I), self._print(J), self._print(AIJ), A.rows, A.cols)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sparse","by":"library_axiom"},{"fn":"_print","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c13a005f0f84af62","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(A, 'col_list')","hasattr(A, 'rows')","hasattr(A, 'cols')"],"returns_expr":"'sparse(%s, %s, %s, %s, %s)' % (self._print(I), self._print(J), self._print(AIJ), A.rows, A.cols)","pure":false,"effects":{"effect_type":"reads_state","reads":["A.col_list","A.cols","A.rows","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_SparseRepMatrix(self, A):
         from sympy.matrices import Matrix
         L = A.col_list()
@@ -702,32 +925,50 @@ class JuliaCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MatrixElement(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_MatrixElement(expr), self.parenthesize(expr.parent, PRECEDENCE['Atom'], strict=True) + '[%s,%s]' % (expr.i + 1, expr.j + 1)) over {Any | hasattr(expr, 'parent') and hasattr(expr, 'i') and hasattr(expr, 'j')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_MatrixElement : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'parent')                        ║
+# ║   requires: hasattr(expr, 'i')                             ║
+# ║   requires: hasattr(expr, 'j')                             ║
+# ║   returns:  self.parenthesize(expr.parent, PRECEDENCE...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_MatrixElement : {Any | hasattr(expr, 'parent')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 714fa8f7b47553bb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a7ccaf7e0e9acd2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_MatrixElement","kind":"method","src_hash":"247e65d6dfc8d5aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixElement(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MatrixElement_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._print_MatrixElement_correct","statement":"Path(_print_MatrixElement(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"714fa8f7b47553bb"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_MatrixElement","kind":"method","src_hash":"247e65d6dfc8d5aa","in":{"base":"Any","pred":"hasattr(expr, 'parent') and hasattr(expr, 'i') and hasattr(expr, 'j')"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixElement(expr)","rhs":"self.parenthesize(expr.parent, PRECEDENCE['Atom'], strict=True) + '[%s,%s]' % (expr.i + 1, expr.j + 1)","over":{"base":"Any","pred":"hasattr(expr, 'parent') and hasattr(expr, 'i') and hasattr(expr, 'j')"},"name":"_print_MatrixElement_correct"},"guarantee":"returns self.parenthesize(expr.parent, PRECEDENCE['Atom'], strict=True) + '[%s,%s]' % (expr.i + 1, expr.j + 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._print_MatrixElement_correct","statement":"Path(_print_MatrixElement(x), returns self.parenthesize(expr.parent, PRECEDENCE['Atom'], strict=True) + '[%s,%s]' % (expr.i + 1, expr.j + 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a7ccaf7e0e9acd2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'parent')","hasattr(expr, 'i')","hasattr(expr, 'j')"],"returns_expr":"self.parenthesize(expr.parent, PRECEDENCE['Atom'], strict=True) + '[%s,%s]' % (expr.i + 1, expr.j + 1)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.i","expr.j","expr.parent","self.parenthesize"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MatrixElement(self, expr):
         return self.parenthesize(expr.parent, PRECEDENCE["Atom"], strict=True) \
             + '[%s,%s]' % (expr.i + 1, expr.j + 1)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MatrixSlice(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_MatrixSlice(expr), <unspecified:_print_MatrixSlice>) over {Any | hasattr(expr, 'colslice') and hasattr(expr, 'rowslice') and hasattr(expr, 'parent')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_MatrixSlice : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'colslice')                      ║
+# ║   requires: hasattr(expr, 'rowslice')                      ║
+# ║   requires: hasattr(expr, 'parent')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_MatrixSlice : {Any | hasattr(expr, 'colslice')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad045152fd3927a2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_MatrixSlice","kind":"method","src_hash":"804eb53bb0e759ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixSlice(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MatrixSlice_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._print_MatrixSlice_correct","statement":"Path(_print_MatrixSlice(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad045152fd3927a2"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_MatrixSlice","kind":"method","src_hash":"804eb53bb0e759ff","in":{"base":"Any","pred":"hasattr(expr, 'colslice') and hasattr(expr, 'rowslice') and hasattr(expr, 'parent')"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixSlice(expr)","rhs":"<unspecified:_print_MatrixSlice>","over":{"base":"Any","pred":"hasattr(expr, 'colslice') and hasattr(expr, 'rowslice') and hasattr(expr, 'parent')"},"name":"_print_MatrixSlice_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._print_MatrixSlice_correct","statement":"Path(_print_MatrixSlice(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad045152fd3927a2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'colslice')","hasattr(expr, 'rowslice')","hasattr(expr, 'parent')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.colslice","expr.parent","expr.rowslice","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MatrixSlice(self, expr):
         def strslice(x, lim):
             l = x[0] + 1
@@ -750,60 +991,90 @@ class JuliaCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Indexed(exp), id) over Any                     ║
+# ║ Path(_print_Indexed(expr), id) over {Any | hasattr(expr, 'indices') and hasattr(expr, 'base')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Indexed : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'indices')                       ║
+# ║   requires: hasattr(expr, 'base')                          ║
+# ║   returns:  '%s[%s]' % (self._print(expr.base.label),...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Indexed : {Any | hasattr(expr, 'indices') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d884f2e3b78b2b31   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_Indexed","kind":"method","src_hash":"7d8b71ed1c501743","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Indexed(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Indexed_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print","by":"library_axiom"},{"fn":"join","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d884f2e3b78b2b31"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_Indexed","kind":"method","src_hash":"7d8b71ed1c501743","in":{"base":"Any","pred":"hasattr(expr, 'indices') and hasattr(expr, 'base')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Indexed(expr)","rhs":"'%s[%s]' % (self._print(expr.base.label), ','.join(inds))","over":{"base":"Any","pred":"hasattr(expr, 'indices') and hasattr(expr, 'base')"},"name":"_print_Indexed_correct","kind":"composition"},"guarantee":"returns '%s[%s]' % (self._print(expr.base.label), ','.join(inds))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print","by":"library_axiom"},{"fn":"join","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d884f2e3b78b2b31","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'indices')","hasattr(expr, 'base')"],"returns_expr":"'%s[%s]' % (self._print(expr.base.label), ','.join(inds))","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.base","expr.indices","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Indexed(self, expr):
         inds = [ self._print(i) for i in expr.indices ]
         return "%s[%s]" % (self._print(expr.base.label), ",".join(inds))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Identity(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Identity(expr), 'eye(%s)' % self._print(expr.shape[0])) over {Any | hasattr(expr, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Identity : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'shape')                         ║
+# ║   returns:  'eye(%s)' % self._print(expr.shape[0])         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Identity : {Any | hasattr(expr, 'shape')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5096e9b38a31e3d4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_Identity","kind":"method","src_hash":"48033eaa4204cebb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Identity(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Identity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5096e9b38a31e3d4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_Identity","kind":"method","src_hash":"48033eaa4204cebb","in":{"base":"Any","pred":"hasattr(expr, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Identity(expr)","rhs":"'eye(%s)' % self._print(expr.shape[0])","over":{"base":"Any","pred":"hasattr(expr, 'shape')"},"name":"_print_Identity_correct"},"guarantee":"returns 'eye(%s)' % self._print(expr.shape[0])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5096e9b38a31e3d4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'shape')"],"returns_expr":"'eye(%s)' % self._print(expr.shape[0])","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.shape","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Identity(self, expr):
         return "eye(%s)" % self._print(expr.shape[0])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_HadamardProduct(exp), id) over Any             ║
+# ║ Path(_print_HadamardProduct(expr), id) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_HadamardProduct : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  ' .* '.join([self.parenthesize(arg, prece...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_HadamardProduct : {Any | hasattr(expr, 'args')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f74961b667a54169   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_HadamardProduct","kind":"method","src_hash":"1ba0ac71f24183ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_HadamardProduct(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_HadamardProduct_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"join","by":"library_axiom"},{"fn":"parenthesize","by":"library_axiom"},{"fn":"precedence","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f74961b667a54169"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_HadamardProduct","kind":"method","src_hash":"1ba0ac71f24183ab","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_HadamardProduct(expr)","rhs":"' .* '.join([self.parenthesize(arg, precedence(expr)) for arg in expr.args])","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_HadamardProduct_correct","kind":"composition"},"guarantee":"returns ' .* '.join([self.parenthesize(arg, precedence(expr)) for arg in expr.args])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"join","by":"library_axiom"},{"fn":"parenthesize","by":"library_axiom"},{"fn":"precedence","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f74961b667a54169","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"' .* '.join([self.parenthesize(arg, precedence(expr)) for arg in expr.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self.parenthesize"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_HadamardProduct(self, expr):
         return ' .* '.join([self.parenthesize(arg, precedence(expr))
                           for arg in expr.args])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_HadamardPower(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_HadamardPower(expr), '.**'.join([self.parenthesize(expr.base, PREC), self.parenthesize(expr.exp, PREC)])) over {Any | hasattr(expr, 'base') and hasattr(expr, 'exp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_HadamardPower : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'base')                          ║
+# ║   requires: hasattr(expr, 'exp')                           ║
+# ║   returns:  '.**'.join([self.parenthesize(expr.base, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_HadamardPower : {Any | hasattr(expr, 'base') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e03bb0cc63e73bea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dbdcd92769f71d53  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_HadamardPower","kind":"method","src_hash":"a394585467d771f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_HadamardPower(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_HadamardPower_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._print_HadamardPower_correct","statement":"Path(_print_HadamardPower(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e03bb0cc63e73bea"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_HadamardPower","kind":"method","src_hash":"a394585467d771f4","in":{"base":"Any","pred":"hasattr(expr, 'base') and hasattr(expr, 'exp')"},"out":{"base":"Any"},"spec":{"lhs":"_print_HadamardPower(expr)","rhs":"'.**'.join([self.parenthesize(expr.base, PREC), self.parenthesize(expr.exp, PREC)])","over":{"base":"Any","pred":"hasattr(expr, 'base') and hasattr(expr, 'exp')"},"name":"_print_HadamardPower_correct"},"guarantee":"returns '.**'.join([self.parenthesize(expr.base, PREC), self.parenthesize(expr.exp, PREC)])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._print_HadamardPower_correct","statement":"Path(_print_HadamardPower(x), returns '.**'.join([self.parenthesize(expr.base, PREC), self.parenthesize(expr.exp, PREC)]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbdcd92769f71d53","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'base')","hasattr(expr, 'exp')"],"returns_expr":"'.**'.join([self.parenthesize(expr.base, PREC), self.parenthesize(expr.exp, PREC)])","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.base","expr.exp","self.parenthesize"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_HadamardPower(self, expr):
         PREC = precedence(expr)
         return '.**'.join([
@@ -812,16 +1083,24 @@ class JuliaCodePrinter(CodePrinter):
             ])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Rational(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Rational(expr), <unspecified:_print_Rational>) over {Any | hasattr(expr, 'q') and hasattr(expr, 'p')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Rational : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'q')                             ║
+# ║   requires: hasattr(expr, 'p')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Rational : {Any | hasattr(expr, 'q') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 79b12aa4e3b2afaa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_Rational","kind":"method","src_hash":"549f10379a79b65f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Rational(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Rational_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._print_Rational_correct","statement":"Path(_print_Rational(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79b12aa4e3b2afaa"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_Rational","kind":"method","src_hash":"549f10379a79b65f","in":{"base":"Any","pred":"hasattr(expr, 'q') and hasattr(expr, 'p')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Rational(expr)","rhs":"<unspecified:_print_Rational>","over":{"base":"Any","pred":"hasattr(expr, 'q') and hasattr(expr, 'p')"},"name":"_print_Rational_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._print_Rational_correct","statement":"Path(_print_Rational(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79b12aa4e3b2afaa","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'q')","hasattr(expr, 'p')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.p","expr.q"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Rational(self, expr):
         if expr.q == 1:
             return str(expr.p)
@@ -829,16 +1108,24 @@ class JuliaCodePrinter(CodePrinter):
 
     # Note: as of 2022, Julia doesn't have spherical Bessel functions
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_jn(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_jn(expr), self._print(expr2)) over {Any | hasattr(expr, 'argument') and hasattr(expr, 'order')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_jn : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'argument')                      ║
+# ║   requires: hasattr(expr, 'order')                         ║
+# ║   returns:  self._print(expr2)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_jn : {Any | hasattr(expr, 'argument') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2bd0df06ea624160  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 87a8f3fa7239cab3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_jn","kind":"method","src_hash":"a99471338c13755f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_jn(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_jn_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._print_jn_correct","statement":"Path(_print_jn(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2bd0df06ea624160"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_jn","kind":"method","src_hash":"a99471338c13755f","in":{"base":"Any","pred":"hasattr(expr, 'argument') and hasattr(expr, 'order')"},"out":{"base":"Any"},"spec":{"lhs":"_print_jn(expr)","rhs":"self._print(expr2)","over":{"base":"Any","pred":"hasattr(expr, 'argument') and hasattr(expr, 'order')"},"name":"_print_jn_correct"},"guarantee":"returns self._print(expr2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._print_jn_correct","statement":"Path(_print_jn(x), returns self._print(expr2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87a8f3fa7239cab3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'argument')","hasattr(expr, 'order')"],"returns_expr":"self._print(expr2)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.argument","expr.order","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_jn(self, expr):
         from sympy.functions import sqrt, besselj
         x = expr.argument
@@ -847,16 +1134,24 @@ class JuliaCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_yn(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_yn(expr), self._print(expr2)) over {Any | hasattr(expr, 'argument') and hasattr(expr, 'order')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_yn : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'argument')                      ║
+# ║   requires: hasattr(expr, 'order')                         ║
+# ║   returns:  self._print(expr2)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_yn : {Any | hasattr(expr, 'argument') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 888c5d1240637c12  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c08881a93212072  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_yn","kind":"method","src_hash":"bbf6f91cf73fe423","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_yn(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_yn_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._print_yn_correct","statement":"Path(_print_yn(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"888c5d1240637c12"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_yn","kind":"method","src_hash":"bbf6f91cf73fe423","in":{"base":"Any","pred":"hasattr(expr, 'argument') and hasattr(expr, 'order')"},"out":{"base":"Any"},"spec":{"lhs":"_print_yn(expr)","rhs":"self._print(expr2)","over":{"base":"Any","pred":"hasattr(expr, 'argument') and hasattr(expr, 'order')"},"name":"_print_yn_correct"},"guarantee":"returns self._print(expr2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._print_yn_correct","statement":"Path(_print_yn(x), returns self._print(expr2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c08881a93212072","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'argument')","hasattr(expr, 'order')"],"returns_expr":"self._print(expr2)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.argument","expr.order","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_yn(self, expr):
         from sympy.functions import sqrt, bessely
         x = expr.argument
@@ -864,31 +1159,46 @@ class JuliaCodePrinter(CodePrinter):
         return self._print(expr2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_sinc(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_sinc(expr), 'sinc({})'.format(self._print(expr.args[0] / S.Pi))) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_sinc : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  'sinc({})'.format(self._print(expr.args[0...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_sinc : {Any | hasattr(expr, 'args')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 13ffc9fccfe7c48b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_sinc","kind":"method","src_hash":"b0b6e9abf46a030d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_sinc(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_sinc_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"13ffc9fccfe7c48b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_sinc","kind":"method","src_hash":"b0b6e9abf46a030d","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_sinc(expr)","rhs":"'sinc({})'.format(self._print(expr.args[0] / S.Pi))","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_sinc_correct"},"guarantee":"returns 'sinc({})'.format(self._print(expr.args[0] / S.Pi))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"13ffc9fccfe7c48b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"'sinc({})'.format(self._print(expr.args[0] / S.Pi))","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_sinc(self, expr):
         # Julia has the normalized sinc function
         return "sinc({})".format(self._print(expr.args[0] / S.Pi))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Piecewise(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Piecewise(expr), len(lines) == old_len_lines + 1) over {Any | not (expr.args[-1].cond != True) and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Piecewise : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (expr.args[-1].cond != True)               ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ensures:  len(lines) == old_len_lines + 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Piecewise : {Any | not (expr.args[-1].cond != ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb498aa00fad1140  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0fdf77ac82afa899  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_Piecewise","kind":"method","src_hash":"f232d9c769f55650","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Piecewise(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Piecewise_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._print_Piecewise_correct","statement":"Path(_print_Piecewise(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb498aa00fad1140"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_Piecewise","kind":"method","src_hash":"f232d9c769f55650","in":{"base":"Any","pred":"not (expr.args[-1].cond != True) and hasattr(expr, 'args')"},"out":{"base":"Any","pred":"result satisfies: len(lines) == old_len_lines + 1"},"spec":{"lhs":"_print_Piecewise(expr)","rhs":"len(lines) == old_len_lines + 1","over":{"base":"Any","pred":"not (expr.args[-1].cond != True) and hasattr(expr, 'args')"},"name":"_print_Piecewise_correct"},"guarantee":"len(lines) == old_len_lines + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._print_Piecewise_correct","statement":"Path(_print_Piecewise(x), len(lines) == old_len_lines + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0fdf77ac82afa899","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (expr.args[-1].cond != True)","hasattr(expr, 'args')"],"ensures":["len(lines) == old_len_lines + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print","self._settings"],"calls_mutating":["lines.append"],"raises":["ValueError"]},"state_contract":{"modifies":["lines.*"],"old_bindings":{"old_len_lines":"len(lines)"},"post_ensures":["len(lines) == old_len_lines + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Piecewise(self, expr):
         if expr.args[-1].cond != True:
             # We need the last conditional to be a True, otherwise the resulting
@@ -926,16 +1236,24 @@ class JuliaCodePrinter(CodePrinter):
             return "\n".join(lines)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MatMul(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_MatMul(expr), sign + ' * '.join((self.parenthesize(arg, precedence(expr)) for arg in expr.args))) over {Any | hasattr(expr, 'as_coeff_mmul') and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_MatMul : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'as_coeff_mmul')                 ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  sign + ' * '.join((self.parenthesize(arg,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_MatMul : {Any | hasattr(expr, 'as_coeff_mmul')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 42ee2ea282d36d86  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93920d991acdb02f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_MatMul","kind":"method","src_hash":"ba44611c50420ac4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatMul(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MatMul_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._print_MatMul_correct","statement":"Path(_print_MatMul(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42ee2ea282d36d86"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter._print_MatMul","kind":"method","src_hash":"ba44611c50420ac4","in":{"base":"Any","pred":"hasattr(expr, 'as_coeff_mmul') and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatMul(expr)","rhs":"sign + ' * '.join((self.parenthesize(arg, precedence(expr)) for arg in expr.args))","over":{"base":"Any","pred":"hasattr(expr, 'as_coeff_mmul') and hasattr(expr, 'args')"},"name":"_print_MatMul_correct"},"guarantee":"returns sign + ' * '.join((self.parenthesize(arg, precedence(expr)) for arg in expr.args))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter._print_MatMul_correct","statement":"Path(_print_MatMul(x), returns sign + ' * '.join((self.parenthesize(arg, precedence(expr)) for arg in expr.args)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93920d991acdb02f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'as_coeff_mmul')","hasattr(expr, 'args')"],"returns_expr":"sign + ' * '.join((self.parenthesize(arg, precedence(expr)) for arg in expr.args))","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.as_coeff_mmul","self.parenthesize"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MatMul(self, expr):
         c, m = expr.as_coeff_mmul()
 
@@ -955,16 +1273,23 @@ class JuliaCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(indent_code(cod), accepts a string of code or a list of code lines) over Any ║
+# ║ Path(indent_code(code), <unspecified:indent_code>) over {Any | hasattr(code, 'splitlines')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ indent_code : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(code, 'splitlines')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ indent_code : {Any | hasattr(code, 'splitlines')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4370b1b2bad6cfff  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter.indent_code","kind":"method","src_hash":"00cc98a5d62f9d66","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"indent_code(cod)","rhs":"accepts a string of code or a list of code lines","over":{"base":"Any"},"name":"indent_code_correct"},"guarantee":"accepts a string of code or a list of code lines","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter.indent_code_correct","statement":"Path(indent_code(x), accepts a string of code or a list of code lines)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4370b1b2bad6cfff"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.JuliaCodePrinter.indent_code","kind":"method","src_hash":"00cc98a5d62f9d66","in":{"base":"Any","pred":"hasattr(code, 'splitlines')"},"out":{"base":"Any"},"spec":{"lhs":"indent_code(code)","rhs":"<unspecified:indent_code>","over":{"base":"Any","pred":"hasattr(code, 'splitlines')"},"name":"indent_code_correct"},"guarantee":"accepts a string of code or a list of code lines","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.JuliaCodePrinter.indent_code_correct","statement":"Path(indent_code(x), accepts a string of code or a list of code lines)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4370b1b2bad6cfff","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(code, 'splitlines')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def indent_code(self, code):
         """Accepts a string of code or a list of code lines"""
 
@@ -998,16 +1323,22 @@ class JuliaCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(julia_code(exp), converts `expr` to a string of julia code) over Any ║
+# ║ Path(julia_code(expr, assign_to, **settings), JuliaCodePrinter(settings).doprint(expr, assign_to)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  JuliaCodePrinter(settings).doprint(expr, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ julia_code : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ee140b2a77d623c4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.julia_code","kind":"function","src_hash":"c45d27179e0373c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"julia_code(exp)","rhs":"converts `expr` to a string of julia code","over":{"base":"Any"},"name":"julia_code_correct"},"guarantee":"converts `expr` to a string of julia code","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ee140b2a77d623c4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.julia_code","kind":"function","src_hash":"c45d27179e0373c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"julia_code(expr, assign_to, **settings)","rhs":"JuliaCodePrinter(settings).doprint(expr, assign_to)","over":{"base":"Any"},"name":"julia_code_correct"},"guarantee":"returns JuliaCodePrinter(settings).doprint(expr, assign_to)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ee140b2a77d623c4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"JuliaCodePrinter(settings).doprint(expr, assign_to)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['expr', 'assign_to'], spec=['expr', 'assign_to', '**settings']"]}}
 def julia_code(expr, assign_to=None, **settings):
     r"""Converts `expr` to a string of Julia code.
 
@@ -1146,16 +1477,22 @@ def julia_code(expr, assign_to=None, **settings):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(print_julia_code(exp), prints the julia representation of the given expression) over Any ║
+# ║ Path(print_julia_code(expr, **settings), <unspecified:print_julia_code>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ print_julia_code : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed53a82bc860d112  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.julia.print_julia_code","kind":"function","src_hash":"c971acfce13fe0be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"print_julia_code(exp)","rhs":"prints the julia representation of the given expression","over":{"base":"Any"},"name":"print_julia_code_correct"},"guarantee":"prints the julia representation of the given expression","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.print_julia_code_correct","statement":"Path(print_julia_code(x), prints the julia representation of the given expression)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed53a82bc860d112"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.julia.print_julia_code","kind":"function","src_hash":"c971acfce13fe0be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"print_julia_code(expr, **settings)","rhs":"<unspecified:print_julia_code>","over":{"base":"Any"},"name":"print_julia_code_correct"},"guarantee":"prints the julia representation of the given expression","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.julia.print_julia_code_correct","statement":"Path(print_julia_code(x), prints the julia representation of the given expression)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed53a82bc860d112","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","io_operations":["print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', '**settings']"]}}
 def print_julia_code(expr, **settings):
     """Prints the Julia representation of the given expression.
 

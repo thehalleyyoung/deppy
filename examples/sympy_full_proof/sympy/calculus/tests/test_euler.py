@@ -24,16 +24,23 @@ from sympy.calculus.euler import euler_equations as euler
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_euler_interface(), test_euler_interface produces the expected output) over Any ║
+# ║ Path(test_euler_interface(), euler(D(x(t), t) ** 2 / 2, {x(t)}) == [Eq(-D(x(t), t, t), 0)] and euler(D(x(t), t) ** 2 / 2, x(t), {t}) == [Eq(-D(x(t), t, t), 0)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_euler_interface : Any → {Any | euler(D(x(t), t) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  euler(D(x(t), t) ** 2 / 2, {x(t)}) == [Eq...   ║
+# ║   ensures:  euler(D(x(t), t) ** 2 / 2, x(t), {t}) == ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_euler_interface : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03009082b0037350  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3521f2faf711e5a8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.tests.test_euler.test_euler_interface","kind":"function","src_hash":"3a4519ba71cd848b","in":{"base":"Any"},"out":{"base":"Any","pred":"euler(D(x(t), t) ** 2 / 2, {x(t)}) == [Eq(-D(x(t), t, t), 0)] and euler(D(x(t), t) ** 2 / 2, x(t), {t}) == [Eq(-D(x(t), t, t), 0)]"},"spec":{"lhs":"test_euler_interface()","rhs":"test_euler_interface produces the expected output","over":{"base":"Any"},"name":"test_euler_interface_correct"},"guarantee":"test_euler_interface produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.tests.test_euler.test_euler_interface_correct","statement":"Path(test_euler_interface(x), test_euler_interface produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03009082b0037350"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.tests.test_euler.test_euler_interface","kind":"function","src_hash":"3a4519ba71cd848b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: euler(D(x(t), t) ** 2 / 2, {x(t)}) == [Eq(-D(x(t), t, t), 0)] and euler(D(x(t), t) ** 2 / 2, x(t), {t}) == [Eq(-D(x(t), t, t), 0)]"},"spec":{"lhs":"test_euler_interface()","rhs":"euler(D(x(t), t) ** 2 / 2, {x(t)}) == [Eq(-D(x(t), t, t), 0)] and euler(D(x(t), t) ** 2 / 2, x(t), {t}) == [Eq(-D(x(t), t, t), 0)]","over":{"base":"Any"},"name":"test_euler_interface_correct"},"guarantee":"euler(D(x(t), t) ** 2 / 2, {x(t)}) == [Eq(-D(x(t), t, t), 0)]; euler(D(x(t), t) ** 2 / 2, x(t), {t}) == [Eq(-D(x(t), t, t), 0)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.tests.test_euler.test_euler_interface_correct","statement":"Path(test_euler_interface(x), euler(D(x(t), t) ** 2 / 2, {x(t)}) == [Eq(-D(x(t), t, t), 0)]; euler(D(x(t), t) ** 2 / 2, x(t), {t}) == [Eq(-D(x(t), t, t), 0)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3521f2faf711e5a8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["euler(D(x(t), t) ** 2 / 2, {x(t)}) == [Eq(-D(x(t), t, t), 0)]","euler(D(x(t), t) ** 2 / 2, x(t), {t}) == [Eq(-D(x(t), t, t), 0)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_euler_interface():
     x = Function('x')
     y = Symbol('y')
@@ -48,16 +55,22 @@ def test_euler_interface():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_euler_pendulum(), test_euler_pendulum produces the expected output) over Any ║
+# ║ Path(test_euler_pendulum(), euler(L, x(t), t) == [Eq(-sin(x(t)) - D(x(t), t, t), 0)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_euler_pendulum : Any → {Any | euler(L, x(t), t) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  euler(L, x(t), t) == [Eq(-sin(x(t)) - D(x...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_euler_pendulum : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b82af37a165bcac  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 47d0aa660ecbcd5a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.tests.test_euler.test_euler_pendulum","kind":"function","src_hash":"695beee17b83e024","in":{"base":"Any"},"out":{"base":"Any","pred":"euler(L, x(t), t) == [Eq(-sin(x(t)) - D(x(t), t, t), 0)]"},"spec":{"lhs":"test_euler_pendulum()","rhs":"test_euler_pendulum produces the expected output","over":{"base":"Any"},"name":"test_euler_pendulum_correct"},"guarantee":"test_euler_pendulum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.tests.test_euler.test_euler_pendulum_correct","statement":"Path(test_euler_pendulum(x), test_euler_pendulum produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b82af37a165bcac"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.tests.test_euler.test_euler_pendulum","kind":"function","src_hash":"695beee17b83e024","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: euler(L, x(t), t) == [Eq(-sin(x(t)) - D(x(t), t, t), 0)]"},"spec":{"lhs":"test_euler_pendulum()","rhs":"euler(L, x(t), t) == [Eq(-sin(x(t)) - D(x(t), t, t), 0)]","over":{"base":"Any"},"name":"test_euler_pendulum_correct"},"guarantee":"euler(L, x(t), t) == [Eq(-sin(x(t)) - D(x(t), t, t), 0)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.tests.test_euler.test_euler_pendulum_correct","statement":"Path(test_euler_pendulum(x), euler(L, x(t), t) == [Eq(-sin(x(t)) - D(x(t), t, t), 0)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47d0aa660ecbcd5a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["euler(L, x(t), t) == [Eq(-sin(x(t)) - D(x(t), t, t), 0)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_euler_pendulum():
     x = Function('x')
     t = Symbol('t')
@@ -66,16 +79,22 @@ def test_euler_pendulum():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_euler_henonheiles(), test_euler_henonheiles produces the expected output) over Any ║
+# ║ Path(test_euler_henonheiles(), euler(L, [x(t), y(t)], t) == [Eq(-2 * x(t) * y(t) - x(t) - D(x(t), t, t), 0), Eq(-x(t) ** 2 + y(t) ** 2 - y(t) - D(y(t), t, t), 0)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_euler_henonheiles : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  euler(L, [x(t), y(t)], t) == [Eq(-2 * x(t...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_euler_henonheiles : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c00281343f77424  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f4139d1868035bc4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.tests.test_euler.test_euler_henonheiles","kind":"function","src_hash":"eec5b0715695ded9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_euler_henonheiles()","rhs":"test_euler_henonheiles produces the expected output","over":{"base":"Any"},"name":"test_euler_henonheiles_correct"},"guarantee":"test_euler_henonheiles produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.tests.test_euler.test_euler_henonheiles_correct","statement":"Path(test_euler_henonheiles(x), test_euler_henonheiles produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c00281343f77424"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.tests.test_euler.test_euler_henonheiles","kind":"function","src_hash":"eec5b0715695ded9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: euler(L, [x(t), y(t)], t) == [Eq(-2 * x(t) * y(t) - x(t) - D(x(t), t, t), 0), Eq(-x(t) ** 2 + y(t) ** 2 - y(t) - D(y(t), t, t), 0)]"},"spec":{"lhs":"test_euler_henonheiles()","rhs":"euler(L, [x(t), y(t)], t) == [Eq(-2 * x(t) * y(t) - x(t) - D(x(t), t, t), 0), Eq(-x(t) ** 2 + y(t) ** 2 - y(t) - D(y(t), t, t), 0)]","over":{"base":"Any"},"name":"test_euler_henonheiles_correct"},"guarantee":"euler(L, [x(t), y(t)], t) == [Eq(-2 * x(t) * y(t) - x(t) - D(x(t), t, t), 0), Eq(-x(t) ** 2 + y(t) ** 2 - y(t) - D(y(t), t, t), 0)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.tests.test_euler.test_euler_henonheiles_correct","statement":"Path(test_euler_henonheiles(x), euler(L, [x(t), y(t)], t) == [Eq(-2 * x(t) * y(t) - x(t) - D(x(t), t, t), 0), Eq(-x(t) ** 2 + y(t) ** 2 - y(t) - D(y(t), t, t), 0)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4139d1868035bc4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["euler(L, [x(t), y(t)], t) == [Eq(-2 * x(t) * y(t) - x(t) - D(x(t), t, t), 0), Eq(-x(t) ** 2 + y(t) ** 2 - y(t) - D(y(t), t, t), 0)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_euler_henonheiles():
     x = Function('x')
     y = Function('y')
@@ -89,16 +108,22 @@ def test_euler_henonheiles():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_euler_sineg(), test_euler_sineg produces the expected output) over Any ║
+# ║ Path(test_euler_sineg(), euler(L, psi(t, x), [t, x]) == [Eq(-sin(psi(t, x)) - D(psi(t, x), t, t) + D(psi(t, x), x, x), 0)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_euler_sineg : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  euler(L, psi(t, x), [t, x]) == [Eq(-sin(p...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_euler_sineg : Any → {Any | result satisfies: eul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cdf02e044f1c3d15  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 041e788c49998190  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.tests.test_euler.test_euler_sineg","kind":"function","src_hash":"50a4081ccc0115da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_euler_sineg()","rhs":"test_euler_sineg produces the expected output","over":{"base":"Any"},"name":"test_euler_sineg_correct"},"guarantee":"test_euler_sineg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.tests.test_euler.test_euler_sineg_correct","statement":"Path(test_euler_sineg(x), test_euler_sineg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cdf02e044f1c3d15"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.tests.test_euler.test_euler_sineg","kind":"function","src_hash":"50a4081ccc0115da","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: euler(L, psi(t, x), [t, x]) == [Eq(-sin(psi(t, x)) - D(psi(t, x), t, t) + D(psi(t, x), x, x), 0)]"},"spec":{"lhs":"test_euler_sineg()","rhs":"euler(L, psi(t, x), [t, x]) == [Eq(-sin(psi(t, x)) - D(psi(t, x), t, t) + D(psi(t, x), x, x), 0)]","over":{"base":"Any"},"name":"test_euler_sineg_correct"},"guarantee":"euler(L, psi(t, x), [t, x]) == [Eq(-sin(psi(t, x)) - D(psi(t, x), t, t) + D(psi(t, x), x, x), 0)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.tests.test_euler.test_euler_sineg_correct","statement":"Path(test_euler_sineg(x), euler(L, psi(t, x), [t, x]) == [Eq(-sin(psi(t, x)) - D(psi(t, x), t, t) + D(psi(t, x), x, x), 0)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"041e788c49998190","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["euler(L, psi(t, x), [t, x]) == [Eq(-sin(psi(t, x)) - D(psi(t, x), t, t) + D(psi(t, x), x, x), 0)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_euler_sineg():
     psi = Function('psi')
     t = Symbol('t')
@@ -110,16 +135,23 @@ def test_euler_sineg():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_euler_high_order(), test_euler_high_order produces the expected output) over Any ║
+# ║ Path(test_euler_high_order(), euler(L, [x(t), y(t)]) == [Eq(2 * k * D(y(t), t, t, t) - m * D(x(t), t, t), 0), Eq(-2 * k * D(x(t), t, t, t) - m * D(y(t), t, t), 0)] and euler(L) == [Eq(D(x(t, w), t, t, w, w), 0)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_euler_high_order : Any → {Any | euler(L) == [Eq(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  euler(L, [x(t), y(t)]) == [Eq(2 * k * D(y...   ║
+# ║   ensures:  euler(L) == [Eq(D(x(t, w), t, t, w, w), 0)]    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_euler_high_order : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cfb3ed2c0c35288f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 67dad29d58071149  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.tests.test_euler.test_euler_high_order","kind":"function","src_hash":"a96ff0d222711eae","in":{"base":"Any"},"out":{"base":"Any","pred":"euler(L) == [Eq(D(x(t, w), t, t, w, w), 0)]"},"spec":{"lhs":"test_euler_high_order()","rhs":"test_euler_high_order produces the expected output","over":{"base":"Any"},"name":"test_euler_high_order_correct"},"guarantee":"test_euler_high_order produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.tests.test_euler.test_euler_high_order_correct","statement":"Path(test_euler_high_order(x), test_euler_high_order produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cfb3ed2c0c35288f"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.tests.test_euler.test_euler_high_order","kind":"function","src_hash":"a96ff0d222711eae","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: euler(L, [x(t), y(t)]) == [Eq(2 * k * D(y(t), t, t, t) - m * D(x(t), t, t), 0), Eq(-2 * k * D(x(t), t, t, t) - m * D(y(t), t, t), 0)] and euler(L) == [Eq(D(x(t, w), t, t, w, w), 0)]"},"spec":{"lhs":"test_euler_high_order()","rhs":"euler(L, [x(t), y(t)]) == [Eq(2 * k * D(y(t), t, t, t) - m * D(x(t), t, t), 0), Eq(-2 * k * D(x(t), t, t, t) - m * D(y(t), t, t), 0)] and euler(L) == [Eq(D(x(t, w), t, t, w, w), 0)]","over":{"base":"Any"},"name":"test_euler_high_order_correct"},"guarantee":"euler(L, [x(t), y(t)]) == [Eq(2 * k * D(y(t), t, t, t) - m * D(x(t), t, t), 0), Eq(-2 * k * D(x(t), t, t, t) - m * D(y(t), t, t), 0)]; euler(L) == [Eq(D(x(t, w), t, t, w, w), 0)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.tests.test_euler.test_euler_high_order_correct","statement":"Path(test_euler_high_order(x), euler(L, [x(t), y(t)]) == [Eq(2 * k * D(y(t), t, t, t) - m * D(x(t), t, t), 0), Eq(-2 * k * D(x(t), t, t, t) - m * D(y(t), t, t), 0)]; euler(L) == [Eq(D(x(t, w), t, t, w, w), 0)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67dad29d58071149","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["euler(L, [x(t), y(t)]) == [Eq(2 * k * D(y(t), t, t, t) - m * D(x(t), t, t), 0), Eq(-2 * k * D(x(t), t, t, t) - m * D(y(t), t, t), 0)]","euler(L) == [Eq(D(x(t, w), t, t, w, w), 0)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_euler_high_order():
     # an example from hep-th/0309038
     m = Symbol('m')
@@ -139,16 +171,22 @@ def test_euler_high_order():
     assert euler(L) == [Eq(D(x(t, w), t, t, w, w), 0)]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_18653(), test_issue_18653 produces the expected output) over Any ║
+# ║ Path(test_issue_18653(), euler(expr2, (f,), (x, y)) == []) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_18653 : Any → {Any | euler(expr2, (f,), (x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  euler(expr2, (f,), (x, y)) == []               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_18653 : Any → {Any | result satisfies: eul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 684fdd99153c64d9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86d735ff34c68e57  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.tests.test_euler.test_issue_18653","kind":"function","src_hash":"7f9a42c5099f90c6","in":{"base":"Any"},"out":{"base":"Any","pred":"euler(expr2, (f,), (x, y)) == []"},"spec":{"lhs":"test_issue_18653()","rhs":"test_issue_18653 produces the expected output","over":{"base":"Any"},"name":"test_issue_18653_correct"},"guarantee":"test_issue_18653 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.tests.test_euler.test_issue_18653_correct","statement":"Path(test_issue_18653(x), test_issue_18653 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"684fdd99153c64d9"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.tests.test_euler.test_issue_18653","kind":"function","src_hash":"7f9a42c5099f90c6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: euler(expr2, (f,), (x, y)) == []"},"spec":{"lhs":"test_issue_18653()","rhs":"euler(expr2, (f,), (x, y)) == []","over":{"base":"Any"},"name":"test_issue_18653_correct"},"guarantee":"euler(expr2, (f,), (x, y)) == []","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.tests.test_euler.test_issue_18653_correct","statement":"Path(test_issue_18653(x), euler(expr2, (f,), (x, y)) == [])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86d735ff34c68e57","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["euler(expr2, (f,), (x, y)) == []"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_18653():
     x, y, z = symbols("x y z")
     f, g, h = symbols("f g h", cls=Function, args=(x, y))

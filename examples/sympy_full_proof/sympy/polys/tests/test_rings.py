@@ -36,16 +36,24 @@ from sympy.functions.elementary.exponential import exp
 from sympy.functions.elementary.miscellaneous import sqrt
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyRing___init__(), test_PolyRing___init__ produces the expected output) over Any ║
+# ║ Path(test_PolyRing___init__(), len(PolyRing('x,y,z', ZZ, lex).gens) == 3 and len(PolyRing(x, ZZ, lex).gens) == 1 and len(PolyRing(('x', 'y', 'z'), ZZ, lex).gens) == 3 and len(PolyRing((x, y, z), ZZ, lex).gens) == 3 and len(PolyRing('', ZZ, lex).gens) == 0 and len(PolyRing([], ZZ, lex).gens) == 0 and PolyRing('x', ZZ[t], lex).domain == ZZ[t] and PolyRing('x', 'ZZ[t]', lex).domain == ZZ[t] and PolyRing('x', PolyRing('t', ZZ, lex), lex).domain == ZZ[t] and PolyRing('x', ZZ, lex).order == lex and PolyRing('x', ZZ, _lex).order == lex and PolyRing('x', ZZ, 'lex').order == lex and R1.x == R1.gens[0] and R1.y == R1.gens[1] and R1.x == R2.x and R1.y == R2.y and R1.x != R3.x and R1.y != R3.y) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyRing___init__ : Any → {Any | len(PolyRing('x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(PolyRing('x,y,z', ZZ, lex).gens) == 3      ║
+# ║   ensures:  len(PolyRing(x, ZZ, lex).gens) == 1            ║
+# ║   ensures:  len(PolyRing(('x', 'y', 'z'), ZZ, lex).ge...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyRing___init__ : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f60a56af34590396  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cffb13bc9bf32ad7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyRing___init__","kind":"function","src_hash":"60dcacad4c227da1","in":{"base":"Any"},"out":{"base":"Any","pred":"len(PolyRing('x,y,z', ZZ, lex).gens) == 3 and len(PolyRing(x, ZZ, lex).gens) == 1 and len(PolyRing(('x', 'y', 'z'), ZZ, lex).gens) == 3 and len(PolyRing((x, y, z), ZZ, lex).gens) == 3 and len(PolyRing('', ZZ, lex).gens) == 0 and len(PolyRing([], ZZ, lex).gens) == 0 and PolyRing('x', ZZ[t], lex).domain == ZZ[t] and PolyRing('x', 'ZZ[t]', lex).domain == ZZ[t] and PolyRing('x', PolyRing('t', ZZ, lex), lex).domain == ZZ[t] and PolyRing('x', ZZ, lex).order == lex and PolyRing('x', ZZ, _lex).order == lex and PolyRing('x', ZZ, 'lex').order == lex and R1.x == R1.gens[0] and R1.y == R1.gens[1] and R1.x == R2.x and R1.y == R2.y and R1.x != R3.x and R1.y != R3.y"},"spec":{"lhs":"test_PolyRing___init__()","rhs":"test_PolyRing___init__ produces the expected output","over":{"base":"Any"},"name":"test_PolyRing___init___correct"},"guarantee":"test_PolyRing___init__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyRing___init___correct","statement":"Path(test_PolyRing___init__(x), test_PolyRing___init__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f60a56af34590396"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyRing___init__","kind":"function","src_hash":"60dcacad4c227da1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(PolyRing('x,y,z', ZZ, lex).gens) == 3 and len(PolyRing(x, ZZ, lex).gens) == 1 and len(PolyRing(('x', 'y', 'z'), ZZ, lex).gens) == 3 and len(PolyRing((x, y, z), ZZ, lex).gens) == 3 and len(PolyRing('', ZZ, lex).gens) == 0 and len(PolyRing([], ZZ, lex).gens) == 0 and PolyRing('x', ZZ[t], lex).domain == ZZ[t] and PolyRing('x', 'ZZ[t]', lex).domain == ZZ[t] and PolyRing('x', PolyRing('t', ZZ, lex), lex).domain == ZZ[t] and PolyRing('x', ZZ, lex).order == lex and PolyRing('x', ZZ, _lex).order == lex and PolyRing('x', ZZ, 'lex').order == lex and R1.x == R1.gens[0] and R1.y == R1.gens[1] and R1.x == R2.x and R1.y == R2.y and R1.x != R3.x and R1.y != R3.y"},"spec":{"lhs":"test_PolyRing___init__()","rhs":"len(PolyRing('x,y,z', ZZ, lex).gens) == 3 and len(PolyRing(x, ZZ, lex).gens) == 1 and len(PolyRing(('x', 'y', 'z'), ZZ, lex).gens) == 3 and len(PolyRing((x, y, z), ZZ, lex).gens) == 3 and len(PolyRing('', ZZ, lex).gens) == 0 and len(PolyRing([], ZZ, lex).gens) == 0 and PolyRing('x', ZZ[t], lex).domain == ZZ[t] and PolyRing('x', 'ZZ[t]', lex).domain == ZZ[t] and PolyRing('x', PolyRing('t', ZZ, lex), lex).domain == ZZ[t] and PolyRing('x', ZZ, lex).order == lex and PolyRing('x', ZZ, _lex).order == lex and PolyRing('x', ZZ, 'lex').order == lex and R1.x == R1.gens[0] and R1.y == R1.gens[1] and R1.x == R2.x and R1.y == R2.y and R1.x != R3.x and R1.y != R3.y","over":{"base":"Any"},"name":"test_PolyRing___init___correct"},"guarantee":"len(PolyRing('x,y,z', ZZ, lex).gens) == 3; len(PolyRing(x, ZZ, lex).gens) == 1; len(PolyRing(('x', 'y', 'z'), ZZ, lex).gens) == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyRing___init___correct","statement":"Path(test_PolyRing___init__(x), len(PolyRing('x,y,z', ZZ, lex).gens) == 3; len(PolyRing(x, ZZ, lex).gens) == 1; len(PolyRing(('x', 'y', 'z'), ZZ, lex).gens) == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cffb13bc9bf32ad7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(PolyRing('x,y,z', ZZ, lex).gens) == 3","len(PolyRing(x, ZZ, lex).gens) == 1","len(PolyRing(('x', 'y', 'z'), ZZ, lex).gens) == 3","len(PolyRing((x, y, z), ZZ, lex).gens) == 3","len(PolyRing('', ZZ, lex).gens) == 0","len(PolyRing([], ZZ, lex).gens) == 0","PolyRing('x', ZZ[t], lex).domain == ZZ[t]","PolyRing('x', 'ZZ[t]', lex).domain == ZZ[t]","PolyRing('x', PolyRing('t', ZZ, lex), lex).domain == ZZ[t]","PolyRing('x', ZZ, lex).order == lex","PolyRing('x', ZZ, _lex).order == lex","PolyRing('x', ZZ, 'lex').order == lex","R1.x == R1.gens[0]","R1.y == R1.gens[1]","R1.x == R2.x","R1.y == R2.y","R1.x != R3.x","R1.y != R3.y"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_PolyRing___init__():
     x, y, z, t = map(Symbol, "xyzt")
 
@@ -81,31 +89,45 @@ def test_PolyRing___init__():
     assert R1.y != R3.y
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyRing___hash__(), test_PolyRing___hash__ produces the expected output) over Any ║
+# ║ Path(test_PolyRing___hash__(), hash(R)) over Any           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyRing___hash__ : Any → {Any | hash(R)}             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hash(R)                                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyRing___hash__ : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c607488eccf0a60b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bbdb25982942be80  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyRing___hash__","kind":"function","src_hash":"58821f93c8cfaa9f","in":{"base":"Any"},"out":{"base":"Any","pred":"hash(R)"},"spec":{"lhs":"test_PolyRing___hash__()","rhs":"test_PolyRing___hash__ produces the expected output","over":{"base":"Any"},"name":"test_PolyRing___hash___correct"},"guarantee":"test_PolyRing___hash__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyRing___hash___correct","statement":"Path(test_PolyRing___hash__(x), test_PolyRing___hash__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c607488eccf0a60b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyRing___hash__","kind":"function","src_hash":"58821f93c8cfaa9f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hash(R)"},"spec":{"lhs":"test_PolyRing___hash__()","rhs":"hash(R)","over":{"base":"Any"},"name":"test_PolyRing___hash___correct"},"guarantee":"hash(R)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyRing___hash___correct","statement":"Path(test_PolyRing___hash__(x), hash(R))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bbdb25982942be80","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hash(R)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_PolyRing___hash__():
     R, x, y, z = ring("x,y,z", QQ)
     assert hash(R)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyRing___eq__(), test_PolyRing___eq__ produces the expected output) over Any ║
+# ║ Path(test_PolyRing___eq__(), ring('x,y,z', QQ)[0] == ring('x,y,z', QQ)[0] and ring('x,y,z', QQ)[0] != ring('x,y,z', ZZ)[0] and ring('x,y,z', ZZ)[0] != ring('x,y,z', QQ)[0] and ring('x,y,z', QQ)[0] != ring('x,y', QQ)[0] and ring('x,y', QQ)[0] != ring('x,y,z', QQ)[0]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyRing___eq__ : Any → {Any | ring('x,y,z', QQ)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ring('x,y,z', QQ)[0] == ring('x,y,z', QQ)[0]   ║
+# ║   ensures:  ring('x,y,z', QQ)[0] != ring('x,y,z', ZZ)[0]   ║
+# ║   ensures:  ring('x,y,z', ZZ)[0] != ring('x,y,z', QQ)[0]   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyRing___eq__ : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e7c382cb7d3bee5c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cba12006f4946ed9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyRing___eq__","kind":"function","src_hash":"3e72c54a2a878925","in":{"base":"Any"},"out":{"base":"Any","pred":"ring('x,y,z', QQ)[0] == ring('x,y,z', QQ)[0] and ring('x,y,z', QQ)[0] != ring('x,y,z', ZZ)[0] and ring('x,y,z', ZZ)[0] != ring('x,y,z', QQ)[0] and ring('x,y,z', QQ)[0] != ring('x,y', QQ)[0] and ring('x,y', QQ)[0] != ring('x,y,z', QQ)[0]"},"spec":{"lhs":"test_PolyRing___eq__()","rhs":"test_PolyRing___eq__ produces the expected output","over":{"base":"Any"},"name":"test_PolyRing___eq___correct"},"guarantee":"test_PolyRing___eq__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyRing___eq___correct","statement":"Path(test_PolyRing___eq__(x), test_PolyRing___eq__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7c382cb7d3bee5c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyRing___eq__","kind":"function","src_hash":"3e72c54a2a878925","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ring('x,y,z', QQ)[0] == ring('x,y,z', QQ)[0] and ring('x,y,z', QQ)[0] != ring('x,y,z', ZZ)[0] and ring('x,y,z', ZZ)[0] != ring('x,y,z', QQ)[0] and ring('x,y,z', QQ)[0] != ring('x,y', QQ)[0] and ring('x,y', QQ)[0] != ring('x,y,z', QQ)[0]"},"spec":{"lhs":"test_PolyRing___eq__()","rhs":"ring('x,y,z', QQ)[0] == ring('x,y,z', QQ)[0] and ring('x,y,z', QQ)[0] != ring('x,y,z', ZZ)[0] and ring('x,y,z', ZZ)[0] != ring('x,y,z', QQ)[0] and ring('x,y,z', QQ)[0] != ring('x,y', QQ)[0] and ring('x,y', QQ)[0] != ring('x,y,z', QQ)[0]","over":{"base":"Any"},"name":"test_PolyRing___eq___correct"},"guarantee":"ring('x,y,z', QQ)[0] == ring('x,y,z', QQ)[0]; ring('x,y,z', QQ)[0] != ring('x,y,z', ZZ)[0]; ring('x,y,z', ZZ)[0] != ring('x,y,z', QQ)[0]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyRing___eq___correct","statement":"Path(test_PolyRing___eq__(x), ring('x,y,z', QQ)[0] == ring('x,y,z', QQ)[0]; ring('x,y,z', QQ)[0] != ring('x,y,z', ZZ)[0]; ring('x,y,z', ZZ)[0] != ring('x,y,z', QQ)[0])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cba12006f4946ed9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ring('x,y,z', QQ)[0] == ring('x,y,z', QQ)[0]","ring('x,y,z', QQ)[0] != ring('x,y,z', ZZ)[0]","ring('x,y,z', ZZ)[0] != ring('x,y,z', QQ)[0]","ring('x,y,z', QQ)[0] != ring('x,y', QQ)[0]","ring('x,y', QQ)[0] != ring('x,y,z', QQ)[0]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_PolyRing___eq__():
     assert ring("x,y,z", QQ)[0] == ring("x,y,z", QQ)[0]
     assert ring("x,y,z", QQ)[0] != ring("x,y,z", ZZ)[0]
@@ -114,16 +136,24 @@ def test_PolyRing___eq__():
     assert ring("x,y", QQ)[0] != ring("x,y,z", QQ)[0]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyRing_ring_new(), test_PolyRing_ring_new produces the expected output) over Any ║
+# ║ Path(test_PolyRing_ring_new(), R.ring_new(7) == R(7) and R.ring_new(7 * x * y * z) == 7 * x * y * z and R.ring_new([[[1]], [[2], [3]], [[4, 5, 6]]]) == f and R.ring_new({(2, 0, 0): 1, (1, 1, 0): 2, (1, 0, 0): 3, (0, 0, 2): 4, (0, 0, 1): 5, (0, 0, 0): 6}) == f and R.ring_new([((2, 0, 0), 1), ((1, 1, 0), 2), ((1, 0, 0), 3), ((0, 0, 2), 4), ((0, 0, 1), 5), ((0, 0, 0), 6)]) == f and R.ring_new([((), 7)]) == R(7)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyRing_ring_new : Any → {Any | R.ring_new(7) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  R.ring_new(7) == R(7)                          ║
+# ║   ensures:  R.ring_new(7 * x * y * z) == 7 * x * y * z     ║
+# ║   ensures:  R.ring_new([[[1]], [[2], [3]], [[4, 5, 6]...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyRing_ring_new : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 47631c60ecb5cf2f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b74ca84a84205299  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyRing_ring_new","kind":"function","src_hash":"fe9dd2b650650f70","in":{"base":"Any"},"out":{"base":"Any","pred":"R.ring_new(7) == R(7) and R.ring_new(7 * x * y * z) == 7 * x * y * z and R.ring_new([[[1]], [[2], [3]], [[4, 5, 6]]]) == f and R.ring_new([((), 7)]) == R(7)"},"spec":{"lhs":"test_PolyRing_ring_new()","rhs":"test_PolyRing_ring_new produces the expected output","over":{"base":"Any"},"name":"test_PolyRing_ring_new_correct"},"guarantee":"test_PolyRing_ring_new produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyRing_ring_new_correct","statement":"Path(test_PolyRing_ring_new(x), test_PolyRing_ring_new produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47631c60ecb5cf2f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyRing_ring_new","kind":"function","src_hash":"fe9dd2b650650f70","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: R.ring_new(7) == R(7) and R.ring_new(7 * x * y * z) == 7 * x * y * z and R.ring_new([[[1]], [[2], [3]], [[4, 5, 6]]]) == f and R.ring_new({(2, 0, 0): 1, (1, 1, 0): 2, (1, 0, 0): 3, (0, 0, 2): 4, (0, 0, 1): 5, (0, 0, 0): 6}) == f and R.ring_new([((2, 0, 0), 1), ((1, 1, 0), 2), ((1, 0, 0), 3), ((0, 0, 2), 4), ((0, 0, 1), 5), ((0, 0, 0), 6)]) == f and R.ring_new([((), 7)]) == R(7)"},"spec":{"lhs":"test_PolyRing_ring_new()","rhs":"R.ring_new(7) == R(7) and R.ring_new(7 * x * y * z) == 7 * x * y * z and R.ring_new([[[1]], [[2], [3]], [[4, 5, 6]]]) == f and R.ring_new({(2, 0, 0): 1, (1, 1, 0): 2, (1, 0, 0): 3, (0, 0, 2): 4, (0, 0, 1): 5, (0, 0, 0): 6}) == f and R.ring_new([((2, 0, 0), 1), ((1, 1, 0), 2), ((1, 0, 0), 3), ((0, 0, 2), 4), ((0, 0, 1), 5), ((0, 0, 0), 6)]) == f and R.ring_new([((), 7)]) == R(7)","over":{"base":"Any"},"name":"test_PolyRing_ring_new_correct"},"guarantee":"R.ring_new(7) == R(7); R.ring_new(7 * x * y * z) == 7 * x * y * z; R.ring_new([[[1]], [[2], [3]], [[4, 5, 6]]]) == f","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyRing_ring_new_correct","statement":"Path(test_PolyRing_ring_new(x), R.ring_new(7) == R(7); R.ring_new(7 * x * y * z) == 7 * x * y * z; R.ring_new([[[1]], [[2], [3]], [[4, 5, 6]]]) == f)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b74ca84a84205299","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["R.ring_new(7) == R(7)","R.ring_new(7 * x * y * z) == 7 * x * y * z","R.ring_new([[[1]], [[2], [3]], [[4, 5, 6]]]) == f","R.ring_new({(2, 0, 0): 1, (1, 1, 0): 2, (1, 0, 0): 3, (0, 0, 2): 4, (0, 0, 1): 5, (0, 0, 0): 6}) == f","R.ring_new([((2, 0, 0), 1), ((1, 1, 0), 2), ((1, 0, 0), 3), ((0, 0, 2), 4), ((0, 0, 1), 5), ((0, 0, 0), 6)]) == f","R.ring_new([((), 7)]) == R(7)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_PolyRing_ring_new():
     R, x, y, z = ring("x,y,z", QQ)
 
@@ -140,16 +170,24 @@ def test_PolyRing_ring_new():
     assert R.ring_new([((), 7)]) == R(7)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyRing_drop(), test_PolyRing_drop produces the expected output) over Any ║
+# ║ Path(test_PolyRing_drop(), R.drop(x) == PolyRing('y,z', ZZ, lex) and R.drop(y) == PolyRing('x,z', ZZ, lex) and R.drop(z) == PolyRing('x,y', ZZ, lex) and R.drop(0) == PolyRing('y,z', ZZ, lex) and R.drop(0).drop(0) == PolyRing('z', ZZ, lex) and R.drop(0).drop(0).drop(0) == ZZ and R.drop(1) == PolyRing('x,z', ZZ, lex) and R.drop(2) == PolyRing('x,y', ZZ, lex) and R.drop(2).drop(1) == PolyRing('x', ZZ, lex) and R.drop(2).drop(1).drop(0) == ZZ) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyRing_drop : Any → {Any | R.drop(x) == PolyRi...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  R.drop(x) == PolyRing('y,z', ZZ, lex)          ║
+# ║   ensures:  R.drop(y) == PolyRing('x,z', ZZ, lex)          ║
+# ║   ensures:  R.drop(z) == PolyRing('x,y', ZZ, lex)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyRing_drop : Any → {Any | result satisfies: R...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95fbd5a122605719  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07aaa7cefc3f6ee0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyRing_drop","kind":"function","src_hash":"b86dd75c32874622","in":{"base":"Any"},"out":{"base":"Any","pred":"R.drop(x) == PolyRing('y,z', ZZ, lex) and R.drop(y) == PolyRing('x,z', ZZ, lex) and R.drop(z) == PolyRing('x,y', ZZ, lex) and R.drop(0) == PolyRing('y,z', ZZ, lex) and R.drop(0).drop(0) == PolyRing('z', ZZ, lex) and R.drop(0).drop(0).drop(0) == ZZ and R.drop(1) == PolyRing('x,z', ZZ, lex) and R.drop(2) == PolyRing('x,y', ZZ, lex) and R.drop(2).drop(1) == PolyRing('x', ZZ, lex) and R.drop(2).drop(1).drop(0) == ZZ"},"spec":{"lhs":"test_PolyRing_drop()","rhs":"test_PolyRing_drop produces the expected output","over":{"base":"Any"},"name":"test_PolyRing_drop_correct"},"guarantee":"test_PolyRing_drop produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyRing_drop_correct","statement":"Path(test_PolyRing_drop(x), test_PolyRing_drop produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95fbd5a122605719"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyRing_drop","kind":"function","src_hash":"b86dd75c32874622","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: R.drop(x) == PolyRing('y,z', ZZ, lex) and R.drop(y) == PolyRing('x,z', ZZ, lex) and R.drop(z) == PolyRing('x,y', ZZ, lex) and R.drop(0) == PolyRing('y,z', ZZ, lex) and R.drop(0).drop(0) == PolyRing('z', ZZ, lex) and R.drop(0).drop(0).drop(0) == ZZ and R.drop(1) == PolyRing('x,z', ZZ, lex) and R.drop(2) == PolyRing('x,y', ZZ, lex) and R.drop(2).drop(1) == PolyRing('x', ZZ, lex) and R.drop(2).drop(1).drop(0) == ZZ"},"spec":{"lhs":"test_PolyRing_drop()","rhs":"R.drop(x) == PolyRing('y,z', ZZ, lex) and R.drop(y) == PolyRing('x,z', ZZ, lex) and R.drop(z) == PolyRing('x,y', ZZ, lex) and R.drop(0) == PolyRing('y,z', ZZ, lex) and R.drop(0).drop(0) == PolyRing('z', ZZ, lex) and R.drop(0).drop(0).drop(0) == ZZ and R.drop(1) == PolyRing('x,z', ZZ, lex) and R.drop(2) == PolyRing('x,y', ZZ, lex) and R.drop(2).drop(1) == PolyRing('x', ZZ, lex) and R.drop(2).drop(1).drop(0) == ZZ","over":{"base":"Any"},"name":"test_PolyRing_drop_correct"},"guarantee":"R.drop(x) == PolyRing('y,z', ZZ, lex); R.drop(y) == PolyRing('x,z', ZZ, lex); R.drop(z) == PolyRing('x,y', ZZ, lex)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyRing_drop_correct","statement":"Path(test_PolyRing_drop(x), R.drop(x) == PolyRing('y,z', ZZ, lex); R.drop(y) == PolyRing('x,z', ZZ, lex); R.drop(z) == PolyRing('x,y', ZZ, lex))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07aaa7cefc3f6ee0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["R.drop(x) == PolyRing('y,z', ZZ, lex)","R.drop(y) == PolyRing('x,z', ZZ, lex)","R.drop(z) == PolyRing('x,y', ZZ, lex)","R.drop(0) == PolyRing('y,z', ZZ, lex)","R.drop(0).drop(0) == PolyRing('z', ZZ, lex)","R.drop(0).drop(0).drop(0) == ZZ","R.drop(1) == PolyRing('x,z', ZZ, lex)","R.drop(2) == PolyRing('x,y', ZZ, lex)","R.drop(2).drop(1) == PolyRing('x', ZZ, lex)","R.drop(2).drop(1).drop(0) == ZZ"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_PolyRing_drop():
     R, x,y,z = ring("x,y,z", ZZ)
 
@@ -171,16 +209,24 @@ def test_PolyRing_drop():
     raises(ValueError, lambda: R.drop(x).drop(y))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyRing___getitem__(), test_PolyRing___getitem__ produces the expected output) over Any ║
+# ║ Path(test_PolyRing___getitem__(), R[0:] == PolyRing('x,y,z', ZZ, lex) and R[1:] == PolyRing('y,z', ZZ, lex) and R[2:] == PolyRing('z', ZZ, lex) and R[3:] == ZZ) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyRing___getitem__ : Any → {Any | R[0:] == Pol...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  R[0:] == PolyRing('x,y,z', ZZ, lex)            ║
+# ║   ensures:  R[1:] == PolyRing('y,z', ZZ, lex)              ║
+# ║   ensures:  R[2:] == PolyRing('z', ZZ, lex)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyRing___getitem__ : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 233e132cde6b4e80  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 460e2fec5901a25a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyRing___getitem__","kind":"function","src_hash":"ce52c88dd8095b09","in":{"base":"Any"},"out":{"base":"Any","pred":"R[0:] == PolyRing('x,y,z', ZZ, lex) and R[1:] == PolyRing('y,z', ZZ, lex) and R[2:] == PolyRing('z', ZZ, lex) and R[3:] == ZZ"},"spec":{"lhs":"test_PolyRing___getitem__()","rhs":"test_PolyRing___getitem__ produces the expected output","over":{"base":"Any"},"name":"test_PolyRing___getitem___correct"},"guarantee":"test_PolyRing___getitem__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyRing___getitem___correct","statement":"Path(test_PolyRing___getitem__(x), test_PolyRing___getitem__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"233e132cde6b4e80"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyRing___getitem__","kind":"function","src_hash":"ce52c88dd8095b09","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: R[0:] == PolyRing('x,y,z', ZZ, lex) and R[1:] == PolyRing('y,z', ZZ, lex) and R[2:] == PolyRing('z', ZZ, lex) and R[3:] == ZZ"},"spec":{"lhs":"test_PolyRing___getitem__()","rhs":"R[0:] == PolyRing('x,y,z', ZZ, lex) and R[1:] == PolyRing('y,z', ZZ, lex) and R[2:] == PolyRing('z', ZZ, lex) and R[3:] == ZZ","over":{"base":"Any"},"name":"test_PolyRing___getitem___correct"},"guarantee":"R[0:] == PolyRing('x,y,z', ZZ, lex); R[1:] == PolyRing('y,z', ZZ, lex); R[2:] == PolyRing('z', ZZ, lex)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyRing___getitem___correct","statement":"Path(test_PolyRing___getitem__(x), R[0:] == PolyRing('x,y,z', ZZ, lex); R[1:] == PolyRing('y,z', ZZ, lex); R[2:] == PolyRing('z', ZZ, lex))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"460e2fec5901a25a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["R[0:] == PolyRing('x,y,z', ZZ, lex)","R[1:] == PolyRing('y,z', ZZ, lex)","R[2:] == PolyRing('z', ZZ, lex)","R[3:] == ZZ"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_PolyRing___getitem__():
     R, x,y,z = ring("x,y,z", ZZ)
 
@@ -190,16 +236,24 @@ def test_PolyRing___getitem__():
     assert R[3:] == ZZ
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyRing_is_(), test_PolyRing_is_ produces the expected output) over Any ║
+# ║ Path(test_PolyRing_is_(), R.is_univariate is True and R.is_multivariate is False and R.is_univariate is False and R.is_multivariate is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyRing_is_ : Any → {Any | R.is_univariate is T...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  R.is_univariate is True                        ║
+# ║   ensures:  R.is_multivariate is False                     ║
+# ║   ensures:  R.is_univariate is False                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyRing_is_ : Any → {Any | result satisfies: R....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8861178e24840e2f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 970e4c21588e4ff7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyRing_is_","kind":"function","src_hash":"020281898b3b3a2e","in":{"base":"Any"},"out":{"base":"Any","pred":"R.is_univariate is True and R.is_multivariate is False and R.is_univariate is False and R.is_multivariate is True and R.is_univariate is False and R.is_multivariate is False"},"spec":{"lhs":"test_PolyRing_is_()","rhs":"test_PolyRing_is_ produces the expected output","over":{"base":"Any"},"name":"test_PolyRing_is__correct"},"guarantee":"test_PolyRing_is_ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyRing_is__correct","statement":"Path(test_PolyRing_is_(x), test_PolyRing_is_ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8861178e24840e2f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyRing_is_","kind":"function","src_hash":"020281898b3b3a2e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: R.is_univariate is True and R.is_multivariate is False and R.is_univariate is False and R.is_multivariate is True"},"spec":{"lhs":"test_PolyRing_is_()","rhs":"R.is_univariate is True and R.is_multivariate is False and R.is_univariate is False and R.is_multivariate is True","over":{"base":"Any"},"name":"test_PolyRing_is__correct"},"guarantee":"R.is_univariate is True; R.is_multivariate is False; R.is_univariate is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyRing_is__correct","statement":"Path(test_PolyRing_is_(x), R.is_univariate is True; R.is_multivariate is False; R.is_univariate is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"970e4c21588e4ff7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["R.is_univariate is True","R.is_multivariate is False","R.is_univariate is False","R.is_multivariate is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_PolyRing_is_():
     R = PolyRing("x", QQ, lex)
 
@@ -217,16 +271,23 @@ def test_PolyRing_is_():
     assert R.is_multivariate is False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyRing_add(), test_PolyRing_add produces the expected output) over Any ║
+# ║ Path(test_PolyRing_add(), R.add(F) == reduce(add, F) == 4 * x ** 2 + 24 and R.add([2, 5, 7]) == 14) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyRing_add : Any → {Any | R.add(F) == reduce(a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  R.add(F) == reduce(add, F) == 4 * x ** 2 ...   ║
+# ║   ensures:  R.add([2, 5, 7]) == 14                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyRing_add : Any → {Any | result satisfies: R....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af0ede0bc4c0cc49  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93f998a8838dbd27  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyRing_add","kind":"function","src_hash":"53638e8208c4cca7","in":{"base":"Any"},"out":{"base":"Any","pred":"R.add(F) == reduce(add, F) == 4 * x ** 2 + 24 and R.add([2, 5, 7]) == 14"},"spec":{"lhs":"test_PolyRing_add()","rhs":"test_PolyRing_add produces the expected output","over":{"base":"Any"},"name":"test_PolyRing_add_correct"},"guarantee":"test_PolyRing_add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyRing_add_correct","statement":"Path(test_PolyRing_add(x), test_PolyRing_add produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af0ede0bc4c0cc49"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyRing_add","kind":"function","src_hash":"53638e8208c4cca7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: R.add(F) == reduce(add, F) == 4 * x ** 2 + 24 and R.add([2, 5, 7]) == 14"},"spec":{"lhs":"test_PolyRing_add()","rhs":"R.add(F) == reduce(add, F) == 4 * x ** 2 + 24 and R.add([2, 5, 7]) == 14","over":{"base":"Any"},"name":"test_PolyRing_add_correct"},"guarantee":"R.add(F) == reduce(add, F) == 4 * x ** 2 + 24; R.add([2, 5, 7]) == 14","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyRing_add_correct","statement":"Path(test_PolyRing_add(x), R.add(F) == reduce(add, F) == 4 * x ** 2 + 24; R.add([2, 5, 7]) == 14)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93f998a8838dbd27","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["R.add(F) == reduce(add, F) == 4 * x ** 2 + 24","R.add([2, 5, 7]) == 14"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_PolyRing_add():
     R, x = ring("x", ZZ)
     F = [ x**2 + 2*i + 3 for i in range(4) ]
@@ -238,16 +299,23 @@ def test_PolyRing_add():
     assert R.add([2, 5, 7]) == 14
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyRing_mul(), test_PolyRing_mul produces the expected output) over Any ║
+# ║ Path(test_PolyRing_mul(), R.mul(F) == reduce(mul, F) == x ** 8 + 24 * x ** 6 + 206 * x ** 4 + 744 * x ** 2 + 945 and R.mul([2, 3, 5]) == 30) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyRing_mul : Any → {Any | R.mul([2, 3, 5]) == 30}   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  R.mul(F) == reduce(mul, F) == x ** 8 + 24...   ║
+# ║   ensures:  R.mul([2, 3, 5]) == 30                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyRing_mul : Any → {Any | result satisfies: R....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32ebb0b003f59d31  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7bf3033ca9162d55  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyRing_mul","kind":"function","src_hash":"688f6c292f78c3f8","in":{"base":"Any"},"out":{"base":"Any","pred":"R.mul([2, 3, 5]) == 30"},"spec":{"lhs":"test_PolyRing_mul()","rhs":"test_PolyRing_mul produces the expected output","over":{"base":"Any"},"name":"test_PolyRing_mul_correct"},"guarantee":"test_PolyRing_mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyRing_mul_correct","statement":"Path(test_PolyRing_mul(x), test_PolyRing_mul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32ebb0b003f59d31"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyRing_mul","kind":"function","src_hash":"688f6c292f78c3f8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: R.mul(F) == reduce(mul, F) == x ** 8 + 24 * x ** 6 + 206 * x ** 4 + 744 * x ** 2 + 945 and R.mul([2, 3, 5]) == 30"},"spec":{"lhs":"test_PolyRing_mul()","rhs":"R.mul(F) == reduce(mul, F) == x ** 8 + 24 * x ** 6 + 206 * x ** 4 + 744 * x ** 2 + 945 and R.mul([2, 3, 5]) == 30","over":{"base":"Any"},"name":"test_PolyRing_mul_correct"},"guarantee":"R.mul(F) == reduce(mul, F) == x ** 8 + 24 * x ** 6 + 206 * x ** 4 + 744 * x ** 2 + 945; R.mul([2, 3, 5]) == 30","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyRing_mul_correct","statement":"Path(test_PolyRing_mul(x), R.mul(F) == reduce(mul, F) == x ** 8 + 24 * x ** 6 + 206 * x ** 4 + 744 * x ** 2 + 945; R.mul([2, 3, 5]) == 30)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7bf3033ca9162d55","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["R.mul(F) == reduce(mul, F) == x ** 8 + 24 * x ** 6 + 206 * x ** 4 + 744 * x ** 2 + 945","R.mul([2, 3, 5]) == 30"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_PolyRing_mul():
     R, x = ring("x", ZZ)
     F = [ x**2 + 2*i + 3 for i in range(4) ]
@@ -259,16 +327,24 @@ def test_PolyRing_mul():
     assert R.mul([2, 3, 5]) == 30
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyRing_symmetric_poly(), test_PolyRing_symmetric_poly produces the expected output) over Any ║
+# ║ Path(test_PolyRing_symmetric_poly(), R.symmetric_poly(0) == R.one and R.symmetric_poly(1) == x + y + z + t and R.symmetric_poly(2) == x * y + x * z + x * t + y * z + y * t + z * t and R.symmetric_poly(3) == x * y * z + x * y * t + x * z * t + y * z * t and R.symmetric_poly(4) == x * y * z * t) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyRing_symmetric_poly : Any → {Any | R.symmetr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  R.symmetric_poly(0) == R.one                   ║
+# ║   ensures:  R.symmetric_poly(1) == x + y + z + t           ║
+# ║   ensures:  R.symmetric_poly(2) == x * y + x * z + x ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyRing_symmetric_poly : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cebae9d9b5d26c6c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 216b489df27e45d5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyRing_symmetric_poly","kind":"function","src_hash":"c724577638a6203d","in":{"base":"Any"},"out":{"base":"Any","pred":"R.symmetric_poly(0) == R.one and R.symmetric_poly(1) == x + y + z + t and R.symmetric_poly(2) == x * y + x * z + x * t + y * z + y * t + z * t and R.symmetric_poly(3) == x * y * z + x * y * t + x * z * t + y * z * t and R.symmetric_poly(4) == x * y * z * t"},"spec":{"lhs":"test_PolyRing_symmetric_poly()","rhs":"test_PolyRing_symmetric_poly produces the expected output","over":{"base":"Any"},"name":"test_PolyRing_symmetric_poly_correct"},"guarantee":"test_PolyRing_symmetric_poly produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyRing_symmetric_poly_correct","statement":"Path(test_PolyRing_symmetric_poly(x), test_PolyRing_symmetric_poly produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cebae9d9b5d26c6c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyRing_symmetric_poly","kind":"function","src_hash":"c724577638a6203d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: R.symmetric_poly(0) == R.one and R.symmetric_poly(1) == x + y + z + t and R.symmetric_poly(2) == x * y + x * z + x * t + y * z + y * t + z * t and R.symmetric_poly(3) == x * y * z + x * y * t + x * z * t + y * z * t and R.symmetric_poly(4) == x * y * z * t"},"spec":{"lhs":"test_PolyRing_symmetric_poly()","rhs":"R.symmetric_poly(0) == R.one and R.symmetric_poly(1) == x + y + z + t and R.symmetric_poly(2) == x * y + x * z + x * t + y * z + y * t + z * t and R.symmetric_poly(3) == x * y * z + x * y * t + x * z * t + y * z * t and R.symmetric_poly(4) == x * y * z * t","over":{"base":"Any"},"name":"test_PolyRing_symmetric_poly_correct"},"guarantee":"R.symmetric_poly(0) == R.one; R.symmetric_poly(1) == x + y + z + t; R.symmetric_poly(2) == x * y + x * z + x * t + y * z + y * t + z * t","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyRing_symmetric_poly_correct","statement":"Path(test_PolyRing_symmetric_poly(x), R.symmetric_poly(0) == R.one; R.symmetric_poly(1) == x + y + z + t; R.symmetric_poly(2) == x * y + x * z + x * t + y * z + y * t + z * t)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"216b489df27e45d5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["R.symmetric_poly(0) == R.one","R.symmetric_poly(1) == x + y + z + t","R.symmetric_poly(2) == x * y + x * z + x * t + y * z + y * t + z * t","R.symmetric_poly(3) == x * y * z + x * y * t + x * z * t + y * z * t","R.symmetric_poly(4) == x * y * z * t"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_PolyRing_symmetric_poly():
     R, x, y, z, t = ring("x,y,z,t", ZZ)
 
@@ -282,16 +358,24 @@ def test_PolyRing_symmetric_poly():
     assert R.symmetric_poly(4) == x*y*z*t
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sring(), test_sring produces the expected output) over Any ║
+# ║ Path(test_sring(), sring(x + 2 * y + 3 * z) == (R, R.x + 2 * R.y + 3 * R.z) and sring(x + 2 * y + z / 3) == (R, R.x + 2 * R.y + R.z / 3) and sring([x, 2 * y, z / 3]) == (R, [R.x, 2 * R.y, R.z / 3]) and sring(x + 2 * t * y + 3 * t ** 2 * z, x, y, z) == (R, R.x + 2 * Rt.t * R.y + 3 * Rt.t ** 2 * R.z) and sring(x + t * y / 2 + t ** 2 * z / 3, x, y, z) == (R, R.x + Rt.t * R.y / 2 + Rt.t ** 2 * R.z / 3) and sring(x + 2 * y / t + t ** 2 * z / 3, x, y, z) == (R, R.x + 2 * R.y / Rt.t + Rt.t ** 2 * R.z / 3) and R.domain == QQ.algebraic_field(sqrt(2) + sqrt(3)) and R.gens == () and a == R.domain.from_sympy(r)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sring : Any → {Any | sring(x + 2 * y + 3 * z) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sring(x + 2 * y + 3 * z) == (R, R.x + 2 *...   ║
+# ║   ensures:  sring(x + 2 * y + z / 3) == (R, R.x + 2 *...   ║
+# ║   ensures:  sring([x, 2 * y, z / 3]) == (R, [R.x, 2 *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sring : Any → {Any | result satisfies: sring(x +...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ab25e91bb4d41f3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3899738b68e2faf8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_sring","kind":"function","src_hash":"ae2a9853a7ca3727","in":{"base":"Any"},"out":{"base":"Any","pred":"sring(x + 2 * y + 3 * z) == (R, R.x + 2 * R.y + 3 * R.z) and sring(x + 2 * y + z / 3) == (R, R.x + 2 * R.y + R.z / 3) and sring([x, 2 * y, z / 3]) == (R, [R.x, 2 * R.y, R.z / 3]) and R.domain == QQ.algebraic_field(sqrt(2) + sqrt(3)) and R.gens == () and a == R.domain.from_sympy(r)"},"spec":{"lhs":"test_sring()","rhs":"test_sring produces the expected output","over":{"base":"Any"},"name":"test_sring_correct"},"guarantee":"test_sring produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_sring_correct","statement":"Path(test_sring(x), test_sring produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ab25e91bb4d41f3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_sring","kind":"function","src_hash":"ae2a9853a7ca3727","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sring(x + 2 * y + 3 * z) == (R, R.x + 2 * R.y + 3 * R.z) and sring(x + 2 * y + z / 3) == (R, R.x + 2 * R.y + R.z / 3) and sring([x, 2 * y, z / 3]) == (R, [R.x, 2 * R.y, R.z / 3]) and sring(x + 2 * t * y + 3 * t ** 2 * z, x, y, z) == (R, R.x + 2 * Rt.t * R.y + 3 * Rt.t ** 2 * R.z) and sring(x + t * y / 2 + t ** 2 * z / 3, x, y, z) == (R, R.x + Rt.t * R.y / 2 + Rt.t ** 2 * R.z / 3) and sring(x + 2 * y / t + t ** 2 * z / 3, x, y, z) == (R, R.x + 2 * R.y / Rt.t + Rt.t ** 2 * R.z / 3) and R.domain == QQ.algebraic_field(sqrt(2) + sqrt(3)) and R.gens == () and a == R.domain.from_sympy(r)"},"spec":{"lhs":"test_sring()","rhs":"sring(x + 2 * y + 3 * z) == (R, R.x + 2 * R.y + 3 * R.z) and sring(x + 2 * y + z / 3) == (R, R.x + 2 * R.y + R.z / 3) and sring([x, 2 * y, z / 3]) == (R, [R.x, 2 * R.y, R.z / 3]) and sring(x + 2 * t * y + 3 * t ** 2 * z, x, y, z) == (R, R.x + 2 * Rt.t * R.y + 3 * Rt.t ** 2 * R.z) and sring(x + t * y / 2 + t ** 2 * z / 3, x, y, z) == (R, R.x + Rt.t * R.y / 2 + Rt.t ** 2 * R.z / 3) and sring(x + 2 * y / t + t ** 2 * z / 3, x, y, z) == (R, R.x + 2 * R.y / Rt.t + Rt.t ** 2 * R.z / 3) and R.domain == QQ.algebraic_field(sqrt(2) + sqrt(3)) and R.gens == () and a == R.domain.from_sympy(r)","over":{"base":"Any"},"name":"test_sring_correct"},"guarantee":"sring(x + 2 * y + 3 * z) == (R, R.x + 2 * R.y + 3 * R.z); sring(x + 2 * y + z / 3) == (R, R.x + 2 * R.y + R.z / 3); sring([x, 2 * y, z / 3]) == (R, [R.x, 2 * R.y, R.z / 3])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_sring_correct","statement":"Path(test_sring(x), sring(x + 2 * y + 3 * z) == (R, R.x + 2 * R.y + 3 * R.z); sring(x + 2 * y + z / 3) == (R, R.x + 2 * R.y + R.z / 3); sring([x, 2 * y, z / 3]) == (R, [R.x, 2 * R.y, R.z / 3]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3899738b68e2faf8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sring(x + 2 * y + 3 * z) == (R, R.x + 2 * R.y + 3 * R.z)","sring(x + 2 * y + z / 3) == (R, R.x + 2 * R.y + R.z / 3)","sring([x, 2 * y, z / 3]) == (R, [R.x, 2 * R.y, R.z / 3])","sring(x + 2 * t * y + 3 * t ** 2 * z, x, y, z) == (R, R.x + 2 * Rt.t * R.y + 3 * Rt.t ** 2 * R.z)","sring(x + t * y / 2 + t ** 2 * z / 3, x, y, z) == (R, R.x + Rt.t * R.y / 2 + Rt.t ** 2 * R.z / 3)","sring(x + 2 * y / t + t ** 2 * z / 3, x, y, z) == (R, R.x + 2 * R.y / Rt.t + Rt.t ** 2 * R.z / 3)","R.domain == QQ.algebraic_field(sqrt(2) + sqrt(3))","R.gens == ()","a == R.domain.from_sympy(r)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_sring():
     x, y, z, t = symbols("x,y,z,t")
 
@@ -321,31 +405,45 @@ def test_sring():
     assert a == R.domain.from_sympy(r)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement___hash__(), test_PolyElement___hash__ produces the expected output) over Any ║
+# ║ Path(test_PolyElement___hash__(), hash(x * y * z)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement___hash__ : Any → {Any | hash(x * y *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hash(x * y * z)                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement___hash__ : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 51c5e9b759f3ae91  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e4d2a394c97b3bb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement___hash__","kind":"function","src_hash":"355f76cdafbf9e25","in":{"base":"Any"},"out":{"base":"Any","pred":"hash(x * y * z)"},"spec":{"lhs":"test_PolyElement___hash__()","rhs":"test_PolyElement___hash__ produces the expected output","over":{"base":"Any"},"name":"test_PolyElement___hash___correct"},"guarantee":"test_PolyElement___hash__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement___hash___correct","statement":"Path(test_PolyElement___hash__(x), test_PolyElement___hash__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51c5e9b759f3ae91"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement___hash__","kind":"function","src_hash":"355f76cdafbf9e25","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hash(x * y * z)"},"spec":{"lhs":"test_PolyElement___hash__()","rhs":"hash(x * y * z)","over":{"base":"Any"},"name":"test_PolyElement___hash___correct"},"guarantee":"hash(x * y * z)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement___hash___correct","statement":"Path(test_PolyElement___hash__(x), hash(x * y * z))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e4d2a394c97b3bb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hash(x * y * z)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_PolyElement___hash__():
     R, x, y, z = ring("x,y,z", QQ)
     assert hash(x*y*z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement___eq__(), test_PolyElement___eq__ produces the expected output) over Any ║
+# ║ Path(test_PolyElement___eq__(), (x * y + 5 * x * y == 6) == False and (x * y + 5 * x * y == 6 * x * y) == True and (6 == x * y + 5 * x * y) == False and (6 * x * y == x * y + 5 * x * y) == True and (x * y - x * y == 0) == True and (0 == x * y - x * y) == True and (x * y - x * y == 1) == False and (1 == x * y - x * y) == False and (x * y + 5 * x * y != 6) == True and (x * y + 5 * x * y != 6 * x * y) == False and (6 != x * y + 5 * x * y) == True and (6 * x * y != x * y + 5 * x * y) == False and (x * y - x * y != 0) == False and (0 != x * y - x * y) == False and (x * y - x * y != 1) == True and (1 != x * y - x * y) == True and R.one == QQ(1, 1) == R.one and R.one == 1 == R.one and (t ** 3 * x / x == t ** 3) == True and (t ** 3 * x / x == t ** 4) == False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement___eq__ : Any → {Any | (x * y + 5 * x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x * y + 5 * x * y == 6) == False              ║
+# ║   ensures:  (x * y + 5 * x * y == 6 * x * y) == True       ║
+# ║   ensures:  (6 == x * y + 5 * x * y) == False              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement___eq__ : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 14d3b10c128ba443  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ba4e4ec9e5f5568  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement___eq__","kind":"function","src_hash":"68bc5929ab7158d9","in":{"base":"Any"},"out":{"base":"Any","pred":"(x * y + 5 * x * y == 6) == False and (x * y + 5 * x * y == 6 * x * y) == True and (6 == x * y + 5 * x * y) == False and (6 * x * y == x * y + 5 * x * y) == True and (x * y - x * y == 0) == True and (0 == x * y - x * y) == True and (x * y - x * y == 1) == False and (1 == x * y - x * y) == False and (x * y - x * y == 1) == False and (1 == x * y - x * y) == False and (x * y + 5 * x * y != 6) == True and (x * y + 5 * x * y != 6 * x * y) == False and (6 != x * y + 5 * x * y) == True and (6 * x * y != x * y + 5 * x * y) == False and (x * y - x * y != 0) == False and (0 != x * y - x * y) == False and (x * y - x * y != 1) == True and (1 != x * y - x * y) == True and R.one == QQ(1, 1) == R.one and R.one == 1 == R.one and (t ** 3 * x / x == t ** 3) == True and (t ** 3 * x / x == t ** 4) == False"},"spec":{"lhs":"test_PolyElement___eq__()","rhs":"test_PolyElement___eq__ produces the expected output","over":{"base":"Any"},"name":"test_PolyElement___eq___correct"},"guarantee":"test_PolyElement___eq__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement___eq___correct","statement":"Path(test_PolyElement___eq__(x), test_PolyElement___eq__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14d3b10c128ba443"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement___eq__","kind":"function","src_hash":"68bc5929ab7158d9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (x * y + 5 * x * y == 6) == False and (x * y + 5 * x * y == 6 * x * y) == True and (6 == x * y + 5 * x * y) == False and (6 * x * y == x * y + 5 * x * y) == True and (x * y - x * y == 0) == True and (0 == x * y - x * y) == True and (x * y - x * y == 1) == False and (1 == x * y - x * y) == False and (x * y + 5 * x * y != 6) == True and (x * y + 5 * x * y != 6 * x * y) == False and (6 != x * y + 5 * x * y) == True and (6 * x * y != x * y + 5 * x * y) == False and (x * y - x * y != 0) == False and (0 != x * y - x * y) == False and (x * y - x * y != 1) == True and (1 != x * y - x * y) == True and R.one == QQ(1, 1) == R.one and R.one == 1 == R.one and (t ** 3 * x / x == t ** 3) == True and (t ** 3 * x / x == t ** 4) == False"},"spec":{"lhs":"test_PolyElement___eq__()","rhs":"(x * y + 5 * x * y == 6) == False and (x * y + 5 * x * y == 6 * x * y) == True and (6 == x * y + 5 * x * y) == False and (6 * x * y == x * y + 5 * x * y) == True and (x * y - x * y == 0) == True and (0 == x * y - x * y) == True and (x * y - x * y == 1) == False and (1 == x * y - x * y) == False and (x * y + 5 * x * y != 6) == True and (x * y + 5 * x * y != 6 * x * y) == False and (6 != x * y + 5 * x * y) == True and (6 * x * y != x * y + 5 * x * y) == False and (x * y - x * y != 0) == False and (0 != x * y - x * y) == False and (x * y - x * y != 1) == True and (1 != x * y - x * y) == True and R.one == QQ(1, 1) == R.one and R.one == 1 == R.one and (t ** 3 * x / x == t ** 3) == True and (t ** 3 * x / x == t ** 4) == False","over":{"base":"Any"},"name":"test_PolyElement___eq___correct"},"guarantee":"(x * y + 5 * x * y == 6) == False; (x * y + 5 * x * y == 6 * x * y) == True; (6 == x * y + 5 * x * y) == False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement___eq___correct","statement":"Path(test_PolyElement___eq__(x), (x * y + 5 * x * y == 6) == False; (x * y + 5 * x * y == 6 * x * y) == True; (6 == x * y + 5 * x * y) == False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ba4e4ec9e5f5568","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x * y + 5 * x * y == 6) == False","(x * y + 5 * x * y == 6 * x * y) == True","(6 == x * y + 5 * x * y) == False","(6 * x * y == x * y + 5 * x * y) == True","(x * y - x * y == 0) == True","(0 == x * y - x * y) == True","(x * y - x * y == 1) == False","(1 == x * y - x * y) == False","(x * y + 5 * x * y != 6) == True","(x * y + 5 * x * y != 6 * x * y) == False","(6 != x * y + 5 * x * y) == True","(6 * x * y != x * y + 5 * x * y) == False","(x * y - x * y != 0) == False","(0 != x * y - x * y) == False","(x * y - x * y != 1) == True","(1 != x * y - x * y) == True","R.one == QQ(1, 1) == R.one","R.one == 1 == R.one","(t ** 3 * x / x == t ** 3) == True","(t ** 3 * x / x == t ** 4) == False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_PolyElement___eq__():
     R, x, y = ring("x,y", ZZ, lex)
 
@@ -384,16 +482,24 @@ def test_PolyElement___eq__():
     assert (t**3*x/x == t**4) == False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement__lt_le_gt_ge__(), test_PolyElement__lt_le_gt_ge__ produces the expected output) over Any ║
+# ║ Path(test_PolyElement__lt_le_gt_ge__(), R(1) < x < x ** 2 < x ** 3 and R(1) <= x <= x ** 2 <= x ** 3 and x ** 3 > x ** 2 > x > R(1) and x ** 3 >= x ** 2 >= x >= R(1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement__lt_le_gt_ge__ : Any → {Any | R(1) <...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  R(1) < x < x ** 2 < x ** 3                     ║
+# ║   ensures:  R(1) <= x <= x ** 2 <= x ** 3                  ║
+# ║   ensures:  x ** 3 > x ** 2 > x > R(1)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement__lt_le_gt_ge__ : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6fa95ff9522f2057  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a6dcf9e4b817d9fd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement__lt_le_gt_ge__","kind":"function","src_hash":"9a8206cb4d380dfe","in":{"base":"Any"},"out":{"base":"Any","pred":"R(1) < x < x ** 2 < x ** 3 and R(1) <= x <= x ** 2 <= x ** 3 and x ** 3 > x ** 2 > x > R(1) and x ** 3 >= x ** 2 >= x >= R(1)"},"spec":{"lhs":"test_PolyElement__lt_le_gt_ge__()","rhs":"test_PolyElement__lt_le_gt_ge__ produces the expected output","over":{"base":"Any"},"name":"test_PolyElement__lt_le_gt_ge___correct"},"guarantee":"test_PolyElement__lt_le_gt_ge__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement__lt_le_gt_ge___correct","statement":"Path(test_PolyElement__lt_le_gt_ge__(x), test_PolyElement__lt_le_gt_ge__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6fa95ff9522f2057"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement__lt_le_gt_ge__","kind":"function","src_hash":"9a8206cb4d380dfe","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: R(1) < x < x ** 2 < x ** 3 and R(1) <= x <= x ** 2 <= x ** 3 and x ** 3 > x ** 2 > x > R(1) and x ** 3 >= x ** 2 >= x >= R(1)"},"spec":{"lhs":"test_PolyElement__lt_le_gt_ge__()","rhs":"R(1) < x < x ** 2 < x ** 3 and R(1) <= x <= x ** 2 <= x ** 3 and x ** 3 > x ** 2 > x > R(1) and x ** 3 >= x ** 2 >= x >= R(1)","over":{"base":"Any"},"name":"test_PolyElement__lt_le_gt_ge___correct"},"guarantee":"R(1) < x < x ** 2 < x ** 3; R(1) <= x <= x ** 2 <= x ** 3; x ** 3 > x ** 2 > x > R(1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement__lt_le_gt_ge___correct","statement":"Path(test_PolyElement__lt_le_gt_ge__(x), R(1) < x < x ** 2 < x ** 3; R(1) <= x <= x ** 2 <= x ** 3; x ** 3 > x ** 2 > x > R(1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6dcf9e4b817d9fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["R(1) < x < x ** 2 < x ** 3","R(1) <= x <= x ** 2 <= x ** 3","x ** 3 > x ** 2 > x > R(1)","x ** 3 >= x ** 2 >= x >= R(1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_PolyElement__lt_le_gt_ge__():
     R, x, y = ring("x,y", ZZ)
 
@@ -404,16 +510,22 @@ def test_PolyElement__lt_le_gt_ge__():
     assert x**3 >= x**2 >= x >= R(1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement__str__(), test_PolyElement__str__ produces the expected output) over Any ║
+# ║ Path(test_PolyElement__str__(), <unspecified:test_PolyElement__str__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_PolyElement__str__ : Any → {Any | str(2 * t ** 2...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da270ee53f5e1690  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement__str__","kind":"function","src_hash":"34f34fdb420d5e69","in":{"base":"Any"},"out":{"base":"Any","pred":"str(2 * t ** 2 + 1) == '2*t**2 + 1' and str(2 * t ** 2 + 1) == 'EX(2)*t**2 + EX(1)'"},"spec":{"lhs":"test_PolyElement__str__()","rhs":"test_PolyElement__str__ produces the expected output","over":{"base":"Any"},"name":"test_PolyElement__str___correct"},"guarantee":"test_PolyElement__str__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement__str___correct","statement":"Path(test_PolyElement__str__(x), test_PolyElement__str__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da270ee53f5e1690"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement__str__","kind":"function","src_hash":"34f34fdb420d5e69","in":{"base":"Any"},"out":{"base":"Any","pred":"str(2 * t ** 2 + 1) == '2*t**2 + 1' and str(2 * t ** 2 + 1) == 'EX(2)*t**2 + EX(1)'"},"spec":{"lhs":"test_PolyElement__str__()","rhs":"<unspecified:test_PolyElement__str__>","over":{"base":"Any"},"name":"test_PolyElement__str___correct"},"guarantee":"test_PolyElement__str__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement__str___correct","statement":"Path(test_PolyElement__str__(x), test_PolyElement__str__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da270ee53f5e1690","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_PolyElement__str__():
     x, y = symbols('x, y')
 
@@ -426,16 +538,23 @@ def test_PolyElement__str__():
         assert str(2*t**2 + 1) == 'EX(2)*t**2 + EX(1)'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_copy(), test_PolyElement_copy produces the expected output) over Any ║
+# ║ Path(test_PolyElement_copy(), f == g and f != g) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_copy : Any → {Any | f == g and f != g}    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f == g                                         ║
+# ║   ensures:  f != g                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_copy : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 083b671af01eff3f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d890f218c032f072  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_copy","kind":"function","src_hash":"ec49c26caf039c68","in":{"base":"Any"},"out":{"base":"Any","pred":"f == g and f != g"},"spec":{"lhs":"test_PolyElement_copy()","rhs":"test_PolyElement_copy produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_copy_correct"},"guarantee":"test_PolyElement_copy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_copy_correct","statement":"Path(test_PolyElement_copy(x), test_PolyElement_copy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"083b671af01eff3f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_copy","kind":"function","src_hash":"ec49c26caf039c68","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f == g and f != g"},"spec":{"lhs":"test_PolyElement_copy()","rhs":"f == g and f != g","over":{"base":"Any"},"name":"test_PolyElement_copy_correct"},"guarantee":"f == g; f != g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_copy_correct","statement":"Path(test_PolyElement_copy(x), f == g; f != g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d890f218c032f072","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f == g","f != g"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_copy():
     R, x, y, z = ring("x,y,z", ZZ)
 
@@ -447,16 +566,24 @@ def test_PolyElement_copy():
     assert f != g
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_as_expr(), test_PolyElement_as_expr produces the expected output) over Any ║
+# ║ Path(test_PolyElement_as_expr(), f != g and f.as_expr() == g and f.as_expr(U, V, W) == g and R(3).as_expr() == 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_as_expr : Any → {Any | f != g and f....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f != g                                         ║
+# ║   ensures:  f.as_expr() == g                               ║
+# ║   ensures:  f.as_expr(U, V, W) == g                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_as_expr : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a7c8180f1ece6a2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cbd5743b70ff5d36  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_as_expr","kind":"function","src_hash":"071dc422bb56030f","in":{"base":"Any"},"out":{"base":"Any","pred":"f != g and f.as_expr() == g and f != g and f.as_expr(U, V, W) == g and R(3).as_expr() == 3"},"spec":{"lhs":"test_PolyElement_as_expr()","rhs":"test_PolyElement_as_expr produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_as_expr_correct"},"guarantee":"test_PolyElement_as_expr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_as_expr_correct","statement":"Path(test_PolyElement_as_expr(x), test_PolyElement_as_expr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a7c8180f1ece6a2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_as_expr","kind":"function","src_hash":"071dc422bb56030f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f != g and f.as_expr() == g and f.as_expr(U, V, W) == g and R(3).as_expr() == 3"},"spec":{"lhs":"test_PolyElement_as_expr()","rhs":"f != g and f.as_expr() == g and f.as_expr(U, V, W) == g and R(3).as_expr() == 3","over":{"base":"Any"},"name":"test_PolyElement_as_expr_correct"},"guarantee":"f != g; f.as_expr() == g; f.as_expr(U, V, W) == g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_as_expr_correct","statement":"Path(test_PolyElement_as_expr(x), f != g; f.as_expr() == g; f.as_expr(U, V, W) == g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cbd5743b70ff5d36","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f != g","f.as_expr() == g","f.as_expr(U, V, W) == g","R(3).as_expr() == 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_as_expr():
     R, x, y, z = ring("x,y,z", ZZ)
     f = 3*x**2*y - x*y*z + 7*z**3 + 1
@@ -479,16 +606,24 @@ def test_PolyElement_as_expr():
     assert R(3).as_expr() == 3
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_from_expr(), test_PolyElement_from_expr produces the expected output) over Any ║
+# ║ Path(test_PolyElement_from_expr(), f == 1 and R.is_element(f) and f == X and R.is_element(f) and f == X * Y * Z and R.is_element(f) and f == X * Y * Z + X * Y + X and R.is_element(f) and f == X ** 3 * Y * Z + X ** 2 * Y ** 7 + 1 and R.is_element(f) and f == F[0] and r.is_element(f)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_from_expr : Any → {Any | f == 1 and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f == 1 and R.is_element(f)                     ║
+# ║   ensures:  f == X and R.is_element(f)                     ║
+# ║   ensures:  f == X * Y * Z and R.is_element(f)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_from_expr : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 890e75764effd84e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef3ca906c31ff06f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_from_expr","kind":"function","src_hash":"b29fb426ddea82de","in":{"base":"Any"},"out":{"base":"Any","pred":"f == 1 and R.is_element(f) and f == X and R.is_element(f) and f == X * Y * Z and R.is_element(f) and f == X * Y * Z + X * Y + X and R.is_element(f) and f == X ** 3 * Y * Z + X ** 2 * Y ** 7 + 1 and R.is_element(f) and f == F[0] and r.is_element(f) and f == 1 and R.is_element(f)"},"spec":{"lhs":"test_PolyElement_from_expr()","rhs":"test_PolyElement_from_expr produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_from_expr_correct"},"guarantee":"test_PolyElement_from_expr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_from_expr_correct","statement":"Path(test_PolyElement_from_expr(x), test_PolyElement_from_expr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"890e75764effd84e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_from_expr","kind":"function","src_hash":"b29fb426ddea82de","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f == 1 and R.is_element(f) and f == X and R.is_element(f) and f == X * Y * Z and R.is_element(f) and f == X * Y * Z + X * Y + X and R.is_element(f) and f == X ** 3 * Y * Z + X ** 2 * Y ** 7 + 1 and R.is_element(f) and f == F[0] and r.is_element(f)"},"spec":{"lhs":"test_PolyElement_from_expr()","rhs":"f == 1 and R.is_element(f) and f == X and R.is_element(f) and f == X * Y * Z and R.is_element(f) and f == X * Y * Z + X * Y + X and R.is_element(f) and f == X ** 3 * Y * Z + X ** 2 * Y ** 7 + 1 and R.is_element(f) and f == F[0] and r.is_element(f)","over":{"base":"Any"},"name":"test_PolyElement_from_expr_correct"},"guarantee":"f == 1 and R.is_element(f); f == X and R.is_element(f); f == X * Y * Z and R.is_element(f)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_from_expr_correct","statement":"Path(test_PolyElement_from_expr(x), f == 1 and R.is_element(f); f == X and R.is_element(f); f == X * Y * Z and R.is_element(f))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef3ca906c31ff06f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f == 1 and R.is_element(f)","f == X and R.is_element(f)","f == X * Y * Z and R.is_element(f)","f == X * Y * Z + X * Y + X and R.is_element(f)","f == X ** 3 * Y * Z + X ** 2 * Y ** 7 + 1 and R.is_element(f)","f == F[0] and r.is_element(f)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_from_expr():
     x, y, z = symbols("x,y,z")
     R, X, Y, Z = ring((x, y, z), ZZ)
@@ -521,16 +656,24 @@ def test_PolyElement_from_expr():
     assert f == 1 and R.is_element(f)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_degree(), test_PolyElement_degree produces the expected output) over Any ║
+# ║ Path(test_PolyElement_degree(), ninf == float('-inf') and R(0).degree() is ninf and R(1).degree() == 0 and (x + 1).degree() == 1 and (2 * y ** 3 + z).degree() == 0 and (x * y ** 3 + z).degree() == 1 and (x ** 5 * y ** 3 + z).degree() == 5 and R(0).degree(x) is ninf and R(1).degree(x) == 0 and (x + 1).degree(x) == 1 and (2 * y ** 3 + z).degree(x) == 0 and (x * y ** 3 + z).degree(x) == 1 and (7 * x ** 5 * y ** 3 + z).degree(x) == 5 and R(0).degree(y) is ninf and R(1).degree(y) == 0 and (x + 1).degree(y) == 0 and (2 * y ** 3 + z).degree(y) == 3 and (x * y ** 3 + z).degree(y) == 3 and (7 * x ** 5 * y ** 3 + z).degree(y) == 3 and R(0).degree(z) is ninf and R(1).degree(z) == 0 and (x + 1).degree(z) == 0 and (2 * y ** 3 + z).degree(z) == 1 and (x * y ** 3 + z).degree(z) == 1 and (7 * x ** 5 * y ** 3 + z).degree(z) == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_degree : Any → {Any | ninf == float(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ninf == float('-inf')                          ║
+# ║   ensures:  R(0).degree() is ninf                          ║
+# ║   ensures:  R(1).degree() == 0                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_degree : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be958ec37757242c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a5566361d14d28a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_degree","kind":"function","src_hash":"709b5662f5321038","in":{"base":"Any"},"out":{"base":"Any","pred":"ninf == float('-inf') and R(0).degree() is ninf and R(1).degree() == 0 and (x + 1).degree() == 1 and (2 * y ** 3 + z).degree() == 0 and (x * y ** 3 + z).degree() == 1 and (x ** 5 * y ** 3 + z).degree() == 5 and R(0).degree(x) is ninf and R(1).degree(x) == 0 and (x + 1).degree(x) == 1 and (2 * y ** 3 + z).degree(x) == 0 and (x * y ** 3 + z).degree(x) == 1 and (7 * x ** 5 * y ** 3 + z).degree(x) == 5 and R(0).degree(y) is ninf and R(1).degree(y) == 0 and (x + 1).degree(y) == 0 and (2 * y ** 3 + z).degree(y) == 3 and (x * y ** 3 + z).degree(y) == 3 and (7 * x ** 5 * y ** 3 + z).degree(y) == 3 and R(0).degree(z) is ninf and R(1).degree(z) == 0 and (x + 1).degree(z) == 0 and (2 * y ** 3 + z).degree(z) == 1 and (x * y ** 3 + z).degree(z) == 1 and (7 * x ** 5 * y ** 3 + z).degree(z) == 1 and R(0).degree() is ninf and R(1).degree() == 0"},"spec":{"lhs":"test_PolyElement_degree()","rhs":"test_PolyElement_degree produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_degree_correct"},"guarantee":"test_PolyElement_degree produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_degree_correct","statement":"Path(test_PolyElement_degree(x), test_PolyElement_degree produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be958ec37757242c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_degree","kind":"function","src_hash":"709b5662f5321038","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ninf == float('-inf') and R(0).degree() is ninf and R(1).degree() == 0 and (x + 1).degree() == 1 and (2 * y ** 3 + z).degree() == 0 and (x * y ** 3 + z).degree() == 1 and (x ** 5 * y ** 3 + z).degree() == 5 and R(0).degree(x) is ninf and R(1).degree(x) == 0 and (x + 1).degree(x) == 1 and (2 * y ** 3 + z).degree(x) == 0 and (x * y ** 3 + z).degree(x) == 1 and (7 * x ** 5 * y ** 3 + z).degree(x) == 5 and R(0).degree(y) is ninf and R(1).degree(y) == 0 and (x + 1).degree(y) == 0 and (2 * y ** 3 + z).degree(y) == 3 and (x * y ** 3 + z).degree(y) == 3 and (7 * x ** 5 * y ** 3 + z).degree(y) == 3 and R(0).degree(z) is ninf and R(1).degree(z) == 0 and (x + 1).degree(z) == 0 and (2 * y ** 3 + z).degree(z) == 1 and (x * y ** 3 + z).degree(z) == 1 and (7 * x ** 5 * y ** 3 + z).degree(z) == 1"},"spec":{"lhs":"test_PolyElement_degree()","rhs":"ninf == float('-inf') and R(0).degree() is ninf and R(1).degree() == 0 and (x + 1).degree() == 1 and (2 * y ** 3 + z).degree() == 0 and (x * y ** 3 + z).degree() == 1 and (x ** 5 * y ** 3 + z).degree() == 5 and R(0).degree(x) is ninf and R(1).degree(x) == 0 and (x + 1).degree(x) == 1 and (2 * y ** 3 + z).degree(x) == 0 and (x * y ** 3 + z).degree(x) == 1 and (7 * x ** 5 * y ** 3 + z).degree(x) == 5 and R(0).degree(y) is ninf and R(1).degree(y) == 0 and (x + 1).degree(y) == 0 and (2 * y ** 3 + z).degree(y) == 3 and (x * y ** 3 + z).degree(y) == 3 and (7 * x ** 5 * y ** 3 + z).degree(y) == 3 and R(0).degree(z) is ninf and R(1).degree(z) == 0 and (x + 1).degree(z) == 0 and (2 * y ** 3 + z).degree(z) == 1 and (x * y ** 3 + z).degree(z) == 1 and (7 * x ** 5 * y ** 3 + z).degree(z) == 1","over":{"base":"Any"},"name":"test_PolyElement_degree_correct"},"guarantee":"ninf == float('-inf'); R(0).degree() is ninf; R(1).degree() == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_degree_correct","statement":"Path(test_PolyElement_degree(x), ninf == float('-inf'); R(0).degree() is ninf; R(1).degree() == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a5566361d14d28a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ninf == float('-inf')","R(0).degree() is ninf","R(1).degree() == 0","(x + 1).degree() == 1","(2 * y ** 3 + z).degree() == 0","(x * y ** 3 + z).degree() == 1","(x ** 5 * y ** 3 + z).degree() == 5","R(0).degree(x) is ninf","R(1).degree(x) == 0","(x + 1).degree(x) == 1","(2 * y ** 3 + z).degree(x) == 0","(x * y ** 3 + z).degree(x) == 1","(7 * x ** 5 * y ** 3 + z).degree(x) == 5","R(0).degree(y) is ninf","R(1).degree(y) == 0","(x + 1).degree(y) == 0","(2 * y ** 3 + z).degree(y) == 3","(x * y ** 3 + z).degree(y) == 3","(7 * x ** 5 * y ** 3 + z).degree(y) == 3","R(0).degree(z) is ninf","R(1).degree(z) == 0","(x + 1).degree(z) == 0","(2 * y ** 3 + z).degree(z) == 1","(x * y ** 3 + z).degree(z) == 1","(7 * x ** 5 * y ** 3 + z).degree(z) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_degree():
     R, x,y,z = ring("x,y,z", ZZ)
 
@@ -569,16 +712,24 @@ def test_PolyElement_degree():
     assert R(1).degree() == 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_tail_degree(), test_PolyElement_tail_degree produces the expected output) over Any ║
+# ║ Path(test_PolyElement_tail_degree(), R(0).tail_degree() is ninf and R(1).tail_degree() == 0 and (x + 1).tail_degree() == 0 and (2 * y ** 3 + x ** 3 * z).tail_degree() == 0 and (x * y ** 3 + x ** 3 * z).tail_degree() == 1 and (x ** 5 * y ** 3 + x ** 3 * z).tail_degree() == 3 and R(0).tail_degree(x) is ninf and R(1).tail_degree(x) == 0 and (x + 1).tail_degree(x) == 0 and (2 * y ** 3 + x ** 3 * z).tail_degree(x) == 0 and (x * y ** 3 + x ** 3 * z).tail_degree(x) == 1 and (7 * x ** 5 * y ** 3 + x ** 3 * z).tail_degree(x) == 3 and R(0).tail_degree(y) is ninf and R(1).tail_degree(y) == 0 and (x + 1).tail_degree(y) == 0 and (2 * y ** 3 + x ** 3 * z).tail_degree(y) == 0 and (x * y ** 3 + x ** 3 * z).tail_degree(y) == 0 and (7 * x ** 5 * y ** 3 + x ** 3 * z).tail_degree(y) == 0 and R(0).tail_degree(z) is ninf and R(1).tail_degree(z) == 0 and (x + 1).tail_degree(z) == 0 and (2 * y ** 3 + x ** 3 * z).tail_degree(z) == 0 and (x * y ** 3 + x ** 3 * z).tail_degree(z) == 0 and (7 * x ** 5 * y ** 3 + x ** 3 * z).tail_degree(z) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_tail_degree : Any → {Any | R(0).tail...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  R(0).tail_degree() is ninf                     ║
+# ║   ensures:  R(1).tail_degree() == 0                        ║
+# ║   ensures:  (x + 1).tail_degree() == 0                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_tail_degree : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c518b65b2aed7cde  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca408dd661ee6561  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_tail_degree","kind":"function","src_hash":"0dd97f4a487a8aba","in":{"base":"Any"},"out":{"base":"Any","pred":"R(0).tail_degree() is ninf and R(1).tail_degree() == 0 and (x + 1).tail_degree() == 0 and (2 * y ** 3 + x ** 3 * z).tail_degree() == 0 and (x * y ** 3 + x ** 3 * z).tail_degree() == 1 and (x ** 5 * y ** 3 + x ** 3 * z).tail_degree() == 3 and R(0).tail_degree(x) is ninf and R(1).tail_degree(x) == 0 and (x + 1).tail_degree(x) == 0 and (2 * y ** 3 + x ** 3 * z).tail_degree(x) == 0 and (x * y ** 3 + x ** 3 * z).tail_degree(x) == 1 and (7 * x ** 5 * y ** 3 + x ** 3 * z).tail_degree(x) == 3 and R(0).tail_degree(y) is ninf and R(1).tail_degree(y) == 0 and (x + 1).tail_degree(y) == 0 and (2 * y ** 3 + x ** 3 * z).tail_degree(y) == 0 and (x * y ** 3 + x ** 3 * z).tail_degree(y) == 0 and (7 * x ** 5 * y ** 3 + x ** 3 * z).tail_degree(y) == 0 and R(0).tail_degree(z) is ninf and R(1).tail_degree(z) == 0 and (x + 1).tail_degree(z) == 0 and (2 * y ** 3 + x ** 3 * z).tail_degree(z) == 0 and (x * y ** 3 + x ** 3 * z).tail_degree(z) == 0 and (7 * x ** 5 * y ** 3 + x ** 3 * z).tail_degree(z) == 0 and R(0).tail_degree() is ninf and R(1).tail_degree() == 0"},"spec":{"lhs":"test_PolyElement_tail_degree()","rhs":"test_PolyElement_tail_degree produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_tail_degree_correct"},"guarantee":"test_PolyElement_tail_degree produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_tail_degree_correct","statement":"Path(test_PolyElement_tail_degree(x), test_PolyElement_tail_degree produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c518b65b2aed7cde"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_tail_degree","kind":"function","src_hash":"0dd97f4a487a8aba","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: R(0).tail_degree() is ninf and R(1).tail_degree() == 0 and (x + 1).tail_degree() == 0 and (2 * y ** 3 + x ** 3 * z).tail_degree() == 0 and (x * y ** 3 + x ** 3 * z).tail_degree() == 1 and (x ** 5 * y ** 3 + x ** 3 * z).tail_degree() == 3 and R(0).tail_degree(x) is ninf and R(1).tail_degree(x) == 0 and (x + 1).tail_degree(x) == 0 and (2 * y ** 3 + x ** 3 * z).tail_degree(x) == 0 and (x * y ** 3 + x ** 3 * z).tail_degree(x) == 1 and (7 * x ** 5 * y ** 3 + x ** 3 * z).tail_degree(x) == 3 and R(0).tail_degree(y) is ninf and R(1).tail_degree(y) == 0 and (x + 1).tail_degree(y) == 0 and (2 * y ** 3 + x ** 3 * z).tail_degree(y) == 0 and (x * y ** 3 + x ** 3 * z).tail_degree(y) == 0 and (7 * x ** 5 * y ** 3 + x ** 3 * z).tail_degree(y) == 0 and R(0).tail_degree(z) is ninf and R(1).tail_degree(z) == 0 and (x + 1).tail_degree(z) == 0 and (2 * y ** 3 + x ** 3 * z).tail_degree(z) == 0 and (x * y ** 3 + x ** 3 * z).tail_degree(z) == 0 and (7 * x ** 5 * y ** 3 + x ** 3 * z).tail_degree(z) == 0"},"spec":{"lhs":"test_PolyElement_tail_degree()","rhs":"R(0).tail_degree() is ninf and R(1).tail_degree() == 0 and (x + 1).tail_degree() == 0 and (2 * y ** 3 + x ** 3 * z).tail_degree() == 0 and (x * y ** 3 + x ** 3 * z).tail_degree() == 1 and (x ** 5 * y ** 3 + x ** 3 * z).tail_degree() == 3 and R(0).tail_degree(x) is ninf and R(1).tail_degree(x) == 0 and (x + 1).tail_degree(x) == 0 and (2 * y ** 3 + x ** 3 * z).tail_degree(x) == 0 and (x * y ** 3 + x ** 3 * z).tail_degree(x) == 1 and (7 * x ** 5 * y ** 3 + x ** 3 * z).tail_degree(x) == 3 and R(0).tail_degree(y) is ninf and R(1).tail_degree(y) == 0 and (x + 1).tail_degree(y) == 0 and (2 * y ** 3 + x ** 3 * z).tail_degree(y) == 0 and (x * y ** 3 + x ** 3 * z).tail_degree(y) == 0 and (7 * x ** 5 * y ** 3 + x ** 3 * z).tail_degree(y) == 0 and R(0).tail_degree(z) is ninf and R(1).tail_degree(z) == 0 and (x + 1).tail_degree(z) == 0 and (2 * y ** 3 + x ** 3 * z).tail_degree(z) == 0 and (x * y ** 3 + x ** 3 * z).tail_degree(z) == 0 and (7 * x ** 5 * y ** 3 + x ** 3 * z).tail_degree(z) == 0","over":{"base":"Any"},"name":"test_PolyElement_tail_degree_correct"},"guarantee":"R(0).tail_degree() is ninf; R(1).tail_degree() == 0; (x + 1).tail_degree() == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_tail_degree_correct","statement":"Path(test_PolyElement_tail_degree(x), R(0).tail_degree() is ninf; R(1).tail_degree() == 0; (x + 1).tail_degree() == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca408dd661ee6561","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["R(0).tail_degree() is ninf","R(1).tail_degree() == 0","(x + 1).tail_degree() == 0","(2 * y ** 3 + x ** 3 * z).tail_degree() == 0","(x * y ** 3 + x ** 3 * z).tail_degree() == 1","(x ** 5 * y ** 3 + x ** 3 * z).tail_degree() == 3","R(0).tail_degree(x) is ninf","R(1).tail_degree(x) == 0","(x + 1).tail_degree(x) == 0","(2 * y ** 3 + x ** 3 * z).tail_degree(x) == 0","(x * y ** 3 + x ** 3 * z).tail_degree(x) == 1","(7 * x ** 5 * y ** 3 + x ** 3 * z).tail_degree(x) == 3","R(0).tail_degree(y) is ninf","R(1).tail_degree(y) == 0","(x + 1).tail_degree(y) == 0","(2 * y ** 3 + x ** 3 * z).tail_degree(y) == 0","(x * y ** 3 + x ** 3 * z).tail_degree(y) == 0","(7 * x ** 5 * y ** 3 + x ** 3 * z).tail_degree(y) == 0","R(0).tail_degree(z) is ninf","R(1).tail_degree(z) == 0","(x + 1).tail_degree(z) == 0","(2 * y ** 3 + x ** 3 * z).tail_degree(z) == 0","(x * y ** 3 + x ** 3 * z).tail_degree(z) == 0","(7 * x ** 5 * y ** 3 + x ** 3 * z).tail_degree(z) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_tail_degree():
     R, x,y,z = ring("x,y,z", ZZ)
 
@@ -615,16 +766,24 @@ def test_PolyElement_tail_degree():
     assert R(1).tail_degree() == 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_degrees(), test_PolyElement_degrees produces the expected output) over Any ║
+# ║ Path(test_PolyElement_degrees(), R(0).degrees() == (ninf, ninf, ninf) and R(1).degrees() == (0, 0, 0) and (x ** 2 * y + x ** 3 * z ** 2).degrees() == (3, 1, 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_degrees : Any → {Any | R(0).degrees(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  R(0).degrees() == (ninf, ninf, ninf)           ║
+# ║   ensures:  R(1).degrees() == (0, 0, 0)                    ║
+# ║   ensures:  (x ** 2 * y + x ** 3 * z ** 2).degrees() ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_degrees : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0dea75721612f891  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b652b5ac64744b1b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_degrees","kind":"function","src_hash":"fafc5c879d194763","in":{"base":"Any"},"out":{"base":"Any","pred":"R(0).degrees() == (ninf, ninf, ninf) and R(1).degrees() == (0, 0, 0) and (x ** 2 * y + x ** 3 * z ** 2).degrees() == (3, 1, 2)"},"spec":{"lhs":"test_PolyElement_degrees()","rhs":"test_PolyElement_degrees produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_degrees_correct"},"guarantee":"test_PolyElement_degrees produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_degrees_correct","statement":"Path(test_PolyElement_degrees(x), test_PolyElement_degrees produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0dea75721612f891"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_degrees","kind":"function","src_hash":"fafc5c879d194763","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: R(0).degrees() == (ninf, ninf, ninf) and R(1).degrees() == (0, 0, 0) and (x ** 2 * y + x ** 3 * z ** 2).degrees() == (3, 1, 2)"},"spec":{"lhs":"test_PolyElement_degrees()","rhs":"R(0).degrees() == (ninf, ninf, ninf) and R(1).degrees() == (0, 0, 0) and (x ** 2 * y + x ** 3 * z ** 2).degrees() == (3, 1, 2)","over":{"base":"Any"},"name":"test_PolyElement_degrees_correct"},"guarantee":"R(0).degrees() == (ninf, ninf, ninf); R(1).degrees() == (0, 0, 0); (x ** 2 * y + x ** 3 * z ** 2).degrees() == (3, 1, 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_degrees_correct","statement":"Path(test_PolyElement_degrees(x), R(0).degrees() == (ninf, ninf, ninf); R(1).degrees() == (0, 0, 0); (x ** 2 * y + x ** 3 * z ** 2).degrees() == (3, 1, 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b652b5ac64744b1b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["R(0).degrees() == (ninf, ninf, ninf)","R(1).degrees() == (0, 0, 0)","(x ** 2 * y + x ** 3 * z ** 2).degrees() == (3, 1, 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_degrees():
     R, x,y,z = ring("x,y,z", ZZ)
 
@@ -633,16 +792,24 @@ def test_PolyElement_degrees():
     assert (x**2*y + x**3*z**2).degrees() == (3, 1, 2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_tail_degrees(), test_PolyElement_tail_degrees produces the expected output) over Any ║
+# ║ Path(test_PolyElement_tail_degrees(), R(0).tail_degrees() == (ninf, ninf, ninf) and R(1).tail_degrees() == (0, 0, 0) and (x ** 2 * y + x ** 3 * z ** 2).tail_degrees() == (2, 0, 0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_tail_degrees : Any → {Any | R(0).tai...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  R(0).tail_degrees() == (ninf, ninf, ninf)      ║
+# ║   ensures:  R(1).tail_degrees() == (0, 0, 0)               ║
+# ║   ensures:  (x ** 2 * y + x ** 3 * z ** 2).tail_degre...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_tail_degrees : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea050f089bc98cbe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 30c731e57703cdc6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_tail_degrees","kind":"function","src_hash":"1d43c7908945234e","in":{"base":"Any"},"out":{"base":"Any","pred":"R(0).tail_degrees() == (ninf, ninf, ninf) and R(1).tail_degrees() == (0, 0, 0) and (x ** 2 * y + x ** 3 * z ** 2).tail_degrees() == (2, 0, 0)"},"spec":{"lhs":"test_PolyElement_tail_degrees()","rhs":"test_PolyElement_tail_degrees produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_tail_degrees_correct"},"guarantee":"test_PolyElement_tail_degrees produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_tail_degrees_correct","statement":"Path(test_PolyElement_tail_degrees(x), test_PolyElement_tail_degrees produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea050f089bc98cbe"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_tail_degrees","kind":"function","src_hash":"1d43c7908945234e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: R(0).tail_degrees() == (ninf, ninf, ninf) and R(1).tail_degrees() == (0, 0, 0) and (x ** 2 * y + x ** 3 * z ** 2).tail_degrees() == (2, 0, 0)"},"spec":{"lhs":"test_PolyElement_tail_degrees()","rhs":"R(0).tail_degrees() == (ninf, ninf, ninf) and R(1).tail_degrees() == (0, 0, 0) and (x ** 2 * y + x ** 3 * z ** 2).tail_degrees() == (2, 0, 0)","over":{"base":"Any"},"name":"test_PolyElement_tail_degrees_correct"},"guarantee":"R(0).tail_degrees() == (ninf, ninf, ninf); R(1).tail_degrees() == (0, 0, 0); (x ** 2 * y + x ** 3 * z ** 2).tail_degrees() == (2, 0, 0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_tail_degrees_correct","statement":"Path(test_PolyElement_tail_degrees(x), R(0).tail_degrees() == (ninf, ninf, ninf); R(1).tail_degrees() == (0, 0, 0); (x ** 2 * y + x ** 3 * z ** 2).tail_degrees() == (2, 0, 0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"30c731e57703cdc6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["R(0).tail_degrees() == (ninf, ninf, ninf)","R(1).tail_degrees() == (0, 0, 0)","(x ** 2 * y + x ** 3 * z ** 2).tail_degrees() == (2, 0, 0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_tail_degrees():
     R, x,y,z = ring("x,y,z", ZZ)
 
@@ -651,16 +818,24 @@ def test_PolyElement_tail_degrees():
     assert (x**2*y + x**3*z**2).tail_degrees() == (2, 0, 0)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_coeff(), test_PolyElement_coeff produces the expected output) over Any ║
+# ║ Path(test_PolyElement_coeff(), f.coeff(1) == 23 and f.coeff(x) == 0 and f.coeff(y) == 0 and f.coeff(z) == 0 and f.coeff(x ** 2 * y) == 3 and f.coeff(x * y * z) == -1 and f.coeff(z ** 3) == 7 and R(3).coeff(1) == 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_coeff : Any → {Any | f.coeff(1) == 2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.coeff(1) == 23                               ║
+# ║   ensures:  f.coeff(x) == 0                                ║
+# ║   ensures:  f.coeff(y) == 0                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_coeff : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af5f0875a6bf1526  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 11aad63b7a9e2d11  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_coeff","kind":"function","src_hash":"366982f3bb573770","in":{"base":"Any"},"out":{"base":"Any","pred":"f.coeff(1) == 23 and f.coeff(x) == 0 and f.coeff(y) == 0 and f.coeff(z) == 0 and f.coeff(x ** 2 * y) == 3 and f.coeff(x * y * z) == -1 and f.coeff(z ** 3) == 7 and R(3).coeff(1) == 3"},"spec":{"lhs":"test_PolyElement_coeff()","rhs":"test_PolyElement_coeff produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_coeff_correct"},"guarantee":"test_PolyElement_coeff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_coeff_correct","statement":"Path(test_PolyElement_coeff(x), test_PolyElement_coeff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af5f0875a6bf1526"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_coeff","kind":"function","src_hash":"366982f3bb573770","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.coeff(1) == 23 and f.coeff(x) == 0 and f.coeff(y) == 0 and f.coeff(z) == 0 and f.coeff(x ** 2 * y) == 3 and f.coeff(x * y * z) == -1 and f.coeff(z ** 3) == 7 and R(3).coeff(1) == 3"},"spec":{"lhs":"test_PolyElement_coeff()","rhs":"f.coeff(1) == 23 and f.coeff(x) == 0 and f.coeff(y) == 0 and f.coeff(z) == 0 and f.coeff(x ** 2 * y) == 3 and f.coeff(x * y * z) == -1 and f.coeff(z ** 3) == 7 and R(3).coeff(1) == 3","over":{"base":"Any"},"name":"test_PolyElement_coeff_correct"},"guarantee":"f.coeff(1) == 23; f.coeff(x) == 0; f.coeff(y) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_coeff_correct","statement":"Path(test_PolyElement_coeff(x), f.coeff(1) == 23; f.coeff(x) == 0; f.coeff(y) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11aad63b7a9e2d11","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.coeff(1) == 23","f.coeff(x) == 0","f.coeff(y) == 0","f.coeff(z) == 0","f.coeff(x ** 2 * y) == 3","f.coeff(x * y * z) == -1","f.coeff(z ** 3) == 7","R(3).coeff(1) == 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_coeff():
     R, x, y, z = ring("x,y,z", ZZ, lex)
     f = 3*x**2*y - x*y*z + 7*z**3 + 23
@@ -684,16 +859,24 @@ def test_PolyElement_coeff():
     assert R(3).coeff(1) == 3
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_LC(), test_PolyElement_LC produces the expected output) over Any ║
+# ║ Path(test_PolyElement_LC(), R(0).LC == QQ(0) and (QQ(1, 2) * x).LC == QQ(1, 2) and (QQ(1, 4) * x * y + QQ(1, 2) * x).LC == QQ(1, 4)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_LC : Any → {Any | R(0).LC == QQ(0) a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  R(0).LC == QQ(0)                               ║
+# ║   ensures:  (QQ(1, 2) * x).LC == QQ(1, 2)                  ║
+# ║   ensures:  (QQ(1, 4) * x * y + QQ(1, 2) * x).LC == Q...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_LC : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86960abede703791  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da9a347782f2ab10  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_LC","kind":"function","src_hash":"6506d7c6d52deb70","in":{"base":"Any"},"out":{"base":"Any","pred":"R(0).LC == QQ(0) and (QQ(1, 2) * x).LC == QQ(1, 2) and (QQ(1, 4) * x * y + QQ(1, 2) * x).LC == QQ(1, 4)"},"spec":{"lhs":"test_PolyElement_LC()","rhs":"test_PolyElement_LC produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_LC_correct"},"guarantee":"test_PolyElement_LC produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_LC_correct","statement":"Path(test_PolyElement_LC(x), test_PolyElement_LC produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86960abede703791"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_LC","kind":"function","src_hash":"6506d7c6d52deb70","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: R(0).LC == QQ(0) and (QQ(1, 2) * x).LC == QQ(1, 2) and (QQ(1, 4) * x * y + QQ(1, 2) * x).LC == QQ(1, 4)"},"spec":{"lhs":"test_PolyElement_LC()","rhs":"R(0).LC == QQ(0) and (QQ(1, 2) * x).LC == QQ(1, 2) and (QQ(1, 4) * x * y + QQ(1, 2) * x).LC == QQ(1, 4)","over":{"base":"Any"},"name":"test_PolyElement_LC_correct"},"guarantee":"R(0).LC == QQ(0); (QQ(1, 2) * x).LC == QQ(1, 2); (QQ(1, 4) * x * y + QQ(1, 2) * x).LC == QQ(1, 4)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_LC_correct","statement":"Path(test_PolyElement_LC(x), R(0).LC == QQ(0); (QQ(1, 2) * x).LC == QQ(1, 2); (QQ(1, 4) * x * y + QQ(1, 2) * x).LC == QQ(1, 4))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da9a347782f2ab10","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["R(0).LC == QQ(0)","(QQ(1, 2) * x).LC == QQ(1, 2)","(QQ(1, 4) * x * y + QQ(1, 2) * x).LC == QQ(1, 4)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_LC():
     R, x, y = ring("x,y", QQ, lex)
     assert R(0).LC == QQ(0)
@@ -701,16 +884,24 @@ def test_PolyElement_LC():
     assert (QQ(1,4)*x*y + QQ(1,2)*x).LC == QQ(1, 4)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_LM(), test_PolyElement_LM produces the expected output) over Any ║
+# ║ Path(test_PolyElement_LM(), R(0).LM == (0, 0) and (QQ(1, 2) * x).LM == (1, 0) and (QQ(1, 4) * x * y + QQ(1, 2) * x).LM == (1, 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_LM : Any → {Any | R(0).LM == (0, 0) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  R(0).LM == (0, 0)                              ║
+# ║   ensures:  (QQ(1, 2) * x).LM == (1, 0)                    ║
+# ║   ensures:  (QQ(1, 4) * x * y + QQ(1, 2) * x).LM == (...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_LM : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7adbbcc5f4aa92aa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d5f8dea1bd92776  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_LM","kind":"function","src_hash":"25a3a9161aa361eb","in":{"base":"Any"},"out":{"base":"Any","pred":"R(0).LM == (0, 0) and (QQ(1, 2) * x).LM == (1, 0) and (QQ(1, 4) * x * y + QQ(1, 2) * x).LM == (1, 1)"},"spec":{"lhs":"test_PolyElement_LM()","rhs":"test_PolyElement_LM produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_LM_correct"},"guarantee":"test_PolyElement_LM produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_LM_correct","statement":"Path(test_PolyElement_LM(x), test_PolyElement_LM produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7adbbcc5f4aa92aa"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_LM","kind":"function","src_hash":"25a3a9161aa361eb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: R(0).LM == (0, 0) and (QQ(1, 2) * x).LM == (1, 0) and (QQ(1, 4) * x * y + QQ(1, 2) * x).LM == (1, 1)"},"spec":{"lhs":"test_PolyElement_LM()","rhs":"R(0).LM == (0, 0) and (QQ(1, 2) * x).LM == (1, 0) and (QQ(1, 4) * x * y + QQ(1, 2) * x).LM == (1, 1)","over":{"base":"Any"},"name":"test_PolyElement_LM_correct"},"guarantee":"R(0).LM == (0, 0); (QQ(1, 2) * x).LM == (1, 0); (QQ(1, 4) * x * y + QQ(1, 2) * x).LM == (1, 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_LM_correct","statement":"Path(test_PolyElement_LM(x), R(0).LM == (0, 0); (QQ(1, 2) * x).LM == (1, 0); (QQ(1, 4) * x * y + QQ(1, 2) * x).LM == (1, 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d5f8dea1bd92776","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["R(0).LM == (0, 0)","(QQ(1, 2) * x).LM == (1, 0)","(QQ(1, 4) * x * y + QQ(1, 2) * x).LM == (1, 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_LM():
     R, x, y = ring("x,y", QQ, lex)
     assert R(0).LM == (0, 0)
@@ -718,16 +909,24 @@ def test_PolyElement_LM():
     assert (QQ(1,4)*x*y + QQ(1,2)*x).LM == (1, 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_LT(), test_PolyElement_LT produces the expected output) over Any ║
+# ║ Path(test_PolyElement_LT(), R(0).LT == ((0, 0), QQ(0)) and (QQ(1, 2) * x).LT == ((1, 0), QQ(1, 2)) and (QQ(1, 4) * x * y + QQ(1, 2) * x).LT == ((1, 1), QQ(1, 4)) and R(0).LT == ((), 0) and R(1).LT == ((), 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_LT : Any → {Any | R(0).LT == ((0, 0)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  R(0).LT == ((0, 0), QQ(0))                     ║
+# ║   ensures:  (QQ(1, 2) * x).LT == ((1, 0), QQ(1, 2))        ║
+# ║   ensures:  (QQ(1, 4) * x * y + QQ(1, 2) * x).LT == (...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_LT : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f72820a60229fed1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ee15486ccb800d5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_LT","kind":"function","src_hash":"36109f16c16e48ab","in":{"base":"Any"},"out":{"base":"Any","pred":"R(0).LT == ((0, 0), QQ(0)) and (QQ(1, 2) * x).LT == ((1, 0), QQ(1, 2)) and (QQ(1, 4) * x * y + QQ(1, 2) * x).LT == ((1, 1), QQ(1, 4)) and R(0).LT == ((), 0) and R(1).LT == ((), 1)"},"spec":{"lhs":"test_PolyElement_LT()","rhs":"test_PolyElement_LT produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_LT_correct"},"guarantee":"test_PolyElement_LT produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_LT_correct","statement":"Path(test_PolyElement_LT(x), test_PolyElement_LT produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f72820a60229fed1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_LT","kind":"function","src_hash":"36109f16c16e48ab","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: R(0).LT == ((0, 0), QQ(0)) and (QQ(1, 2) * x).LT == ((1, 0), QQ(1, 2)) and (QQ(1, 4) * x * y + QQ(1, 2) * x).LT == ((1, 1), QQ(1, 4)) and R(0).LT == ((), 0) and R(1).LT == ((), 1)"},"spec":{"lhs":"test_PolyElement_LT()","rhs":"R(0).LT == ((0, 0), QQ(0)) and (QQ(1, 2) * x).LT == ((1, 0), QQ(1, 2)) and (QQ(1, 4) * x * y + QQ(1, 2) * x).LT == ((1, 1), QQ(1, 4)) and R(0).LT == ((), 0) and R(1).LT == ((), 1)","over":{"base":"Any"},"name":"test_PolyElement_LT_correct"},"guarantee":"R(0).LT == ((0, 0), QQ(0)); (QQ(1, 2) * x).LT == ((1, 0), QQ(1, 2)); (QQ(1, 4) * x * y + QQ(1, 2) * x).LT == ((1, 1), QQ(1, 4))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_LT_correct","statement":"Path(test_PolyElement_LT(x), R(0).LT == ((0, 0), QQ(0)); (QQ(1, 2) * x).LT == ((1, 0), QQ(1, 2)); (QQ(1, 4) * x * y + QQ(1, 2) * x).LT == ((1, 1), QQ(1, 4)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ee15486ccb800d5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["R(0).LT == ((0, 0), QQ(0))","(QQ(1, 2) * x).LT == ((1, 0), QQ(1, 2))","(QQ(1, 4) * x * y + QQ(1, 2) * x).LT == ((1, 1), QQ(1, 4))","R(0).LT == ((), 0)","R(1).LT == ((), 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_LT():
     R, x, y = ring("x,y", QQ, lex)
     assert R(0).LT == ((0, 0), QQ(0))
@@ -739,16 +938,24 @@ def test_PolyElement_LT():
     assert R(1).LT == ((), 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_leading_monom(), test_PolyElement_leading_monom produces the expected output) over Any ║
+# ║ Path(test_PolyElement_leading_monom(), R(0).leading_monom() == 0 and (QQ(1, 2) * x).leading_monom() == x and (QQ(1, 4) * x * y + QQ(1, 2) * x).leading_monom() == x * y) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_leading_monom : Any → {Any | R(0).le...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  R(0).leading_monom() == 0                      ║
+# ║   ensures:  (QQ(1, 2) * x).leading_monom() == x            ║
+# ║   ensures:  (QQ(1, 4) * x * y + QQ(1, 2) * x).leading...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_leading_monom : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5cee0a6fd3722eb8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b546f01c1523a3e9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_leading_monom","kind":"function","src_hash":"63147efd3ee4593b","in":{"base":"Any"},"out":{"base":"Any","pred":"R(0).leading_monom() == 0 and (QQ(1, 2) * x).leading_monom() == x and (QQ(1, 4) * x * y + QQ(1, 2) * x).leading_monom() == x * y"},"spec":{"lhs":"test_PolyElement_leading_monom()","rhs":"test_PolyElement_leading_monom produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_leading_monom_correct"},"guarantee":"test_PolyElement_leading_monom produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_leading_monom_correct","statement":"Path(test_PolyElement_leading_monom(x), test_PolyElement_leading_monom produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5cee0a6fd3722eb8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_leading_monom","kind":"function","src_hash":"63147efd3ee4593b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: R(0).leading_monom() == 0 and (QQ(1, 2) * x).leading_monom() == x and (QQ(1, 4) * x * y + QQ(1, 2) * x).leading_monom() == x * y"},"spec":{"lhs":"test_PolyElement_leading_monom()","rhs":"R(0).leading_monom() == 0 and (QQ(1, 2) * x).leading_monom() == x and (QQ(1, 4) * x * y + QQ(1, 2) * x).leading_monom() == x * y","over":{"base":"Any"},"name":"test_PolyElement_leading_monom_correct"},"guarantee":"R(0).leading_monom() == 0; (QQ(1, 2) * x).leading_monom() == x; (QQ(1, 4) * x * y + QQ(1, 2) * x).leading_monom() == x * y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_leading_monom_correct","statement":"Path(test_PolyElement_leading_monom(x), R(0).leading_monom() == 0; (QQ(1, 2) * x).leading_monom() == x; (QQ(1, 4) * x * y + QQ(1, 2) * x).leading_monom() == x * y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b546f01c1523a3e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["R(0).leading_monom() == 0","(QQ(1, 2) * x).leading_monom() == x","(QQ(1, 4) * x * y + QQ(1, 2) * x).leading_monom() == x * y"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_leading_monom():
     R, x, y = ring("x,y", QQ, lex)
     assert R(0).leading_monom() == 0
@@ -756,16 +963,24 @@ def test_PolyElement_leading_monom():
     assert (QQ(1,4)*x*y + QQ(1,2)*x).leading_monom() == x*y
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_leading_term(), test_PolyElement_leading_term produces the expected output) over Any ║
+# ║ Path(test_PolyElement_leading_term(), R(0).leading_term() == 0 and (QQ(1, 2) * x).leading_term() == QQ(1, 2) * x and (QQ(1, 4) * x * y + QQ(1, 2) * x).leading_term() == QQ(1, 4) * x * y) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_leading_term : Any → {Any | R(0).lea...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  R(0).leading_term() == 0                       ║
+# ║   ensures:  (QQ(1, 2) * x).leading_term() == QQ(1, 2)...   ║
+# ║   ensures:  (QQ(1, 4) * x * y + QQ(1, 2) * x).leading...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_leading_term : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75b657bd826dfac6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e6f801849e36b81  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_leading_term","kind":"function","src_hash":"256e78fe79ffb755","in":{"base":"Any"},"out":{"base":"Any","pred":"R(0).leading_term() == 0 and (QQ(1, 2) * x).leading_term() == QQ(1, 2) * x and (QQ(1, 4) * x * y + QQ(1, 2) * x).leading_term() == QQ(1, 4) * x * y"},"spec":{"lhs":"test_PolyElement_leading_term()","rhs":"test_PolyElement_leading_term produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_leading_term_correct"},"guarantee":"test_PolyElement_leading_term produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_leading_term_correct","statement":"Path(test_PolyElement_leading_term(x), test_PolyElement_leading_term produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75b657bd826dfac6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_leading_term","kind":"function","src_hash":"256e78fe79ffb755","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: R(0).leading_term() == 0 and (QQ(1, 2) * x).leading_term() == QQ(1, 2) * x and (QQ(1, 4) * x * y + QQ(1, 2) * x).leading_term() == QQ(1, 4) * x * y"},"spec":{"lhs":"test_PolyElement_leading_term()","rhs":"R(0).leading_term() == 0 and (QQ(1, 2) * x).leading_term() == QQ(1, 2) * x and (QQ(1, 4) * x * y + QQ(1, 2) * x).leading_term() == QQ(1, 4) * x * y","over":{"base":"Any"},"name":"test_PolyElement_leading_term_correct"},"guarantee":"R(0).leading_term() == 0; (QQ(1, 2) * x).leading_term() == QQ(1, 2) * x; (QQ(1, 4) * x * y + QQ(1, 2) * x).leading_term() == QQ(1, 4) * x * y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_leading_term_correct","statement":"Path(test_PolyElement_leading_term(x), R(0).leading_term() == 0; (QQ(1, 2) * x).leading_term() == QQ(1, 2) * x; (QQ(1, 4) * x * y + QQ(1, 2) * x).leading_term() == QQ(1, 4) * x * y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e6f801849e36b81","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["R(0).leading_term() == 0","(QQ(1, 2) * x).leading_term() == QQ(1, 2) * x","(QQ(1, 4) * x * y + QQ(1, 2) * x).leading_term() == QQ(1, 4) * x * y"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_leading_term():
     R, x, y = ring("x,y", QQ, lex)
     assert R(0).leading_term() == 0
@@ -773,16 +988,24 @@ def test_PolyElement_leading_term():
     assert (QQ(1,4)*x*y + QQ(1,2)*x).leading_term() == QQ(1,4)*x*y
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_terms(), test_PolyElement_terms produces the expected output) over Any ║
+# ║ Path(test_PolyElement_terms(), terms == [((2, 0, 0), QQ(1, 3)), ((0, 3, 0), QQ(1, 4)), ((0, 0, 4), QQ(1, 5))] and f.terms() == f.terms(lex) == f.terms('lex') == [((2, 3), 2), ((1, 7), 1)] and f.terms(grlex) == f.terms('grlex') == [((1, 7), 1), ((2, 3), 2)] and f.terms() == f.terms(grlex) == f.terms('grlex') == [((1, 7), 1), ((2, 3), 2)] and f.terms(lex) == f.terms('lex') == [((2, 3), 2), ((1, 7), 1)] and R(3).terms() == [((), 3)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_terms : Any → {Any | terms == [((2, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  terms == [((2, 0, 0), QQ(1, 3)), ((0, 3, ...   ║
+# ║   ensures:  f.terms() == f.terms(lex) == f.terms('lex...   ║
+# ║   ensures:  f.terms(grlex) == f.terms('grlex') == [((...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_terms : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 768288285daae09e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81d9e0375717e9de  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_terms","kind":"function","src_hash":"8a35c9f76364e5b4","in":{"base":"Any"},"out":{"base":"Any","pred":"terms == [((2, 0, 0), QQ(1, 3)), ((0, 3, 0), QQ(1, 4)), ((0, 0, 4), QQ(1, 5))] and f.terms() == f.terms(lex) == f.terms('lex') == [((2, 3), 2), ((1, 7), 1)] and f.terms(grlex) == f.terms('grlex') == [((1, 7), 1), ((2, 3), 2)] and f.terms() == f.terms(grlex) == f.terms('grlex') == [((1, 7), 1), ((2, 3), 2)] and f.terms(lex) == f.terms('lex') == [((2, 3), 2), ((1, 7), 1)] and R(3).terms() == [((), 3)]"},"spec":{"lhs":"test_PolyElement_terms()","rhs":"test_PolyElement_terms produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_terms_correct"},"guarantee":"test_PolyElement_terms produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_terms_correct","statement":"Path(test_PolyElement_terms(x), test_PolyElement_terms produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"768288285daae09e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_terms","kind":"function","src_hash":"8a35c9f76364e5b4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: terms == [((2, 0, 0), QQ(1, 3)), ((0, 3, 0), QQ(1, 4)), ((0, 0, 4), QQ(1, 5))] and f.terms() == f.terms(lex) == f.terms('lex') == [((2, 3), 2), ((1, 7), 1)] and f.terms(grlex) == f.terms('grlex') == [((1, 7), 1), ((2, 3), 2)] and f.terms() == f.terms(grlex) == f.terms('grlex') == [((1, 7), 1), ((2, 3), 2)] and f.terms(lex) == f.terms('lex') == [((2, 3), 2), ((1, 7), 1)] and R(3).terms() == [((), 3)]"},"spec":{"lhs":"test_PolyElement_terms()","rhs":"terms == [((2, 0, 0), QQ(1, 3)), ((0, 3, 0), QQ(1, 4)), ((0, 0, 4), QQ(1, 5))] and f.terms() == f.terms(lex) == f.terms('lex') == [((2, 3), 2), ((1, 7), 1)] and f.terms(grlex) == f.terms('grlex') == [((1, 7), 1), ((2, 3), 2)] and f.terms() == f.terms(grlex) == f.terms('grlex') == [((1, 7), 1), ((2, 3), 2)] and f.terms(lex) == f.terms('lex') == [((2, 3), 2), ((1, 7), 1)] and R(3).terms() == [((), 3)]","over":{"base":"Any"},"name":"test_PolyElement_terms_correct"},"guarantee":"terms == [((2, 0, 0), QQ(1, 3)), ((0, 3, 0), QQ(1, 4)), ((0, 0, 4), QQ(1, 5))]; f.terms() == f.terms(lex) == f.terms('lex') == [((2, 3), 2), ((1, 7), 1)]; f.terms(grlex) == f.terms('grlex') == [((1, 7), 1), ((2, 3), 2)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_terms_correct","statement":"Path(test_PolyElement_terms(x), terms == [((2, 0, 0), QQ(1, 3)), ((0, 3, 0), QQ(1, 4)), ((0, 0, 4), QQ(1, 5))]; f.terms() == f.terms(lex) == f.terms('lex') == [((2, 3), 2), ((1, 7), 1)]; f.terms(grlex) == f.terms('grlex') == [((1, 7), 1), ((2, 3), 2)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81d9e0375717e9de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["terms == [((2, 0, 0), QQ(1, 3)), ((0, 3, 0), QQ(1, 4)), ((0, 0, 4), QQ(1, 5))]","f.terms() == f.terms(lex) == f.terms('lex') == [((2, 3), 2), ((1, 7), 1)]","f.terms(grlex) == f.terms('grlex') == [((1, 7), 1), ((2, 3), 2)]","f.terms() == f.terms(grlex) == f.terms('grlex') == [((1, 7), 1), ((2, 3), 2)]","f.terms(lex) == f.terms('lex') == [((2, 3), 2), ((1, 7), 1)]","R(3).terms() == [((), 3)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_terms():
     R, x,y,z = ring("x,y,z", QQ)
     terms = (x**2/3 + y**3/4 + z**4/5).terms()
@@ -804,16 +1027,24 @@ def test_PolyElement_terms():
     assert R(3).terms() == [((), 3)]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_monoms(), test_PolyElement_monoms produces the expected output) over Any ║
+# ║ Path(test_PolyElement_monoms(), monoms == [(2, 0, 0), (0, 3, 0), (0, 0, 4)] and f.monoms() == f.monoms(lex) == f.monoms('lex') == [(2, 3), (1, 7)] and f.monoms(grlex) == f.monoms('grlex') == [(1, 7), (2, 3)] and f.monoms() == f.monoms(grlex) == f.monoms('grlex') == [(1, 7), (2, 3)] and f.monoms(lex) == f.monoms('lex') == [(2, 3), (1, 7)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_monoms : Any → {Any | monoms == [(2,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  monoms == [(2, 0, 0), (0, 3, 0), (0, 0, 4)]    ║
+# ║   ensures:  f.monoms() == f.monoms(lex) == f.monoms('...   ║
+# ║   ensures:  f.monoms(grlex) == f.monoms('grlex') == [...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_monoms : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a8c672fb6f2b315d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5789c9c96418631d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_monoms","kind":"function","src_hash":"7971c6ad447698a7","in":{"base":"Any"},"out":{"base":"Any","pred":"monoms == [(2, 0, 0), (0, 3, 0), (0, 0, 4)] and f.monoms() == f.monoms(lex) == f.monoms('lex') == [(2, 3), (1, 7)] and f.monoms(grlex) == f.monoms('grlex') == [(1, 7), (2, 3)] and f.monoms() == f.monoms(grlex) == f.monoms('grlex') == [(1, 7), (2, 3)] and f.monoms(lex) == f.monoms('lex') == [(2, 3), (1, 7)]"},"spec":{"lhs":"test_PolyElement_monoms()","rhs":"test_PolyElement_monoms produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_monoms_correct"},"guarantee":"test_PolyElement_monoms produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_monoms_correct","statement":"Path(test_PolyElement_monoms(x), test_PolyElement_monoms produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8c672fb6f2b315d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_monoms","kind":"function","src_hash":"7971c6ad447698a7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: monoms == [(2, 0, 0), (0, 3, 0), (0, 0, 4)] and f.monoms() == f.monoms(lex) == f.monoms('lex') == [(2, 3), (1, 7)] and f.monoms(grlex) == f.monoms('grlex') == [(1, 7), (2, 3)] and f.monoms() == f.monoms(grlex) == f.monoms('grlex') == [(1, 7), (2, 3)] and f.monoms(lex) == f.monoms('lex') == [(2, 3), (1, 7)]"},"spec":{"lhs":"test_PolyElement_monoms()","rhs":"monoms == [(2, 0, 0), (0, 3, 0), (0, 0, 4)] and f.monoms() == f.monoms(lex) == f.monoms('lex') == [(2, 3), (1, 7)] and f.monoms(grlex) == f.monoms('grlex') == [(1, 7), (2, 3)] and f.monoms() == f.monoms(grlex) == f.monoms('grlex') == [(1, 7), (2, 3)] and f.monoms(lex) == f.monoms('lex') == [(2, 3), (1, 7)]","over":{"base":"Any"},"name":"test_PolyElement_monoms_correct"},"guarantee":"monoms == [(2, 0, 0), (0, 3, 0), (0, 0, 4)]; f.monoms() == f.monoms(lex) == f.monoms('lex') == [(2, 3), (1, 7)]; f.monoms(grlex) == f.monoms('grlex') == [(1, 7), (2, 3)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_monoms_correct","statement":"Path(test_PolyElement_monoms(x), monoms == [(2, 0, 0), (0, 3, 0), (0, 0, 4)]; f.monoms() == f.monoms(lex) == f.monoms('lex') == [(2, 3), (1, 7)]; f.monoms(grlex) == f.monoms('grlex') == [(1, 7), (2, 3)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5789c9c96418631d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["monoms == [(2, 0, 0), (0, 3, 0), (0, 0, 4)]","f.monoms() == f.monoms(lex) == f.monoms('lex') == [(2, 3), (1, 7)]","f.monoms(grlex) == f.monoms('grlex') == [(1, 7), (2, 3)]","f.monoms() == f.monoms(grlex) == f.monoms('grlex') == [(1, 7), (2, 3)]","f.monoms(lex) == f.monoms('lex') == [(2, 3), (1, 7)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_monoms():
     R, x,y,z = ring("x,y,z", QQ)
     monoms = (x**2/3 + y**3/4 + z**4/5).monoms()
@@ -832,16 +1063,24 @@ def test_PolyElement_monoms():
     assert f.monoms(lex) == f.monoms('lex') == [(2, 3), (1, 7)]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_coeffs(), test_PolyElement_coeffs produces the expected output) over Any ║
+# ║ Path(test_PolyElement_coeffs(), coeffs == [QQ(1, 3), QQ(1, 4), QQ(1, 5)] and f.coeffs() == f.coeffs(lex) == f.coeffs('lex') == [2, 1] and f.coeffs(grlex) == f.coeffs('grlex') == [1, 2] and f.coeffs() == f.coeffs(grlex) == f.coeffs('grlex') == [1, 2] and f.coeffs(lex) == f.coeffs('lex') == [2, 1]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_coeffs : Any → {Any | coeffs == [QQ(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  coeffs == [QQ(1, 3), QQ(1, 4), QQ(1, 5)]       ║
+# ║   ensures:  f.coeffs() == f.coeffs(lex) == f.coeffs('...   ║
+# ║   ensures:  f.coeffs(grlex) == f.coeffs('grlex') == [...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_coeffs : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1abaf15c45e017fb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d33fd4a5c093f65f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_coeffs","kind":"function","src_hash":"1a20dfd142f83da2","in":{"base":"Any"},"out":{"base":"Any","pred":"coeffs == [QQ(1, 3), QQ(1, 4), QQ(1, 5)] and f.coeffs() == f.coeffs(lex) == f.coeffs('lex') == [2, 1] and f.coeffs(grlex) == f.coeffs('grlex') == [1, 2] and f.coeffs() == f.coeffs(grlex) == f.coeffs('grlex') == [1, 2] and f.coeffs(lex) == f.coeffs('lex') == [2, 1]"},"spec":{"lhs":"test_PolyElement_coeffs()","rhs":"test_PolyElement_coeffs produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_coeffs_correct"},"guarantee":"test_PolyElement_coeffs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_coeffs_correct","statement":"Path(test_PolyElement_coeffs(x), test_PolyElement_coeffs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1abaf15c45e017fb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_coeffs","kind":"function","src_hash":"1a20dfd142f83da2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: coeffs == [QQ(1, 3), QQ(1, 4), QQ(1, 5)] and f.coeffs() == f.coeffs(lex) == f.coeffs('lex') == [2, 1] and f.coeffs(grlex) == f.coeffs('grlex') == [1, 2] and f.coeffs() == f.coeffs(grlex) == f.coeffs('grlex') == [1, 2] and f.coeffs(lex) == f.coeffs('lex') == [2, 1]"},"spec":{"lhs":"test_PolyElement_coeffs()","rhs":"coeffs == [QQ(1, 3), QQ(1, 4), QQ(1, 5)] and f.coeffs() == f.coeffs(lex) == f.coeffs('lex') == [2, 1] and f.coeffs(grlex) == f.coeffs('grlex') == [1, 2] and f.coeffs() == f.coeffs(grlex) == f.coeffs('grlex') == [1, 2] and f.coeffs(lex) == f.coeffs('lex') == [2, 1]","over":{"base":"Any"},"name":"test_PolyElement_coeffs_correct"},"guarantee":"coeffs == [QQ(1, 3), QQ(1, 4), QQ(1, 5)]; f.coeffs() == f.coeffs(lex) == f.coeffs('lex') == [2, 1]; f.coeffs(grlex) == f.coeffs('grlex') == [1, 2]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_coeffs_correct","statement":"Path(test_PolyElement_coeffs(x), coeffs == [QQ(1, 3), QQ(1, 4), QQ(1, 5)]; f.coeffs() == f.coeffs(lex) == f.coeffs('lex') == [2, 1]; f.coeffs(grlex) == f.coeffs('grlex') == [1, 2])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d33fd4a5c093f65f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["coeffs == [QQ(1, 3), QQ(1, 4), QQ(1, 5)]","f.coeffs() == f.coeffs(lex) == f.coeffs('lex') == [2, 1]","f.coeffs(grlex) == f.coeffs('grlex') == [1, 2]","f.coeffs() == f.coeffs(grlex) == f.coeffs('grlex') == [1, 2]","f.coeffs(lex) == f.coeffs('lex') == [2, 1]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_coeffs():
     R, x,y,z = ring("x,y,z", QQ)
     coeffs = (x**2/3 + y**3/4 + z**4/5).coeffs()
@@ -860,16 +1099,24 @@ def test_PolyElement_coeffs():
     assert f.coeffs(lex) == f.coeffs('lex') == [2, 1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement___add__(), test_PolyElement___add__ produces the expected output) over Any ║
+# ║ Path(test_PolyElement___add__(), dict(x + 3 * y) == {(1, 0, 0): 1, (0, 1, 0): 3} and dict(u + x) == dict(x + u) == {(1, 0, 0): 1, (0, 0, 0): u} and dict(u + x * y) == dict(x * y + u) == {(1, 1, 0): 1, (0, 0, 0): u} and dict(u + x * y + z) == dict(x * y + z + u) == {(1, 1, 0): 1, (0, 0, 1): 1, (0, 0, 0): u} and dict(u * x + x) == dict(x + u * x) == {(1, 0, 0): u + 1} and dict(u * x + x * y) == dict(x * y + u * x) == {(1, 1, 0): 1, (1, 0, 0): u} and dict(u * x + x * y + z) == dict(x * y + z + u * x) == {(1, 1, 0): 1, (0, 0, 1): 1, (1, 0, 0): u} and dict(EX(pi) + x * y * z) == dict(x * y * z + EX(pi)) == {(1, 1, 1): EX(1), (0, 0, 0): EX(pi)}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement___add__ : Any → {Any | dict(x + 3 * ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dict(x + 3 * y) == {(1, 0, 0): 1, (0, 1, ...   ║
+# ║   ensures:  dict(u + x) == dict(x + u) == {(1, 0, 0):...   ║
+# ║   ensures:  dict(u + x * y) == dict(x * y + u) == {(1...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement___add__ : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 29a1b11a67407fc5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 174a85ec70ce17f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement___add__","kind":"function","src_hash":"debd07464989dcaf","in":{"base":"Any"},"out":{"base":"Any","pred":"dict(x + 3 * y) == {(1, 0, 0): 1, (0, 1, 0): 3} and dict(u + x) == dict(x + u) == {(1, 0, 0): 1, (0, 0, 0): u} and dict(u + x * y) == dict(x * y + u) == {(1, 1, 0): 1, (0, 0, 0): u} and dict(u * x + x) == dict(x + u * x) == {(1, 0, 0): u + 1} and dict(u * x + x * y) == dict(x * y + u * x) == {(1, 1, 0): 1, (1, 0, 0): u} and dict(u + x) == dict(x + u) == {(1, 0, 0): 1, (0, 0, 0): u}"},"spec":{"lhs":"test_PolyElement___add__()","rhs":"test_PolyElement___add__ produces the expected output","over":{"base":"Any"},"name":"test_PolyElement___add___correct"},"guarantee":"test_PolyElement___add__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement___add___correct","statement":"Path(test_PolyElement___add__(x), test_PolyElement___add__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29a1b11a67407fc5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement___add__","kind":"function","src_hash":"debd07464989dcaf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dict(x + 3 * y) == {(1, 0, 0): 1, (0, 1, 0): 3} and dict(u + x) == dict(x + u) == {(1, 0, 0): 1, (0, 0, 0): u} and dict(u + x * y) == dict(x * y + u) == {(1, 1, 0): 1, (0, 0, 0): u} and dict(u + x * y + z) == dict(x * y + z + u) == {(1, 1, 0): 1, (0, 0, 1): 1, (0, 0, 0): u} and dict(u * x + x) == dict(x + u * x) == {(1, 0, 0): u + 1} and dict(u * x + x * y) == dict(x * y + u * x) == {(1, 1, 0): 1, (1, 0, 0): u} and dict(u * x + x * y + z) == dict(x * y + z + u * x) == {(1, 1, 0): 1, (0, 0, 1): 1, (1, 0, 0): u} and dict(EX(pi) + x * y * z) == dict(x * y * z + EX(pi)) == {(1, 1, 1): EX(1), (0, 0, 0): EX(pi)}"},"spec":{"lhs":"test_PolyElement___add__()","rhs":"dict(x + 3 * y) == {(1, 0, 0): 1, (0, 1, 0): 3} and dict(u + x) == dict(x + u) == {(1, 0, 0): 1, (0, 0, 0): u} and dict(u + x * y) == dict(x * y + u) == {(1, 1, 0): 1, (0, 0, 0): u} and dict(u + x * y + z) == dict(x * y + z + u) == {(1, 1, 0): 1, (0, 0, 1): 1, (0, 0, 0): u} and dict(u * x + x) == dict(x + u * x) == {(1, 0, 0): u + 1} and dict(u * x + x * y) == dict(x * y + u * x) == {(1, 1, 0): 1, (1, 0, 0): u} and dict(u * x + x * y + z) == dict(x * y + z + u * x) == {(1, 1, 0): 1, (0, 0, 1): 1, (1, 0, 0): u} and dict(EX(pi) + x * y * z) == dict(x * y * z + EX(pi)) == {(1, 1, 1): EX(1), (0, 0, 0): EX(pi)}","over":{"base":"Any"},"name":"test_PolyElement___add___correct"},"guarantee":"dict(x + 3 * y) == {(1, 0, 0): 1, (0, 1, 0): 3}; dict(u + x) == dict(x + u) == {(1, 0, 0): 1, (0, 0, 0): u}; dict(u + x * y) == dict(x * y + u) == {(1, 1, 0): 1, (0, 0, 0): u}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement___add___correct","statement":"Path(test_PolyElement___add__(x), dict(x + 3 * y) == {(1, 0, 0): 1, (0, 1, 0): 3}; dict(u + x) == dict(x + u) == {(1, 0, 0): 1, (0, 0, 0): u}; dict(u + x * y) == dict(x * y + u) == {(1, 1, 0): 1, (0, 0, 0): u})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"174a85ec70ce17f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dict(x + 3 * y) == {(1, 0, 0): 1, (0, 1, 0): 3}","dict(u + x) == dict(x + u) == {(1, 0, 0): 1, (0, 0, 0): u}","dict(u + x * y) == dict(x * y + u) == {(1, 1, 0): 1, (0, 0, 0): u}","dict(u + x * y + z) == dict(x * y + z + u) == {(1, 1, 0): 1, (0, 0, 1): 1, (0, 0, 0): u}","dict(u * x + x) == dict(x + u * x) == {(1, 0, 0): u + 1}","dict(u * x + x * y) == dict(x * y + u * x) == {(1, 1, 0): 1, (1, 0, 0): u}","dict(u * x + x * y + z) == dict(x * y + z + u * x) == {(1, 1, 0): 1, (0, 0, 1): 1, (1, 0, 0): u}","dict(EX(pi) + x * y * z) == dict(x * y * z + EX(pi)) == {(1, 1, 1): EX(1), (0, 0, 0): EX(pi)}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_PolyElement___add__():
     Rt, t = ring("t", ZZ)
     Ruv, u,v = ring("u,v", ZZ)
@@ -900,16 +1147,24 @@ def test_PolyElement___add__():
     assert dict(EX(pi) + x*y*z) == dict(x*y*z + EX(pi)) == {(1, 1, 1): EX(1), (0, 0, 0): EX(pi)}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement___sub__(), test_PolyElement___sub__ produces the expected output) over Any ║
+# ║ Path(test_PolyElement___sub__(), dict(x - 3 * y) == {(1, 0, 0): 1, (0, 1, 0): -3} and dict(-u + x) == dict(x - u) == {(1, 0, 0): 1, (0, 0, 0): -u} and dict(-u + x * y) == dict(x * y - u) == {(1, 1, 0): 1, (0, 0, 0): -u} and dict(-u + x * y + z) == dict(x * y + z - u) == {(1, 1, 0): 1, (0, 0, 1): 1, (0, 0, 0): -u} and dict(-u * x + x) == dict(x - u * x) == {(1, 0, 0): -u + 1} and dict(-u * x + x * y) == dict(x * y - u * x) == {(1, 1, 0): 1, (1, 0, 0): -u} and dict(-u * x + x * y + z) == dict(x * y + z - u * x) == {(1, 1, 0): 1, (0, 0, 1): 1, (1, 0, 0): -u} and dict(-EX(pi) + x * y * z) == dict(x * y * z - EX(pi)) == {(1, 1, 1): EX(1), (0, 0, 0): -EX(pi)}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement___sub__ : Any → {Any | dict(x - 3 * ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dict(x - 3 * y) == {(1, 0, 0): 1, (0, 1, ...   ║
+# ║   ensures:  dict(-u + x) == dict(x - u) == {(1, 0, 0)...   ║
+# ║   ensures:  dict(-u + x * y) == dict(x * y - u) == {(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement___sub__ : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d777035a25ff47e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1ef2739ff294a1c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement___sub__","kind":"function","src_hash":"cd3099d91aacd61b","in":{"base":"Any"},"out":{"base":"Any","pred":"dict(x - 3 * y) == {(1, 0, 0): 1, (0, 1, 0): -3} and dict(-u + x) == dict(x - u) == {(1, 0, 0): 1, (0, 0, 0): -u} and dict(-u + x * y) == dict(x * y - u) == {(1, 1, 0): 1, (0, 0, 0): -u} and dict(-u * x + x) == dict(x - u * x) == {(1, 0, 0): -u + 1} and dict(-u * x + x * y) == dict(x * y - u * x) == {(1, 1, 0): 1, (1, 0, 0): -u} and dict(-u + x) == dict(x - u) == {(1, 0, 0): 1, (0, 0, 0): -u}"},"spec":{"lhs":"test_PolyElement___sub__()","rhs":"test_PolyElement___sub__ produces the expected output","over":{"base":"Any"},"name":"test_PolyElement___sub___correct"},"guarantee":"test_PolyElement___sub__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement___sub___correct","statement":"Path(test_PolyElement___sub__(x), test_PolyElement___sub__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d777035a25ff47e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement___sub__","kind":"function","src_hash":"cd3099d91aacd61b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dict(x - 3 * y) == {(1, 0, 0): 1, (0, 1, 0): -3} and dict(-u + x) == dict(x - u) == {(1, 0, 0): 1, (0, 0, 0): -u} and dict(-u + x * y) == dict(x * y - u) == {(1, 1, 0): 1, (0, 0, 0): -u} and dict(-u + x * y + z) == dict(x * y + z - u) == {(1, 1, 0): 1, (0, 0, 1): 1, (0, 0, 0): -u} and dict(-u * x + x) == dict(x - u * x) == {(1, 0, 0): -u + 1} and dict(-u * x + x * y) == dict(x * y - u * x) == {(1, 1, 0): 1, (1, 0, 0): -u} and dict(-u * x + x * y + z) == dict(x * y + z - u * x) == {(1, 1, 0): 1, (0, 0, 1): 1, (1, 0, 0): -u} and dict(-EX(pi) + x * y * z) == dict(x * y * z - EX(pi)) == {(1, 1, 1): EX(1), (0, 0, 0): -EX(pi)}"},"spec":{"lhs":"test_PolyElement___sub__()","rhs":"dict(x - 3 * y) == {(1, 0, 0): 1, (0, 1, 0): -3} and dict(-u + x) == dict(x - u) == {(1, 0, 0): 1, (0, 0, 0): -u} and dict(-u + x * y) == dict(x * y - u) == {(1, 1, 0): 1, (0, 0, 0): -u} and dict(-u + x * y + z) == dict(x * y + z - u) == {(1, 1, 0): 1, (0, 0, 1): 1, (0, 0, 0): -u} and dict(-u * x + x) == dict(x - u * x) == {(1, 0, 0): -u + 1} and dict(-u * x + x * y) == dict(x * y - u * x) == {(1, 1, 0): 1, (1, 0, 0): -u} and dict(-u * x + x * y + z) == dict(x * y + z - u * x) == {(1, 1, 0): 1, (0, 0, 1): 1, (1, 0, 0): -u} and dict(-EX(pi) + x * y * z) == dict(x * y * z - EX(pi)) == {(1, 1, 1): EX(1), (0, 0, 0): -EX(pi)}","over":{"base":"Any"},"name":"test_PolyElement___sub___correct"},"guarantee":"dict(x - 3 * y) == {(1, 0, 0): 1, (0, 1, 0): -3}; dict(-u + x) == dict(x - u) == {(1, 0, 0): 1, (0, 0, 0): -u}; dict(-u + x * y) == dict(x * y - u) == {(1, 1, 0): 1, (0, 0, 0): -u}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement___sub___correct","statement":"Path(test_PolyElement___sub__(x), dict(x - 3 * y) == {(1, 0, 0): 1, (0, 1, 0): -3}; dict(-u + x) == dict(x - u) == {(1, 0, 0): 1, (0, 0, 0): -u}; dict(-u + x * y) == dict(x * y - u) == {(1, 1, 0): 1, (0, 0, 0): -u})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1ef2739ff294a1c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dict(x - 3 * y) == {(1, 0, 0): 1, (0, 1, 0): -3}","dict(-u + x) == dict(x - u) == {(1, 0, 0): 1, (0, 0, 0): -u}","dict(-u + x * y) == dict(x * y - u) == {(1, 1, 0): 1, (0, 0, 0): -u}","dict(-u + x * y + z) == dict(x * y + z - u) == {(1, 1, 0): 1, (0, 0, 1): 1, (0, 0, 0): -u}","dict(-u * x + x) == dict(x - u * x) == {(1, 0, 0): -u + 1}","dict(-u * x + x * y) == dict(x * y - u * x) == {(1, 1, 0): 1, (1, 0, 0): -u}","dict(-u * x + x * y + z) == dict(x * y + z - u * x) == {(1, 1, 0): 1, (0, 0, 1): 1, (1, 0, 0): -u}","dict(-EX(pi) + x * y * z) == dict(x * y * z - EX(pi)) == {(1, 1, 1): EX(1), (0, 0, 0): -EX(pi)}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_PolyElement___sub__():
     Rt, t = ring("t", ZZ)
     Ruv, u,v = ring("u,v", ZZ)
@@ -940,16 +1195,24 @@ def test_PolyElement___sub__():
     assert dict(-EX(pi) + x*y*z) == dict(x*y*z - EX(pi)) == {(1, 1, 1): EX(1), (0, 0, 0): -EX(pi)}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement___mul__(), test_PolyElement___mul__ produces the expected output) over Any ║
+# ║ Path(test_PolyElement___mul__(), dict(u * x) == dict(x * u) == {(1, 0, 0): u} and dict(2 * u * x + z) == dict(x * 2 * u + z) == {(1, 0, 0): 2 * u, (0, 0, 1): 1} and dict(u * 2 * x + z) == dict(2 * x * u + z) == {(1, 0, 0): 2 * u, (0, 0, 1): 1} and dict(u * x * 2 + z) == dict(x * u * 2 + z) == {(1, 0, 0): 2 * u, (0, 0, 1): 1} and dict(2 * u * x * y + z) == dict(x * y * 2 * u + z) == {(1, 1, 0): 2 * u, (0, 0, 1): 1} and dict(u * 2 * x * y + z) == dict(2 * x * y * u + z) == {(1, 1, 0): 2 * u, (0, 0, 1): 1} and dict(u * x * y * 2 + z) == dict(x * y * u * 2 + z) == {(1, 1, 0): 2 * u, (0, 0, 1): 1} and dict(2 * u * y * x + z) == dict(y * x * 2 * u + z) == {(1, 1, 0): 2 * u, (0, 0, 1): 1} and dict(u * 2 * y * x + z) == dict(2 * y * x * u + z) == {(1, 1, 0): 2 * u, (0, 0, 1): 1} and dict(u * y * x * 2 + z) == dict(y * x * u * 2 + z) == {(1, 1, 0): 2 * u, (0, 0, 1): 1} and dict(3 * u * (x + y) + z) == dict((x + y) * 3 * u + z) == {(1, 0, 0): 3 * u, (0, 1, 0): 3 * u, (0, 0, 1): 1} and dict(EX(pi) * x * y * z) == dict(x * y * z * EX(pi)) == {(1, 1, 1): EX(pi)}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement___mul__ : Any → {Any | dict(u * x) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dict(u * x) == dict(x * u) == {(1, 0, 0): u}   ║
+# ║   ensures:  dict(2 * u * x + z) == dict(x * 2 * u + z...   ║
+# ║   ensures:  dict(u * 2 * x + z) == dict(2 * x * u + z...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement___mul__ : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9cce61292195600e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64e7d380dfe380ec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement___mul__","kind":"function","src_hash":"426fa30a77a4e45b","in":{"base":"Any"},"out":{"base":"Any","pred":"dict(u * x) == dict(x * u) == {(1, 0, 0): u} and dict(2 * u * x + z) == dict(x * 2 * u + z) == {(1, 0, 0): 2 * u, (0, 0, 1): 1} and dict(u * 2 * x + z) == dict(2 * x * u + z) == {(1, 0, 0): 2 * u, (0, 0, 1): 1} and dict(2 * u * x + z) == dict(x * 2 * u + z) == {(1, 0, 0): 2 * u, (0, 0, 1): 1} and dict(u * x * 2 + z) == dict(x * u * 2 + z) == {(1, 0, 0): 2 * u, (0, 0, 1): 1} and dict(u * x) == dict(x * u) == {(1, 0, 0): u} and dict(EX(pi) * x * y * z) == dict(x * y * z * EX(pi)) == {(1, 1, 1): EX(pi)}"},"spec":{"lhs":"test_PolyElement___mul__()","rhs":"test_PolyElement___mul__ produces the expected output","over":{"base":"Any"},"name":"test_PolyElement___mul___correct"},"guarantee":"test_PolyElement___mul__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement___mul___correct","statement":"Path(test_PolyElement___mul__(x), test_PolyElement___mul__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9cce61292195600e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement___mul__","kind":"function","src_hash":"426fa30a77a4e45b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dict(u * x) == dict(x * u) == {(1, 0, 0): u} and dict(2 * u * x + z) == dict(x * 2 * u + z) == {(1, 0, 0): 2 * u, (0, 0, 1): 1} and dict(u * 2 * x + z) == dict(2 * x * u + z) == {(1, 0, 0): 2 * u, (0, 0, 1): 1} and dict(u * x * 2 + z) == dict(x * u * 2 + z) == {(1, 0, 0): 2 * u, (0, 0, 1): 1} and dict(2 * u * x * y + z) == dict(x * y * 2 * u + z) == {(1, 1, 0): 2 * u, (0, 0, 1): 1} and dict(u * 2 * x * y + z) == dict(2 * x * y * u + z) == {(1, 1, 0): 2 * u, (0, 0, 1): 1} and dict(u * x * y * 2 + z) == dict(x * y * u * 2 + z) == {(1, 1, 0): 2 * u, (0, 0, 1): 1} and dict(2 * u * y * x + z) == dict(y * x * 2 * u + z) == {(1, 1, 0): 2 * u, (0, 0, 1): 1} and dict(u * 2 * y * x + z) == dict(2 * y * x * u + z) == {(1, 1, 0): 2 * u, (0, 0, 1): 1} and dict(u * y * x * 2 + z) == dict(y * x * u * 2 + z) == {(1, 1, 0): 2 * u, (0, 0, 1): 1} and dict(3 * u * (x + y) + z) == dict((x + y) * 3 * u + z) == {(1, 0, 0): 3 * u, (0, 1, 0): 3 * u, (0, 0, 1): 1} and dict(EX(pi) * x * y * z) == dict(x * y * z * EX(pi)) == {(1, 1, 1): EX(pi)}"},"spec":{"lhs":"test_PolyElement___mul__()","rhs":"dict(u * x) == dict(x * u) == {(1, 0, 0): u} and dict(2 * u * x + z) == dict(x * 2 * u + z) == {(1, 0, 0): 2 * u, (0, 0, 1): 1} and dict(u * 2 * x + z) == dict(2 * x * u + z) == {(1, 0, 0): 2 * u, (0, 0, 1): 1} and dict(u * x * 2 + z) == dict(x * u * 2 + z) == {(1, 0, 0): 2 * u, (0, 0, 1): 1} and dict(2 * u * x * y + z) == dict(x * y * 2 * u + z) == {(1, 1, 0): 2 * u, (0, 0, 1): 1} and dict(u * 2 * x * y + z) == dict(2 * x * y * u + z) == {(1, 1, 0): 2 * u, (0, 0, 1): 1} and dict(u * x * y * 2 + z) == dict(x * y * u * 2 + z) == {(1, 1, 0): 2 * u, (0, 0, 1): 1} and dict(2 * u * y * x + z) == dict(y * x * 2 * u + z) == {(1, 1, 0): 2 * u, (0, 0, 1): 1} and dict(u * 2 * y * x + z) == dict(2 * y * x * u + z) == {(1, 1, 0): 2 * u, (0, 0, 1): 1} and dict(u * y * x * 2 + z) == dict(y * x * u * 2 + z) == {(1, 1, 0): 2 * u, (0, 0, 1): 1} and dict(3 * u * (x + y) + z) == dict((x + y) * 3 * u + z) == {(1, 0, 0): 3 * u, (0, 1, 0): 3 * u, (0, 0, 1): 1} and dict(EX(pi) * x * y * z) == dict(x * y * z * EX(pi)) == {(1, 1, 1): EX(pi)}","over":{"base":"Any"},"name":"test_PolyElement___mul___correct"},"guarantee":"dict(u * x) == dict(x * u) == {(1, 0, 0): u}; dict(2 * u * x + z) == dict(x * 2 * u + z) == {(1, 0, 0): 2 * u, (0, 0, 1): 1}; dict(u * 2 * x + z) == dict(2 * x * u + z) == {(1, 0, 0): 2 * u, (0, 0, 1): 1}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement___mul___correct","statement":"Path(test_PolyElement___mul__(x), dict(u * x) == dict(x * u) == {(1, 0, 0): u}; dict(2 * u * x + z) == dict(x * 2 * u + z) == {(1, 0, 0): 2 * u, (0, 0, 1): 1}; dict(u * 2 * x + z) == dict(2 * x * u + z) == {(1, 0, 0): 2 * u, (0, 0, 1): 1})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64e7d380dfe380ec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dict(u * x) == dict(x * u) == {(1, 0, 0): u}","dict(2 * u * x + z) == dict(x * 2 * u + z) == {(1, 0, 0): 2 * u, (0, 0, 1): 1}","dict(u * 2 * x + z) == dict(2 * x * u + z) == {(1, 0, 0): 2 * u, (0, 0, 1): 1}","dict(u * x * 2 + z) == dict(x * u * 2 + z) == {(1, 0, 0): 2 * u, (0, 0, 1): 1}","dict(2 * u * x * y + z) == dict(x * y * 2 * u + z) == {(1, 1, 0): 2 * u, (0, 0, 1): 1}","dict(u * 2 * x * y + z) == dict(2 * x * y * u + z) == {(1, 1, 0): 2 * u, (0, 0, 1): 1}","dict(u * x * y * 2 + z) == dict(x * y * u * 2 + z) == {(1, 1, 0): 2 * u, (0, 0, 1): 1}","dict(2 * u * y * x + z) == dict(y * x * 2 * u + z) == {(1, 1, 0): 2 * u, (0, 0, 1): 1}","dict(u * 2 * y * x + z) == dict(2 * y * x * u + z) == {(1, 1, 0): 2 * u, (0, 0, 1): 1}","dict(u * y * x * 2 + z) == dict(y * x * u * 2 + z) == {(1, 1, 0): 2 * u, (0, 0, 1): 1}","dict(3 * u * (x + y) + z) == dict((x + y) * 3 * u + z) == {(1, 0, 0): 3 * u, (0, 1, 0): 3 * u, (0, 0, 1): 1}","dict(EX(pi) * x * y * z) == dict(x * y * z * EX(pi)) == {(1, 1, 1): EX(pi)}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":true}}
 def test_PolyElement___mul__():
     Rt, t = ring("t", ZZ)
     Ruv, u,v = ring("u,v", ZZ)
@@ -989,16 +1252,24 @@ def test_PolyElement___mul__():
     assert dict(EX(pi)*x*y*z) == dict(x*y*z*EX(pi)) == {(1, 1, 1): EX(pi)}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement___truediv__(), test_PolyElement___truediv__ produces the expected output) over Any ║
+# ║ Path(test_PolyElement___truediv__(), (2 * x ** 2 - 4) / 2 == x ** 2 - 2 and (2 * x ** 2 - 3) / 2 == x ** 2 and (x ** 2 - 1).quo(x) == x and (x ** 2 - x).quo(x) == x - 1 and (x ** 2 - x) / x == x - 1 and (x ** 2 - 1).quo(2 * x) == 0 and (x ** 2 - x) / (x - 1) == (x ** 2 - x).quo(x - 1) == x and len((x ** 2 / 3 + y ** 3 / 4 + z ** 4 / 5).terms()) == 0 and len((x ** 2 / 3 + y ** 3 / 4 + z ** 4 / 5).terms()) == 3 and dict((u ** 2 * x + u) / u) == {(1, 0, 0): u, (0, 0, 0): 1} and f.div(g) == divmod(f, g) == (q, r) and f.rem(g) == f % g == r and f.quo(g) == q and f.exquo(g) == f / g == q) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement___truediv__ : Any → {Any | (2 * x **...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (2 * x ** 2 - 4) / 2 == x ** 2 - 2             ║
+# ║   ensures:  (2 * x ** 2 - 3) / 2 == x ** 2                 ║
+# ║   ensures:  (x ** 2 - 1).quo(x) == x                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement___truediv__ : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d995455fa8df228c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef6abebf7d2a7632  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement___truediv__","kind":"function","src_hash":"fcf9f65dbf50802c","in":{"base":"Any"},"out":{"base":"Any","pred":"(2 * x ** 2 - 4) / 2 == x ** 2 - 2 and (2 * x ** 2 - 3) / 2 == x ** 2 and (x ** 2 - 1).quo(x) == x and (x ** 2 - x).quo(x) == x - 1 and (x ** 2 - x) / x == x - 1 and (x ** 2 - 1).quo(2 * x) == 0 and (x ** 2 - x) / (x - 1) == (x ** 2 - x).quo(x - 1) == x and len((x ** 2 / 3 + y ** 3 / 4 + z ** 4 / 5).terms()) == 0 and len((x ** 2 / 3 + y ** 3 / 4 + z ** 4 / 5).terms()) == 3 and dict((u ** 2 * x + u) / u) == {(1, 0, 0): u, (0, 0, 0): 1} and f.div(g) == divmod(f, g) == (q, r) and f.rem(g) == f % g == r and f.quo(g) == q and f.div(g) == divmod(f, g) == (q, r) and f.rem(g) == f % g == r and f.quo(g) == q and f.div(g) == divmod(f, g) == (q, r) and f.rem(g) == f % g == r and f.quo(g) == q and f.div(g) == divmod(f, g) == (q, r) and f.rem(g) == f % g == r and f.quo(g) == q and f.div(g) == divmod(f, g) == (q, r) and f.rem(g) == f % g == r and f.quo(g) == q and f.div(g) == divmod(f, g) == (q, r) and f.rem(g) == f % g == r and f.quo(g) == q and f.div(g) == divmod(f, g) == (q, r) and f.rem(g) == f % g == r and f.quo(g) == q and f.exquo(g) == f / g == q and f.div(g) == divmod(f, g) == (q, r) and f.rem(g) == f % g == r and f.quo(g) == q and f.div(g) == divmod(f, g) == (q, r) and f.rem(g) == f % g == r and f.quo(g) == q and f.div(g) == divmod(f, g) == (q, r) and f.rem(g) == f % g == r and f.quo(g) == q and f.div(g) == divmod(f, g) == (q, r) and f.rem(g) == f % g == r and f.quo(g) == q and f.exquo(g) == f / g == q and f.div(g) == divmod(f, g) == (q, r) and f.rem(g) == f % g == r and f.quo(g) == q and f.div(g) == divmod(f, g) == (q, r) and f.rem(g) == f % g == r and f.quo(g) == q and f.div(g) == divmod(f, g) == (q, r) and f.rem(g) == f % g == r and f.quo(g) == q"},"spec":{"lhs":"test_PolyElement___truediv__()","rhs":"test_PolyElement___truediv__ produces the expected output","over":{"base":"Any"},"name":"test_PolyElement___truediv___correct"},"guarantee":"test_PolyElement___truediv__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement___truediv___correct","statement":"Path(test_PolyElement___truediv__(x), test_PolyElement___truediv__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d995455fa8df228c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement___truediv__","kind":"function","src_hash":"fcf9f65dbf50802c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (2 * x ** 2 - 4) / 2 == x ** 2 - 2 and (2 * x ** 2 - 3) / 2 == x ** 2 and (x ** 2 - 1).quo(x) == x and (x ** 2 - x).quo(x) == x - 1 and (x ** 2 - x) / x == x - 1 and (x ** 2 - 1).quo(2 * x) == 0 and (x ** 2 - x) / (x - 1) == (x ** 2 - x).quo(x - 1) == x and len((x ** 2 / 3 + y ** 3 / 4 + z ** 4 / 5).terms()) == 0 and len((x ** 2 / 3 + y ** 3 / 4 + z ** 4 / 5).terms()) == 3 and dict((u ** 2 * x + u) / u) == {(1, 0, 0): u, (0, 0, 0): 1} and f.div(g) == divmod(f, g) == (q, r) and f.rem(g) == f % g == r and f.quo(g) == q and f.exquo(g) == f / g == q"},"spec":{"lhs":"test_PolyElement___truediv__()","rhs":"(2 * x ** 2 - 4) / 2 == x ** 2 - 2 and (2 * x ** 2 - 3) / 2 == x ** 2 and (x ** 2 - 1).quo(x) == x and (x ** 2 - x).quo(x) == x - 1 and (x ** 2 - x) / x == x - 1 and (x ** 2 - 1).quo(2 * x) == 0 and (x ** 2 - x) / (x - 1) == (x ** 2 - x).quo(x - 1) == x and len((x ** 2 / 3 + y ** 3 / 4 + z ** 4 / 5).terms()) == 0 and len((x ** 2 / 3 + y ** 3 / 4 + z ** 4 / 5).terms()) == 3 and dict((u ** 2 * x + u) / u) == {(1, 0, 0): u, (0, 0, 0): 1} and f.div(g) == divmod(f, g) == (q, r) and f.rem(g) == f % g == r and f.quo(g) == q and f.exquo(g) == f / g == q","over":{"base":"Any"},"name":"test_PolyElement___truediv___correct"},"guarantee":"(2 * x ** 2 - 4) / 2 == x ** 2 - 2; (2 * x ** 2 - 3) / 2 == x ** 2; (x ** 2 - 1).quo(x) == x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement___truediv___correct","statement":"Path(test_PolyElement___truediv__(x), (2 * x ** 2 - 4) / 2 == x ** 2 - 2; (2 * x ** 2 - 3) / 2 == x ** 2; (x ** 2 - 1).quo(x) == x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef6abebf7d2a7632","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(2 * x ** 2 - 4) / 2 == x ** 2 - 2","(2 * x ** 2 - 3) / 2 == x ** 2","(x ** 2 - 1).quo(x) == x","(x ** 2 - x).quo(x) == x - 1","(x ** 2 - x) / x == x - 1","(x ** 2 - 1).quo(2 * x) == 0","(x ** 2 - x) / (x - 1) == (x ** 2 - x).quo(x - 1) == x","len((x ** 2 / 3 + y ** 3 / 4 + z ** 4 / 5).terms()) == 0","len((x ** 2 / 3 + y ** 3 / 4 + z ** 4 / 5).terms()) == 3","dict((u ** 2 * x + u) / u) == {(1, 0, 0): u, (0, 0, 0): 1}","f.div(g) == divmod(f, g) == (q, r)","f.rem(g) == f % g == r","f.quo(g) == q","f.exquo(g) == f / g == q"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.6,"verdict_class":"assumed","binding":true}}
 def test_PolyElement___truediv__():
     R, x,y,z = ring("x,y,z", ZZ)
 
@@ -1189,16 +1460,24 @@ def test_PolyElement___truediv__():
     raises(ExactQuotientFailed, lambda: f.exquo(g))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement___pow__(), test_PolyElement___pow__ produces the expected output) over Any ║
+# ║ Path(test_PolyElement___pow__(), f ** 0 == 1 and f ** 1 == f and f ** 2 == f._pow_generic(2) == f._pow_multinomial(2) == 4 * x ** 2 + 12 * x + 9 and f ** 3 == f._pow_generic(3) == f._pow_multinomial(3) == 8 * x ** 3 + 36 * x ** 2 + 54 * x + 27 and f ** 4 == f._pow_generic(4) == f._pow_multinomial(4) == 16 * x ** 4 + 96 * x ** 3 + 216 * x ** 2 + 216 * x + 81 and f ** 5 == f._pow_generic(5) == f._pow_multinomial(5) == 32 * x ** 5 + 240 * x ** 4 + 720 * x ** 3 + 1080 * x ** 2 + 810 * x + 243 and f ** 2 == f._pow_generic(2) == f._pow_multinomial(2) == g and f ** 4 == f._pow_generic(4) == f._pow_multinomial(4) == g) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement___pow__ : Any → {Any | f ** 0 == 1 a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f ** 0 == 1                                    ║
+# ║   ensures:  f ** 1 == f                                    ║
+# ║   ensures:  f ** 2 == f._pow_generic(2) == f._pow_mul...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement___pow__ : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 53b245d2a39d952c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 101a0fb3bf9b385a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement___pow__","kind":"function","src_hash":"7d073782d0dbf33f","in":{"base":"Any"},"out":{"base":"Any","pred":"f ** 0 == 1 and f ** 1 == f and f ** 2 == f._pow_generic(2) == f._pow_multinomial(2) == 4 * x ** 2 + 12 * x + 9 and f ** 2 == f._pow_generic(2) == f._pow_multinomial(2) == g and f ** 4 == f._pow_generic(4) == f._pow_multinomial(4) == g"},"spec":{"lhs":"test_PolyElement___pow__()","rhs":"test_PolyElement___pow__ produces the expected output","over":{"base":"Any"},"name":"test_PolyElement___pow___correct"},"guarantee":"test_PolyElement___pow__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement___pow___correct","statement":"Path(test_PolyElement___pow__(x), test_PolyElement___pow__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53b245d2a39d952c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement___pow__","kind":"function","src_hash":"7d073782d0dbf33f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f ** 0 == 1 and f ** 1 == f and f ** 2 == f._pow_generic(2) == f._pow_multinomial(2) == 4 * x ** 2 + 12 * x + 9 and f ** 3 == f._pow_generic(3) == f._pow_multinomial(3) == 8 * x ** 3 + 36 * x ** 2 + 54 * x + 27 and f ** 4 == f._pow_generic(4) == f._pow_multinomial(4) == 16 * x ** 4 + 96 * x ** 3 + 216 * x ** 2 + 216 * x + 81 and f ** 5 == f._pow_generic(5) == f._pow_multinomial(5) == 32 * x ** 5 + 240 * x ** 4 + 720 * x ** 3 + 1080 * x ** 2 + 810 * x + 243 and f ** 2 == f._pow_generic(2) == f._pow_multinomial(2) == g and f ** 4 == f._pow_generic(4) == f._pow_multinomial(4) == g"},"spec":{"lhs":"test_PolyElement___pow__()","rhs":"f ** 0 == 1 and f ** 1 == f and f ** 2 == f._pow_generic(2) == f._pow_multinomial(2) == 4 * x ** 2 + 12 * x + 9 and f ** 3 == f._pow_generic(3) == f._pow_multinomial(3) == 8 * x ** 3 + 36 * x ** 2 + 54 * x + 27 and f ** 4 == f._pow_generic(4) == f._pow_multinomial(4) == 16 * x ** 4 + 96 * x ** 3 + 216 * x ** 2 + 216 * x + 81 and f ** 5 == f._pow_generic(5) == f._pow_multinomial(5) == 32 * x ** 5 + 240 * x ** 4 + 720 * x ** 3 + 1080 * x ** 2 + 810 * x + 243 and f ** 2 == f._pow_generic(2) == f._pow_multinomial(2) == g and f ** 4 == f._pow_generic(4) == f._pow_multinomial(4) == g","over":{"base":"Any"},"name":"test_PolyElement___pow___correct"},"guarantee":"f ** 0 == 1; f ** 1 == f; f ** 2 == f._pow_generic(2) == f._pow_multinomial(2) == 4 * x ** 2 + 12 * x + 9","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement___pow___correct","statement":"Path(test_PolyElement___pow__(x), f ** 0 == 1; f ** 1 == f; f ** 2 == f._pow_generic(2) == f._pow_multinomial(2) == 4 * x ** 2 + 12 * x + 9)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"101a0fb3bf9b385a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f ** 0 == 1","f ** 1 == f","f ** 2 == f._pow_generic(2) == f._pow_multinomial(2) == 4 * x ** 2 + 12 * x + 9","f ** 3 == f._pow_generic(3) == f._pow_multinomial(3) == 8 * x ** 3 + 36 * x ** 2 + 54 * x + 27","f ** 4 == f._pow_generic(4) == f._pow_multinomial(4) == 16 * x ** 4 + 96 * x ** 3 + 216 * x ** 2 + 216 * x + 81","f ** 5 == f._pow_generic(5) == f._pow_multinomial(5) == 32 * x ** 5 + 240 * x ** 4 + 720 * x ** 3 + 1080 * x ** 2 + 810 * x + 243","f ** 2 == f._pow_generic(2) == f._pow_multinomial(2) == g","f ** 4 == f._pow_generic(4) == f._pow_multinomial(4) == g"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_PolyElement___pow__():
     R, x = ring("x", ZZ, grlex)
     f = 2*x + 3
@@ -1227,16 +1506,24 @@ def test_PolyElement___pow__():
     assert f**4 == f._pow_generic(4) == f._pow_multinomial(4) == g
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_div(), test_PolyElement_div produces the expected output) over Any ║
+# ║ Path(test_PolyElement_div(), f.div([g]) == ([q], r) and f.div([R(1)]) == ([f], 0) and f.div([R(2)]) == ([QQ(1, 2) * x ** 2 + x + 1], 0) and f.div([R(2)]) == ([2 * x ** 2 * y - x * y + 2 * x - y + 4], 0) and f.div([2 * y]) == ([2 * x ** 2 - x - 1], 4 * x + 8) and f.div([g]) == ([0], f) and f.div(G) == (Q, r) and R(3).div(R(2)) == (0, 3) and R(3).div(R(2)) == (QQ(3, 2), 0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_div : Any → {Any | f.div([g]) == ([q...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.div([g]) == ([q], r)                         ║
+# ║   ensures:  f.div([R(1)]) == ([f], 0)                      ║
+# ║   ensures:  f.div([R(2)]) == ([QQ(1, 2) * x ** 2 + x ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_div : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f6dae9646e30cf0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03465ff20ebada67  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_div","kind":"function","src_hash":"65c577b7c8b88ada","in":{"base":"Any"},"out":{"base":"Any","pred":"f.div([g]) == ([q], r) and f.div([R(1)]) == ([f], 0) and f.div([R(2)]) == ([QQ(1, 2) * x ** 2 + x + 1], 0) and f.div([R(2)]) == ([2 * x ** 2 * y - x * y + 2 * x - y + 4], 0) and f.div([2 * y]) == ([2 * x ** 2 - x - 1], 4 * x + 8) and f.div([g]) == ([0], f) and f.div(G) == (Q, r) and f.div(G) == (Q, r) and f.div(G) == (Q, r) and R(3).div(R(2)) == (0, 3) and R(3).div(R(2)) == (QQ(3, 2), 0)"},"spec":{"lhs":"test_PolyElement_div()","rhs":"test_PolyElement_div produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_div_correct"},"guarantee":"test_PolyElement_div produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_div_correct","statement":"Path(test_PolyElement_div(x), test_PolyElement_div produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f6dae9646e30cf0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_div","kind":"function","src_hash":"65c577b7c8b88ada","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.div([g]) == ([q], r) and f.div([R(1)]) == ([f], 0) and f.div([R(2)]) == ([QQ(1, 2) * x ** 2 + x + 1], 0) and f.div([R(2)]) == ([2 * x ** 2 * y - x * y + 2 * x - y + 4], 0) and f.div([2 * y]) == ([2 * x ** 2 - x - 1], 4 * x + 8) and f.div([g]) == ([0], f) and f.div(G) == (Q, r) and R(3).div(R(2)) == (0, 3) and R(3).div(R(2)) == (QQ(3, 2), 0)"},"spec":{"lhs":"test_PolyElement_div()","rhs":"f.div([g]) == ([q], r) and f.div([R(1)]) == ([f], 0) and f.div([R(2)]) == ([QQ(1, 2) * x ** 2 + x + 1], 0) and f.div([R(2)]) == ([2 * x ** 2 * y - x * y + 2 * x - y + 4], 0) and f.div([2 * y]) == ([2 * x ** 2 - x - 1], 4 * x + 8) and f.div([g]) == ([0], f) and f.div(G) == (Q, r) and R(3).div(R(2)) == (0, 3) and R(3).div(R(2)) == (QQ(3, 2), 0)","over":{"base":"Any"},"name":"test_PolyElement_div_correct"},"guarantee":"f.div([g]) == ([q], r); f.div([R(1)]) == ([f], 0); f.div([R(2)]) == ([QQ(1, 2) * x ** 2 + x + 1], 0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_div_correct","statement":"Path(test_PolyElement_div(x), f.div([g]) == ([q], r); f.div([R(1)]) == ([f], 0); f.div([R(2)]) == ([QQ(1, 2) * x ** 2 + x + 1], 0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03465ff20ebada67","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.div([g]) == ([q], r)","f.div([R(1)]) == ([f], 0)","f.div([R(2)]) == ([QQ(1, 2) * x ** 2 + x + 1], 0)","f.div([R(2)]) == ([2 * x ** 2 * y - x * y + 2 * x - y + 4], 0)","f.div([2 * y]) == ([2 * x ** 2 - x - 1], 4 * x + 8)","f.div([g]) == ([0], f)","f.div(G) == (Q, r)","R(3).div(R(2)) == (0, 3)","R(3).div(R(2)) == (QQ(3, 2), 0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_div():
     R, x = ring("x", ZZ, grlex)
 
@@ -1297,16 +1584,24 @@ def test_PolyElement_div():
     assert R(3).div(R(2)) == (QQ(3, 2), 0)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_rem(), test_PolyElement_rem produces the expected output) over Any ║
+# ║ Path(test_PolyElement_rem(), f.rem([g]) == f.div([g])[1] == r and f.rem([R(2)]) == f.div([R(2)])[1] == 0 and f.rem([2 * y]) == f.div([2 * y])[1] == 4 * x + 8 and f.rem([g]) == f.div([g])[1] == f and f.rem(G) == f.div(G)[1] == r) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_rem : Any → {Any | f.rem([g]) == f.d...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.rem([g]) == f.div([g])[1] == r               ║
+# ║   ensures:  f.rem([R(2)]) == f.div([R(2)])[1] == 0         ║
+# ║   ensures:  f.rem([2 * y]) == f.div([2 * y])[1] == 4 ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_rem : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 01e2d7195f6283ea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eeac8dfcb092f595  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_rem","kind":"function","src_hash":"237788e33eb25e13","in":{"base":"Any"},"out":{"base":"Any","pred":"f.rem([g]) == f.div([g])[1] == r and f.rem([R(2)]) == f.div([R(2)])[1] == 0 and f.rem([2 * y]) == f.div([2 * y])[1] == 4 * x + 8 and f.rem([g]) == f.div([g])[1] == f and f.rem(G) == f.div(G)[1] == r and f.rem(G) == f.div(G)[1] == r and f.rem(G) == f.div(G)[1] == r"},"spec":{"lhs":"test_PolyElement_rem()","rhs":"test_PolyElement_rem produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_rem_correct"},"guarantee":"test_PolyElement_rem produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_rem_correct","statement":"Path(test_PolyElement_rem(x), test_PolyElement_rem produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01e2d7195f6283ea"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_rem","kind":"function","src_hash":"237788e33eb25e13","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.rem([g]) == f.div([g])[1] == r and f.rem([R(2)]) == f.div([R(2)])[1] == 0 and f.rem([2 * y]) == f.div([2 * y])[1] == 4 * x + 8 and f.rem([g]) == f.div([g])[1] == f and f.rem(G) == f.div(G)[1] == r"},"spec":{"lhs":"test_PolyElement_rem()","rhs":"f.rem([g]) == f.div([g])[1] == r and f.rem([R(2)]) == f.div([R(2)])[1] == 0 and f.rem([2 * y]) == f.div([2 * y])[1] == 4 * x + 8 and f.rem([g]) == f.div([g])[1] == f and f.rem(G) == f.div(G)[1] == r","over":{"base":"Any"},"name":"test_PolyElement_rem_correct"},"guarantee":"f.rem([g]) == f.div([g])[1] == r; f.rem([R(2)]) == f.div([R(2)])[1] == 0; f.rem([2 * y]) == f.div([2 * y])[1] == 4 * x + 8","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_rem_correct","statement":"Path(test_PolyElement_rem(x), f.rem([g]) == f.div([g])[1] == r; f.rem([R(2)]) == f.div([R(2)])[1] == 0; f.rem([2 * y]) == f.div([2 * y])[1] == 4 * x + 8)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eeac8dfcb092f595","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.rem([g]) == f.div([g])[1] == r","f.rem([R(2)]) == f.div([R(2)])[1] == 0","f.rem([2 * y]) == f.div([2 * y])[1] == 4 * x + 8","f.rem([g]) == f.div([g])[1] == f","f.rem(G) == f.div(G)[1] == r"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_rem():
     R, x = ring("x", ZZ, grlex)
 
@@ -1346,16 +1641,24 @@ def test_PolyElement_rem():
     assert f.rem(G) == f.div(G)[1] == r
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_deflate(), test_PolyElement_deflate produces the expected output) over Any ║
+# ║ Path(test_PolyElement_deflate(), (2 * x ** 2).deflate(x ** 4 + 4 * x ** 2 + 1) == ((2,), [2 * x, x ** 2 + 4 * x + 1]) and R(0).deflate(R(0)) == ((1, 1), [0, 0]) and R(1).deflate(R(0)) == ((1, 1), [1, 0]) and R(1).deflate(R(2)) == ((1, 1), [1, 2]) and R(1).deflate(2 * y) == ((1, 1), [1, 2 * y]) and (2 * y).deflate(2 * y) == ((1, 1), [2 * y, 2 * y]) and R(2).deflate(2 * y ** 2) == ((1, 2), [2, 2 * y]) and (2 * y ** 2).deflate(2 * y ** 2) == ((1, 2), [2 * y, 2 * y]) and f.deflate(g) == ((2, 1), [x ** 2 * y ** 2 + x * y + 1, x * y ** 3 + x * y + 1])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_deflate : Any → {Any | R(0).deflate(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (2 * x ** 2).deflate(x ** 4 + 4 * x ** 2 ...   ║
+# ║   ensures:  R(0).deflate(R(0)) == ((1, 1), [0, 0])         ║
+# ║   ensures:  R(1).deflate(R(0)) == ((1, 1), [1, 0])         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_deflate : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a9420a0c1c838803  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef59184457aab83d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_deflate","kind":"function","src_hash":"796e4abc87260912","in":{"base":"Any"},"out":{"base":"Any","pred":"R(0).deflate(R(0)) == ((1, 1), [0, 0]) and R(1).deflate(R(0)) == ((1, 1), [1, 0]) and R(1).deflate(R(2)) == ((1, 1), [1, 2]) and R(1).deflate(2 * y) == ((1, 1), [1, 2 * y]) and (2 * y).deflate(2 * y) == ((1, 1), [2 * y, 2 * y]) and R(2).deflate(2 * y ** 2) == ((1, 2), [2, 2 * y]) and (2 * y ** 2).deflate(2 * y ** 2) == ((1, 2), [2 * y, 2 * y]) and f.deflate(g) == ((2, 1), [x ** 2 * y ** 2 + x * y + 1, x * y ** 3 + x * y + 1])"},"spec":{"lhs":"test_PolyElement_deflate()","rhs":"test_PolyElement_deflate produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_deflate_correct"},"guarantee":"test_PolyElement_deflate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_deflate_correct","statement":"Path(test_PolyElement_deflate(x), test_PolyElement_deflate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9420a0c1c838803"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_deflate","kind":"function","src_hash":"796e4abc87260912","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (2 * x ** 2).deflate(x ** 4 + 4 * x ** 2 + 1) == ((2,), [2 * x, x ** 2 + 4 * x + 1]) and R(0).deflate(R(0)) == ((1, 1), [0, 0]) and R(1).deflate(R(0)) == ((1, 1), [1, 0]) and R(1).deflate(R(2)) == ((1, 1), [1, 2]) and R(1).deflate(2 * y) == ((1, 1), [1, 2 * y]) and (2 * y).deflate(2 * y) == ((1, 1), [2 * y, 2 * y]) and R(2).deflate(2 * y ** 2) == ((1, 2), [2, 2 * y]) and (2 * y ** 2).deflate(2 * y ** 2) == ((1, 2), [2 * y, 2 * y]) and f.deflate(g) == ((2, 1), [x ** 2 * y ** 2 + x * y + 1, x * y ** 3 + x * y + 1])"},"spec":{"lhs":"test_PolyElement_deflate()","rhs":"(2 * x ** 2).deflate(x ** 4 + 4 * x ** 2 + 1) == ((2,), [2 * x, x ** 2 + 4 * x + 1]) and R(0).deflate(R(0)) == ((1, 1), [0, 0]) and R(1).deflate(R(0)) == ((1, 1), [1, 0]) and R(1).deflate(R(2)) == ((1, 1), [1, 2]) and R(1).deflate(2 * y) == ((1, 1), [1, 2 * y]) and (2 * y).deflate(2 * y) == ((1, 1), [2 * y, 2 * y]) and R(2).deflate(2 * y ** 2) == ((1, 2), [2, 2 * y]) and (2 * y ** 2).deflate(2 * y ** 2) == ((1, 2), [2 * y, 2 * y]) and f.deflate(g) == ((2, 1), [x ** 2 * y ** 2 + x * y + 1, x * y ** 3 + x * y + 1])","over":{"base":"Any"},"name":"test_PolyElement_deflate_correct"},"guarantee":"(2 * x ** 2).deflate(x ** 4 + 4 * x ** 2 + 1) == ((2,), [2 * x, x ** 2 + 4 * x + 1]); R(0).deflate(R(0)) == ((1, 1), [0, 0]); R(1).deflate(R(0)) == ((1, 1), [1, 0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_deflate_correct","statement":"Path(test_PolyElement_deflate(x), (2 * x ** 2).deflate(x ** 4 + 4 * x ** 2 + 1) == ((2,), [2 * x, x ** 2 + 4 * x + 1]); R(0).deflate(R(0)) == ((1, 1), [0, 0]); R(1).deflate(R(0)) == ((1, 1), [1, 0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef59184457aab83d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(2 * x ** 2).deflate(x ** 4 + 4 * x ** 2 + 1) == ((2,), [2 * x, x ** 2 + 4 * x + 1])","R(0).deflate(R(0)) == ((1, 1), [0, 0])","R(1).deflate(R(0)) == ((1, 1), [1, 0])","R(1).deflate(R(2)) == ((1, 1), [1, 2])","R(1).deflate(2 * y) == ((1, 1), [1, 2 * y])","(2 * y).deflate(2 * y) == ((1, 1), [2 * y, 2 * y])","R(2).deflate(2 * y ** 2) == ((1, 2), [2, 2 * y])","(2 * y ** 2).deflate(2 * y ** 2) == ((1, 2), [2 * y, 2 * y])","f.deflate(g) == ((2, 1), [x ** 2 * y ** 2 + x * y + 1, x * y ** 3 + x * y + 1])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_deflate():
     R, x = ring("x", ZZ)
 
@@ -1377,16 +1680,24 @@ def test_PolyElement_deflate():
     assert f.deflate(g) == ((2, 1), [x**2*y**2 + x*y + 1, x*y**3 + x*y + 1])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_clear_denoms(), test_PolyElement_clear_denoms produces the expected output) over Any ║
+# ║ Path(test_PolyElement_clear_denoms(), R(1).clear_denoms() == (ZZ(1), 1) and R(7).clear_denoms() == (ZZ(1), 7) and R(QQ(7, 3)).clear_denoms() == (3, 7) and (3 * x ** 2 + x).clear_denoms() == (1, 3 * x ** 2 + x) and (x ** 2 + QQ(1, 2) * x).clear_denoms() == (2, 2 * x ** 2 + x) and [f.clear_denoms()[1].set_ring(rZZ) for f in F] == G) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_clear_denoms : Any → {Any | R(1).cle...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  R(1).clear_denoms() == (ZZ(1), 1)              ║
+# ║   ensures:  R(7).clear_denoms() == (ZZ(1), 7)              ║
+# ║   ensures:  R(QQ(7, 3)).clear_denoms() == (3, 7)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_clear_denoms : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2ffd8ecc643768b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d78939be80008079  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_clear_denoms","kind":"function","src_hash":"15bd79f24a57f182","in":{"base":"Any"},"out":{"base":"Any","pred":"R(1).clear_denoms() == (ZZ(1), 1) and R(7).clear_denoms() == (ZZ(1), 7) and R(QQ(7, 3)).clear_denoms() == (3, 7) and R(QQ(7, 3)).clear_denoms() == (3, 7) and (3 * x ** 2 + x).clear_denoms() == (1, 3 * x ** 2 + x) and (x ** 2 + QQ(1, 2) * x).clear_denoms() == (2, 2 * x ** 2 + x) and [f.clear_denoms()[1].set_ring(rZZ) for f in F] == G"},"spec":{"lhs":"test_PolyElement_clear_denoms()","rhs":"test_PolyElement_clear_denoms produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_clear_denoms_correct"},"guarantee":"test_PolyElement_clear_denoms produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_clear_denoms_correct","statement":"Path(test_PolyElement_clear_denoms(x), test_PolyElement_clear_denoms produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2ffd8ecc643768b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_clear_denoms","kind":"function","src_hash":"15bd79f24a57f182","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: R(1).clear_denoms() == (ZZ(1), 1) and R(7).clear_denoms() == (ZZ(1), 7) and R(QQ(7, 3)).clear_denoms() == (3, 7) and (3 * x ** 2 + x).clear_denoms() == (1, 3 * x ** 2 + x) and (x ** 2 + QQ(1, 2) * x).clear_denoms() == (2, 2 * x ** 2 + x) and [f.clear_denoms()[1].set_ring(rZZ) for f in F] == G"},"spec":{"lhs":"test_PolyElement_clear_denoms()","rhs":"R(1).clear_denoms() == (ZZ(1), 1) and R(7).clear_denoms() == (ZZ(1), 7) and R(QQ(7, 3)).clear_denoms() == (3, 7) and (3 * x ** 2 + x).clear_denoms() == (1, 3 * x ** 2 + x) and (x ** 2 + QQ(1, 2) * x).clear_denoms() == (2, 2 * x ** 2 + x) and [f.clear_denoms()[1].set_ring(rZZ) for f in F] == G","over":{"base":"Any"},"name":"test_PolyElement_clear_denoms_correct"},"guarantee":"R(1).clear_denoms() == (ZZ(1), 1); R(7).clear_denoms() == (ZZ(1), 7); R(QQ(7, 3)).clear_denoms() == (3, 7)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_clear_denoms_correct","statement":"Path(test_PolyElement_clear_denoms(x), R(1).clear_denoms() == (ZZ(1), 1); R(7).clear_denoms() == (ZZ(1), 7); R(QQ(7, 3)).clear_denoms() == (3, 7))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d78939be80008079","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["R(1).clear_denoms() == (ZZ(1), 1)","R(7).clear_denoms() == (ZZ(1), 7)","R(QQ(7, 3)).clear_denoms() == (3, 7)","(3 * x ** 2 + x).clear_denoms() == (1, 3 * x ** 2 + x)","(x ** 2 + QQ(1, 2) * x).clear_denoms() == (2, 2 * x ** 2 + x)","[f.clear_denoms()[1].set_ring(rZZ) for f in F] == G"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_clear_denoms():
     R, x,y = ring("x,y", QQ)
 
@@ -1441,16 +1752,24 @@ def test_PolyElement_clear_denoms():
     assert [ f.clear_denoms()[1].set_ring(rZZ) for f in F ] == G
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_cofactors(), test_PolyElement_cofactors produces the expected output) over Any ║
+# ║ Path(test_PolyElement_cofactors(), f.cofactors(g) == (0, 0, 0) and f.cofactors(g) == (2, 1, 0) and f.cofactors(g) == (2, -1, 0) and f.cofactors(g) == (2, 0, -1) and f.cofactors(g) == (2 * x + 4, 0, 1) and f.cofactors(g) == (2 * x + 4, 1, 0) and f.cofactors(g) == (2, 1, 1) and f.cofactors(g) == (2, -1, 1) and f.cofactors(g) == (2, 1, -1) and f.cofactors(g) == (2, -1, -1) and f.cofactors(g) == (1, x ** 2 + 2 * x + 1, 1) and f.cofactors(g) == (1, x ** 2 + 2 * x + 1, 2) and f.cofactors(g) == (2, x ** 2 + 2 * x + 1, 1) and f.cofactors(g) == (2, 1, x ** 2 + 2 * x + 1) and f.cofactors(g) == (x + 1, 2 * x + 2, 1) and f.cofactors(g) == (x + 1, 1, 2 * x + 2) and f.cofactors(g) == (t + 1, t + 1, 2) and f.cofactors(g) == (h, cff, cfg) and g.cofactors(f) == (h, cfg, cff) and f.cofactors(g) == (h, g, QQ(1, 2)) and g.cofactors(f) == (h, QQ(1, 2), g) and f.cofactors(g) == (h, f / h, g / h) and g.cofactors(f) == (h, g / h, f / h)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_cofactors : Any → {Any | f.cofactors...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.cofactors(g) == (0, 0, 0)                    ║
+# ║   ensures:  f.cofactors(g) == (2, 1, 0)                    ║
+# ║   ensures:  f.cofactors(g) == (2, -1, 0)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_cofactors : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33581958d4294963  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 570e57658b82bcce  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_cofactors","kind":"function","src_hash":"57f48d6bed6264e5","in":{"base":"Any"},"out":{"base":"Any","pred":"f.cofactors(g) == (0, 0, 0) and f.cofactors(g) == (2, 1, 0) and f.cofactors(g) == (2, -1, 0) and f.cofactors(g) == (2, 0, -1) and f.cofactors(g) == (2 * x + 4, 0, 1) and f.cofactors(g) == (2 * x + 4, 1, 0) and f.cofactors(g) == (2, 1, 1) and f.cofactors(g) == (2, -1, 1) and f.cofactors(g) == (2, 1, -1) and f.cofactors(g) == (2, -1, -1) and f.cofactors(g) == (1, x ** 2 + 2 * x + 1, 1) and f.cofactors(g) == (1, x ** 2 + 2 * x + 1, 2) and f.cofactors(g) == (2, x ** 2 + 2 * x + 1, 1) and f.cofactors(g) == (2, 1, x ** 2 + 2 * x + 1) and f.cofactors(g) == (x + 1, 2 * x + 2, 1) and f.cofactors(g) == (x + 1, 1, 2 * x + 2) and f.cofactors(g) == (t + 1, t + 1, 2) and f.cofactors(g) == (h, cff, cfg) and g.cofactors(f) == (h, cfg, cff) and f.cofactors(g) == (h, g, QQ(1, 2)) and g.cofactors(f) == (h, QQ(1, 2), g) and f.cofactors(g) == (h, f / h, g / h) and g.cofactors(f) == (h, g / h, f / h)"},"spec":{"lhs":"test_PolyElement_cofactors()","rhs":"test_PolyElement_cofactors produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_cofactors_correct"},"guarantee":"test_PolyElement_cofactors produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_cofactors_correct","statement":"Path(test_PolyElement_cofactors(x), test_PolyElement_cofactors produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33581958d4294963"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_cofactors","kind":"function","src_hash":"57f48d6bed6264e5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.cofactors(g) == (0, 0, 0) and f.cofactors(g) == (2, 1, 0) and f.cofactors(g) == (2, -1, 0) and f.cofactors(g) == (2, 0, -1) and f.cofactors(g) == (2 * x + 4, 0, 1) and f.cofactors(g) == (2 * x + 4, 1, 0) and f.cofactors(g) == (2, 1, 1) and f.cofactors(g) == (2, -1, 1) and f.cofactors(g) == (2, 1, -1) and f.cofactors(g) == (2, -1, -1) and f.cofactors(g) == (1, x ** 2 + 2 * x + 1, 1) and f.cofactors(g) == (1, x ** 2 + 2 * x + 1, 2) and f.cofactors(g) == (2, x ** 2 + 2 * x + 1, 1) and f.cofactors(g) == (2, 1, x ** 2 + 2 * x + 1) and f.cofactors(g) == (x + 1, 2 * x + 2, 1) and f.cofactors(g) == (x + 1, 1, 2 * x + 2) and f.cofactors(g) == (t + 1, t + 1, 2) and f.cofactors(g) == (h, cff, cfg) and g.cofactors(f) == (h, cfg, cff) and f.cofactors(g) == (h, g, QQ(1, 2)) and g.cofactors(f) == (h, QQ(1, 2), g) and f.cofactors(g) == (h, f / h, g / h) and g.cofactors(f) == (h, g / h, f / h)"},"spec":{"lhs":"test_PolyElement_cofactors()","rhs":"f.cofactors(g) == (0, 0, 0) and f.cofactors(g) == (2, 1, 0) and f.cofactors(g) == (2, -1, 0) and f.cofactors(g) == (2, 0, -1) and f.cofactors(g) == (2 * x + 4, 0, 1) and f.cofactors(g) == (2 * x + 4, 1, 0) and f.cofactors(g) == (2, 1, 1) and f.cofactors(g) == (2, -1, 1) and f.cofactors(g) == (2, 1, -1) and f.cofactors(g) == (2, -1, -1) and f.cofactors(g) == (1, x ** 2 + 2 * x + 1, 1) and f.cofactors(g) == (1, x ** 2 + 2 * x + 1, 2) and f.cofactors(g) == (2, x ** 2 + 2 * x + 1, 1) and f.cofactors(g) == (2, 1, x ** 2 + 2 * x + 1) and f.cofactors(g) == (x + 1, 2 * x + 2, 1) and f.cofactors(g) == (x + 1, 1, 2 * x + 2) and f.cofactors(g) == (t + 1, t + 1, 2) and f.cofactors(g) == (h, cff, cfg) and g.cofactors(f) == (h, cfg, cff) and f.cofactors(g) == (h, g, QQ(1, 2)) and g.cofactors(f) == (h, QQ(1, 2), g) and f.cofactors(g) == (h, f / h, g / h) and g.cofactors(f) == (h, g / h, f / h)","over":{"base":"Any"},"name":"test_PolyElement_cofactors_correct"},"guarantee":"f.cofactors(g) == (0, 0, 0); f.cofactors(g) == (2, 1, 0); f.cofactors(g) == (2, -1, 0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_cofactors_correct","statement":"Path(test_PolyElement_cofactors(x), f.cofactors(g) == (0, 0, 0); f.cofactors(g) == (2, 1, 0); f.cofactors(g) == (2, -1, 0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"570e57658b82bcce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.cofactors(g) == (0, 0, 0)","f.cofactors(g) == (2, 1, 0)","f.cofactors(g) == (2, -1, 0)","f.cofactors(g) == (2, 0, -1)","f.cofactors(g) == (2 * x + 4, 0, 1)","f.cofactors(g) == (2 * x + 4, 1, 0)","f.cofactors(g) == (2, 1, 1)","f.cofactors(g) == (2, -1, 1)","f.cofactors(g) == (2, 1, -1)","f.cofactors(g) == (2, -1, -1)","f.cofactors(g) == (1, x ** 2 + 2 * x + 1, 1)","f.cofactors(g) == (1, x ** 2 + 2 * x + 1, 2)","f.cofactors(g) == (2, x ** 2 + 2 * x + 1, 1)","f.cofactors(g) == (2, 1, x ** 2 + 2 * x + 1)","f.cofactors(g) == (x + 1, 2 * x + 2, 1)","f.cofactors(g) == (x + 1, 1, 2 * x + 2)","f.cofactors(g) == (t + 1, t + 1, 2)","f.cofactors(g) == (h, cff, cfg)","g.cofactors(f) == (h, cfg, cff)","f.cofactors(g) == (h, g, QQ(1, 2))","g.cofactors(f) == (h, QQ(1, 2), g)","f.cofactors(g) == (h, f / h, g / h)","g.cofactors(f) == (h, g / h, f / h)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_cofactors():
     R, x, y = ring("x,y", ZZ)
 
@@ -1533,16 +1852,22 @@ def test_PolyElement_cofactors():
     assert g.cofactors(f) == (h, g/h, f/h)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_gcd(), test_PolyElement_gcd produces the expected output) over Any ║
+# ║ Path(test_PolyElement_gcd(), f.gcd(g) == x + 1) over Any   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_gcd : Any → {Any | f.gcd(g) == x + 1}     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.gcd(g) == x + 1                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_gcd : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5787e34d65b213f8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 34e6c4ade0821ee7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_gcd","kind":"function","src_hash":"60a90bfe2a24defe","in":{"base":"Any"},"out":{"base":"Any","pred":"f.gcd(g) == x + 1"},"spec":{"lhs":"test_PolyElement_gcd()","rhs":"test_PolyElement_gcd produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_gcd_correct"},"guarantee":"test_PolyElement_gcd produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_gcd_correct","statement":"Path(test_PolyElement_gcd(x), test_PolyElement_gcd produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5787e34d65b213f8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_gcd","kind":"function","src_hash":"60a90bfe2a24defe","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.gcd(g) == x + 1"},"spec":{"lhs":"test_PolyElement_gcd()","rhs":"f.gcd(g) == x + 1","over":{"base":"Any"},"name":"test_PolyElement_gcd_correct"},"guarantee":"f.gcd(g) == x + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_gcd_correct","statement":"Path(test_PolyElement_gcd(x), f.gcd(g) == x + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34e6c4ade0821ee7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.gcd(g) == x + 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_gcd():
     R, x, y = ring("x,y", QQ)
 
@@ -1552,16 +1877,24 @@ def test_PolyElement_gcd():
     assert f.gcd(g) == x + 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_cancel(), test_PolyElement_cancel produces the expected output) over Any ║
+# ║ Path(test_PolyElement_cancel(), f.cancel(g) == (F, G) and (-f).cancel(g) == (-F, G) and f.cancel(-g) == (-F, G) and f.cancel(g) == ((-x ** 2 - 4) * t, 4 * t ** 2 + 2 * x ** 2 + 4)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_cancel : Any → {Any | f.cancel(g) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.cancel(g) == (F, G)                          ║
+# ║   ensures:  (-f).cancel(g) == (-F, G)                      ║
+# ║   ensures:  f.cancel(-g) == (-F, G)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_cancel : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c21c1b60d65104be  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be1f62e05c7c77ea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_cancel","kind":"function","src_hash":"73ee66f635f86acd","in":{"base":"Any"},"out":{"base":"Any","pred":"f.cancel(g) == (F, G) and (-f).cancel(g) == (-F, G) and f.cancel(-g) == (-F, G) and f.cancel(g) == (F, G) and (-f).cancel(g) == (-F, G) and f.cancel(-g) == (-F, G) and f.cancel(g) == ((-x ** 2 - 4) * t, 4 * t ** 2 + 2 * x ** 2 + 4)"},"spec":{"lhs":"test_PolyElement_cancel()","rhs":"test_PolyElement_cancel produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_cancel_correct"},"guarantee":"test_PolyElement_cancel produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_cancel_correct","statement":"Path(test_PolyElement_cancel(x), test_PolyElement_cancel produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c21c1b60d65104be"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_cancel","kind":"function","src_hash":"73ee66f635f86acd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.cancel(g) == (F, G) and (-f).cancel(g) == (-F, G) and f.cancel(-g) == (-F, G) and f.cancel(g) == ((-x ** 2 - 4) * t, 4 * t ** 2 + 2 * x ** 2 + 4)"},"spec":{"lhs":"test_PolyElement_cancel()","rhs":"f.cancel(g) == (F, G) and (-f).cancel(g) == (-F, G) and f.cancel(-g) == (-F, G) and f.cancel(g) == ((-x ** 2 - 4) * t, 4 * t ** 2 + 2 * x ** 2 + 4)","over":{"base":"Any"},"name":"test_PolyElement_cancel_correct"},"guarantee":"f.cancel(g) == (F, G); (-f).cancel(g) == (-F, G); f.cancel(-g) == (-F, G)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_cancel_correct","statement":"Path(test_PolyElement_cancel(x), f.cancel(g) == (F, G); (-f).cancel(g) == (-F, G); f.cancel(-g) == (-F, G))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be1f62e05c7c77ea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.cancel(g) == (F, G)","(-f).cancel(g) == (-F, G)","f.cancel(-g) == (-F, G)","f.cancel(g) == ((-x ** 2 - 4) * t, 4 * t ** 2 + 2 * x ** 2 + 4)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_cancel():
     R, x, y = ring("x,y", ZZ)
 
@@ -1596,16 +1929,24 @@ def test_PolyElement_cancel():
     assert f.cancel(g) == ((-x**2 - 4)*t, 4*t**2 + 2*x**2 + 4)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_max_norm(), test_PolyElement_max_norm produces the expected output) over Any ║
+# ║ Path(test_PolyElement_max_norm(), R(0).max_norm() == 0 and R(1).max_norm() == 1 and (x ** 3 + 4 * x ** 2 + 2 * x + 3).max_norm() == 4) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_max_norm : Any → {Any | R(0).max_nor...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  R(0).max_norm() == 0                           ║
+# ║   ensures:  R(1).max_norm() == 1                           ║
+# ║   ensures:  (x ** 3 + 4 * x ** 2 + 2 * x + 3).max_nor...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_max_norm : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 49989d01c826b227  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad144ff43ae434dd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_max_norm","kind":"function","src_hash":"5871da0e9b43df1a","in":{"base":"Any"},"out":{"base":"Any","pred":"R(0).max_norm() == 0 and R(1).max_norm() == 1 and (x ** 3 + 4 * x ** 2 + 2 * x + 3).max_norm() == 4"},"spec":{"lhs":"test_PolyElement_max_norm()","rhs":"test_PolyElement_max_norm produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_max_norm_correct"},"guarantee":"test_PolyElement_max_norm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_max_norm_correct","statement":"Path(test_PolyElement_max_norm(x), test_PolyElement_max_norm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49989d01c826b227"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_max_norm","kind":"function","src_hash":"5871da0e9b43df1a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: R(0).max_norm() == 0 and R(1).max_norm() == 1 and (x ** 3 + 4 * x ** 2 + 2 * x + 3).max_norm() == 4"},"spec":{"lhs":"test_PolyElement_max_norm()","rhs":"R(0).max_norm() == 0 and R(1).max_norm() == 1 and (x ** 3 + 4 * x ** 2 + 2 * x + 3).max_norm() == 4","over":{"base":"Any"},"name":"test_PolyElement_max_norm_correct"},"guarantee":"R(0).max_norm() == 0; R(1).max_norm() == 1; (x ** 3 + 4 * x ** 2 + 2 * x + 3).max_norm() == 4","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_max_norm_correct","statement":"Path(test_PolyElement_max_norm(x), R(0).max_norm() == 0; R(1).max_norm() == 1; (x ** 3 + 4 * x ** 2 + 2 * x + 3).max_norm() == 4)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad144ff43ae434dd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["R(0).max_norm() == 0","R(1).max_norm() == 1","(x ** 3 + 4 * x ** 2 + 2 * x + 3).max_norm() == 4"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_max_norm():
     R, x, y = ring("x,y", ZZ)
 
@@ -1615,16 +1956,24 @@ def test_PolyElement_max_norm():
     assert (x**3 + 4*x**2 + 2*x + 3).max_norm() == 4
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_l1_norm(), test_PolyElement_l1_norm produces the expected output) over Any ║
+# ║ Path(test_PolyElement_l1_norm(), R(0).l1_norm() == 0 and R(1).l1_norm() == 1 and (x ** 3 + 4 * x ** 2 + 2 * x + 3).l1_norm() == 10) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_l1_norm : Any → {Any | R(0).l1_norm(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  R(0).l1_norm() == 0                            ║
+# ║   ensures:  R(1).l1_norm() == 1                            ║
+# ║   ensures:  (x ** 3 + 4 * x ** 2 + 2 * x + 3).l1_norm...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_l1_norm : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b84c9513c1fd4433  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8e8404bd3fc1962  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_l1_norm","kind":"function","src_hash":"b8f8c2b549275907","in":{"base":"Any"},"out":{"base":"Any","pred":"R(0).l1_norm() == 0 and R(1).l1_norm() == 1 and (x ** 3 + 4 * x ** 2 + 2 * x + 3).l1_norm() == 10"},"spec":{"lhs":"test_PolyElement_l1_norm()","rhs":"test_PolyElement_l1_norm produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_l1_norm_correct"},"guarantee":"test_PolyElement_l1_norm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_l1_norm_correct","statement":"Path(test_PolyElement_l1_norm(x), test_PolyElement_l1_norm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b84c9513c1fd4433"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_l1_norm","kind":"function","src_hash":"b8f8c2b549275907","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: R(0).l1_norm() == 0 and R(1).l1_norm() == 1 and (x ** 3 + 4 * x ** 2 + 2 * x + 3).l1_norm() == 10"},"spec":{"lhs":"test_PolyElement_l1_norm()","rhs":"R(0).l1_norm() == 0 and R(1).l1_norm() == 1 and (x ** 3 + 4 * x ** 2 + 2 * x + 3).l1_norm() == 10","over":{"base":"Any"},"name":"test_PolyElement_l1_norm_correct"},"guarantee":"R(0).l1_norm() == 0; R(1).l1_norm() == 1; (x ** 3 + 4 * x ** 2 + 2 * x + 3).l1_norm() == 10","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_l1_norm_correct","statement":"Path(test_PolyElement_l1_norm(x), R(0).l1_norm() == 0; R(1).l1_norm() == 1; (x ** 3 + 4 * x ** 2 + 2 * x + 3).l1_norm() == 10)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8e8404bd3fc1962","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["R(0).l1_norm() == 0","R(1).l1_norm() == 1","(x ** 3 + 4 * x ** 2 + 2 * x + 3).l1_norm() == 10"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_l1_norm():
     R, x, y = ring("x,y", ZZ)
 
@@ -1634,16 +1983,24 @@ def test_PolyElement_l1_norm():
     assert (x**3 + 4*x**2 + 2*x + 3).l1_norm() == 10
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_diff(), test_PolyElement_diff produces the expected output) over Any ║
+# ║ Path(test_PolyElement_diff(), f.diff(X[0]) == QQ(2304, 5) * X[0] ** 7 * X[1] ** 6 * X[4] ** 3 * X[10] ** 2 + 16 * X[0] * X[2] ** 3 * X[4] ** 3 + 4 * X[0] and f.diff(X[4]) == QQ(864, 5) * X[0] ** 8 * X[1] ** 6 * X[4] ** 2 * X[10] ** 2 + 24 * X[0] ** 2 * X[2] ** 3 * X[4] ** 2 and f.diff(X[10]) == QQ(576, 5) * X[0] ** 8 * X[1] ** 6 * X[4] ** 3 * X[10]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_diff : Any → {Any | f.diff(X[10]) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.diff(X[0]) == QQ(2304, 5) * X[0] ** 7 *...   ║
+# ║   ensures:  f.diff(X[4]) == QQ(864, 5) * X[0] ** 8 * ...   ║
+# ║   ensures:  f.diff(X[10]) == QQ(576, 5) * X[0] ** 8 *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_diff : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 62abe2a712a04e04  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 530155a40bed615b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_diff","kind":"function","src_hash":"af432837b0c7d7ae","in":{"base":"Any"},"out":{"base":"Any","pred":"f.diff(X[10]) == QQ(576, 5) * X[0] ** 8 * X[1] ** 6 * X[4] ** 3 * X[10]"},"spec":{"lhs":"test_PolyElement_diff()","rhs":"test_PolyElement_diff produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_diff_correct"},"guarantee":"test_PolyElement_diff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_diff_correct","statement":"Path(test_PolyElement_diff(x), test_PolyElement_diff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62abe2a712a04e04"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_diff","kind":"function","src_hash":"af432837b0c7d7ae","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.diff(X[0]) == QQ(2304, 5) * X[0] ** 7 * X[1] ** 6 * X[4] ** 3 * X[10] ** 2 + 16 * X[0] * X[2] ** 3 * X[4] ** 3 + 4 * X[0] and f.diff(X[4]) == QQ(864, 5) * X[0] ** 8 * X[1] ** 6 * X[4] ** 2 * X[10] ** 2 + 24 * X[0] ** 2 * X[2] ** 3 * X[4] ** 2 and f.diff(X[10]) == QQ(576, 5) * X[0] ** 8 * X[1] ** 6 * X[4] ** 3 * X[10]"},"spec":{"lhs":"test_PolyElement_diff()","rhs":"f.diff(X[0]) == QQ(2304, 5) * X[0] ** 7 * X[1] ** 6 * X[4] ** 3 * X[10] ** 2 + 16 * X[0] * X[2] ** 3 * X[4] ** 3 + 4 * X[0] and f.diff(X[4]) == QQ(864, 5) * X[0] ** 8 * X[1] ** 6 * X[4] ** 2 * X[10] ** 2 + 24 * X[0] ** 2 * X[2] ** 3 * X[4] ** 2 and f.diff(X[10]) == QQ(576, 5) * X[0] ** 8 * X[1] ** 6 * X[4] ** 3 * X[10]","over":{"base":"Any"},"name":"test_PolyElement_diff_correct"},"guarantee":"f.diff(X[0]) == QQ(2304, 5) * X[0] ** 7 * X[1] ** 6 * X[4] ** 3 * X[10] ** 2 + 16 * X[0] * X[2] ** 3 * X[4] ** 3 + 4 * X[0]; f.diff(X[4]) == QQ(864, 5) * X[0] ** 8 * X[1] ** 6 * X[4] ** 2 * X[10] ** 2 + 24 * X[0] ** 2 * X[2] ** 3 * X[4] ** 2; f.diff(X[10]) == QQ(576, 5) * X[0] ** 8 * X[1] ** 6 * X[4] ** 3 * X[10]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_diff_correct","statement":"Path(test_PolyElement_diff(x), f.diff(X[0]) == QQ(2304, 5) * X[0] ** 7 * X[1] ** 6 * X[4] ** 3 * X[10] ** 2 + 16 * X[0] * X[2] ** 3 * X[4] ** 3 + 4 * X[0]; f.diff(X[4]) == QQ(864, 5) * X[0] ** 8 * X[1] ** 6 * X[4] ** 2 * X[10] ** 2 + 24 * X[0] ** 2 * X[2] ** 3 * X[4] ** 2; f.diff(X[10]) == QQ(576, 5) * X[0] ** 8 * X[1] ** 6 * X[4] ** 3 * X[10])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"530155a40bed615b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.diff(X[0]) == QQ(2304, 5) * X[0] ** 7 * X[1] ** 6 * X[4] ** 3 * X[10] ** 2 + 16 * X[0] * X[2] ** 3 * X[4] ** 3 + 4 * X[0]","f.diff(X[4]) == QQ(864, 5) * X[0] ** 8 * X[1] ** 6 * X[4] ** 2 * X[10] ** 2 + 24 * X[0] ** 2 * X[2] ** 3 * X[4] ** 2","f.diff(X[10]) == QQ(576, 5) * X[0] ** 8 * X[1] ** 6 * X[4] ** 3 * X[10]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_diff():
     R, X = xring("x:11", QQ)
 
@@ -1654,16 +2011,24 @@ def test_PolyElement_diff():
     assert f.diff(X[10]) == QQ(576,5)*X[0]**8*X[1]**6*X[4]**3*X[10]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement___call__(), test_PolyElement___call__ produces the expected output) over Any ║
+# ║ Path(test_PolyElement___call__(), f(0) == 1 and f(1) == 4 and f(0, 0) == 1 and f(1, 7) == 53 and f(0) == Ry.y ** 2 + 1 and f(1) == Ry.y ** 2 + 4) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement___call__ : Any → {Any | f(0) == 1 an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(0) == 1                                      ║
+# ║   ensures:  f(1) == 4                                      ║
+# ║   ensures:  f(0, 0) == 1                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement___call__ : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45d78f175eabb638  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e117a5c88025e94d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement___call__","kind":"function","src_hash":"509a9b0eab327c1b","in":{"base":"Any"},"out":{"base":"Any","pred":"f(0) == 1 and f(1) == 4 and f(0, 0) == 1 and f(1, 7) == 53 and f(0) == Ry.y ** 2 + 1 and f(1) == Ry.y ** 2 + 4"},"spec":{"lhs":"test_PolyElement___call__()","rhs":"test_PolyElement___call__ produces the expected output","over":{"base":"Any"},"name":"test_PolyElement___call___correct"},"guarantee":"test_PolyElement___call__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement___call___correct","statement":"Path(test_PolyElement___call__(x), test_PolyElement___call__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45d78f175eabb638"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement___call__","kind":"function","src_hash":"509a9b0eab327c1b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(0) == 1 and f(1) == 4 and f(0, 0) == 1 and f(1, 7) == 53 and f(0) == Ry.y ** 2 + 1 and f(1) == Ry.y ** 2 + 4"},"spec":{"lhs":"test_PolyElement___call__()","rhs":"f(0) == 1 and f(1) == 4 and f(0, 0) == 1 and f(1, 7) == 53 and f(0) == Ry.y ** 2 + 1 and f(1) == Ry.y ** 2 + 4","over":{"base":"Any"},"name":"test_PolyElement___call___correct"},"guarantee":"f(0) == 1; f(1) == 4; f(0, 0) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement___call___correct","statement":"Path(test_PolyElement___call__(x), f(0) == 1; f(1) == 4; f(0, 0) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e117a5c88025e94d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(0) == 1","f(1) == 4","f(0, 0) == 1","f(1, 7) == 53","f(0) == Ry.y ** 2 + 1","f(1) == Ry.y ** 2 + 4"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_PolyElement___call__():
     R, x = ring("x", ZZ)
     f = 3*x + 1
@@ -1695,7 +2060,12 @@ def test_PolyElement___call__():
     raises(CoercionFailed, lambda: f(QQ(1,7), QQ(1,7)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_evaluate(), test_PolyElement_evaluate produces the expected output) over {Any | isinstance(r, PolyElement)} ║
+# ║ Path(test_PolyElement_evaluate(), r == 3 and (not isinstance(r, PolyElement)) and r == 3 and R.drop(x).is_element(r) and r == 3 and R.drop(x, y).is_element(r) and r == 3 and R.drop(y).is_element(r) and r == 3 and R.drop(y, x).is_element(r)) over {Any | isinstance(r, PolyElement)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  r == 3 and (not isinstance(r, PolyElement))    ║
+# ║   ensures:  r == 3 and R.drop(x).is_element(r)             ║
+# ║   ensures:  r == 3 and R.drop(x, y).is_element(r)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_PolyElement_evaluate : {Any | isinstance(r, Poly...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1707,9 +2077,12 @@ def test_PolyElement___call__():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.9ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | c074f95a...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_evaluate","kind":"function","src_hash":"27f4c51358f05c2c","in":{"base":"Any","pred":"isinstance(r, PolyElement)"},"out":{"base":"Any","pred":"r == 3 and (not isinstance(r, PolyElement)) and r == 3 and R.drop(x).is_element(r) and r == 3 and R.drop(x, y).is_element(r) and r == 3 and R.drop(y).is_element(r) and r == 3 and R.drop(y, x).is_element(r) and r == 3 and (not isinstance(r, PolyElement))"},"spec":{"lhs":"test_PolyElement_evaluate()","rhs":"test_PolyElement_evaluate produces the expected output","over":{"base":"Any","pred":"isinstance(r, PolyElement)"},"name":"test_PolyElement_evaluate_correct"},"guarantee":"test_PolyElement_evaluate produces the expected output","fibers":[{"name":"PolyElement","pred":"isinstance(r, PolyElement)","path":{"lhs":"test_PolyElement_evaluate(x)","rhs":"test_PolyElement_evaluate produces the expected output","over":{"base":"PolyElement","pred":"isinstance(r, PolyElement)"},"name":"test_PolyElement_evaluate_PolyElement_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_evaluate_PolyElement_correct","statement":"test_PolyElement_evaluate satisfies spec on PolyElement inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c074f95ae0142694"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_evaluate","kind":"function","src_hash":"27f4c51358f05c2c","in":{"base":"Any","pred":"isinstance(r, PolyElement)"},"out":{"base":"Any","pred":"result satisfies: r == 3 and (not isinstance(r, PolyElement)) and r == 3 and R.drop(x).is_element(r) and r == 3 and R.drop(x, y).is_element(r) and r == 3 and R.drop(y).is_element(r) and r == 3 and R.drop(y, x).is_element(r)"},"spec":{"lhs":"test_PolyElement_evaluate()","rhs":"r == 3 and (not isinstance(r, PolyElement)) and r == 3 and R.drop(x).is_element(r) and r == 3 and R.drop(x, y).is_element(r) and r == 3 and R.drop(y).is_element(r) and r == 3 and R.drop(y, x).is_element(r)","over":{"base":"Any","pred":"isinstance(r, PolyElement)"},"name":"test_PolyElement_evaluate_correct"},"guarantee":"r == 3 and (not isinstance(r, PolyElement)); r == 3 and R.drop(x).is_element(r); r == 3 and R.drop(x, y).is_element(r)","fibers":[{"name":"PolyElement","pred":"isinstance(r, PolyElement)","path":{"lhs":"test_PolyElement_evaluate(x)","rhs":"r == 3 and (not isinstance(r, PolyElement)); r == 3 and R.drop(x).is_element(r); r == 3 and R.drop(x, y).is_element(r)","over":{"base":"PolyElement","pred":"isinstance(r, PolyElement)"},"name":"test_PolyElement_evaluate_PolyElement_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_evaluate_PolyElement_correct","statement":"test_PolyElement_evaluate satisfies spec on PolyElement inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c074f95ae0142694","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["r == 3 and (not isinstance(r, PolyElement))","r == 3 and R.drop(x).is_element(r)","r == 3 and R.drop(x, y).is_element(r)","r == 3 and R.drop(y).is_element(r)","r == 3 and R.drop(y, x).is_element(r)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"failed","binding":true}}
 def test_PolyElement_evaluate():
     R, x = ring("x", ZZ)
     f = x**3 + 4*x**2 + 2*x + 3
@@ -1739,16 +2112,22 @@ def test_PolyElement_evaluate():
     raises(CoercionFailed, lambda: f.evaluate([(x, QQ(1,7)), (y, QQ(1,7))]))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_subs(), test_PolyElement_subs produces the expected output) over Any ║
+# ║ Path(test_PolyElement_subs(), r == 3 and R.is_element(r)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_subs : Any → {Any | r == 3 and R.is_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  r == 3 and R.is_element(r)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_subs : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3d288bfb6785959  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 56042d951c5b55d5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_subs","kind":"function","src_hash":"ee861adadb286c04","in":{"base":"Any"},"out":{"base":"Any","pred":"r == 3 and R.is_element(r) and r == 3 and R.is_element(r) and r == 3 and R.is_element(r)"},"spec":{"lhs":"test_PolyElement_subs()","rhs":"test_PolyElement_subs produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_subs_correct"},"guarantee":"test_PolyElement_subs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_subs_correct","statement":"Path(test_PolyElement_subs(x), test_PolyElement_subs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3d288bfb6785959"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_subs","kind":"function","src_hash":"ee861adadb286c04","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: r == 3 and R.is_element(r)"},"spec":{"lhs":"test_PolyElement_subs()","rhs":"r == 3 and R.is_element(r)","over":{"base":"Any"},"name":"test_PolyElement_subs_correct"},"guarantee":"r == 3 and R.is_element(r)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_subs_correct","statement":"Path(test_PolyElement_subs(x), r == 3 and R.is_element(r))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56042d951c5b55d5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["r == 3 and R.is_element(r)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_subs():
     R, x = ring("x", ZZ)
     f = x**3 + 4*x**2 + 2*x + 3
@@ -1771,16 +2150,24 @@ def test_PolyElement_subs():
     raises(CoercionFailed, lambda: f.subs([(x, QQ(1,7)), (y, QQ(1,7))]))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_symmetrize(), test_PolyElement_symmetrize produces the expected output) over Any ║
+# ║ Path(test_PolyElement_symmetrize(), rem == 0 and sym.compose(m) + rem == f and rem != 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_symmetrize : Any → {Any | rem == 0 a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rem == 0                                       ║
+# ║   ensures:  sym.compose(m) + rem == f                      ║
+# ║   ensures:  rem != 0                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_symmetrize : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 40e74a5325e9c58d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb9f0c6507d8abe3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_symmetrize","kind":"function","src_hash":"2ba2c33b4d21c83a","in":{"base":"Any"},"out":{"base":"Any","pred":"rem == 0 and sym.compose(m) + rem == f and rem != 0 and sym.compose(m) + rem == f and rem == 0 and sym.compose(m) + rem == f and rem != 0 and sym.compose(m) + rem == f and rem == 0 and sym.compose(m) + rem == f and rem == 0 and sym.compose(m) + rem == f"},"spec":{"lhs":"test_PolyElement_symmetrize()","rhs":"test_PolyElement_symmetrize produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_symmetrize_correct"},"guarantee":"test_PolyElement_symmetrize produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_symmetrize_correct","statement":"Path(test_PolyElement_symmetrize(x), test_PolyElement_symmetrize produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40e74a5325e9c58d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_symmetrize","kind":"function","src_hash":"2ba2c33b4d21c83a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rem == 0 and sym.compose(m) + rem == f and rem != 0"},"spec":{"lhs":"test_PolyElement_symmetrize()","rhs":"rem == 0 and sym.compose(m) + rem == f and rem != 0","over":{"base":"Any"},"name":"test_PolyElement_symmetrize_correct"},"guarantee":"rem == 0; sym.compose(m) + rem == f; rem != 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_symmetrize_correct","statement":"Path(test_PolyElement_symmetrize(x), rem == 0; sym.compose(m) + rem == f; rem != 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb9f0c6507d8abe3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rem == 0","sym.compose(m) + rem == f","rem != 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_symmetrize():
     R, x, y = ring("x,y", ZZ)
 
@@ -1821,16 +2208,24 @@ def test_PolyElement_symmetrize():
     assert sym.compose(m) + rem == f
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_compose(), test_PolyElement_compose produces the expected output) over Any ║
+# ║ Path(test_PolyElement_compose(), r == 3 and R.is_element(r) and f.compose(x, x) == f and f.compose(x, x ** 2) == x ** 6 + 4 * x ** 4 + 2 * x ** 2 + 3 and r == q and R.is_element(r)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_compose : Any → {Any | r == 3 and R....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  r == 3 and R.is_element(r)                     ║
+# ║   ensures:  f.compose(x, x) == f                           ║
+# ║   ensures:  f.compose(x, x ** 2) == x ** 6 + 4 * x **...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_compose : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb5f51bd4f4d9e38  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 703fa7367958e51f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_compose","kind":"function","src_hash":"5adc43d4ba5d00e9","in":{"base":"Any"},"out":{"base":"Any","pred":"r == 3 and R.is_element(r) and f.compose(x, x) == f and f.compose(x, x ** 2) == x ** 6 + 4 * x ** 4 + 2 * x ** 2 + 3 and r == 3 and R.is_element(r) and r == 3 and R.is_element(r) and r == q and R.is_element(r)"},"spec":{"lhs":"test_PolyElement_compose()","rhs":"test_PolyElement_compose produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_compose_correct"},"guarantee":"test_PolyElement_compose produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_compose_correct","statement":"Path(test_PolyElement_compose(x), test_PolyElement_compose produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb5f51bd4f4d9e38"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_compose","kind":"function","src_hash":"5adc43d4ba5d00e9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: r == 3 and R.is_element(r) and f.compose(x, x) == f and f.compose(x, x ** 2) == x ** 6 + 4 * x ** 4 + 2 * x ** 2 + 3 and r == q and R.is_element(r)"},"spec":{"lhs":"test_PolyElement_compose()","rhs":"r == 3 and R.is_element(r) and f.compose(x, x) == f and f.compose(x, x ** 2) == x ** 6 + 4 * x ** 4 + 2 * x ** 2 + 3 and r == q and R.is_element(r)","over":{"base":"Any"},"name":"test_PolyElement_compose_correct"},"guarantee":"r == 3 and R.is_element(r); f.compose(x, x) == f; f.compose(x, x ** 2) == x ** 6 + 4 * x ** 4 + 2 * x ** 2 + 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_compose_correct","statement":"Path(test_PolyElement_compose(x), r == 3 and R.is_element(r); f.compose(x, x) == f; f.compose(x, x ** 2) == x ** 6 + 4 * x ** 4 + 2 * x ** 2 + 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"703fa7367958e51f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["r == 3 and R.is_element(r)","f.compose(x, x) == f","f.compose(x, x ** 2) == x ** 6 + 4 * x ** 4 + 2 * x ** 2 + 3","r == q and R.is_element(r)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_compose():
     R, x = ring("x", ZZ)
     f = x**3 + 4*x**2 + 2*x + 3
@@ -1856,16 +2251,24 @@ def test_PolyElement_compose():
     assert r == q and R.is_element(r)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_is_(), test_PolyElement_is_ produces the expected output) over Any ║
+# ║ Path(test_PolyElement_is_(), (x - x).is_generator == False and (x - x).is_ground == True and (x - x).is_monomial == True and (x - x).is_term == True and (x - x + 1).is_generator == False and (x - x + 1).is_ground == True and (x - x + 1).is_monomial == True and (x - x + 1).is_term == True and x.is_generator == True and x.is_ground == False and x.is_monomial == True and x.is_term == True and (x * y).is_generator == False and (x * y).is_ground == False and (x * y).is_monomial == True and (x * y).is_term == True and (3 * x).is_generator == False and (3 * x).is_ground == False and (3 * x).is_monomial == False and (3 * x).is_term == True and (3 * x + 1).is_generator == False and (3 * x + 1).is_ground == False and (3 * x + 1).is_monomial == False and (3 * x + 1).is_term == False and R(0).is_zero is True and R(1).is_zero is False and R(0).is_one is False and R(1).is_one is True and (x - 1).is_monic is True and (2 * x - 1).is_monic is False and (3 * x + 2).is_primitive is True and (4 * x + 2).is_primitive is False and (x + y + z + 1).is_linear is True and (x * y * z + 1).is_linear is False and (x * y + z + 1).is_quadratic is True and (x * y * z + 1).is_quadratic is False and (x - 1).is_squarefree is True and ((x - 1) ** 2).is_squarefree is False and (x ** 2 + x + 1).is_irreducible is True and (x ** 2 + 2 * x + 1).is_irreducible is False and (7 * t + 3).is_irreducible is True and (7 * t ** 2 + 3 * t + 1).is_irreducible is False and f.is_cyclotomic is False and (f + 1).is_cyclotomic is True and R(4).is_squarefree is True and R(6).is_irreducible is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_is_ : Any → {Any | (x - x).is_genera...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x - x).is_generator == False                  ║
+# ║   ensures:  (x - x).is_ground == True                      ║
+# ║   ensures:  (x - x).is_monomial == True                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_is_ : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d62f1a11433aa8c2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ad405c87254b902  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_is_","kind":"function","src_hash":"c1006fc3d78a6026","in":{"base":"Any"},"out":{"base":"Any","pred":"(x - x).is_generator == False and (x - x).is_ground == True and (x - x).is_monomial == True and (x - x).is_term == True and (x - x + 1).is_generator == False and (x - x + 1).is_ground == True and (x - x + 1).is_monomial == True and (x - x + 1).is_term == True and x.is_generator == True and x.is_ground == False and x.is_monomial == True and x.is_term == True and (x * y).is_generator == False and (x * y).is_ground == False and (x * y).is_monomial == True and (x * y).is_term == True and (3 * x).is_generator == False and (3 * x).is_ground == False and (3 * x).is_monomial == False and (3 * x).is_term == True and (3 * x + 1).is_generator == False and (3 * x + 1).is_ground == False and (3 * x + 1).is_monomial == False and (3 * x + 1).is_term == False and R(0).is_zero is True and R(1).is_zero is False and R(0).is_one is False and R(1).is_one is True and (x - 1).is_monic is True and (2 * x - 1).is_monic is False and (3 * x + 2).is_primitive is True and (4 * x + 2).is_primitive is False and (x + y + z + 1).is_linear is True and (x * y * z + 1).is_linear is False and (x * y + z + 1).is_quadratic is True and (x * y * z + 1).is_quadratic is False and (x - 1).is_squarefree is True and ((x - 1) ** 2).is_squarefree is False and (x ** 2 + x + 1).is_irreducible is True and (x ** 2 + 2 * x + 1).is_irreducible is False and (7 * t + 3).is_irreducible is True and (7 * t ** 2 + 3 * t + 1).is_irreducible is False and f.is_cyclotomic is False and (f + 1).is_cyclotomic is True and R(4).is_squarefree is True and R(6).is_irreducible is True"},"spec":{"lhs":"test_PolyElement_is_()","rhs":"test_PolyElement_is_ produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_is__correct"},"guarantee":"test_PolyElement_is_ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_is__correct","statement":"Path(test_PolyElement_is_(x), test_PolyElement_is_ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d62f1a11433aa8c2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_is_","kind":"function","src_hash":"c1006fc3d78a6026","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (x - x).is_generator == False and (x - x).is_ground == True and (x - x).is_monomial == True and (x - x).is_term == True and (x - x + 1).is_generator == False and (x - x + 1).is_ground == True and (x - x + 1).is_monomial == True and (x - x + 1).is_term == True and x.is_generator == True and x.is_ground == False and x.is_monomial == True and x.is_term == True and (x * y).is_generator == False and (x * y).is_ground == False and (x * y).is_monomial == True and (x * y).is_term == True and (3 * x).is_generator == False and (3 * x).is_ground == False and (3 * x).is_monomial == False and (3 * x).is_term == True and (3 * x + 1).is_generator == False and (3 * x + 1).is_ground == False and (3 * x + 1).is_monomial == False and (3 * x + 1).is_term == False and R(0).is_zero is True and R(1).is_zero is False and R(0).is_one is False and R(1).is_one is True and (x - 1).is_monic is True and (2 * x - 1).is_monic is False and (3 * x + 2).is_primitive is True and (4 * x + 2).is_primitive is False and (x + y + z + 1).is_linear is True and (x * y * z + 1).is_linear is False and (x * y + z + 1).is_quadratic is True and (x * y * z + 1).is_quadratic is False and (x - 1).is_squarefree is True and ((x - 1) ** 2).is_squarefree is False and (x ** 2 + x + 1).is_irreducible is True and (x ** 2 + 2 * x + 1).is_irreducible is False and (7 * t + 3).is_irreducible is True and (7 * t ** 2 + 3 * t + 1).is_irreducible is False and f.is_cyclotomic is False and (f + 1).is_cyclotomic is True and R(4).is_squarefree is True and R(6).is_irreducible is True"},"spec":{"lhs":"test_PolyElement_is_()","rhs":"(x - x).is_generator == False and (x - x).is_ground == True and (x - x).is_monomial == True and (x - x).is_term == True and (x - x + 1).is_generator == False and (x - x + 1).is_ground == True and (x - x + 1).is_monomial == True and (x - x + 1).is_term == True and x.is_generator == True and x.is_ground == False and x.is_monomial == True and x.is_term == True and (x * y).is_generator == False and (x * y).is_ground == False and (x * y).is_monomial == True and (x * y).is_term == True and (3 * x).is_generator == False and (3 * x).is_ground == False and (3 * x).is_monomial == False and (3 * x).is_term == True and (3 * x + 1).is_generator == False and (3 * x + 1).is_ground == False and (3 * x + 1).is_monomial == False and (3 * x + 1).is_term == False and R(0).is_zero is True and R(1).is_zero is False and R(0).is_one is False and R(1).is_one is True and (x - 1).is_monic is True and (2 * x - 1).is_monic is False and (3 * x + 2).is_primitive is True and (4 * x + 2).is_primitive is False and (x + y + z + 1).is_linear is True and (x * y * z + 1).is_linear is False and (x * y + z + 1).is_quadratic is True and (x * y * z + 1).is_quadratic is False and (x - 1).is_squarefree is True and ((x - 1) ** 2).is_squarefree is False and (x ** 2 + x + 1).is_irreducible is True and (x ** 2 + 2 * x + 1).is_irreducible is False and (7 * t + 3).is_irreducible is True and (7 * t ** 2 + 3 * t + 1).is_irreducible is False and f.is_cyclotomic is False and (f + 1).is_cyclotomic is True and R(4).is_squarefree is True and R(6).is_irreducible is True","over":{"base":"Any"},"name":"test_PolyElement_is__correct"},"guarantee":"(x - x).is_generator == False; (x - x).is_ground == True; (x - x).is_monomial == True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_is__correct","statement":"Path(test_PolyElement_is_(x), (x - x).is_generator == False; (x - x).is_ground == True; (x - x).is_monomial == True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ad405c87254b902","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x - x).is_generator == False","(x - x).is_ground == True","(x - x).is_monomial == True","(x - x).is_term == True","(x - x + 1).is_generator == False","(x - x + 1).is_ground == True","(x - x + 1).is_monomial == True","(x - x + 1).is_term == True","x.is_generator == True","x.is_ground == False","x.is_monomial == True","x.is_term == True","(x * y).is_generator == False","(x * y).is_ground == False","(x * y).is_monomial == True","(x * y).is_term == True","(3 * x).is_generator == False","(3 * x).is_ground == False","(3 * x).is_monomial == False","(3 * x).is_term == True","(3 * x + 1).is_generator == False","(3 * x + 1).is_ground == False","(3 * x + 1).is_monomial == False","(3 * x + 1).is_term == False","R(0).is_zero is True","R(1).is_zero is False","R(0).is_one is False","R(1).is_one is True","(x - 1).is_monic is True","(2 * x - 1).is_monic is False","(3 * x + 2).is_primitive is True","(4 * x + 2).is_primitive is False","(x + y + z + 1).is_linear is True","(x * y * z + 1).is_linear is False","(x * y + z + 1).is_quadratic is True","(x * y * z + 1).is_quadratic is False","(x - 1).is_squarefree is True","((x - 1) ** 2).is_squarefree is False","(x ** 2 + x + 1).is_irreducible is True","(x ** 2 + 2 * x + 1).is_irreducible is False","(7 * t + 3).is_irreducible is True","(7 * t ** 2 + 3 * t + 1).is_irreducible is False","f.is_cyclotomic is False","(f + 1).is_cyclotomic is True","R(4).is_squarefree is True","R(6).is_irreducible is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_is_():
     R, x,y,z = ring("x,y,z", QQ)
 
@@ -1941,16 +2344,24 @@ def test_PolyElement_is_():
     assert R(6).is_irreducible is True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_drop(), test_PolyElement_drop produces the expected output) over Any ║
+# ║ Path(test_PolyElement_drop(), R(1).drop(0).ring == PolyRing('y,z', ZZ, lex) and R(1).drop(0).drop(0).ring == PolyRing('z', ZZ, lex) and R.is_element(R(1).drop(0).drop(0).drop(0)) is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_drop : Any → {Any | R(1).drop(0).rin...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  R(1).drop(0).ring == PolyRing('y,z', ZZ, ...   ║
+# ║   ensures:  R(1).drop(0).drop(0).ring == PolyRing('z'...   ║
+# ║   ensures:  R.is_element(R(1).drop(0).drop(0).drop(0)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_drop : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 402da3d6f4474b01  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d3bedfa2690ba6b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_drop","kind":"function","src_hash":"5537a67d4dc0bf6c","in":{"base":"Any"},"out":{"base":"Any","pred":"R(1).drop(0).ring == PolyRing('y,z', ZZ, lex) and R(1).drop(0).drop(0).ring == PolyRing('z', ZZ, lex) and R.is_element(R(1).drop(0).drop(0).drop(0)) is False"},"spec":{"lhs":"test_PolyElement_drop()","rhs":"test_PolyElement_drop produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_drop_correct"},"guarantee":"test_PolyElement_drop produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_drop_correct","statement":"Path(test_PolyElement_drop(x), test_PolyElement_drop produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"402da3d6f4474b01"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_drop","kind":"function","src_hash":"5537a67d4dc0bf6c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: R(1).drop(0).ring == PolyRing('y,z', ZZ, lex) and R(1).drop(0).drop(0).ring == PolyRing('z', ZZ, lex) and R.is_element(R(1).drop(0).drop(0).drop(0)) is False"},"spec":{"lhs":"test_PolyElement_drop()","rhs":"R(1).drop(0).ring == PolyRing('y,z', ZZ, lex) and R(1).drop(0).drop(0).ring == PolyRing('z', ZZ, lex) and R.is_element(R(1).drop(0).drop(0).drop(0)) is False","over":{"base":"Any"},"name":"test_PolyElement_drop_correct"},"guarantee":"R(1).drop(0).ring == PolyRing('y,z', ZZ, lex); R(1).drop(0).drop(0).ring == PolyRing('z', ZZ, lex); R.is_element(R(1).drop(0).drop(0).drop(0)) is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_drop_correct","statement":"Path(test_PolyElement_drop(x), R(1).drop(0).ring == PolyRing('y,z', ZZ, lex); R(1).drop(0).drop(0).ring == PolyRing('z', ZZ, lex); R.is_element(R(1).drop(0).drop(0).drop(0)) is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d3bedfa2690ba6b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["R(1).drop(0).ring == PolyRing('y,z', ZZ, lex)","R(1).drop(0).drop(0).ring == PolyRing('z', ZZ, lex)","R.is_element(R(1).drop(0).drop(0).drop(0)) is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_drop():
     R, x,y,z = ring("x,y,z", ZZ)
 
@@ -1962,16 +2373,24 @@ def test_PolyElement_drop():
     raises(ValueError, lambda: x.drop(0))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_coeff_wrt(), test_PolyElement_coeff_wrt produces the expected output) over Any ║
+# ║ Path(test_PolyElement_coeff_wrt(), p.coeff_wrt(1, 2) == 6 * z + 5 and p.coeff_wrt(x, 3) == 4 and p.coeff_wrt(x, 1) == 3 * y ** 2 * z + 10 * z ** 2 and p.coeff_wrt(y, 2) == 3 * x * z + 10 and p.coeff_wrt(z, 1) == R(0) and p.coeff_wrt(y, 2) == R(0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_coeff_wrt : Any → {Any | p.coeff_wrt...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p.coeff_wrt(1, 2) == 6 * z + 5                 ║
+# ║   ensures:  p.coeff_wrt(x, 3) == 4                         ║
+# ║   ensures:  p.coeff_wrt(x, 1) == 3 * y ** 2 * z + 10 ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_coeff_wrt : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 782399293ba6c130  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e3b01b7773b5e23  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_coeff_wrt","kind":"function","src_hash":"9e534217fdc42caa","in":{"base":"Any"},"out":{"base":"Any","pred":"p.coeff_wrt(1, 2) == 6 * z + 5 and p.coeff_wrt(x, 3) == 4 and p.coeff_wrt(x, 1) == 3 * y ** 2 * z + 10 * z ** 2 and p.coeff_wrt(y, 2) == 3 * x * z + 10 and p.coeff_wrt(z, 1) == R(0) and p.coeff_wrt(y, 2) == R(0)"},"spec":{"lhs":"test_PolyElement_coeff_wrt()","rhs":"test_PolyElement_coeff_wrt produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_coeff_wrt_correct"},"guarantee":"test_PolyElement_coeff_wrt produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_coeff_wrt_correct","statement":"Path(test_PolyElement_coeff_wrt(x), test_PolyElement_coeff_wrt produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"782399293ba6c130"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_coeff_wrt","kind":"function","src_hash":"9e534217fdc42caa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p.coeff_wrt(1, 2) == 6 * z + 5 and p.coeff_wrt(x, 3) == 4 and p.coeff_wrt(x, 1) == 3 * y ** 2 * z + 10 * z ** 2 and p.coeff_wrt(y, 2) == 3 * x * z + 10 and p.coeff_wrt(z, 1) == R(0) and p.coeff_wrt(y, 2) == R(0)"},"spec":{"lhs":"test_PolyElement_coeff_wrt()","rhs":"p.coeff_wrt(1, 2) == 6 * z + 5 and p.coeff_wrt(x, 3) == 4 and p.coeff_wrt(x, 1) == 3 * y ** 2 * z + 10 * z ** 2 and p.coeff_wrt(y, 2) == 3 * x * z + 10 and p.coeff_wrt(z, 1) == R(0) and p.coeff_wrt(y, 2) == R(0)","over":{"base":"Any"},"name":"test_PolyElement_coeff_wrt_correct"},"guarantee":"p.coeff_wrt(1, 2) == 6 * z + 5; p.coeff_wrt(x, 3) == 4; p.coeff_wrt(x, 1) == 3 * y ** 2 * z + 10 * z ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_coeff_wrt_correct","statement":"Path(test_PolyElement_coeff_wrt(x), p.coeff_wrt(1, 2) == 6 * z + 5; p.coeff_wrt(x, 3) == 4; p.coeff_wrt(x, 1) == 3 * y ** 2 * z + 10 * z ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e3b01b7773b5e23","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p.coeff_wrt(1, 2) == 6 * z + 5","p.coeff_wrt(x, 3) == 4","p.coeff_wrt(x, 1) == 3 * y ** 2 * z + 10 * z ** 2","p.coeff_wrt(y, 2) == 3 * x * z + 10","p.coeff_wrt(z, 1) == R(0)","p.coeff_wrt(y, 2) == R(0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_coeff_wrt():
     R, x, y, z = ring("x, y, z", ZZ)
 
@@ -1988,16 +2407,24 @@ def test_PolyElement_coeff_wrt():
     assert p.coeff_wrt(y, 2) == R(0)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_prem(), test_PolyElement_prem produces the expected output) over Any ║
+# ║ Path(test_PolyElement_prem(), f.prem(g) == -4 * y + 4 and f.prem(g) == f.prem(g, x) == 20 and f.prem(g, 1) == R(0) and f.prem(g) == -y ** 2 - 2 * y + 1 and f.prem(g, 1) == f.prem(g, y) == -x ** 2 + 2 * x + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_prem : Any → {Any | f.prem(g) == -4 ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.prem(g) == -4 * y + 4                        ║
+# ║   ensures:  f.prem(g) == f.prem(g, x) == 20                ║
+# ║   ensures:  f.prem(g, 1) == R(0)                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_prem : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0be86643594d2348  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6512ed3eea809296  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_prem","kind":"function","src_hash":"f033e877b8e84cf5","in":{"base":"Any"},"out":{"base":"Any","pred":"f.prem(g) == -4 * y + 4 and f.prem(g) == f.prem(g, x) == 20 and f.prem(g, 1) == R(0) and f.prem(g) == -y ** 2 - 2 * y + 1 and f.prem(g, 1) == f.prem(g, y) == -x ** 2 + 2 * x + 1"},"spec":{"lhs":"test_PolyElement_prem()","rhs":"test_PolyElement_prem produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_prem_correct"},"guarantee":"test_PolyElement_prem produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_prem_correct","statement":"Path(test_PolyElement_prem(x), test_PolyElement_prem produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0be86643594d2348"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_prem","kind":"function","src_hash":"f033e877b8e84cf5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.prem(g) == -4 * y + 4 and f.prem(g) == f.prem(g, x) == 20 and f.prem(g, 1) == R(0) and f.prem(g) == -y ** 2 - 2 * y + 1 and f.prem(g, 1) == f.prem(g, y) == -x ** 2 + 2 * x + 1"},"spec":{"lhs":"test_PolyElement_prem()","rhs":"f.prem(g) == -4 * y + 4 and f.prem(g) == f.prem(g, x) == 20 and f.prem(g, 1) == R(0) and f.prem(g) == -y ** 2 - 2 * y + 1 and f.prem(g, 1) == f.prem(g, y) == -x ** 2 + 2 * x + 1","over":{"base":"Any"},"name":"test_PolyElement_prem_correct"},"guarantee":"f.prem(g) == -4 * y + 4; f.prem(g) == f.prem(g, x) == 20; f.prem(g, 1) == R(0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_prem_correct","statement":"Path(test_PolyElement_prem(x), f.prem(g) == -4 * y + 4; f.prem(g) == f.prem(g, x) == 20; f.prem(g, 1) == R(0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6512ed3eea809296","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.prem(g) == -4 * y + 4","f.prem(g) == f.prem(g, x) == 20","f.prem(g, 1) == R(0)","f.prem(g) == -y ** 2 - 2 * y + 1","f.prem(g, 1) == f.prem(g, y) == -x ** 2 + 2 * x + 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_prem():
     R, x, y = ring("x, y", ZZ)
 
@@ -2015,16 +2442,24 @@ def test_PolyElement_prem():
     raises(ZeroDivisionError, lambda: f.prem(R(0)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_pdiv(), test_PolyElement_pdiv produces the expected output) over Any ║
+# ║ Path(test_PolyElement_pdiv(), f.pdiv(g) == f.pdiv(g, x) == (4 * x ** 2 + 20 * x + 22, -60 * x - 66) and f.pdiv(g) == f.pdiv(g, 0) == (x + y, 0) and f.pdiv(g) == (y + 2, -y ** 2 - 2 * y + 1) and f.pdiv(g, y) == f.pdiv(g, 1) == (x + 1, -x ** 2 + 2 * x + 1) and R(0).pdiv(g) == (0, 0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_pdiv : Any → {Any | f.pdiv(g) == f.p...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.pdiv(g) == f.pdiv(g, x) == (4 * x ** 2 ...   ║
+# ║   ensures:  f.pdiv(g) == f.pdiv(g, 0) == (x + y, 0)        ║
+# ║   ensures:  f.pdiv(g) == (y + 2, -y ** 2 - 2 * y + 1)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_pdiv : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 66d659bbf20d2631  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e02dcea0ef884220  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_pdiv","kind":"function","src_hash":"8dd1daaed238b8db","in":{"base":"Any"},"out":{"base":"Any","pred":"f.pdiv(g) == f.pdiv(g, x) == (4 * x ** 2 + 20 * x + 22, -60 * x - 66) and f.pdiv(g) == f.pdiv(g, 0) == (x + y, 0) and f.pdiv(g) == (y + 2, -y ** 2 - 2 * y + 1) and f.pdiv(g, y) == f.pdiv(g, 1) == (x + 1, -x ** 2 + 2 * x + 1) and R(0).pdiv(g) == (0, 0)"},"spec":{"lhs":"test_PolyElement_pdiv()","rhs":"test_PolyElement_pdiv produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_pdiv_correct"},"guarantee":"test_PolyElement_pdiv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_pdiv_correct","statement":"Path(test_PolyElement_pdiv(x), test_PolyElement_pdiv produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66d659bbf20d2631"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_pdiv","kind":"function","src_hash":"8dd1daaed238b8db","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.pdiv(g) == f.pdiv(g, x) == (4 * x ** 2 + 20 * x + 22, -60 * x - 66) and f.pdiv(g) == f.pdiv(g, 0) == (x + y, 0) and f.pdiv(g) == (y + 2, -y ** 2 - 2 * y + 1) and f.pdiv(g, y) == f.pdiv(g, 1) == (x + 1, -x ** 2 + 2 * x + 1) and R(0).pdiv(g) == (0, 0)"},"spec":{"lhs":"test_PolyElement_pdiv()","rhs":"f.pdiv(g) == f.pdiv(g, x) == (4 * x ** 2 + 20 * x + 22, -60 * x - 66) and f.pdiv(g) == f.pdiv(g, 0) == (x + y, 0) and f.pdiv(g) == (y + 2, -y ** 2 - 2 * y + 1) and f.pdiv(g, y) == f.pdiv(g, 1) == (x + 1, -x ** 2 + 2 * x + 1) and R(0).pdiv(g) == (0, 0)","over":{"base":"Any"},"name":"test_PolyElement_pdiv_correct"},"guarantee":"f.pdiv(g) == f.pdiv(g, x) == (4 * x ** 2 + 20 * x + 22, -60 * x - 66); f.pdiv(g) == f.pdiv(g, 0) == (x + y, 0); f.pdiv(g) == (y + 2, -y ** 2 - 2 * y + 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_pdiv_correct","statement":"Path(test_PolyElement_pdiv(x), f.pdiv(g) == f.pdiv(g, x) == (4 * x ** 2 + 20 * x + 22, -60 * x - 66); f.pdiv(g) == f.pdiv(g, 0) == (x + y, 0); f.pdiv(g) == (y + 2, -y ** 2 - 2 * y + 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e02dcea0ef884220","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.pdiv(g) == f.pdiv(g, x) == (4 * x ** 2 + 20 * x + 22, -60 * x - 66)","f.pdiv(g) == f.pdiv(g, 0) == (x + y, 0)","f.pdiv(g) == (y + 2, -y ** 2 - 2 * y + 1)","f.pdiv(g, y) == f.pdiv(g, 1) == (x + 1, -x ** 2 + 2 * x + 1)","R(0).pdiv(g) == (0, 0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_pdiv():
     R, x, y = ring("x,y", ZZ)
 
@@ -2042,16 +2477,24 @@ def test_PolyElement_pdiv():
     raises(ZeroDivisionError, lambda: f.prem(R(0)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_pquo(), test_PolyElement_pquo produces the expected output) over Any ║
+# ║ Path(test_PolyElement_pquo(), f.pquo(g) == f.pquo(g, x) == x ** 2 - 2 * y and f.pquo(g, y) == 4 * x ** 2 - 8 * y + 4 and f.pquo(g) == f.pquo(g, 0) == x ** 2 + y ** 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_pquo : Any → {Any | f.pquo(g) == f.p...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.pquo(g) == f.pquo(g, x) == x ** 2 - 2 * y    ║
+# ║   ensures:  f.pquo(g, y) == 4 * x ** 2 - 8 * y + 4         ║
+# ║   ensures:  f.pquo(g) == f.pquo(g, 0) == x ** 2 + y ** 2   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_pquo : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 995406dda03a7783  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6f73dcfa7711705  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_pquo","kind":"function","src_hash":"1705cf611ba8efbf","in":{"base":"Any"},"out":{"base":"Any","pred":"f.pquo(g) == f.pquo(g, x) == x ** 2 - 2 * y and f.pquo(g, y) == 4 * x ** 2 - 8 * y + 4 and f.pquo(g) == f.pquo(g, 0) == x ** 2 + y ** 2"},"spec":{"lhs":"test_PolyElement_pquo()","rhs":"test_PolyElement_pquo produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_pquo_correct"},"guarantee":"test_PolyElement_pquo produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_pquo_correct","statement":"Path(test_PolyElement_pquo(x), test_PolyElement_pquo produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"995406dda03a7783"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_pquo","kind":"function","src_hash":"1705cf611ba8efbf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.pquo(g) == f.pquo(g, x) == x ** 2 - 2 * y and f.pquo(g, y) == 4 * x ** 2 - 8 * y + 4 and f.pquo(g) == f.pquo(g, 0) == x ** 2 + y ** 2"},"spec":{"lhs":"test_PolyElement_pquo()","rhs":"f.pquo(g) == f.pquo(g, x) == x ** 2 - 2 * y and f.pquo(g, y) == 4 * x ** 2 - 8 * y + 4 and f.pquo(g) == f.pquo(g, 0) == x ** 2 + y ** 2","over":{"base":"Any"},"name":"test_PolyElement_pquo_correct"},"guarantee":"f.pquo(g) == f.pquo(g, x) == x ** 2 - 2 * y; f.pquo(g, y) == 4 * x ** 2 - 8 * y + 4; f.pquo(g) == f.pquo(g, 0) == x ** 2 + y ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_pquo_correct","statement":"Path(test_PolyElement_pquo(x), f.pquo(g) == f.pquo(g, x) == x ** 2 - 2 * y; f.pquo(g, y) == 4 * x ** 2 - 8 * y + 4; f.pquo(g) == f.pquo(g, 0) == x ** 2 + y ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6f73dcfa7711705","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.pquo(g) == f.pquo(g, x) == x ** 2 - 2 * y","f.pquo(g, y) == 4 * x ** 2 - 8 * y + 4","f.pquo(g) == f.pquo(g, 0) == x ** 2 + y ** 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_pquo():
     R, x, y = ring("x, y", ZZ)
 
@@ -2063,16 +2506,23 @@ def test_PolyElement_pquo():
     assert f.pquo(g) == f.pquo(g, 0) == x**2 + y**2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_pexquo(), test_PolyElement_pexquo produces the expected output) over Any ║
+# ║ Path(test_PolyElement_pexquo(), f.pexquo(g) == f.pexquo(g, x) == x + y and f.pexquo(g, y) == f.pexquo(g, 1) == x + y + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_pexquo : Any → {Any | f.pexquo(g) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.pexquo(g) == f.pexquo(g, x) == x + y         ║
+# ║   ensures:  f.pexquo(g, y) == f.pexquo(g, 1) == x + y...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_pexquo : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c2ebfb204853601  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0dc45ce3661afe8a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_pexquo","kind":"function","src_hash":"f0b996944558e5e4","in":{"base":"Any"},"out":{"base":"Any","pred":"f.pexquo(g) == f.pexquo(g, x) == x + y and f.pexquo(g, y) == f.pexquo(g, 1) == x + y + 1"},"spec":{"lhs":"test_PolyElement_pexquo()","rhs":"test_PolyElement_pexquo produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_pexquo_correct"},"guarantee":"test_PolyElement_pexquo produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_pexquo_correct","statement":"Path(test_PolyElement_pexquo(x), test_PolyElement_pexquo produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c2ebfb204853601"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_pexquo","kind":"function","src_hash":"f0b996944558e5e4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.pexquo(g) == f.pexquo(g, x) == x + y and f.pexquo(g, y) == f.pexquo(g, 1) == x + y + 1"},"spec":{"lhs":"test_PolyElement_pexquo()","rhs":"f.pexquo(g) == f.pexquo(g, x) == x + y and f.pexquo(g, y) == f.pexquo(g, 1) == x + y + 1","over":{"base":"Any"},"name":"test_PolyElement_pexquo_correct"},"guarantee":"f.pexquo(g) == f.pexquo(g, x) == x + y; f.pexquo(g, y) == f.pexquo(g, 1) == x + y + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_pexquo_correct","statement":"Path(test_PolyElement_pexquo(x), f.pexquo(g) == f.pexquo(g, x) == x + y; f.pexquo(g, y) == f.pexquo(g, 1) == x + y + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0dc45ce3661afe8a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.pexquo(g) == f.pexquo(g, x) == x + y","f.pexquo(g, y) == f.pexquo(g, 1) == x + y + 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_pexquo():
     R, x, y = ring("x, y", ZZ)
 
@@ -2084,16 +2534,23 @@ def test_PolyElement_pexquo():
     raises(ExactQuotientFailed, lambda: f.pexquo(g))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_gcdex(), test_PolyElement_gcdex produces the expected output) over Any ║
+# ║ Path(test_PolyElement_gcdex(), f.half_gcdex(g) == (s, h) and f.gcdex(g) == (s, t, h)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_gcdex : Any → {Any | f.half_gcdex(g)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.half_gcdex(g) == (s, h)                      ║
+# ║   ensures:  f.gcdex(g) == (s, t, h)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_gcdex : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e8ae8abf4a294bc6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4b2b9154262daf3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_gcdex","kind":"function","src_hash":"5c5675afb63bd482","in":{"base":"Any"},"out":{"base":"Any","pred":"f.half_gcdex(g) == (s, h) and f.gcdex(g) == (s, t, h)"},"spec":{"lhs":"test_PolyElement_gcdex()","rhs":"test_PolyElement_gcdex produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_gcdex_correct"},"guarantee":"test_PolyElement_gcdex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_gcdex_correct","statement":"Path(test_PolyElement_gcdex(x), test_PolyElement_gcdex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8ae8abf4a294bc6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_gcdex","kind":"function","src_hash":"5c5675afb63bd482","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.half_gcdex(g) == (s, h) and f.gcdex(g) == (s, t, h)"},"spec":{"lhs":"test_PolyElement_gcdex()","rhs":"f.half_gcdex(g) == (s, h) and f.gcdex(g) == (s, t, h)","over":{"base":"Any"},"name":"test_PolyElement_gcdex_correct"},"guarantee":"f.half_gcdex(g) == (s, h); f.gcdex(g) == (s, t, h)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_gcdex_correct","statement":"Path(test_PolyElement_gcdex(x), f.half_gcdex(g) == (s, h); f.gcdex(g) == (s, t, h))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4b2b9154262daf3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.half_gcdex(g) == (s, h)","f.gcdex(g) == (s, t, h)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_gcdex():
     _, x = ring("x", QQ)
 
@@ -2104,16 +2561,24 @@ def test_PolyElement_gcdex():
     assert f.gcdex(g) == (s, t, h)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_subresultants(), test_PolyElement_subresultants produces the expected output) over Any ║
+# ║ Path(test_PolyElement_subresultants(), f.subresultants(g) == [f, g, h] and f.subresultants(g, 0) == f.subresultants(g, x) == [f, g, h] and f.subresultants(g, y) == [x ** 2 * y + x * y, x + y, x ** 3 + x ** 2] and f.subresultants(g) == [x ** 2 + x + 2 * y, 2 * x - y, y ** 2 + 10 * y] and f.subresultants(g) == [y ** 3 - y ** 2, 1] and f.subresultants(g) == [x ** 2 * y + x * y, 1] and f.subresultants(g) == [0, 0] and f.subresultants(g) == [x ** 2 + x, x ** 2 + x]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_subresultants : Any → {Any | f.subre...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.subresultants(g) == [f, g, h]                ║
+# ║   ensures:  f.subresultants(g, 0) == f.subresultants(...   ║
+# ║   ensures:  f.subresultants(g, y) == [x ** 2 * y + x ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_subresultants : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f503c15fd9f2ca72  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3f51812241cf81f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_subresultants","kind":"function","src_hash":"d60a390c666f7a22","in":{"base":"Any"},"out":{"base":"Any","pred":"f.subresultants(g) == [f, g, h] and f.subresultants(g, 0) == f.subresultants(g, x) == [f, g, h] and f.subresultants(g, y) == [x ** 2 * y + x * y, x + y, x ** 3 + x ** 2] and f.subresultants(g) == [x ** 2 + x + 2 * y, 2 * x - y, y ** 2 + 10 * y] and f.subresultants(g) == [y ** 3 - y ** 2, 1] and f.subresultants(g) == [x ** 2 * y + x * y, 1] and f.subresultants(g) == [0, 0] and f.subresultants(g) == [x ** 2 + x, x ** 2 + x]"},"spec":{"lhs":"test_PolyElement_subresultants()","rhs":"test_PolyElement_subresultants produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_subresultants_correct"},"guarantee":"test_PolyElement_subresultants produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_subresultants_correct","statement":"Path(test_PolyElement_subresultants(x), test_PolyElement_subresultants produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f503c15fd9f2ca72"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_subresultants","kind":"function","src_hash":"d60a390c666f7a22","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.subresultants(g) == [f, g, h] and f.subresultants(g, 0) == f.subresultants(g, x) == [f, g, h] and f.subresultants(g, y) == [x ** 2 * y + x * y, x + y, x ** 3 + x ** 2] and f.subresultants(g) == [x ** 2 + x + 2 * y, 2 * x - y, y ** 2 + 10 * y] and f.subresultants(g) == [y ** 3 - y ** 2, 1] and f.subresultants(g) == [x ** 2 * y + x * y, 1] and f.subresultants(g) == [0, 0] and f.subresultants(g) == [x ** 2 + x, x ** 2 + x]"},"spec":{"lhs":"test_PolyElement_subresultants()","rhs":"f.subresultants(g) == [f, g, h] and f.subresultants(g, 0) == f.subresultants(g, x) == [f, g, h] and f.subresultants(g, y) == [x ** 2 * y + x * y, x + y, x ** 3 + x ** 2] and f.subresultants(g) == [x ** 2 + x + 2 * y, 2 * x - y, y ** 2 + 10 * y] and f.subresultants(g) == [y ** 3 - y ** 2, 1] and f.subresultants(g) == [x ** 2 * y + x * y, 1] and f.subresultants(g) == [0, 0] and f.subresultants(g) == [x ** 2 + x, x ** 2 + x]","over":{"base":"Any"},"name":"test_PolyElement_subresultants_correct"},"guarantee":"f.subresultants(g) == [f, g, h]; f.subresultants(g, 0) == f.subresultants(g, x) == [f, g, h]; f.subresultants(g, y) == [x ** 2 * y + x * y, x + y, x ** 3 + x ** 2]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_subresultants_correct","statement":"Path(test_PolyElement_subresultants(x), f.subresultants(g) == [f, g, h]; f.subresultants(g, 0) == f.subresultants(g, x) == [f, g, h]; f.subresultants(g, y) == [x ** 2 * y + x * y, x + y, x ** 3 + x ** 2])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3f51812241cf81f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.subresultants(g) == [f, g, h]","f.subresultants(g, 0) == f.subresultants(g, x) == [f, g, h]","f.subresultants(g, y) == [x ** 2 * y + x * y, x + y, x ** 3 + x ** 2]","f.subresultants(g) == [x ** 2 + x + 2 * y, 2 * x - y, y ** 2 + 10 * y]","f.subresultants(g) == [y ** 3 - y ** 2, 1]","f.subresultants(g) == [x ** 2 * y + x * y, 1]","f.subresultants(g) == [0, 0]","f.subresultants(g) == [x ** 2 + x, x ** 2 + x]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_subresultants():
     R, x, y = ring("x, y", ZZ)
 
@@ -2142,16 +2607,22 @@ def test_PolyElement_subresultants():
     assert f.subresultants(g) == [x**2 + x, x**2 + x]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_resultant(), test_PolyElement_resultant produces the expected output) over Any ║
+# ║ Path(test_PolyElement_resultant(), f.resultant(g) == h) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_resultant : Any → {Any | f.resultant...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.resultant(g) == h                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_resultant : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dbd6f2418fc2dbe0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a325acecb5bdad12  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_resultant","kind":"function","src_hash":"02353eda26db91f9","in":{"base":"Any"},"out":{"base":"Any","pred":"f.resultant(g) == h"},"spec":{"lhs":"test_PolyElement_resultant()","rhs":"test_PolyElement_resultant produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_resultant_correct"},"guarantee":"test_PolyElement_resultant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_resultant_correct","statement":"Path(test_PolyElement_resultant(x), test_PolyElement_resultant produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbd6f2418fc2dbe0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_resultant","kind":"function","src_hash":"02353eda26db91f9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.resultant(g) == h"},"spec":{"lhs":"test_PolyElement_resultant()","rhs":"f.resultant(g) == h","over":{"base":"Any"},"name":"test_PolyElement_resultant_correct"},"guarantee":"f.resultant(g) == h","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_resultant_correct","statement":"Path(test_PolyElement_resultant(x), f.resultant(g) == h)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a325acecb5bdad12","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.resultant(g) == h"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_resultant():
     _, x = ring("x", ZZ)
     f, g, h = x**2 - 2*x + 1, x**2 - 1, 0
@@ -2159,16 +2630,22 @@ def test_PolyElement_resultant():
     assert f.resultant(g) == h
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_discriminant(), test_PolyElement_discriminant produces the expected output) over Any ║
+# ║ Path(test_PolyElement_discriminant(), f.discriminant() == g) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_discriminant : Any → {Any | f.discri...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.discriminant() == g                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_discriminant : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9109db005801627  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5286ffb7941e467c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_discriminant","kind":"function","src_hash":"39cfc4b847e7836e","in":{"base":"Any"},"out":{"base":"Any","pred":"f.discriminant() == g and f.discriminant() == g"},"spec":{"lhs":"test_PolyElement_discriminant()","rhs":"test_PolyElement_discriminant produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_discriminant_correct"},"guarantee":"test_PolyElement_discriminant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_discriminant_correct","statement":"Path(test_PolyElement_discriminant(x), test_PolyElement_discriminant produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9109db005801627"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_discriminant","kind":"function","src_hash":"39cfc4b847e7836e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.discriminant() == g"},"spec":{"lhs":"test_PolyElement_discriminant()","rhs":"f.discriminant() == g","over":{"base":"Any"},"name":"test_PolyElement_discriminant_correct"},"guarantee":"f.discriminant() == g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_discriminant_correct","statement":"Path(test_PolyElement_discriminant(x), f.discriminant() == g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5286ffb7941e467c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.discriminant() == g"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_discriminant():
     _, x = ring("x", ZZ)
     f, g = x**3 + 3*x**2 + 9*x - 13, -11664
@@ -2183,16 +2660,23 @@ def test_PolyElement_discriminant():
     assert f.discriminant() == g
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_decompose(), test_PolyElement_decompose produces the expected output) over Any ║
+# ║ Path(test_PolyElement_decompose(), g.compose(x, h) == f and f.decompose() == [g, h]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_decompose : Any → {Any | g.compose(x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  g.compose(x, h) == f                           ║
+# ║   ensures:  f.decompose() == [g, h]                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_decompose : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed71928a11381aab  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf066574587589fb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_decompose","kind":"function","src_hash":"426546e377837e42","in":{"base":"Any"},"out":{"base":"Any","pred":"g.compose(x, h) == f and f.decompose() == [g, h]"},"spec":{"lhs":"test_PolyElement_decompose()","rhs":"test_PolyElement_decompose produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_decompose_correct"},"guarantee":"test_PolyElement_decompose produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_decompose_correct","statement":"Path(test_PolyElement_decompose(x), test_PolyElement_decompose produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed71928a11381aab"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_decompose","kind":"function","src_hash":"426546e377837e42","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: g.compose(x, h) == f and f.decompose() == [g, h]"},"spec":{"lhs":"test_PolyElement_decompose()","rhs":"g.compose(x, h) == f and f.decompose() == [g, h]","over":{"base":"Any"},"name":"test_PolyElement_decompose_correct"},"guarantee":"g.compose(x, h) == f; f.decompose() == [g, h]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_decompose_correct","statement":"Path(test_PolyElement_decompose(x), g.compose(x, h) == f; f.decompose() == [g, h])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf066574587589fb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["g.compose(x, h) == f","f.decompose() == [g, h]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_decompose():
     _, x = ring("x", ZZ)
 
@@ -2204,16 +2688,24 @@ def test_PolyElement_decompose():
     assert f.decompose() == [g, h]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_shift(), test_PolyElement_shift produces the expected output) over Any ║
+# ║ Path(test_PolyElement_shift(), (x ** 2 - 2 * x + 1).shift(2) == x ** 2 + 2 * x + 1 and (x ** 2 - 2 * x + 1).shift_list([2]) == x ** 2 + 2 * x + 1 and (x * y).shift_list([1, 2]) == (x + 1) * (y + 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_shift : Any → {Any | (x ** 2 - 2 * x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x ** 2 - 2 * x + 1).shift(2) == x ** 2 +...   ║
+# ║   ensures:  (x ** 2 - 2 * x + 1).shift_list([2]) == x...   ║
+# ║   ensures:  (x * y).shift_list([1, 2]) == (x + 1) * (...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_shift : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f6b170be25b19dda  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f7d0399b22a95979  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_shift","kind":"function","src_hash":"6386a5aa8292dc47","in":{"base":"Any"},"out":{"base":"Any","pred":"(x ** 2 - 2 * x + 1).shift(2) == x ** 2 + 2 * x + 1 and (x ** 2 - 2 * x + 1).shift_list([2]) == x ** 2 + 2 * x + 1 and (x * y).shift_list([1, 2]) == (x + 1) * (y + 2)"},"spec":{"lhs":"test_PolyElement_shift()","rhs":"test_PolyElement_shift produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_shift_correct"},"guarantee":"test_PolyElement_shift produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_shift_correct","statement":"Path(test_PolyElement_shift(x), test_PolyElement_shift produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6b170be25b19dda"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_shift","kind":"function","src_hash":"6386a5aa8292dc47","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (x ** 2 - 2 * x + 1).shift(2) == x ** 2 + 2 * x + 1 and (x ** 2 - 2 * x + 1).shift_list([2]) == x ** 2 + 2 * x + 1 and (x * y).shift_list([1, 2]) == (x + 1) * (y + 2)"},"spec":{"lhs":"test_PolyElement_shift()","rhs":"(x ** 2 - 2 * x + 1).shift(2) == x ** 2 + 2 * x + 1 and (x ** 2 - 2 * x + 1).shift_list([2]) == x ** 2 + 2 * x + 1 and (x * y).shift_list([1, 2]) == (x + 1) * (y + 2)","over":{"base":"Any"},"name":"test_PolyElement_shift_correct"},"guarantee":"(x ** 2 - 2 * x + 1).shift(2) == x ** 2 + 2 * x + 1; (x ** 2 - 2 * x + 1).shift_list([2]) == x ** 2 + 2 * x + 1; (x * y).shift_list([1, 2]) == (x + 1) * (y + 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_shift_correct","statement":"Path(test_PolyElement_shift(x), (x ** 2 - 2 * x + 1).shift(2) == x ** 2 + 2 * x + 1; (x ** 2 - 2 * x + 1).shift_list([2]) == x ** 2 + 2 * x + 1; (x * y).shift_list([1, 2]) == (x + 1) * (y + 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7d0399b22a95979","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x ** 2 - 2 * x + 1).shift(2) == x ** 2 + 2 * x + 1","(x ** 2 - 2 * x + 1).shift_list([2]) == x ** 2 + 2 * x + 1","(x * y).shift_list([1, 2]) == (x + 1) * (y + 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_shift():
     _, x = ring("x", ZZ)
     assert (x**2 - 2*x + 1).shift(2) == x**2 + 2*x + 1
@@ -2225,16 +2717,22 @@ def test_PolyElement_shift():
     raises(MultivariatePolynomialError, lambda: (x*y).shift(1))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_sturm(), test_PolyElement_sturm produces the expected output) over Any ║
+# ║ Path(test_PolyElement_sturm(), f.sturm() == [x ** 3 - 100 * x ** 2 + t ** 4 / 64 * x - 25 * t ** 4 / 16, 3 * x ** 2 - 200 * x + t ** 4 / 64, (-t ** 4 / 96 + F(20000) / 9) * x + 25 * t ** 4 / 18, (-9 * t ** 12 - 11520000 * t ** 8 - 3686400000000 * t ** 4) / (576 * t ** 8 - 245760000 * t ** 4 + 26214400000000)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_sturm : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.sturm() == [x ** 3 - 100 * x ** 2 + t *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_sturm : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0ed3b5602ad5460  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a81ac89924a6c1a7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_sturm","kind":"function","src_hash":"542f6ab0bf4b56e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_PolyElement_sturm()","rhs":"test_PolyElement_sturm produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_sturm_correct"},"guarantee":"test_PolyElement_sturm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_sturm_correct","statement":"Path(test_PolyElement_sturm(x), test_PolyElement_sturm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0ed3b5602ad5460"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_sturm","kind":"function","src_hash":"542f6ab0bf4b56e8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.sturm() == [x ** 3 - 100 * x ** 2 + t ** 4 / 64 * x - 25 * t ** 4 / 16, 3 * x ** 2 - 200 * x + t ** 4 / 64, (-t ** 4 / 96 + F(20000) / 9) * x + 25 * t ** 4 / 18, (-9 * t ** 12 - 11520000 * t ** 8 - 3686400000000 * t ** 4) / (576 * t ** 8 - 245760000 * t ** 4 + 26214400000000)]"},"spec":{"lhs":"test_PolyElement_sturm()","rhs":"f.sturm() == [x ** 3 - 100 * x ** 2 + t ** 4 / 64 * x - 25 * t ** 4 / 16, 3 * x ** 2 - 200 * x + t ** 4 / 64, (-t ** 4 / 96 + F(20000) / 9) * x + 25 * t ** 4 / 18, (-9 * t ** 12 - 11520000 * t ** 8 - 3686400000000 * t ** 4) / (576 * t ** 8 - 245760000 * t ** 4 + 26214400000000)]","over":{"base":"Any"},"name":"test_PolyElement_sturm_correct"},"guarantee":"f.sturm() == [x ** 3 - 100 * x ** 2 + t ** 4 / 64 * x - 25 * t ** 4 / 16, 3 * x ** 2 - 200 * x + t ** 4 / 64, (-t ** 4 / 96 + F(20000) / 9) * x + 25 * t ** 4 / 18, (-9 * t ** 12 - 11520000 * t ** 8 - 3686400000000 * t ** 4) / (576 * t ** 8 - 245760000 * t ** 4 + 26214400000000)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_sturm_correct","statement":"Path(test_PolyElement_sturm(x), f.sturm() == [x ** 3 - 100 * x ** 2 + t ** 4 / 64 * x - 25 * t ** 4 / 16, 3 * x ** 2 - 200 * x + t ** 4 / 64, (-t ** 4 / 96 + F(20000) / 9) * x + 25 * t ** 4 / 18, (-9 * t ** 12 - 11520000 * t ** 8 - 3686400000000 * t ** 4) / (576 * t ** 8 - 245760000 * t ** 4 + 26214400000000)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a81ac89924a6c1a7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.sturm() == [x ** 3 - 100 * x ** 2 + t ** 4 / 64 * x - 25 * t ** 4 / 16, 3 * x ** 2 - 200 * x + t ** 4 / 64, (-t ** 4 / 96 + F(20000) / 9) * x + 25 * t ** 4 / 18, (-9 * t ** 12 - 11520000 * t ** 8 - 3686400000000 * t ** 4) / (576 * t ** 8 - 245760000 * t ** 4 + 26214400000000)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_sturm():
     F, t = field("t", ZZ)
     _, x = ring("x", F)
@@ -2249,16 +2747,23 @@ def test_PolyElement_sturm():
     ]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_gff_list(), test_PolyElement_gff_list produces the expected output) over Any ║
+# ║ Path(test_PolyElement_gff_list(), f.gff_list() == [(x, 1), (x + 2, 4)] and f.gff_list() == [(x ** 2 - 5 * x + 4, 1), (x ** 2 - 5 * x + 4, 2), (x, 3)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_gff_list : Any → {Any | f.gff_list()...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.gff_list() == [(x, 1), (x + 2, 4)]           ║
+# ║   ensures:  f.gff_list() == [(x ** 2 - 5 * x + 4, 1),...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_gff_list : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | afe772ea080aaac0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d9fd998ef83793f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_gff_list","kind":"function","src_hash":"1995183021949a77","in":{"base":"Any"},"out":{"base":"Any","pred":"f.gff_list() == [(x, 1), (x + 2, 4)] and f.gff_list() == [(x ** 2 - 5 * x + 4, 1), (x ** 2 - 5 * x + 4, 2), (x, 3)]"},"spec":{"lhs":"test_PolyElement_gff_list()","rhs":"test_PolyElement_gff_list produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_gff_list_correct"},"guarantee":"test_PolyElement_gff_list produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_gff_list_correct","statement":"Path(test_PolyElement_gff_list(x), test_PolyElement_gff_list produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afe772ea080aaac0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_gff_list","kind":"function","src_hash":"1995183021949a77","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.gff_list() == [(x, 1), (x + 2, 4)] and f.gff_list() == [(x ** 2 - 5 * x + 4, 1), (x ** 2 - 5 * x + 4, 2), (x, 3)]"},"spec":{"lhs":"test_PolyElement_gff_list()","rhs":"f.gff_list() == [(x, 1), (x + 2, 4)] and f.gff_list() == [(x ** 2 - 5 * x + 4, 1), (x ** 2 - 5 * x + 4, 2), (x, 3)]","over":{"base":"Any"},"name":"test_PolyElement_gff_list_correct"},"guarantee":"f.gff_list() == [(x, 1), (x + 2, 4)]; f.gff_list() == [(x ** 2 - 5 * x + 4, 1), (x ** 2 - 5 * x + 4, 2), (x, 3)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_gff_list_correct","statement":"Path(test_PolyElement_gff_list(x), f.gff_list() == [(x, 1), (x + 2, 4)]; f.gff_list() == [(x ** 2 - 5 * x + 4, 1), (x ** 2 - 5 * x + 4, 2), (x, 3)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d9fd998ef83793f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.gff_list() == [(x, 1), (x + 2, 4)]","f.gff_list() == [(x ** 2 - 5 * x + 4, 1), (x ** 2 - 5 * x + 4, 2), (x, 3)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_gff_list():
     _, x = ring("x", ZZ)
 
@@ -2269,16 +2774,22 @@ def test_PolyElement_gff_list():
     assert f.gff_list() == [(x**2 - 5*x + 4, 1), (x**2 - 5*x + 4, 2), (x, 3)]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_norm(), test_PolyElement_norm produces the expected output) over Any ║
+# ║ Path(test_PolyElement_norm(), (x * y + sqrt2).norm() == X ** 2 * Y ** 2 - 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_norm : Any → {Any | (x * y + sqrt2)....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x * y + sqrt2).norm() == X ** 2 * Y ** 2...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_norm : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f1009bfb8473be01  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0c174aa3f6e9468  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_norm","kind":"function","src_hash":"3467c0d93acb4d0f","in":{"base":"Any"},"out":{"base":"Any","pred":"(x * y + sqrt2).norm() == X ** 2 * Y ** 2 - 2"},"spec":{"lhs":"test_PolyElement_norm()","rhs":"test_PolyElement_norm produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_norm_correct"},"guarantee":"test_PolyElement_norm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_norm_correct","statement":"Path(test_PolyElement_norm(x), test_PolyElement_norm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1009bfb8473be01"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_norm","kind":"function","src_hash":"3467c0d93acb4d0f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (x * y + sqrt2).norm() == X ** 2 * Y ** 2 - 2"},"spec":{"lhs":"test_PolyElement_norm()","rhs":"(x * y + sqrt2).norm() == X ** 2 * Y ** 2 - 2","over":{"base":"Any"},"name":"test_PolyElement_norm_correct"},"guarantee":"(x * y + sqrt2).norm() == X ** 2 * Y ** 2 - 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_norm_correct","statement":"Path(test_PolyElement_norm(x), (x * y + sqrt2).norm() == X ** 2 * Y ** 2 - 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0c174aa3f6e9468","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x * y + sqrt2).norm() == X ** 2 * Y ** 2 - 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_norm():
     k = QQ
     K = QQ.algebraic_field(sqrt(2))
@@ -2289,16 +2800,23 @@ def test_PolyElement_norm():
     assert (x*y + sqrt2).norm() == X**2*Y**2 - 2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_sqf_norm(), test_PolyElement_sqf_norm produces the expected output) over Any ║
+# ║ Path(test_PolyElement_sqf_norm(), (x ** 2 - 2).sqf_norm() == ([1], x ** 2 - 2 * sqrt(3) * x + 1, X ** 4 - 10 * X ** 2 + 1) and (x ** 2 - 3).sqf_norm() == ([1], x ** 2 - 2 * sqrt(2) * x - 1, X ** 4 - 10 * X ** 2 + 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_sqf_norm : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x ** 2 - 2).sqf_norm() == ([1], x ** 2 -...   ║
+# ║   ensures:  (x ** 2 - 3).sqf_norm() == ([1], x ** 2 -...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_sqf_norm : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 761f729e71614932  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d4802eda75df7bb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_sqf_norm","kind":"function","src_hash":"5c13a29e63bfa022","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_PolyElement_sqf_norm()","rhs":"test_PolyElement_sqf_norm produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_sqf_norm_correct"},"guarantee":"test_PolyElement_sqf_norm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_sqf_norm_correct","statement":"Path(test_PolyElement_sqf_norm(x), test_PolyElement_sqf_norm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"761f729e71614932"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_sqf_norm","kind":"function","src_hash":"5c13a29e63bfa022","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (x ** 2 - 2).sqf_norm() == ([1], x ** 2 - 2 * sqrt(3) * x + 1, X ** 4 - 10 * X ** 2 + 1) and (x ** 2 - 3).sqf_norm() == ([1], x ** 2 - 2 * sqrt(2) * x - 1, X ** 4 - 10 * X ** 2 + 1)"},"spec":{"lhs":"test_PolyElement_sqf_norm()","rhs":"(x ** 2 - 2).sqf_norm() == ([1], x ** 2 - 2 * sqrt(3) * x + 1, X ** 4 - 10 * X ** 2 + 1) and (x ** 2 - 3).sqf_norm() == ([1], x ** 2 - 2 * sqrt(2) * x - 1, X ** 4 - 10 * X ** 2 + 1)","over":{"base":"Any"},"name":"test_PolyElement_sqf_norm_correct"},"guarantee":"(x ** 2 - 2).sqf_norm() == ([1], x ** 2 - 2 * sqrt(3) * x + 1, X ** 4 - 10 * X ** 2 + 1); (x ** 2 - 3).sqf_norm() == ([1], x ** 2 - 2 * sqrt(2) * x - 1, X ** 4 - 10 * X ** 2 + 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_sqf_norm_correct","statement":"Path(test_PolyElement_sqf_norm(x), (x ** 2 - 2).sqf_norm() == ([1], x ** 2 - 2 * sqrt(3) * x + 1, X ** 4 - 10 * X ** 2 + 1); (x ** 2 - 3).sqf_norm() == ([1], x ** 2 - 2 * sqrt(2) * x - 1, X ** 4 - 10 * X ** 2 + 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d4802eda75df7bb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x ** 2 - 2).sqf_norm() == ([1], x ** 2 - 2 * sqrt(3) * x + 1, X ** 4 - 10 * X ** 2 + 1)","(x ** 2 - 3).sqf_norm() == ([1], x ** 2 - 2 * sqrt(2) * x - 1, X ** 4 - 10 * X ** 2 + 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_sqf_norm():
     R, x = ring("x", QQ.algebraic_field(sqrt(3)))
     X = R.to_ground().x
@@ -2311,16 +2829,23 @@ def test_PolyElement_sqf_norm():
     assert (x**2 - 3).sqf_norm() == ([1], x**2 - 2*sqrt(2)*x - 1, X**4 - 10*X**2 + 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_sqf_list(), test_PolyElement_sqf_list produces the expected output) over Any ║
+# ║ Path(test_PolyElement_sqf_list(), f.sqf_part() == p and f.sqf_list() == (1, [(g, 1), (h, 2)])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_sqf_list : Any → {Any | f.sqf_part()...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.sqf_part() == p                              ║
+# ║   ensures:  f.sqf_list() == (1, [(g, 1), (h, 2)])          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_sqf_list : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 352d55965b9dd7d8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 944e02c6b14e6b74  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_sqf_list","kind":"function","src_hash":"60db7f07271372e8","in":{"base":"Any"},"out":{"base":"Any","pred":"f.sqf_part() == p and f.sqf_list() == (1, [(g, 1), (h, 2)])"},"spec":{"lhs":"test_PolyElement_sqf_list()","rhs":"test_PolyElement_sqf_list produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_sqf_list_correct"},"guarantee":"test_PolyElement_sqf_list produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_sqf_list_correct","statement":"Path(test_PolyElement_sqf_list(x), test_PolyElement_sqf_list produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"352d55965b9dd7d8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_sqf_list","kind":"function","src_hash":"60db7f07271372e8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.sqf_part() == p and f.sqf_list() == (1, [(g, 1), (h, 2)])"},"spec":{"lhs":"test_PolyElement_sqf_list()","rhs":"f.sqf_part() == p and f.sqf_list() == (1, [(g, 1), (h, 2)])","over":{"base":"Any"},"name":"test_PolyElement_sqf_list_correct"},"guarantee":"f.sqf_part() == p; f.sqf_list() == (1, [(g, 1), (h, 2)])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_sqf_list_correct","statement":"Path(test_PolyElement_sqf_list(x), f.sqf_part() == p; f.sqf_list() == (1, [(g, 1), (h, 2)]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"944e02c6b14e6b74","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.sqf_part() == p","f.sqf_list() == (1, [(g, 1), (h, 2)])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_sqf_list():
     _, x = ring("x", ZZ)
 
@@ -2333,16 +2858,24 @@ def test_PolyElement_sqf_list():
     assert f.sqf_list() == (1, [(g, 1), (h, 2)])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_18894(), test_issue_18894 produces the expected output) over Any ║
+# ║ Path(test_issue_18894(), R.domain == QQ.algebraic_field(sqrt(3) + sqrt(3 * sqrt(3) + 10)) and R.gens == () and a == result) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_18894 : Any → {Any | R.domain == QQ.algebr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  R.domain == QQ.algebraic_field(sqrt(3) + ...   ║
+# ║   ensures:  R.gens == ()                                   ║
+# ║   ensures:  a == result                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_18894 : Any → {Any | result satisfies: R.d...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8c28c67e55c5e4c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8340c35bd4d2f4cc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_issue_18894","kind":"function","src_hash":"ca1da30e4d2fc6c6","in":{"base":"Any"},"out":{"base":"Any","pred":"R.domain == QQ.algebraic_field(sqrt(3) + sqrt(3 * sqrt(3) + 10)) and R.gens == () and a == result"},"spec":{"lhs":"test_issue_18894()","rhs":"test_issue_18894 produces the expected output","over":{"base":"Any"},"name":"test_issue_18894_correct"},"guarantee":"test_issue_18894 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_issue_18894_correct","statement":"Path(test_issue_18894(x), test_issue_18894 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8c28c67e55c5e4c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_issue_18894","kind":"function","src_hash":"ca1da30e4d2fc6c6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: R.domain == QQ.algebraic_field(sqrt(3) + sqrt(3 * sqrt(3) + 10)) and R.gens == () and a == result"},"spec":{"lhs":"test_issue_18894()","rhs":"R.domain == QQ.algebraic_field(sqrt(3) + sqrt(3 * sqrt(3) + 10)) and R.gens == () and a == result","over":{"base":"Any"},"name":"test_issue_18894_correct"},"guarantee":"R.domain == QQ.algebraic_field(sqrt(3) + sqrt(3 * sqrt(3) + 10)); R.gens == (); a == result","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_issue_18894_correct","statement":"Path(test_issue_18894(x), R.domain == QQ.algebraic_field(sqrt(3) + sqrt(3 * sqrt(3) + 10)); R.gens == (); a == result)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8340c35bd4d2f4cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["R.domain == QQ.algebraic_field(sqrt(3) + sqrt(3 * sqrt(3) + 10))","R.gens == ()","a == result"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_18894():
     items = [S(3)/16 + sqrt(3*sqrt(3) + 10)/8, S(1)/8 + 3*sqrt(3)/16, S(1)/8 + 3*sqrt(3)/16, -S(3)/16 + sqrt(3*sqrt(3) + 10)/8]
     R, a = sring(items, extension=True)
@@ -2354,16 +2887,22 @@ def test_issue_18894():
     assert a == result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement_factor_list(), test_PolyElement_factor_list produces the expected output) over Any ║
+# ║ Path(test_PolyElement_factor_list(), f.factor_list() == (1, [(u, 1), (v, 2), (w, 1)])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement_factor_list : Any → {Any | f.factor_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.factor_list() == (1, [(u, 1), (v, 2), (...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement_factor_list : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc132ceef0ba25c5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d68a5941a76d11d0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_factor_list","kind":"function","src_hash":"7c5291d70038af79","in":{"base":"Any"},"out":{"base":"Any","pred":"f.factor_list() == (1, [(u, 1), (v, 2), (w, 1)])"},"spec":{"lhs":"test_PolyElement_factor_list()","rhs":"test_PolyElement_factor_list produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_factor_list_correct"},"guarantee":"test_PolyElement_factor_list produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_factor_list_correct","statement":"Path(test_PolyElement_factor_list(x), test_PolyElement_factor_list produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc132ceef0ba25c5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_PolyElement_factor_list","kind":"function","src_hash":"7c5291d70038af79","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.factor_list() == (1, [(u, 1), (v, 2), (w, 1)])"},"spec":{"lhs":"test_PolyElement_factor_list()","rhs":"f.factor_list() == (1, [(u, 1), (v, 2), (w, 1)])","over":{"base":"Any"},"name":"test_PolyElement_factor_list_correct"},"guarantee":"f.factor_list() == (1, [(u, 1), (v, 2), (w, 1)])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_PolyElement_factor_list_correct","statement":"Path(test_PolyElement_factor_list(x), f.factor_list() == (1, [(u, 1), (v, 2), (w, 1)]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d68a5941a76d11d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.factor_list() == (1, [(u, 1), (v, 2), (w, 1)])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_PolyElement_factor_list():
     _, x = ring("x", ZZ)
 
@@ -2377,16 +2916,22 @@ def test_PolyElement_factor_list():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_21410(), test_issue_21410 produces the expected output) over Any ║
+# ║ Path(test_issue_21410(), p._pow_multinomial(4) == x ** 24 + x ** 20 + x ** 16 + x ** 12 + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_21410 : Any → {Any | p._pow_multinomial(4)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p._pow_multinomial(4) == x ** 24 + x ** 2...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_21410 : Any → {Any | result satisfies: p._...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33cde64072d0eaed  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37ac6eef44877023  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_issue_21410","kind":"function","src_hash":"db102324789013c4","in":{"base":"Any"},"out":{"base":"Any","pred":"p._pow_multinomial(4) == x ** 24 + x ** 20 + x ** 16 + x ** 12 + 1"},"spec":{"lhs":"test_issue_21410()","rhs":"test_issue_21410 produces the expected output","over":{"base":"Any"},"name":"test_issue_21410_correct"},"guarantee":"test_issue_21410 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_issue_21410_correct","statement":"Path(test_issue_21410(x), test_issue_21410 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33cde64072d0eaed"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_issue_21410","kind":"function","src_hash":"db102324789013c4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p._pow_multinomial(4) == x ** 24 + x ** 20 + x ** 16 + x ** 12 + 1"},"spec":{"lhs":"test_issue_21410()","rhs":"p._pow_multinomial(4) == x ** 24 + x ** 20 + x ** 16 + x ** 12 + 1","over":{"base":"Any"},"name":"test_issue_21410_correct"},"guarantee":"p._pow_multinomial(4) == x ** 24 + x ** 20 + x ** 16 + x ** 12 + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_issue_21410_correct","statement":"Path(test_issue_21410(x), p._pow_multinomial(4) == x ** 24 + x ** 20 + x ** 16 + x ** 12 + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37ac6eef44877023","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p._pow_multinomial(4) == x ** 24 + x ** 20 + x ** 16 + x ** 12 + 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_21410():
     R, x = ring('x', FF(2))
     p = x**6 + x**5 + x**4 + x**3 + 1
@@ -2394,16 +2939,24 @@ def test_issue_21410():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_zero_polynomial_primitive(), test_zero_polynomial_primitive produces the expected output) over Any ║
+# ║ Path(test_zero_polynomial_primitive(), cont == 0 and prim == zero_poly and prim.is_primitive is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_zero_polynomial_primitive : Any → {Any | cont ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  cont == 0                                      ║
+# ║   ensures:  prim == zero_poly                              ║
+# ║   ensures:  prim.is_primitive is False                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_zero_polynomial_primitive : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 332cddafff50790a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 129d2218366b44bc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_zero_polynomial_primitive","kind":"function","src_hash":"f21ff9585e2d7dfd","in":{"base":"Any"},"out":{"base":"Any","pred":"cont == 0 and prim == zero_poly and prim.is_primitive is False"},"spec":{"lhs":"test_zero_polynomial_primitive()","rhs":"test_zero_polynomial_primitive produces the expected output","over":{"base":"Any"},"name":"test_zero_polynomial_primitive_correct"},"guarantee":"test_zero_polynomial_primitive produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_zero_polynomial_primitive_correct","statement":"Path(test_zero_polynomial_primitive(x), test_zero_polynomial_primitive produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"332cddafff50790a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rings.test_zero_polynomial_primitive","kind":"function","src_hash":"f21ff9585e2d7dfd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: cont == 0 and prim == zero_poly and prim.is_primitive is False"},"spec":{"lhs":"test_zero_polynomial_primitive()","rhs":"cont == 0 and prim == zero_poly and prim.is_primitive is False","over":{"base":"Any"},"name":"test_zero_polynomial_primitive_correct"},"guarantee":"cont == 0; prim == zero_poly; prim.is_primitive is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rings.test_zero_polynomial_primitive_correct","statement":"Path(test_zero_polynomial_primitive(x), cont == 0; prim == zero_poly; prim.is_primitive is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"129d2218366b44bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["cont == 0","prim == zero_poly","prim.is_primitive is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_zero_polynomial_primitive():
 
     x = symbols('x')

@@ -34,16 +34,24 @@ from sympy.testing.pytest import raises, XFAIL
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_simple_1(), test_simple_1 produces the expected output) over Any ║
+# ║ Path(test_simple_1(), x.nseries(x, n=5) == x and y.nseries(x, n=5) == y and (1 / (x * y)).nseries(y, n=5) == 1 / (x * y) and Rational(3, 4).nseries(x, n=5) == Rational(3, 4) and x.nseries() == x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_simple_1 : Any → {Any | x.nseries(x, n=5) == x a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  x.nseries(x, n=5) == x                         ║
+# ║   ensures:  y.nseries(x, n=5) == y                         ║
+# ║   ensures:  (1 / (x * y)).nseries(y, n=5) == 1 / (x * y)   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_simple_1 : Any → {Any | result satisfies: x.nser...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c432f36d79e99ca  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e103debe6f1d86e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_simple_1","kind":"function","src_hash":"63eb6d0168a24ac0","in":{"base":"Any"},"out":{"base":"Any","pred":"x.nseries(x, n=5) == x and y.nseries(x, n=5) == y and (1 / (x * y)).nseries(y, n=5) == 1 / (x * y) and Rational(3, 4).nseries(x, n=5) == Rational(3, 4) and x.nseries() == x"},"spec":{"lhs":"test_simple_1()","rhs":"test_simple_1 produces the expected output","over":{"base":"Any"},"name":"test_simple_1_correct"},"guarantee":"test_simple_1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_simple_1_correct","statement":"Path(test_simple_1(x), test_simple_1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c432f36d79e99ca"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_simple_1","kind":"function","src_hash":"63eb6d0168a24ac0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: x.nseries(x, n=5) == x and y.nseries(x, n=5) == y and (1 / (x * y)).nseries(y, n=5) == 1 / (x * y) and Rational(3, 4).nseries(x, n=5) == Rational(3, 4) and x.nseries() == x"},"spec":{"lhs":"test_simple_1()","rhs":"x.nseries(x, n=5) == x and y.nseries(x, n=5) == y and (1 / (x * y)).nseries(y, n=5) == 1 / (x * y) and Rational(3, 4).nseries(x, n=5) == Rational(3, 4) and x.nseries() == x","over":{"base":"Any"},"name":"test_simple_1_correct"},"guarantee":"x.nseries(x, n=5) == x; y.nseries(x, n=5) == y; (1 / (x * y)).nseries(y, n=5) == 1 / (x * y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_simple_1_correct","statement":"Path(test_simple_1(x), x.nseries(x, n=5) == x; y.nseries(x, n=5) == y; (1 / (x * y)).nseries(y, n=5) == 1 / (x * y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e103debe6f1d86e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["x.nseries(x, n=5) == x","y.nseries(x, n=5) == y","(1 / (x * y)).nseries(y, n=5) == 1 / (x * y)","Rational(3, 4).nseries(x, n=5) == Rational(3, 4)","x.nseries() == x"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_simple_1():
     assert x.nseries(x, n=5) == x
     assert y.nseries(x, n=5) == y
@@ -53,31 +61,44 @@ def test_simple_1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mul_0(), test_mul_0 produces the expected output) over Any ║
+# ║ Path(test_mul_0(), (x * log(x)).nseries(x, n=5) == x * log(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_mul_0 : Any → {Any | (x * log(x)).nseries(x, n=5...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x * log(x)).nseries(x, n=5) == x * log(x)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_mul_0 : Any → {Any | result satisfies: (x * log(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8caa73117f4deb4c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1a1c41b5a83eb96  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_mul_0","kind":"function","src_hash":"5db758088d39ad60","in":{"base":"Any"},"out":{"base":"Any","pred":"(x * log(x)).nseries(x, n=5) == x * log(x)"},"spec":{"lhs":"test_mul_0()","rhs":"test_mul_0 produces the expected output","over":{"base":"Any"},"name":"test_mul_0_correct"},"guarantee":"test_mul_0 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_mul_0_correct","statement":"Path(test_mul_0(x), test_mul_0 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8caa73117f4deb4c"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_mul_0","kind":"function","src_hash":"5db758088d39ad60","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (x * log(x)).nseries(x, n=5) == x * log(x)"},"spec":{"lhs":"test_mul_0()","rhs":"(x * log(x)).nseries(x, n=5) == x * log(x)","over":{"base":"Any"},"name":"test_mul_0_correct"},"guarantee":"(x * log(x)).nseries(x, n=5) == x * log(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_mul_0_correct","statement":"Path(test_mul_0(x), (x * log(x)).nseries(x, n=5) == x * log(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1a1c41b5a83eb96","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x * log(x)).nseries(x, n=5) == x * log(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_mul_0():
     assert (x*log(x)).nseries(x, n=5) == x*log(x)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mul_1(), test_mul_1 produces the expected output) over Any ║
+# ║ Path(test_mul_1(), (x * log(2 + x)).nseries(x, n=5) == x * log(2) + x ** 2 / 2 - x ** 3 / 8 + x ** 4 / 24 + O(x ** 5) and (x * log(1 + x)).nseries(x, n=5) == x ** 2 - x ** 3 / 2 + x ** 4 / 3 + O(x ** 5)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_mul_1 : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x * log(2 + x)).nseries(x, n=5) == x * l...   ║
+# ║   ensures:  (x * log(1 + x)).nseries(x, n=5) == x ** ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_mul_1 : Any → {Any | result satisfies: (x * log(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b55c4903e8a7724  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13efd1f2f8d9193a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_mul_1","kind":"function","src_hash":"547e5a08ab1af749","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_mul_1()","rhs":"test_mul_1 produces the expected output","over":{"base":"Any"},"name":"test_mul_1_correct"},"guarantee":"test_mul_1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_mul_1_correct","statement":"Path(test_mul_1(x), test_mul_1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b55c4903e8a7724"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_mul_1","kind":"function","src_hash":"547e5a08ab1af749","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (x * log(2 + x)).nseries(x, n=5) == x * log(2) + x ** 2 / 2 - x ** 3 / 8 + x ** 4 / 24 + O(x ** 5) and (x * log(1 + x)).nseries(x, n=5) == x ** 2 - x ** 3 / 2 + x ** 4 / 3 + O(x ** 5)"},"spec":{"lhs":"test_mul_1()","rhs":"(x * log(2 + x)).nseries(x, n=5) == x * log(2) + x ** 2 / 2 - x ** 3 / 8 + x ** 4 / 24 + O(x ** 5) and (x * log(1 + x)).nseries(x, n=5) == x ** 2 - x ** 3 / 2 + x ** 4 / 3 + O(x ** 5)","over":{"base":"Any"},"name":"test_mul_1_correct"},"guarantee":"(x * log(2 + x)).nseries(x, n=5) == x * log(2) + x ** 2 / 2 - x ** 3 / 8 + x ** 4 / 24 + O(x ** 5); (x * log(1 + x)).nseries(x, n=5) == x ** 2 - x ** 3 / 2 + x ** 4 / 3 + O(x ** 5)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_mul_1_correct","statement":"Path(test_mul_1(x), (x * log(2 + x)).nseries(x, n=5) == x * log(2) + x ** 2 / 2 - x ** 3 / 8 + x ** 4 / 24 + O(x ** 5); (x * log(1 + x)).nseries(x, n=5) == x ** 2 - x ** 3 / 2 + x ** 4 / 3 + O(x ** 5))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13efd1f2f8d9193a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x * log(2 + x)).nseries(x, n=5) == x * log(2) + x ** 2 / 2 - x ** 3 / 8 + x ** 4 / 24 + O(x ** 5)","(x * log(1 + x)).nseries(x, n=5) == x ** 2 - x ** 3 / 2 + x ** 4 / 3 + O(x ** 5)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_mul_1():
     assert (x*log(2 + x)).nseries(x, n=5) == x*log(2) + x**2/2 - x**3/8 + \
         x**4/24 + O(x**5)
@@ -86,16 +107,24 @@ def test_mul_1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pow_0(), test_pow_0 produces the expected output) over Any ║
+# ║ Path(test_pow_0(), (x ** 2).nseries(x, n=5) == x ** 2 and (1 / x).nseries(x, n=5) == 1 / x and (1 / x ** 2).nseries(x, n=5) == 1 / x ** 2 and (x ** Rational(2, 3)).nseries(x, n=5) == x ** Rational(2, 3) and (sqrt(x) ** 3).nseries(x, n=5) == sqrt(x) ** 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pow_0 : Any → {Any | (x ** 2).nseries(x, n=5) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x ** 2).nseries(x, n=5) == x ** 2             ║
+# ║   ensures:  (1 / x).nseries(x, n=5) == 1 / x               ║
+# ║   ensures:  (1 / x ** 2).nseries(x, n=5) == 1 / x ** 2     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pow_0 : Any → {Any | result satisfies: (x ** 2)....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 89549002474ef533  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 059668832686e0d8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_pow_0","kind":"function","src_hash":"a4a31e8b2d0cffa1","in":{"base":"Any"},"out":{"base":"Any","pred":"(x ** 2).nseries(x, n=5) == x ** 2 and (1 / x).nseries(x, n=5) == 1 / x and (1 / x ** 2).nseries(x, n=5) == 1 / x ** 2 and (x ** Rational(2, 3)).nseries(x, n=5) == x ** Rational(2, 3) and (sqrt(x) ** 3).nseries(x, n=5) == sqrt(x) ** 3"},"spec":{"lhs":"test_pow_0()","rhs":"test_pow_0 produces the expected output","over":{"base":"Any"},"name":"test_pow_0_correct"},"guarantee":"test_pow_0 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_pow_0_correct","statement":"Path(test_pow_0(x), test_pow_0 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89549002474ef533"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_pow_0","kind":"function","src_hash":"a4a31e8b2d0cffa1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (x ** 2).nseries(x, n=5) == x ** 2 and (1 / x).nseries(x, n=5) == 1 / x and (1 / x ** 2).nseries(x, n=5) == 1 / x ** 2 and (x ** Rational(2, 3)).nseries(x, n=5) == x ** Rational(2, 3) and (sqrt(x) ** 3).nseries(x, n=5) == sqrt(x) ** 3"},"spec":{"lhs":"test_pow_0()","rhs":"(x ** 2).nseries(x, n=5) == x ** 2 and (1 / x).nseries(x, n=5) == 1 / x and (1 / x ** 2).nseries(x, n=5) == 1 / x ** 2 and (x ** Rational(2, 3)).nseries(x, n=5) == x ** Rational(2, 3) and (sqrt(x) ** 3).nseries(x, n=5) == sqrt(x) ** 3","over":{"base":"Any"},"name":"test_pow_0_correct"},"guarantee":"(x ** 2).nseries(x, n=5) == x ** 2; (1 / x).nseries(x, n=5) == 1 / x; (1 / x ** 2).nseries(x, n=5) == 1 / x ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_pow_0_correct","statement":"Path(test_pow_0(x), (x ** 2).nseries(x, n=5) == x ** 2; (1 / x).nseries(x, n=5) == 1 / x; (1 / x ** 2).nseries(x, n=5) == 1 / x ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"059668832686e0d8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x ** 2).nseries(x, n=5) == x ** 2","(1 / x).nseries(x, n=5) == 1 / x","(1 / x ** 2).nseries(x, n=5) == 1 / x ** 2","(x ** Rational(2, 3)).nseries(x, n=5) == x ** Rational(2, 3)","(sqrt(x) ** 3).nseries(x, n=5) == sqrt(x) ** 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pow_0():
     assert (x**2).nseries(x, n=5) == x**2
     assert (1/x).nseries(x, n=5) == 1/x
@@ -105,16 +134,24 @@ def test_pow_0():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pow_1(), test_pow_1 produces the expected output) over Any ║
+# ║ Path(test_pow_1(), ((1 + x) ** 2).nseries(x, n=5) == x ** 2 + 2 * x + 1 and ((sqrt(x) + 1) ** 2).nseries(x) == 2 * sqrt(x) + x + 1 and ((sqrt(x) + cbrt(x)) ** 2).nseries(x) == 2 * x ** Rational(5, 6) + x ** Rational(2, 3) + x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pow_1 : Any → {Any | ((1 + x) ** 2).nseries(x, n...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ((1 + x) ** 2).nseries(x, n=5) == x ** 2 ...   ║
+# ║   ensures:  ((sqrt(x) + 1) ** 2).nseries(x) == 2 * sq...   ║
+# ║   ensures:  ((sqrt(x) + cbrt(x)) ** 2).nseries(x) == ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pow_1 : Any → {Any | result satisfies: ((1 + x) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a48b6e5488d5a482  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a0688ec39bd9139  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_pow_1","kind":"function","src_hash":"c7e4a2225a768285","in":{"base":"Any"},"out":{"base":"Any","pred":"((1 + x) ** 2).nseries(x, n=5) == x ** 2 + 2 * x + 1 and ((sqrt(x) + 1) ** 2).nseries(x) == 2 * sqrt(x) + x + 1"},"spec":{"lhs":"test_pow_1()","rhs":"test_pow_1 produces the expected output","over":{"base":"Any"},"name":"test_pow_1_correct"},"guarantee":"test_pow_1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_pow_1_correct","statement":"Path(test_pow_1(x), test_pow_1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a48b6e5488d5a482"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_pow_1","kind":"function","src_hash":"c7e4a2225a768285","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ((1 + x) ** 2).nseries(x, n=5) == x ** 2 + 2 * x + 1 and ((sqrt(x) + 1) ** 2).nseries(x) == 2 * sqrt(x) + x + 1 and ((sqrt(x) + cbrt(x)) ** 2).nseries(x) == 2 * x ** Rational(5, 6) + x ** Rational(2, 3) + x"},"spec":{"lhs":"test_pow_1()","rhs":"((1 + x) ** 2).nseries(x, n=5) == x ** 2 + 2 * x + 1 and ((sqrt(x) + 1) ** 2).nseries(x) == 2 * sqrt(x) + x + 1 and ((sqrt(x) + cbrt(x)) ** 2).nseries(x) == 2 * x ** Rational(5, 6) + x ** Rational(2, 3) + x","over":{"base":"Any"},"name":"test_pow_1_correct"},"guarantee":"((1 + x) ** 2).nseries(x, n=5) == x ** 2 + 2 * x + 1; ((sqrt(x) + 1) ** 2).nseries(x) == 2 * sqrt(x) + x + 1; ((sqrt(x) + cbrt(x)) ** 2).nseries(x) == 2 * x ** Rational(5, 6) + x ** Rational(2, 3) + x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_pow_1_correct","statement":"Path(test_pow_1(x), ((1 + x) ** 2).nseries(x, n=5) == x ** 2 + 2 * x + 1; ((sqrt(x) + 1) ** 2).nseries(x) == 2 * sqrt(x) + x + 1; ((sqrt(x) + cbrt(x)) ** 2).nseries(x) == 2 * x ** Rational(5, 6) + x ** Rational(2, 3) + x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a0688ec39bd9139","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["((1 + x) ** 2).nseries(x, n=5) == x ** 2 + 2 * x + 1","((sqrt(x) + 1) ** 2).nseries(x) == 2 * sqrt(x) + x + 1","((sqrt(x) + cbrt(x)) ** 2).nseries(x) == 2 * x ** Rational(5, 6) + x ** Rational(2, 3) + x"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pow_1():
     assert ((1 + x)**2).nseries(x, n=5) == x**2 + 2*x + 1
 
@@ -125,16 +162,24 @@ def test_pow_1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_geometric_1(), test_geometric_1 produces the expected output) over Any ║
+# ║ Path(test_geometric_1(), (1 / (1 - x)).nseries(x, n=5) == 1 + x + x ** 2 + x ** 3 + x ** 4 + O(x ** 5) and (x / (1 - x)).nseries(x, n=6) == x + x ** 2 + x ** 3 + x ** 4 + x ** 5 + O(x ** 6) and (x ** 3 / (1 - x)).nseries(x, n=8) == x ** 3 + x ** 4 + x ** 5 + x ** 6 + x ** 7 + O(x ** 8)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_geometric_1 : Any → {Any | (1 / (1 - x)).nseries...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (1 / (1 - x)).nseries(x, n=5) == 1 + x + ...   ║
+# ║   ensures:  (x / (1 - x)).nseries(x, n=6) == x + x **...   ║
+# ║   ensures:  (x ** 3 / (1 - x)).nseries(x, n=8) == x *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_geometric_1 : Any → {Any | result satisfies: (1 ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 57a26b426a5c3193  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97705a5bbe21ff37  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_geometric_1","kind":"function","src_hash":"9f57d67d159fcc93","in":{"base":"Any"},"out":{"base":"Any","pred":"(1 / (1 - x)).nseries(x, n=5) == 1 + x + x ** 2 + x ** 3 + x ** 4 + O(x ** 5)"},"spec":{"lhs":"test_geometric_1()","rhs":"test_geometric_1 produces the expected output","over":{"base":"Any"},"name":"test_geometric_1_correct"},"guarantee":"test_geometric_1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_geometric_1_correct","statement":"Path(test_geometric_1(x), test_geometric_1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57a26b426a5c3193"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_geometric_1","kind":"function","src_hash":"9f57d67d159fcc93","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (1 / (1 - x)).nseries(x, n=5) == 1 + x + x ** 2 + x ** 3 + x ** 4 + O(x ** 5) and (x / (1 - x)).nseries(x, n=6) == x + x ** 2 + x ** 3 + x ** 4 + x ** 5 + O(x ** 6) and (x ** 3 / (1 - x)).nseries(x, n=8) == x ** 3 + x ** 4 + x ** 5 + x ** 6 + x ** 7 + O(x ** 8)"},"spec":{"lhs":"test_geometric_1()","rhs":"(1 / (1 - x)).nseries(x, n=5) == 1 + x + x ** 2 + x ** 3 + x ** 4 + O(x ** 5) and (x / (1 - x)).nseries(x, n=6) == x + x ** 2 + x ** 3 + x ** 4 + x ** 5 + O(x ** 6) and (x ** 3 / (1 - x)).nseries(x, n=8) == x ** 3 + x ** 4 + x ** 5 + x ** 6 + x ** 7 + O(x ** 8)","over":{"base":"Any"},"name":"test_geometric_1_correct"},"guarantee":"(1 / (1 - x)).nseries(x, n=5) == 1 + x + x ** 2 + x ** 3 + x ** 4 + O(x ** 5); (x / (1 - x)).nseries(x, n=6) == x + x ** 2 + x ** 3 + x ** 4 + x ** 5 + O(x ** 6); (x ** 3 / (1 - x)).nseries(x, n=8) == x ** 3 + x ** 4 + x ** 5 + x ** 6 + x ** 7 + O(x ** 8)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_geometric_1_correct","statement":"Path(test_geometric_1(x), (1 / (1 - x)).nseries(x, n=5) == 1 + x + x ** 2 + x ** 3 + x ** 4 + O(x ** 5); (x / (1 - x)).nseries(x, n=6) == x + x ** 2 + x ** 3 + x ** 4 + x ** 5 + O(x ** 6); (x ** 3 / (1 - x)).nseries(x, n=8) == x ** 3 + x ** 4 + x ** 5 + x ** 6 + x ** 7 + O(x ** 8))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97705a5bbe21ff37","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(1 / (1 - x)).nseries(x, n=5) == 1 + x + x ** 2 + x ** 3 + x ** 4 + O(x ** 5)","(x / (1 - x)).nseries(x, n=6) == x + x ** 2 + x ** 3 + x ** 4 + x ** 5 + O(x ** 6)","(x ** 3 / (1 - x)).nseries(x, n=8) == x ** 3 + x ** 4 + x ** 5 + x ** 6 + x ** 7 + O(x ** 8)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_geometric_1():
     assert (1/(1 - x)).nseries(x, n=5) == 1 + x + x**2 + x**3 + x**4 + O(x**5)
     assert (x/(1 - x)).nseries(x, n=6) == x + x**2 + x**3 + x**4 + x**5 + O(x**6)
@@ -143,31 +188,45 @@ def test_geometric_1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sqrt_1(), test_sqrt_1 produces the expected output) over Any ║
+# ║ Path(test_sqrt_1(), sqrt(1 + x).nseries(x, n=5) == 1 + x / 2 - x ** 2 / 8 + x ** 3 / 16 - 5 * x ** 4 / 128 + O(x ** 5)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sqrt_1 : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sqrt(1 + x).nseries(x, n=5) == 1 + x / 2 ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sqrt_1 : Any → {Any | result satisfies: sqrt(1 +...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ba873debc3811b9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0692b828b306caaf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_sqrt_1","kind":"function","src_hash":"45511f6c64f253ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_sqrt_1()","rhs":"test_sqrt_1 produces the expected output","over":{"base":"Any"},"name":"test_sqrt_1_correct"},"guarantee":"test_sqrt_1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_sqrt_1_correct","statement":"Path(test_sqrt_1(x), test_sqrt_1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ba873debc3811b9"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_sqrt_1","kind":"function","src_hash":"45511f6c64f253ac","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sqrt(1 + x).nseries(x, n=5) == 1 + x / 2 - x ** 2 / 8 + x ** 3 / 16 - 5 * x ** 4 / 128 + O(x ** 5)"},"spec":{"lhs":"test_sqrt_1()","rhs":"sqrt(1 + x).nseries(x, n=5) == 1 + x / 2 - x ** 2 / 8 + x ** 3 / 16 - 5 * x ** 4 / 128 + O(x ** 5)","over":{"base":"Any"},"name":"test_sqrt_1_correct"},"guarantee":"sqrt(1 + x).nseries(x, n=5) == 1 + x / 2 - x ** 2 / 8 + x ** 3 / 16 - 5 * x ** 4 / 128 + O(x ** 5)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_sqrt_1_correct","statement":"Path(test_sqrt_1(x), sqrt(1 + x).nseries(x, n=5) == 1 + x / 2 - x ** 2 / 8 + x ** 3 / 16 - 5 * x ** 4 / 128 + O(x ** 5))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0692b828b306caaf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sqrt(1 + x).nseries(x, n=5) == 1 + x / 2 - x ** 2 / 8 + x ** 3 / 16 - 5 * x ** 4 / 128 + O(x ** 5)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sqrt_1():
     assert sqrt(1 + x).nseries(x, n=5) == 1 + x/2 - x**2/8 + x**3/16 - 5*x**4/128 + O(x**5)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exp_1(), test_exp_1 produces the expected output) over Any ║
+# ║ Path(test_exp_1(), exp(x).nseries(x, n=5) == 1 + x + x ** 2 / 2 + x ** 3 / 6 + x ** 4 / 24 + O(x ** 5) and exp(x).nseries(x, n=12) == 1 + x + x ** 2 / 2 + x ** 3 / 6 + x ** 4 / 24 + x ** 5 / 120 + x ** 6 / 720 + x ** 7 / 5040 + x ** 8 / 40320 + x ** 9 / 362880 + x ** 10 / 3628800 + x ** 11 / 39916800 + O(x ** 12) and exp(1 / x).nseries(x, n=5) == exp(1 / x) and exp(1 / (1 + x)).nseries(x, n=4) == (E * (1 - x - 13 * x ** 3 / 6 + 3 * x ** 2 / 2)).expand() + O(x ** 4) and exp(2 + x).nseries(x, n=5) == (exp(2) * (1 + x + x ** 2 / 2 + x ** 3 / 6 + x ** 4 / 24)).expand() + O(x ** 5)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exp_1 : Any → {Any | exp(1 / x).nseries(x, n=5) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  exp(x).nseries(x, n=5) == 1 + x + x ** 2 ...   ║
+# ║   ensures:  exp(x).nseries(x, n=12) == 1 + x + x ** 2...   ║
+# ║   ensures:  exp(1 / x).nseries(x, n=5) == exp(1 / x)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exp_1 : Any → {Any | result satisfies: exp(x).ns...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78025ebff14300b7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dea92a16da2946c5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_exp_1","kind":"function","src_hash":"291b5088a792051f","in":{"base":"Any"},"out":{"base":"Any","pred":"exp(1 / x).nseries(x, n=5) == exp(1 / x)"},"spec":{"lhs":"test_exp_1()","rhs":"test_exp_1 produces the expected output","over":{"base":"Any"},"name":"test_exp_1_correct"},"guarantee":"test_exp_1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_exp_1_correct","statement":"Path(test_exp_1(x), test_exp_1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78025ebff14300b7"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_exp_1","kind":"function","src_hash":"291b5088a792051f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: exp(x).nseries(x, n=5) == 1 + x + x ** 2 / 2 + x ** 3 / 6 + x ** 4 / 24 + O(x ** 5) and exp(x).nseries(x, n=12) == 1 + x + x ** 2 / 2 + x ** 3 / 6 + x ** 4 / 24 + x ** 5 / 120 + x ** 6 / 720 + x ** 7 / 5040 + x ** 8 / 40320 + x ** 9 / 362880 + x ** 10 / 3628800 + x ** 11 / 39916800 + O(x ** 12) and exp(1 / x).nseries(x, n=5) == exp(1 / x) and exp(1 / (1 + x)).nseries(x, n=4) == (E * (1 - x - 13 * x ** 3 / 6 + 3 * x ** 2 / 2)).expand() + O(x ** 4) and exp(2 + x).nseries(x, n=5) == (exp(2) * (1 + x + x ** 2 / 2 + x ** 3 / 6 + x ** 4 / 24)).expand() + O(x ** 5)"},"spec":{"lhs":"test_exp_1()","rhs":"exp(x).nseries(x, n=5) == 1 + x + x ** 2 / 2 + x ** 3 / 6 + x ** 4 / 24 + O(x ** 5) and exp(x).nseries(x, n=12) == 1 + x + x ** 2 / 2 + x ** 3 / 6 + x ** 4 / 24 + x ** 5 / 120 + x ** 6 / 720 + x ** 7 / 5040 + x ** 8 / 40320 + x ** 9 / 362880 + x ** 10 / 3628800 + x ** 11 / 39916800 + O(x ** 12) and exp(1 / x).nseries(x, n=5) == exp(1 / x) and exp(1 / (1 + x)).nseries(x, n=4) == (E * (1 - x - 13 * x ** 3 / 6 + 3 * x ** 2 / 2)).expand() + O(x ** 4) and exp(2 + x).nseries(x, n=5) == (exp(2) * (1 + x + x ** 2 / 2 + x ** 3 / 6 + x ** 4 / 24)).expand() + O(x ** 5)","over":{"base":"Any"},"name":"test_exp_1_correct"},"guarantee":"exp(x).nseries(x, n=5) == 1 + x + x ** 2 / 2 + x ** 3 / 6 + x ** 4 / 24 + O(x ** 5); exp(x).nseries(x, n=12) == 1 + x + x ** 2 / 2 + x ** 3 / 6 + x ** 4 / 24 + x ** 5 / 120 + x ** 6 / 720 + x ** 7 / 5040 + x ** 8 / 40320 + x ** 9 / 362880 + x ** 10 / 3628800 + x ** 11 / 39916800 + O(x ** 12); exp(1 / x).nseries(x, n=5) == exp(1 / x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_exp_1_correct","statement":"Path(test_exp_1(x), exp(x).nseries(x, n=5) == 1 + x + x ** 2 / 2 + x ** 3 / 6 + x ** 4 / 24 + O(x ** 5); exp(x).nseries(x, n=12) == 1 + x + x ** 2 / 2 + x ** 3 / 6 + x ** 4 / 24 + x ** 5 / 120 + x ** 6 / 720 + x ** 7 / 5040 + x ** 8 / 40320 + x ** 9 / 362880 + x ** 10 / 3628800 + x ** 11 / 39916800 + O(x ** 12); exp(1 / x).nseries(x, n=5) == exp(1 / x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dea92a16da2946c5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["exp(x).nseries(x, n=5) == 1 + x + x ** 2 / 2 + x ** 3 / 6 + x ** 4 / 24 + O(x ** 5)","exp(x).nseries(x, n=12) == 1 + x + x ** 2 / 2 + x ** 3 / 6 + x ** 4 / 24 + x ** 5 / 120 + x ** 6 / 720 + x ** 7 / 5040 + x ** 8 / 40320 + x ** 9 / 362880 + x ** 10 / 3628800 + x ** 11 / 39916800 + O(x ** 12)","exp(1 / x).nseries(x, n=5) == exp(1 / x)","exp(1 / (1 + x)).nseries(x, n=4) == (E * (1 - x - 13 * x ** 3 / 6 + 3 * x ** 2 / 2)).expand() + O(x ** 4)","exp(2 + x).nseries(x, n=5) == (exp(2) * (1 + x + x ** 2 / 2 + x ** 3 / 6 + x ** 4 / 24)).expand() + O(x ** 5)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_exp_1():
     assert exp(x).nseries(x, n=5) == 1 + x + x**2/2 + x**3/6 + x**4/24 + O(x**5)
     assert exp(x).nseries(x, n=12) == 1 + x + x**2/2 + x**3/6 + x**4/24 + x**5/120 +  \
@@ -181,96 +240,132 @@ def test_exp_1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exp_sqrt_1(), test_exp_sqrt_1 produces the expected output) over Any ║
+# ║ Path(test_exp_sqrt_1(), exp(1 + sqrt(x)).nseries(x, n=3) == (exp(1) * (1 + sqrt(x) + x / 2 + sqrt(x) * x / 6)).expand() + O(sqrt(x) ** 3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exp_sqrt_1 : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  exp(1 + sqrt(x)).nseries(x, n=3) == (exp(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exp_sqrt_1 : Any → {Any | result satisfies: exp(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b3b55c66bf10ba5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ca4f11a4caeabb6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_exp_sqrt_1","kind":"function","src_hash":"0939b3ce890426f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_exp_sqrt_1()","rhs":"test_exp_sqrt_1 produces the expected output","over":{"base":"Any"},"name":"test_exp_sqrt_1_correct"},"guarantee":"test_exp_sqrt_1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_exp_sqrt_1_correct","statement":"Path(test_exp_sqrt_1(x), test_exp_sqrt_1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b3b55c66bf10ba5"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_exp_sqrt_1","kind":"function","src_hash":"0939b3ce890426f8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: exp(1 + sqrt(x)).nseries(x, n=3) == (exp(1) * (1 + sqrt(x) + x / 2 + sqrt(x) * x / 6)).expand() + O(sqrt(x) ** 3)"},"spec":{"lhs":"test_exp_sqrt_1()","rhs":"exp(1 + sqrt(x)).nseries(x, n=3) == (exp(1) * (1 + sqrt(x) + x / 2 + sqrt(x) * x / 6)).expand() + O(sqrt(x) ** 3)","over":{"base":"Any"},"name":"test_exp_sqrt_1_correct"},"guarantee":"exp(1 + sqrt(x)).nseries(x, n=3) == (exp(1) * (1 + sqrt(x) + x / 2 + sqrt(x) * x / 6)).expand() + O(sqrt(x) ** 3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_exp_sqrt_1_correct","statement":"Path(test_exp_sqrt_1(x), exp(1 + sqrt(x)).nseries(x, n=3) == (exp(1) * (1 + sqrt(x) + x / 2 + sqrt(x) * x / 6)).expand() + O(sqrt(x) ** 3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ca4f11a4caeabb6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["exp(1 + sqrt(x)).nseries(x, n=3) == (exp(1) * (1 + sqrt(x) + x / 2 + sqrt(x) * x / 6)).expand() + O(sqrt(x) ** 3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_exp_sqrt_1():
     assert exp(1 + sqrt(x)).nseries(x, n=3) ==  \
         (exp(1)*(1 + sqrt(x) + x/2 + sqrt(x)*x/6)).expand() + O(sqrt(x)**3)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_power_x_x1(), test_power_x_x1 produces the expected output) over Any ║
+# ║ Path(test_power_x_x1(), exp(x * log(x)).nseries(x, n=4) == 1 + x * log(x) + x ** 2 * log(x) ** 2 / 2 + x ** 3 * log(x) ** 3 / 6 + O(x ** 4 * log(x) ** 4)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_power_x_x1 : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  exp(x * log(x)).nseries(x, n=4) == 1 + x ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_power_x_x1 : Any → {Any | result satisfies: exp(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 06faa22fb55e1040  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5f19027b18c8daf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_power_x_x1","kind":"function","src_hash":"061a56985e20daff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_power_x_x1()","rhs":"test_power_x_x1 produces the expected output","over":{"base":"Any"},"name":"test_power_x_x1_correct"},"guarantee":"test_power_x_x1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_power_x_x1_correct","statement":"Path(test_power_x_x1(x), test_power_x_x1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"06faa22fb55e1040"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_power_x_x1","kind":"function","src_hash":"061a56985e20daff","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: exp(x * log(x)).nseries(x, n=4) == 1 + x * log(x) + x ** 2 * log(x) ** 2 / 2 + x ** 3 * log(x) ** 3 / 6 + O(x ** 4 * log(x) ** 4)"},"spec":{"lhs":"test_power_x_x1()","rhs":"exp(x * log(x)).nseries(x, n=4) == 1 + x * log(x) + x ** 2 * log(x) ** 2 / 2 + x ** 3 * log(x) ** 3 / 6 + O(x ** 4 * log(x) ** 4)","over":{"base":"Any"},"name":"test_power_x_x1_correct"},"guarantee":"exp(x * log(x)).nseries(x, n=4) == 1 + x * log(x) + x ** 2 * log(x) ** 2 / 2 + x ** 3 * log(x) ** 3 / 6 + O(x ** 4 * log(x) ** 4)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_power_x_x1_correct","statement":"Path(test_power_x_x1(x), exp(x * log(x)).nseries(x, n=4) == 1 + x * log(x) + x ** 2 * log(x) ** 2 / 2 + x ** 3 * log(x) ** 3 / 6 + O(x ** 4 * log(x) ** 4))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5f19027b18c8daf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["exp(x * log(x)).nseries(x, n=4) == 1 + x * log(x) + x ** 2 * log(x) ** 2 / 2 + x ** 3 * log(x) ** 3 / 6 + O(x ** 4 * log(x) ** 4)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_power_x_x1():
     assert (exp(x*log(x))).nseries(x, n=4) == \
         1 + x*log(x) + x**2*log(x)**2/2 + x**3*log(x)**3/6 + O(x**4*log(x)**4)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_power_x_x2(), test_power_x_x2 produces the expected output) over Any ║
+# ║ Path(test_power_x_x2(), (x ** x).nseries(x, n=4) == 1 + x * log(x) + x ** 2 * log(x) ** 2 / 2 + x ** 3 * log(x) ** 3 / 6 + O(x ** 4 * log(x) ** 4)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_power_x_x2 : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x ** x).nseries(x, n=4) == 1 + x * log(x...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_power_x_x2 : Any → {Any | result satisfies: (x *...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e795be9242ddaf98  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 50315abff8cabba4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_power_x_x2","kind":"function","src_hash":"fd94a913f4d844d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_power_x_x2()","rhs":"test_power_x_x2 produces the expected output","over":{"base":"Any"},"name":"test_power_x_x2_correct"},"guarantee":"test_power_x_x2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_power_x_x2_correct","statement":"Path(test_power_x_x2(x), test_power_x_x2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e795be9242ddaf98"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_power_x_x2","kind":"function","src_hash":"fd94a913f4d844d5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (x ** x).nseries(x, n=4) == 1 + x * log(x) + x ** 2 * log(x) ** 2 / 2 + x ** 3 * log(x) ** 3 / 6 + O(x ** 4 * log(x) ** 4)"},"spec":{"lhs":"test_power_x_x2()","rhs":"(x ** x).nseries(x, n=4) == 1 + x * log(x) + x ** 2 * log(x) ** 2 / 2 + x ** 3 * log(x) ** 3 / 6 + O(x ** 4 * log(x) ** 4)","over":{"base":"Any"},"name":"test_power_x_x2_correct"},"guarantee":"(x ** x).nseries(x, n=4) == 1 + x * log(x) + x ** 2 * log(x) ** 2 / 2 + x ** 3 * log(x) ** 3 / 6 + O(x ** 4 * log(x) ** 4)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_power_x_x2_correct","statement":"Path(test_power_x_x2(x), (x ** x).nseries(x, n=4) == 1 + x * log(x) + x ** 2 * log(x) ** 2 / 2 + x ** 3 * log(x) ** 3 / 6 + O(x ** 4 * log(x) ** 4))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50315abff8cabba4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x ** x).nseries(x, n=4) == 1 + x * log(x) + x ** 2 * log(x) ** 2 / 2 + x ** 3 * log(x) ** 3 / 6 + O(x ** 4 * log(x) ** 4)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_power_x_x2():
     assert (x**x).nseries(x, n=4) == \
         1 + x*log(x) + x**2*log(x)**2/2 + x**3*log(x)**3/6 + O(x**4*log(x)**4)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_log_singular1(), test_log_singular1 produces the expected output) over Any ║
+# ║ Path(test_log_singular1(), log(1 + 1 / x).nseries(x, n=5) == x - log(x) - x ** 2 / 2 + x ** 3 / 3 - x ** 4 / 4 + O(x ** 5)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_log_singular1 : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  log(1 + 1 / x).nseries(x, n=5) == x - log...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_log_singular1 : Any → {Any | result satisfies: l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ccb430ce3a78ae52  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da47a7a63868dc27  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_log_singular1","kind":"function","src_hash":"c525db99b61842d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_log_singular1()","rhs":"test_log_singular1 produces the expected output","over":{"base":"Any"},"name":"test_log_singular1_correct"},"guarantee":"test_log_singular1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_log_singular1_correct","statement":"Path(test_log_singular1(x), test_log_singular1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ccb430ce3a78ae52"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_log_singular1","kind":"function","src_hash":"c525db99b61842d0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: log(1 + 1 / x).nseries(x, n=5) == x - log(x) - x ** 2 / 2 + x ** 3 / 3 - x ** 4 / 4 + O(x ** 5)"},"spec":{"lhs":"test_log_singular1()","rhs":"log(1 + 1 / x).nseries(x, n=5) == x - log(x) - x ** 2 / 2 + x ** 3 / 3 - x ** 4 / 4 + O(x ** 5)","over":{"base":"Any"},"name":"test_log_singular1_correct"},"guarantee":"log(1 + 1 / x).nseries(x, n=5) == x - log(x) - x ** 2 / 2 + x ** 3 / 3 - x ** 4 / 4 + O(x ** 5)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_log_singular1_correct","statement":"Path(test_log_singular1(x), log(1 + 1 / x).nseries(x, n=5) == x - log(x) - x ** 2 / 2 + x ** 3 / 3 - x ** 4 / 4 + O(x ** 5))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da47a7a63868dc27","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["log(1 + 1 / x).nseries(x, n=5) == x - log(x) - x ** 2 / 2 + x ** 3 / 3 - x ** 4 / 4 + O(x ** 5)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_log_singular1():
     assert log(1 + 1/x).nseries(x, n=5) == x - log(x) - x**2/2 + x**3/3 - \
         x**4/4 + O(x**5)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_log_power1(), test_log_power1 produces the expected output) over Any ║
+# ║ Path(test_log_power1(), e.nseries(x, n=5) == -x ** (log(3) / log(2) + 2) + x + O(x ** 5)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_log_power1 : Any → {Any | e.nseries(x, n=5) == -...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.nseries(x, n=5) == -x ** (log(3) / log(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_log_power1 : Any → {Any | result satisfies: e.ns...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c692545e10554037  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e33246af0d7e6f16  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_log_power1","kind":"function","src_hash":"8fff4bc9fccb6ac1","in":{"base":"Any"},"out":{"base":"Any","pred":"e.nseries(x, n=5) == -x ** (log(3) / log(2) + 2) + x + O(x ** 5)"},"spec":{"lhs":"test_log_power1()","rhs":"test_log_power1 produces the expected output","over":{"base":"Any"},"name":"test_log_power1_correct"},"guarantee":"test_log_power1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_log_power1_correct","statement":"Path(test_log_power1(x), test_log_power1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c692545e10554037"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_log_power1","kind":"function","src_hash":"8fff4bc9fccb6ac1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.nseries(x, n=5) == -x ** (log(3) / log(2) + 2) + x + O(x ** 5)"},"spec":{"lhs":"test_log_power1()","rhs":"e.nseries(x, n=5) == -x ** (log(3) / log(2) + 2) + x + O(x ** 5)","over":{"base":"Any"},"name":"test_log_power1_correct"},"guarantee":"e.nseries(x, n=5) == -x ** (log(3) / log(2) + 2) + x + O(x ** 5)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_log_power1_correct","statement":"Path(test_log_power1(x), e.nseries(x, n=5) == -x ** (log(3) / log(2) + 2) + x + O(x ** 5))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e33246af0d7e6f16","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.nseries(x, n=5) == -x ** (log(3) / log(2) + 2) + x + O(x ** 5)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_log_power1():
     e = 1 / (1/x + x ** (log(3)/log(2)))
     assert e.nseries(x, n=5) == -x**(log(3)/log(2) + 2) + x + O(x**5)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_log_series(), test_log_series produces the expected output) over Any ║
+# ║ Path(test_log_series(), e.nseries(x, n=5, logx=l) == 1 / (1 - l)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_log_series : Any → {Any | e.nseries(x, n=5, logx...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.nseries(x, n=5, logx=l) == 1 / (1 - l)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_log_series : Any → {Any | result satisfies: e.ns...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16e676c27a53ffec  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b956c0162d9ed9f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_log_series","kind":"function","src_hash":"4c497bbebfd51d63","in":{"base":"Any"},"out":{"base":"Any","pred":"e.nseries(x, n=5, logx=l) == 1 / (1 - l)"},"spec":{"lhs":"test_log_series()","rhs":"test_log_series produces the expected output","over":{"base":"Any"},"name":"test_log_series_correct"},"guarantee":"test_log_series produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_log_series_correct","statement":"Path(test_log_series(x), test_log_series produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16e676c27a53ffec"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_log_series","kind":"function","src_hash":"4c497bbebfd51d63","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.nseries(x, n=5, logx=l) == 1 / (1 - l)"},"spec":{"lhs":"test_log_series()","rhs":"e.nseries(x, n=5, logx=l) == 1 / (1 - l)","over":{"base":"Any"},"name":"test_log_series_correct"},"guarantee":"e.nseries(x, n=5, logx=l) == 1 / (1 - l)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_log_series_correct","statement":"Path(test_log_series(x), e.nseries(x, n=5, logx=l) == 1 / (1 - l))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b956c0162d9ed9f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.nseries(x, n=5, logx=l) == 1 / (1 - l)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_log_series():
     l = Symbol('l')
     e = 1/(1 - log(x))
@@ -278,32 +373,44 @@ def test_log_series():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_log2(), test_log2 produces the expected output) over Any ║
+# ║ Path(test_log2(), e.nseries(x, n=5) == -log(x) + log(-1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_log2 : Any → {Any | e.nseries(x, n=5) == -log(x)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.nseries(x, n=5) == -log(x) + log(-1)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_log2 : Any → {Any | result satisfies: e.nseries(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5741a08d19b60986  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 23f5c235ef0aa8c3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_log2","kind":"function","src_hash":"a354bb0e4a6b4910","in":{"base":"Any"},"out":{"base":"Any","pred":"e.nseries(x, n=5) == -log(x) + log(-1)"},"spec":{"lhs":"test_log2()","rhs":"test_log2 produces the expected output","over":{"base":"Any"},"name":"test_log2_correct"},"guarantee":"test_log2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_log2_correct","statement":"Path(test_log2(x), test_log2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5741a08d19b60986"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_log2","kind":"function","src_hash":"a354bb0e4a6b4910","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.nseries(x, n=5) == -log(x) + log(-1)"},"spec":{"lhs":"test_log2()","rhs":"e.nseries(x, n=5) == -log(x) + log(-1)","over":{"base":"Any"},"name":"test_log2_correct"},"guarantee":"e.nseries(x, n=5) == -log(x) + log(-1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_log2_correct","statement":"Path(test_log2(x), e.nseries(x, n=5) == -log(x) + log(-1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23f5c235ef0aa8c3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.nseries(x, n=5) == -log(x) + log(-1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_log2():
     e = log(-1/x)
     assert e.nseries(x, n=5) == -log(x) + log(-1)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_log3(), test_log3 produces the expected output) over Any ║
+# ║ Path(test_log3(), e.nseries(x, n=4, logx=l) == 1 / (-l + log(-1))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_log3 : Any → {Any | e.nseries(x, n=4, logx=l) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.nseries(x, n=4, logx=l) == 1 / (-l + lo...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_log3 : Any → {Any | result satisfies: e.nseries(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 366127684ed305c1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22883fb0959b3680  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_log3","kind":"function","src_hash":"f2af03375ca43635","in":{"base":"Any"},"out":{"base":"Any","pred":"e.nseries(x, n=4, logx=l) == 1 / (-l + log(-1))"},"spec":{"lhs":"test_log3()","rhs":"test_log3 produces the expected output","over":{"base":"Any"},"name":"test_log3_correct"},"guarantee":"test_log3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_log3_correct","statement":"Path(test_log3(x), test_log3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"366127684ed305c1"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_log3","kind":"function","src_hash":"f2af03375ca43635","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.nseries(x, n=4, logx=l) == 1 / (-l + log(-1))"},"spec":{"lhs":"test_log3()","rhs":"e.nseries(x, n=4, logx=l) == 1 / (-l + log(-1))","over":{"base":"Any"},"name":"test_log3_correct"},"guarantee":"e.nseries(x, n=4, logx=l) == 1 / (-l + log(-1))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_log3_correct","statement":"Path(test_log3(x), e.nseries(x, n=4, logx=l) == 1 / (-l + log(-1)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22883fb0959b3680","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.nseries(x, n=4, logx=l) == 1 / (-l + log(-1))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_log3():
     l = Symbol('l')
     e = 1/log(-1/x)
@@ -311,16 +418,24 @@ def test_log3():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_series1(), test_series1 produces the expected output) over Any ║
+# ║ Path(test_series1(), e.nseries(x, 0, 0) != 0 and e.nseries(x, 0, 0) == O(1, x) and e.nseries(x, 0, 1) == O(x, x) and e.nseries(x, 0, 2) == x + O(x ** 2, x) and e.nseries(x, 0, 3) == x + O(x ** 3, x) and e.nseries(x, 0, 4) == x - x ** 3 / 6 + O(x ** 4, x) and e.nseries(x, 0, 3) == 1 + x / 2 + x ** 2 / 6 + O(x ** 3) and x.nseries(x, 0, 2) == x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_series1 : Any → {Any | e.nseries(x, 0, 0) != 0 a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.nseries(x, 0, 0) != 0                        ║
+# ║   ensures:  e.nseries(x, 0, 0) == O(1, x)                  ║
+# ║   ensures:  e.nseries(x, 0, 1) == O(x, x)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_series1 : Any → {Any | result satisfies: e.nseri...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc73462da34cca96  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d18286e3c18b2a8e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_series1","kind":"function","src_hash":"a68b9cd52b885dda","in":{"base":"Any"},"out":{"base":"Any","pred":"e.nseries(x, 0, 0) != 0 and e.nseries(x, 0, 0) == O(1, x) and e.nseries(x, 0, 1) == O(x, x) and e.nseries(x, 0, 2) == x + O(x ** 2, x) and e.nseries(x, 0, 3) == x + O(x ** 3, x) and e.nseries(x, 0, 4) == x - x ** 3 / 6 + O(x ** 4, x) and e.nseries(x, 0, 3) == 1 + x / 2 + x ** 2 / 6 + O(x ** 3) and x.nseries(x, 0, 2) == x"},"spec":{"lhs":"test_series1()","rhs":"test_series1 produces the expected output","over":{"base":"Any"},"name":"test_series1_correct"},"guarantee":"test_series1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_series1_correct","statement":"Path(test_series1(x), test_series1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc73462da34cca96"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_series1","kind":"function","src_hash":"a68b9cd52b885dda","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.nseries(x, 0, 0) != 0 and e.nseries(x, 0, 0) == O(1, x) and e.nseries(x, 0, 1) == O(x, x) and e.nseries(x, 0, 2) == x + O(x ** 2, x) and e.nseries(x, 0, 3) == x + O(x ** 3, x) and e.nseries(x, 0, 4) == x - x ** 3 / 6 + O(x ** 4, x) and e.nseries(x, 0, 3) == 1 + x / 2 + x ** 2 / 6 + O(x ** 3) and x.nseries(x, 0, 2) == x"},"spec":{"lhs":"test_series1()","rhs":"e.nseries(x, 0, 0) != 0 and e.nseries(x, 0, 0) == O(1, x) and e.nseries(x, 0, 1) == O(x, x) and e.nseries(x, 0, 2) == x + O(x ** 2, x) and e.nseries(x, 0, 3) == x + O(x ** 3, x) and e.nseries(x, 0, 4) == x - x ** 3 / 6 + O(x ** 4, x) and e.nseries(x, 0, 3) == 1 + x / 2 + x ** 2 / 6 + O(x ** 3) and x.nseries(x, 0, 2) == x","over":{"base":"Any"},"name":"test_series1_correct"},"guarantee":"e.nseries(x, 0, 0) != 0; e.nseries(x, 0, 0) == O(1, x); e.nseries(x, 0, 1) == O(x, x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_series1_correct","statement":"Path(test_series1(x), e.nseries(x, 0, 0) != 0; e.nseries(x, 0, 0) == O(1, x); e.nseries(x, 0, 1) == O(x, x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d18286e3c18b2a8e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.nseries(x, 0, 0) != 0","e.nseries(x, 0, 0) == O(1, x)","e.nseries(x, 0, 1) == O(x, x)","e.nseries(x, 0, 2) == x + O(x ** 2, x)","e.nseries(x, 0, 3) == x + O(x ** 3, x)","e.nseries(x, 0, 4) == x - x ** 3 / 6 + O(x ** 4, x)","e.nseries(x, 0, 3) == 1 + x / 2 + x ** 2 / 6 + O(x ** 3)","x.nseries(x, 0, 2) == x"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_series1():
     e = sin(x)
     assert e.nseries(x, 0, 0) != 0
@@ -338,48 +453,70 @@ def test_series1():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_series1_failing(), test_series1_failing produces the expected output) over Any ║
+# ║ Path(test_series1_failing(), x.nseries(x, 0, 0) == O(1, x) and x.nseries(x, 0, 1) == O(x, x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_series1_failing : Any → {Any | x.nseries(x, 0, 0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  x.nseries(x, 0, 0) == O(1, x)                  ║
+# ║   ensures:  x.nseries(x, 0, 1) == O(x, x)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_series1_failing : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ebfff07997250513  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82e5ee35df18b5cf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_series1_failing","kind":"function","src_hash":"eadb7382d6259dc0","in":{"base":"Any"},"out":{"base":"Any","pred":"x.nseries(x, 0, 0) == O(1, x) and x.nseries(x, 0, 1) == O(x, x)"},"spec":{"lhs":"test_series1_failing()","rhs":"test_series1_failing produces the expected output","over":{"base":"Any"},"name":"test_series1_failing_correct"},"guarantee":"test_series1_failing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_series1_failing_correct","statement":"Path(test_series1_failing(x), test_series1_failing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ebfff07997250513"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_series1_failing","kind":"function","src_hash":"eadb7382d6259dc0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: x.nseries(x, 0, 0) == O(1, x) and x.nseries(x, 0, 1) == O(x, x)"},"spec":{"lhs":"test_series1_failing()","rhs":"x.nseries(x, 0, 0) == O(1, x) and x.nseries(x, 0, 1) == O(x, x)","over":{"base":"Any"},"name":"test_series1_failing_correct"},"guarantee":"x.nseries(x, 0, 0) == O(1, x); x.nseries(x, 0, 1) == O(x, x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_series1_failing_correct","statement":"Path(test_series1_failing(x), x.nseries(x, 0, 0) == O(1, x); x.nseries(x, 0, 1) == O(x, x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82e5ee35df18b5cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["x.nseries(x, 0, 0) == O(1, x)","x.nseries(x, 0, 1) == O(x, x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_series1_failing():
     assert x.nseries(x, 0, 0) == O(1, x)
     assert x.nseries(x, 0, 1) == O(x, x)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_seriesbug1(), test_seriesbug1 produces the expected output) over Any ║
+# ║ Path(test_seriesbug1(), (1 / x).nseries(x, 0, 3) == 1 / x and (x + 1 / x).nseries(x, 0, 3) == x + 1 / x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_seriesbug1 : Any → {Any | (1 / x).nseries(x, 0, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (1 / x).nseries(x, 0, 3) == 1 / x              ║
+# ║   ensures:  (x + 1 / x).nseries(x, 0, 3) == x + 1 / x      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_seriesbug1 : Any → {Any | result satisfies: (1 /...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f179706e884211f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dbd295479c935bc3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_seriesbug1","kind":"function","src_hash":"d2e0e7dcbcf42636","in":{"base":"Any"},"out":{"base":"Any","pred":"(1 / x).nseries(x, 0, 3) == 1 / x and (x + 1 / x).nseries(x, 0, 3) == x + 1 / x"},"spec":{"lhs":"test_seriesbug1()","rhs":"test_seriesbug1 produces the expected output","over":{"base":"Any"},"name":"test_seriesbug1_correct"},"guarantee":"test_seriesbug1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_seriesbug1_correct","statement":"Path(test_seriesbug1(x), test_seriesbug1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f179706e884211f"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_seriesbug1","kind":"function","src_hash":"d2e0e7dcbcf42636","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (1 / x).nseries(x, 0, 3) == 1 / x and (x + 1 / x).nseries(x, 0, 3) == x + 1 / x"},"spec":{"lhs":"test_seriesbug1()","rhs":"(1 / x).nseries(x, 0, 3) == 1 / x and (x + 1 / x).nseries(x, 0, 3) == x + 1 / x","over":{"base":"Any"},"name":"test_seriesbug1_correct"},"guarantee":"(1 / x).nseries(x, 0, 3) == 1 / x; (x + 1 / x).nseries(x, 0, 3) == x + 1 / x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_seriesbug1_correct","statement":"Path(test_seriesbug1(x), (1 / x).nseries(x, 0, 3) == 1 / x; (x + 1 / x).nseries(x, 0, 3) == x + 1 / x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbd295479c935bc3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(1 / x).nseries(x, 0, 3) == 1 / x","(x + 1 / x).nseries(x, 0, 3) == x + 1 / x"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_seriesbug1():
     assert (1/x).nseries(x, 0, 3) == 1/x
     assert (x + 1/x).nseries(x, 0, 3) == x + 1/x
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_series2x(), test_series2x produces the expected output) over Any ║
+# ║ Path(test_series2x(), ((x + 1) ** (-2)).nseries(x, 0, 4) == 1 - 2 * x + 3 * x ** 2 - 4 * x ** 3 + O(x ** 4, x) and ((x + 1) ** (-1)).nseries(x, 0, 4) == 1 - x + x ** 2 - x ** 3 + O(x ** 4, x) and ((x + 1) ** 0).nseries(x, 0, 3) == 1 and ((x + 1) ** 1).nseries(x, 0, 3) == 1 + x and ((x + 1) ** 2).nseries(x, 0, 3) == x ** 2 + 2 * x + 1 and ((x + 1) ** 3).nseries(x, 0, 3) == 1 + 3 * x + 3 * x ** 2 + O(x ** 3) and (1 / (1 + x)).nseries(x, 0, 4) == 1 - x + x ** 2 - x ** 3 + O(x ** 4, x) and (x + 3 / (1 + 2 * x)).nseries(x, 0, 4) == 3 - 5 * x + 12 * x ** 2 - 24 * x ** 3 + O(x ** 4, x) and ((1 / x + 1) ** 3).nseries(x, 0, 3) == 1 + 3 / x + 3 / x ** 2 + x ** (-3) and (1 / (1 + 1 / x)).nseries(x, 0, 4) == x - x ** 2 + x ** 3 - O(x ** 4, x) and (1 / (1 + 1 / x ** 2)).nseries(x, 0, 6) == x ** 2 - x ** 4 + O(x ** 6, x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_series2x : Any → {Any | ((x + 1) ** (-1)).nserie...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ((x + 1) ** (-2)).nseries(x, 0, 4) == 1 -...   ║
+# ║   ensures:  ((x + 1) ** (-1)).nseries(x, 0, 4) == 1 -...   ║
+# ║   ensures:  ((x + 1) ** 0).nseries(x, 0, 3) == 1           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_series2x : Any → {Any | result satisfies: ((x + ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c683d8818f38404  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0d83e4374cee9cc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_series2x","kind":"function","src_hash":"a98ce8406b03110c","in":{"base":"Any"},"out":{"base":"Any","pred":"((x + 1) ** (-1)).nseries(x, 0, 4) == 1 - x + x ** 2 - x ** 3 + O(x ** 4, x) and ((x + 1) ** 0).nseries(x, 0, 3) == 1 and ((x + 1) ** 1).nseries(x, 0, 3) == 1 + x and ((x + 1) ** 2).nseries(x, 0, 3) == x ** 2 + 2 * x + 1 and ((x + 1) ** 3).nseries(x, 0, 3) == 1 + 3 * x + 3 * x ** 2 + O(x ** 3) and (1 / (1 + x)).nseries(x, 0, 4) == 1 - x + x ** 2 - x ** 3 + O(x ** 4, x) and ((1 / x + 1) ** 3).nseries(x, 0, 3) == 1 + 3 / x + 3 / x ** 2 + x ** (-3) and (1 / (1 + 1 / x)).nseries(x, 0, 4) == x - x ** 2 + x ** 3 - O(x ** 4, x) and (1 / (1 + 1 / x ** 2)).nseries(x, 0, 6) == x ** 2 - x ** 4 + O(x ** 6, x)"},"spec":{"lhs":"test_series2x()","rhs":"test_series2x produces the expected output","over":{"base":"Any"},"name":"test_series2x_correct"},"guarantee":"test_series2x produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_series2x_correct","statement":"Path(test_series2x(x), test_series2x produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c683d8818f38404"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_series2x","kind":"function","src_hash":"a98ce8406b03110c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ((x + 1) ** (-2)).nseries(x, 0, 4) == 1 - 2 * x + 3 * x ** 2 - 4 * x ** 3 + O(x ** 4, x) and ((x + 1) ** (-1)).nseries(x, 0, 4) == 1 - x + x ** 2 - x ** 3 + O(x ** 4, x) and ((x + 1) ** 0).nseries(x, 0, 3) == 1 and ((x + 1) ** 1).nseries(x, 0, 3) == 1 + x and ((x + 1) ** 2).nseries(x, 0, 3) == x ** 2 + 2 * x + 1 and ((x + 1) ** 3).nseries(x, 0, 3) == 1 + 3 * x + 3 * x ** 2 + O(x ** 3) and (1 / (1 + x)).nseries(x, 0, 4) == 1 - x + x ** 2 - x ** 3 + O(x ** 4, x) and (x + 3 / (1 + 2 * x)).nseries(x, 0, 4) == 3 - 5 * x + 12 * x ** 2 - 24 * x ** 3 + O(x ** 4, x) and ((1 / x + 1) ** 3).nseries(x, 0, 3) == 1 + 3 / x + 3 / x ** 2 + x ** (-3) and (1 / (1 + 1 / x)).nseries(x, 0, 4) == x - x ** 2 + x ** 3 - O(x ** 4, x) and (1 / (1 + 1 / x ** 2)).nseries(x, 0, 6) == x ** 2 - x ** 4 + O(x ** 6, x)"},"spec":{"lhs":"test_series2x()","rhs":"((x + 1) ** (-2)).nseries(x, 0, 4) == 1 - 2 * x + 3 * x ** 2 - 4 * x ** 3 + O(x ** 4, x) and ((x + 1) ** (-1)).nseries(x, 0, 4) == 1 - x + x ** 2 - x ** 3 + O(x ** 4, x) and ((x + 1) ** 0).nseries(x, 0, 3) == 1 and ((x + 1) ** 1).nseries(x, 0, 3) == 1 + x and ((x + 1) ** 2).nseries(x, 0, 3) == x ** 2 + 2 * x + 1 and ((x + 1) ** 3).nseries(x, 0, 3) == 1 + 3 * x + 3 * x ** 2 + O(x ** 3) and (1 / (1 + x)).nseries(x, 0, 4) == 1 - x + x ** 2 - x ** 3 + O(x ** 4, x) and (x + 3 / (1 + 2 * x)).nseries(x, 0, 4) == 3 - 5 * x + 12 * x ** 2 - 24 * x ** 3 + O(x ** 4, x) and ((1 / x + 1) ** 3).nseries(x, 0, 3) == 1 + 3 / x + 3 / x ** 2 + x ** (-3) and (1 / (1 + 1 / x)).nseries(x, 0, 4) == x - x ** 2 + x ** 3 - O(x ** 4, x) and (1 / (1 + 1 / x ** 2)).nseries(x, 0, 6) == x ** 2 - x ** 4 + O(x ** 6, x)","over":{"base":"Any"},"name":"test_series2x_correct"},"guarantee":"((x + 1) ** (-2)).nseries(x, 0, 4) == 1 - 2 * x + 3 * x ** 2 - 4 * x ** 3 + O(x ** 4, x); ((x + 1) ** (-1)).nseries(x, 0, 4) == 1 - x + x ** 2 - x ** 3 + O(x ** 4, x); ((x + 1) ** 0).nseries(x, 0, 3) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_series2x_correct","statement":"Path(test_series2x(x), ((x + 1) ** (-2)).nseries(x, 0, 4) == 1 - 2 * x + 3 * x ** 2 - 4 * x ** 3 + O(x ** 4, x); ((x + 1) ** (-1)).nseries(x, 0, 4) == 1 - x + x ** 2 - x ** 3 + O(x ** 4, x); ((x + 1) ** 0).nseries(x, 0, 3) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0d83e4374cee9cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["((x + 1) ** (-2)).nseries(x, 0, 4) == 1 - 2 * x + 3 * x ** 2 - 4 * x ** 3 + O(x ** 4, x)","((x + 1) ** (-1)).nseries(x, 0, 4) == 1 - x + x ** 2 - x ** 3 + O(x ** 4, x)","((x + 1) ** 0).nseries(x, 0, 3) == 1","((x + 1) ** 1).nseries(x, 0, 3) == 1 + x","((x + 1) ** 2).nseries(x, 0, 3) == x ** 2 + 2 * x + 1","((x + 1) ** 3).nseries(x, 0, 3) == 1 + 3 * x + 3 * x ** 2 + O(x ** 3)","(1 / (1 + x)).nseries(x, 0, 4) == 1 - x + x ** 2 - x ** 3 + O(x ** 4, x)","(x + 3 / (1 + 2 * x)).nseries(x, 0, 4) == 3 - 5 * x + 12 * x ** 2 - 24 * x ** 3 + O(x ** 4, x)","((1 / x + 1) ** 3).nseries(x, 0, 3) == 1 + 3 / x + 3 / x ** 2 + x ** (-3)","(1 / (1 + 1 / x)).nseries(x, 0, 4) == x - x ** 2 + x ** 3 - O(x ** 4, x)","(1 / (1 + 1 / x ** 2)).nseries(x, 0, 6) == x ** 2 - x ** 4 + O(x ** 6, x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_series2x():
     assert ((x + 1)**(-2)).nseries(x, 0, 4) == 1 - 2*x + 3*x**2 - 4*x**3 + O(x**4, x)
     assert ((x + 1)**(-1)).nseries(x, 0, 4) == 1 - x + x**2 - x**3 + O(x**4, x)
@@ -397,16 +534,22 @@ def test_series2x():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bug2(), test_bug2 produces the expected output) over Any ║
+# ║ Path(test_bug2(), e.nseries(w, 0, 4).subs(w, 0) == 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bug2 : Any → {Any | e.nseries(w, 0, 4).subs(w, 0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.nseries(w, 0, 4).subs(w, 0) == 3             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bug2 : Any → {Any | result satisfies: e.nseries(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ee43d69e24175b1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0bfd5318c37dfe15  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_bug2","kind":"function","src_hash":"11cc6850617a26d5","in":{"base":"Any"},"out":{"base":"Any","pred":"e.nseries(w, 0, 4).subs(w, 0) == 3"},"spec":{"lhs":"test_bug2()","rhs":"test_bug2 produces the expected output","over":{"base":"Any"},"name":"test_bug2_correct"},"guarantee":"test_bug2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_bug2_correct","statement":"Path(test_bug2(x), test_bug2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ee43d69e24175b1"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_bug2","kind":"function","src_hash":"11cc6850617a26d5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.nseries(w, 0, 4).subs(w, 0) == 3"},"spec":{"lhs":"test_bug2()","rhs":"e.nseries(w, 0, 4).subs(w, 0) == 3","over":{"base":"Any"},"name":"test_bug2_correct"},"guarantee":"e.nseries(w, 0, 4).subs(w, 0) == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_bug2_correct","statement":"Path(test_bug2(x), e.nseries(w, 0, 4).subs(w, 0) == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0bfd5318c37dfe15","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.nseries(w, 0, 4).subs(w, 0) == 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_bug2():  # 1/log(0)*log(0) problem
     w = Symbol("w")
     e = (w**(-1) + w**(
@@ -416,32 +559,44 @@ def test_bug2():  # 1/log(0)*log(0) problem
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exp(), test_exp produces the expected output) over Any ║
+# ║ Path(test_exp(), e.nseries(x, n=3) == exp(1) - x * exp(1) / 2 + 11 * exp(1) * x ** 2 / 24 + O(x ** 3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exp : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.nseries(x, n=3) == exp(1) - x * exp(1) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exp : Any → {Any | result satisfies: e.nseries(x...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ca081c4e3fcf8e3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d004c18dfe384dca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_exp","kind":"function","src_hash":"1df10369b7c937c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_exp()","rhs":"test_exp produces the expected output","over":{"base":"Any"},"name":"test_exp_correct"},"guarantee":"test_exp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_exp_correct","statement":"Path(test_exp(x), test_exp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ca081c4e3fcf8e3"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_exp","kind":"function","src_hash":"1df10369b7c937c6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.nseries(x, n=3) == exp(1) - x * exp(1) / 2 + 11 * exp(1) * x ** 2 / 24 + O(x ** 3)"},"spec":{"lhs":"test_exp()","rhs":"e.nseries(x, n=3) == exp(1) - x * exp(1) / 2 + 11 * exp(1) * x ** 2 / 24 + O(x ** 3)","over":{"base":"Any"},"name":"test_exp_correct"},"guarantee":"e.nseries(x, n=3) == exp(1) - x * exp(1) / 2 + 11 * exp(1) * x ** 2 / 24 + O(x ** 3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_exp_correct","statement":"Path(test_exp(x), e.nseries(x, n=3) == exp(1) - x * exp(1) / 2 + 11 * exp(1) * x ** 2 / 24 + O(x ** 3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d004c18dfe384dca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.nseries(x, n=3) == exp(1) - x * exp(1) / 2 + 11 * exp(1) * x ** 2 / 24 + O(x ** 3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_exp():
     e = (1 + x)**(1/x)
     assert e.nseries(x, n=3) == exp(1) - x*exp(1)/2 + 11*exp(1)*x**2/24 + O(x**3)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exp2(), test_exp2 produces the expected output) over Any ║
+# ║ Path(test_exp2(), e.nseries(w, 0, 1, logx=logw) == exp(logw * log(2) / (log(x) + log(2)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exp2 : Any → {Any | e.nseries(w, 0, 1, logx=logw...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.nseries(w, 0, 1, logx=logw) == exp(logw...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exp2 : Any → {Any | result satisfies: e.nseries(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa81262fcc4c2043  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 51cc69eafabb2949  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_exp2","kind":"function","src_hash":"39e48720ac3c454f","in":{"base":"Any"},"out":{"base":"Any","pred":"e.nseries(w, 0, 1, logx=logw) == exp(logw * log(2) / (log(x) + log(2)))"},"spec":{"lhs":"test_exp2()","rhs":"test_exp2 produces the expected output","over":{"base":"Any"},"name":"test_exp2_correct"},"guarantee":"test_exp2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_exp2_correct","statement":"Path(test_exp2(x), test_exp2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa81262fcc4c2043"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_exp2","kind":"function","src_hash":"39e48720ac3c454f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.nseries(w, 0, 1, logx=logw) == exp(logw * log(2) / (log(x) + log(2)))"},"spec":{"lhs":"test_exp2()","rhs":"e.nseries(w, 0, 1, logx=logw) == exp(logw * log(2) / (log(x) + log(2)))","over":{"base":"Any"},"name":"test_exp2_correct"},"guarantee":"e.nseries(w, 0, 1, logx=logw) == exp(logw * log(2) / (log(x) + log(2)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_exp2_correct","statement":"Path(test_exp2(x), e.nseries(w, 0, 1, logx=logw) == exp(logw * log(2) / (log(x) + log(2))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51cc69eafabb2949","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.nseries(w, 0, 1, logx=logw) == exp(logw * log(2) / (log(x) + log(2)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_exp2():
     w = Symbol("w")
     e = w**(1 - log(x)/(log(2) + log(x)))
@@ -451,32 +606,46 @@ def test_exp2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bug3(), test_bug3 produces the expected output) over Any ║
+# ║ Path(test_bug3(), e.nseries(x, n=3) == 3 - x + x ** 2 + O(x ** 3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bug3 : Any → {Any | e.nseries(x, n=3) == 3 - x +...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.nseries(x, n=3) == 3 - x + x ** 2 + O(x...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bug3 : Any → {Any | result satisfies: e.nseries(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb8ea4bb5b2191a2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | baf01dfffa6b06ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_bug3","kind":"function","src_hash":"453296b62ca436b0","in":{"base":"Any"},"out":{"base":"Any","pred":"e.nseries(x, n=3) == 3 - x + x ** 2 + O(x ** 3)"},"spec":{"lhs":"test_bug3()","rhs":"test_bug3 produces the expected output","over":{"base":"Any"},"name":"test_bug3_correct"},"guarantee":"test_bug3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_bug3_correct","statement":"Path(test_bug3(x), test_bug3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb8ea4bb5b2191a2"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_bug3","kind":"function","src_hash":"453296b62ca436b0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.nseries(x, n=3) == 3 - x + x ** 2 + O(x ** 3)"},"spec":{"lhs":"test_bug3()","rhs":"e.nseries(x, n=3) == 3 - x + x ** 2 + O(x ** 3)","over":{"base":"Any"},"name":"test_bug3_correct"},"guarantee":"e.nseries(x, n=3) == 3 - x + x ** 2 + O(x ** 3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_bug3_correct","statement":"Path(test_bug3(x), e.nseries(x, n=3) == 3 - x + x ** 2 + O(x ** 3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"baf01dfffa6b06ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.nseries(x, n=3) == 3 - x + x ** 2 + O(x ** 3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_bug3():
     e = (2/x + 3/x**2)/(1/x + 1/x**2)
     assert e.nseries(x, n=3) == 3 - x + x**2 + O(x**3)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_generalexponent(), test_generalexponent produces the expected output) over Any ║
+# ║ Path(test_generalexponent(), e.nseries(x, 0, 3) == 3 - x + x ** 2 + O(x ** 3) and e.nseries(x, 0, 2) == 2 - x + sqrt(x) + x ** (S(3) / 2) + O(x ** 2) and e.nseries(x, 0, 4) == 1 + sqrt(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_generalexponent : Any → {Any | e.nseries(x, 0, 3...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.nseries(x, 0, 3) == 3 - x + x ** 2 + O(...   ║
+# ║   ensures:  e.nseries(x, 0, 2) == 2 - x + sqrt(x) + x...   ║
+# ║   ensures:  e.nseries(x, 0, 4) == 1 + sqrt(x)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_generalexponent : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c0aed4220ee914ae  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8298423cb4c8722f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_generalexponent","kind":"function","src_hash":"09339e049077372c","in":{"base":"Any"},"out":{"base":"Any","pred":"e.nseries(x, 0, 3) == 3 - x + x ** 2 + O(x ** 3) and e.nseries(x, 0, 2) == 2 - x + sqrt(x) + x ** (S(3) / 2) + O(x ** 2) and e.nseries(x, 0, 4) == 1 + sqrt(x)"},"spec":{"lhs":"test_generalexponent()","rhs":"test_generalexponent produces the expected output","over":{"base":"Any"},"name":"test_generalexponent_correct"},"guarantee":"test_generalexponent produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_generalexponent_correct","statement":"Path(test_generalexponent(x), test_generalexponent produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c0aed4220ee914ae"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_generalexponent","kind":"function","src_hash":"09339e049077372c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.nseries(x, 0, 3) == 3 - x + x ** 2 + O(x ** 3) and e.nseries(x, 0, 2) == 2 - x + sqrt(x) + x ** (S(3) / 2) + O(x ** 2) and e.nseries(x, 0, 4) == 1 + sqrt(x)"},"spec":{"lhs":"test_generalexponent()","rhs":"e.nseries(x, 0, 3) == 3 - x + x ** 2 + O(x ** 3) and e.nseries(x, 0, 2) == 2 - x + sqrt(x) + x ** (S(3) / 2) + O(x ** 2) and e.nseries(x, 0, 4) == 1 + sqrt(x)","over":{"base":"Any"},"name":"test_generalexponent_correct"},"guarantee":"e.nseries(x, 0, 3) == 3 - x + x ** 2 + O(x ** 3); e.nseries(x, 0, 2) == 2 - x + sqrt(x) + x ** (S(3) / 2) + O(x ** 2); e.nseries(x, 0, 4) == 1 + sqrt(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_generalexponent_correct","statement":"Path(test_generalexponent(x), e.nseries(x, 0, 3) == 3 - x + x ** 2 + O(x ** 3); e.nseries(x, 0, 2) == 2 - x + sqrt(x) + x ** (S(3) / 2) + O(x ** 2); e.nseries(x, 0, 4) == 1 + sqrt(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8298423cb4c8722f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.nseries(x, 0, 3) == 3 - x + x ** 2 + O(x ** 3)","e.nseries(x, 0, 2) == 2 - x + sqrt(x) + x ** (S(3) / 2) + O(x ** 2)","e.nseries(x, 0, 4) == 1 + sqrt(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_generalexponent():
     p = 2
     e = (2/x + 3/x**p)/(1/x + 1/x**p)
@@ -492,16 +661,22 @@ def test_generalexponent():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_genexp_x(), test_genexp_x produces the expected output) over Any ║
+# ║ Path(test_genexp_x(), e.nseries(x, 0, 2) == 1 + x - sqrt(x) - sqrt(x) ** 3 + O(x ** 2, x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_genexp_x : Any → {Any | e.nseries(x, 0, 2) == 1 ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.nseries(x, 0, 2) == 1 + x - sqrt(x) - s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_genexp_x : Any → {Any | result satisfies: e.nser...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c586c3e3110368b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 980fa55e228bf62e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_genexp_x","kind":"function","src_hash":"705b6bf8648081c4","in":{"base":"Any"},"out":{"base":"Any","pred":"e.nseries(x, 0, 2) == 1 + x - sqrt(x) - sqrt(x) ** 3 + O(x ** 2, x)"},"spec":{"lhs":"test_genexp_x()","rhs":"test_genexp_x produces the expected output","over":{"base":"Any"},"name":"test_genexp_x_correct"},"guarantee":"test_genexp_x produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_genexp_x_correct","statement":"Path(test_genexp_x(x), test_genexp_x produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c586c3e3110368b"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_genexp_x","kind":"function","src_hash":"705b6bf8648081c4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.nseries(x, 0, 2) == 1 + x - sqrt(x) - sqrt(x) ** 3 + O(x ** 2, x)"},"spec":{"lhs":"test_genexp_x()","rhs":"e.nseries(x, 0, 2) == 1 + x - sqrt(x) - sqrt(x) ** 3 + O(x ** 2, x)","over":{"base":"Any"},"name":"test_genexp_x_correct"},"guarantee":"e.nseries(x, 0, 2) == 1 + x - sqrt(x) - sqrt(x) ** 3 + O(x ** 2, x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_genexp_x_correct","statement":"Path(test_genexp_x(x), e.nseries(x, 0, 2) == 1 + x - sqrt(x) - sqrt(x) ** 3 + O(x ** 2, x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"980fa55e228bf62e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.nseries(x, 0, 2) == 1 + x - sqrt(x) - sqrt(x) ** 3 + O(x ** 2, x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_genexp_x():
     e = 1/(1 + sqrt(x))
     assert e.nseries(x, 0, 2) == \
@@ -511,16 +686,22 @@ def test_genexp_x():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_genexp_x2(), test_genexp_x2 produces the expected output) over Any ║
+# ║ Path(test_genexp_x2(), e.nseries(x, 0, 3) == 3 + x + x ** 2 - sqrt(x) - x ** (S(3) / 2) - x ** (S(5) / 2) + O(x ** 3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_genexp_x2 : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.nseries(x, 0, 3) == 3 + x + x ** 2 - sq...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_genexp_x2 : Any → {Any | result satisfies: e.nse...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3252d2b6a0c164c5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7bab53a167c26a80  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_genexp_x2","kind":"function","src_hash":"2f518bafcad1fc62","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_genexp_x2()","rhs":"test_genexp_x2 produces the expected output","over":{"base":"Any"},"name":"test_genexp_x2_correct"},"guarantee":"test_genexp_x2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_genexp_x2_correct","statement":"Path(test_genexp_x2(x), test_genexp_x2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3252d2b6a0c164c5"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_genexp_x2","kind":"function","src_hash":"2f518bafcad1fc62","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.nseries(x, 0, 3) == 3 + x + x ** 2 - sqrt(x) - x ** (S(3) / 2) - x ** (S(5) / 2) + O(x ** 3)"},"spec":{"lhs":"test_genexp_x2()","rhs":"e.nseries(x, 0, 3) == 3 + x + x ** 2 - sqrt(x) - x ** (S(3) / 2) - x ** (S(5) / 2) + O(x ** 3)","over":{"base":"Any"},"name":"test_genexp_x2_correct"},"guarantee":"e.nseries(x, 0, 3) == 3 + x + x ** 2 - sqrt(x) - x ** (S(3) / 2) - x ** (S(5) / 2) + O(x ** 3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_genexp_x2_correct","statement":"Path(test_genexp_x2(x), e.nseries(x, 0, 3) == 3 + x + x ** 2 - sqrt(x) - x ** (S(3) / 2) - x ** (S(5) / 2) + O(x ** 3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7bab53a167c26a80","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.nseries(x, 0, 3) == 3 + x + x ** 2 - sqrt(x) - x ** (S(3) / 2) - x ** (S(5) / 2) + O(x ** 3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_genexp_x2():
     p = Rational(3, 2)
     e = (2/x + 3/x**p)/(1/x + 1/x**p)
@@ -528,16 +709,23 @@ def test_genexp_x2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_seriesbug2(), test_seriesbug2 produces the expected output) over Any ║
+# ║ Path(test_seriesbug2(), e.nseries(w, 0, 1) == 2 + O(w, w) and e.nseries(w, 0, 1).subs(w, 0) == 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_seriesbug2 : Any → {Any | e.nseries(w, 0, 1) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.nseries(w, 0, 1) == 2 + O(w, w)              ║
+# ║   ensures:  e.nseries(w, 0, 1).subs(w, 0) == 2             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_seriesbug2 : Any → {Any | result satisfies: e.ns...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 53da8203c4d5f987  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98c13b00a614fdc3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_seriesbug2","kind":"function","src_hash":"46c601ca3d6fe090","in":{"base":"Any"},"out":{"base":"Any","pred":"e.nseries(w, 0, 1) == 2 + O(w, w) and e.nseries(w, 0, 1).subs(w, 0) == 2"},"spec":{"lhs":"test_seriesbug2()","rhs":"test_seriesbug2 produces the expected output","over":{"base":"Any"},"name":"test_seriesbug2_correct"},"guarantee":"test_seriesbug2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_seriesbug2_correct","statement":"Path(test_seriesbug2(x), test_seriesbug2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53da8203c4d5f987"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_seriesbug2","kind":"function","src_hash":"46c601ca3d6fe090","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.nseries(w, 0, 1) == 2 + O(w, w) and e.nseries(w, 0, 1).subs(w, 0) == 2"},"spec":{"lhs":"test_seriesbug2()","rhs":"e.nseries(w, 0, 1) == 2 + O(w, w) and e.nseries(w, 0, 1).subs(w, 0) == 2","over":{"base":"Any"},"name":"test_seriesbug2_correct"},"guarantee":"e.nseries(w, 0, 1) == 2 + O(w, w); e.nseries(w, 0, 1).subs(w, 0) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_seriesbug2_correct","statement":"Path(test_seriesbug2(x), e.nseries(w, 0, 1) == 2 + O(w, w); e.nseries(w, 0, 1).subs(w, 0) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98c13b00a614fdc3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.nseries(w, 0, 1) == 2 + O(w, w)","e.nseries(w, 0, 1).subs(w, 0) == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_seriesbug2():
     w = Symbol("w")
     #simple case (1):
@@ -547,16 +735,22 @@ def test_seriesbug2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_seriesbug2b(), test_seriesbug2b produces the expected output) over Any ║
+# ║ Path(test_seriesbug2b(), e.nseries(w, 0, 3) == 2 - 4 * w ** 2 / 3 + O(w ** 3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_seriesbug2b : Any → {Any | e.nseries(w, 0, 3) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.nseries(w, 0, 3) == 2 - 4 * w ** 2 / 3 ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_seriesbug2b : Any → {Any | result satisfies: e.n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98530bf7c36e08ab  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65071c3335628a1e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_seriesbug2b","kind":"function","src_hash":"14fa6c5a0a8dd7a4","in":{"base":"Any"},"out":{"base":"Any","pred":"e.nseries(w, 0, 3) == 2 - 4 * w ** 2 / 3 + O(w ** 3)"},"spec":{"lhs":"test_seriesbug2b()","rhs":"test_seriesbug2b produces the expected output","over":{"base":"Any"},"name":"test_seriesbug2b_correct"},"guarantee":"test_seriesbug2b produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_seriesbug2b_correct","statement":"Path(test_seriesbug2b(x), test_seriesbug2b produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98530bf7c36e08ab"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_seriesbug2b","kind":"function","src_hash":"14fa6c5a0a8dd7a4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.nseries(w, 0, 3) == 2 - 4 * w ** 2 / 3 + O(w ** 3)"},"spec":{"lhs":"test_seriesbug2b()","rhs":"e.nseries(w, 0, 3) == 2 - 4 * w ** 2 / 3 + O(w ** 3)","over":{"base":"Any"},"name":"test_seriesbug2b_correct"},"guarantee":"e.nseries(w, 0, 3) == 2 - 4 * w ** 2 / 3 + O(w ** 3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_seriesbug2b_correct","statement":"Path(test_seriesbug2b(x), e.nseries(w, 0, 3) == 2 - 4 * w ** 2 / 3 + O(w ** 3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65071c3335628a1e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.nseries(w, 0, 3) == 2 - 4 * w ** 2 / 3 + O(w ** 3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_seriesbug2b():
     w = Symbol("w")
     #test sin
@@ -565,16 +759,22 @@ def test_seriesbug2b():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_seriesbug2d(), test_seriesbug2d produces the expected output) over Any ║
+# ║ Path(test_seriesbug2d(), e.series(w, n=5) == log(2) - 2 * w ** 2 / 3 - 4 * w ** 4 / 45 + O(w ** 5)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_seriesbug2d : Any → {Any | e.series(w, n=5) == l...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.series(w, n=5) == log(2) - 2 * w ** 2 /...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_seriesbug2d : Any → {Any | result satisfies: e.s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 370ba3f96448d2fa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 317f89ac36439ac0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_seriesbug2d","kind":"function","src_hash":"8650214305e97eea","in":{"base":"Any"},"out":{"base":"Any","pred":"e.series(w, n=5) == log(2) - 2 * w ** 2 / 3 - 4 * w ** 4 / 45 + O(w ** 5)"},"spec":{"lhs":"test_seriesbug2d()","rhs":"test_seriesbug2d produces the expected output","over":{"base":"Any"},"name":"test_seriesbug2d_correct"},"guarantee":"test_seriesbug2d produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_seriesbug2d_correct","statement":"Path(test_seriesbug2d(x), test_seriesbug2d produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"370ba3f96448d2fa"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_seriesbug2d","kind":"function","src_hash":"8650214305e97eea","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.series(w, n=5) == log(2) - 2 * w ** 2 / 3 - 4 * w ** 4 / 45 + O(w ** 5)"},"spec":{"lhs":"test_seriesbug2d()","rhs":"e.series(w, n=5) == log(2) - 2 * w ** 2 / 3 - 4 * w ** 4 / 45 + O(w ** 5)","over":{"base":"Any"},"name":"test_seriesbug2d_correct"},"guarantee":"e.series(w, n=5) == log(2) - 2 * w ** 2 / 3 - 4 * w ** 4 / 45 + O(w ** 5)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_seriesbug2d_correct","statement":"Path(test_seriesbug2d(x), e.series(w, n=5) == log(2) - 2 * w ** 2 / 3 - 4 * w ** 4 / 45 + O(w ** 5))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"317f89ac36439ac0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.series(w, n=5) == log(2) - 2 * w ** 2 / 3 - 4 * w ** 4 / 45 + O(w ** 5)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_seriesbug2d():
     w = Symbol("w", real=True)
     e = log(sin(2*w)/w)
@@ -582,16 +782,24 @@ def test_seriesbug2d():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_seriesbug2c(), test_seriesbug2c produces the expected output) over Any ║
+# ║ Path(test_seriesbug2c(), e.series(w, 0, 1) == 2 + O(w) and e.series(w, 0, 3) == 2 + 2 * w * log(2) + w ** 2 * (Rational(-4, 3) + log(2) ** 2) + O(w ** 3) and e.series(w, 0, 2).subs(w, 0) == 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_seriesbug2c : Any → {Any | e.series(w, 0, 1) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.series(w, 0, 1) == 2 + O(w)                  ║
+# ║   ensures:  e.series(w, 0, 3) == 2 + 2 * w * log(2) +...   ║
+# ║   ensures:  e.series(w, 0, 2).subs(w, 0) == 2              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_seriesbug2c : Any → {Any | result satisfies: e.s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 805262e55170d1e3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 62f9aebff37d8b8e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_seriesbug2c","kind":"function","src_hash":"393662f1bb754d8e","in":{"base":"Any"},"out":{"base":"Any","pred":"e.series(w, 0, 1) == 2 + O(w) and e.series(w, 0, 2).subs(w, 0) == 2"},"spec":{"lhs":"test_seriesbug2c()","rhs":"test_seriesbug2c produces the expected output","over":{"base":"Any"},"name":"test_seriesbug2c_correct"},"guarantee":"test_seriesbug2c produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_seriesbug2c_correct","statement":"Path(test_seriesbug2c(x), test_seriesbug2c produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"805262e55170d1e3"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_seriesbug2c","kind":"function","src_hash":"393662f1bb754d8e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.series(w, 0, 1) == 2 + O(w) and e.series(w, 0, 3) == 2 + 2 * w * log(2) + w ** 2 * (Rational(-4, 3) + log(2) ** 2) + O(w ** 3) and e.series(w, 0, 2).subs(w, 0) == 2"},"spec":{"lhs":"test_seriesbug2c()","rhs":"e.series(w, 0, 1) == 2 + O(w) and e.series(w, 0, 3) == 2 + 2 * w * log(2) + w ** 2 * (Rational(-4, 3) + log(2) ** 2) + O(w ** 3) and e.series(w, 0, 2).subs(w, 0) == 2","over":{"base":"Any"},"name":"test_seriesbug2c_correct"},"guarantee":"e.series(w, 0, 1) == 2 + O(w); e.series(w, 0, 3) == 2 + 2 * w * log(2) + w ** 2 * (Rational(-4, 3) + log(2) ** 2) + O(w ** 3); e.series(w, 0, 2).subs(w, 0) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_seriesbug2c_correct","statement":"Path(test_seriesbug2c(x), e.series(w, 0, 1) == 2 + O(w); e.series(w, 0, 3) == 2 + 2 * w * log(2) + w ** 2 * (Rational(-4, 3) + log(2) ** 2) + O(w ** 3); e.series(w, 0, 2).subs(w, 0) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62f9aebff37d8b8e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.series(w, 0, 1) == 2 + O(w)","e.series(w, 0, 3) == 2 + 2 * w * log(2) + w ** 2 * (Rational(-4, 3) + log(2) ** 2) + O(w ** 3)","e.series(w, 0, 2).subs(w, 0) == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_seriesbug2c():
     w = Symbol("w", real=True)
     #more complicated case, but sin(x)~x, so the result is the same as in (1)
@@ -603,16 +811,24 @@ def test_seriesbug2c():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_expbug4(), test_expbug4 produces the expected output) over Any ║
+# ║ Path(test_expbug4(), (log(sin(2 * x) / x) * (1 + x)).series(x, 0, 2) == log(2) + x * log(2) + O(x ** 2, x) and exp(log(sin(2 * x) / x) * (1 + x)).series(x, 0, 2) == 2 + 2 * x * log(2) + O(x ** 2) and exp(log(2) + O(x)).nseries(x, 0, 2) == 2 + O(x) and ((2 + O(x)) ** (1 + x)).nseries(x, 0, 2) == 2 + O(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_expbug4 : Any → {Any | exp(log(2) + O(x)).nserie...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (log(sin(2 * x) / x) * (1 + x)).series(x,...   ║
+# ║   ensures:  exp(log(sin(2 * x) / x) * (1 + x)).series...   ║
+# ║   ensures:  exp(log(2) + O(x)).nseries(x, 0, 2) == 2 ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_expbug4 : Any → {Any | result satisfies: (log(si...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 576df77a27bc70e7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 384a03e36ea03397  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_expbug4","kind":"function","src_hash":"3c0919e02fb7fe01","in":{"base":"Any"},"out":{"base":"Any","pred":"exp(log(2) + O(x)).nseries(x, 0, 2) == 2 + O(x) and ((2 + O(x)) ** (1 + x)).nseries(x, 0, 2) == 2 + O(x)"},"spec":{"lhs":"test_expbug4()","rhs":"test_expbug4 produces the expected output","over":{"base":"Any"},"name":"test_expbug4_correct"},"guarantee":"test_expbug4 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_expbug4_correct","statement":"Path(test_expbug4(x), test_expbug4 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"576df77a27bc70e7"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_expbug4","kind":"function","src_hash":"3c0919e02fb7fe01","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (log(sin(2 * x) / x) * (1 + x)).series(x, 0, 2) == log(2) + x * log(2) + O(x ** 2, x) and exp(log(sin(2 * x) / x) * (1 + x)).series(x, 0, 2) == 2 + 2 * x * log(2) + O(x ** 2) and exp(log(2) + O(x)).nseries(x, 0, 2) == 2 + O(x) and ((2 + O(x)) ** (1 + x)).nseries(x, 0, 2) == 2 + O(x)"},"spec":{"lhs":"test_expbug4()","rhs":"(log(sin(2 * x) / x) * (1 + x)).series(x, 0, 2) == log(2) + x * log(2) + O(x ** 2, x) and exp(log(sin(2 * x) / x) * (1 + x)).series(x, 0, 2) == 2 + 2 * x * log(2) + O(x ** 2) and exp(log(2) + O(x)).nseries(x, 0, 2) == 2 + O(x) and ((2 + O(x)) ** (1 + x)).nseries(x, 0, 2) == 2 + O(x)","over":{"base":"Any"},"name":"test_expbug4_correct"},"guarantee":"(log(sin(2 * x) / x) * (1 + x)).series(x, 0, 2) == log(2) + x * log(2) + O(x ** 2, x); exp(log(sin(2 * x) / x) * (1 + x)).series(x, 0, 2) == 2 + 2 * x * log(2) + O(x ** 2); exp(log(2) + O(x)).nseries(x, 0, 2) == 2 + O(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_expbug4_correct","statement":"Path(test_expbug4(x), (log(sin(2 * x) / x) * (1 + x)).series(x, 0, 2) == log(2) + x * log(2) + O(x ** 2, x); exp(log(sin(2 * x) / x) * (1 + x)).series(x, 0, 2) == 2 + 2 * x * log(2) + O(x ** 2); exp(log(2) + O(x)).nseries(x, 0, 2) == 2 + O(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"384a03e36ea03397","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(log(sin(2 * x) / x) * (1 + x)).series(x, 0, 2) == log(2) + x * log(2) + O(x ** 2, x)","exp(log(sin(2 * x) / x) * (1 + x)).series(x, 0, 2) == 2 + 2 * x * log(2) + O(x ** 2)","exp(log(2) + O(x)).nseries(x, 0, 2) == 2 + O(x)","((2 + O(x)) ** (1 + x)).nseries(x, 0, 2) == 2 + O(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_expbug4():
     x = Symbol("x", real=True)
     assert (log(
@@ -625,31 +841,44 @@ def test_expbug4():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_logbug4(), test_logbug4 produces the expected output) over Any ║
+# ║ Path(test_logbug4(), log(2 + O(x)).nseries(x, 0, 2) == log(2) + O(x, x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_logbug4 : Any → {Any | log(2 + O(x)).nseries(x, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  log(2 + O(x)).nseries(x, 0, 2) == log(2) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_logbug4 : Any → {Any | result satisfies: log(2 +...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d5d554f7fd968343  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6070a1b6c1fa9a07  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_logbug4","kind":"function","src_hash":"52ef65e7523dc245","in":{"base":"Any"},"out":{"base":"Any","pred":"log(2 + O(x)).nseries(x, 0, 2) == log(2) + O(x, x)"},"spec":{"lhs":"test_logbug4()","rhs":"test_logbug4 produces the expected output","over":{"base":"Any"},"name":"test_logbug4_correct"},"guarantee":"test_logbug4 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_logbug4_correct","statement":"Path(test_logbug4(x), test_logbug4 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5d554f7fd968343"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_logbug4","kind":"function","src_hash":"52ef65e7523dc245","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: log(2 + O(x)).nseries(x, 0, 2) == log(2) + O(x, x)"},"spec":{"lhs":"test_logbug4()","rhs":"log(2 + O(x)).nseries(x, 0, 2) == log(2) + O(x, x)","over":{"base":"Any"},"name":"test_logbug4_correct"},"guarantee":"log(2 + O(x)).nseries(x, 0, 2) == log(2) + O(x, x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_logbug4_correct","statement":"Path(test_logbug4(x), log(2 + O(x)).nseries(x, 0, 2) == log(2) + O(x, x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6070a1b6c1fa9a07","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["log(2 + O(x)).nseries(x, 0, 2) == log(2) + O(x, x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_logbug4():
     assert log(2 + O(x)).nseries(x, 0, 2) == log(2) + O(x, x)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_expbug5(), test_expbug5 produces the expected output) over Any ║
+# ║ Path(test_expbug5(), exp(log(1 + x) / x).nseries(x, n=3) == exp(1) + -exp(1) * x / 2 + 11 * exp(1) * x ** 2 / 24 + O(x ** 3) and exp(O(x)).nseries(x, 0, 2) == 1 + O(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_expbug5 : Any → {Any | exp(O(x)).nseries(x, 0, 2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  exp(log(1 + x) / x).nseries(x, n=3) == ex...   ║
+# ║   ensures:  exp(O(x)).nseries(x, 0, 2) == 1 + O(x)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_expbug5 : Any → {Any | result satisfies: exp(log...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38477e85fba23bc0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a9a8319679dd62e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_expbug5","kind":"function","src_hash":"0285bc76d55f98ea","in":{"base":"Any"},"out":{"base":"Any","pred":"exp(O(x)).nseries(x, 0, 2) == 1 + O(x)"},"spec":{"lhs":"test_expbug5()","rhs":"test_expbug5 produces the expected output","over":{"base":"Any"},"name":"test_expbug5_correct"},"guarantee":"test_expbug5 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_expbug5_correct","statement":"Path(test_expbug5(x), test_expbug5 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38477e85fba23bc0"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_expbug5","kind":"function","src_hash":"0285bc76d55f98ea","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: exp(log(1 + x) / x).nseries(x, n=3) == exp(1) + -exp(1) * x / 2 + 11 * exp(1) * x ** 2 / 24 + O(x ** 3) and exp(O(x)).nseries(x, 0, 2) == 1 + O(x)"},"spec":{"lhs":"test_expbug5()","rhs":"exp(log(1 + x) / x).nseries(x, n=3) == exp(1) + -exp(1) * x / 2 + 11 * exp(1) * x ** 2 / 24 + O(x ** 3) and exp(O(x)).nseries(x, 0, 2) == 1 + O(x)","over":{"base":"Any"},"name":"test_expbug5_correct"},"guarantee":"exp(log(1 + x) / x).nseries(x, n=3) == exp(1) + -exp(1) * x / 2 + 11 * exp(1) * x ** 2 / 24 + O(x ** 3); exp(O(x)).nseries(x, 0, 2) == 1 + O(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_expbug5_correct","statement":"Path(test_expbug5(x), exp(log(1 + x) / x).nseries(x, n=3) == exp(1) + -exp(1) * x / 2 + 11 * exp(1) * x ** 2 / 24 + O(x ** 3); exp(O(x)).nseries(x, 0, 2) == 1 + O(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a9a8319679dd62e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["exp(log(1 + x) / x).nseries(x, n=3) == exp(1) + -exp(1) * x / 2 + 11 * exp(1) * x ** 2 / 24 + O(x ** 3)","exp(O(x)).nseries(x, 0, 2) == 1 + O(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_expbug5():
     assert exp(log(1 + x)/x).nseries(x, n=3) == exp(1) + -exp(1)*x/2 + 11*exp(1)*x**2/24 + O(x**3)
 
@@ -657,47 +886,65 @@ def test_expbug5():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sinsinbug(), test_sinsinbug produces the expected output) over Any ║
+# ║ Path(test_sinsinbug(), sin(sin(x)).nseries(x, 0, 8) == x - x ** 3 / 3 + x ** 5 / 10 - 8 * x ** 7 / 315 + O(x ** 8)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sinsinbug : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sin(sin(x)).nseries(x, 0, 8) == x - x ** ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sinsinbug : Any → {Any | result satisfies: sin(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae967402cd66568b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fdfec6f9e3861bca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_sinsinbug","kind":"function","src_hash":"c7cff89e6b4311f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_sinsinbug()","rhs":"test_sinsinbug produces the expected output","over":{"base":"Any"},"name":"test_sinsinbug_correct"},"guarantee":"test_sinsinbug produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_sinsinbug_correct","statement":"Path(test_sinsinbug(x), test_sinsinbug produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae967402cd66568b"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_sinsinbug","kind":"function","src_hash":"c7cff89e6b4311f9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sin(sin(x)).nseries(x, 0, 8) == x - x ** 3 / 3 + x ** 5 / 10 - 8 * x ** 7 / 315 + O(x ** 8)"},"spec":{"lhs":"test_sinsinbug()","rhs":"sin(sin(x)).nseries(x, 0, 8) == x - x ** 3 / 3 + x ** 5 / 10 - 8 * x ** 7 / 315 + O(x ** 8)","over":{"base":"Any"},"name":"test_sinsinbug_correct"},"guarantee":"sin(sin(x)).nseries(x, 0, 8) == x - x ** 3 / 3 + x ** 5 / 10 - 8 * x ** 7 / 315 + O(x ** 8)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_sinsinbug_correct","statement":"Path(test_sinsinbug(x), sin(sin(x)).nseries(x, 0, 8) == x - x ** 3 / 3 + x ** 5 / 10 - 8 * x ** 7 / 315 + O(x ** 8))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fdfec6f9e3861bca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sin(sin(x)).nseries(x, 0, 8) == x - x ** 3 / 3 + x ** 5 / 10 - 8 * x ** 7 / 315 + O(x ** 8)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sinsinbug():
     assert sin(sin(x)).nseries(x, 0, 8) == x - x**3/3 + x**5/10 - 8*x**7/315 + O(x**8)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_3258(), test_issue_3258 produces the expected output) over Any ║
+# ║ Path(test_issue_3258(), a.nseries(x, 0, 5) == 1 - x / 2 - x ** 4 / 720 + x ** 2 / 12 + O(x ** 5)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_3258 : Any → {Any | a.nseries(x, 0, 5) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a.nseries(x, 0, 5) == 1 - x / 2 - x ** 4 ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_3258 : Any → {Any | result satisfies: a.ns...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b92ea79adc8740b5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3816121c3d255cdd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_3258","kind":"function","src_hash":"2cef94d9f5de27e9","in":{"base":"Any"},"out":{"base":"Any","pred":"a.nseries(x, 0, 5) == 1 - x / 2 - x ** 4 / 720 + x ** 2 / 12 + O(x ** 5)"},"spec":{"lhs":"test_issue_3258()","rhs":"test_issue_3258 produces the expected output","over":{"base":"Any"},"name":"test_issue_3258_correct"},"guarantee":"test_issue_3258 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_3258_correct","statement":"Path(test_issue_3258(x), test_issue_3258 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b92ea79adc8740b5"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_3258","kind":"function","src_hash":"2cef94d9f5de27e9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a.nseries(x, 0, 5) == 1 - x / 2 - x ** 4 / 720 + x ** 2 / 12 + O(x ** 5)"},"spec":{"lhs":"test_issue_3258()","rhs":"a.nseries(x, 0, 5) == 1 - x / 2 - x ** 4 / 720 + x ** 2 / 12 + O(x ** 5)","over":{"base":"Any"},"name":"test_issue_3258_correct"},"guarantee":"a.nseries(x, 0, 5) == 1 - x / 2 - x ** 4 / 720 + x ** 2 / 12 + O(x ** 5)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_3258_correct","statement":"Path(test_issue_3258(x), a.nseries(x, 0, 5) == 1 - x / 2 - x ** 4 / 720 + x ** 2 / 12 + O(x ** 5))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3816121c3d255cdd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a.nseries(x, 0, 5) == 1 - x / 2 - x ** 4 / 720 + x ** 2 / 12 + O(x ** 5)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_3258():
     a = x/(exp(x) - 1)
     assert a.nseries(x, 0, 5) == 1 - x/2 - x**4/720 + x**2/12 + O(x**5)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_3204(), test_issue_3204 produces the expected output) over Any ║
+# ║ Path(test_issue_3204(), f.nseries(x, 0, 17) == x - x ** 7 / 18 - x ** 13 / 3240 + O(x ** 17)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_3204 : Any → {Any | f.nseries(x, 0, 17) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.nseries(x, 0, 17) == x - x ** 7 / 18 - ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_3204 : Any → {Any | result satisfies: f.ns...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c57d66438718581  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b1b83465d832630  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_3204","kind":"function","src_hash":"d19ab1052111cae4","in":{"base":"Any"},"out":{"base":"Any","pred":"f.nseries(x, 0, 17) == x - x ** 7 / 18 - x ** 13 / 3240 + O(x ** 17)"},"spec":{"lhs":"test_issue_3204()","rhs":"test_issue_3204 produces the expected output","over":{"base":"Any"},"name":"test_issue_3204_correct"},"guarantee":"test_issue_3204 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_3204_correct","statement":"Path(test_issue_3204(x), test_issue_3204 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c57d66438718581"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_3204","kind":"function","src_hash":"d19ab1052111cae4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.nseries(x, 0, 17) == x - x ** 7 / 18 - x ** 13 / 3240 + O(x ** 17)"},"spec":{"lhs":"test_issue_3204()","rhs":"f.nseries(x, 0, 17) == x - x ** 7 / 18 - x ** 13 / 3240 + O(x ** 17)","over":{"base":"Any"},"name":"test_issue_3204_correct"},"guarantee":"f.nseries(x, 0, 17) == x - x ** 7 / 18 - x ** 13 / 3240 + O(x ** 17)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_3204_correct","statement":"Path(test_issue_3204(x), f.nseries(x, 0, 17) == x - x ** 7 / 18 - x ** 13 / 3240 + O(x ** 17))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b1b83465d832630","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.nseries(x, 0, 17) == x - x ** 7 / 18 - x ** 13 / 3240 + O(x ** 17)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_3204():
     x = Symbol("x", nonnegative=True)
     f = sin(x**3)**Rational(1, 3)
@@ -705,32 +952,44 @@ def test_issue_3204():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_3224(), test_issue_3224 produces the expected output) over Any ║
+# ║ Path(test_issue_3224(), f.nseries(y, 0, 2) == 1 - sqrt(y) / 2 - y / 8 - sqrt(y) ** 3 / 16 + O(y ** 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_3224 : Any → {Any | f.nseries(y, 0, 2) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.nseries(y, 0, 2) == 1 - sqrt(y) / 2 - y...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_3224 : Any → {Any | result satisfies: f.ns...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c36028215b97134  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 376c4240d93bf505  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_3224","kind":"function","src_hash":"ccc740aa72b59b8f","in":{"base":"Any"},"out":{"base":"Any","pred":"f.nseries(y, 0, 2) == 1 - sqrt(y) / 2 - y / 8 - sqrt(y) ** 3 / 16 + O(y ** 2)"},"spec":{"lhs":"test_issue_3224()","rhs":"test_issue_3224 produces the expected output","over":{"base":"Any"},"name":"test_issue_3224_correct"},"guarantee":"test_issue_3224 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_3224_correct","statement":"Path(test_issue_3224(x), test_issue_3224 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c36028215b97134"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_3224","kind":"function","src_hash":"ccc740aa72b59b8f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.nseries(y, 0, 2) == 1 - sqrt(y) / 2 - y / 8 - sqrt(y) ** 3 / 16 + O(y ** 2)"},"spec":{"lhs":"test_issue_3224()","rhs":"f.nseries(y, 0, 2) == 1 - sqrt(y) / 2 - y / 8 - sqrt(y) ** 3 / 16 + O(y ** 2)","over":{"base":"Any"},"name":"test_issue_3224_correct"},"guarantee":"f.nseries(y, 0, 2) == 1 - sqrt(y) / 2 - y / 8 - sqrt(y) ** 3 / 16 + O(y ** 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_3224_correct","statement":"Path(test_issue_3224(x), f.nseries(y, 0, 2) == 1 - sqrt(y) / 2 - y / 8 - sqrt(y) ** 3 / 16 + O(y ** 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"376c4240d93bf505","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.nseries(y, 0, 2) == 1 - sqrt(y) / 2 - y / 8 - sqrt(y) ** 3 / 16 + O(y ** 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_3224():
     f = sqrt(1 - sqrt(y))
     assert f.nseries(y, 0, 2) == 1 - sqrt(y)/2 - y/8 - sqrt(y)**3/16 + O(y**2)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_3463(), test_issue_3463 produces the expected output) over Any ║
+# ║ Path(test_issue_3463(), e.nseries(w, n=1) == e_ser) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_3463 : Any → {Any | e.nseries(w, n=1) == e...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.nseries(w, n=1) == e_ser                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_3463 : Any → {Any | result satisfies: e.ns...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3aad8ed6666422c8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f33db1244461f84  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_3463","kind":"function","src_hash":"e926155461c81e26","in":{"base":"Any"},"out":{"base":"Any","pred":"e.nseries(w, n=1) == e_ser"},"spec":{"lhs":"test_issue_3463()","rhs":"test_issue_3463 produces the expected output","over":{"base":"Any"},"name":"test_issue_3463_correct"},"guarantee":"test_issue_3463 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_3463_correct","statement":"Path(test_issue_3463(x), test_issue_3463 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3aad8ed6666422c8"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_3463","kind":"function","src_hash":"e926155461c81e26","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.nseries(w, n=1) == e_ser"},"spec":{"lhs":"test_issue_3463()","rhs":"e.nseries(w, n=1) == e_ser","over":{"base":"Any"},"name":"test_issue_3463_correct"},"guarantee":"e.nseries(w, n=1) == e_ser","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_3463_correct","statement":"Path(test_issue_3463(x), e.nseries(w, n=1) == e_ser)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f33db1244461f84","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.nseries(w, n=1) == e_ser"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_3463():
     w, i = symbols('w,i')
     r = log(5)/log(3)
@@ -741,16 +1000,24 @@ def test_issue_3463():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sin(), test_sin produces the expected output) over Any ║
+# ║ Path(test_sin(), sin(8 * x).nseries(x, n=4) == 8 * x - 256 * x ** 3 / 3 + O(x ** 4) and sin(x + y).nseries(x, n=1) == sin(y) + O(x) and sin(x + y).nseries(x, n=2) == sin(y) + cos(y) * x + O(x ** 2) and sin(x + y).nseries(x, n=5) == sin(y) + cos(y) * x - sin(y) * x ** 2 / 2 - cos(y) * x ** 3 / 6 + sin(y) * x ** 4 / 24 + O(x ** 5)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sin : Any → {Any | sin(8 * x).nseries(x, n=4) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sin(8 * x).nseries(x, n=4) == 8 * x - 256...   ║
+# ║   ensures:  sin(x + y).nseries(x, n=1) == sin(y) + O(x)    ║
+# ║   ensures:  sin(x + y).nseries(x, n=2) == sin(y) + co...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sin : Any → {Any | result satisfies: sin(8 * x)....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad1310328e0a1478  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 44e0aaae45b8f7b6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_sin","kind":"function","src_hash":"6802a7591c88bf48","in":{"base":"Any"},"out":{"base":"Any","pred":"sin(8 * x).nseries(x, n=4) == 8 * x - 256 * x ** 3 / 3 + O(x ** 4) and sin(x + y).nseries(x, n=1) == sin(y) + O(x) and sin(x + y).nseries(x, n=2) == sin(y) + cos(y) * x + O(x ** 2)"},"spec":{"lhs":"test_sin()","rhs":"test_sin produces the expected output","over":{"base":"Any"},"name":"test_sin_correct"},"guarantee":"test_sin produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_sin_correct","statement":"Path(test_sin(x), test_sin produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad1310328e0a1478"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_sin","kind":"function","src_hash":"6802a7591c88bf48","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sin(8 * x).nseries(x, n=4) == 8 * x - 256 * x ** 3 / 3 + O(x ** 4) and sin(x + y).nseries(x, n=1) == sin(y) + O(x) and sin(x + y).nseries(x, n=2) == sin(y) + cos(y) * x + O(x ** 2) and sin(x + y).nseries(x, n=5) == sin(y) + cos(y) * x - sin(y) * x ** 2 / 2 - cos(y) * x ** 3 / 6 + sin(y) * x ** 4 / 24 + O(x ** 5)"},"spec":{"lhs":"test_sin()","rhs":"sin(8 * x).nseries(x, n=4) == 8 * x - 256 * x ** 3 / 3 + O(x ** 4) and sin(x + y).nseries(x, n=1) == sin(y) + O(x) and sin(x + y).nseries(x, n=2) == sin(y) + cos(y) * x + O(x ** 2) and sin(x + y).nseries(x, n=5) == sin(y) + cos(y) * x - sin(y) * x ** 2 / 2 - cos(y) * x ** 3 / 6 + sin(y) * x ** 4 / 24 + O(x ** 5)","over":{"base":"Any"},"name":"test_sin_correct"},"guarantee":"sin(8 * x).nseries(x, n=4) == 8 * x - 256 * x ** 3 / 3 + O(x ** 4); sin(x + y).nseries(x, n=1) == sin(y) + O(x); sin(x + y).nseries(x, n=2) == sin(y) + cos(y) * x + O(x ** 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_sin_correct","statement":"Path(test_sin(x), sin(8 * x).nseries(x, n=4) == 8 * x - 256 * x ** 3 / 3 + O(x ** 4); sin(x + y).nseries(x, n=1) == sin(y) + O(x); sin(x + y).nseries(x, n=2) == sin(y) + cos(y) * x + O(x ** 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"44e0aaae45b8f7b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sin(8 * x).nseries(x, n=4) == 8 * x - 256 * x ** 3 / 3 + O(x ** 4)","sin(x + y).nseries(x, n=1) == sin(y) + O(x)","sin(x + y).nseries(x, n=2) == sin(y) + cos(y) * x + O(x ** 2)","sin(x + y).nseries(x, n=5) == sin(y) + cos(y) * x - sin(y) * x ** 2 / 2 - cos(y) * x ** 3 / 6 + sin(y) * x ** 4 / 24 + O(x ** 5)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_sin():
     assert sin(8*x).nseries(x, n=4) == 8*x - 256*x**3/3 + O(x**4)
     assert sin(x + y).nseries(x, n=1) == sin(y) + O(x)
@@ -760,32 +1027,44 @@ def test_sin():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_3515(), test_issue_3515 produces the expected output) over Any ║
+# ║ Path(test_issue_3515(), e.nseries(x, n=6) == 8 - 256 * x ** 2 / 3 + 4096 * x ** 4 / 15 + O(x ** 6)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_3515 : Any → {Any | e.nseries(x, n=6) == 8...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.nseries(x, n=6) == 8 - 256 * x ** 2 / 3...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_3515 : Any → {Any | result satisfies: e.ns...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f7a4b8fedec7831  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 67c4ef76e9e2dd65  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_3515","kind":"function","src_hash":"7b355f91cebaa1fe","in":{"base":"Any"},"out":{"base":"Any","pred":"e.nseries(x, n=6) == 8 - 256 * x ** 2 / 3 + 4096 * x ** 4 / 15 + O(x ** 6)"},"spec":{"lhs":"test_issue_3515()","rhs":"test_issue_3515 produces the expected output","over":{"base":"Any"},"name":"test_issue_3515_correct"},"guarantee":"test_issue_3515 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_3515_correct","statement":"Path(test_issue_3515(x), test_issue_3515 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f7a4b8fedec7831"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_3515","kind":"function","src_hash":"7b355f91cebaa1fe","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.nseries(x, n=6) == 8 - 256 * x ** 2 / 3 + 4096 * x ** 4 / 15 + O(x ** 6)"},"spec":{"lhs":"test_issue_3515()","rhs":"e.nseries(x, n=6) == 8 - 256 * x ** 2 / 3 + 4096 * x ** 4 / 15 + O(x ** 6)","over":{"base":"Any"},"name":"test_issue_3515_correct"},"guarantee":"e.nseries(x, n=6) == 8 - 256 * x ** 2 / 3 + 4096 * x ** 4 / 15 + O(x ** 6)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_3515_correct","statement":"Path(test_issue_3515(x), e.nseries(x, n=6) == 8 - 256 * x ** 2 / 3 + 4096 * x ** 4 / 15 + O(x ** 6))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67c4ef76e9e2dd65","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.nseries(x, n=6) == 8 - 256 * x ** 2 / 3 + 4096 * x ** 4 / 15 + O(x ** 6)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_3515():
     e = sin(8*x)/x
     assert e.nseries(x, n=6) == 8 - 256*x**2/3 + 4096*x**4/15 + O(x**6)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_3505(), test_issue_3505 produces the expected output) over Any ║
+# ║ Path(test_issue_3505(), e.nseries(x, n=9) == Rational(-1, 12) - 7 * x ** 2 / 288 - 43 * x ** 4 / 10368 - 1123 * x ** 6 / 2488320 + 377 * x ** 8 / 29859840 + O(x ** 9)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_3505 : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.nseries(x, n=9) == Rational(-1, 12) - 7...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_3505 : Any → {Any | result satisfies: e.ns...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 319c60a04658c44e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc68eeedd6d310d5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_3505","kind":"function","src_hash":"9e8e71e83af12039","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_3505()","rhs":"test_issue_3505 produces the expected output","over":{"base":"Any"},"name":"test_issue_3505_correct"},"guarantee":"test_issue_3505 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_3505_correct","statement":"Path(test_issue_3505(x), test_issue_3505 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"319c60a04658c44e"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_3505","kind":"function","src_hash":"9e8e71e83af12039","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.nseries(x, n=9) == Rational(-1, 12) - 7 * x ** 2 / 288 - 43 * x ** 4 / 10368 - 1123 * x ** 6 / 2488320 + 377 * x ** 8 / 29859840 + O(x ** 9)"},"spec":{"lhs":"test_issue_3505()","rhs":"e.nseries(x, n=9) == Rational(-1, 12) - 7 * x ** 2 / 288 - 43 * x ** 4 / 10368 - 1123 * x ** 6 / 2488320 + 377 * x ** 8 / 29859840 + O(x ** 9)","over":{"base":"Any"},"name":"test_issue_3505_correct"},"guarantee":"e.nseries(x, n=9) == Rational(-1, 12) - 7 * x ** 2 / 288 - 43 * x ** 4 / 10368 - 1123 * x ** 6 / 2488320 + 377 * x ** 8 / 29859840 + O(x ** 9)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_3505_correct","statement":"Path(test_issue_3505(x), e.nseries(x, n=9) == Rational(-1, 12) - 7 * x ** 2 / 288 - 43 * x ** 4 / 10368 - 1123 * x ** 6 / 2488320 + 377 * x ** 8 / 29859840 + O(x ** 9))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc68eeedd6d310d5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.nseries(x, n=9) == Rational(-1, 12) - 7 * x ** 2 / 288 - 43 * x ** 4 / 10368 - 1123 * x ** 6 / 2488320 + 377 * x ** 8 / 29859840 + O(x ** 9)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_3505():
     e = sin(x)**(-4)*(sqrt(cos(x))*sin(x)**2 -
         cos(x)**Rational(1, 3)*sin(x)**2)
@@ -794,16 +1073,23 @@ def test_issue_3505():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_3501(), test_issue_3501 produces the expected output) over Any ║
+# ║ Path(test_issue_3501(), e.nseries(x, n=6) == cos(a) - sin(a) * x / 2 - cos(a) * x ** 2 / 6 + x ** 3 * sin(a) / 24 + x ** 4 * cos(a) / 120 - x ** 5 * sin(a) / 720 + O(x ** 6) and e.nseries(x, n=6) == -sin(a) - cos(a) * x / 2 + sin(a) * x ** 2 / 6 + cos(a) * x ** 3 / 24 - x ** 4 * sin(a) / 120 - x ** 5 * cos(a) / 720 + O(x ** 6)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_3501 : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.nseries(x, n=6) == cos(a) - sin(a) * x ...   ║
+# ║   ensures:  e.nseries(x, n=6) == -sin(a) - cos(a) * x...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_3501 : Any → {Any | result satisfies: e.ns...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce2c476b57bc62cb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a636acca373e283f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_3501","kind":"function","src_hash":"2ba8d6acafaef630","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_3501()","rhs":"test_issue_3501 produces the expected output","over":{"base":"Any"},"name":"test_issue_3501_correct"},"guarantee":"test_issue_3501 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_3501_correct","statement":"Path(test_issue_3501(x), test_issue_3501 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce2c476b57bc62cb"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_3501","kind":"function","src_hash":"2ba8d6acafaef630","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.nseries(x, n=6) == cos(a) - sin(a) * x / 2 - cos(a) * x ** 2 / 6 + x ** 3 * sin(a) / 24 + x ** 4 * cos(a) / 120 - x ** 5 * sin(a) / 720 + O(x ** 6) and e.nseries(x, n=6) == -sin(a) - cos(a) * x / 2 + sin(a) * x ** 2 / 6 + cos(a) * x ** 3 / 24 - x ** 4 * sin(a) / 120 - x ** 5 * cos(a) / 720 + O(x ** 6)"},"spec":{"lhs":"test_issue_3501()","rhs":"e.nseries(x, n=6) == cos(a) - sin(a) * x / 2 - cos(a) * x ** 2 / 6 + x ** 3 * sin(a) / 24 + x ** 4 * cos(a) / 120 - x ** 5 * sin(a) / 720 + O(x ** 6) and e.nseries(x, n=6) == -sin(a) - cos(a) * x / 2 + sin(a) * x ** 2 / 6 + cos(a) * x ** 3 / 24 - x ** 4 * sin(a) / 120 - x ** 5 * cos(a) / 720 + O(x ** 6)","over":{"base":"Any"},"name":"test_issue_3501_correct"},"guarantee":"e.nseries(x, n=6) == cos(a) - sin(a) * x / 2 - cos(a) * x ** 2 / 6 + x ** 3 * sin(a) / 24 + x ** 4 * cos(a) / 120 - x ** 5 * sin(a) / 720 + O(x ** 6); e.nseries(x, n=6) == -sin(a) - cos(a) * x / 2 + sin(a) * x ** 2 / 6 + cos(a) * x ** 3 / 24 - x ** 4 * sin(a) / 120 - x ** 5 * cos(a) / 720 + O(x ** 6)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_3501_correct","statement":"Path(test_issue_3501(x), e.nseries(x, n=6) == cos(a) - sin(a) * x / 2 - cos(a) * x ** 2 / 6 + x ** 3 * sin(a) / 24 + x ** 4 * cos(a) / 120 - x ** 5 * sin(a) / 720 + O(x ** 6); e.nseries(x, n=6) == -sin(a) - cos(a) * x / 2 + sin(a) * x ** 2 / 6 + cos(a) * x ** 3 / 24 - x ** 4 * sin(a) / 120 - x ** 5 * cos(a) / 720 + O(x ** 6))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a636acca373e283f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.nseries(x, n=6) == cos(a) - sin(a) * x / 2 - cos(a) * x ** 2 / 6 + x ** 3 * sin(a) / 24 + x ** 4 * cos(a) / 120 - x ** 5 * sin(a) / 720 + O(x ** 6)","e.nseries(x, n=6) == -sin(a) - cos(a) * x / 2 + sin(a) * x ** 2 / 6 + cos(a) * x ** 3 / 24 - x ** 4 * sin(a) / 120 - x ** 5 * cos(a) / 720 + O(x ** 6)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_issue_3501():
     a = Symbol("a")
     e = x**(-2)*(x*sin(a + x) - x*sin(a))
@@ -815,16 +1101,23 @@ def test_issue_3501():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_3502(), test_issue_3502 produces the expected output) over Any ║
+# ║ Path(test_issue_3502(), e.nseries(x, n=2) == Rational(5, 2) + O(x ** 2) and e.nseries(x, n=6) == Rational(5, 2) - 35 * x ** 2 / 4 + 329 * x ** 4 / 48 + O(x ** 6)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_3502 : Any → {Any | e.nseries(x, n=2) == R...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.nseries(x, n=2) == Rational(5, 2) + O(x...   ║
+# ║   ensures:  e.nseries(x, n=6) == Rational(5, 2) - 35 ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_3502 : Any → {Any | result satisfies: e.ns...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 732718e78fabe061  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 74dae1bb12cfe6f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_3502","kind":"function","src_hash":"6997cd9b07ab12b1","in":{"base":"Any"},"out":{"base":"Any","pred":"e.nseries(x, n=2) == Rational(5, 2) + O(x ** 2)"},"spec":{"lhs":"test_issue_3502()","rhs":"test_issue_3502 produces the expected output","over":{"base":"Any"},"name":"test_issue_3502_correct"},"guarantee":"test_issue_3502 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_3502_correct","statement":"Path(test_issue_3502(x), test_issue_3502 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"732718e78fabe061"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_3502","kind":"function","src_hash":"6997cd9b07ab12b1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.nseries(x, n=2) == Rational(5, 2) + O(x ** 2) and e.nseries(x, n=6) == Rational(5, 2) - 35 * x ** 2 / 4 + 329 * x ** 4 / 48 + O(x ** 6)"},"spec":{"lhs":"test_issue_3502()","rhs":"e.nseries(x, n=2) == Rational(5, 2) + O(x ** 2) and e.nseries(x, n=6) == Rational(5, 2) - 35 * x ** 2 / 4 + 329 * x ** 4 / 48 + O(x ** 6)","over":{"base":"Any"},"name":"test_issue_3502_correct"},"guarantee":"e.nseries(x, n=2) == Rational(5, 2) + O(x ** 2); e.nseries(x, n=6) == Rational(5, 2) - 35 * x ** 2 / 4 + 329 * x ** 4 / 48 + O(x ** 6)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_3502_correct","statement":"Path(test_issue_3502(x), e.nseries(x, n=2) == Rational(5, 2) + O(x ** 2); e.nseries(x, n=6) == Rational(5, 2) - 35 * x ** 2 / 4 + 329 * x ** 4 / 48 + O(x ** 6))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"74dae1bb12cfe6f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.nseries(x, n=2) == Rational(5, 2) + O(x ** 2)","e.nseries(x, n=6) == Rational(5, 2) - 35 * x ** 2 / 4 + 329 * x ** 4 / 48 + O(x ** 6)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_3502():
     e = sin(5*x)/sin(2*x)
     assert e.nseries(x, n=2) == Rational(5, 2) + O(x**2)
@@ -833,32 +1126,44 @@ def test_issue_3502():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_3503(), test_issue_3503 produces the expected output) over Any ║
+# ║ Path(test_issue_3503(), e.nseries(x, n=2) == sin(2) / 2 + x * cos(2) / 2 - x * sin(2) / 4 + O(x ** 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_3503 : Any → {Any | e.nseries(x, n=2) == s...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.nseries(x, n=2) == sin(2) / 2 + x * cos...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_3503 : Any → {Any | result satisfies: e.ns...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 045ab484bb556534  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ceb80bbf277c0edc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_3503","kind":"function","src_hash":"35d2f46f7129b2e5","in":{"base":"Any"},"out":{"base":"Any","pred":"e.nseries(x, n=2) == sin(2) / 2 + x * cos(2) / 2 - x * sin(2) / 4 + O(x ** 2)"},"spec":{"lhs":"test_issue_3503()","rhs":"test_issue_3503 produces the expected output","over":{"base":"Any"},"name":"test_issue_3503_correct"},"guarantee":"test_issue_3503 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_3503_correct","statement":"Path(test_issue_3503(x), test_issue_3503 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"045ab484bb556534"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_3503","kind":"function","src_hash":"35d2f46f7129b2e5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.nseries(x, n=2) == sin(2) / 2 + x * cos(2) / 2 - x * sin(2) / 4 + O(x ** 2)"},"spec":{"lhs":"test_issue_3503()","rhs":"e.nseries(x, n=2) == sin(2) / 2 + x * cos(2) / 2 - x * sin(2) / 4 + O(x ** 2)","over":{"base":"Any"},"name":"test_issue_3503_correct"},"guarantee":"e.nseries(x, n=2) == sin(2) / 2 + x * cos(2) / 2 - x * sin(2) / 4 + O(x ** 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_3503_correct","statement":"Path(test_issue_3503(x), e.nseries(x, n=2) == sin(2) / 2 + x * cos(2) / 2 - x * sin(2) / 4 + O(x ** 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ceb80bbf277c0edc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.nseries(x, n=2) == sin(2) / 2 + x * cos(2) / 2 - x * sin(2) / 4 + O(x ** 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_3503():
     e = sin(2 + x)/(2 + x)
     assert e.nseries(x, n=2) == sin(2)/2 + x*cos(2)/2 - x*sin(2)/4 + O(x**2)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_3506(), test_issue_3506 produces the expected output) over Any ║
+# ║ Path(test_issue_3506(), e.nseries(x, n=7) == Rational(-1, 4) + 5 * x ** 2 / 96 + 91 * x ** 4 / 768 + 11117 * x ** 6 / 129024 + O(x ** 7)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_3506 : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.nseries(x, n=7) == Rational(-1, 4) + 5 ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_3506 : Any → {Any | result satisfies: e.ns...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9b103d0039d5b8f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 171190ea6a6beb1d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_3506","kind":"function","src_hash":"5faa9bd8b11591d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_3506()","rhs":"test_issue_3506 produces the expected output","over":{"base":"Any"},"name":"test_issue_3506_correct"},"guarantee":"test_issue_3506 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_3506_correct","statement":"Path(test_issue_3506(x), test_issue_3506 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9b103d0039d5b8f"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_3506","kind":"function","src_hash":"5faa9bd8b11591d7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.nseries(x, n=7) == Rational(-1, 4) + 5 * x ** 2 / 96 + 91 * x ** 4 / 768 + 11117 * x ** 6 / 129024 + O(x ** 7)"},"spec":{"lhs":"test_issue_3506()","rhs":"e.nseries(x, n=7) == Rational(-1, 4) + 5 * x ** 2 / 96 + 91 * x ** 4 / 768 + 11117 * x ** 6 / 129024 + O(x ** 7)","over":{"base":"Any"},"name":"test_issue_3506_correct"},"guarantee":"e.nseries(x, n=7) == Rational(-1, 4) + 5 * x ** 2 / 96 + 91 * x ** 4 / 768 + 11117 * x ** 6 / 129024 + O(x ** 7)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_3506_correct","statement":"Path(test_issue_3506(x), e.nseries(x, n=7) == Rational(-1, 4) + 5 * x ** 2 / 96 + 91 * x ** 4 / 768 + 11117 * x ** 6 / 129024 + O(x ** 7))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"171190ea6a6beb1d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.nseries(x, n=7) == Rational(-1, 4) + 5 * x ** 2 / 96 + 91 * x ** 4 / 768 + 11117 * x ** 6 / 129024 + O(x ** 7)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_3506():
     e = (x + sin(3*x))**(-2)*(x*(x + sin(3*x)) - (x + sin(3*x))*sin(2*x))
     assert e.nseries(x, n=7) == \
@@ -866,16 +1171,23 @@ def test_issue_3506():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_3508(), test_issue_3508 produces the expected output) over Any ║
+# ║ Path(test_issue_3508(), log(sin(x)).series(x, n=5) == log(x) - x ** 2 / 6 - x ** 4 / 180 + O(x ** 5) and e.series(x, n=5) == log(2) + log(2) * x - 2 * x ** 2 / 3 - 2 * x ** 3 / 3 - 4 * x ** 4 / 45 + O(x ** 5)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_3508 : Any → {Any | log(sin(x)).series(x, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  log(sin(x)).series(x, n=5) == log(x) - x ...   ║
+# ║   ensures:  e.series(x, n=5) == log(2) + log(2) * x -...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_3508 : Any → {Any | result satisfies: log(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0a95496deae6d9f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fcac0efcef14dc46  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_3508","kind":"function","src_hash":"d0871d49e3462d92","in":{"base":"Any"},"out":{"base":"Any","pred":"log(sin(x)).series(x, n=5) == log(x) - x ** 2 / 6 - x ** 4 / 180 + O(x ** 5)"},"spec":{"lhs":"test_issue_3508()","rhs":"test_issue_3508 produces the expected output","over":{"base":"Any"},"name":"test_issue_3508_correct"},"guarantee":"test_issue_3508 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_3508_correct","statement":"Path(test_issue_3508(x), test_issue_3508 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0a95496deae6d9f"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_3508","kind":"function","src_hash":"d0871d49e3462d92","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: log(sin(x)).series(x, n=5) == log(x) - x ** 2 / 6 - x ** 4 / 180 + O(x ** 5) and e.series(x, n=5) == log(2) + log(2) * x - 2 * x ** 2 / 3 - 2 * x ** 3 / 3 - 4 * x ** 4 / 45 + O(x ** 5)"},"spec":{"lhs":"test_issue_3508()","rhs":"log(sin(x)).series(x, n=5) == log(x) - x ** 2 / 6 - x ** 4 / 180 + O(x ** 5) and e.series(x, n=5) == log(2) + log(2) * x - 2 * x ** 2 / 3 - 2 * x ** 3 / 3 - 4 * x ** 4 / 45 + O(x ** 5)","over":{"base":"Any"},"name":"test_issue_3508_correct"},"guarantee":"log(sin(x)).series(x, n=5) == log(x) - x ** 2 / 6 - x ** 4 / 180 + O(x ** 5); e.series(x, n=5) == log(2) + log(2) * x - 2 * x ** 2 / 3 - 2 * x ** 3 / 3 - 4 * x ** 4 / 45 + O(x ** 5)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_3508_correct","statement":"Path(test_issue_3508(x), log(sin(x)).series(x, n=5) == log(x) - x ** 2 / 6 - x ** 4 / 180 + O(x ** 5); e.series(x, n=5) == log(2) + log(2) * x - 2 * x ** 2 / 3 - 2 * x ** 3 / 3 - 4 * x ** 4 / 45 + O(x ** 5))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fcac0efcef14dc46","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["log(sin(x)).series(x, n=5) == log(x) - x ** 2 / 6 - x ** 4 / 180 + O(x ** 5)","e.series(x, n=5) == log(2) + log(2) * x - 2 * x ** 2 / 3 - 2 * x ** 3 / 3 - 4 * x ** 4 / 45 + O(x ** 5)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_3508():
     x = Symbol("x", real=True)
     assert log(sin(x)).series(x, n=5) == log(x) - x**2/6 - x**4/180 + O(x**5)
@@ -885,16 +1197,22 @@ def test_issue_3508():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_3507(), test_issue_3507 produces the expected output) over Any ║
+# ║ Path(test_issue_3507(), e.nseries(x, n=9) == Rational(1, 4) + x ** 2 / 96 + 19 * x ** 4 / 5760 + 559 * x ** 6 / 645120 + 29161 * x ** 8 / 116121600 + O(x ** 9)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_3507 : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.nseries(x, n=9) == Rational(1, 4) + x *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_3507 : Any → {Any | result satisfies: e.ns...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 676dcdbb2d547381  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e52dd553ac766d6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_3507","kind":"function","src_hash":"6a8159fd78dbf6ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_3507()","rhs":"test_issue_3507 produces the expected output","over":{"base":"Any"},"name":"test_issue_3507_correct"},"guarantee":"test_issue_3507 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_3507_correct","statement":"Path(test_issue_3507(x), test_issue_3507 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"676dcdbb2d547381"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_3507","kind":"function","src_hash":"6a8159fd78dbf6ea","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.nseries(x, n=9) == Rational(1, 4) + x ** 2 / 96 + 19 * x ** 4 / 5760 + 559 * x ** 6 / 645120 + 29161 * x ** 8 / 116121600 + O(x ** 9)"},"spec":{"lhs":"test_issue_3507()","rhs":"e.nseries(x, n=9) == Rational(1, 4) + x ** 2 / 96 + 19 * x ** 4 / 5760 + 559 * x ** 6 / 645120 + 29161 * x ** 8 / 116121600 + O(x ** 9)","over":{"base":"Any"},"name":"test_issue_3507_correct"},"guarantee":"e.nseries(x, n=9) == Rational(1, 4) + x ** 2 / 96 + 19 * x ** 4 / 5760 + 559 * x ** 6 / 645120 + 29161 * x ** 8 / 116121600 + O(x ** 9)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_3507_correct","statement":"Path(test_issue_3507(x), e.nseries(x, n=9) == Rational(1, 4) + x ** 2 / 96 + 19 * x ** 4 / 5760 + 559 * x ** 6 / 645120 + 29161 * x ** 8 / 116121600 + O(x ** 9))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e52dd553ac766d6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.nseries(x, n=9) == Rational(1, 4) + x ** 2 / 96 + 19 * x ** 4 / 5760 + 559 * x ** 6 / 645120 + 29161 * x ** 8 / 116121600 + O(x ** 9)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_3507():
     e = x**(-4)*(x**2 - x**2*sqrt(cos(x)))
     assert e.nseries(x, n=9) == \
@@ -902,32 +1220,46 @@ def test_issue_3507():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_3639(), test_issue_3639 produces the expected output) over Any ║
+# ║ Path(test_issue_3639(), sin(cos(x)).nseries(x, n=5) == sin(1) - x ** 2 * cos(1) / 2 - x ** 4 * sin(1) / 8 + x ** 4 * cos(1) / 24 + O(x ** 5)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_3639 : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sin(cos(x)).nseries(x, n=5) == sin(1) - x...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_3639 : Any → {Any | result satisfies: sin(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a7a19853be16211  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 793c2938c84d01a9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_3639","kind":"function","src_hash":"19969f59bd8a7b10","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_3639()","rhs":"test_issue_3639 produces the expected output","over":{"base":"Any"},"name":"test_issue_3639_correct"},"guarantee":"test_issue_3639 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_3639_correct","statement":"Path(test_issue_3639(x), test_issue_3639 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a7a19853be16211"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_3639","kind":"function","src_hash":"19969f59bd8a7b10","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sin(cos(x)).nseries(x, n=5) == sin(1) - x ** 2 * cos(1) / 2 - x ** 4 * sin(1) / 8 + x ** 4 * cos(1) / 24 + O(x ** 5)"},"spec":{"lhs":"test_issue_3639()","rhs":"sin(cos(x)).nseries(x, n=5) == sin(1) - x ** 2 * cos(1) / 2 - x ** 4 * sin(1) / 8 + x ** 4 * cos(1) / 24 + O(x ** 5)","over":{"base":"Any"},"name":"test_issue_3639_correct"},"guarantee":"sin(cos(x)).nseries(x, n=5) == sin(1) - x ** 2 * cos(1) / 2 - x ** 4 * sin(1) / 8 + x ** 4 * cos(1) / 24 + O(x ** 5)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_3639_correct","statement":"Path(test_issue_3639(x), sin(cos(x)).nseries(x, n=5) == sin(1) - x ** 2 * cos(1) / 2 - x ** 4 * sin(1) / 8 + x ** 4 * cos(1) / 24 + O(x ** 5))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"793c2938c84d01a9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sin(cos(x)).nseries(x, n=5) == sin(1) - x ** 2 * cos(1) / 2 - x ** 4 * sin(1) / 8 + x ** 4 * cos(1) / 24 + O(x ** 5)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_3639():
     assert sin(cos(x)).nseries(x, n=5) == \
         sin(1) - x**2*cos(1)/2 - x**4*sin(1)/8 + x**4*cos(1)/24 + O(x**5)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_hyperbolic(), test_hyperbolic produces the expected output) over Any ║
+# ║ Path(test_hyperbolic(), sinh(x).nseries(x, n=6) == x + x ** 3 / 6 + x ** 5 / 120 + O(x ** 6) and cosh(x).nseries(x, n=5) == 1 + x ** 2 / 2 + x ** 4 / 24 + O(x ** 5) and tanh(x).nseries(x, n=6) == x - x ** 3 / 3 + 2 * x ** 5 / 15 + O(x ** 6) and coth(x).nseries(x, n=6) == 1 / x - x ** 3 / 45 + x / 3 + 2 * x ** 5 / 945 + O(x ** 6) and asinh(x).nseries(x, n=6) == x - x ** 3 / 6 + 3 * x ** 5 / 40 + O(x ** 6) and acosh(x).nseries(x, n=6) == pi * I / 2 - I * x - 3 * I * x ** 5 / 40 - I * x ** 3 / 6 + O(x ** 6) and atanh(x).nseries(x, n=6) == x + x ** 3 / 3 + x ** 5 / 5 + O(x ** 6) and acoth(x).nseries(x, n=6) == -I * pi / 2 + x + x ** 3 / 3 + x ** 5 / 5 + O(x ** 6)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_hyperbolic : Any → {Any | sinh(x).nseries(x, n=6...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sinh(x).nseries(x, n=6) == x + x ** 3 / 6...   ║
+# ║   ensures:  cosh(x).nseries(x, n=5) == 1 + x ** 2 / 2...   ║
+# ║   ensures:  tanh(x).nseries(x, n=6) == x - x ** 3 / 3...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_hyperbolic : Any → {Any | result satisfies: sinh...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 810dcea6dcf8fa83  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b208476af4f25a19  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_hyperbolic","kind":"function","src_hash":"806c531b4e9253f2","in":{"base":"Any"},"out":{"base":"Any","pred":"sinh(x).nseries(x, n=6) == x + x ** 3 / 6 + x ** 5 / 120 + O(x ** 6) and cosh(x).nseries(x, n=5) == 1 + x ** 2 / 2 + x ** 4 / 24 + O(x ** 5) and tanh(x).nseries(x, n=6) == x - x ** 3 / 3 + 2 * x ** 5 / 15 + O(x ** 6) and asinh(x).nseries(x, n=6) == x - x ** 3 / 6 + 3 * x ** 5 / 40 + O(x ** 6) and atanh(x).nseries(x, n=6) == x + x ** 3 / 3 + x ** 5 / 5 + O(x ** 6)"},"spec":{"lhs":"test_hyperbolic()","rhs":"test_hyperbolic produces the expected output","over":{"base":"Any"},"name":"test_hyperbolic_correct"},"guarantee":"test_hyperbolic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_hyperbolic_correct","statement":"Path(test_hyperbolic(x), test_hyperbolic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"810dcea6dcf8fa83"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_hyperbolic","kind":"function","src_hash":"806c531b4e9253f2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sinh(x).nseries(x, n=6) == x + x ** 3 / 6 + x ** 5 / 120 + O(x ** 6) and cosh(x).nseries(x, n=5) == 1 + x ** 2 / 2 + x ** 4 / 24 + O(x ** 5) and tanh(x).nseries(x, n=6) == x - x ** 3 / 3 + 2 * x ** 5 / 15 + O(x ** 6) and coth(x).nseries(x, n=6) == 1 / x - x ** 3 / 45 + x / 3 + 2 * x ** 5 / 945 + O(x ** 6) and asinh(x).nseries(x, n=6) == x - x ** 3 / 6 + 3 * x ** 5 / 40 + O(x ** 6) and acosh(x).nseries(x, n=6) == pi * I / 2 - I * x - 3 * I * x ** 5 / 40 - I * x ** 3 / 6 + O(x ** 6) and atanh(x).nseries(x, n=6) == x + x ** 3 / 3 + x ** 5 / 5 + O(x ** 6) and acoth(x).nseries(x, n=6) == -I * pi / 2 + x + x ** 3 / 3 + x ** 5 / 5 + O(x ** 6)"},"spec":{"lhs":"test_hyperbolic()","rhs":"sinh(x).nseries(x, n=6) == x + x ** 3 / 6 + x ** 5 / 120 + O(x ** 6) and cosh(x).nseries(x, n=5) == 1 + x ** 2 / 2 + x ** 4 / 24 + O(x ** 5) and tanh(x).nseries(x, n=6) == x - x ** 3 / 3 + 2 * x ** 5 / 15 + O(x ** 6) and coth(x).nseries(x, n=6) == 1 / x - x ** 3 / 45 + x / 3 + 2 * x ** 5 / 945 + O(x ** 6) and asinh(x).nseries(x, n=6) == x - x ** 3 / 6 + 3 * x ** 5 / 40 + O(x ** 6) and acosh(x).nseries(x, n=6) == pi * I / 2 - I * x - 3 * I * x ** 5 / 40 - I * x ** 3 / 6 + O(x ** 6) and atanh(x).nseries(x, n=6) == x + x ** 3 / 3 + x ** 5 / 5 + O(x ** 6) and acoth(x).nseries(x, n=6) == -I * pi / 2 + x + x ** 3 / 3 + x ** 5 / 5 + O(x ** 6)","over":{"base":"Any"},"name":"test_hyperbolic_correct"},"guarantee":"sinh(x).nseries(x, n=6) == x + x ** 3 / 6 + x ** 5 / 120 + O(x ** 6); cosh(x).nseries(x, n=5) == 1 + x ** 2 / 2 + x ** 4 / 24 + O(x ** 5); tanh(x).nseries(x, n=6) == x - x ** 3 / 3 + 2 * x ** 5 / 15 + O(x ** 6)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_hyperbolic_correct","statement":"Path(test_hyperbolic(x), sinh(x).nseries(x, n=6) == x + x ** 3 / 6 + x ** 5 / 120 + O(x ** 6); cosh(x).nseries(x, n=5) == 1 + x ** 2 / 2 + x ** 4 / 24 + O(x ** 5); tanh(x).nseries(x, n=6) == x - x ** 3 / 3 + 2 * x ** 5 / 15 + O(x ** 6))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b208476af4f25a19","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sinh(x).nseries(x, n=6) == x + x ** 3 / 6 + x ** 5 / 120 + O(x ** 6)","cosh(x).nseries(x, n=5) == 1 + x ** 2 / 2 + x ** 4 / 24 + O(x ** 5)","tanh(x).nseries(x, n=6) == x - x ** 3 / 3 + 2 * x ** 5 / 15 + O(x ** 6)","coth(x).nseries(x, n=6) == 1 / x - x ** 3 / 45 + x / 3 + 2 * x ** 5 / 945 + O(x ** 6)","asinh(x).nseries(x, n=6) == x - x ** 3 / 6 + 3 * x ** 5 / 40 + O(x ** 6)","acosh(x).nseries(x, n=6) == pi * I / 2 - I * x - 3 * I * x ** 5 / 40 - I * x ** 3 / 6 + O(x ** 6)","atanh(x).nseries(x, n=6) == x + x ** 3 / 3 + x ** 5 / 5 + O(x ** 6)","acoth(x).nseries(x, n=6) == -I * pi / 2 + x + x ** 3 / 3 + x ** 5 / 5 + O(x ** 6)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_hyperbolic():
     assert sinh(x).nseries(x, n=6) == x + x**3/6 + x**5/120 + O(x**6)
     assert cosh(x).nseries(x, n=5) == 1 + x**2/2 + x**4/24 + O(x**5)
@@ -942,16 +1274,22 @@ def test_hyperbolic():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_series2(), test_series2 produces the expected output) over Any ║
+# ║ Path(test_series2(), e.nseries(w, n=4) == -exp(1 / x) + w * exp(1 / x) / 2 - w ** 2 * exp(1 / x) / 6 + w ** 3 * exp(1 / x) / 24 + O(w ** 4)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_series2 : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.nseries(w, n=4) == -exp(1 / x) + w * ex...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_series2 : Any → {Any | result satisfies: e.nseri...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 217e86f9551d8283  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ee348bd6f218085  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_series2","kind":"function","src_hash":"2a076eeaa0885f9f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_series2()","rhs":"test_series2 produces the expected output","over":{"base":"Any"},"name":"test_series2_correct"},"guarantee":"test_series2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_series2_correct","statement":"Path(test_series2(x), test_series2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"217e86f9551d8283"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_series2","kind":"function","src_hash":"2a076eeaa0885f9f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.nseries(w, n=4) == -exp(1 / x) + w * exp(1 / x) / 2 - w ** 2 * exp(1 / x) / 6 + w ** 3 * exp(1 / x) / 24 + O(w ** 4)"},"spec":{"lhs":"test_series2()","rhs":"e.nseries(w, n=4) == -exp(1 / x) + w * exp(1 / x) / 2 - w ** 2 * exp(1 / x) / 6 + w ** 3 * exp(1 / x) / 24 + O(w ** 4)","over":{"base":"Any"},"name":"test_series2_correct"},"guarantee":"e.nseries(w, n=4) == -exp(1 / x) + w * exp(1 / x) / 2 - w ** 2 * exp(1 / x) / 6 + w ** 3 * exp(1 / x) / 24 + O(w ** 4)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_series2_correct","statement":"Path(test_series2(x), e.nseries(w, n=4) == -exp(1 / x) + w * exp(1 / x) / 2 - w ** 2 * exp(1 / x) / 6 + w ** 3 * exp(1 / x) / 24 + O(w ** 4))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ee348bd6f218085","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.nseries(w, n=4) == -exp(1 / x) + w * exp(1 / x) / 2 - w ** 2 * exp(1 / x) / 6 + w ** 3 * exp(1 / x) / 24 + O(w ** 4)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_series2():
     w = Symbol("w", real=True)
     x = Symbol("x", real=True)
@@ -960,16 +1298,22 @@ def test_series2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_series3(), test_series3 produces the expected output) over Any ║
+# ║ Path(test_series3(), e.nseries(w, n=8) == Integer(1) / 2 + w ** 2 / 8 + 13 * w ** 4 / 240 + 529 * w ** 6 / 24192 + O(w ** 8)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_series3 : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.nseries(w, n=8) == Integer(1) / 2 + w *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_series3 : Any → {Any | result satisfies: e.nseri...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f128365d5ea36a4a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb94aa8c053a4aca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_series3","kind":"function","src_hash":"1736aee0e33d773e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_series3()","rhs":"test_series3 produces the expected output","over":{"base":"Any"},"name":"test_series3_correct"},"guarantee":"test_series3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_series3_correct","statement":"Path(test_series3(x), test_series3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f128365d5ea36a4a"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_series3","kind":"function","src_hash":"1736aee0e33d773e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.nseries(w, n=8) == Integer(1) / 2 + w ** 2 / 8 + 13 * w ** 4 / 240 + 529 * w ** 6 / 24192 + O(w ** 8)"},"spec":{"lhs":"test_series3()","rhs":"e.nseries(w, n=8) == Integer(1) / 2 + w ** 2 / 8 + 13 * w ** 4 / 240 + 529 * w ** 6 / 24192 + O(w ** 8)","over":{"base":"Any"},"name":"test_series3_correct"},"guarantee":"e.nseries(w, n=8) == Integer(1) / 2 + w ** 2 / 8 + 13 * w ** 4 / 240 + 529 * w ** 6 / 24192 + O(w ** 8)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_series3_correct","statement":"Path(test_series3(x), e.nseries(w, n=8) == Integer(1) / 2 + w ** 2 / 8 + 13 * w ** 4 / 240 + 529 * w ** 6 / 24192 + O(w ** 8))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb94aa8c053a4aca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.nseries(w, n=8) == Integer(1) / 2 + w ** 2 / 8 + 13 * w ** 4 / 240 + 529 * w ** 6 / 24192 + O(w ** 8)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_series3():
     w = Symbol("w", real=True)
     e = w**(-6)*(w**3*tan(w) - w**3*sin(w))
@@ -977,16 +1321,22 @@ def test_series3():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bug4(), test_bug4 produces the expected output) over Any ║
+# ║ Path(test_bug4(), e.nseries(w, n=2).removeO().expand() in [x / (1 + 2 * x + x ** 2), 1 / (1 + x / 2 + 1 / x / 2) / 2, 1 / x / (1 + 2 / x + x ** (-2))]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bug4 : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.nseries(w, n=2).removeO().expand() in [...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bug4 : Any → {Any | result satisfies: e.nseries(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16538101bc577ca4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ddb127bc484812ad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_bug4","kind":"function","src_hash":"62c23ccaeb962bca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_bug4()","rhs":"test_bug4 produces the expected output","over":{"base":"Any"},"name":"test_bug4_correct"},"guarantee":"test_bug4 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_bug4_correct","statement":"Path(test_bug4(x), test_bug4 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16538101bc577ca4"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_bug4","kind":"function","src_hash":"62c23ccaeb962bca","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.nseries(w, n=2).removeO().expand() in [x / (1 + 2 * x + x ** 2), 1 / (1 + x / 2 + 1 / x / 2) / 2, 1 / x / (1 + 2 / x + x ** (-2))]"},"spec":{"lhs":"test_bug4()","rhs":"e.nseries(w, n=2).removeO().expand() in [x / (1 + 2 * x + x ** 2), 1 / (1 + x / 2 + 1 / x / 2) / 2, 1 / x / (1 + 2 / x + x ** (-2))]","over":{"base":"Any"},"name":"test_bug4_correct"},"guarantee":"e.nseries(w, n=2).removeO().expand() in [x / (1 + 2 * x + x ** 2), 1 / (1 + x / 2 + 1 / x / 2) / 2, 1 / x / (1 + 2 / x + x ** (-2))]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_bug4_correct","statement":"Path(test_bug4(x), e.nseries(w, n=2).removeO().expand() in [x / (1 + 2 * x + x ** 2), 1 / (1 + x / 2 + 1 / x / 2) / 2, 1 / x / (1 + 2 / x + x ** (-2))])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ddb127bc484812ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.nseries(w, n=2).removeO().expand() in [x / (1 + 2 * x + x ** 2), 1 / (1 + x / 2 + 1 / x / 2) / 2, 1 / x / (1 + 2 / x + x ** (-2))]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_bug4():
     w = Symbol("w")
     e = x/(w**4 + x**2*w**4 + 2*x*w**4)*w**4
@@ -995,16 +1345,23 @@ def test_bug4():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bug5(), test_bug5 produces the expected output) over Any ║
+# ║ Path(test_bug5(), e.nseries(w, n=0, logx=l) == x / w / l + 1 / w + O(1, w) and e.nseries(w, n=1, logx=l) == x / w / l + 1 / w - x / l + 1 / l * log(x) + x * log(x) / l ** 2 + O(w)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bug5 : Any → {Any | e.nseries(w, n=0, logx=l) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.nseries(w, n=0, logx=l) == x / w / l + ...   ║
+# ║   ensures:  e.nseries(w, n=1, logx=l) == x / w / l + ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bug5 : Any → {Any | result satisfies: e.nseries(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4480ab75b741129d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f799a37c4f8677cd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_bug5","kind":"function","src_hash":"28744f1cd5a7b774","in":{"base":"Any"},"out":{"base":"Any","pred":"e.nseries(w, n=0, logx=l) == x / w / l + 1 / w + O(1, w)"},"spec":{"lhs":"test_bug5()","rhs":"test_bug5 produces the expected output","over":{"base":"Any"},"name":"test_bug5_correct"},"guarantee":"test_bug5 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_bug5_correct","statement":"Path(test_bug5(x), test_bug5 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4480ab75b741129d"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_bug5","kind":"function","src_hash":"28744f1cd5a7b774","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.nseries(w, n=0, logx=l) == x / w / l + 1 / w + O(1, w) and e.nseries(w, n=1, logx=l) == x / w / l + 1 / w - x / l + 1 / l * log(x) + x * log(x) / l ** 2 + O(w)"},"spec":{"lhs":"test_bug5()","rhs":"e.nseries(w, n=0, logx=l) == x / w / l + 1 / w + O(1, w) and e.nseries(w, n=1, logx=l) == x / w / l + 1 / w - x / l + 1 / l * log(x) + x * log(x) / l ** 2 + O(w)","over":{"base":"Any"},"name":"test_bug5_correct"},"guarantee":"e.nseries(w, n=0, logx=l) == x / w / l + 1 / w + O(1, w); e.nseries(w, n=1, logx=l) == x / w / l + 1 / w - x / l + 1 / l * log(x) + x * log(x) / l ** 2 + O(w)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_bug5_correct","statement":"Path(test_bug5(x), e.nseries(w, n=0, logx=l) == x / w / l + 1 / w + O(1, w); e.nseries(w, n=1, logx=l) == x / w / l + 1 / w - x / l + 1 / l * log(x) + x * log(x) / l ** 2 + O(w))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f799a37c4f8677cd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.nseries(w, n=0, logx=l) == x / w / l + 1 / w + O(1, w)","e.nseries(w, n=1, logx=l) == x / w / l + 1 / w - x / l + 1 / l * log(x) + x * log(x) / l ** 2 + O(w)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_bug5():
     w = Symbol("w")
     l = Symbol('l')
@@ -1017,32 +1374,45 @@ def test_bug5():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_4115(), test_issue_4115 produces the expected output) over Any ║
+# ║ Path(test_issue_4115(), (sin(x) / (1 - cos(x))).nseries(x, n=1) == 2 / x + O(x) and (sin(x) ** 2 / (1 - cos(x))).nseries(x, n=1) == 2 + O(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_4115 : Any → {Any | (sin(x) / (1 - cos(x))...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (sin(x) / (1 - cos(x))).nseries(x, n=1) =...   ║
+# ║   ensures:  (sin(x) ** 2 / (1 - cos(x))).nseries(x, n...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_4115 : Any → {Any | result satisfies: (sin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5a1a2bcb6033986  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 481074dda0402c6d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_4115","kind":"function","src_hash":"96c080a581e57599","in":{"base":"Any"},"out":{"base":"Any","pred":"(sin(x) / (1 - cos(x))).nseries(x, n=1) == 2 / x + O(x) and (sin(x) ** 2 / (1 - cos(x))).nseries(x, n=1) == 2 + O(x)"},"spec":{"lhs":"test_issue_4115()","rhs":"test_issue_4115 produces the expected output","over":{"base":"Any"},"name":"test_issue_4115_correct"},"guarantee":"test_issue_4115 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_4115_correct","statement":"Path(test_issue_4115(x), test_issue_4115 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5a1a2bcb6033986"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_4115","kind":"function","src_hash":"96c080a581e57599","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (sin(x) / (1 - cos(x))).nseries(x, n=1) == 2 / x + O(x) and (sin(x) ** 2 / (1 - cos(x))).nseries(x, n=1) == 2 + O(x)"},"spec":{"lhs":"test_issue_4115()","rhs":"(sin(x) / (1 - cos(x))).nseries(x, n=1) == 2 / x + O(x) and (sin(x) ** 2 / (1 - cos(x))).nseries(x, n=1) == 2 + O(x)","over":{"base":"Any"},"name":"test_issue_4115_correct"},"guarantee":"(sin(x) / (1 - cos(x))).nseries(x, n=1) == 2 / x + O(x); (sin(x) ** 2 / (1 - cos(x))).nseries(x, n=1) == 2 + O(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_4115_correct","statement":"Path(test_issue_4115(x), (sin(x) / (1 - cos(x))).nseries(x, n=1) == 2 / x + O(x); (sin(x) ** 2 / (1 - cos(x))).nseries(x, n=1) == 2 + O(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"481074dda0402c6d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(sin(x) / (1 - cos(x))).nseries(x, n=1) == 2 / x + O(x)","(sin(x) ** 2 / (1 - cos(x))).nseries(x, n=1) == 2 + O(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_4115():
     assert (sin(x)/(1 - cos(x))).nseries(x, n=1) == 2/x + O(x)
     assert (sin(x)**2/(1 - cos(x))).nseries(x, n=1) == 2 + O(x)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pole(), test_pole produces the expected output) over Any ║
+# ║ Path(test_pole(), <unspecified:test_pole>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_pole : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a7043a30d87f215  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_pole","kind":"function","src_hash":"dfa3aba811b3ef8e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_pole()","rhs":"test_pole produces the expected output","over":{"base":"Any"},"name":"test_pole_correct"},"guarantee":"test_pole produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_pole_correct","statement":"Path(test_pole(x), test_pole produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a7043a30d87f215"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_pole","kind":"function","src_hash":"dfa3aba811b3ef8e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_pole()","rhs":"<unspecified:test_pole>","over":{"base":"Any"},"name":"test_pole_correct"},"guarantee":"test_pole produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_pole_correct","statement":"Path(test_pole(x), test_pole produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a7043a30d87f215","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pole():
     raises(PoleError, lambda: sin(1/x).series(x, 0, 5))
     raises(PoleError, lambda: sin(1 + 1/x).series(x, 0, 5))
@@ -1050,16 +1420,24 @@ def test_pole():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_expsinbug(), test_expsinbug produces the expected output) over Any ║
+# ║ Path(test_expsinbug(), exp(sin(x)).series(x, 0, 0) == O(1, x) and exp(sin(x)).series(x, 0, 1) == 1 + O(x) and exp(sin(x)).series(x, 0, 2) == 1 + x + O(x ** 2) and exp(sin(x)).series(x, 0, 3) == 1 + x + x ** 2 / 2 + O(x ** 3) and exp(sin(x)).series(x, 0, 4) == 1 + x + x ** 2 / 2 + O(x ** 4) and exp(sin(x)).series(x, 0, 5) == 1 + x + x ** 2 / 2 - x ** 4 / 8 + O(x ** 5)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_expsinbug : Any → {Any | exp(sin(x)).series(x, 0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  exp(sin(x)).series(x, 0, 0) == O(1, x)         ║
+# ║   ensures:  exp(sin(x)).series(x, 0, 1) == 1 + O(x)        ║
+# ║   ensures:  exp(sin(x)).series(x, 0, 2) == 1 + x + O(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_expsinbug : Any → {Any | result satisfies: exp(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 630108e76cc56286  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58b8ebaacc436854  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_expsinbug","kind":"function","src_hash":"770033c1dcaf070a","in":{"base":"Any"},"out":{"base":"Any","pred":"exp(sin(x)).series(x, 0, 0) == O(1, x) and exp(sin(x)).series(x, 0, 1) == 1 + O(x) and exp(sin(x)).series(x, 0, 2) == 1 + x + O(x ** 2) and exp(sin(x)).series(x, 0, 3) == 1 + x + x ** 2 / 2 + O(x ** 3) and exp(sin(x)).series(x, 0, 4) == 1 + x + x ** 2 / 2 + O(x ** 4) and exp(sin(x)).series(x, 0, 5) == 1 + x + x ** 2 / 2 - x ** 4 / 8 + O(x ** 5)"},"spec":{"lhs":"test_expsinbug()","rhs":"test_expsinbug produces the expected output","over":{"base":"Any"},"name":"test_expsinbug_correct"},"guarantee":"test_expsinbug produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_expsinbug_correct","statement":"Path(test_expsinbug(x), test_expsinbug produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"630108e76cc56286"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_expsinbug","kind":"function","src_hash":"770033c1dcaf070a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: exp(sin(x)).series(x, 0, 0) == O(1, x) and exp(sin(x)).series(x, 0, 1) == 1 + O(x) and exp(sin(x)).series(x, 0, 2) == 1 + x + O(x ** 2) and exp(sin(x)).series(x, 0, 3) == 1 + x + x ** 2 / 2 + O(x ** 3) and exp(sin(x)).series(x, 0, 4) == 1 + x + x ** 2 / 2 + O(x ** 4) and exp(sin(x)).series(x, 0, 5) == 1 + x + x ** 2 / 2 - x ** 4 / 8 + O(x ** 5)"},"spec":{"lhs":"test_expsinbug()","rhs":"exp(sin(x)).series(x, 0, 0) == O(1, x) and exp(sin(x)).series(x, 0, 1) == 1 + O(x) and exp(sin(x)).series(x, 0, 2) == 1 + x + O(x ** 2) and exp(sin(x)).series(x, 0, 3) == 1 + x + x ** 2 / 2 + O(x ** 3) and exp(sin(x)).series(x, 0, 4) == 1 + x + x ** 2 / 2 + O(x ** 4) and exp(sin(x)).series(x, 0, 5) == 1 + x + x ** 2 / 2 - x ** 4 / 8 + O(x ** 5)","over":{"base":"Any"},"name":"test_expsinbug_correct"},"guarantee":"exp(sin(x)).series(x, 0, 0) == O(1, x); exp(sin(x)).series(x, 0, 1) == 1 + O(x); exp(sin(x)).series(x, 0, 2) == 1 + x + O(x ** 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_expsinbug_correct","statement":"Path(test_expsinbug(x), exp(sin(x)).series(x, 0, 0) == O(1, x); exp(sin(x)).series(x, 0, 1) == 1 + O(x); exp(sin(x)).series(x, 0, 2) == 1 + x + O(x ** 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58b8ebaacc436854","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["exp(sin(x)).series(x, 0, 0) == O(1, x)","exp(sin(x)).series(x, 0, 1) == 1 + O(x)","exp(sin(x)).series(x, 0, 2) == 1 + x + O(x ** 2)","exp(sin(x)).series(x, 0, 3) == 1 + x + x ** 2 / 2 + O(x ** 3)","exp(sin(x)).series(x, 0, 4) == 1 + x + x ** 2 / 2 + O(x ** 4)","exp(sin(x)).series(x, 0, 5) == 1 + x + x ** 2 / 2 - x ** 4 / 8 + O(x ** 5)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_expsinbug():
     assert exp(sin(x)).series(x, 0, 0) == O(1, x)
     assert exp(sin(x)).series(x, 0, 1) == 1 + O(x)
@@ -1070,16 +1448,24 @@ def test_expsinbug():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_floor(), test_floor produces the expected output) over Any ║
+# ║ Path(test_floor(), floor(x).series(x) == 0 and floor(-x).series(x) == -1 and floor(sin(x)).series(x) == 0 and floor(sin(-x)).series(x) == -1 and floor(x ** 3).series(x) == 0 and floor(-x ** 3).series(x) == -1 and floor(cos(x)).series(x) == 0 and floor(cos(-x)).series(x) == 0 and floor(5 + sin(x)).series(x) == 5 and floor(5 + sin(-x)).series(x) == 4 and floor(x).series(x, 2) == 2 and floor(-x).series(x, 2) == -3 and floor(x + 1.5).series(x) == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_floor : Any → {Any | floor(x).series(x) == 0 and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  floor(x).series(x) == 0                        ║
+# ║   ensures:  floor(-x).series(x) == -1                      ║
+# ║   ensures:  floor(sin(x)).series(x) == 0                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_floor : Any → {Any | result satisfies: floor(x)....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f360c6d46c7db9d8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1db4489c545009ef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_floor","kind":"function","src_hash":"7683989df42f6ce3","in":{"base":"Any"},"out":{"base":"Any","pred":"floor(x).series(x) == 0 and floor(-x).series(x) == -1 and floor(sin(x)).series(x) == 0 and floor(sin(-x)).series(x) == -1 and floor(x ** 3).series(x) == 0 and floor(-x ** 3).series(x) == -1 and floor(cos(x)).series(x) == 0 and floor(cos(-x)).series(x) == 0 and floor(5 + sin(x)).series(x) == 5 and floor(5 + sin(-x)).series(x) == 4 and floor(x).series(x, 2) == 2 and floor(-x).series(x, 2) == -3 and floor(x + 1.5).series(x) == 1"},"spec":{"lhs":"test_floor()","rhs":"test_floor produces the expected output","over":{"base":"Any"},"name":"test_floor_correct"},"guarantee":"test_floor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_floor_correct","statement":"Path(test_floor(x), test_floor produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f360c6d46c7db9d8"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_floor","kind":"function","src_hash":"7683989df42f6ce3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: floor(x).series(x) == 0 and floor(-x).series(x) == -1 and floor(sin(x)).series(x) == 0 and floor(sin(-x)).series(x) == -1 and floor(x ** 3).series(x) == 0 and floor(-x ** 3).series(x) == -1 and floor(cos(x)).series(x) == 0 and floor(cos(-x)).series(x) == 0 and floor(5 + sin(x)).series(x) == 5 and floor(5 + sin(-x)).series(x) == 4 and floor(x).series(x, 2) == 2 and floor(-x).series(x, 2) == -3 and floor(x + 1.5).series(x) == 1"},"spec":{"lhs":"test_floor()","rhs":"floor(x).series(x) == 0 and floor(-x).series(x) == -1 and floor(sin(x)).series(x) == 0 and floor(sin(-x)).series(x) == -1 and floor(x ** 3).series(x) == 0 and floor(-x ** 3).series(x) == -1 and floor(cos(x)).series(x) == 0 and floor(cos(-x)).series(x) == 0 and floor(5 + sin(x)).series(x) == 5 and floor(5 + sin(-x)).series(x) == 4 and floor(x).series(x, 2) == 2 and floor(-x).series(x, 2) == -3 and floor(x + 1.5).series(x) == 1","over":{"base":"Any"},"name":"test_floor_correct"},"guarantee":"floor(x).series(x) == 0; floor(-x).series(x) == -1; floor(sin(x)).series(x) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_floor_correct","statement":"Path(test_floor(x), floor(x).series(x) == 0; floor(-x).series(x) == -1; floor(sin(x)).series(x) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1db4489c545009ef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["floor(x).series(x) == 0","floor(-x).series(x) == -1","floor(sin(x)).series(x) == 0","floor(sin(-x)).series(x) == -1","floor(x ** 3).series(x) == 0","floor(-x ** 3).series(x) == -1","floor(cos(x)).series(x) == 0","floor(cos(-x)).series(x) == 0","floor(5 + sin(x)).series(x) == 5","floor(5 + sin(-x)).series(x) == 4","floor(x).series(x, 2) == 2","floor(-x).series(x, 2) == -3","floor(x + 1.5).series(x) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_floor():
     x = Symbol('x')
     assert floor(x).series(x) == 0
@@ -1101,16 +1487,24 @@ def test_floor():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_frac(), test_frac produces the expected output) over Any ║
+# ║ Path(test_frac(), frac(x).series(x, cdir=1) == x and frac(x).series(x, cdir=-1) == 1 + x and frac(2 * x + 1).series(x, cdir=1) == 2 * x and frac(2 * x + 1).series(x, cdir=-1) == 1 + 2 * x and frac(x ** 2).series(x, cdir=1) == x ** 2 and frac(x ** 2).series(x, cdir=-1) == x ** 2 and frac(sin(x) + 5).series(x, cdir=1) == x - x ** 3 / 6 + x ** 5 / 120 + O(x ** 6) and frac(sin(x) + 5).series(x, cdir=-1) == 1 + x - x ** 3 / 6 + x ** 5 / 120 + O(x ** 6) and frac(sin(x) + S.Half).series(x) == S.Half + x - x ** 3 / 6 + x ** 5 / 120 + O(x ** 6) and frac(x ** 8).series(x, cdir=1) == O(x ** 6) and frac(1 / x).series(x) == AccumBounds(0, 1) + O(x ** 6)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_frac : Any → {Any | frac(x).series(x, cdir=1) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  frac(x).series(x, cdir=1) == x                 ║
+# ║   ensures:  frac(x).series(x, cdir=-1) == 1 + x            ║
+# ║   ensures:  frac(2 * x + 1).series(x, cdir=1) == 2 * x     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_frac : Any → {Any | result satisfies: frac(x).se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5323747d1dac34a4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77c6404054a7e4a5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_frac","kind":"function","src_hash":"3cb828242f7039ea","in":{"base":"Any"},"out":{"base":"Any","pred":"frac(x).series(x, cdir=1) == x and frac(x).series(x, cdir=-1) == 1 + x and frac(2 * x + 1).series(x, cdir=1) == 2 * x and frac(2 * x + 1).series(x, cdir=-1) == 1 + 2 * x and frac(x ** 2).series(x, cdir=1) == x ** 2 and frac(x ** 2).series(x, cdir=-1) == x ** 2 and frac(sin(x) + 5).series(x, cdir=1) == x - x ** 3 / 6 + x ** 5 / 120 + O(x ** 6) and frac(x ** 8).series(x, cdir=1) == O(x ** 6) and frac(1 / x).series(x) == AccumBounds(0, 1) + O(x ** 6)"},"spec":{"lhs":"test_frac()","rhs":"test_frac produces the expected output","over":{"base":"Any"},"name":"test_frac_correct"},"guarantee":"test_frac produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_frac_correct","statement":"Path(test_frac(x), test_frac produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5323747d1dac34a4"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_frac","kind":"function","src_hash":"3cb828242f7039ea","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: frac(x).series(x, cdir=1) == x and frac(x).series(x, cdir=-1) == 1 + x and frac(2 * x + 1).series(x, cdir=1) == 2 * x and frac(2 * x + 1).series(x, cdir=-1) == 1 + 2 * x and frac(x ** 2).series(x, cdir=1) == x ** 2 and frac(x ** 2).series(x, cdir=-1) == x ** 2 and frac(sin(x) + 5).series(x, cdir=1) == x - x ** 3 / 6 + x ** 5 / 120 + O(x ** 6) and frac(sin(x) + 5).series(x, cdir=-1) == 1 + x - x ** 3 / 6 + x ** 5 / 120 + O(x ** 6) and frac(sin(x) + S.Half).series(x) == S.Half + x - x ** 3 / 6 + x ** 5 / 120 + O(x ** 6) and frac(x ** 8).series(x, cdir=1) == O(x ** 6) and frac(1 / x).series(x) == AccumBounds(0, 1) + O(x ** 6)"},"spec":{"lhs":"test_frac()","rhs":"frac(x).series(x, cdir=1) == x and frac(x).series(x, cdir=-1) == 1 + x and frac(2 * x + 1).series(x, cdir=1) == 2 * x and frac(2 * x + 1).series(x, cdir=-1) == 1 + 2 * x and frac(x ** 2).series(x, cdir=1) == x ** 2 and frac(x ** 2).series(x, cdir=-1) == x ** 2 and frac(sin(x) + 5).series(x, cdir=1) == x - x ** 3 / 6 + x ** 5 / 120 + O(x ** 6) and frac(sin(x) + 5).series(x, cdir=-1) == 1 + x - x ** 3 / 6 + x ** 5 / 120 + O(x ** 6) and frac(sin(x) + S.Half).series(x) == S.Half + x - x ** 3 / 6 + x ** 5 / 120 + O(x ** 6) and frac(x ** 8).series(x, cdir=1) == O(x ** 6) and frac(1 / x).series(x) == AccumBounds(0, 1) + O(x ** 6)","over":{"base":"Any"},"name":"test_frac_correct"},"guarantee":"frac(x).series(x, cdir=1) == x; frac(x).series(x, cdir=-1) == 1 + x; frac(2 * x + 1).series(x, cdir=1) == 2 * x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_frac_correct","statement":"Path(test_frac(x), frac(x).series(x, cdir=1) == x; frac(x).series(x, cdir=-1) == 1 + x; frac(2 * x + 1).series(x, cdir=1) == 2 * x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77c6404054a7e4a5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["frac(x).series(x, cdir=1) == x","frac(x).series(x, cdir=-1) == 1 + x","frac(2 * x + 1).series(x, cdir=1) == 2 * x","frac(2 * x + 1).series(x, cdir=-1) == 1 + 2 * x","frac(x ** 2).series(x, cdir=1) == x ** 2","frac(x ** 2).series(x, cdir=-1) == x ** 2","frac(sin(x) + 5).series(x, cdir=1) == x - x ** 3 / 6 + x ** 5 / 120 + O(x ** 6)","frac(sin(x) + 5).series(x, cdir=-1) == 1 + x - x ** 3 / 6 + x ** 5 / 120 + O(x ** 6)","frac(sin(x) + S.Half).series(x) == S.Half + x - x ** 3 / 6 + x ** 5 / 120 + O(x ** 6)","frac(x ** 8).series(x, cdir=1) == O(x ** 6)","frac(1 / x).series(x) == AccumBounds(0, 1) + O(x ** 6)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_frac():
     assert frac(x).series(x, cdir=1) == x
     assert frac(x).series(x, cdir=-1) == 1 + x
@@ -1126,16 +1520,24 @@ def test_frac():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ceiling(), test_ceiling produces the expected output) over Any ║
+# ║ Path(test_ceiling(), ceiling(x).series(x) == 1 and ceiling(-x).series(x) == 0 and ceiling(sin(x)).series(x) == 1 and ceiling(sin(-x)).series(x) == 0 and ceiling(1 - cos(x)).series(x) == 1 and ceiling(1 - cos(-x)).series(x) == 1 and ceiling(x).series(x, 2) == 3 and ceiling(-x).series(x, 2) == -2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ceiling : Any → {Any | ceiling(x).series(x) == 1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ceiling(x).series(x) == 1                      ║
+# ║   ensures:  ceiling(-x).series(x) == 0                     ║
+# ║   ensures:  ceiling(sin(x)).series(x) == 1                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ceiling : Any → {Any | result satisfies: ceiling...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 966eb7d034982a98  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d188e1a19d864417  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_ceiling","kind":"function","src_hash":"c227d9f9c3c9125e","in":{"base":"Any"},"out":{"base":"Any","pred":"ceiling(x).series(x) == 1 and ceiling(-x).series(x) == 0 and ceiling(sin(x)).series(x) == 1 and ceiling(sin(-x)).series(x) == 0 and ceiling(1 - cos(x)).series(x) == 1 and ceiling(1 - cos(-x)).series(x) == 1 and ceiling(x).series(x, 2) == 3 and ceiling(-x).series(x, 2) == -2"},"spec":{"lhs":"test_ceiling()","rhs":"test_ceiling produces the expected output","over":{"base":"Any"},"name":"test_ceiling_correct"},"guarantee":"test_ceiling produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_ceiling_correct","statement":"Path(test_ceiling(x), test_ceiling produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"966eb7d034982a98"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_ceiling","kind":"function","src_hash":"c227d9f9c3c9125e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ceiling(x).series(x) == 1 and ceiling(-x).series(x) == 0 and ceiling(sin(x)).series(x) == 1 and ceiling(sin(-x)).series(x) == 0 and ceiling(1 - cos(x)).series(x) == 1 and ceiling(1 - cos(-x)).series(x) == 1 and ceiling(x).series(x, 2) == 3 and ceiling(-x).series(x, 2) == -2"},"spec":{"lhs":"test_ceiling()","rhs":"ceiling(x).series(x) == 1 and ceiling(-x).series(x) == 0 and ceiling(sin(x)).series(x) == 1 and ceiling(sin(-x)).series(x) == 0 and ceiling(1 - cos(x)).series(x) == 1 and ceiling(1 - cos(-x)).series(x) == 1 and ceiling(x).series(x, 2) == 3 and ceiling(-x).series(x, 2) == -2","over":{"base":"Any"},"name":"test_ceiling_correct"},"guarantee":"ceiling(x).series(x) == 1; ceiling(-x).series(x) == 0; ceiling(sin(x)).series(x) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_ceiling_correct","statement":"Path(test_ceiling(x), ceiling(x).series(x) == 1; ceiling(-x).series(x) == 0; ceiling(sin(x)).series(x) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d188e1a19d864417","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ceiling(x).series(x) == 1","ceiling(-x).series(x) == 0","ceiling(sin(x)).series(x) == 1","ceiling(sin(-x)).series(x) == 0","ceiling(1 - cos(x)).series(x) == 1","ceiling(1 - cos(-x)).series(x) == 1","ceiling(x).series(x, 2) == 3","ceiling(-x).series(x, 2) == -2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_ceiling():
     assert ceiling(x).series(x) == 1
     assert ceiling(-x).series(x) == 0
@@ -1148,16 +1550,24 @@ def test_ceiling():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_abs(), test_abs produces the expected output) over Any ║
+# ║ Path(test_abs(), abs(x).nseries(x, n=4) == x and abs(-x).nseries(x, n=4) == x and abs(x + 1).nseries(x, n=4) == x + 1 and abs(sin(x)).nseries(x, n=4) == x - Rational(1, 6) * x ** 3 + O(x ** 4) and abs(sin(-x)).nseries(x, n=4) == x - Rational(1, 6) * x ** 3 + O(x ** 4) and abs(x - a).nseries(x, 1) == -a * sign(1 - a) + (x - 1) * sign(1 - a) + sign(1 - a)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_abs : Any → {Any | abs(x).nseries(x, n=4) == x a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(x).nseries(x, n=4) == x                    ║
+# ║   ensures:  abs(-x).nseries(x, n=4) == x                   ║
+# ║   ensures:  abs(x + 1).nseries(x, n=4) == x + 1            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_abs : Any → {Any | result satisfies: abs(x).nser...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cbf1e75ab3eff56d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fcb6cb90b977d1d9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_abs","kind":"function","src_hash":"76eafd7103395478","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(x).nseries(x, n=4) == x and abs(-x).nseries(x, n=4) == x and abs(x + 1).nseries(x, n=4) == x + 1 and abs(sin(x)).nseries(x, n=4) == x - Rational(1, 6) * x ** 3 + O(x ** 4) and abs(sin(-x)).nseries(x, n=4) == x - Rational(1, 6) * x ** 3 + O(x ** 4)"},"spec":{"lhs":"test_abs()","rhs":"test_abs produces the expected output","over":{"base":"Any"},"name":"test_abs_correct"},"guarantee":"test_abs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_abs_correct","statement":"Path(test_abs(x), test_abs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cbf1e75ab3eff56d"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_abs","kind":"function","src_hash":"76eafd7103395478","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(x).nseries(x, n=4) == x and abs(-x).nseries(x, n=4) == x and abs(x + 1).nseries(x, n=4) == x + 1 and abs(sin(x)).nseries(x, n=4) == x - Rational(1, 6) * x ** 3 + O(x ** 4) and abs(sin(-x)).nseries(x, n=4) == x - Rational(1, 6) * x ** 3 + O(x ** 4) and abs(x - a).nseries(x, 1) == -a * sign(1 - a) + (x - 1) * sign(1 - a) + sign(1 - a)"},"spec":{"lhs":"test_abs()","rhs":"abs(x).nseries(x, n=4) == x and abs(-x).nseries(x, n=4) == x and abs(x + 1).nseries(x, n=4) == x + 1 and abs(sin(x)).nseries(x, n=4) == x - Rational(1, 6) * x ** 3 + O(x ** 4) and abs(sin(-x)).nseries(x, n=4) == x - Rational(1, 6) * x ** 3 + O(x ** 4) and abs(x - a).nseries(x, 1) == -a * sign(1 - a) + (x - 1) * sign(1 - a) + sign(1 - a)","over":{"base":"Any"},"name":"test_abs_correct"},"guarantee":"abs(x).nseries(x, n=4) == x; abs(-x).nseries(x, n=4) == x; abs(x + 1).nseries(x, n=4) == x + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_abs_correct","statement":"Path(test_abs(x), abs(x).nseries(x, n=4) == x; abs(-x).nseries(x, n=4) == x; abs(x + 1).nseries(x, n=4) == x + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fcb6cb90b977d1d9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(x).nseries(x, n=4) == x","abs(-x).nseries(x, n=4) == x","abs(x + 1).nseries(x, n=4) == x + 1","abs(sin(x)).nseries(x, n=4) == x - Rational(1, 6) * x ** 3 + O(x ** 4)","abs(sin(-x)).nseries(x, n=4) == x - Rational(1, 6) * x ** 3 + O(x ** 4)","abs(x - a).nseries(x, 1) == -a * sign(1 - a) + (x - 1) * sign(1 - a) + sign(1 - a)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_abs():
     a = Symbol('a')
     assert abs(x).nseries(x, n=4) == x
@@ -1169,16 +1579,24 @@ def test_abs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dir(), test_dir produces the expected output) over Any ║
+# ║ Path(test_dir(), abs(x).series(x, 0, dir='+') == x and abs(x).series(x, 0, dir='-') == -x and floor(x + 2).series(x, 0, dir='+') == 2 and floor(x + 2).series(x, 0, dir='-') == 1 and floor(x + 2.2).series(x, 0, dir='-') == 2 and ceiling(x + 2.2).series(x, 0, dir='-') == 3 and sin(x + y).series(x, 0, dir='-') == sin(x + y).series(x, 0, dir='+')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dir : Any → {Any | abs(x).series(x, 0, dir='+') ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(x).series(x, 0, dir='+') == x              ║
+# ║   ensures:  abs(x).series(x, 0, dir='-') == -x             ║
+# ║   ensures:  floor(x + 2).series(x, 0, dir='+') == 2        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dir : Any → {Any | result satisfies: abs(x).seri...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38637e90d58be9dd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 841ea5b2cf4739a9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_dir","kind":"function","src_hash":"7de5af4f4723e54b","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(x).series(x, 0, dir='+') == x and abs(x).series(x, 0, dir='-') == -x and floor(x + 2).series(x, 0, dir='+') == 2 and floor(x + 2).series(x, 0, dir='-') == 1 and floor(x + 2.2).series(x, 0, dir='-') == 2 and ceiling(x + 2.2).series(x, 0, dir='-') == 3 and sin(x + y).series(x, 0, dir='-') == sin(x + y).series(x, 0, dir='+')"},"spec":{"lhs":"test_dir()","rhs":"test_dir produces the expected output","over":{"base":"Any"},"name":"test_dir_correct"},"guarantee":"test_dir produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_dir_correct","statement":"Path(test_dir(x), test_dir produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38637e90d58be9dd"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_dir","kind":"function","src_hash":"7de5af4f4723e54b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(x).series(x, 0, dir='+') == x and abs(x).series(x, 0, dir='-') == -x and floor(x + 2).series(x, 0, dir='+') == 2 and floor(x + 2).series(x, 0, dir='-') == 1 and floor(x + 2.2).series(x, 0, dir='-') == 2 and ceiling(x + 2.2).series(x, 0, dir='-') == 3 and sin(x + y).series(x, 0, dir='-') == sin(x + y).series(x, 0, dir='+')"},"spec":{"lhs":"test_dir()","rhs":"abs(x).series(x, 0, dir='+') == x and abs(x).series(x, 0, dir='-') == -x and floor(x + 2).series(x, 0, dir='+') == 2 and floor(x + 2).series(x, 0, dir='-') == 1 and floor(x + 2.2).series(x, 0, dir='-') == 2 and ceiling(x + 2.2).series(x, 0, dir='-') == 3 and sin(x + y).series(x, 0, dir='-') == sin(x + y).series(x, 0, dir='+')","over":{"base":"Any"},"name":"test_dir_correct"},"guarantee":"abs(x).series(x, 0, dir='+') == x; abs(x).series(x, 0, dir='-') == -x; floor(x + 2).series(x, 0, dir='+') == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_dir_correct","statement":"Path(test_dir(x), abs(x).series(x, 0, dir='+') == x; abs(x).series(x, 0, dir='-') == -x; floor(x + 2).series(x, 0, dir='+') == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"841ea5b2cf4739a9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(x).series(x, 0, dir='+') == x","abs(x).series(x, 0, dir='-') == -x","floor(x + 2).series(x, 0, dir='+') == 2","floor(x + 2).series(x, 0, dir='-') == 1","floor(x + 2.2).series(x, 0, dir='-') == 2","ceiling(x + 2.2).series(x, 0, dir='-') == 3","sin(x + y).series(x, 0, dir='-') == sin(x + y).series(x, 0, dir='+')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_dir():
     assert abs(x).series(x, 0, dir="+") == x
     assert abs(x).series(x, 0, dir="-") == -x
@@ -1190,16 +1608,24 @@ def test_dir():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cdir(), test_cdir produces the expected output) over Any ║
+# ║ Path(test_cdir(), abs(x).series(x, 0, cdir=1) == x and abs(x).series(x, 0, cdir=-1) == -x and floor(x + 2).series(x, 0, cdir=1) == 2 and floor(x + 2).series(x, 0, cdir=-1) == 1 and floor(x + 2.2).series(x, 0, cdir=1) == 2 and ceiling(x + 2.2).series(x, 0, cdir=-1) == 3 and sin(x + y).series(x, 0, cdir=-1) == sin(x + y).series(x, 0, cdir=1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cdir : Any → {Any | abs(x).series(x, 0, cdir=1) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(x).series(x, 0, cdir=1) == x               ║
+# ║   ensures:  abs(x).series(x, 0, cdir=-1) == -x             ║
+# ║   ensures:  floor(x + 2).series(x, 0, cdir=1) == 2         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cdir : Any → {Any | result satisfies: abs(x).ser...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d5d1895d56444b05  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e4b36eb534ef6198  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_cdir","kind":"function","src_hash":"7f5903816101f77a","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(x).series(x, 0, cdir=1) == x and abs(x).series(x, 0, cdir=-1) == -x and floor(x + 2).series(x, 0, cdir=1) == 2 and floor(x + 2).series(x, 0, cdir=-1) == 1 and floor(x + 2.2).series(x, 0, cdir=1) == 2 and ceiling(x + 2.2).series(x, 0, cdir=-1) == 3 and sin(x + y).series(x, 0, cdir=-1) == sin(x + y).series(x, 0, cdir=1)"},"spec":{"lhs":"test_cdir()","rhs":"test_cdir produces the expected output","over":{"base":"Any"},"name":"test_cdir_correct"},"guarantee":"test_cdir produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_cdir_correct","statement":"Path(test_cdir(x), test_cdir produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5d1895d56444b05"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_cdir","kind":"function","src_hash":"7f5903816101f77a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(x).series(x, 0, cdir=1) == x and abs(x).series(x, 0, cdir=-1) == -x and floor(x + 2).series(x, 0, cdir=1) == 2 and floor(x + 2).series(x, 0, cdir=-1) == 1 and floor(x + 2.2).series(x, 0, cdir=1) == 2 and ceiling(x + 2.2).series(x, 0, cdir=-1) == 3 and sin(x + y).series(x, 0, cdir=-1) == sin(x + y).series(x, 0, cdir=1)"},"spec":{"lhs":"test_cdir()","rhs":"abs(x).series(x, 0, cdir=1) == x and abs(x).series(x, 0, cdir=-1) == -x and floor(x + 2).series(x, 0, cdir=1) == 2 and floor(x + 2).series(x, 0, cdir=-1) == 1 and floor(x + 2.2).series(x, 0, cdir=1) == 2 and ceiling(x + 2.2).series(x, 0, cdir=-1) == 3 and sin(x + y).series(x, 0, cdir=-1) == sin(x + y).series(x, 0, cdir=1)","over":{"base":"Any"},"name":"test_cdir_correct"},"guarantee":"abs(x).series(x, 0, cdir=1) == x; abs(x).series(x, 0, cdir=-1) == -x; floor(x + 2).series(x, 0, cdir=1) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_cdir_correct","statement":"Path(test_cdir(x), abs(x).series(x, 0, cdir=1) == x; abs(x).series(x, 0, cdir=-1) == -x; floor(x + 2).series(x, 0, cdir=1) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4b36eb534ef6198","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(x).series(x, 0, cdir=1) == x","abs(x).series(x, 0, cdir=-1) == -x","floor(x + 2).series(x, 0, cdir=1) == 2","floor(x + 2).series(x, 0, cdir=-1) == 1","floor(x + 2.2).series(x, 0, cdir=1) == 2","ceiling(x + 2.2).series(x, 0, cdir=-1) == 3","sin(x + y).series(x, 0, cdir=-1) == sin(x + y).series(x, 0, cdir=1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_cdir():
     assert abs(x).series(x, 0, cdir=1) == x
     assert abs(x).series(x, 0, cdir=-1) == -x
@@ -1211,16 +1637,22 @@ def test_cdir():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_3504(), test_issue_3504 produces the expected output) over Any ║
+# ║ Path(test_issue_3504(), e.series(x, 4, n=2).removeO() == (x - 4) * (a / (4 * sqrt(-16 * a ** 2 + 1)) - asin(4 * a) / 16) + asin(4 * a) / 4) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_3504 : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.series(x, 4, n=2).removeO() == (x - 4) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_3504 : Any → {Any | result satisfies: e.se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15caf3a251c3ccb1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b9977725fc0f721  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_3504","kind":"function","src_hash":"49abc971a41bd2bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_3504()","rhs":"test_issue_3504 produces the expected output","over":{"base":"Any"},"name":"test_issue_3504_correct"},"guarantee":"test_issue_3504 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_3504_correct","statement":"Path(test_issue_3504(x), test_issue_3504 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15caf3a251c3ccb1"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_3504","kind":"function","src_hash":"49abc971a41bd2bd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.series(x, 4, n=2).removeO() == (x - 4) * (a / (4 * sqrt(-16 * a ** 2 + 1)) - asin(4 * a) / 16) + asin(4 * a) / 4"},"spec":{"lhs":"test_issue_3504()","rhs":"e.series(x, 4, n=2).removeO() == (x - 4) * (a / (4 * sqrt(-16 * a ** 2 + 1)) - asin(4 * a) / 16) + asin(4 * a) / 4","over":{"base":"Any"},"name":"test_issue_3504_correct"},"guarantee":"e.series(x, 4, n=2).removeO() == (x - 4) * (a / (4 * sqrt(-16 * a ** 2 + 1)) - asin(4 * a) / 16) + asin(4 * a) / 4","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_3504_correct","statement":"Path(test_issue_3504(x), e.series(x, 4, n=2).removeO() == (x - 4) * (a / (4 * sqrt(-16 * a ** 2 + 1)) - asin(4 * a) / 16) + asin(4 * a) / 4)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b9977725fc0f721","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.series(x, 4, n=2).removeO() == (x - 4) * (a / (4 * sqrt(-16 * a ** 2 + 1)) - asin(4 * a) / 16) + asin(4 * a) / 4"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_3504():
     a = Symbol("a")
     e = asin(a*x)/x
@@ -1229,16 +1661,23 @@ def test_issue_3504():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_4441(), test_issue_4441 produces the expected output) over Any ║
+# ║ Path(test_issue_4441(), f.series(x, 0, 5) == 1 - a * x + a ** 2 * x ** 2 - a ** 3 * x ** 3 + a ** 4 * x ** 4 + O(x ** 5) and f.series(x, 0, 3) == 1 + x * (-a - b) + x ** 2 * (a + b) ** 2 + O(x ** 3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_4441 : Any → {Any | f.series(x, 0, 3) == 1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.series(x, 0, 5) == 1 - a * x + a ** 2 *...   ║
+# ║   ensures:  f.series(x, 0, 3) == 1 + x * (-a - b) + x...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_4441 : Any → {Any | result satisfies: f.se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 724e713839234f6d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3a40112eee2e8786  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_4441","kind":"function","src_hash":"0cd54d29776dc0fc","in":{"base":"Any"},"out":{"base":"Any","pred":"f.series(x, 0, 3) == 1 + x * (-a - b) + x ** 2 * (a + b) ** 2 + O(x ** 3)"},"spec":{"lhs":"test_issue_4441()","rhs":"test_issue_4441 produces the expected output","over":{"base":"Any"},"name":"test_issue_4441_correct"},"guarantee":"test_issue_4441 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_4441_correct","statement":"Path(test_issue_4441(x), test_issue_4441 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"724e713839234f6d"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_4441","kind":"function","src_hash":"0cd54d29776dc0fc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.series(x, 0, 5) == 1 - a * x + a ** 2 * x ** 2 - a ** 3 * x ** 3 + a ** 4 * x ** 4 + O(x ** 5) and f.series(x, 0, 3) == 1 + x * (-a - b) + x ** 2 * (a + b) ** 2 + O(x ** 3)"},"spec":{"lhs":"test_issue_4441()","rhs":"f.series(x, 0, 5) == 1 - a * x + a ** 2 * x ** 2 - a ** 3 * x ** 3 + a ** 4 * x ** 4 + O(x ** 5) and f.series(x, 0, 3) == 1 + x * (-a - b) + x ** 2 * (a + b) ** 2 + O(x ** 3)","over":{"base":"Any"},"name":"test_issue_4441_correct"},"guarantee":"f.series(x, 0, 5) == 1 - a * x + a ** 2 * x ** 2 - a ** 3 * x ** 3 + a ** 4 * x ** 4 + O(x ** 5); f.series(x, 0, 3) == 1 + x * (-a - b) + x ** 2 * (a + b) ** 2 + O(x ** 3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_4441_correct","statement":"Path(test_issue_4441(x), f.series(x, 0, 5) == 1 - a * x + a ** 2 * x ** 2 - a ** 3 * x ** 3 + a ** 4 * x ** 4 + O(x ** 5); f.series(x, 0, 3) == 1 + x * (-a - b) + x ** 2 * (a + b) ** 2 + O(x ** 3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a40112eee2e8786","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.series(x, 0, 5) == 1 - a * x + a ** 2 * x ** 2 - a ** 3 * x ** 3 + a ** 4 * x ** 4 + O(x ** 5)","f.series(x, 0, 3) == 1 + x * (-a - b) + x ** 2 * (a + b) ** 2 + O(x ** 3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_4441():
     a, b = symbols('a,b')
     f = 1/(1 + a*x)
@@ -1250,16 +1689,24 @@ def test_issue_4441():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_4329(), test_issue_4329 produces the expected output) over Any ║
+# ║ Path(test_issue_4329(), tan(x).series(x, pi / 2, n=3).removeO() == -pi / 6 + x / 3 - 1 / (x - pi / 2) and cot(x).series(x, pi, n=3).removeO() == -x / 3 + pi / 3 + 1 / (x - pi) and limit(tan(x) ** tan(2 * x), x, pi / 4) == exp(-1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_4329 : Any → {Any | tan(x).series(x, pi / ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  tan(x).series(x, pi / 2, n=3).removeO() =...   ║
+# ║   ensures:  cot(x).series(x, pi, n=3).removeO() == -x...   ║
+# ║   ensures:  limit(tan(x) ** tan(2 * x), x, pi / 4) ==...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_4329 : Any → {Any | result satisfies: tan(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c6e62bf88b8e2ae7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 017b3fab03907f6f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_4329","kind":"function","src_hash":"0de507253db4cb9d","in":{"base":"Any"},"out":{"base":"Any","pred":"tan(x).series(x, pi / 2, n=3).removeO() == -pi / 6 + x / 3 - 1 / (x - pi / 2) and cot(x).series(x, pi, n=3).removeO() == -x / 3 + pi / 3 + 1 / (x - pi) and limit(tan(x) ** tan(2 * x), x, pi / 4) == exp(-1)"},"spec":{"lhs":"test_issue_4329()","rhs":"test_issue_4329 produces the expected output","over":{"base":"Any"},"name":"test_issue_4329_correct"},"guarantee":"test_issue_4329 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_4329_correct","statement":"Path(test_issue_4329(x), test_issue_4329 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6e62bf88b8e2ae7"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_4329","kind":"function","src_hash":"0de507253db4cb9d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: tan(x).series(x, pi / 2, n=3).removeO() == -pi / 6 + x / 3 - 1 / (x - pi / 2) and cot(x).series(x, pi, n=3).removeO() == -x / 3 + pi / 3 + 1 / (x - pi) and limit(tan(x) ** tan(2 * x), x, pi / 4) == exp(-1)"},"spec":{"lhs":"test_issue_4329()","rhs":"tan(x).series(x, pi / 2, n=3).removeO() == -pi / 6 + x / 3 - 1 / (x - pi / 2) and cot(x).series(x, pi, n=3).removeO() == -x / 3 + pi / 3 + 1 / (x - pi) and limit(tan(x) ** tan(2 * x), x, pi / 4) == exp(-1)","over":{"base":"Any"},"name":"test_issue_4329_correct"},"guarantee":"tan(x).series(x, pi / 2, n=3).removeO() == -pi / 6 + x / 3 - 1 / (x - pi / 2); cot(x).series(x, pi, n=3).removeO() == -x / 3 + pi / 3 + 1 / (x - pi); limit(tan(x) ** tan(2 * x), x, pi / 4) == exp(-1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_4329_correct","statement":"Path(test_issue_4329(x), tan(x).series(x, pi / 2, n=3).removeO() == -pi / 6 + x / 3 - 1 / (x - pi / 2); cot(x).series(x, pi, n=3).removeO() == -x / 3 + pi / 3 + 1 / (x - pi); limit(tan(x) ** tan(2 * x), x, pi / 4) == exp(-1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"017b3fab03907f6f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["tan(x).series(x, pi / 2, n=3).removeO() == -pi / 6 + x / 3 - 1 / (x - pi / 2)","cot(x).series(x, pi, n=3).removeO() == -x / 3 + pi / 3 + 1 / (x - pi)","limit(tan(x) ** tan(2 * x), x, pi / 4) == exp(-1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_4329():
     assert tan(x).series(x, pi/2, n=3).removeO() == \
         -pi/6 + x/3 - 1/(x - pi/2)
@@ -1269,16 +1716,24 @@ def test_issue_4329():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5183(), test_issue_5183 produces the expected output) over Any ║
+# ║ Path(test_issue_5183(), abs(x + x ** 2).series(n=1) == O(x) and abs(x + x ** 2).series(n=2) == x + O(x ** 2) and ((1 + x) ** 2).series(x, n=6) == x ** 2 + 2 * x + 1 and (1 + 1 / x).series() == 1 + 1 / x and Derivative(exp(x).series(), x).doit() == 1 + x + x ** 2 / 2 + x ** 3 / 6 + x ** 4 / 24 + O(x ** 5)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5183 : Any → {Any | abs(x + x ** 2).series...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(x + x ** 2).series(n=1) == O(x)            ║
+# ║   ensures:  abs(x + x ** 2).series(n=2) == x + O(x ** 2)   ║
+# ║   ensures:  ((1 + x) ** 2).series(x, n=6) == x ** 2 +...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5183 : Any → {Any | result satisfies: abs(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d796f6d45ee8af8b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f561403ae0a07e0d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_5183","kind":"function","src_hash":"de2828f62482529c","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(x + x ** 2).series(n=1) == O(x) and abs(x + x ** 2).series(n=2) == x + O(x ** 2) and ((1 + x) ** 2).series(x, n=6) == x ** 2 + 2 * x + 1 and (1 + 1 / x).series() == 1 + 1 / x"},"spec":{"lhs":"test_issue_5183()","rhs":"test_issue_5183 produces the expected output","over":{"base":"Any"},"name":"test_issue_5183_correct"},"guarantee":"test_issue_5183 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_5183_correct","statement":"Path(test_issue_5183(x), test_issue_5183 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d796f6d45ee8af8b"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_5183","kind":"function","src_hash":"de2828f62482529c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(x + x ** 2).series(n=1) == O(x) and abs(x + x ** 2).series(n=2) == x + O(x ** 2) and ((1 + x) ** 2).series(x, n=6) == x ** 2 + 2 * x + 1 and (1 + 1 / x).series() == 1 + 1 / x and Derivative(exp(x).series(), x).doit() == 1 + x + x ** 2 / 2 + x ** 3 / 6 + x ** 4 / 24 + O(x ** 5)"},"spec":{"lhs":"test_issue_5183()","rhs":"abs(x + x ** 2).series(n=1) == O(x) and abs(x + x ** 2).series(n=2) == x + O(x ** 2) and ((1 + x) ** 2).series(x, n=6) == x ** 2 + 2 * x + 1 and (1 + 1 / x).series() == 1 + 1 / x and Derivative(exp(x).series(), x).doit() == 1 + x + x ** 2 / 2 + x ** 3 / 6 + x ** 4 / 24 + O(x ** 5)","over":{"base":"Any"},"name":"test_issue_5183_correct"},"guarantee":"abs(x + x ** 2).series(n=1) == O(x); abs(x + x ** 2).series(n=2) == x + O(x ** 2); ((1 + x) ** 2).series(x, n=6) == x ** 2 + 2 * x + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_5183_correct","statement":"Path(test_issue_5183(x), abs(x + x ** 2).series(n=1) == O(x); abs(x + x ** 2).series(n=2) == x + O(x ** 2); ((1 + x) ** 2).series(x, n=6) == x ** 2 + 2 * x + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f561403ae0a07e0d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(x + x ** 2).series(n=1) == O(x)","abs(x + x ** 2).series(n=2) == x + O(x ** 2)","((1 + x) ** 2).series(x, n=6) == x ** 2 + 2 * x + 1","(1 + 1 / x).series() == 1 + 1 / x","Derivative(exp(x).series(), x).doit() == 1 + x + x ** 2 / 2 + x ** 3 / 6 + x ** 4 / 24 + O(x ** 5)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_5183():
     assert abs(x + x**2).series(n=1) == O(x)
     assert abs(x + x**2).series(n=2) == x + O(x**2)
@@ -1289,16 +1744,23 @@ def test_issue_5183():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5654(), test_issue_5654 produces the expected output) over Any ║
+# ║ Path(test_issue_5654(), (1 / (x ** 2 + a ** 2) ** 2).nseries(x, x0=I * a, n=0) == -I / (4 * a ** 3 * (-I * a + x)) - 1 / (4 * a ** 2 * (-I * a + x) ** 2) + O(1, (x, I * a)) and (1 / (x ** 2 + a ** 2) ** 2).nseries(x, x0=I * a, n=1) == 3 / (16 * a ** 4) - I / (4 * a ** 3 * (-I * a + x)) - 1 / (4 * a ** 2 * (-I * a + x) ** 2) + O(-I * a + x, (x, I * a))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5654 : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (1 / (x ** 2 + a ** 2) ** 2).nseries(x, x...   ║
+# ║   ensures:  (1 / (x ** 2 + a ** 2) ** 2).nseries(x, x...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5654 : Any → {Any | result satisfies: (1 /...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 743ebb4d94ba1d13  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 880fd0a639e1ffbb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_5654","kind":"function","src_hash":"3533e4b3931b8c7c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_5654()","rhs":"test_issue_5654 produces the expected output","over":{"base":"Any"},"name":"test_issue_5654_correct"},"guarantee":"test_issue_5654 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_5654_correct","statement":"Path(test_issue_5654(x), test_issue_5654 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"743ebb4d94ba1d13"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_5654","kind":"function","src_hash":"3533e4b3931b8c7c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (1 / (x ** 2 + a ** 2) ** 2).nseries(x, x0=I * a, n=0) == -I / (4 * a ** 3 * (-I * a + x)) - 1 / (4 * a ** 2 * (-I * a + x) ** 2) + O(1, (x, I * a)) and (1 / (x ** 2 + a ** 2) ** 2).nseries(x, x0=I * a, n=1) == 3 / (16 * a ** 4) - I / (4 * a ** 3 * (-I * a + x)) - 1 / (4 * a ** 2 * (-I * a + x) ** 2) + O(-I * a + x, (x, I * a))"},"spec":{"lhs":"test_issue_5654()","rhs":"(1 / (x ** 2 + a ** 2) ** 2).nseries(x, x0=I * a, n=0) == -I / (4 * a ** 3 * (-I * a + x)) - 1 / (4 * a ** 2 * (-I * a + x) ** 2) + O(1, (x, I * a)) and (1 / (x ** 2 + a ** 2) ** 2).nseries(x, x0=I * a, n=1) == 3 / (16 * a ** 4) - I / (4 * a ** 3 * (-I * a + x)) - 1 / (4 * a ** 2 * (-I * a + x) ** 2) + O(-I * a + x, (x, I * a))","over":{"base":"Any"},"name":"test_issue_5654_correct"},"guarantee":"(1 / (x ** 2 + a ** 2) ** 2).nseries(x, x0=I * a, n=0) == -I / (4 * a ** 3 * (-I * a + x)) - 1 / (4 * a ** 2 * (-I * a + x) ** 2) + O(1, (x, I * a)); (1 / (x ** 2 + a ** 2) ** 2).nseries(x, x0=I * a, n=1) == 3 / (16 * a ** 4) - I / (4 * a ** 3 * (-I * a + x)) - 1 / (4 * a ** 2 * (-I * a + x) ** 2) + O(-I * a + x, (x, I * a))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_5654_correct","statement":"Path(test_issue_5654(x), (1 / (x ** 2 + a ** 2) ** 2).nseries(x, x0=I * a, n=0) == -I / (4 * a ** 3 * (-I * a + x)) - 1 / (4 * a ** 2 * (-I * a + x) ** 2) + O(1, (x, I * a)); (1 / (x ** 2 + a ** 2) ** 2).nseries(x, x0=I * a, n=1) == 3 / (16 * a ** 4) - I / (4 * a ** 3 * (-I * a + x)) - 1 / (4 * a ** 2 * (-I * a + x) ** 2) + O(-I * a + x, (x, I * a)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"880fd0a639e1ffbb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(1 / (x ** 2 + a ** 2) ** 2).nseries(x, x0=I * a, n=0) == -I / (4 * a ** 3 * (-I * a + x)) - 1 / (4 * a ** 2 * (-I * a + x) ** 2) + O(1, (x, I * a))","(1 / (x ** 2 + a ** 2) ** 2).nseries(x, x0=I * a, n=1) == 3 / (16 * a ** 4) - I / (4 * a ** 3 * (-I * a + x)) - 1 / (4 * a ** 2 * (-I * a + x) ** 2) + O(-I * a + x, (x, I * a))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_5654():
     a = Symbol('a')
     assert (1/(x**2+a**2)**2).nseries(x, x0=I*a, n=0) == \
@@ -1308,16 +1770,23 @@ def test_issue_5654():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5925(), test_issue_5925 produces the expected output) over Any ║
+# ║ Path(test_issue_5925(), (s1 - s2).expand().removeO().simplify() == 0 and sxy.subs({x: 1, y: 2}) == sx.subs(x, 3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5925 : Any → {Any | (s1 - s2).expand().rem...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (s1 - s2).expand().removeO().simplify() == 0   ║
+# ║   ensures:  sxy.subs({x: 1, y: 2}) == sx.subs(x, 3)        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5925 : Any → {Any | result satisfies: (s1 ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aac6b9a792044c74  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 562374a7f2637521  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_5925","kind":"function","src_hash":"efa0eea474845a1e","in":{"base":"Any"},"out":{"base":"Any","pred":"(s1 - s2).expand().removeO().simplify() == 0 and sxy.subs({x: 1, y: 2}) == sx.subs(x, 3)"},"spec":{"lhs":"test_issue_5925()","rhs":"test_issue_5925 produces the expected output","over":{"base":"Any"},"name":"test_issue_5925_correct"},"guarantee":"test_issue_5925 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_5925_correct","statement":"Path(test_issue_5925(x), test_issue_5925 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aac6b9a792044c74"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_issue_5925","kind":"function","src_hash":"efa0eea474845a1e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (s1 - s2).expand().removeO().simplify() == 0 and sxy.subs({x: 1, y: 2}) == sx.subs(x, 3)"},"spec":{"lhs":"test_issue_5925()","rhs":"(s1 - s2).expand().removeO().simplify() == 0 and sxy.subs({x: 1, y: 2}) == sx.subs(x, 3)","over":{"base":"Any"},"name":"test_issue_5925_correct"},"guarantee":"(s1 - s2).expand().removeO().simplify() == 0; sxy.subs({x: 1, y: 2}) == sx.subs(x, 3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_issue_5925_correct","statement":"Path(test_issue_5925(x), (s1 - s2).expand().removeO().simplify() == 0; sxy.subs({x: 1, y: 2}) == sx.subs(x, 3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"562374a7f2637521","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(s1 - s2).expand().removeO().simplify() == 0","sxy.subs({x: 1, y: 2}) == sx.subs(x, 3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_5925():
     sx = sqrt(x + z).series(z, 0, 1)
     sxy = sqrt(x + y + z).series(z, 0, 1)
@@ -1330,15 +1799,21 @@ def test_issue_5925():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exp_2(), test_exp_2 produces the expected output) over Any ║
+# ║ Path(test_exp_2(), exp(x ** 3).nseries(x, 0, 14) == 1 + x ** 3 + x ** 6 / 2 + x ** 9 / 6 + x ** 12 / 24 + O(x ** 14)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exp_2 : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  exp(x ** 3).nseries(x, 0, 14) == 1 + x **...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exp_2 : Any → {Any | result satisfies: exp(x ** ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2d835bf45d5404f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f435f80e443afbe2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_exp_2","kind":"function","src_hash":"453bee638e30f7c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_exp_2()","rhs":"test_exp_2 produces the expected output","over":{"base":"Any"},"name":"test_exp_2_correct"},"guarantee":"test_exp_2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_exp_2_correct","statement":"Path(test_exp_2(x), test_exp_2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2d835bf45d5404f"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_nseries.test_exp_2","kind":"function","src_hash":"453bee638e30f7c5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: exp(x ** 3).nseries(x, 0, 14) == 1 + x ** 3 + x ** 6 / 2 + x ** 9 / 6 + x ** 12 / 24 + O(x ** 14)"},"spec":{"lhs":"test_exp_2()","rhs":"exp(x ** 3).nseries(x, 0, 14) == 1 + x ** 3 + x ** 6 / 2 + x ** 9 / 6 + x ** 12 / 24 + O(x ** 14)","over":{"base":"Any"},"name":"test_exp_2_correct"},"guarantee":"exp(x ** 3).nseries(x, 0, 14) == 1 + x ** 3 + x ** 6 / 2 + x ** 9 / 6 + x ** 12 / 24 + O(x ** 14)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_nseries.test_exp_2_correct","statement":"Path(test_exp_2(x), exp(x ** 3).nseries(x, 0, 14) == 1 + x ** 3 + x ** 6 / 2 + x ** 9 / 6 + x ** 12 / 24 + O(x ** 14))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f435f80e443afbe2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["exp(x ** 3).nseries(x, 0, 14) == 1 + x ** 3 + x ** 6 / 2 + x ** 9 / 6 + x ** 12 / 24 + O(x ** 14)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_exp_2():
     assert exp(x**3).nseries(x, 0, 14) == 1 + x**3 + x**6/2 + x**9/6 + x**12/24 + O(x**14)

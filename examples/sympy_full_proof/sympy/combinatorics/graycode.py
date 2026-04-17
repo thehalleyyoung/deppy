@@ -23,14 +23,20 @@ import random
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(GrayCode(*args), correctly constructs a GrayCode instance) over {Any | isinstance(rv, str)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ GrayCode : {Any | isinstance(rv, str)} → Any               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ GrayCode : {Any | isinstance(rv, str)} → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a04d99c71bebf1c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.graycode.GrayCode","kind":"class","src_hash":"2bbd9273b6281d44","in":{"base":"Any","pred":"isinstance(rv, str)"},"out":{"base":"Any"},"spec":{"lhs":"GrayCode(*args)","rhs":"correctly constructs a GrayCode instance","over":{"base":"Any","pred":"isinstance(rv, str)"},"name":"GrayCode_class_invariant"},"guarantee":"correctly constructs a GrayCode instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a04d99c71bebf1c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.graycode.GrayCode","kind":"class","src_hash":"2bbd9273b6281d44","in":{"base":"Any","pred":"isinstance(rv, str)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic)"},"spec":{"lhs":"GrayCode(*args)","rhs":"correctly constructs a GrayCode instance","over":{"base":"Any","pred":"isinstance(rv, str)"},"name":"GrayCode_class_invariant"},"guarantee":"isinstance(self, Basic)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a04d99c71bebf1c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function GrayCode not found in source"]}}
 class GrayCode(Basic):
     """
     A Gray code is essentially a Hamiltonian walk on
@@ -80,16 +86,23 @@ class GrayCode(Basic):
     _rank = None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), default constructor) over Any           ║
+# ║ Path(__new__(cls, n, *args), <unspecified:__new__>) over {Any | not (n < 1 or int(n) != n)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (n < 1 or int(n) != n)                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | not (n < 1 or int(n) != n)} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cdb0b5ba65fe457d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.graycode.GrayCode.__new__","kind":"method","src_hash":"ef295abadbf3e9c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"default constructor","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"default constructor","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cdb0b5ba65fe457d"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.graycode.GrayCode.__new__","kind":"method","src_hash":"ef295abadbf3e9c6","in":{"base":"Any","pred":"not (n < 1 or int(n) != n)"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, n, *args)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"not (n < 1 or int(n) != n)"},"name":"__new___correct"},"guarantee":"default constructor","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cdb0b5ba65fe457d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (n < 1 or int(n) != n)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, n, *args, **kw_args):
         """
         Default constructor.
@@ -139,16 +152,22 @@ class GrayCode(Basic):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(next(del), returns the gray code a distance ``delta`` (default = 1) from the current value in canonical order) over Any ║
+# ║ Path(next(delta), GrayCode(self.n, rank=(self.rank + delta) % self.selections)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  GrayCode(self.n, rank=(self.rank + delta)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ next : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 94961db2e3101730           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.graycode.GrayCode.next","kind":"method","src_hash":"34d22c243e94955b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"next(del)","rhs":"returns the gray code a distance ``delta`` (default = 1) from the current value in canonical order","over":{"base":"Any"},"name":"next_correct"},"guarantee":"returns the gray code a distance ``delta`` (default = 1) from the current value in canonical order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"94961db2e3101730"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.graycode.GrayCode.next","kind":"method","src_hash":"34d22c243e94955b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"next(delta)","rhs":"GrayCode(self.n, rank=(self.rank + delta) % self.selections)","over":{"base":"Any"},"name":"next_correct"},"guarantee":"returns GrayCode(self.n, rank=(self.rank + delta) % self.selections)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"94961db2e3101730","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"GrayCode(self.n, rank=(self.rank + delta) % self.selections)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n","self.rank","self.selections"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def next(self, delta=1):
         """
         Returns the Gray code a distance ``delta`` (default = 1) from the
@@ -169,16 +188,22 @@ class GrayCode(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(selections(), returns the selections attribute) over Any ║
+# ║ Path(selections(), 2 ** self.n) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  2 ** self.n                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ selections : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bd40fc304132266f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.graycode.GrayCode.selections","kind":"property","src_hash":"1cc6df0ce53a4d9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"selections()","rhs":"returns the selections attribute","over":{"base":"Any"},"name":"selections_correct"},"guarantee":"returns the selections attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bd40fc304132266f"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.graycode.GrayCode.selections","kind":"property","src_hash":"1cc6df0ce53a4d9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"selections()","rhs":"2 ** self.n","over":{"base":"Any"},"name":"selections_correct"},"guarantee":"returns 2 ** self.n","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bd40fc304132266f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"2 ** self.n","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def selections(self):
         """
         Returns the number of bit vectors in the Gray code.
@@ -195,16 +220,22 @@ class GrayCode(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(n(), returns the n attribute) over Any                ║
+# ║ Path(n(), self.args[0]) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ n : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1b67d7a0eb50f5c6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.graycode.GrayCode.n","kind":"property","src_hash":"7933b0c79cfb8fb0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"n()","rhs":"returns the n attribute","over":{"base":"Any"},"name":"n_correct"},"guarantee":"returns the n attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1b67d7a0eb50f5c6"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.graycode.GrayCode.n","kind":"property","src_hash":"7933b0c79cfb8fb0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"n()","rhs":"self.args[0]","over":{"base":"Any"},"name":"n_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1b67d7a0eb50f5c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def n(self):
         """
         Returns the dimension of the Gray code.
@@ -220,16 +251,22 @@ class GrayCode(Basic):
         return self.args[0]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(generate_gray(**h), generates the sequence of bit vectors of a gray code) over Any ║
+# ║ Path(generate_gray(**hints), <unspecified:generate_gray>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ generate_gray : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 207a9a7853b9be70  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.graycode.GrayCode.generate_gray","kind":"method","src_hash":"75d2166f19ed5f52","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"generate_gray(**h)","rhs":"generates the sequence of bit vectors of a gray code","over":{"base":"Any"},"name":"generate_gray_correct"},"guarantee":"generates the sequence of bit vectors of a gray code","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.graycode.GrayCode.generate_gray_correct","statement":"Path(generate_gray(x), generates the sequence of bit vectors of a gray code)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"207a9a7853b9be70"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.graycode.GrayCode.generate_gray","kind":"method","src_hash":"75d2166f19ed5f52","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"generate_gray(**hints)","rhs":"<unspecified:generate_gray>","over":{"base":"Any"},"name":"generate_gray_correct"},"guarantee":"generates the sequence of bit vectors of a gray code","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.graycode.GrayCode.generate_gray_correct","statement":"Path(generate_gray(x), generates the sequence of bit vectors of a gray code)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"207a9a7853b9be70","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._current","self._skip","self.current","self.n"],"writes":["self._current","self._skip"],"raises":["ValueError"]},"state_contract":{"modifies":["self._current","self._skip"],"old_bindings":{"old_self__current":"self._current","old_self__skip":"self._skip"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def generate_gray(self, **hints):
         """
         Generates the sequence of bit vectors of a Gray Code.
@@ -284,16 +321,22 @@ class GrayCode(Basic):
         self._current = 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(skip(), skips the bit generation) over Any            ║
+# ║ Path(skip(), <unspecified:skip>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ skip : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9a0272320209869  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.graycode.GrayCode.skip","kind":"method","src_hash":"6de0b4fb8a83ec36","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"skip()","rhs":"skips the bit generation","over":{"base":"Any"},"name":"skip_correct"},"guarantee":"skips the bit generation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.graycode.GrayCode.skip_correct","statement":"Path(skip(x), skips the bit generation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9a0272320209869"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.graycode.GrayCode.skip","kind":"method","src_hash":"6de0b4fb8a83ec36","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"skip()","rhs":"<unspecified:skip>","over":{"base":"Any"},"name":"skip_correct"},"guarantee":"skips the bit generation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.graycode.GrayCode.skip_correct","statement":"Path(skip(x), skips the bit generation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9a0272320209869","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._skip"]},"state_contract":{"modifies":["self._skip"],"old_bindings":{"old_self__skip":"self._skip"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def skip(self):
         """
         Skips the bit generation.
@@ -325,16 +368,22 @@ class GrayCode(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rank(), returns the rank attribute) over Any          ║
+# ║ Path(rank(), self._rank) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._rank                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rank : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9d6ff960493dea47           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.graycode.GrayCode.rank","kind":"property","src_hash":"4b396f75fed0284c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rank()","rhs":"returns the rank attribute","over":{"base":"Any"},"name":"rank_correct"},"guarantee":"returns the rank attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9d6ff960493dea47"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.graycode.GrayCode.rank","kind":"property","src_hash":"4b396f75fed0284c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rank()","rhs":"self._rank","over":{"base":"Any"},"name":"rank_correct"},"guarantee":"returns self._rank","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9d6ff960493dea47","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._rank","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._rank","self.current"],"writes":["self._rank"]},"state_contract":{"modifies":["self._rank"],"old_bindings":{"old_self__rank":"self._rank"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rank(self):
         """
         Ranks the Gray code.
@@ -375,16 +424,22 @@ class GrayCode(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(current(), returns the current attribute) over Any    ║
+# ║ Path(current(), rv.rjust(self.n, '0')) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  rv.rjust(self.n, '0')                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ current : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fd7111769e7a05c7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.graycode.GrayCode.current","kind":"property","src_hash":"96964b6b73d1e243","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"current()","rhs":"returns the current attribute","over":{"base":"Any"},"name":"current_correct"},"guarantee":"returns the current attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fd7111769e7a05c7"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.graycode.GrayCode.current","kind":"property","src_hash":"96964b6b73d1e243","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"current()","rhs":"rv.rjust(self.n, '0')","over":{"base":"Any"},"name":"current_correct"},"guarantee":"returns rv.rjust(self.n, '0')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fd7111769e7a05c7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"rv.rjust(self.n, '0')","pure":false,"effects":{"effect_type":"reads_state","reads":["self._current","self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def current(self):
         """
         Returns the currently referenced Gray code as a bit string.
@@ -403,16 +458,22 @@ class GrayCode(Basic):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(unrank(n, ), unranks an n-bit sized gray code of rank k) over Any ║
+# ║ Path(unrank(n, rank), <unspecified:unrank>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ unrank : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e62c1f4df5a2dfda  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.graycode.GrayCode.unrank","kind":"classmethod","src_hash":"e11e53f978e2c4da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unrank(n, )","rhs":"unranks an n-bit sized gray code of rank k","over":{"base":"Any"},"name":"unrank_correct"},"guarantee":"unranks an n-bit sized gray code of rank k","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.graycode.GrayCode.unrank_correct","statement":"Path(unrank(x), unranks an n-bit sized gray code of rank k)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e62c1f4df5a2dfda"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.graycode.GrayCode.unrank","kind":"classmethod","src_hash":"e11e53f978e2c4da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unrank(n, rank)","rhs":"<unspecified:unrank>","over":{"base":"Any"},"name":"unrank_correct"},"guarantee":"unranks an n-bit sized gray code of rank k","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.graycode.GrayCode.unrank_correct","statement":"Path(unrank(x), unranks an n-bit sized gray code of rank k)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e62c1f4df5a2dfda","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def unrank(self, n, rank):
         """
         Unranks an n-bit sized Gray code of rank k. This method exists
@@ -447,16 +508,22 @@ class GrayCode(Basic):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(random_bitstring(n), generates a random bitlist of length n) over Any ║
+# ║ Path(random_bitstring(n), ''.join([random.choice('01') for i in range(n)])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ''.join([random.choice('01') for i in ran...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ random_bitstring : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9a7e54494ce7a799           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.graycode.random_bitstring","kind":"function","src_hash":"40ef0ada18bf0e10","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"random_bitstring(n)","rhs":"generates a random bitlist of length n","over":{"base":"Any"},"name":"random_bitstring_correct"},"guarantee":"generates a random bitlist of length n","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9a7e54494ce7a799"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.graycode.random_bitstring","kind":"function","src_hash":"40ef0ada18bf0e10","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"random_bitstring(n)","rhs":"''.join([random.choice('01') for i in range(n)])","over":{"base":"Any"},"name":"random_bitstring_correct"},"guarantee":"returns ''.join([random.choice('01') for i in range(n)])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9a7e54494ce7a799","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"''.join([random.choice('01') for i in range(n)])","pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["random.choice"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def random_bitstring(n):
     """
     Generates a random bitlist of length n.
@@ -472,16 +539,22 @@ def random_bitstring(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gray_to_bin(bin), convert from gray coding to binary coding) over Any ║
+# ║ Path(gray_to_bin(bin_list), ''.join(b)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ''.join(b)                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gray_to_bin : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c7c2801155c1f6b0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8fc95961fe9f5843  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.graycode.gray_to_bin","kind":"function","src_hash":"d5b14e5df09c3a1d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gray_to_bin(bin)","rhs":"convert from gray coding to binary coding","over":{"base":"Any"},"name":"gray_to_bin_correct"},"guarantee":"convert from gray coding to binary coding","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.graycode.gray_to_bin_correct","statement":"Path(gray_to_bin(x), convert from gray coding to binary coding)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7c2801155c1f6b0"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.graycode.gray_to_bin","kind":"function","src_hash":"d5b14e5df09c3a1d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gray_to_bin(bin_list)","rhs":"''.join(b)","over":{"base":"Any"},"name":"gray_to_bin_correct"},"guarantee":"returns ''.join(b)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.graycode.gray_to_bin_correct","statement":"Path(gray_to_bin(x), returns ''.join(b))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fc95961fe9f5843","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"''.join(b)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def gray_to_bin(bin_list):
     """
     Convert from Gray coding to binary coding.
@@ -507,16 +580,22 @@ def gray_to_bin(bin_list):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bin_to_gray(bin), convert from binary coding to gray coding) over Any ║
+# ║ Path(bin_to_gray(bin_list), ''.join(b)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ''.join(b)                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bin_to_gray : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99fc2a13ef4d4fbb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0f37fbb256f5cf91  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.graycode.bin_to_gray","kind":"function","src_hash":"bfc5a1891711bb15","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bin_to_gray(bin)","rhs":"convert from binary coding to gray coding","over":{"base":"Any"},"name":"bin_to_gray_correct"},"guarantee":"convert from binary coding to gray coding","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.graycode.bin_to_gray_correct","statement":"Path(bin_to_gray(x), convert from binary coding to gray coding)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99fc2a13ef4d4fbb"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.graycode.bin_to_gray","kind":"function","src_hash":"bfc5a1891711bb15","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bin_to_gray(bin_list)","rhs":"''.join(b)","over":{"base":"Any"},"name":"bin_to_gray_correct"},"guarantee":"returns ''.join(b)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.graycode.bin_to_gray_correct","statement":"Path(bin_to_gray(x), returns ''.join(b))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f37fbb256f5cf91","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"''.join(b)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def bin_to_gray(bin_list):
     """
     Convert from binary coding to gray coding.
@@ -542,16 +621,23 @@ def bin_to_gray(bin_list):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_subset_from_bitstring(sup), gets the subset defined by the bitstring) over Any ║
+# ║ Path(get_subset_from_bitstring(super_set, bitstring), [super_set[i] for i, j in enumerate(bitstring) if bitstring[i] == '1']) over {Any | not (len(super_set) != len(bitstring))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_subset_from_bitstring : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(super_set) != len(bitstring))         ║
+# ║   returns:  [super_set[i] for i, j in enumerate(bitst...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_subset_from_bitstring : {Any | not (len(super_set...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cfea2da5b2eb3a90  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3fc3fe38fd26e7ab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.graycode.get_subset_from_bitstring","kind":"function","src_hash":"3026d44d747b222c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_subset_from_bitstring(sup)","rhs":"gets the subset defined by the bitstring","over":{"base":"Any"},"name":"get_subset_from_bitstring_correct"},"guarantee":"gets the subset defined by the bitstring","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.graycode.get_subset_from_bitstring_correct","statement":"Path(get_subset_from_bitstring(x), gets the subset defined by the bitstring)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cfea2da5b2eb3a90"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.graycode.get_subset_from_bitstring","kind":"function","src_hash":"3026d44d747b222c","in":{"base":"Any","pred":"not (len(super_set) != len(bitstring))"},"out":{"base":"Any"},"spec":{"lhs":"get_subset_from_bitstring(super_set, bitstring)","rhs":"[super_set[i] for i, j in enumerate(bitstring) if bitstring[i] == '1']","over":{"base":"Any","pred":"not (len(super_set) != len(bitstring))"},"name":"get_subset_from_bitstring_correct"},"guarantee":"returns [super_set[i] for i, j in enumerate(bitstring) if bitstring[i] == '1']","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.graycode.get_subset_from_bitstring_correct","statement":"Path(get_subset_from_bitstring(x), returns [super_set[i] for i, j in enumerate(bitstring) if bitstring[i] == '1'])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3fc3fe38fd26e7ab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(super_set) != len(bitstring))"],"returns_expr":"[super_set[i] for i, j in enumerate(bitstring) if bitstring[i] == '1']","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def get_subset_from_bitstring(super_set, bitstring):
     """
     Gets the subset defined by the bitstring.
@@ -577,16 +663,22 @@ def get_subset_from_bitstring(super_set, bitstring):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(graycode_subsets(gra), generates the subsets as enumerated by a gray code) over Any ║
+# ║ Path(graycode_subsets(gray_code_set), <unspecified:graycode_subsets>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ graycode_subsets : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 40dd5c2db0986c56  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.graycode.graycode_subsets","kind":"function","src_hash":"0ea26558fb20fdfe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"graycode_subsets(gra)","rhs":"generates the subsets as enumerated by a gray code","over":{"base":"Any"},"name":"graycode_subsets_correct"},"guarantee":"generates the subsets as enumerated by a gray code","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.graycode.graycode_subsets_correct","statement":"Path(graycode_subsets(x), generates the subsets as enumerated by a gray code)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40dd5c2db0986c56"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.graycode.graycode_subsets","kind":"function","src_hash":"0ea26558fb20fdfe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"graycode_subsets(gray_code_set)","rhs":"<unspecified:graycode_subsets>","over":{"base":"Any"},"name":"graycode_subsets_correct"},"guarantee":"generates the subsets as enumerated by a gray code","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.graycode.graycode_subsets_correct","statement":"Path(graycode_subsets(x), generates the subsets as enumerated by a gray code)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40dd5c2db0986c56","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def graycode_subsets(gray_code_set):
     """
     Generates the subsets as enumerated by a Gray code.

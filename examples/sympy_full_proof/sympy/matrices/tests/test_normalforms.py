@@ -34,16 +34,24 @@ import random
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_smith_normal(), test_smith_normal produces the expected output) over Any ║
+# ║ Path(test_smith_normal(), smith_normal_form(m) == smf and a == s * m * t and invariant_factors(m, domain=QQ[x]) == invs) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_smith_normal : Any → {Any | smith_normal_form(m)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  smith_normal_form(m) == smf                    ║
+# ║   ensures:  a == s * m * t                                 ║
+# ║   ensures:  invariant_factors(m, domain=QQ[x]) == invs     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_smith_normal : Any → {Any | result satisfies: sm...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e7c80f6c4627d765  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1accf4c50de8e0c1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_normalforms.test_smith_normal","kind":"function","src_hash":"57c037702b765c98","in":{"base":"Any"},"out":{"base":"Any","pred":"smith_normal_form(m) == smf and a == s * m * t and invariant_factors(m, domain=QQ[x]) == invs and smith_normal_form(m) == smf and a == s * m * t and is_smith_normal_form(a) and a == s * m * t and is_smith_normal_form(a)"},"spec":{"lhs":"test_smith_normal()","rhs":"test_smith_normal produces the expected output","over":{"base":"Any"},"name":"test_smith_normal_correct"},"guarantee":"test_smith_normal produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_normalforms.test_smith_normal_correct","statement":"Path(test_smith_normal(x), test_smith_normal produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7c80f6c4627d765"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_normalforms.test_smith_normal","kind":"function","src_hash":"57c037702b765c98","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: smith_normal_form(m) == smf and a == s * m * t and invariant_factors(m, domain=QQ[x]) == invs"},"spec":{"lhs":"test_smith_normal()","rhs":"smith_normal_form(m) == smf and a == s * m * t and invariant_factors(m, domain=QQ[x]) == invs","over":{"base":"Any"},"name":"test_smith_normal_correct"},"guarantee":"smith_normal_form(m) == smf; a == s * m * t; invariant_factors(m, domain=QQ[x]) == invs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_normalforms.test_smith_normal_correct","statement":"Path(test_smith_normal(x), smith_normal_form(m) == smf; a == s * m * t; invariant_factors(m, domain=QQ[x]) == invs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1accf4c50de8e0c1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["smith_normal_form(m) == smf","a == s * m * t","invariant_factors(m, domain=QQ[x]) == invs"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_smith_normal():
     m = Matrix([[12,6,4,8],[3,9,6,12],[2,16,14,28],[20,10,10,20]])
     smf = Matrix([[1, 0, 0, 0], [0, 10, 0, 0], [0, 0, 30, 0], [0, 0, 0, 0]])
@@ -83,16 +91,23 @@ def test_smith_normal():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_smith_normal_deprecated(), test_smith_normal_deprecated produces the expected output) over Any ║
+# ║ Path(test_smith_normal_deprecated(), smith_normal_form(m) == smf and invariant_factors(m) == invs) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_smith_normal_deprecated : Any → {Any | smith_nor...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  smith_normal_form(m) == smf                    ║
+# ║   ensures:  invariant_factors(m) == invs                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_smith_normal_deprecated : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba4aa045ae617400  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c21e3ced556350e2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_normalforms.test_smith_normal_deprecated","kind":"function","src_hash":"e88e03dbe6a2963b","in":{"base":"Any"},"out":{"base":"Any","pred":"smith_normal_form(m) == smf and invariant_factors(m) == invs and smith_normal_form(m) == smf"},"spec":{"lhs":"test_smith_normal_deprecated()","rhs":"test_smith_normal_deprecated produces the expected output","over":{"base":"Any"},"name":"test_smith_normal_deprecated_correct"},"guarantee":"test_smith_normal_deprecated produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_normalforms.test_smith_normal_deprecated_correct","statement":"Path(test_smith_normal_deprecated(x), test_smith_normal_deprecated produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba4aa045ae617400"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_normalforms.test_smith_normal_deprecated","kind":"function","src_hash":"e88e03dbe6a2963b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: smith_normal_form(m) == smf and invariant_factors(m) == invs"},"spec":{"lhs":"test_smith_normal_deprecated()","rhs":"smith_normal_form(m) == smf and invariant_factors(m) == invs","over":{"base":"Any"},"name":"test_smith_normal_deprecated_correct"},"guarantee":"smith_normal_form(m) == smf; invariant_factors(m) == invs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_normalforms.test_smith_normal_deprecated_correct","statement":"Path(test_smith_normal_deprecated(x), smith_normal_form(m) == smf; invariant_factors(m) == invs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c21e3ced556350e2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["smith_normal_form(m) == smf","invariant_factors(m) == invs"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_smith_normal_deprecated():
     from sympy.polys.solvers import RawMatrix as Matrix
 
@@ -121,16 +136,24 @@ def test_smith_normal_deprecated():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_hermite_normal(), test_hermite_normal produces the expected output) over Any ║
+# ║ Path(test_hermite_normal(), hermite_normal_form(m) == hnf and hermite_normal_form(m.transpose()) == tr_hnf and hermite_normal_form(m, D=8) == hnf and hermite_normal_form(m, D=ZZ(8)) == hnf and hermite_normal_form(m, D=Integer(8)) == hnf) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_hermite_normal : Any → {Any | hermite_normal_for...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hermite_normal_form(m) == hnf                  ║
+# ║   ensures:  hermite_normal_form(m.transpose()) == tr_hnf   ║
+# ║   ensures:  hermite_normal_form(m, D=8) == hnf             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_hermite_normal : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bca2d9b653ffcfea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 14465e3603da8752  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_normalforms.test_hermite_normal","kind":"function","src_hash":"436e0237e7142041","in":{"base":"Any"},"out":{"base":"Any","pred":"hermite_normal_form(m) == hnf and hermite_normal_form(m.transpose()) == tr_hnf and hermite_normal_form(m) == hnf and hermite_normal_form(m, D=8) == hnf and hermite_normal_form(m, D=ZZ(8)) == hnf and hermite_normal_form(m, D=Integer(8)) == hnf and hermite_normal_form(m) == hnf and hermite_normal_form(m) == hnf"},"spec":{"lhs":"test_hermite_normal()","rhs":"test_hermite_normal produces the expected output","over":{"base":"Any"},"name":"test_hermite_normal_correct"},"guarantee":"test_hermite_normal produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_normalforms.test_hermite_normal_correct","statement":"Path(test_hermite_normal(x), test_hermite_normal produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bca2d9b653ffcfea"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_normalforms.test_hermite_normal","kind":"function","src_hash":"436e0237e7142041","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hermite_normal_form(m) == hnf and hermite_normal_form(m.transpose()) == tr_hnf and hermite_normal_form(m, D=8) == hnf and hermite_normal_form(m, D=ZZ(8)) == hnf and hermite_normal_form(m, D=Integer(8)) == hnf"},"spec":{"lhs":"test_hermite_normal()","rhs":"hermite_normal_form(m) == hnf and hermite_normal_form(m.transpose()) == tr_hnf and hermite_normal_form(m, D=8) == hnf and hermite_normal_form(m, D=ZZ(8)) == hnf and hermite_normal_form(m, D=Integer(8)) == hnf","over":{"base":"Any"},"name":"test_hermite_normal_correct"},"guarantee":"hermite_normal_form(m) == hnf; hermite_normal_form(m.transpose()) == tr_hnf; hermite_normal_form(m, D=8) == hnf","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_normalforms.test_hermite_normal_correct","statement":"Path(test_hermite_normal(x), hermite_normal_form(m) == hnf; hermite_normal_form(m.transpose()) == tr_hnf; hermite_normal_form(m, D=8) == hnf)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14465e3603da8752","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hermite_normal_form(m) == hnf","hermite_normal_form(m.transpose()) == tr_hnf","hermite_normal_form(m, D=8) == hnf","hermite_normal_form(m, D=ZZ(8)) == hnf","hermite_normal_form(m, D=Integer(8)) == hnf"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_hermite_normal():
     m = Matrix([[2, 7, 17, 29, 41], [3, 11, 19, 31, 43], [5, 13, 23, 37, 47]])
     hnf = Matrix([[1, 0, 0], [0, 2, 1], [0, 0, 1]])
@@ -156,16 +179,22 @@ def test_hermite_normal():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_23410(), test_issue_23410 produces the expected output) over Any ║
+# ║ Path(test_issue_23410(), hermite_normal_form(A) == H) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_23410 : Any → {Any | hermite_normal_form(A...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hermite_normal_form(A) == H                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_23410 : Any → {Any | result satisfies: her...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7be88cf0587f8f76  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1620b71dc82b266a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_normalforms.test_issue_23410","kind":"function","src_hash":"9045cf6b2d1d85a5","in":{"base":"Any"},"out":{"base":"Any","pred":"hermite_normal_form(A) == H"},"spec":{"lhs":"test_issue_23410()","rhs":"test_issue_23410 produces the expected output","over":{"base":"Any"},"name":"test_issue_23410_correct"},"guarantee":"test_issue_23410 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_normalforms.test_issue_23410_correct","statement":"Path(test_issue_23410(x), test_issue_23410 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7be88cf0587f8f76"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_normalforms.test_issue_23410","kind":"function","src_hash":"9045cf6b2d1d85a5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hermite_normal_form(A) == H"},"spec":{"lhs":"test_issue_23410()","rhs":"hermite_normal_form(A) == H","over":{"base":"Any"},"name":"test_issue_23410_correct"},"guarantee":"hermite_normal_form(A) == H","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_normalforms.test_issue_23410_correct","statement":"Path(test_issue_23410(x), hermite_normal_form(A) == H)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1620b71dc82b266a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hermite_normal_form(A) == H"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_23410():
     A = Matrix([[1, 12], [0, 8], [0, 5]])
     H = Matrix([[1, 0], [0, 8], [0, 5]])

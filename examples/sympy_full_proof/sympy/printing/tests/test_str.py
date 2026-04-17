@@ -75,14 +75,21 @@ d = Dummy('d')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(test_printmethod(), id) over Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_printmethod : Any → {Any | sstr(R(x)) == 'foo(x)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sstr(R(x)) == 'foo(x)'                         ║
+# ║   ensures:  sstr(R(x)) == 'foo'                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_printmethod : Any → {Any | result satisfies: sst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 419b10cbe17b968e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_printmethod","kind":"function","src_hash":"8f48b1e0622a2169","in":{"base":"Any"},"out":{"base":"Any","pred":"sstr(R(x)) == 'foo(x)' and sstr(R(x)) == 'foo'"},"spec":{"lhs":"test_printmethod()","rhs":"test_printmethod produces the expected output","over":{"base":"Any"},"name":"test_printmethod_correct","kind":"composition"},"guarantee":"test_printmethod produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"foo","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"419b10cbe17b968e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_printmethod","kind":"function","src_hash":"8f48b1e0622a2169","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sstr(R(x)) == 'foo(x)' and sstr(R(x)) == 'foo'"},"spec":{"lhs":"test_printmethod()","rhs":"sstr(R(x)) == 'foo(x)' and sstr(R(x)) == 'foo'","over":{"base":"Any"},"name":"test_printmethod_correct","kind":"composition"},"guarantee":"sstr(R(x)) == 'foo(x)'; sstr(R(x)) == 'foo'","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"foo","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"419b10cbe17b968e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sstr(R(x)) == 'foo(x)'","sstr(R(x)) == 'foo'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_printmethod():
     class R(Abs):
         def _sympystr(self, printer):
@@ -96,16 +103,24 @@ def test_printmethod():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Abs(), test_Abs produces the expected output) over Any ║
+# ║ Path(test_Abs(), str(Abs(x)) == 'Abs(x)' and str(Abs(Rational(1, 6))) == '1/6' and str(Abs(Rational(-1, 6))) == '1/6') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Abs : Any → {Any | str(Abs(x)) == 'Abs(x)' and s...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(Abs(x)) == 'Abs(x)'                        ║
+# ║   ensures:  str(Abs(Rational(1, 6))) == '1/6'              ║
+# ║   ensures:  str(Abs(Rational(-1, 6))) == '1/6'             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Abs : Any → {Any | result satisfies: str(Abs(x))...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 187f257915a817a4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07da5312827762ff  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Abs","kind":"function","src_hash":"1e5c30c1d1ce4403","in":{"base":"Any"},"out":{"base":"Any","pred":"str(Abs(x)) == 'Abs(x)' and str(Abs(Rational(1, 6))) == '1/6' and str(Abs(Rational(-1, 6))) == '1/6'"},"spec":{"lhs":"test_Abs()","rhs":"test_Abs produces the expected output","over":{"base":"Any"},"name":"test_Abs_correct"},"guarantee":"test_Abs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Abs_correct","statement":"Path(test_Abs(x), test_Abs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"187f257915a817a4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Abs","kind":"function","src_hash":"1e5c30c1d1ce4403","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(Abs(x)) == 'Abs(x)' and str(Abs(Rational(1, 6))) == '1/6' and str(Abs(Rational(-1, 6))) == '1/6'"},"spec":{"lhs":"test_Abs()","rhs":"str(Abs(x)) == 'Abs(x)' and str(Abs(Rational(1, 6))) == '1/6' and str(Abs(Rational(-1, 6))) == '1/6'","over":{"base":"Any"},"name":"test_Abs_correct"},"guarantee":"str(Abs(x)) == 'Abs(x)'; str(Abs(Rational(1, 6))) == '1/6'; str(Abs(Rational(-1, 6))) == '1/6'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Abs_correct","statement":"Path(test_Abs(x), str(Abs(x)) == 'Abs(x)'; str(Abs(Rational(1, 6))) == '1/6'; str(Abs(Rational(-1, 6))) == '1/6')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07da5312827762ff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(Abs(x)) == 'Abs(x)'","str(Abs(Rational(1, 6))) == '1/6'","str(Abs(Rational(-1, 6))) == '1/6'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Abs():
     assert str(Abs(x)) == "Abs(x)"
     assert str(Abs(Rational(1, 6))) == "1/6"
@@ -113,16 +128,24 @@ def test_Abs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Add(), test_Add produces the expected output) over Any ║
+# ║ Path(test_Add(), str(x + y) == 'x + y' and str(x + 1) == 'x + 1' and str(x + x ** 2) == 'x**2 + x' and str(Add(0, 1, evaluate=False)) == '0 + 1' and str(Add(0, 0, 1, evaluate=False)) == '0 + 0 + 1' and str(1.0 * x) == '1.0*x' and str(5 + x + y + x * y + x ** 2 + y ** 2) == 'x**2 + x*y + x + y**2 + y + 5' and str(1 + x + x ** 2 / 2 + x ** 3 / 3) == 'x**3/3 + x**2/2 + x + 1' and str(2 * x - 7 * x ** 2 + 2 + 3 * y) == '-7*x**2 + 2*x + 3*y + 2' and str(x - y) == 'x - y' and str(2 - x) == '2 - x' and str(x - 2) == 'x - 2' and str(x - y - z - w) == '-w + x - y - z' and str(x - z * y ** 2 * z * w) == '-w*y**2*z**2 + x' and str(x - 1 * y * x * y) == '-x*y**2 + x' and str(sin(x).series(x, 0, 15)) == 'x - x**3/6 + x**5/120 - x**7/5040 + x**9/362880 - x**11/39916800 + x**13/6227020800 + O(x**15)' and str(Add(Add(-w, x, evaluate=False), Add(-y, z, evaluate=False), evaluate=False)) == '(-w + x) + (-y + z)' and str(Add(Add(-x, -y, evaluate=False), -z, evaluate=False)) == '-z + (-x - y)' and str(Add(Add(Add(-x, -y, evaluate=False), -z, evaluate=False), -t, evaluate=False)) == '-t + (-z + (-x - y))') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Add : Any → {Any | str(x + y) == 'x + y' and str...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(x + y) == 'x + y'                          ║
+# ║   ensures:  str(x + 1) == 'x + 1'                          ║
+# ║   ensures:  str(x + x ** 2) == 'x**2 + x'                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Add : Any → {Any | result satisfies: str(x + y) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7cb22ecca93d9ebe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c6327f0fe89f84d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Add","kind":"function","src_hash":"1016576f4f3bcc8c","in":{"base":"Any"},"out":{"base":"Any","pred":"str(x + y) == 'x + y' and str(x + 1) == 'x + 1' and str(x + x ** 2) == 'x**2 + x' and str(Add(0, 1, evaluate=False)) == '0 + 1' and str(Add(0, 0, 1, evaluate=False)) == '0 + 0 + 1' and str(1.0 * x) == '1.0*x' and str(5 + x + y + x * y + x ** 2 + y ** 2) == 'x**2 + x*y + x + y**2 + y + 5' and str(1 + x + x ** 2 / 2 + x ** 3 / 3) == 'x**3/3 + x**2/2 + x + 1' and str(2 * x - 7 * x ** 2 + 2 + 3 * y) == '-7*x**2 + 2*x + 3*y + 2' and str(x - y) == 'x - y' and str(2 - x) == '2 - x' and str(x - 2) == 'x - 2' and str(x - y - z - w) == '-w + x - y - z' and str(x - z * y ** 2 * z * w) == '-w*y**2*z**2 + x' and str(x - 1 * y * x * y) == '-x*y**2 + x' and str(Add(Add(-x, -y, evaluate=False), -z, evaluate=False)) == '-z + (-x - y)'"},"spec":{"lhs":"test_Add()","rhs":"test_Add produces the expected output","over":{"base":"Any"},"name":"test_Add_correct"},"guarantee":"test_Add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Add_correct","statement":"Path(test_Add(x), test_Add produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7cb22ecca93d9ebe"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Add","kind":"function","src_hash":"1016576f4f3bcc8c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(x + y) == 'x + y' and str(x + 1) == 'x + 1' and str(x + x ** 2) == 'x**2 + x' and str(Add(0, 1, evaluate=False)) == '0 + 1' and str(Add(0, 0, 1, evaluate=False)) == '0 + 0 + 1' and str(1.0 * x) == '1.0*x' and str(5 + x + y + x * y + x ** 2 + y ** 2) == 'x**2 + x*y + x + y**2 + y + 5' and str(1 + x + x ** 2 / 2 + x ** 3 / 3) == 'x**3/3 + x**2/2 + x + 1' and str(2 * x - 7 * x ** 2 + 2 + 3 * y) == '-7*x**2 + 2*x + 3*y + 2' and str(x - y) == 'x - y' and str(2 - x) == '2 - x' and str(x - 2) == 'x - 2' and str(x - y - z - w) == '-w + x - y - z' and str(x - z * y ** 2 * z * w) == '-w*y**2*z**2 + x' and str(x - 1 * y * x * y) == '-x*y**2 + x' and str(sin(x).series(x, 0, 15)) == 'x - x**3/6 + x**5/120 - x**7/5040 + x**9/362880 - x**11/39916800 + x**13/6227020800 + O(x**15)' and str(Add(Add(-w, x, evaluate=False), Add(-y, z, evaluate=False), evaluate=False)) == '(-w + x) + (-y + z)' and str(Add(Add(-x, -y, evaluate=False), -z, evaluate=False)) == '-z + (-x - y)' and str(Add(Add(Add(-x, -y, evaluate=False), -z, evaluate=False), -t, evaluate=False)) == '-t + (-z + (-x - y))'"},"spec":{"lhs":"test_Add()","rhs":"str(x + y) == 'x + y' and str(x + 1) == 'x + 1' and str(x + x ** 2) == 'x**2 + x' and str(Add(0, 1, evaluate=False)) == '0 + 1' and str(Add(0, 0, 1, evaluate=False)) == '0 + 0 + 1' and str(1.0 * x) == '1.0*x' and str(5 + x + y + x * y + x ** 2 + y ** 2) == 'x**2 + x*y + x + y**2 + y + 5' and str(1 + x + x ** 2 / 2 + x ** 3 / 3) == 'x**3/3 + x**2/2 + x + 1' and str(2 * x - 7 * x ** 2 + 2 + 3 * y) == '-7*x**2 + 2*x + 3*y + 2' and str(x - y) == 'x - y' and str(2 - x) == '2 - x' and str(x - 2) == 'x - 2' and str(x - y - z - w) == '-w + x - y - z' and str(x - z * y ** 2 * z * w) == '-w*y**2*z**2 + x' and str(x - 1 * y * x * y) == '-x*y**2 + x' and str(sin(x).series(x, 0, 15)) == 'x - x**3/6 + x**5/120 - x**7/5040 + x**9/362880 - x**11/39916800 + x**13/6227020800 + O(x**15)' and str(Add(Add(-w, x, evaluate=False), Add(-y, z, evaluate=False), evaluate=False)) == '(-w + x) + (-y + z)' and str(Add(Add(-x, -y, evaluate=False), -z, evaluate=False)) == '-z + (-x - y)' and str(Add(Add(Add(-x, -y, evaluate=False), -z, evaluate=False), -t, evaluate=False)) == '-t + (-z + (-x - y))'","over":{"base":"Any"},"name":"test_Add_correct"},"guarantee":"str(x + y) == 'x + y'; str(x + 1) == 'x + 1'; str(x + x ** 2) == 'x**2 + x'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Add_correct","statement":"Path(test_Add(x), str(x + y) == 'x + y'; str(x + 1) == 'x + 1'; str(x + x ** 2) == 'x**2 + x')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c6327f0fe89f84d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(x + y) == 'x + y'","str(x + 1) == 'x + 1'","str(x + x ** 2) == 'x**2 + x'","str(Add(0, 1, evaluate=False)) == '0 + 1'","str(Add(0, 0, 1, evaluate=False)) == '0 + 0 + 1'","str(1.0 * x) == '1.0*x'","str(5 + x + y + x * y + x ** 2 + y ** 2) == 'x**2 + x*y + x + y**2 + y + 5'","str(1 + x + x ** 2 / 2 + x ** 3 / 3) == 'x**3/3 + x**2/2 + x + 1'","str(2 * x - 7 * x ** 2 + 2 + 3 * y) == '-7*x**2 + 2*x + 3*y + 2'","str(x - y) == 'x - y'","str(2 - x) == '2 - x'","str(x - 2) == 'x - 2'","str(x - y - z - w) == '-w + x - y - z'","str(x - z * y ** 2 * z * w) == '-w*y**2*z**2 + x'","str(x - 1 * y * x * y) == '-x*y**2 + x'","str(sin(x).series(x, 0, 15)) == 'x - x**3/6 + x**5/120 - x**7/5040 + x**9/362880 - x**11/39916800 + x**13/6227020800 + O(x**15)'","str(Add(Add(-w, x, evaluate=False), Add(-y, z, evaluate=False), evaluate=False)) == '(-w + x) + (-y + z)'","str(Add(Add(-x, -y, evaluate=False), -z, evaluate=False)) == '-z + (-x - y)'","str(Add(Add(Add(-x, -y, evaluate=False), -z, evaluate=False), -t, evaluate=False)) == '-t + (-z + (-x - y))'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_Add():
     assert str(x + y) == "x + y"
     assert str(x + 1) == "x + 1"
@@ -146,46 +169,66 @@ def test_Add():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Catalan(), test_Catalan produces the expected output) over Any ║
+# ║ Path(test_Catalan(), str(Catalan) == 'Catalan') over Any   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Catalan : Any → {Any | str(Catalan) == 'Catalan'}     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(Catalan) == 'Catalan'                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Catalan : Any → {Any | result satisfies: str(Cat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b14587fd116d4c0f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93601346a6ee883d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Catalan","kind":"function","src_hash":"895eaa2ca3dda8dc","in":{"base":"Any"},"out":{"base":"Any","pred":"str(Catalan) == 'Catalan'"},"spec":{"lhs":"test_Catalan()","rhs":"test_Catalan produces the expected output","over":{"base":"Any"},"name":"test_Catalan_correct"},"guarantee":"test_Catalan produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Catalan_correct","statement":"Path(test_Catalan(x), test_Catalan produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b14587fd116d4c0f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Catalan","kind":"function","src_hash":"895eaa2ca3dda8dc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(Catalan) == 'Catalan'"},"spec":{"lhs":"test_Catalan()","rhs":"str(Catalan) == 'Catalan'","over":{"base":"Any"},"name":"test_Catalan_correct"},"guarantee":"str(Catalan) == 'Catalan'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Catalan_correct","statement":"Path(test_Catalan(x), str(Catalan) == 'Catalan')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93601346a6ee883d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(Catalan) == 'Catalan'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Catalan():
     assert str(Catalan) == "Catalan"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ComplexInfinity(), test_ComplexInfinity produces the expected output) over Any ║
+# ║ Path(test_ComplexInfinity(), str(zoo) == 'zoo') over Any   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ComplexInfinity : Any → {Any | str(zoo) == 'zoo'}     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(zoo) == 'zoo'                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ComplexInfinity : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 253aa34332e318c9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0abc3d594a4d45d7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_ComplexInfinity","kind":"function","src_hash":"611c65a0272a0b1f","in":{"base":"Any"},"out":{"base":"Any","pred":"str(zoo) == 'zoo'"},"spec":{"lhs":"test_ComplexInfinity()","rhs":"test_ComplexInfinity produces the expected output","over":{"base":"Any"},"name":"test_ComplexInfinity_correct"},"guarantee":"test_ComplexInfinity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_ComplexInfinity_correct","statement":"Path(test_ComplexInfinity(x), test_ComplexInfinity produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"253aa34332e318c9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_ComplexInfinity","kind":"function","src_hash":"611c65a0272a0b1f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(zoo) == 'zoo'"},"spec":{"lhs":"test_ComplexInfinity()","rhs":"str(zoo) == 'zoo'","over":{"base":"Any"},"name":"test_ComplexInfinity_correct"},"guarantee":"str(zoo) == 'zoo'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_ComplexInfinity_correct","statement":"Path(test_ComplexInfinity(x), str(zoo) == 'zoo')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0abc3d594a4d45d7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(zoo) == 'zoo'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_ComplexInfinity():
     assert str(zoo) == "zoo"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Derivative(), test_Derivative produces the expected output) over Any ║
+# ║ Path(test_Derivative(), str(Derivative(x, y)) == 'Derivative(x, y)' and str(Derivative(x ** 2, x, evaluate=False)) == 'Derivative(x**2, x)' and str(Derivative(x ** 2 / y, x, y, evaluate=False)) == 'Derivative(x**2/y, x, y)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Derivative : Any → {Any | str(Derivative(x, y)) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(Derivative(x, y)) == 'Derivative(x, y)'    ║
+# ║   ensures:  str(Derivative(x ** 2, x, evaluate=False)...   ║
+# ║   ensures:  str(Derivative(x ** 2 / y, x, y, evaluate...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Derivative : Any → {Any | result satisfies: str(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb2fa3d70bff28d2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64d39bdf4507ee08  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Derivative","kind":"function","src_hash":"69dc8d9100c16045","in":{"base":"Any"},"out":{"base":"Any","pred":"str(Derivative(x, y)) == 'Derivative(x, y)' and str(Derivative(x ** 2, x, evaluate=False)) == 'Derivative(x**2, x)' and str(Derivative(x ** 2 / y, x, y, evaluate=False)) == 'Derivative(x**2/y, x, y)'"},"spec":{"lhs":"test_Derivative()","rhs":"test_Derivative produces the expected output","over":{"base":"Any"},"name":"test_Derivative_correct"},"guarantee":"test_Derivative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Derivative_correct","statement":"Path(test_Derivative(x), test_Derivative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb2fa3d70bff28d2"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Derivative","kind":"function","src_hash":"69dc8d9100c16045","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(Derivative(x, y)) == 'Derivative(x, y)' and str(Derivative(x ** 2, x, evaluate=False)) == 'Derivative(x**2, x)' and str(Derivative(x ** 2 / y, x, y, evaluate=False)) == 'Derivative(x**2/y, x, y)'"},"spec":{"lhs":"test_Derivative()","rhs":"str(Derivative(x, y)) == 'Derivative(x, y)' and str(Derivative(x ** 2, x, evaluate=False)) == 'Derivative(x**2, x)' and str(Derivative(x ** 2 / y, x, y, evaluate=False)) == 'Derivative(x**2/y, x, y)'","over":{"base":"Any"},"name":"test_Derivative_correct"},"guarantee":"str(Derivative(x, y)) == 'Derivative(x, y)'; str(Derivative(x ** 2, x, evaluate=False)) == 'Derivative(x**2, x)'; str(Derivative(x ** 2 / y, x, y, evaluate=False)) == 'Derivative(x**2/y, x, y)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Derivative_correct","statement":"Path(test_Derivative(x), str(Derivative(x, y)) == 'Derivative(x, y)'; str(Derivative(x ** 2, x, evaluate=False)) == 'Derivative(x**2, x)'; str(Derivative(x ** 2 / y, x, y, evaluate=False)) == 'Derivative(x**2/y, x, y)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64d39bdf4507ee08","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(Derivative(x, y)) == 'Derivative(x, y)'","str(Derivative(x ** 2, x, evaluate=False)) == 'Derivative(x**2, x)'","str(Derivative(x ** 2 / y, x, y, evaluate=False)) == 'Derivative(x**2/y, x, y)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Derivative():
     assert str(Derivative(x, y)) == "Derivative(x, y)"
     assert str(Derivative(x**2, x, evaluate=False)) == "Derivative(x**2, x)"
@@ -194,16 +237,24 @@ def test_Derivative():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dict(), test_dict produces the expected output) over Any ║
+# ║ Path(test_dict(), str({1: 1 + x}) == sstr({1: 1 + x}) == '{1: x + 1}' and str({1: x ** 2, 2: y * x}) in ('{1: x**2, 2: x*y}', '{2: x*y, 1: x**2}') and sstr({1: x ** 2, 2: y * x}) == '{1: x**2, 2: x*y}') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dict : Any → {Any | str({1: 1 + x}) == sstr({1: ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str({1: 1 + x}) == sstr({1: 1 + x}) == '{...   ║
+# ║   ensures:  str({1: x ** 2, 2: y * x}) in ('{1: x**2,...   ║
+# ║   ensures:  sstr({1: x ** 2, 2: y * x}) == '{1: x**2,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dict : Any → {Any | result satisfies: str({1: 1 ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c146f06123c4c3e9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58bf29a6a7352b9e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_dict","kind":"function","src_hash":"0369f8064a9aadcc","in":{"base":"Any"},"out":{"base":"Any","pred":"str({1: 1 + x}) == sstr({1: 1 + x}) == '{1: x + 1}' and str({1: x ** 2, 2: y * x}) in ('{1: x**2, 2: x*y}', '{2: x*y, 1: x**2}') and sstr({1: x ** 2, 2: y * x}) == '{1: x**2, 2: x*y}'"},"spec":{"lhs":"test_dict()","rhs":"test_dict produces the expected output","over":{"base":"Any"},"name":"test_dict_correct"},"guarantee":"test_dict produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_dict_correct","statement":"Path(test_dict(x), test_dict produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c146f06123c4c3e9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_dict","kind":"function","src_hash":"0369f8064a9aadcc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str({1: 1 + x}) == sstr({1: 1 + x}) == '{1: x + 1}' and str({1: x ** 2, 2: y * x}) in ('{1: x**2, 2: x*y}', '{2: x*y, 1: x**2}') and sstr({1: x ** 2, 2: y * x}) == '{1: x**2, 2: x*y}'"},"spec":{"lhs":"test_dict()","rhs":"str({1: 1 + x}) == sstr({1: 1 + x}) == '{1: x + 1}' and str({1: x ** 2, 2: y * x}) in ('{1: x**2, 2: x*y}', '{2: x*y, 1: x**2}') and sstr({1: x ** 2, 2: y * x}) == '{1: x**2, 2: x*y}'","over":{"base":"Any"},"name":"test_dict_correct"},"guarantee":"str({1: 1 + x}) == sstr({1: 1 + x}) == '{1: x + 1}'; str({1: x ** 2, 2: y * x}) in ('{1: x**2, 2: x*y}', '{2: x*y, 1: x**2}'); sstr({1: x ** 2, 2: y * x}) == '{1: x**2, 2: x*y}'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_dict_correct","statement":"Path(test_dict(x), str({1: 1 + x}) == sstr({1: 1 + x}) == '{1: x + 1}'; str({1: x ** 2, 2: y * x}) in ('{1: x**2, 2: x*y}', '{2: x*y, 1: x**2}'); sstr({1: x ** 2, 2: y * x}) == '{1: x**2, 2: x*y}')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58bf29a6a7352b9e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str({1: 1 + x}) == sstr({1: 1 + x}) == '{1: x + 1}'","str({1: x ** 2, 2: y * x}) in ('{1: x**2, 2: x*y}', '{2: x*y, 1: x**2}')","sstr({1: x ** 2, 2: y * x}) == '{1: x**2, 2: x*y}'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dict():
     assert str({1: 1 + x}) == sstr({1: 1 + x}) == "{1: x + 1}"
     assert str({1: x**2, 2: y*x}) in ("{1: x**2, 2: x*y}", "{2: x*y, 1: x**2}")
@@ -211,16 +262,24 @@ def test_dict():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Dict(), test_Dict produces the expected output) over Any ║
+# ║ Path(test_Dict(), str(Dict({1: 1 + x})) == sstr({1: 1 + x}) == '{1: x + 1}' and str(Dict({1: x ** 2, 2: y * x})) in ('{1: x**2, 2: x*y}', '{2: x*y, 1: x**2}') and sstr(Dict({1: x ** 2, 2: y * x})) == '{1: x**2, 2: x*y}') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Dict : Any → {Any | str(Dict({1: 1 + x})) == sst...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(Dict({1: 1 + x})) == sstr({1: 1 + x})...   ║
+# ║   ensures:  str(Dict({1: x ** 2, 2: y * x})) in ('{1:...   ║
+# ║   ensures:  sstr(Dict({1: x ** 2, 2: y * x})) == '{1:...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Dict : Any → {Any | result satisfies: str(Dict({...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b8dd6ce09476a0ee  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b21a3660a5a80b04  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Dict","kind":"function","src_hash":"fd4520fe3eedfeef","in":{"base":"Any"},"out":{"base":"Any","pred":"str(Dict({1: 1 + x})) == sstr({1: 1 + x}) == '{1: x + 1}' and str(Dict({1: x ** 2, 2: y * x})) in ('{1: x**2, 2: x*y}', '{2: x*y, 1: x**2}') and sstr(Dict({1: x ** 2, 2: y * x})) == '{1: x**2, 2: x*y}'"},"spec":{"lhs":"test_Dict()","rhs":"test_Dict produces the expected output","over":{"base":"Any"},"name":"test_Dict_correct"},"guarantee":"test_Dict produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Dict_correct","statement":"Path(test_Dict(x), test_Dict produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8dd6ce09476a0ee"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Dict","kind":"function","src_hash":"fd4520fe3eedfeef","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(Dict({1: 1 + x})) == sstr({1: 1 + x}) == '{1: x + 1}' and str(Dict({1: x ** 2, 2: y * x})) in ('{1: x**2, 2: x*y}', '{2: x*y, 1: x**2}') and sstr(Dict({1: x ** 2, 2: y * x})) == '{1: x**2, 2: x*y}'"},"spec":{"lhs":"test_Dict()","rhs":"str(Dict({1: 1 + x})) == sstr({1: 1 + x}) == '{1: x + 1}' and str(Dict({1: x ** 2, 2: y * x})) in ('{1: x**2, 2: x*y}', '{2: x*y, 1: x**2}') and sstr(Dict({1: x ** 2, 2: y * x})) == '{1: x**2, 2: x*y}'","over":{"base":"Any"},"name":"test_Dict_correct"},"guarantee":"str(Dict({1: 1 + x})) == sstr({1: 1 + x}) == '{1: x + 1}'; str(Dict({1: x ** 2, 2: y * x})) in ('{1: x**2, 2: x*y}', '{2: x*y, 1: x**2}'); sstr(Dict({1: x ** 2, 2: y * x})) == '{1: x**2, 2: x*y}'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Dict_correct","statement":"Path(test_Dict(x), str(Dict({1: 1 + x})) == sstr({1: 1 + x}) == '{1: x + 1}'; str(Dict({1: x ** 2, 2: y * x})) in ('{1: x**2, 2: x*y}', '{2: x*y, 1: x**2}'); sstr(Dict({1: x ** 2, 2: y * x})) == '{1: x**2, 2: x*y}')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b21a3660a5a80b04","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(Dict({1: 1 + x})) == sstr({1: 1 + x}) == '{1: x + 1}'","str(Dict({1: x ** 2, 2: y * x})) in ('{1: x**2, 2: x*y}', '{2: x*y, 1: x**2}')","sstr(Dict({1: x ** 2, 2: y * x})) == '{1: x**2, 2: x*y}'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Dict():
     assert str(Dict({1: 1 + x})) == sstr({1: 1 + x}) == "{1: x + 1}"
     assert str(Dict({1: x**2, 2: y*x})) in (
@@ -229,47 +288,66 @@ def test_Dict():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Dummy(), test_Dummy produces the expected output) over Any ║
+# ║ Path(test_Dummy(), str(d) == '_d' and str(d + x) == '_d + x') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Dummy : Any → {Any | str(d) == '_d' and str(d + ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(d) == '_d'                                 ║
+# ║   ensures:  str(d + x) == '_d + x'                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Dummy : Any → {Any | result satisfies: str(d) ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a20ba9640b15725e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0dc13ea2be21fb01  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Dummy","kind":"function","src_hash":"b9b547cd2c1a900e","in":{"base":"Any"},"out":{"base":"Any","pred":"str(d) == '_d' and str(d + x) == '_d + x'"},"spec":{"lhs":"test_Dummy()","rhs":"test_Dummy produces the expected output","over":{"base":"Any"},"name":"test_Dummy_correct"},"guarantee":"test_Dummy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Dummy_correct","statement":"Path(test_Dummy(x), test_Dummy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a20ba9640b15725e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Dummy","kind":"function","src_hash":"b9b547cd2c1a900e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(d) == '_d' and str(d + x) == '_d + x'"},"spec":{"lhs":"test_Dummy()","rhs":"str(d) == '_d' and str(d + x) == '_d + x'","over":{"base":"Any"},"name":"test_Dummy_correct"},"guarantee":"str(d) == '_d'; str(d + x) == '_d + x'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Dummy_correct","statement":"Path(test_Dummy(x), str(d) == '_d'; str(d + x) == '_d + x')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0dc13ea2be21fb01","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(d) == '_d'","str(d + x) == '_d + x'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Dummy():
     assert str(d) == "_d"
     assert str(d + x) == "_d + x"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_EulerGamma(), test_EulerGamma produces the expected output) over Any ║
+# ║ Path(test_EulerGamma(), str(EulerGamma) == 'EulerGamma') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_EulerGamma : Any → {Any | str(EulerGamma) == 'Eu...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(EulerGamma) == 'EulerGamma'                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_EulerGamma : Any → {Any | result satisfies: str(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c6079031be65df1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4ffb84eab0b5053  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_EulerGamma","kind":"function","src_hash":"9f9d1e57f65bf90b","in":{"base":"Any"},"out":{"base":"Any","pred":"str(EulerGamma) == 'EulerGamma'"},"spec":{"lhs":"test_EulerGamma()","rhs":"test_EulerGamma produces the expected output","over":{"base":"Any"},"name":"test_EulerGamma_correct"},"guarantee":"test_EulerGamma produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_EulerGamma_correct","statement":"Path(test_EulerGamma(x), test_EulerGamma produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c6079031be65df1"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_EulerGamma","kind":"function","src_hash":"9f9d1e57f65bf90b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(EulerGamma) == 'EulerGamma'"},"spec":{"lhs":"test_EulerGamma()","rhs":"str(EulerGamma) == 'EulerGamma'","over":{"base":"Any"},"name":"test_EulerGamma_correct"},"guarantee":"str(EulerGamma) == 'EulerGamma'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_EulerGamma_correct","statement":"Path(test_EulerGamma(x), str(EulerGamma) == 'EulerGamma')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4ffb84eab0b5053","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(EulerGamma) == 'EulerGamma'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_EulerGamma():
     assert str(EulerGamma) == "EulerGamma"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Exp(), test_Exp produces the expected output) over Any ║
+# ║ Path(test_Exp(), str(E) == 'E') over Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Exp : Any → {Any | str(E) == 'E' and str(exp(x))...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(E) == 'E'                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Exp : Any → {Any | result satisfies: str(E) == 'E'}   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9c474edb09d8110  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00e7bd86f36425d5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Exp","kind":"function","src_hash":"fd5bba541f733445","in":{"base":"Any"},"out":{"base":"Any","pred":"str(E) == 'E' and str(exp(x)) == 'E**x'"},"spec":{"lhs":"test_Exp()","rhs":"test_Exp produces the expected output","over":{"base":"Any"},"name":"test_Exp_correct"},"guarantee":"test_Exp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Exp_correct","statement":"Path(test_Exp(x), test_Exp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9c474edb09d8110"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Exp","kind":"function","src_hash":"fd5bba541f733445","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(E) == 'E'"},"spec":{"lhs":"test_Exp()","rhs":"str(E) == 'E'","over":{"base":"Any"},"name":"test_Exp_correct"},"guarantee":"str(E) == 'E'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Exp_correct","statement":"Path(test_Exp(x), str(E) == 'E')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00e7bd86f36425d5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(E) == 'E'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Exp():
     assert str(E) == "E"
     with _exp_is_pow(True):
@@ -277,16 +355,24 @@ def test_Exp():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_factorial(), test_factorial produces the expected output) over Any ║
+# ║ Path(test_factorial(), str(factorial(-2)) == 'zoo' and str(factorial(0)) == '1' and str(factorial(7)) == '5040' and str(factorial(n)) == 'factorial(n)' and str(factorial(2 * n)) == 'factorial(2*n)' and str(factorial(factorial(n))) == 'factorial(factorial(n))' and str(factorial(factorial2(n))) == 'factorial(factorial2(n))' and str(factorial2(factorial(n))) == 'factorial2(factorial(n))' and str(factorial2(factorial2(n))) == 'factorial2(factorial2(n))' and str(subfactorial(3)) == '2' and str(subfactorial(n)) == 'subfactorial(n)' and str(subfactorial(2 * n)) == 'subfactorial(2*n)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_factorial : Any → {Any | str(factorial(-2)) == '...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(factorial(-2)) == 'zoo'                    ║
+# ║   ensures:  str(factorial(0)) == '1'                       ║
+# ║   ensures:  str(factorial(7)) == '5040'                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_factorial : Any → {Any | result satisfies: str(f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be85d6cddccc8173  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95b251159a964cd9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_factorial","kind":"function","src_hash":"a16ca34be22212bd","in":{"base":"Any"},"out":{"base":"Any","pred":"str(factorial(-2)) == 'zoo' and str(factorial(0)) == '1' and str(factorial(7)) == '5040' and str(factorial(n)) == 'factorial(n)' and str(factorial(2 * n)) == 'factorial(2*n)' and str(factorial(factorial(n))) == 'factorial(factorial(n))' and str(factorial(factorial2(n))) == 'factorial(factorial2(n))' and str(factorial2(factorial(n))) == 'factorial2(factorial(n))' and str(factorial2(factorial2(n))) == 'factorial2(factorial2(n))' and str(subfactorial(3)) == '2' and str(subfactorial(n)) == 'subfactorial(n)' and str(subfactorial(2 * n)) == 'subfactorial(2*n)'"},"spec":{"lhs":"test_factorial()","rhs":"test_factorial produces the expected output","over":{"base":"Any"},"name":"test_factorial_correct"},"guarantee":"test_factorial produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_factorial_correct","statement":"Path(test_factorial(x), test_factorial produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be85d6cddccc8173"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_factorial","kind":"function","src_hash":"a16ca34be22212bd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(factorial(-2)) == 'zoo' and str(factorial(0)) == '1' and str(factorial(7)) == '5040' and str(factorial(n)) == 'factorial(n)' and str(factorial(2 * n)) == 'factorial(2*n)' and str(factorial(factorial(n))) == 'factorial(factorial(n))' and str(factorial(factorial2(n))) == 'factorial(factorial2(n))' and str(factorial2(factorial(n))) == 'factorial2(factorial(n))' and str(factorial2(factorial2(n))) == 'factorial2(factorial2(n))' and str(subfactorial(3)) == '2' and str(subfactorial(n)) == 'subfactorial(n)' and str(subfactorial(2 * n)) == 'subfactorial(2*n)'"},"spec":{"lhs":"test_factorial()","rhs":"str(factorial(-2)) == 'zoo' and str(factorial(0)) == '1' and str(factorial(7)) == '5040' and str(factorial(n)) == 'factorial(n)' and str(factorial(2 * n)) == 'factorial(2*n)' and str(factorial(factorial(n))) == 'factorial(factorial(n))' and str(factorial(factorial2(n))) == 'factorial(factorial2(n))' and str(factorial2(factorial(n))) == 'factorial2(factorial(n))' and str(factorial2(factorial2(n))) == 'factorial2(factorial2(n))' and str(subfactorial(3)) == '2' and str(subfactorial(n)) == 'subfactorial(n)' and str(subfactorial(2 * n)) == 'subfactorial(2*n)'","over":{"base":"Any"},"name":"test_factorial_correct"},"guarantee":"str(factorial(-2)) == 'zoo'; str(factorial(0)) == '1'; str(factorial(7)) == '5040'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_factorial_correct","statement":"Path(test_factorial(x), str(factorial(-2)) == 'zoo'; str(factorial(0)) == '1'; str(factorial(7)) == '5040')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95b251159a964cd9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(factorial(-2)) == 'zoo'","str(factorial(0)) == '1'","str(factorial(7)) == '5040'","str(factorial(n)) == 'factorial(n)'","str(factorial(2 * n)) == 'factorial(2*n)'","str(factorial(factorial(n))) == 'factorial(factorial(n))'","str(factorial(factorial2(n))) == 'factorial(factorial2(n))'","str(factorial2(factorial(n))) == 'factorial2(factorial(n))'","str(factorial2(factorial2(n))) == 'factorial2(factorial2(n))'","str(subfactorial(3)) == '2'","str(subfactorial(n)) == 'subfactorial(n)'","str(subfactorial(2 * n)) == 'subfactorial(2*n)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_factorial():
     n = Symbol('n', integer=True)
     assert str(factorial(-2)) == "zoo"
@@ -304,16 +390,24 @@ def test_factorial():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Function(), test_Function produces the expected output) over Any ║
+# ║ Path(test_Function(), str(f) == 'f' and str(fx) == 'f(x)' and str(w) == 'w_') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Function : Any → {Any | str(f) == 'f' and str(fx...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(f) == 'f'                                  ║
+# ║   ensures:  str(fx) == 'f(x)'                              ║
+# ║   ensures:  str(w) == 'w_'                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Function : Any → {Any | result satisfies: str(f)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 87902446113b0f82  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a1d5c28fa5555bc8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Function","kind":"function","src_hash":"7ea42a0500025a0a","in":{"base":"Any"},"out":{"base":"Any","pred":"str(f) == 'f' and str(fx) == 'f(x)' and str(w) == 'w_'"},"spec":{"lhs":"test_Function()","rhs":"test_Function produces the expected output","over":{"base":"Any"},"name":"test_Function_correct"},"guarantee":"test_Function produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Function_correct","statement":"Path(test_Function(x), test_Function produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87902446113b0f82"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Function","kind":"function","src_hash":"7ea42a0500025a0a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(f) == 'f' and str(fx) == 'f(x)' and str(w) == 'w_'"},"spec":{"lhs":"test_Function()","rhs":"str(f) == 'f' and str(fx) == 'f(x)' and str(w) == 'w_'","over":{"base":"Any"},"name":"test_Function_correct"},"guarantee":"str(f) == 'f'; str(fx) == 'f(x)'; str(w) == 'w_'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Function_correct","statement":"Path(test_Function(x), str(f) == 'f'; str(fx) == 'f(x)'; str(w) == 'w_')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1d5c28fa5555bc8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(f) == 'f'","str(fx) == 'f(x)'","str(w) == 'w_'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Function():
     f = Function('f')
     fx = f(x)
@@ -324,16 +418,24 @@ def test_Function():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Geometry(), test_Geometry produces the expected output) over Any ║
+# ║ Path(test_Geometry(), sstr(Point(0, 0)) == 'Point2D(0, 0)' and sstr(Circle(Point(0, 0), 3)) == 'Circle(Point2D(0, 0), 3)' and sstr(Ellipse(Point(1, 2), 3, 4)) == 'Ellipse(Point2D(1, 2), 3, 4)' and sstr(Triangle(Point(1, 1), Point(7, 8), Point(0, -1))) == 'Triangle(Point2D(1, 1), Point2D(7, 8), Point2D(0, -1))' and sstr(Polygon(Point(5, 6), Point(-2, -3), Point(0, 0), Point(4, 7))) == 'Polygon(Point2D(5, 6), Point2D(-2, -3), Point2D(0, 0), Point2D(4, 7))' and sstr(Triangle(Point(0, 0), Point(1, 0), Point(0, 1)), sympy_integers=True) == 'Triangle(Point2D(S(0), S(0)), Point2D(S(1), S(0)), Point2D(S(0), S(1)))' and sstr(Ellipse(Point(1, 2), 3, 4), sympy_integers=True) == 'Ellipse(Point2D(S(1), S(2)), S(3), S(4))') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Geometry : Any → {Any | sstr(Point(0, 0)) == 'Po...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sstr(Point(0, 0)) == 'Point2D(0, 0)'           ║
+# ║   ensures:  sstr(Circle(Point(0, 0), 3)) == 'Circle(P...   ║
+# ║   ensures:  sstr(Ellipse(Point(1, 2), 3, 4)) == 'Elli...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Geometry : Any → {Any | result satisfies: sstr(P...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d6ba8d63308bc523  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f24fe4c09cb72dff  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Geometry","kind":"function","src_hash":"6815e69aa04052b6","in":{"base":"Any"},"out":{"base":"Any","pred":"sstr(Point(0, 0)) == 'Point2D(0, 0)' and sstr(Circle(Point(0, 0), 3)) == 'Circle(Point2D(0, 0), 3)' and sstr(Ellipse(Point(1, 2), 3, 4)) == 'Ellipse(Point2D(1, 2), 3, 4)'"},"spec":{"lhs":"test_Geometry()","rhs":"test_Geometry produces the expected output","over":{"base":"Any"},"name":"test_Geometry_correct"},"guarantee":"test_Geometry produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Geometry_correct","statement":"Path(test_Geometry(x), test_Geometry produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6ba8d63308bc523"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Geometry","kind":"function","src_hash":"6815e69aa04052b6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sstr(Point(0, 0)) == 'Point2D(0, 0)' and sstr(Circle(Point(0, 0), 3)) == 'Circle(Point2D(0, 0), 3)' and sstr(Ellipse(Point(1, 2), 3, 4)) == 'Ellipse(Point2D(1, 2), 3, 4)' and sstr(Triangle(Point(1, 1), Point(7, 8), Point(0, -1))) == 'Triangle(Point2D(1, 1), Point2D(7, 8), Point2D(0, -1))' and sstr(Polygon(Point(5, 6), Point(-2, -3), Point(0, 0), Point(4, 7))) == 'Polygon(Point2D(5, 6), Point2D(-2, -3), Point2D(0, 0), Point2D(4, 7))' and sstr(Triangle(Point(0, 0), Point(1, 0), Point(0, 1)), sympy_integers=True) == 'Triangle(Point2D(S(0), S(0)), Point2D(S(1), S(0)), Point2D(S(0), S(1)))' and sstr(Ellipse(Point(1, 2), 3, 4), sympy_integers=True) == 'Ellipse(Point2D(S(1), S(2)), S(3), S(4))'"},"spec":{"lhs":"test_Geometry()","rhs":"sstr(Point(0, 0)) == 'Point2D(0, 0)' and sstr(Circle(Point(0, 0), 3)) == 'Circle(Point2D(0, 0), 3)' and sstr(Ellipse(Point(1, 2), 3, 4)) == 'Ellipse(Point2D(1, 2), 3, 4)' and sstr(Triangle(Point(1, 1), Point(7, 8), Point(0, -1))) == 'Triangle(Point2D(1, 1), Point2D(7, 8), Point2D(0, -1))' and sstr(Polygon(Point(5, 6), Point(-2, -3), Point(0, 0), Point(4, 7))) == 'Polygon(Point2D(5, 6), Point2D(-2, -3), Point2D(0, 0), Point2D(4, 7))' and sstr(Triangle(Point(0, 0), Point(1, 0), Point(0, 1)), sympy_integers=True) == 'Triangle(Point2D(S(0), S(0)), Point2D(S(1), S(0)), Point2D(S(0), S(1)))' and sstr(Ellipse(Point(1, 2), 3, 4), sympy_integers=True) == 'Ellipse(Point2D(S(1), S(2)), S(3), S(4))'","over":{"base":"Any"},"name":"test_Geometry_correct"},"guarantee":"sstr(Point(0, 0)) == 'Point2D(0, 0)'; sstr(Circle(Point(0, 0), 3)) == 'Circle(Point2D(0, 0), 3)'; sstr(Ellipse(Point(1, 2), 3, 4)) == 'Ellipse(Point2D(1, 2), 3, 4)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Geometry_correct","statement":"Path(test_Geometry(x), sstr(Point(0, 0)) == 'Point2D(0, 0)'; sstr(Circle(Point(0, 0), 3)) == 'Circle(Point2D(0, 0), 3)'; sstr(Ellipse(Point(1, 2), 3, 4)) == 'Ellipse(Point2D(1, 2), 3, 4)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f24fe4c09cb72dff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sstr(Point(0, 0)) == 'Point2D(0, 0)'","sstr(Circle(Point(0, 0), 3)) == 'Circle(Point2D(0, 0), 3)'","sstr(Ellipse(Point(1, 2), 3, 4)) == 'Ellipse(Point2D(1, 2), 3, 4)'","sstr(Triangle(Point(1, 1), Point(7, 8), Point(0, -1))) == 'Triangle(Point2D(1, 1), Point2D(7, 8), Point2D(0, -1))'","sstr(Polygon(Point(5, 6), Point(-2, -3), Point(0, 0), Point(4, 7))) == 'Polygon(Point2D(5, 6), Point2D(-2, -3), Point2D(0, 0), Point2D(4, 7))'","sstr(Triangle(Point(0, 0), Point(1, 0), Point(0, 1)), sympy_integers=True) == 'Triangle(Point2D(S(0), S(0)), Point2D(S(1), S(0)), Point2D(S(0), S(1)))'","sstr(Ellipse(Point(1, 2), 3, 4), sympy_integers=True) == 'Ellipse(Point2D(S(1), S(2)), S(3), S(4))'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Geometry():
     assert sstr(Point(0, 0)) == 'Point2D(0, 0)'
     assert sstr(Circle(Point(0, 0), 3)) == 'Circle(Point2D(0, 0), 3)'
@@ -349,93 +451,133 @@ def test_Geometry():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_GoldenRatio(), test_GoldenRatio produces the expected output) over Any ║
+# ║ Path(test_GoldenRatio(), str(GoldenRatio) == 'GoldenRatio') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_GoldenRatio : Any → {Any | str(GoldenRatio) == '...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(GoldenRatio) == 'GoldenRatio'              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_GoldenRatio : Any → {Any | result satisfies: str...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 739f41130de24155  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7bf0036a6a67c350  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_GoldenRatio","kind":"function","src_hash":"25f840c71f0b5c33","in":{"base":"Any"},"out":{"base":"Any","pred":"str(GoldenRatio) == 'GoldenRatio'"},"spec":{"lhs":"test_GoldenRatio()","rhs":"test_GoldenRatio produces the expected output","over":{"base":"Any"},"name":"test_GoldenRatio_correct"},"guarantee":"test_GoldenRatio produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_GoldenRatio_correct","statement":"Path(test_GoldenRatio(x), test_GoldenRatio produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"739f41130de24155"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_GoldenRatio","kind":"function","src_hash":"25f840c71f0b5c33","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(GoldenRatio) == 'GoldenRatio'"},"spec":{"lhs":"test_GoldenRatio()","rhs":"str(GoldenRatio) == 'GoldenRatio'","over":{"base":"Any"},"name":"test_GoldenRatio_correct"},"guarantee":"str(GoldenRatio) == 'GoldenRatio'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_GoldenRatio_correct","statement":"Path(test_GoldenRatio(x), str(GoldenRatio) == 'GoldenRatio')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7bf0036a6a67c350","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(GoldenRatio) == 'GoldenRatio'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_GoldenRatio():
     assert str(GoldenRatio) == "GoldenRatio"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Heaviside(), test_Heaviside produces the expected output) over Any ║
+# ║ Path(test_Heaviside(), str(Heaviside(x)) == str(Heaviside(x, S.Half)) == 'Heaviside(x)' and str(Heaviside(x, 1)) == 'Heaviside(x, 1)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Heaviside : Any → {Any | str(Heaviside(x)) == st...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(Heaviside(x)) == str(Heaviside(x, S.H...   ║
+# ║   ensures:  str(Heaviside(x, 1)) == 'Heaviside(x, 1)'      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Heaviside : Any → {Any | result satisfies: str(H...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d4eabe6cc14554c4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf2572f29cae799d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Heaviside","kind":"function","src_hash":"840409410e3eda3f","in":{"base":"Any"},"out":{"base":"Any","pred":"str(Heaviside(x)) == str(Heaviside(x, S.Half)) == 'Heaviside(x)' and str(Heaviside(x, 1)) == 'Heaviside(x, 1)'"},"spec":{"lhs":"test_Heaviside()","rhs":"test_Heaviside produces the expected output","over":{"base":"Any"},"name":"test_Heaviside_correct"},"guarantee":"test_Heaviside produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Heaviside_correct","statement":"Path(test_Heaviside(x), test_Heaviside produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4eabe6cc14554c4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Heaviside","kind":"function","src_hash":"840409410e3eda3f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(Heaviside(x)) == str(Heaviside(x, S.Half)) == 'Heaviside(x)' and str(Heaviside(x, 1)) == 'Heaviside(x, 1)'"},"spec":{"lhs":"test_Heaviside()","rhs":"str(Heaviside(x)) == str(Heaviside(x, S.Half)) == 'Heaviside(x)' and str(Heaviside(x, 1)) == 'Heaviside(x, 1)'","over":{"base":"Any"},"name":"test_Heaviside_correct"},"guarantee":"str(Heaviside(x)) == str(Heaviside(x, S.Half)) == 'Heaviside(x)'; str(Heaviside(x, 1)) == 'Heaviside(x, 1)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Heaviside_correct","statement":"Path(test_Heaviside(x), str(Heaviside(x)) == str(Heaviside(x, S.Half)) == 'Heaviside(x)'; str(Heaviside(x, 1)) == 'Heaviside(x, 1)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf2572f29cae799d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(Heaviside(x)) == str(Heaviside(x, S.Half)) == 'Heaviside(x)'","str(Heaviside(x, 1)) == 'Heaviside(x, 1)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Heaviside():
     assert str(Heaviside(x)) == str(Heaviside(x, S.Half)) == "Heaviside(x)"
     assert str(Heaviside(x, 1)) == "Heaviside(x, 1)"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_TribonacciConstant(), test_TribonacciConstant produces the expected output) over Any ║
+# ║ Path(test_TribonacciConstant(), str(TribonacciConstant) == 'TribonacciConstant') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_TribonacciConstant : Any → {Any | str(Tribonacci...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(TribonacciConstant) == 'TribonacciCon...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_TribonacciConstant : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88eba5c19dbfd2c4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f4f12224da54b7f9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_TribonacciConstant","kind":"function","src_hash":"0d3650914c569365","in":{"base":"Any"},"out":{"base":"Any","pred":"str(TribonacciConstant) == 'TribonacciConstant'"},"spec":{"lhs":"test_TribonacciConstant()","rhs":"test_TribonacciConstant produces the expected output","over":{"base":"Any"},"name":"test_TribonacciConstant_correct"},"guarantee":"test_TribonacciConstant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_TribonacciConstant_correct","statement":"Path(test_TribonacciConstant(x), test_TribonacciConstant produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88eba5c19dbfd2c4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_TribonacciConstant","kind":"function","src_hash":"0d3650914c569365","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(TribonacciConstant) == 'TribonacciConstant'"},"spec":{"lhs":"test_TribonacciConstant()","rhs":"str(TribonacciConstant) == 'TribonacciConstant'","over":{"base":"Any"},"name":"test_TribonacciConstant_correct"},"guarantee":"str(TribonacciConstant) == 'TribonacciConstant'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_TribonacciConstant_correct","statement":"Path(test_TribonacciConstant(x), str(TribonacciConstant) == 'TribonacciConstant')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4f12224da54b7f9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(TribonacciConstant) == 'TribonacciConstant'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_TribonacciConstant():
     assert str(TribonacciConstant) == "TribonacciConstant"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ImaginaryUnit(), test_ImaginaryUnit produces the expected output) over Any ║
+# ║ Path(test_ImaginaryUnit(), str(I) == 'I') over Any         ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ImaginaryUnit : Any → {Any | str(I) == 'I'}           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(I) == 'I'                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ImaginaryUnit : Any → {Any | result satisfies: s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37d662bb0c2f2636  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93cecca8cad60a66  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_ImaginaryUnit","kind":"function","src_hash":"4a0de591c05cc5a8","in":{"base":"Any"},"out":{"base":"Any","pred":"str(I) == 'I'"},"spec":{"lhs":"test_ImaginaryUnit()","rhs":"test_ImaginaryUnit produces the expected output","over":{"base":"Any"},"name":"test_ImaginaryUnit_correct"},"guarantee":"test_ImaginaryUnit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_ImaginaryUnit_correct","statement":"Path(test_ImaginaryUnit(x), test_ImaginaryUnit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37d662bb0c2f2636"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_ImaginaryUnit","kind":"function","src_hash":"4a0de591c05cc5a8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(I) == 'I'"},"spec":{"lhs":"test_ImaginaryUnit()","rhs":"str(I) == 'I'","over":{"base":"Any"},"name":"test_ImaginaryUnit_correct"},"guarantee":"str(I) == 'I'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_ImaginaryUnit_correct","statement":"Path(test_ImaginaryUnit(x), str(I) == 'I')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93cecca8cad60a66","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(I) == 'I'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_ImaginaryUnit():
     assert str(I) == "I"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Infinity(), test_Infinity produces the expected output) over Any ║
+# ║ Path(test_Infinity(), str(oo) == 'oo' and str(oo * I) == 'oo*I') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Infinity : Any → {Any | str(oo) == 'oo' and str(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(oo) == 'oo'                                ║
+# ║   ensures:  str(oo * I) == 'oo*I'                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Infinity : Any → {Any | result satisfies: str(oo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c10ba27d9f87543e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 582da6f5666ab612  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Infinity","kind":"function","src_hash":"92e00f6e748b1a02","in":{"base":"Any"},"out":{"base":"Any","pred":"str(oo) == 'oo' and str(oo * I) == 'oo*I'"},"spec":{"lhs":"test_Infinity()","rhs":"test_Infinity produces the expected output","over":{"base":"Any"},"name":"test_Infinity_correct"},"guarantee":"test_Infinity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Infinity_correct","statement":"Path(test_Infinity(x), test_Infinity produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c10ba27d9f87543e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Infinity","kind":"function","src_hash":"92e00f6e748b1a02","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(oo) == 'oo' and str(oo * I) == 'oo*I'"},"spec":{"lhs":"test_Infinity()","rhs":"str(oo) == 'oo' and str(oo * I) == 'oo*I'","over":{"base":"Any"},"name":"test_Infinity_correct"},"guarantee":"str(oo) == 'oo'; str(oo * I) == 'oo*I'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Infinity_correct","statement":"Path(test_Infinity(x), str(oo) == 'oo'; str(oo * I) == 'oo*I')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"582da6f5666ab612","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(oo) == 'oo'","str(oo * I) == 'oo*I'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Infinity():
     assert str(oo) == "oo"
     assert str(oo*I) == "oo*I"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Integer(), test_Integer produces the expected output) over Any ║
+# ║ Path(test_Integer(), str(Integer(-1)) == '-1' and str(Integer(1)) == '1' and str(Integer(-3)) == '-3' and str(Integer(0)) == '0' and str(Integer(25)) == '25') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Integer : Any → {Any | str(Integer(-1)) == '-1' ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(Integer(-1)) == '-1'                       ║
+# ║   ensures:  str(Integer(1)) == '1'                         ║
+# ║   ensures:  str(Integer(-3)) == '-3'                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Integer : Any → {Any | result satisfies: str(Int...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d1f2190bd21bbe9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fab07246b1dd63bc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Integer","kind":"function","src_hash":"9d0a1bd97f3ec939","in":{"base":"Any"},"out":{"base":"Any","pred":"str(Integer(-1)) == '-1' and str(Integer(1)) == '1' and str(Integer(-3)) == '-3' and str(Integer(0)) == '0' and str(Integer(25)) == '25'"},"spec":{"lhs":"test_Integer()","rhs":"test_Integer produces the expected output","over":{"base":"Any"},"name":"test_Integer_correct"},"guarantee":"test_Integer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Integer_correct","statement":"Path(test_Integer(x), test_Integer produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d1f2190bd21bbe9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Integer","kind":"function","src_hash":"9d0a1bd97f3ec939","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(Integer(-1)) == '-1' and str(Integer(1)) == '1' and str(Integer(-3)) == '-3' and str(Integer(0)) == '0' and str(Integer(25)) == '25'"},"spec":{"lhs":"test_Integer()","rhs":"str(Integer(-1)) == '-1' and str(Integer(1)) == '1' and str(Integer(-3)) == '-3' and str(Integer(0)) == '0' and str(Integer(25)) == '25'","over":{"base":"Any"},"name":"test_Integer_correct"},"guarantee":"str(Integer(-1)) == '-1'; str(Integer(1)) == '1'; str(Integer(-3)) == '-3'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Integer_correct","statement":"Path(test_Integer(x), str(Integer(-1)) == '-1'; str(Integer(1)) == '1'; str(Integer(-3)) == '-3')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fab07246b1dd63bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(Integer(-1)) == '-1'","str(Integer(1)) == '1'","str(Integer(-3)) == '-3'","str(Integer(0)) == '0'","str(Integer(25)) == '25'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Integer():
     assert str(Integer(-1)) == "-1"
     assert str(Integer(1)) == "1"
@@ -445,32 +587,45 @@ def test_Integer():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Integral(), test_Integral produces the expected output) over Any ║
+# ║ Path(test_Integral(), str(Integral(sin(x), y)) == 'Integral(sin(x), y)' and str(Integral(sin(x), (y, 0, 1))) == 'Integral(sin(x), (y, 0, 1))') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Integral : Any → {Any | str(Integral(sin(x), y))...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(Integral(sin(x), y)) == 'Integral(sin...   ║
+# ║   ensures:  str(Integral(sin(x), (y, 0, 1))) == 'Inte...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Integral : Any → {Any | result satisfies: str(In...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de6227e7d4ee4a1a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 573ffaccde150652  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Integral","kind":"function","src_hash":"ef294a7d91ac35b9","in":{"base":"Any"},"out":{"base":"Any","pred":"str(Integral(sin(x), y)) == 'Integral(sin(x), y)' and str(Integral(sin(x), (y, 0, 1))) == 'Integral(sin(x), (y, 0, 1))'"},"spec":{"lhs":"test_Integral()","rhs":"test_Integral produces the expected output","over":{"base":"Any"},"name":"test_Integral_correct"},"guarantee":"test_Integral produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Integral_correct","statement":"Path(test_Integral(x), test_Integral produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de6227e7d4ee4a1a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Integral","kind":"function","src_hash":"ef294a7d91ac35b9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(Integral(sin(x), y)) == 'Integral(sin(x), y)' and str(Integral(sin(x), (y, 0, 1))) == 'Integral(sin(x), (y, 0, 1))'"},"spec":{"lhs":"test_Integral()","rhs":"str(Integral(sin(x), y)) == 'Integral(sin(x), y)' and str(Integral(sin(x), (y, 0, 1))) == 'Integral(sin(x), (y, 0, 1))'","over":{"base":"Any"},"name":"test_Integral_correct"},"guarantee":"str(Integral(sin(x), y)) == 'Integral(sin(x), y)'; str(Integral(sin(x), (y, 0, 1))) == 'Integral(sin(x), (y, 0, 1))'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Integral_correct","statement":"Path(test_Integral(x), str(Integral(sin(x), y)) == 'Integral(sin(x), y)'; str(Integral(sin(x), (y, 0, 1))) == 'Integral(sin(x), (y, 0, 1))')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"573ffaccde150652","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(Integral(sin(x), y)) == 'Integral(sin(x), y)'","str(Integral(sin(x), (y, 0, 1))) == 'Integral(sin(x), (y, 0, 1))'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Integral():
     assert str(Integral(sin(x), y)) == "Integral(sin(x), y)"
     assert str(Integral(sin(x), (y, 0, 1))) == "Integral(sin(x), (y, 0, 1))"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Interval(), test_Interval produces the expected output) over Any ║
+# ║ Path(test_Interval(), <unspecified:test_Interval>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Interval : Any → {Any | S(str(ival)) == ival}         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b62a318f7d9fac00  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Interval","kind":"function","src_hash":"05625ef250ab7fbd","in":{"base":"Any"},"out":{"base":"Any","pred":"S(str(ival)) == ival"},"spec":{"lhs":"test_Interval()","rhs":"test_Interval produces the expected output","over":{"base":"Any"},"name":"test_Interval_correct"},"guarantee":"test_Interval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Interval_correct","statement":"Path(test_Interval(x), test_Interval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b62a318f7d9fac00"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Interval","kind":"function","src_hash":"05625ef250ab7fbd","in":{"base":"Any"},"out":{"base":"Any","pred":"S(str(ival)) == ival"},"spec":{"lhs":"test_Interval()","rhs":"<unspecified:test_Interval>","over":{"base":"Any"},"name":"test_Interval_correct"},"guarantee":"test_Interval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Interval_correct","statement":"Path(test_Interval(x), test_Interval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b62a318f7d9fac00","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Interval():
     n = (S.NegativeInfinity, 1, 2, S.Infinity)
     for i in range(len(n)):
@@ -482,16 +637,23 @@ def test_Interval():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_AccumBounds(), test_AccumBounds produces the expected output) over Any ║
+# ║ Path(test_AccumBounds(), str(AccumBounds(0, a)) == 'AccumBounds(0, a)' and str(AccumBounds(0, 1)) == 'AccumBounds(0, 1)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_AccumBounds : Any → {Any | str(AccumBounds(0, a)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(AccumBounds(0, a)) == 'AccumBounds(0,...   ║
+# ║   ensures:  str(AccumBounds(0, 1)) == 'AccumBounds(0,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_AccumBounds : Any → {Any | result satisfies: str...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1344474d30910c4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e8503bb5b55963c1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_AccumBounds","kind":"function","src_hash":"b8234d33d5bcfdb7","in":{"base":"Any"},"out":{"base":"Any","pred":"str(AccumBounds(0, a)) == 'AccumBounds(0, a)' and str(AccumBounds(0, 1)) == 'AccumBounds(0, 1)'"},"spec":{"lhs":"test_AccumBounds()","rhs":"test_AccumBounds produces the expected output","over":{"base":"Any"},"name":"test_AccumBounds_correct"},"guarantee":"test_AccumBounds produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_AccumBounds_correct","statement":"Path(test_AccumBounds(x), test_AccumBounds produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1344474d30910c4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_AccumBounds","kind":"function","src_hash":"b8234d33d5bcfdb7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(AccumBounds(0, a)) == 'AccumBounds(0, a)' and str(AccumBounds(0, 1)) == 'AccumBounds(0, 1)'"},"spec":{"lhs":"test_AccumBounds()","rhs":"str(AccumBounds(0, a)) == 'AccumBounds(0, a)' and str(AccumBounds(0, 1)) == 'AccumBounds(0, 1)'","over":{"base":"Any"},"name":"test_AccumBounds_correct"},"guarantee":"str(AccumBounds(0, a)) == 'AccumBounds(0, a)'; str(AccumBounds(0, 1)) == 'AccumBounds(0, 1)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_AccumBounds_correct","statement":"Path(test_AccumBounds(x), str(AccumBounds(0, a)) == 'AccumBounds(0, a)'; str(AccumBounds(0, 1)) == 'AccumBounds(0, 1)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8503bb5b55963c1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(AccumBounds(0, a)) == 'AccumBounds(0, a)'","str(AccumBounds(0, 1)) == 'AccumBounds(0, 1)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_AccumBounds():
     a = Symbol('a', real=True)
     assert str(AccumBounds(0, a)) == "AccumBounds(0, a)"
@@ -499,16 +661,24 @@ def test_AccumBounds():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Lambda(), test_Lambda produces the expected output) over Any ║
+# ║ Path(test_Lambda(), str(Lambda(d, d ** 2)) == 'Lambda(_d, _d**2)' and str(Lambda((), 1)) == 'Lambda((), 1)' and str(Lambda((), x)) == 'Lambda((), x)' and str(Lambda((x, y), x + y)) == 'Lambda((x, y), x + y)' and str(Lambda(((x, y),), x + y)) == 'Lambda(((x, y),), x + y)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Lambda : Any → {Any | str(Lambda(d, d ** 2)) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(Lambda(d, d ** 2)) == 'Lambda(_d, _d*...   ║
+# ║   ensures:  str(Lambda((), 1)) == 'Lambda((), 1)'          ║
+# ║   ensures:  str(Lambda((), x)) == 'Lambda((), x)'          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Lambda : Any → {Any | result satisfies: str(Lamb...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f69ad978e8003f1d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4d677a90c65df901  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Lambda","kind":"function","src_hash":"9f00e5a6b0852f45","in":{"base":"Any"},"out":{"base":"Any","pred":"str(Lambda(d, d ** 2)) == 'Lambda(_d, _d**2)' and str(Lambda((), 1)) == 'Lambda((), 1)' and str(Lambda((), x)) == 'Lambda((), x)' and str(Lambda((x, y), x + y)) == 'Lambda((x, y), x + y)' and str(Lambda(((x, y),), x + y)) == 'Lambda(((x, y),), x + y)'"},"spec":{"lhs":"test_Lambda()","rhs":"test_Lambda produces the expected output","over":{"base":"Any"},"name":"test_Lambda_correct"},"guarantee":"test_Lambda produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Lambda_correct","statement":"Path(test_Lambda(x), test_Lambda produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f69ad978e8003f1d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Lambda","kind":"function","src_hash":"9f00e5a6b0852f45","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(Lambda(d, d ** 2)) == 'Lambda(_d, _d**2)' and str(Lambda((), 1)) == 'Lambda((), 1)' and str(Lambda((), x)) == 'Lambda((), x)' and str(Lambda((x, y), x + y)) == 'Lambda((x, y), x + y)' and str(Lambda(((x, y),), x + y)) == 'Lambda(((x, y),), x + y)'"},"spec":{"lhs":"test_Lambda()","rhs":"str(Lambda(d, d ** 2)) == 'Lambda(_d, _d**2)' and str(Lambda((), 1)) == 'Lambda((), 1)' and str(Lambda((), x)) == 'Lambda((), x)' and str(Lambda((x, y), x + y)) == 'Lambda((x, y), x + y)' and str(Lambda(((x, y),), x + y)) == 'Lambda(((x, y),), x + y)'","over":{"base":"Any"},"name":"test_Lambda_correct"},"guarantee":"str(Lambda(d, d ** 2)) == 'Lambda(_d, _d**2)'; str(Lambda((), 1)) == 'Lambda((), 1)'; str(Lambda((), x)) == 'Lambda((), x)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Lambda_correct","statement":"Path(test_Lambda(x), str(Lambda(d, d ** 2)) == 'Lambda(_d, _d**2)'; str(Lambda((), 1)) == 'Lambda((), 1)'; str(Lambda((), x)) == 'Lambda((), x)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d677a90c65df901","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(Lambda(d, d ** 2)) == 'Lambda(_d, _d**2)'","str(Lambda((), 1)) == 'Lambda((), 1)'","str(Lambda((), x)) == 'Lambda((), x)'","str(Lambda((x, y), x + y)) == 'Lambda((x, y), x + y)'","str(Lambda(((x, y),), x + y)) == 'Lambda(((x, y),), x + y)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Lambda():
     assert str(Lambda(d, d**2)) == "Lambda(_d, _d**2)"
     # issue 2908
@@ -519,16 +689,24 @@ def test_Lambda():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Limit(), test_Limit produces the expected output) over Any ║
+# ║ Path(test_Limit(), str(Limit(sin(x) / x, x, y)) == "Limit(sin(x)/x, x, y, dir='+')" and str(Limit(1 / x, x, 0)) == "Limit(1/x, x, 0, dir='+')" and str(Limit(sin(x) / x, x, y, dir='-')) == "Limit(sin(x)/x, x, y, dir='-')") over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Limit : Any → {Any | str(Limit(sin(x) / x, x, y)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(Limit(sin(x) / x, x, y)) == "Limit(si...   ║
+# ║   ensures:  str(Limit(1 / x, x, 0)) == "Limit(1/x, x,...   ║
+# ║   ensures:  str(Limit(sin(x) / x, x, y, dir='-')) == ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Limit : Any → {Any | result satisfies: str(Limit...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5942d75117e77fe4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 537da4cd4f359357  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Limit","kind":"function","src_hash":"06b2647b4607eb09","in":{"base":"Any"},"out":{"base":"Any","pred":"str(Limit(sin(x) / x, x, y)) == \"Limit(sin(x)/x, x, y, dir='+')\" and str(Limit(1 / x, x, 0)) == \"Limit(1/x, x, 0, dir='+')\" and str(Limit(sin(x) / x, x, y, dir='-')) == \"Limit(sin(x)/x, x, y, dir='-')\""},"spec":{"lhs":"test_Limit()","rhs":"test_Limit produces the expected output","over":{"base":"Any"},"name":"test_Limit_correct"},"guarantee":"test_Limit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Limit_correct","statement":"Path(test_Limit(x), test_Limit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5942d75117e77fe4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Limit","kind":"function","src_hash":"06b2647b4607eb09","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(Limit(sin(x) / x, x, y)) == \"Limit(sin(x)/x, x, y, dir='+')\" and str(Limit(1 / x, x, 0)) == \"Limit(1/x, x, 0, dir='+')\" and str(Limit(sin(x) / x, x, y, dir='-')) == \"Limit(sin(x)/x, x, y, dir='-')\""},"spec":{"lhs":"test_Limit()","rhs":"str(Limit(sin(x) / x, x, y)) == \"Limit(sin(x)/x, x, y, dir='+')\" and str(Limit(1 / x, x, 0)) == \"Limit(1/x, x, 0, dir='+')\" and str(Limit(sin(x) / x, x, y, dir='-')) == \"Limit(sin(x)/x, x, y, dir='-')\"","over":{"base":"Any"},"name":"test_Limit_correct"},"guarantee":"str(Limit(sin(x) / x, x, y)) == \"Limit(sin(x)/x, x, y, dir='+')\"; str(Limit(1 / x, x, 0)) == \"Limit(1/x, x, 0, dir='+')\"; str(Limit(sin(x) / x, x, y, dir='-')) == \"Limit(sin(x)/x, x, y, dir='-')\"","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Limit_correct","statement":"Path(test_Limit(x), str(Limit(sin(x) / x, x, y)) == \"Limit(sin(x)/x, x, y, dir='+')\"; str(Limit(1 / x, x, 0)) == \"Limit(1/x, x, 0, dir='+')\"; str(Limit(sin(x) / x, x, y, dir='-')) == \"Limit(sin(x)/x, x, y, dir='-')\")"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"537da4cd4f359357","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(Limit(sin(x) / x, x, y)) == \"Limit(sin(x)/x, x, y, dir='+')\"","str(Limit(1 / x, x, 0)) == \"Limit(1/x, x, 0, dir='+')\"","str(Limit(sin(x) / x, x, y, dir='-')) == \"Limit(sin(x)/x, x, y, dir='-')\""],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Limit():
     assert str(Limit(sin(x)/x, x, y)) == "Limit(sin(x)/x, x, y, dir='+')"
     assert str(Limit(1/x, x, 0)) == "Limit(1/x, x, 0, dir='+')"
@@ -537,16 +715,24 @@ def test_Limit():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_list(), test_list produces the expected output) over Any ║
+# ║ Path(test_list(), str([x]) == sstr([x]) == '[x]' and str([x ** 2, x * y + 1]) == sstr([x ** 2, x * y + 1]) == '[x**2, x*y + 1]' and str([x ** 2, [y + x]]) == sstr([x ** 2, [y + x]]) == '[x**2, [x + y]]') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_list : Any → {Any | str([x]) == sstr([x]) == '[x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str([x]) == sstr([x]) == '[x]'                 ║
+# ║   ensures:  str([x ** 2, x * y + 1]) == sstr([x ** 2,...   ║
+# ║   ensures:  str([x ** 2, [y + x]]) == sstr([x ** 2, [...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_list : Any → {Any | result satisfies: str([x]) =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a5f35b62700cf31  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2160b47089b7f163  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_list","kind":"function","src_hash":"ae9aae0c85d35829","in":{"base":"Any"},"out":{"base":"Any","pred":"str([x]) == sstr([x]) == '[x]' and str([x ** 2, x * y + 1]) == sstr([x ** 2, x * y + 1]) == '[x**2, x*y + 1]' and str([x ** 2, [y + x]]) == sstr([x ** 2, [y + x]]) == '[x**2, [x + y]]'"},"spec":{"lhs":"test_list()","rhs":"test_list produces the expected output","over":{"base":"Any"},"name":"test_list_correct"},"guarantee":"test_list produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_list_correct","statement":"Path(test_list(x), test_list produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a5f35b62700cf31"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_list","kind":"function","src_hash":"ae9aae0c85d35829","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str([x]) == sstr([x]) == '[x]' and str([x ** 2, x * y + 1]) == sstr([x ** 2, x * y + 1]) == '[x**2, x*y + 1]' and str([x ** 2, [y + x]]) == sstr([x ** 2, [y + x]]) == '[x**2, [x + y]]'"},"spec":{"lhs":"test_list()","rhs":"str([x]) == sstr([x]) == '[x]' and str([x ** 2, x * y + 1]) == sstr([x ** 2, x * y + 1]) == '[x**2, x*y + 1]' and str([x ** 2, [y + x]]) == sstr([x ** 2, [y + x]]) == '[x**2, [x + y]]'","over":{"base":"Any"},"name":"test_list_correct"},"guarantee":"str([x]) == sstr([x]) == '[x]'; str([x ** 2, x * y + 1]) == sstr([x ** 2, x * y + 1]) == '[x**2, x*y + 1]'; str([x ** 2, [y + x]]) == sstr([x ** 2, [y + x]]) == '[x**2, [x + y]]'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_list_correct","statement":"Path(test_list(x), str([x]) == sstr([x]) == '[x]'; str([x ** 2, x * y + 1]) == sstr([x ** 2, x * y + 1]) == '[x**2, x*y + 1]'; str([x ** 2, [y + x]]) == sstr([x ** 2, [y + x]]) == '[x**2, [x + y]]')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2160b47089b7f163","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str([x]) == sstr([x]) == '[x]'","str([x ** 2, x * y + 1]) == sstr([x ** 2, x * y + 1]) == '[x**2, x*y + 1]'","str([x ** 2, [y + x]]) == sstr([x ** 2, [y + x]]) == '[x**2, [x + y]]'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_list():
     assert str([x]) == sstr([x]) == "[x]"
     assert str([x**2, x*y + 1]) == sstr([x**2, x*y + 1]) == "[x**2, x*y + 1]"
@@ -554,16 +740,24 @@ def test_list():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Matrix_str(), test_Matrix_str produces the expected output) over Any ║
+# ║ Path(test_Matrix_str(), str(M) == 'Matrix([[x, 1], [y, x + y]])' and sstr(M) == 'Matrix([\n[x,     1],\n[y, x + y]])' and str(M) == sstr(M) == 'Matrix([[1]])' and str(M) == sstr(M) == 'Matrix([[1, 2]])' and str(M) == sstr(M) == 'Matrix(0, 0, [])' and str(M) == sstr(M) == 'Matrix(0, 1, [])') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Matrix_str : Any → {Any | str(M) == 'Matrix([[x,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(M) == 'Matrix([[x, 1], [y, x + y]])'       ║
+# ║   ensures:  sstr(M) == 'Matrix([\n[x,     1],\n[y, x ...   ║
+# ║   ensures:  str(M) == sstr(M) == 'Matrix([[1]])'           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Matrix_str : Any → {Any | result satisfies: str(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c04ba8ba44bac2ee  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d599668e337dca55  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Matrix_str","kind":"function","src_hash":"20d7dc4a1d662a18","in":{"base":"Any"},"out":{"base":"Any","pred":"str(M) == 'Matrix([[x, 1], [y, x + y]])' and sstr(M) == 'Matrix([\\n[x,     1],\\n[y, x + y]])' and str(M) == sstr(M) == 'Matrix([[1]])' and str(M) == sstr(M) == 'Matrix([[1, 2]])' and str(M) == sstr(M) == 'Matrix(0, 0, [])' and str(M) == sstr(M) == 'Matrix(0, 1, [])'"},"spec":{"lhs":"test_Matrix_str()","rhs":"test_Matrix_str produces the expected output","over":{"base":"Any"},"name":"test_Matrix_str_correct"},"guarantee":"test_Matrix_str produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Matrix_str_correct","statement":"Path(test_Matrix_str(x), test_Matrix_str produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c04ba8ba44bac2ee"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Matrix_str","kind":"function","src_hash":"20d7dc4a1d662a18","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(M) == 'Matrix([[x, 1], [y, x + y]])' and sstr(M) == 'Matrix([\\n[x,     1],\\n[y, x + y]])' and str(M) == sstr(M) == 'Matrix([[1]])' and str(M) == sstr(M) == 'Matrix([[1, 2]])' and str(M) == sstr(M) == 'Matrix(0, 0, [])' and str(M) == sstr(M) == 'Matrix(0, 1, [])'"},"spec":{"lhs":"test_Matrix_str()","rhs":"str(M) == 'Matrix([[x, 1], [y, x + y]])' and sstr(M) == 'Matrix([\\n[x,     1],\\n[y, x + y]])' and str(M) == sstr(M) == 'Matrix([[1]])' and str(M) == sstr(M) == 'Matrix([[1, 2]])' and str(M) == sstr(M) == 'Matrix(0, 0, [])' and str(M) == sstr(M) == 'Matrix(0, 1, [])'","over":{"base":"Any"},"name":"test_Matrix_str_correct"},"guarantee":"str(M) == 'Matrix([[x, 1], [y, x + y]])'; sstr(M) == 'Matrix([\\n[x,     1],\\n[y, x + y]])'; str(M) == sstr(M) == 'Matrix([[1]])'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Matrix_str_correct","statement":"Path(test_Matrix_str(x), str(M) == 'Matrix([[x, 1], [y, x + y]])'; sstr(M) == 'Matrix([\\n[x,     1],\\n[y, x + y]])'; str(M) == sstr(M) == 'Matrix([[1]])')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d599668e337dca55","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(M) == 'Matrix([[x, 1], [y, x + y]])'","sstr(M) == 'Matrix([\\n[x,     1],\\n[y, x + y]])'","str(M) == sstr(M) == 'Matrix([[1]])'","str(M) == sstr(M) == 'Matrix([[1, 2]])'","str(M) == sstr(M) == 'Matrix(0, 0, [])'","str(M) == sstr(M) == 'Matrix(0, 1, [])'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Matrix_str():
     M = Matrix([[x**+1, 1], [y, x + y]])
     assert str(M) == "Matrix([[x, 1], [y, x + y]])"
@@ -579,16 +773,24 @@ def test_Matrix_str():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Mul(), test_Mul produces the expected output) over Any ║
+# ║ Path(test_Mul(), str(x / y) == 'x/y' and str(y / x) == 'y/x' and str(x / y / z) == 'x/(y*z)' and str((x + 1) / (y + 2)) == '(x + 1)/(y + 2)' and str(2 * x / 3) == '2*x/3' and str(-2 * x / 3) == '-2*x/3' and str(-1.0 * x) == '-1.0*x' and str(1.0 * x) == '1.0*x' and str(Mul(0, 1, evaluate=False)) == '0*1' and str(Mul(1, 0, evaluate=False)) == '1*0' and str(Mul(1, 1, evaluate=False)) == '1*1' and str(Mul(1, 1, 1, evaluate=False)) == '1*1*1' and str(Mul(1, 2, evaluate=False)) == '1*2' and str(Mul(1, S.Half, evaluate=False)) == '1*(1/2)' and str(Mul(1, 1, S.Half, evaluate=False)) == '1*1*(1/2)' and str(Mul(1, 1, 2, 3, x, evaluate=False)) == '1*1*2*3*x' and str(Mul(1, -1, evaluate=False)) == '1*(-1)' and str(Mul(-1, 1, evaluate=False)) == '-1*1' and str(Mul(4, 3, 2, 1, 0, y, x, evaluate=False)) == '4*3*2*1*0*y*x' and str(Mul(4, 3, 2, 1 + z, 0, y, x, evaluate=False)) == '4*3*2*(z + 1)*0*y*x' and str(Mul(Rational(2, 3), Rational(5, 7), evaluate=False)) == '(2/3)*(5/7)' and str(Mul(-2, x, Pow(Mul(y, y, evaluate=False), -1, evaluate=False), evaluate=False)) == '-2*x/(y*y)' and str(Mul(x, Pow(1 / y, -1, evaluate=False), evaluate=False)) == 'x/(1/y)' and str(Rational(2) * cc1) == '2*CustomClass1()' and str(cc1 * Rational(2)) == '2*CustomClass1()' and str(cc1 * Float('1.5')) == '1.5*CustomClass1()' and str(cc2 * Rational(2)) == '2*CustomClass2()' and str(cc2 * Rational(2) * cc1) == '2*CustomClass1()*CustomClass2()' and str(cc1 * Rational(2) * cc2) == '2*CustomClass1()*CustomClass2()') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Mul : Any → {Any | str(x / y) == 'x/y' and str(y...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(x / y) == 'x/y'                            ║
+# ║   ensures:  str(y / x) == 'y/x'                            ║
+# ║   ensures:  str(x / y / z) == 'x/(y*z)'                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Mul : Any → {Any | result satisfies: str(x / y) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 74cd104448d474eb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13e2fe234fda0e29  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Mul","kind":"function","src_hash":"aea05cee945811db","in":{"base":"Any"},"out":{"base":"Any","pred":"str(x / y) == 'x/y' and str(y / x) == 'y/x' and str(x / y / z) == 'x/(y*z)' and str((x + 1) / (y + 2)) == '(x + 1)/(y + 2)' and str(2 * x / 3) == '2*x/3' and str(-2 * x / 3) == '-2*x/3' and str(-1.0 * x) == '-1.0*x' and str(1.0 * x) == '1.0*x' and str(Mul(0, 1, evaluate=False)) == '0*1' and str(Mul(1, 0, evaluate=False)) == '1*0' and str(Mul(1, 1, evaluate=False)) == '1*1' and str(Mul(1, 1, 1, evaluate=False)) == '1*1*1' and str(Mul(1, 2, evaluate=False)) == '1*2' and str(Mul(1, S.Half, evaluate=False)) == '1*(1/2)' and str(Mul(1, 1, S.Half, evaluate=False)) == '1*1*(1/2)' and str(Mul(1, 1, 2, 3, x, evaluate=False)) == '1*1*2*3*x' and str(Mul(1, -1, evaluate=False)) == '1*(-1)' and str(Mul(-1, 1, evaluate=False)) == '-1*1' and str(Mul(4, 3, 2, 1, 0, y, x, evaluate=False)) == '4*3*2*1*0*y*x' and str(Mul(4, 3, 2, 1 + z, 0, y, x, evaluate=False)) == '4*3*2*(z + 1)*0*y*x' and str(Mul(Rational(2, 3), Rational(5, 7), evaluate=False)) == '(2/3)*(5/7)' and str(Mul(x, Pow(1 / y, -1, evaluate=False), evaluate=False)) == 'x/(1/y)' and str(Rational(2) * cc1) == '2*CustomClass1()' and str(cc1 * Rational(2)) == '2*CustomClass1()' and str(cc1 * Float('1.5')) == '1.5*CustomClass1()' and str(cc2 * Rational(2)) == '2*CustomClass2()' and str(cc2 * Rational(2) * cc1) == '2*CustomClass1()*CustomClass2()' and str(cc1 * Rational(2) * cc2) == '2*CustomClass1()*CustomClass2()'"},"spec":{"lhs":"test_Mul()","rhs":"test_Mul produces the expected output","over":{"base":"Any"},"name":"test_Mul_correct"},"guarantee":"test_Mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Mul_correct","statement":"Path(test_Mul(x), test_Mul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"74cd104448d474eb"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Mul","kind":"function","src_hash":"aea05cee945811db","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(x / y) == 'x/y' and str(y / x) == 'y/x' and str(x / y / z) == 'x/(y*z)' and str((x + 1) / (y + 2)) == '(x + 1)/(y + 2)' and str(2 * x / 3) == '2*x/3' and str(-2 * x / 3) == '-2*x/3' and str(-1.0 * x) == '-1.0*x' and str(1.0 * x) == '1.0*x' and str(Mul(0, 1, evaluate=False)) == '0*1' and str(Mul(1, 0, evaluate=False)) == '1*0' and str(Mul(1, 1, evaluate=False)) == '1*1' and str(Mul(1, 1, 1, evaluate=False)) == '1*1*1' and str(Mul(1, 2, evaluate=False)) == '1*2' and str(Mul(1, S.Half, evaluate=False)) == '1*(1/2)' and str(Mul(1, 1, S.Half, evaluate=False)) == '1*1*(1/2)' and str(Mul(1, 1, 2, 3, x, evaluate=False)) == '1*1*2*3*x' and str(Mul(1, -1, evaluate=False)) == '1*(-1)' and str(Mul(-1, 1, evaluate=False)) == '-1*1' and str(Mul(4, 3, 2, 1, 0, y, x, evaluate=False)) == '4*3*2*1*0*y*x' and str(Mul(4, 3, 2, 1 + z, 0, y, x, evaluate=False)) == '4*3*2*(z + 1)*0*y*x' and str(Mul(Rational(2, 3), Rational(5, 7), evaluate=False)) == '(2/3)*(5/7)' and str(Mul(-2, x, Pow(Mul(y, y, evaluate=False), -1, evaluate=False), evaluate=False)) == '-2*x/(y*y)' and str(Mul(x, Pow(1 / y, -1, evaluate=False), evaluate=False)) == 'x/(1/y)' and str(Rational(2) * cc1) == '2*CustomClass1()' and str(cc1 * Rational(2)) == '2*CustomClass1()' and str(cc1 * Float('1.5')) == '1.5*CustomClass1()' and str(cc2 * Rational(2)) == '2*CustomClass2()' and str(cc2 * Rational(2) * cc1) == '2*CustomClass1()*CustomClass2()' and str(cc1 * Rational(2) * cc2) == '2*CustomClass1()*CustomClass2()'"},"spec":{"lhs":"test_Mul()","rhs":"str(x / y) == 'x/y' and str(y / x) == 'y/x' and str(x / y / z) == 'x/(y*z)' and str((x + 1) / (y + 2)) == '(x + 1)/(y + 2)' and str(2 * x / 3) == '2*x/3' and str(-2 * x / 3) == '-2*x/3' and str(-1.0 * x) == '-1.0*x' and str(1.0 * x) == '1.0*x' and str(Mul(0, 1, evaluate=False)) == '0*1' and str(Mul(1, 0, evaluate=False)) == '1*0' and str(Mul(1, 1, evaluate=False)) == '1*1' and str(Mul(1, 1, 1, evaluate=False)) == '1*1*1' and str(Mul(1, 2, evaluate=False)) == '1*2' and str(Mul(1, S.Half, evaluate=False)) == '1*(1/2)' and str(Mul(1, 1, S.Half, evaluate=False)) == '1*1*(1/2)' and str(Mul(1, 1, 2, 3, x, evaluate=False)) == '1*1*2*3*x' and str(Mul(1, -1, evaluate=False)) == '1*(-1)' and str(Mul(-1, 1, evaluate=False)) == '-1*1' and str(Mul(4, 3, 2, 1, 0, y, x, evaluate=False)) == '4*3*2*1*0*y*x' and str(Mul(4, 3, 2, 1 + z, 0, y, x, evaluate=False)) == '4*3*2*(z + 1)*0*y*x' and str(Mul(Rational(2, 3), Rational(5, 7), evaluate=False)) == '(2/3)*(5/7)' and str(Mul(-2, x, Pow(Mul(y, y, evaluate=False), -1, evaluate=False), evaluate=False)) == '-2*x/(y*y)' and str(Mul(x, Pow(1 / y, -1, evaluate=False), evaluate=False)) == 'x/(1/y)' and str(Rational(2) * cc1) == '2*CustomClass1()' and str(cc1 * Rational(2)) == '2*CustomClass1()' and str(cc1 * Float('1.5')) == '1.5*CustomClass1()' and str(cc2 * Rational(2)) == '2*CustomClass2()' and str(cc2 * Rational(2) * cc1) == '2*CustomClass1()*CustomClass2()' and str(cc1 * Rational(2) * cc2) == '2*CustomClass1()*CustomClass2()'","over":{"base":"Any"},"name":"test_Mul_correct"},"guarantee":"str(x / y) == 'x/y'; str(y / x) == 'y/x'; str(x / y / z) == 'x/(y*z)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Mul_correct","statement":"Path(test_Mul(x), str(x / y) == 'x/y'; str(y / x) == 'y/x'; str(x / y / z) == 'x/(y*z)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13e2fe234fda0e29","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(x / y) == 'x/y'","str(y / x) == 'y/x'","str(x / y / z) == 'x/(y*z)'","str((x + 1) / (y + 2)) == '(x + 1)/(y + 2)'","str(2 * x / 3) == '2*x/3'","str(-2 * x / 3) == '-2*x/3'","str(-1.0 * x) == '-1.0*x'","str(1.0 * x) == '1.0*x'","str(Mul(0, 1, evaluate=False)) == '0*1'","str(Mul(1, 0, evaluate=False)) == '1*0'","str(Mul(1, 1, evaluate=False)) == '1*1'","str(Mul(1, 1, 1, evaluate=False)) == '1*1*1'","str(Mul(1, 2, evaluate=False)) == '1*2'","str(Mul(1, S.Half, evaluate=False)) == '1*(1/2)'","str(Mul(1, 1, S.Half, evaluate=False)) == '1*1*(1/2)'","str(Mul(1, 1, 2, 3, x, evaluate=False)) == '1*1*2*3*x'","str(Mul(1, -1, evaluate=False)) == '1*(-1)'","str(Mul(-1, 1, evaluate=False)) == '-1*1'","str(Mul(4, 3, 2, 1, 0, y, x, evaluate=False)) == '4*3*2*1*0*y*x'","str(Mul(4, 3, 2, 1 + z, 0, y, x, evaluate=False)) == '4*3*2*(z + 1)*0*y*x'","str(Mul(Rational(2, 3), Rational(5, 7), evaluate=False)) == '(2/3)*(5/7)'","str(Mul(-2, x, Pow(Mul(y, y, evaluate=False), -1, evaluate=False), evaluate=False)) == '-2*x/(y*y)'","str(Mul(x, Pow(1 / y, -1, evaluate=False), evaluate=False)) == 'x/(1/y)'","str(Rational(2) * cc1) == '2*CustomClass1()'","str(cc1 * Rational(2)) == '2*CustomClass1()'","str(cc1 * Float('1.5')) == '1.5*CustomClass1()'","str(cc2 * Rational(2)) == '2*CustomClass2()'","str(cc2 * Rational(2) * cc1) == '2*CustomClass1()*CustomClass2()'","str(cc1 * Rational(2) * cc2) == '2*CustomClass1()*CustomClass2()'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_Mul():
     assert str(x/y) == "x/y"
     assert str(y/x) == "y/x"
@@ -638,45 +840,65 @@ def test_Mul():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_NaN(), test_NaN produces the expected output) over Any ║
+# ║ Path(test_NaN(), str(nan) == 'nan') over Any               ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_NaN : Any → {Any | str(nan) == 'nan'}                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(nan) == 'nan'                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_NaN : Any → {Any | result satisfies: str(nan) ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac4fe173ee0ca8f6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78a5ba5d0db64d71  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_NaN","kind":"function","src_hash":"6f8c14377cd62fe2","in":{"base":"Any"},"out":{"base":"Any","pred":"str(nan) == 'nan'"},"spec":{"lhs":"test_NaN()","rhs":"test_NaN produces the expected output","over":{"base":"Any"},"name":"test_NaN_correct"},"guarantee":"test_NaN produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_NaN_correct","statement":"Path(test_NaN(x), test_NaN produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac4fe173ee0ca8f6"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_NaN","kind":"function","src_hash":"6f8c14377cd62fe2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(nan) == 'nan'"},"spec":{"lhs":"test_NaN()","rhs":"str(nan) == 'nan'","over":{"base":"Any"},"name":"test_NaN_correct"},"guarantee":"str(nan) == 'nan'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_NaN_correct","statement":"Path(test_NaN(x), str(nan) == 'nan')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78a5ba5d0db64d71","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(nan) == 'nan'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_NaN():
     assert str(nan) == "nan"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_NegativeInfinity(), test_NegativeInfinity produces the expected output) over Any ║
+# ║ Path(test_NegativeInfinity(), str(-oo) == '-oo') over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_NegativeInfinity : Any → {Any | str(-oo) == '-oo'}    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(-oo) == '-oo'                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_NegativeInfinity : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 869d436c442d53bf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef085eee2fdc6506  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_NegativeInfinity","kind":"function","src_hash":"760b5ceef8bf112c","in":{"base":"Any"},"out":{"base":"Any","pred":"str(-oo) == '-oo'"},"spec":{"lhs":"test_NegativeInfinity()","rhs":"test_NegativeInfinity produces the expected output","over":{"base":"Any"},"name":"test_NegativeInfinity_correct"},"guarantee":"test_NegativeInfinity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_NegativeInfinity_correct","statement":"Path(test_NegativeInfinity(x), test_NegativeInfinity produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"869d436c442d53bf"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_NegativeInfinity","kind":"function","src_hash":"760b5ceef8bf112c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(-oo) == '-oo'"},"spec":{"lhs":"test_NegativeInfinity()","rhs":"str(-oo) == '-oo'","over":{"base":"Any"},"name":"test_NegativeInfinity_correct"},"guarantee":"str(-oo) == '-oo'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_NegativeInfinity_correct","statement":"Path(test_NegativeInfinity(x), str(-oo) == '-oo')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef085eee2fdc6506","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(-oo) == '-oo'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_NegativeInfinity():
     assert str(-oo) == "-oo"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Order(), test_Order produces the expected output) over Any ║
+# ║ Path(test_Order(), str(O(x)) == 'O(x)' and str(O(x ** 2)) == 'O(x**2)' and str(O(x * y)) == 'O(x*y, x, y)' and str(O(x, x)) == 'O(x)' and str(O(x, (x, 0))) == 'O(x)' and str(O(x, (x, oo))) == 'O(x, (x, oo))' and str(O(x, x, y)) == 'O(x, x, y)' and str(O(x, (x, oo), (y, oo))) == 'O(x, (x, oo), (y, oo))') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Order : Any → {Any | str(O(x)) == 'O(x)' and str...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(O(x)) == 'O(x)'                            ║
+# ║   ensures:  str(O(x ** 2)) == 'O(x**2)'                    ║
+# ║   ensures:  str(O(x * y)) == 'O(x*y, x, y)'                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Order : Any → {Any | result satisfies: str(O(x))...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c7adbc7c2a689f4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 886d820752f689cc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Order","kind":"function","src_hash":"80084ed14fab760c","in":{"base":"Any"},"out":{"base":"Any","pred":"str(O(x)) == 'O(x)' and str(O(x ** 2)) == 'O(x**2)' and str(O(x * y)) == 'O(x*y, x, y)' and str(O(x, x)) == 'O(x)' and str(O(x, (x, 0))) == 'O(x)' and str(O(x, (x, oo))) == 'O(x, (x, oo))' and str(O(x, x, y)) == 'O(x, x, y)' and str(O(x, x, y)) == 'O(x, x, y)' and str(O(x, (x, oo), (y, oo))) == 'O(x, (x, oo), (y, oo))'"},"spec":{"lhs":"test_Order()","rhs":"test_Order produces the expected output","over":{"base":"Any"},"name":"test_Order_correct"},"guarantee":"test_Order produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Order_correct","statement":"Path(test_Order(x), test_Order produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c7adbc7c2a689f4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Order","kind":"function","src_hash":"80084ed14fab760c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(O(x)) == 'O(x)' and str(O(x ** 2)) == 'O(x**2)' and str(O(x * y)) == 'O(x*y, x, y)' and str(O(x, x)) == 'O(x)' and str(O(x, (x, 0))) == 'O(x)' and str(O(x, (x, oo))) == 'O(x, (x, oo))' and str(O(x, x, y)) == 'O(x, x, y)' and str(O(x, (x, oo), (y, oo))) == 'O(x, (x, oo), (y, oo))'"},"spec":{"lhs":"test_Order()","rhs":"str(O(x)) == 'O(x)' and str(O(x ** 2)) == 'O(x**2)' and str(O(x * y)) == 'O(x*y, x, y)' and str(O(x, x)) == 'O(x)' and str(O(x, (x, 0))) == 'O(x)' and str(O(x, (x, oo))) == 'O(x, (x, oo))' and str(O(x, x, y)) == 'O(x, x, y)' and str(O(x, (x, oo), (y, oo))) == 'O(x, (x, oo), (y, oo))'","over":{"base":"Any"},"name":"test_Order_correct"},"guarantee":"str(O(x)) == 'O(x)'; str(O(x ** 2)) == 'O(x**2)'; str(O(x * y)) == 'O(x*y, x, y)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Order_correct","statement":"Path(test_Order(x), str(O(x)) == 'O(x)'; str(O(x ** 2)) == 'O(x**2)'; str(O(x * y)) == 'O(x*y, x, y)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"886d820752f689cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(O(x)) == 'O(x)'","str(O(x ** 2)) == 'O(x**2)'","str(O(x * y)) == 'O(x*y, x, y)'","str(O(x, x)) == 'O(x)'","str(O(x, (x, 0))) == 'O(x)'","str(O(x, (x, oo))) == 'O(x, (x, oo))'","str(O(x, x, y)) == 'O(x, x, y)'","str(O(x, (x, oo), (y, oo))) == 'O(x, (x, oo), (y, oo))'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Order():
     assert str(O(x)) == "O(x)"
     assert str(O(x**2)) == "O(x**2)"
@@ -690,16 +912,22 @@ def test_Order():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Permutation_Cycle(), test_Permutation_Cycle produces the expected output) over Any ║
+# ║ Path(test_Permutation_Cycle(), <unspecified:test_Permutation_Cycle>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Permutation_Cycle : Any → {Any | sstr(p) == s an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | caaebe7ee83d8e0a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Permutation_Cycle","kind":"function","src_hash":"a365e64d3b5e3393","in":{"base":"Any"},"out":{"base":"Any","pred":"sstr(p) == s and sstr(p, perm_cyclic=False) == s and sstr(p) == s and sstr(Permutation([1, 0, 2])) == 'Permutation([1, 0, 2])'"},"spec":{"lhs":"test_Permutation_Cycle()","rhs":"test_Permutation_Cycle produces the expected output","over":{"base":"Any"},"name":"test_Permutation_Cycle_correct"},"guarantee":"test_Permutation_Cycle produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Permutation_Cycle_correct","statement":"Path(test_Permutation_Cycle(x), test_Permutation_Cycle produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"caaebe7ee83d8e0a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Permutation_Cycle","kind":"function","src_hash":"a365e64d3b5e3393","in":{"base":"Any"},"out":{"base":"Any","pred":"sstr(p) == s and sstr(p, perm_cyclic=False) == s and sstr(p) == s and sstr(Permutation([1, 0, 2])) == 'Permutation([1, 0, 2])'"},"spec":{"lhs":"test_Permutation_Cycle()","rhs":"<unspecified:test_Permutation_Cycle>","over":{"base":"Any"},"name":"test_Permutation_Cycle_correct"},"guarantee":"test_Permutation_Cycle produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Permutation_Cycle_correct","statement":"Path(test_Permutation_Cycle(x), test_Permutation_Cycle produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"caaebe7ee83d8e0a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_Permutation_Cycle():
     from sympy.combinatorics import Permutation, Cycle
 
@@ -766,31 +994,45 @@ def test_Permutation_Cycle():
         Permutation.print_cyclic = old_print_cyclic
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Pi(), test_Pi produces the expected output) over Any ║
+# ║ Path(test_Pi(), str(pi) == 'pi') over Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Pi : Any → {Any | str(pi) == 'pi'}                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(pi) == 'pi'                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Pi : Any → {Any | result satisfies: str(pi) == '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ecbdcc6f73e929d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ce9adeb2e7aee94  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Pi","kind":"function","src_hash":"965300051d73c8d7","in":{"base":"Any"},"out":{"base":"Any","pred":"str(pi) == 'pi'"},"spec":{"lhs":"test_Pi()","rhs":"test_Pi produces the expected output","over":{"base":"Any"},"name":"test_Pi_correct"},"guarantee":"test_Pi produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Pi_correct","statement":"Path(test_Pi(x), test_Pi produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ecbdcc6f73e929d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Pi","kind":"function","src_hash":"965300051d73c8d7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(pi) == 'pi'"},"spec":{"lhs":"test_Pi()","rhs":"str(pi) == 'pi'","over":{"base":"Any"},"name":"test_Pi_correct"},"guarantee":"str(pi) == 'pi'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Pi_correct","statement":"Path(test_Pi(x), str(pi) == 'pi')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ce9adeb2e7aee94","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(pi) == 'pi'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Pi():
     assert str(pi) == "pi"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Poly(), test_Poly produces the expected output) over Any ║
+# ║ Path(test_Poly(), str(Poly(0, x)) == "Poly(0, x, domain='ZZ')" and str(Poly(1, x)) == "Poly(1, x, domain='ZZ')" and str(Poly(x, x)) == "Poly(x, x, domain='ZZ')" and str(Poly(2 * x + 1, x)) == "Poly(2*x + 1, x, domain='ZZ')" and str(Poly(2 * x - 1, x)) == "Poly(2*x - 1, x, domain='ZZ')" and str(Poly(-1, x)) == "Poly(-1, x, domain='ZZ')" and str(Poly(-x, x)) == "Poly(-x, x, domain='ZZ')" and str(Poly(-2 * x + 1, x)) == "Poly(-2*x + 1, x, domain='ZZ')" and str(Poly(-2 * x - 1, x)) == "Poly(-2*x - 1, x, domain='ZZ')" and str(Poly(x - 1, x)) == "Poly(x - 1, x, domain='ZZ')" and str(Poly(2 * x + x ** 5, x)) == "Poly(x**5 + 2*x, x, domain='ZZ')" and str(Poly(3 ** (2 * x), 3 ** x)) == "Poly((3**x)**2, 3**x, domain='ZZ')" and str(Poly((x ** 2) ** x)) == "Poly(((x**2)**x), (x**2)**x, domain='ZZ')" and str(Poly((x + y) ** 3, x + y, expand=False)) == "Poly((x + y)**3, x + y, domain='ZZ')" and str(Poly((x - 1) ** 2, x - 1, expand=False)) == "Poly((x - 1)**2, x - 1, domain='ZZ')" and str(Poly(x ** 2 + 1 + y, x)) == "Poly(x**2 + y + 1, x, domain='ZZ[y]')" and str(Poly(x ** 2 - 1 + y, x)) == "Poly(x**2 + y - 1, x, domain='ZZ[y]')" and str(Poly(x ** 2 + I * x, x)) == "Poly(x**2 + I*x, x, domain='ZZ_I')" and str(Poly(x ** 2 - I * x, x)) == "Poly(x**2 - I*x, x, domain='ZZ_I')" and str(Poly(-x * y * z + x * y - 1, x, y, z)) == "Poly(-x*y*z + x*y - 1, x, y, z, domain='ZZ')" and str(Poly(-w * x ** 21 * y ** 7 * z + (1 + w) * z ** 3 - 2 * x * z + 1, x, y, z)) == "Poly(-w*x**21*y**7*z - 2*x*z + (w + 1)*z**3 + 1, x, y, z, domain='ZZ[w]')" and str(Poly(x ** 2 + 1, x, modulus=2)) == 'Poly(x**2 + 1, x, modulus=2)' and str(Poly(2 * x ** 2 + 3 * x + 4, x, modulus=17)) == 'Poly(2*x**2 + 3*x + 4, x, modulus=17)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Poly : Any → {Any | str(Poly(0, x)) == "Poly(0, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(Poly(0, x)) == "Poly(0, x, domain='ZZ')"   ║
+# ║   ensures:  str(Poly(1, x)) == "Poly(1, x, domain='ZZ')"   ║
+# ║   ensures:  str(Poly(x, x)) == "Poly(x, x, domain='ZZ')"   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Poly : Any → {Any | result satisfies: str(Poly(0...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6376ce8c0c036571  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0717001d198d198c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Poly","kind":"function","src_hash":"f40bdd4f9d5ae048","in":{"base":"Any"},"out":{"base":"Any","pred":"str(Poly(0, x)) == \"Poly(0, x, domain='ZZ')\" and str(Poly(1, x)) == \"Poly(1, x, domain='ZZ')\" and str(Poly(x, x)) == \"Poly(x, x, domain='ZZ')\" and str(Poly(2 * x + 1, x)) == \"Poly(2*x + 1, x, domain='ZZ')\" and str(Poly(2 * x - 1, x)) == \"Poly(2*x - 1, x, domain='ZZ')\" and str(Poly(-1, x)) == \"Poly(-1, x, domain='ZZ')\" and str(Poly(-x, x)) == \"Poly(-x, x, domain='ZZ')\" and str(Poly(-2 * x + 1, x)) == \"Poly(-2*x + 1, x, domain='ZZ')\" and str(Poly(-2 * x - 1, x)) == \"Poly(-2*x - 1, x, domain='ZZ')\" and str(Poly(x - 1, x)) == \"Poly(x - 1, x, domain='ZZ')\" and str(Poly(2 * x + x ** 5, x)) == \"Poly(x**5 + 2*x, x, domain='ZZ')\" and str(Poly(3 ** (2 * x), 3 ** x)) == \"Poly((3**x)**2, 3**x, domain='ZZ')\" and str(Poly((x ** 2) ** x)) == \"Poly(((x**2)**x), (x**2)**x, domain='ZZ')\" and str(Poly(x ** 2 + 1 + y, x)) == \"Poly(x**2 + y + 1, x, domain='ZZ[y]')\" and str(Poly(x ** 2 - 1 + y, x)) == \"Poly(x**2 + y - 1, x, domain='ZZ[y]')\" and str(Poly(x ** 2 + I * x, x)) == \"Poly(x**2 + I*x, x, domain='ZZ_I')\" and str(Poly(x ** 2 - I * x, x)) == \"Poly(x**2 - I*x, x, domain='ZZ_I')\" and str(Poly(x ** 2 + 1, x, modulus=2)) == 'Poly(x**2 + 1, x, modulus=2)'"},"spec":{"lhs":"test_Poly()","rhs":"test_Poly produces the expected output","over":{"base":"Any"},"name":"test_Poly_correct"},"guarantee":"test_Poly produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Poly_correct","statement":"Path(test_Poly(x), test_Poly produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6376ce8c0c036571"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Poly","kind":"function","src_hash":"f40bdd4f9d5ae048","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(Poly(0, x)) == \"Poly(0, x, domain='ZZ')\" and str(Poly(1, x)) == \"Poly(1, x, domain='ZZ')\" and str(Poly(x, x)) == \"Poly(x, x, domain='ZZ')\" and str(Poly(2 * x + 1, x)) == \"Poly(2*x + 1, x, domain='ZZ')\" and str(Poly(2 * x - 1, x)) == \"Poly(2*x - 1, x, domain='ZZ')\" and str(Poly(-1, x)) == \"Poly(-1, x, domain='ZZ')\" and str(Poly(-x, x)) == \"Poly(-x, x, domain='ZZ')\" and str(Poly(-2 * x + 1, x)) == \"Poly(-2*x + 1, x, domain='ZZ')\" and str(Poly(-2 * x - 1, x)) == \"Poly(-2*x - 1, x, domain='ZZ')\" and str(Poly(x - 1, x)) == \"Poly(x - 1, x, domain='ZZ')\" and str(Poly(2 * x + x ** 5, x)) == \"Poly(x**5 + 2*x, x, domain='ZZ')\" and str(Poly(3 ** (2 * x), 3 ** x)) == \"Poly((3**x)**2, 3**x, domain='ZZ')\" and str(Poly((x ** 2) ** x)) == \"Poly(((x**2)**x), (x**2)**x, domain='ZZ')\" and str(Poly((x + y) ** 3, x + y, expand=False)) == \"Poly((x + y)**3, x + y, domain='ZZ')\" and str(Poly((x - 1) ** 2, x - 1, expand=False)) == \"Poly((x - 1)**2, x - 1, domain='ZZ')\" and str(Poly(x ** 2 + 1 + y, x)) == \"Poly(x**2 + y + 1, x, domain='ZZ[y]')\" and str(Poly(x ** 2 - 1 + y, x)) == \"Poly(x**2 + y - 1, x, domain='ZZ[y]')\" and str(Poly(x ** 2 + I * x, x)) == \"Poly(x**2 + I*x, x, domain='ZZ_I')\" and str(Poly(x ** 2 - I * x, x)) == \"Poly(x**2 - I*x, x, domain='ZZ_I')\" and str(Poly(-x * y * z + x * y - 1, x, y, z)) == \"Poly(-x*y*z + x*y - 1, x, y, z, domain='ZZ')\" and str(Poly(-w * x ** 21 * y ** 7 * z + (1 + w) * z ** 3 - 2 * x * z + 1, x, y, z)) == \"Poly(-w*x**21*y**7*z - 2*x*z + (w + 1)*z**3 + 1, x, y, z, domain='ZZ[w]')\" and str(Poly(x ** 2 + 1, x, modulus=2)) == 'Poly(x**2 + 1, x, modulus=2)' and str(Poly(2 * x ** 2 + 3 * x + 4, x, modulus=17)) == 'Poly(2*x**2 + 3*x + 4, x, modulus=17)'"},"spec":{"lhs":"test_Poly()","rhs":"str(Poly(0, x)) == \"Poly(0, x, domain='ZZ')\" and str(Poly(1, x)) == \"Poly(1, x, domain='ZZ')\" and str(Poly(x, x)) == \"Poly(x, x, domain='ZZ')\" and str(Poly(2 * x + 1, x)) == \"Poly(2*x + 1, x, domain='ZZ')\" and str(Poly(2 * x - 1, x)) == \"Poly(2*x - 1, x, domain='ZZ')\" and str(Poly(-1, x)) == \"Poly(-1, x, domain='ZZ')\" and str(Poly(-x, x)) == \"Poly(-x, x, domain='ZZ')\" and str(Poly(-2 * x + 1, x)) == \"Poly(-2*x + 1, x, domain='ZZ')\" and str(Poly(-2 * x - 1, x)) == \"Poly(-2*x - 1, x, domain='ZZ')\" and str(Poly(x - 1, x)) == \"Poly(x - 1, x, domain='ZZ')\" and str(Poly(2 * x + x ** 5, x)) == \"Poly(x**5 + 2*x, x, domain='ZZ')\" and str(Poly(3 ** (2 * x), 3 ** x)) == \"Poly((3**x)**2, 3**x, domain='ZZ')\" and str(Poly((x ** 2) ** x)) == \"Poly(((x**2)**x), (x**2)**x, domain='ZZ')\" and str(Poly((x + y) ** 3, x + y, expand=False)) == \"Poly((x + y)**3, x + y, domain='ZZ')\" and str(Poly((x - 1) ** 2, x - 1, expand=False)) == \"Poly((x - 1)**2, x - 1, domain='ZZ')\" and str(Poly(x ** 2 + 1 + y, x)) == \"Poly(x**2 + y + 1, x, domain='ZZ[y]')\" and str(Poly(x ** 2 - 1 + y, x)) == \"Poly(x**2 + y - 1, x, domain='ZZ[y]')\" and str(Poly(x ** 2 + I * x, x)) == \"Poly(x**2 + I*x, x, domain='ZZ_I')\" and str(Poly(x ** 2 - I * x, x)) == \"Poly(x**2 - I*x, x, domain='ZZ_I')\" and str(Poly(-x * y * z + x * y - 1, x, y, z)) == \"Poly(-x*y*z + x*y - 1, x, y, z, domain='ZZ')\" and str(Poly(-w * x ** 21 * y ** 7 * z + (1 + w) * z ** 3 - 2 * x * z + 1, x, y, z)) == \"Poly(-w*x**21*y**7*z - 2*x*z + (w + 1)*z**3 + 1, x, y, z, domain='ZZ[w]')\" and str(Poly(x ** 2 + 1, x, modulus=2)) == 'Poly(x**2 + 1, x, modulus=2)' and str(Poly(2 * x ** 2 + 3 * x + 4, x, modulus=17)) == 'Poly(2*x**2 + 3*x + 4, x, modulus=17)'","over":{"base":"Any"},"name":"test_Poly_correct"},"guarantee":"str(Poly(0, x)) == \"Poly(0, x, domain='ZZ')\"; str(Poly(1, x)) == \"Poly(1, x, domain='ZZ')\"; str(Poly(x, x)) == \"Poly(x, x, domain='ZZ')\"","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Poly_correct","statement":"Path(test_Poly(x), str(Poly(0, x)) == \"Poly(0, x, domain='ZZ')\"; str(Poly(1, x)) == \"Poly(1, x, domain='ZZ')\"; str(Poly(x, x)) == \"Poly(x, x, domain='ZZ')\")"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0717001d198d198c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(Poly(0, x)) == \"Poly(0, x, domain='ZZ')\"","str(Poly(1, x)) == \"Poly(1, x, domain='ZZ')\"","str(Poly(x, x)) == \"Poly(x, x, domain='ZZ')\"","str(Poly(2 * x + 1, x)) == \"Poly(2*x + 1, x, domain='ZZ')\"","str(Poly(2 * x - 1, x)) == \"Poly(2*x - 1, x, domain='ZZ')\"","str(Poly(-1, x)) == \"Poly(-1, x, domain='ZZ')\"","str(Poly(-x, x)) == \"Poly(-x, x, domain='ZZ')\"","str(Poly(-2 * x + 1, x)) == \"Poly(-2*x + 1, x, domain='ZZ')\"","str(Poly(-2 * x - 1, x)) == \"Poly(-2*x - 1, x, domain='ZZ')\"","str(Poly(x - 1, x)) == \"Poly(x - 1, x, domain='ZZ')\"","str(Poly(2 * x + x ** 5, x)) == \"Poly(x**5 + 2*x, x, domain='ZZ')\"","str(Poly(3 ** (2 * x), 3 ** x)) == \"Poly((3**x)**2, 3**x, domain='ZZ')\"","str(Poly((x ** 2) ** x)) == \"Poly(((x**2)**x), (x**2)**x, domain='ZZ')\"","str(Poly((x + y) ** 3, x + y, expand=False)) == \"Poly((x + y)**3, x + y, domain='ZZ')\"","str(Poly((x - 1) ** 2, x - 1, expand=False)) == \"Poly((x - 1)**2, x - 1, domain='ZZ')\"","str(Poly(x ** 2 + 1 + y, x)) == \"Poly(x**2 + y + 1, x, domain='ZZ[y]')\"","str(Poly(x ** 2 - 1 + y, x)) == \"Poly(x**2 + y - 1, x, domain='ZZ[y]')\"","str(Poly(x ** 2 + I * x, x)) == \"Poly(x**2 + I*x, x, domain='ZZ_I')\"","str(Poly(x ** 2 - I * x, x)) == \"Poly(x**2 - I*x, x, domain='ZZ_I')\"","str(Poly(-x * y * z + x * y - 1, x, y, z)) == \"Poly(-x*y*z + x*y - 1, x, y, z, domain='ZZ')\"","str(Poly(-w * x ** 21 * y ** 7 * z + (1 + w) * z ** 3 - 2 * x * z + 1, x, y, z)) == \"Poly(-w*x**21*y**7*z - 2*x*z + (w + 1)*z**3 + 1, x, y, z, domain='ZZ[w]')\"","str(Poly(x ** 2 + 1, x, modulus=2)) == 'Poly(x**2 + 1, x, modulus=2)'","str(Poly(2 * x ** 2 + 3 * x + 4, x, modulus=17)) == 'Poly(2*x**2 + 3*x + 4, x, modulus=17)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_Poly():
     assert str(Poly(0, x)) == "Poly(0, x, domain='ZZ')"
     assert str(Poly(1, x)) == "Poly(1, x, domain='ZZ')"
@@ -834,16 +1076,24 @@ def test_Poly():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyRing(), test_PolyRing produces the expected output) over Any ║
+# ║ Path(test_PolyRing(), str(ring('x', ZZ, lex)[0]) == 'Polynomial ring in x over ZZ with lex order' and str(ring('x,y', QQ, grlex)[0]) == 'Polynomial ring in x, y over QQ with grlex order' and str(ring('x,y,z', ZZ['t'], lex)[0]) == 'Polynomial ring in x, y, z over ZZ[t] with lex order') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyRing : Any → {Any | str(ring('x', ZZ, lex)[0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(ring('x', ZZ, lex)[0]) == 'Polynomial...   ║
+# ║   ensures:  str(ring('x,y', QQ, grlex)[0]) == 'Polyno...   ║
+# ║   ensures:  str(ring('x,y,z', ZZ['t'], lex)[0]) == 'P...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyRing : Any → {Any | result satisfies: str(ri...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58943bed89edec73  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b770b0fae5193148  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_PolyRing","kind":"function","src_hash":"2352011a6f18e04a","in":{"base":"Any"},"out":{"base":"Any","pred":"str(ring('x', ZZ, lex)[0]) == 'Polynomial ring in x over ZZ with lex order'"},"spec":{"lhs":"test_PolyRing()","rhs":"test_PolyRing produces the expected output","over":{"base":"Any"},"name":"test_PolyRing_correct"},"guarantee":"test_PolyRing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_PolyRing_correct","statement":"Path(test_PolyRing(x), test_PolyRing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58943bed89edec73"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_PolyRing","kind":"function","src_hash":"2352011a6f18e04a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(ring('x', ZZ, lex)[0]) == 'Polynomial ring in x over ZZ with lex order' and str(ring('x,y', QQ, grlex)[0]) == 'Polynomial ring in x, y over QQ with grlex order' and str(ring('x,y,z', ZZ['t'], lex)[0]) == 'Polynomial ring in x, y, z over ZZ[t] with lex order'"},"spec":{"lhs":"test_PolyRing()","rhs":"str(ring('x', ZZ, lex)[0]) == 'Polynomial ring in x over ZZ with lex order' and str(ring('x,y', QQ, grlex)[0]) == 'Polynomial ring in x, y over QQ with grlex order' and str(ring('x,y,z', ZZ['t'], lex)[0]) == 'Polynomial ring in x, y, z over ZZ[t] with lex order'","over":{"base":"Any"},"name":"test_PolyRing_correct"},"guarantee":"str(ring('x', ZZ, lex)[0]) == 'Polynomial ring in x over ZZ with lex order'; str(ring('x,y', QQ, grlex)[0]) == 'Polynomial ring in x, y over QQ with grlex order'; str(ring('x,y,z', ZZ['t'], lex)[0]) == 'Polynomial ring in x, y, z over ZZ[t] with lex order'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_PolyRing_correct","statement":"Path(test_PolyRing(x), str(ring('x', ZZ, lex)[0]) == 'Polynomial ring in x over ZZ with lex order'; str(ring('x,y', QQ, grlex)[0]) == 'Polynomial ring in x, y over QQ with grlex order'; str(ring('x,y,z', ZZ['t'], lex)[0]) == 'Polynomial ring in x, y, z over ZZ[t] with lex order')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b770b0fae5193148","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(ring('x', ZZ, lex)[0]) == 'Polynomial ring in x over ZZ with lex order'","str(ring('x,y', QQ, grlex)[0]) == 'Polynomial ring in x, y over QQ with grlex order'","str(ring('x,y,z', ZZ['t'], lex)[0]) == 'Polynomial ring in x, y, z over ZZ[t] with lex order'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_PolyRing():
     assert str(ring("x", ZZ, lex)[0]) == "Polynomial ring in x over ZZ with lex order"
     assert str(ring("x,y", QQ, grlex)[0]) == "Polynomial ring in x, y over QQ with grlex order"
@@ -851,16 +1101,24 @@ def test_PolyRing():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FracField(), test_FracField produces the expected output) over Any ║
+# ║ Path(test_FracField(), str(field('x', ZZ, lex)[0]) == 'Rational function field in x over ZZ with lex order' and str(field('x,y', QQ, grlex)[0]) == 'Rational function field in x, y over QQ with grlex order' and str(field('x,y,z', ZZ['t'], lex)[0]) == 'Rational function field in x, y, z over ZZ[t] with lex order') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FracField : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(field('x', ZZ, lex)[0]) == 'Rational ...   ║
+# ║   ensures:  str(field('x,y', QQ, grlex)[0]) == 'Ratio...   ║
+# ║   ensures:  str(field('x,y,z', ZZ['t'], lex)[0]) == '...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FracField : Any → {Any | result satisfies: str(f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fdce1a8f02c5e5f9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e4755950f152caea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_FracField","kind":"function","src_hash":"ad726dd894b4f980","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_FracField()","rhs":"test_FracField produces the expected output","over":{"base":"Any"},"name":"test_FracField_correct"},"guarantee":"test_FracField produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_FracField_correct","statement":"Path(test_FracField(x), test_FracField produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fdce1a8f02c5e5f9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_FracField","kind":"function","src_hash":"ad726dd894b4f980","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(field('x', ZZ, lex)[0]) == 'Rational function field in x over ZZ with lex order' and str(field('x,y', QQ, grlex)[0]) == 'Rational function field in x, y over QQ with grlex order' and str(field('x,y,z', ZZ['t'], lex)[0]) == 'Rational function field in x, y, z over ZZ[t] with lex order'"},"spec":{"lhs":"test_FracField()","rhs":"str(field('x', ZZ, lex)[0]) == 'Rational function field in x over ZZ with lex order' and str(field('x,y', QQ, grlex)[0]) == 'Rational function field in x, y over QQ with grlex order' and str(field('x,y,z', ZZ['t'], lex)[0]) == 'Rational function field in x, y, z over ZZ[t] with lex order'","over":{"base":"Any"},"name":"test_FracField_correct"},"guarantee":"str(field('x', ZZ, lex)[0]) == 'Rational function field in x over ZZ with lex order'; str(field('x,y', QQ, grlex)[0]) == 'Rational function field in x, y over QQ with grlex order'; str(field('x,y,z', ZZ['t'], lex)[0]) == 'Rational function field in x, y, z over ZZ[t] with lex order'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_FracField_correct","statement":"Path(test_FracField(x), str(field('x', ZZ, lex)[0]) == 'Rational function field in x over ZZ with lex order'; str(field('x,y', QQ, grlex)[0]) == 'Rational function field in x, y over QQ with grlex order'; str(field('x,y,z', ZZ['t'], lex)[0]) == 'Rational function field in x, y, z over ZZ[t] with lex order')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4755950f152caea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(field('x', ZZ, lex)[0]) == 'Rational function field in x over ZZ with lex order'","str(field('x,y', QQ, grlex)[0]) == 'Rational function field in x, y over QQ with grlex order'","str(field('x,y,z', ZZ['t'], lex)[0]) == 'Rational function field in x, y, z over ZZ[t] with lex order'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_FracField():
     assert str(field("x", ZZ, lex)[0]) == "Rational function field in x over ZZ with lex order"
     assert str(field("x,y", QQ, grlex)[0]) == "Rational function field in x, y over QQ with grlex order"
@@ -868,16 +1126,24 @@ def test_FracField():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PolyElement(), test_PolyElement produces the expected output) over Any ║
+# ║ Path(test_PolyElement(), str(x - x) == '0' and str(x - 1) == 'x - 1' and str(x + 1) == 'x + 1' and str(x ** 2) == 'x**2' and str((u ** 2 + 3 * u * v + 1) * x ** 2 * y + u + 1) == '(u**2 + 3*u*v + 1)*x**2*y + u + 1' and str((u ** 2 + 3 * u * v + 1) * x ** 2 * y + (u + 1) * x) == '(u**2 + 3*u*v + 1)*x**2*y + (u + 1)*x' and str((u ** 2 + 3 * u * v + 1) * x ** 2 * y + (u + 1) * x + 1) == '(u**2 + 3*u*v + 1)*x**2*y + (u + 1)*x + 1' and str((-u ** 2 + 3 * u * v - 1) * x ** 2 * y - (u + 1) * x - 1) == '-(u**2 - 3*u*v + 1)*x**2*y - (u + 1)*x - 1' and str(-(v ** 2 + v + 1) * x + 3 * u * v + 1) == '-(v**2 + v + 1)*x + 3*u*v + 1' and str(-(v ** 2 + v + 1) * x - 3 * u * v + 1) == '-(v**2 + v + 1)*x - 3*u*v + 1' and str((1 + I) * xz + 2) == '(1 + 1*I)*x + (2 + 0*I)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PolyElement : Any → {Any | str(x - x) == '0' and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(x - x) == '0'                              ║
+# ║   ensures:  str(x - 1) == 'x - 1'                          ║
+# ║   ensures:  str(x + 1) == 'x + 1'                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PolyElement : Any → {Any | result satisfies: str...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ee251250b2318d7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 778ac0b1c0e6de33  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_PolyElement","kind":"function","src_hash":"37d127d03c5b72cb","in":{"base":"Any"},"out":{"base":"Any","pred":"str(x - x) == '0' and str(x - 1) == 'x - 1' and str(x + 1) == 'x + 1' and str(x ** 2) == 'x**2' and str(-(v ** 2 + v + 1) * x + 3 * u * v + 1) == '-(v**2 + v + 1)*x + 3*u*v + 1' and str(-(v ** 2 + v + 1) * x - 3 * u * v + 1) == '-(v**2 + v + 1)*x - 3*u*v + 1' and str((1 + I) * xz + 2) == '(1 + 1*I)*x + (2 + 0*I)'"},"spec":{"lhs":"test_PolyElement()","rhs":"test_PolyElement produces the expected output","over":{"base":"Any"},"name":"test_PolyElement_correct"},"guarantee":"test_PolyElement produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_PolyElement_correct","statement":"Path(test_PolyElement(x), test_PolyElement produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ee251250b2318d7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_PolyElement","kind":"function","src_hash":"37d127d03c5b72cb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(x - x) == '0' and str(x - 1) == 'x - 1' and str(x + 1) == 'x + 1' and str(x ** 2) == 'x**2' and str((u ** 2 + 3 * u * v + 1) * x ** 2 * y + u + 1) == '(u**2 + 3*u*v + 1)*x**2*y + u + 1' and str((u ** 2 + 3 * u * v + 1) * x ** 2 * y + (u + 1) * x) == '(u**2 + 3*u*v + 1)*x**2*y + (u + 1)*x' and str((u ** 2 + 3 * u * v + 1) * x ** 2 * y + (u + 1) * x + 1) == '(u**2 + 3*u*v + 1)*x**2*y + (u + 1)*x + 1' and str((-u ** 2 + 3 * u * v - 1) * x ** 2 * y - (u + 1) * x - 1) == '-(u**2 - 3*u*v + 1)*x**2*y - (u + 1)*x - 1' and str(-(v ** 2 + v + 1) * x + 3 * u * v + 1) == '-(v**2 + v + 1)*x + 3*u*v + 1' and str(-(v ** 2 + v + 1) * x - 3 * u * v + 1) == '-(v**2 + v + 1)*x - 3*u*v + 1' and str((1 + I) * xz + 2) == '(1 + 1*I)*x + (2 + 0*I)'"},"spec":{"lhs":"test_PolyElement()","rhs":"str(x - x) == '0' and str(x - 1) == 'x - 1' and str(x + 1) == 'x + 1' and str(x ** 2) == 'x**2' and str((u ** 2 + 3 * u * v + 1) * x ** 2 * y + u + 1) == '(u**2 + 3*u*v + 1)*x**2*y + u + 1' and str((u ** 2 + 3 * u * v + 1) * x ** 2 * y + (u + 1) * x) == '(u**2 + 3*u*v + 1)*x**2*y + (u + 1)*x' and str((u ** 2 + 3 * u * v + 1) * x ** 2 * y + (u + 1) * x + 1) == '(u**2 + 3*u*v + 1)*x**2*y + (u + 1)*x + 1' and str((-u ** 2 + 3 * u * v - 1) * x ** 2 * y - (u + 1) * x - 1) == '-(u**2 - 3*u*v + 1)*x**2*y - (u + 1)*x - 1' and str(-(v ** 2 + v + 1) * x + 3 * u * v + 1) == '-(v**2 + v + 1)*x + 3*u*v + 1' and str(-(v ** 2 + v + 1) * x - 3 * u * v + 1) == '-(v**2 + v + 1)*x - 3*u*v + 1' and str((1 + I) * xz + 2) == '(1 + 1*I)*x + (2 + 0*I)'","over":{"base":"Any"},"name":"test_PolyElement_correct"},"guarantee":"str(x - x) == '0'; str(x - 1) == 'x - 1'; str(x + 1) == 'x + 1'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_PolyElement_correct","statement":"Path(test_PolyElement(x), str(x - x) == '0'; str(x - 1) == 'x - 1'; str(x + 1) == 'x + 1')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"778ac0b1c0e6de33","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(x - x) == '0'","str(x - 1) == 'x - 1'","str(x + 1) == 'x + 1'","str(x ** 2) == 'x**2'","str((u ** 2 + 3 * u * v + 1) * x ** 2 * y + u + 1) == '(u**2 + 3*u*v + 1)*x**2*y + u + 1'","str((u ** 2 + 3 * u * v + 1) * x ** 2 * y + (u + 1) * x) == '(u**2 + 3*u*v + 1)*x**2*y + (u + 1)*x'","str((u ** 2 + 3 * u * v + 1) * x ** 2 * y + (u + 1) * x + 1) == '(u**2 + 3*u*v + 1)*x**2*y + (u + 1)*x + 1'","str((-u ** 2 + 3 * u * v - 1) * x ** 2 * y - (u + 1) * x - 1) == '-(u**2 - 3*u*v + 1)*x**2*y - (u + 1)*x - 1'","str(-(v ** 2 + v + 1) * x + 3 * u * v + 1) == '-(v**2 + v + 1)*x + 3*u*v + 1'","str(-(v ** 2 + v + 1) * x - 3 * u * v + 1) == '-(v**2 + v + 1)*x - 3*u*v + 1'","str((1 + I) * xz + 2) == '(1 + 1*I)*x + (2 + 0*I)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_PolyElement():
     Ruv, u,v = ring("u,v", ZZ)
     Rxyz, x,y,z = ring("x,y,z", Ruv)
@@ -900,16 +1166,24 @@ def test_PolyElement():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FracElement(), test_FracElement produces the expected output) over Any ║
+# ║ Path(test_FracElement(), str(x - x) == '0' and str(x - 1) == 'x - 1' and str(x + 1) == 'x + 1' and str(x / 3) == 'x/3' and str(x / z) == 'x/z' and str(x * y / z) == 'x*y/z' and str(x / (z * t)) == 'x/(z*t)' and str(x * y / (z * t)) == 'x*y/(z*t)' and str((x - 1) / y) == '(x - 1)/y' and str((x + 1) / y) == '(x + 1)/y' and str((-x - 1) / y) == '(-x - 1)/y' and str((x + 1) / (y * z)) == '(x + 1)/(y*z)' and str(-y / (x + 1)) == '-y/(x + 1)' and str(y * z / (x + 1)) == 'y*z/(x + 1)' and str(((u + 1) * x * y + 1) / ((v - 1) * z - 1)) == '((u + 1)*x*y + 1)/((v - 1)*z - 1)' and str(((u + 1) * x * y + 1) / ((v - 1) * z - t * u * v - 1)) == '((u + 1)*x*y + 1)/((v - 1)*z - u*v*t - 1)' and str((1 + i) / xz) == '(1 + 1*I)/x' and str(((1 + i) * xz - i) / xz) == '((1 + 1*I)*x + (0 + -1*I))/x') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FracElement : Any → {Any | str(x - x) == '0' and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(x - x) == '0'                              ║
+# ║   ensures:  str(x - 1) == 'x - 1'                          ║
+# ║   ensures:  str(x + 1) == 'x + 1'                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FracElement : Any → {Any | result satisfies: str...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 935352a9caa826d9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da5eb98dc9478d5e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_FracElement","kind":"function","src_hash":"ff62524ebc091a35","in":{"base":"Any"},"out":{"base":"Any","pred":"str(x - x) == '0' and str(x - 1) == 'x - 1' and str(x + 1) == 'x + 1' and str(x / 3) == 'x/3' and str(x / z) == 'x/z' and str(x * y / z) == 'x*y/z' and str(x / (z * t)) == 'x/(z*t)' and str(x * y / (z * t)) == 'x*y/(z*t)' and str((x - 1) / y) == '(x - 1)/y' and str((x + 1) / y) == '(x + 1)/y' and str((-x - 1) / y) == '(-x - 1)/y' and str((x + 1) / (y * z)) == '(x + 1)/(y*z)' and str(-y / (x + 1)) == '-y/(x + 1)' and str(y * z / (x + 1)) == 'y*z/(x + 1)' and str((1 + i) / xz) == '(1 + 1*I)/x' and str(((1 + i) * xz - i) / xz) == '((1 + 1*I)*x + (0 + -1*I))/x'"},"spec":{"lhs":"test_FracElement()","rhs":"test_FracElement produces the expected output","over":{"base":"Any"},"name":"test_FracElement_correct"},"guarantee":"test_FracElement produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_FracElement_correct","statement":"Path(test_FracElement(x), test_FracElement produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"935352a9caa826d9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_FracElement","kind":"function","src_hash":"ff62524ebc091a35","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(x - x) == '0' and str(x - 1) == 'x - 1' and str(x + 1) == 'x + 1' and str(x / 3) == 'x/3' and str(x / z) == 'x/z' and str(x * y / z) == 'x*y/z' and str(x / (z * t)) == 'x/(z*t)' and str(x * y / (z * t)) == 'x*y/(z*t)' and str((x - 1) / y) == '(x - 1)/y' and str((x + 1) / y) == '(x + 1)/y' and str((-x - 1) / y) == '(-x - 1)/y' and str((x + 1) / (y * z)) == '(x + 1)/(y*z)' and str(-y / (x + 1)) == '-y/(x + 1)' and str(y * z / (x + 1)) == 'y*z/(x + 1)' and str(((u + 1) * x * y + 1) / ((v - 1) * z - 1)) == '((u + 1)*x*y + 1)/((v - 1)*z - 1)' and str(((u + 1) * x * y + 1) / ((v - 1) * z - t * u * v - 1)) == '((u + 1)*x*y + 1)/((v - 1)*z - u*v*t - 1)' and str((1 + i) / xz) == '(1 + 1*I)/x' and str(((1 + i) * xz - i) / xz) == '((1 + 1*I)*x + (0 + -1*I))/x'"},"spec":{"lhs":"test_FracElement()","rhs":"str(x - x) == '0' and str(x - 1) == 'x - 1' and str(x + 1) == 'x + 1' and str(x / 3) == 'x/3' and str(x / z) == 'x/z' and str(x * y / z) == 'x*y/z' and str(x / (z * t)) == 'x/(z*t)' and str(x * y / (z * t)) == 'x*y/(z*t)' and str((x - 1) / y) == '(x - 1)/y' and str((x + 1) / y) == '(x + 1)/y' and str((-x - 1) / y) == '(-x - 1)/y' and str((x + 1) / (y * z)) == '(x + 1)/(y*z)' and str(-y / (x + 1)) == '-y/(x + 1)' and str(y * z / (x + 1)) == 'y*z/(x + 1)' and str(((u + 1) * x * y + 1) / ((v - 1) * z - 1)) == '((u + 1)*x*y + 1)/((v - 1)*z - 1)' and str(((u + 1) * x * y + 1) / ((v - 1) * z - t * u * v - 1)) == '((u + 1)*x*y + 1)/((v - 1)*z - u*v*t - 1)' and str((1 + i) / xz) == '(1 + 1*I)/x' and str(((1 + i) * xz - i) / xz) == '((1 + 1*I)*x + (0 + -1*I))/x'","over":{"base":"Any"},"name":"test_FracElement_correct"},"guarantee":"str(x - x) == '0'; str(x - 1) == 'x - 1'; str(x + 1) == 'x + 1'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_FracElement_correct","statement":"Path(test_FracElement(x), str(x - x) == '0'; str(x - 1) == 'x - 1'; str(x + 1) == 'x + 1')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da5eb98dc9478d5e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(x - x) == '0'","str(x - 1) == 'x - 1'","str(x + 1) == 'x + 1'","str(x / 3) == 'x/3'","str(x / z) == 'x/z'","str(x * y / z) == 'x*y/z'","str(x / (z * t)) == 'x/(z*t)'","str(x * y / (z * t)) == 'x*y/(z*t)'","str((x - 1) / y) == '(x - 1)/y'","str((x + 1) / y) == '(x + 1)/y'","str((-x - 1) / y) == '(-x - 1)/y'","str((x + 1) / (y * z)) == '(x + 1)/(y*z)'","str(-y / (x + 1)) == '-y/(x + 1)'","str(y * z / (x + 1)) == 'y*z/(x + 1)'","str(((u + 1) * x * y + 1) / ((v - 1) * z - 1)) == '((u + 1)*x*y + 1)/((v - 1)*z - 1)'","str(((u + 1) * x * y + 1) / ((v - 1) * z - t * u * v - 1)) == '((u + 1)*x*y + 1)/((v - 1)*z - u*v*t - 1)'","str((1 + i) / xz) == '(1 + 1*I)/x'","str(((1 + i) * xz - i) / xz) == '((1 + 1*I)*x + (0 + -1*I))/x'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_FracElement():
     Fuv, u,v = field("u,v", ZZ)
     Fxyzt, x,y,z,t = field("x,y,z,t", Fuv)
@@ -941,16 +1215,24 @@ def test_FracElement():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_GaussianInteger(), test_GaussianInteger produces the expected output) over Any ║
+# ║ Path(test_GaussianInteger(), str(ZZ_I(1, 0)) == '1' and str(ZZ_I(-1, 0)) == '-1' and str(ZZ_I(0, 1)) == 'I' and str(ZZ_I(0, -1)) == '-I' and str(ZZ_I(0, 2)) == '2*I' and str(ZZ_I(0, -2)) == '-2*I' and str(ZZ_I(1, 1)) == '1 + I' and str(ZZ_I(-1, -1)) == '-1 - I' and str(ZZ_I(-1, -2)) == '-1 - 2*I') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_GaussianInteger : Any → {Any | str(ZZ_I(1, 0)) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(ZZ_I(1, 0)) == '1'                         ║
+# ║   ensures:  str(ZZ_I(-1, 0)) == '-1'                       ║
+# ║   ensures:  str(ZZ_I(0, 1)) == 'I'                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_GaussianInteger : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8d89fa25d850f20  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae8d91a6d005b8a6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_GaussianInteger","kind":"function","src_hash":"8cd043af4a31f829","in":{"base":"Any"},"out":{"base":"Any","pred":"str(ZZ_I(1, 0)) == '1' and str(ZZ_I(-1, 0)) == '-1' and str(ZZ_I(0, 1)) == 'I' and str(ZZ_I(0, -1)) == '-I' and str(ZZ_I(0, 2)) == '2*I' and str(ZZ_I(0, -2)) == '-2*I' and str(ZZ_I(1, 1)) == '1 + I' and str(ZZ_I(-1, -1)) == '-1 - I' and str(ZZ_I(-1, -2)) == '-1 - 2*I'"},"spec":{"lhs":"test_GaussianInteger()","rhs":"test_GaussianInteger produces the expected output","over":{"base":"Any"},"name":"test_GaussianInteger_correct"},"guarantee":"test_GaussianInteger produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_GaussianInteger_correct","statement":"Path(test_GaussianInteger(x), test_GaussianInteger produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8d89fa25d850f20"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_GaussianInteger","kind":"function","src_hash":"8cd043af4a31f829","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(ZZ_I(1, 0)) == '1' and str(ZZ_I(-1, 0)) == '-1' and str(ZZ_I(0, 1)) == 'I' and str(ZZ_I(0, -1)) == '-I' and str(ZZ_I(0, 2)) == '2*I' and str(ZZ_I(0, -2)) == '-2*I' and str(ZZ_I(1, 1)) == '1 + I' and str(ZZ_I(-1, -1)) == '-1 - I' and str(ZZ_I(-1, -2)) == '-1 - 2*I'"},"spec":{"lhs":"test_GaussianInteger()","rhs":"str(ZZ_I(1, 0)) == '1' and str(ZZ_I(-1, 0)) == '-1' and str(ZZ_I(0, 1)) == 'I' and str(ZZ_I(0, -1)) == '-I' and str(ZZ_I(0, 2)) == '2*I' and str(ZZ_I(0, -2)) == '-2*I' and str(ZZ_I(1, 1)) == '1 + I' and str(ZZ_I(-1, -1)) == '-1 - I' and str(ZZ_I(-1, -2)) == '-1 - 2*I'","over":{"base":"Any"},"name":"test_GaussianInteger_correct"},"guarantee":"str(ZZ_I(1, 0)) == '1'; str(ZZ_I(-1, 0)) == '-1'; str(ZZ_I(0, 1)) == 'I'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_GaussianInteger_correct","statement":"Path(test_GaussianInteger(x), str(ZZ_I(1, 0)) == '1'; str(ZZ_I(-1, 0)) == '-1'; str(ZZ_I(0, 1)) == 'I')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae8d91a6d005b8a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(ZZ_I(1, 0)) == '1'","str(ZZ_I(-1, 0)) == '-1'","str(ZZ_I(0, 1)) == 'I'","str(ZZ_I(0, -1)) == '-I'","str(ZZ_I(0, 2)) == '2*I'","str(ZZ_I(0, -2)) == '-2*I'","str(ZZ_I(1, 1)) == '1 + I'","str(ZZ_I(-1, -1)) == '-1 - I'","str(ZZ_I(-1, -2)) == '-1 - 2*I'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_GaussianInteger():
     assert str(ZZ_I(1, 0)) == "1"
     assert str(ZZ_I(-1, 0)) == "-1"
@@ -964,16 +1246,24 @@ def test_GaussianInteger():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_GaussianRational(), test_GaussianRational produces the expected output) over Any ║
+# ║ Path(test_GaussianRational(), str(QQ_I(1, 0)) == '1' and str(QQ_I(QQ(2, 3), 0)) == '2/3' and str(QQ_I(0, QQ(2, 3))) == '2*I/3' and str(QQ_I(QQ(1, 2), QQ(-2, 3))) == '1/2 - 2*I/3') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_GaussianRational : Any → {Any | str(QQ_I(1, 0)) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(QQ_I(1, 0)) == '1'                         ║
+# ║   ensures:  str(QQ_I(QQ(2, 3), 0)) == '2/3'                ║
+# ║   ensures:  str(QQ_I(0, QQ(2, 3))) == '2*I/3'              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_GaussianRational : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e5dcec2359e0e11  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a66afc62f1fb4e84  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_GaussianRational","kind":"function","src_hash":"6f0c0e07170b07d2","in":{"base":"Any"},"out":{"base":"Any","pred":"str(QQ_I(1, 0)) == '1' and str(QQ_I(QQ(2, 3), 0)) == '2/3' and str(QQ_I(0, QQ(2, 3))) == '2*I/3' and str(QQ_I(QQ(1, 2), QQ(-2, 3))) == '1/2 - 2*I/3'"},"spec":{"lhs":"test_GaussianRational()","rhs":"test_GaussianRational produces the expected output","over":{"base":"Any"},"name":"test_GaussianRational_correct"},"guarantee":"test_GaussianRational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_GaussianRational_correct","statement":"Path(test_GaussianRational(x), test_GaussianRational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e5dcec2359e0e11"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_GaussianRational","kind":"function","src_hash":"6f0c0e07170b07d2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(QQ_I(1, 0)) == '1' and str(QQ_I(QQ(2, 3), 0)) == '2/3' and str(QQ_I(0, QQ(2, 3))) == '2*I/3' and str(QQ_I(QQ(1, 2), QQ(-2, 3))) == '1/2 - 2*I/3'"},"spec":{"lhs":"test_GaussianRational()","rhs":"str(QQ_I(1, 0)) == '1' and str(QQ_I(QQ(2, 3), 0)) == '2/3' and str(QQ_I(0, QQ(2, 3))) == '2*I/3' and str(QQ_I(QQ(1, 2), QQ(-2, 3))) == '1/2 - 2*I/3'","over":{"base":"Any"},"name":"test_GaussianRational_correct"},"guarantee":"str(QQ_I(1, 0)) == '1'; str(QQ_I(QQ(2, 3), 0)) == '2/3'; str(QQ_I(0, QQ(2, 3))) == '2*I/3'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_GaussianRational_correct","statement":"Path(test_GaussianRational(x), str(QQ_I(1, 0)) == '1'; str(QQ_I(QQ(2, 3), 0)) == '2/3'; str(QQ_I(0, QQ(2, 3))) == '2*I/3')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a66afc62f1fb4e84","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(QQ_I(1, 0)) == '1'","str(QQ_I(QQ(2, 3), 0)) == '2/3'","str(QQ_I(0, QQ(2, 3))) == '2*I/3'","str(QQ_I(QQ(1, 2), QQ(-2, 3))) == '1/2 - 2*I/3'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_GaussianRational():
     assert str(QQ_I(1, 0)) == "1"
     assert str(QQ_I(QQ(2, 3), 0)) == "2/3"
@@ -982,16 +1272,24 @@ def test_GaussianRational():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Pow(), test_Pow produces the expected output) over Any ║
+# ║ Path(test_Pow(), str(x ** (-1)) == '1/x' and str(x ** (-2)) == 'x**(-2)' and str(x ** 2) == 'x**2' and str((x + y) ** (-1)) == '1/(x + y)' and str((x + y) ** (-2)) == '(x + y)**(-2)' and str((x + y) ** 2) == '(x + y)**2' and str((x + y) ** (1 + x)) == '(x + y)**(x + 1)' and str(x ** Rational(1, 3)) == 'x**(1/3)' and str(1 / x ** Rational(1, 3)) == 'x**(-1/3)' and str(sqrt(sqrt(x))) == 'x**(1/4)' and str(x ** (-1.0)) == 'x**(-1.0)' and str(Pow(S(2), -1.0, evaluate=False)) == '2**(-1.0)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Pow : Any → {Any | str(x ** (-1)) == '1/x' and s...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(x ** (-1)) == '1/x'                        ║
+# ║   ensures:  str(x ** (-2)) == 'x**(-2)'                    ║
+# ║   ensures:  str(x ** 2) == 'x**2'                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Pow : Any → {Any | result satisfies: str(x ** (-...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98c1acda601f501a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | adebdb1d4e3b062c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Pow","kind":"function","src_hash":"15d742ce02ce1fda","in":{"base":"Any"},"out":{"base":"Any","pred":"str(x ** (-1)) == '1/x' and str(x ** (-2)) == 'x**(-2)' and str(x ** 2) == 'x**2' and str((x + y) ** (-1)) == '1/(x + y)' and str((x + y) ** (-2)) == '(x + y)**(-2)' and str((x + y) ** 2) == '(x + y)**2' and str((x + y) ** (1 + x)) == '(x + y)**(x + 1)' and str(x ** Rational(1, 3)) == 'x**(1/3)' and str(1 / x ** Rational(1, 3)) == 'x**(-1/3)' and str(sqrt(sqrt(x))) == 'x**(1/4)' and str(x ** (-1.0)) == 'x**(-1.0)' and str(Pow(S(2), -1.0, evaluate=False)) == '2**(-1.0)'"},"spec":{"lhs":"test_Pow()","rhs":"test_Pow produces the expected output","over":{"base":"Any"},"name":"test_Pow_correct"},"guarantee":"test_Pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Pow_correct","statement":"Path(test_Pow(x), test_Pow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98c1acda601f501a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Pow","kind":"function","src_hash":"15d742ce02ce1fda","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(x ** (-1)) == '1/x' and str(x ** (-2)) == 'x**(-2)' and str(x ** 2) == 'x**2' and str((x + y) ** (-1)) == '1/(x + y)' and str((x + y) ** (-2)) == '(x + y)**(-2)' and str((x + y) ** 2) == '(x + y)**2' and str((x + y) ** (1 + x)) == '(x + y)**(x + 1)' and str(x ** Rational(1, 3)) == 'x**(1/3)' and str(1 / x ** Rational(1, 3)) == 'x**(-1/3)' and str(sqrt(sqrt(x))) == 'x**(1/4)' and str(x ** (-1.0)) == 'x**(-1.0)' and str(Pow(S(2), -1.0, evaluate=False)) == '2**(-1.0)'"},"spec":{"lhs":"test_Pow()","rhs":"str(x ** (-1)) == '1/x' and str(x ** (-2)) == 'x**(-2)' and str(x ** 2) == 'x**2' and str((x + y) ** (-1)) == '1/(x + y)' and str((x + y) ** (-2)) == '(x + y)**(-2)' and str((x + y) ** 2) == '(x + y)**2' and str((x + y) ** (1 + x)) == '(x + y)**(x + 1)' and str(x ** Rational(1, 3)) == 'x**(1/3)' and str(1 / x ** Rational(1, 3)) == 'x**(-1/3)' and str(sqrt(sqrt(x))) == 'x**(1/4)' and str(x ** (-1.0)) == 'x**(-1.0)' and str(Pow(S(2), -1.0, evaluate=False)) == '2**(-1.0)'","over":{"base":"Any"},"name":"test_Pow_correct"},"guarantee":"str(x ** (-1)) == '1/x'; str(x ** (-2)) == 'x**(-2)'; str(x ** 2) == 'x**2'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Pow_correct","statement":"Path(test_Pow(x), str(x ** (-1)) == '1/x'; str(x ** (-2)) == 'x**(-2)'; str(x ** 2) == 'x**2')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"adebdb1d4e3b062c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(x ** (-1)) == '1/x'","str(x ** (-2)) == 'x**(-2)'","str(x ** 2) == 'x**2'","str((x + y) ** (-1)) == '1/(x + y)'","str((x + y) ** (-2)) == '(x + y)**(-2)'","str((x + y) ** 2) == '(x + y)**2'","str((x + y) ** (1 + x)) == '(x + y)**(x + 1)'","str(x ** Rational(1, 3)) == 'x**(1/3)'","str(1 / x ** Rational(1, 3)) == 'x**(-1/3)'","str(sqrt(sqrt(x))) == 'x**(1/4)'","str(x ** (-1.0)) == 'x**(-1.0)'","str(Pow(S(2), -1.0, evaluate=False)) == '2**(-1.0)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Pow():
     assert str(x**-1) == "1/x"
     assert str(x**-2) == "x**(-2)"
@@ -1010,16 +1308,24 @@ def test_Pow():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sqrt(), test_sqrt produces the expected output) over Any ║
+# ║ Path(test_sqrt(), str(sqrt(x)) == 'sqrt(x)' and str(sqrt(x ** 2)) == 'sqrt(x**2)' and str(1 / sqrt(x)) == '1/sqrt(x)' and str(1 / sqrt(x ** 2)) == '1/sqrt(x**2)' and str(y / sqrt(x)) == 'y/sqrt(x)' and str(x ** 0.5) == 'x**0.5' and str(1 / x ** 0.5) == 'x**(-0.5)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sqrt : Any → {Any | str(sqrt(x)) == 'sqrt(x)' an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(sqrt(x)) == 'sqrt(x)'                      ║
+# ║   ensures:  str(sqrt(x ** 2)) == 'sqrt(x**2)'              ║
+# ║   ensures:  str(1 / sqrt(x)) == '1/sqrt(x)'                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sqrt : Any → {Any | result satisfies: str(sqrt(x...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a0475f7f575946c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c0a74adc8e0af41  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_sqrt","kind":"function","src_hash":"f226f03925f22e5d","in":{"base":"Any"},"out":{"base":"Any","pred":"str(sqrt(x)) == 'sqrt(x)' and str(sqrt(x ** 2)) == 'sqrt(x**2)' and str(1 / sqrt(x)) == '1/sqrt(x)' and str(1 / sqrt(x ** 2)) == '1/sqrt(x**2)' and str(y / sqrt(x)) == 'y/sqrt(x)' and str(x ** 0.5) == 'x**0.5' and str(1 / x ** 0.5) == 'x**(-0.5)'"},"spec":{"lhs":"test_sqrt()","rhs":"test_sqrt produces the expected output","over":{"base":"Any"},"name":"test_sqrt_correct"},"guarantee":"test_sqrt produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_sqrt_correct","statement":"Path(test_sqrt(x), test_sqrt produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a0475f7f575946c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_sqrt","kind":"function","src_hash":"f226f03925f22e5d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(sqrt(x)) == 'sqrt(x)' and str(sqrt(x ** 2)) == 'sqrt(x**2)' and str(1 / sqrt(x)) == '1/sqrt(x)' and str(1 / sqrt(x ** 2)) == '1/sqrt(x**2)' and str(y / sqrt(x)) == 'y/sqrt(x)' and str(x ** 0.5) == 'x**0.5' and str(1 / x ** 0.5) == 'x**(-0.5)'"},"spec":{"lhs":"test_sqrt()","rhs":"str(sqrt(x)) == 'sqrt(x)' and str(sqrt(x ** 2)) == 'sqrt(x**2)' and str(1 / sqrt(x)) == '1/sqrt(x)' and str(1 / sqrt(x ** 2)) == '1/sqrt(x**2)' and str(y / sqrt(x)) == 'y/sqrt(x)' and str(x ** 0.5) == 'x**0.5' and str(1 / x ** 0.5) == 'x**(-0.5)'","over":{"base":"Any"},"name":"test_sqrt_correct"},"guarantee":"str(sqrt(x)) == 'sqrt(x)'; str(sqrt(x ** 2)) == 'sqrt(x**2)'; str(1 / sqrt(x)) == '1/sqrt(x)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_sqrt_correct","statement":"Path(test_sqrt(x), str(sqrt(x)) == 'sqrt(x)'; str(sqrt(x ** 2)) == 'sqrt(x**2)'; str(1 / sqrt(x)) == '1/sqrt(x)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c0a74adc8e0af41","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(sqrt(x)) == 'sqrt(x)'","str(sqrt(x ** 2)) == 'sqrt(x**2)'","str(1 / sqrt(x)) == '1/sqrt(x)'","str(1 / sqrt(x ** 2)) == '1/sqrt(x**2)'","str(y / sqrt(x)) == 'y/sqrt(x)'","str(x ** 0.5) == 'x**0.5'","str(1 / x ** 0.5) == 'x**(-0.5)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sqrt():
     assert str(sqrt(x)) == "sqrt(x)"
     assert str(sqrt(x**2)) == "sqrt(x**2)"
@@ -1031,16 +1337,24 @@ def test_sqrt():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Rational(), test_Rational produces the expected output) over Any ║
+# ║ Path(test_Rational(), str(n1 * n2) == '1/12' and str(n3) == '1/2' and str(n1 * n3) == '1/8' and str(n1 + n3) == '3/4' and str(n1 + n2) == '7/12' and str(n1 + n4) == '-1/4' and str(n4 * n4) == '1/4' and str(n4 + n2) == '-1/6' and str(n4 + n5) == '-1/2' and str(n4 * n5) == '0' and str(n3 + n4) == '0' and str(n1 ** n7) == '1/64' and str(n2 ** n7) == '1/27' and str(n2 ** n8) == '27' and str(n7 ** n8) == '1/27' and str(Rational('-25')) == '-25' and str(Rational('1.25')) == '5/4' and str(Rational('-2.6e-2')) == '-13/500' and str(S('25/7')) == '25/7' and str(S('-123/569')) == '-123/569' and str(S('0.1[23]', rational=1)) == '61/495' and str(S('5.1[666]', rational=1)) == '31/6' and str(S('-5.1[666]', rational=1)) == '-31/6' and str(S('0.[9]', rational=1)) == '1' and str(S('-0.[9]', rational=1)) == '-1' and str(sqrt(Rational(1, 4))) == '1/2' and str(sqrt(Rational(1, 36))) == '1/6' and str((123 ** 25) ** Rational(1, 25)) == '123' and str((123 ** 25 + 1) ** Rational(1, 25)) != '123' and str((123 ** 25 - 1) ** Rational(1, 25)) != '123' and str((123 ** 25 - 1) ** Rational(1, 25)) != '122' and str(sqrt(Rational(81, 36)) ** 3) == '27/8' and str(1 / sqrt(Rational(81, 36)) ** 3) == '8/27' and str(sqrt(-4)) == str(2 * I) and str(2 ** Rational(1, 10 ** 10)) == '2**(1/10000000000)' and sstr(Rational(2, 3), sympy_integers=True) == 'S(2)/3' and sstr(x ** Rational(2, 3), sympy_integers=True) == 'x**(S(2)/3)' and sstr(Eq(x, Rational(2, 3)), sympy_integers=True) == 'Eq(x, S(2)/3)' and sstr(Limit(x, x, Rational(7, 2)), sympy_integers=True) == "Limit(x, x, S(7)/2, dir='+')") over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Rational : Any → {Any | str(n1 * n2) == '1/12' a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(n1 * n2) == '1/12'                         ║
+# ║   ensures:  str(n3) == '1/2'                               ║
+# ║   ensures:  str(n1 * n3) == '1/8'                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Rational : Any → {Any | result satisfies: str(n1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 96c403d8d47e875f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5efb023ad2c7623b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Rational","kind":"function","src_hash":"3bd61347a446dcad","in":{"base":"Any"},"out":{"base":"Any","pred":"str(n1 * n2) == '1/12' and str(n1 * n2) == '1/12' and str(n3) == '1/2' and str(n1 * n3) == '1/8' and str(n1 + n3) == '3/4' and str(n1 + n2) == '7/12' and str(n1 + n4) == '-1/4' and str(n4 * n4) == '1/4' and str(n4 + n2) == '-1/6' and str(n4 + n5) == '-1/2' and str(n4 * n5) == '0' and str(n3 + n4) == '0' and str(n1 ** n7) == '1/64' and str(n2 ** n7) == '1/27' and str(n2 ** n8) == '27' and str(n7 ** n8) == '1/27' and str(Rational('-25')) == '-25' and str(Rational('1.25')) == '5/4' and str(Rational('-2.6e-2')) == '-13/500' and str(S('25/7')) == '25/7' and str(S('-123/569')) == '-123/569' and str(S('0.1[23]', rational=1)) == '61/495' and str(S('5.1[666]', rational=1)) == '31/6' and str(S('-5.1[666]', rational=1)) == '-31/6' and str(S('0.[9]', rational=1)) == '1' and str(S('-0.[9]', rational=1)) == '-1' and str(sqrt(Rational(1, 4))) == '1/2' and str(sqrt(Rational(1, 36))) == '1/6' and str((123 ** 25) ** Rational(1, 25)) == '123' and str((123 ** 25 + 1) ** Rational(1, 25)) != '123' and str((123 ** 25 - 1) ** Rational(1, 25)) != '123' and str((123 ** 25 - 1) ** Rational(1, 25)) != '122' and str(sqrt(Rational(81, 36)) ** 3) == '27/8' and str(1 / sqrt(Rational(81, 36)) ** 3) == '8/27' and str(sqrt(-4)) == str(2 * I) and str(2 ** Rational(1, 10 ** 10)) == '2**(1/10000000000)' and sstr(Rational(2, 3), sympy_integers=True) == 'S(2)/3' and sstr(x ** Rational(2, 3), sympy_integers=True) == 'x**(S(2)/3)' and sstr(Eq(x, Rational(2, 3)), sympy_integers=True) == 'Eq(x, S(2)/3)'"},"spec":{"lhs":"test_Rational()","rhs":"test_Rational produces the expected output","over":{"base":"Any"},"name":"test_Rational_correct"},"guarantee":"test_Rational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Rational_correct","statement":"Path(test_Rational(x), test_Rational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96c403d8d47e875f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Rational","kind":"function","src_hash":"3bd61347a446dcad","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(n1 * n2) == '1/12' and str(n3) == '1/2' and str(n1 * n3) == '1/8' and str(n1 + n3) == '3/4' and str(n1 + n2) == '7/12' and str(n1 + n4) == '-1/4' and str(n4 * n4) == '1/4' and str(n4 + n2) == '-1/6' and str(n4 + n5) == '-1/2' and str(n4 * n5) == '0' and str(n3 + n4) == '0' and str(n1 ** n7) == '1/64' and str(n2 ** n7) == '1/27' and str(n2 ** n8) == '27' and str(n7 ** n8) == '1/27' and str(Rational('-25')) == '-25' and str(Rational('1.25')) == '5/4' and str(Rational('-2.6e-2')) == '-13/500' and str(S('25/7')) == '25/7' and str(S('-123/569')) == '-123/569' and str(S('0.1[23]', rational=1)) == '61/495' and str(S('5.1[666]', rational=1)) == '31/6' and str(S('-5.1[666]', rational=1)) == '-31/6' and str(S('0.[9]', rational=1)) == '1' and str(S('-0.[9]', rational=1)) == '-1' and str(sqrt(Rational(1, 4))) == '1/2' and str(sqrt(Rational(1, 36))) == '1/6' and str((123 ** 25) ** Rational(1, 25)) == '123' and str((123 ** 25 + 1) ** Rational(1, 25)) != '123' and str((123 ** 25 - 1) ** Rational(1, 25)) != '123' and str((123 ** 25 - 1) ** Rational(1, 25)) != '122' and str(sqrt(Rational(81, 36)) ** 3) == '27/8' and str(1 / sqrt(Rational(81, 36)) ** 3) == '8/27' and str(sqrt(-4)) == str(2 * I) and str(2 ** Rational(1, 10 ** 10)) == '2**(1/10000000000)' and sstr(Rational(2, 3), sympy_integers=True) == 'S(2)/3' and sstr(x ** Rational(2, 3), sympy_integers=True) == 'x**(S(2)/3)' and sstr(Eq(x, Rational(2, 3)), sympy_integers=True) == 'Eq(x, S(2)/3)' and sstr(Limit(x, x, Rational(7, 2)), sympy_integers=True) == \"Limit(x, x, S(7)/2, dir='+')\""},"spec":{"lhs":"test_Rational()","rhs":"str(n1 * n2) == '1/12' and str(n3) == '1/2' and str(n1 * n3) == '1/8' and str(n1 + n3) == '3/4' and str(n1 + n2) == '7/12' and str(n1 + n4) == '-1/4' and str(n4 * n4) == '1/4' and str(n4 + n2) == '-1/6' and str(n4 + n5) == '-1/2' and str(n4 * n5) == '0' and str(n3 + n4) == '0' and str(n1 ** n7) == '1/64' and str(n2 ** n7) == '1/27' and str(n2 ** n8) == '27' and str(n7 ** n8) == '1/27' and str(Rational('-25')) == '-25' and str(Rational('1.25')) == '5/4' and str(Rational('-2.6e-2')) == '-13/500' and str(S('25/7')) == '25/7' and str(S('-123/569')) == '-123/569' and str(S('0.1[23]', rational=1)) == '61/495' and str(S('5.1[666]', rational=1)) == '31/6' and str(S('-5.1[666]', rational=1)) == '-31/6' and str(S('0.[9]', rational=1)) == '1' and str(S('-0.[9]', rational=1)) == '-1' and str(sqrt(Rational(1, 4))) == '1/2' and str(sqrt(Rational(1, 36))) == '1/6' and str((123 ** 25) ** Rational(1, 25)) == '123' and str((123 ** 25 + 1) ** Rational(1, 25)) != '123' and str((123 ** 25 - 1) ** Rational(1, 25)) != '123' and str((123 ** 25 - 1) ** Rational(1, 25)) != '122' and str(sqrt(Rational(81, 36)) ** 3) == '27/8' and str(1 / sqrt(Rational(81, 36)) ** 3) == '8/27' and str(sqrt(-4)) == str(2 * I) and str(2 ** Rational(1, 10 ** 10)) == '2**(1/10000000000)' and sstr(Rational(2, 3), sympy_integers=True) == 'S(2)/3' and sstr(x ** Rational(2, 3), sympy_integers=True) == 'x**(S(2)/3)' and sstr(Eq(x, Rational(2, 3)), sympy_integers=True) == 'Eq(x, S(2)/3)' and sstr(Limit(x, x, Rational(7, 2)), sympy_integers=True) == \"Limit(x, x, S(7)/2, dir='+')\"","over":{"base":"Any"},"name":"test_Rational_correct"},"guarantee":"str(n1 * n2) == '1/12'; str(n3) == '1/2'; str(n1 * n3) == '1/8'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Rational_correct","statement":"Path(test_Rational(x), str(n1 * n2) == '1/12'; str(n3) == '1/2'; str(n1 * n3) == '1/8')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5efb023ad2c7623b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(n1 * n2) == '1/12'","str(n3) == '1/2'","str(n1 * n3) == '1/8'","str(n1 + n3) == '3/4'","str(n1 + n2) == '7/12'","str(n1 + n4) == '-1/4'","str(n4 * n4) == '1/4'","str(n4 + n2) == '-1/6'","str(n4 + n5) == '-1/2'","str(n4 * n5) == '0'","str(n3 + n4) == '0'","str(n1 ** n7) == '1/64'","str(n2 ** n7) == '1/27'","str(n2 ** n8) == '27'","str(n7 ** n8) == '1/27'","str(Rational('-25')) == '-25'","str(Rational('1.25')) == '5/4'","str(Rational('-2.6e-2')) == '-13/500'","str(S('25/7')) == '25/7'","str(S('-123/569')) == '-123/569'","str(S('0.1[23]', rational=1)) == '61/495'","str(S('5.1[666]', rational=1)) == '31/6'","str(S('-5.1[666]', rational=1)) == '-31/6'","str(S('0.[9]', rational=1)) == '1'","str(S('-0.[9]', rational=1)) == '-1'","str(sqrt(Rational(1, 4))) == '1/2'","str(sqrt(Rational(1, 36))) == '1/6'","str((123 ** 25) ** Rational(1, 25)) == '123'","str((123 ** 25 + 1) ** Rational(1, 25)) != '123'","str((123 ** 25 - 1) ** Rational(1, 25)) != '123'","str((123 ** 25 - 1) ** Rational(1, 25)) != '122'","str(sqrt(Rational(81, 36)) ** 3) == '27/8'","str(1 / sqrt(Rational(81, 36)) ** 3) == '8/27'","str(sqrt(-4)) == str(2 * I)","str(2 ** Rational(1, 10 ** 10)) == '2**(1/10000000000)'","sstr(Rational(2, 3), sympy_integers=True) == 'S(2)/3'","sstr(x ** Rational(2, 3), sympy_integers=True) == 'x**(S(2)/3)'","sstr(Eq(x, Rational(2, 3)), sympy_integers=True) == 'Eq(x, S(2)/3)'","sstr(Limit(x, x, Rational(7, 2)), sympy_integers=True) == \"Limit(x, x, S(7)/2, dir='+')\""],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_Rational():
     n1 = Rational(1, 4)
     n2 = Rational(1, 3)
@@ -1099,16 +1413,24 @@ def test_Rational():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Float(), test_Float produces the expected output) over Any ║
+# ║ Path(test_Float(), str(Float('1.23', dps=1 + 2)) == '1.23' and str(Float('1.23456789', dps=1 + 8)) == '1.23456789' and str(Float('1.234567890123456789', dps=1 + 18)) == '1.234567890123456789' and str(pi.evalf(1 + 2)) == '3.14' and str(pi.evalf(1 + 14)) == '3.14159265358979' and str(pi.evalf(1 + 64)) == '3.1415926535897932384626433832795028841971693993751058209749445923' and str(pi.round(-1)) == '0.0' and str((pi ** 400 - (pi ** 400).round(1)).n(2)) == '-0.e+88' and sstr(Float('100'), full_prec=False, min=-2, max=2) == '1.0e+2' and sstr(Float('100'), full_prec=False, min=-2, max=3) == '100.0' and sstr(Float('0.1'), full_prec=False, min=-2, max=3) == '0.1' and sstr(Float('0.099'), min=-2, max=3) == '9.90000000000000e-2') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Float : Any → {Any | str(Float('1.23', dps=1 + 2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(Float('1.23', dps=1 + 2)) == '1.23'        ║
+# ║   ensures:  str(Float('1.23456789', dps=1 + 8)) == '1...   ║
+# ║   ensures:  str(Float('1.234567890123456789', dps=1 +...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Float : Any → {Any | result satisfies: str(Float...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 862a27ae2965ed4c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd71257ff044337d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Float","kind":"function","src_hash":"224d6bb0447bef38","in":{"base":"Any"},"out":{"base":"Any","pred":"str(Float('1.23', dps=1 + 2)) == '1.23' and str(Float('1.23456789', dps=1 + 8)) == '1.23456789' and str(Float('1.234567890123456789', dps=1 + 18)) == '1.234567890123456789' and str(pi.evalf(1 + 2)) == '3.14' and str(pi.evalf(1 + 14)) == '3.14159265358979' and str(pi.round(-1)) == '0.0' and str((pi ** 400 - (pi ** 400).round(1)).n(2)) == '-0.e+88' and sstr(Float('100'), full_prec=False, min=-2, max=2) == '1.0e+2' and sstr(Float('100'), full_prec=False, min=-2, max=3) == '100.0' and sstr(Float('0.1'), full_prec=False, min=-2, max=3) == '0.1' and sstr(Float('0.099'), min=-2, max=3) == '9.90000000000000e-2'"},"spec":{"lhs":"test_Float()","rhs":"test_Float produces the expected output","over":{"base":"Any"},"name":"test_Float_correct"},"guarantee":"test_Float produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Float_correct","statement":"Path(test_Float(x), test_Float produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"862a27ae2965ed4c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Float","kind":"function","src_hash":"224d6bb0447bef38","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(Float('1.23', dps=1 + 2)) == '1.23' and str(Float('1.23456789', dps=1 + 8)) == '1.23456789' and str(Float('1.234567890123456789', dps=1 + 18)) == '1.234567890123456789' and str(pi.evalf(1 + 2)) == '3.14' and str(pi.evalf(1 + 14)) == '3.14159265358979' and str(pi.evalf(1 + 64)) == '3.1415926535897932384626433832795028841971693993751058209749445923' and str(pi.round(-1)) == '0.0' and str((pi ** 400 - (pi ** 400).round(1)).n(2)) == '-0.e+88' and sstr(Float('100'), full_prec=False, min=-2, max=2) == '1.0e+2' and sstr(Float('100'), full_prec=False, min=-2, max=3) == '100.0' and sstr(Float('0.1'), full_prec=False, min=-2, max=3) == '0.1' and sstr(Float('0.099'), min=-2, max=3) == '9.90000000000000e-2'"},"spec":{"lhs":"test_Float()","rhs":"str(Float('1.23', dps=1 + 2)) == '1.23' and str(Float('1.23456789', dps=1 + 8)) == '1.23456789' and str(Float('1.234567890123456789', dps=1 + 18)) == '1.234567890123456789' and str(pi.evalf(1 + 2)) == '3.14' and str(pi.evalf(1 + 14)) == '3.14159265358979' and str(pi.evalf(1 + 64)) == '3.1415926535897932384626433832795028841971693993751058209749445923' and str(pi.round(-1)) == '0.0' and str((pi ** 400 - (pi ** 400).round(1)).n(2)) == '-0.e+88' and sstr(Float('100'), full_prec=False, min=-2, max=2) == '1.0e+2' and sstr(Float('100'), full_prec=False, min=-2, max=3) == '100.0' and sstr(Float('0.1'), full_prec=False, min=-2, max=3) == '0.1' and sstr(Float('0.099'), min=-2, max=3) == '9.90000000000000e-2'","over":{"base":"Any"},"name":"test_Float_correct"},"guarantee":"str(Float('1.23', dps=1 + 2)) == '1.23'; str(Float('1.23456789', dps=1 + 8)) == '1.23456789'; str(Float('1.234567890123456789', dps=1 + 18)) == '1.234567890123456789'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Float_correct","statement":"Path(test_Float(x), str(Float('1.23', dps=1 + 2)) == '1.23'; str(Float('1.23456789', dps=1 + 8)) == '1.23456789'; str(Float('1.234567890123456789', dps=1 + 18)) == '1.234567890123456789')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd71257ff044337d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(Float('1.23', dps=1 + 2)) == '1.23'","str(Float('1.23456789', dps=1 + 8)) == '1.23456789'","str(Float('1.234567890123456789', dps=1 + 18)) == '1.234567890123456789'","str(pi.evalf(1 + 2)) == '3.14'","str(pi.evalf(1 + 14)) == '3.14159265358979'","str(pi.evalf(1 + 64)) == '3.1415926535897932384626433832795028841971693993751058209749445923'","str(pi.round(-1)) == '0.0'","str((pi ** 400 - (pi ** 400).round(1)).n(2)) == '-0.e+88'","sstr(Float('100'), full_prec=False, min=-2, max=2) == '1.0e+2'","sstr(Float('100'), full_prec=False, min=-2, max=3) == '100.0'","sstr(Float('0.1'), full_prec=False, min=-2, max=3) == '0.1'","sstr(Float('0.099'), min=-2, max=3) == '9.90000000000000e-2'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_Float():
     # NOTE dps is the whole number of decimal digits
     assert str(Float('1.23', dps=1 + 2)) == '1.23'
@@ -1128,16 +1450,24 @@ def test_Float():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Relational(), test_Relational produces the expected output) over Any ║
+# ║ Path(test_Relational(), str(Rel(x, y, '<')) == 'x < y' and str(Rel(x + y, y, '==')) == 'Eq(x + y, y)' and str(Rel(x, y, '!=')) == 'Ne(x, y)' and str(Eq(x, 1) | Eq(x, 2)) == 'Eq(x, 1) | Eq(x, 2)' and str(Ne(x, 1) & Ne(x, 2)) == 'Ne(x, 1) & Ne(x, 2)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Relational : Any → {Any | str(Rel(x, y, '<')) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(Rel(x, y, '<')) == 'x < y'                 ║
+# ║   ensures:  str(Rel(x + y, y, '==')) == 'Eq(x + y, y)'     ║
+# ║   ensures:  str(Rel(x, y, '!=')) == 'Ne(x, y)'             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Relational : Any → {Any | result satisfies: str(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd0763e645c18b48  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78b700e07ea2f1cb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Relational","kind":"function","src_hash":"d4ea430e8fee6292","in":{"base":"Any"},"out":{"base":"Any","pred":"str(Rel(x, y, '<')) == 'x < y' and str(Rel(x + y, y, '==')) == 'Eq(x + y, y)' and str(Rel(x, y, '!=')) == 'Ne(x, y)' and str(Eq(x, 1) | Eq(x, 2)) == 'Eq(x, 1) | Eq(x, 2)' and str(Ne(x, 1) & Ne(x, 2)) == 'Ne(x, 1) & Ne(x, 2)'"},"spec":{"lhs":"test_Relational()","rhs":"test_Relational produces the expected output","over":{"base":"Any"},"name":"test_Relational_correct"},"guarantee":"test_Relational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Relational_correct","statement":"Path(test_Relational(x), test_Relational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd0763e645c18b48"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Relational","kind":"function","src_hash":"d4ea430e8fee6292","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(Rel(x, y, '<')) == 'x < y' and str(Rel(x + y, y, '==')) == 'Eq(x + y, y)' and str(Rel(x, y, '!=')) == 'Ne(x, y)' and str(Eq(x, 1) | Eq(x, 2)) == 'Eq(x, 1) | Eq(x, 2)' and str(Ne(x, 1) & Ne(x, 2)) == 'Ne(x, 1) & Ne(x, 2)'"},"spec":{"lhs":"test_Relational()","rhs":"str(Rel(x, y, '<')) == 'x < y' and str(Rel(x + y, y, '==')) == 'Eq(x + y, y)' and str(Rel(x, y, '!=')) == 'Ne(x, y)' and str(Eq(x, 1) | Eq(x, 2)) == 'Eq(x, 1) | Eq(x, 2)' and str(Ne(x, 1) & Ne(x, 2)) == 'Ne(x, 1) & Ne(x, 2)'","over":{"base":"Any"},"name":"test_Relational_correct"},"guarantee":"str(Rel(x, y, '<')) == 'x < y'; str(Rel(x + y, y, '==')) == 'Eq(x + y, y)'; str(Rel(x, y, '!=')) == 'Ne(x, y)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Relational_correct","statement":"Path(test_Relational(x), str(Rel(x, y, '<')) == 'x < y'; str(Rel(x + y, y, '==')) == 'Eq(x + y, y)'; str(Rel(x, y, '!=')) == 'Ne(x, y)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78b700e07ea2f1cb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(Rel(x, y, '<')) == 'x < y'","str(Rel(x + y, y, '==')) == 'Eq(x + y, y)'","str(Rel(x, y, '!=')) == 'Ne(x, y)'","str(Eq(x, 1) | Eq(x, 2)) == 'Eq(x, 1) | Eq(x, 2)'","str(Ne(x, 1) & Ne(x, 2)) == 'Ne(x, 1) & Ne(x, 2)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Relational():
     assert str(Rel(x, y, "<")) == "x < y"
     assert str(Rel(x + y, y, "==")) == "Eq(x + y, y)"
@@ -1147,47 +1477,67 @@ def test_Relational():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_AppliedBinaryRelation(), test_AppliedBinaryRelation produces the expected output) over Any ║
+# ║ Path(test_AppliedBinaryRelation(), str(Q.eq(x, y)) == 'Q.eq(x, y)' and str(Q.ne(x, y)) == 'Q.ne(x, y)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_AppliedBinaryRelation : Any → {Any | str(Q.eq(x,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(Q.eq(x, y)) == 'Q.eq(x, y)'                ║
+# ║   ensures:  str(Q.ne(x, y)) == 'Q.ne(x, y)'                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_AppliedBinaryRelation : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98a7c501723bf569  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 17ae10422d539e7a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_AppliedBinaryRelation","kind":"function","src_hash":"59d8611045f37a8e","in":{"base":"Any"},"out":{"base":"Any","pred":"str(Q.eq(x, y)) == 'Q.eq(x, y)' and str(Q.ne(x, y)) == 'Q.ne(x, y)'"},"spec":{"lhs":"test_AppliedBinaryRelation()","rhs":"test_AppliedBinaryRelation produces the expected output","over":{"base":"Any"},"name":"test_AppliedBinaryRelation_correct"},"guarantee":"test_AppliedBinaryRelation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_AppliedBinaryRelation_correct","statement":"Path(test_AppliedBinaryRelation(x), test_AppliedBinaryRelation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98a7c501723bf569"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_AppliedBinaryRelation","kind":"function","src_hash":"59d8611045f37a8e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(Q.eq(x, y)) == 'Q.eq(x, y)' and str(Q.ne(x, y)) == 'Q.ne(x, y)'"},"spec":{"lhs":"test_AppliedBinaryRelation()","rhs":"str(Q.eq(x, y)) == 'Q.eq(x, y)' and str(Q.ne(x, y)) == 'Q.ne(x, y)'","over":{"base":"Any"},"name":"test_AppliedBinaryRelation_correct"},"guarantee":"str(Q.eq(x, y)) == 'Q.eq(x, y)'; str(Q.ne(x, y)) == 'Q.ne(x, y)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_AppliedBinaryRelation_correct","statement":"Path(test_AppliedBinaryRelation(x), str(Q.eq(x, y)) == 'Q.eq(x, y)'; str(Q.ne(x, y)) == 'Q.ne(x, y)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17ae10422d539e7a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(Q.eq(x, y)) == 'Q.eq(x, y)'","str(Q.ne(x, y)) == 'Q.ne(x, y)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_AppliedBinaryRelation():
     assert str(Q.eq(x, y)) == "Q.eq(x, y)"
     assert str(Q.ne(x, y)) == "Q.ne(x, y)"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_CRootOf(), test_CRootOf produces the expected output) over Any ║
+# ║ Path(test_CRootOf(), str(rootof(x ** 5 + 2 * x - 1, 0)) == 'CRootOf(x**5 + 2*x - 1, 0)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_CRootOf : Any → {Any | str(rootof(x ** 5 + 2 * x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(rootof(x ** 5 + 2 * x - 1, 0)) == 'CR...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_CRootOf : Any → {Any | result satisfies: str(roo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55298995ac2c81bf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca301057ab88c17a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_CRootOf","kind":"function","src_hash":"30937b3b27912da0","in":{"base":"Any"},"out":{"base":"Any","pred":"str(rootof(x ** 5 + 2 * x - 1, 0)) == 'CRootOf(x**5 + 2*x - 1, 0)'"},"spec":{"lhs":"test_CRootOf()","rhs":"test_CRootOf produces the expected output","over":{"base":"Any"},"name":"test_CRootOf_correct"},"guarantee":"test_CRootOf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_CRootOf_correct","statement":"Path(test_CRootOf(x), test_CRootOf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55298995ac2c81bf"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_CRootOf","kind":"function","src_hash":"30937b3b27912da0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(rootof(x ** 5 + 2 * x - 1, 0)) == 'CRootOf(x**5 + 2*x - 1, 0)'"},"spec":{"lhs":"test_CRootOf()","rhs":"str(rootof(x ** 5 + 2 * x - 1, 0)) == 'CRootOf(x**5 + 2*x - 1, 0)'","over":{"base":"Any"},"name":"test_CRootOf_correct"},"guarantee":"str(rootof(x ** 5 + 2 * x - 1, 0)) == 'CRootOf(x**5 + 2*x - 1, 0)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_CRootOf_correct","statement":"Path(test_CRootOf(x), str(rootof(x ** 5 + 2 * x - 1, 0)) == 'CRootOf(x**5 + 2*x - 1, 0)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca301057ab88c17a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(rootof(x ** 5 + 2 * x - 1, 0)) == 'CRootOf(x**5 + 2*x - 1, 0)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_CRootOf():
     assert str(rootof(x**5 + 2*x - 1, 0)) == "CRootOf(x**5 + 2*x - 1, 0)"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_RootSum(), test_RootSum produces the expected output) over Any ║
+# ║ Path(test_RootSum(), str(RootSum(f, Lambda(z, z), auto=False)) == 'RootSum(x**5 + 2*x - 1)' and str(RootSum(f, Lambda(z, z ** 2), auto=False)) == 'RootSum(x**5 + 2*x - 1, Lambda(z, z**2))') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_RootSum : Any → {Any | str(RootSum(f, Lambda(z, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(RootSum(f, Lambda(z, z), auto=False))...   ║
+# ║   ensures:  str(RootSum(f, Lambda(z, z ** 2), auto=Fa...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_RootSum : Any → {Any | result satisfies: str(Roo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e579af62c498f4e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 62274faa6610f021  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_RootSum","kind":"function","src_hash":"09722c0a7d1f4558","in":{"base":"Any"},"out":{"base":"Any","pred":"str(RootSum(f, Lambda(z, z), auto=False)) == 'RootSum(x**5 + 2*x - 1)'"},"spec":{"lhs":"test_RootSum()","rhs":"test_RootSum produces the expected output","over":{"base":"Any"},"name":"test_RootSum_correct"},"guarantee":"test_RootSum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_RootSum_correct","statement":"Path(test_RootSum(x), test_RootSum produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e579af62c498f4e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_RootSum","kind":"function","src_hash":"09722c0a7d1f4558","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(RootSum(f, Lambda(z, z), auto=False)) == 'RootSum(x**5 + 2*x - 1)' and str(RootSum(f, Lambda(z, z ** 2), auto=False)) == 'RootSum(x**5 + 2*x - 1, Lambda(z, z**2))'"},"spec":{"lhs":"test_RootSum()","rhs":"str(RootSum(f, Lambda(z, z), auto=False)) == 'RootSum(x**5 + 2*x - 1)' and str(RootSum(f, Lambda(z, z ** 2), auto=False)) == 'RootSum(x**5 + 2*x - 1, Lambda(z, z**2))'","over":{"base":"Any"},"name":"test_RootSum_correct"},"guarantee":"str(RootSum(f, Lambda(z, z), auto=False)) == 'RootSum(x**5 + 2*x - 1)'; str(RootSum(f, Lambda(z, z ** 2), auto=False)) == 'RootSum(x**5 + 2*x - 1, Lambda(z, z**2))'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_RootSum_correct","statement":"Path(test_RootSum(x), str(RootSum(f, Lambda(z, z), auto=False)) == 'RootSum(x**5 + 2*x - 1)'; str(RootSum(f, Lambda(z, z ** 2), auto=False)) == 'RootSum(x**5 + 2*x - 1, Lambda(z, z**2))')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62274faa6610f021","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(RootSum(f, Lambda(z, z), auto=False)) == 'RootSum(x**5 + 2*x - 1)'","str(RootSum(f, Lambda(z, z ** 2), auto=False)) == 'RootSum(x**5 + 2*x - 1, Lambda(z, z**2))'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_RootSum():
     f = x**5 + 2*x - 1
 
@@ -1198,16 +1548,24 @@ def test_RootSum():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_GroebnerBasis(), test_GroebnerBasis produces the expected output) over Any ║
+# ║ Path(test_GroebnerBasis(), str(groebner([], x, y)) == "GroebnerBasis([], x, y, domain='ZZ', order='lex')" and str(groebner(F, order='grlex')) == "GroebnerBasis([x**2 - x - 3*y + 1, y**2 - 2*x + y - 1], x, y, domain='ZZ', order='grlex')" and str(groebner(F, order='lex')) == "GroebnerBasis([2*x - y**2 - y + 1, y**4 + 2*y**3 - 3*y**2 - 16*y + 7], x, y, domain='ZZ', order='lex')") over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_GroebnerBasis : Any → {Any | str(groebner([], x,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(groebner([], x, y)) == "GroebnerBasis...   ║
+# ║   ensures:  str(groebner(F, order='grlex')) == "Groeb...   ║
+# ║   ensures:  str(groebner(F, order='lex')) == "Groebne...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_GroebnerBasis : Any → {Any | result satisfies: s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1632ae9f31b58745  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9941248818dea575  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_GroebnerBasis","kind":"function","src_hash":"17a898220d0491b3","in":{"base":"Any"},"out":{"base":"Any","pred":"str(groebner([], x, y)) == \"GroebnerBasis([], x, y, domain='ZZ', order='lex')\""},"spec":{"lhs":"test_GroebnerBasis()","rhs":"test_GroebnerBasis produces the expected output","over":{"base":"Any"},"name":"test_GroebnerBasis_correct"},"guarantee":"test_GroebnerBasis produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_GroebnerBasis_correct","statement":"Path(test_GroebnerBasis(x), test_GroebnerBasis produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1632ae9f31b58745"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_GroebnerBasis","kind":"function","src_hash":"17a898220d0491b3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(groebner([], x, y)) == \"GroebnerBasis([], x, y, domain='ZZ', order='lex')\" and str(groebner(F, order='grlex')) == \"GroebnerBasis([x**2 - x - 3*y + 1, y**2 - 2*x + y - 1], x, y, domain='ZZ', order='grlex')\" and str(groebner(F, order='lex')) == \"GroebnerBasis([2*x - y**2 - y + 1, y**4 + 2*y**3 - 3*y**2 - 16*y + 7], x, y, domain='ZZ', order='lex')\""},"spec":{"lhs":"test_GroebnerBasis()","rhs":"str(groebner([], x, y)) == \"GroebnerBasis([], x, y, domain='ZZ', order='lex')\" and str(groebner(F, order='grlex')) == \"GroebnerBasis([x**2 - x - 3*y + 1, y**2 - 2*x + y - 1], x, y, domain='ZZ', order='grlex')\" and str(groebner(F, order='lex')) == \"GroebnerBasis([2*x - y**2 - y + 1, y**4 + 2*y**3 - 3*y**2 - 16*y + 7], x, y, domain='ZZ', order='lex')\"","over":{"base":"Any"},"name":"test_GroebnerBasis_correct"},"guarantee":"str(groebner([], x, y)) == \"GroebnerBasis([], x, y, domain='ZZ', order='lex')\"; str(groebner(F, order='grlex')) == \"GroebnerBasis([x**2 - x - 3*y + 1, y**2 - 2*x + y - 1], x, y, domain='ZZ', order='grlex')\"; str(groebner(F, order='lex')) == \"GroebnerBasis([2*x - y**2 - y + 1, y**4 + 2*y**3 - 3*y**2 - 16*y + 7], x, y, domain='ZZ', order='lex')\"","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_GroebnerBasis_correct","statement":"Path(test_GroebnerBasis(x), str(groebner([], x, y)) == \"GroebnerBasis([], x, y, domain='ZZ', order='lex')\"; str(groebner(F, order='grlex')) == \"GroebnerBasis([x**2 - x - 3*y + 1, y**2 - 2*x + y - 1], x, y, domain='ZZ', order='grlex')\"; str(groebner(F, order='lex')) == \"GroebnerBasis([2*x - y**2 - y + 1, y**4 + 2*y**3 - 3*y**2 - 16*y + 7], x, y, domain='ZZ', order='lex')\")"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9941248818dea575","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(groebner([], x, y)) == \"GroebnerBasis([], x, y, domain='ZZ', order='lex')\"","str(groebner(F, order='grlex')) == \"GroebnerBasis([x**2 - x - 3*y + 1, y**2 - 2*x + y - 1], x, y, domain='ZZ', order='grlex')\"","str(groebner(F, order='lex')) == \"GroebnerBasis([2*x - y**2 - y + 1, y**4 + 2*y**3 - 3*y**2 - 16*y + 7], x, y, domain='ZZ', order='lex')\""],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_GroebnerBasis():
     assert str(groebner(
         [], x, y)) == "GroebnerBasis([], x, y, domain='ZZ', order='lex')"
@@ -1220,16 +1578,24 @@ def test_GroebnerBasis():
         "GroebnerBasis([2*x - y**2 - y + 1, y**4 + 2*y**3 - 3*y**2 - 16*y + 7], x, y, domain='ZZ', order='lex')"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_set(), test_set produces the expected output) over Any ║
+# ║ Path(test_set(), sstr(set()) == 'set()' and sstr(frozenset()) == 'frozenset()' and sstr({1}) == '{1}' and sstr(frozenset([1])) == 'frozenset({1})' and sstr({1, 2, 3}) == '{1, 2, 3}' and sstr(frozenset([1, 2, 3])) == 'frozenset({1, 2, 3})' and sstr({1, x, x ** 2, x ** 3, x ** 4}) == '{1, x, x**2, x**3, x**4}' and sstr(frozenset([1, x, x ** 2, x ** 3, x ** 4])) == 'frozenset({1, x, x**2, x**3, x**4})') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_set : Any → {Any | sstr(set()) == 'set()' and ss...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sstr(set()) == 'set()'                         ║
+# ║   ensures:  sstr(frozenset()) == 'frozenset()'             ║
+# ║   ensures:  sstr({1}) == '{1}'                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_set : Any → {Any | result satisfies: sstr(set())...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7364b75de01bb5e7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fe1d7da1cf5afa0d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_set","kind":"function","src_hash":"aa237e0c5c7c50a5","in":{"base":"Any"},"out":{"base":"Any","pred":"sstr(set()) == 'set()' and sstr(frozenset()) == 'frozenset()' and sstr({1}) == '{1}' and sstr(frozenset([1])) == 'frozenset({1})' and sstr({1, 2, 3}) == '{1, 2, 3}' and sstr(frozenset([1, 2, 3])) == 'frozenset({1, 2, 3})' and sstr({1, x, x ** 2, x ** 3, x ** 4}) == '{1, x, x**2, x**3, x**4}'"},"spec":{"lhs":"test_set()","rhs":"test_set produces the expected output","over":{"base":"Any"},"name":"test_set_correct"},"guarantee":"test_set produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_set_correct","statement":"Path(test_set(x), test_set produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7364b75de01bb5e7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_set","kind":"function","src_hash":"aa237e0c5c7c50a5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sstr(set()) == 'set()' and sstr(frozenset()) == 'frozenset()' and sstr({1}) == '{1}' and sstr(frozenset([1])) == 'frozenset({1})' and sstr({1, 2, 3}) == '{1, 2, 3}' and sstr(frozenset([1, 2, 3])) == 'frozenset({1, 2, 3})' and sstr({1, x, x ** 2, x ** 3, x ** 4}) == '{1, x, x**2, x**3, x**4}' and sstr(frozenset([1, x, x ** 2, x ** 3, x ** 4])) == 'frozenset({1, x, x**2, x**3, x**4})'"},"spec":{"lhs":"test_set()","rhs":"sstr(set()) == 'set()' and sstr(frozenset()) == 'frozenset()' and sstr({1}) == '{1}' and sstr(frozenset([1])) == 'frozenset({1})' and sstr({1, 2, 3}) == '{1, 2, 3}' and sstr(frozenset([1, 2, 3])) == 'frozenset({1, 2, 3})' and sstr({1, x, x ** 2, x ** 3, x ** 4}) == '{1, x, x**2, x**3, x**4}' and sstr(frozenset([1, x, x ** 2, x ** 3, x ** 4])) == 'frozenset({1, x, x**2, x**3, x**4})'","over":{"base":"Any"},"name":"test_set_correct"},"guarantee":"sstr(set()) == 'set()'; sstr(frozenset()) == 'frozenset()'; sstr({1}) == '{1}'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_set_correct","statement":"Path(test_set(x), sstr(set()) == 'set()'; sstr(frozenset()) == 'frozenset()'; sstr({1}) == '{1}')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe1d7da1cf5afa0d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sstr(set()) == 'set()'","sstr(frozenset()) == 'frozenset()'","sstr({1}) == '{1}'","sstr(frozenset([1])) == 'frozenset({1})'","sstr({1, 2, 3}) == '{1, 2, 3}'","sstr(frozenset([1, 2, 3])) == 'frozenset({1, 2, 3})'","sstr({1, x, x ** 2, x ** 3, x ** 4}) == '{1, x, x**2, x**3, x**4}'","sstr(frozenset([1, x, x ** 2, x ** 3, x ** 4])) == 'frozenset({1, x, x**2, x**3, x**4})'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_set():
     assert sstr(set()) == 'set()'
     assert sstr(frozenset()) == 'frozenset()'
@@ -1246,16 +1612,23 @@ def test_set():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_SparseMatrix(), test_SparseMatrix produces the expected output) over Any ║
+# ║ Path(test_SparseMatrix(), str(M) == 'Matrix([[x, 1], [y, x + y]])' and sstr(M) == 'Matrix([\n[x,     1],\n[y, x + y]])') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_SparseMatrix : Any → {Any | str(M) == 'Matrix([[...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(M) == 'Matrix([[x, 1], [y, x + y]])'       ║
+# ║   ensures:  sstr(M) == 'Matrix([\n[x,     1],\n[y, x ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_SparseMatrix : Any → {Any | result satisfies: st...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 17b3225c8b47148d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b8ca0f6295d38063  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_SparseMatrix","kind":"function","src_hash":"bb825e1aa2225db7","in":{"base":"Any"},"out":{"base":"Any","pred":"str(M) == 'Matrix([[x, 1], [y, x + y]])' and sstr(M) == 'Matrix([\\n[x,     1],\\n[y, x + y]])'"},"spec":{"lhs":"test_SparseMatrix()","rhs":"test_SparseMatrix produces the expected output","over":{"base":"Any"},"name":"test_SparseMatrix_correct"},"guarantee":"test_SparseMatrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_SparseMatrix_correct","statement":"Path(test_SparseMatrix(x), test_SparseMatrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17b3225c8b47148d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_SparseMatrix","kind":"function","src_hash":"bb825e1aa2225db7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(M) == 'Matrix([[x, 1], [y, x + y]])' and sstr(M) == 'Matrix([\\n[x,     1],\\n[y, x + y]])'"},"spec":{"lhs":"test_SparseMatrix()","rhs":"str(M) == 'Matrix([[x, 1], [y, x + y]])' and sstr(M) == 'Matrix([\\n[x,     1],\\n[y, x + y]])'","over":{"base":"Any"},"name":"test_SparseMatrix_correct"},"guarantee":"str(M) == 'Matrix([[x, 1], [y, x + y]])'; sstr(M) == 'Matrix([\\n[x,     1],\\n[y, x + y]])'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_SparseMatrix_correct","statement":"Path(test_SparseMatrix(x), str(M) == 'Matrix([[x, 1], [y, x + y]])'; sstr(M) == 'Matrix([\\n[x,     1],\\n[y, x + y]])')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8ca0f6295d38063","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(M) == 'Matrix([[x, 1], [y, x + y]])'","sstr(M) == 'Matrix([\\n[x,     1],\\n[y, x + y]])'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_SparseMatrix():
     M = SparseMatrix([[x**+1, 1], [y, x + y]])
     assert str(M) == "Matrix([[x, 1], [y, x + y]])"
@@ -1263,16 +1636,23 @@ def test_SparseMatrix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Sum(), test_Sum produces the expected output) over Any ║
+# ║ Path(test_Sum(), str(summation(cos(3 * z), (z, x, y))) == 'Sum(cos(3*z), (z, x, y))' and str(Sum(x * y ** 2, (x, -2, 2), (y, -5, 5))) == 'Sum(x*y**2, (x, -2, 2), (y, -5, 5))') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Sum : Any → {Any | str(summation(cos(3 * z), (z,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(summation(cos(3 * z), (z, x, y))) == ...   ║
+# ║   ensures:  str(Sum(x * y ** 2, (x, -2, 2), (y, -5, 5...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Sum : Any → {Any | result satisfies: str(summati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a118f4866c8e470  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 062d7c98a5c64630  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Sum","kind":"function","src_hash":"96b2d5ce559c833f","in":{"base":"Any"},"out":{"base":"Any","pred":"str(summation(cos(3 * z), (z, x, y))) == 'Sum(cos(3*z), (z, x, y))'"},"spec":{"lhs":"test_Sum()","rhs":"test_Sum produces the expected output","over":{"base":"Any"},"name":"test_Sum_correct"},"guarantee":"test_Sum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Sum_correct","statement":"Path(test_Sum(x), test_Sum produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a118f4866c8e470"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Sum","kind":"function","src_hash":"96b2d5ce559c833f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(summation(cos(3 * z), (z, x, y))) == 'Sum(cos(3*z), (z, x, y))' and str(Sum(x * y ** 2, (x, -2, 2), (y, -5, 5))) == 'Sum(x*y**2, (x, -2, 2), (y, -5, 5))'"},"spec":{"lhs":"test_Sum()","rhs":"str(summation(cos(3 * z), (z, x, y))) == 'Sum(cos(3*z), (z, x, y))' and str(Sum(x * y ** 2, (x, -2, 2), (y, -5, 5))) == 'Sum(x*y**2, (x, -2, 2), (y, -5, 5))'","over":{"base":"Any"},"name":"test_Sum_correct"},"guarantee":"str(summation(cos(3 * z), (z, x, y))) == 'Sum(cos(3*z), (z, x, y))'; str(Sum(x * y ** 2, (x, -2, 2), (y, -5, 5))) == 'Sum(x*y**2, (x, -2, 2), (y, -5, 5))'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Sum_correct","statement":"Path(test_Sum(x), str(summation(cos(3 * z), (z, x, y))) == 'Sum(cos(3*z), (z, x, y))'; str(Sum(x * y ** 2, (x, -2, 2), (y, -5, 5))) == 'Sum(x*y**2, (x, -2, 2), (y, -5, 5))')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"062d7c98a5c64630","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(summation(cos(3 * z), (z, x, y))) == 'Sum(cos(3*z), (z, x, y))'","str(Sum(x * y ** 2, (x, -2, 2), (y, -5, 5))) == 'Sum(x*y**2, (x, -2, 2), (y, -5, 5))'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Sum():
     assert str(summation(cos(3*z), (z, x, y))) == "Sum(cos(3*z), (z, x, y))"
     assert str(Sum(x*y**2, (x, -2, 2), (y, -5, 5))) == \
@@ -1280,16 +1660,24 @@ def test_Sum():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Symbol(), test_Symbol produces the expected output) over Any ║
+# ║ Path(test_Symbol(), str(y) == 'y' and str(x) == 'x' and str(e) == 'x') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Symbol : Any → {Any | str(y) == 'y' and str(x) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(y) == 'y'                                  ║
+# ║   ensures:  str(x) == 'x'                                  ║
+# ║   ensures:  str(e) == 'x'                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Symbol : Any → {Any | result satisfies: str(y) =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d3a3392357fe08c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d7d8c0ee4ef7e4c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Symbol","kind":"function","src_hash":"822fb966fc4661fc","in":{"base":"Any"},"out":{"base":"Any","pred":"str(y) == 'y' and str(x) == 'x' and str(e) == 'x'"},"spec":{"lhs":"test_Symbol()","rhs":"test_Symbol produces the expected output","over":{"base":"Any"},"name":"test_Symbol_correct"},"guarantee":"test_Symbol produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Symbol_correct","statement":"Path(test_Symbol(x), test_Symbol produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d3a3392357fe08c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Symbol","kind":"function","src_hash":"822fb966fc4661fc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(y) == 'y' and str(x) == 'x' and str(e) == 'x'"},"spec":{"lhs":"test_Symbol()","rhs":"str(y) == 'y' and str(x) == 'x' and str(e) == 'x'","over":{"base":"Any"},"name":"test_Symbol_correct"},"guarantee":"str(y) == 'y'; str(x) == 'x'; str(e) == 'x'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Symbol_correct","statement":"Path(test_Symbol(x), str(y) == 'y'; str(x) == 'x'; str(e) == 'x')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d7d8c0ee4ef7e4c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(y) == 'y'","str(x) == 'x'","str(e) == 'x'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Symbol():
     assert str(y) == "y"
     assert str(x) == "x"
@@ -1298,16 +1686,24 @@ def test_Symbol():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tuple(), test_tuple produces the expected output) over Any ║
+# ║ Path(test_tuple(), str((x,)) == sstr((x,)) == '(x,)' and str((x + y, 1 + x)) == sstr((x + y, 1 + x)) == '(x + y, x + 1)' and str((x + y, (1 + x, x ** 2))) == sstr((x + y, (1 + x, x ** 2))) == '(x + y, (x + 1, x**2))') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_tuple : Any → {Any | str((x,)) == sstr((x,)) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str((x,)) == sstr((x,)) == '(x,)'              ║
+# ║   ensures:  str((x + y, 1 + x)) == sstr((x + y, 1 + x...   ║
+# ║   ensures:  str((x + y, (1 + x, x ** 2))) == sstr((x ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_tuple : Any → {Any | result satisfies: str((x,))...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95af521ac0343be0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b778e283d8acebaa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_tuple","kind":"function","src_hash":"b9db15d3c6fdc6ff","in":{"base":"Any"},"out":{"base":"Any","pred":"str((x,)) == sstr((x,)) == '(x,)' and str((x + y, 1 + x)) == sstr((x + y, 1 + x)) == '(x + y, x + 1)'"},"spec":{"lhs":"test_tuple()","rhs":"test_tuple produces the expected output","over":{"base":"Any"},"name":"test_tuple_correct"},"guarantee":"test_tuple produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_tuple_correct","statement":"Path(test_tuple(x), test_tuple produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95af521ac0343be0"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_tuple","kind":"function","src_hash":"b9db15d3c6fdc6ff","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str((x,)) == sstr((x,)) == '(x,)' and str((x + y, 1 + x)) == sstr((x + y, 1 + x)) == '(x + y, x + 1)' and str((x + y, (1 + x, x ** 2))) == sstr((x + y, (1 + x, x ** 2))) == '(x + y, (x + 1, x**2))'"},"spec":{"lhs":"test_tuple()","rhs":"str((x,)) == sstr((x,)) == '(x,)' and str((x + y, 1 + x)) == sstr((x + y, 1 + x)) == '(x + y, x + 1)' and str((x + y, (1 + x, x ** 2))) == sstr((x + y, (1 + x, x ** 2))) == '(x + y, (x + 1, x**2))'","over":{"base":"Any"},"name":"test_tuple_correct"},"guarantee":"str((x,)) == sstr((x,)) == '(x,)'; str((x + y, 1 + x)) == sstr((x + y, 1 + x)) == '(x + y, x + 1)'; str((x + y, (1 + x, x ** 2))) == sstr((x + y, (1 + x, x ** 2))) == '(x + y, (x + 1, x**2))'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_tuple_correct","statement":"Path(test_tuple(x), str((x,)) == sstr((x,)) == '(x,)'; str((x + y, 1 + x)) == sstr((x + y, 1 + x)) == '(x + y, x + 1)'; str((x + y, (1 + x, x ** 2))) == sstr((x + y, (1 + x, x ** 2))) == '(x + y, (x + 1, x**2))')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b778e283d8acebaa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str((x,)) == sstr((x,)) == '(x,)'","str((x + y, 1 + x)) == sstr((x + y, 1 + x)) == '(x + y, x + 1)'","str((x + y, (1 + x, x ** 2))) == sstr((x + y, (1 + x, x ** 2))) == '(x + y, (x + 1, x**2))'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_tuple():
     assert str((x,)) == sstr((x,)) == "(x,)"
     assert str((x + y, 1 + x)) == sstr((x + y, 1 + x)) == "(x + y, x + 1)"
@@ -1316,16 +1712,24 @@ def test_tuple():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Series_str(), test_Series_str produces the expected output) over Any ║
+# ║ Path(test_Series_str(), str(Series(tf1, tf2)) == 'Series(TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y))' and str(Series(tf1, tf2, tf3)) == 'Series(TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y), TransferFunction(t*x**2 - t**w*x + w, t - y, y))' and str(Series(-tf2, tf1)) == 'Series(TransferFunction(-x + y, x + y, y), TransferFunction(x*y**2 - z, -t**3 + y**3, y))') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Series_str : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(Series(tf1, tf2)) == 'Series(Transfer...   ║
+# ║   ensures:  str(Series(tf1, tf2, tf3)) == 'Series(Tra...   ║
+# ║   ensures:  str(Series(-tf2, tf1)) == 'Series(Transfe...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Series_str : Any → {Any | result satisfies: str(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b62322e7f276da46  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ba494e14c51ec9f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Series_str","kind":"function","src_hash":"21af5283071e19e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Series_str()","rhs":"test_Series_str produces the expected output","over":{"base":"Any"},"name":"test_Series_str_correct"},"guarantee":"test_Series_str produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Series_str_correct","statement":"Path(test_Series_str(x), test_Series_str produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b62322e7f276da46"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Series_str","kind":"function","src_hash":"21af5283071e19e5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(Series(tf1, tf2)) == 'Series(TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y))' and str(Series(tf1, tf2, tf3)) == 'Series(TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y), TransferFunction(t*x**2 - t**w*x + w, t - y, y))' and str(Series(-tf2, tf1)) == 'Series(TransferFunction(-x + y, x + y, y), TransferFunction(x*y**2 - z, -t**3 + y**3, y))'"},"spec":{"lhs":"test_Series_str()","rhs":"str(Series(tf1, tf2)) == 'Series(TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y))' and str(Series(tf1, tf2, tf3)) == 'Series(TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y), TransferFunction(t*x**2 - t**w*x + w, t - y, y))' and str(Series(-tf2, tf1)) == 'Series(TransferFunction(-x + y, x + y, y), TransferFunction(x*y**2 - z, -t**3 + y**3, y))'","over":{"base":"Any"},"name":"test_Series_str_correct"},"guarantee":"str(Series(tf1, tf2)) == 'Series(TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y))'; str(Series(tf1, tf2, tf3)) == 'Series(TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y), TransferFunction(t*x**2 - t**w*x + w, t - y, y))'; str(Series(-tf2, tf1)) == 'Series(TransferFunction(-x + y, x + y, y), TransferFunction(x*y**2 - z, -t**3 + y**3, y))'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Series_str_correct","statement":"Path(test_Series_str(x), str(Series(tf1, tf2)) == 'Series(TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y))'; str(Series(tf1, tf2, tf3)) == 'Series(TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y), TransferFunction(t*x**2 - t**w*x + w, t - y, y))'; str(Series(-tf2, tf1)) == 'Series(TransferFunction(-x + y, x + y, y), TransferFunction(x*y**2 - z, -t**3 + y**3, y))')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ba494e14c51ec9f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(Series(tf1, tf2)) == 'Series(TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y))'","str(Series(tf1, tf2, tf3)) == 'Series(TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y), TransferFunction(t*x**2 - t**w*x + w, t - y, y))'","str(Series(-tf2, tf1)) == 'Series(TransferFunction(-x + y, x + y, y), TransferFunction(x*y**2 - z, -t**3 + y**3, y))'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Series_str():
     tf1 = TransferFunction(x*y**2 - z, y**3 - t**3, y)
     tf2 = TransferFunction(x - y, x + y, y)
@@ -1339,16 +1743,22 @@ def test_Series_str():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MIMOSeries_str(), test_MIMOSeries_str produces the expected output) over Any ║
+# ║ Path(test_MIMOSeries_str(), str(MIMOSeries(tfm_1, tfm_2)) == 'MIMOSeries(TransferFunctionMatrix(((TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y)), (TransferFunction(x - y, x + y, y), TransferFunction(x*y**2 - z, -t**3 + y**3, y)))), TransferFunctionMatrix(((TransferFunction(x - y, x + y, y), TransferFunction(x*y**2 - z, -t**3 + y**3, y)), (TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y)))))') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_MIMOSeries_str : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(MIMOSeries(tfm_1, tfm_2)) == 'MIMOSer...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_MIMOSeries_str : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1858a6443ea166f2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 864ec8e7064ae542  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_MIMOSeries_str","kind":"function","src_hash":"237735ef542761ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_MIMOSeries_str()","rhs":"test_MIMOSeries_str produces the expected output","over":{"base":"Any"},"name":"test_MIMOSeries_str_correct"},"guarantee":"test_MIMOSeries_str produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_MIMOSeries_str_correct","statement":"Path(test_MIMOSeries_str(x), test_MIMOSeries_str produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1858a6443ea166f2"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_MIMOSeries_str","kind":"function","src_hash":"237735ef542761ac","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(MIMOSeries(tfm_1, tfm_2)) == 'MIMOSeries(TransferFunctionMatrix(((TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y)), (TransferFunction(x - y, x + y, y), TransferFunction(x*y**2 - z, -t**3 + y**3, y)))), TransferFunctionMatrix(((TransferFunction(x - y, x + y, y), TransferFunction(x*y**2 - z, -t**3 + y**3, y)), (TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y)))))'"},"spec":{"lhs":"test_MIMOSeries_str()","rhs":"str(MIMOSeries(tfm_1, tfm_2)) == 'MIMOSeries(TransferFunctionMatrix(((TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y)), (TransferFunction(x - y, x + y, y), TransferFunction(x*y**2 - z, -t**3 + y**3, y)))), TransferFunctionMatrix(((TransferFunction(x - y, x + y, y), TransferFunction(x*y**2 - z, -t**3 + y**3, y)), (TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y)))))'","over":{"base":"Any"},"name":"test_MIMOSeries_str_correct"},"guarantee":"str(MIMOSeries(tfm_1, tfm_2)) == 'MIMOSeries(TransferFunctionMatrix(((TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y)), (TransferFunction(x - y, x + y, y), TransferFunction(x*y**2 - z, -t**3 + y**3, y)))), TransferFunctionMatrix(((TransferFunction(x - y, x + y, y), TransferFunction(x*y**2 - z, -t**3 + y**3, y)), (TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y)))))'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_MIMOSeries_str_correct","statement":"Path(test_MIMOSeries_str(x), str(MIMOSeries(tfm_1, tfm_2)) == 'MIMOSeries(TransferFunctionMatrix(((TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y)), (TransferFunction(x - y, x + y, y), TransferFunction(x*y**2 - z, -t**3 + y**3, y)))), TransferFunctionMatrix(((TransferFunction(x - y, x + y, y), TransferFunction(x*y**2 - z, -t**3 + y**3, y)), (TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y)))))')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"864ec8e7064ae542","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(MIMOSeries(tfm_1, tfm_2)) == 'MIMOSeries(TransferFunctionMatrix(((TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y)), (TransferFunction(x - y, x + y, y), TransferFunction(x*y**2 - z, -t**3 + y**3, y)))), TransferFunctionMatrix(((TransferFunction(x - y, x + y, y), TransferFunction(x*y**2 - z, -t**3 + y**3, y)), (TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y)))))'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_MIMOSeries_str():
     tf1 = TransferFunction(x*y**2 - z, y**3 - t**3, y)
     tf2 = TransferFunction(x - y, x + y, y)
@@ -1362,16 +1772,24 @@ def test_MIMOSeries_str():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_TransferFunction_str(), test_TransferFunction_str produces the expected output) over Any ║
+# ║ Path(test_TransferFunction_str(), str(tf1) == 'TransferFunction(x - 1, x + 1, x)' and str(tf2) == 'TransferFunction(x + 1, 2 - y, x)' and str(tf3) == 'TransferFunction(y, y**2 + 2*y + 3, y)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_TransferFunction_str : Any → {Any | str(tf1) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(tf1) == 'TransferFunction(x - 1, x + ...   ║
+# ║   ensures:  str(tf2) == 'TransferFunction(x + 1, 2 - ...   ║
+# ║   ensures:  str(tf3) == 'TransferFunction(y, y**2 + 2...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_TransferFunction_str : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b73e93a6d73acb3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d29190cb7562f91  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_TransferFunction_str","kind":"function","src_hash":"ed62cd89171fac3b","in":{"base":"Any"},"out":{"base":"Any","pred":"str(tf1) == 'TransferFunction(x - 1, x + 1, x)' and str(tf2) == 'TransferFunction(x + 1, 2 - y, x)' and str(tf3) == 'TransferFunction(y, y**2 + 2*y + 3, y)'"},"spec":{"lhs":"test_TransferFunction_str()","rhs":"test_TransferFunction_str produces the expected output","over":{"base":"Any"},"name":"test_TransferFunction_str_correct"},"guarantee":"test_TransferFunction_str produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_TransferFunction_str_correct","statement":"Path(test_TransferFunction_str(x), test_TransferFunction_str produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b73e93a6d73acb3"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_TransferFunction_str","kind":"function","src_hash":"ed62cd89171fac3b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(tf1) == 'TransferFunction(x - 1, x + 1, x)' and str(tf2) == 'TransferFunction(x + 1, 2 - y, x)' and str(tf3) == 'TransferFunction(y, y**2 + 2*y + 3, y)'"},"spec":{"lhs":"test_TransferFunction_str()","rhs":"str(tf1) == 'TransferFunction(x - 1, x + 1, x)' and str(tf2) == 'TransferFunction(x + 1, 2 - y, x)' and str(tf3) == 'TransferFunction(y, y**2 + 2*y + 3, y)'","over":{"base":"Any"},"name":"test_TransferFunction_str_correct"},"guarantee":"str(tf1) == 'TransferFunction(x - 1, x + 1, x)'; str(tf2) == 'TransferFunction(x + 1, 2 - y, x)'; str(tf3) == 'TransferFunction(y, y**2 + 2*y + 3, y)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_TransferFunction_str_correct","statement":"Path(test_TransferFunction_str(x), str(tf1) == 'TransferFunction(x - 1, x + 1, x)'; str(tf2) == 'TransferFunction(x + 1, 2 - y, x)'; str(tf3) == 'TransferFunction(y, y**2 + 2*y + 3, y)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d29190cb7562f91","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(tf1) == 'TransferFunction(x - 1, x + 1, x)'","str(tf2) == 'TransferFunction(x + 1, 2 - y, x)'","str(tf3) == 'TransferFunction(y, y**2 + 2*y + 3, y)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_TransferFunction_str():
     tf1 = TransferFunction(x - 1, x + 1, x)
     assert str(tf1) == "TransferFunction(x - 1, x + 1, x)"
@@ -1382,16 +1800,24 @@ def test_TransferFunction_str():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Parallel_str(), test_Parallel_str produces the expected output) over Any ║
+# ║ Path(test_Parallel_str(), str(Parallel(tf1, tf2)) == 'Parallel(TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y))' and str(Parallel(tf1, tf2, tf3)) == 'Parallel(TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y), TransferFunction(t*x**2 - t**w*x + w, t - y, y))' and str(Parallel(-tf2, tf1)) == 'Parallel(TransferFunction(-x + y, x + y, y), TransferFunction(x*y**2 - z, -t**3 + y**3, y))') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Parallel_str : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(Parallel(tf1, tf2)) == 'Parallel(Tran...   ║
+# ║   ensures:  str(Parallel(tf1, tf2, tf3)) == 'Parallel...   ║
+# ║   ensures:  str(Parallel(-tf2, tf1)) == 'Parallel(Tra...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Parallel_str : Any → {Any | result satisfies: st...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a5f7c37208d67e17  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc7363812035103c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Parallel_str","kind":"function","src_hash":"39ae919073912c19","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Parallel_str()","rhs":"test_Parallel_str produces the expected output","over":{"base":"Any"},"name":"test_Parallel_str_correct"},"guarantee":"test_Parallel_str produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Parallel_str_correct","statement":"Path(test_Parallel_str(x), test_Parallel_str produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a5f7c37208d67e17"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Parallel_str","kind":"function","src_hash":"39ae919073912c19","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(Parallel(tf1, tf2)) == 'Parallel(TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y))' and str(Parallel(tf1, tf2, tf3)) == 'Parallel(TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y), TransferFunction(t*x**2 - t**w*x + w, t - y, y))' and str(Parallel(-tf2, tf1)) == 'Parallel(TransferFunction(-x + y, x + y, y), TransferFunction(x*y**2 - z, -t**3 + y**3, y))'"},"spec":{"lhs":"test_Parallel_str()","rhs":"str(Parallel(tf1, tf2)) == 'Parallel(TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y))' and str(Parallel(tf1, tf2, tf3)) == 'Parallel(TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y), TransferFunction(t*x**2 - t**w*x + w, t - y, y))' and str(Parallel(-tf2, tf1)) == 'Parallel(TransferFunction(-x + y, x + y, y), TransferFunction(x*y**2 - z, -t**3 + y**3, y))'","over":{"base":"Any"},"name":"test_Parallel_str_correct"},"guarantee":"str(Parallel(tf1, tf2)) == 'Parallel(TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y))'; str(Parallel(tf1, tf2, tf3)) == 'Parallel(TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y), TransferFunction(t*x**2 - t**w*x + w, t - y, y))'; str(Parallel(-tf2, tf1)) == 'Parallel(TransferFunction(-x + y, x + y, y), TransferFunction(x*y**2 - z, -t**3 + y**3, y))'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Parallel_str_correct","statement":"Path(test_Parallel_str(x), str(Parallel(tf1, tf2)) == 'Parallel(TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y))'; str(Parallel(tf1, tf2, tf3)) == 'Parallel(TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y), TransferFunction(t*x**2 - t**w*x + w, t - y, y))'; str(Parallel(-tf2, tf1)) == 'Parallel(TransferFunction(-x + y, x + y, y), TransferFunction(x*y**2 - z, -t**3 + y**3, y))')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc7363812035103c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(Parallel(tf1, tf2)) == 'Parallel(TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y))'","str(Parallel(tf1, tf2, tf3)) == 'Parallel(TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y), TransferFunction(t*x**2 - t**w*x + w, t - y, y))'","str(Parallel(-tf2, tf1)) == 'Parallel(TransferFunction(-x + y, x + y, y), TransferFunction(x*y**2 - z, -t**3 + y**3, y))'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Parallel_str():
     tf1 = TransferFunction(x*y**2 - z, y**3 - t**3, y)
     tf2 = TransferFunction(x - y, x + y, y)
@@ -1405,16 +1831,22 @@ def test_Parallel_str():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MIMOParallel_str(), test_MIMOParallel_str produces the expected output) over Any ║
+# ║ Path(test_MIMOParallel_str(), str(MIMOParallel(tfm_1, tfm_2)) == 'MIMOParallel(TransferFunctionMatrix(((TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y)), (TransferFunction(x - y, x + y, y), TransferFunction(x*y**2 - z, -t**3 + y**3, y)))), TransferFunctionMatrix(((TransferFunction(x - y, x + y, y), TransferFunction(x*y**2 - z, -t**3 + y**3, y)), (TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y)))))') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_MIMOParallel_str : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(MIMOParallel(tfm_1, tfm_2)) == 'MIMOP...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_MIMOParallel_str : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab9de91f4528f6af  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | adfca36bc8c0b973  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_MIMOParallel_str","kind":"function","src_hash":"c123cd0bfe7a5bfb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_MIMOParallel_str()","rhs":"test_MIMOParallel_str produces the expected output","over":{"base":"Any"},"name":"test_MIMOParallel_str_correct"},"guarantee":"test_MIMOParallel_str produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_MIMOParallel_str_correct","statement":"Path(test_MIMOParallel_str(x), test_MIMOParallel_str produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab9de91f4528f6af"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_MIMOParallel_str","kind":"function","src_hash":"c123cd0bfe7a5bfb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(MIMOParallel(tfm_1, tfm_2)) == 'MIMOParallel(TransferFunctionMatrix(((TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y)), (TransferFunction(x - y, x + y, y), TransferFunction(x*y**2 - z, -t**3 + y**3, y)))), TransferFunctionMatrix(((TransferFunction(x - y, x + y, y), TransferFunction(x*y**2 - z, -t**3 + y**3, y)), (TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y)))))'"},"spec":{"lhs":"test_MIMOParallel_str()","rhs":"str(MIMOParallel(tfm_1, tfm_2)) == 'MIMOParallel(TransferFunctionMatrix(((TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y)), (TransferFunction(x - y, x + y, y), TransferFunction(x*y**2 - z, -t**3 + y**3, y)))), TransferFunctionMatrix(((TransferFunction(x - y, x + y, y), TransferFunction(x*y**2 - z, -t**3 + y**3, y)), (TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y)))))'","over":{"base":"Any"},"name":"test_MIMOParallel_str_correct"},"guarantee":"str(MIMOParallel(tfm_1, tfm_2)) == 'MIMOParallel(TransferFunctionMatrix(((TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y)), (TransferFunction(x - y, x + y, y), TransferFunction(x*y**2 - z, -t**3 + y**3, y)))), TransferFunctionMatrix(((TransferFunction(x - y, x + y, y), TransferFunction(x*y**2 - z, -t**3 + y**3, y)), (TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y)))))'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_MIMOParallel_str_correct","statement":"Path(test_MIMOParallel_str(x), str(MIMOParallel(tfm_1, tfm_2)) == 'MIMOParallel(TransferFunctionMatrix(((TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y)), (TransferFunction(x - y, x + y, y), TransferFunction(x*y**2 - z, -t**3 + y**3, y)))), TransferFunctionMatrix(((TransferFunction(x - y, x + y, y), TransferFunction(x*y**2 - z, -t**3 + y**3, y)), (TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y)))))')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"adfca36bc8c0b973","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(MIMOParallel(tfm_1, tfm_2)) == 'MIMOParallel(TransferFunctionMatrix(((TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y)), (TransferFunction(x - y, x + y, y), TransferFunction(x*y**2 - z, -t**3 + y**3, y)))), TransferFunctionMatrix(((TransferFunction(x - y, x + y, y), TransferFunction(x*y**2 - z, -t**3 + y**3, y)), (TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y)))))'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_MIMOParallel_str():
     tf1 = TransferFunction(x*y**2 - z, y**3 - t**3, y)
     tf2 = TransferFunction(x - y, x + y, y)
@@ -1428,16 +1860,23 @@ def test_MIMOParallel_str():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Feedback_str(), test_Feedback_str produces the expected output) over Any ║
+# ║ Path(test_Feedback_str(), str(Feedback(tf1 * tf2, tf3)) == 'Feedback(Series(TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y)), TransferFunction(t*x**2 - t**w*x + w, t - y, y), -1)' and str(Feedback(tf1, TransferFunction(1, 1, y), 1)) == 'Feedback(TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(1, 1, y), 1)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Feedback_str : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(Feedback(tf1 * tf2, tf3)) == 'Feedbac...   ║
+# ║   ensures:  str(Feedback(tf1, TransferFunction(1, 1, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Feedback_str : Any → {Any | result satisfies: st...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 753f86887ef67822  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3be44d3f34a8a51e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Feedback_str","kind":"function","src_hash":"e124afcaa127715d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Feedback_str()","rhs":"test_Feedback_str produces the expected output","over":{"base":"Any"},"name":"test_Feedback_str_correct"},"guarantee":"test_Feedback_str produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Feedback_str_correct","statement":"Path(test_Feedback_str(x), test_Feedback_str produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"753f86887ef67822"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Feedback_str","kind":"function","src_hash":"e124afcaa127715d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(Feedback(tf1 * tf2, tf3)) == 'Feedback(Series(TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y)), TransferFunction(t*x**2 - t**w*x + w, t - y, y), -1)' and str(Feedback(tf1, TransferFunction(1, 1, y), 1)) == 'Feedback(TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(1, 1, y), 1)'"},"spec":{"lhs":"test_Feedback_str()","rhs":"str(Feedback(tf1 * tf2, tf3)) == 'Feedback(Series(TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y)), TransferFunction(t*x**2 - t**w*x + w, t - y, y), -1)' and str(Feedback(tf1, TransferFunction(1, 1, y), 1)) == 'Feedback(TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(1, 1, y), 1)'","over":{"base":"Any"},"name":"test_Feedback_str_correct"},"guarantee":"str(Feedback(tf1 * tf2, tf3)) == 'Feedback(Series(TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y)), TransferFunction(t*x**2 - t**w*x + w, t - y, y), -1)'; str(Feedback(tf1, TransferFunction(1, 1, y), 1)) == 'Feedback(TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(1, 1, y), 1)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Feedback_str_correct","statement":"Path(test_Feedback_str(x), str(Feedback(tf1 * tf2, tf3)) == 'Feedback(Series(TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y)), TransferFunction(t*x**2 - t**w*x + w, t - y, y), -1)'; str(Feedback(tf1, TransferFunction(1, 1, y), 1)) == 'Feedback(TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(1, 1, y), 1)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3be44d3f34a8a51e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(Feedback(tf1 * tf2, tf3)) == 'Feedback(Series(TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y)), TransferFunction(t*x**2 - t**w*x + w, t - y, y), -1)'","str(Feedback(tf1, TransferFunction(1, 1, y), 1)) == 'Feedback(TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(1, 1, y), 1)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Feedback_str():
     tf1 = TransferFunction(x*y**2 - z, y**3 - t**3, y)
     tf2 = TransferFunction(x - y, x + y, y)
@@ -1450,16 +1889,23 @@ def test_Feedback_str():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MIMOFeedback_str(), test_MIMOFeedback_str produces the expected output) over Any ║
+# ║ Path(test_MIMOFeedback_str(), str(MIMOFeedback(tfm_1, tfm_2)) == 'MIMOFeedback(TransferFunctionMatrix(((TransferFunction(-x + y, y + z, x), TransferFunction(x**2 - y**3, y - z, x)), (TransferFunction(x**2 - y**3, y - z, x), TransferFunction(-x + y, y + z, x)))), TransferFunctionMatrix(((TransferFunction(x**2 - y**3, y - z, x), TransferFunction(-x + y, y + z, x)), (TransferFunction(-x + y, y + z, x), TransferFunction(x**2 - y**3, y - z, x)))), -1)' and str(MIMOFeedback(tfm_1, tfm_2, 1)) == 'MIMOFeedback(TransferFunctionMatrix(((TransferFunction(-x + y, y + z, x), TransferFunction(x**2 - y**3, y - z, x)), (TransferFunction(x**2 - y**3, y - z, x), TransferFunction(-x + y, y + z, x)))), TransferFunctionMatrix(((TransferFunction(x**2 - y**3, y - z, x), TransferFunction(-x + y, y + z, x)), (TransferFunction(-x + y, y + z, x), TransferFunction(x**2 - y**3, y - z, x)))), 1)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_MIMOFeedback_str : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(MIMOFeedback(tfm_1, tfm_2)) == 'MIMOF...   ║
+# ║   ensures:  str(MIMOFeedback(tfm_1, tfm_2, 1)) == 'MI...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_MIMOFeedback_str : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cab4c56ff94debcc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bfa525c0dcc0ada6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_MIMOFeedback_str","kind":"function","src_hash":"6d7a1e99ec9fff20","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_MIMOFeedback_str()","rhs":"test_MIMOFeedback_str produces the expected output","over":{"base":"Any"},"name":"test_MIMOFeedback_str_correct"},"guarantee":"test_MIMOFeedback_str produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_MIMOFeedback_str_correct","statement":"Path(test_MIMOFeedback_str(x), test_MIMOFeedback_str produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cab4c56ff94debcc"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_MIMOFeedback_str","kind":"function","src_hash":"6d7a1e99ec9fff20","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(MIMOFeedback(tfm_1, tfm_2)) == 'MIMOFeedback(TransferFunctionMatrix(((TransferFunction(-x + y, y + z, x), TransferFunction(x**2 - y**3, y - z, x)), (TransferFunction(x**2 - y**3, y - z, x), TransferFunction(-x + y, y + z, x)))), TransferFunctionMatrix(((TransferFunction(x**2 - y**3, y - z, x), TransferFunction(-x + y, y + z, x)), (TransferFunction(-x + y, y + z, x), TransferFunction(x**2 - y**3, y - z, x)))), -1)' and str(MIMOFeedback(tfm_1, tfm_2, 1)) == 'MIMOFeedback(TransferFunctionMatrix(((TransferFunction(-x + y, y + z, x), TransferFunction(x**2 - y**3, y - z, x)), (TransferFunction(x**2 - y**3, y - z, x), TransferFunction(-x + y, y + z, x)))), TransferFunctionMatrix(((TransferFunction(x**2 - y**3, y - z, x), TransferFunction(-x + y, y + z, x)), (TransferFunction(-x + y, y + z, x), TransferFunction(x**2 - y**3, y - z, x)))), 1)'"},"spec":{"lhs":"test_MIMOFeedback_str()","rhs":"str(MIMOFeedback(tfm_1, tfm_2)) == 'MIMOFeedback(TransferFunctionMatrix(((TransferFunction(-x + y, y + z, x), TransferFunction(x**2 - y**3, y - z, x)), (TransferFunction(x**2 - y**3, y - z, x), TransferFunction(-x + y, y + z, x)))), TransferFunctionMatrix(((TransferFunction(x**2 - y**3, y - z, x), TransferFunction(-x + y, y + z, x)), (TransferFunction(-x + y, y + z, x), TransferFunction(x**2 - y**3, y - z, x)))), -1)' and str(MIMOFeedback(tfm_1, tfm_2, 1)) == 'MIMOFeedback(TransferFunctionMatrix(((TransferFunction(-x + y, y + z, x), TransferFunction(x**2 - y**3, y - z, x)), (TransferFunction(x**2 - y**3, y - z, x), TransferFunction(-x + y, y + z, x)))), TransferFunctionMatrix(((TransferFunction(x**2 - y**3, y - z, x), TransferFunction(-x + y, y + z, x)), (TransferFunction(-x + y, y + z, x), TransferFunction(x**2 - y**3, y - z, x)))), 1)'","over":{"base":"Any"},"name":"test_MIMOFeedback_str_correct"},"guarantee":"str(MIMOFeedback(tfm_1, tfm_2)) == 'MIMOFeedback(TransferFunctionMatrix(((TransferFunction(-x + y, y + z, x), TransferFunction(x**2 - y**3, y - z, x)), (TransferFunction(x**2 - y**3, y - z, x), TransferFunction(-x + y, y + z, x)))), TransferFunctionMatrix(((TransferFunction(x**2 - y**3, y - z, x), TransferFunction(-x + y, y + z, x)), (TransferFunction(-x + y, y + z, x), TransferFunction(x**2 - y**3, y - z, x)))), -1)'; str(MIMOFeedback(tfm_1, tfm_2, 1)) == 'MIMOFeedback(TransferFunctionMatrix(((TransferFunction(-x + y, y + z, x), TransferFunction(x**2 - y**3, y - z, x)), (TransferFunction(x**2 - y**3, y - z, x), TransferFunction(-x + y, y + z, x)))), TransferFunctionMatrix(((TransferFunction(x**2 - y**3, y - z, x), TransferFunction(-x + y, y + z, x)), (TransferFunction(-x + y, y + z, x), TransferFunction(x**2 - y**3, y - z, x)))), 1)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_MIMOFeedback_str_correct","statement":"Path(test_MIMOFeedback_str(x), str(MIMOFeedback(tfm_1, tfm_2)) == 'MIMOFeedback(TransferFunctionMatrix(((TransferFunction(-x + y, y + z, x), TransferFunction(x**2 - y**3, y - z, x)), (TransferFunction(x**2 - y**3, y - z, x), TransferFunction(-x + y, y + z, x)))), TransferFunctionMatrix(((TransferFunction(x**2 - y**3, y - z, x), TransferFunction(-x + y, y + z, x)), (TransferFunction(-x + y, y + z, x), TransferFunction(x**2 - y**3, y - z, x)))), -1)'; str(MIMOFeedback(tfm_1, tfm_2, 1)) == 'MIMOFeedback(TransferFunctionMatrix(((TransferFunction(-x + y, y + z, x), TransferFunction(x**2 - y**3, y - z, x)), (TransferFunction(x**2 - y**3, y - z, x), TransferFunction(-x + y, y + z, x)))), TransferFunctionMatrix(((TransferFunction(x**2 - y**3, y - z, x), TransferFunction(-x + y, y + z, x)), (TransferFunction(-x + y, y + z, x), TransferFunction(x**2 - y**3, y - z, x)))), 1)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bfa525c0dcc0ada6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(MIMOFeedback(tfm_1, tfm_2)) == 'MIMOFeedback(TransferFunctionMatrix(((TransferFunction(-x + y, y + z, x), TransferFunction(x**2 - y**3, y - z, x)), (TransferFunction(x**2 - y**3, y - z, x), TransferFunction(-x + y, y + z, x)))), TransferFunctionMatrix(((TransferFunction(x**2 - y**3, y - z, x), TransferFunction(-x + y, y + z, x)), (TransferFunction(-x + y, y + z, x), TransferFunction(x**2 - y**3, y - z, x)))), -1)'","str(MIMOFeedback(tfm_1, tfm_2, 1)) == 'MIMOFeedback(TransferFunctionMatrix(((TransferFunction(-x + y, y + z, x), TransferFunction(x**2 - y**3, y - z, x)), (TransferFunction(x**2 - y**3, y - z, x), TransferFunction(-x + y, y + z, x)))), TransferFunctionMatrix(((TransferFunction(x**2 - y**3, y - z, x), TransferFunction(-x + y, y + z, x)), (TransferFunction(-x + y, y + z, x), TransferFunction(x**2 - y**3, y - z, x)))), 1)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_MIMOFeedback_str():
     tf1 = TransferFunction(x**2 - y**3, y - z, x)
     tf2 = TransferFunction(y - x, z + y, x)
@@ -1478,16 +1924,23 @@ def test_MIMOFeedback_str():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_TransferFunctionMatrix_str(), test_TransferFunctionMatrix_str produces the expected output) over Any ║
+# ║ Path(test_TransferFunctionMatrix_str(), str(TransferFunctionMatrix([[tf1], [tf2]])) == 'TransferFunctionMatrix(((TransferFunction(x*y**2 - z, -t**3 + y**3, y),), (TransferFunction(x - y, x + y, y),)))' and str(TransferFunctionMatrix([[tf1, tf2], [tf3, tf2]])) == 'TransferFunctionMatrix(((TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y)), (TransferFunction(t*x**2 - t**w*x + w, t - y, y), TransferFunction(x - y, x + y, y))))') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_TransferFunctionMatrix_str : Any → Any                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(TransferFunctionMatrix([[tf1], [tf2]]...   ║
+# ║   ensures:  str(TransferFunctionMatrix([[tf1, tf2], [...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_TransferFunctionMatrix_str : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 922ded3091e50e6c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db20f5aee8ccb398  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_TransferFunctionMatrix_str","kind":"function","src_hash":"fd462a19480a34de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_TransferFunctionMatrix_str()","rhs":"test_TransferFunctionMatrix_str produces the expected output","over":{"base":"Any"},"name":"test_TransferFunctionMatrix_str_correct"},"guarantee":"test_TransferFunctionMatrix_str produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_TransferFunctionMatrix_str_correct","statement":"Path(test_TransferFunctionMatrix_str(x), test_TransferFunctionMatrix_str produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"922ded3091e50e6c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_TransferFunctionMatrix_str","kind":"function","src_hash":"fd462a19480a34de","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(TransferFunctionMatrix([[tf1], [tf2]])) == 'TransferFunctionMatrix(((TransferFunction(x*y**2 - z, -t**3 + y**3, y),), (TransferFunction(x - y, x + y, y),)))' and str(TransferFunctionMatrix([[tf1, tf2], [tf3, tf2]])) == 'TransferFunctionMatrix(((TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y)), (TransferFunction(t*x**2 - t**w*x + w, t - y, y), TransferFunction(x - y, x + y, y))))'"},"spec":{"lhs":"test_TransferFunctionMatrix_str()","rhs":"str(TransferFunctionMatrix([[tf1], [tf2]])) == 'TransferFunctionMatrix(((TransferFunction(x*y**2 - z, -t**3 + y**3, y),), (TransferFunction(x - y, x + y, y),)))' and str(TransferFunctionMatrix([[tf1, tf2], [tf3, tf2]])) == 'TransferFunctionMatrix(((TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y)), (TransferFunction(t*x**2 - t**w*x + w, t - y, y), TransferFunction(x - y, x + y, y))))'","over":{"base":"Any"},"name":"test_TransferFunctionMatrix_str_correct"},"guarantee":"str(TransferFunctionMatrix([[tf1], [tf2]])) == 'TransferFunctionMatrix(((TransferFunction(x*y**2 - z, -t**3 + y**3, y),), (TransferFunction(x - y, x + y, y),)))'; str(TransferFunctionMatrix([[tf1, tf2], [tf3, tf2]])) == 'TransferFunctionMatrix(((TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y)), (TransferFunction(t*x**2 - t**w*x + w, t - y, y), TransferFunction(x - y, x + y, y))))'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_TransferFunctionMatrix_str_correct","statement":"Path(test_TransferFunctionMatrix_str(x), str(TransferFunctionMatrix([[tf1], [tf2]])) == 'TransferFunctionMatrix(((TransferFunction(x*y**2 - z, -t**3 + y**3, y),), (TransferFunction(x - y, x + y, y),)))'; str(TransferFunctionMatrix([[tf1, tf2], [tf3, tf2]])) == 'TransferFunctionMatrix(((TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y)), (TransferFunction(t*x**2 - t**w*x + w, t - y, y), TransferFunction(x - y, x + y, y))))')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db20f5aee8ccb398","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(TransferFunctionMatrix([[tf1], [tf2]])) == 'TransferFunctionMatrix(((TransferFunction(x*y**2 - z, -t**3 + y**3, y),), (TransferFunction(x - y, x + y, y),)))'","str(TransferFunctionMatrix([[tf1, tf2], [tf3, tf2]])) == 'TransferFunctionMatrix(((TransferFunction(x*y**2 - z, -t**3 + y**3, y), TransferFunction(x - y, x + y, y)), (TransferFunction(t*x**2 - t**w*x + w, t - y, y), TransferFunction(x - y, x + y, y))))'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_TransferFunctionMatrix_str():
     tf1 = TransferFunction(x*y**2 - z, y**3 - t**3, y)
     tf2 = TransferFunction(x - y, x + y, y)
@@ -1499,16 +1952,24 @@ def test_TransferFunctionMatrix_str():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Quaternion_str_printer(), test_Quaternion_str_printer produces the expected output) over Any ║
+# ║ Path(test_Quaternion_str_printer(), str(q) == 'x + y*i + z*j + t*k' and str(q) == 'x + y*i + z*j + t*x*k' and str(q) == 'x + y*i + z*j + (t + x)*k') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Quaternion_str_printer : Any → {Any | str(q) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(q) == 'x + y*i + z*j + t*k'                ║
+# ║   ensures:  str(q) == 'x + y*i + z*j + t*x*k'              ║
+# ║   ensures:  str(q) == 'x + y*i + z*j + (t + x)*k'          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Quaternion_str_printer : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ae360dfbb0fe214  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ed25453112d20c3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Quaternion_str_printer","kind":"function","src_hash":"a765345abfdb0b7a","in":{"base":"Any"},"out":{"base":"Any","pred":"str(q) == 'x + y*i + z*j + t*k' and str(q) == 'x + y*i + z*j + t*x*k' and str(q) == 'x + y*i + z*j + (t + x)*k'"},"spec":{"lhs":"test_Quaternion_str_printer()","rhs":"test_Quaternion_str_printer produces the expected output","over":{"base":"Any"},"name":"test_Quaternion_str_printer_correct"},"guarantee":"test_Quaternion_str_printer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Quaternion_str_printer_correct","statement":"Path(test_Quaternion_str_printer(x), test_Quaternion_str_printer produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ae360dfbb0fe214"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Quaternion_str_printer","kind":"function","src_hash":"a765345abfdb0b7a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(q) == 'x + y*i + z*j + t*k' and str(q) == 'x + y*i + z*j + t*x*k' and str(q) == 'x + y*i + z*j + (t + x)*k'"},"spec":{"lhs":"test_Quaternion_str_printer()","rhs":"str(q) == 'x + y*i + z*j + t*k' and str(q) == 'x + y*i + z*j + t*x*k' and str(q) == 'x + y*i + z*j + (t + x)*k'","over":{"base":"Any"},"name":"test_Quaternion_str_printer_correct"},"guarantee":"str(q) == 'x + y*i + z*j + t*k'; str(q) == 'x + y*i + z*j + t*x*k'; str(q) == 'x + y*i + z*j + (t + x)*k'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Quaternion_str_printer_correct","statement":"Path(test_Quaternion_str_printer(x), str(q) == 'x + y*i + z*j + t*k'; str(q) == 'x + y*i + z*j + t*x*k'; str(q) == 'x + y*i + z*j + (t + x)*k')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ed25453112d20c3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(q) == 'x + y*i + z*j + t*k'","str(q) == 'x + y*i + z*j + t*x*k'","str(q) == 'x + y*i + z*j + (t + x)*k'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Quaternion_str_printer():
     q = Quaternion(x, y, z, t)
     assert str(q) == "x + y*i + z*j + t*k"
@@ -1519,16 +1980,24 @@ def test_Quaternion_str_printer():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Quantity_str(), test_Quantity_str produces the expected output) over Any ║
+# ║ Path(test_Quantity_str(), sstr(second, abbrev=True) == 's' and sstr(joule, abbrev=True) == 'J' and str(second) == 'second' and str(joule) == 'joule') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Quantity_str : Any → {Any | sstr(second, abbrev=...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sstr(second, abbrev=True) == 's'               ║
+# ║   ensures:  sstr(joule, abbrev=True) == 'J'                ║
+# ║   ensures:  str(second) == 'second'                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Quantity_str : Any → {Any | result satisfies: ss...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fef69cd3f3eb8e75  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28bd5468d54798c7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Quantity_str","kind":"function","src_hash":"0a7e39e8d2c319e6","in":{"base":"Any"},"out":{"base":"Any","pred":"sstr(second, abbrev=True) == 's' and sstr(joule, abbrev=True) == 'J' and str(second) == 'second' and str(joule) == 'joule'"},"spec":{"lhs":"test_Quantity_str()","rhs":"test_Quantity_str produces the expected output","over":{"base":"Any"},"name":"test_Quantity_str_correct"},"guarantee":"test_Quantity_str produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Quantity_str_correct","statement":"Path(test_Quantity_str(x), test_Quantity_str produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fef69cd3f3eb8e75"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Quantity_str","kind":"function","src_hash":"0a7e39e8d2c319e6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sstr(second, abbrev=True) == 's' and sstr(joule, abbrev=True) == 'J' and str(second) == 'second' and str(joule) == 'joule'"},"spec":{"lhs":"test_Quantity_str()","rhs":"sstr(second, abbrev=True) == 's' and sstr(joule, abbrev=True) == 'J' and str(second) == 'second' and str(joule) == 'joule'","over":{"base":"Any"},"name":"test_Quantity_str_correct"},"guarantee":"sstr(second, abbrev=True) == 's'; sstr(joule, abbrev=True) == 'J'; str(second) == 'second'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Quantity_str_correct","statement":"Path(test_Quantity_str(x), sstr(second, abbrev=True) == 's'; sstr(joule, abbrev=True) == 'J'; str(second) == 'second')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28bd5468d54798c7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sstr(second, abbrev=True) == 's'","sstr(joule, abbrev=True) == 'J'","str(second) == 'second'","str(joule) == 'joule'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Quantity_str():
     assert sstr(second, abbrev=True) == "s"
     assert sstr(joule, abbrev=True) == "J"
@@ -1537,16 +2006,24 @@ def test_Quantity_str():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_wild_str(), test_wild_str produces the expected output) over Any ║
+# ║ Path(test_wild_str(), str(w + 1) == 'x_ + 1' and str(exp(2 ** w) + 5) == 'exp(2**x_) + 5' and str(3 * w + 1) == '3*x_ + 1' and str(1 / w + 1) == '1 + 1/x_' and str(w ** 2 + 1) == 'x_**2 + 1' and str(1 / (1 - w)) == '1/(1 - x_)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_wild_str : Any → {Any | str(w + 1) == 'x_ + 1' a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(w + 1) == 'x_ + 1'                         ║
+# ║   ensures:  str(exp(2 ** w) + 5) == 'exp(2**x_) + 5'       ║
+# ║   ensures:  str(3 * w + 1) == '3*x_ + 1'                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_wild_str : Any → {Any | result satisfies: str(w ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f4906c6f6a508ffc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fd66966b852c85dd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_wild_str","kind":"function","src_hash":"3d93a3a69b2c9cb6","in":{"base":"Any"},"out":{"base":"Any","pred":"str(w + 1) == 'x_ + 1' and str(exp(2 ** w) + 5) == 'exp(2**x_) + 5' and str(3 * w + 1) == '3*x_ + 1' and str(1 / w + 1) == '1 + 1/x_' and str(w ** 2 + 1) == 'x_**2 + 1' and str(1 / (1 - w)) == '1/(1 - x_)'"},"spec":{"lhs":"test_wild_str()","rhs":"test_wild_str produces the expected output","over":{"base":"Any"},"name":"test_wild_str_correct"},"guarantee":"test_wild_str produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_wild_str_correct","statement":"Path(test_wild_str(x), test_wild_str produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4906c6f6a508ffc"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_wild_str","kind":"function","src_hash":"3d93a3a69b2c9cb6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(w + 1) == 'x_ + 1' and str(exp(2 ** w) + 5) == 'exp(2**x_) + 5' and str(3 * w + 1) == '3*x_ + 1' and str(1 / w + 1) == '1 + 1/x_' and str(w ** 2 + 1) == 'x_**2 + 1' and str(1 / (1 - w)) == '1/(1 - x_)'"},"spec":{"lhs":"test_wild_str()","rhs":"str(w + 1) == 'x_ + 1' and str(exp(2 ** w) + 5) == 'exp(2**x_) + 5' and str(3 * w + 1) == '3*x_ + 1' and str(1 / w + 1) == '1 + 1/x_' and str(w ** 2 + 1) == 'x_**2 + 1' and str(1 / (1 - w)) == '1/(1 - x_)'","over":{"base":"Any"},"name":"test_wild_str_correct"},"guarantee":"str(w + 1) == 'x_ + 1'; str(exp(2 ** w) + 5) == 'exp(2**x_) + 5'; str(3 * w + 1) == '3*x_ + 1'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_wild_str_correct","statement":"Path(test_wild_str(x), str(w + 1) == 'x_ + 1'; str(exp(2 ** w) + 5) == 'exp(2**x_) + 5'; str(3 * w + 1) == '3*x_ + 1')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd66966b852c85dd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(w + 1) == 'x_ + 1'","str(exp(2 ** w) + 5) == 'exp(2**x_) + 5'","str(3 * w + 1) == '3*x_ + 1'","str(1 / w + 1) == '1 + 1/x_'","str(w ** 2 + 1) == 'x_**2 + 1'","str(1 / (1 - w)) == '1/(1 - x_)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_wild_str():
     # Check expressions containing Wild not causing infinite recursion
     w = Wild('x')
@@ -1559,16 +2036,24 @@ def test_wild_str():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_wild_matchpy(), test_wild_matchpy produces the expected output) over Any ║
+# ║ Path(test_wild_matchpy(), str(wd) == 'w_' and str(wp) == 'w__' and str(ws) == 'w___' and str(wp / ws + 2 ** wd) == '2**w_ + w__/w___' and str(sin(wd) * cos(wp) * sqrt(ws)) == 'sqrt(w___)*sin(w_)*cos(w__)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_wild_matchpy : Any → {Any | str(wd) == 'w_' and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(wd) == 'w_'                                ║
+# ║   ensures:  str(wp) == 'w__'                               ║
+# ║   ensures:  str(ws) == 'w___'                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_wild_matchpy : Any → {Any | result satisfies: st...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 534ccbf0044958ed  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f240723dc3028fc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_wild_matchpy","kind":"function","src_hash":"85ab4672fe06c12c","in":{"base":"Any"},"out":{"base":"Any","pred":"str(wd) == 'w_' and str(wp) == 'w__' and str(ws) == 'w___' and str(wp / ws + 2 ** wd) == '2**w_ + w__/w___' and str(sin(wd) * cos(wp) * sqrt(ws)) == 'sqrt(w___)*sin(w_)*cos(w__)'"},"spec":{"lhs":"test_wild_matchpy()","rhs":"test_wild_matchpy produces the expected output","over":{"base":"Any"},"name":"test_wild_matchpy_correct"},"guarantee":"test_wild_matchpy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_wild_matchpy_correct","statement":"Path(test_wild_matchpy(x), test_wild_matchpy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"534ccbf0044958ed"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_wild_matchpy","kind":"function","src_hash":"85ab4672fe06c12c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(wd) == 'w_' and str(wp) == 'w__' and str(ws) == 'w___' and str(wp / ws + 2 ** wd) == '2**w_ + w__/w___' and str(sin(wd) * cos(wp) * sqrt(ws)) == 'sqrt(w___)*sin(w_)*cos(w__)'"},"spec":{"lhs":"test_wild_matchpy()","rhs":"str(wd) == 'w_' and str(wp) == 'w__' and str(ws) == 'w___' and str(wp / ws + 2 ** wd) == '2**w_ + w__/w___' and str(sin(wd) * cos(wp) * sqrt(ws)) == 'sqrt(w___)*sin(w_)*cos(w__)'","over":{"base":"Any"},"name":"test_wild_matchpy_correct"},"guarantee":"str(wd) == 'w_'; str(wp) == 'w__'; str(ws) == 'w___'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_wild_matchpy_correct","statement":"Path(test_wild_matchpy(x), str(wd) == 'w_'; str(wp) == 'w__'; str(ws) == 'w___')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f240723dc3028fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(wd) == 'w_'","str(wp) == 'w__'","str(ws) == 'w___'","str(wp / ws + 2 ** wd) == '2**w_ + w__/w___'","str(sin(wd) * cos(wp) * sqrt(ws)) == 'sqrt(w___)*sin(w_)*cos(w__)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_wild_matchpy():
     from sympy.utilities.matchpy_connector import WildDot, WildPlus, WildStar
 
@@ -1590,31 +2075,43 @@ def test_wild_matchpy():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_zeta(), test_zeta produces the expected output) over Any ║
+# ║ Path(test_zeta(), str(zeta(3)) == 'zeta(3)') over Any      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_zeta : Any → {Any | str(zeta(3)) == 'zeta(3)'}        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(zeta(3)) == 'zeta(3)'                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_zeta : Any → {Any | result satisfies: str(zeta(3...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8758e452e2c2ea8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05fe67c990c6d372  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_zeta","kind":"function","src_hash":"a9c172b1333312ea","in":{"base":"Any"},"out":{"base":"Any","pred":"str(zeta(3)) == 'zeta(3)'"},"spec":{"lhs":"test_zeta()","rhs":"test_zeta produces the expected output","over":{"base":"Any"},"name":"test_zeta_correct"},"guarantee":"test_zeta produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_zeta_correct","statement":"Path(test_zeta(x), test_zeta produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8758e452e2c2ea8"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_zeta","kind":"function","src_hash":"a9c172b1333312ea","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(zeta(3)) == 'zeta(3)'"},"spec":{"lhs":"test_zeta()","rhs":"str(zeta(3)) == 'zeta(3)'","over":{"base":"Any"},"name":"test_zeta_correct"},"guarantee":"str(zeta(3)) == 'zeta(3)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_zeta_correct","statement":"Path(test_zeta(x), str(zeta(3)) == 'zeta(3)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05fe67c990c6d372","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(zeta(3)) == 'zeta(3)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_zeta():
     assert str(zeta(3)) == "zeta(3)"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_3101(), test_issue_3101 produces the expected output) over Any ║
+# ║ Path(test_issue_3101(), a == b) over Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_3101 : Any → {Any | a == b}                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a == b                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_3101 : Any → {Any | result satisfies: a == b}   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aad7424e46f53c1f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc8224dc64fd2db9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_issue_3101","kind":"function","src_hash":"fb57588c2d331cd9","in":{"base":"Any"},"out":{"base":"Any","pred":"a == b"},"spec":{"lhs":"test_issue_3101()","rhs":"test_issue_3101 produces the expected output","over":{"base":"Any"},"name":"test_issue_3101_correct"},"guarantee":"test_issue_3101 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_issue_3101_correct","statement":"Path(test_issue_3101(x), test_issue_3101 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aad7424e46f53c1f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_issue_3101","kind":"function","src_hash":"fb57588c2d331cd9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a == b"},"spec":{"lhs":"test_issue_3101()","rhs":"a == b","over":{"base":"Any"},"name":"test_issue_3101_correct"},"guarantee":"a == b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_issue_3101_correct","statement":"Path(test_issue_3101(x), a == b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc8224dc64fd2db9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a == b"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_3101():
     e = x - y
     a = str(e)
@@ -1623,16 +2120,23 @@ def test_issue_3101():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_3103(), test_issue_3103 produces the expected output) over Any ║
+# ║ Path(test_issue_3103(), str(e) not in ['(-2)*x**1/2(-1/2)*x**(-1/2)*y', '-2*x**1/2(-1/2)*x**(-1/2)*y', '-2*x**1/2-1/2*x**-1/2*w'] and str(e) == '-2*sqrt(x) - y/(2*sqrt(x))') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_3103 : Any → {Any | str(e) == '-2*sqrt(x) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(e) not in ['(-2)*x**1/2(-1/2)*x**(-1/...   ║
+# ║   ensures:  str(e) == '-2*sqrt(x) - y/(2*sqrt(x))'         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_3103 : Any → {Any | result satisfies: str(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 511d639297ae04b3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e82fd78ffa9f0ae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_issue_3103","kind":"function","src_hash":"c9ce3aa812a718ff","in":{"base":"Any"},"out":{"base":"Any","pred":"str(e) == '-2*sqrt(x) - y/(2*sqrt(x))'"},"spec":{"lhs":"test_issue_3103()","rhs":"test_issue_3103 produces the expected output","over":{"base":"Any"},"name":"test_issue_3103_correct"},"guarantee":"test_issue_3103 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_issue_3103_correct","statement":"Path(test_issue_3103(x), test_issue_3103 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"511d639297ae04b3"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_issue_3103","kind":"function","src_hash":"c9ce3aa812a718ff","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(e) not in ['(-2)*x**1/2(-1/2)*x**(-1/2)*y', '-2*x**1/2(-1/2)*x**(-1/2)*y', '-2*x**1/2-1/2*x**-1/2*w'] and str(e) == '-2*sqrt(x) - y/(2*sqrt(x))'"},"spec":{"lhs":"test_issue_3103()","rhs":"str(e) not in ['(-2)*x**1/2(-1/2)*x**(-1/2)*y', '-2*x**1/2(-1/2)*x**(-1/2)*y', '-2*x**1/2-1/2*x**-1/2*w'] and str(e) == '-2*sqrt(x) - y/(2*sqrt(x))'","over":{"base":"Any"},"name":"test_issue_3103_correct"},"guarantee":"str(e) not in ['(-2)*x**1/2(-1/2)*x**(-1/2)*y', '-2*x**1/2(-1/2)*x**(-1/2)*y', '-2*x**1/2-1/2*x**-1/2*w']; str(e) == '-2*sqrt(x) - y/(2*sqrt(x))'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_issue_3103_correct","statement":"Path(test_issue_3103(x), str(e) not in ['(-2)*x**1/2(-1/2)*x**(-1/2)*y', '-2*x**1/2(-1/2)*x**(-1/2)*y', '-2*x**1/2-1/2*x**-1/2*w']; str(e) == '-2*sqrt(x) - y/(2*sqrt(x))')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e82fd78ffa9f0ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(e) not in ['(-2)*x**1/2(-1/2)*x**(-1/2)*y', '-2*x**1/2(-1/2)*x**(-1/2)*y', '-2*x**1/2-1/2*x**-1/2*w']","str(e) == '-2*sqrt(x) - y/(2*sqrt(x))'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_3103():
     e = -2*sqrt(x) - y/sqrt(x)/2
     assert str(e) not in ["(-2)*x**1/2(-1/2)*x**(-1/2)*y",
@@ -1641,32 +2145,46 @@ def test_issue_3103():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_4021(), test_issue_4021 produces the expected output) over Any ║
+# ║ Path(test_issue_4021(), str(e) == 'Integral(x, x) + 1') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_4021 : Any → {Any | str(e) == 'Integral(x,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(e) == 'Integral(x, x) + 1'                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_4021 : Any → {Any | result satisfies: str(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4802e311c4399297  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 276fbc4616e74218  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_issue_4021","kind":"function","src_hash":"082a95ee5290cd11","in":{"base":"Any"},"out":{"base":"Any","pred":"str(e) == 'Integral(x, x) + 1'"},"spec":{"lhs":"test_issue_4021()","rhs":"test_issue_4021 produces the expected output","over":{"base":"Any"},"name":"test_issue_4021_correct"},"guarantee":"test_issue_4021 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_issue_4021_correct","statement":"Path(test_issue_4021(x), test_issue_4021 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4802e311c4399297"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_issue_4021","kind":"function","src_hash":"082a95ee5290cd11","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(e) == 'Integral(x, x) + 1'"},"spec":{"lhs":"test_issue_4021()","rhs":"str(e) == 'Integral(x, x) + 1'","over":{"base":"Any"},"name":"test_issue_4021_correct"},"guarantee":"str(e) == 'Integral(x, x) + 1'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_issue_4021_correct","statement":"Path(test_issue_4021(x), str(e) == 'Integral(x, x) + 1')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"276fbc4616e74218","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(e) == 'Integral(x, x) + 1'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_4021():
     e = Integral(x, x) + 1
     assert str(e) == 'Integral(x, x) + 1'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sstrrepr(), test_sstrrepr produces the expected output) over Any ║
+# ║ Path(test_sstrrepr(), sstr('abc') == 'abc' and sstrrepr('abc') == "'abc'" and sstr(e) == '[a, b, c, x]' and sstrrepr(e) == "['a', 'b', 'c', x]") over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sstrrepr : Any → {Any | sstr('abc') == 'abc' and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sstr('abc') == 'abc'                           ║
+# ║   ensures:  sstrrepr('abc') == "'abc'"                     ║
+# ║   ensures:  sstr(e) == '[a, b, c, x]'                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sstrrepr : Any → {Any | result satisfies: sstr('...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a9f4eb59490ddaf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c62e0c9930f7ba8f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_sstrrepr","kind":"function","src_hash":"bd3f67ce97dc42fc","in":{"base":"Any"},"out":{"base":"Any","pred":"sstr('abc') == 'abc' and sstrrepr('abc') == \"'abc'\" and sstr(e) == '[a, b, c, x]' and sstrrepr(e) == \"['a', 'b', 'c', x]\""},"spec":{"lhs":"test_sstrrepr()","rhs":"test_sstrrepr produces the expected output","over":{"base":"Any"},"name":"test_sstrrepr_correct"},"guarantee":"test_sstrrepr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_sstrrepr_correct","statement":"Path(test_sstrrepr(x), test_sstrrepr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a9f4eb59490ddaf"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_sstrrepr","kind":"function","src_hash":"bd3f67ce97dc42fc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sstr('abc') == 'abc' and sstrrepr('abc') == \"'abc'\" and sstr(e) == '[a, b, c, x]' and sstrrepr(e) == \"['a', 'b', 'c', x]\""},"spec":{"lhs":"test_sstrrepr()","rhs":"sstr('abc') == 'abc' and sstrrepr('abc') == \"'abc'\" and sstr(e) == '[a, b, c, x]' and sstrrepr(e) == \"['a', 'b', 'c', x]\"","over":{"base":"Any"},"name":"test_sstrrepr_correct"},"guarantee":"sstr('abc') == 'abc'; sstrrepr('abc') == \"'abc'\"; sstr(e) == '[a, b, c, x]'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_sstrrepr_correct","statement":"Path(test_sstrrepr(x), sstr('abc') == 'abc'; sstrrepr('abc') == \"'abc'\"; sstr(e) == '[a, b, c, x]')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c62e0c9930f7ba8f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sstr('abc') == 'abc'","sstrrepr('abc') == \"'abc'\"","sstr(e) == '[a, b, c, x]'","sstrrepr(e) == \"['a', 'b', 'c', x]\""],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sstrrepr():
     assert sstr('abc') == 'abc'
     assert sstrrepr('abc') == "'abc'"
@@ -1677,31 +2195,45 @@ def test_sstrrepr():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_infinity(), test_infinity produces the expected output) over Any ║
+# ║ Path(test_infinity(), sstr(oo * I) == 'oo*I') over Any     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_infinity : Any → {Any | sstr(oo * I) == 'oo*I'}       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sstr(oo * I) == 'oo*I'                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_infinity : Any → {Any | result satisfies: sstr(o...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb6d586cb3ce7022  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 87f627631805c480  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_infinity","kind":"function","src_hash":"2ee1ff8911951c18","in":{"base":"Any"},"out":{"base":"Any","pred":"sstr(oo * I) == 'oo*I'"},"spec":{"lhs":"test_infinity()","rhs":"test_infinity produces the expected output","over":{"base":"Any"},"name":"test_infinity_correct"},"guarantee":"test_infinity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_infinity_correct","statement":"Path(test_infinity(x), test_infinity produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb6d586cb3ce7022"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_infinity","kind":"function","src_hash":"2ee1ff8911951c18","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sstr(oo * I) == 'oo*I'"},"spec":{"lhs":"test_infinity()","rhs":"sstr(oo * I) == 'oo*I'","over":{"base":"Any"},"name":"test_infinity_correct"},"guarantee":"sstr(oo * I) == 'oo*I'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_infinity_correct","statement":"Path(test_infinity(x), sstr(oo * I) == 'oo*I')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87f627631805c480","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sstr(oo * I) == 'oo*I'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_infinity():
     assert sstr(oo*I) == "oo*I"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_full_prec(), test_full_prec produces the expected output) over Any ║
+# ║ Path(test_full_prec(), sstr(S('0.3'), full_prec=True) == '0.300000000000000' and sstr(S('0.3'), full_prec='auto') == '0.300000000000000' and sstr(S('0.3'), full_prec=False) == '0.3' and sstr(S('0.3') * x, full_prec=True) in ['0.300000000000000*x', 'x*0.300000000000000'] and sstr(S('0.3') * x, full_prec='auto') in ['0.3*x', 'x*0.3'] and sstr(S('0.3') * x, full_prec=False) in ['0.3*x', 'x*0.3']) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_full_prec : Any → {Any | sstr(S('0.3'), full_pre...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sstr(S('0.3'), full_prec=True) == '0.3000...   ║
+# ║   ensures:  sstr(S('0.3'), full_prec='auto') == '0.30...   ║
+# ║   ensures:  sstr(S('0.3'), full_prec=False) == '0.3'       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_full_prec : Any → {Any | result satisfies: sstr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6201bb2acabd6299  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54df4cac87c4ff1a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_full_prec","kind":"function","src_hash":"98493e5b33ecc1dc","in":{"base":"Any"},"out":{"base":"Any","pred":"sstr(S('0.3'), full_prec=True) == '0.300000000000000' and sstr(S('0.3'), full_prec='auto') == '0.300000000000000' and sstr(S('0.3'), full_prec=False) == '0.3' and sstr(S('0.3') * x, full_prec='auto') in ['0.3*x', 'x*0.3'] and sstr(S('0.3') * x, full_prec=False) in ['0.3*x', 'x*0.3']"},"spec":{"lhs":"test_full_prec()","rhs":"test_full_prec produces the expected output","over":{"base":"Any"},"name":"test_full_prec_correct"},"guarantee":"test_full_prec produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_full_prec_correct","statement":"Path(test_full_prec(x), test_full_prec produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6201bb2acabd6299"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_full_prec","kind":"function","src_hash":"98493e5b33ecc1dc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sstr(S('0.3'), full_prec=True) == '0.300000000000000' and sstr(S('0.3'), full_prec='auto') == '0.300000000000000' and sstr(S('0.3'), full_prec=False) == '0.3' and sstr(S('0.3') * x, full_prec=True) in ['0.300000000000000*x', 'x*0.300000000000000'] and sstr(S('0.3') * x, full_prec='auto') in ['0.3*x', 'x*0.3'] and sstr(S('0.3') * x, full_prec=False) in ['0.3*x', 'x*0.3']"},"spec":{"lhs":"test_full_prec()","rhs":"sstr(S('0.3'), full_prec=True) == '0.300000000000000' and sstr(S('0.3'), full_prec='auto') == '0.300000000000000' and sstr(S('0.3'), full_prec=False) == '0.3' and sstr(S('0.3') * x, full_prec=True) in ['0.300000000000000*x', 'x*0.300000000000000'] and sstr(S('0.3') * x, full_prec='auto') in ['0.3*x', 'x*0.3'] and sstr(S('0.3') * x, full_prec=False) in ['0.3*x', 'x*0.3']","over":{"base":"Any"},"name":"test_full_prec_correct"},"guarantee":"sstr(S('0.3'), full_prec=True) == '0.300000000000000'; sstr(S('0.3'), full_prec='auto') == '0.300000000000000'; sstr(S('0.3'), full_prec=False) == '0.3'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_full_prec_correct","statement":"Path(test_full_prec(x), sstr(S('0.3'), full_prec=True) == '0.300000000000000'; sstr(S('0.3'), full_prec='auto') == '0.300000000000000'; sstr(S('0.3'), full_prec=False) == '0.3')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54df4cac87c4ff1a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sstr(S('0.3'), full_prec=True) == '0.300000000000000'","sstr(S('0.3'), full_prec='auto') == '0.300000000000000'","sstr(S('0.3'), full_prec=False) == '0.3'","sstr(S('0.3') * x, full_prec=True) in ['0.300000000000000*x', 'x*0.300000000000000']","sstr(S('0.3') * x, full_prec='auto') in ['0.3*x', 'x*0.3']","sstr(S('0.3') * x, full_prec=False) in ['0.3*x', 'x*0.3']"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_full_prec():
     assert sstr(S("0.3"), full_prec=True) == "0.300000000000000"
     assert sstr(S("0.3"), full_prec="auto") == "0.300000000000000"
@@ -1721,16 +2253,24 @@ def test_full_prec():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_noncommutative(), test_noncommutative produces the expected output) over Any ║
+# ║ Path(test_noncommutative(), sstr(A * B * C ** (-1)) == 'A*B*C**(-1)' and sstr(C ** (-1) * A * B) == 'C**(-1)*A*B' and sstr(A * C ** (-1) * B) == 'A*C**(-1)*B' and sstr(sqrt(A)) == 'sqrt(A)' and sstr(1 / sqrt(A)) == 'A**(-1/2)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_noncommutative : Any → {Any | sstr(A * B * C ** ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sstr(A * B * C ** (-1)) == 'A*B*C**(-1)'       ║
+# ║   ensures:  sstr(C ** (-1) * A * B) == 'C**(-1)*A*B'       ║
+# ║   ensures:  sstr(A * C ** (-1) * B) == 'A*C**(-1)*B'       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_noncommutative : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1dbd30fb6b232dfa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9471c268ab12a944  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_noncommutative","kind":"function","src_hash":"b641c5225eec6896","in":{"base":"Any"},"out":{"base":"Any","pred":"sstr(A * B * C ** (-1)) == 'A*B*C**(-1)' and sstr(C ** (-1) * A * B) == 'C**(-1)*A*B' and sstr(A * C ** (-1) * B) == 'A*C**(-1)*B' and sstr(sqrt(A)) == 'sqrt(A)' and sstr(1 / sqrt(A)) == 'A**(-1/2)'"},"spec":{"lhs":"test_noncommutative()","rhs":"test_noncommutative produces the expected output","over":{"base":"Any"},"name":"test_noncommutative_correct"},"guarantee":"test_noncommutative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_noncommutative_correct","statement":"Path(test_noncommutative(x), test_noncommutative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1dbd30fb6b232dfa"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_noncommutative","kind":"function","src_hash":"b641c5225eec6896","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sstr(A * B * C ** (-1)) == 'A*B*C**(-1)' and sstr(C ** (-1) * A * B) == 'C**(-1)*A*B' and sstr(A * C ** (-1) * B) == 'A*C**(-1)*B' and sstr(sqrt(A)) == 'sqrt(A)' and sstr(1 / sqrt(A)) == 'A**(-1/2)'"},"spec":{"lhs":"test_noncommutative()","rhs":"sstr(A * B * C ** (-1)) == 'A*B*C**(-1)' and sstr(C ** (-1) * A * B) == 'C**(-1)*A*B' and sstr(A * C ** (-1) * B) == 'A*C**(-1)*B' and sstr(sqrt(A)) == 'sqrt(A)' and sstr(1 / sqrt(A)) == 'A**(-1/2)'","over":{"base":"Any"},"name":"test_noncommutative_correct"},"guarantee":"sstr(A * B * C ** (-1)) == 'A*B*C**(-1)'; sstr(C ** (-1) * A * B) == 'C**(-1)*A*B'; sstr(A * C ** (-1) * B) == 'A*C**(-1)*B'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_noncommutative_correct","statement":"Path(test_noncommutative(x), sstr(A * B * C ** (-1)) == 'A*B*C**(-1)'; sstr(C ** (-1) * A * B) == 'C**(-1)*A*B'; sstr(A * C ** (-1) * B) == 'A*C**(-1)*B')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9471c268ab12a944","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sstr(A * B * C ** (-1)) == 'A*B*C**(-1)'","sstr(C ** (-1) * A * B) == 'C**(-1)*A*B'","sstr(A * C ** (-1) * B) == 'A*C**(-1)*B'","sstr(sqrt(A)) == 'sqrt(A)'","sstr(1 / sqrt(A)) == 'A**(-1/2)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_noncommutative():
     A, B, C = symbols('A,B,C', commutative=False)
 
@@ -1742,16 +2282,24 @@ def test_noncommutative():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_empty_printer(), test_empty_printer produces the expected output) over Any ║
+# ║ Path(test_empty_printer(), str_printer.emptyPrinter('foo') == 'foo' and str_printer.emptyPrinter(x * y) == 'x*y' and str_printer.emptyPrinter(32) == '32') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_empty_printer : Any → {Any | str_printer.emptyPr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str_printer.emptyPrinter('foo') == 'foo'       ║
+# ║   ensures:  str_printer.emptyPrinter(x * y) == 'x*y'       ║
+# ║   ensures:  str_printer.emptyPrinter(32) == '32'           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_empty_printer : Any → {Any | result satisfies: s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 191e4bfebe761af3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df3b0c5948756618  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_empty_printer","kind":"function","src_hash":"b3aeacadb01e1c2e","in":{"base":"Any"},"out":{"base":"Any","pred":"str_printer.emptyPrinter('foo') == 'foo' and str_printer.emptyPrinter(x * y) == 'x*y' and str_printer.emptyPrinter(32) == '32'"},"spec":{"lhs":"test_empty_printer()","rhs":"test_empty_printer produces the expected output","over":{"base":"Any"},"name":"test_empty_printer_correct"},"guarantee":"test_empty_printer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_empty_printer_correct","statement":"Path(test_empty_printer(x), test_empty_printer produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"191e4bfebe761af3"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_empty_printer","kind":"function","src_hash":"b3aeacadb01e1c2e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str_printer.emptyPrinter('foo') == 'foo' and str_printer.emptyPrinter(x * y) == 'x*y' and str_printer.emptyPrinter(32) == '32'"},"spec":{"lhs":"test_empty_printer()","rhs":"str_printer.emptyPrinter('foo') == 'foo' and str_printer.emptyPrinter(x * y) == 'x*y' and str_printer.emptyPrinter(32) == '32'","over":{"base":"Any"},"name":"test_empty_printer_correct"},"guarantee":"str_printer.emptyPrinter('foo') == 'foo'; str_printer.emptyPrinter(x * y) == 'x*y'; str_printer.emptyPrinter(32) == '32'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_empty_printer_correct","statement":"Path(test_empty_printer(x), str_printer.emptyPrinter('foo') == 'foo'; str_printer.emptyPrinter(x * y) == 'x*y'; str_printer.emptyPrinter(32) == '32')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df3b0c5948756618","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str_printer.emptyPrinter('foo') == 'foo'","str_printer.emptyPrinter(x * y) == 'x*y'","str_printer.emptyPrinter(32) == '32'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_empty_printer():
     str_printer = StrPrinter()
     assert str_printer.emptyPrinter("foo") == "foo"
@@ -1759,16 +2307,22 @@ def test_empty_printer():
     assert str_printer.emptyPrinter(32) == "32"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_decimal_printer(), test_decimal_printer produces the expected output) over Any ║
+# ║ Path(test_decimal_printer(), dec_printer.doprint(f(1.329294)) == 'f(1.33)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_decimal_printer : Any → {Any | dec_printer.dopri...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dec_printer.doprint(f(1.329294)) == 'f(1....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_decimal_printer : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2fea1785d3fe02fa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | acbcddd26d19d6d0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_decimal_printer","kind":"function","src_hash":"a3b4b696c04b6f76","in":{"base":"Any"},"out":{"base":"Any","pred":"dec_printer.doprint(f(1.329294)) == 'f(1.33)'"},"spec":{"lhs":"test_decimal_printer()","rhs":"test_decimal_printer produces the expected output","over":{"base":"Any"},"name":"test_decimal_printer_correct"},"guarantee":"test_decimal_printer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_decimal_printer_correct","statement":"Path(test_decimal_printer(x), test_decimal_printer produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fea1785d3fe02fa"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_decimal_printer","kind":"function","src_hash":"a3b4b696c04b6f76","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dec_printer.doprint(f(1.329294)) == 'f(1.33)'"},"spec":{"lhs":"test_decimal_printer()","rhs":"dec_printer.doprint(f(1.329294)) == 'f(1.33)'","over":{"base":"Any"},"name":"test_decimal_printer_correct"},"guarantee":"dec_printer.doprint(f(1.329294)) == 'f(1.33)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_decimal_printer_correct","statement":"Path(test_decimal_printer(x), dec_printer.doprint(f(1.329294)) == 'f(1.33)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"acbcddd26d19d6d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dec_printer.doprint(f(1.329294)) == 'f(1.33)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_decimal_printer():
     dec_printer = StrPrinter(settings={"dps":3})
     f = Function('f')
@@ -1776,31 +2330,45 @@ def test_decimal_printer():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_settings(), test_settings produces the expected output) over Any ║
+# ║ Path(test_settings(), <unspecified:test_settings>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_settings : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 50bba9cf050b26a4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_settings","kind":"function","src_hash":"d896b377c4f6366d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_settings()","rhs":"test_settings produces the expected output","over":{"base":"Any"},"name":"test_settings_correct"},"guarantee":"test_settings produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_settings_correct","statement":"Path(test_settings(x), test_settings produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50bba9cf050b26a4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_settings","kind":"function","src_hash":"d896b377c4f6366d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_settings()","rhs":"<unspecified:test_settings>","over":{"base":"Any"},"name":"test_settings_correct"},"guarantee":"test_settings produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_settings_correct","statement":"Path(test_settings(x), test_settings produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50bba9cf050b26a4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_settings():
     raises(TypeError, lambda: sstr(S(4), method="garbage"))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_RandomDomain(), test_RandomDomain produces the expected output) over Any ║
+# ║ Path(test_RandomDomain(), str(where(X > 0)) == 'Domain: (0 < x1) & (x1 < oo)' and str(where(D > 4)) == 'Domain: Eq(d1, 5) | Eq(d1, 6)' and str(pspace(Tuple(A, B)).domain) == 'Domain: (0 <= a) & (0 <= b) & (a < oo) & (b < oo)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_RandomDomain : Any → {Any | str(where(X > 0)) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(where(X > 0)) == 'Domain: (0 < x1) & ...   ║
+# ║   ensures:  str(where(D > 4)) == 'Domain: Eq(d1, 5) |...   ║
+# ║   ensures:  str(pspace(Tuple(A, B)).domain) == 'Domai...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_RandomDomain : Any → {Any | result satisfies: st...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 21bfcd0f7853e157  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d40609acfc64c83  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_RandomDomain","kind":"function","src_hash":"17ee52a49c69e44f","in":{"base":"Any"},"out":{"base":"Any","pred":"str(where(X > 0)) == 'Domain: (0 < x1) & (x1 < oo)' and str(where(D > 4)) == 'Domain: Eq(d1, 5) | Eq(d1, 6)'"},"spec":{"lhs":"test_RandomDomain()","rhs":"test_RandomDomain produces the expected output","over":{"base":"Any"},"name":"test_RandomDomain_correct"},"guarantee":"test_RandomDomain produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_RandomDomain_correct","statement":"Path(test_RandomDomain(x), test_RandomDomain produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21bfcd0f7853e157"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_RandomDomain","kind":"function","src_hash":"17ee52a49c69e44f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(where(X > 0)) == 'Domain: (0 < x1) & (x1 < oo)' and str(where(D > 4)) == 'Domain: Eq(d1, 5) | Eq(d1, 6)' and str(pspace(Tuple(A, B)).domain) == 'Domain: (0 <= a) & (0 <= b) & (a < oo) & (b < oo)'"},"spec":{"lhs":"test_RandomDomain()","rhs":"str(where(X > 0)) == 'Domain: (0 < x1) & (x1 < oo)' and str(where(D > 4)) == 'Domain: Eq(d1, 5) | Eq(d1, 6)' and str(pspace(Tuple(A, B)).domain) == 'Domain: (0 <= a) & (0 <= b) & (a < oo) & (b < oo)'","over":{"base":"Any"},"name":"test_RandomDomain_correct"},"guarantee":"str(where(X > 0)) == 'Domain: (0 < x1) & (x1 < oo)'; str(where(D > 4)) == 'Domain: Eq(d1, 5) | Eq(d1, 6)'; str(pspace(Tuple(A, B)).domain) == 'Domain: (0 <= a) & (0 <= b) & (a < oo) & (b < oo)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_RandomDomain_correct","statement":"Path(test_RandomDomain(x), str(where(X > 0)) == 'Domain: (0 < x1) & (x1 < oo)'; str(where(D > 4)) == 'Domain: Eq(d1, 5) | Eq(d1, 6)'; str(pspace(Tuple(A, B)).domain) == 'Domain: (0 <= a) & (0 <= b) & (a < oo) & (b < oo)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d40609acfc64c83","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(where(X > 0)) == 'Domain: (0 < x1) & (x1 < oo)'","str(where(D > 4)) == 'Domain: Eq(d1, 5) | Eq(d1, 6)'","str(pspace(Tuple(A, B)).domain) == 'Domain: (0 <= a) & (0 <= b) & (a < oo) & (b < oo)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_RandomDomain():
     from sympy.stats import Normal, Die, Exponential, pspace, where
     X = Normal('x1', 0, 1)
@@ -1815,16 +2383,24 @@ def test_RandomDomain():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FiniteSet(), test_FiniteSet produces the expected output) over Any ║
+# ║ Path(test_FiniteSet(), str(FiniteSet(*range(1, 51))) == '{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50}' and str(FiniteSet(*range(1, 6))) == '{1, 2, 3, 4, 5}' and str(FiniteSet(*[x * y, x ** 2])) == '{x**2, x*y}' and str(FiniteSet(FiniteSet(FiniteSet(x, y), 5), FiniteSet(x, y), 5)) == 'FiniteSet(5, FiniteSet(5, {x, y}), {x, y})') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FiniteSet : Any → {Any | str(FiniteSet(*range(1,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(FiniteSet(*range(1, 51))) == '{1, 2, ...   ║
+# ║   ensures:  str(FiniteSet(*range(1, 6))) == '{1, 2, 3...   ║
+# ║   ensures:  str(FiniteSet(*[x * y, x ** 2])) == '{x**...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FiniteSet : Any → {Any | result satisfies: str(F...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3773c213c9b600a5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4db086ad2852104a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_FiniteSet","kind":"function","src_hash":"dcb940953f192f9f","in":{"base":"Any"},"out":{"base":"Any","pred":"str(FiniteSet(*range(1, 6))) == '{1, 2, 3, 4, 5}' and str(FiniteSet(*[x * y, x ** 2])) == '{x**2, x*y}'"},"spec":{"lhs":"test_FiniteSet()","rhs":"test_FiniteSet produces the expected output","over":{"base":"Any"},"name":"test_FiniteSet_correct"},"guarantee":"test_FiniteSet produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_FiniteSet_correct","statement":"Path(test_FiniteSet(x), test_FiniteSet produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3773c213c9b600a5"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_FiniteSet","kind":"function","src_hash":"dcb940953f192f9f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(FiniteSet(*range(1, 51))) == '{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50}' and str(FiniteSet(*range(1, 6))) == '{1, 2, 3, 4, 5}' and str(FiniteSet(*[x * y, x ** 2])) == '{x**2, x*y}' and str(FiniteSet(FiniteSet(FiniteSet(x, y), 5), FiniteSet(x, y), 5)) == 'FiniteSet(5, FiniteSet(5, {x, y}), {x, y})'"},"spec":{"lhs":"test_FiniteSet()","rhs":"str(FiniteSet(*range(1, 51))) == '{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50}' and str(FiniteSet(*range(1, 6))) == '{1, 2, 3, 4, 5}' and str(FiniteSet(*[x * y, x ** 2])) == '{x**2, x*y}' and str(FiniteSet(FiniteSet(FiniteSet(x, y), 5), FiniteSet(x, y), 5)) == 'FiniteSet(5, FiniteSet(5, {x, y}), {x, y})'","over":{"base":"Any"},"name":"test_FiniteSet_correct"},"guarantee":"str(FiniteSet(*range(1, 51))) == '{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50}'; str(FiniteSet(*range(1, 6))) == '{1, 2, 3, 4, 5}'; str(FiniteSet(*[x * y, x ** 2])) == '{x**2, x*y}'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_FiniteSet_correct","statement":"Path(test_FiniteSet(x), str(FiniteSet(*range(1, 51))) == '{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50}'; str(FiniteSet(*range(1, 6))) == '{1, 2, 3, 4, 5}'; str(FiniteSet(*[x * y, x ** 2])) == '{x**2, x*y}')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4db086ad2852104a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(FiniteSet(*range(1, 51))) == '{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50}'","str(FiniteSet(*range(1, 6))) == '{1, 2, 3, 4, 5}'","str(FiniteSet(*[x * y, x ** 2])) == '{x**2, x*y}'","str(FiniteSet(FiniteSet(FiniteSet(x, y), 5), FiniteSet(x, y), 5)) == 'FiniteSet(5, FiniteSet(5, {x, y}), {x, y})'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_FiniteSet():
     assert str(FiniteSet(*range(1, 51))) == (
         '{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,'
@@ -1838,45 +2414,64 @@ def test_FiniteSet():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Partition(), test_Partition produces the expected output) over Any ║
+# ║ Path(test_Partition(), str(Partition(FiniteSet(x, y), {z})) == 'Partition({z}, {x, y})') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Partition : Any → {Any | str(Partition(FiniteSet...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(Partition(FiniteSet(x, y), {z})) == '...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Partition : Any → {Any | result satisfies: str(P...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | baaea2a3ce72c5f4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e8e64d888a0a41f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Partition","kind":"function","src_hash":"24b57ed99676ad07","in":{"base":"Any"},"out":{"base":"Any","pred":"str(Partition(FiniteSet(x, y), {z})) == 'Partition({z}, {x, y})'"},"spec":{"lhs":"test_Partition()","rhs":"test_Partition produces the expected output","over":{"base":"Any"},"name":"test_Partition_correct"},"guarantee":"test_Partition produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Partition_correct","statement":"Path(test_Partition(x), test_Partition produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"baaea2a3ce72c5f4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Partition","kind":"function","src_hash":"24b57ed99676ad07","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(Partition(FiniteSet(x, y), {z})) == 'Partition({z}, {x, y})'"},"spec":{"lhs":"test_Partition()","rhs":"str(Partition(FiniteSet(x, y), {z})) == 'Partition({z}, {x, y})'","over":{"base":"Any"},"name":"test_Partition_correct"},"guarantee":"str(Partition(FiniteSet(x, y), {z})) == 'Partition({z}, {x, y})'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Partition_correct","statement":"Path(test_Partition(x), str(Partition(FiniteSet(x, y), {z})) == 'Partition({z}, {x, y})')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e8e64d888a0a41f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(Partition(FiniteSet(x, y), {z})) == 'Partition({z}, {x, y})'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Partition():
     assert str(Partition(FiniteSet(x, y), {z})) == 'Partition({z}, {x, y})'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_UniversalSet(), test_UniversalSet produces the expected output) over Any ║
+# ║ Path(test_UniversalSet(), str(S.UniversalSet) == 'UniversalSet') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_UniversalSet : Any → {Any | str(S.UniversalSet) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(S.UniversalSet) == 'UniversalSet'          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_UniversalSet : Any → {Any | result satisfies: st...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e0b741ea67eaba90  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3588b2c43866b3f7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_UniversalSet","kind":"function","src_hash":"32bcb1d1fecc28f3","in":{"base":"Any"},"out":{"base":"Any","pred":"str(S.UniversalSet) == 'UniversalSet'"},"spec":{"lhs":"test_UniversalSet()","rhs":"test_UniversalSet produces the expected output","over":{"base":"Any"},"name":"test_UniversalSet_correct"},"guarantee":"test_UniversalSet produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_UniversalSet_correct","statement":"Path(test_UniversalSet(x), test_UniversalSet produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0b741ea67eaba90"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_UniversalSet","kind":"function","src_hash":"32bcb1d1fecc28f3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(S.UniversalSet) == 'UniversalSet'"},"spec":{"lhs":"test_UniversalSet()","rhs":"str(S.UniversalSet) == 'UniversalSet'","over":{"base":"Any"},"name":"test_UniversalSet_correct"},"guarantee":"str(S.UniversalSet) == 'UniversalSet'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_UniversalSet_correct","statement":"Path(test_UniversalSet(x), str(S.UniversalSet) == 'UniversalSet')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3588b2c43866b3f7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(S.UniversalSet) == 'UniversalSet'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_UniversalSet():
     assert str(S.UniversalSet) == 'UniversalSet'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PrettyPoly(), test_PrettyPoly produces the expected output) over Any ║
+# ║ Path(test_PrettyPoly(), sstr(F.convert(x / (x + y))) == sstr(x / (x + y)) and sstr(R.convert(x + y)) == sstr(x + y)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PrettyPoly : Any → {Any | sstr(F.convert(x / (x ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sstr(F.convert(x / (x + y))) == sstr(x / ...   ║
+# ║   ensures:  sstr(R.convert(x + y)) == sstr(x + y)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PrettyPoly : Any → {Any | result satisfies: sstr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0c818169f6abaa6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c7dbe300a5787c08  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_PrettyPoly","kind":"function","src_hash":"588a9563affaa136","in":{"base":"Any"},"out":{"base":"Any","pred":"sstr(F.convert(x / (x + y))) == sstr(x / (x + y)) and sstr(R.convert(x + y)) == sstr(x + y)"},"spec":{"lhs":"test_PrettyPoly()","rhs":"test_PrettyPoly produces the expected output","over":{"base":"Any"},"name":"test_PrettyPoly_correct"},"guarantee":"test_PrettyPoly produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_PrettyPoly_correct","statement":"Path(test_PrettyPoly(x), test_PrettyPoly produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0c818169f6abaa6"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_PrettyPoly","kind":"function","src_hash":"588a9563affaa136","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sstr(F.convert(x / (x + y))) == sstr(x / (x + y)) and sstr(R.convert(x + y)) == sstr(x + y)"},"spec":{"lhs":"test_PrettyPoly()","rhs":"sstr(F.convert(x / (x + y))) == sstr(x / (x + y)) and sstr(R.convert(x + y)) == sstr(x + y)","over":{"base":"Any"},"name":"test_PrettyPoly_correct"},"guarantee":"sstr(F.convert(x / (x + y))) == sstr(x / (x + y)); sstr(R.convert(x + y)) == sstr(x + y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_PrettyPoly_correct","statement":"Path(test_PrettyPoly(x), sstr(F.convert(x / (x + y))) == sstr(x / (x + y)); sstr(R.convert(x + y)) == sstr(x + y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7dbe300a5787c08","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sstr(F.convert(x / (x + y))) == sstr(x / (x + y))","sstr(R.convert(x + y)) == sstr(x + y)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_PrettyPoly():
     F = QQ.frac_field(x, y)
     R = QQ[x, y]
@@ -1885,16 +2480,24 @@ def test_PrettyPoly():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_categories(), test_categories produces the expected output) over Any ║
+# ║ Path(test_categories(), str(A) == 'Object("A")' and str(f) == 'NamedMorphism(Object("A"), Object("B"), "f")' and str(id_A) == 'IdentityMorphism(Object("A"))' and str(K) == 'Category("K")') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_categories : Any → {Any | str(A) == 'Object("A")...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(A) == 'Object("A")'                        ║
+# ║   ensures:  str(f) == 'NamedMorphism(Object("A"), Obj...   ║
+# ║   ensures:  str(id_A) == 'IdentityMorphism(Object("A"))'   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_categories : Any → {Any | result satisfies: str(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c4cb6d876cb06ab5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 171c56230314ff7e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_categories","kind":"function","src_hash":"109a040abe210dba","in":{"base":"Any"},"out":{"base":"Any","pred":"str(A) == 'Object(\"A\")' and str(f) == 'NamedMorphism(Object(\"A\"), Object(\"B\"), \"f\")' and str(id_A) == 'IdentityMorphism(Object(\"A\"))' and str(K) == 'Category(\"K\")'"},"spec":{"lhs":"test_categories()","rhs":"test_categories produces the expected output","over":{"base":"Any"},"name":"test_categories_correct"},"guarantee":"test_categories produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_categories_correct","statement":"Path(test_categories(x), test_categories produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4cb6d876cb06ab5"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_categories","kind":"function","src_hash":"109a040abe210dba","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(A) == 'Object(\"A\")' and str(f) == 'NamedMorphism(Object(\"A\"), Object(\"B\"), \"f\")' and str(id_A) == 'IdentityMorphism(Object(\"A\"))' and str(K) == 'Category(\"K\")'"},"spec":{"lhs":"test_categories()","rhs":"str(A) == 'Object(\"A\")' and str(f) == 'NamedMorphism(Object(\"A\"), Object(\"B\"), \"f\")' and str(id_A) == 'IdentityMorphism(Object(\"A\"))' and str(K) == 'Category(\"K\")'","over":{"base":"Any"},"name":"test_categories_correct"},"guarantee":"str(A) == 'Object(\"A\")'; str(f) == 'NamedMorphism(Object(\"A\"), Object(\"B\"), \"f\")'; str(id_A) == 'IdentityMorphism(Object(\"A\"))'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_categories_correct","statement":"Path(test_categories(x), str(A) == 'Object(\"A\")'; str(f) == 'NamedMorphism(Object(\"A\"), Object(\"B\"), \"f\")'; str(id_A) == 'IdentityMorphism(Object(\"A\"))')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"171c56230314ff7e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(A) == 'Object(\"A\")'","str(f) == 'NamedMorphism(Object(\"A\"), Object(\"B\"), \"f\")'","str(id_A) == 'IdentityMorphism(Object(\"A\"))'","str(K) == 'Category(\"K\")'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_categories():
     from sympy.categories import (Object, NamedMorphism,
         IdentityMorphism, Category)
@@ -1915,16 +2518,22 @@ def test_categories():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Tr(), test_Tr produces the expected output) over Any ║
+# ║ Path(test_Tr(), str(t) == 'Tr(A*B)') over Any              ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Tr : Any → {Any | str(t) == 'Tr(A*B)'}                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(t) == 'Tr(A*B)'                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Tr : Any → {Any | result satisfies: str(t) == 'T...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fac5f099aec2c5a4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 417b865beb61446f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Tr","kind":"function","src_hash":"3b3c83ee6dfa31ba","in":{"base":"Any"},"out":{"base":"Any","pred":"str(t) == 'Tr(A*B)'"},"spec":{"lhs":"test_Tr()","rhs":"test_Tr produces the expected output","over":{"base":"Any"},"name":"test_Tr_correct"},"guarantee":"test_Tr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Tr_correct","statement":"Path(test_Tr(x), test_Tr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fac5f099aec2c5a4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Tr","kind":"function","src_hash":"3b3c83ee6dfa31ba","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(t) == 'Tr(A*B)'"},"spec":{"lhs":"test_Tr()","rhs":"str(t) == 'Tr(A*B)'","over":{"base":"Any"},"name":"test_Tr_correct"},"guarantee":"str(t) == 'Tr(A*B)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Tr_correct","statement":"Path(test_Tr(x), str(t) == 'Tr(A*B)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"417b865beb61446f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(t) == 'Tr(A*B)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Tr():
     A, B = symbols('A B', commutative=False)
     t = Tr(A*B)
@@ -1932,31 +2541,45 @@ def test_Tr():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6387(), test_issue_6387 produces the expected output) over Any ║
+# ║ Path(test_issue_6387(), str(factor(-3.0 * z + 3)) == '-3.0*(1.0*z - 1.0)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6387 : Any → {Any | str(factor(-3.0 * z + ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(factor(-3.0 * z + 3)) == '-3.0*(1.0*z...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6387 : Any → {Any | result satisfies: str(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b9eec556f51b334  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e18833071373e8d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_issue_6387","kind":"function","src_hash":"ffd0bd1bf7d58f44","in":{"base":"Any"},"out":{"base":"Any","pred":"str(factor(-3.0 * z + 3)) == '-3.0*(1.0*z - 1.0)'"},"spec":{"lhs":"test_issue_6387()","rhs":"test_issue_6387 produces the expected output","over":{"base":"Any"},"name":"test_issue_6387_correct"},"guarantee":"test_issue_6387 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_issue_6387_correct","statement":"Path(test_issue_6387(x), test_issue_6387 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b9eec556f51b334"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_issue_6387","kind":"function","src_hash":"ffd0bd1bf7d58f44","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(factor(-3.0 * z + 3)) == '-3.0*(1.0*z - 1.0)'"},"spec":{"lhs":"test_issue_6387()","rhs":"str(factor(-3.0 * z + 3)) == '-3.0*(1.0*z - 1.0)'","over":{"base":"Any"},"name":"test_issue_6387_correct"},"guarantee":"str(factor(-3.0 * z + 3)) == '-3.0*(1.0*z - 1.0)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_issue_6387_correct","statement":"Path(test_issue_6387(x), str(factor(-3.0 * z + 3)) == '-3.0*(1.0*z - 1.0)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e18833071373e8d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(factor(-3.0 * z + 3)) == '-3.0*(1.0*z - 1.0)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_6387():
     assert str(factor(-3.0*z + 3)) == '-3.0*(1.0*z - 1.0)'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MatMul_MatAdd(), test_MatMul_MatAdd produces the expected output) over Any ║
+# ║ Path(test_MatMul_MatAdd(), str(2 * (X + Y)) == '2*X + 2*Y' and str(I * X) == 'I*X' and str(-I * X) == '-I*X' and str((1 + I) * X) == '(1 + I)*X' and str(-(1 + I) * X) == '(-1 - I)*X' and str(MatAdd(MatAdd(X, Y), MatAdd(X, Y))) == '(X + Y) + (X + Y)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_MatMul_MatAdd : Any → {Any | str(2 * (X + Y)) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(2 * (X + Y)) == '2*X + 2*Y'                ║
+# ║   ensures:  str(I * X) == 'I*X'                            ║
+# ║   ensures:  str(-I * X) == '-I*X'                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_MatMul_MatAdd : Any → {Any | result satisfies: s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2a64ca085740a53  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 72143d0c6fb8d602  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_MatMul_MatAdd","kind":"function","src_hash":"10aea8d69afda4f7","in":{"base":"Any"},"out":{"base":"Any","pred":"str(2 * (X + Y)) == '2*X + 2*Y' and str(I * X) == 'I*X' and str(-I * X) == '-I*X' and str((1 + I) * X) == '(1 + I)*X' and str(-(1 + I) * X) == '(-1 - I)*X' and str(MatAdd(MatAdd(X, Y), MatAdd(X, Y))) == '(X + Y) + (X + Y)'"},"spec":{"lhs":"test_MatMul_MatAdd()","rhs":"test_MatMul_MatAdd produces the expected output","over":{"base":"Any"},"name":"test_MatMul_MatAdd_correct"},"guarantee":"test_MatMul_MatAdd produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_MatMul_MatAdd_correct","statement":"Path(test_MatMul_MatAdd(x), test_MatMul_MatAdd produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2a64ca085740a53"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_MatMul_MatAdd","kind":"function","src_hash":"10aea8d69afda4f7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(2 * (X + Y)) == '2*X + 2*Y' and str(I * X) == 'I*X' and str(-I * X) == '-I*X' and str((1 + I) * X) == '(1 + I)*X' and str(-(1 + I) * X) == '(-1 - I)*X' and str(MatAdd(MatAdd(X, Y), MatAdd(X, Y))) == '(X + Y) + (X + Y)'"},"spec":{"lhs":"test_MatMul_MatAdd()","rhs":"str(2 * (X + Y)) == '2*X + 2*Y' and str(I * X) == 'I*X' and str(-I * X) == '-I*X' and str((1 + I) * X) == '(1 + I)*X' and str(-(1 + I) * X) == '(-1 - I)*X' and str(MatAdd(MatAdd(X, Y), MatAdd(X, Y))) == '(X + Y) + (X + Y)'","over":{"base":"Any"},"name":"test_MatMul_MatAdd_correct"},"guarantee":"str(2 * (X + Y)) == '2*X + 2*Y'; str(I * X) == 'I*X'; str(-I * X) == '-I*X'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_MatMul_MatAdd_correct","statement":"Path(test_MatMul_MatAdd(x), str(2 * (X + Y)) == '2*X + 2*Y'; str(I * X) == 'I*X'; str(-I * X) == '-I*X')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72143d0c6fb8d602","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(2 * (X + Y)) == '2*X + 2*Y'","str(I * X) == 'I*X'","str(-I * X) == '-I*X'","str((1 + I) * X) == '(1 + I)*X'","str(-(1 + I) * X) == '(-1 - I)*X'","str(MatAdd(MatAdd(X, Y), MatAdd(X, Y))) == '(X + Y) + (X + Y)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_MatMul_MatAdd():
     X, Y = MatrixSymbol("X", 2, 2), MatrixSymbol("Y", 2, 2)
     assert str(2*(X + Y)) == "2*X + 2*Y"
@@ -1969,16 +2592,24 @@ def test_MatMul_MatAdd():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MatrixSlice(), test_MatrixSlice produces the expected output) over Any ║
+# ║ Path(test_MatrixSlice(), str(MatrixSlice(X, (None, None, None), (None, None, None))) == 'X[:, :]' and str(X[x:x + 1, y:y + 1]) == 'X[x:x + 1, y:y + 1]' and str(X[x:x + 1:2, y:y + 1:2]) == 'X[x:x + 1:2, y:y + 1:2]' and str(X[:x, y:]) == 'X[:x, y:]' and str(X[x:, :y]) == 'X[x:, :y]' and str(X[x:y, z:w]) == 'X[x:y, z:w]' and str(X[x:y:t, w:t:x]) == 'X[x:y:t, w:t:x]' and str(X[x::y, t::w]) == 'X[x::y, t::w]' and str(X[:x:y, :t:w]) == 'X[:x:y, :t:w]' and str(X[::x, ::y]) == 'X[::x, ::y]' and str(MatrixSlice(X, (0, None, None), (0, None, None))) == 'X[:, :]' and str(MatrixSlice(X, (None, n, None), (None, n, None))) == 'X[:, :]' and str(MatrixSlice(X, (0, n, None), (0, n, None))) == 'X[:, :]' and str(MatrixSlice(X, (0, n, 2), (0, n, 2))) == 'X[::2, ::2]' and str(X[1:2:3, 4:5:6]) == 'X[1:2:3, 4:5:6]' and str(X[1:3:5, 4:6:8]) == 'X[1:3:5, 4:6:8]' and str(X[1:10:2]) == 'X[1:10:2, :]' and str(Y[:5, 1:9:2]) == 'Y[:5, 1:9:2]' and str(Y[:5, 1:10:2]) == 'Y[:5, 1::2]' and str(Y[5, :5:2]) == 'Y[5:6, :5:2]' and str(X[0:1, 0:1]) == 'X[:1, :1]' and str(X[0:1:2, 0:1:2]) == 'X[:1:2, :1:2]' and str((Y + Z)[2:, 2:]) == '(Y + Z)[2:, 2:]') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_MatrixSlice : Any → {Any | str(MatrixSlice(X, (N...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(MatrixSlice(X, (None, None, None), (N...   ║
+# ║   ensures:  str(X[x:x + 1, y:y + 1]) == 'X[x:x + 1, y...   ║
+# ║   ensures:  str(X[x:x + 1:2, y:y + 1:2]) == 'X[x:x + ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_MatrixSlice : Any → {Any | result satisfies: str...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 60a1601183ad885b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2693c6f778b8d709  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_MatrixSlice","kind":"function","src_hash":"b582bbf83cde0af9","in":{"base":"Any"},"out":{"base":"Any","pred":"str(MatrixSlice(X, (None, None, None), (None, None, None))) == 'X[:, :]' and str(X[x:x + 1, y:y + 1]) == 'X[x:x + 1, y:y + 1]' and str(X[x:x + 1:2, y:y + 1:2]) == 'X[x:x + 1:2, y:y + 1:2]' and str(X[:x, y:]) == 'X[:x, y:]' and str(X[:x, y:]) == 'X[:x, y:]' and str(X[x:, :y]) == 'X[x:, :y]' and str(X[x:y, z:w]) == 'X[x:y, z:w]' and str(X[x:y:t, w:t:x]) == 'X[x:y:t, w:t:x]' and str(X[x::y, t::w]) == 'X[x::y, t::w]' and str(X[:x:y, :t:w]) == 'X[:x:y, :t:w]' and str(X[::x, ::y]) == 'X[::x, ::y]' and str(MatrixSlice(X, (0, None, None), (0, None, None))) == 'X[:, :]' and str(MatrixSlice(X, (None, n, None), (None, n, None))) == 'X[:, :]' and str(MatrixSlice(X, (0, n, None), (0, n, None))) == 'X[:, :]' and str(MatrixSlice(X, (0, n, 2), (0, n, 2))) == 'X[::2, ::2]' and str(X[1:2:3, 4:5:6]) == 'X[1:2:3, 4:5:6]' and str(X[1:3:5, 4:6:8]) == 'X[1:3:5, 4:6:8]' and str(X[1:10:2]) == 'X[1:10:2, :]' and str(Y[:5, 1:9:2]) == 'Y[:5, 1:9:2]' and str(Y[:5, 1:10:2]) == 'Y[:5, 1::2]' and str(Y[5, :5:2]) == 'Y[5:6, :5:2]' and str(X[0:1, 0:1]) == 'X[:1, :1]' and str(X[0:1:2, 0:1:2]) == 'X[:1:2, :1:2]' and str((Y + Z)[2:, 2:]) == '(Y + Z)[2:, 2:]'"},"spec":{"lhs":"test_MatrixSlice()","rhs":"test_MatrixSlice produces the expected output","over":{"base":"Any"},"name":"test_MatrixSlice_correct"},"guarantee":"test_MatrixSlice produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_MatrixSlice_correct","statement":"Path(test_MatrixSlice(x), test_MatrixSlice produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60a1601183ad885b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_MatrixSlice","kind":"function","src_hash":"b582bbf83cde0af9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(MatrixSlice(X, (None, None, None), (None, None, None))) == 'X[:, :]' and str(X[x:x + 1, y:y + 1]) == 'X[x:x + 1, y:y + 1]' and str(X[x:x + 1:2, y:y + 1:2]) == 'X[x:x + 1:2, y:y + 1:2]' and str(X[:x, y:]) == 'X[:x, y:]' and str(X[x:, :y]) == 'X[x:, :y]' and str(X[x:y, z:w]) == 'X[x:y, z:w]' and str(X[x:y:t, w:t:x]) == 'X[x:y:t, w:t:x]' and str(X[x::y, t::w]) == 'X[x::y, t::w]' and str(X[:x:y, :t:w]) == 'X[:x:y, :t:w]' and str(X[::x, ::y]) == 'X[::x, ::y]' and str(MatrixSlice(X, (0, None, None), (0, None, None))) == 'X[:, :]' and str(MatrixSlice(X, (None, n, None), (None, n, None))) == 'X[:, :]' and str(MatrixSlice(X, (0, n, None), (0, n, None))) == 'X[:, :]' and str(MatrixSlice(X, (0, n, 2), (0, n, 2))) == 'X[::2, ::2]' and str(X[1:2:3, 4:5:6]) == 'X[1:2:3, 4:5:6]' and str(X[1:3:5, 4:6:8]) == 'X[1:3:5, 4:6:8]' and str(X[1:10:2]) == 'X[1:10:2, :]' and str(Y[:5, 1:9:2]) == 'Y[:5, 1:9:2]' and str(Y[:5, 1:10:2]) == 'Y[:5, 1::2]' and str(Y[5, :5:2]) == 'Y[5:6, :5:2]' and str(X[0:1, 0:1]) == 'X[:1, :1]' and str(X[0:1:2, 0:1:2]) == 'X[:1:2, :1:2]' and str((Y + Z)[2:, 2:]) == '(Y + Z)[2:, 2:]'"},"spec":{"lhs":"test_MatrixSlice()","rhs":"str(MatrixSlice(X, (None, None, None), (None, None, None))) == 'X[:, :]' and str(X[x:x + 1, y:y + 1]) == 'X[x:x + 1, y:y + 1]' and str(X[x:x + 1:2, y:y + 1:2]) == 'X[x:x + 1:2, y:y + 1:2]' and str(X[:x, y:]) == 'X[:x, y:]' and str(X[x:, :y]) == 'X[x:, :y]' and str(X[x:y, z:w]) == 'X[x:y, z:w]' and str(X[x:y:t, w:t:x]) == 'X[x:y:t, w:t:x]' and str(X[x::y, t::w]) == 'X[x::y, t::w]' and str(X[:x:y, :t:w]) == 'X[:x:y, :t:w]' and str(X[::x, ::y]) == 'X[::x, ::y]' and str(MatrixSlice(X, (0, None, None), (0, None, None))) == 'X[:, :]' and str(MatrixSlice(X, (None, n, None), (None, n, None))) == 'X[:, :]' and str(MatrixSlice(X, (0, n, None), (0, n, None))) == 'X[:, :]' and str(MatrixSlice(X, (0, n, 2), (0, n, 2))) == 'X[::2, ::2]' and str(X[1:2:3, 4:5:6]) == 'X[1:2:3, 4:5:6]' and str(X[1:3:5, 4:6:8]) == 'X[1:3:5, 4:6:8]' and str(X[1:10:2]) == 'X[1:10:2, :]' and str(Y[:5, 1:9:2]) == 'Y[:5, 1:9:2]' and str(Y[:5, 1:10:2]) == 'Y[:5, 1::2]' and str(Y[5, :5:2]) == 'Y[5:6, :5:2]' and str(X[0:1, 0:1]) == 'X[:1, :1]' and str(X[0:1:2, 0:1:2]) == 'X[:1:2, :1:2]' and str((Y + Z)[2:, 2:]) == '(Y + Z)[2:, 2:]'","over":{"base":"Any"},"name":"test_MatrixSlice_correct"},"guarantee":"str(MatrixSlice(X, (None, None, None), (None, None, None))) == 'X[:, :]'; str(X[x:x + 1, y:y + 1]) == 'X[x:x + 1, y:y + 1]'; str(X[x:x + 1:2, y:y + 1:2]) == 'X[x:x + 1:2, y:y + 1:2]'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_MatrixSlice_correct","statement":"Path(test_MatrixSlice(x), str(MatrixSlice(X, (None, None, None), (None, None, None))) == 'X[:, :]'; str(X[x:x + 1, y:y + 1]) == 'X[x:x + 1, y:y + 1]'; str(X[x:x + 1:2, y:y + 1:2]) == 'X[x:x + 1:2, y:y + 1:2]')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2693c6f778b8d709","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(MatrixSlice(X, (None, None, None), (None, None, None))) == 'X[:, :]'","str(X[x:x + 1, y:y + 1]) == 'X[x:x + 1, y:y + 1]'","str(X[x:x + 1:2, y:y + 1:2]) == 'X[x:x + 1:2, y:y + 1:2]'","str(X[:x, y:]) == 'X[:x, y:]'","str(X[x:, :y]) == 'X[x:, :y]'","str(X[x:y, z:w]) == 'X[x:y, z:w]'","str(X[x:y:t, w:t:x]) == 'X[x:y:t, w:t:x]'","str(X[x::y, t::w]) == 'X[x::y, t::w]'","str(X[:x:y, :t:w]) == 'X[:x:y, :t:w]'","str(X[::x, ::y]) == 'X[::x, ::y]'","str(MatrixSlice(X, (0, None, None), (0, None, None))) == 'X[:, :]'","str(MatrixSlice(X, (None, n, None), (None, n, None))) == 'X[:, :]'","str(MatrixSlice(X, (0, n, None), (0, n, None))) == 'X[:, :]'","str(MatrixSlice(X, (0, n, 2), (0, n, 2))) == 'X[::2, ::2]'","str(X[1:2:3, 4:5:6]) == 'X[1:2:3, 4:5:6]'","str(X[1:3:5, 4:6:8]) == 'X[1:3:5, 4:6:8]'","str(X[1:10:2]) == 'X[1:10:2, :]'","str(Y[:5, 1:9:2]) == 'Y[:5, 1:9:2]'","str(Y[:5, 1:10:2]) == 'Y[:5, 1::2]'","str(Y[5, :5:2]) == 'Y[5:6, :5:2]'","str(X[0:1, 0:1]) == 'X[:1, :1]'","str(X[0:1:2, 0:1:2]) == 'X[:1:2, :1:2]'","str((Y + Z)[2:, 2:]) == '(Y + Z)[2:, 2:]'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_MatrixSlice():
     n = Symbol('n', integer=True)
     X = MatrixSymbol('X', n, n)
@@ -2011,89 +2642,126 @@ def test_MatrixSlice():
     assert str((Y + Z)[2:, 2:]) == '(Y + Z)[2:, 2:]'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_true_false(), test_true_false produces the expected output) over Any ║
+# ║ Path(test_true_false(), str(true) == repr(true) == sstr(true) == 'True' and str(false) == repr(false) == sstr(false) == 'False') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_true_false : Any → {Any | str(true) == repr(true...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(true) == repr(true) == sstr(true) == ...   ║
+# ║   ensures:  str(false) == repr(false) == sstr(false) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_true_false : Any → {Any | result satisfies: str(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d95cfb11ca0a3449  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f6dceea399ea6dc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_true_false","kind":"function","src_hash":"b372bbc2014224c2","in":{"base":"Any"},"out":{"base":"Any","pred":"str(true) == repr(true) == sstr(true) == 'True' and str(false) == repr(false) == sstr(false) == 'False'"},"spec":{"lhs":"test_true_false()","rhs":"test_true_false produces the expected output","over":{"base":"Any"},"name":"test_true_false_correct"},"guarantee":"test_true_false produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_true_false_correct","statement":"Path(test_true_false(x), test_true_false produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d95cfb11ca0a3449"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_true_false","kind":"function","src_hash":"b372bbc2014224c2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(true) == repr(true) == sstr(true) == 'True' and str(false) == repr(false) == sstr(false) == 'False'"},"spec":{"lhs":"test_true_false()","rhs":"str(true) == repr(true) == sstr(true) == 'True' and str(false) == repr(false) == sstr(false) == 'False'","over":{"base":"Any"},"name":"test_true_false_correct"},"guarantee":"str(true) == repr(true) == sstr(true) == 'True'; str(false) == repr(false) == sstr(false) == 'False'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_true_false_correct","statement":"Path(test_true_false(x), str(true) == repr(true) == sstr(true) == 'True'; str(false) == repr(false) == sstr(false) == 'False')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f6dceea399ea6dc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(true) == repr(true) == sstr(true) == 'True'","str(false) == repr(false) == sstr(false) == 'False'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_true_false():
     assert str(true) == repr(true) == sstr(true) == "True"
     assert str(false) == repr(false) == sstr(false) == "False"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Equivalent(), test_Equivalent produces the expected output) over Any ║
+# ║ Path(test_Equivalent(), str(Equivalent(y, x)) == 'Equivalent(x, y)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Equivalent : Any → {Any | str(Equivalent(y, x)) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(Equivalent(y, x)) == 'Equivalent(x, y)'    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Equivalent : Any → {Any | result satisfies: str(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6423c1c8f53bc187  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 699016b3a296aa85  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Equivalent","kind":"function","src_hash":"dbd2dca55d512b16","in":{"base":"Any"},"out":{"base":"Any","pred":"str(Equivalent(y, x)) == 'Equivalent(x, y)'"},"spec":{"lhs":"test_Equivalent()","rhs":"test_Equivalent produces the expected output","over":{"base":"Any"},"name":"test_Equivalent_correct"},"guarantee":"test_Equivalent produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Equivalent_correct","statement":"Path(test_Equivalent(x), test_Equivalent produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6423c1c8f53bc187"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Equivalent","kind":"function","src_hash":"dbd2dca55d512b16","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(Equivalent(y, x)) == 'Equivalent(x, y)'"},"spec":{"lhs":"test_Equivalent()","rhs":"str(Equivalent(y, x)) == 'Equivalent(x, y)'","over":{"base":"Any"},"name":"test_Equivalent_correct"},"guarantee":"str(Equivalent(y, x)) == 'Equivalent(x, y)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Equivalent_correct","statement":"Path(test_Equivalent(x), str(Equivalent(y, x)) == 'Equivalent(x, y)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"699016b3a296aa85","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(Equivalent(y, x)) == 'Equivalent(x, y)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Equivalent():
     assert str(Equivalent(y, x)) == "Equivalent(x, y)"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Xor(), test_Xor produces the expected output) over Any ║
+# ║ Path(test_Xor(), str(Xor(y, x, evaluate=False)) == 'x ^ y') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Xor : Any → {Any | str(Xor(y, x, evaluate=False)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(Xor(y, x, evaluate=False)) == 'x ^ y'      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Xor : Any → {Any | result satisfies: str(Xor(y, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b1279591765589be  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 42107e741c26e3ca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Xor","kind":"function","src_hash":"89f69f33f45b0ea9","in":{"base":"Any"},"out":{"base":"Any","pred":"str(Xor(y, x, evaluate=False)) == 'x ^ y'"},"spec":{"lhs":"test_Xor()","rhs":"test_Xor produces the expected output","over":{"base":"Any"},"name":"test_Xor_correct"},"guarantee":"test_Xor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Xor_correct","statement":"Path(test_Xor(x), test_Xor produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1279591765589be"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Xor","kind":"function","src_hash":"89f69f33f45b0ea9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(Xor(y, x, evaluate=False)) == 'x ^ y'"},"spec":{"lhs":"test_Xor()","rhs":"str(Xor(y, x, evaluate=False)) == 'x ^ y'","over":{"base":"Any"},"name":"test_Xor_correct"},"guarantee":"str(Xor(y, x, evaluate=False)) == 'x ^ y'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Xor_correct","statement":"Path(test_Xor(x), str(Xor(y, x, evaluate=False)) == 'x ^ y')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42107e741c26e3ca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(Xor(y, x, evaluate=False)) == 'x ^ y'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Xor():
     assert str(Xor(y, x, evaluate=False)) == "x ^ y"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Complement(), test_Complement produces the expected output) over Any ║
+# ║ Path(test_Complement(), str(Complement(S.Reals, S.Naturals)) == 'Complement(Reals, Naturals)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Complement : Any → {Any | str(Complement(S.Reals...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(Complement(S.Reals, S.Naturals)) == '...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Complement : Any → {Any | result satisfies: str(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 74e2aa87fe38d6f3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38c2abef77bc6448  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Complement","kind":"function","src_hash":"db23b1327bdee813","in":{"base":"Any"},"out":{"base":"Any","pred":"str(Complement(S.Reals, S.Naturals)) == 'Complement(Reals, Naturals)'"},"spec":{"lhs":"test_Complement()","rhs":"test_Complement produces the expected output","over":{"base":"Any"},"name":"test_Complement_correct"},"guarantee":"test_Complement produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Complement_correct","statement":"Path(test_Complement(x), test_Complement produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"74e2aa87fe38d6f3"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Complement","kind":"function","src_hash":"db23b1327bdee813","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(Complement(S.Reals, S.Naturals)) == 'Complement(Reals, Naturals)'"},"spec":{"lhs":"test_Complement()","rhs":"str(Complement(S.Reals, S.Naturals)) == 'Complement(Reals, Naturals)'","over":{"base":"Any"},"name":"test_Complement_correct"},"guarantee":"str(Complement(S.Reals, S.Naturals)) == 'Complement(Reals, Naturals)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Complement_correct","statement":"Path(test_Complement(x), str(Complement(S.Reals, S.Naturals)) == 'Complement(Reals, Naturals)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38c2abef77bc6448","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(Complement(S.Reals, S.Naturals)) == 'Complement(Reals, Naturals)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Complement():
     assert str(Complement(S.Reals, S.Naturals)) == 'Complement(Reals, Naturals)'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_SymmetricDifference(), test_SymmetricDifference produces the expected output) over Any ║
+# ║ Path(test_SymmetricDifference(), str(SymmetricDifference(Interval(2, 3), Interval(3, 4), evaluate=False)) == 'SymmetricDifference(Interval(2, 3), Interval(3, 4))') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_SymmetricDifference : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(SymmetricDifference(Interval(2, 3), I...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_SymmetricDifference : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 111bf9d3b75246c7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2636c2c7c8f55001  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_SymmetricDifference","kind":"function","src_hash":"1412616bb71450a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_SymmetricDifference()","rhs":"test_SymmetricDifference produces the expected output","over":{"base":"Any"},"name":"test_SymmetricDifference_correct"},"guarantee":"test_SymmetricDifference produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_SymmetricDifference_correct","statement":"Path(test_SymmetricDifference(x), test_SymmetricDifference produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"111bf9d3b75246c7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_SymmetricDifference","kind":"function","src_hash":"1412616bb71450a3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(SymmetricDifference(Interval(2, 3), Interval(3, 4), evaluate=False)) == 'SymmetricDifference(Interval(2, 3), Interval(3, 4))'"},"spec":{"lhs":"test_SymmetricDifference()","rhs":"str(SymmetricDifference(Interval(2, 3), Interval(3, 4), evaluate=False)) == 'SymmetricDifference(Interval(2, 3), Interval(3, 4))'","over":{"base":"Any"},"name":"test_SymmetricDifference_correct"},"guarantee":"str(SymmetricDifference(Interval(2, 3), Interval(3, 4), evaluate=False)) == 'SymmetricDifference(Interval(2, 3), Interval(3, 4))'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_SymmetricDifference_correct","statement":"Path(test_SymmetricDifference(x), str(SymmetricDifference(Interval(2, 3), Interval(3, 4), evaluate=False)) == 'SymmetricDifference(Interval(2, 3), Interval(3, 4))')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2636c2c7c8f55001","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(SymmetricDifference(Interval(2, 3), Interval(3, 4), evaluate=False)) == 'SymmetricDifference(Interval(2, 3), Interval(3, 4))'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_SymmetricDifference():
     assert str(SymmetricDifference(Interval(2, 3), Interval(3, 4),evaluate=False)) == \
            'SymmetricDifference(Interval(2, 3), Interval(3, 4))'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_UnevaluatedExpr(), test_UnevaluatedExpr produces the expected output) over Any ║
+# ║ Path(test_UnevaluatedExpr(), str(expr1) == '2*(a + b)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_UnevaluatedExpr : Any → {Any | str(expr1) == '2*...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(expr1) == '2*(a + b)'                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_UnevaluatedExpr : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84fa361646032d0e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43ff182d9acf9387  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_UnevaluatedExpr","kind":"function","src_hash":"981cfcfb4225552a","in":{"base":"Any"},"out":{"base":"Any","pred":"str(expr1) == '2*(a + b)'"},"spec":{"lhs":"test_UnevaluatedExpr()","rhs":"test_UnevaluatedExpr produces the expected output","over":{"base":"Any"},"name":"test_UnevaluatedExpr_correct"},"guarantee":"test_UnevaluatedExpr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_UnevaluatedExpr_correct","statement":"Path(test_UnevaluatedExpr(x), test_UnevaluatedExpr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84fa361646032d0e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_UnevaluatedExpr","kind":"function","src_hash":"981cfcfb4225552a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(expr1) == '2*(a + b)'"},"spec":{"lhs":"test_UnevaluatedExpr()","rhs":"str(expr1) == '2*(a + b)'","over":{"base":"Any"},"name":"test_UnevaluatedExpr_correct"},"guarantee":"str(expr1) == '2*(a + b)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_UnevaluatedExpr_correct","statement":"Path(test_UnevaluatedExpr(x), str(expr1) == '2*(a + b)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43ff182d9acf9387","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(expr1) == '2*(a + b)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_UnevaluatedExpr():
     a, b = symbols("a b")
     expr1 = 2*UnevaluatedExpr(a+b)
@@ -2101,16 +2769,24 @@ def test_UnevaluatedExpr():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MatrixElement_printing(), test_MatrixElement_printing produces the expected output) over Any ║
+# ║ Path(test_MatrixElement_printing(), str(A[0, 0]) == 'A[0, 0]' and str(3 * A[0, 0]) == '3*A[0, 0]' and str(F) == '(A - B)[0, 0]') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_MatrixElement_printing : Any → {Any | str(A[0, 0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(A[0, 0]) == 'A[0, 0]'                      ║
+# ║   ensures:  str(3 * A[0, 0]) == '3*A[0, 0]'                ║
+# ║   ensures:  str(F) == '(A - B)[0, 0]'                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_MatrixElement_printing : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 30617cfd6133b996  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f2c516de49b1c736  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_MatrixElement_printing","kind":"function","src_hash":"53bf353f5a951ea7","in":{"base":"Any"},"out":{"base":"Any","pred":"str(A[0, 0]) == 'A[0, 0]' and str(3 * A[0, 0]) == '3*A[0, 0]' and str(F) == '(A - B)[0, 0]'"},"spec":{"lhs":"test_MatrixElement_printing()","rhs":"test_MatrixElement_printing produces the expected output","over":{"base":"Any"},"name":"test_MatrixElement_printing_correct"},"guarantee":"test_MatrixElement_printing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_MatrixElement_printing_correct","statement":"Path(test_MatrixElement_printing(x), test_MatrixElement_printing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"30617cfd6133b996"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_MatrixElement_printing","kind":"function","src_hash":"53bf353f5a951ea7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(A[0, 0]) == 'A[0, 0]' and str(3 * A[0, 0]) == '3*A[0, 0]' and str(F) == '(A - B)[0, 0]'"},"spec":{"lhs":"test_MatrixElement_printing()","rhs":"str(A[0, 0]) == 'A[0, 0]' and str(3 * A[0, 0]) == '3*A[0, 0]' and str(F) == '(A - B)[0, 0]'","over":{"base":"Any"},"name":"test_MatrixElement_printing_correct"},"guarantee":"str(A[0, 0]) == 'A[0, 0]'; str(3 * A[0, 0]) == '3*A[0, 0]'; str(F) == '(A - B)[0, 0]'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_MatrixElement_printing_correct","statement":"Path(test_MatrixElement_printing(x), str(A[0, 0]) == 'A[0, 0]'; str(3 * A[0, 0]) == '3*A[0, 0]'; str(F) == '(A - B)[0, 0]')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2c516de49b1c736","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(A[0, 0]) == 'A[0, 0]'","str(3 * A[0, 0]) == '3*A[0, 0]'","str(F) == '(A - B)[0, 0]'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_MatrixElement_printing():
     # test cases for issue #11821
     A = MatrixSymbol("A", 1, 3)
@@ -2125,16 +2801,24 @@ def test_MatrixElement_printing():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MatrixSymbol_printing(), test_MatrixSymbol_printing produces the expected output) over Any ║
+# ║ Path(test_MatrixSymbol_printing(), str(A - A * B - B) == 'A - A*B - B' and str(A * B - (A + B)) == '-A + A*B - B' and str(A ** (-1)) == 'A**(-1)' and str(A ** 3) == 'A**3') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_MatrixSymbol_printing : Any → {Any | str(A - A *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(A - A * B - B) == 'A - A*B - B'            ║
+# ║   ensures:  str(A * B - (A + B)) == '-A + A*B - B'         ║
+# ║   ensures:  str(A ** (-1)) == 'A**(-1)'                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_MatrixSymbol_printing : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7730ca062403198c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa6110b3f96b5560  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_MatrixSymbol_printing","kind":"function","src_hash":"bb514b01040e168c","in":{"base":"Any"},"out":{"base":"Any","pred":"str(A - A * B - B) == 'A - A*B - B' and str(A * B - (A + B)) == '-A + A*B - B' and str(A ** (-1)) == 'A**(-1)' and str(A ** 3) == 'A**3'"},"spec":{"lhs":"test_MatrixSymbol_printing()","rhs":"test_MatrixSymbol_printing produces the expected output","over":{"base":"Any"},"name":"test_MatrixSymbol_printing_correct"},"guarantee":"test_MatrixSymbol_printing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_MatrixSymbol_printing_correct","statement":"Path(test_MatrixSymbol_printing(x), test_MatrixSymbol_printing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7730ca062403198c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_MatrixSymbol_printing","kind":"function","src_hash":"bb514b01040e168c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(A - A * B - B) == 'A - A*B - B' and str(A * B - (A + B)) == '-A + A*B - B' and str(A ** (-1)) == 'A**(-1)' and str(A ** 3) == 'A**3'"},"spec":{"lhs":"test_MatrixSymbol_printing()","rhs":"str(A - A * B - B) == 'A - A*B - B' and str(A * B - (A + B)) == '-A + A*B - B' and str(A ** (-1)) == 'A**(-1)' and str(A ** 3) == 'A**3'","over":{"base":"Any"},"name":"test_MatrixSymbol_printing_correct"},"guarantee":"str(A - A * B - B) == 'A - A*B - B'; str(A * B - (A + B)) == '-A + A*B - B'; str(A ** (-1)) == 'A**(-1)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_MatrixSymbol_printing_correct","statement":"Path(test_MatrixSymbol_printing(x), str(A - A * B - B) == 'A - A*B - B'; str(A * B - (A + B)) == '-A + A*B - B'; str(A ** (-1)) == 'A**(-1)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa6110b3f96b5560","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(A - A * B - B) == 'A - A*B - B'","str(A * B - (A + B)) == '-A + A*B - B'","str(A ** (-1)) == 'A**(-1)'","str(A ** 3) == 'A**3'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_MatrixSymbol_printing():
     A = MatrixSymbol("A", 3, 3)
     B = MatrixSymbol("B", 3, 3)
@@ -2146,16 +2830,24 @@ def test_MatrixSymbol_printing():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MatrixExpressions(), test_MatrixExpressions produces the expected output) over Any ║
+# ║ Path(test_MatrixExpressions(), str(X) == 'X' and str(expr) == 'Lambda(_d, sin(_d)).(X.T*X)' and str(expr) == 'Lambda(x, 1/x).(n*X)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_MatrixExpressions : Any → {Any | str(X) == 'X' a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(X) == 'X'                                  ║
+# ║   ensures:  str(expr) == 'Lambda(_d, sin(_d)).(X.T*X)'     ║
+# ║   ensures:  str(expr) == 'Lambda(x, 1/x).(n*X)'            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_MatrixExpressions : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f4d76be646f14204  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c49d5c3e260aa4b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_MatrixExpressions","kind":"function","src_hash":"5656287ba7b14557","in":{"base":"Any"},"out":{"base":"Any","pred":"str(X) == 'X' and str(expr) == 'Lambda(_d, sin(_d)).(X.T*X)' and str(expr) == 'Lambda(x, 1/x).(n*X)'"},"spec":{"lhs":"test_MatrixExpressions()","rhs":"test_MatrixExpressions produces the expected output","over":{"base":"Any"},"name":"test_MatrixExpressions_correct"},"guarantee":"test_MatrixExpressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_MatrixExpressions_correct","statement":"Path(test_MatrixExpressions(x), test_MatrixExpressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4d76be646f14204"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_MatrixExpressions","kind":"function","src_hash":"5656287ba7b14557","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(X) == 'X' and str(expr) == 'Lambda(_d, sin(_d)).(X.T*X)' and str(expr) == 'Lambda(x, 1/x).(n*X)'"},"spec":{"lhs":"test_MatrixExpressions()","rhs":"str(X) == 'X' and str(expr) == 'Lambda(_d, sin(_d)).(X.T*X)' and str(expr) == 'Lambda(x, 1/x).(n*X)'","over":{"base":"Any"},"name":"test_MatrixExpressions_correct"},"guarantee":"str(X) == 'X'; str(expr) == 'Lambda(_d, sin(_d)).(X.T*X)'; str(expr) == 'Lambda(x, 1/x).(n*X)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_MatrixExpressions_correct","statement":"Path(test_MatrixExpressions(x), str(X) == 'X'; str(expr) == 'Lambda(_d, sin(_d)).(X.T*X)'; str(expr) == 'Lambda(x, 1/x).(n*X)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c49d5c3e260aa4b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(X) == 'X'","str(expr) == 'Lambda(_d, sin(_d)).(X.T*X)'","str(expr) == 'Lambda(x, 1/x).(n*X)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_MatrixExpressions():
     n = Symbol('n', integer=True)
     X = MatrixSymbol('X', n, n)
@@ -2173,48 +2865,69 @@ def test_MatrixExpressions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Subs_printing(), test_Subs_printing produces the expected output) over Any ║
+# ║ Path(test_Subs_printing(), str(Subs(x, (x,), (1,))) == 'Subs(x, x, 1)' and str(Subs(x + y, (x, y), (1, 2))) == 'Subs(x + y, (x, y), (1, 2))') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Subs_printing : Any → {Any | str(Subs(x, (x,), (...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(Subs(x, (x,), (1,))) == 'Subs(x, x, 1)'    ║
+# ║   ensures:  str(Subs(x + y, (x, y), (1, 2))) == 'Subs...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Subs_printing : Any → {Any | result satisfies: s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb77e9fa920c8980  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f5a752feb477935  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Subs_printing","kind":"function","src_hash":"f8eca38fa813d41b","in":{"base":"Any"},"out":{"base":"Any","pred":"str(Subs(x, (x,), (1,))) == 'Subs(x, x, 1)' and str(Subs(x + y, (x, y), (1, 2))) == 'Subs(x + y, (x, y), (1, 2))'"},"spec":{"lhs":"test_Subs_printing()","rhs":"test_Subs_printing produces the expected output","over":{"base":"Any"},"name":"test_Subs_printing_correct"},"guarantee":"test_Subs_printing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Subs_printing_correct","statement":"Path(test_Subs_printing(x), test_Subs_printing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb77e9fa920c8980"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Subs_printing","kind":"function","src_hash":"f8eca38fa813d41b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(Subs(x, (x,), (1,))) == 'Subs(x, x, 1)' and str(Subs(x + y, (x, y), (1, 2))) == 'Subs(x + y, (x, y), (1, 2))'"},"spec":{"lhs":"test_Subs_printing()","rhs":"str(Subs(x, (x,), (1,))) == 'Subs(x, x, 1)' and str(Subs(x + y, (x, y), (1, 2))) == 'Subs(x + y, (x, y), (1, 2))'","over":{"base":"Any"},"name":"test_Subs_printing_correct"},"guarantee":"str(Subs(x, (x,), (1,))) == 'Subs(x, x, 1)'; str(Subs(x + y, (x, y), (1, 2))) == 'Subs(x + y, (x, y), (1, 2))'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Subs_printing_correct","statement":"Path(test_Subs_printing(x), str(Subs(x, (x,), (1,))) == 'Subs(x, x, 1)'; str(Subs(x + y, (x, y), (1, 2))) == 'Subs(x + y, (x, y), (1, 2))')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f5a752feb477935","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(Subs(x, (x,), (1,))) == 'Subs(x, x, 1)'","str(Subs(x + y, (x, y), (1, 2))) == 'Subs(x + y, (x, y), (1, 2))'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Subs_printing():
     assert str(Subs(x, (x,), (1,))) == 'Subs(x, x, 1)'
     assert str(Subs(x + y, (x, y), (1, 2))) == 'Subs(x + y, (x, y), (1, 2))'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_15716(), test_issue_15716 produces the expected output) over Any ║
+# ║ Path(test_issue_15716(), e.as_terms() == ([(e, ((1.0, 0.0), (1,), ()))], [e])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_15716 : Any → {Any | e.as_terms() == ([(e,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.as_terms() == ([(e, ((1.0, 0.0), (1,), ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_15716 : Any → {Any | result satisfies: e.a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 96246d091d13ab21  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 25b0a5d916d7421c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_issue_15716","kind":"function","src_hash":"90c5d5a39eb1239d","in":{"base":"Any"},"out":{"base":"Any","pred":"e.as_terms() == ([(e, ((1.0, 0.0), (1,), ()))], [e])"},"spec":{"lhs":"test_issue_15716()","rhs":"test_issue_15716 produces the expected output","over":{"base":"Any"},"name":"test_issue_15716_correct"},"guarantee":"test_issue_15716 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_issue_15716_correct","statement":"Path(test_issue_15716(x), test_issue_15716 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96246d091d13ab21"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_issue_15716","kind":"function","src_hash":"90c5d5a39eb1239d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.as_terms() == ([(e, ((1.0, 0.0), (1,), ()))], [e])"},"spec":{"lhs":"test_issue_15716()","rhs":"e.as_terms() == ([(e, ((1.0, 0.0), (1,), ()))], [e])","over":{"base":"Any"},"name":"test_issue_15716_correct"},"guarantee":"e.as_terms() == ([(e, ((1.0, 0.0), (1,), ()))], [e])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_issue_15716_correct","statement":"Path(test_issue_15716(x), e.as_terms() == ([(e, ((1.0, 0.0), (1,), ()))], [e]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25b0a5d916d7421c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.as_terms() == ([(e, ((1.0, 0.0), (1,), ()))], [e])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_15716():
     e = Integral(factorial(x), (x, -oo, oo))
     assert e.as_terms() == ([(e, ((1.0, 0.0), (1,), ()))], [e])
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_str_special_matrices(), test_str_special_matrices produces the expected output) over Any ║
+# ║ Path(test_str_special_matrices(), str(Identity(4)) == 'I' and str(ZeroMatrix(2, 2)) == '0' and str(OneMatrix(2, 2)) == '1') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_str_special_matrices : Any → {Any | str(Identity...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(Identity(4)) == 'I'                        ║
+# ║   ensures:  str(ZeroMatrix(2, 2)) == '0'                   ║
+# ║   ensures:  str(OneMatrix(2, 2)) == '1'                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_str_special_matrices : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b187904ba3fa1276  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 621f5c3144ecdc1d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_str_special_matrices","kind":"function","src_hash":"5831c9b53653009d","in":{"base":"Any"},"out":{"base":"Any","pred":"str(Identity(4)) == 'I' and str(ZeroMatrix(2, 2)) == '0' and str(OneMatrix(2, 2)) == '1'"},"spec":{"lhs":"test_str_special_matrices()","rhs":"test_str_special_matrices produces the expected output","over":{"base":"Any"},"name":"test_str_special_matrices_correct"},"guarantee":"test_str_special_matrices produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_str_special_matrices_correct","statement":"Path(test_str_special_matrices(x), test_str_special_matrices produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b187904ba3fa1276"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_str_special_matrices","kind":"function","src_hash":"5831c9b53653009d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(Identity(4)) == 'I' and str(ZeroMatrix(2, 2)) == '0' and str(OneMatrix(2, 2)) == '1'"},"spec":{"lhs":"test_str_special_matrices()","rhs":"str(Identity(4)) == 'I' and str(ZeroMatrix(2, 2)) == '0' and str(OneMatrix(2, 2)) == '1'","over":{"base":"Any"},"name":"test_str_special_matrices_correct"},"guarantee":"str(Identity(4)) == 'I'; str(ZeroMatrix(2, 2)) == '0'; str(OneMatrix(2, 2)) == '1'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_str_special_matrices_correct","statement":"Path(test_str_special_matrices(x), str(Identity(4)) == 'I'; str(ZeroMatrix(2, 2)) == '0'; str(OneMatrix(2, 2)) == '1')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"621f5c3144ecdc1d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(Identity(4)) == 'I'","str(ZeroMatrix(2, 2)) == '0'","str(OneMatrix(2, 2)) == '1'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_str_special_matrices():
     from sympy.matrices import Identity, ZeroMatrix, OneMatrix
     assert str(Identity(4)) == 'I'
@@ -2223,62 +2936,89 @@ def test_str_special_matrices():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_14567(), test_issue_14567 produces the expected output) over Any ║
+# ║ Path(test_issue_14567(), factorial(Sum(-1, (x, 0, 0))) + y) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_14567 : Any → {Any | factorial(Sum(-1, (x,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  factorial(Sum(-1, (x, 0, 0))) + y              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_14567 : Any → {Any | result satisfies: fac...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a49effb6a5fcc8e4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64213855a6283895  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_issue_14567","kind":"function","src_hash":"c40fb46e29431a67","in":{"base":"Any"},"out":{"base":"Any","pred":"factorial(Sum(-1, (x, 0, 0))) + y"},"spec":{"lhs":"test_issue_14567()","rhs":"test_issue_14567 produces the expected output","over":{"base":"Any"},"name":"test_issue_14567_correct"},"guarantee":"test_issue_14567 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_issue_14567_correct","statement":"Path(test_issue_14567(x), test_issue_14567 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a49effb6a5fcc8e4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_issue_14567","kind":"function","src_hash":"c40fb46e29431a67","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: factorial(Sum(-1, (x, 0, 0))) + y"},"spec":{"lhs":"test_issue_14567()","rhs":"factorial(Sum(-1, (x, 0, 0))) + y","over":{"base":"Any"},"name":"test_issue_14567_correct"},"guarantee":"factorial(Sum(-1, (x, 0, 0))) + y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_issue_14567_correct","statement":"Path(test_issue_14567(x), factorial(Sum(-1, (x, 0, 0))) + y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64213855a6283895","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["factorial(Sum(-1, (x, 0, 0))) + y"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_14567():
     assert factorial(Sum(-1, (x, 0, 0))) + y  # doesn't raise an error
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_21823(), test_issue_21823 produces the expected output) over Any ║
+# ║ Path(test_issue_21823(), str(Partition([1, 2])) == 'Partition({1, 2})' and str(Partition({1, 2})) == 'Partition({1, 2})') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_21823 : Any → {Any | str(Partition([1, 2])...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(Partition([1, 2])) == 'Partition({1, ...   ║
+# ║   ensures:  str(Partition({1, 2})) == 'Partition({1, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_21823 : Any → {Any | result satisfies: str...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3a83d34c4d727186  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 17098cae203fb3a2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_issue_21823","kind":"function","src_hash":"bb1092d98924e78b","in":{"base":"Any"},"out":{"base":"Any","pred":"str(Partition([1, 2])) == 'Partition({1, 2})' and str(Partition({1, 2})) == 'Partition({1, 2})'"},"spec":{"lhs":"test_issue_21823()","rhs":"test_issue_21823 produces the expected output","over":{"base":"Any"},"name":"test_issue_21823_correct"},"guarantee":"test_issue_21823 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_issue_21823_correct","statement":"Path(test_issue_21823(x), test_issue_21823 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a83d34c4d727186"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_issue_21823","kind":"function","src_hash":"bb1092d98924e78b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(Partition([1, 2])) == 'Partition({1, 2})' and str(Partition({1, 2})) == 'Partition({1, 2})'"},"spec":{"lhs":"test_issue_21823()","rhs":"str(Partition([1, 2])) == 'Partition({1, 2})' and str(Partition({1, 2})) == 'Partition({1, 2})'","over":{"base":"Any"},"name":"test_issue_21823_correct"},"guarantee":"str(Partition([1, 2])) == 'Partition({1, 2})'; str(Partition({1, 2})) == 'Partition({1, 2})'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_issue_21823_correct","statement":"Path(test_issue_21823(x), str(Partition([1, 2])) == 'Partition({1, 2})'; str(Partition({1, 2})) == 'Partition({1, 2})')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17098cae203fb3a2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(Partition([1, 2])) == 'Partition({1, 2})'","str(Partition({1, 2})) == 'Partition({1, 2})'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_21823():
     assert str(Partition([1, 2])) == 'Partition({1, 2})'
     assert str(Partition({1, 2})) == 'Partition({1, 2})'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_22689(), test_issue_22689 produces the expected output) over Any ║
+# ║ Path(test_issue_22689(), str(Mul(Pow(x, -2, evaluate=False), Pow(3, -1, evaluate=False), evaluate=False)) == '1/(x**2*3)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_22689 : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(Mul(Pow(x, -2, evaluate=False), Pow(3...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_22689 : Any → {Any | result satisfies: str...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e7b9c4d652d42353  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ffedcdcbffb11aed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_issue_22689","kind":"function","src_hash":"89f941880dd692c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_22689()","rhs":"test_issue_22689 produces the expected output","over":{"base":"Any"},"name":"test_issue_22689_correct"},"guarantee":"test_issue_22689 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_issue_22689_correct","statement":"Path(test_issue_22689(x), test_issue_22689 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7b9c4d652d42353"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_issue_22689","kind":"function","src_hash":"89f941880dd692c2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(Mul(Pow(x, -2, evaluate=False), Pow(3, -1, evaluate=False), evaluate=False)) == '1/(x**2*3)'"},"spec":{"lhs":"test_issue_22689()","rhs":"str(Mul(Pow(x, -2, evaluate=False), Pow(3, -1, evaluate=False), evaluate=False)) == '1/(x**2*3)'","over":{"base":"Any"},"name":"test_issue_22689_correct"},"guarantee":"str(Mul(Pow(x, -2, evaluate=False), Pow(3, -1, evaluate=False), evaluate=False)) == '1/(x**2*3)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_issue_22689_correct","statement":"Path(test_issue_22689(x), str(Mul(Pow(x, -2, evaluate=False), Pow(3, -1, evaluate=False), evaluate=False)) == '1/(x**2*3)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ffedcdcbffb11aed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(Mul(Pow(x, -2, evaluate=False), Pow(3, -1, evaluate=False), evaluate=False)) == '1/(x**2*3)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_22689():
     assert str(Mul(Pow(x,-2, evaluate=False), Pow(3,-1,evaluate=False), evaluate=False)) == "1/(x**2*3)"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_21119_21460(), test_issue_21119_21460 produces the expected output) over Any ║
+# ║ Path(test_issue_21119_21460(), ss('4/2') == '4/2' and ss('4/-2') == '4/(-2)' and ss('-4/2') == '-4/2' and ss('-4/-2') == '-4/(-2)' and ss('-2*3/-1') == '-2*3/(-1)' and ss('-2*3/-1/2') == '-2*3/(-1*2)' and ss('4/2/1') == '4/(2*1)' and ss('-2/-1/2') == '-2/(-1*2)' and ss('2*3*4**(-2*3)') == '2*3/4**(2*3)' and ss('2*3*1*4**(-2*3)') == '2*3*1/4**(2*3)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_21119_21460 : Any → {Any | ss('4/2') == '4...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ss('4/2') == '4/2'                             ║
+# ║   ensures:  ss('4/-2') == '4/(-2)'                         ║
+# ║   ensures:  ss('-4/2') == '-4/2'                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_21119_21460 : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13aa278ed6c29a4b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0db547a225c1abda  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_issue_21119_21460","kind":"function","src_hash":"6b7521e6bbee231e","in":{"base":"Any"},"out":{"base":"Any","pred":"ss('4/2') == '4/2' and ss('4/-2') == '4/(-2)' and ss('-4/2') == '-4/2' and ss('-4/-2') == '-4/(-2)' and ss('-2*3/-1') == '-2*3/(-1)' and ss('-2*3/-1/2') == '-2*3/(-1*2)' and ss('4/2/1') == '4/(2*1)' and ss('-2/-1/2') == '-2/(-1*2)' and ss('2*3*4**(-2*3)') == '2*3/4**(2*3)' and ss('2*3*1*4**(-2*3)') == '2*3*1/4**(2*3)'"},"spec":{"lhs":"test_issue_21119_21460()","rhs":"test_issue_21119_21460 produces the expected output","over":{"base":"Any"},"name":"test_issue_21119_21460_correct"},"guarantee":"test_issue_21119_21460 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_issue_21119_21460_correct","statement":"Path(test_issue_21119_21460(x), test_issue_21119_21460 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13aa278ed6c29a4b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_issue_21119_21460","kind":"function","src_hash":"6b7521e6bbee231e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ss('4/2') == '4/2' and ss('4/-2') == '4/(-2)' and ss('-4/2') == '-4/2' and ss('-4/-2') == '-4/(-2)' and ss('-2*3/-1') == '-2*3/(-1)' and ss('-2*3/-1/2') == '-2*3/(-1*2)' and ss('4/2/1') == '4/(2*1)' and ss('-2/-1/2') == '-2/(-1*2)' and ss('2*3*4**(-2*3)') == '2*3/4**(2*3)' and ss('2*3*1*4**(-2*3)') == '2*3*1/4**(2*3)'"},"spec":{"lhs":"test_issue_21119_21460()","rhs":"ss('4/2') == '4/2' and ss('4/-2') == '4/(-2)' and ss('-4/2') == '-4/2' and ss('-4/-2') == '-4/(-2)' and ss('-2*3/-1') == '-2*3/(-1)' and ss('-2*3/-1/2') == '-2*3/(-1*2)' and ss('4/2/1') == '4/(2*1)' and ss('-2/-1/2') == '-2/(-1*2)' and ss('2*3*4**(-2*3)') == '2*3/4**(2*3)' and ss('2*3*1*4**(-2*3)') == '2*3*1/4**(2*3)'","over":{"base":"Any"},"name":"test_issue_21119_21460_correct"},"guarantee":"ss('4/2') == '4/2'; ss('4/-2') == '4/(-2)'; ss('-4/2') == '-4/2'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_issue_21119_21460_correct","statement":"Path(test_issue_21119_21460(x), ss('4/2') == '4/2'; ss('4/-2') == '4/(-2)'; ss('-4/2') == '-4/2')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0db547a225c1abda","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ss('4/2') == '4/2'","ss('4/-2') == '4/(-2)'","ss('-4/2') == '-4/2'","ss('-4/-2') == '-4/(-2)'","ss('-2*3/-1') == '-2*3/(-1)'","ss('-2*3/-1/2') == '-2*3/(-1*2)'","ss('4/2/1') == '4/(2*1)'","ss('-2/-1/2') == '-2/(-1*2)'","ss('2*3*4**(-2*3)') == '2*3/4**(2*3)'","ss('2*3*1*4**(-2*3)') == '2*3*1/4**(2*3)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_21119_21460():
     ss = lambda x: str(S(x, evaluate=False))
     assert ss('4/2') == '4/2'
@@ -2294,16 +3034,23 @@ def test_issue_21119_21460():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Str(), test_Str produces the expected output) over Any ║
+# ║ Path(test_Str(), str(Str('x')) == 'x' and sstrrepr(Str('x')) == "Str('x')") over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Str : Any → {Any | str(Str('x')) == 'x' and sstr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(Str('x')) == 'x'                           ║
+# ║   ensures:  sstrrepr(Str('x')) == "Str('x')"               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Str : Any → {Any | result satisfies: str(Str('x'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ccba2491b521fc0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 718e761bee9db41f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Str","kind":"function","src_hash":"2949762874b7b83e","in":{"base":"Any"},"out":{"base":"Any","pred":"str(Str('x')) == 'x' and sstrrepr(Str('x')) == \"Str('x')\""},"spec":{"lhs":"test_Str()","rhs":"test_Str produces the expected output","over":{"base":"Any"},"name":"test_Str_correct"},"guarantee":"test_Str produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Str_correct","statement":"Path(test_Str(x), test_Str produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ccba2491b521fc0"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Str","kind":"function","src_hash":"2949762874b7b83e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(Str('x')) == 'x' and sstrrepr(Str('x')) == \"Str('x')\""},"spec":{"lhs":"test_Str()","rhs":"str(Str('x')) == 'x' and sstrrepr(Str('x')) == \"Str('x')\"","over":{"base":"Any"},"name":"test_Str_correct"},"guarantee":"str(Str('x')) == 'x'; sstrrepr(Str('x')) == \"Str('x')\"","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Str_correct","statement":"Path(test_Str(x), str(Str('x')) == 'x'; sstrrepr(Str('x')) == \"Str('x')\")"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"718e761bee9db41f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(Str('x')) == 'x'","sstrrepr(Str('x')) == \"Str('x')\""],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Str():
     from sympy.core.symbol import Str
     assert str(Str('x')) == 'x'
@@ -2311,16 +3058,24 @@ def test_Str():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_diffgeom(), test_diffgeom produces the expected output) over Any ║
+# ║ Path(test_diffgeom(), str(m) == 'M' and str(p) == 'P' and str(rect) == 'rect' and str(b) == 'x') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_diffgeom : Any → {Any | str(m) == 'M' and str(p)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(m) == 'M'                                  ║
+# ║   ensures:  str(p) == 'P'                                  ║
+# ║   ensures:  str(rect) == 'rect'                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_diffgeom : Any → {Any | result satisfies: str(m)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b177f8206badc655  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e1fcdf871929295f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_diffgeom","kind":"function","src_hash":"1026fae2b3ff7eac","in":{"base":"Any"},"out":{"base":"Any","pred":"str(m) == 'M' and str(p) == 'P' and str(rect) == 'rect' and str(b) == 'x'"},"spec":{"lhs":"test_diffgeom()","rhs":"test_diffgeom produces the expected output","over":{"base":"Any"},"name":"test_diffgeom_correct"},"guarantee":"test_diffgeom produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_diffgeom_correct","statement":"Path(test_diffgeom(x), test_diffgeom produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b177f8206badc655"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_diffgeom","kind":"function","src_hash":"1026fae2b3ff7eac","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(m) == 'M' and str(p) == 'P' and str(rect) == 'rect' and str(b) == 'x'"},"spec":{"lhs":"test_diffgeom()","rhs":"str(m) == 'M' and str(p) == 'P' and str(rect) == 'rect' and str(b) == 'x'","over":{"base":"Any"},"name":"test_diffgeom_correct"},"guarantee":"str(m) == 'M'; str(p) == 'P'; str(rect) == 'rect'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_diffgeom_correct","statement":"Path(test_diffgeom(x), str(m) == 'M'; str(p) == 'P'; str(rect) == 'rect')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1fcdf871929295f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(m) == 'M'","str(p) == 'P'","str(rect) == 'rect'","str(b) == 'x'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_diffgeom():
     from sympy.diffgeom import Manifold, Patch, CoordSystem, BaseScalarField
     x,y = symbols('x y', real=True)
@@ -2334,16 +3089,24 @@ def test_diffgeom():
     assert str(b) == "x"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_NDimArray(), test_NDimArray produces the expected output) over Any ║
+# ║ Path(test_NDimArray(), sstr(NDimArray(1.0), full_prec=True) == '1.00000000000000' and sstr(NDimArray(1.0), full_prec=False) == '1.0' and sstr(NDimArray([1.0, 2.0]), full_prec=True) == '[1.00000000000000, 2.00000000000000]' and sstr(NDimArray([1.0, 2.0]), full_prec=False) == '[1.0, 2.0]' and sstr(NDimArray([], (0,))) == 'ImmutableDenseNDimArray([], (0,))' and sstr(NDimArray([], (0, 0))) == 'ImmutableDenseNDimArray([], (0, 0))' and sstr(NDimArray([], (0, 1))) == 'ImmutableDenseNDimArray([], (0, 1))' and sstr(NDimArray([], (1, 0))) == 'ImmutableDenseNDimArray([], (1, 0))') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_NDimArray : Any → {Any | sstr(NDimArray(1.0), fu...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sstr(NDimArray(1.0), full_prec=True) == '...   ║
+# ║   ensures:  sstr(NDimArray(1.0), full_prec=False) == ...   ║
+# ║   ensures:  sstr(NDimArray([1.0, 2.0]), full_prec=Tru...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_NDimArray : Any → {Any | result satisfies: sstr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3aec16beb75146d8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 813628d11cc419d3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_NDimArray","kind":"function","src_hash":"778c95c102122bb8","in":{"base":"Any"},"out":{"base":"Any","pred":"sstr(NDimArray(1.0), full_prec=True) == '1.00000000000000' and sstr(NDimArray(1.0), full_prec=False) == '1.0' and sstr(NDimArray([1.0, 2.0]), full_prec=False) == '[1.0, 2.0]' and sstr(NDimArray([], (0,))) == 'ImmutableDenseNDimArray([], (0,))' and sstr(NDimArray([], (0, 0))) == 'ImmutableDenseNDimArray([], (0, 0))' and sstr(NDimArray([], (0, 1))) == 'ImmutableDenseNDimArray([], (0, 1))' and sstr(NDimArray([], (1, 0))) == 'ImmutableDenseNDimArray([], (1, 0))'"},"spec":{"lhs":"test_NDimArray()","rhs":"test_NDimArray produces the expected output","over":{"base":"Any"},"name":"test_NDimArray_correct"},"guarantee":"test_NDimArray produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_NDimArray_correct","statement":"Path(test_NDimArray(x), test_NDimArray produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3aec16beb75146d8"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_NDimArray","kind":"function","src_hash":"778c95c102122bb8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sstr(NDimArray(1.0), full_prec=True) == '1.00000000000000' and sstr(NDimArray(1.0), full_prec=False) == '1.0' and sstr(NDimArray([1.0, 2.0]), full_prec=True) == '[1.00000000000000, 2.00000000000000]' and sstr(NDimArray([1.0, 2.0]), full_prec=False) == '[1.0, 2.0]' and sstr(NDimArray([], (0,))) == 'ImmutableDenseNDimArray([], (0,))' and sstr(NDimArray([], (0, 0))) == 'ImmutableDenseNDimArray([], (0, 0))' and sstr(NDimArray([], (0, 1))) == 'ImmutableDenseNDimArray([], (0, 1))' and sstr(NDimArray([], (1, 0))) == 'ImmutableDenseNDimArray([], (1, 0))'"},"spec":{"lhs":"test_NDimArray()","rhs":"sstr(NDimArray(1.0), full_prec=True) == '1.00000000000000' and sstr(NDimArray(1.0), full_prec=False) == '1.0' and sstr(NDimArray([1.0, 2.0]), full_prec=True) == '[1.00000000000000, 2.00000000000000]' and sstr(NDimArray([1.0, 2.0]), full_prec=False) == '[1.0, 2.0]' and sstr(NDimArray([], (0,))) == 'ImmutableDenseNDimArray([], (0,))' and sstr(NDimArray([], (0, 0))) == 'ImmutableDenseNDimArray([], (0, 0))' and sstr(NDimArray([], (0, 1))) == 'ImmutableDenseNDimArray([], (0, 1))' and sstr(NDimArray([], (1, 0))) == 'ImmutableDenseNDimArray([], (1, 0))'","over":{"base":"Any"},"name":"test_NDimArray_correct"},"guarantee":"sstr(NDimArray(1.0), full_prec=True) == '1.00000000000000'; sstr(NDimArray(1.0), full_prec=False) == '1.0'; sstr(NDimArray([1.0, 2.0]), full_prec=True) == '[1.00000000000000, 2.00000000000000]'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_NDimArray_correct","statement":"Path(test_NDimArray(x), sstr(NDimArray(1.0), full_prec=True) == '1.00000000000000'; sstr(NDimArray(1.0), full_prec=False) == '1.0'; sstr(NDimArray([1.0, 2.0]), full_prec=True) == '[1.00000000000000, 2.00000000000000]')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"813628d11cc419d3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sstr(NDimArray(1.0), full_prec=True) == '1.00000000000000'","sstr(NDimArray(1.0), full_prec=False) == '1.0'","sstr(NDimArray([1.0, 2.0]), full_prec=True) == '[1.00000000000000, 2.00000000000000]'","sstr(NDimArray([1.0, 2.0]), full_prec=False) == '[1.0, 2.0]'","sstr(NDimArray([], (0,))) == 'ImmutableDenseNDimArray([], (0,))'","sstr(NDimArray([], (0, 0))) == 'ImmutableDenseNDimArray([], (0, 0))'","sstr(NDimArray([], (0, 1))) == 'ImmutableDenseNDimArray([], (0, 1))'","sstr(NDimArray([], (1, 0))) == 'ImmutableDenseNDimArray([], (1, 0))'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_NDimArray():
     assert sstr(NDimArray(1.0), full_prec=True) == '1.00000000000000'
     assert sstr(NDimArray(1.0), full_prec=False) == '1.0'
@@ -2355,44 +3118,64 @@ def test_NDimArray():
     assert sstr(NDimArray([], (1, 0))) == 'ImmutableDenseNDimArray([], (1, 0))'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Predicate(), test_Predicate produces the expected output) over Any ║
+# ║ Path(test_Predicate(), sstr(Q.even) == 'Q.even') over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Predicate : Any → {Any | sstr(Q.even) == 'Q.even'}    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sstr(Q.even) == 'Q.even'                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Predicate : Any → {Any | result satisfies: sstr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c6b072a3e9cdd213  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5449e73445dff7e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Predicate","kind":"function","src_hash":"4cc301b7b1a171c2","in":{"base":"Any"},"out":{"base":"Any","pred":"sstr(Q.even) == 'Q.even'"},"spec":{"lhs":"test_Predicate()","rhs":"test_Predicate produces the expected output","over":{"base":"Any"},"name":"test_Predicate_correct"},"guarantee":"test_Predicate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Predicate_correct","statement":"Path(test_Predicate(x), test_Predicate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6b072a3e9cdd213"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_Predicate","kind":"function","src_hash":"4cc301b7b1a171c2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sstr(Q.even) == 'Q.even'"},"spec":{"lhs":"test_Predicate()","rhs":"sstr(Q.even) == 'Q.even'","over":{"base":"Any"},"name":"test_Predicate_correct"},"guarantee":"sstr(Q.even) == 'Q.even'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_Predicate_correct","statement":"Path(test_Predicate(x), sstr(Q.even) == 'Q.even')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5449e73445dff7e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sstr(Q.even) == 'Q.even'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Predicate():
     assert sstr(Q.even) == 'Q.even'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_AppliedPredicate(), test_AppliedPredicate produces the expected output) over Any ║
+# ║ Path(test_AppliedPredicate(), sstr(Q.even(x)) == 'Q.even(x)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_AppliedPredicate : Any → {Any | sstr(Q.even(x)) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sstr(Q.even(x)) == 'Q.even(x)'                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_AppliedPredicate : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4edff84644a2b8a4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f6af4e362907914e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_AppliedPredicate","kind":"function","src_hash":"e688f6a3cb9a1ea6","in":{"base":"Any"},"out":{"base":"Any","pred":"sstr(Q.even(x)) == 'Q.even(x)'"},"spec":{"lhs":"test_AppliedPredicate()","rhs":"test_AppliedPredicate produces the expected output","over":{"base":"Any"},"name":"test_AppliedPredicate_correct"},"guarantee":"test_AppliedPredicate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_AppliedPredicate_correct","statement":"Path(test_AppliedPredicate(x), test_AppliedPredicate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4edff84644a2b8a4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_AppliedPredicate","kind":"function","src_hash":"e688f6a3cb9a1ea6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sstr(Q.even(x)) == 'Q.even(x)'"},"spec":{"lhs":"test_AppliedPredicate()","rhs":"sstr(Q.even(x)) == 'Q.even(x)'","over":{"base":"Any"},"name":"test_AppliedPredicate_correct"},"guarantee":"sstr(Q.even(x)) == 'Q.even(x)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_AppliedPredicate_correct","statement":"Path(test_AppliedPredicate(x), sstr(Q.even(x)) == 'Q.even(x)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6af4e362907914e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sstr(Q.even(x)) == 'Q.even(x)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_AppliedPredicate():
     assert sstr(Q.even(x)) == 'Q.even(x)'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_printing_str_array_expressions(), test_printing_str_array_expressions produces the expected output) over Any ║
+# ║ Path(test_printing_str_array_expressions(), sstr(ArraySymbol('A', (2, 3, 4))) == 'A' and sstr(ArrayElement('A', (2, 1 / (1 - x), 0))) == 'A[2, 1/(1 - x), 0]' and sstr(ArrayElement(M * N, [x, 0])) == '(M*N)[x, 0]') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_printing_str_array_expressions : Any → {Any | ss...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sstr(ArraySymbol('A', (2, 3, 4))) == 'A'       ║
+# ║   ensures:  sstr(ArrayElement('A', (2, 1 / (1 - x), 0...   ║
+# ║   ensures:  sstr(ArrayElement(M * N, [x, 0])) == '(M*...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_printing_str_array_expressions : Any → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d19f2e98e86a07a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13af413a6b99cddb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_printing_str_array_expressions","kind":"function","src_hash":"8e591d102ce3a267","in":{"base":"Any"},"out":{"base":"Any","pred":"sstr(ArraySymbol('A', (2, 3, 4))) == 'A' and sstr(ArrayElement('A', (2, 1 / (1 - x), 0))) == 'A[2, 1/(1 - x), 0]' and sstr(ArrayElement(M * N, [x, 0])) == '(M*N)[x, 0]'"},"spec":{"lhs":"test_printing_str_array_expressions()","rhs":"test_printing_str_array_expressions produces the expected output","over":{"base":"Any"},"name":"test_printing_str_array_expressions_correct"},"guarantee":"test_printing_str_array_expressions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_printing_str_array_expressions_correct","statement":"Path(test_printing_str_array_expressions(x), test_printing_str_array_expressions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d19f2e98e86a07a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_printing_str_array_expressions","kind":"function","src_hash":"8e591d102ce3a267","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sstr(ArraySymbol('A', (2, 3, 4))) == 'A' and sstr(ArrayElement('A', (2, 1 / (1 - x), 0))) == 'A[2, 1/(1 - x), 0]' and sstr(ArrayElement(M * N, [x, 0])) == '(M*N)[x, 0]'"},"spec":{"lhs":"test_printing_str_array_expressions()","rhs":"sstr(ArraySymbol('A', (2, 3, 4))) == 'A' and sstr(ArrayElement('A', (2, 1 / (1 - x), 0))) == 'A[2, 1/(1 - x), 0]' and sstr(ArrayElement(M * N, [x, 0])) == '(M*N)[x, 0]'","over":{"base":"Any"},"name":"test_printing_str_array_expressions_correct"},"guarantee":"sstr(ArraySymbol('A', (2, 3, 4))) == 'A'; sstr(ArrayElement('A', (2, 1 / (1 - x), 0))) == 'A[2, 1/(1 - x), 0]'; sstr(ArrayElement(M * N, [x, 0])) == '(M*N)[x, 0]'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_printing_str_array_expressions_correct","statement":"Path(test_printing_str_array_expressions(x), sstr(ArraySymbol('A', (2, 3, 4))) == 'A'; sstr(ArrayElement('A', (2, 1 / (1 - x), 0))) == 'A[2, 1/(1 - x), 0]'; sstr(ArrayElement(M * N, [x, 0])) == '(M*N)[x, 0]')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13af413a6b99cddb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sstr(ArraySymbol('A', (2, 3, 4))) == 'A'","sstr(ArrayElement('A', (2, 1 / (1 - x), 0))) == 'A[2, 1/(1 - x), 0]'","sstr(ArrayElement(M * N, [x, 0])) == '(M*N)[x, 0]'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_printing_str_array_expressions():
     assert sstr(ArraySymbol("A", (2, 3, 4))) == "A"
     assert sstr(ArrayElement("A", (2, 1/(1-x), 0))) == "A[2, 1/(1 - x), 0]"
@@ -2401,16 +3184,24 @@ def test_printing_str_array_expressions():
     assert sstr(ArrayElement(M*N, [x, 0])) == "(M*N)[x, 0]"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_printing_stats(), test_printing_stats produces the expected output) over Any ║
+# ║ Path(test_printing_stats(), str(z1) == 'Probability(x > 0)*I' and str(z2) == 'Expectation(x)*I' and str(z3) == 'Variance(x)*I' and str(z4) == 'Covariance(x, y)*I' and z1.is_commutative == False and z2.is_commutative == False and z3.is_commutative == False and z4.is_commutative == False and z2._eval_is_commutative() == False and z3._eval_is_commutative() == False and z4._eval_is_commutative() == False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_printing_stats : Any → {Any | str(z1) == 'Probab...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(z1) == 'Probability(x > 0)*I'              ║
+# ║   ensures:  str(z2) == 'Expectation(x)*I'                  ║
+# ║   ensures:  str(z3) == 'Variance(x)*I'                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_printing_stats : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 636a70f0dcc6519a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 252ba146237247f6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_printing_stats","kind":"function","src_hash":"530e8a95c9233536","in":{"base":"Any"},"out":{"base":"Any","pred":"str(z1) == 'Probability(x > 0)*I' and str(z2) == 'Expectation(x)*I' and str(z3) == 'Variance(x)*I' and str(z4) == 'Covariance(x, y)*I' and z1.is_commutative == False and z2.is_commutative == False and z3.is_commutative == False and z4.is_commutative == False and z2._eval_is_commutative() == False and z3._eval_is_commutative() == False and z4._eval_is_commutative() == False"},"spec":{"lhs":"test_printing_stats()","rhs":"test_printing_stats produces the expected output","over":{"base":"Any"},"name":"test_printing_stats_correct"},"guarantee":"test_printing_stats produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_printing_stats_correct","statement":"Path(test_printing_stats(x), test_printing_stats produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"636a70f0dcc6519a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_str.test_printing_stats","kind":"function","src_hash":"530e8a95c9233536","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(z1) == 'Probability(x > 0)*I' and str(z2) == 'Expectation(x)*I' and str(z3) == 'Variance(x)*I' and str(z4) == 'Covariance(x, y)*I' and z1.is_commutative == False and z2.is_commutative == False and z3.is_commutative == False and z4.is_commutative == False and z2._eval_is_commutative() == False and z3._eval_is_commutative() == False and z4._eval_is_commutative() == False"},"spec":{"lhs":"test_printing_stats()","rhs":"str(z1) == 'Probability(x > 0)*I' and str(z2) == 'Expectation(x)*I' and str(z3) == 'Variance(x)*I' and str(z4) == 'Covariance(x, y)*I' and z1.is_commutative == False and z2.is_commutative == False and z3.is_commutative == False and z4.is_commutative == False and z2._eval_is_commutative() == False and z3._eval_is_commutative() == False and z4._eval_is_commutative() == False","over":{"base":"Any"},"name":"test_printing_stats_correct"},"guarantee":"str(z1) == 'Probability(x > 0)*I'; str(z2) == 'Expectation(x)*I'; str(z3) == 'Variance(x)*I'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_str.test_printing_stats_correct","statement":"Path(test_printing_stats(x), str(z1) == 'Probability(x > 0)*I'; str(z2) == 'Expectation(x)*I'; str(z3) == 'Variance(x)*I')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"252ba146237247f6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(z1) == 'Probability(x > 0)*I'","str(z2) == 'Expectation(x)*I'","str(z3) == 'Variance(x)*I'","str(z4) == 'Covariance(x, y)*I'","z1.is_commutative == False","z2.is_commutative == False","z3.is_commutative == False","z4.is_commutative == False","z2._eval_is_commutative() == False","z3._eval_is_commutative() == False","z4._eval_is_commutative() == False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_printing_stats():
     # issue 24132
     x = RandomSymbol("x")

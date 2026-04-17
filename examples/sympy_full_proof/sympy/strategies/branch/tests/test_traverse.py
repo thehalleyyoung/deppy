@@ -23,7 +23,10 @@ from sympy.strategies.branch.core import do_one, identity
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inc(x), inc produces the expected output) over {Any | isinstance(x, Integer)} ║
+# ║ Path(inc(x), <unspecified:inc>) over {Any | isinstance(x, Integer)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ inc : {Any | isinstance(x, Integer)} → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -35,25 +38,34 @@ from sympy.strategies.branch.core import do_one, identity
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ef8285a4...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_traverse.inc","kind":"function","src_hash":"0a11cf9f51555473","in":{"base":"Any","pred":"isinstance(x, Integer)"},"out":{"base":"Any"},"spec":{"lhs":"inc(x)","rhs":"inc produces the expected output","over":{"base":"Any","pred":"isinstance(x, Integer)"},"name":"inc_correct"},"guarantee":"inc produces the expected output","fibers":[{"name":"Integer","pred":"isinstance(x, Integer)","path":{"lhs":"inc(x)","rhs":"inc produces the expected output","over":{"base":"Integer","pred":"isinstance(x, Integer)"},"name":"inc_Integer_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.tests.test_traverse.inc_Integer_correct","statement":"inc satisfies spec on Integer inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ef8285a478fd5731"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_traverse.inc","kind":"function","src_hash":"0a11cf9f51555473","in":{"base":"Any","pred":"isinstance(x, Integer)"},"out":{"base":"Any"},"spec":{"lhs":"inc(x)","rhs":"<unspecified:inc>","over":{"base":"Any","pred":"isinstance(x, Integer)"},"name":"inc_correct"},"guarantee":"inc produces the expected output","fibers":[{"name":"Integer","pred":"isinstance(x, Integer)","path":{"lhs":"inc(x)","rhs":"inc produces the expected output","over":{"base":"Integer","pred":"isinstance(x, Integer)"},"name":"inc_Integer_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.tests.test_traverse.inc_Integer_correct","statement":"inc satisfies spec on Integer inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ef8285a478fd5731","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(x, Integer)'}, fibers={'Integer'})"]}}
 def inc(x):
     if isinstance(x, Integer):
         yield x + 1
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_top_down_easy(), test_top_down_easy produces the expected output) over Any ║
+# ║ Path(test_top_down_easy(), set(brl(expr)) == {expected}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_top_down_easy : Any → {Any | set(brl(expr)) == {...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  set(brl(expr)) == {expected}                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_top_down_easy : Any → {Any | result satisfies: s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28aea356415cf3ec  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ed6858aaf718ce5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_traverse.test_top_down_easy","kind":"function","src_hash":"c30bed070a20fd3f","in":{"base":"Any"},"out":{"base":"Any","pred":"set(brl(expr)) == {expected}"},"spec":{"lhs":"test_top_down_easy()","rhs":"test_top_down_easy produces the expected output","over":{"base":"Any"},"name":"test_top_down_easy_correct"},"guarantee":"test_top_down_easy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.tests.test_traverse.test_top_down_easy_correct","statement":"Path(test_top_down_easy(x), test_top_down_easy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28aea356415cf3ec"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_traverse.test_top_down_easy","kind":"function","src_hash":"c30bed070a20fd3f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: set(brl(expr)) == {expected}"},"spec":{"lhs":"test_top_down_easy()","rhs":"set(brl(expr)) == {expected}","over":{"base":"Any"},"name":"test_top_down_easy_correct"},"guarantee":"set(brl(expr)) == {expected}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.tests.test_traverse.test_top_down_easy_correct","statement":"Path(test_top_down_easy(x), set(brl(expr)) == {expected})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ed6858aaf718ce5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["set(brl(expr)) == {expected}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_top_down_easy():
     expr = Basic(S(1), S(2))
     expected = Basic(S(2), S(3))
@@ -63,16 +75,22 @@ def test_top_down_easy():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_top_down_big_tree(), test_top_down_big_tree produces the expected output) over Any ║
+# ║ Path(test_top_down_big_tree(), set(brl(expr)) == {expected}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_top_down_big_tree : Any → {Any | set(brl(expr)) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  set(brl(expr)) == {expected}                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_top_down_big_tree : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7fc21a2df9ee9f29  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a758d405b3c30cef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_traverse.test_top_down_big_tree","kind":"function","src_hash":"b73e8f54576fa45b","in":{"base":"Any"},"out":{"base":"Any","pred":"set(brl(expr)) == {expected}"},"spec":{"lhs":"test_top_down_big_tree()","rhs":"test_top_down_big_tree produces the expected output","over":{"base":"Any"},"name":"test_top_down_big_tree_correct"},"guarantee":"test_top_down_big_tree produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.tests.test_traverse.test_top_down_big_tree_correct","statement":"Path(test_top_down_big_tree(x), test_top_down_big_tree produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7fc21a2df9ee9f29"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_traverse.test_top_down_big_tree","kind":"function","src_hash":"b73e8f54576fa45b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: set(brl(expr)) == {expected}"},"spec":{"lhs":"test_top_down_big_tree()","rhs":"set(brl(expr)) == {expected}","over":{"base":"Any"},"name":"test_top_down_big_tree_correct"},"guarantee":"set(brl(expr)) == {expected}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.tests.test_traverse.test_top_down_big_tree_correct","statement":"Path(test_top_down_big_tree(x), set(brl(expr)) == {expected})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a758d405b3c30cef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["set(brl(expr)) == {expected}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_top_down_big_tree():
     expr = Basic(S(1), Basic(S(2)), Basic(S(3), Basic(S(4)), S(5)))
     expected = Basic(S(2), Basic(S(3)), Basic(S(4), Basic(S(5)), S(6)))
@@ -82,16 +100,22 @@ def test_top_down_big_tree():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_top_down_harder_function(), test_top_down_harder_function produces the expected output) over Any ║
+# ║ Path(test_top_down_harder_function(), set(brl(expr)) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_top_down_harder_function : Any → {Any | set(brl(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  set(brl(expr)) == expected                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_top_down_harder_function : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ff14c67ac16fdd5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 965ea3c8e0a4c365  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_traverse.test_top_down_harder_function","kind":"function","src_hash":"4a4ca5527c6bf7f2","in":{"base":"Any"},"out":{"base":"Any","pred":"set(brl(expr)) == expected"},"spec":{"lhs":"test_top_down_harder_function()","rhs":"test_top_down_harder_function produces the expected output","over":{"base":"Any"},"name":"test_top_down_harder_function_correct"},"guarantee":"test_top_down_harder_function produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.tests.test_traverse.test_top_down_harder_function_correct","statement":"Path(test_top_down_harder_function(x), test_top_down_harder_function produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ff14c67ac16fdd5"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_traverse.test_top_down_harder_function","kind":"function","src_hash":"4a4ca5527c6bf7f2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: set(brl(expr)) == expected"},"spec":{"lhs":"test_top_down_harder_function()","rhs":"set(brl(expr)) == expected","over":{"base":"Any"},"name":"test_top_down_harder_function_correct"},"guarantee":"set(brl(expr)) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.tests.test_traverse.test_top_down_harder_function_correct","statement":"Path(test_top_down_harder_function(x), set(brl(expr)) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"965ea3c8e0a4c365","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["set(brl(expr)) == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_top_down_harder_function():
     def split5(x):
         if x == 5:
@@ -106,16 +130,22 @@ def test_top_down_harder_function():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sall(), test_sall produces the expected output) over Any ║
+# ║ Path(test_sall(), list(brl(expr)) == [expected]) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sall : Any → {Any | list(brl(expr)) == [expected...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(brl(expr)) == [expected]                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sall : Any → {Any | result satisfies: list(brl(e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 848ba8c6da4facd0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca971af97f0e4f2c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_traverse.test_sall","kind":"function","src_hash":"0745cf887d2e9840","in":{"base":"Any"},"out":{"base":"Any","pred":"list(brl(expr)) == [expected] and list(brl(expr)) == [expected]"},"spec":{"lhs":"test_sall()","rhs":"test_sall produces the expected output","over":{"base":"Any"},"name":"test_sall_correct"},"guarantee":"test_sall produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.tests.test_traverse.test_sall_correct","statement":"Path(test_sall(x), test_sall produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"848ba8c6da4facd0"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_traverse.test_sall","kind":"function","src_hash":"0745cf887d2e9840","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(brl(expr)) == [expected]"},"spec":{"lhs":"test_sall()","rhs":"list(brl(expr)) == [expected]","over":{"base":"Any"},"name":"test_sall_correct"},"guarantee":"list(brl(expr)) == [expected]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.tests.test_traverse.test_sall_correct","statement":"Path(test_sall(x), list(brl(expr)) == [expected])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca971af97f0e4f2c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(brl(expr)) == [expected]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_sall():
     expr = Basic(S(1), S(2))
     expected = Basic(S(2), S(3))

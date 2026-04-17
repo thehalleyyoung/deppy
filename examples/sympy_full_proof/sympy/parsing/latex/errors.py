@@ -16,15 +16,21 @@
 # ════════════════════════════════════════════════════════════════════
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(LaTeXParsingError(), correctly constructs a LaTeXParsingError instance) over Any ║
+# ║ Path(LaTeXParsingError(), isinstance(self, Exception)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ LaTeXParsingError : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Exception)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ LaTeXParsingError : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c97562d901c1d168           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.latex.errors.LaTeXParsingError","kind":"class","src_hash":"c5dc4b104b1cfac7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LaTeXParsingError()","rhs":"correctly constructs a LaTeXParsingError instance","over":{"base":"Any"},"name":"LaTeXParsingError_correct"},"guarantee":"correctly constructs a LaTeXParsingError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c97562d901c1d168"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.latex.errors.LaTeXParsingError","kind":"class","src_hash":"c5dc4b104b1cfac7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Exception)"},"spec":{"lhs":"LaTeXParsingError()","rhs":"isinstance(self, Exception)","over":{"base":"Any"},"name":"LaTeXParsingError_correct"},"guarantee":"isinstance(self, Exception)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c97562d901c1d168","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Exception)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function LaTeXParsingError not found in source"]}}
 class LaTeXParsingError(Exception):
     pass

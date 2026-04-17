@@ -28,16 +28,25 @@ from .determinant import _find_reasonable_pivot_naive
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rank_decomposition(M, ), returns a pair of matrices (`c`, `f`) with matching rank such that `a = c f`) over Any ║
+# ║ Path(_rank_decomposition(M, iszerofunc, simplify), (C, F)) over {Any | hasattr(M, 'rref') and hasattr(M, 'extract') and hasattr(M, 'rows')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _rank_decomposition : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'rref')                             ║
+# ║   requires: hasattr(M, 'extract')                          ║
+# ║   requires: hasattr(M, 'rows')                             ║
+# ║   returns:  (C, F)                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _rank_decomposition : {Any | hasattr(M, 'rref') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07ce3be1c5c7b7b5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a403ec1a13eb8295  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.decompositions._rank_decomposition","kind":"function","src_hash":"fca0b574e809b3bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rank_decomposition(M, )","rhs":"returns a pair of matrices (`c`, `f`) with matching rank such that `a = c f`","over":{"base":"Any"},"name":"_rank_decomposition_correct"},"guarantee":"returns a pair of matrices (`c`, `f`) with matching rank such that `a = c f`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.decompositions._rank_decomposition_correct","statement":"Path(_rank_decomposition(x), returns a pair of matrices (`c`, `f`) with matching rank such that `a = c f`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07ce3be1c5c7b7b5"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.decompositions._rank_decomposition","kind":"function","src_hash":"fca0b574e809b3bf","in":{"base":"Any","pred":"hasattr(M, 'rref') and hasattr(M, 'extract') and hasattr(M, 'rows')"},"out":{"base":"Any"},"spec":{"lhs":"_rank_decomposition(M, iszerofunc, simplify)","rhs":"(C, F)","over":{"base":"Any","pred":"hasattr(M, 'rref') and hasattr(M, 'extract') and hasattr(M, 'rows')"},"name":"_rank_decomposition_correct"},"guarantee":"returns (C, F)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.decompositions._rank_decomposition_correct","statement":"Path(_rank_decomposition(x), returns (C, F))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a403ec1a13eb8295","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'rref')","hasattr(M, 'extract')","hasattr(M, 'rows')"],"returns_expr":"(C, F)","pure":false,"effects":{"effect_type":"reads_state","reads":["M.extract","M.rows","M.rref"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _rank_decomposition(M, iszerofunc=_iszero, simplify=False):
     r"""Returns a pair of matrices (`C`, `F`) with matching rank
     such that `A = C F`.
@@ -135,16 +144,24 @@ def _rank_decomposition(M, iszerofunc=_iszero, simplify=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_liupc(M), liu's algorithm, for pre-determination of the elimination tree of the given matrix, used in row-based symbolic cholesky factorization) over Any ║
+# ║ Path(_liupc(M), (R, parent)) over {Any | hasattr(M, 'row_list') and hasattr(M, 'rows')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _liupc : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'row_list')                         ║
+# ║   requires: hasattr(M, 'rows')                             ║
+# ║   returns:  (R, parent)                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _liupc : {Any | hasattr(M, 'row_list') and hasattr(M,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6df847181187b5c7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83c11681d64ace85  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.decompositions._liupc","kind":"function","src_hash":"c8c80d0ceee3d3a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_liupc(M)","rhs":"liu's algorithm, for pre-determination of the elimination tree of the given matrix, used in row-based symbolic cholesky factorization","over":{"base":"Any"},"name":"_liupc_correct"},"guarantee":"liu's algorithm, for pre-determination of the elimination tree of the given matrix, used in row-based symbolic cholesky factorization","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.decompositions._liupc_correct","statement":"Path(_liupc(x), liu's algorithm, for pre-determination of the elimination tree of the given matrix, used in row-based symbolic cholesky factorization)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6df847181187b5c7"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.decompositions._liupc","kind":"function","src_hash":"c8c80d0ceee3d3a4","in":{"base":"Any","pred":"hasattr(M, 'row_list') and hasattr(M, 'rows')"},"out":{"base":"Any"},"spec":{"lhs":"_liupc(M)","rhs":"(R, parent)","over":{"base":"Any","pred":"hasattr(M, 'row_list') and hasattr(M, 'rows')"},"name":"_liupc_correct"},"guarantee":"returns (R, parent)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.decompositions._liupc_correct","statement":"Path(_liupc(x), returns (R, parent))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83c11681d64ace85","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'row_list')","hasattr(M, 'rows')"],"returns_expr":"(R, parent)","pure":false,"effects":{"effect_type":"reads_state","reads":["M.row_list","M.rows"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _liupc(M):
     """Liu's algorithm, for pre-determination of the Elimination Tree of
     the given matrix, used in row-based symbolic Cholesky factorization.
@@ -194,16 +211,24 @@ def _liupc(M):
     return R, parent
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_row_structure_symbolic_cholesky(M), symbolic cholesky factorization, for pre-determination of the non-zero structure of the cholesky factororization) over Any ║
+# ║ Path(_row_structure_symbolic_cholesky(M), <unspecified:_row_structure_symbolic_cholesky>) over {Any | hasattr(M, 'liupc') and hasattr(M, 'rows')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _row_structure_symbolic_cholesky : Any → Any               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(M, 'liupc')                            ║
+# ║   requires: hasattr(M, 'rows')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _row_structure_symbolic_cholesky : {Any | hasattr(M, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 36987e1e75248227  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.decompositions._row_structure_symbolic_cholesky","kind":"function","src_hash":"7ca80be9a381fa1e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_row_structure_symbolic_cholesky(M)","rhs":"symbolic cholesky factorization, for pre-determination of the non-zero structure of the cholesky factororization","over":{"base":"Any"},"name":"_row_structure_symbolic_cholesky_correct"},"guarantee":"symbolic cholesky factorization, for pre-determination of the non-zero structure of the cholesky factororization","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.decompositions._row_structure_symbolic_cholesky_correct","statement":"Path(_row_structure_symbolic_cholesky(x), symbolic cholesky factorization, for pre-determination of the non-zero structure of the cholesky factororization)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36987e1e75248227"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.decompositions._row_structure_symbolic_cholesky","kind":"function","src_hash":"7ca80be9a381fa1e","in":{"base":"Any","pred":"hasattr(M, 'liupc') and hasattr(M, 'rows')"},"out":{"base":"Any"},"spec":{"lhs":"_row_structure_symbolic_cholesky(M)","rhs":"<unspecified:_row_structure_symbolic_cholesky>","over":{"base":"Any","pred":"hasattr(M, 'liupc') and hasattr(M, 'rows')"},"name":"_row_structure_symbolic_cholesky_correct"},"guarantee":"symbolic cholesky factorization, for pre-determination of the non-zero structure of the cholesky factororization","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.decompositions._row_structure_symbolic_cholesky_correct","statement":"Path(_row_structure_symbolic_cholesky(x), symbolic cholesky factorization, for pre-determination of the non-zero structure of the cholesky factororization)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36987e1e75248227","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(M, 'liupc')","hasattr(M, 'rows')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.liupc","M.rows"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _row_structure_symbolic_cholesky(M):
     """Symbolic cholesky factorization, for pre-determination of the
     non-zero structure of the Cholesky factororization.
@@ -244,16 +269,25 @@ def _row_structure_symbolic_cholesky(M):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_cholesky(M, ), returns the cholesky-type decomposition l of a matrix a such that l * l.h == a if hermitian flag is true, or l * l.t == a if hermitian is false) over Any ║
+# ║ Path(_cholesky(M, hermitian), M._new(L)) over {Any | M.is_square and not (hermitian and (not M.is_hermitian)) and not (not hermitian and (not M.is_symmetric())) and hasattr(M, 'is_square') and hasattr(M, 'rows') and hasattr(M, '_new') and hasattr(M, 'is_hermitian') and hasattr(M, 'is_symmetric')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _cholesky : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: M.is_square                                    ║
+# ║   requires: not (hermitian and (not M.is_hermitian))       ║
+# ║   requires: not (not hermitian and (not M.is_symmetri...   ║
+# ║   returns:  M._new(L)                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _cholesky : {Any | M.is_square and not (hermitian and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ecbcdc5551e7f812  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e4140c8c610c410  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.decompositions._cholesky","kind":"function","src_hash":"b9a0e2d7d0972cc9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_cholesky(M, )","rhs":"returns the cholesky-type decomposition l of a matrix a such that l * l.h == a if hermitian flag is true, or l * l.t == a if hermitian is false","over":{"base":"Any"},"name":"_cholesky_correct"},"guarantee":"returns the cholesky-type decomposition l of a matrix a such that l * l.h == a if hermitian flag is true, or l * l.t == a if hermitian is false","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.decompositions._cholesky_correct","statement":"Path(_cholesky(x), returns the cholesky-type decomposition l of a matrix a such that l * l.h == a if hermitian flag is true, or l * l.t == a if hermitian is false)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ecbcdc5551e7f812"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.decompositions._cholesky","kind":"function","src_hash":"b9a0e2d7d0972cc9","in":{"base":"Any","pred":"M.is_square and not (hermitian and (not M.is_hermitian)) and not (not hermitian and (not M.is_symmetric())) and hasattr(M, 'is_square') and hasattr(M, 'rows') and hasattr(M, '_new') and hasattr(M, 'is_hermitian') and hasattr(M, 'is_symmetric')"},"out":{"base":"Any"},"spec":{"lhs":"_cholesky(M, hermitian)","rhs":"M._new(L)","over":{"base":"Any","pred":"M.is_square and not (hermitian and (not M.is_hermitian)) and not (not hermitian and (not M.is_symmetric())) and hasattr(M, 'is_square') and hasattr(M, 'rows') and hasattr(M, '_new') and hasattr(M, 'is_hermitian') and hasattr(M, 'is_symmetric')"},"name":"_cholesky_correct"},"guarantee":"returns M._new(L)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.decompositions._cholesky_correct","statement":"Path(_cholesky(x), returns M._new(L))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e4140c8c610c410","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["M.is_square","not (hermitian and (not M.is_hermitian))","not (not hermitian and (not M.is_symmetric()))","hasattr(M, 'is_square')","hasattr(M, 'rows')","hasattr(M, '_new')","hasattr(M, 'is_hermitian')","hasattr(M, 'is_symmetric')"],"returns_expr":"M._new(L)","pure":false,"effects":{"effect_type":"reads_state","reads":["M._new","M.is_hermitian","M.is_square","M.is_symmetric","M.rows"],"raises":["NonPositiveDefiniteMatrixError","NonSquareMatrixError","ValueError"]},"state_contract":{"exceptional_post":{"NonPositiveDefiniteMatrixError":["isinstance(raised, NonPositiveDefiniteMatrixError)"],"NonSquareMatrixError":["isinstance(raised, NonSquareMatrixError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def _cholesky(M, hermitian=True):
     """Returns the Cholesky-type decomposition L of a matrix A
     such that L * L.H == A if hermitian flag is True,
@@ -349,16 +383,25 @@ def _cholesky(M, hermitian=True):
     return M._new(L)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_cholesky_sparse(M, ), returns the cholesky decomposition l of a matrix a such that l * l.t = a) over Any ║
+# ║ Path(_cholesky_sparse(M, hermitian), M._new(C)) over {Any | M.is_square and not (hermitian and (not M.is_hermitian)) and not (not hermitian and (not M.is_symmetric())) and hasattr(M, 'is_square') and hasattr(M, 'row_structure_symbolic_cholesky') and hasattr(M, 'rows') and hasattr(M, '_new') and hasattr(M, 'is_hermitian') and hasattr(M, 'is_symmetric')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _cholesky_sparse : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: M.is_square                                    ║
+# ║   requires: not (hermitian and (not M.is_hermitian))       ║
+# ║   requires: not (not hermitian and (not M.is_symmetri...   ║
+# ║   returns:  M._new(C)                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _cholesky_sparse : {Any | M.is_square and not (hermit...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c4863e24dd7f155f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92825e90c8da14c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.decompositions._cholesky_sparse","kind":"function","src_hash":"bd738bf769e3eb19","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_cholesky_sparse(M, )","rhs":"returns the cholesky decomposition l of a matrix a such that l * l.t = a","over":{"base":"Any"},"name":"_cholesky_sparse_correct"},"guarantee":"returns the cholesky decomposition l of a matrix a such that l * l.t = a","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.decompositions._cholesky_sparse_correct","statement":"Path(_cholesky_sparse(x), returns the cholesky decomposition l of a matrix a such that l * l.t = a)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4863e24dd7f155f"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.decompositions._cholesky_sparse","kind":"function","src_hash":"bd738bf769e3eb19","in":{"base":"Any","pred":"M.is_square and not (hermitian and (not M.is_hermitian)) and not (not hermitian and (not M.is_symmetric())) and hasattr(M, 'is_square') and hasattr(M, 'row_structure_symbolic_cholesky') and hasattr(M, 'rows') and hasattr(M, '_new') and hasattr(M, 'is_hermitian') and hasattr(M, 'is_symmetric')"},"out":{"base":"Any"},"spec":{"lhs":"_cholesky_sparse(M, hermitian)","rhs":"M._new(C)","over":{"base":"Any","pred":"M.is_square and not (hermitian and (not M.is_hermitian)) and not (not hermitian and (not M.is_symmetric())) and hasattr(M, 'is_square') and hasattr(M, 'row_structure_symbolic_cholesky') and hasattr(M, 'rows') and hasattr(M, '_new') and hasattr(M, 'is_hermitian') and hasattr(M, 'is_symmetric')"},"name":"_cholesky_sparse_correct"},"guarantee":"returns M._new(C)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.decompositions._cholesky_sparse_correct","statement":"Path(_cholesky_sparse(x), returns M._new(C))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92825e90c8da14c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["M.is_square","not (hermitian and (not M.is_hermitian))","not (not hermitian and (not M.is_symmetric()))","hasattr(M, 'is_square')","hasattr(M, 'row_structure_symbolic_cholesky')","hasattr(M, 'rows')","hasattr(M, '_new')","hasattr(M, 'is_hermitian')","hasattr(M, 'is_symmetric')"],"returns_expr":"M._new(C)","pure":false,"effects":{"effect_type":"reads_state","reads":["M._new","M.is_hermitian","M.is_square","M.is_symmetric","M.row_structure_symbolic_cholesky","M.rows"],"raises":["NonPositiveDefiniteMatrixError","NonSquareMatrixError","ValueError"]},"state_contract":{"exceptional_post":{"NonPositiveDefiniteMatrixError":["isinstance(raised, NonPositiveDefiniteMatrixError)"],"NonSquareMatrixError":["isinstance(raised, NonSquareMatrixError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def _cholesky_sparse(M, hermitian=True):
     """
     Returns the Cholesky decomposition L of a matrix A
@@ -473,16 +516,25 @@ def _cholesky_sparse(M, hermitian=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_LDLdecomposition(M, ), id) over Any                  ║
+# ║ Path(_LDLdecomposition(M, hermitian), id) over {Any | M.is_square and not (hermitian and (not M.is_hermitian)) and not (not hermitian and (not M.is_symmetric())) and hasattr(M, 'is_square') and hasattr(M, 'rows') and hasattr(M, 'is_hermitian') and hasattr(M, '_new') and hasattr(M, 'is_symmetric')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _LDLdecomposition : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: M.is_square                                    ║
+# ║   requires: not (hermitian and (not M.is_hermitian))       ║
+# ║   requires: not (not hermitian and (not M.is_symmetri...   ║
+# ║   returns:  (M._new(L), M._new(D))                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _LDLdecomposition : {Any | M.is_square and not (hermi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | e4dd86d67f4dee51   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.decompositions._LDLdecomposition","kind":"function","src_hash":"7d88814beba8ea0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_LDLdecomposition(M, )","rhs":"returns the ldl decomposition (l, d) of matrix a, such that l * d * l.h == a if hermitian flag is true, or l * d * l.t == a if hermitian is false. this method eliminates the use of square root. furthe","over":{"base":"Any"},"name":"_LDLdecomposition_correct","kind":"composition"},"guarantee":"returns the ldl decomposition (l, d) of matrix a, such that l * d * l.h == a if hermitian flag is true, or l * d * l.t == a if hermitian is false. this method eliminates the use of square root. furthe","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_new","by":"library_axiom"},{"fn":"_new","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4dd86d67f4dee51"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.decompositions._LDLdecomposition","kind":"function","src_hash":"7d88814beba8ea0d","in":{"base":"Any","pred":"M.is_square and not (hermitian and (not M.is_hermitian)) and not (not hermitian and (not M.is_symmetric())) and hasattr(M, 'is_square') and hasattr(M, 'rows') and hasattr(M, 'is_hermitian') and hasattr(M, '_new') and hasattr(M, 'is_symmetric')"},"out":{"base":"Any"},"spec":{"lhs":"_LDLdecomposition(M, hermitian)","rhs":"(M._new(L), M._new(D))","over":{"base":"Any","pred":"M.is_square and not (hermitian and (not M.is_hermitian)) and not (not hermitian and (not M.is_symmetric())) and hasattr(M, 'is_square') and hasattr(M, 'rows') and hasattr(M, 'is_hermitian') and hasattr(M, '_new') and hasattr(M, 'is_symmetric')"},"name":"_LDLdecomposition_correct","kind":"composition"},"guarantee":"returns (M._new(L), M._new(D))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_new","by":"library_axiom"},{"fn":"_new","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4dd86d67f4dee51","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["M.is_square","not (hermitian and (not M.is_hermitian))","not (not hermitian and (not M.is_symmetric()))","hasattr(M, 'is_square')","hasattr(M, 'rows')","hasattr(M, 'is_hermitian')","hasattr(M, '_new')","hasattr(M, 'is_symmetric')"],"returns_expr":"(M._new(L), M._new(D))","pure":false,"effects":{"effect_type":"reads_state","reads":["M._new","M.is_hermitian","M.is_square","M.is_symmetric","M.rows"],"raises":["NonPositiveDefiniteMatrixError","NonSquareMatrixError","ValueError"]},"state_contract":{"exceptional_post":{"NonPositiveDefiniteMatrixError":["isinstance(raised, NonPositiveDefiniteMatrixError)"],"NonSquareMatrixError":["isinstance(raised, NonSquareMatrixError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def _LDLdecomposition(M, hermitian=True):
     """Returns the LDL Decomposition (L, D) of matrix A,
     such that L * D * L.H == A if hermitian flag is True, or
@@ -571,16 +623,25 @@ def _LDLdecomposition(M, hermitian=True):
     return M._new(L), M._new(D)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_LDLdecomposition_sparse(M, ), id) over Any           ║
+# ║ Path(_LDLdecomposition_sparse(M, hermitian), id) over {Any | M.is_square and not (hermitian and (not M.is_hermitian)) and not (not hermitian and (not M.is_symmetric())) and hasattr(M, 'is_square') and hasattr(M, 'row_structure_symbolic_cholesky') and hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'is_hermitian') and hasattr(M, '_new') and hasattr(M, 'is_symmetric')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _LDLdecomposition_sparse : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: M.is_square                                    ║
+# ║   requires: not (hermitian and (not M.is_hermitian))       ║
+# ║   requires: not (not hermitian and (not M.is_symmetri...   ║
+# ║   returns:  (M._new(L), M._new(D))                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _LDLdecomposition_sparse : {Any | M.is_square and not...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 2684c8c55dca349f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.decompositions._LDLdecomposition_sparse","kind":"function","src_hash":"760caf9682e7eb35","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_LDLdecomposition_sparse(M, )","rhs":"returns the ldl decomposition (matrices ``l`` and ``d``) of matrix ``a``, such that ``l * d * l.t == a``","over":{"base":"Any"},"name":"_LDLdecomposition_sparse_correct","kind":"composition"},"guarantee":"returns the ldl decomposition (matrices ``l`` and ``d``) of matrix ``a``, such that ``l * d * l.t == a``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_new","by":"library_axiom"},{"fn":"_new","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2684c8c55dca349f"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.decompositions._LDLdecomposition_sparse","kind":"function","src_hash":"760caf9682e7eb35","in":{"base":"Any","pred":"M.is_square and not (hermitian and (not M.is_hermitian)) and not (not hermitian and (not M.is_symmetric())) and hasattr(M, 'is_square') and hasattr(M, 'row_structure_symbolic_cholesky') and hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'is_hermitian') and hasattr(M, '_new') and hasattr(M, 'is_symmetric')"},"out":{"base":"Any"},"spec":{"lhs":"_LDLdecomposition_sparse(M, hermitian)","rhs":"(M._new(L), M._new(D))","over":{"base":"Any","pred":"M.is_square and not (hermitian and (not M.is_hermitian)) and not (not hermitian and (not M.is_symmetric())) and hasattr(M, 'is_square') and hasattr(M, 'row_structure_symbolic_cholesky') and hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'is_hermitian') and hasattr(M, '_new') and hasattr(M, 'is_symmetric')"},"name":"_LDLdecomposition_sparse_correct","kind":"composition"},"guarantee":"returns (M._new(L), M._new(D))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_new","by":"library_axiom"},{"fn":"_new","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2684c8c55dca349f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["M.is_square","not (hermitian and (not M.is_hermitian))","not (not hermitian and (not M.is_symmetric()))","hasattr(M, 'is_square')","hasattr(M, 'row_structure_symbolic_cholesky')","hasattr(M, 'rows')","hasattr(M, 'cols')","hasattr(M, 'is_hermitian')","hasattr(M, '_new')","hasattr(M, 'is_symmetric')"],"returns_expr":"(M._new(L), M._new(D))","pure":false,"effects":{"effect_type":"reads_state","reads":["M._new","M.cols","M.is_hermitian","M.is_square","M.is_symmetric","M.row_structure_symbolic_cholesky","M.rows"],"raises":["NonPositiveDefiniteMatrixError","NonSquareMatrixError","ValueError"]},"state_contract":{"exceptional_post":{"NonPositiveDefiniteMatrixError":["isinstance(raised, NonPositiveDefiniteMatrixError)"],"NonSquareMatrixError":["isinstance(raised, NonSquareMatrixError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def _LDLdecomposition_sparse(M, hermitian=True):
     """
     Returns the LDL Decomposition (matrices ``L`` and ``D``) of matrix
@@ -670,16 +731,25 @@ def _LDLdecomposition_sparse(M, hermitian=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_LUdecomposition(M, ), returns (l, u, perm) where l is a lower triangular matrix with unit diagonal, u is an upper triangular matrix, and perm is a list of row swap index pairs) over Any ║
+# ║ Path(_LUdecomposition(M, iszerofunc, simpfunc), <unspecified:_LUdecomposition>) over {Any | hasattr(M, 'LUdecomposition_Simple') and hasattr(M, 'zero') and hasattr(M, '_new') and hasattr(M, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _LUdecomposition : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(M, 'LUdecomposition_Simple')           ║
+# ║   requires: hasattr(M, 'zero')                             ║
+# ║   requires: hasattr(M, '_new')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _LUdecomposition : {Any | hasattr(M, 'LUdecomposition...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1cc0feb3e4f6e181  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.decompositions._LUdecomposition","kind":"function","src_hash":"b1c4ae2e26746806","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_LUdecomposition(M, )","rhs":"returns (l, u, perm) where l is a lower triangular matrix with unit diagonal, u is an upper triangular matrix, and perm is a list of row swap index pairs","over":{"base":"Any"},"name":"_LUdecomposition_correct"},"guarantee":"returns (l, u, perm) where l is a lower triangular matrix with unit diagonal, u is an upper triangular matrix, and perm is a list of row swap index pairs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.decompositions._LUdecomposition_correct","statement":"Path(_LUdecomposition(x), returns (l, u, perm) where l is a lower triangular matrix with unit diagonal, u is an upper triangular matrix, and perm is a list of row swap index pairs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1cc0feb3e4f6e181"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.decompositions._LUdecomposition","kind":"function","src_hash":"b1c4ae2e26746806","in":{"base":"Any","pred":"hasattr(M, 'LUdecomposition_Simple') and hasattr(M, 'zero') and hasattr(M, '_new') and hasattr(M, 'one')"},"out":{"base":"Any"},"spec":{"lhs":"_LUdecomposition(M, iszerofunc, simpfunc)","rhs":"<unspecified:_LUdecomposition>","over":{"base":"Any","pred":"hasattr(M, 'LUdecomposition_Simple') and hasattr(M, 'zero') and hasattr(M, '_new') and hasattr(M, 'one')"},"name":"_LUdecomposition_correct"},"guarantee":"returns (l, u, perm) where l is a lower triangular matrix with unit diagonal, u is an upper triangular matrix, and perm is a list of row swap index pairs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.decompositions._LUdecomposition_correct","statement":"Path(_LUdecomposition(x), returns (l, u, perm) where l is a lower triangular matrix with unit diagonal, u is an upper triangular matrix, and perm is a list of row swap index pairs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1cc0feb3e4f6e181","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(M, 'LUdecomposition_Simple')","hasattr(M, 'zero')","hasattr(M, '_new')","hasattr(M, 'one')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.LUdecomposition_Simple","M._new","M.one","M.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _LUdecomposition(M, iszerofunc=_iszero, simpfunc=None, rankcheck=False):
     """Returns (L, U, perm) where L is a lower triangular matrix with unit
     diagonal, U is an upper triangular matrix, and perm is a list of row
@@ -782,16 +852,25 @@ def _LUdecomposition(M, iszerofunc=_iszero, simpfunc=None, rankcheck=False):
     return L, U, p
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_LUdecomposition_Simple(M, ), compute the plu decomposition of the matrix) over Any ║
+# ║ Path(_LUdecomposition_Simple(M, iszerofunc, simpfunc), len(row_swaps) == old_len_row_swaps + 1) over {Any | hasattr(M, 'shape') and hasattr(M, 'as_mutable') and hasattr(M, 'zeros') and hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _LUdecomposition_Simple : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'shape')                            ║
+# ║   requires: hasattr(M, 'as_mutable')                       ║
+# ║   requires: hasattr(M, 'zeros')                            ║
+# ║   ensures:  len(row_swaps) == old_len_row_swaps + 1        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _LUdecomposition_Simple : {Any | hasattr(M, 'shape') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1bceac5c353663cd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 346e7a6df077842d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.decompositions._LUdecomposition_Simple","kind":"function","src_hash":"a34cd95db66cfcc4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_LUdecomposition_Simple(M, )","rhs":"compute the plu decomposition of the matrix","over":{"base":"Any"},"name":"_LUdecomposition_Simple_correct"},"guarantee":"compute the plu decomposition of the matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.decompositions._LUdecomposition_Simple_correct","statement":"Path(_LUdecomposition_Simple(x), compute the plu decomposition of the matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1bceac5c353663cd"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.decompositions._LUdecomposition_Simple","kind":"function","src_hash":"a34cd95db66cfcc4","in":{"base":"Any","pred":"hasattr(M, 'shape') and hasattr(M, 'as_mutable') and hasattr(M, 'zeros') and hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'zero')"},"out":{"base":"Any","pred":"result satisfies: len(row_swaps) == old_len_row_swaps + 1"},"spec":{"lhs":"_LUdecomposition_Simple(M, iszerofunc, simpfunc)","rhs":"len(row_swaps) == old_len_row_swaps + 1","over":{"base":"Any","pred":"hasattr(M, 'shape') and hasattr(M, 'as_mutable') and hasattr(M, 'zeros') and hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'zero')"},"name":"_LUdecomposition_Simple_correct"},"guarantee":"len(row_swaps) == old_len_row_swaps + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.decompositions._LUdecomposition_Simple_correct","statement":"Path(_LUdecomposition_Simple(x), len(row_swaps) == old_len_row_swaps + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"346e7a6df077842d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'shape')","hasattr(M, 'as_mutable')","hasattr(M, 'zeros')","hasattr(M, 'rows')","hasattr(M, 'cols')","hasattr(M, 'zero')"],"ensures":["len(row_swaps) == old_len_row_swaps + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.as_mutable","M.cols","M.rows","M.shape","M.zero","M.zeros"],"calls_mutating":["row_swaps.append"],"raises":["ValueError"]},"state_contract":{"modifies":["row_swaps.*"],"old_bindings":{"old_len_row_swaps":"len(row_swaps)"},"post_ensures":["len(row_swaps) == old_len_row_swaps + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def _LUdecomposition_Simple(M, iszerofunc=_iszero, simpfunc=None,
         rankcheck=False):
     r"""Compute the PLU decomposition of the matrix.
@@ -1181,16 +1260,25 @@ def _LUdecomposition_Simple(M, iszerofunc=_iszero, simpfunc=None,
     return lu, row_swaps
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_LUdecompositionFF(M), compute a fraction-free lu decomposition) over Any ║
+# ║ Path(_LUdecompositionFF(M), (P, L, DD, U)) over {Any | hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'as_mutable')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _LUdecompositionFF : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'rows')                             ║
+# ║   requires: hasattr(M, 'cols')                             ║
+# ║   requires: hasattr(M, 'as_mutable')                       ║
+# ║   returns:  (P, L, DD, U)                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _LUdecompositionFF : {Any | hasattr(M, 'rows') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e86eacdde6e4262  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bf2a0249f7385726  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.decompositions._LUdecompositionFF","kind":"function","src_hash":"f595614b0426a398","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_LUdecompositionFF(M)","rhs":"compute a fraction-free lu decomposition","over":{"base":"Any"},"name":"_LUdecompositionFF_correct"},"guarantee":"compute a fraction-free lu decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.decompositions._LUdecompositionFF_correct","statement":"Path(_LUdecompositionFF(x), compute a fraction-free lu decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e86eacdde6e4262"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.decompositions._LUdecompositionFF","kind":"function","src_hash":"f595614b0426a398","in":{"base":"Any","pred":"hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'as_mutable')"},"out":{"base":"Any"},"spec":{"lhs":"_LUdecompositionFF(M)","rhs":"(P, L, DD, U)","over":{"base":"Any","pred":"hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'as_mutable')"},"name":"_LUdecompositionFF_correct"},"guarantee":"returns (P, L, DD, U)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.decompositions._LUdecompositionFF_correct","statement":"Path(_LUdecompositionFF(x), returns (P, L, DD, U))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf2a0249f7385726","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'rows')","hasattr(M, 'cols')","hasattr(M, 'as_mutable')"],"returns_expr":"(P, L, DD, U)","pure":false,"effects":{"effect_type":"reads_state","reads":["M.as_mutable","M.cols","M.rows"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def _LUdecompositionFF(M):
     """Compute a fraction-free LU decomposition.
 
@@ -1252,16 +1340,24 @@ def _LUdecompositionFF(M):
     return P, L, DD, U
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_singular_value_decomposition(A), returns a condensed singular value decomposition) over Any ║
+# ║ Path(_singular_value_decomposition(A), (U, S, V)) over {Any | hasattr(A, 'H') and hasattr(A, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _singular_value_decomposition : Any → Any                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(A, 'H')                                ║
+# ║   requires: hasattr(A, 'shape')                            ║
+# ║   returns:  (U, S, V)                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _singular_value_decomposition : {Any | hasattr(A, 'H'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6fbc55262887fa83  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 72d929a1538c1247  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.decompositions._singular_value_decomposition","kind":"function","src_hash":"5cbee528915662c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_singular_value_decomposition(A)","rhs":"returns a condensed singular value decomposition","over":{"base":"Any"},"name":"_singular_value_decomposition_correct"},"guarantee":"returns a condensed singular value decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.decompositions._singular_value_decomposition_correct","statement":"Path(_singular_value_decomposition(x), returns a condensed singular value decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6fbc55262887fa83"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.decompositions._singular_value_decomposition","kind":"function","src_hash":"5cbee528915662c3","in":{"base":"Any","pred":"hasattr(A, 'H') and hasattr(A, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"_singular_value_decomposition(A)","rhs":"(U, S, V)","over":{"base":"Any","pred":"hasattr(A, 'H') and hasattr(A, 'shape')"},"name":"_singular_value_decomposition_correct"},"guarantee":"returns (U, S, V)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.decompositions._singular_value_decomposition_correct","statement":"Path(_singular_value_decomposition(x), returns (U, S, V))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72d929a1538c1247","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(A, 'H')","hasattr(A, 'shape')"],"returns_expr":"(U, S, V)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _singular_value_decomposition(A):
     r"""Returns a Condensed Singular Value decomposition.
 
@@ -1472,16 +1568,24 @@ def _singular_value_decomposition(A):
     return U, S, V
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_QRdecomposition_optional(M, ), internal helper behaves correctly) over Any ║
+# ║ Path(_QRdecomposition_optional(M, normalize), <unspecified:_QRdecomposition_optional>) over {Any | hasattr(M, 'as_mutable') and hasattr(M, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _QRdecomposition_optional : Any → Any                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(M, 'as_mutable')                       ║
+# ║   requires: hasattr(M, 'one')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _QRdecomposition_optional : {Any | hasattr(M, 'as_mut...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 595d9b0bffd882a0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.decompositions._QRdecomposition_optional","kind":"function","src_hash":"6d290f3c20d22541","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_QRdecomposition_optional(M, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_QRdecomposition_optional_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.decompositions._QRdecomposition_optional_correct","statement":"Path(_QRdecomposition_optional(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"595d9b0bffd882a0"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.decompositions._QRdecomposition_optional","kind":"function","src_hash":"6d290f3c20d22541","in":{"base":"Any","pred":"hasattr(M, 'as_mutable') and hasattr(M, 'one')"},"out":{"base":"Any"},"spec":{"lhs":"_QRdecomposition_optional(M, normalize)","rhs":"<unspecified:_QRdecomposition_optional>","over":{"base":"Any","pred":"hasattr(M, 'as_mutable') and hasattr(M, 'one')"},"name":"_QRdecomposition_optional_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.decompositions._QRdecomposition_optional_correct","statement":"Path(_QRdecomposition_optional(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"595d9b0bffd882a0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(M, 'as_mutable')","hasattr(M, 'one')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def _QRdecomposition_optional(M, normalize=True):
     def dot(u, v):
         return u.dot(v, hermitian=True)
@@ -1522,16 +1626,22 @@ def _QRdecomposition_optional(M, normalize=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_QRdecomposition(M), returns a qr decomposition) over Any ║
+# ║ Path(_QRdecomposition(M), _QRdecomposition_optional(M, normalize=True)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _QRdecomposition_optional(M, normalize=True)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _QRdecomposition : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6be0321f0d7dfee7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.decompositions._QRdecomposition","kind":"function","src_hash":"6b48cabec31a551f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_QRdecomposition(M)","rhs":"returns a qr decomposition","over":{"base":"Any"},"name":"_QRdecomposition_correct"},"guarantee":"returns a qr decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6be0321f0d7dfee7"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.decompositions._QRdecomposition","kind":"function","src_hash":"6b48cabec31a551f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_QRdecomposition(M)","rhs":"_QRdecomposition_optional(M, normalize=True)","over":{"base":"Any"},"name":"_QRdecomposition_correct"},"guarantee":"returns _QRdecomposition_optional(M, normalize=True)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6be0321f0d7dfee7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_QRdecomposition_optional(M, normalize=True)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def _QRdecomposition(M):
     r"""Returns a QR decomposition.
 
@@ -1715,16 +1825,24 @@ def _QRdecomposition(M):
     return _QRdecomposition_optional(M, normalize=True)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_upper_hessenberg_decomposition(A), converts a matrix into hessenberg matrix h) over Any ║
+# ║ Path(_upper_hessenberg_decomposition(A), (H, P)) over {Any | M.is_square and hasattr(A, 'as_mutable')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _upper_hessenberg_decomposition : Any → Any                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: M.is_square                                    ║
+# ║   requires: hasattr(A, 'as_mutable')                       ║
+# ║   returns:  (H, P)                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _upper_hessenberg_decomposition : {Any | M.is_square ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef67779a34dc0937  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0fdb7699d00ff284  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.decompositions._upper_hessenberg_decomposition","kind":"function","src_hash":"fcd35177d80d515a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_upper_hessenberg_decomposition(A)","rhs":"converts a matrix into hessenberg matrix h","over":{"base":"Any"},"name":"_upper_hessenberg_decomposition_correct"},"guarantee":"converts a matrix into hessenberg matrix h","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.decompositions._upper_hessenberg_decomposition_correct","statement":"Path(_upper_hessenberg_decomposition(x), converts a matrix into hessenberg matrix h)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef67779a34dc0937"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.decompositions._upper_hessenberg_decomposition","kind":"function","src_hash":"fcd35177d80d515a","in":{"base":"Any","pred":"M.is_square and hasattr(A, 'as_mutable')"},"out":{"base":"Any"},"spec":{"lhs":"_upper_hessenberg_decomposition(A)","rhs":"(H, P)","over":{"base":"Any","pred":"M.is_square and hasattr(A, 'as_mutable')"},"name":"_upper_hessenberg_decomposition_correct"},"guarantee":"returns (H, P)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.decompositions._upper_hessenberg_decomposition_correct","statement":"Path(_upper_hessenberg_decomposition(x), returns (H, P))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0fdb7699d00ff284","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["M.is_square","hasattr(A, 'as_mutable')"],"returns_expr":"(H, P)","pure":false,"effects":{"effect_type":"reads_state","reads":["A.as_mutable"],"raises":["NonSquareMatrixError"]},"state_contract":{"exceptional_post":{"NonSquareMatrixError":["isinstance(raised, NonSquareMatrixError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _upper_hessenberg_decomposition(A):
     """Converts a matrix into Hessenberg matrix H.
 

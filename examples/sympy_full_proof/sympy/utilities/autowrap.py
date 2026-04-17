@@ -124,16 +124,22 @@ _doctest_depends_on = {'exe': ('f2py', 'gfortran', 'gcc'),
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(CodeWrapError(), correctly constructs a CodeWrapError instance) over Any ║
+# ║ Path(CodeWrapError(), isinstance(self, Exception)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CodeWrapError : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Exception)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CodeWrapError : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 857483ac1f9d93e6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CodeWrapError","kind":"class","src_hash":"502a97306195cb31","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CodeWrapError()","rhs":"correctly constructs a CodeWrapError instance","over":{"base":"Any"},"name":"CodeWrapError_correct"},"guarantee":"correctly constructs a CodeWrapError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"857483ac1f9d93e6"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CodeWrapError","kind":"class","src_hash":"502a97306195cb31","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Exception)"},"spec":{"lhs":"CodeWrapError()","rhs":"isinstance(self, Exception)","over":{"base":"Any"},"name":"CodeWrapError_correct"},"guarantee":"isinstance(self, Exception)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"857483ac1f9d93e6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Exception)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function CodeWrapError not found in source"]}}
 class CodeWrapError(Exception):
     pass
 
@@ -141,14 +147,19 @@ class CodeWrapError(Exception):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a CodeWrapper instance) preserved by CodeWrapper(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ CodeWrapper : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e1a06dbcb7171d5a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CodeWrapper","kind":"class","src_hash":"215ebda9b8f8b3a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CodeWrapper(*args)","rhs":"correctly constructs a CodeWrapper instance","over":{"base":"Any"},"name":"CodeWrapper_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a CodeWrapper instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'generator') and hasattr(self, 'filepath') and hasattr(self, 'flags') and hasattr(self, 'quiet')","kind":"class","induction":"structural on generator, filepath, flags, quiet"}],"methods_preserving":["filename","module_name","__init__","include_header","include_empty","_generate_code","wrap_code","_process_files"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1a06dbcb7171d5a"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CodeWrapper","kind":"class","src_hash":"215ebda9b8f8b3a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CodeWrapper(*args)","rhs":"correctly constructs a CodeWrapper instance","over":{"base":"Any"},"name":"CodeWrapper_class_invariant","kind":"invariant"},"guarantee":"preserves 4 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'generator') and hasattr(self, 'filepath') and hasattr(self, 'flags') and hasattr(self, 'quiet')","kind":"class","induction":"structural on generator, filepath, flags, quiet"}],"methods_preserving":["filename","module_name","__init__","include_header","include_empty","_generate_code","wrap_code","_process_files"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1a06dbcb7171d5a","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'generator')","hasattr(self, 'filepath')","hasattr(self, 'flags')","hasattr(self, 'quiet')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function CodeWrapper not found in source"]}}
 class CodeWrapper:
     """Base Class for code wrappers"""
     _filename = "wrapped_code"
@@ -157,45 +168,65 @@ class CodeWrapper:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(filename(), returns the filename attribute) over Any  ║
+# ║ Path(filename(), '%s_%s' % (self._filename, CodeWrapper._module_counter)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '%s_%s' % (self._filename, CodeWrapper._m...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ filename : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7d1ebba9dbe1ec33           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CodeWrapper.filename","kind":"property","src_hash":"7a619d8a6975072b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"filename()","rhs":"returns the filename attribute","over":{"base":"Any"},"name":"filename_correct"},"guarantee":"returns the filename attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7d1ebba9dbe1ec33"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CodeWrapper.filename","kind":"property","src_hash":"7a619d8a6975072b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"filename()","rhs":"'%s_%s' % (self._filename, CodeWrapper._module_counter)","over":{"base":"Any"},"name":"filename_correct"},"guarantee":"returns '%s_%s' % (self._filename, CodeWrapper._module_counter)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7d1ebba9dbe1ec33","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'%s_%s' % (self._filename, CodeWrapper._module_counter)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._filename"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def filename(self):
         return "%s_%s" % (self._filename, CodeWrapper._module_counter)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(module_name(), returns the module_name attribute) over Any ║
+# ║ Path(module_name(), '%s_%s' % (self._module_basename, CodeWrapper._module_counter)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '%s_%s' % (self._module_basename, CodeWra...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ module_name : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cfa303ef88f025da           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CodeWrapper.module_name","kind":"property","src_hash":"bf1cbb99e0c01449","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"module_name()","rhs":"returns the module_name attribute","over":{"base":"Any"},"name":"module_name_correct"},"guarantee":"returns the module_name attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cfa303ef88f025da"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CodeWrapper.module_name","kind":"property","src_hash":"bf1cbb99e0c01449","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"module_name()","rhs":"'%s_%s' % (self._module_basename, CodeWrapper._module_counter)","over":{"base":"Any"},"name":"module_name_correct"},"guarantee":"returns '%s_%s' % (self._module_basename, CodeWrapper._module_counter)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cfa303ef88f025da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'%s_%s' % (self._module_basename, CodeWrapper._module_counter)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._module_basename"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def module_name(self):
         return "%s_%s" % (self._module_basename, CodeWrapper._module_counter)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(gen), initializes the instance correctly) over Any ║
+# ║ Path(__init__(generator, filepath, flags), self.generator == generator and self.filepath == filepath and self.flags == flags) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.generator == generator                    ║
+# ║   ensures:  self.filepath == filepath                      ║
+# ║   ensures:  self.flags == flags                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.genera...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 32cac25856e3356d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CodeWrapper.__init__","kind":"method","src_hash":"5573a3ba5d8416d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(gen)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"32cac25856e3356d"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CodeWrapper.__init__","kind":"method","src_hash":"5573a3ba5d8416d6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.generator == generator and self.filepath == filepath and self.flags == flags"},"spec":{"lhs":"__init__(generator, filepath, flags)","rhs":"self.generator == generator and self.filepath == filepath and self.flags == flags","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.generator == generator; self.filepath == filepath; self.flags == flags","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"32cac25856e3356d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.generator == generator","self.filepath == filepath","self.flags == flags"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, generator, filepath=None, flags=[], verbose=False):
         """
         generator -- the code generator to use
@@ -207,45 +238,64 @@ class CodeWrapper:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(include_header(), returns the include_header attribute) over Any ║
+# ║ Path(include_header(), bool(self.filepath)) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  bool(self.filepath)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ include_header : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 21780ba3c7e0b120           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CodeWrapper.include_header","kind":"property","src_hash":"311345268d796282","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"include_header()","rhs":"returns the include_header attribute","over":{"base":"Any"},"name":"include_header_correct"},"guarantee":"returns the include_header attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"21780ba3c7e0b120"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CodeWrapper.include_header","kind":"property","src_hash":"311345268d796282","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"include_header()","rhs":"bool(self.filepath)","over":{"base":"Any"},"name":"include_header_correct"},"guarantee":"returns bool(self.filepath)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"21780ba3c7e0b120","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"bool(self.filepath)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.filepath"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def include_header(self):
         return bool(self.filepath)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(include_empty(), returns the include_empty attribute) over Any ║
+# ║ Path(include_empty(), bool(self.filepath)) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  bool(self.filepath)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ include_empty : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9cc6359a86ee3fe9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CodeWrapper.include_empty","kind":"property","src_hash":"5377746c757e4982","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"include_empty()","rhs":"returns the include_empty attribute","over":{"base":"Any"},"name":"include_empty_correct"},"guarantee":"returns the include_empty attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9cc6359a86ee3fe9"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CodeWrapper.include_empty","kind":"property","src_hash":"5377746c757e4982","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"include_empty()","rhs":"bool(self.filepath)","over":{"base":"Any"},"name":"include_empty_correct"},"guarantee":"returns bool(self.filepath)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9cc6359a86ee3fe9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"bool(self.filepath)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.filepath"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def include_empty(self):
         return bool(self.filepath)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_generate_code(mai), internal helper behaves correctly) over Any ║
+# ║ Path(_generate_code(main_routine, routines), len(routines) == old_len_routines + 1) over {Any | hasattr(routines, 'append')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _generate_code : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(routines, 'append')                    ║
+# ║   ensures:  len(routines) == old_len_routines + 1          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _generate_code : {Any | hasattr(routines, 'append')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b523b4f35f1d4b2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58c91997972dec92  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CodeWrapper._generate_code","kind":"method","src_hash":"3bdfcef9a4bc3b22","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_code(mai)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_generate_code_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap.CodeWrapper._generate_code_correct","statement":"Path(_generate_code(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b523b4f35f1d4b2"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CodeWrapper._generate_code","kind":"method","src_hash":"3bdfcef9a4bc3b22","in":{"base":"Any","pred":"hasattr(routines, 'append')"},"out":{"base":"Any","pred":"result satisfies: len(routines) == old_len_routines + 1"},"spec":{"lhs":"_generate_code(main_routine, routines)","rhs":"len(routines) == old_len_routines + 1","over":{"base":"Any","pred":"hasattr(routines, 'append')"},"name":"_generate_code_correct"},"guarantee":"len(routines) == old_len_routines + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap.CodeWrapper._generate_code_correct","statement":"Path(_generate_code(x), len(routines) == old_len_routines + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58c91997972dec92","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(routines, 'append')"],"ensures":["len(routines) == old_len_routines + 1"],"pure":false,"effects":{"effect_type":"io","reads":["routines.append","self.filename","self.generator","self.include_empty","self.include_header"],"calls_mutating":["routines.append","self.generator.write"],"io_operations":["self.generator.write"]},"state_contract":{"modifies":["routines.*","self.*"],"old_bindings":{"old_len_routines":"len(routines)"},"post_ensures":["len(routines) == old_len_routines + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _generate_code(self, main_routine, routines):
         routines.append(main_routine)
         self.generator.write(
@@ -253,16 +303,23 @@ class CodeWrapper:
             self.include_empty)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(wrap_code(rou), wrap_code produces the expected output) over Any ║
+# ║ Path(wrap_code(routine, helpers), self._get_wrapped_function(mod, routine.name)) over {Any | hasattr(routine, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ wrap_code : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(routine, 'name')                       ║
+# ║   returns:  self._get_wrapped_function(mod, routine.n...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ wrap_code : {Any | hasattr(routine, 'name')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f9f36201ae3be32  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37dc9911c08302a7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CodeWrapper.wrap_code","kind":"method","src_hash":"763ff63850fcbe26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"wrap_code(rou)","rhs":"wrap_code produces the expected output","over":{"base":"Any"},"name":"wrap_code_correct"},"guarantee":"wrap_code produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap.CodeWrapper.wrap_code_correct","statement":"Path(wrap_code(x), wrap_code produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f9f36201ae3be32"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CodeWrapper.wrap_code","kind":"method","src_hash":"763ff63850fcbe26","in":{"base":"Any","pred":"hasattr(routine, 'name')"},"out":{"base":"Any"},"spec":{"lhs":"wrap_code(routine, helpers)","rhs":"self._get_wrapped_function(mod, routine.name)","over":{"base":"Any","pred":"hasattr(routine, 'name')"},"name":"wrap_code_correct"},"guarantee":"returns self._get_wrapped_function(mod, routine.name)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap.CodeWrapper.wrap_code_correct","statement":"Path(wrap_code(x), returns self._get_wrapped_function(mod, routine.name))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37dc9911c08302a7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(routine, 'name')"],"returns_expr":"self._get_wrapped_function(mod, routine.name)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def wrap_code(self, routine, helpers=None):
         helpers = helpers or []
         if self.filepath:
@@ -293,16 +350,22 @@ class CodeWrapper:
         return self._get_wrapped_function(mod, routine.name)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_process_files(rou), internal helper behaves correctly) over Any ║
+# ║ Path(_process_files(routine), <unspecified:_process_files>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _process_files : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6fbe23f6d981cf70  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CodeWrapper._process_files","kind":"method","src_hash":"2c276a1b80a55b27","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_process_files(rou)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_process_files_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap.CodeWrapper._process_files_correct","statement":"Path(_process_files(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6fbe23f6d981cf70"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CodeWrapper._process_files","kind":"method","src_hash":"2c276a1b80a55b27","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_process_files(routine)","rhs":"<unspecified:_process_files>","over":{"base":"Any"},"name":"_process_files_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap.CodeWrapper._process_files_correct","statement":"Path(_process_files(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6fbe23f6d981cf70","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","reads":["self.command","self.flags","self.quiet"],"calls_mutating":["command.extend"],"raises":["CodeWrapError"],"catches":["CalledProcessError"],"io_operations":["print"]},"state_contract":{"modifies":["command.*"],"old_bindings":{"old_len_command":"len(command)"},"exceptional_post":{"CodeWrapError":["isinstance(raised, CodeWrapError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _process_files(self, routine):
         command = self.command
         command.extend(self.flags)
@@ -319,14 +382,20 @@ class CodeWrapper:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(DummyWrapper(*args), correctly constructs a DummyWrapper instance) over {Any | isinstance(val, Result) and isinstance(x, OutputArgument)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CodeWrapper)                  ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ DummyWrapper : {Any | isinstance(val, Result) and isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c2dedfa8bfdf27a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.DummyWrapper","kind":"class","src_hash":"5a8f3e2682c4deab","in":{"base":"Any","pred":"isinstance(val, Result) and isinstance(x, OutputArgument)"},"out":{"base":"Any"},"spec":{"lhs":"DummyWrapper(*args)","rhs":"correctly constructs a DummyWrapper instance","over":{"base":"Any","pred":"isinstance(val, Result) and isinstance(x, OutputArgument)"},"name":"DummyWrapper_class_invariant"},"guarantee":"correctly constructs a DummyWrapper instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c2dedfa8bfdf27a"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.DummyWrapper","kind":"class","src_hash":"5a8f3e2682c4deab","in":{"base":"Any","pred":"isinstance(val, Result) and isinstance(x, OutputArgument)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CodeWrapper)"},"spec":{"lhs":"DummyWrapper(*args)","rhs":"correctly constructs a DummyWrapper instance","over":{"base":"Any","pred":"isinstance(val, Result) and isinstance(x, OutputArgument)"},"name":"DummyWrapper_class_invariant"},"guarantee":"isinstance(self, CodeWrapper)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c2dedfa8bfdf27a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CodeWrapper)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function DummyWrapper not found in source"]}}
 class DummyWrapper(CodeWrapper):
     """Class used for testing independent of backends """
 
@@ -338,30 +407,45 @@ def %(name)s():
 """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_prepare_files(rou), internal helper behaves correctly) over Any ║
+# ║ Path(_prepare_files(routine), <unspecified:_prepare_files>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _prepare_files : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3dc58dbc0f6565d9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.DummyWrapper._prepare_files","kind":"method","src_hash":"d3ad51034628195b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_prepare_files(rou)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_prepare_files_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3dc58dbc0f6565d9"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.DummyWrapper._prepare_files","kind":"method","src_hash":"d3ad51034628195b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_prepare_files(routine)","rhs":"<unspecified:_prepare_files>","over":{"base":"Any"},"name":"_prepare_files_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3dc58dbc0f6565d9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _prepare_files(self, routine):
         return
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_generate_code(rou), internal helper behaves correctly) over Any ║
+# ║ Path(_generate_code(routine, helpers), len(retvals) == old_len_retvals + 1) over {Any | hasattr(routine, 'result_variables') and hasattr(routine, 'arguments') and hasattr(routine, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _generate_code : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(routine, 'result_variables')           ║
+# ║   requires: hasattr(routine, 'arguments')                  ║
+# ║   requires: hasattr(routine, 'name')                       ║
+# ║   ensures:  len(retvals) == old_len_retvals + 1            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _generate_code : {Any | hasattr(routine, 'result_vari...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4364d6453a3e4bbd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f41abca2678e9d26  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.DummyWrapper._generate_code","kind":"method","src_hash":"3e7fc09f3d8a3b59","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_code(rou)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_generate_code_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap.DummyWrapper._generate_code_correct","statement":"Path(_generate_code(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4364d6453a3e4bbd"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.DummyWrapper._generate_code","kind":"method","src_hash":"3e7fc09f3d8a3b59","in":{"base":"Any","pred":"hasattr(routine, 'result_variables') and hasattr(routine, 'arguments') and hasattr(routine, 'name')"},"out":{"base":"Any","pred":"result satisfies: len(retvals) == old_len_retvals + 1"},"spec":{"lhs":"_generate_code(routine, helpers)","rhs":"len(retvals) == old_len_retvals + 1","over":{"base":"Any","pred":"hasattr(routine, 'result_variables') and hasattr(routine, 'arguments') and hasattr(routine, 'name')"},"name":"_generate_code_correct"},"guarantee":"len(retvals) == old_len_retvals + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap.DummyWrapper._generate_code_correct","statement":"Path(_generate_code(x), len(retvals) == old_len_retvals + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f41abca2678e9d26","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(routine, 'result_variables')","hasattr(routine, 'arguments')","hasattr(routine, 'name')"],"ensures":["len(retvals) == old_len_retvals + 1"],"pure":false,"effects":{"effect_type":"io","reads":["routine.arguments","routine.name","routine.result_variables","self.module_name"],"calls_mutating":["retvals.append"],"io_operations":["open","print"]},"state_contract":{"modifies":["retvals.*"],"old_bindings":{"old_len_retvals":"len(retvals)"},"post_ensures":["len(retvals) == old_len_retvals + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _generate_code(self, routine, helpers):
         with open('%s.py' % self.module_name, 'w') as f:
             printed = ", ".join(
@@ -384,31 +468,43 @@ def %(name)s():
             }, end="", file=f)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_process_files(rou), internal helper behaves correctly) over Any ║
+# ║ Path(_process_files(routine), <unspecified:_process_files>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _process_files : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 38bf682c115dfa55           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.DummyWrapper._process_files","kind":"method","src_hash":"ba9cf49a8c83ac83","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_process_files(rou)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_process_files_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"38bf682c115dfa55"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.DummyWrapper._process_files","kind":"method","src_hash":"ba9cf49a8c83ac83","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_process_files(routine)","rhs":"<unspecified:_process_files>","over":{"base":"Any"},"name":"_process_files_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"38bf682c115dfa55","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _process_files(self, routine):
         return
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_wrapped_function(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_get_wrapped_function(cls, mod, name), getattr(mod, name)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  getattr(mod, name)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_wrapped_function : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fb10fc2da9d56536           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.DummyWrapper._get_wrapped_function","kind":"classmethod","src_hash":"e13caa275d1b9927","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_wrapped_function(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_wrapped_function_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fb10fc2da9d56536"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.DummyWrapper._get_wrapped_function","kind":"classmethod","src_hash":"e13caa275d1b9927","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_wrapped_function(cls, mod, name)","rhs":"getattr(mod, name)","over":{"base":"Any"},"name":"_get_wrapped_function_correct"},"guarantee":"returns getattr(mod, name)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fb10fc2da9d56536","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"getattr(mod, name)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_wrapped_function(cls, mod, name):
         return getattr(mod, name)
 
@@ -416,14 +512,20 @@ def %(name)s():
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a CythonCodeWrapper instance) preserved by CythonCodeWrapper(*args) over {Any | isinstance(arg, OutputArgument) and isinstance(arg, ResultBase) and isinstance(arg, InOutArgument)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CodeWrapper)                  ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ CythonCodeWrapper : {Any | isinstance(arg, OutputArgu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8691f75e3e6f10d5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CythonCodeWrapper","kind":"class","src_hash":"e430cc5e2b4ff8b0","in":{"base":"Any","pred":"isinstance(arg, OutputArgument) and isinstance(arg, ResultBase) and isinstance(arg, InOutArgument)"},"out":{"base":"Any"},"spec":{"lhs":"CythonCodeWrapper(*args)","rhs":"correctly constructs a CythonCodeWrapper instance","over":{"base":"Any","pred":"isinstance(arg, OutputArgument) and isinstance(arg, ResultBase) and isinstance(arg, InOutArgument)"},"name":"CythonCodeWrapper_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a CythonCodeWrapper instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_include_dirs') and hasattr(self, '_library_dirs') and hasattr(self, '_libraries') and hasattr(self, '_extra_compile_args') and hasattr(self, '_extra_link_args') and hasattr(self, '_cythonize_options') and hasattr(self, '_need_numpy')","kind":"class","induction":"structural on _include_dirs, _library_dirs, _libraries, _extra_compile_args"}],"methods_preserving":["__init__","command","_prepare_files","dump_pyx","_partition_args","_prototype_arg","_declare_arg","_call_arg","_string_var"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8691f75e3e6f10d5"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CythonCodeWrapper","kind":"class","src_hash":"e430cc5e2b4ff8b0","in":{"base":"Any","pred":"isinstance(arg, OutputArgument) and isinstance(arg, ResultBase) and isinstance(arg, InOutArgument)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CodeWrapper)"},"spec":{"lhs":"CythonCodeWrapper(*args)","rhs":"correctly constructs a CythonCodeWrapper instance","over":{"base":"Any","pred":"isinstance(arg, OutputArgument) and isinstance(arg, ResultBase) and isinstance(arg, InOutArgument)"},"name":"CythonCodeWrapper_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, CodeWrapper); preserves 7 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_include_dirs') and hasattr(self, '_library_dirs') and hasattr(self, '_libraries') and hasattr(self, '_extra_compile_args') and hasattr(self, '_extra_link_args') and hasattr(self, '_cythonize_options') and hasattr(self, '_need_numpy')","kind":"class","induction":"structural on _include_dirs, _library_dirs, _libraries, _extra_compile_args"}],"methods_preserving":["__init__","command","_prepare_files","dump_pyx","_partition_args","_prototype_arg","_declare_arg","_call_arg","_string_var"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8691f75e3e6f10d5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CodeWrapper)"],"invariants":["hasattr(self, '_include_dirs')","hasattr(self, '_library_dirs')","hasattr(self, '_libraries')","hasattr(self, '_extra_compile_args')","hasattr(self, '_extra_link_args')","hasattr(self, '_cythonize_options')","hasattr(self, '_need_numpy')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function CythonCodeWrapper not found in source"]}}
 class CythonCodeWrapper(CodeWrapper):
     """Wrapper that uses Cython"""
 
@@ -463,16 +565,24 @@ setup(ext_modules=cythonize(ext_mods, **cy_opts))
     std_compile_flag = '-std=c99'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(*ar), initializes the instance correctly) over Any ║
+# ║ Path(__init__(*args, **kwargs), len(kwargs) == old_len_kwargs - 1 and len(self) == old_len_self + 1) over {Any | len(kwargs) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(kwargs) > 0                                ║
+# ║   ensures:  len(kwargs) == old_len_kwargs - 1              ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | len(kwargs) > 0} → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4941a334a1d91057           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CythonCodeWrapper.__init__","kind":"method","src_hash":"06da7f874724148b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*ar)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4941a334a1d91057"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CythonCodeWrapper.__init__","kind":"method","src_hash":"06da7f874724148b","in":{"base":"Any","pred":"len(kwargs) > 0"},"out":{"base":"Any","pred":"result satisfies: len(kwargs) == old_len_kwargs - 1 and len(self) == old_len_self + 1"},"spec":{"lhs":"__init__(*args, **kwargs)","rhs":"len(kwargs) == old_len_kwargs - 1 and len(self) == old_len_self + 1","over":{"base":"Any","pred":"len(kwargs) > 0"},"name":"__init___correct"},"guarantee":"len(kwargs) == old_len_kwargs - 1; len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4941a334a1d91057","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(kwargs) > 0"],"ensures":["len(kwargs) == old_len_kwargs - 1","len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._cythonize_options","self._extra_compile_args","self.std_compile_flag"],"writes":["self._cythonize_options","self._extra_compile_args","self._extra_link_args","self._include_dirs","self._libraries","self._library_dirs","self._need_numpy"],"calls_mutating":["kwargs.pop","self._extra_compile_args.append"]},"state_contract":{"modifies":["kwargs.*","self.*","self._cythonize_options","self._extra_compile_args","self._extra_link_args","self._include_dirs","self._libraries","self._library_dirs","self._need_numpy"],"old_bindings":{"old_self__cythonize_options":"self._cythonize_options","old_self__extra_compile_args":"self._extra_compile_args","old_self__extra_link_args":"self._extra_link_args","old_self__include_dirs":"self._include_dirs","old_self__libraries":"self._libraries","old_self__library_dirs":"self._library_dirs","old_self__need_numpy":"self._need_numpy","old_len_kwargs":"len(kwargs)","old_len_self":"len(self)"},"pre_requires":["len(kwargs) > 0"],"post_ensures":["len(kwargs) == old_len_kwargs - 1","len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, *args, **kwargs):
         """Instantiates a Cython code wrapper.
 
@@ -520,31 +630,43 @@ setup(ext_modules=cythonize(ext_mods, **cy_opts))
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(command(), returns the command attribute) over Any    ║
+# ║ Path(command(), <unspecified:command>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ command : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | efc4e361c4759eaa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CythonCodeWrapper.command","kind":"property","src_hash":"cf37cfc1fef4353c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"command()","rhs":"returns the command attribute","over":{"base":"Any"},"name":"command_correct"},"guarantee":"returns the command attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"efc4e361c4759eaa"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CythonCodeWrapper.command","kind":"property","src_hash":"cf37cfc1fef4353c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"command()","rhs":"<unspecified:command>","over":{"base":"Any"},"name":"command_correct"},"guarantee":"returns the command attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"efc4e361c4759eaa","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def command(self):
         command = [sys.executable, "setup.py", "build_ext", "--inplace"]
         return command
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_prepare_files(rou), internal helper behaves correctly) over Any ║
+# ║ Path(_prepare_files(routine, build_dir), len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _prepare_files : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _prepare_files : Any → {Any | result satisfies: len(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 495bb4465bc0f010  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d1607d8f73186e2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CythonCodeWrapper._prepare_files","kind":"method","src_hash":"10f5bf8659f2e26b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_prepare_files(rou)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_prepare_files_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap.CythonCodeWrapper._prepare_files_correct","statement":"Path(_prepare_files(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"495bb4465bc0f010"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CythonCodeWrapper._prepare_files","kind":"method","src_hash":"10f5bf8659f2e26b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"_prepare_files(routine, build_dir)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"_prepare_files_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap.CythonCodeWrapper._prepare_files_correct","statement":"Path(_prepare_files(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d1607d8f73186e2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"io","reads":["self._cythonize_options","self._extra_compile_args","self._extra_link_args","self._include_dirs","self._libraries","self._library_dirs","self._need_numpy","self.dump_pyx","self.filename","self.generator","self.module_name","self.setup_template"],"calls_mutating":["self._include_dirs.append"],"io_operations":["open"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _prepare_files(self, routine, build_dir=os.curdir):
         # NOTE : build_dir is used for testing purposes.
         pyxfilename = self.module_name + '.pyx'
@@ -577,30 +699,45 @@ setup(ext_modules=cythonize(ext_mods, **cy_opts))
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_wrapped_function(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_get_wrapped_function(cls, mod, name), getattr(mod, name + '_c')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  getattr(mod, name + '_c')                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_wrapped_function : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5a72477018517869           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CythonCodeWrapper._get_wrapped_function","kind":"classmethod","src_hash":"081a4c700cd14c26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_wrapped_function(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_wrapped_function_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5a72477018517869"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CythonCodeWrapper._get_wrapped_function","kind":"classmethod","src_hash":"081a4c700cd14c26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_wrapped_function(cls, mod, name)","rhs":"getattr(mod, name + '_c')","over":{"base":"Any"},"name":"_get_wrapped_function_correct"},"guarantee":"returns getattr(mod, name + '_c')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5a72477018517869","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"getattr(mod, name + '_c')","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_wrapped_function(cls, mod, name):
         return getattr(mod, name + '_c')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dump_pyx(rou), write a cython file with python wrappers) over Any ║
+# ║ Path(dump_pyx(routines, f, prefix), len(functions) == old_len_functions + 1 and len(headers) == old_len_headers + 1 and len(local_decs) == old_len_local_decs + 1) over {Any | hasattr(f, 'write')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dump_pyx : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'write')                            ║
+# ║   ensures:  len(functions) == old_len_functions + 1        ║
+# ║   ensures:  len(headers) == old_len_headers + 1            ║
+# ║   ensures:  len(local_decs) == old_len_local_decs + 1      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dump_pyx : {Any | hasattr(f, 'write')} → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d47143829762ff2f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77a65e21b4ff0335  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CythonCodeWrapper.dump_pyx","kind":"method","src_hash":"ba46b63d86a92739","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dump_pyx(rou)","rhs":"write a cython file with python wrappers","over":{"base":"Any"},"name":"dump_pyx_correct"},"guarantee":"write a cython file with python wrappers","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap.CythonCodeWrapper.dump_pyx_correct","statement":"Path(dump_pyx(x), write a cython file with python wrappers)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d47143829762ff2f"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CythonCodeWrapper.dump_pyx","kind":"method","src_hash":"ba46b63d86a92739","in":{"base":"Any","pred":"hasattr(f, 'write')"},"out":{"base":"Any","pred":"result satisfies: len(functions) == old_len_functions + 1 and len(headers) == old_len_headers + 1 and len(local_decs) == old_len_local_decs + 1"},"spec":{"lhs":"dump_pyx(routines, f, prefix)","rhs":"len(functions) == old_len_functions + 1 and len(headers) == old_len_headers + 1 and len(local_decs) == old_len_local_decs + 1","over":{"base":"Any","pred":"hasattr(f, 'write')"},"name":"dump_pyx_correct"},"guarantee":"len(functions) == old_len_functions + 1; len(headers) == old_len_headers + 1; len(local_decs) == old_len_local_decs + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap.CythonCodeWrapper.dump_pyx_correct","statement":"Path(dump_pyx(x), len(functions) == old_len_functions + 1; len(headers) == old_len_headers + 1; len(local_decs) == old_len_local_decs + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77a65e21b4ff0335","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'write')"],"ensures":["len(functions) == old_len_functions + 1","len(headers) == old_len_headers + 1","len(local_decs) == old_len_local_decs + 1"],"pure":false,"effects":{"effect_type":"io","reads":["f.write","self._call_arg","self._declare_arg","self._need_numpy","self._partition_args","self._prototype_arg","self._string_var","self.generator","self.pyx_func","self.pyx_header","self.pyx_imports"],"calls_mutating":["f.write","functions.append","headers.append","local_decs.append","local_decs.extend"],"io_operations":["f.write"]},"state_contract":{"modifies":["f.*","functions.*","headers.*","local_decs.*"],"old_bindings":{"old_len_functions":"len(functions)","old_len_headers":"len(headers)","old_len_local_decs":"len(local_decs)"},"post_ensures":["len(functions) == old_len_functions + 1","len(headers) == old_len_headers + 1","len(local_decs) == old_len_local_decs + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dump_pyx(self, routines, f, prefix):
         """Write a Cython file with Python wrappers
 
@@ -666,16 +803,22 @@ setup(ext_modules=cythonize(ext_mods, **cy_opts))
         f.write('\n'.join(functions))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_partition_args(arg), group function arguments into categories) over Any ║
+# ║ Path(_partition_args(args), (py_returns, py_args, py_locals, py_inferred)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (py_returns, py_args, py_locals, py_infer...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _partition_args : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a59d99acb1df7f65  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb74d183d3a0c7e3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CythonCodeWrapper._partition_args","kind":"method","src_hash":"2ce1dfc881926e8e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_partition_args(arg)","rhs":"group function arguments into categories","over":{"base":"Any"},"name":"_partition_args_correct"},"guarantee":"group function arguments into categories","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap.CythonCodeWrapper._partition_args_correct","statement":"Path(_partition_args(x), group function arguments into categories)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a59d99acb1df7f65"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CythonCodeWrapper._partition_args","kind":"method","src_hash":"2ce1dfc881926e8e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_partition_args(args)","rhs":"(py_returns, py_args, py_locals, py_inferred)","over":{"base":"Any"},"name":"_partition_args_correct"},"guarantee":"returns (py_returns, py_args, py_locals, py_inferred)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap.CythonCodeWrapper._partition_args_correct","statement":"Path(_partition_args(x), returns (py_returns, py_args, py_locals, py_inferred))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb74d183d3a0c7e3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(py_returns, py_args, py_locals, py_inferred)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _partition_args(self, args):
         """Group function arguments into categories."""
         py_args = []
@@ -707,16 +850,28 @@ setup(ext_modules=cythonize(ext_mods, **cy_opts))
         return py_returns, py_args, py_locals, py_inferred
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_prototype_arg(arg), id) over Any                     ║
+# ║ Path(_prototype_arg(arg), id) over {Any | hasattr(arg, 'dimensions') and hasattr(arg, 'get_datatype') and hasattr(arg, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _prototype_arg : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(arg, 'dimensions')                     ║
+# ║   requires: hasattr(arg, 'get_datatype')                   ║
+# ║   requires: hasattr(arg, 'name')                           ║
+# ║   ensures:  result == (mat_dec.format(mtype=mtype, nd...   ║
+# ║   ensures:  result == mat_dec.format(mtype=mtype, ndi...   ║
+# ║   fiber[case_0]: arg.dimensions => mat_dec.format(mty...   ║
+# ║   fiber[case_1]: not (arg.dimensions) => '%s %s' % (t...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _prototype_arg : {Any | hasattr(arg, 'dimensions') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d821da09478085d5   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CythonCodeWrapper._prototype_arg","kind":"method","src_hash":"36035c3e61f49c8c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_prototype_arg(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_prototype_arg_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"format","by":"library_axiom"},{"fn":"_string_var","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d821da09478085d5"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CythonCodeWrapper._prototype_arg","kind":"method","src_hash":"36035c3e61f49c8c","in":{"base":"Any","pred":"hasattr(arg, 'dimensions') and hasattr(arg, 'get_datatype') and hasattr(arg, 'name')"},"out":{"base":"Any","pred":"result satisfies: result == (mat_dec.format(mtype=mtype, ndim=ndim, name=self._string_var(arg.name)) if arg.dimensions else '%s %s' % (t, self._string_var(arg.name))) and result == mat_dec.format(mtype=mtype, ndim=ndim, name=self._string_var(arg.name)) or result == '%s %s' % (t, self._string_var(arg.name))"},"spec":{"lhs":"_prototype_arg(arg)","rhs":"result == (mat_dec.format(mtype=mtype, ndim=ndim, name=self._string_var(arg.name)) if arg.dimensions else '%s %s' % (t, self._string_var(arg.name))) and result == mat_dec.format(mtype=mtype, ndim=ndim, name=self._string_var(arg.name)) or result == '%s %s' % (t, self._string_var(arg.name))","over":{"base":"Any","pred":"hasattr(arg, 'dimensions') and hasattr(arg, 'get_datatype') and hasattr(arg, 'name')"},"name":"_prototype_arg_correct","kind":"composition"},"guarantee":"result == (mat_dec.format(mtype=mtype, ndim=ndim, name=self._string_var(arg.name)) if arg.dimensions else '%s %s' % (t, self._string_var(arg.name))); result == mat_dec.format(mtype=mtype, ndim=ndim, name=self._string_var(arg.name)) or result == '%s %s' % (t, self._string_var(arg.name)); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"format","by":"library_axiom"},{"fn":"_string_var","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d821da09478085d5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(arg, 'dimensions')","hasattr(arg, 'get_datatype')","hasattr(arg, 'name')"],"ensures":["result == (mat_dec.format(mtype=mtype, ndim=ndim, name=self._string_var(arg.name)) if arg.dimensions else '%s %s' % (t, self._string_var(arg.name)))","result == mat_dec.format(mtype=mtype, ndim=ndim, name=self._string_var(arg.name)) or result == '%s %s' % (t, self._string_var(arg.name))"],"fibers":[{"name":"case_0","guard":"arg.dimensions","ensures":["result == mat_dec.format(mtype=mtype, ndim=ndim, name=self._string_var(arg.name))"],"decidability":"library","returns_expr":"mat_dec.format(mtype=mtype, ndim=ndim, name=self._string_var(arg.name))"},{"name":"case_1","guard":"not (arg.dimensions)","ensures":["result == '%s %s' % (t, self._string_var(arg.name))"],"decidability":"library","returns_expr":"'%s %s' % (t, self._string_var(arg.name))"}],"pure":false,"effects":{"effect_type":"mutates_self","reads":["arg.dimensions","arg.get_datatype","arg.name","self._string_var"],"writes":["self._need_numpy"]},"state_contract":{"modifies":["self._need_numpy"],"old_bindings":{"old_self__need_numpy":"self._need_numpy"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _prototype_arg(self, arg):
         mat_dec = "np.ndarray[{mtype}, ndim={ndim}] {name}"
         np_types = {'double': 'np.double_t',
@@ -731,16 +886,26 @@ setup(ext_modules=cythonize(ext_mods, **cy_opts))
             return "%s %s" % (t, self._string_var(arg.name))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_declare_arg(arg), id) over Any                       ║
+# ║ Path(_declare_arg(arg), id) over {Any | hasattr(arg, 'dimensions')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _declare_arg : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(arg, 'dimensions')                     ║
+# ║   ensures:  result == (proto + ' = np.empty({shape})'...   ║
+# ║   ensures:  result == proto + ' = np.empty({shape})'....   ║
+# ║   fiber[case_0]: arg.dimensions => proto + ' = np.emp...   ║
+# ║   fiber[case_1]: not (arg.dimensions) => proto + ' = 0'    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _declare_arg : {Any | hasattr(arg, 'dimensions')} → {...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | fa125c05588f3bf5   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CythonCodeWrapper._declare_arg","kind":"method","src_hash":"a476ff25306a170e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_declare_arg(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_declare_arg_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"empty","by":"library_axiom"},{"fn":"format","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa125c05588f3bf5"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CythonCodeWrapper._declare_arg","kind":"method","src_hash":"a476ff25306a170e","in":{"base":"Any","pred":"hasattr(arg, 'dimensions')"},"out":{"base":"Any","pred":"result satisfies: result == (proto + ' = np.empty({shape})'.format(shape=shape) if arg.dimensions else proto + ' = 0') and result == proto + ' = np.empty({shape})'.format(shape=shape) or result == proto + ' = 0'"},"spec":{"lhs":"_declare_arg(arg)","rhs":"result == (proto + ' = np.empty({shape})'.format(shape=shape) if arg.dimensions else proto + ' = 0') and result == proto + ' = np.empty({shape})'.format(shape=shape) or result == proto + ' = 0'","over":{"base":"Any","pred":"hasattr(arg, 'dimensions')"},"name":"_declare_arg_correct","kind":"composition"},"guarantee":"result == (proto + ' = np.empty({shape})'.format(shape=shape) if arg.dimensions else proto + ' = 0'); result == proto + ' = np.empty({shape})'.format(shape=shape) or result == proto + ' = 0'; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"empty","by":"library_axiom"},{"fn":"format","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa125c05588f3bf5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(arg, 'dimensions')"],"ensures":["result == (proto + ' = np.empty({shape})'.format(shape=shape) if arg.dimensions else proto + ' = 0')","result == proto + ' = np.empty({shape})'.format(shape=shape) or result == proto + ' = 0'"],"fibers":[{"name":"case_0","guard":"arg.dimensions","ensures":["result == proto + ' = np.empty({shape})'.format(shape=shape)"],"decidability":"library","returns_expr":"proto + ' = np.empty({shape})'.format(shape=shape)"},{"name":"case_1","guard":"not (arg.dimensions)","ensures":["result == proto + ' = 0'"],"decidability":"library","returns_expr":"proto + ' = 0'"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg.dimensions","self._prototype_arg","self._string_var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _declare_arg(self, arg):
         proto = self._prototype_arg(arg)
         if arg.dimensions:
@@ -750,16 +915,29 @@ setup(ext_modules=cythonize(ext_mods, **cy_opts))
             return proto + " = 0"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_call_arg(arg), id) over Any                          ║
+# ║ Path(_call_arg(arg), id) over {Any | hasattr(arg, 'dimensions') and hasattr(arg, 'get_datatype') and hasattr(arg, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _call_arg : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(arg, 'dimensions')                     ║
+# ║   requires: hasattr(arg, 'get_datatype')                   ║
+# ║   requires: hasattr(arg, 'name')                           ║
+# ║   ensures:  result == ('<{}*> {}.data'.format(t, self...   ║
+# ║   ensures:  result == '<{}*> {}.data'.format(t, self....   ║
+# ║   fiber[case_0]: arg.dimensions => '<{}*> {}.data'.fo...   ║
+# ║   fiber[ResultBase]: isinstance(arg, ResultBase) => '...   ║
+# ║   fiber[ResultBase]: not (arg.dimensions) and not (is...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _call_arg : {Any | hasattr(arg, 'dimensions') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ebc2871868022172   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CythonCodeWrapper._call_arg","kind":"method","src_hash":"2ebb269b11ad65f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_call_arg(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_call_arg_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"format","by":"library_axiom"},{"fn":"_string_var","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ebc2871868022172"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CythonCodeWrapper._call_arg","kind":"method","src_hash":"2ebb269b11ad65f8","in":{"base":"Any","pred":"hasattr(arg, 'dimensions') and hasattr(arg, 'get_datatype') and hasattr(arg, 'name')"},"out":{"base":"Any","pred":"result satisfies: result == ('<{}*> {}.data'.format(t, self._string_var(arg.name)) if arg.dimensions else '&{}'.format(self._string_var(arg.name)) if isinstance(arg, ResultBase) else self._string_var(arg.name)) and result == '<{}*> {}.data'.format(t, self._string_var(arg.name)) or result == '&{}'.format(self._string_var(arg.name)) or result == self._string_var(arg.name)"},"spec":{"lhs":"_call_arg(arg)","rhs":"result == ('<{}*> {}.data'.format(t, self._string_var(arg.name)) if arg.dimensions else '&{}'.format(self._string_var(arg.name)) if isinstance(arg, ResultBase) else self._string_var(arg.name)) and result == '<{}*> {}.data'.format(t, self._string_var(arg.name)) or result == '&{}'.format(self._string_var(arg.name)) or result == self._string_var(arg.name)","over":{"base":"Any","pred":"hasattr(arg, 'dimensions') and hasattr(arg, 'get_datatype') and hasattr(arg, 'name')"},"name":"_call_arg_correct","kind":"composition"},"guarantee":"result == ('<{}*> {}.data'.format(t, self._string_var(arg.name)) if arg.dimensions else '&{}'.format(self._string_var(arg.name)) if isinstance(arg, ResultBase) else self._string_var(arg.name)); result == '<{}*> {}.data'.format(t, self._string_var(arg.name)) or result == '&{}'.format(self._string_var(arg.name)) or result == self._string_var(arg.name); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"format","by":"library_axiom"},{"fn":"_string_var","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ebc2871868022172","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(arg, 'dimensions')","hasattr(arg, 'get_datatype')","hasattr(arg, 'name')"],"ensures":["result == ('<{}*> {}.data'.format(t, self._string_var(arg.name)) if arg.dimensions else '&{}'.format(self._string_var(arg.name)) if isinstance(arg, ResultBase) else self._string_var(arg.name))","result == '<{}*> {}.data'.format(t, self._string_var(arg.name)) or result == '&{}'.format(self._string_var(arg.name)) or result == self._string_var(arg.name)"],"fibers":[{"name":"case_0","guard":"arg.dimensions","ensures":["result == '<{}*> {}.data'.format(t, self._string_var(arg.name))"],"decidability":"library","returns_expr":"'<{}*> {}.data'.format(t, self._string_var(arg.name))"},{"name":"ResultBase","guard":"isinstance(arg, ResultBase)","ensures":["result == '&{}'.format(self._string_var(arg.name))"],"decidability":"structural","returns_expr":"'&{}'.format(self._string_var(arg.name))"},{"name":"ResultBase","guard":"not (arg.dimensions) and not (isinstance(arg, ResultBase))","ensures":["result == self._string_var(arg.name)"],"decidability":"structural","returns_expr":"self._string_var(arg.name)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg.dimensions","arg.get_datatype","arg.name","self._string_var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _call_arg(self, arg):
         if arg.dimensions:
             t = arg.get_datatype('c')
@@ -770,16 +948,22 @@ setup(ext_modules=cythonize(ext_mods, **cy_opts))
             return self._string_var(arg.name)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_string_var(var), internal helper behaves correctly) over Any ║
+# ║ Path(_string_var(var), printer(var)) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  printer(var)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _string_var : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b1e153934ad0980d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | baa9da7af4a21ac7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CythonCodeWrapper._string_var","kind":"method","src_hash":"642d4c6708412aa0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_string_var(var)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_string_var_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap.CythonCodeWrapper._string_var_correct","statement":"Path(_string_var(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1e153934ad0980d"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.CythonCodeWrapper._string_var","kind":"method","src_hash":"642d4c6708412aa0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_string_var(var)","rhs":"printer(var)","over":{"base":"Any"},"name":"_string_var_correct"},"guarantee":"returns printer(var)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap.CythonCodeWrapper._string_var_correct","statement":"Path(_string_var(x), returns printer(var))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"baa9da7af4a21ac7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"printer(var)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.generator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _string_var(self, var):
         printer = self.generator.printer.doprint
         return printer(var)
@@ -788,28 +972,40 @@ setup(ext_modules=cythonize(ext_mods, **cy_opts))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(F2PyCodeWrapper(*args), correctly constructs a F2PyCodeWrapper instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ F2PyCodeWrapper : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CodeWrapper)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ F2PyCodeWrapper : Any → {Any | result satisfies: isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 47bad5c7f2a6e6c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.F2PyCodeWrapper","kind":"class","src_hash":"d48a9c1f980810f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"F2PyCodeWrapper(*args)","rhs":"correctly constructs a F2PyCodeWrapper instance","over":{"base":"Any"},"name":"F2PyCodeWrapper_class_invariant"},"guarantee":"correctly constructs a F2PyCodeWrapper instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47bad5c7f2a6e6c6"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.F2PyCodeWrapper","kind":"class","src_hash":"d48a9c1f980810f5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CodeWrapper)"},"spec":{"lhs":"F2PyCodeWrapper(*args)","rhs":"correctly constructs a F2PyCodeWrapper instance","over":{"base":"Any"},"name":"F2PyCodeWrapper_class_invariant"},"guarantee":"isinstance(self, CodeWrapper)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47bad5c7f2a6e6c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CodeWrapper)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function F2PyCodeWrapper not found in source"]}}
 class F2PyCodeWrapper(CodeWrapper):
     """Wrapper that uses f2py"""
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(*ar), initializes the instance correctly) over Any ║
+# ║ Path(__init__(*args, **kwargs), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bcc47f7c674aadd2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.F2PyCodeWrapper.__init__","kind":"method","src_hash":"1b5a7e7a41513e41","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*ar)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bcc47f7c674aadd2"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.F2PyCodeWrapper.__init__","kind":"method","src_hash":"1b5a7e7a41513e41","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*args, **kwargs)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bcc47f7c674aadd2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, *args, **kwargs):
 
         ext_keys = ['include_dirs', 'library_dirs', 'libraries',
@@ -826,16 +1022,22 @@ class F2PyCodeWrapper(CodeWrapper):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(command(), returns the command attribute) over Any    ║
+# ║ Path(command(), <unspecified:command>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ command : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3835ac919237d5be           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.F2PyCodeWrapper.command","kind":"property","src_hash":"a946baf09ce9fd36","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"command()","rhs":"returns the command attribute","over":{"base":"Any"},"name":"command_correct"},"guarantee":"returns the command attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3835ac919237d5be"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.F2PyCodeWrapper.command","kind":"property","src_hash":"a946baf09ce9fd36","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"command()","rhs":"<unspecified:command>","over":{"base":"Any"},"name":"command_correct"},"guarantee":"returns the command attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3835ac919237d5be","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.filename","self.generator","self.module_name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def command(self):
         filename = self.filename + '.' + self.generator.code_extension
         args = ['-c', '-m', self.module_name, filename]
@@ -843,31 +1045,43 @@ class F2PyCodeWrapper(CodeWrapper):
         return command
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_prepare_files(rou), internal helper behaves correctly) over Any ║
+# ║ Path(_prepare_files(routine), <unspecified:_prepare_files>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _prepare_files : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cd079745f77d8d37           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.F2PyCodeWrapper._prepare_files","kind":"method","src_hash":"81b02db012d1cc99","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_prepare_files(rou)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_prepare_files_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cd079745f77d8d37"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.F2PyCodeWrapper._prepare_files","kind":"method","src_hash":"81b02db012d1cc99","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_prepare_files(routine)","rhs":"<unspecified:_prepare_files>","over":{"base":"Any"},"name":"_prepare_files_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cd079745f77d8d37","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _prepare_files(self, routine):
         pass
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_wrapped_function(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_get_wrapped_function(cls, mod, name), getattr(mod, name)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  getattr(mod, name)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_wrapped_function : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a2eba3ffece22032           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.F2PyCodeWrapper._get_wrapped_function","kind":"classmethod","src_hash":"e13caa275d1b9927","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_wrapped_function(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_wrapped_function_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a2eba3ffece22032"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.F2PyCodeWrapper._get_wrapped_function","kind":"classmethod","src_hash":"e13caa275d1b9927","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_wrapped_function(cls, mod, name)","rhs":"getattr(mod, name)","over":{"base":"Any"},"name":"_get_wrapped_function_correct"},"guarantee":"returns getattr(mod, name)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a2eba3ffece22032","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"getattr(mod, name)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_wrapped_function(cls, mod, name):
         return getattr(mod, name)
 
@@ -882,16 +1096,24 @@ _lang_lookup = {'CYTHON': ('C99', 'C89', 'C'),
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_infer_language(bac), for a given backend, return the top choice of language) over Any ║
+# ║ Path(_infer_language(backend), langs[0]) over {Any | langs and hasattr(backend, 'upper')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _infer_language : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: langs                                          ║
+# ║   requires: hasattr(backend, 'upper')                      ║
+# ║   returns:  langs[0]                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _infer_language : {Any | langs and hasattr(backend, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3c84c9934f63a6d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8a66f06b1cef6a1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap._infer_language","kind":"function","src_hash":"9edd2cf97451bd91","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_infer_language(bac)","rhs":"for a given backend, return the top choice of language","over":{"base":"Any"},"name":"_infer_language_correct"},"guarantee":"for a given backend, return the top choice of language","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap._infer_language_correct","statement":"Path(_infer_language(x), for a given backend, return the top choice of language)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3c84c9934f63a6d"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap._infer_language","kind":"function","src_hash":"9edd2cf97451bd91","in":{"base":"Any","pred":"langs and hasattr(backend, 'upper')"},"out":{"base":"Any"},"spec":{"lhs":"_infer_language(backend)","rhs":"langs[0]","over":{"base":"Any","pred":"langs and hasattr(backend, 'upper')"},"name":"_infer_language_correct"},"guarantee":"returns langs[0]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap._infer_language_correct","statement":"Path(_infer_language(x), returns langs[0])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8a66f06b1cef6a1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["langs","hasattr(backend, 'upper')"],"returns_expr":"langs[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["backend.upper"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _infer_language(backend):
     """For a given backend, return the top choice of language"""
     langs = _lang_lookup.get(backend.upper(), False)
@@ -901,16 +1123,25 @@ def _infer_language(backend):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_validate_backend_language(bac), throws error if backend and language are incompatible) over Any ║
+# ║ Path(_validate_backend_language(backend, language), <unspecified:_validate_backend_language>) over {Any | langs and not (language.upper() not in langs) and hasattr(backend, 'upper') and hasattr(language, 'upper')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _validate_backend_language : Any → Any                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: langs                                          ║
+# ║   requires: not (language.upper() not in langs)            ║
+# ║   requires: hasattr(backend, 'upper')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _validate_backend_language : {Any | langs and not (la...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2de9f3a4becdba52  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap._validate_backend_language","kind":"function","src_hash":"eb64d9a912432656","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_validate_backend_language(bac)","rhs":"throws error if backend and language are incompatible","over":{"base":"Any"},"name":"_validate_backend_language_correct"},"guarantee":"throws error if backend and language are incompatible","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap._validate_backend_language_correct","statement":"Path(_validate_backend_language(x), throws error if backend and language are incompatible)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2de9f3a4becdba52"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap._validate_backend_language","kind":"function","src_hash":"eb64d9a912432656","in":{"base":"Any","pred":"langs and not (language.upper() not in langs) and hasattr(backend, 'upper') and hasattr(language, 'upper')"},"out":{"base":"Any"},"spec":{"lhs":"_validate_backend_language(backend, language)","rhs":"<unspecified:_validate_backend_language>","over":{"base":"Any","pred":"langs and not (language.upper() not in langs) and hasattr(backend, 'upper') and hasattr(language, 'upper')"},"name":"_validate_backend_language_correct"},"guarantee":"throws error if backend and language are incompatible","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap._validate_backend_language_correct","statement":"Path(_validate_backend_language(x), throws error if backend and language are incompatible)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2de9f3a4becdba52","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["langs","not (language.upper() not in langs)","hasattr(backend, 'upper')","hasattr(language, 'upper')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["backend.upper","language.upper"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _validate_backend_language(backend, language):
     """Throws error if backend and language are incompatible"""
     langs = _lang_lookup.get(backend.upper(), False)
@@ -924,7 +1155,13 @@ def _validate_backend_language(backend, language):
 @cacheit
 @doctest_depends_on(exe=('f2py', 'gfortran'), modules=('numpy',))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(autowrap(exp), generates python callable binaries based on the math expression) over {Any | isinstance(language, type) and isinstance(missing, OutputArgument)} ║
+# ║ Path(autowrap(expr, language, backend), code_wrapper.wrap_code(routine, helpers=helps)) over {Any | isinstance(language, type) and isinstance(missing, OutputArgument) and hasattr(backend, 'upper') and hasattr(expr, 'has') and hasattr(expr, 'subs')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(backend, 'upper')                      ║
+# ║   requires: hasattr(expr, 'has')                           ║
+# ║   requires: hasattr(expr, 'subs')                          ║
+# ║   returns:  code_wrapper.wrap_code(routine, helpers=h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ autowrap : {Any | isinstance(language, type) and isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -937,9 +1174,12 @@ def _validate_backend_language(backend, language):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 5.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | d1db3967...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.autowrap","kind":"function","src_hash":"179cb90842eb0dcb","in":{"base":"Any","pred":"isinstance(language, type) and isinstance(missing, OutputArgument)"},"out":{"base":"Any"},"spec":{"lhs":"autowrap(exp)","rhs":"generates python callable binaries based on the math expression","over":{"base":"Any","pred":"isinstance(language, type) and isinstance(missing, OutputArgument)"},"name":"autowrap_correct"},"guarantee":"generates python callable binaries based on the math expression","fibers":[{"name":"type","pred":"isinstance(language, type)","path":{"lhs":"autowrap(x)","rhs":"generates python callable binaries based on the math expression","over":{"base":"type","pred":"isinstance(language, type)"},"name":"autowrap_type_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap.autowrap_type_correct","statement":"autowrap satisfies spec on type inputs"},"trust":"LIBRARY"},{"name":"OutputArgument","pred":"isinstance(missing, OutputArgument)","path":{"lhs":"autowrap(x)","rhs":"generates python callable binaries based on the math expression","over":{"base":"OutputArgument","pred":"isinstance(missing, OutputArgument)"},"name":"autowrap_OutputArgument_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap.autowrap_OutputArgument_correct","statement":"autowrap satisfies spec on OutputArgument inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d1db39679f4b9714"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.autowrap","kind":"function","src_hash":"179cb90842eb0dcb","in":{"base":"Any","pred":"isinstance(language, type) and isinstance(missing, OutputArgument) and hasattr(backend, 'upper') and hasattr(expr, 'has') and hasattr(expr, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"autowrap(expr, language, backend)","rhs":"code_wrapper.wrap_code(routine, helpers=helps)","over":{"base":"Any","pred":"isinstance(language, type) and isinstance(missing, OutputArgument) and hasattr(backend, 'upper') and hasattr(expr, 'has') and hasattr(expr, 'subs')"},"name":"autowrap_correct"},"guarantee":"returns code_wrapper.wrap_code(routine, helpers=helps)","fibers":[{"name":"type","pred":"isinstance(language, type)","path":{"lhs":"autowrap(x)","rhs":"returns code_wrapper.wrap_code(routine, helpers=helps)","over":{"base":"type","pred":"isinstance(language, type)"},"name":"autowrap_type_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap.autowrap_type_correct","statement":"autowrap satisfies spec on type inputs"},"trust":"LIBRARY"},{"name":"OutputArgument","pred":"isinstance(missing, OutputArgument)","path":{"lhs":"autowrap(x)","rhs":"returns code_wrapper.wrap_code(routine, helpers=helps)","over":{"base":"OutputArgument","pred":"isinstance(missing, OutputArgument)"},"name":"autowrap_OutputArgument_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap.autowrap_OutputArgument_correct","statement":"autowrap satisfies spec on OutputArgument inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d1db39679f4b9714","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(backend, 'upper')","hasattr(expr, 'has')","hasattr(expr, 'subs')"],"returns_expr":"code_wrapper.wrap_code(routine, helpers=helps)","pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":5.3,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['expr', 'language', 'backend', 'tempdir', 'args', 'flags', 'verbose', 'helpers', 'code_gen'], spec=['expr', 'language', 'backend', 'tempdir', 'args', 'flags', 'verbose', 'helpers', 'code_gen', '**kwargs']","Poor branch-fiber coverage: 0% (branches={'iterable(helpers) and len(helpers) != 0 and iterable(helpers[0])', 'not isinstance(missing, OutputArgument)', 'not isinstance(language, type)', 'code_gen is None'}, fibers={'OutputArgument', 'type'})"]}}
 def autowrap(expr, language=None, backend='f2py', tempdir=None, args=None,
              flags=None, verbose=False, helpers=None, code_gen=None, **kwargs):
     """Generates Python callable binaries based on the math expression.
@@ -1089,16 +1329,22 @@ def autowrap(expr, language=None, backend='f2py', tempdir=None, args=None,
 
 @doctest_depends_on(exe=('f2py', 'gfortran'), modules=('numpy',))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(binary_function(sym), returns a sympy function with expr as binary implementation) over Any ║
+# ║ Path(binary_function(symfunc, expr, **kwargs), implemented_function(symfunc, binary)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  implemented_function(symfunc, binary)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ binary_function : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 30e4eb57a651169d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07170d1cd09ceaf5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.binary_function","kind":"function","src_hash":"98960cdbde46572a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"binary_function(sym)","rhs":"returns a sympy function with expr as binary implementation","over":{"base":"Any"},"name":"binary_function_correct"},"guarantee":"returns a sympy function with expr as binary implementation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap.binary_function_correct","statement":"Path(binary_function(x), returns a sympy function with expr as binary implementation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"30e4eb57a651169d"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.binary_function","kind":"function","src_hash":"98960cdbde46572a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"binary_function(symfunc, expr, **kwargs)","rhs":"implemented_function(symfunc, binary)","over":{"base":"Any"},"name":"binary_function_correct"},"guarantee":"returns implemented_function(symfunc, binary)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap.binary_function_correct","statement":"Path(binary_function(x), returns implemented_function(symfunc, binary))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07170d1cd09ceaf5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"implemented_function(symfunc, binary)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['symfunc', 'expr'], spec=['symfunc', 'expr', '**kwargs']"]}}
 def binary_function(symfunc, expr, **kwargs):
     """Returns a SymPy function with expr as binary implementation
 
@@ -1240,28 +1486,40 @@ if __name__ == "__main__":
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(UfuncifyCodeWrapper(*args), correctly constructs a UfuncifyCodeWrapper instance) over {Any | isinstance(arg, OutputArgument) and isinstance(arg, InOutArgument)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CodeWrapper)                  ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ UfuncifyCodeWrapper : {Any | isinstance(arg, OutputAr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 36ac648ab23ece00  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.UfuncifyCodeWrapper","kind":"class","src_hash":"f6958f80935e4a7d","in":{"base":"Any","pred":"isinstance(arg, OutputArgument) and isinstance(arg, InOutArgument)"},"out":{"base":"Any"},"spec":{"lhs":"UfuncifyCodeWrapper(*args)","rhs":"correctly constructs a UfuncifyCodeWrapper instance","over":{"base":"Any","pred":"isinstance(arg, OutputArgument) and isinstance(arg, InOutArgument)"},"name":"UfuncifyCodeWrapper_class_invariant"},"guarantee":"correctly constructs a UfuncifyCodeWrapper instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36ac648ab23ece00"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.UfuncifyCodeWrapper","kind":"class","src_hash":"f6958f80935e4a7d","in":{"base":"Any","pred":"isinstance(arg, OutputArgument) and isinstance(arg, InOutArgument)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CodeWrapper)"},"spec":{"lhs":"UfuncifyCodeWrapper(*args)","rhs":"correctly constructs a UfuncifyCodeWrapper instance","over":{"base":"Any","pred":"isinstance(arg, OutputArgument) and isinstance(arg, InOutArgument)"},"name":"UfuncifyCodeWrapper_class_invariant"},"guarantee":"isinstance(self, CodeWrapper)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36ac648ab23ece00","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CodeWrapper)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function UfuncifyCodeWrapper not found in source"]}}
 class UfuncifyCodeWrapper(CodeWrapper):
     """Wrapper for Ufuncify"""
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(*ar), initializes the instance correctly) over Any ║
+# ║ Path(__init__(*args, **kwargs), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c10e9a175399815e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.UfuncifyCodeWrapper.__init__","kind":"method","src_hash":"fb3e7cdeae619943","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*ar)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c10e9a175399815e"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.UfuncifyCodeWrapper.__init__","kind":"method","src_hash":"fb3e7cdeae619943","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*args, **kwargs)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c10e9a175399815e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, *args, **kwargs):
 
         ext_keys = ['include_dirs', 'library_dirs', 'libraries',
@@ -1278,31 +1536,43 @@ class UfuncifyCodeWrapper(CodeWrapper):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(command(), returns the command attribute) over Any    ║
+# ║ Path(command(), <unspecified:command>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ command : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ff4e4e78164a8d10           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.UfuncifyCodeWrapper.command","kind":"property","src_hash":"cf37cfc1fef4353c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"command()","rhs":"returns the command attribute","over":{"base":"Any"},"name":"command_correct"},"guarantee":"returns the command attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ff4e4e78164a8d10"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.UfuncifyCodeWrapper.command","kind":"property","src_hash":"cf37cfc1fef4353c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"command()","rhs":"<unspecified:command>","over":{"base":"Any"},"name":"command_correct"},"guarantee":"returns the command attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ff4e4e78164a8d10","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def command(self):
         command = [sys.executable, "setup.py", "build_ext", "--inplace"]
         return command
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(wrap_code(rou), wrap_code produces the expected output) over Any ║
+# ║ Path(wrap_code(routines, helpers), self._get_wrapped_function(mod, funcname)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._get_wrapped_function(mod, funcname)      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ wrap_code : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef56df3982d22f78  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e25cb71ba6dae69  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.UfuncifyCodeWrapper.wrap_code","kind":"method","src_hash":"9e90459be43ce46a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"wrap_code(rou)","rhs":"wrap_code produces the expected output","over":{"base":"Any"},"name":"wrap_code_correct"},"guarantee":"wrap_code produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap.UfuncifyCodeWrapper.wrap_code_correct","statement":"Path(wrap_code(x), wrap_code produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef56df3982d22f78"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.UfuncifyCodeWrapper.wrap_code","kind":"method","src_hash":"9e90459be43ce46a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"wrap_code(routines, helpers)","rhs":"self._get_wrapped_function(mod, funcname)","over":{"base":"Any"},"name":"wrap_code_correct"},"guarantee":"returns self._get_wrapped_function(mod, funcname)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap.UfuncifyCodeWrapper.wrap_code_correct","statement":"Path(wrap_code(x), returns self._get_wrapped_function(mod, funcname))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e25cb71ba6dae69","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._get_wrapped_function(mod, funcname)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def wrap_code(self, routines, helpers=None):
         # This routine overrides CodeWrapper because we can't assume funcname == routines[0].name
         # Therefore we have to break the CodeWrapper private API.
@@ -1337,16 +1607,22 @@ class UfuncifyCodeWrapper(CodeWrapper):
         return self._get_wrapped_function(mod, funcname)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_generate_code(mai), internal helper behaves correctly) over Any ║
+# ║ Path(_generate_code(main_routines, helper_routines), <unspecified:_generate_code>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _generate_code : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4d74ef72d7f5e378  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.UfuncifyCodeWrapper._generate_code","kind":"method","src_hash":"27da976f8156ea2a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_code(mai)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_generate_code_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap.UfuncifyCodeWrapper._generate_code_correct","statement":"Path(_generate_code(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d74ef72d7f5e378"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.UfuncifyCodeWrapper._generate_code","kind":"method","src_hash":"27da976f8156ea2a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_code(main_routines, helper_routines)","rhs":"<unspecified:_generate_code>","over":{"base":"Any"},"name":"_generate_code_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap.UfuncifyCodeWrapper._generate_code_correct","statement":"Path(_generate_code(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d74ef72d7f5e378","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","reads":["self.filename","self.generator","self.include_empty","self.include_header"],"calls_mutating":["self.generator.write"],"io_operations":["self.generator.write"]},"state_contract":{"modifies":["self.*"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _generate_code(self, main_routines, helper_routines):
         all_routines = main_routines + helper_routines
         self.generator.write(
@@ -1354,16 +1630,22 @@ class UfuncifyCodeWrapper(CodeWrapper):
             self.include_empty)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_prepare_files(rou), internal helper behaves correctly) over Any ║
+# ║ Path(_prepare_files(routines, funcname), <unspecified:_prepare_files>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _prepare_files : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab2736ade9cf3fa7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.UfuncifyCodeWrapper._prepare_files","kind":"method","src_hash":"0b66eb397f75bf28","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_prepare_files(rou)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_prepare_files_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap.UfuncifyCodeWrapper._prepare_files_correct","statement":"Path(_prepare_files(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab2736ade9cf3fa7"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.UfuncifyCodeWrapper._prepare_files","kind":"method","src_hash":"0b66eb397f75bf28","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_prepare_files(routines, funcname)","rhs":"<unspecified:_prepare_files>","over":{"base":"Any"},"name":"_prepare_files_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap.UfuncifyCodeWrapper._prepare_files_correct","statement":"Path(_prepare_files(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab2736ade9cf3fa7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","reads":["self.dump_c","self.dump_setup","self.filename","self.module_name"],"io_operations":["open"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _prepare_files(self, routines, funcname):
 
         # C
@@ -1377,46 +1659,68 @@ class UfuncifyCodeWrapper(CodeWrapper):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_wrapped_function(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_get_wrapped_function(cls, mod, name), getattr(mod, name)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  getattr(mod, name)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_wrapped_function : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c3154557f3a26b73           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.UfuncifyCodeWrapper._get_wrapped_function","kind":"classmethod","src_hash":"e13caa275d1b9927","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_wrapped_function(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_wrapped_function_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c3154557f3a26b73"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.UfuncifyCodeWrapper._get_wrapped_function","kind":"classmethod","src_hash":"e13caa275d1b9927","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_wrapped_function(cls, mod, name)","rhs":"getattr(mod, name)","over":{"base":"Any"},"name":"_get_wrapped_function_correct"},"guarantee":"returns getattr(mod, name)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c3154557f3a26b73","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"getattr(mod, name)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_wrapped_function(cls, mod, name):
         return getattr(mod, name)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dump_setup(f), dump_setup produces the expected output) over Any ║
+# ║ Path(dump_setup(f), <unspecified:dump_setup>) over {Any | hasattr(f, 'write')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dump_setup : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'write')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dump_setup : {Any | hasattr(f, 'write')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97e3e875b52621e0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.UfuncifyCodeWrapper.dump_setup","kind":"method","src_hash":"97db3e34948aae54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dump_setup(f)","rhs":"dump_setup produces the expected output","over":{"base":"Any"},"name":"dump_setup_correct"},"guarantee":"dump_setup produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap.UfuncifyCodeWrapper.dump_setup_correct","statement":"Path(dump_setup(x), dump_setup produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97e3e875b52621e0"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.UfuncifyCodeWrapper.dump_setup","kind":"method","src_hash":"97db3e34948aae54","in":{"base":"Any","pred":"hasattr(f, 'write')"},"out":{"base":"Any"},"spec":{"lhs":"dump_setup(f)","rhs":"<unspecified:dump_setup>","over":{"base":"Any","pred":"hasattr(f, 'write')"},"name":"dump_setup_correct"},"guarantee":"dump_setup produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap.UfuncifyCodeWrapper.dump_setup_correct","statement":"Path(dump_setup(x), dump_setup produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97e3e875b52621e0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'write')"],"pure":false,"effects":{"effect_type":"io","reads":["f.write","self.filename","self.module_name"],"calls_mutating":["f.write"],"io_operations":["f.write"]},"state_contract":{"modifies":["f.*"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dump_setup(self, f):
         setup = _ufunc_setup.substitute(module=self.module_name,
                                         filename=self.filename)
         f.write(setup)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dump_c(rou), write a c file with python wrappers) over Any ║
+# ║ Path(dump_c(routines, f, prefix), len(function_creation) == old_len_function_creation + 1 and len(functions) == old_len_functions + 1 and len(ufunc_init) == old_len_ufunc_init + 1) over {Any | hasattr(f, 'write')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dump_c : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'write')                            ║
+# ║   ensures:  len(function_creation) == old_len_functio...   ║
+# ║   ensures:  len(functions) == old_len_functions + 1        ║
+# ║   ensures:  len(ufunc_init) == old_len_ufunc_init + 1      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dump_c : {Any | hasattr(f, 'write')} → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ec2da1947ed5e16  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 767371d33e79d465  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.UfuncifyCodeWrapper.dump_c","kind":"method","src_hash":"685a4ef1e7b5a0dc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dump_c(rou)","rhs":"write a c file with python wrappers","over":{"base":"Any"},"name":"dump_c_correct"},"guarantee":"write a c file with python wrappers","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap.UfuncifyCodeWrapper.dump_c_correct","statement":"Path(dump_c(x), write a c file with python wrappers)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ec2da1947ed5e16"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.UfuncifyCodeWrapper.dump_c","kind":"method","src_hash":"685a4ef1e7b5a0dc","in":{"base":"Any","pred":"hasattr(f, 'write')"},"out":{"base":"Any","pred":"result satisfies: len(function_creation) == old_len_function_creation + 1 and len(functions) == old_len_functions + 1 and len(ufunc_init) == old_len_ufunc_init + 1"},"spec":{"lhs":"dump_c(routines, f, prefix)","rhs":"len(function_creation) == old_len_function_creation + 1 and len(functions) == old_len_functions + 1 and len(ufunc_init) == old_len_ufunc_init + 1","over":{"base":"Any","pred":"hasattr(f, 'write')"},"name":"dump_c_correct"},"guarantee":"len(function_creation) == old_len_function_creation + 1; len(functions) == old_len_functions + 1; len(ufunc_init) == old_len_ufunc_init + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap.UfuncifyCodeWrapper.dump_c_correct","statement":"Path(dump_c(x), len(function_creation) == old_len_function_creation + 1; len(functions) == old_len_functions + 1; len(ufunc_init) == old_len_ufunc_init + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"767371d33e79d465","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'write')"],"ensures":["len(function_creation) == old_len_function_creation + 1","len(functions) == old_len_functions + 1","len(ufunc_init) == old_len_ufunc_init + 1"],"pure":false,"effects":{"effect_type":"io","reads":["f.write","self._partition_args","self.module_name"],"calls_mutating":["arg_decs.extend","f.write","function_creation.append","functions.append","step_decs.extend","step_incs.extend","ufunc_init.append"],"raises":["ValueError"],"io_operations":["f.write"]},"state_contract":{"modifies":["arg_decs.*","f.*","function_creation.*","functions.*","step_decs.*","step_incs.*","ufunc_init.*"],"old_bindings":{"old_len_arg_decs":"len(arg_decs)","old_len_function_creation":"len(function_creation)","old_len_functions":"len(functions)","old_len_step_decs":"len(step_decs)","old_len_step_incs":"len(step_incs)","old_len_ufunc_init":"len(ufunc_init)"},"post_ensures":["len(function_creation) == old_len_function_creation + 1","len(functions) == old_len_functions + 1","len(ufunc_init) == old_len_ufunc_init + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dump_c(self, routines, f, prefix, funcname=None):
         """Write a C file with Python wrappers
 
@@ -1518,16 +1822,24 @@ class UfuncifyCodeWrapper(CodeWrapper):
         f.write('\n\n'.join(text))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_partition_args(arg), group function arguments into categories) over Any ║
+# ║ Path(_partition_args(args), (py_in, py_out)) over Any      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _partition_args : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(py_in) == old_len_py_in + 1                ║
+# ║   ensures:  len(py_out) == old_len_py_out + 1              ║
+# ║   returns:  (py_in, py_out)                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _partition_args : Any → {Any | result satisfies: resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8910f7fca0c39914  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f538009daf103b7c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.UfuncifyCodeWrapper._partition_args","kind":"method","src_hash":"8ac201b3cf47509b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_partition_args(arg)","rhs":"group function arguments into categories","over":{"base":"Any"},"name":"_partition_args_correct"},"guarantee":"group function arguments into categories","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap.UfuncifyCodeWrapper._partition_args_correct","statement":"Path(_partition_args(x), group function arguments into categories)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8910f7fca0c39914"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.UfuncifyCodeWrapper._partition_args","kind":"method","src_hash":"8ac201b3cf47509b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ((py_in, py_out))"},"spec":{"lhs":"_partition_args(args)","rhs":"(py_in, py_out)","over":{"base":"Any"},"name":"_partition_args_correct"},"guarantee":"returns (py_in, py_out); len(py_in) == old_len_py_in + 1; len(py_out) == old_len_py_out + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap.UfuncifyCodeWrapper._partition_args_correct","statement":"Path(_partition_args(x), returns (py_in, py_out); len(py_in) == old_len_py_in + 1; len(py_out) == old_len_py_out + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f538009daf103b7c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(py_in) == old_len_py_in + 1","len(py_out) == old_len_py_out + 1"],"returns_expr":"(py_in, py_out)","pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["py_in.append","py_out.append"],"raises":["ValueError"]},"state_contract":{"modifies":["py_in.*","py_out.*"],"old_bindings":{"old_len_py_in":"len(py_in)","old_len_py_out":"len(py_out)"},"post_ensures":["len(py_in) == old_len_py_in + 1","len(py_out) == old_len_py_out + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _partition_args(self, args):
         """Group function arguments into categories."""
         py_in = []
@@ -1545,7 +1857,11 @@ class UfuncifyCodeWrapper(CodeWrapper):
 @cacheit
 @doctest_depends_on(exe=('f2py', 'gfortran', 'gcc'), modules=('numpy',))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ufuncify(arg), generates a binary function that supports broadcasting on numpy arrays) over {Any | isinstance(args, Symbol) and isinstance(expr, (list, tuple))} ║
+# ║ Path(ufuncify(args, expr, language), len(helps) == old_len_helps + 1) over {Any | isinstance(args, Symbol) and isinstance(expr, (list, tuple)) and hasattr(backend, 'upper')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(backend, 'upper')                      ║
+# ║   ensures:  len(helps) == old_len_helps + 1                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ufuncify : {Any | isinstance(args, Symbol) and isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1558,9 +1874,12 @@ class UfuncifyCodeWrapper(CodeWrapper):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 4.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ebdd2e58...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.ufuncify","kind":"function","src_hash":"d5d38baf28dd0f5d","in":{"base":"Any","pred":"isinstance(args, Symbol) and isinstance(expr, (list, tuple))"},"out":{"base":"Any"},"spec":{"lhs":"ufuncify(arg)","rhs":"generates a binary function that supports broadcasting on numpy arrays","over":{"base":"Any","pred":"isinstance(args, Symbol) and isinstance(expr, (list, tuple))"},"name":"ufuncify_correct"},"guarantee":"generates a binary function that supports broadcasting on numpy arrays","fibers":[{"name":"Symbol","pred":"isinstance(args, Symbol)","path":{"lhs":"ufuncify(x)","rhs":"generates a binary function that supports broadcasting on numpy arrays","over":{"base":"Symbol","pred":"isinstance(args, Symbol)"},"name":"ufuncify_Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap.ufuncify_Symbol_correct","statement":"ufuncify satisfies spec on Symbol inputs"},"trust":"LIBRARY"},{"name":"(list","pred":"isinstance(expr, (list, tuple))","path":{"lhs":"ufuncify(x)","rhs":"generates a binary function that supports broadcasting on numpy arrays","over":{"base":"(list","pred":"isinstance(expr, (list, tuple))"},"name":"ufuncify_(list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap.ufuncify_(list_correct","statement":"ufuncify satisfies spec on (list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ebdd2e58a5d014ac"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.autowrap.ufuncify","kind":"function","src_hash":"d5d38baf28dd0f5d","in":{"base":"Any","pred":"isinstance(args, Symbol) and isinstance(expr, (list, tuple)) and hasattr(backend, 'upper')"},"out":{"base":"Any","pred":"result satisfies: len(helps) == old_len_helps + 1"},"spec":{"lhs":"ufuncify(args, expr, language)","rhs":"len(helps) == old_len_helps + 1","over":{"base":"Any","pred":"isinstance(args, Symbol) and isinstance(expr, (list, tuple)) and hasattr(backend, 'upper')"},"name":"ufuncify_correct"},"guarantee":"len(helps) == old_len_helps + 1","fibers":[{"name":"Symbol","pred":"isinstance(args, Symbol)","path":{"lhs":"ufuncify(x)","rhs":"len(helps) == old_len_helps + 1","over":{"base":"Symbol","pred":"isinstance(args, Symbol)"},"name":"ufuncify_Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap.ufuncify_Symbol_correct","statement":"ufuncify satisfies spec on Symbol inputs"},"trust":"LIBRARY"},{"name":"(list","pred":"isinstance(expr, (list, tuple))","path":{"lhs":"ufuncify(x)","rhs":"len(helps) == old_len_helps + 1","over":{"base":"(list","pred":"isinstance(expr, (list, tuple))"},"name":"ufuncify_(list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.autowrap.ufuncify_(list_correct","statement":"ufuncify satisfies spec on (list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ebdd2e58a5d014ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(backend, 'upper')"],"ensures":["len(helps) == old_len_helps + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["backend.upper"],"calls_mutating":["helps.append"],"raises":["ValueError"]},"state_contract":{"modifies":["helps.*"],"old_bindings":{"old_len_helps":"len(helps)"},"post_ensures":["len(helps) == old_len_helps + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.7,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['args', 'expr', 'language', 'backend', 'tempdir', 'flags', 'verbose', 'helpers'], spec=['args', 'expr', 'language', 'backend', 'tempdir', 'flags', 'verbose', 'helpers', '**kwargs']","Poor branch-fiber coverage: 0% (branches={'isinstance(args, Symbol)', 'not isinstance(expr, (list, tuple))', 'len(expr) == 0', 'len(expr) + len(args) > maxargs', \"backend.upper() == 'NUMPY'\"}, fibers={'(list', 'Symbol'})"]}}
 def ufuncify(args, expr, language=None, backend='numpy', tempdir=None,
              flags=None, verbose=False, helpers=None, **kwargs):
     """Generates a binary function that supports broadcasting on numpy arrays.

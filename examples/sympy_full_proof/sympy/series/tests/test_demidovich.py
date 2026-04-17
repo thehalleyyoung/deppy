@@ -31,76 +31,108 @@ x = Symbol("x")
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_leadterm(), test_leadterm produces the expected output) over Any ║
+# ║ Path(test_leadterm(), (3 + 2 * x ** (log(3) / log(2) - 1)).leadterm(x) == (3, 0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_leadterm : Any → {Any | (3 + 2 * x ** (log(3) / ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (3 + 2 * x ** (log(3) / log(2) - 1)).lead...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_leadterm : Any → {Any | result satisfies: (3 + 2...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad8eb9a03d861baa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b5c03b09daafd98  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_demidovich.test_leadterm","kind":"function","src_hash":"0c5c146691d13498","in":{"base":"Any"},"out":{"base":"Any","pred":"(3 + 2 * x ** (log(3) / log(2) - 1)).leadterm(x) == (3, 0)"},"spec":{"lhs":"test_leadterm()","rhs":"test_leadterm produces the expected output","over":{"base":"Any"},"name":"test_leadterm_correct"},"guarantee":"test_leadterm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_demidovich.test_leadterm_correct","statement":"Path(test_leadterm(x), test_leadterm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad8eb9a03d861baa"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_demidovich.test_leadterm","kind":"function","src_hash":"0c5c146691d13498","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (3 + 2 * x ** (log(3) / log(2) - 1)).leadterm(x) == (3, 0)"},"spec":{"lhs":"test_leadterm()","rhs":"(3 + 2 * x ** (log(3) / log(2) - 1)).leadterm(x) == (3, 0)","over":{"base":"Any"},"name":"test_leadterm_correct"},"guarantee":"(3 + 2 * x ** (log(3) / log(2) - 1)).leadterm(x) == (3, 0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_demidovich.test_leadterm_correct","statement":"Path(test_leadterm(x), (3 + 2 * x ** (log(3) / log(2) - 1)).leadterm(x) == (3, 0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b5c03b09daafd98","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(3 + 2 * x ** (log(3) / log(2) - 1)).leadterm(x) == (3, 0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_leadterm():
     assert (3 + 2*x**(log(3)/log(2) - 1)).leadterm(x) == (3, 0)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(root3(x), root3 produces the expected output) over Any ║
+# ║ Path(root3(x), root(x, 3)) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  root(x, 3)                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ root3 : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 60d895aa2129c07d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_demidovich.root3","kind":"function","src_hash":"b8319db507a271cc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"root3(x)","rhs":"root3 produces the expected output","over":{"base":"Any"},"name":"root3_correct"},"guarantee":"root3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"60d895aa2129c07d"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_demidovich.root3","kind":"function","src_hash":"b8319db507a271cc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"root3(x)","rhs":"root(x, 3)","over":{"base":"Any"},"name":"root3_correct"},"guarantee":"returns root(x, 3)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"60d895aa2129c07d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"root(x, 3)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def root3(x):
     return root(x, 3)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(root4(x), root4 produces the expected output) over Any ║
+# ║ Path(root4(x), root(x, 4)) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  root(x, 4)                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ root4 : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 14f240bc6803b6a3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_demidovich.root4","kind":"function","src_hash":"6922fe476938035e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"root4(x)","rhs":"root4 produces the expected output","over":{"base":"Any"},"name":"root4_correct"},"guarantee":"root4 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"14f240bc6803b6a3"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_demidovich.root4","kind":"function","src_hash":"6922fe476938035e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"root4(x)","rhs":"root(x, 4)","over":{"base":"Any"},"name":"root4_correct"},"guarantee":"returns root(x, 4)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"14f240bc6803b6a3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"root(x, 4)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def root4(x):
     return root(x, 4)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Limits_simple_0(), test_Limits_simple_0 produces the expected output) over Any ║
+# ║ Path(test_Limits_simple_0(), limit((2 ** (x + 1) + 3 ** (x + 1)) / (2 ** x + 3 ** x), x, oo) == 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Limits_simple_0 : Any → {Any | limit((2 ** (x + ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  limit((2 ** (x + 1) + 3 ** (x + 1)) / (2 ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Limits_simple_0 : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93cbeff6d48382d2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32c7e7001f3623c3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_demidovich.test_Limits_simple_0","kind":"function","src_hash":"6137ea16ed392ded","in":{"base":"Any"},"out":{"base":"Any","pred":"limit((2 ** (x + 1) + 3 ** (x + 1)) / (2 ** x + 3 ** x), x, oo) == 3"},"spec":{"lhs":"test_Limits_simple_0()","rhs":"test_Limits_simple_0 produces the expected output","over":{"base":"Any"},"name":"test_Limits_simple_0_correct"},"guarantee":"test_Limits_simple_0 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_demidovich.test_Limits_simple_0_correct","statement":"Path(test_Limits_simple_0(x), test_Limits_simple_0 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93cbeff6d48382d2"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_demidovich.test_Limits_simple_0","kind":"function","src_hash":"6137ea16ed392ded","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: limit((2 ** (x + 1) + 3 ** (x + 1)) / (2 ** x + 3 ** x), x, oo) == 3"},"spec":{"lhs":"test_Limits_simple_0()","rhs":"limit((2 ** (x + 1) + 3 ** (x + 1)) / (2 ** x + 3 ** x), x, oo) == 3","over":{"base":"Any"},"name":"test_Limits_simple_0_correct"},"guarantee":"limit((2 ** (x + 1) + 3 ** (x + 1)) / (2 ** x + 3 ** x), x, oo) == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_demidovich.test_Limits_simple_0_correct","statement":"Path(test_Limits_simple_0(x), limit((2 ** (x + 1) + 3 ** (x + 1)) / (2 ** x + 3 ** x), x, oo) == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32c7e7001f3623c3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["limit((2 ** (x + 1) + 3 ** (x + 1)) / (2 ** x + 3 ** x), x, oo) == 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Limits_simple_0():
     assert limit((2**(x + 1) + 3**(x + 1))/(2**x + 3**x), x, oo) == 3  # 175
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Limits_simple_1(), test_Limits_simple_1 produces the expected output) over Any ║
+# ║ Path(test_Limits_simple_1(), limit((x + 1) * (x + 2) * (x + 3) / x ** 3, x, oo) == 1 and limit(sqrt(x + 1) - sqrt(x), x, oo) == 0 and limit((2 * x - 3) * (3 * x + 5) * (4 * x - 6) / (3 * x ** 3 + x - 1), x, oo) == 8 and limit(x / root3(x ** 3 + 10), x, oo) == 1 and limit((x + 1) ** 2 / (x ** 2 + 1), x, oo) == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Limits_simple_1 : Any → {Any | limit((x + 1) * (...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  limit((x + 1) * (x + 2) * (x + 3) / x ** ...   ║
+# ║   ensures:  limit(sqrt(x + 1) - sqrt(x), x, oo) == 0       ║
+# ║   ensures:  limit((2 * x - 3) * (3 * x + 5) * (4 * x ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Limits_simple_1 : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2635da9e6978e21e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 913774d50d0ed2bb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_demidovich.test_Limits_simple_1","kind":"function","src_hash":"dd5643711449d68e","in":{"base":"Any"},"out":{"base":"Any","pred":"limit((x + 1) * (x + 2) * (x + 3) / x ** 3, x, oo) == 1 and limit(sqrt(x + 1) - sqrt(x), x, oo) == 0 and limit(x / root3(x ** 3 + 10), x, oo) == 1 and limit((x + 1) ** 2 / (x ** 2 + 1), x, oo) == 1"},"spec":{"lhs":"test_Limits_simple_1()","rhs":"test_Limits_simple_1 produces the expected output","over":{"base":"Any"},"name":"test_Limits_simple_1_correct"},"guarantee":"test_Limits_simple_1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_demidovich.test_Limits_simple_1_correct","statement":"Path(test_Limits_simple_1(x), test_Limits_simple_1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2635da9e6978e21e"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_demidovich.test_Limits_simple_1","kind":"function","src_hash":"dd5643711449d68e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: limit((x + 1) * (x + 2) * (x + 3) / x ** 3, x, oo) == 1 and limit(sqrt(x + 1) - sqrt(x), x, oo) == 0 and limit((2 * x - 3) * (3 * x + 5) * (4 * x - 6) / (3 * x ** 3 + x - 1), x, oo) == 8 and limit(x / root3(x ** 3 + 10), x, oo) == 1 and limit((x + 1) ** 2 / (x ** 2 + 1), x, oo) == 1"},"spec":{"lhs":"test_Limits_simple_1()","rhs":"limit((x + 1) * (x + 2) * (x + 3) / x ** 3, x, oo) == 1 and limit(sqrt(x + 1) - sqrt(x), x, oo) == 0 and limit((2 * x - 3) * (3 * x + 5) * (4 * x - 6) / (3 * x ** 3 + x - 1), x, oo) == 8 and limit(x / root3(x ** 3 + 10), x, oo) == 1 and limit((x + 1) ** 2 / (x ** 2 + 1), x, oo) == 1","over":{"base":"Any"},"name":"test_Limits_simple_1_correct"},"guarantee":"limit((x + 1) * (x + 2) * (x + 3) / x ** 3, x, oo) == 1; limit(sqrt(x + 1) - sqrt(x), x, oo) == 0; limit((2 * x - 3) * (3 * x + 5) * (4 * x - 6) / (3 * x ** 3 + x - 1), x, oo) == 8","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_demidovich.test_Limits_simple_1_correct","statement":"Path(test_Limits_simple_1(x), limit((x + 1) * (x + 2) * (x + 3) / x ** 3, x, oo) == 1; limit(sqrt(x + 1) - sqrt(x), x, oo) == 0; limit((2 * x - 3) * (3 * x + 5) * (4 * x - 6) / (3 * x ** 3 + x - 1), x, oo) == 8)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"913774d50d0ed2bb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["limit((x + 1) * (x + 2) * (x + 3) / x ** 3, x, oo) == 1","limit(sqrt(x + 1) - sqrt(x), x, oo) == 0","limit((2 * x - 3) * (3 * x + 5) * (4 * x - 6) / (3 * x ** 3 + x - 1), x, oo) == 8","limit(x / root3(x ** 3 + 10), x, oo) == 1","limit((x + 1) ** 2 / (x ** 2 + 1), x, oo) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Limits_simple_1():
     assert limit((x + 1)*(x + 2)*(x + 3)/x**3, x, oo) == 1  # 172
     assert limit(sqrt(x + 1) - sqrt(x), x, oo) == 0  # 179
@@ -110,16 +142,24 @@ def test_Limits_simple_1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Limits_simple_2(), test_Limits_simple_2 produces the expected output) over Any ║
+# ║ Path(test_Limits_simple_2(), limit(1000 * x / (x ** 2 - 1), x, oo) == 0 and limit((x ** 2 - 5 * x + 1) / (3 * x + 7), x, oo) is oo and limit((2 * x ** 2 - x + 3) / (x ** 3 - 8 * x + 5), x, oo) == 0 and limit((2 * x ** 2 - 3 * x - 4) / sqrt(x ** 4 + 1), x, oo) == 2 and limit((2 * x + 3) / (x + root3(x)), x, oo) == 2 and limit(x ** 2 / (10 + x * sqrt(x)), x, oo) is oo and limit(root3(x ** 2 + 1) / (x + 1), x, oo) == 0 and limit(sqrt(x) / sqrt(x + sqrt(x + sqrt(x))), x, oo) == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Limits_simple_2 : Any → {Any | limit(1000 * x / ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  limit(1000 * x / (x ** 2 - 1), x, oo) == 0     ║
+# ║   ensures:  limit((x ** 2 - 5 * x + 1) / (3 * x + 7),...   ║
+# ║   ensures:  limit((2 * x ** 2 - x + 3) / (x ** 3 - 8 ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Limits_simple_2 : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8edc240ac238c2ba  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a91407791ea1924  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_demidovich.test_Limits_simple_2","kind":"function","src_hash":"f81659f4b711266c","in":{"base":"Any"},"out":{"base":"Any","pred":"limit(1000 * x / (x ** 2 - 1), x, oo) == 0 and limit((x ** 2 - 5 * x + 1) / (3 * x + 7), x, oo) is oo and limit((2 * x ** 2 - x + 3) / (x ** 3 - 8 * x + 5), x, oo) == 0 and limit((2 * x ** 2 - 3 * x - 4) / sqrt(x ** 4 + 1), x, oo) == 2 and limit((2 * x + 3) / (x + root3(x)), x, oo) == 2 and limit(x ** 2 / (10 + x * sqrt(x)), x, oo) is oo and limit(root3(x ** 2 + 1) / (x + 1), x, oo) == 0 and limit(sqrt(x) / sqrt(x + sqrt(x + sqrt(x))), x, oo) == 1"},"spec":{"lhs":"test_Limits_simple_2()","rhs":"test_Limits_simple_2 produces the expected output","over":{"base":"Any"},"name":"test_Limits_simple_2_correct"},"guarantee":"test_Limits_simple_2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_demidovich.test_Limits_simple_2_correct","statement":"Path(test_Limits_simple_2(x), test_Limits_simple_2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8edc240ac238c2ba"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_demidovich.test_Limits_simple_2","kind":"function","src_hash":"f81659f4b711266c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: limit(1000 * x / (x ** 2 - 1), x, oo) == 0 and limit((x ** 2 - 5 * x + 1) / (3 * x + 7), x, oo) is oo and limit((2 * x ** 2 - x + 3) / (x ** 3 - 8 * x + 5), x, oo) == 0 and limit((2 * x ** 2 - 3 * x - 4) / sqrt(x ** 4 + 1), x, oo) == 2 and limit((2 * x + 3) / (x + root3(x)), x, oo) == 2 and limit(x ** 2 / (10 + x * sqrt(x)), x, oo) is oo and limit(root3(x ** 2 + 1) / (x + 1), x, oo) == 0 and limit(sqrt(x) / sqrt(x + sqrt(x + sqrt(x))), x, oo) == 1"},"spec":{"lhs":"test_Limits_simple_2()","rhs":"limit(1000 * x / (x ** 2 - 1), x, oo) == 0 and limit((x ** 2 - 5 * x + 1) / (3 * x + 7), x, oo) is oo and limit((2 * x ** 2 - x + 3) / (x ** 3 - 8 * x + 5), x, oo) == 0 and limit((2 * x ** 2 - 3 * x - 4) / sqrt(x ** 4 + 1), x, oo) == 2 and limit((2 * x + 3) / (x + root3(x)), x, oo) == 2 and limit(x ** 2 / (10 + x * sqrt(x)), x, oo) is oo and limit(root3(x ** 2 + 1) / (x + 1), x, oo) == 0 and limit(sqrt(x) / sqrt(x + sqrt(x + sqrt(x))), x, oo) == 1","over":{"base":"Any"},"name":"test_Limits_simple_2_correct"},"guarantee":"limit(1000 * x / (x ** 2 - 1), x, oo) == 0; limit((x ** 2 - 5 * x + 1) / (3 * x + 7), x, oo) is oo; limit((2 * x ** 2 - x + 3) / (x ** 3 - 8 * x + 5), x, oo) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_demidovich.test_Limits_simple_2_correct","statement":"Path(test_Limits_simple_2(x), limit(1000 * x / (x ** 2 - 1), x, oo) == 0; limit((x ** 2 - 5 * x + 1) / (3 * x + 7), x, oo) is oo; limit((2 * x ** 2 - x + 3) / (x ** 3 - 8 * x + 5), x, oo) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a91407791ea1924","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["limit(1000 * x / (x ** 2 - 1), x, oo) == 0","limit((x ** 2 - 5 * x + 1) / (3 * x + 7), x, oo) is oo","limit((2 * x ** 2 - x + 3) / (x ** 3 - 8 * x + 5), x, oo) == 0","limit((2 * x ** 2 - 3 * x - 4) / sqrt(x ** 4 + 1), x, oo) == 2","limit((2 * x + 3) / (x + root3(x)), x, oo) == 2","limit(x ** 2 / (10 + x * sqrt(x)), x, oo) is oo","limit(root3(x ** 2 + 1) / (x + 1), x, oo) == 0","limit(sqrt(x) / sqrt(x + sqrt(x + sqrt(x))), x, oo) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_Limits_simple_2():
     assert limit(1000*x/(x**2 - 1), x, oo) == 0  # 182
     assert limit((x**2 - 5*x + 1)/(3*x + 7), x, oo) is oo  # 183
@@ -132,16 +172,22 @@ def test_Limits_simple_2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Limits_simple_3a(), test_Limits_simple_3a produces the expected output) over Any ║
+# ║ Path(test_Limits_simple_3a(), together(limit((x ** 2 - (a + 1) * x + a) / (x ** 3 - a ** 3), x, a)) == (a - 1) / (3 * a ** 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Limits_simple_3a : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  together(limit((x ** 2 - (a + 1) * x + a)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Limits_simple_3a : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b25179acdbdce9a9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e22701a3c9e9c29  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_demidovich.test_Limits_simple_3a","kind":"function","src_hash":"89c5e6fc5278b444","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Limits_simple_3a()","rhs":"test_Limits_simple_3a produces the expected output","over":{"base":"Any"},"name":"test_Limits_simple_3a_correct"},"guarantee":"test_Limits_simple_3a produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_demidovich.test_Limits_simple_3a_correct","statement":"Path(test_Limits_simple_3a(x), test_Limits_simple_3a produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b25179acdbdce9a9"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_demidovich.test_Limits_simple_3a","kind":"function","src_hash":"89c5e6fc5278b444","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: together(limit((x ** 2 - (a + 1) * x + a) / (x ** 3 - a ** 3), x, a)) == (a - 1) / (3 * a ** 2)"},"spec":{"lhs":"test_Limits_simple_3a()","rhs":"together(limit((x ** 2 - (a + 1) * x + a) / (x ** 3 - a ** 3), x, a)) == (a - 1) / (3 * a ** 2)","over":{"base":"Any"},"name":"test_Limits_simple_3a_correct"},"guarantee":"together(limit((x ** 2 - (a + 1) * x + a) / (x ** 3 - a ** 3), x, a)) == (a - 1) / (3 * a ** 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_demidovich.test_Limits_simple_3a_correct","statement":"Path(test_Limits_simple_3a(x), together(limit((x ** 2 - (a + 1) * x + a) / (x ** 3 - a ** 3), x, a)) == (a - 1) / (3 * a ** 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e22701a3c9e9c29","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["together(limit((x ** 2 - (a + 1) * x + a) / (x ** 3 - a ** 3), x, a)) == (a - 1) / (3 * a ** 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Limits_simple_3a():
     a = Symbol('a')
     #issue 3513
@@ -150,16 +196,24 @@ def test_Limits_simple_3a():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Limits_simple_3b(), test_Limits_simple_3b produces the expected output) over Any ║
+# ║ Path(test_Limits_simple_3b(), limit(((x + h) ** 3 - x ** 3) / h, h, 0) == 3 * x ** 2 and limit(1 / (1 - x) - 3 / (1 - x ** 3), x, 1) == -1 and limit((sqrt(1 + x) - 1) / (root3(1 + x) - 1), x, 0) == Rational(3) / 2 and limit((sqrt(x) - 1) / (x - 1), x, 1) == Rational(1) / 2 and limit((sqrt(x) - 8) / (root3(x) - 4), x, 64) == 3 and limit((root3(x) - 1) / (root4(x) - 1), x, 1) == Rational(4) / 3 and limit((root3(x ** 2) - 2 * root3(x) + 1) / (x - 1) ** 2, x, 1) == Rational(1) / 9) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Limits_simple_3b : Any → {Any | limit(((x + h) *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  limit(((x + h) ** 3 - x ** 3) / h, h, 0) ...   ║
+# ║   ensures:  limit(1 / (1 - x) - 3 / (1 - x ** 3), x, ...   ║
+# ║   ensures:  limit((sqrt(1 + x) - 1) / (root3(1 + x) -...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Limits_simple_3b : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b466030fbc219f8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b136fc09ddeb38bb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_demidovich.test_Limits_simple_3b","kind":"function","src_hash":"792fa07b8e88c683","in":{"base":"Any"},"out":{"base":"Any","pred":"limit(((x + h) ** 3 - x ** 3) / h, h, 0) == 3 * x ** 2 and limit(1 / (1 - x) - 3 / (1 - x ** 3), x, 1) == -1 and limit((sqrt(1 + x) - 1) / (root3(1 + x) - 1), x, 0) == Rational(3) / 2 and limit((sqrt(x) - 1) / (x - 1), x, 1) == Rational(1) / 2 and limit((sqrt(x) - 8) / (root3(x) - 4), x, 64) == 3 and limit((root3(x) - 1) / (root4(x) - 1), x, 1) == Rational(4) / 3"},"spec":{"lhs":"test_Limits_simple_3b()","rhs":"test_Limits_simple_3b produces the expected output","over":{"base":"Any"},"name":"test_Limits_simple_3b_correct"},"guarantee":"test_Limits_simple_3b produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_demidovich.test_Limits_simple_3b_correct","statement":"Path(test_Limits_simple_3b(x), test_Limits_simple_3b produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b466030fbc219f8"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_demidovich.test_Limits_simple_3b","kind":"function","src_hash":"792fa07b8e88c683","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: limit(((x + h) ** 3 - x ** 3) / h, h, 0) == 3 * x ** 2 and limit(1 / (1 - x) - 3 / (1 - x ** 3), x, 1) == -1 and limit((sqrt(1 + x) - 1) / (root3(1 + x) - 1), x, 0) == Rational(3) / 2 and limit((sqrt(x) - 1) / (x - 1), x, 1) == Rational(1) / 2 and limit((sqrt(x) - 8) / (root3(x) - 4), x, 64) == 3 and limit((root3(x) - 1) / (root4(x) - 1), x, 1) == Rational(4) / 3 and limit((root3(x ** 2) - 2 * root3(x) + 1) / (x - 1) ** 2, x, 1) == Rational(1) / 9"},"spec":{"lhs":"test_Limits_simple_3b()","rhs":"limit(((x + h) ** 3 - x ** 3) / h, h, 0) == 3 * x ** 2 and limit(1 / (1 - x) - 3 / (1 - x ** 3), x, 1) == -1 and limit((sqrt(1 + x) - 1) / (root3(1 + x) - 1), x, 0) == Rational(3) / 2 and limit((sqrt(x) - 1) / (x - 1), x, 1) == Rational(1) / 2 and limit((sqrt(x) - 8) / (root3(x) - 4), x, 64) == 3 and limit((root3(x) - 1) / (root4(x) - 1), x, 1) == Rational(4) / 3 and limit((root3(x ** 2) - 2 * root3(x) + 1) / (x - 1) ** 2, x, 1) == Rational(1) / 9","over":{"base":"Any"},"name":"test_Limits_simple_3b_correct"},"guarantee":"limit(((x + h) ** 3 - x ** 3) / h, h, 0) == 3 * x ** 2; limit(1 / (1 - x) - 3 / (1 - x ** 3), x, 1) == -1; limit((sqrt(1 + x) - 1) / (root3(1 + x) - 1), x, 0) == Rational(3) / 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_demidovich.test_Limits_simple_3b_correct","statement":"Path(test_Limits_simple_3b(x), limit(((x + h) ** 3 - x ** 3) / h, h, 0) == 3 * x ** 2; limit(1 / (1 - x) - 3 / (1 - x ** 3), x, 1) == -1; limit((sqrt(1 + x) - 1) / (root3(1 + x) - 1), x, 0) == Rational(3) / 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b136fc09ddeb38bb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["limit(((x + h) ** 3 - x ** 3) / h, h, 0) == 3 * x ** 2","limit(1 / (1 - x) - 3 / (1 - x ** 3), x, 1) == -1","limit((sqrt(1 + x) - 1) / (root3(1 + x) - 1), x, 0) == Rational(3) / 2","limit((sqrt(x) - 1) / (x - 1), x, 1) == Rational(1) / 2","limit((sqrt(x) - 8) / (root3(x) - 4), x, 64) == 3","limit((root3(x) - 1) / (root4(x) - 1), x, 1) == Rational(4) / 3","limit((root3(x ** 2) - 2 * root3(x) + 1) / (x - 1) ** 2, x, 1) == Rational(1) / 9"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_Limits_simple_3b():
     h = Symbol("h")
     assert limit(((x + h)**3 - x**3)/h, h, 0) == 3*x**2  # 197
@@ -173,16 +227,24 @@ def test_Limits_simple_3b():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Limits_simple_4a(), test_Limits_simple_4a produces the expected output) over Any ║
+# ║ Path(test_Limits_simple_4a(), limit((sqrt(x) - sqrt(a)) / (x - a), x, a) == 1 / (2 * sqrt(a)) and limit((sqrt(x) - 1) / (root3(x) - 1), x, 1) == Rational(3, 2) and limit((sqrt(1 + x) - sqrt(1 - x)) / x, x, 0) == 1 and limit(sqrt(x ** 2 - 5 * x + 6) - x, x, oo) == Rational(-5, 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Limits_simple_4a : Any → {Any | limit((sqrt(x) -...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  limit((sqrt(x) - sqrt(a)) / (x - a), x, a...   ║
+# ║   ensures:  limit((sqrt(x) - 1) / (root3(x) - 1), x, ...   ║
+# ║   ensures:  limit((sqrt(1 + x) - sqrt(1 - x)) / x, x,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Limits_simple_4a : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b99690f1cc5983f4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9a65551cc6d4ba7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_demidovich.test_Limits_simple_4a","kind":"function","src_hash":"349d466164e6191a","in":{"base":"Any"},"out":{"base":"Any","pred":"limit((sqrt(x) - sqrt(a)) / (x - a), x, a) == 1 / (2 * sqrt(a)) and limit((sqrt(x) - 1) / (root3(x) - 1), x, 1) == Rational(3, 2) and limit((sqrt(1 + x) - sqrt(1 - x)) / x, x, 0) == 1 and limit(sqrt(x ** 2 - 5 * x + 6) - x, x, oo) == Rational(-5, 2)"},"spec":{"lhs":"test_Limits_simple_4a()","rhs":"test_Limits_simple_4a produces the expected output","over":{"base":"Any"},"name":"test_Limits_simple_4a_correct"},"guarantee":"test_Limits_simple_4a produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_demidovich.test_Limits_simple_4a_correct","statement":"Path(test_Limits_simple_4a(x), test_Limits_simple_4a produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b99690f1cc5983f4"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_demidovich.test_Limits_simple_4a","kind":"function","src_hash":"349d466164e6191a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: limit((sqrt(x) - sqrt(a)) / (x - a), x, a) == 1 / (2 * sqrt(a)) and limit((sqrt(x) - 1) / (root3(x) - 1), x, 1) == Rational(3, 2) and limit((sqrt(1 + x) - sqrt(1 - x)) / x, x, 0) == 1 and limit(sqrt(x ** 2 - 5 * x + 6) - x, x, oo) == Rational(-5, 2)"},"spec":{"lhs":"test_Limits_simple_4a()","rhs":"limit((sqrt(x) - sqrt(a)) / (x - a), x, a) == 1 / (2 * sqrt(a)) and limit((sqrt(x) - 1) / (root3(x) - 1), x, 1) == Rational(3, 2) and limit((sqrt(1 + x) - sqrt(1 - x)) / x, x, 0) == 1 and limit(sqrt(x ** 2 - 5 * x + 6) - x, x, oo) == Rational(-5, 2)","over":{"base":"Any"},"name":"test_Limits_simple_4a_correct"},"guarantee":"limit((sqrt(x) - sqrt(a)) / (x - a), x, a) == 1 / (2 * sqrt(a)); limit((sqrt(x) - 1) / (root3(x) - 1), x, 1) == Rational(3, 2); limit((sqrt(1 + x) - sqrt(1 - x)) / x, x, 0) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_demidovich.test_Limits_simple_4a_correct","statement":"Path(test_Limits_simple_4a(x), limit((sqrt(x) - sqrt(a)) / (x - a), x, a) == 1 / (2 * sqrt(a)); limit((sqrt(x) - 1) / (root3(x) - 1), x, 1) == Rational(3, 2); limit((sqrt(1 + x) - sqrt(1 - x)) / x, x, 0) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9a65551cc6d4ba7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["limit((sqrt(x) - sqrt(a)) / (x - a), x, a) == 1 / (2 * sqrt(a))","limit((sqrt(x) - 1) / (root3(x) - 1), x, 1) == Rational(3, 2)","limit((sqrt(1 + x) - sqrt(1 - x)) / x, x, 0) == 1","limit(sqrt(x ** 2 - 5 * x + 6) - x, x, oo) == Rational(-5, 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Limits_simple_4a():
     a = Symbol('a')
     assert limit((sqrt(x) - sqrt(a))/(x - a), x, a) == 1/(2*sqrt(a))  # Primer 5
@@ -192,111 +254,157 @@ def test_Limits_simple_4a():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_limits_simple_4aa(), test_limits_simple_4aa produces the expected output) over Any ║
+# ║ Path(test_limits_simple_4aa(), limit(x * (sqrt(x ** 2 + 1) - x), x, oo) == Rational(1) / 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_limits_simple_4aa : Any → {Any | limit(x * (sqrt...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  limit(x * (sqrt(x ** 2 + 1) - x), x, oo) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_limits_simple_4aa : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 29ce48199c1a6413  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cac9e3f8e848cdf6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_demidovich.test_limits_simple_4aa","kind":"function","src_hash":"3c16ab84d6a3ffe1","in":{"base":"Any"},"out":{"base":"Any","pred":"limit(x * (sqrt(x ** 2 + 1) - x), x, oo) == Rational(1) / 2"},"spec":{"lhs":"test_limits_simple_4aa()","rhs":"test_limits_simple_4aa produces the expected output","over":{"base":"Any"},"name":"test_limits_simple_4aa_correct"},"guarantee":"test_limits_simple_4aa produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_demidovich.test_limits_simple_4aa_correct","statement":"Path(test_limits_simple_4aa(x), test_limits_simple_4aa produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29ce48199c1a6413"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_demidovich.test_limits_simple_4aa","kind":"function","src_hash":"3c16ab84d6a3ffe1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: limit(x * (sqrt(x ** 2 + 1) - x), x, oo) == Rational(1) / 2"},"spec":{"lhs":"test_limits_simple_4aa()","rhs":"limit(x * (sqrt(x ** 2 + 1) - x), x, oo) == Rational(1) / 2","over":{"base":"Any"},"name":"test_limits_simple_4aa_correct"},"guarantee":"limit(x * (sqrt(x ** 2 + 1) - x), x, oo) == Rational(1) / 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_demidovich.test_limits_simple_4aa_correct","statement":"Path(test_limits_simple_4aa(x), limit(x * (sqrt(x ** 2 + 1) - x), x, oo) == Rational(1) / 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cac9e3f8e848cdf6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["limit(x * (sqrt(x ** 2 + 1) - x), x, oo) == Rational(1) / 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_limits_simple_4aa():
     assert limit(x*(sqrt(x**2 + 1) - x), x, oo) == Rational(1)/2  # 214
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Limits_simple_4b(), test_Limits_simple_4b produces the expected output) over Any ║
+# ║ Path(test_Limits_simple_4b(), limit(x - root3(x ** 3 - 1), x, oo) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Limits_simple_4b : Any → {Any | limit(x - root3(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  limit(x - root3(x ** 3 - 1), x, oo) == 0       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Limits_simple_4b : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3fbe475bcc98281c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d946753b44718ead  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_demidovich.test_Limits_simple_4b","kind":"function","src_hash":"434454451fcefa0b","in":{"base":"Any"},"out":{"base":"Any","pred":"limit(x - root3(x ** 3 - 1), x, oo) == 0"},"spec":{"lhs":"test_Limits_simple_4b()","rhs":"test_Limits_simple_4b produces the expected output","over":{"base":"Any"},"name":"test_Limits_simple_4b_correct"},"guarantee":"test_Limits_simple_4b produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_demidovich.test_Limits_simple_4b_correct","statement":"Path(test_Limits_simple_4b(x), test_Limits_simple_4b produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3fbe475bcc98281c"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_demidovich.test_Limits_simple_4b","kind":"function","src_hash":"434454451fcefa0b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: limit(x - root3(x ** 3 - 1), x, oo) == 0"},"spec":{"lhs":"test_Limits_simple_4b()","rhs":"limit(x - root3(x ** 3 - 1), x, oo) == 0","over":{"base":"Any"},"name":"test_Limits_simple_4b_correct"},"guarantee":"limit(x - root3(x ** 3 - 1), x, oo) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_demidovich.test_Limits_simple_4b_correct","statement":"Path(test_Limits_simple_4b(x), limit(x - root3(x ** 3 - 1), x, oo) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d946753b44718ead","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["limit(x - root3(x ** 3 - 1), x, oo) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Limits_simple_4b():
     #issue 3511
     assert limit(x - root3(x**3 - 1), x, oo) == 0  # 215
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Limits_simple_4c(), test_Limits_simple_4c produces the expected output) over Any ║
+# ║ Path(test_Limits_simple_4c(), limit(log(1 + exp(x)) / x, x, -oo) == 0 and limit(log(1 + exp(x)) / x, x, oo) == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Limits_simple_4c : Any → {Any | limit(log(1 + ex...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  limit(log(1 + exp(x)) / x, x, -oo) == 0        ║
+# ║   ensures:  limit(log(1 + exp(x)) / x, x, oo) == 1         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Limits_simple_4c : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1eba169a888baecd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 72301d8687fa2b68  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_demidovich.test_Limits_simple_4c","kind":"function","src_hash":"827f97d8e99593e1","in":{"base":"Any"},"out":{"base":"Any","pred":"limit(log(1 + exp(x)) / x, x, -oo) == 0 and limit(log(1 + exp(x)) / x, x, oo) == 1"},"spec":{"lhs":"test_Limits_simple_4c()","rhs":"test_Limits_simple_4c produces the expected output","over":{"base":"Any"},"name":"test_Limits_simple_4c_correct"},"guarantee":"test_Limits_simple_4c produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_demidovich.test_Limits_simple_4c_correct","statement":"Path(test_Limits_simple_4c(x), test_Limits_simple_4c produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1eba169a888baecd"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_demidovich.test_Limits_simple_4c","kind":"function","src_hash":"827f97d8e99593e1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: limit(log(1 + exp(x)) / x, x, -oo) == 0 and limit(log(1 + exp(x)) / x, x, oo) == 1"},"spec":{"lhs":"test_Limits_simple_4c()","rhs":"limit(log(1 + exp(x)) / x, x, -oo) == 0 and limit(log(1 + exp(x)) / x, x, oo) == 1","over":{"base":"Any"},"name":"test_Limits_simple_4c_correct"},"guarantee":"limit(log(1 + exp(x)) / x, x, -oo) == 0; limit(log(1 + exp(x)) / x, x, oo) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_demidovich.test_Limits_simple_4c_correct","statement":"Path(test_Limits_simple_4c(x), limit(log(1 + exp(x)) / x, x, -oo) == 0; limit(log(1 + exp(x)) / x, x, oo) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72301d8687fa2b68","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["limit(log(1 + exp(x)) / x, x, -oo) == 0","limit(log(1 + exp(x)) / x, x, oo) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Limits_simple_4c():
     assert limit(log(1 + exp(x))/x, x, -oo) == 0  # 267a
     assert limit(log(1 + exp(x))/x, x, oo) == 1  # 267b
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bounded(), test_bounded produces the expected output) over Any ║
+# ║ Path(test_bounded(), limit(sin(x) / x, x, oo) == 0 and limit(x * sin(1 / x), x, 0) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bounded : Any → {Any | limit(sin(x) / x, x, oo) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  limit(sin(x) / x, x, oo) == 0                  ║
+# ║   ensures:  limit(x * sin(1 / x), x, 0) == 0               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bounded : Any → {Any | result satisfies: limit(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 170e011b660d6624  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ce90ff99647fcde  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_demidovich.test_bounded","kind":"function","src_hash":"2e80f76dedf5336f","in":{"base":"Any"},"out":{"base":"Any","pred":"limit(sin(x) / x, x, oo) == 0 and limit(x * sin(1 / x), x, 0) == 0"},"spec":{"lhs":"test_bounded()","rhs":"test_bounded produces the expected output","over":{"base":"Any"},"name":"test_bounded_correct"},"guarantee":"test_bounded produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_demidovich.test_bounded_correct","statement":"Path(test_bounded(x), test_bounded produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"170e011b660d6624"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_demidovich.test_bounded","kind":"function","src_hash":"2e80f76dedf5336f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: limit(sin(x) / x, x, oo) == 0 and limit(x * sin(1 / x), x, 0) == 0"},"spec":{"lhs":"test_bounded()","rhs":"limit(sin(x) / x, x, oo) == 0 and limit(x * sin(1 / x), x, 0) == 0","over":{"base":"Any"},"name":"test_bounded_correct"},"guarantee":"limit(sin(x) / x, x, oo) == 0; limit(x * sin(1 / x), x, 0) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_demidovich.test_bounded_correct","statement":"Path(test_bounded(x), limit(sin(x) / x, x, oo) == 0; limit(x * sin(1 / x), x, 0) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ce90ff99647fcde","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["limit(sin(x) / x, x, oo) == 0","limit(x * sin(1 / x), x, 0) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_bounded():
     assert limit(sin(x)/x, x, oo) == 0  # 216b
     assert limit(x*sin(1/x), x, 0) == 0  # 227a
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_f1a(), test_f1a produces the expected output) over Any ║
+# ║ Path(test_f1a(), limit((sin(2 * x) / x) ** (1 + x), x, 0) == 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_f1a : Any → {Any | limit((sin(2 * x) / x) ** (1 ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  limit((sin(2 * x) / x) ** (1 + x), x, 0) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_f1a : Any → {Any | result satisfies: limit((sin(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ecb71a95a0b0e85  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f9652f406eb315a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_demidovich.test_f1a","kind":"function","src_hash":"c8887e36a0d4563a","in":{"base":"Any"},"out":{"base":"Any","pred":"limit((sin(2 * x) / x) ** (1 + x), x, 0) == 2"},"spec":{"lhs":"test_f1a()","rhs":"test_f1a produces the expected output","over":{"base":"Any"},"name":"test_f1a_correct"},"guarantee":"test_f1a produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_demidovich.test_f1a_correct","statement":"Path(test_f1a(x), test_f1a produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ecb71a95a0b0e85"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_demidovich.test_f1a","kind":"function","src_hash":"c8887e36a0d4563a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: limit((sin(2 * x) / x) ** (1 + x), x, 0) == 2"},"spec":{"lhs":"test_f1a()","rhs":"limit((sin(2 * x) / x) ** (1 + x), x, 0) == 2","over":{"base":"Any"},"name":"test_f1a_correct"},"guarantee":"limit((sin(2 * x) / x) ** (1 + x), x, 0) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_demidovich.test_f1a_correct","statement":"Path(test_f1a(x), limit((sin(2 * x) / x) ** (1 + x), x, 0) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f9652f406eb315a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["limit((sin(2 * x) / x) ** (1 + x), x, 0) == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_f1a():
     #issue 3508:
     assert limit((sin(2*x)/x)**(1 + x), x, 0) == 2  # Primer 7
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_f1a2(), test_f1a2 produces the expected output) over Any ║
+# ║ Path(test_f1a2(), limit(((x - 1) / (x + 1)) ** x, x, oo) == exp(-2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_f1a2 : Any → {Any | limit(((x - 1) / (x + 1)) **...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  limit(((x - 1) / (x + 1)) ** x, x, oo) ==...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_f1a2 : Any → {Any | result satisfies: limit(((x ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f78ed63aaf00803  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77eb819f26d71c91  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_demidovich.test_f1a2","kind":"function","src_hash":"57c071fc77d9b9c7","in":{"base":"Any"},"out":{"base":"Any","pred":"limit(((x - 1) / (x + 1)) ** x, x, oo) == exp(-2)"},"spec":{"lhs":"test_f1a2()","rhs":"test_f1a2 produces the expected output","over":{"base":"Any"},"name":"test_f1a2_correct"},"guarantee":"test_f1a2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_demidovich.test_f1a2_correct","statement":"Path(test_f1a2(x), test_f1a2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f78ed63aaf00803"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_demidovich.test_f1a2","kind":"function","src_hash":"57c071fc77d9b9c7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: limit(((x - 1) / (x + 1)) ** x, x, oo) == exp(-2)"},"spec":{"lhs":"test_f1a2()","rhs":"limit(((x - 1) / (x + 1)) ** x, x, oo) == exp(-2)","over":{"base":"Any"},"name":"test_f1a2_correct"},"guarantee":"limit(((x - 1) / (x + 1)) ** x, x, oo) == exp(-2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_demidovich.test_f1a2_correct","statement":"Path(test_f1a2(x), limit(((x - 1) / (x + 1)) ** x, x, oo) == exp(-2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77eb819f26d71c91","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["limit(((x - 1) / (x + 1)) ** x, x, oo) == exp(-2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_f1a2():
     #issue 3509:
     assert limit(((x - 1)/(x + 1))**x, x, oo) == exp(-2)  # Primer 9
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_f1b(), test_f1b produces the expected output) over Any ║
+# ║ Path(test_f1b(), limit(sin(x) / x, x, 2) == sin(2) / 2 and limit(sin(3 * x) / x, x, 0) == 3 and limit(sin(5 * x) / sin(2 * x), x, 0) == Rational(5, 2) and limit(sin(pi * x) / sin(3 * pi * x), x, 0) == Rational(1, 3) and limit(x * sin(pi / x), x, oo) == pi and limit((1 - cos(x)) / x ** 2, x, 0) == S.Half and limit(x * sin(1 / x), x, oo) == 1 and limit((cos(m * x) - cos(n * x)) / x ** 2, x, 0) == -m ** 2 / 2 + n ** 2 / 2 and limit((tan(x) - sin(x)) / x ** 3, x, 0) == S.Half and limit((x - sin(2 * x)) / (x + sin(3 * x)), x, 0) == -Rational(1, 4) and limit((1 - sqrt(cos(x))) / x ** 2, x, 0) == Rational(1, 4) and limit((sqrt(1 + sin(x)) - sqrt(1 - sin(x))) / x, x, 0) == 1 and limit((1 + h / x) ** x, x, oo) == exp(h) and limit((sin(x) - sin(a)) / (x - a), x, a) == cos(a) and limit((cos(x) - cos(a)) / (x - a), x, a) == -sin(a) and limit((sin(x + h) - sin(x)) / h, h, 0) == cos(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_f1b : Any → {Any | limit(sin(x) / x, x, 2) == si...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  limit(sin(x) / x, x, 2) == sin(2) / 2          ║
+# ║   ensures:  limit(sin(3 * x) / x, x, 0) == 3               ║
+# ║   ensures:  limit(sin(5 * x) / sin(2 * x), x, 0) == R...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_f1b : Any → {Any | result satisfies: limit(sin(x...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5de4597b107cd995  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a8af7261a2f922f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_demidovich.test_f1b","kind":"function","src_hash":"f94423df35e762bb","in":{"base":"Any"},"out":{"base":"Any","pred":"limit(sin(x) / x, x, 2) == sin(2) / 2 and limit(sin(3 * x) / x, x, 0) == 3 and limit(sin(5 * x) / sin(2 * x), x, 0) == Rational(5, 2) and limit(sin(pi * x) / sin(3 * pi * x), x, 0) == Rational(1, 3) and limit(x * sin(pi / x), x, oo) == pi and limit((1 - cos(x)) / x ** 2, x, 0) == S.Half and limit(x * sin(1 / x), x, oo) == 1 and limit((cos(m * x) - cos(n * x)) / x ** 2, x, 0) == -m ** 2 / 2 + n ** 2 / 2 and limit((tan(x) - sin(x)) / x ** 3, x, 0) == S.Half and limit((x - sin(2 * x)) / (x + sin(3 * x)), x, 0) == -Rational(1, 4) and limit((1 - sqrt(cos(x))) / x ** 2, x, 0) == Rational(1, 4) and limit((sqrt(1 + sin(x)) - sqrt(1 - sin(x))) / x, x, 0) == 1 and limit((1 + h / x) ** x, x, oo) == exp(h) and limit((sin(x) - sin(a)) / (x - a), x, a) == cos(a) and limit((cos(x) - cos(a)) / (x - a), x, a) == -sin(a) and limit((sin(x + h) - sin(x)) / h, h, 0) == cos(x)"},"spec":{"lhs":"test_f1b()","rhs":"test_f1b produces the expected output","over":{"base":"Any"},"name":"test_f1b_correct"},"guarantee":"test_f1b produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_demidovich.test_f1b_correct","statement":"Path(test_f1b(x), test_f1b produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5de4597b107cd995"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_demidovich.test_f1b","kind":"function","src_hash":"f94423df35e762bb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: limit(sin(x) / x, x, 2) == sin(2) / 2 and limit(sin(3 * x) / x, x, 0) == 3 and limit(sin(5 * x) / sin(2 * x), x, 0) == Rational(5, 2) and limit(sin(pi * x) / sin(3 * pi * x), x, 0) == Rational(1, 3) and limit(x * sin(pi / x), x, oo) == pi and limit((1 - cos(x)) / x ** 2, x, 0) == S.Half and limit(x * sin(1 / x), x, oo) == 1 and limit((cos(m * x) - cos(n * x)) / x ** 2, x, 0) == -m ** 2 / 2 + n ** 2 / 2 and limit((tan(x) - sin(x)) / x ** 3, x, 0) == S.Half and limit((x - sin(2 * x)) / (x + sin(3 * x)), x, 0) == -Rational(1, 4) and limit((1 - sqrt(cos(x))) / x ** 2, x, 0) == Rational(1, 4) and limit((sqrt(1 + sin(x)) - sqrt(1 - sin(x))) / x, x, 0) == 1 and limit((1 + h / x) ** x, x, oo) == exp(h) and limit((sin(x) - sin(a)) / (x - a), x, a) == cos(a) and limit((cos(x) - cos(a)) / (x - a), x, a) == -sin(a) and limit((sin(x + h) - sin(x)) / h, h, 0) == cos(x)"},"spec":{"lhs":"test_f1b()","rhs":"limit(sin(x) / x, x, 2) == sin(2) / 2 and limit(sin(3 * x) / x, x, 0) == 3 and limit(sin(5 * x) / sin(2 * x), x, 0) == Rational(5, 2) and limit(sin(pi * x) / sin(3 * pi * x), x, 0) == Rational(1, 3) and limit(x * sin(pi / x), x, oo) == pi and limit((1 - cos(x)) / x ** 2, x, 0) == S.Half and limit(x * sin(1 / x), x, oo) == 1 and limit((cos(m * x) - cos(n * x)) / x ** 2, x, 0) == -m ** 2 / 2 + n ** 2 / 2 and limit((tan(x) - sin(x)) / x ** 3, x, 0) == S.Half and limit((x - sin(2 * x)) / (x + sin(3 * x)), x, 0) == -Rational(1, 4) and limit((1 - sqrt(cos(x))) / x ** 2, x, 0) == Rational(1, 4) and limit((sqrt(1 + sin(x)) - sqrt(1 - sin(x))) / x, x, 0) == 1 and limit((1 + h / x) ** x, x, oo) == exp(h) and limit((sin(x) - sin(a)) / (x - a), x, a) == cos(a) and limit((cos(x) - cos(a)) / (x - a), x, a) == -sin(a) and limit((sin(x + h) - sin(x)) / h, h, 0) == cos(x)","over":{"base":"Any"},"name":"test_f1b_correct"},"guarantee":"limit(sin(x) / x, x, 2) == sin(2) / 2; limit(sin(3 * x) / x, x, 0) == 3; limit(sin(5 * x) / sin(2 * x), x, 0) == Rational(5, 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_demidovich.test_f1b_correct","statement":"Path(test_f1b(x), limit(sin(x) / x, x, 2) == sin(2) / 2; limit(sin(3 * x) / x, x, 0) == 3; limit(sin(5 * x) / sin(2 * x), x, 0) == Rational(5, 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a8af7261a2f922f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["limit(sin(x) / x, x, 2) == sin(2) / 2","limit(sin(3 * x) / x, x, 0) == 3","limit(sin(5 * x) / sin(2 * x), x, 0) == Rational(5, 2)","limit(sin(pi * x) / sin(3 * pi * x), x, 0) == Rational(1, 3)","limit(x * sin(pi / x), x, oo) == pi","limit((1 - cos(x)) / x ** 2, x, 0) == S.Half","limit(x * sin(1 / x), x, oo) == 1","limit((cos(m * x) - cos(n * x)) / x ** 2, x, 0) == -m ** 2 / 2 + n ** 2 / 2","limit((tan(x) - sin(x)) / x ** 3, x, 0) == S.Half","limit((x - sin(2 * x)) / (x + sin(3 * x)), x, 0) == -Rational(1, 4)","limit((1 - sqrt(cos(x))) / x ** 2, x, 0) == Rational(1, 4)","limit((sqrt(1 + sin(x)) - sqrt(1 - sin(x))) / x, x, 0) == 1","limit((1 + h / x) ** x, x, oo) == exp(h)","limit((sin(x) - sin(a)) / (x - a), x, a) == cos(a)","limit((cos(x) - cos(a)) / (x - a), x, a) == -sin(a)","limit((sin(x + h) - sin(x)) / h, h, 0) == cos(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_f1b():
     m = Symbol("m")
     n = Symbol("n")
@@ -322,47 +430,65 @@ def test_f1b():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_f2a(), test_f2a produces the expected output) over Any ║
+# ║ Path(test_f2a(), limit(((x + 1) / (2 * x + 1)) ** x ** 2, x, oo) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_f2a : Any → {Any | limit(((x + 1) / (2 * x + 1))...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  limit(((x + 1) / (2 * x + 1)) ** x ** 2, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_f2a : Any → {Any | result satisfies: limit(((x +...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9920373fc600eb30  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a048c527101b355a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_demidovich.test_f2a","kind":"function","src_hash":"fb94db175381e81b","in":{"base":"Any"},"out":{"base":"Any","pred":"limit(((x + 1) / (2 * x + 1)) ** x ** 2, x, oo) == 0"},"spec":{"lhs":"test_f2a()","rhs":"test_f2a produces the expected output","over":{"base":"Any"},"name":"test_f2a_correct"},"guarantee":"test_f2a produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_demidovich.test_f2a_correct","statement":"Path(test_f2a(x), test_f2a produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9920373fc600eb30"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_demidovich.test_f2a","kind":"function","src_hash":"fb94db175381e81b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: limit(((x + 1) / (2 * x + 1)) ** x ** 2, x, oo) == 0"},"spec":{"lhs":"test_f2a()","rhs":"limit(((x + 1) / (2 * x + 1)) ** x ** 2, x, oo) == 0","over":{"base":"Any"},"name":"test_f2a_correct"},"guarantee":"limit(((x + 1) / (2 * x + 1)) ** x ** 2, x, oo) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_demidovich.test_f2a_correct","statement":"Path(test_f2a(x), limit(((x + 1) / (2 * x + 1)) ** x ** 2, x, oo) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a048c527101b355a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["limit(((x + 1) / (2 * x + 1)) ** x ** 2, x, oo) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_f2a():
     assert limit(((x + 1)/(2*x + 1))**(x**2), x, oo) == 0  # Primer 8
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_f2(), test_f2 produces the expected output) over Any ║
+# ║ Path(test_f2(), limit((sqrt(cos(x)) - root3(cos(x))) / sin(x) ** 2, x, 0) == -Rational(1, 12)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_f2 : Any → {Any | limit((sqrt(cos(x)) - root3(co...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  limit((sqrt(cos(x)) - root3(cos(x))) / si...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_f2 : Any → {Any | result satisfies: limit((sqrt(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e7c44921987d9368  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 767be104f451735c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_demidovich.test_f2","kind":"function","src_hash":"7276b3798d952ed2","in":{"base":"Any"},"out":{"base":"Any","pred":"limit((sqrt(cos(x)) - root3(cos(x))) / sin(x) ** 2, x, 0) == -Rational(1, 12)"},"spec":{"lhs":"test_f2()","rhs":"test_f2 produces the expected output","over":{"base":"Any"},"name":"test_f2_correct"},"guarantee":"test_f2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_demidovich.test_f2_correct","statement":"Path(test_f2(x), test_f2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7c44921987d9368"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_demidovich.test_f2","kind":"function","src_hash":"7276b3798d952ed2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: limit((sqrt(cos(x)) - root3(cos(x))) / sin(x) ** 2, x, 0) == -Rational(1, 12)"},"spec":{"lhs":"test_f2()","rhs":"limit((sqrt(cos(x)) - root3(cos(x))) / sin(x) ** 2, x, 0) == -Rational(1, 12)","over":{"base":"Any"},"name":"test_f2_correct"},"guarantee":"limit((sqrt(cos(x)) - root3(cos(x))) / sin(x) ** 2, x, 0) == -Rational(1, 12)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_demidovich.test_f2_correct","statement":"Path(test_f2(x), limit((sqrt(cos(x)) - root3(cos(x))) / sin(x) ** 2, x, 0) == -Rational(1, 12))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"767be104f451735c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["limit((sqrt(cos(x)) - root3(cos(x))) / sin(x) ** 2, x, 0) == -Rational(1, 12)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_f2():
     assert limit((sqrt(
         cos(x)) - root3(cos(x)))/(sin(x)**2), x, 0) == -Rational(1, 12)  # *184
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_f3(), test_f3 produces the expected output) over Any ║
+# ║ Path(test_f3(), limit(asin(a * x) / x, x, 0) == a) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_f3 : Any → {Any | limit(asin(a * x) / x, x, 0) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  limit(asin(a * x) / x, x, 0) == a              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_f3 : Any → {Any | result satisfies: limit(asin(a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0958273a10cba95d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | abea9eb56dd30395  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_demidovich.test_f3","kind":"function","src_hash":"1b44ca74466b4dde","in":{"base":"Any"},"out":{"base":"Any","pred":"limit(asin(a * x) / x, x, 0) == a"},"spec":{"lhs":"test_f3()","rhs":"test_f3 produces the expected output","over":{"base":"Any"},"name":"test_f3_correct"},"guarantee":"test_f3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_demidovich.test_f3_correct","statement":"Path(test_f3(x), test_f3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0958273a10cba95d"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_demidovich.test_f3","kind":"function","src_hash":"1b44ca74466b4dde","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: limit(asin(a * x) / x, x, 0) == a"},"spec":{"lhs":"test_f3()","rhs":"limit(asin(a * x) / x, x, 0) == a","over":{"base":"Any"},"name":"test_f3_correct"},"guarantee":"limit(asin(a * x) / x, x, 0) == a","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_demidovich.test_f3_correct","statement":"Path(test_f3(x), limit(asin(a * x) / x, x, 0) == a)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"abea9eb56dd30395","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["limit(asin(a * x) / x, x, 0) == a"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_f3():
     a = Symbol('a')
     #issue 3504

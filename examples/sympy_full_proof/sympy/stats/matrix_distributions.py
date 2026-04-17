@@ -37,30 +37,45 @@ from sympy.external import import_module
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MatrixPSpace(*args), correctly constructs a MatrixPSpace instance) over {Any | isinstance(expr, RandomMatrixSymbol)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, PSpace)                       ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ MatrixPSpace : {Any | isinstance(expr, RandomMatrixSy...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b2466c19bf9881f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixPSpace","kind":"class","src_hash":"4516331523b1f211","in":{"base":"Any","pred":"isinstance(expr, RandomMatrixSymbol)"},"out":{"base":"Any"},"spec":{"lhs":"MatrixPSpace(*args)","rhs":"correctly constructs a MatrixPSpace instance","over":{"base":"Any","pred":"isinstance(expr, RandomMatrixSymbol)"},"name":"MatrixPSpace_class_invariant"},"guarantee":"correctly constructs a MatrixPSpace instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2466c19bf9881f8"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixPSpace","kind":"class","src_hash":"4516331523b1f211","in":{"base":"Any","pred":"isinstance(expr, RandomMatrixSymbol)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, PSpace)"},"spec":{"lhs":"MatrixPSpace(*args)","rhs":"correctly constructs a MatrixPSpace instance","over":{"base":"Any","pred":"isinstance(expr, RandomMatrixSymbol)"},"name":"MatrixPSpace_class_invariant"},"guarantee":"isinstance(self, PSpace)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2466c19bf9881f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, PSpace)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function MatrixPSpace not found in source"]}}
 class MatrixPSpace(PSpace):
     """
     Represents probability space for
     Matrix Distributions.
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, sym, distribution), Basic.__new__(cls, sym, distribution, dim_n, dim_m)) over {Any | dim_n.is_integer and dim_m.is_integer and hasattr(dim_n, 'is_integer') and hasattr(dim_m, 'is_integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: dim_n.is_integer and dim_m.is_integer          ║
+# ║   requires: hasattr(dim_n, 'is_integer')                   ║
+# ║   requires: hasattr(dim_m, 'is_integer')                   ║
+# ║   returns:  Basic.__new__(cls, sym, distribution, dim...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | dim_n.is_integer and dim_m.is_intege...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a787aa7dbc2245c5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixPSpace.__new__","kind":"method","src_hash":"c3f89387ca8b1ec3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a787aa7dbc2245c5"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixPSpace.__new__","kind":"method","src_hash":"c3f89387ca8b1ec3","in":{"base":"Any","pred":"dim_n.is_integer and dim_m.is_integer and hasattr(dim_n, 'is_integer') and hasattr(dim_m, 'is_integer')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, sym, distribution)","rhs":"Basic.__new__(cls, sym, distribution, dim_n, dim_m)","over":{"base":"Any","pred":"dim_n.is_integer and dim_m.is_integer and hasattr(dim_n, 'is_integer') and hasattr(dim_m, 'is_integer')"},"name":"__new___correct"},"guarantee":"returns Basic.__new__(cls, sym, distribution, dim_n, dim_m)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a787aa7dbc2245c5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["dim_n.is_integer and dim_m.is_integer","hasattr(dim_n, 'is_integer')","hasattr(dim_m, 'is_integer')"],"returns_expr":"Basic.__new__(cls, sym, distribution, dim_n, dim_m)","pure":false,"effects":{"effect_type":"reads_state","reads":["dim_m.is_integer","dim_n.is_integer"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, sym, distribution, dim_n, dim_m):
         sym = _symbol_converter(sym)
         dim_n, dim_m = _sympify(dim_n), _sympify(dim_m)
@@ -73,60 +88,86 @@ class MatrixPSpace(PSpace):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(domain(), returns the domain attribute) over Any      ║
+# ║ Path(domain(), MatrixDomain(self.symbol, self.distribution.set)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  MatrixDomain(self.symbol, self.distributi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ domain : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b774d604844cd237           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixPSpace.domain","kind":"property","src_hash":"76662b8caa5b050f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"domain()","rhs":"returns the domain attribute","over":{"base":"Any"},"name":"domain_correct"},"guarantee":"returns the domain attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b774d604844cd237"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixPSpace.domain","kind":"property","src_hash":"76662b8caa5b050f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"domain()","rhs":"MatrixDomain(self.symbol, self.distribution.set)","over":{"base":"Any"},"name":"domain_correct"},"guarantee":"returns MatrixDomain(self.symbol, self.distribution.set)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b774d604844cd237","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"MatrixDomain(self.symbol, self.distribution.set)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.distribution","self.symbol"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def domain(self):
         return MatrixDomain(self.symbol, self.distribution.set)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(value(), returns the value attribute) over Any        ║
+# ║ Path(value(), RandomMatrixSymbol(self.symbol, self.args[2], self.args[3], self)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  RandomMatrixSymbol(self.symbol, self.args...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ value : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | acee1bc9c3a36aa5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixPSpace.value","kind":"property","src_hash":"392882e3105ae5c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"value()","rhs":"returns the value attribute","over":{"base":"Any"},"name":"value_correct"},"guarantee":"returns the value attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"acee1bc9c3a36aa5"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixPSpace.value","kind":"property","src_hash":"392882e3105ae5c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"value()","rhs":"RandomMatrixSymbol(self.symbol, self.args[2], self.args[3], self)","over":{"base":"Any"},"name":"value_correct"},"guarantee":"returns RandomMatrixSymbol(self.symbol, self.args[2], self.args[3], self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"acee1bc9c3a36aa5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"RandomMatrixSymbol(self.symbol, self.args[2], self.args[3], self)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.symbol"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def value(self):
         return RandomMatrixSymbol(self.symbol, self.args[2], self.args[3], self)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(values(), returns the values attribute) over Any      ║
+# ║ Path(values(), {self.value}) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  {self.value}                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ values : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b5a1e26f5bfab578           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixPSpace.values","kind":"property","src_hash":"89449f1062a4ea11","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"values()","rhs":"returns the values attribute","over":{"base":"Any"},"name":"values_correct"},"guarantee":"returns the values attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b5a1e26f5bfab578"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixPSpace.values","kind":"property","src_hash":"89449f1062a4ea11","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"values()","rhs":"{self.value}","over":{"base":"Any"},"name":"values_correct"},"guarantee":"returns {self.value}","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b5a1e26f5bfab578","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"{self.value}","pure":false,"effects":{"effect_type":"reads_state","reads":["self.value"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def values(self):
         return {self.value}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(compute_density(exp), compute_density produces the expected output) over Any ║
+# ║ Path(compute_density(expr, *args), self.distribution.pdf(expr)) over {Any | not (len(rms) > 1 or not isinstance(expr, RandomMatrixSymbol)) and hasattr(expr, 'atoms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ compute_density : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(rms) > 1 or not isinstance(expr,...   ║
+# ║   requires: hasattr(expr, 'atoms')                         ║
+# ║   returns:  self.distribution.pdf(expr)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ compute_density : {Any | not (len(rms) > 1 or not isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd80c05141df48a7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c74ccf957c36038  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixPSpace.compute_density","kind":"method","src_hash":"01f883fe50171be9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compute_density(exp)","rhs":"compute_density produces the expected output","over":{"base":"Any"},"name":"compute_density_correct"},"guarantee":"compute_density produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.matrix_distributions.MatrixPSpace.compute_density_correct","statement":"Path(compute_density(x), compute_density produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd80c05141df48a7"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixPSpace.compute_density","kind":"method","src_hash":"01f883fe50171be9","in":{"base":"Any","pred":"not (len(rms) > 1 or not isinstance(expr, RandomMatrixSymbol)) and hasattr(expr, 'atoms')"},"out":{"base":"Any"},"spec":{"lhs":"compute_density(expr, *args)","rhs":"self.distribution.pdf(expr)","over":{"base":"Any","pred":"not (len(rms) > 1 or not isinstance(expr, RandomMatrixSymbol)) and hasattr(expr, 'atoms')"},"name":"compute_density_correct"},"guarantee":"returns self.distribution.pdf(expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.matrix_distributions.MatrixPSpace.compute_density_correct","statement":"Path(compute_density(x), returns self.distribution.pdf(expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c74ccf957c36038","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(rms) > 1 or not isinstance(expr, RandomMatrixSymbol))","hasattr(expr, 'atoms')"],"returns_expr":"self.distribution.pdf(expr)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.atoms","self.distribution"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def compute_density(self, expr, *args):
         rms = expr.atoms(RandomMatrixSymbol)
         if len(rms) > 1 or (not isinstance(expr, RandomMatrixSymbol)):
@@ -136,16 +177,22 @@ class MatrixPSpace(PSpace):
         return self.distribution.pdf(expr)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sample(siz), internal sample method) over Any         ║
+# ║ Path(sample(size, library, seed), {self.value: self.distribution.sample(size, library=library, seed=seed)}) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  {self.value: self.distribution.sample(siz...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sample : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d5d9098fd6de200e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixPSpace.sample","kind":"method","src_hash":"0893958b52301639","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sample(siz)","rhs":"internal sample method","over":{"base":"Any"},"name":"sample_correct"},"guarantee":"internal sample method","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d5d9098fd6de200e"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixPSpace.sample","kind":"method","src_hash":"0893958b52301639","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sample(size, library, seed)","rhs":"{self.value: self.distribution.sample(size, library=library, seed=seed)}","over":{"base":"Any"},"name":"sample_correct"},"guarantee":"returns {self.value: self.distribution.sample(size, library=library, seed=seed)}","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d5d9098fd6de200e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"{self.value: self.distribution.sample(size, library=library, seed=seed)}","pure":false,"effects":{"effect_type":"nondeterministic","reads":["self.distribution","self.value"],"nondeterministic_sources":["self.distribution.sample"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def sample(self, size=(), library='scipy', seed=None):
         """
         Internal sample method
@@ -156,16 +203,22 @@ class MatrixPSpace(PSpace):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rv(sym), rv produces the expected output) over Any    ║
+# ║ Path(rv(symbol, cls, args), pspace.value) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  pspace.value                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rv : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c9407214301fd4f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3a41216575d355e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.rv","kind":"function","src_hash":"735823f14dc2f6d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rv(sym)","rhs":"rv produces the expected output","over":{"base":"Any"},"name":"rv_correct"},"guarantee":"rv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.matrix_distributions.rv_correct","statement":"Path(rv(x), rv produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c9407214301fd4f"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.rv","kind":"function","src_hash":"735823f14dc2f6d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rv(symbol, cls, args)","rhs":"pspace.value","over":{"base":"Any"},"name":"rv_correct"},"guarantee":"returns pspace.value","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.matrix_distributions.rv_correct","statement":"Path(rv(x), returns pspace.value)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3a41216575d355e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"pspace.value","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def rv(symbol, cls, args):
     args = list(map(sympify, args))
     dist = cls(*args)
@@ -178,42 +231,63 @@ def rv(symbol, cls, args):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SampleMatrixScipy(*args), correctly constructs a SampleMatrixScipy instance) over {Any | isinstance(seed, int)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ SampleMatrixScipy : {Any | isinstance(seed, int)} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5861be559383eb9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.SampleMatrixScipy","kind":"class","src_hash":"487e2efda009f089","in":{"base":"Any","pred":"isinstance(seed, int)"},"out":{"base":"Any"},"spec":{"lhs":"SampleMatrixScipy(*args)","rhs":"correctly constructs a SampleMatrixScipy instance","over":{"base":"Any","pred":"isinstance(seed, int)"},"name":"SampleMatrixScipy_class_invariant"},"guarantee":"correctly constructs a SampleMatrixScipy instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5861be559383eb9"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.SampleMatrixScipy","kind":"class","src_hash":"487e2efda009f089","in":{"base":"Any","pred":"isinstance(seed, int)"},"out":{"base":"Any"},"spec":{"lhs":"SampleMatrixScipy(*args)","rhs":"correctly constructs a SampleMatrixScipy instance","over":{"base":"Any","pred":"isinstance(seed, int)"},"name":"SampleMatrixScipy_class_invariant"},"guarantee":"correctly constructs a SampleMatrixScipy instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5861be559383eb9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function SampleMatrixScipy not found in source"]}}
 class SampleMatrixScipy:
     """Returns the sample from scipy of the given distribution"""
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, dist, size), cls._sample_scipy(dist, size, seed)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls._sample_scipy(dist, size, seed)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c94c09ab6608b486           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.SampleMatrixScipy.__new__","kind":"method","src_hash":"40f36cbc7e1d69f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c94c09ab6608b486"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.SampleMatrixScipy.__new__","kind":"method","src_hash":"40f36cbc7e1d69f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, dist, size)","rhs":"cls._sample_scipy(dist, size, seed)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns cls._sample_scipy(dist, size, seed)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c94c09ab6608b486","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls._sample_scipy(dist, size, seed)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._sample_scipy"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, dist, size, seed=None):
         return cls._sample_scipy(dist, size, seed)
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sample_scipy(cls), sample from scipy) over Any       ║
+# ║ Path(_sample_scipy(cls, dist, size), <unspecified:_sample_scipy>) over {Any | hasattr(dist, 'scale_matrix') and hasattr(dist, 'location_matrix') and hasattr(dist, 'n') and hasattr(dist, 'scale_matrix_1') and hasattr(dist, 'scale_matrix_2')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sample_scipy : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(dist, 'scale_matrix')                  ║
+# ║   requires: hasattr(dist, 'location_matrix')               ║
+# ║   requires: hasattr(dist, 'n')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sample_scipy : {Any | hasattr(dist, 'scale_matrix') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0ca0eab0db3e672  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.SampleMatrixScipy._sample_scipy","kind":"classmethod","src_hash":"858c6cc39786ca89","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sample_scipy(cls)","rhs":"sample from scipy","over":{"base":"Any"},"name":"_sample_scipy_correct"},"guarantee":"sample from scipy","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.matrix_distributions.SampleMatrixScipy._sample_scipy_correct","statement":"Path(_sample_scipy(x), sample from scipy)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0ca0eab0db3e672"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.SampleMatrixScipy._sample_scipy","kind":"classmethod","src_hash":"858c6cc39786ca89","in":{"base":"Any","pred":"hasattr(dist, 'scale_matrix') and hasattr(dist, 'location_matrix') and hasattr(dist, 'n') and hasattr(dist, 'scale_matrix_1') and hasattr(dist, 'scale_matrix_2')"},"out":{"base":"Any"},"spec":{"lhs":"_sample_scipy(cls, dist, size)","rhs":"<unspecified:_sample_scipy>","over":{"base":"Any","pred":"hasattr(dist, 'scale_matrix') and hasattr(dist, 'location_matrix') and hasattr(dist, 'n') and hasattr(dist, 'scale_matrix_1') and hasattr(dist, 'scale_matrix_2')"},"name":"_sample_scipy_correct"},"guarantee":"sample from scipy","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.matrix_distributions.SampleMatrixScipy._sample_scipy_correct","statement":"Path(_sample_scipy(x), sample from scipy)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0ca0eab0db3e672","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(dist, 'scale_matrix')","hasattr(dist, 'location_matrix')","hasattr(dist, 'n')","hasattr(dist, 'scale_matrix_1')","hasattr(dist, 'scale_matrix_2')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","dist.__class__","dist.location_matrix","dist.n","dist.scale_matrix","dist.scale_matrix_1","dist.scale_matrix_2"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sample_scipy(cls, dist, size, seed):
         """Sample from SciPy."""
 
@@ -249,44 +323,62 @@ class SampleMatrixScipy:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SampleMatrixNumpy(*args), correctly constructs a SampleMatrixNumpy instance) over {Any | isinstance(seed, int)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ SampleMatrixNumpy : {Any | isinstance(seed, int)} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cede3c6ebc12fa46  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.SampleMatrixNumpy","kind":"class","src_hash":"cec4a0c5c369deab","in":{"base":"Any","pred":"isinstance(seed, int)"},"out":{"base":"Any"},"spec":{"lhs":"SampleMatrixNumpy(*args)","rhs":"correctly constructs a SampleMatrixNumpy instance","over":{"base":"Any","pred":"isinstance(seed, int)"},"name":"SampleMatrixNumpy_class_invariant"},"guarantee":"correctly constructs a SampleMatrixNumpy instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cede3c6ebc12fa46"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.SampleMatrixNumpy","kind":"class","src_hash":"cec4a0c5c369deab","in":{"base":"Any","pred":"isinstance(seed, int)"},"out":{"base":"Any"},"spec":{"lhs":"SampleMatrixNumpy(*args)","rhs":"correctly constructs a SampleMatrixNumpy instance","over":{"base":"Any","pred":"isinstance(seed, int)"},"name":"SampleMatrixNumpy_class_invariant"},"guarantee":"correctly constructs a SampleMatrixNumpy instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cede3c6ebc12fa46","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function SampleMatrixNumpy not found in source"]}}
 class SampleMatrixNumpy:
     """Returns the sample from numpy of the given distribution"""
 
     ### TODO: Add tests after adding matrix distributions in numpy_rv_map
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, dist, size), cls._sample_numpy(dist, size, seed)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls._sample_numpy(dist, size, seed)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 62ca96894710360e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.SampleMatrixNumpy.__new__","kind":"method","src_hash":"75dbe52138266ad3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"62ca96894710360e"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.SampleMatrixNumpy.__new__","kind":"method","src_hash":"75dbe52138266ad3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, dist, size)","rhs":"cls._sample_numpy(dist, size, seed)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns cls._sample_numpy(dist, size, seed)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"62ca96894710360e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls._sample_numpy(dist, size, seed)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._sample_numpy"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, dist, size, seed=None):
         return cls._sample_numpy(dist, size, seed)
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sample_numpy(cls), sample from numpy) over Any       ║
+# ║ Path(_sample_numpy(cls, dist, size), <unspecified:_sample_numpy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sample_numpy : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eed46176f52a51a1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.SampleMatrixNumpy._sample_numpy","kind":"classmethod","src_hash":"1d7c254bf4780efc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sample_numpy(cls)","rhs":"sample from numpy","over":{"base":"Any"},"name":"_sample_numpy_correct"},"guarantee":"sample from numpy","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.matrix_distributions.SampleMatrixNumpy._sample_numpy_correct","statement":"Path(_sample_numpy(x), sample from numpy)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eed46176f52a51a1"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.SampleMatrixNumpy._sample_numpy","kind":"classmethod","src_hash":"1d7c254bf4780efc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sample_numpy(cls, dist, size)","rhs":"<unspecified:_sample_numpy>","over":{"base":"Any"},"name":"_sample_numpy_correct"},"guarantee":"sample from numpy","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.matrix_distributions.SampleMatrixNumpy._sample_numpy_correct","statement":"Path(_sample_numpy(x), sample from numpy)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eed46176f52a51a1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","dist.__class__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sample_numpy(cls, dist, size, seed):
         """Sample from NumPy."""
 
@@ -313,43 +405,64 @@ class SampleMatrixNumpy:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SampleMatrixPymc(*args), correctly constructs a SampleMatrixPymc instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ SampleMatrixPymc : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c00f0444cda5a7f5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.SampleMatrixPymc","kind":"class","src_hash":"75f0103e7c260d18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SampleMatrixPymc(*args)","rhs":"correctly constructs a SampleMatrixPymc instance","over":{"base":"Any"},"name":"SampleMatrixPymc_class_invariant"},"guarantee":"correctly constructs a SampleMatrixPymc instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c00f0444cda5a7f5"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.SampleMatrixPymc","kind":"class","src_hash":"75f0103e7c260d18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SampleMatrixPymc(*args)","rhs":"correctly constructs a SampleMatrixPymc instance","over":{"base":"Any"},"name":"SampleMatrixPymc_class_invariant"},"guarantee":"correctly constructs a SampleMatrixPymc instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c00f0444cda5a7f5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function SampleMatrixPymc not found in source"]}}
 class SampleMatrixPymc:
     """Returns the sample from pymc of the given distribution"""
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, dist, size), cls._sample_pymc(dist, size, seed)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls._sample_pymc(dist, size, seed)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5db30fc8c4969a91           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.SampleMatrixPymc.__new__","kind":"method","src_hash":"5ba83d87ea58ee26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5db30fc8c4969a91"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.SampleMatrixPymc.__new__","kind":"method","src_hash":"5ba83d87ea58ee26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, dist, size)","rhs":"cls._sample_pymc(dist, size, seed)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns cls._sample_pymc(dist, size, seed)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5db30fc8c4969a91","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls._sample_pymc(dist, size, seed)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._sample_pymc"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, dist, size, seed=None):
         return cls._sample_pymc(dist, size, seed)
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sample_pymc(cls), sample from pymc) over Any         ║
+# ║ Path(_sample_pymc(cls, dist, size), <unspecified:_sample_pymc>) over {Any | hasattr(dist, 'scale_matrix') and hasattr(dist, 'location_matrix') and hasattr(dist, 'scale_matrix_1') and hasattr(dist, 'scale_matrix_2') and hasattr(dist, 'n')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sample_pymc : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(dist, 'scale_matrix')                  ║
+# ║   requires: hasattr(dist, 'location_matrix')               ║
+# ║   requires: hasattr(dist, 'scale_matrix_1')                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sample_pymc : {Any | hasattr(dist, 'scale_matrix') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b8a587d3514de36d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.SampleMatrixPymc._sample_pymc","kind":"classmethod","src_hash":"30336e1053f79131","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sample_pymc(cls)","rhs":"sample from pymc","over":{"base":"Any"},"name":"_sample_pymc_correct"},"guarantee":"sample from pymc","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.matrix_distributions.SampleMatrixPymc._sample_pymc_correct","statement":"Path(_sample_pymc(x), sample from pymc)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8a587d3514de36d"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.SampleMatrixPymc._sample_pymc","kind":"classmethod","src_hash":"30336e1053f79131","in":{"base":"Any","pred":"hasattr(dist, 'scale_matrix') and hasattr(dist, 'location_matrix') and hasattr(dist, 'scale_matrix_1') and hasattr(dist, 'scale_matrix_2') and hasattr(dist, 'n')"},"out":{"base":"Any"},"spec":{"lhs":"_sample_pymc(cls, dist, size)","rhs":"<unspecified:_sample_pymc>","over":{"base":"Any","pred":"hasattr(dist, 'scale_matrix') and hasattr(dist, 'location_matrix') and hasattr(dist, 'scale_matrix_1') and hasattr(dist, 'scale_matrix_2') and hasattr(dist, 'n')"},"name":"_sample_pymc_correct"},"guarantee":"sample from pymc","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.matrix_distributions.SampleMatrixPymc._sample_pymc_correct","statement":"Path(_sample_pymc(x), sample from pymc)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8a587d3514de36d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(dist, 'scale_matrix')","hasattr(dist, 'location_matrix')","hasattr(dist, 'scale_matrix_1')","hasattr(dist, 'scale_matrix_2')","hasattr(dist, 'n')"],"pure":false,"effects":{"effect_type":"nondeterministic","reads":["*.__class__","dist.__class__","dist.location_matrix","dist.n","dist.scale_matrix","dist.scale_matrix_1","dist.scale_matrix_2"],"catches":["ImportError"],"nondeterministic_sources":["pymc.sample"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sample_pymc(cls, dist, size, seed):
         """Sample from PyMC."""
 
@@ -397,29 +510,42 @@ _get_sample_class_matrixrv = {
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MatrixDistribution(*args), correctly constructs a MatrixDistribution instance) over {Any | isinstance(expr, list)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Distribution)                 ║
+# ║   ensures:  isinstance(self, NamedArgsMixin)               ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ MatrixDistribution : {Any | isinstance(expr, list)} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8949302677dbe98  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixDistribution","kind":"class","src_hash":"8e19be8405b9a5c0","in":{"base":"Any","pred":"isinstance(expr, list)"},"out":{"base":"Any"},"spec":{"lhs":"MatrixDistribution(*args)","rhs":"correctly constructs a MatrixDistribution instance","over":{"base":"Any","pred":"isinstance(expr, list)"},"name":"MatrixDistribution_class_invariant"},"guarantee":"correctly constructs a MatrixDistribution instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8949302677dbe98"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixDistribution","kind":"class","src_hash":"8e19be8405b9a5c0","in":{"base":"Any","pred":"isinstance(expr, list)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Distribution) and isinstance(self, NamedArgsMixin)"},"spec":{"lhs":"MatrixDistribution(*args)","rhs":"correctly constructs a MatrixDistribution instance","over":{"base":"Any","pred":"isinstance(expr, list)"},"name":"MatrixDistribution_class_invariant"},"guarantee":"isinstance(self, Distribution); isinstance(self, NamedArgsMixin)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8949302677dbe98","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Distribution)","isinstance(self, NamedArgsMixin)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function MatrixDistribution not found in source"]}}
 class MatrixDistribution(Distribution, NamedArgsMixin):
     """
     Abstract class for Matrix Distribution.
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args), Basic.__new__(cls, *args)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Basic.__new__(cls, *args)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a7d891a92b0b13de           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixDistribution.__new__","kind":"method","src_hash":"3e0bcd717f23e356","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a7d891a92b0b13de"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixDistribution.__new__","kind":"method","src_hash":"3e0bcd717f23e356","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args)","rhs":"Basic.__new__(cls, *args)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns Basic.__new__(cls, *args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a7d891a92b0b13de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Basic.__new__(cls, *args)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args):
         args = [ImmutableMatrix(arg) if isinstance(arg, list)
                 else _sympify(arg) for arg in args]
@@ -427,46 +553,66 @@ class MatrixDistribution(Distribution, NamedArgsMixin):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check(*ar), check produces the expected output) over Any ║
+# ║ Path(check(*args), <unspecified:check>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ check : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b2cb7854d8f5f6bf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixDistribution.check","kind":"staticmethod","src_hash":"1ae78338092cf8d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check(*ar)","rhs":"check produces the expected output","over":{"base":"Any"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b2cb7854d8f5f6bf"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixDistribution.check","kind":"staticmethod","src_hash":"1ae78338092cf8d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check(*args)","rhs":"<unspecified:check>","over":{"base":"Any"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b2cb7854d8f5f6bf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def check(*args):
         pass
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(exp), correctly applies the callable) over Any ║
+# ║ Path(__call__(expr), self.pdf(expr)) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.pdf(expr)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __call__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 747fdbef4a892a7d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixDistribution.__call__","kind":"method","src_hash":"0fb2a8b4c74e38e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(exp)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"747fdbef4a892a7d"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixDistribution.__call__","kind":"method","src_hash":"0fb2a8b4c74e38e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(expr)","rhs":"self.pdf(expr)","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"returns self.pdf(expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"747fdbef4a892a7d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.pdf(expr)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.pdf"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, expr):
         if isinstance(expr, list):
             expr = ImmutableMatrix(expr)
         return self.pdf(expr)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sample(siz), internal sample method) over Any         ║
+# ║ Path(sample(size, library, seed), <unspecified:sample>) over {Any | not (library not in libraries) and import_module(library)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sample : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (library not in libraries)                 ║
+# ║   requires: import_module(library)                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sample : {Any | not (library not in libraries) and im...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e84d0b4182402f7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixDistribution.sample","kind":"method","src_hash":"52e31143529f38fa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sample(siz)","rhs":"internal sample method","over":{"base":"Any"},"name":"sample_correct"},"guarantee":"internal sample method","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.matrix_distributions.MatrixDistribution.sample_correct","statement":"Path(sample(x), internal sample method)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e84d0b4182402f7"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixDistribution.sample","kind":"method","src_hash":"52e31143529f38fa","in":{"base":"Any","pred":"not (library not in libraries) and import_module(library)"},"out":{"base":"Any"},"spec":{"lhs":"sample(size, library, seed)","rhs":"<unspecified:sample>","over":{"base":"Any","pred":"not (library not in libraries) and import_module(library)"},"name":"sample_correct"},"guarantee":"internal sample method","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.matrix_distributions.MatrixDistribution.sample_correct","statement":"Path(sample(x), internal sample method)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e84d0b4182402f7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (library not in libraries)","import_module(library)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__"],"raises":["NotImplementedError","ValueError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def sample(self, size=(), library='scipy', seed=None):
         """
         Internal sample method
@@ -500,30 +646,45 @@ class MatrixDistribution(Distribution, NamedArgsMixin):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MatrixGammaDistribution(*args), correctly constructs a MatrixGammaDistribution instance) over {Any | isinstance(x, list) and isinstance(scale_matrix, MatrixSymbol) and isinstance(x, (MatrixBase, MatrixSymbol))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MatrixDistribution)           ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ MatrixGammaDistribution : {Any | isinstance(x, list) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a8dfb6120358084e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixGammaDistribution","kind":"class","src_hash":"abfde5116ab7535f","in":{"base":"Any","pred":"isinstance(x, list) and isinstance(scale_matrix, MatrixSymbol) and isinstance(x, (MatrixBase, MatrixSymbol))"},"out":{"base":"Any"},"spec":{"lhs":"MatrixGammaDistribution(*args)","rhs":"correctly constructs a MatrixGammaDistribution instance","over":{"base":"Any","pred":"isinstance(x, list) and isinstance(scale_matrix, MatrixSymbol) and isinstance(x, (MatrixBase, MatrixSymbol))"},"name":"MatrixGammaDistribution_class_invariant"},"guarantee":"correctly constructs a MatrixGammaDistribution instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8dfb6120358084e"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixGammaDistribution","kind":"class","src_hash":"abfde5116ab7535f","in":{"base":"Any","pred":"isinstance(x, list) and isinstance(scale_matrix, MatrixSymbol) and isinstance(x, (MatrixBase, MatrixSymbol))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MatrixDistribution)"},"spec":{"lhs":"MatrixGammaDistribution(*args)","rhs":"correctly constructs a MatrixGammaDistribution instance","over":{"base":"Any","pred":"isinstance(x, list) and isinstance(scale_matrix, MatrixSymbol) and isinstance(x, (MatrixBase, MatrixSymbol))"},"name":"MatrixGammaDistribution_class_invariant"},"guarantee":"isinstance(self, MatrixDistribution)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8dfb6120358084e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MatrixDistribution)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function MatrixGammaDistribution not found in source"]}}
 class MatrixGammaDistribution(MatrixDistribution):
 
     _argnames = ('alpha', 'beta', 'scale_matrix')
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check(alp), check produces the expected output) over Any ║
+# ║ Path(check(alpha, beta, scale_matrix), <unspecified:check>) over {Any | hasattr(scale_matrix, 'is_square') and hasattr(alpha, 'is_positive') and hasattr(beta, 'is_positive') and hasattr(scale_matrix, 'is_positive_definite')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ check : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(scale_matrix, 'is_square')             ║
+# ║   requires: hasattr(alpha, 'is_positive')                  ║
+# ║   requires: hasattr(beta, 'is_positive')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ check : {Any | hasattr(scale_matrix, 'is_square') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4c61a1d004c051e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixGammaDistribution.check","kind":"staticmethod","src_hash":"6f09593e209214be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check(alp)","rhs":"check produces the expected output","over":{"base":"Any"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.matrix_distributions.MatrixGammaDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4c61a1d004c051e"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixGammaDistribution.check","kind":"staticmethod","src_hash":"6f09593e209214be","in":{"base":"Any","pred":"hasattr(scale_matrix, 'is_square') and hasattr(alpha, 'is_positive') and hasattr(beta, 'is_positive') and hasattr(scale_matrix, 'is_positive_definite')"},"out":{"base":"Any"},"spec":{"lhs":"check(alpha, beta, scale_matrix)","rhs":"<unspecified:check>","over":{"base":"Any","pred":"hasattr(scale_matrix, 'is_square') and hasattr(alpha, 'is_positive') and hasattr(beta, 'is_positive') and hasattr(scale_matrix, 'is_positive_definite')"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.matrix_distributions.MatrixGammaDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4c61a1d004c051e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(scale_matrix, 'is_square')","hasattr(alpha, 'is_positive')","hasattr(beta, 'is_positive')","hasattr(scale_matrix, 'is_positive_definite')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["alpha.is_positive","beta.is_positive","scale_matrix.is_positive_definite","scale_matrix.is_square"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def check(alpha, beta, scale_matrix):
         if not isinstance(scale_matrix, MatrixSymbol):
             _value_check(scale_matrix.is_positive_definite, "The shape "
@@ -535,46 +696,65 @@ class MatrixGammaDistribution(MatrixDistribution):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set(), returns the set attribute) over Any            ║
+# ║ Path(set(), MatrixSet(k, k, S.Reals)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  MatrixSet(k, k, S.Reals)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 41b74aa596b44921           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixGammaDistribution.set","kind":"property","src_hash":"ad1ff4d86cded32b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"returns the set attribute","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns the set attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"41b74aa596b44921"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixGammaDistribution.set","kind":"property","src_hash":"ad1ff4d86cded32b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"MatrixSet(k, k, S.Reals)","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns MatrixSet(k, k, S.Reals)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"41b74aa596b44921","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"MatrixSet(k, k, S.Reals)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.scale_matrix"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set(self):
         k = self.scale_matrix.shape[0]
         return MatrixSet(k, k, S.Reals)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dimension(), returns the dimension attribute) over Any ║
+# ║ Path(dimension(), self.scale_matrix.shape) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.scale_matrix.shape                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dimension : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cbe5566728db0238           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixGammaDistribution.dimension","kind":"property","src_hash":"ba14c952d428dd03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dimension()","rhs":"returns the dimension attribute","over":{"base":"Any"},"name":"dimension_correct"},"guarantee":"returns the dimension attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cbe5566728db0238"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixGammaDistribution.dimension","kind":"property","src_hash":"ba14c952d428dd03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dimension()","rhs":"self.scale_matrix.shape","over":{"base":"Any"},"name":"dimension_correct"},"guarantee":"returns self.scale_matrix.shape","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cbe5566728db0238","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.scale_matrix.shape","pure":false,"effects":{"effect_type":"reads_state","reads":["self.scale_matrix"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dimension(self):
         return self.scale_matrix.shape
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pdf(x), pdf produces the expected output) over Any    ║
+# ║ Path(pdf(x), term1 * term2 * term3) over {Any | isinstance(x, (MatrixBase, MatrixSymbol))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ pdf : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(x, (MatrixBase, MatrixSymbol))      ║
+# ║   returns:  term1 * term2 * term3                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ pdf : {Any | isinstance(x, (MatrixBase, MatrixSymbol)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e11666baf09f852f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f71326bff7b948ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixGammaDistribution.pdf","kind":"method","src_hash":"d0dbc5d90fcba6c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pdf(x)","rhs":"pdf produces the expected output","over":{"base":"Any"},"name":"pdf_correct"},"guarantee":"pdf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.matrix_distributions.MatrixGammaDistribution.pdf_correct","statement":"Path(pdf(x), pdf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e11666baf09f852f"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixGammaDistribution.pdf","kind":"method","src_hash":"d0dbc5d90fcba6c3","in":{"base":"Any","pred":"isinstance(x, (MatrixBase, MatrixSymbol))"},"out":{"base":"Any"},"spec":{"lhs":"pdf(x)","rhs":"term1 * term2 * term3","over":{"base":"Any","pred":"isinstance(x, (MatrixBase, MatrixSymbol))"},"name":"pdf_correct"},"guarantee":"returns term1 * term2 * term3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.matrix_distributions.MatrixGammaDistribution.pdf_correct","statement":"Path(pdf(x), returns term1 * term2 * term3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f71326bff7b948ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(x, (MatrixBase, MatrixSymbol))"],"returns_expr":"term1 * term2 * term3","pure":false,"effects":{"effect_type":"reads_state","reads":["self.alpha","self.beta","self.scale_matrix"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pdf(self, x):
         alpha, beta, scale_matrix = self.alpha, self.beta, self.scale_matrix
         p = scale_matrix.shape[0]
@@ -590,7 +770,10 @@ class MatrixGammaDistribution(MatrixDistribution):
         return term1 * term2 * term3
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(MatrixGamma(sym), creates a random variable with matrix gamma distribution) over {Any | isinstance(scale_matrix, list)} ║
+# ║ Path(MatrixGamma(symbol, alpha, beta), rv(symbol, MatrixGammaDistribution, (alpha, beta, scale_matrix))) over {Any | isinstance(scale_matrix, list)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  rv(symbol, MatrixGammaDistribution, (alph...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ MatrixGamma : {Any | isinstance(scale_matrix, list)} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -602,9 +785,12 @@ class MatrixGammaDistribution(MatrixDistribution):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | fc3f82ea...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixGamma","kind":"function","src_hash":"6d8d810a0b5174a6","in":{"base":"Any","pred":"isinstance(scale_matrix, list)"},"out":{"base":"Any"},"spec":{"lhs":"MatrixGamma(sym)","rhs":"creates a random variable with matrix gamma distribution","over":{"base":"Any","pred":"isinstance(scale_matrix, list)"},"name":"MatrixGamma_correct"},"guarantee":"creates a random variable with matrix gamma distribution","fibers":[{"name":"list","pred":"isinstance(scale_matrix, list)","path":{"lhs":"MatrixGamma(x)","rhs":"creates a random variable with matrix gamma distribution","over":{"base":"list","pred":"isinstance(scale_matrix, list)"},"name":"MatrixGamma_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.matrix_distributions.MatrixGamma_list_correct","statement":"MatrixGamma satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"fc3f82eaa750e814"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixGamma","kind":"function","src_hash":"6d8d810a0b5174a6","in":{"base":"Any","pred":"isinstance(scale_matrix, list)"},"out":{"base":"Any"},"spec":{"lhs":"MatrixGamma(symbol, alpha, beta)","rhs":"rv(symbol, MatrixGammaDistribution, (alpha, beta, scale_matrix))","over":{"base":"Any","pred":"isinstance(scale_matrix, list)"},"name":"MatrixGamma_correct"},"guarantee":"returns rv(symbol, MatrixGammaDistribution, (alpha, beta, scale_matrix))","fibers":[{"name":"list","pred":"isinstance(scale_matrix, list)","path":{"lhs":"MatrixGamma(x)","rhs":"returns rv(symbol, MatrixGammaDistribution, (alpha, beta, scale_matrix))","over":{"base":"list","pred":"isinstance(scale_matrix, list)"},"name":"MatrixGamma_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.matrix_distributions.MatrixGamma_list_correct","statement":"MatrixGamma satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"fc3f82eaa750e814","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"rv(symbol, MatrixGammaDistribution, (alpha, beta, scale_matrix))","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(scale_matrix, list)'}, fibers={'list'})"]}}
 def MatrixGamma(symbol, alpha, beta, scale_matrix):
     """
     Creates a random variable with Matrix Gamma Distribution.
@@ -658,30 +844,45 @@ def MatrixGamma(symbol, alpha, beta, scale_matrix):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(WishartDistribution(*args), correctly constructs a WishartDistribution instance) over {Any | isinstance(x, list) and isinstance(scale_matrix, MatrixSymbol) and isinstance(x, (MatrixBase, MatrixSymbol))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MatrixDistribution)           ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ WishartDistribution : {Any | isinstance(x, list) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 202da7868b24f183  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.WishartDistribution","kind":"class","src_hash":"789c14d590deb57a","in":{"base":"Any","pred":"isinstance(x, list) and isinstance(scale_matrix, MatrixSymbol) and isinstance(x, (MatrixBase, MatrixSymbol))"},"out":{"base":"Any"},"spec":{"lhs":"WishartDistribution(*args)","rhs":"correctly constructs a WishartDistribution instance","over":{"base":"Any","pred":"isinstance(x, list) and isinstance(scale_matrix, MatrixSymbol) and isinstance(x, (MatrixBase, MatrixSymbol))"},"name":"WishartDistribution_class_invariant"},"guarantee":"correctly constructs a WishartDistribution instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"202da7868b24f183"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.WishartDistribution","kind":"class","src_hash":"789c14d590deb57a","in":{"base":"Any","pred":"isinstance(x, list) and isinstance(scale_matrix, MatrixSymbol) and isinstance(x, (MatrixBase, MatrixSymbol))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MatrixDistribution)"},"spec":{"lhs":"WishartDistribution(*args)","rhs":"correctly constructs a WishartDistribution instance","over":{"base":"Any","pred":"isinstance(x, list) and isinstance(scale_matrix, MatrixSymbol) and isinstance(x, (MatrixBase, MatrixSymbol))"},"name":"WishartDistribution_class_invariant"},"guarantee":"isinstance(self, MatrixDistribution)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"202da7868b24f183","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MatrixDistribution)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function WishartDistribution not found in source"]}}
 class WishartDistribution(MatrixDistribution):
 
     _argnames = ('n', 'scale_matrix')
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check(n, ), check produces the expected output) over Any ║
+# ║ Path(check(n, scale_matrix), <unspecified:check>) over {Any | hasattr(scale_matrix, 'is_square') and hasattr(n, 'is_positive') and hasattr(scale_matrix, 'is_positive_definite')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ check : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(scale_matrix, 'is_square')             ║
+# ║   requires: hasattr(n, 'is_positive')                      ║
+# ║   requires: hasattr(scale_matrix, 'is_positive_defini...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ check : {Any | hasattr(scale_matrix, 'is_square') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae47331cc0ba84e9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.WishartDistribution.check","kind":"staticmethod","src_hash":"4186ee7b9cbe1d5a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check(n, )","rhs":"check produces the expected output","over":{"base":"Any"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.matrix_distributions.WishartDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae47331cc0ba84e9"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.WishartDistribution.check","kind":"staticmethod","src_hash":"4186ee7b9cbe1d5a","in":{"base":"Any","pred":"hasattr(scale_matrix, 'is_square') and hasattr(n, 'is_positive') and hasattr(scale_matrix, 'is_positive_definite')"},"out":{"base":"Any"},"spec":{"lhs":"check(n, scale_matrix)","rhs":"<unspecified:check>","over":{"base":"Any","pred":"hasattr(scale_matrix, 'is_square') and hasattr(n, 'is_positive') and hasattr(scale_matrix, 'is_positive_definite')"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.matrix_distributions.WishartDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae47331cc0ba84e9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(scale_matrix, 'is_square')","hasattr(n, 'is_positive')","hasattr(scale_matrix, 'is_positive_definite')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["n.is_positive","scale_matrix.is_positive_definite","scale_matrix.is_square"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def check(n, scale_matrix):
         if not isinstance(scale_matrix, MatrixSymbol):
             _value_check(scale_matrix.is_positive_definite, "The shape "
@@ -692,46 +893,65 @@ class WishartDistribution(MatrixDistribution):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set(), returns the set attribute) over Any            ║
+# ║ Path(set(), MatrixSet(k, k, S.Reals)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  MatrixSet(k, k, S.Reals)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e972cb7cfc1955fd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.WishartDistribution.set","kind":"property","src_hash":"ad1ff4d86cded32b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"returns the set attribute","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns the set attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e972cb7cfc1955fd"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.WishartDistribution.set","kind":"property","src_hash":"ad1ff4d86cded32b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"MatrixSet(k, k, S.Reals)","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns MatrixSet(k, k, S.Reals)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e972cb7cfc1955fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"MatrixSet(k, k, S.Reals)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.scale_matrix"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set(self):
         k = self.scale_matrix.shape[0]
         return MatrixSet(k, k, S.Reals)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dimension(), returns the dimension attribute) over Any ║
+# ║ Path(dimension(), self.scale_matrix.shape) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.scale_matrix.shape                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dimension : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 425713fe74d42266           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.WishartDistribution.dimension","kind":"property","src_hash":"ba14c952d428dd03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dimension()","rhs":"returns the dimension attribute","over":{"base":"Any"},"name":"dimension_correct"},"guarantee":"returns the dimension attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"425713fe74d42266"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.WishartDistribution.dimension","kind":"property","src_hash":"ba14c952d428dd03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dimension()","rhs":"self.scale_matrix.shape","over":{"base":"Any"},"name":"dimension_correct"},"guarantee":"returns self.scale_matrix.shape","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"425713fe74d42266","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.scale_matrix.shape","pure":false,"effects":{"effect_type":"reads_state","reads":["self.scale_matrix"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dimension(self):
         return self.scale_matrix.shape
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pdf(x), pdf produces the expected output) over Any    ║
+# ║ Path(pdf(x), term1 * term2 * term3) over {Any | isinstance(x, (MatrixBase, MatrixSymbol))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ pdf : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(x, (MatrixBase, MatrixSymbol))      ║
+# ║   returns:  term1 * term2 * term3                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ pdf : {Any | isinstance(x, (MatrixBase, MatrixSymbol)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e680588a7a1e26de  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a2d6b067a1e8108  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.WishartDistribution.pdf","kind":"method","src_hash":"96d2d33029e1c566","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pdf(x)","rhs":"pdf produces the expected output","over":{"base":"Any"},"name":"pdf_correct"},"guarantee":"pdf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.matrix_distributions.WishartDistribution.pdf_correct","statement":"Path(pdf(x), pdf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e680588a7a1e26de"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.WishartDistribution.pdf","kind":"method","src_hash":"96d2d33029e1c566","in":{"base":"Any","pred":"isinstance(x, (MatrixBase, MatrixSymbol))"},"out":{"base":"Any"},"spec":{"lhs":"pdf(x)","rhs":"term1 * term2 * term3","over":{"base":"Any","pred":"isinstance(x, (MatrixBase, MatrixSymbol))"},"name":"pdf_correct"},"guarantee":"returns term1 * term2 * term3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.matrix_distributions.WishartDistribution.pdf_correct","statement":"Path(pdf(x), returns term1 * term2 * term3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a2d6b067a1e8108","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(x, (MatrixBase, MatrixSymbol))"],"returns_expr":"term1 * term2 * term3","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n","self.scale_matrix"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pdf(self, x):
         n, scale_matrix = self.n, self.scale_matrix
         p = scale_matrix.shape[0]
@@ -747,7 +967,10 @@ class WishartDistribution(MatrixDistribution):
         return term1 * term2 * term3
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Wishart(sym), creates a random variable with wishart distribution) over {Any | isinstance(scale_matrix, list)} ║
+# ║ Path(Wishart(symbol, n, scale_matrix), rv(symbol, WishartDistribution, (n, scale_matrix))) over {Any | isinstance(scale_matrix, list)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  rv(symbol, WishartDistribution, (n, scale...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Wishart : {Any | isinstance(scale_matrix, list)} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -759,9 +982,12 @@ class WishartDistribution(MatrixDistribution):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 07a69f76...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.Wishart","kind":"function","src_hash":"fc20e5f60a4f7525","in":{"base":"Any","pred":"isinstance(scale_matrix, list)"},"out":{"base":"Any"},"spec":{"lhs":"Wishart(sym)","rhs":"creates a random variable with wishart distribution","over":{"base":"Any","pred":"isinstance(scale_matrix, list)"},"name":"Wishart_correct"},"guarantee":"creates a random variable with wishart distribution","fibers":[{"name":"list","pred":"isinstance(scale_matrix, list)","path":{"lhs":"Wishart(x)","rhs":"creates a random variable with wishart distribution","over":{"base":"list","pred":"isinstance(scale_matrix, list)"},"name":"Wishart_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.matrix_distributions.Wishart_list_correct","statement":"Wishart satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"07a69f76286e9fbb"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.Wishart","kind":"function","src_hash":"fc20e5f60a4f7525","in":{"base":"Any","pred":"isinstance(scale_matrix, list)"},"out":{"base":"Any"},"spec":{"lhs":"Wishart(symbol, n, scale_matrix)","rhs":"rv(symbol, WishartDistribution, (n, scale_matrix))","over":{"base":"Any","pred":"isinstance(scale_matrix, list)"},"name":"Wishart_correct"},"guarantee":"returns rv(symbol, WishartDistribution, (n, scale_matrix))","fibers":[{"name":"list","pred":"isinstance(scale_matrix, list)","path":{"lhs":"Wishart(x)","rhs":"returns rv(symbol, WishartDistribution, (n, scale_matrix))","over":{"base":"list","pred":"isinstance(scale_matrix, list)"},"name":"Wishart_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.matrix_distributions.Wishart_list_correct","statement":"Wishart satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"07a69f76286e9fbb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"rv(symbol, WishartDistribution, (n, scale_matrix))","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(scale_matrix, list)'}, fibers={'list'})"]}}
 def Wishart(symbol, n, scale_matrix):
     """
     Creates a random variable with Wishart Distribution.
@@ -812,30 +1038,45 @@ def Wishart(symbol, n, scale_matrix):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MatrixNormalDistribution(*args), correctly constructs a MatrixNormalDistribution instance) over {Any | isinstance(x, list) and isinstance(scale_matrix_1, MatrixSymbol) and isinstance(x, (MatrixBase, MatrixSymbol))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MatrixDistribution)           ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ MatrixNormalDistribution : {Any | isinstance(x, list)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cde2565e54f27210  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixNormalDistribution","kind":"class","src_hash":"7d5358f05c09230a","in":{"base":"Any","pred":"isinstance(x, list) and isinstance(scale_matrix_1, MatrixSymbol) and isinstance(x, (MatrixBase, MatrixSymbol))"},"out":{"base":"Any"},"spec":{"lhs":"MatrixNormalDistribution(*args)","rhs":"correctly constructs a MatrixNormalDistribution instance","over":{"base":"Any","pred":"isinstance(x, list) and isinstance(scale_matrix_1, MatrixSymbol) and isinstance(x, (MatrixBase, MatrixSymbol))"},"name":"MatrixNormalDistribution_class_invariant"},"guarantee":"correctly constructs a MatrixNormalDistribution instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cde2565e54f27210"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixNormalDistribution","kind":"class","src_hash":"7d5358f05c09230a","in":{"base":"Any","pred":"isinstance(x, list) and isinstance(scale_matrix_1, MatrixSymbol) and isinstance(x, (MatrixBase, MatrixSymbol))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MatrixDistribution)"},"spec":{"lhs":"MatrixNormalDistribution(*args)","rhs":"correctly constructs a MatrixNormalDistribution instance","over":{"base":"Any","pred":"isinstance(x, list) and isinstance(scale_matrix_1, MatrixSymbol) and isinstance(x, (MatrixBase, MatrixSymbol))"},"name":"MatrixNormalDistribution_class_invariant"},"guarantee":"isinstance(self, MatrixDistribution)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cde2565e54f27210","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MatrixDistribution)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function MatrixNormalDistribution not found in source"]}}
 class MatrixNormalDistribution(MatrixDistribution):
 
     _argnames = ('location_matrix', 'scale_matrix_1', 'scale_matrix_2')
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check(loc), check produces the expected output) over Any ║
+# ║ Path(check(location_matrix, scale_matrix_1, scale_matrix_2), <unspecified:check>) over {Any | hasattr(scale_matrix_1, 'is_square') and hasattr(scale_matrix_2, 'is_square') and hasattr(location_matrix, 'shape') and hasattr(scale_matrix_1, 'is_positive_definite') and hasattr(scale_matrix_2, 'is_positive_definite') and hasattr(scale_matrix_1, 'shape') and hasattr(scale_matrix_2, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ check : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(scale_matrix_1, 'is_square')           ║
+# ║   requires: hasattr(scale_matrix_2, 'is_square')           ║
+# ║   requires: hasattr(location_matrix, 'shape')              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ check : {Any | hasattr(scale_matrix_1, 'is_square') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 20d58e7b594cee95  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixNormalDistribution.check","kind":"staticmethod","src_hash":"b37fac1da64ae7ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check(loc)","rhs":"check produces the expected output","over":{"base":"Any"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.matrix_distributions.MatrixNormalDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20d58e7b594cee95"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixNormalDistribution.check","kind":"staticmethod","src_hash":"b37fac1da64ae7ba","in":{"base":"Any","pred":"hasattr(scale_matrix_1, 'is_square') and hasattr(scale_matrix_2, 'is_square') and hasattr(location_matrix, 'shape') and hasattr(scale_matrix_1, 'is_positive_definite') and hasattr(scale_matrix_2, 'is_positive_definite') and hasattr(scale_matrix_1, 'shape') and hasattr(scale_matrix_2, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"check(location_matrix, scale_matrix_1, scale_matrix_2)","rhs":"<unspecified:check>","over":{"base":"Any","pred":"hasattr(scale_matrix_1, 'is_square') and hasattr(scale_matrix_2, 'is_square') and hasattr(location_matrix, 'shape') and hasattr(scale_matrix_1, 'is_positive_definite') and hasattr(scale_matrix_2, 'is_positive_definite') and hasattr(scale_matrix_1, 'shape') and hasattr(scale_matrix_2, 'shape')"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.matrix_distributions.MatrixNormalDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20d58e7b594cee95","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(scale_matrix_1, 'is_square')","hasattr(scale_matrix_2, 'is_square')","hasattr(location_matrix, 'shape')","hasattr(scale_matrix_1, 'is_positive_definite')","hasattr(scale_matrix_2, 'is_positive_definite')","hasattr(scale_matrix_1, 'shape')","hasattr(scale_matrix_2, 'shape')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["location_matrix.shape","scale_matrix_1.is_positive_definite","scale_matrix_1.is_square","scale_matrix_1.shape","scale_matrix_2.is_positive_definite","scale_matrix_2.is_square","scale_matrix_2.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def check(location_matrix, scale_matrix_1, scale_matrix_2):
         if not isinstance(scale_matrix_1, MatrixSymbol):
             _value_check(scale_matrix_1.is_positive_definite, "The shape "
@@ -856,46 +1097,65 @@ class MatrixNormalDistribution(MatrixDistribution):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set(), returns the set attribute) over Any            ║
+# ║ Path(set(), MatrixSet(n, p, S.Reals)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  MatrixSet(n, p, S.Reals)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 414cebff2caa5054           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixNormalDistribution.set","kind":"property","src_hash":"68b67e2947473c1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"returns the set attribute","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns the set attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"414cebff2caa5054"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixNormalDistribution.set","kind":"property","src_hash":"68b67e2947473c1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"MatrixSet(n, p, S.Reals)","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns MatrixSet(n, p, S.Reals)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"414cebff2caa5054","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"MatrixSet(n, p, S.Reals)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.location_matrix"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set(self):
         n, p = self.location_matrix.shape
         return MatrixSet(n, p, S.Reals)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dimension(), returns the dimension attribute) over Any ║
+# ║ Path(dimension(), self.location_matrix.shape) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.location_matrix.shape                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dimension : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | eab3695d2362e970           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixNormalDistribution.dimension","kind":"property","src_hash":"2fb905f359e5f9b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dimension()","rhs":"returns the dimension attribute","over":{"base":"Any"},"name":"dimension_correct"},"guarantee":"returns the dimension attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eab3695d2362e970"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixNormalDistribution.dimension","kind":"property","src_hash":"2fb905f359e5f9b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dimension()","rhs":"self.location_matrix.shape","over":{"base":"Any"},"name":"dimension_correct"},"guarantee":"returns self.location_matrix.shape","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eab3695d2362e970","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.location_matrix.shape","pure":false,"effects":{"effect_type":"reads_state","reads":["self.location_matrix"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dimension(self):
         return self.location_matrix.shape
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pdf(x), pdf produces the expected output) over Any    ║
+# ║ Path(pdf(x), num / den) over {Any | isinstance(x, (MatrixBase, MatrixSymbol))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ pdf : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(x, (MatrixBase, MatrixSymbol))      ║
+# ║   returns:  num / den                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ pdf : {Any | isinstance(x, (MatrixBase, MatrixSymbol)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3d357c43b70db8d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ddc61700209f8e0f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixNormalDistribution.pdf","kind":"method","src_hash":"0ea3d86d41d33add","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pdf(x)","rhs":"pdf produces the expected output","over":{"base":"Any"},"name":"pdf_correct"},"guarantee":"pdf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.matrix_distributions.MatrixNormalDistribution.pdf_correct","statement":"Path(pdf(x), pdf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3d357c43b70db8d"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixNormalDistribution.pdf","kind":"method","src_hash":"0ea3d86d41d33add","in":{"base":"Any","pred":"isinstance(x, (MatrixBase, MatrixSymbol))"},"out":{"base":"Any"},"spec":{"lhs":"pdf(x)","rhs":"num / den","over":{"base":"Any","pred":"isinstance(x, (MatrixBase, MatrixSymbol))"},"name":"pdf_correct"},"guarantee":"returns num / den","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.matrix_distributions.MatrixNormalDistribution.pdf_correct","statement":"Path(pdf(x), returns num / den)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ddc61700209f8e0f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(x, (MatrixBase, MatrixSymbol))"],"returns_expr":"num / den","pure":false,"effects":{"effect_type":"reads_state","reads":["self.location_matrix","self.scale_matrix_1","self.scale_matrix_2"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pdf(self, x):
         M, U, V = self.location_matrix, self.scale_matrix_1, self.scale_matrix_2
         n, p = M.shape
@@ -910,7 +1170,10 @@ class MatrixNormalDistribution(MatrixDistribution):
         return num/den
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(MatrixNormal(sym), creates a random variable with matrix normal distribution) over {Any | isinstance(location_matrix, list)} ║
+# ║ Path(MatrixNormal(symbol, location_matrix, scale_matrix_1), rv(symbol, MatrixNormalDistribution, args)) over {Any | isinstance(location_matrix, list)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  rv(symbol, MatrixNormalDistribution, args)     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ MatrixNormal : {Any | isinstance(location_matrix, lis...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -922,9 +1185,12 @@ class MatrixNormalDistribution(MatrixDistribution):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b94ec4e5...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixNormal","kind":"function","src_hash":"f2e523ac2bc0a958","in":{"base":"Any","pred":"isinstance(location_matrix, list)"},"out":{"base":"Any"},"spec":{"lhs":"MatrixNormal(sym)","rhs":"creates a random variable with matrix normal distribution","over":{"base":"Any","pred":"isinstance(location_matrix, list)"},"name":"MatrixNormal_correct"},"guarantee":"creates a random variable with matrix normal distribution","fibers":[{"name":"list","pred":"isinstance(location_matrix, list)","path":{"lhs":"MatrixNormal(x)","rhs":"creates a random variable with matrix normal distribution","over":{"base":"list","pred":"isinstance(location_matrix, list)"},"name":"MatrixNormal_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.matrix_distributions.MatrixNormal_list_correct","statement":"MatrixNormal satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b94ec4e595dd0453"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixNormal","kind":"function","src_hash":"f2e523ac2bc0a958","in":{"base":"Any","pred":"isinstance(location_matrix, list)"},"out":{"base":"Any"},"spec":{"lhs":"MatrixNormal(symbol, location_matrix, scale_matrix_1)","rhs":"rv(symbol, MatrixNormalDistribution, args)","over":{"base":"Any","pred":"isinstance(location_matrix, list)"},"name":"MatrixNormal_correct"},"guarantee":"returns rv(symbol, MatrixNormalDistribution, args)","fibers":[{"name":"list","pred":"isinstance(location_matrix, list)","path":{"lhs":"MatrixNormal(x)","rhs":"returns rv(symbol, MatrixNormalDistribution, args)","over":{"base":"list","pred":"isinstance(location_matrix, list)"},"name":"MatrixNormal_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.matrix_distributions.MatrixNormal_list_correct","statement":"MatrixNormal satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b94ec4e595dd0453","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"rv(symbol, MatrixNormalDistribution, args)","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(scale_matrix_2, list)', 'isinstance(location_matrix, list)', 'isinstance(scale_matrix_1, list)'}, fibers={'list'})"]}}
 def MatrixNormal(symbol, location_matrix, scale_matrix_1, scale_matrix_2):
     """
     Creates a random variable with Matrix Normal Distribution.
@@ -981,30 +1247,45 @@ def MatrixNormal(symbol, location_matrix, scale_matrix_1, scale_matrix_2):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MatrixStudentTDistribution(*args), correctly constructs a MatrixStudentTDistribution instance) over {Any | isinstance(x, list) and isinstance(scale_matrix_1, MatrixSymbol) and isinstance(x, (MatrixBase, MatrixSymbol))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MatrixDistribution)           ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ MatrixStudentTDistribution : {Any | isinstance(x, lis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24cad8a7a5cc9ed2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixStudentTDistribution","kind":"class","src_hash":"7a99299566fa7824","in":{"base":"Any","pred":"isinstance(x, list) and isinstance(scale_matrix_1, MatrixSymbol) and isinstance(x, (MatrixBase, MatrixSymbol))"},"out":{"base":"Any"},"spec":{"lhs":"MatrixStudentTDistribution(*args)","rhs":"correctly constructs a MatrixStudentTDistribution instance","over":{"base":"Any","pred":"isinstance(x, list) and isinstance(scale_matrix_1, MatrixSymbol) and isinstance(x, (MatrixBase, MatrixSymbol))"},"name":"MatrixStudentTDistribution_class_invariant"},"guarantee":"correctly constructs a MatrixStudentTDistribution instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24cad8a7a5cc9ed2"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixStudentTDistribution","kind":"class","src_hash":"7a99299566fa7824","in":{"base":"Any","pred":"isinstance(x, list) and isinstance(scale_matrix_1, MatrixSymbol) and isinstance(x, (MatrixBase, MatrixSymbol))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MatrixDistribution)"},"spec":{"lhs":"MatrixStudentTDistribution(*args)","rhs":"correctly constructs a MatrixStudentTDistribution instance","over":{"base":"Any","pred":"isinstance(x, list) and isinstance(scale_matrix_1, MatrixSymbol) and isinstance(x, (MatrixBase, MatrixSymbol))"},"name":"MatrixStudentTDistribution_class_invariant"},"guarantee":"isinstance(self, MatrixDistribution)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24cad8a7a5cc9ed2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MatrixDistribution)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function MatrixStudentTDistribution not found in source"]}}
 class MatrixStudentTDistribution(MatrixDistribution):
 
     _argnames = ('nu', 'location_matrix', 'scale_matrix_1', 'scale_matrix_2')
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check(nu,), check produces the expected output) over Any ║
+# ║ Path(check(nu, location_matrix, scale_matrix_1), <unspecified:check>) over {Any | hasattr(location_matrix, 'shape') and hasattr(scale_matrix_1, 'is_square') and hasattr(scale_matrix_2, 'is_square') and hasattr(nu, 'is_positive') and hasattr(scale_matrix_1, 'is_positive_definite') and hasattr(scale_matrix_2, 'is_positive_definite') and hasattr(scale_matrix_1, 'shape') and hasattr(scale_matrix_2, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ check : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(location_matrix, 'shape')              ║
+# ║   requires: hasattr(scale_matrix_1, 'is_square')           ║
+# ║   requires: hasattr(scale_matrix_2, 'is_square')           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ check : {Any | hasattr(location_matrix, 'shape') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | efcd9fb655307405  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixStudentTDistribution.check","kind":"staticmethod","src_hash":"9b6bce3dae0f4af1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check(nu,)","rhs":"check produces the expected output","over":{"base":"Any"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.matrix_distributions.MatrixStudentTDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"efcd9fb655307405"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixStudentTDistribution.check","kind":"staticmethod","src_hash":"9b6bce3dae0f4af1","in":{"base":"Any","pred":"hasattr(location_matrix, 'shape') and hasattr(scale_matrix_1, 'is_square') and hasattr(scale_matrix_2, 'is_square') and hasattr(nu, 'is_positive') and hasattr(scale_matrix_1, 'is_positive_definite') and hasattr(scale_matrix_2, 'is_positive_definite') and hasattr(scale_matrix_1, 'shape') and hasattr(scale_matrix_2, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"check(nu, location_matrix, scale_matrix_1)","rhs":"<unspecified:check>","over":{"base":"Any","pred":"hasattr(location_matrix, 'shape') and hasattr(scale_matrix_1, 'is_square') and hasattr(scale_matrix_2, 'is_square') and hasattr(nu, 'is_positive') and hasattr(scale_matrix_1, 'is_positive_definite') and hasattr(scale_matrix_2, 'is_positive_definite') and hasattr(scale_matrix_1, 'shape') and hasattr(scale_matrix_2, 'shape')"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.matrix_distributions.MatrixStudentTDistribution.check_correct","statement":"Path(check(x), check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"efcd9fb655307405","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(location_matrix, 'shape')","hasattr(scale_matrix_1, 'is_square')","hasattr(scale_matrix_2, 'is_square')","hasattr(nu, 'is_positive')","hasattr(scale_matrix_1, 'is_positive_definite')","hasattr(scale_matrix_2, 'is_positive_definite')","hasattr(scale_matrix_1, 'shape')","hasattr(scale_matrix_2, 'shape')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["location_matrix.shape","nu.is_positive","scale_matrix_1.is_positive_definite","scale_matrix_1.is_square","scale_matrix_1.shape","scale_matrix_2.is_positive_definite","scale_matrix_2.is_square","scale_matrix_2.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def check(nu, location_matrix, scale_matrix_1, scale_matrix_2):
         if not isinstance(scale_matrix_1, MatrixSymbol):
             _value_check(scale_matrix_1.is_positive_definite != False, "The shape "
@@ -1026,46 +1307,65 @@ class MatrixStudentTDistribution(MatrixDistribution):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set(), returns the set attribute) over Any            ║
+# ║ Path(set(), MatrixSet(n, p, S.Reals)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  MatrixSet(n, p, S.Reals)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d044e6860048aca0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixStudentTDistribution.set","kind":"property","src_hash":"68b67e2947473c1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"returns the set attribute","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns the set attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d044e6860048aca0"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixStudentTDistribution.set","kind":"property","src_hash":"68b67e2947473c1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"MatrixSet(n, p, S.Reals)","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns MatrixSet(n, p, S.Reals)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d044e6860048aca0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"MatrixSet(n, p, S.Reals)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.location_matrix"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set(self):
         n, p = self.location_matrix.shape
         return MatrixSet(n, p, S.Reals)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dimension(), returns the dimension attribute) over Any ║
+# ║ Path(dimension(), self.location_matrix.shape) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.location_matrix.shape                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dimension : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3b92b114780a4dc0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixStudentTDistribution.dimension","kind":"property","src_hash":"2fb905f359e5f9b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dimension()","rhs":"returns the dimension attribute","over":{"base":"Any"},"name":"dimension_correct"},"guarantee":"returns the dimension attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3b92b114780a4dc0"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixStudentTDistribution.dimension","kind":"property","src_hash":"2fb905f359e5f9b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dimension()","rhs":"self.location_matrix.shape","over":{"base":"Any"},"name":"dimension_correct"},"guarantee":"returns self.location_matrix.shape","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3b92b114780a4dc0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.location_matrix.shape","pure":false,"effects":{"effect_type":"reads_state","reads":["self.location_matrix"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dimension(self):
         return self.location_matrix.shape
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pdf(x), id) over Any                                  ║
+# ║ Path(pdf(x), id) over {Any | isinstance(x, (MatrixBase, MatrixSymbol))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ pdf : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(x, (MatrixBase, MatrixSymbol))      ║
+# ║   returns:  K * Determinant(eye(n) + Inverse(Sigma) *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ pdf : {Any | isinstance(x, (MatrixBase, MatrixSymbol)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d8089315f302f791   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixStudentTDistribution.pdf","kind":"method","src_hash":"7ee5b7a750f55634","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pdf(x)","rhs":"pdf produces the expected output","over":{"base":"Any"},"name":"pdf_correct","kind":"composition"},"guarantee":"pdf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Determinant","by":"library_axiom"},{"fn":"eye","by":"library_axiom"},{"fn":"Inverse","by":"library_axiom"},{"fn":"Inverse","by":"library_axiom"},{"fn":"Transpose","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8089315f302f791"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixStudentTDistribution.pdf","kind":"method","src_hash":"7ee5b7a750f55634","in":{"base":"Any","pred":"isinstance(x, (MatrixBase, MatrixSymbol))"},"out":{"base":"Any"},"spec":{"lhs":"pdf(x)","rhs":"K * Determinant(eye(n) + Inverse(Sigma) * (x - M) * Inverse(Omega) * Transpose(x - M)) ** (-(nu + n + p - 1) / 2)","over":{"base":"Any","pred":"isinstance(x, (MatrixBase, MatrixSymbol))"},"name":"pdf_correct","kind":"composition"},"guarantee":"returns K * Determinant(eye(n) + Inverse(Sigma) * (x - M) * Inverse(Omega) * Transpose(x - M)) ** (-(nu + n + p - 1) / 2)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Determinant","by":"library_axiom"},{"fn":"eye","by":"library_axiom"},{"fn":"Inverse","by":"library_axiom"},{"fn":"Inverse","by":"library_axiom"},{"fn":"Transpose","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8089315f302f791","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(x, (MatrixBase, MatrixSymbol))"],"returns_expr":"K * Determinant(eye(n) + Inverse(Sigma) * (x - M) * Inverse(Omega) * Transpose(x - M)) ** (-(nu + n + p - 1) / 2)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.location_matrix","self.nu","self.scale_matrix_1","self.scale_matrix_2"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pdf(self, x):
         from sympy.matrices.dense import eye
         if isinstance(x, list):
@@ -1084,7 +1384,10 @@ class MatrixStudentTDistribution(MatrixDistribution):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(MatrixStudentT(sym), creates a random variable with matrix gamma distribution) over {Any | isinstance(location_matrix, list)} ║
+# ║ Path(MatrixStudentT(symbol, nu, location_matrix), rv(symbol, MatrixStudentTDistribution, args)) over {Any | isinstance(location_matrix, list)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  rv(symbol, MatrixStudentTDistribution, args)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ MatrixStudentT : {Any | isinstance(location_matrix, l...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1096,9 +1399,12 @@ class MatrixStudentTDistribution(MatrixDistribution):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 20d73a73...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixStudentT","kind":"function","src_hash":"6f1004c60e10b8e6","in":{"base":"Any","pred":"isinstance(location_matrix, list)"},"out":{"base":"Any"},"spec":{"lhs":"MatrixStudentT(sym)","rhs":"creates a random variable with matrix gamma distribution","over":{"base":"Any","pred":"isinstance(location_matrix, list)"},"name":"MatrixStudentT_correct"},"guarantee":"creates a random variable with matrix gamma distribution","fibers":[{"name":"list","pred":"isinstance(location_matrix, list)","path":{"lhs":"MatrixStudentT(x)","rhs":"creates a random variable with matrix gamma distribution","over":{"base":"list","pred":"isinstance(location_matrix, list)"},"name":"MatrixStudentT_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.matrix_distributions.MatrixStudentT_list_correct","statement":"MatrixStudentT satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"20d73a734e8cd758"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.matrix_distributions.MatrixStudentT","kind":"function","src_hash":"6f1004c60e10b8e6","in":{"base":"Any","pred":"isinstance(location_matrix, list)"},"out":{"base":"Any"},"spec":{"lhs":"MatrixStudentT(symbol, nu, location_matrix)","rhs":"rv(symbol, MatrixStudentTDistribution, args)","over":{"base":"Any","pred":"isinstance(location_matrix, list)"},"name":"MatrixStudentT_correct"},"guarantee":"returns rv(symbol, MatrixStudentTDistribution, args)","fibers":[{"name":"list","pred":"isinstance(location_matrix, list)","path":{"lhs":"MatrixStudentT(x)","rhs":"returns rv(symbol, MatrixStudentTDistribution, args)","over":{"base":"list","pred":"isinstance(location_matrix, list)"},"name":"MatrixStudentT_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.matrix_distributions.MatrixStudentT_list_correct","statement":"MatrixStudentT satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"20d73a734e8cd758","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"rv(symbol, MatrixStudentTDistribution, args)","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(scale_matrix_2, list)', 'isinstance(location_matrix, list)', 'isinstance(scale_matrix_1, list)'}, fibers={'list'})"]}}
 def MatrixStudentT(symbol, nu, location_matrix, scale_matrix_1, scale_matrix_2):
     """
     Creates a random variable with Matrix Gamma Distribution.

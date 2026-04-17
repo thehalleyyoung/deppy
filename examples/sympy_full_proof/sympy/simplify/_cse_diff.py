@@ -22,7 +22,10 @@ from sympy.utilities.iterables import iterable
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_remove_cse_from_derivative(rep), this function is designed to postprocess the output of a common subexpression elimination (cse) operation) over {Any | isinstance(node, Derivative)} ║
+# ║ Path(_remove_cse_from_derivative(replacements, reduced_expressions), <unspecified:_remove_cse_from_derivative>) over {Any | isinstance(node, Derivative)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _remove_cse_from_derivative : {Any | isinstance(node,...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -34,9 +37,12 @@ from sympy.utilities.iterables import iterable
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b3b48896...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify._cse_diff._remove_cse_from_derivative","kind":"function","src_hash":"72a19a0416003f3f","in":{"base":"Any","pred":"isinstance(node, Derivative)"},"out":{"base":"Any"},"spec":{"lhs":"_remove_cse_from_derivative(rep)","rhs":"this function is designed to postprocess the output of a common subexpression elimination (cse) operation","over":{"base":"Any","pred":"isinstance(node, Derivative)"},"name":"_remove_cse_from_derivative_correct"},"guarantee":"this function is designed to postprocess the output of a common subexpression elimination (cse) operation","fibers":[{"name":"Derivative","pred":"isinstance(node, Derivative)","path":{"lhs":"_remove_cse_from_derivative(x)","rhs":"this function is designed to postprocess the output of a common subexpression elimination (cse) operation","over":{"base":"Derivative","pred":"isinstance(node, Derivative)"},"name":"_remove_cse_from_derivative_Derivative_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify._cse_diff._remove_cse_from_derivative_Derivative_correct","statement":"_remove_cse_from_derivative satisfies spec on Derivative inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b3b48896675a288d"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify._cse_diff._remove_cse_from_derivative","kind":"function","src_hash":"72a19a0416003f3f","in":{"base":"Any","pred":"isinstance(node, Derivative)"},"out":{"base":"Any"},"spec":{"lhs":"_remove_cse_from_derivative(replacements, reduced_expressions)","rhs":"<unspecified:_remove_cse_from_derivative>","over":{"base":"Any","pred":"isinstance(node, Derivative)"},"name":"_remove_cse_from_derivative_correct"},"guarantee":"this function is designed to postprocess the output of a common subexpression elimination (cse) operation","fibers":[{"name":"Derivative","pred":"isinstance(node, Derivative)","path":{"lhs":"_remove_cse_from_derivative(x)","rhs":"this function is designed to postprocess the output of a common subexpression elimination (cse) operation","over":{"base":"Derivative","pred":"isinstance(node, Derivative)"},"name":"_remove_cse_from_derivative_Derivative_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify._cse_diff._remove_cse_from_derivative_Derivative_correct","statement":"_remove_cse_from_derivative satisfies spec on Derivative inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b3b48896675a288d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(node, Derivative)'}, fibers={'Derivative'})"]}}
 def _remove_cse_from_derivative(replacements, reduced_expressions):
     """
     This function is designed to postprocess the output of a common subexpression
@@ -100,7 +106,13 @@ def _remove_cse_from_derivative(replacements, reduced_expressions):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_forward_jacobian_cse(rep), core function to compute the jacobian of an input matrix of expressions through forward accumulation) over {Any | isinstance(reduced_expr[0], MatrixBase)} ║
+# ║ Path(_forward_jacobian_cse(replacements, reduced_expr, wrt), <unspecified:_forward_jacobian_cse>) over {Any | isinstance(reduced_expr[0], MatrixBase) and isinstance(reduced_expr[0], MatrixBase) and reduced_expr[0].shape[0] == 1 or reduced_expr[0].shape[1] == 1 and iterable(wrt) and wrt.shape[0] == 1 or wrt.shape[1] == 1 and hasattr(wrt, 'shape')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(reduced_expr[0], MatrixBase)        ║
+# ║   requires: reduced_expr[0].shape[0] == 1 or reduced_...   ║
+# ║   requires: iterable(wrt)                                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _forward_jacobian_cse : {Any | isinstance(reduced_exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -112,9 +124,12 @@ def _remove_cse_from_derivative(replacements, reduced_expressions):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 29fbb6f5...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify._cse_diff._forward_jacobian_cse","kind":"function","src_hash":"8639659e62845a1b","in":{"base":"Any","pred":"isinstance(reduced_expr[0], MatrixBase)"},"out":{"base":"Any"},"spec":{"lhs":"_forward_jacobian_cse(rep)","rhs":"core function to compute the jacobian of an input matrix of expressions through forward accumulation","over":{"base":"Any","pred":"isinstance(reduced_expr[0], MatrixBase)"},"name":"_forward_jacobian_cse_correct"},"guarantee":"core function to compute the jacobian of an input matrix of expressions through forward accumulation","fibers":[{"name":"MatrixBase","pred":"isinstance(reduced_expr[0], MatrixBase)","path":{"lhs":"_forward_jacobian_cse(x)","rhs":"core function to compute the jacobian of an input matrix of expressions through forward accumulation","over":{"base":"MatrixBase","pred":"isinstance(reduced_expr[0], MatrixBase)"},"name":"_forward_jacobian_cse_MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify._cse_diff._forward_jacobian_cse_MatrixBase_correct","statement":"_forward_jacobian_cse satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"29fbb6f5e49479b4"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify._cse_diff._forward_jacobian_cse","kind":"function","src_hash":"8639659e62845a1b","in":{"base":"Any","pred":"isinstance(reduced_expr[0], MatrixBase) and isinstance(reduced_expr[0], MatrixBase) and reduced_expr[0].shape[0] == 1 or reduced_expr[0].shape[1] == 1 and iterable(wrt) and wrt.shape[0] == 1 or wrt.shape[1] == 1 and hasattr(wrt, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"_forward_jacobian_cse(replacements, reduced_expr, wrt)","rhs":"<unspecified:_forward_jacobian_cse>","over":{"base":"Any","pred":"isinstance(reduced_expr[0], MatrixBase) and isinstance(reduced_expr[0], MatrixBase) and reduced_expr[0].shape[0] == 1 or reduced_expr[0].shape[1] == 1 and iterable(wrt) and wrt.shape[0] == 1 or wrt.shape[1] == 1 and hasattr(wrt, 'shape')"},"name":"_forward_jacobian_cse_correct"},"guarantee":"core function to compute the jacobian of an input matrix of expressions through forward accumulation","fibers":[{"name":"MatrixBase","pred":"isinstance(reduced_expr[0], MatrixBase)","path":{"lhs":"_forward_jacobian_cse(x)","rhs":"core function to compute the jacobian of an input matrix of expressions through forward accumulation","over":{"base":"MatrixBase","pred":"isinstance(reduced_expr[0], MatrixBase)"},"name":"_forward_jacobian_cse_MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify._cse_diff._forward_jacobian_cse_MatrixBase_correct","statement":"_forward_jacobian_cse satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"29fbb6f5e49479b4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(reduced_expr[0], MatrixBase)","reduced_expr[0].shape[0] == 1 or reduced_expr[0].shape[1] == 1","iterable(wrt)","wrt.shape[0] == 1 or wrt.shape[1] == 1","hasattr(wrt, 'shape')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","wrt.shape"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not (wrt.shape[0] == 1 or wrt.shape[1] == 1)', 'not (reduced_expr[0].shape[0] == 1 or reduced_expr[0].shape[1] == 1)', 'not isinstance(wrt, MatrixBase)', 'not isinstance(reduced_expr[0], MatrixBase)'}, fibers={'MatrixBase'})"]}}
 def _forward_jacobian_cse(replacements, reduced_expr, wrt):
     """
     Core function to compute the Jacobian of an input Matrix of expressions
@@ -235,16 +250,22 @@ def _forward_jacobian_cse(replacements, reduced_expr, wrt):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_forward_jacobian_norm_in_cse_out(exp), function to compute the jacobian of an input matrix of expressions through forward accumulation) over Any ║
+# ║ Path(_forward_jacobian_norm_in_cse_out(expr, wrt), (replacements, jacobian, precomputed_fs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (replacements, jacobian, precomputed_fs)       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _forward_jacobian_norm_in_cse_out : Any → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b6c992672003c79  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9fcef63eedbaaca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify._cse_diff._forward_jacobian_norm_in_cse_out","kind":"function","src_hash":"9fcbe50a70747464","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_forward_jacobian_norm_in_cse_out(exp)","rhs":"function to compute the jacobian of an input matrix of expressions through forward accumulation","over":{"base":"Any"},"name":"_forward_jacobian_norm_in_cse_out_correct"},"guarantee":"function to compute the jacobian of an input matrix of expressions through forward accumulation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify._cse_diff._forward_jacobian_norm_in_cse_out_correct","statement":"Path(_forward_jacobian_norm_in_cse_out(x), function to compute the jacobian of an input matrix of expressions through forward accumulation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b6c992672003c79"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify._cse_diff._forward_jacobian_norm_in_cse_out","kind":"function","src_hash":"9fcbe50a70747464","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_forward_jacobian_norm_in_cse_out(expr, wrt)","rhs":"(replacements, jacobian, precomputed_fs)","over":{"base":"Any"},"name":"_forward_jacobian_norm_in_cse_out_correct"},"guarantee":"returns (replacements, jacobian, precomputed_fs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify._cse_diff._forward_jacobian_norm_in_cse_out_correct","statement":"Path(_forward_jacobian_norm_in_cse_out(x), returns (replacements, jacobian, precomputed_fs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9fcef63eedbaaca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(replacements, jacobian, precomputed_fs)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _forward_jacobian_norm_in_cse_out(expr, wrt):
     """
     Function to compute the Jacobian of an input Matrix of expressions through
@@ -290,16 +311,22 @@ def _forward_jacobian_norm_in_cse_out(expr, wrt):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_forward_jacobian(exp), function to compute the jacobian of an input matrix of expressions through forward accumulation) over Any ║
+# ║ Path(_forward_jacobian(expr, wrt), <unspecified:_forward_jacobian>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _forward_jacobian : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f29a367e77c6fab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify._cse_diff._forward_jacobian","kind":"function","src_hash":"e21247a0ebb9fdf7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_forward_jacobian(exp)","rhs":"function to compute the jacobian of an input matrix of expressions through forward accumulation","over":{"base":"Any"},"name":"_forward_jacobian_correct"},"guarantee":"function to compute the jacobian of an input matrix of expressions through forward accumulation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify._cse_diff._forward_jacobian_correct","statement":"Path(_forward_jacobian(x), function to compute the jacobian of an input matrix of expressions through forward accumulation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f29a367e77c6fab"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify._cse_diff._forward_jacobian","kind":"function","src_hash":"e21247a0ebb9fdf7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_forward_jacobian(expr, wrt)","rhs":"<unspecified:_forward_jacobian>","over":{"base":"Any"},"name":"_forward_jacobian_correct"},"guarantee":"function to compute the jacobian of an input matrix of expressions through forward accumulation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify._cse_diff._forward_jacobian_correct","statement":"Path(_forward_jacobian(x), function to compute the jacobian of an input matrix of expressions through forward accumulation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f29a367e77c6fab","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _forward_jacobian(expr, wrt):
     """
     Function to compute the Jacobian of an input Matrix of expressions through

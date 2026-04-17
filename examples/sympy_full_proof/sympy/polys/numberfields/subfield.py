@@ -66,16 +66,24 @@ from mpmath import MPContext
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_isomorphism_possible(a, ), necessary but not sufficient test for isomorphism) over Any ║
+# ║ Path(is_isomorphism_possible(a, b), <unspecified:is_isomorphism_possible>) over {Any | hasattr(a, 'minpoly') and hasattr(b, 'minpoly')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_isomorphism_possible : Any → Any                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(a, 'minpoly')                          ║
+# ║   requires: hasattr(b, 'minpoly')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_isomorphism_possible : {Any | hasattr(a, 'minpoly'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ddfe8348150eb1a0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.subfield.is_isomorphism_possible","kind":"function","src_hash":"59fb1984c95adbf3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_isomorphism_possible(a, )","rhs":"necessary but not sufficient test for isomorphism","over":{"base":"Any"},"name":"is_isomorphism_possible_correct"},"guarantee":"necessary but not sufficient test for isomorphism","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.subfield.is_isomorphism_possible_correct","statement":"Path(is_isomorphism_possible(x), necessary but not sufficient test for isomorphism)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ddfe8348150eb1a0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.subfield.is_isomorphism_possible","kind":"function","src_hash":"59fb1984c95adbf3","in":{"base":"Any","pred":"hasattr(a, 'minpoly') and hasattr(b, 'minpoly')"},"out":{"base":"Any"},"spec":{"lhs":"is_isomorphism_possible(a, b)","rhs":"<unspecified:is_isomorphism_possible>","over":{"base":"Any","pred":"hasattr(a, 'minpoly') and hasattr(b, 'minpoly')"},"name":"is_isomorphism_possible_correct"},"guarantee":"necessary but not sufficient test for isomorphism","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.subfield.is_isomorphism_possible_correct","statement":"Path(is_isomorphism_possible(x), necessary but not sufficient test for isomorphism)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ddfe8348150eb1a0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(a, 'minpoly')","hasattr(b, 'minpoly')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.minpoly","b.minpoly"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def is_isomorphism_possible(a, b):
     """Necessary but not sufficient test for isomorphism. """
     n = a.minpoly.degree()
@@ -108,16 +116,25 @@ def is_isomorphism_possible(a, b):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(field_isomorphism_pslq(a, ), construct field isomorphism using pslq algorithm) over Any ║
+# ║ Path(field_isomorphism_pslq(a, b), len(coeffs) == old_len_coeffs - 1) over {Any | not (not a.root.is_real or not b.root.is_real) and hasattr(a, 'minpoly') and hasattr(b, 'minpoly') and hasattr(a, 'root') and hasattr(b, 'root') and len(coeffs) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ field_isomorphism_pslq : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (not a.root.is_real or not b.root.is_...   ║
+# ║   requires: hasattr(a, 'minpoly')                          ║
+# ║   requires: hasattr(b, 'minpoly')                          ║
+# ║   ensures:  len(coeffs) == old_len_coeffs - 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ field_isomorphism_pslq : {Any | not (not a.root.is_re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 258ac1c3b0b60263  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c234641f418ff510  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.subfield.field_isomorphism_pslq","kind":"function","src_hash":"674c4f53e2419c4c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"field_isomorphism_pslq(a, )","rhs":"construct field isomorphism using pslq algorithm","over":{"base":"Any"},"name":"field_isomorphism_pslq_correct"},"guarantee":"construct field isomorphism using pslq algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.subfield.field_isomorphism_pslq_correct","statement":"Path(field_isomorphism_pslq(x), construct field isomorphism using pslq algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"258ac1c3b0b60263"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.subfield.field_isomorphism_pslq","kind":"function","src_hash":"674c4f53e2419c4c","in":{"base":"Any","pred":"not (not a.root.is_real or not b.root.is_real) and hasattr(a, 'minpoly') and hasattr(b, 'minpoly') and hasattr(a, 'root') and hasattr(b, 'root') and len(coeffs) > 0"},"out":{"base":"Any","pred":"result satisfies: len(coeffs) == old_len_coeffs - 1"},"spec":{"lhs":"field_isomorphism_pslq(a, b)","rhs":"len(coeffs) == old_len_coeffs - 1","over":{"base":"Any","pred":"not (not a.root.is_real or not b.root.is_real) and hasattr(a, 'minpoly') and hasattr(b, 'minpoly') and hasattr(a, 'root') and hasattr(b, 'root') and len(coeffs) > 0"},"name":"field_isomorphism_pslq_correct"},"guarantee":"len(coeffs) == old_len_coeffs - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.subfield.field_isomorphism_pslq_correct","statement":"Path(field_isomorphism_pslq(x), len(coeffs) == old_len_coeffs - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c234641f418ff510","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (not a.root.is_real or not b.root.is_real)","hasattr(a, 'minpoly')","hasattr(b, 'minpoly')","hasattr(a, 'root')","hasattr(b, 'root')","len(coeffs) > 0"],"ensures":["len(coeffs) == old_len_coeffs - 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.minpoly","a.root","b.minpoly","b.root"],"calls_mutating":["coeffs.pop"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["coeffs.*"],"old_bindings":{"old_len_coeffs":"len(coeffs)"},"pre_requires":["len(coeffs) > 0"],"post_ensures":["len(coeffs) == old_len_coeffs - 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def field_isomorphism_pslq(a, b):
     """Construct field isomorphism using PSLQ algorithm. """
     if not a.root.is_real or not b.root.is_real:
@@ -175,16 +192,24 @@ def field_isomorphism_pslq(a, b):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(field_isomorphism_factor(a, ), construct field isomorphism via factorization) over Any ║
+# ║ Path(field_isomorphism_factor(a, b), <unspecified:field_isomorphism_factor>) over {Any | hasattr(a, 'minpoly') and hasattr(b, 'root')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ field_isomorphism_factor : Any → Any                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(a, 'minpoly')                          ║
+# ║   requires: hasattr(b, 'root')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ field_isomorphism_factor : {Any | hasattr(a, 'minpoly...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 48ccf36488855334  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.subfield.field_isomorphism_factor","kind":"function","src_hash":"14de5d29742b797b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"field_isomorphism_factor(a, )","rhs":"construct field isomorphism via factorization","over":{"base":"Any"},"name":"field_isomorphism_factor_correct"},"guarantee":"construct field isomorphism via factorization","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.subfield.field_isomorphism_factor_correct","statement":"Path(field_isomorphism_factor(x), construct field isomorphism via factorization)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"48ccf36488855334"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.subfield.field_isomorphism_factor","kind":"function","src_hash":"14de5d29742b797b","in":{"base":"Any","pred":"hasattr(a, 'minpoly') and hasattr(b, 'root')"},"out":{"base":"Any"},"spec":{"lhs":"field_isomorphism_factor(a, b)","rhs":"<unspecified:field_isomorphism_factor>","over":{"base":"Any","pred":"hasattr(a, 'minpoly') and hasattr(b, 'root')"},"name":"field_isomorphism_factor_correct"},"guarantee":"construct field isomorphism via factorization","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.subfield.field_isomorphism_factor_correct","statement":"Path(field_isomorphism_factor(x), construct field isomorphism via factorization)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"48ccf36488855334","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(a, 'minpoly')","hasattr(b, 'root')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def field_isomorphism_factor(a, b):
     """Construct field isomorphism via factorization. """
     _, factors = factor_list(a.minpoly, extension=b)
@@ -211,16 +236,25 @@ def field_isomorphism_factor(a, b):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(field_isomorphism(a, ), find an embedding of one number field into another) over Any ║
+# ║ Path(field_isomorphism(a, b, fast), <unspecified:field_isomorphism>) over {Any | hasattr(a, 'is_AlgebraicNumber') and hasattr(b, 'is_AlgebraicNumber') and hasattr(a, 'to_primitive_element') and hasattr(b, 'to_primitive_element') and hasattr(a, 'coeffs') and hasattr(a, 'minpoly') and hasattr(b, 'minpoly') and hasattr(a, 'root')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ field_isomorphism : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(a, 'is_AlgebraicNumber')               ║
+# ║   requires: hasattr(b, 'is_AlgebraicNumber')               ║
+# ║   requires: hasattr(a, 'to_primitive_element')             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ field_isomorphism : {Any | hasattr(a, 'is_AlgebraicNu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f480bed66d7b3dbd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.subfield.field_isomorphism","kind":"function","src_hash":"bf303ba4c8a3e97b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"field_isomorphism(a, )","rhs":"find an embedding of one number field into another","over":{"base":"Any"},"name":"field_isomorphism_correct"},"guarantee":"find an embedding of one number field into another","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.subfield.field_isomorphism_correct","statement":"Path(field_isomorphism(x), find an embedding of one number field into another)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f480bed66d7b3dbd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.subfield.field_isomorphism","kind":"function","src_hash":"bf303ba4c8a3e97b","in":{"base":"Any","pred":"hasattr(a, 'is_AlgebraicNumber') and hasattr(b, 'is_AlgebraicNumber') and hasattr(a, 'to_primitive_element') and hasattr(b, 'to_primitive_element') and hasattr(a, 'coeffs') and hasattr(a, 'minpoly') and hasattr(b, 'minpoly') and hasattr(a, 'root')"},"out":{"base":"Any"},"spec":{"lhs":"field_isomorphism(a, b, fast)","rhs":"<unspecified:field_isomorphism>","over":{"base":"Any","pred":"hasattr(a, 'is_AlgebraicNumber') and hasattr(b, 'is_AlgebraicNumber') and hasattr(a, 'to_primitive_element') and hasattr(b, 'to_primitive_element') and hasattr(a, 'coeffs') and hasattr(a, 'minpoly') and hasattr(b, 'minpoly') and hasattr(a, 'root')"},"name":"field_isomorphism_correct"},"guarantee":"find an embedding of one number field into another","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.subfield.field_isomorphism_correct","statement":"Path(field_isomorphism(x), find an embedding of one number field into another)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f480bed66d7b3dbd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(a, 'is_AlgebraicNumber')","hasattr(b, 'is_AlgebraicNumber')","hasattr(a, 'to_primitive_element')","hasattr(b, 'to_primitive_element')","hasattr(a, 'coeffs')","hasattr(a, 'minpoly')","hasattr(b, 'minpoly')","hasattr(a, 'root')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.coeffs","a.is_AlgebraicNumber","a.minpoly","a.root","a.to_primitive_element","b.is_AlgebraicNumber","b.minpoly","b.to_primitive_element"],"catches":["NotImplementedError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['a', 'b'], spec=['a', 'b', 'fast']"]}}
 def field_isomorphism(a, b, *, fast=True):
     r"""
     Find an embedding of one number field into another.
@@ -301,16 +335,25 @@ def field_isomorphism(a, b, *, fast=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_switch_domain(g, ), internal helper behaves correctly) over Any ║
+# ║ Path(_switch_domain(g, K), g.new(hrep, g.gens[0])) over {Any | hasattr(g, 'new') and hasattr(g, 'rep') and hasattr(g, 'gens')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _switch_domain : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(g, 'new')                              ║
+# ║   requires: hasattr(g, 'rep')                              ║
+# ║   requires: hasattr(g, 'gens')                             ║
+# ║   returns:  g.new(hrep, g.gens[0])                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _switch_domain : {Any | hasattr(g, 'new') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3da5c62c725da54c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75e36aa5e57c3e4b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.subfield._switch_domain","kind":"function","src_hash":"ffaf6b21543f6629","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_switch_domain(g, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_switch_domain_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.subfield._switch_domain_correct","statement":"Path(_switch_domain(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3da5c62c725da54c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.subfield._switch_domain","kind":"function","src_hash":"ffaf6b21543f6629","in":{"base":"Any","pred":"hasattr(g, 'new') and hasattr(g, 'rep') and hasattr(g, 'gens')"},"out":{"base":"Any"},"spec":{"lhs":"_switch_domain(g, K)","rhs":"g.new(hrep, g.gens[0])","over":{"base":"Any","pred":"hasattr(g, 'new') and hasattr(g, 'rep') and hasattr(g, 'gens')"},"name":"_switch_domain_correct"},"guarantee":"returns g.new(hrep, g.gens[0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.subfield._switch_domain_correct","statement":"Path(_switch_domain(x), returns g.new(hrep, g.gens[0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75e36aa5e57c3e4b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(g, 'new')","hasattr(g, 'rep')","hasattr(g, 'gens')"],"returns_expr":"g.new(hrep, g.gens[0])","pure":false,"effects":{"effect_type":"reads_state","reads":["g.gens","g.new","g.rep"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _switch_domain(g, K):
     # An algebraic relation f(a, b) = 0 over Q can also be written
     # g(b) = 0 where g is in Q(a)[x] and h(a) = 0 where h is in Q(b)[x].
@@ -322,16 +365,23 @@ def _switch_domain(g, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_linsolve(p), internal helper behaves correctly) over Any ║
+# ║ Path(_linsolve(p), -d / c) over {Any | hasattr(p, 'rep')}  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _linsolve : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p, 'rep')                              ║
+# ║   returns:  -d / c                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _linsolve : {Any | hasattr(p, 'rep')} → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 76425ab3d4fa9879  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 899ecefc72ad6bc0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.subfield._linsolve","kind":"function","src_hash":"5a9f0ae22c4116d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_linsolve(p)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_linsolve_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.subfield._linsolve_correct","statement":"Path(_linsolve(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76425ab3d4fa9879"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.subfield._linsolve","kind":"function","src_hash":"5a9f0ae22c4116d5","in":{"base":"Any","pred":"hasattr(p, 'rep')"},"out":{"base":"Any"},"spec":{"lhs":"_linsolve(p)","rhs":"-d / c","over":{"base":"Any","pred":"hasattr(p, 'rep')"},"name":"_linsolve_correct"},"guarantee":"returns -d / c","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.subfield._linsolve_correct","statement":"Path(_linsolve(x), returns -d / c)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"899ecefc72ad6bc0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p, 'rep')"],"returns_expr":"-d / c","pure":false,"effects":{"effect_type":"reads_state","reads":["p.rep"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _linsolve(p):
     # Compute root of linear polynomial.
     c, d = p.rep.to_list()
@@ -340,16 +390,24 @@ def _linsolve(p):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(primitive_element(ext), find a single generator for a number field given by several generators) over Any ║
+# ║ Path(primitive_element(extension, x, ex), len(coeffs) == old_len_coeffs + 1 and len(reps) == old_len_reps + 1) over {Any | extension} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ primitive_element : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: extension                                      ║
+# ║   ensures:  len(coeffs) == old_len_coeffs + 1              ║
+# ║   ensures:  len(reps) == old_len_reps + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ primitive_element : {Any | extension} → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55066ad7d27537ba  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f1512a8d13eb278  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.subfield.primitive_element","kind":"function","src_hash":"9a6a5a8cd18540b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"primitive_element(ext)","rhs":"find a single generator for a number field given by several generators","over":{"base":"Any"},"name":"primitive_element_correct"},"guarantee":"find a single generator for a number field given by several generators","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.subfield.primitive_element_correct","statement":"Path(primitive_element(x), find a single generator for a number field given by several generators)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55066ad7d27537ba"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.subfield.primitive_element","kind":"function","src_hash":"9a6a5a8cd18540b1","in":{"base":"Any","pred":"extension"},"out":{"base":"Any","pred":"result satisfies: len(coeffs) == old_len_coeffs + 1 and len(reps) == old_len_reps + 1"},"spec":{"lhs":"primitive_element(extension, x, ex)","rhs":"len(coeffs) == old_len_coeffs + 1 and len(reps) == old_len_reps + 1","over":{"base":"Any","pred":"extension"},"name":"primitive_element_correct"},"guarantee":"len(coeffs) == old_len_coeffs + 1; len(reps) == old_len_reps + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.subfield.primitive_element_correct","statement":"Path(primitive_element(x), len(coeffs) == old_len_coeffs + 1; len(reps) == old_len_reps + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f1512a8d13eb278","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["extension"],"ensures":["len(coeffs) == old_len_coeffs + 1","len(reps) == old_len_reps + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["coeffs.append","reps.append"],"raises":["ValueError"]},"state_contract":{"modifies":["coeffs.*","reps.*"],"old_bindings":{"old_len_coeffs":"len(coeffs)","old_len_reps":"len(reps)"},"post_ensures":["len(coeffs) == old_len_coeffs + 1","len(reps) == old_len_reps + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['extension', 'x'], spec=['extension', 'x', 'ex', 'polys']"]}}
 def primitive_element(extension, x=None, *, ex=False, polys=False):
     r"""
     Find a single generator for a number field given by several generators.
@@ -504,7 +562,12 @@ def primitive_element(extension, x=None, *, ex=False, polys=False):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_number_field(ext), express one algebraic number in the field generated by another) over {Any | isinstance(extension[0], tuple)} ║
+# ║ Path(to_number_field(extension, theta, gen), <unspecified:to_number_field>) over {Any | isinstance(extension[0], tuple) and hasattr(theta, 'is_AlgebraicNumber') and hasattr(theta, 'root')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(theta, 'is_AlgebraicNumber')           ║
+# ║   requires: hasattr(theta, 'root')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_number_field : {Any | isinstance(extension[0], tup...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -516,9 +579,12 @@ def primitive_element(extension, x=None, *, ex=False, polys=False):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 33f3520b...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.subfield.to_number_field","kind":"function","src_hash":"4096d6b1a1fae2a1","in":{"base":"Any","pred":"isinstance(extension[0], tuple)"},"out":{"base":"Any"},"spec":{"lhs":"to_number_field(ext)","rhs":"express one algebraic number in the field generated by another","over":{"base":"Any","pred":"isinstance(extension[0], tuple)"},"name":"to_number_field_correct"},"guarantee":"express one algebraic number in the field generated by another","fibers":[{"name":"tuple","pred":"isinstance(extension[0], tuple)","path":{"lhs":"to_number_field(x)","rhs":"express one algebraic number in the field generated by another","over":{"base":"tuple","pred":"isinstance(extension[0], tuple)"},"name":"to_number_field_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.subfield.to_number_field_tuple_correct","statement":"to_number_field satisfies spec on tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"33f3520b84780339"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.subfield.to_number_field","kind":"function","src_hash":"4096d6b1a1fae2a1","in":{"base":"Any","pred":"isinstance(extension[0], tuple) and hasattr(theta, 'is_AlgebraicNumber') and hasattr(theta, 'root')"},"out":{"base":"Any"},"spec":{"lhs":"to_number_field(extension, theta, gen)","rhs":"<unspecified:to_number_field>","over":{"base":"Any","pred":"isinstance(extension[0], tuple) and hasattr(theta, 'is_AlgebraicNumber') and hasattr(theta, 'root')"},"name":"to_number_field_correct"},"guarantee":"express one algebraic number in the field generated by another","fibers":[{"name":"tuple","pred":"isinstance(extension[0], tuple)","path":{"lhs":"to_number_field(x)","rhs":"express one algebraic number in the field generated by another","over":{"base":"tuple","pred":"isinstance(extension[0], tuple)"},"name":"to_number_field_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.subfield.to_number_field_tuple_correct","statement":"to_number_field satisfies spec on tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"33f3520b84780339","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(theta, 'is_AlgebraicNumber')","hasattr(theta, 'root')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["theta.is_AlgebraicNumber","theta.root"],"raises":["IsomorphismFailed"]},"state_contract":{"exceptional_post":{"IsomorphismFailed":["isinstance(raised, IsomorphismFailed)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['extension', 'theta'], spec=['extension', 'theta', 'gen', 'alias']","Poor branch-fiber coverage: 0% (branches={'len(extension) == 1 and isinstance(extension[0], tuple)', 'theta is None'}, fibers={'tuple'})"]}}
 def to_number_field(extension, theta=None, *, gen=None, alias=None):
     r"""
     Express one algebraic number in the field generated by another.

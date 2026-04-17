@@ -24,16 +24,24 @@ from sympy.combinatorics.named_groups import AlternatingGroup, DihedralGroup, Cy
 from sympy.testing.pytest import raises
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_homomorphism(), test_homomorphism produces the expected output) over Any ║
+# ║ Path(test_homomorphism(), T(a * b ** 2 * a ** (-1)) == c * d ** 2 * c ** (-1) and T.is_isomorphism() and T(T.invert(Permutation(3)(0, 2, 3))) == Permutation(3)(0, 2, 3) and T.is_trivial() and T.kernel().order() == G.order() and T.image().order() == 4 and T(T.invert(Permutation(0, 2)(1, 3))) == Permutation(0, 2)(1, 3) and T.invert(c ** 2) == e ** (-1) and T(a ** (-2) * b ** 4 * a ** 2).is_identity and T.invert(a ** (-1) * b ** (-1) * a ** 2) == a * b ** (-1) and T.is_injective() and not T.is_isomorphism() and T.invert(p ** 3) == p ** 3 and T.domain == F and T.codomain == D and T(a * b) == p) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_homomorphism : Any → {Any | T(a * b ** 2 * a ** ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  T(a * b ** 2 * a ** (-1)) == c * d ** 2 *...   ║
+# ║   ensures:  T.is_isomorphism()                             ║
+# ║   ensures:  T(T.invert(Permutation(3)(0, 2, 3))) == P...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_homomorphism : Any → {Any | result satisfies: T(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ec5bff0c0df8a72  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f225b44c3b9501e8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_homomorphisms.test_homomorphism","kind":"function","src_hash":"b9e53a201f4d7133","in":{"base":"Any"},"out":{"base":"Any","pred":"T(a * b ** 2 * a ** (-1)) == c * d ** 2 * c ** (-1) and T.is_isomorphism() and T(T.invert(Permutation(3)(0, 2, 3))) == Permutation(3)(0, 2, 3) and T.is_trivial() and T.kernel().order() == G.order() and T.image().order() == 4 and T(T.invert(Permutation(0, 2)(1, 3))) == Permutation(0, 2)(1, 3) and T.invert(c ** 2) == e ** (-1) and T(a ** (-2) * b ** 4 * a ** 2).is_identity and T.invert(a ** (-1) * b ** (-1) * a ** 2) == a * b ** (-1) and T.is_injective() and not T.is_isomorphism() and T.invert(p ** 3) == p ** 3 and T.domain == F and T.codomain == D and T(a * b) == p and T.is_isomorphism()"},"spec":{"lhs":"test_homomorphism()","rhs":"test_homomorphism produces the expected output","over":{"base":"Any"},"name":"test_homomorphism_correct"},"guarantee":"test_homomorphism produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_homomorphisms.test_homomorphism_correct","statement":"Path(test_homomorphism(x), test_homomorphism produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ec5bff0c0df8a72"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_homomorphisms.test_homomorphism","kind":"function","src_hash":"b9e53a201f4d7133","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: T(a * b ** 2 * a ** (-1)) == c * d ** 2 * c ** (-1) and T.is_isomorphism() and T(T.invert(Permutation(3)(0, 2, 3))) == Permutation(3)(0, 2, 3) and T.is_trivial() and T.kernel().order() == G.order() and T.image().order() == 4 and T(T.invert(Permutation(0, 2)(1, 3))) == Permutation(0, 2)(1, 3) and T.invert(c ** 2) == e ** (-1) and T(a ** (-2) * b ** 4 * a ** 2).is_identity and T.invert(a ** (-1) * b ** (-1) * a ** 2) == a * b ** (-1) and T.is_injective() and not T.is_isomorphism() and T.invert(p ** 3) == p ** 3 and T.domain == F and T.codomain == D and T(a * b) == p"},"spec":{"lhs":"test_homomorphism()","rhs":"T(a * b ** 2 * a ** (-1)) == c * d ** 2 * c ** (-1) and T.is_isomorphism() and T(T.invert(Permutation(3)(0, 2, 3))) == Permutation(3)(0, 2, 3) and T.is_trivial() and T.kernel().order() == G.order() and T.image().order() == 4 and T(T.invert(Permutation(0, 2)(1, 3))) == Permutation(0, 2)(1, 3) and T.invert(c ** 2) == e ** (-1) and T(a ** (-2) * b ** 4 * a ** 2).is_identity and T.invert(a ** (-1) * b ** (-1) * a ** 2) == a * b ** (-1) and T.is_injective() and not T.is_isomorphism() and T.invert(p ** 3) == p ** 3 and T.domain == F and T.codomain == D and T(a * b) == p","over":{"base":"Any"},"name":"test_homomorphism_correct"},"guarantee":"T(a * b ** 2 * a ** (-1)) == c * d ** 2 * c ** (-1); T.is_isomorphism(); T(T.invert(Permutation(3)(0, 2, 3))) == Permutation(3)(0, 2, 3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_homomorphisms.test_homomorphism_correct","statement":"Path(test_homomorphism(x), T(a * b ** 2 * a ** (-1)) == c * d ** 2 * c ** (-1); T.is_isomorphism(); T(T.invert(Permutation(3)(0, 2, 3))) == Permutation(3)(0, 2, 3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f225b44c3b9501e8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["T(a * b ** 2 * a ** (-1)) == c * d ** 2 * c ** (-1)","T.is_isomorphism()","T(T.invert(Permutation(3)(0, 2, 3))) == Permutation(3)(0, 2, 3)","T.is_trivial()","T.kernel().order() == G.order()","T.image().order() == 4","T(T.invert(Permutation(0, 2)(1, 3))) == Permutation(0, 2)(1, 3)","T.invert(c ** 2) == e ** (-1)","T(a ** (-2) * b ** 4 * a ** 2).is_identity","T.invert(a ** (-1) * b ** (-1) * a ** 2) == a * b ** (-1)","T.is_injective()","not T.is_isomorphism()","T.invert(p ** 3) == p ** 3","T.domain == F","T.codomain == D","T(a * b) == p"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_homomorphism():
     # FpGroup -> PermutationGroup
     F, a, b = free_group("a, b")
@@ -91,16 +99,24 @@ def test_homomorphism():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_isomorphisms(), test_isomorphisms produces the expected output) over Any ║
+# ║ Path(test_isomorphisms(), is_isomorphic(G, H) and check and T(c ** 3 * d ** 2) == a ** 3 * b ** 2 and T(b * a * b ** (-1) * a ** (-1) * b ** (-1)) == Permutation(0, 2, 3) and T(b * a * b * a ** (-1) * b ** (-1)) == Permutation(0, 3, 2) and not is_isomorphic(D, P) and not is_isomorphic(A, B) and G.order() == H.order()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_isomorphisms : Any → {Any | is_isomorphic(G, H) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  is_isomorphic(G, H)                            ║
+# ║   ensures:  check                                          ║
+# ║   ensures:  T(c ** 3 * d ** 2) == a ** 3 * b ** 2          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_isomorphisms : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c439a152d151778  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f2cf69147ee75a9b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_homomorphisms.test_isomorphisms","kind":"function","src_hash":"ed1c5bc9b7895e80","in":{"base":"Any"},"out":{"base":"Any","pred":"is_isomorphic(G, H) and check and T(c ** 3 * d ** 2) == a ** 3 * b ** 2 and check and T(b * a * b ** (-1) * a ** (-1) * b ** (-1)) == Permutation(0, 2, 3) and T(b * a * b * a ** (-1) * b ** (-1)) == Permutation(0, 3, 2) and not is_isomorphic(D, P) and not is_isomorphic(A, B) and G.order() == H.order() and is_isomorphic(G, H)"},"spec":{"lhs":"test_isomorphisms()","rhs":"test_isomorphisms produces the expected output","over":{"base":"Any"},"name":"test_isomorphisms_correct"},"guarantee":"test_isomorphisms produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_homomorphisms.test_isomorphisms_correct","statement":"Path(test_isomorphisms(x), test_isomorphisms produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c439a152d151778"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_homomorphisms.test_isomorphisms","kind":"function","src_hash":"ed1c5bc9b7895e80","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: is_isomorphic(G, H) and check and T(c ** 3 * d ** 2) == a ** 3 * b ** 2 and T(b * a * b ** (-1) * a ** (-1) * b ** (-1)) == Permutation(0, 2, 3) and T(b * a * b * a ** (-1) * b ** (-1)) == Permutation(0, 3, 2) and not is_isomorphic(D, P) and not is_isomorphic(A, B) and G.order() == H.order()"},"spec":{"lhs":"test_isomorphisms()","rhs":"is_isomorphic(G, H) and check and T(c ** 3 * d ** 2) == a ** 3 * b ** 2 and T(b * a * b ** (-1) * a ** (-1) * b ** (-1)) == Permutation(0, 2, 3) and T(b * a * b * a ** (-1) * b ** (-1)) == Permutation(0, 3, 2) and not is_isomorphic(D, P) and not is_isomorphic(A, B) and G.order() == H.order()","over":{"base":"Any"},"name":"test_isomorphisms_correct"},"guarantee":"is_isomorphic(G, H); check; T(c ** 3 * d ** 2) == a ** 3 * b ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_homomorphisms.test_isomorphisms_correct","statement":"Path(test_isomorphisms(x), is_isomorphic(G, H); check; T(c ** 3 * d ** 2) == a ** 3 * b ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2cf69147ee75a9b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["is_isomorphic(G, H)","check","T(c ** 3 * d ** 2) == a ** 3 * b ** 2","T(b * a * b ** (-1) * a ** (-1) * b ** (-1)) == Permutation(0, 2, 3)","T(b * a * b * a ** (-1) * b ** (-1)) == Permutation(0, 3, 2)","not is_isomorphic(D, P)","not is_isomorphic(A, B)","G.order() == H.order()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_isomorphisms():
 
     F, a, b = free_group("a, b")
@@ -147,16 +163,22 @@ def test_isomorphisms():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_check_homomorphism(), test_check_homomorphism produces the expected output) over Any ║
+# ║ Path(test_check_homomorphism(), <unspecified:test_check_homomorphism>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_check_homomorphism : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d62e523907bfa6a8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_homomorphisms.test_check_homomorphism","kind":"function","src_hash":"d8d5319b9f1e2e8c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_check_homomorphism()","rhs":"test_check_homomorphism produces the expected output","over":{"base":"Any"},"name":"test_check_homomorphism_correct"},"guarantee":"test_check_homomorphism produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_homomorphisms.test_check_homomorphism_correct","statement":"Path(test_check_homomorphism(x), test_check_homomorphism produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d62e523907bfa6a8"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_homomorphisms.test_check_homomorphism","kind":"function","src_hash":"d8d5319b9f1e2e8c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_check_homomorphism()","rhs":"<unspecified:test_check_homomorphism>","over":{"base":"Any"},"name":"test_check_homomorphism_correct"},"guarantee":"test_check_homomorphism produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_homomorphisms.test_check_homomorphism_correct","statement":"Path(test_check_homomorphism(x), test_check_homomorphism produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d62e523907bfa6a8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_check_homomorphism():
     a = Permutation(1,2,3,4)
     b = Permutation(1,3)

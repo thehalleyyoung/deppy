@@ -43,16 +43,22 @@ from sympy.physics.quantum.qexpr import QuantumError
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(OrderFindingException(), correctly constructs a OrderFindingException instance) over Any ║
+# ║ Path(OrderFindingException(), isinstance(self, QuantumError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ OrderFindingException : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, QuantumError)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ OrderFindingException : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 422c492b0054f4b1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.shor.OrderFindingException","kind":"class","src_hash":"dfda2007047a5b55","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"OrderFindingException()","rhs":"correctly constructs a OrderFindingException instance","over":{"base":"Any"},"name":"OrderFindingException_correct"},"guarantee":"correctly constructs a OrderFindingException instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"422c492b0054f4b1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.shor.OrderFindingException","kind":"class","src_hash":"dfda2007047a5b55","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, QuantumError)"},"spec":{"lhs":"OrderFindingException()","rhs":"isinstance(self, QuantumError)","over":{"base":"Any"},"name":"OrderFindingException_correct"},"guarantee":"isinstance(self, QuantumError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"422c492b0054f4b1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, QuantumError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function OrderFindingException not found in source"]}}
 class OrderFindingException(QuantumError):
     pass
 
@@ -60,14 +66,20 @@ class OrderFindingException(QuantumError):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(CMod(*args), correctly constructs a CMod instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CMod : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Gate)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CMod : Any → {Any | result satisfies: isinstance(self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2130bbbc214b84f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.shor.CMod","kind":"class","src_hash":"ad7c9f9621555540","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CMod(*args)","rhs":"correctly constructs a CMod instance","over":{"base":"Any"},"name":"CMod_class_invariant"},"guarantee":"correctly constructs a CMod instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2130bbbc214b84f0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.shor.CMod","kind":"class","src_hash":"ad7c9f9621555540","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Gate)"},"spec":{"lhs":"CMod(*args)","rhs":"correctly constructs a CMod instance","over":{"base":"Any"},"name":"CMod_class_invariant"},"guarantee":"isinstance(self, Gate)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2130bbbc214b84f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Gate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function CMod not found in source"]}}
 class CMod(Gate):
     """A controlled mod gate.
 
@@ -78,16 +90,22 @@ class CMod(Gate):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_args(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_args(cls, args), <unspecified:_eval_args>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_args : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1a68182e620e218e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.shor.CMod._eval_args","kind":"classmethod","src_hash":"6f1acc1bcd723175","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_args(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_args_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1a68182e620e218e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.shor.CMod._eval_args","kind":"classmethod","src_hash":"6f1acc1bcd723175","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_args(cls, args)","rhs":"<unspecified:_eval_args>","over":{"base":"Any"},"name":"_eval_args_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1a68182e620e218e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_args(cls, args):
         # t = args[0]
         # a = args[1]
@@ -96,63 +114,88 @@ class CMod(Gate):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(t(), returns the t attribute) over Any                ║
+# ║ Path(t(), self.label[0]) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.label[0]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ t : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f9c82296c8ef32e4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.shor.CMod.t","kind":"property","src_hash":"50af9c563552988c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"t()","rhs":"returns the t attribute","over":{"base":"Any"},"name":"t_correct"},"guarantee":"returns the t attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f9c82296c8ef32e4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.shor.CMod.t","kind":"property","src_hash":"50af9c563552988c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"t()","rhs":"self.label[0]","over":{"base":"Any"},"name":"t_correct"},"guarantee":"returns self.label[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f9c82296c8ef32e4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.label[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.label"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def t(self):
         """Size of 1/2 input register.  First 1/2 holds output."""
         return self.label[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(a(), returns the a attribute) over Any                ║
+# ║ Path(a(), self.label[1]) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.label[1]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ a : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 20cfd2b0af63025c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.shor.CMod.a","kind":"property","src_hash":"5ba8fe8c90892f5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"a()","rhs":"returns the a attribute","over":{"base":"Any"},"name":"a_correct"},"guarantee":"returns the a attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"20cfd2b0af63025c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.shor.CMod.a","kind":"property","src_hash":"5ba8fe8c90892f5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"a()","rhs":"self.label[1]","over":{"base":"Any"},"name":"a_correct"},"guarantee":"returns self.label[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"20cfd2b0af63025c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.label[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.label"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def a(self):
         """Base of the controlled mod function."""
         return self.label[1]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(N(), returns the N attribute) over Any                ║
+# ║ Path(N(), self.label[2]) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.label[2]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ N : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 708b097cf785ec3f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.shor.CMod.N","kind":"property","src_hash":"97d0359785d8cea9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"N()","rhs":"returns the N attribute","over":{"base":"Any"},"name":"N_correct"},"guarantee":"returns the N attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"708b097cf785ec3f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.shor.CMod.N","kind":"property","src_hash":"97d0359785d8cea9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"N()","rhs":"self.label[2]","over":{"base":"Any"},"name":"N_correct"},"guarantee":"returns self.label[2]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"708b097cf785ec3f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.label[2]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.label"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def N(self):
         """N is the type of modular arithmetic we are doing."""
         return self.label[2]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_operator_Qubit(qub), this directly calculates the controlled mod of the second half of the register and puts it in the second this will look pretty when we get tensor symbolically working) over Any ║
+# ║ Path(_apply_operator_Qubit(qubits, **options), Qubit(*outarray)) over {Any | hasattr(qubits, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _apply_operator_Qubit : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(qubits, 'args')                        ║
+# ║   returns:  Qubit(*outarray)                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _apply_operator_Qubit : {Any | hasattr(qubits, 'args'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d6265a6d726d8593  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 47192395acf8489c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.shor.CMod._apply_operator_Qubit","kind":"method","src_hash":"159e9cb04b5465fe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_Qubit(qub)","rhs":"this directly calculates the controlled mod of the second half of the register and puts it in the second this will look pretty when we get tensor symbolically working","over":{"base":"Any"},"name":"_apply_operator_Qubit_correct"},"guarantee":"this directly calculates the controlled mod of the second half of the register and puts it in the second this will look pretty when we get tensor symbolically working","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.shor.CMod._apply_operator_Qubit_correct","statement":"Path(_apply_operator_Qubit(x), this directly calculates the controlled mod of the second half of the register and puts it in the second this will look pretty when we get tensor symbolically working)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6265a6d726d8593"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.shor.CMod._apply_operator_Qubit","kind":"method","src_hash":"159e9cb04b5465fe","in":{"base":"Any","pred":"hasattr(qubits, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operator_Qubit(qubits, **options)","rhs":"Qubit(*outarray)","over":{"base":"Any","pred":"hasattr(qubits, 'args')"},"name":"_apply_operator_Qubit_correct"},"guarantee":"returns Qubit(*outarray)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.shor.CMod._apply_operator_Qubit_correct","statement":"Path(_apply_operator_Qubit(x), returns Qubit(*outarray))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47192395acf8489c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(qubits, 'args')"],"returns_expr":"Qubit(*outarray)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_operator_Qubit(self, qubits, **options):
         """
             This directly calculates the controlled mod of the second half of
@@ -180,16 +223,22 @@ class CMod(Gate):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shor(N), this function implements shor's factoring algorithm on the integer n) over Any ║
+# ║ Path(shor(N), # HINT: shor may be idempotent: shor(shor(x)) == shor(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ shor : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: shor may be idempotent: shor(shor...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ shor : Any → {Any | result satisfies: # HINT: shor ma...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4865d1ee9d9da5ca  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 94300886fa21bb16  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.shor.shor","kind":"function","src_hash":"996db9a7616ce12d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shor(N)","rhs":"this function implements shor's factoring algorithm on the integer n","over":{"base":"Any"},"name":"shor_correct"},"guarantee":"this function implements shor's factoring algorithm on the integer n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.shor.shor_correct","statement":"Path(shor(x), this function implements shor's factoring algorithm on the integer n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4865d1ee9d9da5ca"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.shor.shor","kind":"function","src_hash":"996db9a7616ce12d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: shor may be idempotent: shor(shor(x)) == shor(x)"},"spec":{"lhs":"shor(N)","rhs":"# HINT: shor may be idempotent: shor(shor(x)) == shor(x)","over":{"base":"Any"},"name":"shor_correct"},"guarantee":"# HINT: shor may be idempotent: shor(shor(x)) == shor(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.shor.shor_correct","statement":"Path(shor(x), # HINT: shor may be idempotent: shor(shor(x)) == shor(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94300886fa21bb16","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: shor may be idempotent: shor(shor(x)) == shor(x)"],"pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["random.randrange"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def shor(N):
     """This function implements Shor's factoring algorithm on the Integer N
 
@@ -211,16 +260,22 @@ def shor(N):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(getr(x, ), getr produces the expected output) over Any ║
+# ║ Path(getr(x, y, N), <unspecified:getr>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ getr : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1ffa08e4f774f9f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.shor.getr","kind":"function","src_hash":"f9c021091da1fb33","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"getr(x, )","rhs":"getr produces the expected output","over":{"base":"Any"},"name":"getr_correct"},"guarantee":"getr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.shor.getr_correct","statement":"Path(getr(x), getr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1ffa08e4f774f9f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.shor.getr","kind":"function","src_hash":"f9c021091da1fb33","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"getr(x, y, N)","rhs":"<unspecified:getr>","over":{"base":"Any"},"name":"getr_correct"},"guarantee":"getr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.shor.getr_correct","statement":"Path(getr(x), getr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1ffa08e4f774f9f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def getr(x, y, N):
     fraction = continued_fraction(x, y)
     # Now convert into r
@@ -229,16 +284,22 @@ def getr(x, y, N):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ratioize(lis), ratioize produces the expected output) over Any ║
+# ║ Path(ratioize(list, N), # HINT: ratioize may be idempotent: ratioize(ratioize(x)) == ratioize(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ratioize : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: ratioize may be idempotent: ratio...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ratioize : Any → {Any | result satisfies: # HINT: rat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43afa103253f06ab  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d589df6fbdaf5fc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.shor.ratioize","kind":"function","src_hash":"f86c19c7e3a73e2f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ratioize(lis)","rhs":"ratioize produces the expected output","over":{"base":"Any"},"name":"ratioize_correct"},"guarantee":"ratioize produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.shor.ratioize_correct","statement":"Path(ratioize(x), ratioize produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43afa103253f06ab"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.shor.ratioize","kind":"function","src_hash":"f86c19c7e3a73e2f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: ratioize may be idempotent: ratioize(ratioize(x)) == ratioize(x)"},"spec":{"lhs":"ratioize(list, N)","rhs":"# HINT: ratioize may be idempotent: ratioize(ratioize(x)) == ratioize(x)","over":{"base":"Any"},"name":"ratioize_correct"},"guarantee":"# HINT: ratioize may be idempotent: ratioize(ratioize(x)) == ratioize(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.shor.ratioize_correct","statement":"Path(ratioize(x), # HINT: ratioize may be idempotent: ratioize(ratioize(x)) == ratioize(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d589df6fbdaf5fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: ratioize may be idempotent: ratioize(ratioize(x)) == ratioize(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def ratioize(list, N):
     if list[0] > N:
         return S.Zero
@@ -248,7 +309,10 @@ def ratioize(list, N):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(period_find(a, ), finds the period of a in modulo n arithmetic) over {Any | isinstance(circuit, Qubit) and isinstance(circuit, Mul)} ║
+# ║ Path(period_find(a, N), <unspecified:period_find>) over {Any | isinstance(circuit, Qubit) and isinstance(circuit, Mul)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ period_find : {Any | isinstance(circuit, Qubit) and i...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -261,9 +325,12 @@ def ratioize(list, N):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 483c4c55...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.shor.period_find","kind":"function","src_hash":"16a081093cc6129e","in":{"base":"Any","pred":"isinstance(circuit, Qubit) and isinstance(circuit, Mul)"},"out":{"base":"Any"},"spec":{"lhs":"period_find(a, )","rhs":"finds the period of a in modulo n arithmetic","over":{"base":"Any","pred":"isinstance(circuit, Qubit) and isinstance(circuit, Mul)"},"name":"period_find_correct"},"guarantee":"finds the period of a in modulo n arithmetic","fibers":[{"name":"Qubit","pred":"isinstance(circuit, Qubit)","path":{"lhs":"period_find(x)","rhs":"finds the period of a in modulo n arithmetic","over":{"base":"Qubit","pred":"isinstance(circuit, Qubit)"},"name":"period_find_Qubit_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.shor.period_find_Qubit_correct","statement":"period_find satisfies spec on Qubit inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(circuit, Mul)","path":{"lhs":"period_find(x)","rhs":"finds the period of a in modulo n arithmetic","over":{"base":"Mul","pred":"isinstance(circuit, Mul)"},"name":"period_find_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.shor.period_find_Mul_correct","statement":"period_find satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"483c4c551c73a8d3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.shor.period_find","kind":"function","src_hash":"16a081093cc6129e","in":{"base":"Any","pred":"isinstance(circuit, Qubit) and isinstance(circuit, Mul)"},"out":{"base":"Any"},"spec":{"lhs":"period_find(a, N)","rhs":"<unspecified:period_find>","over":{"base":"Any","pred":"isinstance(circuit, Qubit) and isinstance(circuit, Mul)"},"name":"period_find_correct"},"guarantee":"finds the period of a in modulo n arithmetic","fibers":[{"name":"Qubit","pred":"isinstance(circuit, Qubit)","path":{"lhs":"period_find(x)","rhs":"finds the period of a in modulo n arithmetic","over":{"base":"Qubit","pred":"isinstance(circuit, Qubit)"},"name":"period_find_Qubit_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.shor.period_find_Qubit_correct","statement":"period_find satisfies spec on Qubit inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(circuit, Mul)","path":{"lhs":"period_find(x)","rhs":"finds the period of a in modulo n arithmetic","over":{"base":"Mul","pred":"isinstance(circuit, Mul)"},"name":"period_find_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.shor.period_find_Mul_correct","statement":"period_find satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"483c4c551c73a8d3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["OrderFindingException"]},"state_contract":{"exceptional_post":{"OrderFindingException":["isinstance(raised, OrderFindingException)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(circuit, Qubit)', 'answer == 0', 'isinstance(circuit, Mul)'}, fibers={'Qubit', 'Mul'})"]}}
 def period_find(a, N):
     """Finds the period of a in modulo N arithmetic
 

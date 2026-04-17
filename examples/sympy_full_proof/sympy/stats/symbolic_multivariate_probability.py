@@ -34,14 +34,21 @@ from sympy.stats.symbolic_probability import Variance, Covariance, Expectation
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ExpectationMatrix(*args), correctly constructs a ExpectationMatrix instance) over {Any | isinstance(expr, Add) and isinstance(expr, (Mul, MatMul))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expectation)                  ║
+# ║   ensures:  isinstance(self, MatrixExpr)                   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ ExpectationMatrix : {Any | isinstance(expr, Add) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4d3eb7059eb3f445  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.symbolic_multivariate_probability.ExpectationMatrix","kind":"class","src_hash":"d9c879dd7a19b662","in":{"base":"Any","pred":"isinstance(expr, Add) and isinstance(expr, (Mul, MatMul))"},"out":{"base":"Any"},"spec":{"lhs":"ExpectationMatrix(*args)","rhs":"correctly constructs a ExpectationMatrix instance","over":{"base":"Any","pred":"isinstance(expr, Add) and isinstance(expr, (Mul, MatMul))"},"name":"ExpectationMatrix_class_invariant"},"guarantee":"correctly constructs a ExpectationMatrix instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d3eb7059eb3f445"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.symbolic_multivariate_probability.ExpectationMatrix","kind":"class","src_hash":"d9c879dd7a19b662","in":{"base":"Any","pred":"isinstance(expr, Add) and isinstance(expr, (Mul, MatMul))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expectation) and isinstance(self, MatrixExpr)"},"spec":{"lhs":"ExpectationMatrix(*args)","rhs":"correctly constructs a ExpectationMatrix instance","over":{"base":"Any","pred":"isinstance(expr, Add) and isinstance(expr, (Mul, MatMul))"},"name":"ExpectationMatrix_class_invariant"},"guarantee":"isinstance(self, Expectation); isinstance(self, MatrixExpr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d3eb7059eb3f445","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expectation)","isinstance(self, MatrixExpr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function ExpectationMatrix not found in source"]}}
 class ExpectationMatrix(Expectation, MatrixExpr):
     """
     Expectation of a random matrix expression.
@@ -82,16 +89,23 @@ class ExpectationMatrix(Expectation, MatrixExpr):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, expr, condition), <unspecified:__new__>) over {Any | hasattr(expr, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'shape')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | hasattr(expr, 'shape')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fec1b821317a504e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.symbolic_multivariate_probability.ExpectationMatrix.__new__","kind":"method","src_hash":"16fccf01e6aaef96","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fec1b821317a504e"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.symbolic_multivariate_probability.ExpectationMatrix.__new__","kind":"method","src_hash":"16fccf01e6aaef96","in":{"base":"Any","pred":"hasattr(expr, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, expr, condition)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"hasattr(expr, 'shape')"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fec1b821317a504e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'shape')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, expr, condition=None):
         expr = _sympify(expr)
         if condition is None:
@@ -108,30 +122,42 @@ class ExpectationMatrix(Expectation, MatrixExpr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shape(), returns the shape attribute) over Any        ║
+# ║ Path(shape(), self._shape) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._shape                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ shape : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 58d30c548f5804d0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.symbolic_multivariate_probability.ExpectationMatrix.shape","kind":"property","src_hash":"a8686880d0cee8dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"returns the shape attribute","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns the shape attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"58d30c548f5804d0"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.symbolic_multivariate_probability.ExpectationMatrix.shape","kind":"property","src_hash":"a8686880d0cee8dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"self._shape","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns self._shape","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"58d30c548f5804d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._shape","pure":false,"effects":{"effect_type":"reads_state","reads":["self._shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shape(self):
         return self._shape
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expand(**h), expand produces the expected output) over Any ║
+# ║ Path(expand(**hints), <unspecified:expand>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ expand : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 01e532a260f3362a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.symbolic_multivariate_probability.ExpectationMatrix.expand","kind":"method","src_hash":"a889f7322a499ccc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expand(**h)","rhs":"expand produces the expected output","over":{"base":"Any"},"name":"expand_correct"},"guarantee":"expand produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.symbolic_multivariate_probability.ExpectationMatrix.expand_correct","statement":"Path(expand(x), expand produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01e532a260f3362a"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.symbolic_multivariate_probability.ExpectationMatrix.expand","kind":"method","src_hash":"a889f7322a499ccc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expand(**hints)","rhs":"<unspecified:expand>","over":{"base":"Any"},"name":"expand_correct"},"guarantee":"expand produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.symbolic_multivariate_probability.ExpectationMatrix.expand_correct","statement":"Path(expand(x), expand produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01e532a260f3362a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def expand(self, **hints):
         expr = self.args[0]
         condition = self._condition
@@ -177,14 +203,21 @@ class ExpectationMatrix(Expectation, MatrixExpr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(VarianceMatrix(*args), correctly constructs a VarianceMatrix instance) over {Any | isinstance(arg, RandomSymbol) and isinstance(arg, Add) and isinstance(arg, (Mul, MatMul))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Variance)                     ║
+# ║   ensures:  isinstance(self, MatrixExpr)                   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ VarianceMatrix : {Any | isinstance(arg, RandomSymbol)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f30c2dbcdce9a4c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.symbolic_multivariate_probability.VarianceMatrix","kind":"class","src_hash":"27144d83f540cc1a","in":{"base":"Any","pred":"isinstance(arg, RandomSymbol) and isinstance(arg, Add) and isinstance(arg, (Mul, MatMul))"},"out":{"base":"Any"},"spec":{"lhs":"VarianceMatrix(*args)","rhs":"correctly constructs a VarianceMatrix instance","over":{"base":"Any","pred":"isinstance(arg, RandomSymbol) and isinstance(arg, Add) and isinstance(arg, (Mul, MatMul))"},"name":"VarianceMatrix_class_invariant"},"guarantee":"correctly constructs a VarianceMatrix instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f30c2dbcdce9a4c6"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.symbolic_multivariate_probability.VarianceMatrix","kind":"class","src_hash":"27144d83f540cc1a","in":{"base":"Any","pred":"isinstance(arg, RandomSymbol) and isinstance(arg, Add) and isinstance(arg, (Mul, MatMul))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Variance) and isinstance(self, MatrixExpr)"},"spec":{"lhs":"VarianceMatrix(*args)","rhs":"correctly constructs a VarianceMatrix instance","over":{"base":"Any","pred":"isinstance(arg, RandomSymbol) and isinstance(arg, Add) and isinstance(arg, (Mul, MatMul))"},"name":"VarianceMatrix_class_invariant"},"guarantee":"isinstance(self, Variance); isinstance(self, MatrixExpr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f30c2dbcdce9a4c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Variance)","isinstance(self, MatrixExpr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function VarianceMatrix not found in source"]}}
 class VarianceMatrix(Variance, MatrixExpr):
     """
     Variance of a random matrix probability expression. Also known as
@@ -213,16 +246,24 @@ class VarianceMatrix(Variance, MatrixExpr):
     2*A*CrossCovarianceMatrix(X, Y)*B.T + A*VarianceMatrix(X)*A.T + B*VarianceMatrix(Y)*B.T
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, arg, condition), <unspecified:__new__>) over {Any | not (1 not in arg.shape) and hasattr(arg, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (1 not in arg.shape)                       ║
+# ║   requires: hasattr(arg, 'shape')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | not (1 not in arg.shape) and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 713ee7a01f43d731           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.symbolic_multivariate_probability.VarianceMatrix.__new__","kind":"method","src_hash":"2a9e8314079c1ade","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"713ee7a01f43d731"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.symbolic_multivariate_probability.VarianceMatrix.__new__","kind":"method","src_hash":"2a9e8314079c1ade","in":{"base":"Any","pred":"not (1 not in arg.shape) and hasattr(arg, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, arg, condition)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"not (1 not in arg.shape) and hasattr(arg, 'shape')"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"713ee7a01f43d731","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (1 not in arg.shape)","hasattr(arg, 'shape')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg.shape"],"raises":["ShapeError"]},"state_contract":{"exceptional_post":{"ShapeError":["isinstance(raised, ShapeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, arg, condition=None):
         arg = _sympify(arg)
 
@@ -242,30 +283,42 @@ class VarianceMatrix(Variance, MatrixExpr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shape(), returns the shape attribute) over Any        ║
+# ║ Path(shape(), self._shape) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._shape                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ shape : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2db343415a5990e6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.symbolic_multivariate_probability.VarianceMatrix.shape","kind":"property","src_hash":"a8686880d0cee8dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"returns the shape attribute","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns the shape attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2db343415a5990e6"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.symbolic_multivariate_probability.VarianceMatrix.shape","kind":"property","src_hash":"a8686880d0cee8dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"self._shape","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns self._shape","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2db343415a5990e6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._shape","pure":false,"effects":{"effect_type":"reads_state","reads":["self._shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shape(self):
         return self._shape
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expand(**h), expand produces the expected output) over Any ║
+# ║ Path(expand(**hints), <unspecified:expand>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ expand : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d3895aaf7c4cbaa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.symbolic_multivariate_probability.VarianceMatrix.expand","kind":"method","src_hash":"67e378c3bff787be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expand(**h)","rhs":"expand produces the expected output","over":{"base":"Any"},"name":"expand_correct"},"guarantee":"expand produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.symbolic_multivariate_probability.VarianceMatrix.expand_correct","statement":"Path(expand(x), expand produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d3895aaf7c4cbaa"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.symbolic_multivariate_probability.VarianceMatrix.expand","kind":"method","src_hash":"67e378c3bff787be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expand(**hints)","rhs":"<unspecified:expand>","over":{"base":"Any"},"name":"expand_correct"},"guarantee":"expand produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.symbolic_multivariate_probability.VarianceMatrix.expand_correct","statement":"Path(expand(x), expand produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d3895aaf7c4cbaa","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def expand(self, **hints):
         arg = self.args[0]
         condition = self._condition
@@ -309,14 +362,21 @@ class VarianceMatrix(Variance, MatrixExpr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(CrossCovarianceMatrix(*args), correctly constructs a CrossCovarianceMatrix instance) over {Any | isinstance(expr, RandomSymbol) and isinstance(expr, Add) and isinstance(expr, (Mul, MatMul))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Covariance)                   ║
+# ║   ensures:  isinstance(self, MatrixExpr)                   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ CrossCovarianceMatrix : {Any | isinstance(expr, Rando...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9cdd25ef5de53f19  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.symbolic_multivariate_probability.CrossCovarianceMatrix","kind":"class","src_hash":"b5d56e3f7aae8796","in":{"base":"Any","pred":"isinstance(expr, RandomSymbol) and isinstance(expr, Add) and isinstance(expr, (Mul, MatMul))"},"out":{"base":"Any"},"spec":{"lhs":"CrossCovarianceMatrix(*args)","rhs":"correctly constructs a CrossCovarianceMatrix instance","over":{"base":"Any","pred":"isinstance(expr, RandomSymbol) and isinstance(expr, Add) and isinstance(expr, (Mul, MatMul))"},"name":"CrossCovarianceMatrix_class_invariant"},"guarantee":"correctly constructs a CrossCovarianceMatrix instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9cdd25ef5de53f19"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.symbolic_multivariate_probability.CrossCovarianceMatrix","kind":"class","src_hash":"b5d56e3f7aae8796","in":{"base":"Any","pred":"isinstance(expr, RandomSymbol) and isinstance(expr, Add) and isinstance(expr, (Mul, MatMul))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Covariance) and isinstance(self, MatrixExpr)"},"spec":{"lhs":"CrossCovarianceMatrix(*args)","rhs":"correctly constructs a CrossCovarianceMatrix instance","over":{"base":"Any","pred":"isinstance(expr, RandomSymbol) and isinstance(expr, Add) and isinstance(expr, (Mul, MatMul))"},"name":"CrossCovarianceMatrix_class_invariant"},"guarantee":"isinstance(self, Covariance); isinstance(self, MatrixExpr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9cdd25ef5de53f19","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Covariance)","isinstance(self, MatrixExpr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function CrossCovarianceMatrix not found in source"]}}
 class CrossCovarianceMatrix(Covariance, MatrixExpr):
     """
     Covariance of a random matrix probability expression.
@@ -350,16 +410,25 @@ class CrossCovarianceMatrix(Covariance, MatrixExpr):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, arg1, arg2), <unspecified:__new__>) over {Any | not (1 not in arg1.shape or 1 not in arg2.shape or arg1.shape[1] != arg2.shape[1]) and hasattr(arg1, 'shape') and hasattr(arg2, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (1 not in arg1.shape or 1 not in arg2...   ║
+# ║   requires: hasattr(arg1, 'shape')                         ║
+# ║   requires: hasattr(arg2, 'shape')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | not (1 not in arg1.shape or 1 not in...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f55b0a2135dbf8bd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.symbolic_multivariate_probability.CrossCovarianceMatrix.__new__","kind":"method","src_hash":"5e5ad5fce41b66ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f55b0a2135dbf8bd"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.symbolic_multivariate_probability.CrossCovarianceMatrix.__new__","kind":"method","src_hash":"5e5ad5fce41b66ee","in":{"base":"Any","pred":"not (1 not in arg1.shape or 1 not in arg2.shape or arg1.shape[1] != arg2.shape[1]) and hasattr(arg1, 'shape') and hasattr(arg2, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, arg1, arg2)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"not (1 not in arg1.shape or 1 not in arg2.shape or arg1.shape[1] != arg2.shape[1]) and hasattr(arg1, 'shape') and hasattr(arg2, 'shape')"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f55b0a2135dbf8bd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (1 not in arg1.shape or 1 not in arg2.shape or arg1.shape[1] != arg2.shape[1])","hasattr(arg1, 'shape')","hasattr(arg2, 'shape')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg1.shape","arg2.shape"],"raises":["ShapeError"]},"state_contract":{"exceptional_post":{"ShapeError":["isinstance(raised, ShapeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, arg1, arg2, condition=None):
         arg1 = _sympify(arg1)
         arg2 = _sympify(arg2)
@@ -381,30 +450,42 @@ class CrossCovarianceMatrix(Covariance, MatrixExpr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shape(), returns the shape attribute) over Any        ║
+# ║ Path(shape(), self._shape) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._shape                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ shape : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f4207adde007ce18           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.symbolic_multivariate_probability.CrossCovarianceMatrix.shape","kind":"property","src_hash":"a8686880d0cee8dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"returns the shape attribute","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns the shape attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f4207adde007ce18"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.symbolic_multivariate_probability.CrossCovarianceMatrix.shape","kind":"property","src_hash":"a8686880d0cee8dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"self._shape","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns self._shape","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f4207adde007ce18","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._shape","pure":false,"effects":{"effect_type":"reads_state","reads":["self._shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shape(self):
         return self._shape
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expand(**h), id) over Any                             ║
+# ║ Path(expand(**hints), id) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ expand : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b4766a89972433f2   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.symbolic_multivariate_probability.CrossCovarianceMatrix.expand","kind":"method","src_hash":"8d98f3ae8b8264af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expand(**h)","rhs":"expand produces the expected output","over":{"base":"Any"},"name":"expand_correct","kind":"composition"},"guarantee":"expand produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"VarianceMatrix","by":"library_axiom"},{"fn":"expand","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4766a89972433f2"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.symbolic_multivariate_probability.CrossCovarianceMatrix.expand","kind":"method","src_hash":"8d98f3ae8b8264af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expand(**hints)","rhs":"<unspecified:expand>","over":{"base":"Any"},"name":"expand_correct","kind":"composition"},"guarantee":"expand produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"VarianceMatrix","by":"library_axiom"},{"fn":"expand","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4766a89972433f2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._condition","self._expand_single_argument","self.args","self.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def expand(self, **hints):
         arg1 = self.args[0]
         arg2 = self.args[1]
@@ -428,16 +509,27 @@ class CrossCovarianceMatrix(Covariance, MatrixExpr):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_expand_single_argument(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_expand_single_argument(cls, expr), result == ([(S.One, expr)] if isinstance(expr, RandomSymbol) else outval if isinstance(expr, Add) else [cls._get_mul_nonrv_rv_tuple(expr)] if isinstance(expr, (Mul, MatMul)) else [(S.One, expr)]) and result == [(S.One, expr)] or result == outval or result == [cls._get_mul_nonrv_rv_tuple(expr)]) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _expand_single_argument : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ensures:  result == ([(S.One, expr)] if isinstance(...   ║
+# ║   ensures:  result == [(S.One, expr)] or result == ou...   ║
+# ║   fiber[RandomSymbol]: isinstance(expr, RandomSymbol)...   ║
+# ║   fiber[Add]: isinstance(expr, Add) => outval              ║
+# ║   fiber[case_2]: isinstance(expr, (Mul, MatMul)) => [...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _expand_single_argument : {Any | hasattr(expr, 'args'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e5b8ebf8362947f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 864b94ed58f5b753  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.symbolic_multivariate_probability.CrossCovarianceMatrix._expand_single_argument","kind":"classmethod","src_hash":"08e19658601e5546","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_expand_single_argument(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_expand_single_argument_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.symbolic_multivariate_probability.CrossCovarianceMatrix._expand_single_argument_correct","statement":"Path(_expand_single_argument(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e5b8ebf8362947f"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.symbolic_multivariate_probability.CrossCovarianceMatrix._expand_single_argument","kind":"classmethod","src_hash":"08e19658601e5546","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == ([(S.One, expr)] if isinstance(expr, RandomSymbol) else outval if isinstance(expr, Add) else [cls._get_mul_nonrv_rv_tuple(expr)] if isinstance(expr, (Mul, MatMul)) else [(S.One, expr)]) and result == [(S.One, expr)] or result == outval or result == [cls._get_mul_nonrv_rv_tuple(expr)]"},"spec":{"lhs":"_expand_single_argument(cls, expr)","rhs":"result == ([(S.One, expr)] if isinstance(expr, RandomSymbol) else outval if isinstance(expr, Add) else [cls._get_mul_nonrv_rv_tuple(expr)] if isinstance(expr, (Mul, MatMul)) else [(S.One, expr)]) and result == [(S.One, expr)] or result == outval or result == [cls._get_mul_nonrv_rv_tuple(expr)]","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_expand_single_argument_correct"},"guarantee":"result == ([(S.One, expr)] if isinstance(expr, RandomSymbol) else outval if isinstance(expr, Add) else [cls._get_mul_nonrv_rv_tuple(expr)] if isinstance(expr, (Mul, MatMul)) else [(S.One, expr)]); result == [(S.One, expr)] or result == outval or result == [cls._get_mul_nonrv_rv_tuple(expr)]; 4-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.symbolic_multivariate_probability.CrossCovarianceMatrix._expand_single_argument_correct","statement":"Path(_expand_single_argument(x), result == ([(S.One, expr)] if isinstance(expr, RandomSymbol) else outval if isinstance(expr, Add) else [cls._get_mul_nonrv_rv_tuple(expr)] if isinstance(expr, (Mul, MatMul)) else [(S.One, expr)]); result == [(S.One, expr)] or result == outval or result == [cls._get_mul_nonrv_rv_tuple(expr)]; 4-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"864b94ed58f5b753","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"ensures":["result == ([(S.One, expr)] if isinstance(expr, RandomSymbol) else outval if isinstance(expr, Add) else [cls._get_mul_nonrv_rv_tuple(expr)] if isinstance(expr, (Mul, MatMul)) else [(S.One, expr)])","result == [(S.One, expr)] or result == outval or result == [cls._get_mul_nonrv_rv_tuple(expr)]"],"fibers":[{"name":"RandomSymbol","guard":"isinstance(expr, RandomSymbol)","ensures":["result == [(S.One, expr)]"],"decidability":"structural","returns_expr":"[(S.One, expr)]"},{"name":"Add","guard":"isinstance(expr, Add)","ensures":["result == outval"],"decidability":"structural","returns_expr":"outval"},{"name":"case_2","guard":"isinstance(expr, (Mul, MatMul))","ensures":["result == [cls._get_mul_nonrv_rv_tuple(expr)]"],"decidability":"structural","returns_expr":"[cls._get_mul_nonrv_rv_tuple(expr)]"},{"name":"case_3","guard":"is_random(expr)","ensures":["result == [(S.One, expr)]"],"decidability":"library","returns_expr":"[(S.One, expr)]"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _expand_single_argument(cls, expr):
         # return (coefficient, random_symbol) pairs:
         if isinstance(expr, RandomSymbol):
@@ -458,16 +550,23 @@ class CrossCovarianceMatrix(Covariance, MatrixExpr):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_mul_nonrv_rv_tuple(cls), id) over Any            ║
+# ║ Path(_get_mul_nonrv_rv_tuple(cls, m), id) over {Any | hasattr(m, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_mul_nonrv_rv_tuple : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(m, 'args')                             ║
+# ║   returns:  (Mul.fromiter(nonrv), Mul.fromiter(rv))        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_mul_nonrv_rv_tuple : {Any | hasattr(m, 'args')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 630f33596247dc78   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.symbolic_multivariate_probability.CrossCovarianceMatrix._get_mul_nonrv_rv_tuple","kind":"classmethod","src_hash":"657254492946676c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_mul_nonrv_rv_tuple(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_mul_nonrv_rv_tuple_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"fromiter","by":"library_axiom"},{"fn":"fromiter","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"630f33596247dc78"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.symbolic_multivariate_probability.CrossCovarianceMatrix._get_mul_nonrv_rv_tuple","kind":"classmethod","src_hash":"657254492946676c","in":{"base":"Any","pred":"hasattr(m, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_get_mul_nonrv_rv_tuple(cls, m)","rhs":"(Mul.fromiter(nonrv), Mul.fromiter(rv))","over":{"base":"Any","pred":"hasattr(m, 'args')"},"name":"_get_mul_nonrv_rv_tuple_correct","kind":"composition"},"guarantee":"returns (Mul.fromiter(nonrv), Mul.fromiter(rv))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"fromiter","by":"library_axiom"},{"fn":"fromiter","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"630f33596247dc78","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(m, 'args')"],"returns_expr":"(Mul.fromiter(nonrv), Mul.fromiter(rv))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_mul_nonrv_rv_tuple(cls, m):
         rv = []
         nonrv = []

@@ -39,16 +39,24 @@ s = Symbol('s')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_zeta_eval(), test_zeta_eval produces the expected output) over Any ║
+# ║ Path(test_zeta_eval(), zeta(nan) is nan and zeta(x, nan) is nan and zeta(0) == Rational(-1, 2) and zeta(0, x) == S.Half - x and zeta(0, b) == S.Half - b and zeta(1) is zoo and zeta(1, 2) is zoo and zeta(1, -7) is zoo and zeta(1, x) is zoo and zeta(2, 1) == pi ** 2 / 6 and zeta(3, 1) == zeta(3) and zeta(2) == pi ** 2 / 6 and zeta(4) == pi ** 4 / 90 and zeta(6) == pi ** 6 / 945 and zeta(4, 3) == pi ** 4 / 90 - Rational(17, 16) and zeta(7, 4) == zeta(7) - Rational(282251, 279936) and zeta(S.Half, 2).func == zeta and expand_func(zeta(S.Half, 2)) == zeta(S.Half) - 1 and zeta(x, 3).func == zeta and expand_func(zeta(x, 3)) == zeta(x) - 1 - 1 / 2 ** x and zeta(2, 0) is nan and zeta(3, -1) is nan and zeta(4, -2) is nan and zeta(oo) == 1 and zeta(-1) == Rational(-1, 12) and zeta(-2) == 0 and zeta(-3) == Rational(1, 120) and zeta(-4) == 0 and zeta(-5) == Rational(-1, 252) and zeta(-1, 3) == Rational(-37, 12) and zeta(-1, 7) == Rational(-253, 12) and zeta(-1, -4) == Rational(-121, 12) and zeta(-1, -9) == Rational(-541, 12) and zeta(-4, 3) == -17 and zeta(-4, -8) == 8772 and zeta(0, 1) == Rational(-1, 2) and zeta(0, -1) == Rational(3, 2) and zeta(0, 2) == Rational(-3, 2) and zeta(0, -2) == Rational(5, 2) and zeta(3).evalf(20).epsilon_eq(Float('1.2020569031595942854', 20), 1e-19)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_zeta_eval : Any → {Any | zeta(nan) is nan and ze...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  zeta(nan) is nan                               ║
+# ║   ensures:  zeta(x, nan) is nan                            ║
+# ║   ensures:  zeta(0) == Rational(-1, 2)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_zeta_eval : Any → {Any | result satisfies: zeta(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c983c0aa8d60b48  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | edb9661272a257f6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_zeta_functions.test_zeta_eval","kind":"function","src_hash":"2447941805d53be3","in":{"base":"Any"},"out":{"base":"Any","pred":"zeta(nan) is nan and zeta(x, nan) is nan and zeta(0) == Rational(-1, 2) and zeta(0, x) == S.Half - x and zeta(0, b) == S.Half - b and zeta(1) is zoo and zeta(1, 2) is zoo and zeta(1, -7) is zoo and zeta(1, x) is zoo and zeta(2, 1) == pi ** 2 / 6 and zeta(3, 1) == zeta(3) and zeta(2) == pi ** 2 / 6 and zeta(4) == pi ** 4 / 90 and zeta(6) == pi ** 6 / 945 and zeta(4, 3) == pi ** 4 / 90 - Rational(17, 16) and zeta(7, 4) == zeta(7) - Rational(282251, 279936) and zeta(S.Half, 2).func == zeta and expand_func(zeta(S.Half, 2)) == zeta(S.Half) - 1 and zeta(x, 3).func == zeta and expand_func(zeta(x, 3)) == zeta(x) - 1 - 1 / 2 ** x and zeta(2, 0) is nan and zeta(3, -1) is nan and zeta(4, -2) is nan and zeta(oo) == 1 and zeta(-1) == Rational(-1, 12) and zeta(-2) == 0 and zeta(-3) == Rational(1, 120) and zeta(-4) == 0 and zeta(-5) == Rational(-1, 252) and zeta(-1, 3) == Rational(-37, 12) and zeta(-1, 7) == Rational(-253, 12) and zeta(-1, -4) == Rational(-121, 12) and zeta(-1, -9) == Rational(-541, 12) and zeta(-4, 3) == -17 and zeta(-4, -8) == 8772 and zeta(0, 1) == Rational(-1, 2) and zeta(0, -1) == Rational(3, 2) and zeta(0, 2) == Rational(-3, 2) and zeta(0, -2) == Rational(5, 2) and zeta(3).evalf(20).epsilon_eq(Float('1.2020569031595942854', 20), 1e-19)"},"spec":{"lhs":"test_zeta_eval()","rhs":"test_zeta_eval produces the expected output","over":{"base":"Any"},"name":"test_zeta_eval_correct"},"guarantee":"test_zeta_eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_zeta_functions.test_zeta_eval_correct","statement":"Path(test_zeta_eval(x), test_zeta_eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c983c0aa8d60b48"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_zeta_functions.test_zeta_eval","kind":"function","src_hash":"2447941805d53be3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: zeta(nan) is nan and zeta(x, nan) is nan and zeta(0) == Rational(-1, 2) and zeta(0, x) == S.Half - x and zeta(0, b) == S.Half - b and zeta(1) is zoo and zeta(1, 2) is zoo and zeta(1, -7) is zoo and zeta(1, x) is zoo and zeta(2, 1) == pi ** 2 / 6 and zeta(3, 1) == zeta(3) and zeta(2) == pi ** 2 / 6 and zeta(4) == pi ** 4 / 90 and zeta(6) == pi ** 6 / 945 and zeta(4, 3) == pi ** 4 / 90 - Rational(17, 16) and zeta(7, 4) == zeta(7) - Rational(282251, 279936) and zeta(S.Half, 2).func == zeta and expand_func(zeta(S.Half, 2)) == zeta(S.Half) - 1 and zeta(x, 3).func == zeta and expand_func(zeta(x, 3)) == zeta(x) - 1 - 1 / 2 ** x and zeta(2, 0) is nan and zeta(3, -1) is nan and zeta(4, -2) is nan and zeta(oo) == 1 and zeta(-1) == Rational(-1, 12) and zeta(-2) == 0 and zeta(-3) == Rational(1, 120) and zeta(-4) == 0 and zeta(-5) == Rational(-1, 252) and zeta(-1, 3) == Rational(-37, 12) and zeta(-1, 7) == Rational(-253, 12) and zeta(-1, -4) == Rational(-121, 12) and zeta(-1, -9) == Rational(-541, 12) and zeta(-4, 3) == -17 and zeta(-4, -8) == 8772 and zeta(0, 1) == Rational(-1, 2) and zeta(0, -1) == Rational(3, 2) and zeta(0, 2) == Rational(-3, 2) and zeta(0, -2) == Rational(5, 2) and zeta(3).evalf(20).epsilon_eq(Float('1.2020569031595942854', 20), 1e-19)"},"spec":{"lhs":"test_zeta_eval()","rhs":"zeta(nan) is nan and zeta(x, nan) is nan and zeta(0) == Rational(-1, 2) and zeta(0, x) == S.Half - x and zeta(0, b) == S.Half - b and zeta(1) is zoo and zeta(1, 2) is zoo and zeta(1, -7) is zoo and zeta(1, x) is zoo and zeta(2, 1) == pi ** 2 / 6 and zeta(3, 1) == zeta(3) and zeta(2) == pi ** 2 / 6 and zeta(4) == pi ** 4 / 90 and zeta(6) == pi ** 6 / 945 and zeta(4, 3) == pi ** 4 / 90 - Rational(17, 16) and zeta(7, 4) == zeta(7) - Rational(282251, 279936) and zeta(S.Half, 2).func == zeta and expand_func(zeta(S.Half, 2)) == zeta(S.Half) - 1 and zeta(x, 3).func == zeta and expand_func(zeta(x, 3)) == zeta(x) - 1 - 1 / 2 ** x and zeta(2, 0) is nan and zeta(3, -1) is nan and zeta(4, -2) is nan and zeta(oo) == 1 and zeta(-1) == Rational(-1, 12) and zeta(-2) == 0 and zeta(-3) == Rational(1, 120) and zeta(-4) == 0 and zeta(-5) == Rational(-1, 252) and zeta(-1, 3) == Rational(-37, 12) and zeta(-1, 7) == Rational(-253, 12) and zeta(-1, -4) == Rational(-121, 12) and zeta(-1, -9) == Rational(-541, 12) and zeta(-4, 3) == -17 and zeta(-4, -8) == 8772 and zeta(0, 1) == Rational(-1, 2) and zeta(0, -1) == Rational(3, 2) and zeta(0, 2) == Rational(-3, 2) and zeta(0, -2) == Rational(5, 2) and zeta(3).evalf(20).epsilon_eq(Float('1.2020569031595942854', 20), 1e-19)","over":{"base":"Any"},"name":"test_zeta_eval_correct"},"guarantee":"zeta(nan) is nan; zeta(x, nan) is nan; zeta(0) == Rational(-1, 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_zeta_functions.test_zeta_eval_correct","statement":"Path(test_zeta_eval(x), zeta(nan) is nan; zeta(x, nan) is nan; zeta(0) == Rational(-1, 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"edb9661272a257f6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["zeta(nan) is nan","zeta(x, nan) is nan","zeta(0) == Rational(-1, 2)","zeta(0, x) == S.Half - x","zeta(0, b) == S.Half - b","zeta(1) is zoo","zeta(1, 2) is zoo","zeta(1, -7) is zoo","zeta(1, x) is zoo","zeta(2, 1) == pi ** 2 / 6","zeta(3, 1) == zeta(3)","zeta(2) == pi ** 2 / 6","zeta(4) == pi ** 4 / 90","zeta(6) == pi ** 6 / 945","zeta(4, 3) == pi ** 4 / 90 - Rational(17, 16)","zeta(7, 4) == zeta(7) - Rational(282251, 279936)","zeta(S.Half, 2).func == zeta","expand_func(zeta(S.Half, 2)) == zeta(S.Half) - 1","zeta(x, 3).func == zeta","expand_func(zeta(x, 3)) == zeta(x) - 1 - 1 / 2 ** x","zeta(2, 0) is nan","zeta(3, -1) is nan","zeta(4, -2) is nan","zeta(oo) == 1","zeta(-1) == Rational(-1, 12)","zeta(-2) == 0","zeta(-3) == Rational(1, 120)","zeta(-4) == 0","zeta(-5) == Rational(-1, 252)","zeta(-1, 3) == Rational(-37, 12)","zeta(-1, 7) == Rational(-253, 12)","zeta(-1, -4) == Rational(-121, 12)","zeta(-1, -9) == Rational(-541, 12)","zeta(-4, 3) == -17","zeta(-4, -8) == 8772","zeta(0, 1) == Rational(-1, 2)","zeta(0, -1) == Rational(3, 2)","zeta(0, 2) == Rational(-3, 2)","zeta(0, -2) == Rational(5, 2)","zeta(3).evalf(20).epsilon_eq(Float('1.2020569031595942854', 20), 1e-19)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_zeta_eval():
 
     assert zeta(nan) is nan
@@ -108,32 +116,46 @@ def test_zeta_eval():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_zeta_series(), test_zeta_series produces the expected output) over Any ║
+# ║ Path(test_zeta_series(), zeta(x, a).series(a, z, 2) == zeta(x, z) - x * (a - z) * zeta(x + 1, z) + O((a - z) ** 2, (a, z))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_zeta_series : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  zeta(x, a).series(a, z, 2) == zeta(x, z) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_zeta_series : Any → {Any | result satisfies: zet...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc23c7744540eafa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2037fb83cf5f12a6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_zeta_functions.test_zeta_series","kind":"function","src_hash":"3e209f4b7a39276d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_zeta_series()","rhs":"test_zeta_series produces the expected output","over":{"base":"Any"},"name":"test_zeta_series_correct"},"guarantee":"test_zeta_series produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_zeta_functions.test_zeta_series_correct","statement":"Path(test_zeta_series(x), test_zeta_series produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc23c7744540eafa"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_zeta_functions.test_zeta_series","kind":"function","src_hash":"3e209f4b7a39276d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: zeta(x, a).series(a, z, 2) == zeta(x, z) - x * (a - z) * zeta(x + 1, z) + O((a - z) ** 2, (a, z))"},"spec":{"lhs":"test_zeta_series()","rhs":"zeta(x, a).series(a, z, 2) == zeta(x, z) - x * (a - z) * zeta(x + 1, z) + O((a - z) ** 2, (a, z))","over":{"base":"Any"},"name":"test_zeta_series_correct"},"guarantee":"zeta(x, a).series(a, z, 2) == zeta(x, z) - x * (a - z) * zeta(x + 1, z) + O((a - z) ** 2, (a, z))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_zeta_functions.test_zeta_series_correct","statement":"Path(test_zeta_series(x), zeta(x, a).series(a, z, 2) == zeta(x, z) - x * (a - z) * zeta(x + 1, z) + O((a - z) ** 2, (a, z)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2037fb83cf5f12a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["zeta(x, a).series(a, z, 2) == zeta(x, z) - x * (a - z) * zeta(x + 1, z) + O((a - z) ** 2, (a, z))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_zeta_series():
     assert zeta(x, a).series(a, z, 2) == \
         zeta(x, z) - x*(a-z)*zeta(x+1, z) + O((a-z)**2, (a, z))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dirichlet_eta_eval(), test_dirichlet_eta_eval produces the expected output) over Any ║
+# ║ Path(test_dirichlet_eta_eval(), dirichlet_eta(0) == S.Half and dirichlet_eta(-1) == Rational(1, 4) and dirichlet_eta(1) == log(2) and dirichlet_eta(1, S.Half).simplify() == pi / 2 and dirichlet_eta(1, 2) == 1 - log(2) and dirichlet_eta(2) == pi ** 2 / 12 and dirichlet_eta(4) == pi ** 4 * Rational(7, 720) and str(dirichlet_eta(I).evalf(n=10)) == '0.5325931818 + 0.2293848577*I' and str(dirichlet_eta(I, I).evalf(n=10)) == '3.462349253 + 0.220285771*I') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dirichlet_eta_eval : Any → {Any | dirichlet_eta(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dirichlet_eta(0) == S.Half                     ║
+# ║   ensures:  dirichlet_eta(-1) == Rational(1, 4)            ║
+# ║   ensures:  dirichlet_eta(1) == log(2)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dirichlet_eta_eval : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 02fac5f083ae3d1e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d803979133aca32  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_zeta_functions.test_dirichlet_eta_eval","kind":"function","src_hash":"a9fbe6a85bad0822","in":{"base":"Any"},"out":{"base":"Any","pred":"dirichlet_eta(0) == S.Half and dirichlet_eta(-1) == Rational(1, 4) and dirichlet_eta(1) == log(2) and dirichlet_eta(1, S.Half).simplify() == pi / 2 and dirichlet_eta(1, 2) == 1 - log(2) and dirichlet_eta(2) == pi ** 2 / 12 and dirichlet_eta(4) == pi ** 4 * Rational(7, 720) and str(dirichlet_eta(I).evalf(n=10)) == '0.5325931818 + 0.2293848577*I' and str(dirichlet_eta(I, I).evalf(n=10)) == '3.462349253 + 0.220285771*I'"},"spec":{"lhs":"test_dirichlet_eta_eval()","rhs":"test_dirichlet_eta_eval produces the expected output","over":{"base":"Any"},"name":"test_dirichlet_eta_eval_correct"},"guarantee":"test_dirichlet_eta_eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_zeta_functions.test_dirichlet_eta_eval_correct","statement":"Path(test_dirichlet_eta_eval(x), test_dirichlet_eta_eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"02fac5f083ae3d1e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_zeta_functions.test_dirichlet_eta_eval","kind":"function","src_hash":"a9fbe6a85bad0822","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dirichlet_eta(0) == S.Half and dirichlet_eta(-1) == Rational(1, 4) and dirichlet_eta(1) == log(2) and dirichlet_eta(1, S.Half).simplify() == pi / 2 and dirichlet_eta(1, 2) == 1 - log(2) and dirichlet_eta(2) == pi ** 2 / 12 and dirichlet_eta(4) == pi ** 4 * Rational(7, 720) and str(dirichlet_eta(I).evalf(n=10)) == '0.5325931818 + 0.2293848577*I' and str(dirichlet_eta(I, I).evalf(n=10)) == '3.462349253 + 0.220285771*I'"},"spec":{"lhs":"test_dirichlet_eta_eval()","rhs":"dirichlet_eta(0) == S.Half and dirichlet_eta(-1) == Rational(1, 4) and dirichlet_eta(1) == log(2) and dirichlet_eta(1, S.Half).simplify() == pi / 2 and dirichlet_eta(1, 2) == 1 - log(2) and dirichlet_eta(2) == pi ** 2 / 12 and dirichlet_eta(4) == pi ** 4 * Rational(7, 720) and str(dirichlet_eta(I).evalf(n=10)) == '0.5325931818 + 0.2293848577*I' and str(dirichlet_eta(I, I).evalf(n=10)) == '3.462349253 + 0.220285771*I'","over":{"base":"Any"},"name":"test_dirichlet_eta_eval_correct"},"guarantee":"dirichlet_eta(0) == S.Half; dirichlet_eta(-1) == Rational(1, 4); dirichlet_eta(1) == log(2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_zeta_functions.test_dirichlet_eta_eval_correct","statement":"Path(test_dirichlet_eta_eval(x), dirichlet_eta(0) == S.Half; dirichlet_eta(-1) == Rational(1, 4); dirichlet_eta(1) == log(2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d803979133aca32","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dirichlet_eta(0) == S.Half","dirichlet_eta(-1) == Rational(1, 4)","dirichlet_eta(1) == log(2)","dirichlet_eta(1, S.Half).simplify() == pi / 2","dirichlet_eta(1, 2) == 1 - log(2)","dirichlet_eta(2) == pi ** 2 / 12","dirichlet_eta(4) == pi ** 4 * Rational(7, 720)","str(dirichlet_eta(I).evalf(n=10)) == '0.5325931818 + 0.2293848577*I'","str(dirichlet_eta(I, I).evalf(n=10)) == '3.462349253 + 0.220285771*I'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_dirichlet_eta_eval():
     assert dirichlet_eta(0) == S.Half
     assert dirichlet_eta(-1) == Rational(1, 4)
@@ -147,16 +169,24 @@ def test_dirichlet_eta_eval():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_riemann_xi_eval(), test_riemann_xi_eval produces the expected output) over Any ║
+# ║ Path(test_riemann_xi_eval(), riemann_xi(2) == pi / 6 and riemann_xi(0) == Rational(1, 2) and riemann_xi(1) == Rational(1, 2) and riemann_xi(3).rewrite(zeta) == 3 * zeta(3) / (2 * pi) and riemann_xi(4) == pi ** 2 / 15) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_riemann_xi_eval : Any → {Any | riemann_xi(2) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  riemann_xi(2) == pi / 6                        ║
+# ║   ensures:  riemann_xi(0) == Rational(1, 2)                ║
+# ║   ensures:  riemann_xi(1) == Rational(1, 2)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_riemann_xi_eval : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 17f33ccd9ecde8c8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 51b0a5958dde1316  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_zeta_functions.test_riemann_xi_eval","kind":"function","src_hash":"888eb73ad7fb9ffc","in":{"base":"Any"},"out":{"base":"Any","pred":"riemann_xi(2) == pi / 6 and riemann_xi(0) == Rational(1, 2) and riemann_xi(1) == Rational(1, 2) and riemann_xi(3).rewrite(zeta) == 3 * zeta(3) / (2 * pi) and riemann_xi(4) == pi ** 2 / 15"},"spec":{"lhs":"test_riemann_xi_eval()","rhs":"test_riemann_xi_eval produces the expected output","over":{"base":"Any"},"name":"test_riemann_xi_eval_correct"},"guarantee":"test_riemann_xi_eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_zeta_functions.test_riemann_xi_eval_correct","statement":"Path(test_riemann_xi_eval(x), test_riemann_xi_eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17f33ccd9ecde8c8"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_zeta_functions.test_riemann_xi_eval","kind":"function","src_hash":"888eb73ad7fb9ffc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: riemann_xi(2) == pi / 6 and riemann_xi(0) == Rational(1, 2) and riemann_xi(1) == Rational(1, 2) and riemann_xi(3).rewrite(zeta) == 3 * zeta(3) / (2 * pi) and riemann_xi(4) == pi ** 2 / 15"},"spec":{"lhs":"test_riemann_xi_eval()","rhs":"riemann_xi(2) == pi / 6 and riemann_xi(0) == Rational(1, 2) and riemann_xi(1) == Rational(1, 2) and riemann_xi(3).rewrite(zeta) == 3 * zeta(3) / (2 * pi) and riemann_xi(4) == pi ** 2 / 15","over":{"base":"Any"},"name":"test_riemann_xi_eval_correct"},"guarantee":"riemann_xi(2) == pi / 6; riemann_xi(0) == Rational(1, 2); riemann_xi(1) == Rational(1, 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_zeta_functions.test_riemann_xi_eval_correct","statement":"Path(test_riemann_xi_eval(x), riemann_xi(2) == pi / 6; riemann_xi(0) == Rational(1, 2); riemann_xi(1) == Rational(1, 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51b0a5958dde1316","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["riemann_xi(2) == pi / 6","riemann_xi(0) == Rational(1, 2)","riemann_xi(1) == Rational(1, 2)","riemann_xi(3).rewrite(zeta) == 3 * zeta(3) / (2 * pi)","riemann_xi(4) == pi ** 2 / 15"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_riemann_xi_eval():
     assert riemann_xi(2) == pi/6
     assert riemann_xi(0) == Rational(1, 2)
@@ -166,7 +196,12 @@ def test_riemann_xi_eval():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rewriting(), test_rewriting produces the expected output) over {Any | isinstance(dirichlet_eta(x).rewrite(zeta), Piecewise)} ║
+# ║ Path(test_rewriting(), isinstance(dirichlet_eta(x).rewrite(zeta), Piecewise) and isinstance(dirichlet_eta(x).rewrite(genocchi), Piecewise) and zeta(x).rewrite(dirichlet_eta) == dirichlet_eta(x) / (1 - 2 ** (1 - x)) and zeta(x).rewrite(dirichlet_eta, a=2) == zeta(x) and verify_numerically(dirichlet_eta(x), dirichlet_eta(x).rewrite(zeta), x) and verify_numerically(dirichlet_eta(x), dirichlet_eta(x).rewrite(genocchi), x) and verify_numerically(zeta(x), zeta(x).rewrite(dirichlet_eta), x) and zeta(x, a).rewrite(lerchphi) == lerchphi(1, x, a) and polylog(s, z).rewrite(lerchphi) == lerchphi(z, s, 1) * z and lerchphi(1, x, a).rewrite(zeta) == zeta(x, a) and z * lerchphi(z, s, 1).rewrite(polylog) == polylog(s, z)) over {Any | isinstance(dirichlet_eta(x).rewrite(zeta), Piecewise)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(dirichlet_eta(x).rewrite(zeta)...   ║
+# ║   ensures:  isinstance(dirichlet_eta(x).rewrite(genoc...   ║
+# ║   ensures:  zeta(x).rewrite(dirichlet_eta) == dirichl...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_rewriting : {Any | isinstance(dirichlet_eta(x).r...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -178,9 +213,12 @@ def test_riemann_xi_eval():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.9ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 7b9b490e...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_zeta_functions.test_rewriting","kind":"function","src_hash":"cc8a7ece1d6d9dff","in":{"base":"Any","pred":"isinstance(dirichlet_eta(x).rewrite(zeta), Piecewise)"},"out":{"base":"Any","pred":"isinstance(dirichlet_eta(x).rewrite(zeta), Piecewise) and isinstance(dirichlet_eta(x).rewrite(genocchi), Piecewise) and zeta(x).rewrite(dirichlet_eta) == dirichlet_eta(x) / (1 - 2 ** (1 - x)) and zeta(x).rewrite(dirichlet_eta, a=2) == zeta(x) and verify_numerically(dirichlet_eta(x), dirichlet_eta(x).rewrite(zeta), x) and verify_numerically(dirichlet_eta(x), dirichlet_eta(x).rewrite(genocchi), x) and verify_numerically(zeta(x), zeta(x).rewrite(dirichlet_eta), x) and zeta(x, a).rewrite(lerchphi) == lerchphi(1, x, a) and polylog(s, z).rewrite(lerchphi) == lerchphi(z, s, 1) * z and lerchphi(1, x, a).rewrite(zeta) == zeta(x, a) and z * lerchphi(z, s, 1).rewrite(polylog) == polylog(s, z)"},"spec":{"lhs":"test_rewriting()","rhs":"test_rewriting produces the expected output","over":{"base":"Any","pred":"isinstance(dirichlet_eta(x).rewrite(zeta), Piecewise)"},"name":"test_rewriting_correct"},"guarantee":"test_rewriting produces the expected output","fibers":[{"name":"Piecewise","pred":"isinstance(dirichlet_eta(x).rewrite(zeta), Piecewise)","path":{"lhs":"test_rewriting(x)","rhs":"test_rewriting produces the expected output","over":{"base":"Piecewise","pred":"isinstance(dirichlet_eta(x).rewrite(zeta), Piecewise)"},"name":"test_rewriting_Piecewise_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_zeta_functions.test_rewriting_Piecewise_correct","statement":"test_rewriting satisfies spec on Piecewise inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7b9b490ecbc02a96"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_zeta_functions.test_rewriting","kind":"function","src_hash":"cc8a7ece1d6d9dff","in":{"base":"Any","pred":"isinstance(dirichlet_eta(x).rewrite(zeta), Piecewise)"},"out":{"base":"Any","pred":"result satisfies: isinstance(dirichlet_eta(x).rewrite(zeta), Piecewise) and isinstance(dirichlet_eta(x).rewrite(genocchi), Piecewise) and zeta(x).rewrite(dirichlet_eta) == dirichlet_eta(x) / (1 - 2 ** (1 - x)) and zeta(x).rewrite(dirichlet_eta, a=2) == zeta(x) and verify_numerically(dirichlet_eta(x), dirichlet_eta(x).rewrite(zeta), x) and verify_numerically(dirichlet_eta(x), dirichlet_eta(x).rewrite(genocchi), x) and verify_numerically(zeta(x), zeta(x).rewrite(dirichlet_eta), x) and zeta(x, a).rewrite(lerchphi) == lerchphi(1, x, a) and polylog(s, z).rewrite(lerchphi) == lerchphi(z, s, 1) * z and lerchphi(1, x, a).rewrite(zeta) == zeta(x, a) and z * lerchphi(z, s, 1).rewrite(polylog) == polylog(s, z)"},"spec":{"lhs":"test_rewriting()","rhs":"isinstance(dirichlet_eta(x).rewrite(zeta), Piecewise) and isinstance(dirichlet_eta(x).rewrite(genocchi), Piecewise) and zeta(x).rewrite(dirichlet_eta) == dirichlet_eta(x) / (1 - 2 ** (1 - x)) and zeta(x).rewrite(dirichlet_eta, a=2) == zeta(x) and verify_numerically(dirichlet_eta(x), dirichlet_eta(x).rewrite(zeta), x) and verify_numerically(dirichlet_eta(x), dirichlet_eta(x).rewrite(genocchi), x) and verify_numerically(zeta(x), zeta(x).rewrite(dirichlet_eta), x) and zeta(x, a).rewrite(lerchphi) == lerchphi(1, x, a) and polylog(s, z).rewrite(lerchphi) == lerchphi(z, s, 1) * z and lerchphi(1, x, a).rewrite(zeta) == zeta(x, a) and z * lerchphi(z, s, 1).rewrite(polylog) == polylog(s, z)","over":{"base":"Any","pred":"isinstance(dirichlet_eta(x).rewrite(zeta), Piecewise)"},"name":"test_rewriting_correct"},"guarantee":"isinstance(dirichlet_eta(x).rewrite(zeta), Piecewise); isinstance(dirichlet_eta(x).rewrite(genocchi), Piecewise); zeta(x).rewrite(dirichlet_eta) == dirichlet_eta(x) / (1 - 2 ** (1 - x))","fibers":[{"name":"Piecewise","pred":"isinstance(dirichlet_eta(x).rewrite(zeta), Piecewise)","path":{"lhs":"test_rewriting(x)","rhs":"isinstance(dirichlet_eta(x).rewrite(zeta), Piecewise); isinstance(dirichlet_eta(x).rewrite(genocchi), Piecewise); zeta(x).rewrite(dirichlet_eta) == dirichlet_eta(x) / (1 - 2 ** (1 - x))","over":{"base":"Piecewise","pred":"isinstance(dirichlet_eta(x).rewrite(zeta), Piecewise)"},"name":"test_rewriting_Piecewise_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_zeta_functions.test_rewriting_Piecewise_correct","statement":"test_rewriting satisfies spec on Piecewise inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7b9b490ecbc02a96","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(dirichlet_eta(x).rewrite(zeta), Piecewise)","isinstance(dirichlet_eta(x).rewrite(genocchi), Piecewise)","zeta(x).rewrite(dirichlet_eta) == dirichlet_eta(x) / (1 - 2 ** (1 - x))","zeta(x).rewrite(dirichlet_eta, a=2) == zeta(x)","verify_numerically(dirichlet_eta(x), dirichlet_eta(x).rewrite(zeta), x)","verify_numerically(dirichlet_eta(x), dirichlet_eta(x).rewrite(genocchi), x)","verify_numerically(zeta(x), zeta(x).rewrite(dirichlet_eta), x)","zeta(x, a).rewrite(lerchphi) == lerchphi(1, x, a)","polylog(s, z).rewrite(lerchphi) == lerchphi(z, s, 1) * z","lerchphi(1, x, a).rewrite(zeta) == zeta(x, a)","z * lerchphi(z, s, 1).rewrite(polylog) == polylog(s, z)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"failed","binding":true}}
 def test_rewriting():
     from sympy.functions.elementary.piecewise import Piecewise
     assert isinstance(dirichlet_eta(x).rewrite(zeta), Piecewise)
@@ -199,16 +237,24 @@ def test_rewriting():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_derivatives(), test_derivatives produces the expected output) over Any ║
+# ║ Path(test_derivatives(), zeta(x, a).diff(x) == Derivative(zeta(x, a), x) and zeta(x, a).diff(a) == -x * zeta(x + 1, a) and lerchphi(z, s, a).diff(z) == (lerchphi(z, s - 1, a) - a * lerchphi(z, s, a)) / z and lerchphi(z, s, a).diff(a) == -s * lerchphi(z, s + 1, a) and polylog(s, z).diff(z) == polylog(s - 1, z) / z and td(zeta(b, x), x) and td(polylog(b, z), z) and td(lerchphi(c, b, x), x) and td(lerchphi(x, b, c), x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_derivatives : Any → {Any | zeta(x, a).diff(x) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  zeta(x, a).diff(x) == Derivative(zeta(x, ...   ║
+# ║   ensures:  zeta(x, a).diff(a) == -x * zeta(x + 1, a)      ║
+# ║   ensures:  lerchphi(z, s, a).diff(z) == (lerchphi(z,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_derivatives : Any → {Any | result satisfies: zet...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f95e6d261c13104d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ee85437a5eb64fa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_zeta_functions.test_derivatives","kind":"function","src_hash":"d6fdc11c373d6a23","in":{"base":"Any"},"out":{"base":"Any","pred":"zeta(x, a).diff(x) == Derivative(zeta(x, a), x) and zeta(x, a).diff(a) == -x * zeta(x + 1, a) and lerchphi(z, s, a).diff(a) == -s * lerchphi(z, s + 1, a) and polylog(s, z).diff(z) == polylog(s - 1, z) / z and td(zeta(b, x), x) and td(polylog(b, z), z) and td(lerchphi(c, b, x), x) and td(lerchphi(x, b, c), x)"},"spec":{"lhs":"test_derivatives()","rhs":"test_derivatives produces the expected output","over":{"base":"Any"},"name":"test_derivatives_correct"},"guarantee":"test_derivatives produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_zeta_functions.test_derivatives_correct","statement":"Path(test_derivatives(x), test_derivatives produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f95e6d261c13104d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_zeta_functions.test_derivatives","kind":"function","src_hash":"d6fdc11c373d6a23","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: zeta(x, a).diff(x) == Derivative(zeta(x, a), x) and zeta(x, a).diff(a) == -x * zeta(x + 1, a) and lerchphi(z, s, a).diff(z) == (lerchphi(z, s - 1, a) - a * lerchphi(z, s, a)) / z and lerchphi(z, s, a).diff(a) == -s * lerchphi(z, s + 1, a) and polylog(s, z).diff(z) == polylog(s - 1, z) / z and td(zeta(b, x), x) and td(polylog(b, z), z) and td(lerchphi(c, b, x), x) and td(lerchphi(x, b, c), x)"},"spec":{"lhs":"test_derivatives()","rhs":"zeta(x, a).diff(x) == Derivative(zeta(x, a), x) and zeta(x, a).diff(a) == -x * zeta(x + 1, a) and lerchphi(z, s, a).diff(z) == (lerchphi(z, s - 1, a) - a * lerchphi(z, s, a)) / z and lerchphi(z, s, a).diff(a) == -s * lerchphi(z, s + 1, a) and polylog(s, z).diff(z) == polylog(s - 1, z) / z and td(zeta(b, x), x) and td(polylog(b, z), z) and td(lerchphi(c, b, x), x) and td(lerchphi(x, b, c), x)","over":{"base":"Any"},"name":"test_derivatives_correct"},"guarantee":"zeta(x, a).diff(x) == Derivative(zeta(x, a), x); zeta(x, a).diff(a) == -x * zeta(x + 1, a); lerchphi(z, s, a).diff(z) == (lerchphi(z, s - 1, a) - a * lerchphi(z, s, a)) / z","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_zeta_functions.test_derivatives_correct","statement":"Path(test_derivatives(x), zeta(x, a).diff(x) == Derivative(zeta(x, a), x); zeta(x, a).diff(a) == -x * zeta(x + 1, a); lerchphi(z, s, a).diff(z) == (lerchphi(z, s - 1, a) - a * lerchphi(z, s, a)) / z)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ee85437a5eb64fa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["zeta(x, a).diff(x) == Derivative(zeta(x, a), x)","zeta(x, a).diff(a) == -x * zeta(x + 1, a)","lerchphi(z, s, a).diff(z) == (lerchphi(z, s - 1, a) - a * lerchphi(z, s, a)) / z","lerchphi(z, s, a).diff(a) == -s * lerchphi(z, s + 1, a)","polylog(s, z).diff(z) == polylog(s - 1, z) / z","td(zeta(b, x), x)","td(polylog(b, z), z)","td(lerchphi(c, b, x), x)","td(lerchphi(x, b, c), x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_derivatives():
     from sympy.core.function import Derivative
     assert zeta(x, a).diff(x) == Derivative(zeta(x, a), x)
@@ -231,16 +277,24 @@ def test_derivatives():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(myexpand(fun), myexpand produces the expected output) over Any ║
+# ║ Path(myexpand(func, target), <unspecified:myexpand>) over {Any | hasattr(func, 'free_symbols') and hasattr(func, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ myexpand : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(func, 'free_symbols')                  ║
+# ║   requires: hasattr(func, 'subs')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ myexpand : {Any | hasattr(func, 'free_symbols') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81bbd486949b6de3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_zeta_functions.myexpand","kind":"function","src_hash":"63a4108ece516344","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"myexpand(fun)","rhs":"myexpand produces the expected output","over":{"base":"Any"},"name":"myexpand_correct"},"guarantee":"myexpand produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_zeta_functions.myexpand_correct","statement":"Path(myexpand(x), myexpand produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81bbd486949b6de3"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_zeta_functions.myexpand","kind":"function","src_hash":"63a4108ece516344","in":{"base":"Any","pred":"hasattr(func, 'free_symbols') and hasattr(func, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"myexpand(func, target)","rhs":"<unspecified:myexpand>","over":{"base":"Any","pred":"hasattr(func, 'free_symbols') and hasattr(func, 'subs')"},"name":"myexpand_correct"},"guarantee":"myexpand produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_zeta_functions.myexpand_correct","statement":"Path(myexpand(x), myexpand produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81bbd486949b6de3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(func, 'free_symbols')","hasattr(func, 'subs')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["func.free_symbols","func.subs"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def myexpand(func, target):
     expanded = expand_func(func)
     if target is not None:
@@ -257,16 +311,24 @@ def myexpand(func, target):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_polylog_expansion(), test_polylog_expansion produces the expected output) over Any ║
+# ║ Path(test_polylog_expansion(), polylog(s, 0) == 0 and polylog(s, 1) == zeta(s) and polylog(s, -1) == -dirichlet_eta(s) and polylog(s, exp_polar(I * pi * Rational(4, 3))) == polylog(s, exp(I * pi * Rational(4, 3))) and polylog(s, exp_polar(I * pi) / 3) == polylog(s, exp(I * pi) / 3) and myexpand(polylog(1, z), -log(1 - z)) and myexpand(polylog(0, z), z / (1 - z)) and myexpand(polylog(-1, z), z / (1 - z) ** 2) and ((1 - z) ** 3 * expand_func(polylog(-2, z))).simplify() == z * (1 + z) and myexpand(polylog(-5, z), None)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_polylog_expansion : Any → {Any | polylog(s, 0) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  polylog(s, 0) == 0                             ║
+# ║   ensures:  polylog(s, 1) == zeta(s)                       ║
+# ║   ensures:  polylog(s, -1) == -dirichlet_eta(s)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_polylog_expansion : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e449bd031218e6e6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5efa7468513b18a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_zeta_functions.test_polylog_expansion","kind":"function","src_hash":"5139589e876503f7","in":{"base":"Any"},"out":{"base":"Any","pred":"polylog(s, 0) == 0 and polylog(s, 1) == zeta(s) and polylog(s, -1) == -dirichlet_eta(s) and polylog(s, exp_polar(I * pi) / 3) == polylog(s, exp(I * pi) / 3) and myexpand(polylog(1, z), -log(1 - z)) and myexpand(polylog(0, z), z / (1 - z)) and myexpand(polylog(-1, z), z / (1 - z) ** 2) and ((1 - z) ** 3 * expand_func(polylog(-2, z))).simplify() == z * (1 + z) and myexpand(polylog(-5, z), None)"},"spec":{"lhs":"test_polylog_expansion()","rhs":"test_polylog_expansion produces the expected output","over":{"base":"Any"},"name":"test_polylog_expansion_correct"},"guarantee":"test_polylog_expansion produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_zeta_functions.test_polylog_expansion_correct","statement":"Path(test_polylog_expansion(x), test_polylog_expansion produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e449bd031218e6e6"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_zeta_functions.test_polylog_expansion","kind":"function","src_hash":"5139589e876503f7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: polylog(s, 0) == 0 and polylog(s, 1) == zeta(s) and polylog(s, -1) == -dirichlet_eta(s) and polylog(s, exp_polar(I * pi * Rational(4, 3))) == polylog(s, exp(I * pi * Rational(4, 3))) and polylog(s, exp_polar(I * pi) / 3) == polylog(s, exp(I * pi) / 3) and myexpand(polylog(1, z), -log(1 - z)) and myexpand(polylog(0, z), z / (1 - z)) and myexpand(polylog(-1, z), z / (1 - z) ** 2) and ((1 - z) ** 3 * expand_func(polylog(-2, z))).simplify() == z * (1 + z) and myexpand(polylog(-5, z), None)"},"spec":{"lhs":"test_polylog_expansion()","rhs":"polylog(s, 0) == 0 and polylog(s, 1) == zeta(s) and polylog(s, -1) == -dirichlet_eta(s) and polylog(s, exp_polar(I * pi * Rational(4, 3))) == polylog(s, exp(I * pi * Rational(4, 3))) and polylog(s, exp_polar(I * pi) / 3) == polylog(s, exp(I * pi) / 3) and myexpand(polylog(1, z), -log(1 - z)) and myexpand(polylog(0, z), z / (1 - z)) and myexpand(polylog(-1, z), z / (1 - z) ** 2) and ((1 - z) ** 3 * expand_func(polylog(-2, z))).simplify() == z * (1 + z) and myexpand(polylog(-5, z), None)","over":{"base":"Any"},"name":"test_polylog_expansion_correct"},"guarantee":"polylog(s, 0) == 0; polylog(s, 1) == zeta(s); polylog(s, -1) == -dirichlet_eta(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_zeta_functions.test_polylog_expansion_correct","statement":"Path(test_polylog_expansion(x), polylog(s, 0) == 0; polylog(s, 1) == zeta(s); polylog(s, -1) == -dirichlet_eta(s))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5efa7468513b18a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["polylog(s, 0) == 0","polylog(s, 1) == zeta(s)","polylog(s, -1) == -dirichlet_eta(s)","polylog(s, exp_polar(I * pi * Rational(4, 3))) == polylog(s, exp(I * pi * Rational(4, 3)))","polylog(s, exp_polar(I * pi) / 3) == polylog(s, exp(I * pi) / 3)","myexpand(polylog(1, z), -log(1 - z))","myexpand(polylog(0, z), z / (1 - z))","myexpand(polylog(-1, z), z / (1 - z) ** 2)","((1 - z) ** 3 * expand_func(polylog(-2, z))).simplify() == z * (1 + z)","myexpand(polylog(-5, z), None)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_polylog_expansion():
     assert polylog(s, 0) == 0
     assert polylog(s, 1) == zeta(s)
@@ -282,16 +344,24 @@ def test_polylog_expansion():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_polylog_series(), test_polylog_series produces the expected output) over Any ║
+# ║ Path(test_polylog_series(), polylog(1, z).series(z, n=5) == z + z ** 2 / 2 + z ** 3 / 3 + z ** 4 / 4 + O(z ** 5) and polylog(1, sqrt(z)).series(z, n=3) == z / 2 + z ** 2 / 4 + sqrt(z) + z ** (S(3) / 2) / 3 + z ** (S(5) / 2) / 5 + O(z ** 3) and polylog(S(3) / 2, -z).series(z, 0, 5) == -z + sqrt(2) * z ** 2 / 4 - sqrt(3) * z ** 3 / 9 + z ** 4 / 8 + O(z ** 5)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_polylog_series : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  polylog(1, z).series(z, n=5) == z + z ** ...   ║
+# ║   ensures:  polylog(1, sqrt(z)).series(z, n=3) == z /...   ║
+# ║   ensures:  polylog(S(3) / 2, -z).series(z, 0, 5) == ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_polylog_series : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a48fa70d2fccb51d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 470f7de6b7cd97b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_zeta_functions.test_polylog_series","kind":"function","src_hash":"6edcd444c53efeb0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_polylog_series()","rhs":"test_polylog_series produces the expected output","over":{"base":"Any"},"name":"test_polylog_series_correct"},"guarantee":"test_polylog_series produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_zeta_functions.test_polylog_series_correct","statement":"Path(test_polylog_series(x), test_polylog_series produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a48fa70d2fccb51d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_zeta_functions.test_polylog_series","kind":"function","src_hash":"6edcd444c53efeb0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: polylog(1, z).series(z, n=5) == z + z ** 2 / 2 + z ** 3 / 3 + z ** 4 / 4 + O(z ** 5) and polylog(1, sqrt(z)).series(z, n=3) == z / 2 + z ** 2 / 4 + sqrt(z) + z ** (S(3) / 2) / 3 + z ** (S(5) / 2) / 5 + O(z ** 3) and polylog(S(3) / 2, -z).series(z, 0, 5) == -z + sqrt(2) * z ** 2 / 4 - sqrt(3) * z ** 3 / 9 + z ** 4 / 8 + O(z ** 5)"},"spec":{"lhs":"test_polylog_series()","rhs":"polylog(1, z).series(z, n=5) == z + z ** 2 / 2 + z ** 3 / 3 + z ** 4 / 4 + O(z ** 5) and polylog(1, sqrt(z)).series(z, n=3) == z / 2 + z ** 2 / 4 + sqrt(z) + z ** (S(3) / 2) / 3 + z ** (S(5) / 2) / 5 + O(z ** 3) and polylog(S(3) / 2, -z).series(z, 0, 5) == -z + sqrt(2) * z ** 2 / 4 - sqrt(3) * z ** 3 / 9 + z ** 4 / 8 + O(z ** 5)","over":{"base":"Any"},"name":"test_polylog_series_correct"},"guarantee":"polylog(1, z).series(z, n=5) == z + z ** 2 / 2 + z ** 3 / 3 + z ** 4 / 4 + O(z ** 5); polylog(1, sqrt(z)).series(z, n=3) == z / 2 + z ** 2 / 4 + sqrt(z) + z ** (S(3) / 2) / 3 + z ** (S(5) / 2) / 5 + O(z ** 3); polylog(S(3) / 2, -z).series(z, 0, 5) == -z + sqrt(2) * z ** 2 / 4 - sqrt(3) * z ** 3 / 9 + z ** 4 / 8 + O(z ** 5)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_zeta_functions.test_polylog_series_correct","statement":"Path(test_polylog_series(x), polylog(1, z).series(z, n=5) == z + z ** 2 / 2 + z ** 3 / 3 + z ** 4 / 4 + O(z ** 5); polylog(1, sqrt(z)).series(z, n=3) == z / 2 + z ** 2 / 4 + sqrt(z) + z ** (S(3) / 2) / 3 + z ** (S(5) / 2) / 5 + O(z ** 3); polylog(S(3) / 2, -z).series(z, 0, 5) == -z + sqrt(2) * z ** 2 / 4 - sqrt(3) * z ** 3 / 9 + z ** 4 / 8 + O(z ** 5))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"470f7de6b7cd97b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["polylog(1, z).series(z, n=5) == z + z ** 2 / 2 + z ** 3 / 3 + z ** 4 / 4 + O(z ** 5)","polylog(1, sqrt(z)).series(z, n=3) == z / 2 + z ** 2 / 4 + sqrt(z) + z ** (S(3) / 2) / 3 + z ** (S(5) / 2) / 5 + O(z ** 3)","polylog(S(3) / 2, -z).series(z, 0, 5) == -z + sqrt(2) * z ** 2 / 4 - sqrt(3) * z ** 3 / 9 + z ** 4 / 8 + O(z ** 5)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_polylog_series():
     assert polylog(1, z).series(z, n=5) == z + z**2/2 + z**3/3 + z**4/4 + O(z**5)
     assert polylog(1, sqrt(z)).series(z, n=3) == z/2 + z**2/4 + sqrt(z)\
@@ -303,16 +373,22 @@ def test_polylog_series():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_8404(), test_issue_8404 produces the expected output) over Any ║
+# ║ Path(test_issue_8404(), Abs(Sum(1 / (3 * i + 1) ** 2, (i, 0, S.Infinity)).doit().n(4) - 1.122) < 0.001) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_8404 : Any → {Any | Abs(Sum(1 / (3 * i + 1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Abs(Sum(1 / (3 * i + 1) ** 2, (i, 0, S.In...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_8404 : Any → {Any | result satisfies: Abs(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de16db1241ae147e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb5d06aede7aee92  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_zeta_functions.test_issue_8404","kind":"function","src_hash":"62fa2af8282a4e80","in":{"base":"Any"},"out":{"base":"Any","pred":"Abs(Sum(1 / (3 * i + 1) ** 2, (i, 0, S.Infinity)).doit().n(4) - 1.122) < 0.001"},"spec":{"lhs":"test_issue_8404()","rhs":"test_issue_8404 produces the expected output","over":{"base":"Any"},"name":"test_issue_8404_correct"},"guarantee":"test_issue_8404 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_zeta_functions.test_issue_8404_correct","statement":"Path(test_issue_8404(x), test_issue_8404 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de16db1241ae147e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_zeta_functions.test_issue_8404","kind":"function","src_hash":"62fa2af8282a4e80","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Abs(Sum(1 / (3 * i + 1) ** 2, (i, 0, S.Infinity)).doit().n(4) - 1.122) < 0.001"},"spec":{"lhs":"test_issue_8404()","rhs":"Abs(Sum(1 / (3 * i + 1) ** 2, (i, 0, S.Infinity)).doit().n(4) - 1.122) < 0.001","over":{"base":"Any"},"name":"test_issue_8404_correct"},"guarantee":"Abs(Sum(1 / (3 * i + 1) ** 2, (i, 0, S.Infinity)).doit().n(4) - 1.122) < 0.001","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_zeta_functions.test_issue_8404_correct","statement":"Path(test_issue_8404(x), Abs(Sum(1 / (3 * i + 1) ** 2, (i, 0, S.Infinity)).doit().n(4) - 1.122) < 0.001)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb5d06aede7aee92","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Abs(Sum(1 / (3 * i + 1) ** 2, (i, 0, S.Infinity)).doit().n(4) - 1.122) < 0.001"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_8404():
     i = Symbol('i', integer=True)
     assert Abs(Sum(1/(3*i + 1)**2, (i, 0, S.Infinity)).doit().n(4)
@@ -320,16 +396,24 @@ def test_issue_8404():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_polylog_values(), test_polylog_values produces the expected output) over Any ║
+# ║ Path(test_polylog_values(), polylog(2, 2) == pi ** 2 / 4 - I * pi * log(2) and polylog(2, S.Half) == pi ** 2 / 12 - log(2) ** 2 / 2 and polylog(0, Integral(1, (x, 0, 1))) == -S.Half) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_polylog_values : Any → {Any | polylog(2, 2) == p...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  polylog(2, 2) == pi ** 2 / 4 - I * pi * l...   ║
+# ║   ensures:  polylog(2, S.Half) == pi ** 2 / 12 - log(...   ║
+# ║   ensures:  polylog(0, Integral(1, (x, 0, 1))) == -S....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_polylog_values : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5e5e911dc67b66d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b6f2c5e0a74e84f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_zeta_functions.test_polylog_values","kind":"function","src_hash":"42f158f840116ab6","in":{"base":"Any"},"out":{"base":"Any","pred":"polylog(2, 2) == pi ** 2 / 4 - I * pi * log(2) and polylog(2, S.Half) == pi ** 2 / 12 - log(2) ** 2 / 2 and polylog(0, Integral(1, (x, 0, 1))) == -S.Half and Abs(polylog(2, z).evalf() - polylog(2, z, evaluate=False).evalf()) < 1e-15"},"spec":{"lhs":"test_polylog_values()","rhs":"test_polylog_values produces the expected output","over":{"base":"Any"},"name":"test_polylog_values_correct"},"guarantee":"test_polylog_values produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_zeta_functions.test_polylog_values_correct","statement":"Path(test_polylog_values(x), test_polylog_values produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5e5e911dc67b66d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_zeta_functions.test_polylog_values","kind":"function","src_hash":"42f158f840116ab6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: polylog(2, 2) == pi ** 2 / 4 - I * pi * log(2) and polylog(2, S.Half) == pi ** 2 / 12 - log(2) ** 2 / 2 and polylog(0, Integral(1, (x, 0, 1))) == -S.Half"},"spec":{"lhs":"test_polylog_values()","rhs":"polylog(2, 2) == pi ** 2 / 4 - I * pi * log(2) and polylog(2, S.Half) == pi ** 2 / 12 - log(2) ** 2 / 2 and polylog(0, Integral(1, (x, 0, 1))) == -S.Half","over":{"base":"Any"},"name":"test_polylog_values_correct"},"guarantee":"polylog(2, 2) == pi ** 2 / 4 - I * pi * log(2); polylog(2, S.Half) == pi ** 2 / 12 - log(2) ** 2 / 2; polylog(0, Integral(1, (x, 0, 1))) == -S.Half","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_zeta_functions.test_polylog_values_correct","statement":"Path(test_polylog_values(x), polylog(2, 2) == pi ** 2 / 4 - I * pi * log(2); polylog(2, S.Half) == pi ** 2 / 12 - log(2) ** 2 / 2; polylog(0, Integral(1, (x, 0, 1))) == -S.Half)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b6f2c5e0a74e84f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["polylog(2, 2) == pi ** 2 / 4 - I * pi * log(2)","polylog(2, S.Half) == pi ** 2 / 12 - log(2) ** 2 / 2","polylog(0, Integral(1, (x, 0, 1))) == -S.Half"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_polylog_values():
     assert polylog(2, 2) == pi**2/4 - I*pi*log(2)
     assert polylog(2, S.Half) == pi**2/12 - log(2)**2/2
@@ -348,16 +432,24 @@ def test_polylog_values():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lerchphi_expansion(), test_lerchphi_expansion produces the expected output) over Any ║
+# ║ Path(test_lerchphi_expansion(), myexpand(lerchphi(1, s, a), zeta(s, a)) and myexpand(lerchphi(z, s, 1), polylog(s, z) / z) and myexpand(lerchphi(z, -1, a), a / (1 - z) + z / (1 - z) ** 2) and myexpand(lerchphi(z, -3, a), None) and myexpand(lerchphi(z, s, S.Half), 2 ** (s - 1) * (polylog(s, sqrt(z)) / sqrt(z) - polylog(s, polar_lift(-1) * sqrt(z)) / sqrt(z))) and myexpand(lerchphi(z, s, 2), -1 / z + polylog(s, z) / z ** 2) and myexpand(lerchphi(z, s, Rational(3, 2)), None) and myexpand(lerchphi(z, s, Rational(7, 3)), None) and myexpand(lerchphi(z, s, Rational(-1, 3)), None) and myexpand(lerchphi(z, s, Rational(-5, 2)), None) and myexpand(lerchphi(-1, s, a), 2 ** (-s) * zeta(s, a / 2) - 2 ** (-s) * zeta(s, (a + 1) / 2)) and myexpand(lerchphi(I, s, a), None) and myexpand(lerchphi(-I, s, a), None) and myexpand(lerchphi(exp(I * pi * Rational(2, 5)), s, a), None)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lerchphi_expansion : Any → {Any | myexpand(lerch...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  myexpand(lerchphi(1, s, a), zeta(s, a))        ║
+# ║   ensures:  myexpand(lerchphi(z, s, 1), polylog(s, z)...   ║
+# ║   ensures:  myexpand(lerchphi(z, -1, a), a / (1 - z) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lerchphi_expansion : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9df8b418eff8057  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb1fbc80762b858b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_zeta_functions.test_lerchphi_expansion","kind":"function","src_hash":"4ae5b83ef849b33a","in":{"base":"Any"},"out":{"base":"Any","pred":"myexpand(lerchphi(1, s, a), zeta(s, a)) and myexpand(lerchphi(z, s, 1), polylog(s, z) / z) and myexpand(lerchphi(z, -1, a), a / (1 - z) + z / (1 - z) ** 2) and myexpand(lerchphi(z, -3, a), None) and myexpand(lerchphi(z, s, 2), -1 / z + polylog(s, z) / z ** 2) and myexpand(lerchphi(z, s, Rational(3, 2)), None) and myexpand(lerchphi(z, s, Rational(7, 3)), None) and myexpand(lerchphi(z, s, Rational(-1, 3)), None) and myexpand(lerchphi(z, s, Rational(-5, 2)), None) and myexpand(lerchphi(I, s, a), None) and myexpand(lerchphi(-I, s, a), None) and myexpand(lerchphi(exp(I * pi * Rational(2, 5)), s, a), None)"},"spec":{"lhs":"test_lerchphi_expansion()","rhs":"test_lerchphi_expansion produces the expected output","over":{"base":"Any"},"name":"test_lerchphi_expansion_correct"},"guarantee":"test_lerchphi_expansion produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_zeta_functions.test_lerchphi_expansion_correct","statement":"Path(test_lerchphi_expansion(x), test_lerchphi_expansion produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9df8b418eff8057"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_zeta_functions.test_lerchphi_expansion","kind":"function","src_hash":"4ae5b83ef849b33a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: myexpand(lerchphi(1, s, a), zeta(s, a)) and myexpand(lerchphi(z, s, 1), polylog(s, z) / z) and myexpand(lerchphi(z, -1, a), a / (1 - z) + z / (1 - z) ** 2) and myexpand(lerchphi(z, -3, a), None) and myexpand(lerchphi(z, s, S.Half), 2 ** (s - 1) * (polylog(s, sqrt(z)) / sqrt(z) - polylog(s, polar_lift(-1) * sqrt(z)) / sqrt(z))) and myexpand(lerchphi(z, s, 2), -1 / z + polylog(s, z) / z ** 2) and myexpand(lerchphi(z, s, Rational(3, 2)), None) and myexpand(lerchphi(z, s, Rational(7, 3)), None) and myexpand(lerchphi(z, s, Rational(-1, 3)), None) and myexpand(lerchphi(z, s, Rational(-5, 2)), None) and myexpand(lerchphi(-1, s, a), 2 ** (-s) * zeta(s, a / 2) - 2 ** (-s) * zeta(s, (a + 1) / 2)) and myexpand(lerchphi(I, s, a), None) and myexpand(lerchphi(-I, s, a), None) and myexpand(lerchphi(exp(I * pi * Rational(2, 5)), s, a), None)"},"spec":{"lhs":"test_lerchphi_expansion()","rhs":"myexpand(lerchphi(1, s, a), zeta(s, a)) and myexpand(lerchphi(z, s, 1), polylog(s, z) / z) and myexpand(lerchphi(z, -1, a), a / (1 - z) + z / (1 - z) ** 2) and myexpand(lerchphi(z, -3, a), None) and myexpand(lerchphi(z, s, S.Half), 2 ** (s - 1) * (polylog(s, sqrt(z)) / sqrt(z) - polylog(s, polar_lift(-1) * sqrt(z)) / sqrt(z))) and myexpand(lerchphi(z, s, 2), -1 / z + polylog(s, z) / z ** 2) and myexpand(lerchphi(z, s, Rational(3, 2)), None) and myexpand(lerchphi(z, s, Rational(7, 3)), None) and myexpand(lerchphi(z, s, Rational(-1, 3)), None) and myexpand(lerchphi(z, s, Rational(-5, 2)), None) and myexpand(lerchphi(-1, s, a), 2 ** (-s) * zeta(s, a / 2) - 2 ** (-s) * zeta(s, (a + 1) / 2)) and myexpand(lerchphi(I, s, a), None) and myexpand(lerchphi(-I, s, a), None) and myexpand(lerchphi(exp(I * pi * Rational(2, 5)), s, a), None)","over":{"base":"Any"},"name":"test_lerchphi_expansion_correct"},"guarantee":"myexpand(lerchphi(1, s, a), zeta(s, a)); myexpand(lerchphi(z, s, 1), polylog(s, z) / z); myexpand(lerchphi(z, -1, a), a / (1 - z) + z / (1 - z) ** 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_zeta_functions.test_lerchphi_expansion_correct","statement":"Path(test_lerchphi_expansion(x), myexpand(lerchphi(1, s, a), zeta(s, a)); myexpand(lerchphi(z, s, 1), polylog(s, z) / z); myexpand(lerchphi(z, -1, a), a / (1 - z) + z / (1 - z) ** 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb1fbc80762b858b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["myexpand(lerchphi(1, s, a), zeta(s, a))","myexpand(lerchphi(z, s, 1), polylog(s, z) / z)","myexpand(lerchphi(z, -1, a), a / (1 - z) + z / (1 - z) ** 2)","myexpand(lerchphi(z, -3, a), None)","myexpand(lerchphi(z, s, S.Half), 2 ** (s - 1) * (polylog(s, sqrt(z)) / sqrt(z) - polylog(s, polar_lift(-1) * sqrt(z)) / sqrt(z)))","myexpand(lerchphi(z, s, 2), -1 / z + polylog(s, z) / z ** 2)","myexpand(lerchphi(z, s, Rational(3, 2)), None)","myexpand(lerchphi(z, s, Rational(7, 3)), None)","myexpand(lerchphi(z, s, Rational(-1, 3)), None)","myexpand(lerchphi(z, s, Rational(-5, 2)), None)","myexpand(lerchphi(-1, s, a), 2 ** (-s) * zeta(s, a / 2) - 2 ** (-s) * zeta(s, (a + 1) / 2))","myexpand(lerchphi(I, s, a), None)","myexpand(lerchphi(-I, s, a), None)","myexpand(lerchphi(exp(I * pi * Rational(2, 5)), s, a), None)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_lerchphi_expansion():
     assert myexpand(lerchphi(1, s, a), zeta(s, a))
     assert myexpand(lerchphi(z, s, 1), polylog(s, z)/z)
@@ -384,7 +476,12 @@ def test_lerchphi_expansion():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_stieltjes(), test_stieltjes produces the expected output) over {Any | isinstance(stieltjes(x), stieltjes)} ║
+# ║ Path(test_stieltjes(), isinstance(stieltjes(x), stieltjes) and isinstance(stieltjes(x, a), stieltjes) and stieltjes(0) == S.EulerGamma and stieltjes(0, 1) == S.EulerGamma and stieltjes(nan) is nan and stieltjes(0, nan) is nan and stieltjes(-1) is S.ComplexInfinity and stieltjes(1.5) is S.ComplexInfinity and stieltjes(z, 0) is S.ComplexInfinity and stieltjes(z, -1) is S.ComplexInfinity) over {Any | isinstance(stieltjes(x), stieltjes)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(stieltjes(x), stieltjes)            ║
+# ║   ensures:  isinstance(stieltjes(x, a), stieltjes)         ║
+# ║   ensures:  stieltjes(0) == S.EulerGamma                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_stieltjes : {Any | isinstance(stieltjes(x), stie...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -396,9 +493,12 @@ def test_lerchphi_expansion():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | c2a7a125...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_zeta_functions.test_stieltjes","kind":"function","src_hash":"50d33881637c2cf9","in":{"base":"Any","pred":"isinstance(stieltjes(x), stieltjes)"},"out":{"base":"Any","pred":"isinstance(stieltjes(x), stieltjes) and isinstance(stieltjes(x, a), stieltjes) and stieltjes(0) == S.EulerGamma and stieltjes(0, 1) == S.EulerGamma and stieltjes(nan) is nan and stieltjes(0, nan) is nan and stieltjes(-1) is S.ComplexInfinity and stieltjes(1.5) is S.ComplexInfinity and stieltjes(z, 0) is S.ComplexInfinity and stieltjes(z, -1) is S.ComplexInfinity"},"spec":{"lhs":"test_stieltjes()","rhs":"test_stieltjes produces the expected output","over":{"base":"Any","pred":"isinstance(stieltjes(x), stieltjes)"},"name":"test_stieltjes_correct"},"guarantee":"test_stieltjes produces the expected output","fibers":[{"name":"stieltjes","pred":"isinstance(stieltjes(x), stieltjes)","path":{"lhs":"test_stieltjes(x)","rhs":"test_stieltjes produces the expected output","over":{"base":"stieltjes","pred":"isinstance(stieltjes(x), stieltjes)"},"name":"test_stieltjes_stieltjes_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_zeta_functions.test_stieltjes_stieltjes_correct","statement":"test_stieltjes satisfies spec on stieltjes inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c2a7a125785539f8"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_zeta_functions.test_stieltjes","kind":"function","src_hash":"50d33881637c2cf9","in":{"base":"Any","pred":"isinstance(stieltjes(x), stieltjes)"},"out":{"base":"Any","pred":"result satisfies: isinstance(stieltjes(x), stieltjes) and isinstance(stieltjes(x, a), stieltjes) and stieltjes(0) == S.EulerGamma and stieltjes(0, 1) == S.EulerGamma and stieltjes(nan) is nan and stieltjes(0, nan) is nan and stieltjes(-1) is S.ComplexInfinity and stieltjes(1.5) is S.ComplexInfinity and stieltjes(z, 0) is S.ComplexInfinity and stieltjes(z, -1) is S.ComplexInfinity"},"spec":{"lhs":"test_stieltjes()","rhs":"isinstance(stieltjes(x), stieltjes) and isinstance(stieltjes(x, a), stieltjes) and stieltjes(0) == S.EulerGamma and stieltjes(0, 1) == S.EulerGamma and stieltjes(nan) is nan and stieltjes(0, nan) is nan and stieltjes(-1) is S.ComplexInfinity and stieltjes(1.5) is S.ComplexInfinity and stieltjes(z, 0) is S.ComplexInfinity and stieltjes(z, -1) is S.ComplexInfinity","over":{"base":"Any","pred":"isinstance(stieltjes(x), stieltjes)"},"name":"test_stieltjes_correct"},"guarantee":"isinstance(stieltjes(x), stieltjes); isinstance(stieltjes(x, a), stieltjes); stieltjes(0) == S.EulerGamma","fibers":[{"name":"stieltjes","pred":"isinstance(stieltjes(x), stieltjes)","path":{"lhs":"test_stieltjes(x)","rhs":"isinstance(stieltjes(x), stieltjes); isinstance(stieltjes(x, a), stieltjes); stieltjes(0) == S.EulerGamma","over":{"base":"stieltjes","pred":"isinstance(stieltjes(x), stieltjes)"},"name":"test_stieltjes_stieltjes_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_zeta_functions.test_stieltjes_stieltjes_correct","statement":"test_stieltjes satisfies spec on stieltjes inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c2a7a125785539f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(stieltjes(x), stieltjes)","isinstance(stieltjes(x, a), stieltjes)","stieltjes(0) == S.EulerGamma","stieltjes(0, 1) == S.EulerGamma","stieltjes(nan) is nan","stieltjes(0, nan) is nan","stieltjes(-1) is S.ComplexInfinity","stieltjes(1.5) is S.ComplexInfinity","stieltjes(z, 0) is S.ComplexInfinity","stieltjes(z, -1) is S.ComplexInfinity"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":true}}
 def test_stieltjes():
     assert isinstance(stieltjes(x), stieltjes)
     assert isinstance(stieltjes(x, a), stieltjes)
@@ -417,16 +517,24 @@ def test_stieltjes():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_stieltjes_evalf(), test_stieltjes_evalf produces the expected output) over Any ║
+# ║ Path(test_stieltjes_evalf(), abs(stieltjes(0).evalf() - 0.577215664) < 1e-09 and abs(stieltjes(0, 0.5).evalf() - 1.963510026) < 1e-09 and abs(stieltjes(1, 2).evalf() + 0.072815845) < 1e-09) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_stieltjes_evalf : Any → {Any | abs(stieltjes(0)....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(stieltjes(0).evalf() - 0.577215664) <...   ║
+# ║   ensures:  abs(stieltjes(0, 0.5).evalf() - 1.9635100...   ║
+# ║   ensures:  abs(stieltjes(1, 2).evalf() + 0.072815845...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_stieltjes_evalf : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3fde3d3cb8098aa1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f33c02ea0a00cb3d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_zeta_functions.test_stieltjes_evalf","kind":"function","src_hash":"6de92f0f75003d49","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(stieltjes(0).evalf() - 0.577215664) < 1e-09 and abs(stieltjes(0, 0.5).evalf() - 1.963510026) < 1e-09 and abs(stieltjes(1, 2).evalf() + 0.072815845) < 1e-09"},"spec":{"lhs":"test_stieltjes_evalf()","rhs":"test_stieltjes_evalf produces the expected output","over":{"base":"Any"},"name":"test_stieltjes_evalf_correct"},"guarantee":"test_stieltjes_evalf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_zeta_functions.test_stieltjes_evalf_correct","statement":"Path(test_stieltjes_evalf(x), test_stieltjes_evalf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3fde3d3cb8098aa1"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_zeta_functions.test_stieltjes_evalf","kind":"function","src_hash":"6de92f0f75003d49","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(stieltjes(0).evalf() - 0.577215664) < 1e-09 and abs(stieltjes(0, 0.5).evalf() - 1.963510026) < 1e-09 and abs(stieltjes(1, 2).evalf() + 0.072815845) < 1e-09"},"spec":{"lhs":"test_stieltjes_evalf()","rhs":"abs(stieltjes(0).evalf() - 0.577215664) < 1e-09 and abs(stieltjes(0, 0.5).evalf() - 1.963510026) < 1e-09 and abs(stieltjes(1, 2).evalf() + 0.072815845) < 1e-09","over":{"base":"Any"},"name":"test_stieltjes_evalf_correct"},"guarantee":"abs(stieltjes(0).evalf() - 0.577215664) < 1e-09; abs(stieltjes(0, 0.5).evalf() - 1.963510026) < 1e-09; abs(stieltjes(1, 2).evalf() + 0.072815845) < 1e-09","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_zeta_functions.test_stieltjes_evalf_correct","statement":"Path(test_stieltjes_evalf(x), abs(stieltjes(0).evalf() - 0.577215664) < 1e-09; abs(stieltjes(0, 0.5).evalf() - 1.963510026) < 1e-09; abs(stieltjes(1, 2).evalf() + 0.072815845) < 1e-09)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f33c02ea0a00cb3d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(stieltjes(0).evalf() - 0.577215664) < 1e-09","abs(stieltjes(0, 0.5).evalf() - 1.963510026) < 1e-09","abs(stieltjes(1, 2).evalf() + 0.072815845) < 1e-09"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_stieltjes_evalf():
     assert abs(stieltjes(0).evalf() - 0.577215664) < 1E-9
     assert abs(stieltjes(0, 0.5).evalf() - 1.963510026) < 1E-9
@@ -434,16 +542,24 @@ def test_stieltjes_evalf():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_10475(), test_issue_10475 produces the expected output) over Any ║
+# ║ Path(test_issue_10475(), zeta(2 + I).is_finite and zeta(1).is_finite is False and zeta(x).is_finite is None and zeta(x + I).is_finite is None and zeta(a).is_finite is None and zeta(b).is_finite is None and zeta(-b).is_finite is True and zeta(b ** 2 - 2 * b + 1).is_finite is None and zeta(a + I).is_finite is True and zeta(b + 1).is_finite is True and zeta(s + 1).is_finite is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_10475 : Any → {Any | zeta(2 + I).is_finite...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  zeta(2 + I).is_finite                          ║
+# ║   ensures:  zeta(1).is_finite is False                     ║
+# ║   ensures:  zeta(x).is_finite is None                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_10475 : Any → {Any | result satisfies: zet...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2544a73cba5906b3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3fb35cbeacd68f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_zeta_functions.test_issue_10475","kind":"function","src_hash":"6a369e9746672179","in":{"base":"Any"},"out":{"base":"Any","pred":"zeta(2 + I).is_finite and zeta(1).is_finite is False and zeta(x).is_finite is None and zeta(x + I).is_finite is None and zeta(a).is_finite is None and zeta(b).is_finite is None and zeta(-b).is_finite is True and zeta(b ** 2 - 2 * b + 1).is_finite is None and zeta(a + I).is_finite is True and zeta(b + 1).is_finite is True and zeta(s + 1).is_finite is True"},"spec":{"lhs":"test_issue_10475()","rhs":"test_issue_10475 produces the expected output","over":{"base":"Any"},"name":"test_issue_10475_correct"},"guarantee":"test_issue_10475 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_zeta_functions.test_issue_10475_correct","statement":"Path(test_issue_10475(x), test_issue_10475 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2544a73cba5906b3"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_zeta_functions.test_issue_10475","kind":"function","src_hash":"6a369e9746672179","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: zeta(2 + I).is_finite and zeta(1).is_finite is False and zeta(x).is_finite is None and zeta(x + I).is_finite is None and zeta(a).is_finite is None and zeta(b).is_finite is None and zeta(-b).is_finite is True and zeta(b ** 2 - 2 * b + 1).is_finite is None and zeta(a + I).is_finite is True and zeta(b + 1).is_finite is True and zeta(s + 1).is_finite is True"},"spec":{"lhs":"test_issue_10475()","rhs":"zeta(2 + I).is_finite and zeta(1).is_finite is False and zeta(x).is_finite is None and zeta(x + I).is_finite is None and zeta(a).is_finite is None and zeta(b).is_finite is None and zeta(-b).is_finite is True and zeta(b ** 2 - 2 * b + 1).is_finite is None and zeta(a + I).is_finite is True and zeta(b + 1).is_finite is True and zeta(s + 1).is_finite is True","over":{"base":"Any"},"name":"test_issue_10475_correct"},"guarantee":"zeta(2 + I).is_finite; zeta(1).is_finite is False; zeta(x).is_finite is None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_zeta_functions.test_issue_10475_correct","statement":"Path(test_issue_10475(x), zeta(2 + I).is_finite; zeta(1).is_finite is False; zeta(x).is_finite is None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3fb35cbeacd68f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["zeta(2 + I).is_finite","zeta(1).is_finite is False","zeta(x).is_finite is None","zeta(x + I).is_finite is None","zeta(a).is_finite is None","zeta(b).is_finite is None","zeta(-b).is_finite is True","zeta(b ** 2 - 2 * b + 1).is_finite is None","zeta(a + I).is_finite is True","zeta(b + 1).is_finite is True","zeta(s + 1).is_finite is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_10475():
     a = Symbol('a', extended_real=True)
     b = Symbol('b', extended_positive=True)
@@ -463,16 +579,24 @@ def test_issue_10475():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_14177(), test_issue_14177 produces the expected output) over Any ║
+# ║ Path(test_issue_14177(), zeta(-n).rewrite(bernoulli) == bernoulli(n + 1) / (-n - 1) and zeta(-n, a).rewrite(bernoulli) == bernoulli(n + 1, a) / (-n - 1) and zeta(2 * n).rewrite(bernoulli) == z2n and expand_func(zeta(s, n + 1)) == zeta(s) - harmonic(n, s) and expand_func(zeta(-b, -n)) is nan and expand_func(zeta(-b, n)) == zeta(-b, n) and zeta(2 * n) == zeta(2 * n)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_14177 : Any → {Any | zeta(-n).rewrite(bern...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  zeta(-n).rewrite(bernoulli) == bernoulli(...   ║
+# ║   ensures:  zeta(-n, a).rewrite(bernoulli) == bernoul...   ║
+# ║   ensures:  zeta(2 * n).rewrite(bernoulli) == z2n          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_14177 : Any → {Any | result satisfies: zet...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b93f0ab3b4d654e4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | afdebaa80707e62b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_zeta_functions.test_issue_14177","kind":"function","src_hash":"f3d872471050708d","in":{"base":"Any"},"out":{"base":"Any","pred":"zeta(-n).rewrite(bernoulli) == bernoulli(n + 1) / (-n - 1) and zeta(-n, a).rewrite(bernoulli) == bernoulli(n + 1, a) / (-n - 1) and zeta(2 * n).rewrite(bernoulli) == z2n and expand_func(zeta(s, n + 1)) == zeta(s) - harmonic(n, s) and expand_func(zeta(-b, -n)) is nan and expand_func(zeta(-b, n)) == zeta(-b, n) and zeta(2 * n) == zeta(2 * n)"},"spec":{"lhs":"test_issue_14177()","rhs":"test_issue_14177 produces the expected output","over":{"base":"Any"},"name":"test_issue_14177_correct"},"guarantee":"test_issue_14177 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_zeta_functions.test_issue_14177_correct","statement":"Path(test_issue_14177(x), test_issue_14177 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b93f0ab3b4d654e4"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tests.test_zeta_functions.test_issue_14177","kind":"function","src_hash":"f3d872471050708d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: zeta(-n).rewrite(bernoulli) == bernoulli(n + 1) / (-n - 1) and zeta(-n, a).rewrite(bernoulli) == bernoulli(n + 1, a) / (-n - 1) and zeta(2 * n).rewrite(bernoulli) == z2n and expand_func(zeta(s, n + 1)) == zeta(s) - harmonic(n, s) and expand_func(zeta(-b, -n)) is nan and expand_func(zeta(-b, n)) == zeta(-b, n) and zeta(2 * n) == zeta(2 * n)"},"spec":{"lhs":"test_issue_14177()","rhs":"zeta(-n).rewrite(bernoulli) == bernoulli(n + 1) / (-n - 1) and zeta(-n, a).rewrite(bernoulli) == bernoulli(n + 1, a) / (-n - 1) and zeta(2 * n).rewrite(bernoulli) == z2n and expand_func(zeta(s, n + 1)) == zeta(s) - harmonic(n, s) and expand_func(zeta(-b, -n)) is nan and expand_func(zeta(-b, n)) == zeta(-b, n) and zeta(2 * n) == zeta(2 * n)","over":{"base":"Any"},"name":"test_issue_14177_correct"},"guarantee":"zeta(-n).rewrite(bernoulli) == bernoulli(n + 1) / (-n - 1); zeta(-n, a).rewrite(bernoulli) == bernoulli(n + 1, a) / (-n - 1); zeta(2 * n).rewrite(bernoulli) == z2n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tests.test_zeta_functions.test_issue_14177_correct","statement":"Path(test_issue_14177(x), zeta(-n).rewrite(bernoulli) == bernoulli(n + 1) / (-n - 1); zeta(-n, a).rewrite(bernoulli) == bernoulli(n + 1, a) / (-n - 1); zeta(2 * n).rewrite(bernoulli) == z2n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afdebaa80707e62b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["zeta(-n).rewrite(bernoulli) == bernoulli(n + 1) / (-n - 1)","zeta(-n, a).rewrite(bernoulli) == bernoulli(n + 1, a) / (-n - 1)","zeta(2 * n).rewrite(bernoulli) == z2n","expand_func(zeta(s, n + 1)) == zeta(s) - harmonic(n, s)","expand_func(zeta(-b, -n)) is nan","expand_func(zeta(-b, n)) == zeta(-b, n)","zeta(2 * n) == zeta(2 * n)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_14177():
     n = Symbol('n', nonnegative=True, integer=True)
 

@@ -24,43 +24,62 @@ from sympy.core.singleton import S
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TypeE(*args), correctly constructs a TypeE instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ TypeE : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Standard_Cartan)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ TypeE : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e1fcbf7a743ac61d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_e.TypeE","kind":"class","src_hash":"693840e582c653b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"TypeE(*args)","rhs":"correctly constructs a TypeE instance","over":{"base":"Any"},"name":"TypeE_class_invariant"},"guarantee":"correctly constructs a TypeE instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1fcbf7a743ac61d"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_e.TypeE","kind":"class","src_hash":"693840e582c653b5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Standard_Cartan)"},"spec":{"lhs":"TypeE(*args)","rhs":"correctly constructs a TypeE instance","over":{"base":"Any"},"name":"TypeE_class_invariant"},"guarantee":"isinstance(self, Standard_Cartan)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1fcbf7a743ac61d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Standard_Cartan)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function TypeE not found in source"]}}
 class TypeE(Standard_Cartan):
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, n), Standard_Cartan.__new__(cls, 'E', n)) over {Any | not (n < 6 or n > 8)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (n < 6 or n > 8)                           ║
+# ║   returns:  Standard_Cartan.__new__(cls, 'E', n)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | not (n < 6 or n > 8)} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 36257da45fa94d54           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_e.TypeE.__new__","kind":"method","src_hash":"11635fa3070a1226","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"36257da45fa94d54"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_e.TypeE.__new__","kind":"method","src_hash":"11635fa3070a1226","in":{"base":"Any","pred":"not (n < 6 or n > 8)"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, n)","rhs":"Standard_Cartan.__new__(cls, 'E', n)","over":{"base":"Any","pred":"not (n < 6 or n > 8)"},"name":"__new___correct"},"guarantee":"returns Standard_Cartan.__new__(cls, 'E', n)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"36257da45fa94d54","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (n < 6 or n > 8)"],"returns_expr":"Standard_Cartan.__new__(cls, 'E', n)","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, n):
         if n < 6 or n > 8:
             raise ValueError("Invalid value of n")
         return Standard_Cartan.__new__(cls, "E", n)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dimension(), dimension of the vector space v underlying the lie algebra) over Any ║
+# ║ Path(dimension(), 8) over Any                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  8                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dimension : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dd4c5011b399611e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_e.TypeE.dimension","kind":"method","src_hash":"78cc05eb99c3e0d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dimension()","rhs":"dimension of the vector space v underlying the lie algebra","over":{"base":"Any"},"name":"dimension_correct"},"guarantee":"dimension of the vector space v underlying the lie algebra","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dd4c5011b399611e"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_e.TypeE.dimension","kind":"method","src_hash":"78cc05eb99c3e0d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dimension()","rhs":"8","over":{"base":"Any"},"name":"dimension_correct"},"guarantee":"returns 8","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dd4c5011b399611e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"8","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dimension(self):
         """Dimension of the vector space V underlying the Lie algebra
 
@@ -76,16 +95,22 @@ class TypeE(Standard_Cartan):
         return 8
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(basic_root(i, ), this is a method just to generate roots with a -1 in the ith position and a 1 in the jth position) over Any ║
+# ║ Path(basic_root(i, j), <unspecified:basic_root>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ basic_root : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37ae0684d7150be5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_e.TypeE.basic_root","kind":"method","src_hash":"e61cf47525cacc8b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"basic_root(i, )","rhs":"this is a method just to generate roots with a -1 in the ith position and a 1 in the jth position","over":{"base":"Any"},"name":"basic_root_correct"},"guarantee":"this is a method just to generate roots with a -1 in the ith position and a 1 in the jth position","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.type_e.TypeE.basic_root_correct","statement":"Path(basic_root(x), this is a method just to generate roots with a -1 in the ith position and a 1 in the jth position)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37ae0684d7150be5"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_e.TypeE.basic_root","kind":"method","src_hash":"e61cf47525cacc8b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"basic_root(i, j)","rhs":"<unspecified:basic_root>","over":{"base":"Any"},"name":"basic_root_correct"},"guarantee":"this is a method just to generate roots with a -1 in the ith position and a 1 in the jth position","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.type_e.TypeE.basic_root_correct","statement":"Path(basic_root(x), this is a method just to generate roots with a -1 in the ith position and a 1 in the jth position)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37ae0684d7150be5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def basic_root(self, i, j):
         """
         This is a method just to generate roots
@@ -100,16 +125,26 @@ class TypeE(Standard_Cartan):
         return root
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(simple_root(i), every lie algebra has a unique root system. given a root system q, there is a subset of the roots such that an element of q is called a simple root if it cannot be written as the sum of two elements i) over Any ║
+# ║ Path(simple_root(i), result == (root if i == 1 else root if i == 2 else self.basic_root(i - 3, i - 2)) and result == root or result == self.basic_root(i - 3, i - 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ simple_root : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (root if i == 1 else root if i ...   ║
+# ║   ensures:  result == root or result == self.basic_ro...   ║
+# ║   fiber[case_0]: i == 1 => root                            ║
+# ║   fiber[case_1]: i == 2 => root                            ║
+# ║   fiber[case_2]: not (i == 1) and not (i == 2) => sel...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ simple_root : Any → {Any | result satisfies: result =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 23a0631c3615b262  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | adb2b9b6b65057be  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_e.TypeE.simple_root","kind":"method","src_hash":"8ca17344651509e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"simple_root(i)","rhs":"every lie algebra has a unique root system. given a root system q, there is a subset of the roots such that an element of q is called a simple root if it cannot be written as the sum of two elements i","over":{"base":"Any"},"name":"simple_root_correct"},"guarantee":"every lie algebra has a unique root system. given a root system q, there is a subset of the roots such that an element of q is called a simple root if it cannot be written as the sum of two elements i","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.type_e.TypeE.simple_root_correct","statement":"Path(simple_root(x), every lie algebra has a unique root system. given a root system q, there is a subset of the roots such that an element of q is called a simple root if it cannot be written as the sum of two elements i)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23a0631c3615b262"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_e.TypeE.simple_root","kind":"method","src_hash":"8ca17344651509e8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (root if i == 1 else root if i == 2 else self.basic_root(i - 3, i - 2)) and result == root or result == self.basic_root(i - 3, i - 2)"},"spec":{"lhs":"simple_root(i)","rhs":"result == (root if i == 1 else root if i == 2 else self.basic_root(i - 3, i - 2)) and result == root or result == self.basic_root(i - 3, i - 2)","over":{"base":"Any"},"name":"simple_root_correct"},"guarantee":"result == (root if i == 1 else root if i == 2 else self.basic_root(i - 3, i - 2)); result == root or result == self.basic_root(i - 3, i - 2); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.type_e.TypeE.simple_root_correct","statement":"Path(simple_root(x), result == (root if i == 1 else root if i == 2 else self.basic_root(i - 3, i - 2)); result == root or result == self.basic_root(i - 3, i - 2); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"adb2b9b6b65057be","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (root if i == 1 else root if i == 2 else self.basic_root(i - 3, i - 2))","result == root or result == self.basic_root(i - 3, i - 2)"],"fibers":[{"name":"case_0","guard":"i == 1","ensures":["result == root"],"decidability":"z3","returns_expr":"root"},{"name":"case_1","guard":"i == 2","ensures":["result == root"],"decidability":"z3","returns_expr":"root"},{"name":"case_2","guard":"not (i == 1) and not (i == 2)","ensures":["result == self.basic_root(i - 3, i - 2)"],"decidability":"z3","returns_expr":"self.basic_root(i - 3, i - 2)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.basic_root","self.n"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def simple_root(self, i):
         """
         Every Lie algebra has a unique root system.
@@ -151,16 +186,22 @@ class TypeE(Standard_Cartan):
             return self.basic_root(i - 3, i - 2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(positive_roots(), this method generates all the positive roots of a_n) over Any ║
+# ║ Path(positive_roots(), <unspecified:positive_roots>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ positive_roots : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dac2e9be9269597f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_e.TypeE.positive_roots","kind":"method","src_hash":"4a072061eacba8d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"positive_roots()","rhs":"this method generates all the positive roots of a_n","over":{"base":"Any"},"name":"positive_roots_correct"},"guarantee":"this method generates all the positive roots of a_n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.type_e.TypeE.positive_roots_correct","statement":"Path(positive_roots(x), this method generates all the positive roots of a_n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dac2e9be9269597f"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_e.TypeE.positive_roots","kind":"method","src_hash":"4a072061eacba8d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"positive_roots()","rhs":"<unspecified:positive_roots>","over":{"base":"Any"},"name":"positive_roots_correct"},"guarantee":"this method generates all the positive roots of a_n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.type_e.TypeE.positive_roots_correct","statement":"Path(positive_roots(x), this method generates all the positive roots of a_n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dac2e9be9269597f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.basic_root","self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def positive_roots(self):
         """
         This method generates all the positive roots of
@@ -286,16 +327,22 @@ class TypeE(Standard_Cartan):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(roots(), returns the total number of roots of e_n) over Any ║
+# ║ Path(roots(), <unspecified:roots>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ roots : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f5d2810d4f50237d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_e.TypeE.roots","kind":"method","src_hash":"b9d74ca57c399702","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"roots()","rhs":"returns the total number of roots of e_n","over":{"base":"Any"},"name":"roots_correct"},"guarantee":"returns the total number of roots of e_n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.type_e.TypeE.roots_correct","statement":"Path(roots(x), returns the total number of roots of e_n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f5d2810d4f50237d"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_e.TypeE.roots","kind":"method","src_hash":"b9d74ca57c399702","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"roots()","rhs":"<unspecified:roots>","over":{"base":"Any"},"name":"roots_correct"},"guarantee":"returns the total number of roots of e_n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.type_e.TypeE.roots_correct","statement":"Path(roots(x), returns the total number of roots of e_n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f5d2810d4f50237d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def roots(self):
         """
         Returns the total number of roots of E_n
@@ -311,16 +358,22 @@ class TypeE(Standard_Cartan):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cartan_matrix(), returns the cartan matrix for g_2 the cartan matrix matrix for a lie algebra is generated by assigning an ordering to the simple roots, (alpha[1], ...., alpha[l])) over Any ║
+# ║ Path(cartan_matrix(), <unspecified:cartan_matrix>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cartan_matrix : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa17a56694a3bb7f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_e.TypeE.cartan_matrix","kind":"method","src_hash":"7b2cada5ba3af58f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cartan_matrix()","rhs":"returns the cartan matrix for g_2 the cartan matrix matrix for a lie algebra is generated by assigning an ordering to the simple roots, (alpha[1], ...., alpha[l])","over":{"base":"Any"},"name":"cartan_matrix_correct"},"guarantee":"returns the cartan matrix for g_2 the cartan matrix matrix for a lie algebra is generated by assigning an ordering to the simple roots, (alpha[1], ...., alpha[l])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.type_e.TypeE.cartan_matrix_correct","statement":"Path(cartan_matrix(x), returns the cartan matrix for g_2 the cartan matrix matrix for a lie algebra is generated by assigning an ordering to the simple roots, (alpha[1], ...., alpha[l]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa17a56694a3bb7f"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_e.TypeE.cartan_matrix","kind":"method","src_hash":"7b2cada5ba3af58f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cartan_matrix()","rhs":"<unspecified:cartan_matrix>","over":{"base":"Any"},"name":"cartan_matrix_correct"},"guarantee":"returns the cartan matrix for g_2 the cartan matrix matrix for a lie algebra is generated by assigning an ordering to the simple roots, (alpha[1], ...., alpha[l])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.type_e.TypeE.cartan_matrix_correct","statement":"Path(cartan_matrix(x), returns the cartan matrix for g_2 the cartan matrix matrix for a lie algebra is generated by assigning an ordering to the simple roots, (alpha[1], ...., alpha[l]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa17a56694a3bb7f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cartan_matrix(self):
         """
         Returns the Cartan matrix for G_2
@@ -357,16 +410,22 @@ class TypeE(Standard_Cartan):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(basis(), returns the number of independent generators of e_n) over Any ║
+# ║ Path(basis(), <unspecified:basis>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ basis : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6fcdb6bca3af57b3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_e.TypeE.basis","kind":"method","src_hash":"218271ff07e46ef8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"basis()","rhs":"returns the number of independent generators of e_n","over":{"base":"Any"},"name":"basis_correct"},"guarantee":"returns the number of independent generators of e_n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.type_e.TypeE.basis_correct","statement":"Path(basis(x), returns the number of independent generators of e_n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6fcdb6bca3af57b3"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_e.TypeE.basis","kind":"method","src_hash":"218271ff07e46ef8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"basis()","rhs":"<unspecified:basis>","over":{"base":"Any"},"name":"basis_correct"},"guarantee":"returns the number of independent generators of e_n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.type_e.TypeE.basis_correct","statement":"Path(basis(x), returns the number of independent generators of e_n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6fcdb6bca3af57b3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def basis(self):
         """
         Returns the number of independent generators of E_n
@@ -381,16 +440,22 @@ class TypeE(Standard_Cartan):
             return 248
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dynkin_diagram(), dynkin_diagram produces the expected output) over Any ║
+# ║ Path(dynkin_diagram(), <unspecified:dynkin_diagram>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dynkin_diagram : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 72551cd0cfa8717b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_e.TypeE.dynkin_diagram","kind":"method","src_hash":"e6efc0c673f8cfd1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dynkin_diagram()","rhs":"dynkin_diagram produces the expected output","over":{"base":"Any"},"name":"dynkin_diagram_correct"},"guarantee":"dynkin_diagram produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.type_e.TypeE.dynkin_diagram_correct","statement":"Path(dynkin_diagram(x), dynkin_diagram produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72551cd0cfa8717b"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.type_e.TypeE.dynkin_diagram","kind":"method","src_hash":"e6efc0c673f8cfd1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dynkin_diagram()","rhs":"<unspecified:dynkin_diagram>","over":{"base":"Any"},"name":"dynkin_diagram_correct"},"guarantee":"dynkin_diagram produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.type_e.TypeE.dynkin_diagram_correct","statement":"Path(dynkin_diagram(x), dynkin_diagram produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72551cd0cfa8717b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.n"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dynkin_diagram(self):
         n = self.n
         diag = " "*8 + str(2) + "\n"

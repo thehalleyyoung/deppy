@@ -25,16 +25,22 @@ from sympy.polys.solvers import solve_lin_sys, eqs_to_matrix
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solve_lin_sys_2x2_one(), test_solve_lin_sys_2x2_one produces the expected output) over Any ║
+# ║ Path(test_solve_lin_sys_2x2_one(), _sol == sol and all((s.ring == domain for s in _sol))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_solve_lin_sys_2x2_one : Any → {Any | _sol == sol...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _sol == sol and all((s.ring == domain for...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_solve_lin_sys_2x2_one : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99429a634cd3a7cf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5ca69cd77acd9c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_solvers.test_solve_lin_sys_2x2_one","kind":"function","src_hash":"db8c3763c363b987","in":{"base":"Any"},"out":{"base":"Any","pred":"_sol == sol and all((s.ring == domain for s in _sol))"},"spec":{"lhs":"test_solve_lin_sys_2x2_one()","rhs":"test_solve_lin_sys_2x2_one produces the expected output","over":{"base":"Any"},"name":"test_solve_lin_sys_2x2_one_correct"},"guarantee":"test_solve_lin_sys_2x2_one produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_solvers.test_solve_lin_sys_2x2_one_correct","statement":"Path(test_solve_lin_sys_2x2_one(x), test_solve_lin_sys_2x2_one produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99429a634cd3a7cf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_solvers.test_solve_lin_sys_2x2_one","kind":"function","src_hash":"db8c3763c363b987","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _sol == sol and all((s.ring == domain for s in _sol))"},"spec":{"lhs":"test_solve_lin_sys_2x2_one()","rhs":"_sol == sol and all((s.ring == domain for s in _sol))","over":{"base":"Any"},"name":"test_solve_lin_sys_2x2_one_correct"},"guarantee":"_sol == sol and all((s.ring == domain for s in _sol))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_solvers.test_solve_lin_sys_2x2_one_correct","statement":"Path(test_solve_lin_sys_2x2_one(x), _sol == sol and all((s.ring == domain for s in _sol)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5ca69cd77acd9c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_sol == sol and all((s.ring == domain for s in _sol))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_solve_lin_sys_2x2_one():
     domain, x1,x2 = ring("x1,x2", QQ)
     eqs = [x1 + x2 - 5,
@@ -44,16 +50,22 @@ def test_solve_lin_sys_2x2_one():
     assert _sol == sol and all(s.ring == domain for s in _sol)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solve_lin_sys_2x4_none(), test_solve_lin_sys_2x4_none produces the expected output) over Any ║
+# ║ Path(test_solve_lin_sys_2x4_none(), solve_lin_sys(eqs, domain) is None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_solve_lin_sys_2x4_none : Any → {Any | solve_lin_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve_lin_sys(eqs, domain) is None             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_solve_lin_sys_2x4_none : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ebd9457133b91244  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43b52fa6e5ced0b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_solvers.test_solve_lin_sys_2x4_none","kind":"function","src_hash":"91ae7a4a760b19b0","in":{"base":"Any"},"out":{"base":"Any","pred":"solve_lin_sys(eqs, domain) is None"},"spec":{"lhs":"test_solve_lin_sys_2x4_none()","rhs":"test_solve_lin_sys_2x4_none produces the expected output","over":{"base":"Any"},"name":"test_solve_lin_sys_2x4_none_correct"},"guarantee":"test_solve_lin_sys_2x4_none produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_solvers.test_solve_lin_sys_2x4_none_correct","statement":"Path(test_solve_lin_sys_2x4_none(x), test_solve_lin_sys_2x4_none produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ebd9457133b91244"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_solvers.test_solve_lin_sys_2x4_none","kind":"function","src_hash":"91ae7a4a760b19b0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve_lin_sys(eqs, domain) is None"},"spec":{"lhs":"test_solve_lin_sys_2x4_none()","rhs":"solve_lin_sys(eqs, domain) is None","over":{"base":"Any"},"name":"test_solve_lin_sys_2x4_none_correct"},"guarantee":"solve_lin_sys(eqs, domain) is None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_solvers.test_solve_lin_sys_2x4_none_correct","statement":"Path(test_solve_lin_sys_2x4_none(x), solve_lin_sys(eqs, domain) is None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43b52fa6e5ced0b4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve_lin_sys(eqs, domain) is None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_solve_lin_sys_2x4_none():
     domain, x1,x2 = ring("x1,x2", QQ)
     eqs = [x1 - 1,
@@ -64,16 +76,22 @@ def test_solve_lin_sys_2x4_none():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solve_lin_sys_3x4_one(), test_solve_lin_sys_3x4_one produces the expected output) over Any ║
+# ║ Path(test_solve_lin_sys_3x4_one(), solve_lin_sys(eqs, domain) == sol) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_solve_lin_sys_3x4_one : Any → {Any | solve_lin_s...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve_lin_sys(eqs, domain) == sol              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_solve_lin_sys_3x4_one : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9da63d515ea6a064  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b5a6f32e1cdeb24  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_solvers.test_solve_lin_sys_3x4_one","kind":"function","src_hash":"632de85be07b1cb2","in":{"base":"Any"},"out":{"base":"Any","pred":"solve_lin_sys(eqs, domain) == sol"},"spec":{"lhs":"test_solve_lin_sys_3x4_one()","rhs":"test_solve_lin_sys_3x4_one produces the expected output","over":{"base":"Any"},"name":"test_solve_lin_sys_3x4_one_correct"},"guarantee":"test_solve_lin_sys_3x4_one produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_solvers.test_solve_lin_sys_3x4_one_correct","statement":"Path(test_solve_lin_sys_3x4_one(x), test_solve_lin_sys_3x4_one produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9da63d515ea6a064"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_solvers.test_solve_lin_sys_3x4_one","kind":"function","src_hash":"632de85be07b1cb2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve_lin_sys(eqs, domain) == sol"},"spec":{"lhs":"test_solve_lin_sys_3x4_one()","rhs":"solve_lin_sys(eqs, domain) == sol","over":{"base":"Any"},"name":"test_solve_lin_sys_3x4_one_correct"},"guarantee":"solve_lin_sys(eqs, domain) == sol","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_solvers.test_solve_lin_sys_3x4_one_correct","statement":"Path(test_solve_lin_sys_3x4_one(x), solve_lin_sys(eqs, domain) == sol)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b5a6f32e1cdeb24","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve_lin_sys(eqs, domain) == sol"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_solve_lin_sys_3x4_one():
     domain, x1,x2,x3 = ring("x1,x2,x3", QQ)
     eqs = [x1 + 2*x2 + 3*x3,
@@ -84,16 +102,22 @@ def test_solve_lin_sys_3x4_one():
     assert solve_lin_sys(eqs, domain) == sol
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solve_lin_sys_3x3_inf(), test_solve_lin_sys_3x3_inf produces the expected output) over Any ║
+# ║ Path(test_solve_lin_sys_3x3_inf(), solve_lin_sys(eqs, domain) == sol) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_solve_lin_sys_3x3_inf : Any → {Any | solve_lin_s...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve_lin_sys(eqs, domain) == sol              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_solve_lin_sys_3x3_inf : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f5e293b32e08ca0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f6579b3b94169941  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_solvers.test_solve_lin_sys_3x3_inf","kind":"function","src_hash":"0aa9b2bd26179d65","in":{"base":"Any"},"out":{"base":"Any","pred":"solve_lin_sys(eqs, domain) == sol"},"spec":{"lhs":"test_solve_lin_sys_3x3_inf()","rhs":"test_solve_lin_sys_3x3_inf produces the expected output","over":{"base":"Any"},"name":"test_solve_lin_sys_3x3_inf_correct"},"guarantee":"test_solve_lin_sys_3x3_inf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_solvers.test_solve_lin_sys_3x3_inf_correct","statement":"Path(test_solve_lin_sys_3x3_inf(x), test_solve_lin_sys_3x3_inf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f5e293b32e08ca0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_solvers.test_solve_lin_sys_3x3_inf","kind":"function","src_hash":"0aa9b2bd26179d65","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve_lin_sys(eqs, domain) == sol"},"spec":{"lhs":"test_solve_lin_sys_3x3_inf()","rhs":"solve_lin_sys(eqs, domain) == sol","over":{"base":"Any"},"name":"test_solve_lin_sys_3x3_inf_correct"},"guarantee":"solve_lin_sys(eqs, domain) == sol","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_solvers.test_solve_lin_sys_3x3_inf_correct","statement":"Path(test_solve_lin_sys_3x3_inf(x), solve_lin_sys(eqs, domain) == sol)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6579b3b94169941","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve_lin_sys(eqs, domain) == sol"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_solve_lin_sys_3x3_inf():
     domain, x1,x2,x3 = ring("x1,x2,x3", QQ)
     eqs = [x1 - x2 + 2*x3 - 1,
@@ -103,16 +127,22 @@ def test_solve_lin_sys_3x3_inf():
     assert solve_lin_sys(eqs, domain) == sol
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solve_lin_sys_3x4_none(), test_solve_lin_sys_3x4_none produces the expected output) over Any ║
+# ║ Path(test_solve_lin_sys_3x4_none(), solve_lin_sys(eqs, domain) is None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_solve_lin_sys_3x4_none : Any → {Any | solve_lin_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve_lin_sys(eqs, domain) is None             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_solve_lin_sys_3x4_none : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c0d0da95bcfa5dfe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5d87f36ede4fcb3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_solvers.test_solve_lin_sys_3x4_none","kind":"function","src_hash":"2cb1569e700401fe","in":{"base":"Any"},"out":{"base":"Any","pred":"solve_lin_sys(eqs, domain) is None"},"spec":{"lhs":"test_solve_lin_sys_3x4_none()","rhs":"test_solve_lin_sys_3x4_none produces the expected output","over":{"base":"Any"},"name":"test_solve_lin_sys_3x4_none_correct"},"guarantee":"test_solve_lin_sys_3x4_none produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_solvers.test_solve_lin_sys_3x4_none_correct","statement":"Path(test_solve_lin_sys_3x4_none(x), test_solve_lin_sys_3x4_none produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c0d0da95bcfa5dfe"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_solvers.test_solve_lin_sys_3x4_none","kind":"function","src_hash":"2cb1569e700401fe","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve_lin_sys(eqs, domain) is None"},"spec":{"lhs":"test_solve_lin_sys_3x4_none()","rhs":"solve_lin_sys(eqs, domain) is None","over":{"base":"Any"},"name":"test_solve_lin_sys_3x4_none_correct"},"guarantee":"solve_lin_sys(eqs, domain) is None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_solvers.test_solve_lin_sys_3x4_none_correct","statement":"Path(test_solve_lin_sys_3x4_none(x), solve_lin_sys(eqs, domain) is None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5d87f36ede4fcb3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve_lin_sys(eqs, domain) is None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_solve_lin_sys_3x4_none():
     domain, x1,x2,x3,x4 = ring("x1,x2,x3,x4", QQ)
     eqs = [2*x1 + x2 + 7*x3 - 7*x4 - 2,
@@ -122,16 +152,22 @@ def test_solve_lin_sys_3x4_none():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solve_lin_sys_4x7_inf(), test_solve_lin_sys_4x7_inf produces the expected output) over Any ║
+# ║ Path(test_solve_lin_sys_4x7_inf(), solve_lin_sys(eqs, domain) == sol) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_solve_lin_sys_4x7_inf : Any → {Any | solve_lin_s...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve_lin_sys(eqs, domain) == sol              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_solve_lin_sys_4x7_inf : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e7685366f6f7c01b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64b92df20caa81fa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_solvers.test_solve_lin_sys_4x7_inf","kind":"function","src_hash":"dc054b4a22ea0f7b","in":{"base":"Any"},"out":{"base":"Any","pred":"solve_lin_sys(eqs, domain) == sol"},"spec":{"lhs":"test_solve_lin_sys_4x7_inf()","rhs":"test_solve_lin_sys_4x7_inf produces the expected output","over":{"base":"Any"},"name":"test_solve_lin_sys_4x7_inf_correct"},"guarantee":"test_solve_lin_sys_4x7_inf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_solvers.test_solve_lin_sys_4x7_inf_correct","statement":"Path(test_solve_lin_sys_4x7_inf(x), test_solve_lin_sys_4x7_inf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7685366f6f7c01b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_solvers.test_solve_lin_sys_4x7_inf","kind":"function","src_hash":"dc054b4a22ea0f7b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve_lin_sys(eqs, domain) == sol"},"spec":{"lhs":"test_solve_lin_sys_4x7_inf()","rhs":"solve_lin_sys(eqs, domain) == sol","over":{"base":"Any"},"name":"test_solve_lin_sys_4x7_inf_correct"},"guarantee":"solve_lin_sys(eqs, domain) == sol","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_solvers.test_solve_lin_sys_4x7_inf_correct","statement":"Path(test_solve_lin_sys_4x7_inf(x), solve_lin_sys(eqs, domain) == sol)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64b92df20caa81fa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve_lin_sys(eqs, domain) == sol"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_solve_lin_sys_4x7_inf():
     domain, x1,x2,x3,x4,x5,x6,x7 = ring("x1,x2,x3,x4,x5,x6,x7", QQ)
     eqs = [x1 + 4*x2 - x4 + 7*x6 - 9*x7 - 3,
@@ -144,16 +180,22 @@ def test_solve_lin_sys_4x7_inf():
     assert solve_lin_sys(eqs, domain) == sol
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solve_lin_sys_5x5_inf(), test_solve_lin_sys_5x5_inf produces the expected output) over Any ║
+# ║ Path(test_solve_lin_sys_5x5_inf(), solve_lin_sys(eqs, domain) == sol) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_solve_lin_sys_5x5_inf : Any → {Any | solve_lin_s...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve_lin_sys(eqs, domain) == sol              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_solve_lin_sys_5x5_inf : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f9f92d227599575  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3387fce22829353d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_solvers.test_solve_lin_sys_5x5_inf","kind":"function","src_hash":"803660fc9e9114c1","in":{"base":"Any"},"out":{"base":"Any","pred":"solve_lin_sys(eqs, domain) == sol"},"spec":{"lhs":"test_solve_lin_sys_5x5_inf()","rhs":"test_solve_lin_sys_5x5_inf produces the expected output","over":{"base":"Any"},"name":"test_solve_lin_sys_5x5_inf_correct"},"guarantee":"test_solve_lin_sys_5x5_inf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_solvers.test_solve_lin_sys_5x5_inf_correct","statement":"Path(test_solve_lin_sys_5x5_inf(x), test_solve_lin_sys_5x5_inf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f9f92d227599575"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_solvers.test_solve_lin_sys_5x5_inf","kind":"function","src_hash":"803660fc9e9114c1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve_lin_sys(eqs, domain) == sol"},"spec":{"lhs":"test_solve_lin_sys_5x5_inf()","rhs":"solve_lin_sys(eqs, domain) == sol","over":{"base":"Any"},"name":"test_solve_lin_sys_5x5_inf_correct"},"guarantee":"solve_lin_sys(eqs, domain) == sol","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_solvers.test_solve_lin_sys_5x5_inf_correct","statement":"Path(test_solve_lin_sys_5x5_inf(x), solve_lin_sys(eqs, domain) == sol)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3387fce22829353d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve_lin_sys(eqs, domain) == sol"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_solve_lin_sys_5x5_inf():
     domain, x1,x2,x3,x4,x5 = ring("x1,x2,x3,x4,x5", QQ)
     eqs = [x1 - x2 - 2*x3 + x4 + 11*x5 - 13,
@@ -167,16 +209,22 @@ def test_solve_lin_sys_5x5_inf():
     assert solve_lin_sys(eqs, domain) == sol
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solve_lin_sys_6x6_1(), test_solve_lin_sys_6x6_1 produces the expected output) over Any ║
+# ║ Path(test_solve_lin_sys_6x6_1(), solve_lin_sys(eqs, domain) == sol) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_solve_lin_sys_6x6_1 : Any → {Any | solve_lin_sys...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve_lin_sys(eqs, domain) == sol              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_solve_lin_sys_6x6_1 : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 96e739003bbdede9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 3.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e70996fc0d7e2d8b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_solvers.test_solve_lin_sys_6x6_1","kind":"function","src_hash":"0d30778a9ec57e7e","in":{"base":"Any"},"out":{"base":"Any","pred":"solve_lin_sys(eqs, domain) == sol"},"spec":{"lhs":"test_solve_lin_sys_6x6_1()","rhs":"test_solve_lin_sys_6x6_1 produces the expected output","over":{"base":"Any"},"name":"test_solve_lin_sys_6x6_1_correct"},"guarantee":"test_solve_lin_sys_6x6_1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_solvers.test_solve_lin_sys_6x6_1_correct","statement":"Path(test_solve_lin_sys_6x6_1(x), test_solve_lin_sys_6x6_1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96e739003bbdede9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_solvers.test_solve_lin_sys_6x6_1","kind":"function","src_hash":"0d30778a9ec57e7e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve_lin_sys(eqs, domain) == sol"},"spec":{"lhs":"test_solve_lin_sys_6x6_1()","rhs":"solve_lin_sys(eqs, domain) == sol","over":{"base":"Any"},"name":"test_solve_lin_sys_6x6_1_correct"},"guarantee":"solve_lin_sys(eqs, domain) == sol","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_solvers.test_solve_lin_sys_6x6_1_correct","statement":"Path(test_solve_lin_sys_6x6_1(x), solve_lin_sys(eqs, domain) == sol)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e70996fc0d7e2d8b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve_lin_sys(eqs, domain) == sol"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.1,"verdict_class":"assumed","binding":true}}
 def test_solve_lin_sys_6x6_1():
     ground, d,r,e,g,i,j,l,o,m,p,q = field("d,r,e,g,i,j,l,o,m,p,q", ZZ)
     domain, c,f,h,k,n,b = ring("c,f,h,k,n,b", ground)
@@ -194,16 +242,22 @@ def test_solve_lin_sys_6x6_1():
     assert solve_lin_sys(eqs, domain) == sol
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solve_lin_sys_6x6_2(), test_solve_lin_sys_6x6_2 produces the expected output) over Any ║
+# ║ Path(test_solve_lin_sys_6x6_2(), solve_lin_sys(eqs, domain) == sol) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_solve_lin_sys_6x6_2 : Any → {Any | solve_lin_sys...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve_lin_sys(eqs, domain) == sol              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_solve_lin_sys_6x6_2 : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a5ba3da8d3e6b780  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 9.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be48ff85b1d75593  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_solvers.test_solve_lin_sys_6x6_2","kind":"function","src_hash":"566236a81ee78649","in":{"base":"Any"},"out":{"base":"Any","pred":"solve_lin_sys(eqs, domain) == sol"},"spec":{"lhs":"test_solve_lin_sys_6x6_2()","rhs":"test_solve_lin_sys_6x6_2 produces the expected output","over":{"base":"Any"},"name":"test_solve_lin_sys_6x6_2_correct"},"guarantee":"test_solve_lin_sys_6x6_2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_solvers.test_solve_lin_sys_6x6_2_correct","statement":"Path(test_solve_lin_sys_6x6_2(x), test_solve_lin_sys_6x6_2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a5ba3da8d3e6b780"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_solvers.test_solve_lin_sys_6x6_2","kind":"function","src_hash":"566236a81ee78649","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve_lin_sys(eqs, domain) == sol"},"spec":{"lhs":"test_solve_lin_sys_6x6_2()","rhs":"solve_lin_sys(eqs, domain) == sol","over":{"base":"Any"},"name":"test_solve_lin_sys_6x6_2_correct"},"guarantee":"solve_lin_sys(eqs, domain) == sol","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_solvers.test_solve_lin_sys_6x6_2_correct","statement":"Path(test_solve_lin_sys_6x6_2(x), solve_lin_sys(eqs, domain) == sol)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be48ff85b1d75593","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve_lin_sys(eqs, domain) == sol"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":9.1,"verdict_class":"assumed","binding":true}}
 def test_solve_lin_sys_6x6_2():
     ground, d,r,e,g,i,j,l,o,m,p,q = field("d,r,e,g,i,j,l,o,m,p,q", ZZ)
     domain, c,f,h,k,n,b = ring("c,f,h,k,n,b", ground)
@@ -221,16 +275,22 @@ def test_solve_lin_sys_6x6_2():
     assert solve_lin_sys(eqs, domain) == sol
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_eqs_to_matrix(), test_eqs_to_matrix produces the expected output) over Any ║
+# ║ Path(test_eqs_to_matrix(), M.to_Matrix() == Matrix([[1, 1, 5], [2, -1, 0]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_eqs_to_matrix : Any → {Any | M.to_Matrix() == Ma...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  M.to_Matrix() == Matrix([[1, 1, 5], [2, -...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_eqs_to_matrix : Any → {Any | result satisfies: M...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e8d50a91f3d68bf9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f7269272a035bc16  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_solvers.test_eqs_to_matrix","kind":"function","src_hash":"340301f6d5c83070","in":{"base":"Any"},"out":{"base":"Any","pred":"M.to_Matrix() == Matrix([[1, 1, 5], [2, -1, 0]])"},"spec":{"lhs":"test_eqs_to_matrix()","rhs":"test_eqs_to_matrix produces the expected output","over":{"base":"Any"},"name":"test_eqs_to_matrix_correct"},"guarantee":"test_eqs_to_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_solvers.test_eqs_to_matrix_correct","statement":"Path(test_eqs_to_matrix(x), test_eqs_to_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8d50a91f3d68bf9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_solvers.test_eqs_to_matrix","kind":"function","src_hash":"340301f6d5c83070","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: M.to_Matrix() == Matrix([[1, 1, 5], [2, -1, 0]])"},"spec":{"lhs":"test_eqs_to_matrix()","rhs":"M.to_Matrix() == Matrix([[1, 1, 5], [2, -1, 0]])","over":{"base":"Any"},"name":"test_eqs_to_matrix_correct"},"guarantee":"M.to_Matrix() == Matrix([[1, 1, 5], [2, -1, 0]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_solvers.test_eqs_to_matrix_correct","statement":"Path(test_eqs_to_matrix(x), M.to_Matrix() == Matrix([[1, 1, 5], [2, -1, 0]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7269272a035bc16","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["M.to_Matrix() == Matrix([[1, 1, 5], [2, -1, 0]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_eqs_to_matrix():
     domain, x1,x2 = ring("x1,x2", QQ)
     eqs_coeff = [{x1: QQ(1), x2: QQ(1)}, {x1: QQ(2), x2: QQ(-1)}]

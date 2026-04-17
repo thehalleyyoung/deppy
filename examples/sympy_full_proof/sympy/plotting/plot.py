@@ -82,7 +82,10 @@ __doctest_requires__ = {
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_process_summations(sum), substitute oo (infinity) in the lower/upper bounds of a summation with some integer number) over {Any | isinstance(t, Sum)} ║
+# ║ Path(_process_summations(sum_bound, *args), <unspecified:_process_summations>) over {Any | isinstance(t, Sum)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _process_summations : {Any | isinstance(t, Sum)} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -94,9 +97,12 @@ __doctest_requires__ = {
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 635710ed...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.plot._process_summations","kind":"function","src_hash":"a743e571d93e29a7","in":{"base":"Any","pred":"isinstance(t, Sum)"},"out":{"base":"Any"},"spec":{"lhs":"_process_summations(sum)","rhs":"substitute oo (infinity) in the lower/upper bounds of a summation with some integer number","over":{"base":"Any","pred":"isinstance(t, Sum)"},"name":"_process_summations_correct"},"guarantee":"substitute oo (infinity) in the lower/upper bounds of a summation with some integer number","fibers":[{"name":"Sum","pred":"isinstance(t, Sum)","path":{"lhs":"_process_summations(x)","rhs":"substitute oo (infinity) in the lower/upper bounds of a summation with some integer number","over":{"base":"Sum","pred":"isinstance(t, Sum)"},"name":"_process_summations_Sum_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plot._process_summations_Sum_correct","statement":"_process_summations satisfies spec on Sum inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"635710edebcbcba1"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.plot._process_summations","kind":"function","src_hash":"a743e571d93e29a7","in":{"base":"Any","pred":"isinstance(t, Sum)"},"out":{"base":"Any"},"spec":{"lhs":"_process_summations(sum_bound, *args)","rhs":"<unspecified:_process_summations>","over":{"base":"Any","pred":"isinstance(t, Sum)"},"name":"_process_summations_correct"},"guarantee":"substitute oo (infinity) in the lower/upper bounds of a summation with some integer number","fibers":[{"name":"Sum","pred":"isinstance(t, Sum)","path":{"lhs":"_process_summations(x)","rhs":"substitute oo (infinity) in the lower/upper bounds of a summation with some integer number","over":{"base":"Sum","pred":"isinstance(t, Sum)"},"name":"_process_summations_Sum_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plot._process_summations_Sum_correct","statement":"_process_summations satisfies spec on Sum inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"635710edebcbcba1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['sum_bound'], spec=['sum_bound', '*args']","Poor branch-fiber coverage: 0% (branches={'i > 0', 'sign(t) >= 0'}, fibers={'Sum'})"]}}
 def _process_summations(sum_bound, *args):
     """Substitute oo (infinity) in the lower/upper bounds of a summation with
     some integer number.
@@ -149,16 +155,22 @@ def _process_summations(sum_bound, *args):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_build_line_series(*ar), loop over the provided arguments and create the necessary line series) over Any ║
+# ║ Path(_build_line_series(*args, **kwargs), <unspecified:_build_line_series>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _build_line_series : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cccdc1c5a6c3787b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.plot._build_line_series","kind":"function","src_hash":"92fc30f5fdbc4450","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_build_line_series(*ar)","rhs":"loop over the provided arguments and create the necessary line series","over":{"base":"Any"},"name":"_build_line_series_correct"},"guarantee":"loop over the provided arguments and create the necessary line series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plot._build_line_series_correct","statement":"Path(_build_line_series(x), loop over the provided arguments and create the necessary line series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cccdc1c5a6c3787b"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.plot._build_line_series","kind":"function","src_hash":"92fc30f5fdbc4450","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_build_line_series(*args, **kwargs)","rhs":"<unspecified:_build_line_series>","over":{"base":"Any"},"name":"_build_line_series_correct"},"guarantee":"loop over the provided arguments and create the necessary line series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plot._build_line_series_correct","statement":"Path(_build_line_series(x), loop over the provided arguments and create the necessary line series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cccdc1c5a6c3787b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args', '**kwargs']"]}}
 def _build_line_series(*args, **kwargs):
     """Loop over the provided arguments and create the necessary line series.
     """
@@ -177,16 +189,22 @@ def _build_line_series(*args, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_create_series(ser), extract the rendering_kw dictionary from the provided arguments and create an appropriate data series) over Any ║
+# ║ Path(_create_series(series_type, plot_expr, **kwargs), <unspecified:_create_series>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _create_series : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43503d7adf5f849e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.plot._create_series","kind":"function","src_hash":"593096f50ec71c52","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_series(ser)","rhs":"extract the rendering_kw dictionary from the provided arguments and create an appropriate data series","over":{"base":"Any"},"name":"_create_series_correct"},"guarantee":"extract the rendering_kw dictionary from the provided arguments and create an appropriate data series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plot._create_series_correct","statement":"Path(_create_series(x), extract the rendering_kw dictionary from the provided arguments and create an appropriate data series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43503d7adf5f849e"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.plot._create_series","kind":"function","src_hash":"593096f50ec71c52","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_series(series_type, plot_expr, **kwargs)","rhs":"<unspecified:_create_series>","over":{"base":"Any"},"name":"_create_series_correct"},"guarantee":"extract the rendering_kw dictionary from the provided arguments and create an appropriate data series","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plot._create_series_correct","statement":"Path(_create_series(x), extract the rendering_kw dictionary from the provided arguments and create an appropriate data series)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43503d7adf5f849e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['series_type', 'plot_expr'], spec=['series_type', 'plot_expr', '**kwargs']"]}}
 def _create_series(series_type, plot_expr, **kwargs):
     """Extract the rendering_kw dictionary from the provided arguments and
     create an appropriate data series.
@@ -201,7 +219,10 @@ def _create_series(series_type, plot_expr, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_set_labels(ser), apply the `label` and `rendering_kw` keyword arguments to the series) over {Any | isinstance(labels, (list, tuple)) and isinstance(rendering_kw, dict)} ║
+# ║ Path(_set_labels(series, labels, rendering_kw), <unspecified:_set_labels>) over {Any | isinstance(labels, (list, tuple)) and isinstance(rendering_kw, dict)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _set_labels : {Any | isinstance(labels, (list, tuple)...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -214,9 +235,12 @@ def _create_series(series_type, plot_expr, **kwargs):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 4.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | d725dced...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.plot._set_labels","kind":"function","src_hash":"ca3c6dfe012b8469","in":{"base":"Any","pred":"isinstance(labels, (list, tuple)) and isinstance(rendering_kw, dict)"},"out":{"base":"Any"},"spec":{"lhs":"_set_labels(ser)","rhs":"apply the `label` and `rendering_kw` keyword arguments to the series","over":{"base":"Any","pred":"isinstance(labels, (list, tuple)) and isinstance(rendering_kw, dict)"},"name":"_set_labels_correct"},"guarantee":"apply the `label` and `rendering_kw` keyword arguments to the series","fibers":[{"name":"(list","pred":"isinstance(labels, (list, tuple))","path":{"lhs":"_set_labels(x)","rhs":"apply the `label` and `rendering_kw` keyword arguments to the series","over":{"base":"(list","pred":"isinstance(labels, (list, tuple))"},"name":"_set_labels_(list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plot._set_labels_(list_correct","statement":"_set_labels satisfies spec on (list inputs"},"trust":"LIBRARY"},{"name":"dict","pred":"isinstance(rendering_kw, dict)","path":{"lhs":"_set_labels(x)","rhs":"apply the `label` and `rendering_kw` keyword arguments to the series","over":{"base":"dict","pred":"isinstance(rendering_kw, dict)"},"name":"_set_labels_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plot._set_labels_dict_correct","statement":"_set_labels satisfies spec on dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d725dcedbede5636"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.plot._set_labels","kind":"function","src_hash":"ca3c6dfe012b8469","in":{"base":"Any","pred":"isinstance(labels, (list, tuple)) and isinstance(rendering_kw, dict)"},"out":{"base":"Any"},"spec":{"lhs":"_set_labels(series, labels, rendering_kw)","rhs":"<unspecified:_set_labels>","over":{"base":"Any","pred":"isinstance(labels, (list, tuple)) and isinstance(rendering_kw, dict)"},"name":"_set_labels_correct"},"guarantee":"apply the `label` and `rendering_kw` keyword arguments to the series","fibers":[{"name":"(list","pred":"isinstance(labels, (list, tuple))","path":{"lhs":"_set_labels(x)","rhs":"apply the `label` and `rendering_kw` keyword arguments to the series","over":{"base":"(list","pred":"isinstance(labels, (list, tuple))"},"name":"_set_labels_(list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plot._set_labels_(list_correct","statement":"_set_labels satisfies spec on (list inputs"},"trust":"LIBRARY"},{"name":"dict","pred":"isinstance(rendering_kw, dict)","path":{"lhs":"_set_labels(x)","rhs":"apply the `label` and `rendering_kw` keyword arguments to the series","over":{"base":"dict","pred":"isinstance(rendering_kw, dict)"},"name":"_set_labels_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plot._set_labels_dict_correct","statement":"_set_labels satisfies spec on dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d725dcedbede5636","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'len(series) != len(rendering_kw)', 'len(labels) > 0', 'len(rendering_kw) == 1', 'not isinstance(labels, (list, tuple))', 'len(labels) == 1 and len(series) > 1', 'len(series) != len(labels)', 'isinstance(rendering_kw, dict)'}, fibers={'dict', '(list'})"]}}
 def _set_labels(series, labels, rendering_kw):
     """Apply the `label` and `rendering_kw` keyword arguments to the series.
     """
@@ -250,9 +274,16 @@ def _set_labels(series, labels, rendering_kw):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(plot_factory(*ar), plot_factory produces the expected output) over {Any | isinstance(backend, str)} ║
+# ║ Path(plot_factory(*args, **kwargs), len(kwargs) == old_len_kwargs - 1) over {Any | isinstance(backend, str) and len(kwargs) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ plot_factory : {Any | isinstance(backend, str)} → Any      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(kwargs) > 0                                ║
+# ║   ensures:  len(kwargs) == old_len_kwargs - 1              ║
+# ║   fiber[str]: isinstance(backend, str) => plot_backen...   ║
+# ║   fiber[type]: type(backend) == type and issubclass(b...   ║
+# ║   fiber[str]: not (isinstance(backend, str)) and not ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ plot_factory : {Any | isinstance(backend, str) and le...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   str: {isinstance(backend, str)} → library_axiom          ║
@@ -262,9 +293,12 @@ def _set_labels(series, labels, rendering_kw):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | af47c368...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.plot.plot_factory","kind":"function","src_hash":"1053f684ebf5b689","in":{"base":"Any","pred":"isinstance(backend, str)"},"out":{"base":"Any"},"spec":{"lhs":"plot_factory(*ar)","rhs":"plot_factory produces the expected output","over":{"base":"Any","pred":"isinstance(backend, str)"},"name":"plot_factory_correct"},"guarantee":"plot_factory produces the expected output","fibers":[{"name":"str","pred":"isinstance(backend, str)","path":{"lhs":"plot_factory(x)","rhs":"plot_factory produces the expected output","over":{"base":"str","pred":"isinstance(backend, str)"},"name":"plot_factory_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plot.plot_factory_str_correct","statement":"plot_factory satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"af47c368ea704af7"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.plot.plot_factory","kind":"function","src_hash":"1053f684ebf5b689","in":{"base":"Any","pred":"isinstance(backend, str) and len(kwargs) > 0"},"out":{"base":"Any","pred":"result satisfies: len(kwargs) == old_len_kwargs - 1"},"spec":{"lhs":"plot_factory(*args, **kwargs)","rhs":"len(kwargs) == old_len_kwargs - 1","over":{"base":"Any","pred":"isinstance(backend, str) and len(kwargs) > 0"},"name":"plot_factory_correct"},"guarantee":"len(kwargs) == old_len_kwargs - 1; 3-fiber decomposition","fibers":[{"name":"str","pred":"isinstance(backend, str)","path":{"lhs":"plot_factory(x)","rhs":"len(kwargs) == old_len_kwargs - 1; 3-fiber decomposition","over":{"base":"str","pred":"isinstance(backend, str)"},"name":"plot_factory_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plot.plot_factory_str_correct","statement":"plot_factory satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"af47c368ea704af7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(kwargs) > 0"],"ensures":["len(kwargs) == old_len_kwargs - 1"],"fibers":[{"name":"str","guard":"isinstance(backend, str)","ensures":["result == plot_backends[backend](*args, **kwargs)"],"decidability":"structural","returns_expr":"plot_backends[backend](*args, **kwargs)"},{"name":"type","guard":"type(backend) == type and issubclass(backend, Plot)","ensures":["result == backend(*args, **kwargs)"],"decidability":"z3","returns_expr":"backend(*args, **kwargs)"},{"name":"str","guard":"not (isinstance(backend, str)) and not (type(backend) == type and issubclass(backend, Plot))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["kwargs.pop"],"raises":["TypeError"]},"state_contract":{"modifies":["kwargs.*"],"old_bindings":{"old_len_kwargs":"len(kwargs)"},"pre_requires":["len(kwargs) > 0"],"post_ensures":["len(kwargs) == old_len_kwargs - 1"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args', '**kwargs']","Poor branch-fiber coverage: 0% (branches={\"backend == 'default'\", 'isinstance(backend, str)', 'type(backend) == type and issubclass(backend, Plot)'}, fibers={'str'})"]}}
 def plot_factory(*args, **kwargs):
     backend = kwargs.pop("backend", "default")
     if isinstance(backend, str):
@@ -294,7 +328,10 @@ plot_backends = {
 # TODO: Adaptive sampling for 3D plots.
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(plot(*ar), plots a function of a single variable as a curve) over {Any | isinstance(p[1][0], str)} ║
+# ║ Path(plot(*args, show, **kwargs), <unspecified:plot>) over {Any | isinstance(p[1][0], str)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ plot : {Any | isinstance(p[1][0], str)} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -306,9 +343,12 @@ plot_backends = {
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 3736da47...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.plot.plot","kind":"function","src_hash":"41bf491a6d2715ec","in":{"base":"Any","pred":"isinstance(p[1][0], str)"},"out":{"base":"Any"},"spec":{"lhs":"plot(*ar)","rhs":"plots a function of a single variable as a curve","over":{"base":"Any","pred":"isinstance(p[1][0], str)"},"name":"plot_correct"},"guarantee":"plots a function of a single variable as a curve","fibers":[{"name":"str","pred":"isinstance(p[1][0], str)","path":{"lhs":"plot(x)","rhs":"plots a function of a single variable as a curve","over":{"base":"str","pred":"isinstance(p[1][0], str)"},"name":"plot_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plot.plot_str_correct","statement":"plot satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3736da479af0ea92"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.plot.plot","kind":"function","src_hash":"41bf491a6d2715ec","in":{"base":"Any","pred":"isinstance(p[1][0], str)"},"out":{"base":"Any"},"spec":{"lhs":"plot(*args, show, **kwargs)","rhs":"<unspecified:plot>","over":{"base":"Any","pred":"isinstance(p[1][0], str)"},"name":"plot_correct"},"guarantee":"plots a function of a single variable as a curve","fibers":[{"name":"str","pred":"isinstance(p[1][0], str)","path":{"lhs":"plot(x)","rhs":"plots a function of a single variable as a curve","over":{"base":"str","pred":"isinstance(p[1][0], str)"},"name":"plot_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plot.plot_str_correct","statement":"plot satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3736da479af0ea92","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args', 'show', '**kwargs']","Poor branch-fiber coverage: 0% (branches={'not isinstance(p[1][0], str)'}, fibers={'str'})"]}}
 def plot(*args, show=True, **kwargs):
     """Plots a function of a single variable as a curve.
 
@@ -525,16 +565,22 @@ def plot(*args, show=True, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(plot_parametric(*ar), plots a 2d parametric curve) over Any ║
+# ║ Path(plot_parametric(*args, show, **kwargs), <unspecified:plot_parametric>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ plot_parametric : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3764dd4fa9ed5699  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.plot.plot_parametric","kind":"function","src_hash":"b94c235f7db3d64f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_parametric(*ar)","rhs":"plots a 2d parametric curve","over":{"base":"Any"},"name":"plot_parametric_correct"},"guarantee":"plots a 2d parametric curve","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plot.plot_parametric_correct","statement":"Path(plot_parametric(x), plots a 2d parametric curve)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3764dd4fa9ed5699"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.plot.plot_parametric","kind":"function","src_hash":"b94c235f7db3d64f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_parametric(*args, show, **kwargs)","rhs":"<unspecified:plot_parametric>","over":{"base":"Any"},"name":"plot_parametric_correct"},"guarantee":"plots a 2d parametric curve","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plot.plot_parametric_correct","statement":"Path(plot_parametric(x), plots a 2d parametric curve)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3764dd4fa9ed5699","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args', 'show', '**kwargs']"]}}
 def plot_parametric(*args, show=True, **kwargs):
     """
     Plots a 2D parametric curve.
@@ -731,16 +777,22 @@ def plot_parametric(*args, show=True, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(plot3d_parametric_line(*ar), plots a 3d parametric line plot) over Any ║
+# ║ Path(plot3d_parametric_line(*args, show, **kwargs), <unspecified:plot3d_parametric_line>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ plot3d_parametric_line : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 994f42386471a31e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.plot.plot3d_parametric_line","kind":"function","src_hash":"32479951f0db0ee3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot3d_parametric_line(*ar)","rhs":"plots a 3d parametric line plot","over":{"base":"Any"},"name":"plot3d_parametric_line_correct"},"guarantee":"plots a 3d parametric line plot","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plot.plot3d_parametric_line_correct","statement":"Path(plot3d_parametric_line(x), plots a 3d parametric line plot)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"994f42386471a31e"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.plot.plot3d_parametric_line","kind":"function","src_hash":"32479951f0db0ee3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot3d_parametric_line(*args, show, **kwargs)","rhs":"<unspecified:plot3d_parametric_line>","over":{"base":"Any"},"name":"plot3d_parametric_line_correct"},"guarantee":"plots a 3d parametric line plot","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plot.plot3d_parametric_line_correct","statement":"Path(plot3d_parametric_line(x), plots a 3d parametric line plot)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"994f42386471a31e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args', 'show', '**kwargs']"]}}
 def plot3d_parametric_line(*args, show=True, **kwargs):
     """
     Plots a 3D parametric line plot.
@@ -873,7 +925,10 @@ def plot3d_parametric_line(*args, show=True, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_plot3d_plot_contour_helper(Ser), plot3d and plot_contour are structurally identical) over {Any | isinstance(p[1][0], _types)} ║
+# ║ Path(_plot3d_plot_contour_helper(Series, *args, **kwargs), <unspecified:_plot3d_plot_contour_helper>) over {Any | isinstance(p[1][0], _types)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _plot3d_plot_contour_helper : {Any | isinstance(p[1][...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -885,9 +940,12 @@ def plot3d_parametric_line(*args, show=True, **kwargs):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 78140f84...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.plot._plot3d_plot_contour_helper","kind":"function","src_hash":"de941e036242ab4e","in":{"base":"Any","pred":"isinstance(p[1][0], _types)"},"out":{"base":"Any"},"spec":{"lhs":"_plot3d_plot_contour_helper(Ser)","rhs":"plot3d and plot_contour are structurally identical","over":{"base":"Any","pred":"isinstance(p[1][0], _types)"},"name":"_plot3d_plot_contour_helper_correct"},"guarantee":"plot3d and plot_contour are structurally identical","fibers":[{"name":"_types","pred":"isinstance(p[1][0], _types)","path":{"lhs":"_plot3d_plot_contour_helper(x)","rhs":"plot3d and plot_contour are structurally identical","over":{"base":"_types","pred":"isinstance(p[1][0], _types)"},"name":"_plot3d_plot_contour_helper__types_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plot._plot3d_plot_contour_helper__types_correct","statement":"_plot3d_plot_contour_helper satisfies spec on _types inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"78140f84950fc6e7"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.plot._plot3d_plot_contour_helper","kind":"function","src_hash":"de941e036242ab4e","in":{"base":"Any","pred":"isinstance(p[1][0], _types)"},"out":{"base":"Any"},"spec":{"lhs":"_plot3d_plot_contour_helper(Series, *args, **kwargs)","rhs":"<unspecified:_plot3d_plot_contour_helper>","over":{"base":"Any","pred":"isinstance(p[1][0], _types)"},"name":"_plot3d_plot_contour_helper_correct"},"guarantee":"plot3d and plot_contour are structurally identical","fibers":[{"name":"_types","pred":"isinstance(p[1][0], _types)","path":{"lhs":"_plot3d_plot_contour_helper(x)","rhs":"plot3d and plot_contour are structurally identical","over":{"base":"_types","pred":"isinstance(p[1][0], _types)"},"name":"_plot3d_plot_contour_helper__types_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plot._plot3d_plot_contour_helper__types_correct","statement":"_plot3d_plot_contour_helper satisfies spec on _types inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"78140f84950fc6e7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['Series'], spec=['Series', '*args', '**kwargs']"]}}
 def _plot3d_plot_contour_helper(Series, *args, **kwargs):
     """plot3d and plot_contour are structurally identical. Let's reduce
     code repetition.
@@ -930,16 +988,22 @@ def _plot3d_plot_contour_helper(Series, *args, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(plot3d(*ar), plots a 3d surface plot) over Any        ║
+# ║ Path(plot3d(*args, show, **kwargs), _plot3d_plot_contour_helper(SurfaceOver2DRangeSeries, *args, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _plot3d_plot_contour_helper(SurfaceOver2D...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ plot3d : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d6f40fb39377da8d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 923bb2b4bff83d78  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.plot.plot3d","kind":"function","src_hash":"1293aaadbe8ae2b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot3d(*ar)","rhs":"plots a 3d surface plot","over":{"base":"Any"},"name":"plot3d_correct"},"guarantee":"plots a 3d surface plot","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plot.plot3d_correct","statement":"Path(plot3d(x), plots a 3d surface plot)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6f40fb39377da8d"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.plot.plot3d","kind":"function","src_hash":"1293aaadbe8ae2b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot3d(*args, show, **kwargs)","rhs":"_plot3d_plot_contour_helper(SurfaceOver2DRangeSeries, *args, **kwargs)","over":{"base":"Any"},"name":"plot3d_correct"},"guarantee":"returns _plot3d_plot_contour_helper(SurfaceOver2DRangeSeries, *args, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plot.plot3d_correct","statement":"Path(plot3d(x), returns _plot3d_plot_contour_helper(SurfaceOver2DRangeSeries, *args, **kwargs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"923bb2b4bff83d78","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_plot3d_plot_contour_helper(SurfaceOver2DRangeSeries, *args, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args', 'show', '**kwargs']"]}}
 def plot3d(*args, show=True, **kwargs):
     """
     Plots a 3D surface plot.
@@ -1077,16 +1141,22 @@ def plot3d(*args, show=True, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(plot3d_parametric_surface(*ar), plots a 3d parametric surface plot) over Any ║
+# ║ Path(plot3d_parametric_surface(*args, show, **kwargs), <unspecified:plot3d_parametric_surface>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ plot3d_parametric_surface : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed6d071995215b8e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.plot.plot3d_parametric_surface","kind":"function","src_hash":"45f788a791ee8c4f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot3d_parametric_surface(*ar)","rhs":"plots a 3d parametric surface plot","over":{"base":"Any"},"name":"plot3d_parametric_surface_correct"},"guarantee":"plots a 3d parametric surface plot","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plot.plot3d_parametric_surface_correct","statement":"Path(plot3d_parametric_surface(x), plots a 3d parametric surface plot)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed6d071995215b8e"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.plot.plot3d_parametric_surface","kind":"function","src_hash":"45f788a791ee8c4f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot3d_parametric_surface(*args, show, **kwargs)","rhs":"<unspecified:plot3d_parametric_surface>","over":{"base":"Any"},"name":"plot3d_parametric_surface_correct"},"guarantee":"plots a 3d parametric surface plot","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plot.plot3d_parametric_surface_correct","statement":"Path(plot3d_parametric_surface(x), plots a 3d parametric surface plot)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed6d071995215b8e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args', 'show', '**kwargs']"]}}
 def plot3d_parametric_surface(*args, show=True, **kwargs):
     """
     Plots a 3D parametric surface plot.
@@ -1209,16 +1279,22 @@ def plot3d_parametric_surface(*args, show=True, **kwargs):
     return plots
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(plot_contour(*ar), draws contour plot of a function) over Any ║
+# ║ Path(plot_contour(*args, show, **kwargs), _plot3d_plot_contour_helper(ContourSeries, *args, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _plot3d_plot_contour_helper(ContourSeries...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ plot_contour : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dcd27c8d3fba3732  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae71cc8e8e2eb845  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.plot.plot_contour","kind":"function","src_hash":"ec8925e689e06eef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_contour(*ar)","rhs":"draws contour plot of a function","over":{"base":"Any"},"name":"plot_contour_correct"},"guarantee":"draws contour plot of a function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plot.plot_contour_correct","statement":"Path(plot_contour(x), draws contour plot of a function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dcd27c8d3fba3732"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.plot.plot_contour","kind":"function","src_hash":"ec8925e689e06eef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot_contour(*args, show, **kwargs)","rhs":"_plot3d_plot_contour_helper(ContourSeries, *args, **kwargs)","over":{"base":"Any"},"name":"plot_contour_correct"},"guarantee":"returns _plot3d_plot_contour_helper(ContourSeries, *args, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plot.plot_contour_correct","statement":"Path(plot_contour(x), returns _plot3d_plot_contour_helper(ContourSeries, *args, **kwargs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae71cc8e8e2eb845","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_plot3d_plot_contour_helper(ContourSeries, *args, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args', 'show', '**kwargs']"]}}
 def plot_contour(*args, show=True, **kwargs):
     """
     Draws contour plot of a function
@@ -1304,7 +1380,10 @@ def plot_contour(*args, show=True, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check_arguments(arg), checks the arguments and converts into tuples of the form (exprs, ranges)) over {Any | isinstance(args[0], Expr) and isinstance(args[i], Tuple)} ║
+# ║ Path(check_arguments(args, expr_len, nb_of_free_symbols), len(ranges) == old_len_ranges + 1) over {Any | isinstance(args[0], Expr) and isinstance(args[i], Tuple)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(ranges) == old_len_ranges + 1              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ check_arguments : {Any | isinstance(args[0], Expr) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1317,9 +1396,12 @@ def plot_contour(*args, show=True, **kwargs):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 1.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 75f49cc1...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.plot.check_arguments","kind":"function","src_hash":"6659d7ae6d2b3987","in":{"base":"Any","pred":"isinstance(args[0], Expr) and isinstance(args[i], Tuple)"},"out":{"base":"Any","pred":"all((isinstance(e, Expr) for expr in exprs for e in expr))"},"spec":{"lhs":"check_arguments(arg)","rhs":"checks the arguments and converts into tuples of the form (exprs, ranges)","over":{"base":"Any","pred":"isinstance(args[0], Expr) and isinstance(args[i], Tuple)"},"name":"check_arguments_correct"},"guarantee":"checks the arguments and converts into tuples of the form (exprs, ranges)","fibers":[{"name":"Expr","pred":"isinstance(args[0], Expr)","path":{"lhs":"check_arguments(x)","rhs":"checks the arguments and converts into tuples of the form (exprs, ranges)","over":{"base":"Expr","pred":"isinstance(args[0], Expr)"},"name":"check_arguments_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plot.check_arguments_Expr_correct","statement":"check_arguments satisfies spec on Expr inputs"},"trust":"LIBRARY"},{"name":"Tuple","pred":"isinstance(args[i], Tuple)","path":{"lhs":"check_arguments(x)","rhs":"checks the arguments and converts into tuples of the form (exprs, ranges)","over":{"base":"Tuple","pred":"isinstance(args[i], Tuple)"},"name":"check_arguments_Tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plot.check_arguments_Tuple_correct","statement":"check_arguments satisfies spec on Tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"75f49cc108502acc"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.plot.check_arguments","kind":"function","src_hash":"6659d7ae6d2b3987","in":{"base":"Any","pred":"isinstance(args[0], Expr) and isinstance(args[i], Tuple)"},"out":{"base":"Any","pred":"result satisfies: len(ranges) == old_len_ranges + 1"},"spec":{"lhs":"check_arguments(args, expr_len, nb_of_free_symbols)","rhs":"len(ranges) == old_len_ranges + 1","over":{"base":"Any","pred":"isinstance(args[0], Expr) and isinstance(args[i], Tuple)"},"name":"check_arguments_correct"},"guarantee":"len(ranges) == old_len_ranges + 1","fibers":[{"name":"Expr","pred":"isinstance(args[0], Expr)","path":{"lhs":"check_arguments(x)","rhs":"len(ranges) == old_len_ranges + 1","over":{"base":"Expr","pred":"isinstance(args[0], Expr)"},"name":"check_arguments_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plot.check_arguments_Expr_correct","statement":"check_arguments satisfies spec on Expr inputs"},"trust":"LIBRARY"},{"name":"Tuple","pred":"isinstance(args[i], Tuple)","path":{"lhs":"check_arguments(x)","rhs":"len(ranges) == old_len_ranges + 1","over":{"base":"Tuple","pred":"isinstance(args[i], Tuple)"},"name":"check_arguments_Tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plot.check_arguments_Tuple_correct","statement":"check_arguments satisfies spec on Tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"75f49cc108502acc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(ranges) == old_len_ranges + 1"],"pure":false,"effects":{"effect_type":"mutates_args","writes":["args[*]"],"calls_mutating":["ranges.append"],"raises":["ValueError"]},"state_contract":{"modifies":["args[*]","ranges.*"],"old_bindings":{"old_args_star":"args[*]","old_len_ranges":"len(ranges)"},"post_ensures":["len(ranges) == old_len_ranges + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(args[i], Tuple)', 'len(args) == expr_len + nb_of_free_symbols', 'isinstance(args[0], Tuple) and len(args[0]) == expr_len + nb_of_free_symbols', 'not isinstance(arg[i], Expr)', 'not isinstance(args[i], Tuple)', 'len(free_symbols) > nb_of_free_symbols', 'not len(arg[i + expr_len]) == 3', 'len(args) == i + nb_of_free_symbols and isinstance(args[i], Tuple)', 'len(args) < expr_len', 'isinstance(args[i], Tuple) and len(args[i]) != expr_len', 'isinstance(args[0], Expr) or (isinstance(args[0], Tuple) and len(args[0]) == expr_len and (expr_len != 3))', 'expr_len > 1 and isinstance(args[0], Expr)'}, fibers={'Tuple', 'Expr'})"]}}
 def check_arguments(args, expr_len, nb_of_free_symbols):
     """
     Checks the arguments and converts into tuples of the

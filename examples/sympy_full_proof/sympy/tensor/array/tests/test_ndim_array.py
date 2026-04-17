@@ -41,16 +41,22 @@ array_types = [
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_array_negative_indices(), test_array_negative_indices produces the expected output) over Any ║
+# ║ Path(test_array_negative_indices(), <unspecified:test_array_negative_indices>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_array_negative_indices : Any → {Any | test_array...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 36ee59e60f65de16  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_ndim_array.test_array_negative_indices","kind":"function","src_hash":"6846599f083866f9","in":{"base":"Any"},"out":{"base":"Any","pred":"test_array[:, -1] == Array([5, 10]) and test_array[:, -2] == Array([4, 9]) and test_array[:, -3] == Array([3, 8]) and test_array[:, -4] == Array([2, 7]) and test_array[:, -5] == Array([1, 6]) and test_array[:, 0] == Array([1, 6]) and test_array[:, 1] == Array([2, 7]) and test_array[:, 2] == Array([3, 8]) and test_array[:, 3] == Array([4, 9]) and test_array[:, 4] == Array([5, 10]) and test_array[-1, -1] == 10"},"spec":{"lhs":"test_array_negative_indices()","rhs":"test_array_negative_indices produces the expected output","over":{"base":"Any"},"name":"test_array_negative_indices_correct"},"guarantee":"test_array_negative_indices produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_ndim_array.test_array_negative_indices_correct","statement":"Path(test_array_negative_indices(x), test_array_negative_indices produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36ee59e60f65de16"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_ndim_array.test_array_negative_indices","kind":"function","src_hash":"6846599f083866f9","in":{"base":"Any"},"out":{"base":"Any","pred":"test_array[:, -1] == Array([5, 10]) and test_array[:, -2] == Array([4, 9]) and test_array[:, -3] == Array([3, 8]) and test_array[:, -4] == Array([2, 7]) and test_array[:, -5] == Array([1, 6]) and test_array[:, 0] == Array([1, 6]) and test_array[:, 1] == Array([2, 7]) and test_array[:, 2] == Array([3, 8]) and test_array[:, 3] == Array([4, 9]) and test_array[:, 4] == Array([5, 10]) and test_array[-1, -1] == 10"},"spec":{"lhs":"test_array_negative_indices()","rhs":"<unspecified:test_array_negative_indices>","over":{"base":"Any"},"name":"test_array_negative_indices_correct"},"guarantee":"test_array_negative_indices produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_ndim_array.test_array_negative_indices_correct","statement":"Path(test_array_negative_indices(x), test_array_negative_indices produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36ee59e60f65de16","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_array_negative_indices():
     for ArrayType in array_types:
         test_array = ArrayType([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])
@@ -72,16 +78,24 @@ def test_array_negative_indices():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_18361(), test_issue_18361 produces the expected output) over Any ║
+# ║ Path(test_issue_18361(), simplify(A) == Array([0]) and simplify(B) == Array([1, 0]) and simplify(C) == Array([x + 1, sin(2 * x)])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_18361 : Any → {Any | simplify(A) == Array(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(A) == Array([0])                      ║
+# ║   ensures:  simplify(B) == Array([1, 0])                   ║
+# ║   ensures:  simplify(C) == Array([x + 1, sin(2 * x)])      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_18361 : Any → {Any | result satisfies: sim...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5125049eb8ae35ad  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3200eeac3a93b1f2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_ndim_array.test_issue_18361","kind":"function","src_hash":"4197612fc93e576c","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(A) == Array([0]) and simplify(B) == Array([1, 0]) and simplify(C) == Array([x + 1, sin(2 * x)])"},"spec":{"lhs":"test_issue_18361()","rhs":"test_issue_18361 produces the expected output","over":{"base":"Any"},"name":"test_issue_18361_correct"},"guarantee":"test_issue_18361 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_ndim_array.test_issue_18361_correct","statement":"Path(test_issue_18361(x), test_issue_18361 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5125049eb8ae35ad"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_ndim_array.test_issue_18361","kind":"function","src_hash":"4197612fc93e576c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(A) == Array([0]) and simplify(B) == Array([1, 0]) and simplify(C) == Array([x + 1, sin(2 * x)])"},"spec":{"lhs":"test_issue_18361()","rhs":"simplify(A) == Array([0]) and simplify(B) == Array([1, 0]) and simplify(C) == Array([x + 1, sin(2 * x)])","over":{"base":"Any"},"name":"test_issue_18361_correct"},"guarantee":"simplify(A) == Array([0]); simplify(B) == Array([1, 0]); simplify(C) == Array([x + 1, sin(2 * x)])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_ndim_array.test_issue_18361_correct","statement":"Path(test_issue_18361(x), simplify(A) == Array([0]); simplify(B) == Array([1, 0]); simplify(C) == Array([x + 1, sin(2 * x)]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3200eeac3a93b1f2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(A) == Array([0])","simplify(B) == Array([1, 0])","simplify(C) == Array([x + 1, sin(2 * x)])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_18361():
     A = Array([sin(2 * x) - 2 * sin(x) * cos(x)])
     B = Array([sin(x)**2 + cos(x)**2, 0])
@@ -92,16 +106,22 @@ def test_issue_18361():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_20222(), test_issue_20222 produces the expected output) over Any ║
+# ║ Path(test_issue_20222(), <unspecified:test_issue_20222>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_20222 : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 735eb0a185386d8b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_ndim_array.test_issue_20222","kind":"function","src_hash":"8de800cb100a26d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_20222()","rhs":"test_issue_20222 produces the expected output","over":{"base":"Any"},"name":"test_issue_20222_correct"},"guarantee":"test_issue_20222 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_ndim_array.test_issue_20222_correct","statement":"Path(test_issue_20222(x), test_issue_20222 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"735eb0a185386d8b"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_ndim_array.test_issue_20222","kind":"function","src_hash":"8de800cb100a26d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_20222()","rhs":"<unspecified:test_issue_20222>","over":{"base":"Any"},"name":"test_issue_20222_correct"},"guarantee":"test_issue_20222 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_ndim_array.test_issue_20222_correct","statement":"Path(test_issue_20222(x), test_issue_20222 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"735eb0a185386d8b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_20222():
     A = Array([[1, 2], [3, 4]])
     B = Matrix([[1,2],[3,4]])
@@ -109,7 +129,10 @@ def test_issue_20222():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_17851(), test_issue_17851 produces the expected output) over {Any | isinstance(A, array_type)} ║
+# ║ Path(test_issue_17851(), <unspecified:test_issue_17851>) over {Any | isinstance(A, array_type)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_17851 : {Any | isinstance(A, array_type)} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -121,9 +144,12 @@ def test_issue_20222():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 6bb97150...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_ndim_array.test_issue_17851","kind":"function","src_hash":"864b9a5656cc3c62","in":{"base":"Any","pred":"isinstance(A, array_type)"},"out":{"base":"Any","pred":"isinstance(A, array_type) and A.shape == (0,) and list(A) == []"},"spec":{"lhs":"test_issue_17851()","rhs":"test_issue_17851 produces the expected output","over":{"base":"Any","pred":"isinstance(A, array_type)"},"name":"test_issue_17851_correct"},"guarantee":"test_issue_17851 produces the expected output","fibers":[{"name":"array_type","pred":"isinstance(A, array_type)","path":{"lhs":"test_issue_17851(x)","rhs":"test_issue_17851 produces the expected output","over":{"base":"array_type","pred":"isinstance(A, array_type)"},"name":"test_issue_17851_array_type_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_ndim_array.test_issue_17851_array_type_correct","statement":"test_issue_17851 satisfies spec on array_type inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6bb9715090a957ff"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_ndim_array.test_issue_17851","kind":"function","src_hash":"864b9a5656cc3c62","in":{"base":"Any","pred":"isinstance(A, array_type)"},"out":{"base":"Any","pred":"isinstance(A, array_type) and A.shape == (0,) and list(A) == []"},"spec":{"lhs":"test_issue_17851()","rhs":"<unspecified:test_issue_17851>","over":{"base":"Any","pred":"isinstance(A, array_type)"},"name":"test_issue_17851_correct"},"guarantee":"test_issue_17851 produces the expected output","fibers":[{"name":"array_type","pred":"isinstance(A, array_type)","path":{"lhs":"test_issue_17851(x)","rhs":"test_issue_17851 produces the expected output","over":{"base":"array_type","pred":"isinstance(A, array_type)"},"name":"test_issue_17851_array_type_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_ndim_array.test_issue_17851_array_type_correct","statement":"test_issue_17851 satisfies spec on array_type inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6bb9715090a957ff","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":true}}
 def test_issue_17851():
     for array_type in array_types:
         A = array_type([])
@@ -133,16 +159,22 @@ def test_issue_17851():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_and_18715(), test_issue_and_18715 produces the expected output) over Any ║
+# ║ Path(test_issue_and_18715(), <unspecified:test_issue_and_18715>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_and_18715 : Any → {Any | A[0] == 5}             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a9df63e4b1ad1c7c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_ndim_array.test_issue_and_18715","kind":"function","src_hash":"45cb4c3c47bc3b91","in":{"base":"Any"},"out":{"base":"Any","pred":"A[0] == 5"},"spec":{"lhs":"test_issue_and_18715()","rhs":"test_issue_and_18715 produces the expected output","over":{"base":"Any"},"name":"test_issue_and_18715_correct"},"guarantee":"test_issue_and_18715 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_ndim_array.test_issue_and_18715_correct","statement":"Path(test_issue_and_18715(x), test_issue_and_18715 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9df63e4b1ad1c7c"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_ndim_array.test_issue_and_18715","kind":"function","src_hash":"45cb4c3c47bc3b91","in":{"base":"Any"},"out":{"base":"Any","pred":"A[0] == 5"},"spec":{"lhs":"test_issue_and_18715()","rhs":"<unspecified:test_issue_and_18715>","over":{"base":"Any"},"name":"test_issue_and_18715_correct"},"guarantee":"test_issue_and_18715 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_ndim_array.test_issue_and_18715_correct","statement":"Path(test_issue_and_18715(x), test_issue_and_18715 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9df63e4b1ad1c7c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_and_18715():
     for array_type in mutable_array_types:
         A = array_type([0, 1, 2])

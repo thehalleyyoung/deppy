@@ -20,16 +20,22 @@ from sympy.multipledispatch import Dispatcher
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(NegativePredicate(), correctly constructs a NegativePredicate instance) over Any ║
+# ║ Path(NegativePredicate(), isinstance(self, Predicate)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ NegativePredicate : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Predicate)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ NegativePredicate : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 553ec6f1f6eac132           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.order.NegativePredicate","kind":"class","src_hash":"de47ab68af9fc2c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"NegativePredicate()","rhs":"correctly constructs a NegativePredicate instance","over":{"base":"Any"},"name":"NegativePredicate_correct"},"guarantee":"correctly constructs a NegativePredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"553ec6f1f6eac132"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.order.NegativePredicate","kind":"class","src_hash":"de47ab68af9fc2c6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Predicate)"},"spec":{"lhs":"NegativePredicate()","rhs":"isinstance(self, Predicate)","over":{"base":"Any"},"name":"NegativePredicate_correct"},"guarantee":"isinstance(self, Predicate)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"553ec6f1f6eac132","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Predicate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function NegativePredicate not found in source"]}}
 class NegativePredicate(Predicate):
     r"""
     Negative number predicate.
@@ -77,16 +83,22 @@ class NegativePredicate(Predicate):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(NonNegativePredicate(), correctly constructs a NonNegativePredicate instance) over Any ║
+# ║ Path(NonNegativePredicate(), isinstance(self, Predicate)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ NonNegativePredicate : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Predicate)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ NonNegativePredicate : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 069651b28f6975b7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.order.NonNegativePredicate","kind":"class","src_hash":"f90f5831b719ee42","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"NonNegativePredicate()","rhs":"correctly constructs a NonNegativePredicate instance","over":{"base":"Any"},"name":"NonNegativePredicate_correct"},"guarantee":"correctly constructs a NonNegativePredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"069651b28f6975b7"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.order.NonNegativePredicate","kind":"class","src_hash":"f90f5831b719ee42","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Predicate)"},"spec":{"lhs":"NonNegativePredicate()","rhs":"isinstance(self, Predicate)","over":{"base":"Any"},"name":"NonNegativePredicate_correct"},"guarantee":"isinstance(self, Predicate)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"069651b28f6975b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Predicate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function NonNegativePredicate not found in source"]}}
 class NonNegativePredicate(Predicate):
     """
     Nonnegative real number predicate.
@@ -128,16 +140,22 @@ class NonNegativePredicate(Predicate):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(NonZeroPredicate(), correctly constructs a NonZeroPredicate instance) over Any ║
+# ║ Path(NonZeroPredicate(), isinstance(self, Predicate)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ NonZeroPredicate : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Predicate)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ NonZeroPredicate : Any → {Any | result satisfies: isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4f8c5eefcaefcd40           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.order.NonZeroPredicate","kind":"class","src_hash":"135f787bca338bf7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"NonZeroPredicate()","rhs":"correctly constructs a NonZeroPredicate instance","over":{"base":"Any"},"name":"NonZeroPredicate_correct"},"guarantee":"correctly constructs a NonZeroPredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4f8c5eefcaefcd40"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.order.NonZeroPredicate","kind":"class","src_hash":"135f787bca338bf7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Predicate)"},"spec":{"lhs":"NonZeroPredicate()","rhs":"isinstance(self, Predicate)","over":{"base":"Any"},"name":"NonZeroPredicate_correct"},"guarantee":"isinstance(self, Predicate)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4f8c5eefcaefcd40","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Predicate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function NonZeroPredicate not found in source"]}}
 class NonZeroPredicate(Predicate):
     """
     Nonzero real number predicate.
@@ -187,16 +205,22 @@ class NonZeroPredicate(Predicate):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ZeroPredicate(), correctly constructs a ZeroPredicate instance) over Any ║
+# ║ Path(ZeroPredicate(), isinstance(self, Predicate)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ZeroPredicate : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Predicate)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ZeroPredicate : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 429d45ea90de6d44           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.order.ZeroPredicate","kind":"class","src_hash":"6185af6075d465ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ZeroPredicate()","rhs":"correctly constructs a ZeroPredicate instance","over":{"base":"Any"},"name":"ZeroPredicate_correct"},"guarantee":"correctly constructs a ZeroPredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"429d45ea90de6d44"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.order.ZeroPredicate","kind":"class","src_hash":"6185af6075d465ad","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Predicate)"},"spec":{"lhs":"ZeroPredicate()","rhs":"isinstance(self, Predicate)","over":{"base":"Any"},"name":"ZeroPredicate_correct"},"guarantee":"isinstance(self, Predicate)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"429d45ea90de6d44","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Predicate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function ZeroPredicate not found in source"]}}
 class ZeroPredicate(Predicate):
     """
     Zero number predicate.
@@ -231,16 +255,22 @@ class ZeroPredicate(Predicate):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(NonPositivePredicate(), correctly constructs a NonPositivePredicate instance) over Any ║
+# ║ Path(NonPositivePredicate(), isinstance(self, Predicate)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ NonPositivePredicate : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Predicate)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ NonPositivePredicate : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 482fb31a38714f44           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.order.NonPositivePredicate","kind":"class","src_hash":"bcf67d650d06ae85","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"NonPositivePredicate()","rhs":"correctly constructs a NonPositivePredicate instance","over":{"base":"Any"},"name":"NonPositivePredicate_correct"},"guarantee":"correctly constructs a NonPositivePredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"482fb31a38714f44"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.order.NonPositivePredicate","kind":"class","src_hash":"bcf67d650d06ae85","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Predicate)"},"spec":{"lhs":"NonPositivePredicate()","rhs":"isinstance(self, Predicate)","over":{"base":"Any"},"name":"NonPositivePredicate_correct"},"guarantee":"isinstance(self, Predicate)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"482fb31a38714f44","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Predicate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function NonPositivePredicate not found in source"]}}
 class NonPositivePredicate(Predicate):
     """
     Nonpositive real number predicate.
@@ -283,16 +313,22 @@ class NonPositivePredicate(Predicate):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(PositivePredicate(), correctly constructs a PositivePredicate instance) over Any ║
+# ║ Path(PositivePredicate(), isinstance(self, Predicate)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ PositivePredicate : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Predicate)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ PositivePredicate : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4459353db19fb701           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.order.PositivePredicate","kind":"class","src_hash":"c15954c3e5d6701f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PositivePredicate()","rhs":"correctly constructs a PositivePredicate instance","over":{"base":"Any"},"name":"PositivePredicate_correct"},"guarantee":"correctly constructs a PositivePredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4459353db19fb701"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.order.PositivePredicate","kind":"class","src_hash":"c15954c3e5d6701f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Predicate)"},"spec":{"lhs":"PositivePredicate()","rhs":"isinstance(self, Predicate)","over":{"base":"Any"},"name":"PositivePredicate_correct"},"guarantee":"isinstance(self, Predicate)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4459353db19fb701","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Predicate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function PositivePredicate not found in source"]}}
 class PositivePredicate(Predicate):
     r"""
     Positive real number predicate.
@@ -340,16 +376,22 @@ class PositivePredicate(Predicate):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ExtendedPositivePredicate(), correctly constructs a ExtendedPositivePredicate instance) over Any ║
+# ║ Path(ExtendedPositivePredicate(), isinstance(self, Predicate)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ExtendedPositivePredicate : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Predicate)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ExtendedPositivePredicate : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bf7eba42d47bd14c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.order.ExtendedPositivePredicate","kind":"class","src_hash":"553fda00464a9929","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ExtendedPositivePredicate()","rhs":"correctly constructs a ExtendedPositivePredicate instance","over":{"base":"Any"},"name":"ExtendedPositivePredicate_correct"},"guarantee":"correctly constructs a ExtendedPositivePredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bf7eba42d47bd14c"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.order.ExtendedPositivePredicate","kind":"class","src_hash":"553fda00464a9929","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Predicate)"},"spec":{"lhs":"ExtendedPositivePredicate()","rhs":"isinstance(self, Predicate)","over":{"base":"Any"},"name":"ExtendedPositivePredicate_correct"},"guarantee":"isinstance(self, Predicate)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bf7eba42d47bd14c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Predicate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function ExtendedPositivePredicate not found in source"]}}
 class ExtendedPositivePredicate(Predicate):
     r"""
     Positive extended real number predicate.
@@ -377,16 +419,22 @@ class ExtendedPositivePredicate(Predicate):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ExtendedNegativePredicate(), correctly constructs a ExtendedNegativePredicate instance) over Any ║
+# ║ Path(ExtendedNegativePredicate(), isinstance(self, Predicate)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ExtendedNegativePredicate : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Predicate)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ExtendedNegativePredicate : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 043c5610f2afe806           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.order.ExtendedNegativePredicate","kind":"class","src_hash":"403b747582fb9c31","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ExtendedNegativePredicate()","rhs":"correctly constructs a ExtendedNegativePredicate instance","over":{"base":"Any"},"name":"ExtendedNegativePredicate_correct"},"guarantee":"correctly constructs a ExtendedNegativePredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"043c5610f2afe806"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.order.ExtendedNegativePredicate","kind":"class","src_hash":"403b747582fb9c31","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Predicate)"},"spec":{"lhs":"ExtendedNegativePredicate()","rhs":"isinstance(self, Predicate)","over":{"base":"Any"},"name":"ExtendedNegativePredicate_correct"},"guarantee":"isinstance(self, Predicate)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"043c5610f2afe806","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Predicate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function ExtendedNegativePredicate not found in source"]}}
 class ExtendedNegativePredicate(Predicate):
     r"""
     Negative extended real number predicate.
@@ -414,16 +462,22 @@ class ExtendedNegativePredicate(Predicate):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ExtendedNonZeroPredicate(), correctly constructs a ExtendedNonZeroPredicate instance) over Any ║
+# ║ Path(ExtendedNonZeroPredicate(), isinstance(self, Predicate)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ExtendedNonZeroPredicate : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Predicate)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ExtendedNonZeroPredicate : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4219042fadfa91e3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.order.ExtendedNonZeroPredicate","kind":"class","src_hash":"1c070d02ef02d82c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ExtendedNonZeroPredicate()","rhs":"correctly constructs a ExtendedNonZeroPredicate instance","over":{"base":"Any"},"name":"ExtendedNonZeroPredicate_correct"},"guarantee":"correctly constructs a ExtendedNonZeroPredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4219042fadfa91e3"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.order.ExtendedNonZeroPredicate","kind":"class","src_hash":"1c070d02ef02d82c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Predicate)"},"spec":{"lhs":"ExtendedNonZeroPredicate()","rhs":"isinstance(self, Predicate)","over":{"base":"Any"},"name":"ExtendedNonZeroPredicate_correct"},"guarantee":"isinstance(self, Predicate)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4219042fadfa91e3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Predicate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function ExtendedNonZeroPredicate not found in source"]}}
 class ExtendedNonZeroPredicate(Predicate):
     """
     Nonzero extended real number predicate.
@@ -451,16 +505,22 @@ class ExtendedNonZeroPredicate(Predicate):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ExtendedNonPositivePredicate(), correctly constructs a ExtendedNonPositivePredicate instance) over Any ║
+# ║ Path(ExtendedNonPositivePredicate(), isinstance(self, Predicate)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ExtendedNonPositivePredicate : Any → Any                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Predicate)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ExtendedNonPositivePredicate : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 93791a5ea2d983da           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.order.ExtendedNonPositivePredicate","kind":"class","src_hash":"dee90f6c114d10a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ExtendedNonPositivePredicate()","rhs":"correctly constructs a ExtendedNonPositivePredicate instance","over":{"base":"Any"},"name":"ExtendedNonPositivePredicate_correct"},"guarantee":"correctly constructs a ExtendedNonPositivePredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"93791a5ea2d983da"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.order.ExtendedNonPositivePredicate","kind":"class","src_hash":"dee90f6c114d10a1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Predicate)"},"spec":{"lhs":"ExtendedNonPositivePredicate()","rhs":"isinstance(self, Predicate)","over":{"base":"Any"},"name":"ExtendedNonPositivePredicate_correct"},"guarantee":"isinstance(self, Predicate)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"93791a5ea2d983da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Predicate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function ExtendedNonPositivePredicate not found in source"]}}
 class ExtendedNonPositivePredicate(Predicate):
     """
     Nonpositive extended real number predicate.
@@ -490,16 +550,22 @@ class ExtendedNonPositivePredicate(Predicate):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ExtendedNonNegativePredicate(), correctly constructs a ExtendedNonNegativePredicate instance) over Any ║
+# ║ Path(ExtendedNonNegativePredicate(), isinstance(self, Predicate)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ExtendedNonNegativePredicate : Any → Any                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Predicate)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ExtendedNonNegativePredicate : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4848633a5bdd482e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.order.ExtendedNonNegativePredicate","kind":"class","src_hash":"87e6f33e7a2a029a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ExtendedNonNegativePredicate()","rhs":"correctly constructs a ExtendedNonNegativePredicate instance","over":{"base":"Any"},"name":"ExtendedNonNegativePredicate_correct"},"guarantee":"correctly constructs a ExtendedNonNegativePredicate instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4848633a5bdd482e"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.predicates.order.ExtendedNonNegativePredicate","kind":"class","src_hash":"87e6f33e7a2a029a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Predicate)"},"spec":{"lhs":"ExtendedNonNegativePredicate()","rhs":"isinstance(self, Predicate)","over":{"base":"Any"},"name":"ExtendedNonNegativePredicate_correct"},"guarantee":"isinstance(self, Predicate)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4848633a5bdd482e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Predicate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function ExtendedNonNegativePredicate not found in source"]}}
 class ExtendedNonNegativePredicate(Predicate):
     """
     Nonnegative extended real number predicate.

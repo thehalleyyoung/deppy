@@ -31,16 +31,22 @@ from mpmath import mp
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_rat(c), test whether an argument is of an acceptable type to be used as a rational number) over {Any | isinstance(c, int)} ║
+# ║ Path(is_rat(c), isinstance(c, int) or ZZ.of_type(c) or QQ.of_type(c)) over {Any | isinstance(c, int)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  isinstance(c, int) or ZZ.of_type(c) or QQ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_rat : {Any | isinstance(c, int)} → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 82f72b757be638e5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.utilities.is_rat","kind":"function","src_hash":"e907a5f026086bd8","in":{"base":"Any","pred":"isinstance(c, int)"},"out":{"base":"Any","pred":"result satisfies: ref:`zz`, or :ref:`qq`."},"spec":{"lhs":"is_rat(c)","rhs":"test whether an argument is of an acceptable type to be used as a rational number","over":{"base":"Any","pred":"isinstance(c, int)"},"name":"is_rat_correct"},"guarantee":"test whether an argument is of an acceptable type to be used as a rational number","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"82f72b757be638e5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.utilities.is_rat","kind":"function","src_hash":"e907a5f026086bd8","in":{"base":"Any","pred":"isinstance(c, int)"},"out":{"base":"Any","pred":"result satisfies: ref:`zz`, or :ref:`qq`."},"spec":{"lhs":"is_rat(c)","rhs":"isinstance(c, int) or ZZ.of_type(c) or QQ.of_type(c)","over":{"base":"Any","pred":"isinstance(c, int)"},"name":"is_rat_correct"},"guarantee":"returns isinstance(c, int) or ZZ.of_type(c) or QQ.of_type(c)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"82f72b757be638e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"isinstance(c, int) or ZZ.of_type(c) or QQ.of_type(c)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def is_rat(c):
     r"""
     Test whether an argument is of an acceptable type to be used as a rational
@@ -67,16 +73,22 @@ def is_rat(c):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_int(c), test whether an argument is of an acceptable type to be used as an integer) over {Any | isinstance(c, int)} ║
+# ║ Path(is_int(c), isinstance(c, int) or ZZ.of_type(c)) over {Any | isinstance(c, int)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  isinstance(c, int) or ZZ.of_type(c)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_int : {Any | isinstance(c, int)} → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a2895bf06f47ec62           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.utilities.is_int","kind":"function","src_hash":"878ec2ed31771574","in":{"base":"Any","pred":"isinstance(c, int)"},"out":{"base":"Any","pred":"result satisfies: ref:`zz`."},"spec":{"lhs":"is_int(c)","rhs":"test whether an argument is of an acceptable type to be used as an integer","over":{"base":"Any","pred":"isinstance(c, int)"},"name":"is_int_correct"},"guarantee":"test whether an argument is of an acceptable type to be used as an integer","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a2895bf06f47ec62"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.utilities.is_int","kind":"function","src_hash":"878ec2ed31771574","in":{"base":"Any","pred":"isinstance(c, int)"},"out":{"base":"Any","pred":"result satisfies: ref:`zz`."},"spec":{"lhs":"is_int(c)","rhs":"isinstance(c, int) or ZZ.of_type(c)","over":{"base":"Any","pred":"isinstance(c, int)"},"name":"is_int_correct"},"guarantee":"returns isinstance(c, int) or ZZ.of_type(c)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a2895bf06f47ec62","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"isinstance(c, int) or ZZ.of_type(c)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def is_int(c):
     r"""
     Test whether an argument is of an acceptable type to be used as an integer.
@@ -99,16 +111,22 @@ def is_int(c):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_num_denom(c), given any argument on which :py:func:`~.is_rat` is ``true``, return the numerator and denominator of this number) over Any ║
+# ║ Path(get_num_denom(c), (r.numerator, r.denominator)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (r.numerator, r.denominator)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_num_denom : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 842eca17f3d5ca50  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b2713db13d91c251  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.utilities.get_num_denom","kind":"function","src_hash":"8ab58035e503fcdf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_num_denom(c)","rhs":"given any argument on which :py:func:`~.is_rat` is ``true``, return the numerator and denominator of this number","over":{"base":"Any"},"name":"get_num_denom_correct"},"guarantee":"given any argument on which :py:func:`~.is_rat` is ``true``, return the numerator and denominator of this number","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.utilities.get_num_denom_correct","statement":"Path(get_num_denom(x), given any argument on which :py:func:`~.is_rat` is ``true``, return the numerator and denominator of this number)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"842eca17f3d5ca50"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.utilities.get_num_denom","kind":"function","src_hash":"8ab58035e503fcdf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_num_denom(c)","rhs":"(r.numerator, r.denominator)","over":{"base":"Any"},"name":"get_num_denom_correct"},"guarantee":"returns (r.numerator, r.denominator)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.utilities.get_num_denom_correct","statement":"Path(get_num_denom(x), returns (r.numerator, r.denominator))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2713db13d91c251","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(r.numerator, r.denominator)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def get_num_denom(c):
     r"""
     Given any argument on which :py:func:`~.is_rat` is ``True``, return the
@@ -126,16 +144,23 @@ def get_num_denom(c):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(extract_fundamental_discriminant(a), extract a fundamental discriminant from an integer *a*) over Any ║
+# ║ Path(extract_fundamental_discriminant(a), <unspecified:extract_fundamental_discriminant>) over {Any | not (a % 4 not in [0, 1])} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ extract_fundamental_discriminant : Any → {Any | e2 > 0}    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (a % 4 not in [0, 1])                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ extract_fundamental_discriminant : {Any | not (a % 4 ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ffaeab011736791  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.utilities.extract_fundamental_discriminant","kind":"function","src_hash":"66c85db146ecb299","in":{"base":"Any"},"out":{"base":"Any","pred":"e2 > 0"},"spec":{"lhs":"extract_fundamental_discriminant(a)","rhs":"extract a fundamental discriminant from an integer *a*","over":{"base":"Any"},"name":"extract_fundamental_discriminant_correct"},"guarantee":"extract a fundamental discriminant from an integer *a*","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.utilities.extract_fundamental_discriminant_correct","statement":"Path(extract_fundamental_discriminant(x), extract a fundamental discriminant from an integer *a*)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ffaeab011736791"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.utilities.extract_fundamental_discriminant","kind":"function","src_hash":"66c85db146ecb299","in":{"base":"Any","pred":"not (a % 4 not in [0, 1])"},"out":{"base":"Any","pred":"e2 > 0"},"spec":{"lhs":"extract_fundamental_discriminant(a)","rhs":"<unspecified:extract_fundamental_discriminant>","over":{"base":"Any","pred":"not (a % 4 not in [0, 1])"},"name":"extract_fundamental_discriminant_correct"},"guarantee":"extract a fundamental discriminant from an integer *a*","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.utilities.extract_fundamental_discriminant_correct","statement":"Path(extract_fundamental_discriminant(x), extract a fundamental discriminant from an integer *a*)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ffaeab011736791","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (a % 4 not in [0, 1])"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def extract_fundamental_discriminant(a):
     r"""
     Extract a fundamental discriminant from an integer *a*.
@@ -228,14 +253,19 @@ def extract_fundamental_discriminant(a):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a AlgIntPowers instance) preserved by AlgIntPowers(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ AlgIntPowers : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e89ef1a21c67f1b0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.utilities.AlgIntPowers","kind":"class","src_hash":"39b4215e8ade7ac2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"AlgIntPowers(*args)","rhs":"correctly constructs a AlgIntPowers instance","over":{"base":"Any"},"name":"AlgIntPowers_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a AlgIntPowers instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'T') and hasattr(self, 'modulus') and hasattr(self, 'n') and hasattr(self, 'powers_n_and_up') and hasattr(self, 'max_so_far')","kind":"class","induction":"structural on T, modulus, n, powers_n_and_up"}],"methods_preserving":["__init__","red","__rmod__","compute_up_through","get","__getitem__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e89ef1a21c67f1b0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.utilities.AlgIntPowers","kind":"class","src_hash":"39b4215e8ade7ac2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"AlgIntPowers(*args)","rhs":"correctly constructs a AlgIntPowers instance","over":{"base":"Any"},"name":"AlgIntPowers_class_invariant","kind":"invariant"},"guarantee":"preserves 5 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'T') and hasattr(self, 'modulus') and hasattr(self, 'n') and hasattr(self, 'powers_n_and_up') and hasattr(self, 'max_so_far')","kind":"class","induction":"structural on T, modulus, n, powers_n_and_up"}],"methods_preserving":["__init__","red","__rmod__","compute_up_through","get","__getitem__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e89ef1a21c67f1b0","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'T')","hasattr(self, 'modulus')","hasattr(self, 'n')","hasattr(self, 'powers_n_and_up')","hasattr(self, 'max_so_far')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function AlgIntPowers not found in source"]}}
 class AlgIntPowers:
     r"""
     Compute the powers of an algebraic integer.
@@ -277,16 +307,25 @@ class AlgIntPowers:
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(T, ), initializes the instance correctly) over Any ║
+# ║ Path(__init__(T, modulus), self.T == T and self.modulus == modulus) over {Any | hasattr(T, 'degree') and hasattr(T, 'rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(T, 'degree')                           ║
+# ║   requires: hasattr(T, 'rep')                              ║
+# ║   ensures:  self.T == T                                    ║
+# ║   ensures:  self.modulus == modulus                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | hasattr(T, 'degree') and hasattr(T,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cd89b5beb492dd5b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.utilities.AlgIntPowers.__init__","kind":"method","src_hash":"acc96d40c78ad46c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(T, )","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cd89b5beb492dd5b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.utilities.AlgIntPowers.__init__","kind":"method","src_hash":"acc96d40c78ad46c","in":{"base":"Any","pred":"hasattr(T, 'degree') and hasattr(T, 'rep')"},"out":{"base":"Any","pred":"result satisfies: self.T == T and self.modulus == modulus"},"spec":{"lhs":"__init__(T, modulus)","rhs":"self.T == T and self.modulus == modulus","over":{"base":"Any","pred":"hasattr(T, 'degree') and hasattr(T, 'rep')"},"name":"__init___correct"},"guarantee":"self.T == T; self.modulus == modulus","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cd89b5beb492dd5b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(T, 'degree')","hasattr(T, 'rep')"],"ensures":["self.T == T","self.modulus == modulus"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, T, modulus=None):
         """
         Parameters
@@ -307,44 +346,62 @@ class AlgIntPowers:
         self.max_so_far = self.n
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(red(exp), red produces the expected output) over Any  ║
+# ║ Path(red(exp), exp if self.modulus is None else exp % self.modulus) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  exp if self.modulus is None else exp % se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ red : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2963a8d1ca660a83           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.utilities.AlgIntPowers.red","kind":"method","src_hash":"0ae0a2b5d52295d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"red(exp)","rhs":"red produces the expected output","over":{"base":"Any"},"name":"red_correct"},"guarantee":"red produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2963a8d1ca660a83"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.utilities.AlgIntPowers.red","kind":"method","src_hash":"0ae0a2b5d52295d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"red(exp)","rhs":"exp if self.modulus is None else exp % self.modulus","over":{"base":"Any"},"name":"red_correct"},"guarantee":"returns exp if self.modulus is None else exp % self.modulus","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2963a8d1ca660a83","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"exp if self.modulus is None else exp % self.modulus","pure":false,"effects":{"effect_type":"reads_state","reads":["self.modulus"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def red(self, exp):
         return exp if self.modulus is None else exp % self.modulus
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rmod__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rmod__(other), self.red(other)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.red(other)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rmod__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 838cf26e65bfb109           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.utilities.AlgIntPowers.__rmod__","kind":"method","src_hash":"8589fdf2284e6c47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmod__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rmod___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"838cf26e65bfb109"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.utilities.AlgIntPowers.__rmod__","kind":"method","src_hash":"8589fdf2284e6c47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmod__(other)","rhs":"self.red(other)","over":{"base":"Any"},"name":"__rmod___correct"},"guarantee":"returns self.red(other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"838cf26e65bfb109","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.red(other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.red"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rmod__(self, other):
         return self.red(other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(compute_up_through(e), compute_up_through produces the expected output) over Any ║
+# ║ Path(compute_up_through(e), len(r) == old_len_r + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ compute_up_through : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(r) == old_len_r + 1                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ compute_up_through : Any → {Any | result satisfies: l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e882a196421e0ee7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0f755c3dab9a794f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.utilities.AlgIntPowers.compute_up_through","kind":"method","src_hash":"c0ddd3af89344c62","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compute_up_through(e)","rhs":"compute_up_through produces the expected output","over":{"base":"Any"},"name":"compute_up_through_correct"},"guarantee":"compute_up_through produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.utilities.AlgIntPowers.compute_up_through_correct","statement":"Path(compute_up_through(x), compute_up_through produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e882a196421e0ee7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.utilities.AlgIntPowers.compute_up_through","kind":"method","src_hash":"c0ddd3af89344c62","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(r) == old_len_r + 1"},"spec":{"lhs":"compute_up_through(e)","rhs":"len(r) == old_len_r + 1","over":{"base":"Any"},"name":"compute_up_through_correct"},"guarantee":"len(r) == old_len_r + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.utilities.AlgIntPowers.compute_up_through_correct","statement":"Path(compute_up_through(x), len(r) == old_len_r + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f755c3dab9a794f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(r) == old_len_r + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.max_so_far","self.n","self.powers_n_and_up"],"writes":["self.max_so_far"],"calls_mutating":["r.append"]},"state_contract":{"modifies":["r.*","self.max_so_far"],"old_bindings":{"old_self_max_so_far":"self.max_so_far","old_len_r":"len(r)"},"post_ensures":["len(r) == old_len_r + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def compute_up_through(self, e):
         m = self.max_so_far
         if e <= m: return
@@ -361,16 +418,25 @@ class AlgIntPowers:
         self.max_so_far = e
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get(e), get produces the expected output) over Any    ║
+# ║ Path(get(e), <unspecified:get>) over {Any | not (e < 0)}   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (e < 0)                                    ║
+# ║   fiber[negative]: e < 0                                   ║
+# ║   fiber[case_1]: e < n => [1 if i == e else 0 for i i...   ║
+# ║   fiber[negative]: not (e < 0) and not (e < n) => sel...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get : {Any | not (e < 0)} → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7398bcf906b95c25  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ca2911f9b28b93c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.utilities.AlgIntPowers.get","kind":"method","src_hash":"704f530ddde03e26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get(e)","rhs":"get produces the expected output","over":{"base":"Any"},"name":"get_correct"},"guarantee":"get produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.utilities.AlgIntPowers.get_correct","statement":"Path(get(x), get produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7398bcf906b95c25"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.utilities.AlgIntPowers.get","kind":"method","src_hash":"704f530ddde03e26","in":{"base":"Any","pred":"not (e < 0)"},"out":{"base":"Any"},"spec":{"lhs":"get(e)","rhs":"<unspecified:get>","over":{"base":"Any","pred":"not (e < 0)"},"name":"get_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.utilities.AlgIntPowers.get_correct","statement":"Path(get(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ca2911f9b28b93c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (e < 0)"],"fibers":[{"name":"negative","guard":"e < 0","ensures":[],"decidability":"z3"},{"name":"case_1","guard":"e < n","ensures":["result == [1 if i == e else 0 for i in range(n)]"],"decidability":"z3","returns_expr":"[1 if i == e else 0 for i in range(n)]"},{"name":"negative","guard":"not (e < 0) and not (e < n)","ensures":["result == self.powers_n_and_up[e - n]"],"decidability":"z3","returns_expr":"self.powers_n_and_up[e - n]"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.compute_up_through","self.n","self.powers_n_and_up"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get(self, e):
         n = self.n
         if e < 0:
@@ -382,32 +448,44 @@ class AlgIntPowers:
             return self.powers_n_and_up[e - n]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(ite), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(item), self.get(item)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.get(item)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bb47637804db5078           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.utilities.AlgIntPowers.__getitem__","kind":"method","src_hash":"8668650d05c9c2ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(ite)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bb47637804db5078"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.utilities.AlgIntPowers.__getitem__","kind":"method","src_hash":"8668650d05c9c2ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(item)","rhs":"self.get(item)","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns self.get(item)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bb47637804db5078","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.get(item)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.get"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, item):
         return self.get(item)
 
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coeff_search(m, ), generate coefficients for searching through polynomials) over Any ║
+# ║ Path(coeff_search(m, R), <unspecified:coeff_search>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ coeff_search : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4de2f04f0ba77c6b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.utilities.coeff_search","kind":"function","src_hash":"3eb1b727df152569","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coeff_search(m, )","rhs":"generate coefficients for searching through polynomials","over":{"base":"Any"},"name":"coeff_search_correct"},"guarantee":"generate coefficients for searching through polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.utilities.coeff_search_correct","statement":"Path(coeff_search(x), generate coefficients for searching through polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4de2f04f0ba77c6b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.utilities.coeff_search","kind":"function","src_hash":"3eb1b727df152569","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coeff_search(m, R)","rhs":"<unspecified:coeff_search>","over":{"base":"Any"},"name":"coeff_search_correct"},"guarantee":"generate coefficients for searching through polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.utilities.coeff_search_correct","statement":"Path(coeff_search(x), generate coefficients for searching through polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4de2f04f0ba77c6b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def coeff_search(m, R):
     r"""
     Generate coefficients for searching through polynomials.
@@ -464,16 +542,25 @@ def coeff_search(m, R):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(supplement_a_subspace(M), extend a basis for a subspace to a basis for the whole space) over Any ║
+# ║ Path(supplement_a_subspace(M), <unspecified:supplement_a_subspace>) over {Any | not (pivots[:r] != tuple(range(r))) and hasattr(M, 'shape') and hasattr(M, 'hstack') and hasattr(M, 'eye') and hasattr(M, 'domain')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ supplement_a_subspace : Any → Any                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (pivots[:r] != tuple(range(r)))            ║
+# ║   requires: hasattr(M, 'shape')                            ║
+# ║   requires: hasattr(M, 'hstack')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ supplement_a_subspace : {Any | not (pivots[:r] != tup...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 143275ba91f155a6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.utilities.supplement_a_subspace","kind":"function","src_hash":"638fa1fc4d3231f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"supplement_a_subspace(M)","rhs":"extend a basis for a subspace to a basis for the whole space","over":{"base":"Any"},"name":"supplement_a_subspace_correct"},"guarantee":"extend a basis for a subspace to a basis for the whole space","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.utilities.supplement_a_subspace_correct","statement":"Path(supplement_a_subspace(x), extend a basis for a subspace to a basis for the whole space)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"143275ba91f155a6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.utilities.supplement_a_subspace","kind":"function","src_hash":"638fa1fc4d3231f7","in":{"base":"Any","pred":"not (pivots[:r] != tuple(range(r))) and hasattr(M, 'shape') and hasattr(M, 'hstack') and hasattr(M, 'eye') and hasattr(M, 'domain')"},"out":{"base":"Any"},"spec":{"lhs":"supplement_a_subspace(M)","rhs":"<unspecified:supplement_a_subspace>","over":{"base":"Any","pred":"not (pivots[:r] != tuple(range(r))) and hasattr(M, 'shape') and hasattr(M, 'hstack') and hasattr(M, 'eye') and hasattr(M, 'domain')"},"name":"supplement_a_subspace_correct"},"guarantee":"extend a basis for a subspace to a basis for the whole space","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.utilities.supplement_a_subspace_correct","statement":"Path(supplement_a_subspace(x), extend a basis for a subspace to a basis for the whole space)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"143275ba91f155a6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (pivots[:r] != tuple(range(r)))","hasattr(M, 'shape')","hasattr(M, 'hstack')","hasattr(M, 'eye')","hasattr(M, 'domain')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.domain","M.eye","M.hstack","M.shape"],"raises":["DMRankError"]},"state_contract":{"exceptional_post":{"DMRankError":["isinstance(raised, DMRankError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def supplement_a_subspace(M):
     r"""
     Extend a basis for a subspace to a basis for the whole space.
@@ -563,16 +650,26 @@ def supplement_a_subspace(M):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(isolate(alg), find a rational isolating interval for a real algebraic number) over Any ║
+# ║ Path(isolate(alg, eps, fast), <unspecified:isolate>) over {Any | hasattr(alg, 'is_Rational') and hasattr(alg, 'is_real') and hasattr(alg, 'a') and hasattr(alg, 'b')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ isolate : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(alg, 'is_Rational')                    ║
+# ║   requires: hasattr(alg, 'is_real')                        ║
+# ║   requires: hasattr(alg, 'a')                              ║
+# ║   fiber[case_0]: alg.is_Rational => (alg, alg)             ║
+# ║   fiber[case_1]: not alg.is_real                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ isolate : {Any | hasattr(alg, 'is_Rational') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b2a19c4bcfc88c48  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9197a4a43bc6376c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.utilities.isolate","kind":"function","src_hash":"3f8c8c779bfcfdd7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"isolate(alg)","rhs":"find a rational isolating interval for a real algebraic number","over":{"base":"Any"},"name":"isolate_correct"},"guarantee":"find a rational isolating interval for a real algebraic number","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.utilities.isolate_correct","statement":"Path(isolate(x), find a rational isolating interval for a real algebraic number)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2a19c4bcfc88c48"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.utilities.isolate","kind":"function","src_hash":"3f8c8c779bfcfdd7","in":{"base":"Any","pred":"hasattr(alg, 'is_Rational') and hasattr(alg, 'is_real') and hasattr(alg, 'a') and hasattr(alg, 'b')"},"out":{"base":"Any"},"spec":{"lhs":"isolate(alg, eps, fast)","rhs":"<unspecified:isolate>","over":{"base":"Any","pred":"hasattr(alg, 'is_Rational') and hasattr(alg, 'is_real') and hasattr(alg, 'a') and hasattr(alg, 'b')"},"name":"isolate_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.utilities.isolate_correct","statement":"Path(isolate(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9197a4a43bc6376c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(alg, 'is_Rational')","hasattr(alg, 'is_real')","hasattr(alg, 'a')","hasattr(alg, 'b')"],"fibers":[{"name":"case_0","guard":"alg.is_Rational","ensures":["result == (alg, alg)"],"decidability":"library","returns_expr":"(alg, alg)"},{"name":"case_1","guard":"not alg.is_real","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["alg.a","alg.b","alg.is_Rational","alg.is_real"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def isolate(alg, eps=None, fast=False):
     """
     Find a rational isolating interval for a real algebraic number.

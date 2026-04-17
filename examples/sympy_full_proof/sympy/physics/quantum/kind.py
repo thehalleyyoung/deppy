@@ -48,43 +48,61 @@ __all__ = [
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_KetKind(*args), correctly constructs a _KetKind instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _KetKind : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Kind)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _KetKind : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3cf0621b57cdc47  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.kind._KetKind","kind":"class","src_hash":"37f522efa202a7f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_KetKind(*args)","rhs":"correctly constructs a _KetKind instance","over":{"base":"Any"},"name":"_KetKind_class_invariant"},"guarantee":"correctly constructs a _KetKind instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3cf0621b57cdc47"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.kind._KetKind","kind":"class","src_hash":"37f522efa202a7f6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Kind)"},"spec":{"lhs":"_KetKind(*args)","rhs":"correctly constructs a _KetKind instance","over":{"base":"Any"},"name":"_KetKind_class_invariant"},"guarantee":"isinstance(self, Kind)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3cf0621b57cdc47","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Kind)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function _KetKind not found in source"]}}
 class _KetKind(Kind):
     """A kind for quantum kets."""
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls), <unspecified:__new__>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 401fb03a1006767b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.kind._KetKind.__new__","kind":"method","src_hash":"d05e2252f4740517","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"401fb03a1006767b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.kind._KetKind.__new__","kind":"method","src_hash":"d05e2252f4740517","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"401fb03a1006767b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls):
         obj = super().__new__(cls)
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), 'KetKind') over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'KetKind'                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | eba28dea2a6c1300           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.kind._KetKind.__repr__","kind":"method","src_hash":"84484961ba068554","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eba28dea2a6c1300"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.kind._KetKind.__repr__","kind":"method","src_hash":"84484961ba068554","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'KetKind'","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns 'KetKind'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eba28dea2a6c1300","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'KetKind'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return "KetKind"
 
@@ -95,43 +113,61 @@ KetKind = _KetKind()
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_BraKind(*args), correctly constructs a _BraKind instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _BraKind : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Kind)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _BraKind : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0787b76c0beda491  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.kind._BraKind","kind":"class","src_hash":"7ac7845b6694015d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_BraKind(*args)","rhs":"correctly constructs a _BraKind instance","over":{"base":"Any"},"name":"_BraKind_class_invariant"},"guarantee":"correctly constructs a _BraKind instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0787b76c0beda491"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.kind._BraKind","kind":"class","src_hash":"7ac7845b6694015d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Kind)"},"spec":{"lhs":"_BraKind(*args)","rhs":"correctly constructs a _BraKind instance","over":{"base":"Any"},"name":"_BraKind_class_invariant"},"guarantee":"isinstance(self, Kind)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0787b76c0beda491","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Kind)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function _BraKind not found in source"]}}
 class _BraKind(Kind):
     """A kind for quantum bras."""
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls), <unspecified:__new__>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8768be2f9a214b55           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.kind._BraKind.__new__","kind":"method","src_hash":"d05e2252f4740517","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8768be2f9a214b55"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.kind._BraKind.__new__","kind":"method","src_hash":"d05e2252f4740517","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8768be2f9a214b55","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls):
         obj = super().__new__(cls)
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), 'BraKind') over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'BraKind'                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b10e67be39f27cb1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.kind._BraKind.__repr__","kind":"method","src_hash":"f3cd9abcac4b1ea3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b10e67be39f27cb1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.kind._BraKind.__repr__","kind":"method","src_hash":"f3cd9abcac4b1ea3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'BraKind'","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns 'BraKind'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b10e67be39f27cb1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'BraKind'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return "BraKind"
 
@@ -144,43 +180,61 @@ from sympy.core.kind import Kind
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_OperatorKind(*args), correctly constructs a _OperatorKind instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _OperatorKind : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Kind)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _OperatorKind : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88335885e0a83551  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.kind._OperatorKind","kind":"class","src_hash":"39e617f8f9540461","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_OperatorKind(*args)","rhs":"correctly constructs a _OperatorKind instance","over":{"base":"Any"},"name":"_OperatorKind_class_invariant"},"guarantee":"correctly constructs a _OperatorKind instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88335885e0a83551"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.kind._OperatorKind","kind":"class","src_hash":"39e617f8f9540461","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Kind)"},"spec":{"lhs":"_OperatorKind(*args)","rhs":"correctly constructs a _OperatorKind instance","over":{"base":"Any"},"name":"_OperatorKind_class_invariant"},"guarantee":"isinstance(self, Kind)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88335885e0a83551","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Kind)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function _OperatorKind not found in source"]}}
 class _OperatorKind(Kind):
     """A kind for quantum operators."""
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls), <unspecified:__new__>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1650cf112b016b0e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.kind._OperatorKind.__new__","kind":"method","src_hash":"d05e2252f4740517","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1650cf112b016b0e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.kind._OperatorKind.__new__","kind":"method","src_hash":"d05e2252f4740517","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1650cf112b016b0e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls):
         obj = super().__new__(cls)
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), 'OperatorKind') over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'OperatorKind'                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bd10fd6de845ab42           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.kind._OperatorKind.__repr__","kind":"method","src_hash":"5505f594bc007cde","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bd10fd6de845ab42"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.kind._OperatorKind.__repr__","kind":"method","src_hash":"5505f594bc007cde","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'OperatorKind'","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns 'OperatorKind'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bd10fd6de845ab42","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'OperatorKind'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return "OperatorKind"
 
@@ -203,16 +257,22 @@ OperatorKind = _OperatorKind()
 
 @Mul._kind_dispatcher.register(_NumberKind, _KetKind)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_mul_number_ket_kind(lhs), perform the kind calculation of numberkind*ketkind -> ketkind) over Any ║
+# ║ Path(_mul_number_ket_kind(lhs, rhs), <unspecified:_mul_number_ket_kind>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _mul_number_ket_kind : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3baa07e86f5399ce           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.kind._mul_number_ket_kind","kind":"function","src_hash":"dcd44d2e739db448","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_mul_number_ket_kind(lhs)","rhs":"perform the kind calculation of numberkind*ketkind -> ketkind","over":{"base":"Any"},"name":"_mul_number_ket_kind_correct"},"guarantee":"perform the kind calculation of numberkind*ketkind -> ketkind","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3baa07e86f5399ce"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.kind._mul_number_ket_kind","kind":"function","src_hash":"dcd44d2e739db448","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_mul_number_ket_kind(lhs, rhs)","rhs":"<unspecified:_mul_number_ket_kind>","over":{"base":"Any"},"name":"_mul_number_ket_kind_correct"},"guarantee":"perform the kind calculation of numberkind*ketkind -> ketkind","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3baa07e86f5399ce","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _mul_number_ket_kind(lhs, rhs):
     """Perform the kind calculation of NumberKind*KetKind -> KetKind."""
     return KetKind
@@ -220,16 +280,22 @@ def _mul_number_ket_kind(lhs, rhs):
 
 @Mul._kind_dispatcher.register(_NumberKind, _BraKind)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_mul_number_bra_kind(lhs), perform the kind calculation of numberkind*brakind -> brakind) over Any ║
+# ║ Path(_mul_number_bra_kind(lhs, rhs), <unspecified:_mul_number_bra_kind>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _mul_number_bra_kind : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cfe00c42641c998f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.kind._mul_number_bra_kind","kind":"function","src_hash":"5a9dcfeca180549e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_mul_number_bra_kind(lhs)","rhs":"perform the kind calculation of numberkind*brakind -> brakind","over":{"base":"Any"},"name":"_mul_number_bra_kind_correct"},"guarantee":"perform the kind calculation of numberkind*brakind -> brakind","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cfe00c42641c998f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.kind._mul_number_bra_kind","kind":"function","src_hash":"5a9dcfeca180549e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_mul_number_bra_kind(lhs, rhs)","rhs":"<unspecified:_mul_number_bra_kind>","over":{"base":"Any"},"name":"_mul_number_bra_kind_correct"},"guarantee":"perform the kind calculation of numberkind*brakind -> brakind","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cfe00c42641c998f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _mul_number_bra_kind(lhs, rhs):
     """Perform the kind calculation of NumberKind*BraKind -> BraKind."""
     return BraKind
@@ -237,16 +303,22 @@ def _mul_number_bra_kind(lhs, rhs):
 
 @Mul._kind_dispatcher.register(_NumberKind, _OperatorKind)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_mul_operator_kind(lhs), perform the kind calculation of numberkind*operatorkind -> operatorkind) over Any ║
+# ║ Path(_mul_operator_kind(lhs, rhs), <unspecified:_mul_operator_kind>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _mul_operator_kind : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fd6b0d889fab5a38           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.kind._mul_operator_kind","kind":"function","src_hash":"9c37015e579dc710","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_mul_operator_kind(lhs)","rhs":"perform the kind calculation of numberkind*operatorkind -> operatorkind","over":{"base":"Any"},"name":"_mul_operator_kind_correct"},"guarantee":"perform the kind calculation of numberkind*operatorkind -> operatorkind","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fd6b0d889fab5a38"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.kind._mul_operator_kind","kind":"function","src_hash":"9c37015e579dc710","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_mul_operator_kind(lhs, rhs)","rhs":"<unspecified:_mul_operator_kind>","over":{"base":"Any"},"name":"_mul_operator_kind_correct"},"guarantee":"perform the kind calculation of numberkind*operatorkind -> operatorkind","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fd6b0d889fab5a38","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _mul_operator_kind(lhs, rhs):
     """Perform the kind calculation of NumberKind*OperatorKind -> OperatorKind."""
     return OperatorKind

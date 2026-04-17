@@ -69,14 +69,19 @@ from sympy.utilities.iterables import sift
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Optimization instance) preserved by Optimization(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Optimization : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e2b49a9743c6066  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.rewriting.Optimization","kind":"class","src_hash":"607196e5048ac1ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Optimization(*args)","rhs":"correctly constructs a Optimization instance","over":{"base":"Any"},"name":"Optimization_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Optimization instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'cost_function') and hasattr(self, 'priority')","kind":"class","induction":"structural on cost_function, priority"}],"methods_preserving":["__init__","cheapest"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e2b49a9743c6066"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.rewriting.Optimization","kind":"class","src_hash":"607196e5048ac1ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Optimization(*args)","rhs":"correctly constructs a Optimization instance","over":{"base":"Any"},"name":"Optimization_class_invariant","kind":"invariant"},"guarantee":"preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'cost_function') and hasattr(self, 'priority')","kind":"class","induction":"structural on cost_function, priority"}],"methods_preserving":["__init__","cheapest"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e2b49a9743c6066","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'cost_function')","hasattr(self, 'priority')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Optimization not found in source"]}}
 class Optimization:
     """ Abstract base class for rewriting optimization.
 
@@ -90,31 +95,44 @@ class Optimization:
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(cos), initializes the instance correctly) over Any ║
+# ║ Path(__init__(cost_function, priority), self.cost_function == cost_function and self.priority == priority) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.cost_function == cost_function            ║
+# ║   ensures:  self.priority == priority                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.cost_f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 944e73a7975126d9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.rewriting.Optimization.__init__","kind":"method","src_hash":"4d9f8b2f67c3fba3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(cos)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"944e73a7975126d9"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.rewriting.Optimization.__init__","kind":"method","src_hash":"4d9f8b2f67c3fba3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.cost_function == cost_function and self.priority == priority"},"spec":{"lhs":"__init__(cost_function, priority)","rhs":"self.cost_function == cost_function and self.priority == priority","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.cost_function == cost_function; self.priority == priority","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"944e73a7975126d9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.cost_function == cost_function","self.priority == priority"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, cost_function=None, priority=1):
         self.cost_function = cost_function
         self.priority=priority
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cheapest(*ar), cheapest produces the expected output) over Any ║
+# ║ Path(cheapest(*args), min(args, key=self.cost_function)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  min(args, key=self.cost_function)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cheapest : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 89319b50c6d368a9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.rewriting.Optimization.cheapest","kind":"method","src_hash":"32f59f32fac61be1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cheapest(*ar)","rhs":"cheapest produces the expected output","over":{"base":"Any"},"name":"cheapest_correct"},"guarantee":"cheapest produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"89319b50c6d368a9"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.rewriting.Optimization.cheapest","kind":"method","src_hash":"32f59f32fac61be1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cheapest(*args)","rhs":"min(args, key=self.cost_function)","over":{"base":"Any"},"name":"cheapest_correct"},"guarantee":"returns min(args, key=self.cost_function)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"89319b50c6d368a9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"min(args, key=self.cost_function)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.cost_function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cheapest(self, *args):
         return min(args, key=self.cost_function)
 
@@ -122,14 +140,20 @@ class Optimization:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a ReplaceOptim instance) preserved by ReplaceOptim(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ReplaceOptim : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Optimization)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ReplaceOptim : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 734bb2fc6878f910  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.rewriting.ReplaceOptim","kind":"class","src_hash":"6c4fe902896d4b4f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ReplaceOptim(*args)","rhs":"correctly constructs a ReplaceOptim instance","over":{"base":"Any"},"name":"ReplaceOptim_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a ReplaceOptim instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'query') and hasattr(self, 'value')","kind":"class","induction":"structural on query, value"}],"methods_preserving":["__init__","__call__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"734bb2fc6878f910"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.rewriting.ReplaceOptim","kind":"class","src_hash":"6c4fe902896d4b4f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Optimization)"},"spec":{"lhs":"ReplaceOptim(*args)","rhs":"correctly constructs a ReplaceOptim instance","over":{"base":"Any"},"name":"ReplaceOptim_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Optimization); preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'query') and hasattr(self, 'value')","kind":"class","induction":"structural on query, value"}],"methods_preserving":["__init__","__call__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"734bb2fc6878f910","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Optimization)"],"invariants":["hasattr(self, 'query')","hasattr(self, 'value')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function ReplaceOptim not found in source"]}}
 class ReplaceOptim(Optimization):
     """ Rewriting optimization calling replace on expressions.
 
@@ -163,47 +187,68 @@ class ReplaceOptim(Optimization):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(que), initializes the instance correctly) over Any ║
+# ║ Path(__init__(query, value, **kwargs), self.query == query and self.value == value) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.query == query                            ║
+# ║   ensures:  self.value == value                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.query ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6efa63855e0fa6b8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.rewriting.ReplaceOptim.__init__","kind":"method","src_hash":"0611402d204ec7ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(que)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6efa63855e0fa6b8"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.rewriting.ReplaceOptim.__init__","kind":"method","src_hash":"0611402d204ec7ab","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.query == query and self.value == value"},"spec":{"lhs":"__init__(query, value, **kwargs)","rhs":"self.query == query and self.value == value","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.query == query; self.value == value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6efa63855e0fa6b8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.query == query","self.value == value"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, query, value, **kwargs):
         super().__init__(**kwargs)
         self.query = query
         self.value = value
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(exp), correctly applies the callable) over Any ║
+# ║ Path(__call__(expr), expr.replace(self.query, self.value)) over {Any | hasattr(expr, 'replace')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __call__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'replace')                       ║
+# ║   returns:  expr.replace(self.query, self.value)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __call__ : {Any | hasattr(expr, 'replace')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a201bf63435c96f8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.rewriting.ReplaceOptim.__call__","kind":"method","src_hash":"d4592fa94c6ed9d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(exp)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a201bf63435c96f8"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.rewriting.ReplaceOptim.__call__","kind":"method","src_hash":"d4592fa94c6ed9d0","in":{"base":"Any","pred":"hasattr(expr, 'replace')"},"out":{"base":"Any"},"spec":{"lhs":"__call__(expr)","rhs":"expr.replace(self.query, self.value)","over":{"base":"Any","pred":"hasattr(expr, 'replace')"},"name":"__call___correct"},"guarantee":"returns expr.replace(self.query, self.value)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a201bf63435c96f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'replace')"],"returns_expr":"expr.replace(self.query, self.value)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.replace","self.query","self.value"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, expr):
         return expr.replace(self.query, self.value)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(optimize(exp), apply optimizations to an expression) over Any ║
+# ║ Path(optimize(expr, optimizations), expr) over Any         ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ optimize : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == expr                                 ║
+# ║   returns:  expr                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ optimize : Any → {Any | result satisfies: result == (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 96122e947cccf79d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98dd1154a636eb41  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.rewriting.optimize","kind":"function","src_hash":"cf172622f6eb4056","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"optimize(exp)","rhs":"apply optimizations to an expression","over":{"base":"Any"},"name":"optimize_correct"},"guarantee":"apply optimizations to an expression","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.rewriting.optimize_correct","statement":"Path(optimize(x), apply optimizations to an expression)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96122e947cccf79d"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.rewriting.optimize","kind":"function","src_hash":"cf172622f6eb4056","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (expr)"},"spec":{"lhs":"optimize(expr, optimizations)","rhs":"expr","over":{"base":"Any"},"name":"optimize_correct"},"guarantee":"returns expr; result == expr","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.rewriting.optimize_correct","statement":"Path(optimize(x), returns expr; result == expr)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98dd1154a636eb41","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == expr"],"returns_expr":"expr","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def optimize(expr, optimizations):
     """ Apply optimizations to an expression.
 
@@ -278,14 +323,20 @@ logsumexp_2terms_opt = ReplaceOptim(
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a FuncMinusOneOptim instance) preserved by FuncMinusOneOptim(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ FuncMinusOneOptim : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ReplaceOptim)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ FuncMinusOneOptim : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7999f2c065057438  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.rewriting.FuncMinusOneOptim","kind":"class","src_hash":"750d3d84ebae3d76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FuncMinusOneOptim(*args)","rhs":"correctly constructs a FuncMinusOneOptim instance","over":{"base":"Any"},"name":"FuncMinusOneOptim_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a FuncMinusOneOptim instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'func') and hasattr(self, 'func_m_1') and hasattr(self, 'opportunistic')","kind":"class","induction":"structural on func, func_m_1, opportunistic"}],"methods_preserving":["__init__","_group_Add_terms","replace_in_Add","__call__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7999f2c065057438"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.rewriting.FuncMinusOneOptim","kind":"class","src_hash":"750d3d84ebae3d76","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ReplaceOptim)"},"spec":{"lhs":"FuncMinusOneOptim(*args)","rhs":"correctly constructs a FuncMinusOneOptim instance","over":{"base":"Any"},"name":"FuncMinusOneOptim_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, ReplaceOptim); preserves 3 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'func') and hasattr(self, 'func_m_1') and hasattr(self, 'opportunistic')","kind":"class","induction":"structural on func, func_m_1, opportunistic"}],"methods_preserving":["__init__","_group_Add_terms","replace_in_Add","__call__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7999f2c065057438","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ReplaceOptim)"],"invariants":["hasattr(self, 'func')","hasattr(self, 'func_m_1')","hasattr(self, 'opportunistic')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function FuncMinusOneOptim not found in source"]}}
 class FuncMinusOneOptim(ReplaceOptim):
     """Specialization of ReplaceOptim for functions evaluating "f(x) - 1".
 
@@ -326,16 +377,24 @@ class FuncMinusOneOptim(ReplaceOptim):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(fun), initializes the instance correctly) over Any ║
+# ║ Path(__init__(func, func_m_1, opportunistic), self.func == func and self.func_m_1 == func_m_1 and self.opportunistic == opportunistic) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.func == func                              ║
+# ║   ensures:  self.func_m_1 == func_m_1                      ║
+# ║   ensures:  self.opportunistic == opportunistic            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.func =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 31af5745bc367693           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.rewriting.FuncMinusOneOptim.__init__","kind":"method","src_hash":"b7d1ed9272b7c19e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(fun)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"31af5745bc367693"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.rewriting.FuncMinusOneOptim.__init__","kind":"method","src_hash":"b7d1ed9272b7c19e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.func == func and self.func_m_1 == func_m_1 and self.opportunistic == opportunistic"},"spec":{"lhs":"__init__(func, func_m_1, opportunistic)","rhs":"self.func == func and self.func_m_1 == func_m_1 and self.opportunistic == opportunistic","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.func == func; self.func_m_1 == func_m_1; self.opportunistic == opportunistic","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"31af5745bc367693","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.func == func","self.func_m_1 == func_m_1","self.opportunistic == opportunistic"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, func, func_m_1, opportunistic=True):
         weight = 10  # <-- this is an arbitrary number (heuristic)
         super().__init__(lambda e: e.is_Add, self.replace_in_Add,
@@ -345,16 +404,23 @@ class FuncMinusOneOptim(ReplaceOptim):
         self.opportunistic = opportunistic
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_group_Add_terms(add), internal helper behaves correctly) over Any ║
+# ║ Path(_group_Add_terms(add), (numsum, terms_with_func, other)) over {Any | hasattr(add, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _group_Add_terms : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(add, 'args')                           ║
+# ║   returns:  (numsum, terms_with_func, other)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _group_Add_terms : {Any | hasattr(add, 'args')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88a123383c93a9f2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 35c07a0732d17c86  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.rewriting.FuncMinusOneOptim._group_Add_terms","kind":"method","src_hash":"93cf9e04826ffc38","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_group_Add_terms(add)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_group_Add_terms_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.rewriting.FuncMinusOneOptim._group_Add_terms_correct","statement":"Path(_group_Add_terms(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88a123383c93a9f2"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.rewriting.FuncMinusOneOptim._group_Add_terms","kind":"method","src_hash":"93cf9e04826ffc38","in":{"base":"Any","pred":"hasattr(add, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_group_Add_terms(add)","rhs":"(numsum, terms_with_func, other)","over":{"base":"Any","pred":"hasattr(add, 'args')"},"name":"_group_Add_terms_correct"},"guarantee":"returns (numsum, terms_with_func, other)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.rewriting.FuncMinusOneOptim._group_Add_terms_correct","statement":"Path(_group_Add_terms(x), returns (numsum, terms_with_func, other))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35c07a0732d17c86","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(add, 'args')"],"returns_expr":"(numsum, terms_with_func, other)","pure":false,"effects":{"effect_type":"reads_state","reads":["add.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _group_Add_terms(self, add):
         numbers, non_num = sift(add.args, lambda arg: arg.is_number, binary=True)
         numsum = sum(numbers)
@@ -362,16 +428,23 @@ class FuncMinusOneOptim(ReplaceOptim):
         return numsum, terms_with_func, other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(replace_in_Add(e), passed as second argument to basic.replace(...)) over Any ║
+# ║ Path(replace_in_Add(e), <unspecified:replace_in_Add>) over {Any | hasattr(e, 'func')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ replace_in_Add : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'func')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ replace_in_Add : {Any | hasattr(e, 'func')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1ee3e24cda2408f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.rewriting.FuncMinusOneOptim.replace_in_Add","kind":"method","src_hash":"4a087898b3013983","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"replace_in_Add(e)","rhs":"passed as second argument to basic.replace(...)","over":{"base":"Any"},"name":"replace_in_Add_correct"},"guarantee":"passed as second argument to basic.replace(...)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.rewriting.FuncMinusOneOptim.replace_in_Add_correct","statement":"Path(replace_in_Add(x), passed as second argument to basic.replace(...))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1ee3e24cda2408f"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.rewriting.FuncMinusOneOptim.replace_in_Add","kind":"method","src_hash":"4a087898b3013983","in":{"base":"Any","pred":"hasattr(e, 'func')"},"out":{"base":"Any"},"spec":{"lhs":"replace_in_Add(e)","rhs":"<unspecified:replace_in_Add>","over":{"base":"Any","pred":"hasattr(e, 'func')"},"name":"replace_in_Add_correct"},"guarantee":"passed as second argument to basic.replace(...)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.rewriting.FuncMinusOneOptim.replace_in_Add_correct","statement":"Path(replace_in_Add(x), passed as second argument to basic.replace(...))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1ee3e24cda2408f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'func')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def replace_in_Add(self, e):
         """ passed as second argument to Basic.replace(...) """
         numsum, terms_with_func, other_non_num_terms = self._group_Add_terms(e)
@@ -405,16 +478,23 @@ class FuncMinusOneOptim(ReplaceOptim):
         return e.func(numsum, *substituted, *untouched, *other_non_num_terms)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(exp), correctly applies the callable) over Any ║
+# ║ Path(__call__(expr), self.cheapest(alt1, alt2)) over {Any | hasattr(expr, 'factor')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __call__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'factor')                        ║
+# ║   returns:  self.cheapest(alt1, alt2)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __call__ : {Any | hasattr(expr, 'factor')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1f30cc562d875486           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.rewriting.FuncMinusOneOptim.__call__","kind":"method","src_hash":"30471725fad5148c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(exp)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1f30cc562d875486"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.rewriting.FuncMinusOneOptim.__call__","kind":"method","src_hash":"30471725fad5148c","in":{"base":"Any","pred":"hasattr(expr, 'factor')"},"out":{"base":"Any"},"spec":{"lhs":"__call__(expr)","rhs":"self.cheapest(alt1, alt2)","over":{"base":"Any","pred":"hasattr(expr, 'factor')"},"name":"__call___correct"},"guarantee":"returns self.cheapest(alt1, alt2)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1f30cc562d875486","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'factor')"],"returns_expr":"self.cheapest(alt1, alt2)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.factor","self.cheapest"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, expr):
         alt1 = super().__call__(expr)
         alt2 = super().__call__(expr.factor())
@@ -433,16 +513,22 @@ log1p_opt = ReplaceOptim(
 )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(create_expand_pow_optimization(lim), creates an instance of :class:`replaceoptim` for expanding ``pow``) over Any ║
+# ║ Path(create_expand_pow_optimization(limit, base_req), ReplaceOptim(lambda e: e.is_Pow and base_req(e.base) and e.exp.is_Integer and (abs(e.exp) <= limit), lambda p: UnevaluatedExpr(Mul(*[p.base] * +p.exp, evaluate=False)) if p.exp > 0 else 1 / UnevaluatedExpr(Mul(*[p.base] * -p.exp, evaluate=False)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ReplaceOptim(lambda e: e.is_Pow and base_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ create_expand_pow_optimization : Any → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 749723f6391b9c57  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d3faa672e17361f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.rewriting.create_expand_pow_optimization","kind":"function","src_hash":"66041b7f171aefe6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"create_expand_pow_optimization(lim)","rhs":"creates an instance of :class:`replaceoptim` for expanding ``pow``","over":{"base":"Any"},"name":"create_expand_pow_optimization_correct"},"guarantee":"creates an instance of :class:`replaceoptim` for expanding ``pow``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.rewriting.create_expand_pow_optimization_correct","statement":"Path(create_expand_pow_optimization(x), creates an instance of :class:`replaceoptim` for expanding ``pow``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"749723f6391b9c57"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.rewriting.create_expand_pow_optimization","kind":"function","src_hash":"66041b7f171aefe6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"create_expand_pow_optimization(limit, base_req)","rhs":"ReplaceOptim(lambda e: e.is_Pow and base_req(e.base) and e.exp.is_Integer and (abs(e.exp) <= limit), lambda p: UnevaluatedExpr(Mul(*[p.base] * +p.exp, evaluate=False)) if p.exp > 0 else 1 / UnevaluatedExpr(Mul(*[p.base] * -p.exp, evaluate=False)))","over":{"base":"Any"},"name":"create_expand_pow_optimization_correct"},"guarantee":"returns ReplaceOptim(lambda e: e.is_Pow and base_req(e.base) and e.exp.is_Integer and (abs(e.exp) <= limit), lambda p: UnevaluatedExpr(Mul(*[p.base] * +p.exp, evaluate=False)) if p.exp > 0 else 1 / UnevaluatedExpr(Mul(*[p.base] * -p.exp, evaluate=False)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.rewriting.create_expand_pow_optimization_correct","statement":"Path(create_expand_pow_optimization(x), returns ReplaceOptim(lambda e: e.is_Pow and base_req(e.base) and e.exp.is_Integer and (abs(e.exp) <= limit), lambda p: UnevaluatedExpr(Mul(*[p.base] * +p.exp, evaluate=False)) if p.exp > 0 else 1 / UnevaluatedExpr(Mul(*[p.base] * -p.exp, evaluate=False))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d3faa672e17361f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ReplaceOptim(lambda e: e.is_Pow and base_req(e.base) and e.exp.is_Integer and (abs(e.exp) <= limit), lambda p: UnevaluatedExpr(Mul(*[p.base] * +p.exp, evaluate=False)) if p.exp > 0 else 1 / UnevaluatedExpr(Mul(*[p.base] * -p.exp, evaluate=False)))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['limit'], spec=['limit', 'base_req']"]}}
 def create_expand_pow_optimization(limit, *, base_req=lambda b: b.is_symbol):
     """ Creates an instance of :class:`ReplaceOptim` for expanding ``Pow``.
 
@@ -487,7 +573,12 @@ def create_expand_pow_optimization(limit, *, base_req=lambda b: b.is_symbol):
 
 # Optimization procedures for turning A**(-1) * x into MatrixSolve(A, x)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_matinv_predicate(exp), internal helper behaves correctly) over {Any | isinstance(inv_arg, MatrixSymbol)} ║
+# ║ Path(_matinv_predicate(expr), <unspecified:_matinv_predicate>) over {Any | isinstance(inv_arg, MatrixSymbol) and hasattr(expr, 'is_MatMul') and hasattr(expr, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'is_MatMul')                     ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _matinv_predicate : {Any | isinstance(inv_arg, Matrix...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -499,9 +590,12 @@ def create_expand_pow_optimization(limit, *, base_req=lambda b: b.is_symbol):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 06ebb288...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.rewriting._matinv_predicate","kind":"function","src_hash":"9041d6e3dbdb383a","in":{"base":"Any","pred":"isinstance(inv_arg, MatrixSymbol)"},"out":{"base":"Any"},"spec":{"lhs":"_matinv_predicate(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(inv_arg, MatrixSymbol)"},"name":"_matinv_predicate_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"MatrixSymbol","pred":"isinstance(inv_arg, MatrixSymbol)","path":{"lhs":"_matinv_predicate(x)","rhs":"internal helper behaves correctly","over":{"base":"MatrixSymbol","pred":"isinstance(inv_arg, MatrixSymbol)"},"name":"_matinv_predicate_MatrixSymbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.rewriting._matinv_predicate_MatrixSymbol_correct","statement":"_matinv_predicate satisfies spec on MatrixSymbol inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"06ebb2883c1638e8"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.rewriting._matinv_predicate","kind":"function","src_hash":"9041d6e3dbdb383a","in":{"base":"Any","pred":"isinstance(inv_arg, MatrixSymbol) and hasattr(expr, 'is_MatMul') and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_matinv_predicate(expr)","rhs":"<unspecified:_matinv_predicate>","over":{"base":"Any","pred":"isinstance(inv_arg, MatrixSymbol) and hasattr(expr, 'is_MatMul') and hasattr(expr, 'args')"},"name":"_matinv_predicate_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"MatrixSymbol","pred":"isinstance(inv_arg, MatrixSymbol)","path":{"lhs":"_matinv_predicate(x)","rhs":"internal helper behaves correctly","over":{"base":"MatrixSymbol","pred":"isinstance(inv_arg, MatrixSymbol)"},"name":"_matinv_predicate_MatrixSymbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.rewriting._matinv_predicate_MatrixSymbol_correct","statement":"_matinv_predicate satisfies spec on MatrixSymbol inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"06ebb2883c1638e8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'is_MatMul')","hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.is_MatMul"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'left.is_Inverse and right.shape[1] == 1', 'expr.is_MatMul and len(expr.args) == 2', 'isinstance(inv_arg, MatrixSymbol)'}, fibers={'MatrixSymbol'})"]}}
 def _matinv_predicate(expr):
     # TODO: We should be able to support more than 2 elements
     if expr.is_MatMul and len(expr.args) == 2:
@@ -514,16 +608,23 @@ def _matinv_predicate(expr):
     return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_matinv_transform(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_matinv_transform(expr), MatrixSolve(inv_arg, right)) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _matinv_transform : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  MatrixSolve(inv_arg, right)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _matinv_transform : {Any | hasattr(expr, 'args')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c3ba2f840eeb67a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca996dfb3f6b444b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.rewriting._matinv_transform","kind":"function","src_hash":"cb087be5520e97d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_matinv_transform(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_matinv_transform_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.rewriting._matinv_transform_correct","statement":"Path(_matinv_transform(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c3ba2f840eeb67a"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.rewriting._matinv_transform","kind":"function","src_hash":"cb087be5520e97d4","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_matinv_transform(expr)","rhs":"MatrixSolve(inv_arg, right)","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_matinv_transform_correct"},"guarantee":"returns MatrixSolve(inv_arg, right)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.rewriting._matinv_transform_correct","statement":"Path(_matinv_transform(x), returns MatrixSolve(inv_arg, right))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca996dfb3f6b444b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"MatrixSolve(inv_arg, right)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _matinv_transform(expr):
     left, right = expr.args
     inv_arg = left.arg

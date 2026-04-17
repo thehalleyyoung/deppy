@@ -119,14 +119,20 @@ if GROUND_TYPES != 'flint':
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a DDM instance) preserved by DDM(*args) over {Any | isinstance(size, tuple) and isinstance(b, DDM) and isinstance(size, int)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, list)                         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ DDM : {Any | isinstance(size, tuple) and isinstance(b...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 5.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84211715e4793e58  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM","kind":"class","src_hash":"77a02fb424e15c5e","in":{"base":"Any","pred":"isinstance(size, tuple) and isinstance(b, DDM) and isinstance(size, int)"},"out":{"base":"Any","pred":"type(flat) is list and a.shape == b.shape and a.domain == b.domain and Bkrows == rows and Bk.domain == domain and Bkcols == cols and Bk.domain == domain"},"spec":{"lhs":"DDM(*args)","rhs":"correctly constructs a DDM instance","over":{"base":"Any","pred":"isinstance(size, tuple) and isinstance(b, DDM) and isinstance(size, int)"},"name":"DDM_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a DDM instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'shape') and hasattr(self, 'rows') and hasattr(self, 'cols') and hasattr(self, 'domain')","kind":"class","induction":"structural on shape, rows, cols, domain"}],"methods_preserving":["__init__","getitem","setitem","extract_slice","extract","to_list","to_list_flat","flatiter","flat","to_flat_nz","to_dod","to_dok","iter_values","iter_items","to_ddm","to_sdm","to_dfm","to_dfm_or_ddm","convert_to","__str__","__repr__","__eq__","__ne__","copy","transpose","applyfunc","_fflu","fflu","qr","is_zero_matrix","is_upper","is_lower","is_diagonal","diagonal"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84211715e4793e58"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM","kind":"class","src_hash":"77a02fb424e15c5e","in":{"base":"Any","pred":"isinstance(size, tuple) and isinstance(b, DDM) and isinstance(size, int)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, list)"},"spec":{"lhs":"DDM(*args)","rhs":"correctly constructs a DDM instance","over":{"base":"Any","pred":"isinstance(size, tuple) and isinstance(b, DDM) and isinstance(size, int)"},"name":"DDM_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, list); preserves 4 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'shape') and hasattr(self, 'rows') and hasattr(self, 'cols') and hasattr(self, 'domain')","kind":"class","induction":"structural on shape, rows, cols, domain"}],"methods_preserving":["__init__","getitem","setitem","extract_slice","extract","to_list","to_list_flat","flatiter","flat","to_flat_nz","to_dod","to_dok","iter_values","iter_items","to_ddm","to_sdm","to_dfm","to_dfm_or_ddm","convert_to","__str__","__repr__","__eq__","__ne__","copy","transpose","applyfunc","_fflu","fflu","qr","is_zero_matrix","is_upper","is_lower","is_diagonal","diagonal"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84211715e4793e58","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, list)"],"invariants":["hasattr(self, 'shape')","hasattr(self, 'rows')","hasattr(self, 'cols')","hasattr(self, 'domain')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":5.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function DDM not found in source"]}}
 class DDM(list):
     """Dense matrix based on polys domain elements
 
@@ -139,16 +145,24 @@ class DDM(list):
     is_DDM = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(row), initializes the instance correctly) over Any ║
+# ║ Path(__init__(rowslist, shape, domain), self.domain == domain) over {Any | isinstance(rowslist, list) and all((type(row) is list for row in rowslist)) and not (len(rowslist) != m or any((len(row) != n for row in rowslist)))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(rowslist, list) and all((type(...   ║
+# ║   requires: not (len(rowslist) != m or any((len(row) ...   ║
+# ║   ensures:  self.domain == domain                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | isinstance(rowslist, list) and all(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 10a36b7c5e5a185c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.__init__","kind":"method","src_hash":"ed5637d965d5e216","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(row)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"10a36b7c5e5a185c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.__init__","kind":"method","src_hash":"ed5637d965d5e216","in":{"base":"Any","pred":"isinstance(rowslist, list) and all((type(row) is list for row in rowslist)) and not (len(rowslist) != m or any((len(row) != n for row in rowslist)))"},"out":{"base":"Any","pred":"result satisfies: self.domain == domain"},"spec":{"lhs":"__init__(rowslist, shape, domain)","rhs":"self.domain == domain","over":{"base":"Any","pred":"isinstance(rowslist, list) and all((type(row) is list for row in rowslist)) and not (len(rowslist) != m or any((len(row) != n for row in rowslist)))"},"name":"__init___correct"},"guarantee":"self.domain == domain","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"10a36b7c5e5a185c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(rowslist, list) and all((type(row) is list for row in rowslist))","not (len(rowslist) != m or any((len(row) != n for row in rowslist)))"],"ensures":["self.domain == domain"],"pure":false,"effects":{"effect_type":"reads_state","writes":["self.cols","self.domain","self.rows","self.shape"],"raises":["DMBadInputError"]},"state_contract":{"modifies":["self.cols","self.domain","self.rows","self.shape"],"old_bindings":{"old_self_cols":"self.cols","old_self_domain":"self.domain","old_self_rows":"self.rows","old_self_shape":"self.shape"},"exceptional_post":{"DMBadInputError":["isinstance(raised, DMBadInputError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, rowslist, shape, domain):
         if not (isinstance(rowslist, list) and all(type(row) is list for row in rowslist)):
             raise DMBadInputError("rowslist must be a list of lists")
@@ -163,44 +177,62 @@ class DDM(list):
         self.domain = domain
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(getitem(i, ), getitem produces the expected output) over Any ║
+# ║ Path(getitem(i, j), self[i][j]) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self[i][j]                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ getitem : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c904800b95a62ac6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.getitem","kind":"method","src_hash":"7ae514321932302d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"getitem(i, )","rhs":"getitem produces the expected output","over":{"base":"Any"},"name":"getitem_correct"},"guarantee":"getitem produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c904800b95a62ac6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.getitem","kind":"method","src_hash":"7ae514321932302d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"getitem(i, j)","rhs":"self[i][j]","over":{"base":"Any"},"name":"getitem_correct"},"guarantee":"returns self[i][j]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c904800b95a62ac6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self[i][j]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def getitem(self, i, j):
         return self[i][j]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(setitem(i, ), setitem produces the expected output) over Any ║
+# ║ Path(setitem(i, j, value), <unspecified:setitem>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ setitem : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb7bacf1c170eb0f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.setitem","kind":"method","src_hash":"d465861ad179b970","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"setitem(i, )","rhs":"setitem produces the expected output","over":{"base":"Any"},"name":"setitem_correct"},"guarantee":"setitem produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.setitem_correct","statement":"Path(setitem(x), setitem produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb7bacf1c170eb0f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.setitem","kind":"method","src_hash":"d465861ad179b970","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"setitem(i, j, value)","rhs":"<unspecified:setitem>","over":{"base":"Any"},"name":"setitem_correct"},"guarantee":"setitem produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.setitem_correct","statement":"Path(setitem(x), setitem produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb7bacf1c170eb0f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def setitem(self, i, j, value):
         self[i][j] = value
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(extract_slice(sli), extract_slice produces the expected output) over Any ║
+# ║ Path(extract_slice(slice1, slice2), DDM(ddm, (rows, cols), self.domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  DDM(ddm, (rows, cols), self.domain)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ extract_slice : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54f5f107ec67bf40  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 915a47bf72463ffe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.extract_slice","kind":"method","src_hash":"78e1f439ebe3e125","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"extract_slice(sli)","rhs":"extract_slice produces the expected output","over":{"base":"Any"},"name":"extract_slice_correct"},"guarantee":"extract_slice produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.extract_slice_correct","statement":"Path(extract_slice(x), extract_slice produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54f5f107ec67bf40"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.extract_slice","kind":"method","src_hash":"78e1f439ebe3e125","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"extract_slice(slice1, slice2)","rhs":"DDM(ddm, (rows, cols), self.domain)","over":{"base":"Any"},"name":"extract_slice_correct"},"guarantee":"returns DDM(ddm, (rows, cols), self.domain)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.extract_slice_correct","statement":"Path(extract_slice(x), returns DDM(ddm, (rows, cols), self.domain))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"915a47bf72463ffe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"DDM(ddm, (rows, cols), self.domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def extract_slice(self, slice1, slice2):
         ddm = [row[slice2] for row in self[slice1]]
         rows = len(ddm)
@@ -208,16 +240,22 @@ class DDM(list):
         return DDM(ddm, (rows, cols), self.domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(extract(row), id) over Any                            ║
+# ║ Path(extract(rows, cols), id) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  DDM(ddm, (len(rows), len(cols)), self.dom...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ extract : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ab3038fccccfda30   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.extract","kind":"method","src_hash":"7d07e36df8e25346","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"extract(row)","rhs":"extract produces the expected output","over":{"base":"Any"},"name":"extract_correct","kind":"composition"},"guarantee":"extract produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"DDM","by":"library_axiom"},{"fn":"len","by":"library_axiom"},{"fn":"len","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab3038fccccfda30"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.extract","kind":"method","src_hash":"7d07e36df8e25346","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"extract(rows, cols)","rhs":"DDM(ddm, (len(rows), len(cols)), self.domain)","over":{"base":"Any"},"name":"extract_correct","kind":"composition"},"guarantee":"returns DDM(ddm, (len(rows), len(cols)), self.domain)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"DDM","by":"library_axiom"},{"fn":"len","by":"library_axiom"},{"fn":"len","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab3038fccccfda30","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"DDM(ddm, (len(rows), len(cols)), self.domain)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def extract(self, rows, cols):
         ddm = []
         for i in rows:
@@ -227,16 +265,22 @@ class DDM(list):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_list(cls), create a :class:`ddm` from a list of lists) over Any ║
+# ║ Path(from_list(cls, rowslist, shape), cls(rowslist, shape, domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls(rowslist, shape, domain)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_list : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 79c5f7aed676e2eb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.from_list","kind":"classmethod","src_hash":"d798cf876a9afe63","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_list(cls)","rhs":"create a :class:`ddm` from a list of lists","over":{"base":"Any"},"name":"from_list_correct"},"guarantee":"create a :class:`ddm` from a list of lists","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"79c5f7aed676e2eb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.from_list","kind":"classmethod","src_hash":"d798cf876a9afe63","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_list(cls, rowslist, shape)","rhs":"cls(rowslist, shape, domain)","over":{"base":"Any"},"name":"from_list_correct"},"guarantee":"returns cls(rowslist, shape, domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"79c5f7aed676e2eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls(rowslist, shape, domain)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_list(cls, rowslist, shape, domain):
         """
         Create a :class:`DDM` from a list of lists.
@@ -261,30 +305,43 @@ class DDM(list):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_ddm(cls), from_ddm produces the expected output) over Any ║
+# ║ Path(from_ddm(cls, other), other.copy()) over {Any | hasattr(other, 'copy')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_ddm : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'copy')                         ║
+# ║   returns:  other.copy()                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_ddm : {Any | hasattr(other, 'copy')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9f08d9fc997ef727           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.from_ddm","kind":"classmethod","src_hash":"f439d3f2a229297f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ddm(cls)","rhs":"from_ddm produces the expected output","over":{"base":"Any"},"name":"from_ddm_correct"},"guarantee":"from_ddm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9f08d9fc997ef727"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.from_ddm","kind":"classmethod","src_hash":"f439d3f2a229297f","in":{"base":"Any","pred":"hasattr(other, 'copy')"},"out":{"base":"Any"},"spec":{"lhs":"from_ddm(cls, other)","rhs":"other.copy()","over":{"base":"Any","pred":"hasattr(other, 'copy')"},"name":"from_ddm_correct"},"guarantee":"returns other.copy()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9f08d9fc997ef727","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'copy')"],"returns_expr":"other.copy()","pure":false,"effects":{"effect_type":"reads_state","reads":["other.copy"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_ddm(cls, other):
         return other.copy()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_list(), convert to a list of lists) over Any       ║
+# ║ Path(to_list(), [row[:] for row in self]) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [row[:] for row in self]                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_list : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 71b7062e2d1bfaef           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.to_list","kind":"method","src_hash":"d7e77769e4fb9727","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_list()","rhs":"convert to a list of lists","over":{"base":"Any"},"name":"to_list_correct"},"guarantee":"convert to a list of lists","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"71b7062e2d1bfaef"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.to_list","kind":"method","src_hash":"d7e77769e4fb9727","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_list()","rhs":"[row[:] for row in self]","over":{"base":"Any"},"name":"to_list_correct"},"guarantee":"returns [row[:] for row in self]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"71b7062e2d1bfaef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[row[:] for row in self]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_list(self):
         """
         Convert to a list of lists.
@@ -307,16 +364,22 @@ class DDM(list):
         return [row[:] for row in self]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_list_flat(), convert to a flat list of elements) over Any ║
+# ║ Path(to_list_flat(), <unspecified:to_list_flat>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_list_flat : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c18f736f1e6591a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.to_list_flat","kind":"method","src_hash":"8232dfb8f5e1d9ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_list_flat()","rhs":"convert to a flat list of elements","over":{"base":"Any"},"name":"to_list_flat_correct"},"guarantee":"convert to a flat list of elements","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.to_list_flat_correct","statement":"Path(to_list_flat(x), convert to a flat list of elements)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c18f736f1e6591a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.to_list_flat","kind":"method","src_hash":"8232dfb8f5e1d9ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_list_flat()","rhs":"<unspecified:to_list_flat>","over":{"base":"Any"},"name":"to_list_flat_correct"},"guarantee":"convert to a flat list of elements","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.to_list_flat_correct","statement":"Path(to_list_flat(x), convert to a flat list of elements)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c18f736f1e6591a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_list_flat(self):
         """
         Convert to a flat list of elements.
@@ -344,16 +407,24 @@ class DDM(list):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_list_flat(cls), create a :class:`ddm` from a flat list of elements) over Any ║
+# ║ Path(from_list_flat(cls, flat, shape), cls(lol, shape, domain)) over {Any | len(flat) == rows * cols} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_list_flat : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(flat) == rows * cols                       ║
+# ║   ensures:  type(flat) is list                             ║
+# ║   returns:  cls(lol, shape, domain)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_list_flat : {Any | len(flat) == rows * cols} → {...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca1f01536bb41a6f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 183cdf49b886ff87  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.from_list_flat","kind":"classmethod","src_hash":"92342adde7037af2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_list_flat(cls)","rhs":"create a :class:`ddm` from a flat list of elements","over":{"base":"Any"},"name":"from_list_flat_correct"},"guarantee":"create a :class:`ddm` from a flat list of elements","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.from_list_flat_correct","statement":"Path(from_list_flat(x), create a :class:`ddm` from a flat list of elements)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca1f01536bb41a6f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.from_list_flat","kind":"classmethod","src_hash":"92342adde7037af2","in":{"base":"Any","pred":"len(flat) == rows * cols"},"out":{"base":"Any","pred":"result satisfies: result == (cls(lol, shape, domain))"},"spec":{"lhs":"from_list_flat(cls, flat, shape)","rhs":"cls(lol, shape, domain)","over":{"base":"Any","pred":"len(flat) == rows * cols"},"name":"from_list_flat_correct"},"guarantee":"returns cls(lol, shape, domain); type(flat) is list","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.from_list_flat_correct","statement":"Path(from_list_flat(x), returns cls(lol, shape, domain); type(flat) is list)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"183cdf49b886ff87","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(flat) == rows * cols"],"ensures":["type(flat) is list"],"returns_expr":"cls(lol, shape, domain)","pure":false,"effects":{"effect_type":"reads_state","raises":["DMBadInputError"]},"state_contract":{"exceptional_post":{"DMBadInputError":["isinstance(raised, DMBadInputError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_list_flat(cls, flat, shape, domain):
         """
         Create a :class:`DDM` from a flat list of elements.
@@ -383,30 +454,42 @@ class DDM(list):
         return cls(lol, shape, domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(flatiter(), flatiter produces the expected output) over Any ║
+# ║ Path(flatiter(), chain.from_iterable(self)) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  chain.from_iterable(self)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ flatiter : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 92f49341879b0278           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.flatiter","kind":"method","src_hash":"7f6cd0f9d536ed35","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"flatiter()","rhs":"flatiter produces the expected output","over":{"base":"Any"},"name":"flatiter_correct"},"guarantee":"flatiter produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"92f49341879b0278"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.flatiter","kind":"method","src_hash":"7f6cd0f9d536ed35","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"flatiter()","rhs":"chain.from_iterable(self)","over":{"base":"Any"},"name":"flatiter_correct"},"guarantee":"returns chain.from_iterable(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"92f49341879b0278","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"chain.from_iterable(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def flatiter(self):
         return chain.from_iterable(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(flat(), flat produces the expected output) over Any   ║
+# ║ Path(flat(), <unspecified:flat>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ flat : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13fffcac3d4e90fc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.flat","kind":"method","src_hash":"54b3336ba78f93b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"flat()","rhs":"flat produces the expected output","over":{"base":"Any"},"name":"flat_correct"},"guarantee":"flat produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.flat_correct","statement":"Path(flat(x), flat produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13fffcac3d4e90fc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.flat","kind":"method","src_hash":"54b3336ba78f93b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"flat()","rhs":"<unspecified:flat>","over":{"base":"Any"},"name":"flat_correct"},"guarantee":"flat produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.flat_correct","statement":"Path(flat(x), flat produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13fffcac3d4e90fc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def flat(self):
         items = []
         for row in self:
@@ -414,16 +497,22 @@ class DDM(list):
         return items
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_flat_nz(), convert to a flat list of nonzero elements and data) over Any ║
+# ║ Path(to_flat_nz(), self.to_sdm().to_flat_nz()) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.to_sdm().to_flat_nz()                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_flat_nz : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b346133323e3ad6e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.to_flat_nz","kind":"method","src_hash":"e09a345f0c62c1dc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_flat_nz()","rhs":"convert to a flat list of nonzero elements and data","over":{"base":"Any"},"name":"to_flat_nz_correct"},"guarantee":"convert to a flat list of nonzero elements and data","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b346133323e3ad6e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.to_flat_nz","kind":"method","src_hash":"e09a345f0c62c1dc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_flat_nz()","rhs":"self.to_sdm().to_flat_nz()","over":{"base":"Any"},"name":"to_flat_nz_correct"},"guarantee":"returns self.to_sdm().to_flat_nz()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b346133323e3ad6e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.to_sdm().to_flat_nz()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.to_sdm"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_flat_nz(self):
         """
         Convert to a flat list of nonzero elements and data.
@@ -458,16 +547,22 @@ class DDM(list):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_flat_nz(cls), reconstruct a :class:`ddm` after calling :meth:`to_flat_nz`) over Any ║
+# ║ Path(from_flat_nz(cls, elements, data), SDM.from_flat_nz(elements, data, domain).to_ddm()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  SDM.from_flat_nz(elements, data, domain)....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_flat_nz : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b6b89991c4ded24f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.from_flat_nz","kind":"classmethod","src_hash":"b2b5e9d0ea4d170a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_flat_nz(cls)","rhs":"reconstruct a :class:`ddm` after calling :meth:`to_flat_nz`","over":{"base":"Any"},"name":"from_flat_nz_correct"},"guarantee":"reconstruct a :class:`ddm` after calling :meth:`to_flat_nz`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b6b89991c4ded24f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.from_flat_nz","kind":"classmethod","src_hash":"b2b5e9d0ea4d170a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_flat_nz(cls, elements, data)","rhs":"SDM.from_flat_nz(elements, data, domain).to_ddm()","over":{"base":"Any"},"name":"from_flat_nz_correct"},"guarantee":"returns SDM.from_flat_nz(elements, data, domain).to_ddm()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b6b89991c4ded24f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"SDM.from_flat_nz(elements, data, domain).to_ddm()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_flat_nz(cls, elements, data, domain):
         """
         Reconstruct a :class:`DDM` after calling :meth:`to_flat_nz`.
@@ -494,16 +589,22 @@ class DDM(list):
         return SDM.from_flat_nz(elements, data, domain).to_ddm()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_dod(), convert to a dictionary of dictionaries (dod) format) over Any ║
+# ║ Path(to_dod(), <unspecified:to_dod>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_dod : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1527b84456e730d1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.to_dod","kind":"method","src_hash":"8c620f88c3e0d52f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_dod()","rhs":"convert to a dictionary of dictionaries (dod) format","over":{"base":"Any"},"name":"to_dod_correct"},"guarantee":"convert to a dictionary of dictionaries (dod) format","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.to_dod_correct","statement":"Path(to_dod(x), convert to a dictionary of dictionaries (dod) format)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1527b84456e730d1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.to_dod","kind":"method","src_hash":"8c620f88c3e0d52f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_dod()","rhs":"<unspecified:to_dod>","over":{"base":"Any"},"name":"to_dod_correct"},"guarantee":"convert to a dictionary of dictionaries (dod) format","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.to_dod_correct","statement":"Path(to_dod(x), convert to a dictionary of dictionaries (dod) format)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1527b84456e730d1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_dod(self):
         """
         Convert to a dictionary of dictionaries (dod) format.
@@ -533,16 +634,24 @@ class DDM(list):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_dod(cls), create a :class:`ddm` from a dictionary of dictionaries (dod) format) over Any ║
+# ║ Path(from_dod(cls, dod, shape), DDM(lol, shape, domain)) over {Any | hasattr(dod, 'items') and hasattr(domain, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_dod : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(dod, 'items')                          ║
+# ║   requires: hasattr(domain, 'zero')                        ║
+# ║   returns:  DDM(lol, shape, domain)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_dod : {Any | hasattr(dod, 'items') and hasattr(d...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c6ae3191cdd8b0de  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8e45c531f718c40  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.from_dod","kind":"classmethod","src_hash":"9bfc2fd9c1e35f48","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_dod(cls)","rhs":"create a :class:`ddm` from a dictionary of dictionaries (dod) format","over":{"base":"Any"},"name":"from_dod_correct"},"guarantee":"create a :class:`ddm` from a dictionary of dictionaries (dod) format","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.from_dod_correct","statement":"Path(from_dod(x), create a :class:`ddm` from a dictionary of dictionaries (dod) format)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6ae3191cdd8b0de"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.from_dod","kind":"classmethod","src_hash":"9bfc2fd9c1e35f48","in":{"base":"Any","pred":"hasattr(dod, 'items') and hasattr(domain, 'zero')"},"out":{"base":"Any"},"spec":{"lhs":"from_dod(cls, dod, shape)","rhs":"DDM(lol, shape, domain)","over":{"base":"Any","pred":"hasattr(dod, 'items') and hasattr(domain, 'zero')"},"name":"from_dod_correct"},"guarantee":"returns DDM(lol, shape, domain)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.from_dod_correct","statement":"Path(from_dod(x), returns DDM(lol, shape, domain))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8e45c531f718c40","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(dod, 'items')","hasattr(domain, 'zero')"],"returns_expr":"DDM(lol, shape, domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["dod.items","domain.zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_dod(cls, dod, shape, domain):
         """
         Create a :class:`DDM` from a dictionary of dictionaries (dod) format.
@@ -572,16 +681,22 @@ class DDM(list):
         return DDM(lol, shape, domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_dok(), convert :class:`ddm` to dictionary of keys (dok) format) over Any ║
+# ║ Path(to_dok(), <unspecified:to_dok>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_dok : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d6fa6b04ecdd34d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.to_dok","kind":"method","src_hash":"73b812b054a27090","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_dok()","rhs":"convert :class:`ddm` to dictionary of keys (dok) format","over":{"base":"Any"},"name":"to_dok_correct"},"guarantee":"convert :class:`ddm` to dictionary of keys (dok) format","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.to_dok_correct","statement":"Path(to_dok(x), convert :class:`ddm` to dictionary of keys (dok) format)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d6fa6b04ecdd34d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.to_dok","kind":"method","src_hash":"73b812b054a27090","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_dok()","rhs":"<unspecified:to_dok>","over":{"base":"Any"},"name":"to_dok_correct"},"guarantee":"convert :class:`ddm` to dictionary of keys (dok) format","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.to_dok_correct","statement":"Path(to_dok(x), convert :class:`ddm` to dictionary of keys (dok) format)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d6fa6b04ecdd34d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_dok(self):
         """
         Convert :class:`DDM` to dictionary of keys (dok) format.
@@ -611,16 +726,24 @@ class DDM(list):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_dok(cls), create a :class:`ddm` from a dictionary of keys (dok) format) over Any ║
+# ║ Path(from_dok(cls, dok, shape), DDM(lol, shape, domain)) over {Any | hasattr(dok, 'items') and hasattr(domain, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_dok : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(dok, 'items')                          ║
+# ║   requires: hasattr(domain, 'zero')                        ║
+# ║   returns:  DDM(lol, shape, domain)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_dok : {Any | hasattr(dok, 'items') and hasattr(d...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 19e6702c88bf168c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0fd8d9f6c94e1537  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.from_dok","kind":"classmethod","src_hash":"01e7892212b439fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_dok(cls)","rhs":"create a :class:`ddm` from a dictionary of keys (dok) format","over":{"base":"Any"},"name":"from_dok_correct"},"guarantee":"create a :class:`ddm` from a dictionary of keys (dok) format","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.from_dok_correct","statement":"Path(from_dok(x), create a :class:`ddm` from a dictionary of keys (dok) format)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19e6702c88bf168c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.from_dok","kind":"classmethod","src_hash":"01e7892212b439fd","in":{"base":"Any","pred":"hasattr(dok, 'items') and hasattr(domain, 'zero')"},"out":{"base":"Any"},"spec":{"lhs":"from_dok(cls, dok, shape)","rhs":"DDM(lol, shape, domain)","over":{"base":"Any","pred":"hasattr(dok, 'items') and hasattr(domain, 'zero')"},"name":"from_dok_correct"},"guarantee":"returns DDM(lol, shape, domain)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.from_dok_correct","statement":"Path(from_dok(x), returns DDM(lol, shape, domain))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0fd8d9f6c94e1537","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(dok, 'items')","hasattr(domain, 'zero')"],"returns_expr":"DDM(lol, shape, domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["dok.items","domain.zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_dok(cls, dok, shape, domain):
         """
         Create a :class:`DDM` from a dictionary of keys (dok) format.
@@ -649,16 +772,22 @@ class DDM(list):
         return DDM(lol, shape, domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(iter_values(), iterate over the non-zero values of the matrix) over Any ║
+# ║ Path(iter_values(), <unspecified:iter_values>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ iter_values : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3fa41ce1e9e71fde  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.iter_values","kind":"method","src_hash":"e359a491d394f319","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"iter_values()","rhs":"iterate over the non-zero values of the matrix","over":{"base":"Any"},"name":"iter_values_correct"},"guarantee":"iterate over the non-zero values of the matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.iter_values_correct","statement":"Path(iter_values(x), iterate over the non-zero values of the matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3fa41ce1e9e71fde"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.iter_values","kind":"method","src_hash":"e359a491d394f319","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"iter_values()","rhs":"<unspecified:iter_values>","over":{"base":"Any"},"name":"iter_values_correct"},"guarantee":"iterate over the non-zero values of the matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.iter_values_correct","statement":"Path(iter_values(x), iterate over the non-zero values of the matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3fa41ce1e9e71fde","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def iter_values(self):
         """
         Iterate over the non-zero values of the matrix.
@@ -683,16 +812,22 @@ class DDM(list):
             yield from filter(None, row)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(iter_items(), iterate over indices and values of nonzero elements of the matrix) over Any ║
+# ║ Path(iter_items(), <unspecified:iter_items>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ iter_items : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fff27baec21030a2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.iter_items","kind":"method","src_hash":"93e9e33b59ac50fe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"iter_items()","rhs":"iterate over indices and values of nonzero elements of the matrix","over":{"base":"Any"},"name":"iter_items_correct"},"guarantee":"iterate over indices and values of nonzero elements of the matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.iter_items_correct","statement":"Path(iter_items(x), iterate over indices and values of nonzero elements of the matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fff27baec21030a2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.iter_items","kind":"method","src_hash":"93e9e33b59ac50fe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"iter_items()","rhs":"<unspecified:iter_items>","over":{"base":"Any"},"name":"iter_items_correct"},"guarantee":"iterate over indices and values of nonzero elements of the matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.iter_items_correct","statement":"Path(iter_items(x), iterate over indices and values of nonzero elements of the matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fff27baec21030a2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def iter_items(self):
         """
         Iterate over indices and values of nonzero elements of the matrix.
@@ -719,16 +854,23 @@ class DDM(list):
                     yield (i, j), element
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_ddm(), convert to a :class:`ddm`) over Any         ║
+# ║ Path(to_ddm(), self) over Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ to_ddm : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == self                                 ║
+# ║   returns:  self                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ to_ddm : Any → {Any | result satisfies: result == (se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1dc8ae7522b0dd14           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.to_ddm","kind":"method","src_hash":"e9ee4e41af113a10","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_ddm()","rhs":"convert to a :class:`ddm`","over":{"base":"Any"},"name":"to_ddm_correct"},"guarantee":"convert to a :class:`ddm`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1dc8ae7522b0dd14"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.to_ddm","kind":"method","src_hash":"e9ee4e41af113a10","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self)"},"spec":{"lhs":"to_ddm()","rhs":"self","over":{"base":"Any"},"name":"to_ddm_correct"},"guarantee":"returns self; result == self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1dc8ae7522b0dd14","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == self"],"returns_expr":"self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_ddm(self):
         """
         Convert to a :class:`DDM`.
@@ -748,16 +890,22 @@ class DDM(list):
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_sdm(), convert to a :class:`~.sdm`) over Any       ║
+# ║ Path(to_sdm(), SDM.from_list(self, self.shape, self.domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  SDM.from_list(self, self.shape, self.domain)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_sdm : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3e9c1087427877ae           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.to_sdm","kind":"method","src_hash":"49b3a4a065c52cff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_sdm()","rhs":"convert to a :class:`~.sdm`","over":{"base":"Any"},"name":"to_sdm_correct"},"guarantee":"convert to a :class:`~.sdm`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e9c1087427877ae"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.to_sdm","kind":"method","src_hash":"49b3a4a065c52cff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_sdm()","rhs":"SDM.from_list(self, self.shape, self.domain)","over":{"base":"Any"},"name":"to_sdm_correct"},"guarantee":"returns SDM.from_list(self, self.shape, self.domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e9c1087427877ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"SDM.from_list(self, self.shape, self.domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_sdm(self):
         """
         Convert to a :class:`~.SDM`.
@@ -783,16 +931,22 @@ class DDM(list):
 
     @doctest_depends_on(ground_types=['flint'])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_dfm(), convert to :class:`~.ddm` to :class:`~.dfm`) over Any ║
+# ║ Path(to_dfm(), DFM(list(self), self.shape, self.domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  DFM(list(self), self.shape, self.domain)       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_dfm : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a9c667f72401159b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.to_dfm","kind":"method","src_hash":"65d24078ddf881e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_dfm()","rhs":"convert to :class:`~.ddm` to :class:`~.dfm`","over":{"base":"Any"},"name":"to_dfm_correct"},"guarantee":"convert to :class:`~.ddm` to :class:`~.dfm`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a9c667f72401159b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.to_dfm","kind":"method","src_hash":"65d24078ddf881e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_dfm()","rhs":"DFM(list(self), self.shape, self.domain)","over":{"base":"Any"},"name":"to_dfm_correct"},"guarantee":"returns DFM(list(self), self.shape, self.domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a9c667f72401159b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"DFM(list(self), self.shape, self.domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_dfm(self):
         """
         Convert to :class:`~.DDM` to :class:`~.DFM`.
@@ -818,16 +972,22 @@ class DDM(list):
 
     @doctest_depends_on(ground_types=['flint'])
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_dfm_or_ddm(), convert to :class:`~.dfm` if possible or otherwise return self) over Any ║
+# ║ Path(to_dfm_or_ddm(), <unspecified:to_dfm_or_ddm>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_dfm_or_ddm : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 94bf948dfd611c5f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.to_dfm_or_ddm","kind":"method","src_hash":"6ea081565116b1e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_dfm_or_ddm()","rhs":"convert to :class:`~.dfm` if possible or otherwise return self","over":{"base":"Any"},"name":"to_dfm_or_ddm_correct"},"guarantee":"convert to :class:`~.dfm` if possible or otherwise return self","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.to_dfm_or_ddm_correct","statement":"Path(to_dfm_or_ddm(x), convert to :class:`~.dfm` if possible or otherwise return self)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94bf948dfd611c5f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.to_dfm_or_ddm","kind":"method","src_hash":"6ea081565116b1e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_dfm_or_ddm()","rhs":"<unspecified:to_dfm_or_ddm>","over":{"base":"Any"},"name":"to_dfm_or_ddm_correct"},"guarantee":"convert to :class:`~.dfm` if possible or otherwise return self","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.to_dfm_or_ddm_correct","statement":"Path(to_dfm_or_ddm(x), convert to :class:`~.dfm` if possible or otherwise return self)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94bf948dfd611c5f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.to_dfm"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_dfm_or_ddm(self):
         """
         Convert to :class:`~.DFM` if possible or otherwise return self.
@@ -855,16 +1015,23 @@ class DDM(list):
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(convert_to(K), convert_to produces the expected output) over Any ║
+# ║ Path(convert_to(K), <unspecified:convert_to>) over {Any | hasattr(K, 'convert_from')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ convert_to : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'convert_from')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ convert_to : {Any | hasattr(K, 'convert_from')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af093e8a01d46cc9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.convert_to","kind":"method","src_hash":"b0beb8d502dc5be9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"convert_to(K)","rhs":"convert_to produces the expected output","over":{"base":"Any"},"name":"convert_to_correct"},"guarantee":"convert_to produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.convert_to_correct","statement":"Path(convert_to(x), convert_to produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af093e8a01d46cc9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.convert_to","kind":"method","src_hash":"b0beb8d502dc5be9","in":{"base":"Any","pred":"hasattr(K, 'convert_from')"},"out":{"base":"Any"},"spec":{"lhs":"convert_to(K)","rhs":"<unspecified:convert_to>","over":{"base":"Any","pred":"hasattr(K, 'convert_from')"},"name":"convert_to_correct"},"guarantee":"convert_to produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.convert_to_correct","statement":"Path(convert_to(x), convert_to produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af093e8a01d46cc9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'convert_from')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.convert_from","self.copy","self.domain","self.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def convert_to(self, K):
         Kold = self.domain
         if K == Kold:
@@ -873,78 +1040,110 @@ class DDM(list):
         return DDM(rows, self.shape, K)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), '[%s]' % ', '.join(rowsstr)) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '[%s]' % ', '.join(rowsstr)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fe16e9fe9b771138           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.__str__","kind":"method","src_hash":"82f6014f74a8021c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fe16e9fe9b771138"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.__str__","kind":"method","src_hash":"82f6014f74a8021c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'[%s]' % ', '.join(rowsstr)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns '[%s]' % ', '.join(rowsstr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fe16e9fe9b771138","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'[%s]' % ', '.join(rowsstr)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         rowsstr = ['[%s]' % ', '.join(map(str, row)) for row in self]
         return '[%s]' % ', '.join(rowsstr)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), '%s(%s, %s, %s)' % (cls, rows, self.shape, self.domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '%s(%s, %s, %s)' % (cls, rows, self.shape...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1881b7fec76fc387           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.__repr__","kind":"method","src_hash":"8a0c9f0e5ee9a4c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1881b7fec76fc387"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.__repr__","kind":"method","src_hash":"8a0c9f0e5ee9a4c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'%s(%s, %s, %s)' % (cls, rows, self.shape, self.domain)","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns '%s(%s, %s, %s)' % (cls, rows, self.shape, self.domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1881b7fec76fc387","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'%s(%s, %s, %s)' % (cls, rows, self.shape, self.domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         cls = type(self).__name__
         rows = list.__repr__(self)
         return '%s(%s, %s, %s)' % (cls, rows, self.shape, self.domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), <unspecified:__eq__>) over {Any | hasattr(other, 'domain')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'domain')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'domain')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1918ca629c42c8e6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.__eq__","kind":"method","src_hash":"dd065a916a6e62d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1918ca629c42c8e6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.__eq__","kind":"method","src_hash":"dd065a916a6e62d3","in":{"base":"Any","pred":"hasattr(other, 'domain')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"<unspecified:__eq__>","over":{"base":"Any","pred":"hasattr(other, 'domain')"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1918ca629c42c8e6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'domain')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.domain","self.domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         if not isinstance(other, DDM):
             return False
         return (super().__eq__(other) and self.domain == other.domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__ne__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__ne__(other), not self.__eq__(other)) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not self.__eq__(other)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __ne__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 44ac447ff04026f0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.__ne__","kind":"method","src_hash":"6822b2e783880416","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"44ac447ff04026f0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.__ne__","kind":"method","src_hash":"6822b2e783880416","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(other)","rhs":"not self.__eq__(other)","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"returns not self.__eq__(other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"44ac447ff04026f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not self.__eq__(other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.__eq__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __ne__(self, other):
         return not self.__eq__(other)
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(zeros(cls), zeros produces the expected output) over Any ║
+# ║ Path(zeros(cls, shape, domain), DDM(rowslist, shape, domain)) over {Any | hasattr(domain, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ zeros : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(domain, 'zero')                        ║
+# ║   returns:  DDM(rowslist, shape, domain)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ zeros : {Any | hasattr(domain, 'zero')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e689428317d271c5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de54140521369942  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.zeros","kind":"classmethod","src_hash":"4182bb4e734f07a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zeros(cls)","rhs":"zeros produces the expected output","over":{"base":"Any"},"name":"zeros_correct"},"guarantee":"zeros produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.zeros_correct","statement":"Path(zeros(x), zeros produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e689428317d271c5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.zeros","kind":"classmethod","src_hash":"4182bb4e734f07a4","in":{"base":"Any","pred":"hasattr(domain, 'zero')"},"out":{"base":"Any"},"spec":{"lhs":"zeros(cls, shape, domain)","rhs":"DDM(rowslist, shape, domain)","over":{"base":"Any","pred":"hasattr(domain, 'zero')"},"name":"zeros_correct"},"guarantee":"returns DDM(rowslist, shape, domain)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.zeros_correct","statement":"Path(zeros(x), returns DDM(rowslist, shape, domain))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de54140521369942","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(domain, 'zero')"],"returns_expr":"DDM(rowslist, shape, domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["domain.zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def zeros(cls, shape, domain):
         z = domain.zero
         m, n = shape
@@ -953,16 +1152,23 @@ class DDM(list):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ones(cls), ones produces the expected output) over Any ║
+# ║ Path(ones(cls, shape, domain), DDM(rowlist, shape, domain)) over {Any | hasattr(domain, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ones : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(domain, 'one')                         ║
+# ║   returns:  DDM(rowlist, shape, domain)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ones : {Any | hasattr(domain, 'one')} → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a678a53809fc098  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 51678bf1256f80b5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.ones","kind":"classmethod","src_hash":"c15ff34ab4f31d17","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ones(cls)","rhs":"ones produces the expected output","over":{"base":"Any"},"name":"ones_correct"},"guarantee":"ones produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.ones_correct","statement":"Path(ones(x), ones produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a678a53809fc098"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.ones","kind":"classmethod","src_hash":"c15ff34ab4f31d17","in":{"base":"Any","pred":"hasattr(domain, 'one')"},"out":{"base":"Any"},"spec":{"lhs":"ones(cls, shape, domain)","rhs":"DDM(rowlist, shape, domain)","over":{"base":"Any","pred":"hasattr(domain, 'one')"},"name":"ones_correct"},"guarantee":"returns DDM(rowlist, shape, domain)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.ones_correct","statement":"Path(ones(x), returns DDM(rowlist, shape, domain))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51678bf1256f80b5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(domain, 'one')"],"returns_expr":"DDM(rowlist, shape, domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["domain.one"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ones(cls, shape, domain):
         one = domain.one
         m, n = shape
@@ -971,16 +1177,23 @@ class DDM(list):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eye(cls), eye produces the expected output) over Any  ║
+# ║ Path(eye(cls, size, domain), <unspecified:eye>) over {Any | hasattr(domain, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eye : Any → Any                                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(domain, 'one')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eye : {Any | hasattr(domain, 'one')} → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a6c39ab0eae3dab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.eye","kind":"classmethod","src_hash":"3d570ea6bf95138b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eye(cls)","rhs":"eye produces the expected output","over":{"base":"Any"},"name":"eye_correct"},"guarantee":"eye produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.eye_correct","statement":"Path(eye(x), eye produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a6c39ab0eae3dab"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.eye","kind":"classmethod","src_hash":"3d570ea6bf95138b","in":{"base":"Any","pred":"hasattr(domain, 'one')"},"out":{"base":"Any"},"spec":{"lhs":"eye(cls, size, domain)","rhs":"<unspecified:eye>","over":{"base":"Any","pred":"hasattr(domain, 'one')"},"name":"eye_correct"},"guarantee":"eye produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.eye_correct","statement":"Path(eye(x), eye produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a6c39ab0eae3dab","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(domain, 'one')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls.zeros","domain.one"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eye(cls, size, domain):
         if isinstance(size, tuple):
             m, n = size
@@ -993,31 +1206,43 @@ class DDM(list):
         return ddm
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(copy(), copy produces the expected output) over Any   ║
+# ║ Path(copy(), DDM(copyrows, self.shape, self.domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  DDM(copyrows, self.shape, self.domain)         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ copy : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9426cb2b956c6a09  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 14488e251a34c1bc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.copy","kind":"method","src_hash":"8c0ba1ffec9f9954","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"copy()","rhs":"copy produces the expected output","over":{"base":"Any"},"name":"copy_correct"},"guarantee":"copy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.copy_correct","statement":"Path(copy(x), copy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9426cb2b956c6a09"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.copy","kind":"method","src_hash":"8c0ba1ffec9f9954","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"copy()","rhs":"DDM(copyrows, self.shape, self.domain)","over":{"base":"Any"},"name":"copy_correct"},"guarantee":"returns DDM(copyrows, self.shape, self.domain)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.copy_correct","statement":"Path(copy(x), returns DDM(copyrows, self.shape, self.domain))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14488e251a34c1bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"DDM(copyrows, self.shape, self.domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def copy(self):
         copyrows = [row[:] for row in self]
         return DDM(copyrows, self.shape, self.domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(transpose(), transpose produces the expected output) over Any ║
+# ║ Path(transpose(), DDM(ddmT, (cols, rows), self.domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  DDM(ddmT, (cols, rows), self.domain)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ transpose : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 72aae06bc49b2457  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a9803f72fb8139f4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.transpose","kind":"method","src_hash":"11300c64f1d72965","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transpose()","rhs":"transpose produces the expected output","over":{"base":"Any"},"name":"transpose_correct"},"guarantee":"transpose produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.transpose_correct","statement":"Path(transpose(x), transpose produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72aae06bc49b2457"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.transpose","kind":"method","src_hash":"11300c64f1d72965","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transpose()","rhs":"DDM(ddmT, (cols, rows), self.domain)","over":{"base":"Any"},"name":"transpose_correct"},"guarantee":"returns DDM(ddmT, (cols, rows), self.domain)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.transpose_correct","statement":"Path(transpose(x), returns DDM(ddmT, (cols, rows), self.domain))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9803f72fb8139f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"DDM(ddmT, (cols, rows), self.domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def transpose(self):
         rows, cols = self.shape
         if rows:
@@ -1027,62 +1252,94 @@ class DDM(list):
         return DDM(ddmT, (cols, rows), self.domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(a, ), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(a, b), <unspecified:__add__>) over {Any | hasattr(a, 'add')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __add__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(a, 'add')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __add__ : {Any | hasattr(a, 'add')} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3cfb06168a746b0c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.__add__","kind":"method","src_hash":"cbe1b2886df66078","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(a, )","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3cfb06168a746b0c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.__add__","kind":"method","src_hash":"cbe1b2886df66078","in":{"base":"Any","pred":"hasattr(a, 'add')"},"out":{"base":"Any"},"spec":{"lhs":"__add__(a, b)","rhs":"<unspecified:__add__>","over":{"base":"Any","pred":"hasattr(a, 'add')"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3cfb06168a746b0c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(a, 'add')"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["a.add"],"calls_mutating":["a.add"]},"state_contract":{"modifies":["a.*"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(a, b):
         if not isinstance(b, DDM):
             return NotImplemented
         return a.add(b)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(a, ), internal helper behaves correctly) over Any ║
+# ║ Path(__sub__(a, b), <unspecified:__sub__>) over {Any | hasattr(a, 'sub')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __sub__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(a, 'sub')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __sub__ : {Any | hasattr(a, 'sub')} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b2dd9d7f109953c9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.__sub__","kind":"method","src_hash":"3b44ad02a2115520","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b2dd9d7f109953c9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.__sub__","kind":"method","src_hash":"3b44ad02a2115520","in":{"base":"Any","pred":"hasattr(a, 'sub')"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(a, b)","rhs":"<unspecified:__sub__>","over":{"base":"Any","pred":"hasattr(a, 'sub')"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b2dd9d7f109953c9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(a, 'sub')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.sub"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(a, b):
         if not isinstance(b, DDM):
             return NotImplemented
         return a.sub(b)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__neg__(a), returns the additive inverse) over Any    ║
+# ║ Path(__neg__(a), a.neg()) over {Any | hasattr(a, 'neg')}   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __neg__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'neg')                              ║
+# ║   returns:  a.neg()                                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __neg__ : {Any | hasattr(a, 'neg')} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b3d829959e730442           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.__neg__","kind":"method","src_hash":"708ecce827565999","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__(a)","rhs":"returns the additive inverse","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns the additive inverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b3d829959e730442"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.__neg__","kind":"method","src_hash":"708ecce827565999","in":{"base":"Any","pred":"hasattr(a, 'neg')"},"out":{"base":"Any"},"spec":{"lhs":"__neg__(a)","rhs":"a.neg()","over":{"base":"Any","pred":"hasattr(a, 'neg')"},"name":"__neg___correct"},"guarantee":"returns a.neg()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b3d829959e730442","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'neg')"],"returns_expr":"a.neg()","pure":false,"effects":{"effect_type":"reads_state","reads":["a.neg"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __neg__(a):
         return a.neg()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(a, ), returns the product) over Any           ║
+# ║ Path(__mul__(a, b), result == (a.mul(b) if b in a.domain else NotImplemented) and result == a.mul(b) or result == NotImplemented) over {Any | hasattr(a, 'domain') and hasattr(a, 'mul')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __mul__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'domain')                           ║
+# ║   requires: hasattr(a, 'mul')                              ║
+# ║   ensures:  result == (a.mul(b) if b in a.domain else...   ║
+# ║   ensures:  result == a.mul(b) or result == NotImplem...   ║
+# ║   fiber[case_0]: b in a.domain => a.mul(b)                 ║
+# ║   fiber[case_1]: not (b in a.domain) => NotImplemented     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __mul__ : {Any | hasattr(a, 'domain') and hasattr(a, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 13f0d52c75ff9a6c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.__mul__","kind":"method","src_hash":"6e528724c3f13e46","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(a, )","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"13f0d52c75ff9a6c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.__mul__","kind":"method","src_hash":"6e528724c3f13e46","in":{"base":"Any","pred":"hasattr(a, 'domain') and hasattr(a, 'mul')"},"out":{"base":"Any","pred":"result satisfies: result == (a.mul(b) if b in a.domain else NotImplemented) and result == a.mul(b) or result == NotImplemented"},"spec":{"lhs":"__mul__(a, b)","rhs":"result == (a.mul(b) if b in a.domain else NotImplemented) and result == a.mul(b) or result == NotImplemented","over":{"base":"Any","pred":"hasattr(a, 'domain') and hasattr(a, 'mul')"},"name":"__mul___correct"},"guarantee":"result == (a.mul(b) if b in a.domain else NotImplemented); result == a.mul(b) or result == NotImplemented; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"13f0d52c75ff9a6c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'domain')","hasattr(a, 'mul')"],"ensures":["result == (a.mul(b) if b in a.domain else NotImplemented)","result == a.mul(b) or result == NotImplemented"],"fibers":[{"name":"case_0","guard":"b in a.domain","ensures":["result == a.mul(b)"],"decidability":"library","returns_expr":"a.mul(b)"},{"name":"case_1","guard":"not (b in a.domain)","ensures":["result == NotImplemented"],"decidability":"library","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.domain","a.mul"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(a, b):
         if b in a.domain:
             return a.mul(b)
@@ -1090,16 +1347,27 @@ class DDM(list):
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rmul__(a, ), internal helper behaves correctly) over Any ║
+# ║ Path(__rmul__(a, b), result == (a.mul(b) if b in a.domain else NotImplemented) and result == a.mul(b) or result == NotImplemented) over {Any | hasattr(a, 'domain') and hasattr(a, 'mul')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __rmul__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'domain')                           ║
+# ║   requires: hasattr(a, 'mul')                              ║
+# ║   ensures:  result == (a.mul(b) if b in a.domain else...   ║
+# ║   ensures:  result == a.mul(b) or result == NotImplem...   ║
+# ║   fiber[case_0]: b in a.domain => a.mul(b)                 ║
+# ║   fiber[case_1]: not (b in a.domain) => NotImplemented     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __rmul__ : {Any | hasattr(a, 'domain') and hasattr(a,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c7595f6f16240c10           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.__rmul__","kind":"method","src_hash":"e8de55084ed9f089","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c7595f6f16240c10"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.__rmul__","kind":"method","src_hash":"e8de55084ed9f089","in":{"base":"Any","pred":"hasattr(a, 'domain') and hasattr(a, 'mul')"},"out":{"base":"Any","pred":"result satisfies: result == (a.mul(b) if b in a.domain else NotImplemented) and result == a.mul(b) or result == NotImplemented"},"spec":{"lhs":"__rmul__(a, b)","rhs":"result == (a.mul(b) if b in a.domain else NotImplemented) and result == a.mul(b) or result == NotImplemented","over":{"base":"Any","pred":"hasattr(a, 'domain') and hasattr(a, 'mul')"},"name":"__rmul___correct"},"guarantee":"result == (a.mul(b) if b in a.domain else NotImplemented); result == a.mul(b) or result == NotImplemented; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c7595f6f16240c10","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'domain')","hasattr(a, 'mul')"],"ensures":["result == (a.mul(b) if b in a.domain else NotImplemented)","result == a.mul(b) or result == NotImplemented"],"fibers":[{"name":"case_0","guard":"b in a.domain","ensures":["result == a.mul(b)"],"decidability":"library","returns_expr":"a.mul(b)"},{"name":"case_1","guard":"not (b in a.domain)","ensures":["result == NotImplemented"],"decidability":"library","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.domain","a.mul"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rmul__(a, b):
         if b in a.domain:
             return a.mul(b)
@@ -1107,16 +1375,26 @@ class DDM(list):
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__matmul__(a, ), internal helper behaves correctly) over Any ║
+# ║ Path(__matmul__(a, b), result == (a.matmul(b) if isinstance(b, DDM) else NotImplemented) and result == a.matmul(b) or result == NotImplemented) over {Any | hasattr(a, 'matmul')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __matmul__ : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'matmul')                           ║
+# ║   ensures:  result == (a.matmul(b) if isinstance(b, D...   ║
+# ║   ensures:  result == a.matmul(b) or result == NotImp...   ║
+# ║   fiber[DDM]: isinstance(b, DDM) => a.matmul(b)            ║
+# ║   fiber[DDM]: not (isinstance(b, DDM)) => NotImplemented   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __matmul__ : {Any | hasattr(a, 'matmul')} → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f9961d3947bcd544           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.__matmul__","kind":"method","src_hash":"cecce0d1519192fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__matmul__(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__matmul___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f9961d3947bcd544"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.__matmul__","kind":"method","src_hash":"cecce0d1519192fc","in":{"base":"Any","pred":"hasattr(a, 'matmul')"},"out":{"base":"Any","pred":"result satisfies: result == (a.matmul(b) if isinstance(b, DDM) else NotImplemented) and result == a.matmul(b) or result == NotImplemented"},"spec":{"lhs":"__matmul__(a, b)","rhs":"result == (a.matmul(b) if isinstance(b, DDM) else NotImplemented) and result == a.matmul(b) or result == NotImplemented","over":{"base":"Any","pred":"hasattr(a, 'matmul')"},"name":"__matmul___correct"},"guarantee":"result == (a.matmul(b) if isinstance(b, DDM) else NotImplemented); result == a.matmul(b) or result == NotImplemented; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f9961d3947bcd544","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'matmul')"],"ensures":["result == (a.matmul(b) if isinstance(b, DDM) else NotImplemented)","result == a.matmul(b) or result == NotImplemented"],"fibers":[{"name":"DDM","guard":"isinstance(b, DDM)","ensures":["result == a.matmul(b)"],"decidability":"structural","returns_expr":"a.matmul(b)"},{"name":"DDM","guard":"not (isinstance(b, DDM))","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.matmul"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __matmul__(a, b):
         if isinstance(b, DDM):
             return a.matmul(b)
@@ -1125,16 +1403,25 @@ class DDM(list):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_check(cls, a, op), <unspecified:_check>) over {Any | hasattr(a, 'domain') and hasattr(b, 'domain') and hasattr(a, 'shape') and hasattr(b, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(a, 'domain')                           ║
+# ║   requires: hasattr(b, 'domain')                           ║
+# ║   requires: hasattr(a, 'shape')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check : {Any | hasattr(a, 'domain') and hasattr(b, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b338435729b57678  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM._check","kind":"classmethod","src_hash":"00c93c523828313a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_check_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM._check_correct","statement":"Path(_check(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b338435729b57678"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM._check","kind":"classmethod","src_hash":"00c93c523828313a","in":{"base":"Any","pred":"hasattr(a, 'domain') and hasattr(b, 'domain') and hasattr(a, 'shape') and hasattr(b, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"_check(cls, a, op)","rhs":"<unspecified:_check>","over":{"base":"Any","pred":"hasattr(a, 'domain') and hasattr(b, 'domain') and hasattr(a, 'shape') and hasattr(b, 'shape')"},"name":"_check_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM._check_correct","statement":"Path(_check(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b338435729b57678","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(a, 'domain')","hasattr(b, 'domain')","hasattr(a, 'shape')","hasattr(b, 'shape')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.domain","a.shape","b.domain","b.shape"],"raises":["DMDomainError","DMShapeError"]},"state_contract":{"exceptional_post":{"DMDomainError":["isinstance(raised, DMDomainError)"],"DMShapeError":["isinstance(raised, DMShapeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _check(cls, a, op, b, ashape, bshape):
         if a.domain != b.domain:
             msg = "Domain mismatch: %s %s %s" % (a.domain, op, b.domain)
@@ -1144,16 +1431,25 @@ class DDM(list):
             raise DMShapeError(msg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(add(a, ), a + b) over Any                             ║
+# ║ Path(add(a, b), <unspecified:add>) over {Any | hasattr(a, '_check') and hasattr(a, 'shape') and hasattr(b, 'shape') and hasattr(a, 'copy')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ add : Any → Any                                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(a, '_check')                           ║
+# ║   requires: hasattr(a, 'shape')                            ║
+# ║   requires: hasattr(b, 'shape')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ add : {Any | hasattr(a, '_check') and hasattr(a, 'sha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4aace021f8e93b99  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.add","kind":"method","src_hash":"5946e0e243f9711a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"add(a, )","rhs":"a + b","over":{"base":"Any"},"name":"add_correct"},"guarantee":"a + b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.add_correct","statement":"Path(add(x), a + b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4aace021f8e93b99"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.add","kind":"method","src_hash":"5946e0e243f9711a","in":{"base":"Any","pred":"hasattr(a, '_check') and hasattr(a, 'shape') and hasattr(b, 'shape') and hasattr(a, 'copy')"},"out":{"base":"Any"},"spec":{"lhs":"add(a, b)","rhs":"<unspecified:add>","over":{"base":"Any","pred":"hasattr(a, '_check') and hasattr(a, 'shape') and hasattr(b, 'shape') and hasattr(a, 'copy')"},"name":"add_correct"},"guarantee":"a + b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.add_correct","statement":"Path(add(x), a + b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4aace021f8e93b99","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(a, '_check')","hasattr(a, 'shape')","hasattr(b, 'shape')","hasattr(a, 'copy')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a._check","a.copy","a.shape","b.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def add(a, b):
         """a + b"""
         a._check(a, '+', b, a.shape, b.shape)
@@ -1162,16 +1458,25 @@ class DDM(list):
         return c
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sub(a, ), a - b) over Any                             ║
+# ║ Path(sub(a, b), <unspecified:sub>) over {Any | hasattr(a, '_check') and hasattr(a, 'shape') and hasattr(b, 'shape') and hasattr(a, 'copy')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sub : Any → Any                                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(a, '_check')                           ║
+# ║   requires: hasattr(a, 'shape')                            ║
+# ║   requires: hasattr(b, 'shape')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sub : {Any | hasattr(a, '_check') and hasattr(a, 'sha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 851942e965efda4a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.sub","kind":"method","src_hash":"32042d30d87da174","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sub(a, )","rhs":"a - b","over":{"base":"Any"},"name":"sub_correct"},"guarantee":"a - b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.sub_correct","statement":"Path(sub(x), a - b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"851942e965efda4a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.sub","kind":"method","src_hash":"32042d30d87da174","in":{"base":"Any","pred":"hasattr(a, '_check') and hasattr(a, 'shape') and hasattr(b, 'shape') and hasattr(a, 'copy')"},"out":{"base":"Any"},"spec":{"lhs":"sub(a, b)","rhs":"<unspecified:sub>","over":{"base":"Any","pred":"hasattr(a, '_check') and hasattr(a, 'shape') and hasattr(b, 'shape') and hasattr(a, 'copy')"},"name":"sub_correct"},"guarantee":"a - b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.sub_correct","statement":"Path(sub(x), a - b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"851942e965efda4a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(a, '_check')","hasattr(a, 'shape')","hasattr(b, 'shape')","hasattr(a, 'copy')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a._check","a.copy","a.shape","b.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def sub(a, b):
         """a - b"""
         a._check(a, '-', b, a.shape, b.shape)
@@ -1180,16 +1485,23 @@ class DDM(list):
         return c
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(neg(a), -a) over Any                                  ║
+# ║ Path(neg(a), <unspecified:neg>) over {Any | hasattr(a, 'copy')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ neg : Any → Any                                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(a, 'copy')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ neg : {Any | hasattr(a, 'copy')} → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 74b4990c7e4bf9d6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.neg","kind":"method","src_hash":"7fc8f2f29b600d17","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"neg(a)","rhs":"-a","over":{"base":"Any"},"name":"neg_correct"},"guarantee":"-a","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.neg_correct","statement":"Path(neg(x), -a)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"74b4990c7e4bf9d6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.neg","kind":"method","src_hash":"7fc8f2f29b600d17","in":{"base":"Any","pred":"hasattr(a, 'copy')"},"out":{"base":"Any"},"spec":{"lhs":"neg(a)","rhs":"<unspecified:neg>","over":{"base":"Any","pred":"hasattr(a, 'copy')"},"name":"neg_correct"},"guarantee":"-a","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.neg_correct","statement":"Path(neg(x), -a)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"74b4990c7e4bf9d6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(a, 'copy')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.copy"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def neg(a):
         """-a"""
         b = a.copy()
@@ -1197,48 +1509,71 @@ class DDM(list):
         return b
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mul(a, ), mul produces the expected output) over Any  ║
+# ║ Path(mul(a, b), <unspecified:mul>) over {Any | hasattr(a, 'copy')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ mul : Any → Any                                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(a, 'copy')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ mul : {Any | hasattr(a, 'copy')} → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aca8dc23fd93dc73  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.mul","kind":"method","src_hash":"60ad345aac8292ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mul(a, )","rhs":"mul produces the expected output","over":{"base":"Any"},"name":"mul_correct"},"guarantee":"mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.mul_correct","statement":"Path(mul(x), mul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aca8dc23fd93dc73"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.mul","kind":"method","src_hash":"60ad345aac8292ca","in":{"base":"Any","pred":"hasattr(a, 'copy')"},"out":{"base":"Any"},"spec":{"lhs":"mul(a, b)","rhs":"<unspecified:mul>","over":{"base":"Any","pred":"hasattr(a, 'copy')"},"name":"mul_correct"},"guarantee":"mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.mul_correct","statement":"Path(mul(x), mul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aca8dc23fd93dc73","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(a, 'copy')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.copy"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def mul(a, b):
         c = a.copy()
         ddm_imul(c, b)
         return c
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rmul(a, ), rmul produces the expected output) over Any ║
+# ║ Path(rmul(a, b), <unspecified:rmul>) over {Any | hasattr(a, 'copy')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rmul : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(a, 'copy')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rmul : {Any | hasattr(a, 'copy')} → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15ff0f4756af04a5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.rmul","kind":"method","src_hash":"df0521d186f9c368","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rmul(a, )","rhs":"rmul produces the expected output","over":{"base":"Any"},"name":"rmul_correct"},"guarantee":"rmul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.rmul_correct","statement":"Path(rmul(x), rmul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15ff0f4756af04a5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.rmul","kind":"method","src_hash":"df0521d186f9c368","in":{"base":"Any","pred":"hasattr(a, 'copy')"},"out":{"base":"Any"},"spec":{"lhs":"rmul(a, b)","rhs":"<unspecified:rmul>","over":{"base":"Any","pred":"hasattr(a, 'copy')"},"name":"rmul_correct"},"guarantee":"rmul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.rmul_correct","statement":"Path(rmul(x), rmul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15ff0f4756af04a5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(a, 'copy')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.copy"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rmul(a, b):
         c = a.copy()
         ddm_irmul(c, b)
         return c
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(matmul(a, ), a @ b (matrix product)) over Any         ║
+# ║ Path(matmul(a, b), <unspecified:matmul>) over {Any | hasattr(a, 'shape') and hasattr(b, 'shape') and hasattr(a, '_check') and hasattr(a, 'zeros') and hasattr(a, 'domain')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ matmul : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(a, 'shape')                            ║
+# ║   requires: hasattr(b, 'shape')                            ║
+# ║   requires: hasattr(a, '_check')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ matmul : {Any | hasattr(a, 'shape') and hasattr(b, 's...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5635b551a17f0855  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.matmul","kind":"method","src_hash":"21e49073f14cd68b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matmul(a, )","rhs":"a @ b (matrix product)","over":{"base":"Any"},"name":"matmul_correct"},"guarantee":"a @ b (matrix product)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.matmul_correct","statement":"Path(matmul(x), a @ b (matrix product))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5635b551a17f0855"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.matmul","kind":"method","src_hash":"21e49073f14cd68b","in":{"base":"Any","pred":"hasattr(a, 'shape') and hasattr(b, 'shape') and hasattr(a, '_check') and hasattr(a, 'zeros') and hasattr(a, 'domain')"},"out":{"base":"Any"},"spec":{"lhs":"matmul(a, b)","rhs":"<unspecified:matmul>","over":{"base":"Any","pred":"hasattr(a, 'shape') and hasattr(b, 'shape') and hasattr(a, '_check') and hasattr(a, 'zeros') and hasattr(a, 'domain')"},"name":"matmul_correct"},"guarantee":"a @ b (matrix product)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.matmul_correct","statement":"Path(matmul(x), a @ b (matrix product))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5635b551a17f0855","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(a, 'shape')","hasattr(b, 'shape')","hasattr(a, '_check')","hasattr(a, 'zeros')","hasattr(a, 'domain')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a._check","a.domain","a.shape","a.zeros","b.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def matmul(a, b):
         """a @ b (matrix product)"""
         m, o = a.shape
@@ -1249,16 +1584,25 @@ class DDM(list):
         return c
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mul_elementwise(a, ), mul_elementwise produces the expected output) over Any ║
+# ║ Path(mul_elementwise(a, b), DDM(c, a.shape, a.domain)) over {Any | a.shape == b.shape and a.domain == b.domain and hasattr(a, 'shape') and hasattr(b, 'shape') and hasattr(a, 'domain') and hasattr(b, 'domain')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ mul_elementwise : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: a.shape == b.shape                             ║
+# ║   requires: a.domain == b.domain                           ║
+# ║   requires: hasattr(a, 'shape')                            ║
+# ║   returns:  DDM(c, a.shape, a.domain)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ mul_elementwise : {Any | a.shape == b.shape and a.dom...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd4d99646b0ebf80  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c45f8fecb238e93e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.mul_elementwise","kind":"method","src_hash":"606bcf2718c01647","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mul_elementwise(a, )","rhs":"mul_elementwise produces the expected output","over":{"base":"Any"},"name":"mul_elementwise_correct"},"guarantee":"mul_elementwise produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.mul_elementwise_correct","statement":"Path(mul_elementwise(x), mul_elementwise produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd4d99646b0ebf80"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.mul_elementwise","kind":"method","src_hash":"606bcf2718c01647","in":{"base":"Any","pred":"a.shape == b.shape and a.domain == b.domain and hasattr(a, 'shape') and hasattr(b, 'shape') and hasattr(a, 'domain') and hasattr(b, 'domain')"},"out":{"base":"Any"},"spec":{"lhs":"mul_elementwise(a, b)","rhs":"DDM(c, a.shape, a.domain)","over":{"base":"Any","pred":"a.shape == b.shape and a.domain == b.domain and hasattr(a, 'shape') and hasattr(b, 'shape') and hasattr(a, 'domain') and hasattr(b, 'domain')"},"name":"mul_elementwise_correct"},"guarantee":"returns DDM(c, a.shape, a.domain)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.mul_elementwise_correct","statement":"Path(mul_elementwise(x), returns DDM(c, a.shape, a.domain))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c45f8fecb238e93e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["a.shape == b.shape","a.domain == b.domain","hasattr(a, 'shape')","hasattr(b, 'shape')","hasattr(a, 'domain')","hasattr(b, 'domain')"],"returns_expr":"DDM(c, a.shape, a.domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["a.domain","a.shape","b.domain","b.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def mul_elementwise(a, b):
         assert a.shape == b.shape
         assert a.domain == b.domain
@@ -1266,16 +1610,25 @@ class DDM(list):
         return DDM(c, a.shape, a.domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(hstack(A, ), horizontally stacks :py:class:`~.ddm` matrices) over Any ║
+# ║ Path(hstack(A, *B), DDM(Anew, (rows, cols), A.domain)) over {Any | hasattr(A, 'shape') and hasattr(A, 'domain') and hasattr(A, 'copy')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ hstack : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(A, 'shape')                            ║
+# ║   requires: hasattr(A, 'domain')                           ║
+# ║   requires: hasattr(A, 'copy')                             ║
+# ║   returns:  DDM(Anew, (rows, cols), A.domain)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ hstack : {Any | hasattr(A, 'shape') and hasattr(A, 'd...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b5507fd79bf35af  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 61a1b131868a969d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.hstack","kind":"method","src_hash":"e243307d75f24a94","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hstack(A, )","rhs":"horizontally stacks :py:class:`~.ddm` matrices","over":{"base":"Any"},"name":"hstack_correct"},"guarantee":"horizontally stacks :py:class:`~.ddm` matrices","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.hstack_correct","statement":"Path(hstack(x), horizontally stacks :py:class:`~.ddm` matrices)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b5507fd79bf35af"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.hstack","kind":"method","src_hash":"e243307d75f24a94","in":{"base":"Any","pred":"hasattr(A, 'shape') and hasattr(A, 'domain') and hasattr(A, 'copy')"},"out":{"base":"Any"},"spec":{"lhs":"hstack(A, *B)","rhs":"DDM(Anew, (rows, cols), A.domain)","over":{"base":"Any","pred":"hasattr(A, 'shape') and hasattr(A, 'domain') and hasattr(A, 'copy')"},"name":"hstack_correct"},"guarantee":"returns DDM(Anew, (rows, cols), A.domain)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.hstack_correct","statement":"Path(hstack(x), returns DDM(Anew, (rows, cols), A.domain))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61a1b131868a969d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(A, 'shape')","hasattr(A, 'domain')","hasattr(A, 'copy')"],"returns_expr":"DDM(Anew, (rows, cols), A.domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["A.copy","A.domain","A.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def hstack(A, *B):
         """Horizontally stacks :py:class:`~.DDM` matrices.
 
@@ -1311,16 +1664,25 @@ class DDM(list):
         return DDM(Anew, (rows, cols), A.domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(vstack(A, ), vertically stacks :py:class:`~.ddm` matrices) over Any ║
+# ║ Path(vstack(A, *B), DDM(Anew, (rows, cols), A.domain)) over {Any | hasattr(A, 'shape') and hasattr(A, 'domain') and hasattr(A, 'copy')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ vstack : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(A, 'shape')                            ║
+# ║   requires: hasattr(A, 'domain')                           ║
+# ║   requires: hasattr(A, 'copy')                             ║
+# ║   returns:  DDM(Anew, (rows, cols), A.domain)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ vstack : {Any | hasattr(A, 'shape') and hasattr(A, 'd...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0349dce8fca59818  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c6a364f7e08fdd88  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.vstack","kind":"method","src_hash":"330dbf97fb34a169","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vstack(A, )","rhs":"vertically stacks :py:class:`~.ddm` matrices","over":{"base":"Any"},"name":"vstack_correct"},"guarantee":"vertically stacks :py:class:`~.ddm` matrices","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.vstack_correct","statement":"Path(vstack(x), vertically stacks :py:class:`~.ddm` matrices)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0349dce8fca59818"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.vstack","kind":"method","src_hash":"330dbf97fb34a169","in":{"base":"Any","pred":"hasattr(A, 'shape') and hasattr(A, 'domain') and hasattr(A, 'copy')"},"out":{"base":"Any"},"spec":{"lhs":"vstack(A, *B)","rhs":"DDM(Anew, (rows, cols), A.domain)","over":{"base":"Any","pred":"hasattr(A, 'shape') and hasattr(A, 'domain') and hasattr(A, 'copy')"},"name":"vstack_correct"},"guarantee":"returns DDM(Anew, (rows, cols), A.domain)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.vstack_correct","statement":"Path(vstack(x), returns DDM(Anew, (rows, cols), A.domain))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6a364f7e08fdd88","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(A, 'shape')","hasattr(A, 'domain')","hasattr(A, 'copy')"],"returns_expr":"DDM(Anew, (rows, cols), A.domain)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def vstack(A, *B):
         """Vertically stacks :py:class:`~.DDM` matrices.
 
@@ -1355,31 +1717,43 @@ class DDM(list):
         return DDM(Anew, (rows, cols), A.domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(applyfunc(fun), applyfunc produces the expected output) over Any ║
+# ║ Path(applyfunc(func, domain), DDM(elements, self.shape, domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  DDM(elements, self.shape, domain)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ applyfunc : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad3b7253928e7680  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4742494a8b9897de  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.applyfunc","kind":"method","src_hash":"037d21613e1a8202","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"applyfunc(fun)","rhs":"applyfunc produces the expected output","over":{"base":"Any"},"name":"applyfunc_correct"},"guarantee":"applyfunc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.applyfunc_correct","statement":"Path(applyfunc(x), applyfunc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad3b7253928e7680"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.applyfunc","kind":"method","src_hash":"037d21613e1a8202","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"applyfunc(func, domain)","rhs":"DDM(elements, self.shape, domain)","over":{"base":"Any"},"name":"applyfunc_correct"},"guarantee":"returns DDM(elements, self.shape, domain)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.applyfunc_correct","statement":"Path(applyfunc(x), returns DDM(elements, self.shape, domain))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4742494a8b9897de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"DDM(elements, self.shape, domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def applyfunc(self, func, domain):
         elements = [list(map(func, row)) for row in self]
         return DDM(elements, self.shape, domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nnz(a), number of non-zero entries in :py:class:`~.ddm` matrix) over Any ║
+# ║ Path(nnz(a), sum((sum(map(bool, row)) for row in a))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sum((sum(map(bool, row)) for row in a))        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ nnz : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1a70ee03caa0da5c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.nnz","kind":"method","src_hash":"26667401f5de142b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nnz(a)","rhs":"number of non-zero entries in :py:class:`~.ddm` matrix","over":{"base":"Any"},"name":"nnz_correct"},"guarantee":"number of non-zero entries in :py:class:`~.ddm` matrix","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1a70ee03caa0da5c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.nnz","kind":"method","src_hash":"26667401f5de142b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nnz(a)","rhs":"sum((sum(map(bool, row)) for row in a))","over":{"base":"Any"},"name":"nnz_correct"},"guarantee":"returns sum((sum(map(bool, row)) for row in a))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1a70ee03caa0da5c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sum((sum(map(bool, row)) for row in a))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def nnz(a):
         """Number of non-zero entries in :py:class:`~.DDM` matrix.
 
@@ -1391,16 +1765,23 @@ class DDM(list):
         return sum(sum(map(bool, row)) for row in a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(scc(a), strongly connected components of a square matrix *a*) over Any ║
+# ║ Path(scc(a), a.to_sdm().scc()) over {Any | hasattr(a, 'to_sdm')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ scc : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'to_sdm')                           ║
+# ║   returns:  a.to_sdm().scc()                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ scc : {Any | hasattr(a, 'to_sdm')} → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2bc17aa79fb5382f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.scc","kind":"method","src_hash":"415a821f5ee2b4a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scc(a)","rhs":"strongly connected components of a square matrix *a*","over":{"base":"Any"},"name":"scc_correct"},"guarantee":"strongly connected components of a square matrix *a*","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2bc17aa79fb5382f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.scc","kind":"method","src_hash":"415a821f5ee2b4a4","in":{"base":"Any","pred":"hasattr(a, 'to_sdm')"},"out":{"base":"Any"},"spec":{"lhs":"scc(a)","rhs":"a.to_sdm().scc()","over":{"base":"Any","pred":"hasattr(a, 'to_sdm')"},"name":"scc_correct"},"guarantee":"returns a.to_sdm().scc()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2bc17aa79fb5382f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'to_sdm')"],"returns_expr":"a.to_sdm().scc()","pure":false,"effects":{"effect_type":"reads_state","reads":["a.to_sdm"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def scc(a):
         """Strongly connected components of a square matrix *a*.
 
@@ -1423,16 +1804,22 @@ class DDM(list):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(diag(cls), returns a square diagonal matrix with *values* on the diagonal) over Any ║
+# ║ Path(diag(cls, values, domain), SDM.diag(values, domain).to_ddm()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  SDM.diag(values, domain).to_ddm()              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ diag : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c5a97f039d57109b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.diag","kind":"classmethod","src_hash":"4f57cd95e22906d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diag(cls)","rhs":"returns a square diagonal matrix with *values* on the diagonal","over":{"base":"Any"},"name":"diag_correct"},"guarantee":"returns a square diagonal matrix with *values* on the diagonal","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c5a97f039d57109b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.diag","kind":"classmethod","src_hash":"4f57cd95e22906d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diag(cls, values, domain)","rhs":"SDM.diag(values, domain).to_ddm()","over":{"base":"Any"},"name":"diag_correct"},"guarantee":"returns SDM.diag(values, domain).to_ddm()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c5a97f039d57109b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"SDM.diag(values, domain).to_ddm()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def diag(cls, values, domain):
         """Returns a square diagonal matrix with *values* on the diagonal.
 
@@ -1452,16 +1839,24 @@ class DDM(list):
         return SDM.diag(values, domain).to_ddm()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rref(a), reduced-row echelon form of a and list of pivots) over Any ║
+# ║ Path(rref(a), (b, pivots)) over {Any | hasattr(a, 'domain') and hasattr(a, 'copy')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rref : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'domain')                           ║
+# ║   requires: hasattr(a, 'copy')                             ║
+# ║   returns:  (b, pivots)                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rref : {Any | hasattr(a, 'domain') and hasattr(a, 'co...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf55c34ce481f115  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a721dea39854cae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.rref","kind":"method","src_hash":"f0eea2ac015890c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rref(a)","rhs":"reduced-row echelon form of a and list of pivots","over":{"base":"Any"},"name":"rref_correct"},"guarantee":"reduced-row echelon form of a and list of pivots","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.rref_correct","statement":"Path(rref(x), reduced-row echelon form of a and list of pivots)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf55c34ce481f115"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.rref","kind":"method","src_hash":"f0eea2ac015890c6","in":{"base":"Any","pred":"hasattr(a, 'domain') and hasattr(a, 'copy')"},"out":{"base":"Any"},"spec":{"lhs":"rref(a)","rhs":"(b, pivots)","over":{"base":"Any","pred":"hasattr(a, 'domain') and hasattr(a, 'copy')"},"name":"rref_correct"},"guarantee":"returns (b, pivots)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.rref_correct","statement":"Path(rref(x), returns (b, pivots))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a721dea39854cae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'domain')","hasattr(a, 'copy')"],"returns_expr":"(b, pivots)","pure":false,"effects":{"effect_type":"reads_state","reads":["a.copy","a.domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rref(a):
         """Reduced-row echelon form of a and list of pivots.
 
@@ -1480,16 +1875,24 @@ class DDM(list):
         return b, pivots
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rref_den(a), reduced-row echelon form of a with denominator and list of pivots) over Any ║
+# ║ Path(rref_den(a), (b, denom, pivots)) over {Any | hasattr(a, 'domain') and hasattr(a, 'copy')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rref_den : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'domain')                           ║
+# ║   requires: hasattr(a, 'copy')                             ║
+# ║   returns:  (b, denom, pivots)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rref_den : {Any | hasattr(a, 'domain') and hasattr(a,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af598f068300675d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5562f58c560889f6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.rref_den","kind":"method","src_hash":"ccbce59b5705875c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rref_den(a)","rhs":"reduced-row echelon form of a with denominator and list of pivots","over":{"base":"Any"},"name":"rref_den_correct"},"guarantee":"reduced-row echelon form of a with denominator and list of pivots","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.rref_den_correct","statement":"Path(rref_den(x), reduced-row echelon form of a with denominator and list of pivots)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af598f068300675d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.rref_den","kind":"method","src_hash":"ccbce59b5705875c","in":{"base":"Any","pred":"hasattr(a, 'domain') and hasattr(a, 'copy')"},"out":{"base":"Any"},"spec":{"lhs":"rref_den(a)","rhs":"(b, denom, pivots)","over":{"base":"Any","pred":"hasattr(a, 'domain') and hasattr(a, 'copy')"},"name":"rref_den_correct"},"guarantee":"returns (b, denom, pivots)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.rref_den_correct","statement":"Path(rref_den(x), returns (b, denom, pivots))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5562f58c560889f6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'domain')","hasattr(a, 'copy')"],"returns_expr":"(b, denom, pivots)","pure":false,"effects":{"effect_type":"reads_state","reads":["a.copy","a.domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rref_den(a):
         """Reduced-row echelon form of a with denominator and list of pivots
 
@@ -1507,16 +1910,23 @@ class DDM(list):
         return b, denom, pivots
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nullspace(a), returns a basis for the nullspace of a) over Any ║
+# ║ Path(nullspace(a), rref.nullspace_from_rref(pivots)) over {Any | hasattr(a, 'rref')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ nullspace : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'rref')                             ║
+# ║   returns:  rref.nullspace_from_rref(pivots)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ nullspace : {Any | hasattr(a, 'rref')} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d129d7b3e3a10b22  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b363e78b1f69f925  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.nullspace","kind":"method","src_hash":"5d22e8a2a5e0d972","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nullspace(a)","rhs":"returns a basis for the nullspace of a","over":{"base":"Any"},"name":"nullspace_correct"},"guarantee":"returns a basis for the nullspace of a","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.nullspace_correct","statement":"Path(nullspace(x), returns a basis for the nullspace of a)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d129d7b3e3a10b22"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.nullspace","kind":"method","src_hash":"5d22e8a2a5e0d972","in":{"base":"Any","pred":"hasattr(a, 'rref')"},"out":{"base":"Any"},"spec":{"lhs":"nullspace(a)","rhs":"rref.nullspace_from_rref(pivots)","over":{"base":"Any","pred":"hasattr(a, 'rref')"},"name":"nullspace_correct"},"guarantee":"returns rref.nullspace_from_rref(pivots)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.nullspace_correct","statement":"Path(nullspace(x), returns rref.nullspace_from_rref(pivots))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b363e78b1f69f925","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'rref')"],"returns_expr":"rref.nullspace_from_rref(pivots)","pure":false,"effects":{"effect_type":"reads_state","reads":["a.rref"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def nullspace(a):
         """Returns a basis for the nullspace of a.
 
@@ -1532,16 +1942,27 @@ class DDM(list):
         return rref.nullspace_from_rref(pivots)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nullspace_from_rref(a, ), id) over Any                ║
+# ║ Path(nullspace_from_rref(a, pivots), id) over {Any | hasattr(a, 'shape') and hasattr(a, 'domain') and hasattr(a, 'eye') and hasattr(pivots, 'append')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ nullspace_from_rref : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'shape')                            ║
+# ║   requires: hasattr(a, 'domain')                           ║
+# ║   requires: hasattr(a, 'eye')                              ║
+# ║   ensures:  len(basis) == old_len_basis + 1                ║
+# ║   ensures:  len(nonpivots) == old_len_nonpivots + 1        ║
+# ║   ensures:  len(pivots) == old_len_pivots + 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ nullspace_from_rref : {Any | hasattr(a, 'shape') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 1cb7ce5641e81478   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.nullspace_from_rref","kind":"method","src_hash":"618f93c4bfb757a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nullspace_from_rref(a, )","rhs":"compute the nullspace of a matrix from its rref","over":{"base":"Any"},"name":"nullspace_from_rref_correct","kind":"composition"},"guarantee":"compute the nullspace of a matrix from its rref","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"eye","by":"library_axiom"},{"fn":"list","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1cb7ce5641e81478"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.nullspace_from_rref","kind":"method","src_hash":"618f93c4bfb757a7","in":{"base":"Any","pred":"hasattr(a, 'shape') and hasattr(a, 'domain') and hasattr(a, 'eye') and hasattr(pivots, 'append')"},"out":{"base":"Any","pred":"result satisfies: len(basis) == old_len_basis + 1 and len(nonpivots) == old_len_nonpivots + 1 and len(pivots) == old_len_pivots + 1"},"spec":{"lhs":"nullspace_from_rref(a, pivots)","rhs":"len(basis) == old_len_basis + 1 and len(nonpivots) == old_len_nonpivots + 1 and len(pivots) == old_len_pivots + 1","over":{"base":"Any","pred":"hasattr(a, 'shape') and hasattr(a, 'domain') and hasattr(a, 'eye') and hasattr(pivots, 'append')"},"name":"nullspace_from_rref_correct","kind":"composition"},"guarantee":"len(basis) == old_len_basis + 1; len(nonpivots) == old_len_nonpivots + 1; len(pivots) == old_len_pivots + 1","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"eye","by":"library_axiom"},{"fn":"list","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1cb7ce5641e81478","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'shape')","hasattr(a, 'domain')","hasattr(a, 'eye')","hasattr(pivots, 'append')"],"ensures":["len(basis) == old_len_basis + 1","len(nonpivots) == old_len_nonpivots + 1","len(pivots) == old_len_pivots + 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["a.domain","a.eye","a.shape","pivots.append"],"calls_mutating":["basis.append","nonpivots.append","pivots.append"]},"state_contract":{"modifies":["basis.*","nonpivots.*","pivots.*"],"old_bindings":{"old_len_basis":"len(basis)","old_len_nonpivots":"len(nonpivots)","old_len_pivots":"len(pivots)"},"post_ensures":["len(basis) == old_len_basis + 1","len(nonpivots) == old_len_nonpivots + 1","len(pivots) == old_len_pivots + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def nullspace_from_rref(a, pivots=None):
         """Compute the nullspace of a matrix from its rref.
 
@@ -1591,30 +2012,46 @@ class DDM(list):
         return (basis_ddm, nonpivots)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(particular(a), particular produces the expected output) over Any ║
+# ║ Path(particular(a), a.to_sdm().particular().to_ddm()) over {Any | hasattr(a, 'to_sdm')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ particular : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'to_sdm')                           ║
+# ║   returns:  a.to_sdm().particular().to_ddm()               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ particular : {Any | hasattr(a, 'to_sdm')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 263a05890b4a58e0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.particular","kind":"method","src_hash":"6f101a3a97990806","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"particular(a)","rhs":"particular produces the expected output","over":{"base":"Any"},"name":"particular_correct"},"guarantee":"particular produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"263a05890b4a58e0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.particular","kind":"method","src_hash":"6f101a3a97990806","in":{"base":"Any","pred":"hasattr(a, 'to_sdm')"},"out":{"base":"Any"},"spec":{"lhs":"particular(a)","rhs":"a.to_sdm().particular().to_ddm()","over":{"base":"Any","pred":"hasattr(a, 'to_sdm')"},"name":"particular_correct"},"guarantee":"returns a.to_sdm().particular().to_ddm()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"263a05890b4a58e0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'to_sdm')"],"returns_expr":"a.to_sdm().particular().to_ddm()","pure":false,"effects":{"effect_type":"reads_state","reads":["a.to_sdm"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def particular(a):
         return a.to_sdm().particular().to_ddm()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(det(a), determinant of a) over Any                    ║
+# ║ Path(det(a), <unspecified:det>) over {Any | not (m != n) and hasattr(a, 'shape') and hasattr(a, 'copy')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ det : Any → Any                                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (m != n)                                   ║
+# ║   requires: hasattr(a, 'shape')                            ║
+# ║   requires: hasattr(a, 'copy')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ det : {Any | not (m != n) and hasattr(a, 'shape') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | adf3ae6d8c5f3d0e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.det","kind":"method","src_hash":"725f958b4c13e123","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"det(a)","rhs":"determinant of a","over":{"base":"Any"},"name":"det_correct"},"guarantee":"determinant of a","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.det_correct","statement":"Path(det(x), determinant of a)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"adf3ae6d8c5f3d0e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.det","kind":"method","src_hash":"725f958b4c13e123","in":{"base":"Any","pred":"not (m != n) and hasattr(a, 'shape') and hasattr(a, 'copy')"},"out":{"base":"Any"},"spec":{"lhs":"det(a)","rhs":"<unspecified:det>","over":{"base":"Any","pred":"not (m != n) and hasattr(a, 'shape') and hasattr(a, 'copy')"},"name":"det_correct"},"guarantee":"determinant of a","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.det_correct","statement":"Path(det(x), determinant of a)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"adf3ae6d8c5f3d0e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (m != n)","hasattr(a, 'shape')","hasattr(a, 'copy')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.copy","a.shape"],"raises":["DMNonSquareMatrixError"]},"state_contract":{"exceptional_post":{"DMNonSquareMatrixError":["isinstance(raised, DMNonSquareMatrixError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def det(a):
         """Determinant of a"""
         m, n = a.shape
@@ -1626,16 +2063,25 @@ class DDM(list):
         return deta
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inv(a), inverse of a) over Any                        ║
+# ║ Path(inv(a), <unspecified:inv>) over {Any | not (m != n) and hasattr(a, 'shape') and hasattr(a, 'domain') and hasattr(a, 'copy')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ inv : Any → Any                                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (m != n)                                   ║
+# ║   requires: hasattr(a, 'shape')                            ║
+# ║   requires: hasattr(a, 'domain')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ inv : {Any | not (m != n) and hasattr(a, 'shape') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3fe86f06d6033abb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.inv","kind":"method","src_hash":"0fdf7e8f42ed0318","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inv(a)","rhs":"inverse of a","over":{"base":"Any"},"name":"inv_correct"},"guarantee":"inverse of a","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.inv_correct","statement":"Path(inv(x), inverse of a)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3fe86f06d6033abb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.inv","kind":"method","src_hash":"0fdf7e8f42ed0318","in":{"base":"Any","pred":"not (m != n) and hasattr(a, 'shape') and hasattr(a, 'domain') and hasattr(a, 'copy')"},"out":{"base":"Any"},"spec":{"lhs":"inv(a)","rhs":"<unspecified:inv>","over":{"base":"Any","pred":"not (m != n) and hasattr(a, 'shape') and hasattr(a, 'domain') and hasattr(a, 'copy')"},"name":"inv_correct"},"guarantee":"inverse of a","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.inv_correct","statement":"Path(inv(x), inverse of a)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3fe86f06d6033abb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (m != n)","hasattr(a, 'shape')","hasattr(a, 'domain')","hasattr(a, 'copy')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.copy","a.domain","a.shape"],"raises":["DMNonSquareMatrixError"]},"state_contract":{"exceptional_post":{"DMNonSquareMatrixError":["isinstance(raised, DMNonSquareMatrixError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def inv(a):
         """Inverse of a"""
         m, n = a.shape
@@ -1647,16 +2093,25 @@ class DDM(list):
         return ainv
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lu(a), l, u decomposition of a) over Any              ║
+# ║ Path(lu(a), (L, U, swaps)) over {Any | hasattr(a, 'shape') and hasattr(a, 'domain') and hasattr(a, 'copy') and hasattr(a, 'eye')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ lu : Any → Any                                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'shape')                            ║
+# ║   requires: hasattr(a, 'domain')                           ║
+# ║   requires: hasattr(a, 'copy')                             ║
+# ║   returns:  (L, U, swaps)                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ lu : {Any | hasattr(a, 'shape') and hasattr(a, 'domai...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb7be5936608b6cd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6700ddbfc2dfd54e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.lu","kind":"method","src_hash":"5064bf587bd9b282","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lu(a)","rhs":"l, u decomposition of a","over":{"base":"Any"},"name":"lu_correct"},"guarantee":"l, u decomposition of a","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.lu_correct","statement":"Path(lu(x), l, u decomposition of a)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb7be5936608b6cd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.lu","kind":"method","src_hash":"5064bf587bd9b282","in":{"base":"Any","pred":"hasattr(a, 'shape') and hasattr(a, 'domain') and hasattr(a, 'copy') and hasattr(a, 'eye')"},"out":{"base":"Any"},"spec":{"lhs":"lu(a)","rhs":"(L, U, swaps)","over":{"base":"Any","pred":"hasattr(a, 'shape') and hasattr(a, 'domain') and hasattr(a, 'copy') and hasattr(a, 'eye')"},"name":"lu_correct"},"guarantee":"returns (L, U, swaps)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.lu_correct","statement":"Path(lu(x), returns (L, U, swaps))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6700ddbfc2dfd54e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'shape')","hasattr(a, 'domain')","hasattr(a, 'copy')","hasattr(a, 'eye')"],"returns_expr":"(L, U, swaps)","pure":false,"effects":{"effect_type":"reads_state","reads":["a.copy","a.domain","a.eye","a.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lu(a):
         """L, U decomposition of a"""
         m, n = a.shape
@@ -1669,16 +2124,22 @@ class DDM(list):
         return L, U, swaps
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_fflu(), private method for phase 1 of fraction-free lu decomposition. performs row operations and elimination to compute u and permutation indices) over Any ║
+# ║ Path(_fflu(), (LU, perm)) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (LU, perm)                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _fflu : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f60ed6c2f2efea0b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d6a29f67ebcebcd5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM._fflu","kind":"method","src_hash":"3fb79e2563e4ab4a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_fflu()","rhs":"private method for phase 1 of fraction-free lu decomposition. performs row operations and elimination to compute u and permutation indices","over":{"base":"Any"},"name":"_fflu_correct"},"guarantee":"private method for phase 1 of fraction-free lu decomposition. performs row operations and elimination to compute u and permutation indices","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM._fflu_correct","statement":"Path(_fflu(x), private method for phase 1 of fraction-free lu decomposition. performs row operations and elimination to compute u and permutation indices)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f60ed6c2f2efea0b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM._fflu","kind":"method","src_hash":"3fb79e2563e4ab4a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_fflu()","rhs":"(LU, perm)","over":{"base":"Any"},"name":"_fflu_correct"},"guarantee":"returns (LU, perm)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM._fflu_correct","statement":"Path(_fflu(x), returns (LU, perm))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6a29f67ebcebcd5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(LU, perm)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.copy","self.domain","self.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _fflu(self):
         """
         Private method for Phase 1 of fraction-free LU decomposition.
@@ -1731,16 +2192,22 @@ class DDM(list):
         return LU, perm
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fflu(), fraction-free lu decomposition of ddm) over Any ║
+# ║ Path(fflu(), (P, L, D, U)) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (P, L, D, U)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fflu : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5bfc90cb53908c50  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 792fb0642f705cd4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.fflu","kind":"method","src_hash":"8e8d1e4b4695af92","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fflu()","rhs":"fraction-free lu decomposition of ddm","over":{"base":"Any"},"name":"fflu_correct"},"guarantee":"fraction-free lu decomposition of ddm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.fflu_correct","statement":"Path(fflu(x), fraction-free lu decomposition of ddm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5bfc90cb53908c50"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.fflu","kind":"method","src_hash":"8e8d1e4b4695af92","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fflu()","rhs":"(P, L, D, U)","over":{"base":"Any"},"name":"fflu_correct"},"guarantee":"returns (P, L, D, U)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.fflu_correct","statement":"Path(fflu(x), returns (P, L, D, U))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"792fb0642f705cd4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(P, L, D, U)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._fflu","self.domain","self.shape","self.zeros"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fflu(self):
         """
         Fraction-free LU decomposition of DDM.
@@ -1796,16 +2263,23 @@ class DDM(list):
         return P, L, D, U
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(qr(), qr decomposition for ddm) over Any              ║
+# ║ Path(qr(), (Q, R)) over {Any | K.is_Field}                 ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ qr : Any → Any                                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: K.is_Field                                     ║
+# ║   returns:  (Q, R)                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ qr : {Any | K.is_Field} → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 56ff6747ae7da87f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c25c047e2b1eba09  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.qr","kind":"method","src_hash":"d0bd65c95161ba72","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"qr()","rhs":"qr decomposition for ddm","over":{"base":"Any"},"name":"qr_correct"},"guarantee":"qr decomposition for ddm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.qr_correct","statement":"Path(qr(x), qr decomposition for ddm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56ff6747ae7da87f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.qr","kind":"method","src_hash":"d0bd65c95161ba72","in":{"base":"Any","pred":"K.is_Field"},"out":{"base":"Any"},"spec":{"lhs":"qr()","rhs":"(Q, R)","over":{"base":"Any","pred":"K.is_Field"},"name":"qr_correct"},"guarantee":"returns (Q, R)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.qr_correct","statement":"Path(qr(x), returns (Q, R))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c25c047e2b1eba09","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["K.is_Field"],"returns_expr":"(Q, R)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.copy","self.domain","self.shape","self.zeros"],"raises":["DMDomainError"]},"state_contract":{"exceptional_post":{"DMDomainError":["isinstance(raised, DMDomainError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def qr(self):
         """
         QR decomposition for DDM.
@@ -1849,16 +2323,25 @@ class DDM(list):
         return Q, R
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lu_solve(a, ), x where a*x = b) over Any              ║
+# ║ Path(lu_solve(a, b), <unspecified:lu_solve>) over {Any | a.domain.is_Field and hasattr(a, 'shape') and hasattr(b, 'shape') and hasattr(a, '_check') and hasattr(a, 'lu') and hasattr(a, 'zeros') and hasattr(a, 'domain')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ lu_solve : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: a.domain.is_Field                              ║
+# ║   requires: hasattr(a, 'shape')                            ║
+# ║   requires: hasattr(b, 'shape')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ lu_solve : {Any | a.domain.is_Field and hasattr(a, 's...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3868a75a4fa72b2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.lu_solve","kind":"method","src_hash":"8af95e588f2714b9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lu_solve(a, )","rhs":"x where a*x = b","over":{"base":"Any"},"name":"lu_solve_correct"},"guarantee":"x where a*x = b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.lu_solve_correct","statement":"Path(lu_solve(x), x where a*x = b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3868a75a4fa72b2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.lu_solve","kind":"method","src_hash":"8af95e588f2714b9","in":{"base":"Any","pred":"a.domain.is_Field and hasattr(a, 'shape') and hasattr(b, 'shape') and hasattr(a, '_check') and hasattr(a, 'lu') and hasattr(a, 'zeros') and hasattr(a, 'domain')"},"out":{"base":"Any"},"spec":{"lhs":"lu_solve(a, b)","rhs":"<unspecified:lu_solve>","over":{"base":"Any","pred":"a.domain.is_Field and hasattr(a, 'shape') and hasattr(b, 'shape') and hasattr(a, '_check') and hasattr(a, 'lu') and hasattr(a, 'zeros') and hasattr(a, 'domain')"},"name":"lu_solve_correct"},"guarantee":"x where a*x = b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.lu_solve_correct","statement":"Path(lu_solve(x), x where a*x = b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3868a75a4fa72b2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["a.domain.is_Field","hasattr(a, 'shape')","hasattr(b, 'shape')","hasattr(a, '_check')","hasattr(a, 'lu')","hasattr(a, 'zeros')","hasattr(a, 'domain')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a._check","a.domain","a.lu","a.shape","a.zeros","b.shape"],"raises":["DMDomainError"]},"state_contract":{"exceptional_post":{"DMDomainError":["isinstance(raised, DMDomainError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lu_solve(a, b):
         """x where a*x = b"""
         m, n = a.shape
@@ -1873,16 +2356,25 @@ class DDM(list):
         return x
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(charpoly(a), coefficients of characteristic polynomial of a) over Any ║
+# ║ Path(charpoly(a), <unspecified:charpoly>) over {Any | not (m != n) and hasattr(a, 'domain') and hasattr(a, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ charpoly : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (m != n)                                   ║
+# ║   requires: hasattr(a, 'domain')                           ║
+# ║   requires: hasattr(a, 'shape')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ charpoly : {Any | not (m != n) and hasattr(a, 'domain...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d47d0d47f6d5d81  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.charpoly","kind":"method","src_hash":"b011f082f0502afb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"charpoly(a)","rhs":"coefficients of characteristic polynomial of a","over":{"base":"Any"},"name":"charpoly_correct"},"guarantee":"coefficients of characteristic polynomial of a","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.charpoly_correct","statement":"Path(charpoly(x), coefficients of characteristic polynomial of a)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d47d0d47f6d5d81"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.charpoly","kind":"method","src_hash":"b011f082f0502afb","in":{"base":"Any","pred":"not (m != n) and hasattr(a, 'domain') and hasattr(a, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"charpoly(a)","rhs":"<unspecified:charpoly>","over":{"base":"Any","pred":"not (m != n) and hasattr(a, 'domain') and hasattr(a, 'shape')"},"name":"charpoly_correct"},"guarantee":"coefficients of characteristic polynomial of a","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.ddm.DDM.charpoly_correct","statement":"Path(charpoly(x), coefficients of characteristic polynomial of a)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d47d0d47f6d5d81","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (m != n)","hasattr(a, 'domain')","hasattr(a, 'shape')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.domain","a.shape"],"raises":["DMNonSquareMatrixError"]},"state_contract":{"exceptional_post":{"DMNonSquareMatrixError":["isinstance(raised, DMNonSquareMatrixError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def charpoly(a):
         """Coefficients of characteristic polynomial of a"""
         K = a.domain
@@ -1896,14 +2388,20 @@ class DDM(list):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(is_zero_matrix(), id) over Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  all((Mij == zero for Mij in self.flatiter...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ is_zero_matrix : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f01b20efcebc9579   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.is_zero_matrix","kind":"method","src_hash":"77ecd91c96e73f5c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_zero_matrix()","rhs":"says whether this matrix has all zero entries","over":{"base":"Any"},"name":"is_zero_matrix_correct","kind":"composition"},"guarantee":"says whether this matrix has all zero entries","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"all","by":"library_axiom"},{"fn":"flatiter","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f01b20efcebc9579"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.is_zero_matrix","kind":"method","src_hash":"77ecd91c96e73f5c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_zero_matrix()","rhs":"all((Mij == zero for Mij in self.flatiter()))","over":{"base":"Any"},"name":"is_zero_matrix_correct","kind":"composition"},"guarantee":"returns all((Mij == zero for Mij in self.flatiter()))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"all","by":"library_axiom"},{"fn":"flatiter","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f01b20efcebc9579","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"all((Mij == zero for Mij in self.flatiter()))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.flatiter"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_zero_matrix(self):
         """
         Says whether this matrix has all zero entries.
@@ -1914,14 +2412,20 @@ class DDM(list):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(is_upper(), id) over Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  all((Mij == zero for i, Mi in enumerate(s...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ is_upper : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4e229f7ba65dcc50   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.is_upper","kind":"method","src_hash":"a4e1117a631a5cfd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_upper()","rhs":"says whether this matrix is upper-triangular","over":{"base":"Any"},"name":"is_upper_correct","kind":"composition"},"guarantee":"says whether this matrix is upper-triangular","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"all","by":"library_axiom"},{"fn":"enumerate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e229f7ba65dcc50"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.is_upper","kind":"method","src_hash":"a4e1117a631a5cfd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_upper()","rhs":"all((Mij == zero for i, Mi in enumerate(self) for Mij in Mi[:i]))","over":{"base":"Any"},"name":"is_upper_correct","kind":"composition"},"guarantee":"returns all((Mij == zero for i, Mi in enumerate(self) for Mij in Mi[:i]))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"all","by":"library_axiom"},{"fn":"enumerate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e229f7ba65dcc50","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"all((Mij == zero for i, Mi in enumerate(self) for Mij in Mi[:i]))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_upper(self):
         """
         Says whether this matrix is upper-triangular. True can be returned
@@ -1933,14 +2437,20 @@ class DDM(list):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(is_lower(), id) over Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  all((Mij == zero for i, Mi in enumerate(s...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ is_lower : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d582f0f3a4a22f5e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.is_lower","kind":"method","src_hash":"9cc3021cddc301e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_lower()","rhs":"says whether this matrix is lower-triangular","over":{"base":"Any"},"name":"is_lower_correct","kind":"composition"},"guarantee":"says whether this matrix is lower-triangular","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"all","by":"library_axiom"},{"fn":"enumerate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d582f0f3a4a22f5e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.is_lower","kind":"method","src_hash":"9cc3021cddc301e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_lower()","rhs":"all((Mij == zero for i, Mi in enumerate(self) for Mij in Mi[i + 1:]))","over":{"base":"Any"},"name":"is_lower_correct","kind":"composition"},"guarantee":"returns all((Mij == zero for i, Mi in enumerate(self) for Mij in Mi[i + 1:]))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"all","by":"library_axiom"},{"fn":"enumerate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d582f0f3a4a22f5e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"all((Mij == zero for i, Mi in enumerate(self) for Mij in Mi[i + 1:]))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_lower(self):
         """
         Says whether this matrix is lower-triangular. True can be returned
@@ -1950,16 +2460,22 @@ class DDM(list):
         return all(Mij == zero for i, Mi in enumerate(self) for Mij in Mi[i+1:])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_diagonal(), says whether this matrix is diagonal) over Any ║
+# ║ Path(is_diagonal(), self.is_upper() and self.is_lower()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.is_upper() and self.is_lower()            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_diagonal : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | acef24c9531373ae           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.is_diagonal","kind":"method","src_hash":"6aa95f5a0d24367e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_diagonal()","rhs":"says whether this matrix is diagonal","over":{"base":"Any"},"name":"is_diagonal_correct"},"guarantee":"says whether this matrix is diagonal","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"acef24c9531373ae"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.is_diagonal","kind":"method","src_hash":"6aa95f5a0d24367e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_diagonal()","rhs":"self.is_upper() and self.is_lower()","over":{"base":"Any"},"name":"is_diagonal_correct"},"guarantee":"returns self.is_upper() and self.is_lower()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"acef24c9531373ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.is_upper() and self.is_lower()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_lower","self.is_upper"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_diagonal(self):
         """
         Says whether this matrix is diagonal. True can be returned even if
@@ -1970,14 +2486,20 @@ class DDM(list):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(diagonal(), id) over Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [self[i][i] for i in range(min(m, n))]         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ diagonal : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c314ca2daa44f41e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.diagonal","kind":"method","src_hash":"63ba55d9ff319d5b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diagonal()","rhs":"returns a list of the elements from the diagonal of the matrix","over":{"base":"Any"},"name":"diagonal_correct","kind":"composition"},"guarantee":"returns a list of the elements from the diagonal of the matrix","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"range","by":"library_axiom"},{"fn":"min","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c314ca2daa44f41e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.diagonal","kind":"method","src_hash":"63ba55d9ff319d5b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diagonal()","rhs":"[self[i][i] for i in range(min(m, n))]","over":{"base":"Any"},"name":"diagonal_correct","kind":"composition"},"guarantee":"returns [self[i][i] for i in range(min(m, n))]","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"range","by":"library_axiom"},{"fn":"min","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c314ca2daa44f41e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[self[i][i] for i in range(min(m, n))]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def diagonal(self):
         """
         Returns a list of the elements from the diagonal of the matrix.
@@ -1986,30 +2508,42 @@ class DDM(list):
         return [self[i][i] for i in range(min(m, n))]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lll(A, ), lll produces the expected output) over Any  ║
+# ║ Path(lll(A, delta), ddm_lll(A, delta=delta)) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ddm_lll(A, delta=delta)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lll : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9e739584c8165f64           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.lll","kind":"method","src_hash":"b23ddb2e19f85361","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lll(A, )","rhs":"lll produces the expected output","over":{"base":"Any"},"name":"lll_correct"},"guarantee":"lll produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9e739584c8165f64"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.lll","kind":"method","src_hash":"b23ddb2e19f85361","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lll(A, delta)","rhs":"ddm_lll(A, delta=delta)","over":{"base":"Any"},"name":"lll_correct"},"guarantee":"returns ddm_lll(A, delta=delta)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9e739584c8165f64","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ddm_lll(A, delta=delta)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lll(A, delta=QQ(3, 4)):
         return ddm_lll(A, delta=delta)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lll_transform(A, ), lll_transform produces the expected output) over Any ║
+# ║ Path(lll_transform(A, delta), ddm_lll_transform(A, delta=delta)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ddm_lll_transform(A, delta=delta)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lll_transform : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 41d6996aedaa9064           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.lll_transform","kind":"method","src_hash":"18c1d8e19ab409bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lll_transform(A, )","rhs":"lll_transform produces the expected output","over":{"base":"Any"},"name":"lll_transform_correct"},"guarantee":"lll_transform produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"41d6996aedaa9064"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.ddm.DDM.lll_transform","kind":"method","src_hash":"18c1d8e19ab409bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lll_transform(A, delta)","rhs":"ddm_lll_transform(A, delta=delta)","over":{"base":"Any"},"name":"lll_transform_correct"},"guarantee":"returns ddm_lll_transform(A, delta=delta)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"41d6996aedaa9064","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ddm_lll_transform(A, delta=delta)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lll_transform(A, delta=QQ(3, 4)):
         return ddm_lll_transform(A, delta=delta)
 

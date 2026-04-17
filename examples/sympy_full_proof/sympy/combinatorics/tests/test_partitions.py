@@ -25,16 +25,24 @@ from sympy.sets.sets import Set, FiniteSet
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_partition_constructor(), test_partition_constructor produces the expected output) over Any ║
+# ║ Path(test_partition_constructor(), Partition([1, 2, 3], [4, 5]) == Partition([4, 5], [1, 2, 3]) and Partition({1, 2, 3}, {4, 5}) == Partition([1, 2, 3], [4, 5]) and Partition(a, b) == Partition([1, 2, 3], [4, 5]) and Partition({a, b}) == Partition(FiniteSet(a, b)) and Partition({a, b}) != Partition(a, b)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_partition_constructor : Any → {Any | Partition([...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Partition([1, 2, 3], [4, 5]) == Partition...   ║
+# ║   ensures:  Partition({1, 2, 3}, {4, 5}) == Partition...   ║
+# ║   ensures:  Partition(a, b) == Partition([1, 2, 3], [...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_partition_constructor : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 653fbc371c1e90fe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86e6bd2678ee67ef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_partitions.test_partition_constructor","kind":"function","src_hash":"dffe7c20abbcb541","in":{"base":"Any"},"out":{"base":"Any","pred":"Partition([1, 2, 3], [4, 5]) == Partition([4, 5], [1, 2, 3]) and Partition({1, 2, 3}, {4, 5}) == Partition([1, 2, 3], [4, 5]) and Partition(a, b) == Partition([1, 2, 3], [4, 5]) and Partition({a, b}) == Partition(FiniteSet(a, b)) and Partition({a, b}) != Partition(a, b)"},"spec":{"lhs":"test_partition_constructor()","rhs":"test_partition_constructor produces the expected output","over":{"base":"Any"},"name":"test_partition_constructor_correct"},"guarantee":"test_partition_constructor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_partitions.test_partition_constructor_correct","statement":"Path(test_partition_constructor(x), test_partition_constructor produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"653fbc371c1e90fe"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_partitions.test_partition_constructor","kind":"function","src_hash":"dffe7c20abbcb541","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Partition([1, 2, 3], [4, 5]) == Partition([4, 5], [1, 2, 3]) and Partition({1, 2, 3}, {4, 5}) == Partition([1, 2, 3], [4, 5]) and Partition(a, b) == Partition([1, 2, 3], [4, 5]) and Partition({a, b}) == Partition(FiniteSet(a, b)) and Partition({a, b}) != Partition(a, b)"},"spec":{"lhs":"test_partition_constructor()","rhs":"Partition([1, 2, 3], [4, 5]) == Partition([4, 5], [1, 2, 3]) and Partition({1, 2, 3}, {4, 5}) == Partition([1, 2, 3], [4, 5]) and Partition(a, b) == Partition([1, 2, 3], [4, 5]) and Partition({a, b}) == Partition(FiniteSet(a, b)) and Partition({a, b}) != Partition(a, b)","over":{"base":"Any"},"name":"test_partition_constructor_correct"},"guarantee":"Partition([1, 2, 3], [4, 5]) == Partition([4, 5], [1, 2, 3]); Partition({1, 2, 3}, {4, 5}) == Partition([1, 2, 3], [4, 5]); Partition(a, b) == Partition([1, 2, 3], [4, 5])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_partitions.test_partition_constructor_correct","statement":"Path(test_partition_constructor(x), Partition([1, 2, 3], [4, 5]) == Partition([4, 5], [1, 2, 3]); Partition({1, 2, 3}, {4, 5}) == Partition([1, 2, 3], [4, 5]); Partition(a, b) == Partition([1, 2, 3], [4, 5]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86e6bd2678ee67ef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Partition([1, 2, 3], [4, 5]) == Partition([4, 5], [1, 2, 3])","Partition({1, 2, 3}, {4, 5}) == Partition([1, 2, 3], [4, 5])","Partition(a, b) == Partition([1, 2, 3], [4, 5])","Partition({a, b}) == Partition(FiniteSet(a, b))","Partition({a, b}) != Partition(a, b)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_partition_constructor():
     raises(ValueError, lambda: Partition([1, 1, 2]))
     raises(ValueError, lambda: Partition([1, 2, 3], [2, 3, 4]))
@@ -51,16 +59,24 @@ def test_partition_constructor():
     assert Partition({a, b}) != Partition(a, b)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_partition(), test_partition produces the expected output) over Any ║
+# ║ Path(test_partition(), l == [c, a, b] and (a == b) is False and a <= b and (a > b) is False and a != b and a < b and (a + 2).partition == [[1, 2], [3, 4]] and (b - 1).partition == [[1, 2, 4], [3]] and (a - 1).partition == [[1, 2, 3, 4]] and (a + 1).partition == [[1, 2, 4], [3]] and (b + 1).partition == [[1, 2], [3], [4]] and a.rank == 1 and b.rank == 3 and a.RGS == (0, 0, 0, 1) and b.RGS == (0, 0, 1, 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_partition : Any → {Any | l == [c, a, b] and l ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  l == [c, a, b]                                 ║
+# ║   ensures:  (a == b) is False                              ║
+# ║   ensures:  a <= b                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_partition : Any → {Any | result satisfies: l == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 447d54e0ea8752ce  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a47045bb1be695a2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_partitions.test_partition","kind":"function","src_hash":"eb11ebbf5b2bbe97","in":{"base":"Any"},"out":{"base":"Any","pred":"l == [c, a, b] and l == [c, a, b] and (a == b) is False and a <= b and (a > b) is False and a != b and a < b and (a + 2).partition == [[1, 2], [3, 4]] and (b - 1).partition == [[1, 2, 4], [3]] and (a - 1).partition == [[1, 2, 3, 4]] and (a + 1).partition == [[1, 2, 4], [3]] and (b + 1).partition == [[1, 2], [3], [4]] and a.rank == 1 and b.rank == 3 and a.RGS == (0, 0, 0, 1) and b.RGS == (0, 0, 1, 1)"},"spec":{"lhs":"test_partition()","rhs":"test_partition produces the expected output","over":{"base":"Any"},"name":"test_partition_correct"},"guarantee":"test_partition produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_partitions.test_partition_correct","statement":"Path(test_partition(x), test_partition produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"447d54e0ea8752ce"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_partitions.test_partition","kind":"function","src_hash":"eb11ebbf5b2bbe97","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: l == [c, a, b] and (a == b) is False and a <= b and (a > b) is False and a != b and a < b and (a + 2).partition == [[1, 2], [3, 4]] and (b - 1).partition == [[1, 2, 4], [3]] and (a - 1).partition == [[1, 2, 3, 4]] and (a + 1).partition == [[1, 2, 4], [3]] and (b + 1).partition == [[1, 2], [3], [4]] and a.rank == 1 and b.rank == 3 and a.RGS == (0, 0, 0, 1) and b.RGS == (0, 0, 1, 1)"},"spec":{"lhs":"test_partition()","rhs":"l == [c, a, b] and (a == b) is False and a <= b and (a > b) is False and a != b and a < b and (a + 2).partition == [[1, 2], [3, 4]] and (b - 1).partition == [[1, 2, 4], [3]] and (a - 1).partition == [[1, 2, 3, 4]] and (a + 1).partition == [[1, 2, 4], [3]] and (b + 1).partition == [[1, 2], [3], [4]] and a.rank == 1 and b.rank == 3 and a.RGS == (0, 0, 0, 1) and b.RGS == (0, 0, 1, 1)","over":{"base":"Any"},"name":"test_partition_correct"},"guarantee":"l == [c, a, b]; (a == b) is False; a <= b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_partitions.test_partition_correct","statement":"Path(test_partition(x), l == [c, a, b]; (a == b) is False; a <= b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a47045bb1be695a2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["l == [c, a, b]","(a == b) is False","a <= b","(a > b) is False","a != b","a < b","(a + 2).partition == [[1, 2], [3, 4]]","(b - 1).partition == [[1, 2, 4], [3]]","(a - 1).partition == [[1, 2, 3, 4]]","(a + 1).partition == [[1, 2, 4], [3]]","(b + 1).partition == [[1, 2], [3], [4]]","a.rank == 1","b.rank == 3","a.RGS == (0, 0, 0, 1)","b.RGS == (0, 0, 1, 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_partition():
     from sympy.abc import x
 
@@ -94,16 +110,24 @@ def test_partition():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_integer_partition(), test_integer_partition produces the expected output) over Any ║
+# ║ Path(test_integer_partition(), a == c and a.integer == d.integer and a.conjugate == [3, 2, 2, 1] and (a == b) is False and a <= b and (a > b) is False and a != b and IntegerPartition([1, 2, 3]).as_ferrers() == '###\n##\n#' and IntegerPartition([1, 1, 3]).as_ferrers('o') == 'ooo\no\no' and str(IntegerPartition([1, 1, 3])) == '[3, 1, 1]' and IntegerPartition([1, 1, 3]).partition == [3, 1, 1] and random_integer_partition(1) == [1] and random_integer_partition(10, seed=[1, 3, 2, 1, 5, 1]) == [5, 2, 1, 1, 1]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_integer_partition : Any → {Any | a == c and a.in...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a == c                                         ║
+# ║   ensures:  a.integer == d.integer                         ║
+# ║   ensures:  a.conjugate == [3, 2, 2, 1]                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_integer_partition : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b8b78964bd08b2fa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22ea68270450165c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_partitions.test_integer_partition","kind":"function","src_hash":"1d8aa7c35b4c0572","in":{"base":"Any"},"out":{"base":"Any","pred":"a == c and a.integer == d.integer and a.conjugate == [3, 2, 2, 1] and (a == b) is False and a <= b and (a > b) is False and a != b and IntegerPartition([1, 2, 3]).as_ferrers() == '###\\n##\\n#' and IntegerPartition([1, 1, 3]).as_ferrers('o') == 'ooo\\no\\no' and str(IntegerPartition([1, 1, 3])) == '[3, 1, 1]' and IntegerPartition([1, 1, 3]).partition == [3, 1, 1] and random_integer_partition(1) == [1] and random_integer_partition(10, seed=[1, 3, 2, 1, 5, 1]) == [5, 2, 1, 1, 1] and next == ans and prev == ans"},"spec":{"lhs":"test_integer_partition()","rhs":"test_integer_partition produces the expected output","over":{"base":"Any"},"name":"test_integer_partition_correct"},"guarantee":"test_integer_partition produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_partitions.test_integer_partition_correct","statement":"Path(test_integer_partition(x), test_integer_partition produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8b78964bd08b2fa"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_partitions.test_integer_partition","kind":"function","src_hash":"1d8aa7c35b4c0572","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a == c and a.integer == d.integer and a.conjugate == [3, 2, 2, 1] and (a == b) is False and a <= b and (a > b) is False and a != b and IntegerPartition([1, 2, 3]).as_ferrers() == '###\\n##\\n#' and IntegerPartition([1, 1, 3]).as_ferrers('o') == 'ooo\\no\\no' and str(IntegerPartition([1, 1, 3])) == '[3, 1, 1]' and IntegerPartition([1, 1, 3]).partition == [3, 1, 1] and random_integer_partition(1) == [1] and random_integer_partition(10, seed=[1, 3, 2, 1, 5, 1]) == [5, 2, 1, 1, 1]"},"spec":{"lhs":"test_integer_partition()","rhs":"a == c and a.integer == d.integer and a.conjugate == [3, 2, 2, 1] and (a == b) is False and a <= b and (a > b) is False and a != b and IntegerPartition([1, 2, 3]).as_ferrers() == '###\\n##\\n#' and IntegerPartition([1, 1, 3]).as_ferrers('o') == 'ooo\\no\\no' and str(IntegerPartition([1, 1, 3])) == '[3, 1, 1]' and IntegerPartition([1, 1, 3]).partition == [3, 1, 1] and random_integer_partition(1) == [1] and random_integer_partition(10, seed=[1, 3, 2, 1, 5, 1]) == [5, 2, 1, 1, 1]","over":{"base":"Any"},"name":"test_integer_partition_correct"},"guarantee":"a == c; a.integer == d.integer; a.conjugate == [3, 2, 2, 1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_partitions.test_integer_partition_correct","statement":"Path(test_integer_partition(x), a == c; a.integer == d.integer; a.conjugate == [3, 2, 2, 1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22ea68270450165c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a == c","a.integer == d.integer","a.conjugate == [3, 2, 2, 1]","(a == b) is False","a <= b","(a > b) is False","a != b","IntegerPartition([1, 2, 3]).as_ferrers() == '###\\n##\\n#'","IntegerPartition([1, 1, 3]).as_ferrers('o') == 'ooo\\no\\no'","str(IntegerPartition([1, 1, 3])) == '[3, 1, 1]'","IntegerPartition([1, 1, 3]).partition == [3, 1, 1]","random_integer_partition(1) == [1]","random_integer_partition(10, seed=[1, 3, 2, 1, 5, 1]) == [5, 2, 1, 1, 1]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_integer_partition():
     # no zeros in partition
     raises(ValueError, lambda: IntegerPartition(list(range(3))))
@@ -150,16 +174,24 @@ def test_integer_partition():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rgs(), test_rgs produces the expected output) over Any ║
+# ║ Path(test_rgs(), RGS_enum(-1) == 0 and RGS_enum(1) == 1 and RGS_unrank(7, 5) == [0, 0, 1, 0, 2] and RGS_unrank(23, 14) == [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 2, 2] and RGS_rank(RGS_unrank(40, 100)) == 40) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rgs : Any → {Any | RGS_enum(-1) == 0 and RGS_enu...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  RGS_enum(-1) == 0                              ║
+# ║   ensures:  RGS_enum(1) == 1                               ║
+# ║   ensures:  RGS_unrank(7, 5) == [0, 0, 1, 0, 2]            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rgs : Any → {Any | result satisfies: RGS_enum(-1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae8d88efaf2b012e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ea8c54219cfb9cc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_partitions.test_rgs","kind":"function","src_hash":"74690a602d7cbd3c","in":{"base":"Any"},"out":{"base":"Any","pred":"RGS_enum(-1) == 0 and RGS_enum(1) == 1 and RGS_unrank(7, 5) == [0, 0, 1, 0, 2] and RGS_unrank(23, 14) == [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 2, 2] and RGS_rank(RGS_unrank(40, 100)) == 40"},"spec":{"lhs":"test_rgs()","rhs":"test_rgs produces the expected output","over":{"base":"Any"},"name":"test_rgs_correct"},"guarantee":"test_rgs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_partitions.test_rgs_correct","statement":"Path(test_rgs(x), test_rgs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae8d88efaf2b012e"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_partitions.test_rgs","kind":"function","src_hash":"74690a602d7cbd3c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: RGS_enum(-1) == 0 and RGS_enum(1) == 1 and RGS_unrank(7, 5) == [0, 0, 1, 0, 2] and RGS_unrank(23, 14) == [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 2, 2] and RGS_rank(RGS_unrank(40, 100)) == 40"},"spec":{"lhs":"test_rgs()","rhs":"RGS_enum(-1) == 0 and RGS_enum(1) == 1 and RGS_unrank(7, 5) == [0, 0, 1, 0, 2] and RGS_unrank(23, 14) == [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 2, 2] and RGS_rank(RGS_unrank(40, 100)) == 40","over":{"base":"Any"},"name":"test_rgs_correct"},"guarantee":"RGS_enum(-1) == 0; RGS_enum(1) == 1; RGS_unrank(7, 5) == [0, 0, 1, 0, 2]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_partitions.test_rgs_correct","statement":"Path(test_rgs(x), RGS_enum(-1) == 0; RGS_enum(1) == 1; RGS_unrank(7, 5) == [0, 0, 1, 0, 2])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ea8c54219cfb9cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["RGS_enum(-1) == 0","RGS_enum(1) == 1","RGS_unrank(7, 5) == [0, 0, 1, 0, 2]","RGS_unrank(23, 14) == [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 2, 2]","RGS_rank(RGS_unrank(40, 100)) == 40"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_rgs():
     raises(ValueError, lambda: RGS_unrank(-1, 3))
     raises(ValueError, lambda: RGS_unrank(3, 0))
@@ -174,16 +206,22 @@ def test_rgs():
     assert RGS_rank(RGS_unrank(40, 100)) == 40
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ordered_partition_9608(), test_ordered_partition_9608 produces the expected output) over Any ║
+# ║ Path(test_ordered_partition_9608(), list(ordered([a, b], Set._infimum_key))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ordered_partition_9608 : Any → {Any | list(order...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(ordered([a, b], Set._infimum_key))        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ordered_partition_9608 : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 04a90b3d8e14ca61  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | adae8664541ee52a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_partitions.test_ordered_partition_9608","kind":"function","src_hash":"eb132562dc707a5a","in":{"base":"Any"},"out":{"base":"Any","pred":"list(ordered([a, b], Set._infimum_key))"},"spec":{"lhs":"test_ordered_partition_9608()","rhs":"test_ordered_partition_9608 produces the expected output","over":{"base":"Any"},"name":"test_ordered_partition_9608_correct"},"guarantee":"test_ordered_partition_9608 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_partitions.test_ordered_partition_9608_correct","statement":"Path(test_ordered_partition_9608(x), test_ordered_partition_9608 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04a90b3d8e14ca61"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_partitions.test_ordered_partition_9608","kind":"function","src_hash":"eb132562dc707a5a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(ordered([a, b], Set._infimum_key))"},"spec":{"lhs":"test_ordered_partition_9608()","rhs":"list(ordered([a, b], Set._infimum_key))","over":{"base":"Any"},"name":"test_ordered_partition_9608_correct"},"guarantee":"list(ordered([a, b], Set._infimum_key))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_partitions.test_ordered_partition_9608_correct","statement":"Path(test_ordered_partition_9608(x), list(ordered([a, b], Set._infimum_key)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"adae8664541ee52a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(ordered([a, b], Set._infimum_key))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_ordered_partition_9608():
     a = Partition([1, 2, 3], [4])
     b = Partition([1, 2], [3, 4])

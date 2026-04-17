@@ -38,14 +38,20 @@ from .solvers import (
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SparseRepMatrix(*args), correctly constructs a SparseRepMatrix instance) over {Any | isinstance(args[0], MatrixBase) and isinstance(args[2], Callable) and isinstance(args[2], (dict, Dict))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, RepMatrix)                    ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ SparseRepMatrix : {Any | isinstance(args[0], MatrixBa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16bbc3ae55a46a45  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.SparseRepMatrix","kind":"class","src_hash":"22ef469f6943d462","in":{"base":"Any","pred":"isinstance(args[0], MatrixBase) and isinstance(args[2], Callable) and isinstance(args[2], (dict, Dict))"},"out":{"base":"Any"},"spec":{"lhs":"SparseRepMatrix(*args)","rhs":"correctly constructs a SparseRepMatrix instance","over":{"base":"Any","pred":"isinstance(args[0], MatrixBase) and isinstance(args[2], Callable) and isinstance(args[2], (dict, Dict))"},"name":"SparseRepMatrix_class_invariant"},"guarantee":"correctly constructs a SparseRepMatrix instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16bbc3ae55a46a45"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.SparseRepMatrix","kind":"class","src_hash":"22ef469f6943d462","in":{"base":"Any","pred":"isinstance(args[0], MatrixBase) and isinstance(args[2], Callable) and isinstance(args[2], (dict, Dict))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, RepMatrix)"},"spec":{"lhs":"SparseRepMatrix(*args)","rhs":"correctly constructs a SparseRepMatrix instance","over":{"base":"Any","pred":"isinstance(args[0], MatrixBase) and isinstance(args[2], Callable) and isinstance(args[2], (dict, Dict))"},"name":"SparseRepMatrix_class_invariant"},"guarantee":"isinstance(self, RepMatrix)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16bbc3ae55a46a45","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, RepMatrix)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function SparseRepMatrix not found in source"]}}
 class SparseRepMatrix(RepMatrix):
     """
     A sparse matrix (a matrix with a large number of zero elements).
@@ -134,16 +140,22 @@ class SparseRepMatrix(RepMatrix):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_handle_creation_inputs(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_handle_creation_inputs(cls, *args, **kwargs), <unspecified:_handle_creation_inputs>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _handle_creation_inputs : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0fc888ae51eaeb4e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.SparseRepMatrix._handle_creation_inputs","kind":"classmethod","src_hash":"19c4ffbf5c975729","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_handle_creation_inputs(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_handle_creation_inputs_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.sparse.SparseRepMatrix._handle_creation_inputs_correct","statement":"Path(_handle_creation_inputs(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0fc888ae51eaeb4e"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.SparseRepMatrix._handle_creation_inputs","kind":"classmethod","src_hash":"19c4ffbf5c975729","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_handle_creation_inputs(cls, *args, **kwargs)","rhs":"<unspecified:_handle_creation_inputs>","over":{"base":"Any"},"name":"_handle_creation_inputs_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.sparse.SparseRepMatrix._handle_creation_inputs_correct","statement":"Path(_handle_creation_inputs(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0fc888ae51eaeb4e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._handle_creation_inputs","cls._sympify","cls.zero"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _handle_creation_inputs(cls, *args, **kwargs):
         if len(args) == 1 and isinstance(args[0], MatrixBase):
             rows = args[0].rows
@@ -274,16 +286,22 @@ class SparseRepMatrix(RepMatrix):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_smat(), returns the _smat attribute) over Any        ║
+# ║ Path(_smat(), self.todok()) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.todok()                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _smat : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 31570d75e5fc1000           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.SparseRepMatrix._smat","kind":"property","src_hash":"7447d5a9bc838c37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_smat()","rhs":"returns the _smat attribute","over":{"base":"Any"},"name":"_smat_correct"},"guarantee":"returns the _smat attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"31570d75e5fc1000"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.SparseRepMatrix._smat","kind":"property","src_hash":"7447d5a9bc838c37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_smat()","rhs":"self.todok()","over":{"base":"Any"},"name":"_smat_correct"},"guarantee":"returns self.todok()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"31570d75e5fc1000","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.todok()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.todok"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _smat(self):
 
         sympy_deprecation_warning(
@@ -298,32 +316,45 @@ class SparseRepMatrix(RepMatrix):
         return self.todok()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_inverse(**k), id) over Any                      ║
+# ║ Path(_eval_inverse(**kwargs), id) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.inv(method=kwargs.get('method', 'LDL...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_inverse : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 3e51692f980e7496   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.SparseRepMatrix._eval_inverse","kind":"method","src_hash":"1a791cd06d0aef8e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_inverse(**k)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_inverse_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"inv","by":"library_axiom"},{"fn":"get","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e51692f980e7496"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.SparseRepMatrix._eval_inverse","kind":"method","src_hash":"1a791cd06d0aef8e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_inverse(**kwargs)","rhs":"self.inv(method=kwargs.get('method', 'LDL'), iszerofunc=kwargs.get('iszerofunc', _iszero), try_block_diag=kwargs.get('try_block_diag', False))","over":{"base":"Any"},"name":"_eval_inverse_correct","kind":"composition"},"guarantee":"returns self.inv(method=kwargs.get('method', 'LDL'), iszerofunc=kwargs.get('iszerofunc', _iszero), try_block_diag=kwargs.get('try_block_diag', False))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"inv","by":"library_axiom"},{"fn":"get","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e51692f980e7496","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.inv(method=kwargs.get('method', 'LDL'), iszerofunc=kwargs.get('iszerofunc', _iszero), try_block_diag=kwargs.get('try_block_diag', False))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.inv"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_inverse(self, **kwargs):
         return self.inv(method=kwargs.get('method', 'LDL'),
                         iszerofunc=kwargs.get('iszerofunc', _iszero),
                         try_block_diag=kwargs.get('try_block_diag', False))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(applyfunc(f), apply a function to each element of the matrix) over Any ║
+# ║ Path(applyfunc(f), self._new(self.rows, self.cols, dok)) over {Any | callable(f)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ applyfunc : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: callable(f)                                    ║
+# ║   returns:  self._new(self.rows, self.cols, dok)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ applyfunc : {Any | callable(f)} → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 20b8a44fe597a6f3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 960b86e5e51609d2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.SparseRepMatrix.applyfunc","kind":"method","src_hash":"f684754b09d0dfdf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"applyfunc(f)","rhs":"apply a function to each element of the matrix","over":{"base":"Any"},"name":"applyfunc_correct"},"guarantee":"apply a function to each element of the matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.sparse.SparseRepMatrix.applyfunc_correct","statement":"Path(applyfunc(x), apply a function to each element of the matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20b8a44fe597a6f3"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.SparseRepMatrix.applyfunc","kind":"method","src_hash":"f684754b09d0dfdf","in":{"base":"Any","pred":"callable(f)"},"out":{"base":"Any"},"spec":{"lhs":"applyfunc(f)","rhs":"self._new(self.rows, self.cols, dok)","over":{"base":"Any","pred":"callable(f)"},"name":"applyfunc_correct"},"guarantee":"returns self._new(self.rows, self.cols, dok)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.sparse.SparseRepMatrix.applyfunc_correct","statement":"Path(applyfunc(x), returns self._new(self.rows, self.cols, dok))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"960b86e5e51609d2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["callable(f)"],"returns_expr":"self._new(self.rows, self.cols, dok)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._new","self.cols","self.rows","self.todok"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def applyfunc(self, f):
         """Apply a function to each element of the matrix.
 
@@ -357,32 +388,44 @@ class SparseRepMatrix(RepMatrix):
         return self._new(self.rows, self.cols, dok)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_immutable(), returns an immutable version of this matrix) over Any ║
+# ║ Path(as_immutable(), ImmutableSparseMatrix(self)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ImmutableSparseMatrix(self)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_immutable : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2ce4ff6c356c005  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c74d3d53c239820c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.SparseRepMatrix.as_immutable","kind":"method","src_hash":"1ebc03f5b97f02d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_immutable()","rhs":"returns an immutable version of this matrix","over":{"base":"Any"},"name":"as_immutable_correct"},"guarantee":"returns an immutable version of this matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.sparse.SparseRepMatrix.as_immutable_correct","statement":"Path(as_immutable(x), returns an immutable version of this matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2ce4ff6c356c005"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.SparseRepMatrix.as_immutable","kind":"method","src_hash":"1ebc03f5b97f02d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_immutable()","rhs":"ImmutableSparseMatrix(self)","over":{"base":"Any"},"name":"as_immutable_correct"},"guarantee":"returns ImmutableSparseMatrix(self)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.sparse.SparseRepMatrix.as_immutable_correct","statement":"Path(as_immutable(x), returns ImmutableSparseMatrix(self))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c74d3d53c239820c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ImmutableSparseMatrix(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_immutable(self):
         """Returns an Immutable version of this Matrix."""
         from .immutable import ImmutableSparseMatrix
         return ImmutableSparseMatrix(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_mutable(), returns a mutable version of this matrix) over Any ║
+# ║ Path(as_mutable(), MutableSparseMatrix(self)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  MutableSparseMatrix(self)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_mutable : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 702f50bdf67dec18           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.SparseRepMatrix.as_mutable","kind":"method","src_hash":"19a0b0cda2367d4a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_mutable()","rhs":"returns a mutable version of this matrix","over":{"base":"Any"},"name":"as_mutable_correct"},"guarantee":"returns a mutable version of this matrix","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"702f50bdf67dec18"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.SparseRepMatrix.as_mutable","kind":"method","src_hash":"19a0b0cda2367d4a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_mutable()","rhs":"MutableSparseMatrix(self)","over":{"base":"Any"},"name":"as_mutable_correct"},"guarantee":"returns MutableSparseMatrix(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"702f50bdf67dec18","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"MutableSparseMatrix(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_mutable(self):
         """Returns a mutable version of this matrix.
 
@@ -401,16 +444,22 @@ class SparseRepMatrix(RepMatrix):
         return MutableSparseMatrix(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(col_list(), returns a column-sorted list of non-zero elements of the matrix) over Any ║
+# ║ Path(col_list(), [tuple(k + (self[k],)) for k in sorted(self.todok().keys(), key=lambda k: list(reversed(k)))]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [tuple(k + (self[k],)) for k in sorted(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ col_list : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fa548b57405e5ad6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.SparseRepMatrix.col_list","kind":"method","src_hash":"4bc0df41ab545b90","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"col_list()","rhs":"returns a column-sorted list of non-zero elements of the matrix","over":{"base":"Any"},"name":"col_list_correct"},"guarantee":"returns a column-sorted list of non-zero elements of the matrix","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fa548b57405e5ad6"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.SparseRepMatrix.col_list","kind":"method","src_hash":"4bc0df41ab545b90","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"col_list()","rhs":"[tuple(k + (self[k],)) for k in sorted(self.todok().keys(), key=lambda k: list(reversed(k)))]","over":{"base":"Any"},"name":"col_list_correct"},"guarantee":"returns [tuple(k + (self[k],)) for k in sorted(self.todok().keys(), key=lambda k: list(reversed(k)))]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fa548b57405e5ad6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[tuple(k + (self[k],)) for k in sorted(self.todok().keys(), key=lambda k: list(reversed(k)))]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.todok"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def col_list(self):
         """Returns a column-sorted list of non-zero elements of the matrix.
 
@@ -434,31 +483,43 @@ class SparseRepMatrix(RepMatrix):
         return [tuple(k + (self[k],)) for k in sorted(self.todok().keys(), key=lambda k: list(reversed(k)))]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nnz(), returns the number of non-zero elements in matrix) over Any ║
+# ║ Path(nnz(), len(self.todok())) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(self.todok())                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ nnz : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8e82cf23212af84f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.SparseRepMatrix.nnz","kind":"method","src_hash":"9d1d64ae54f049c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nnz()","rhs":"returns the number of non-zero elements in matrix","over":{"base":"Any"},"name":"nnz_correct"},"guarantee":"returns the number of non-zero elements in matrix","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8e82cf23212af84f"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.SparseRepMatrix.nnz","kind":"method","src_hash":"9d1d64ae54f049c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nnz()","rhs":"len(self.todok())","over":{"base":"Any"},"name":"nnz_correct"},"guarantee":"returns len(self.todok())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8e82cf23212af84f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(self.todok())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.todok"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def nnz(self):
         """Returns the number of non-zero elements in Matrix."""
         return len(self.todok())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(row_list(), returns a row-sorted list of non-zero elements of the matrix) over Any ║
+# ║ Path(row_list(), [tuple(k + (self[k],)) for k in sorted(self.todok().keys(), key=list)]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [tuple(k + (self[k],)) for k in sorted(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ row_list : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d6bc2820262f1c77  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | abeb467c6ac58040  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.SparseRepMatrix.row_list","kind":"method","src_hash":"7fcbd9bd9c4993de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"row_list()","rhs":"returns a row-sorted list of non-zero elements of the matrix","over":{"base":"Any"},"name":"row_list_correct"},"guarantee":"returns a row-sorted list of non-zero elements of the matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.sparse.SparseRepMatrix.row_list_correct","statement":"Path(row_list(x), returns a row-sorted list of non-zero elements of the matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6bc2820262f1c77"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.SparseRepMatrix.row_list","kind":"method","src_hash":"7fcbd9bd9c4993de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"row_list()","rhs":"[tuple(k + (self[k],)) for k in sorted(self.todok().keys(), key=list)]","over":{"base":"Any"},"name":"row_list_correct"},"guarantee":"returns [tuple(k + (self[k],)) for k in sorted(self.todok().keys(), key=list)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.sparse.SparseRepMatrix.row_list_correct","statement":"Path(row_list(x), returns [tuple(k + (self[k],)) for k in sorted(self.todok().keys(), key=list)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"abeb467c6ac58040","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[tuple(k + (self[k],)) for k in sorted(self.todok().keys(), key=list)]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.todok"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def row_list(self):
         """Returns a row-sorted list of non-zero elements of the matrix.
 
@@ -483,31 +544,43 @@ class SparseRepMatrix(RepMatrix):
             sorted(self.todok().keys(), key=list)]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(scalar_multiply(sca), scalar element-wise multiplication) over Any ║
+# ║ Path(scalar_multiply(scalar), scalar * self) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  scalar * self                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ scalar_multiply : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 91ec54f78b88544f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb6b9d3109e991ba  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.SparseRepMatrix.scalar_multiply","kind":"method","src_hash":"c08e049541db99d9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scalar_multiply(sca)","rhs":"scalar element-wise multiplication","over":{"base":"Any"},"name":"scalar_multiply_correct"},"guarantee":"scalar element-wise multiplication","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.sparse.SparseRepMatrix.scalar_multiply_correct","statement":"Path(scalar_multiply(x), scalar element-wise multiplication)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91ec54f78b88544f"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.SparseRepMatrix.scalar_multiply","kind":"method","src_hash":"c08e049541db99d9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scalar_multiply(scalar)","rhs":"scalar * self","over":{"base":"Any"},"name":"scalar_multiply_correct"},"guarantee":"returns scalar * self","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.sparse.SparseRepMatrix.scalar_multiply_correct","statement":"Path(scalar_multiply(x), returns scalar * self)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb6b9d3109e991ba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"scalar * self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def scalar_multiply(self, scalar):
         "Scalar element-wise multiplication"
         return scalar * self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(solve_least_squares(rhs), return the least-square fit to the data) over Any ║
+# ║ Path(solve_least_squares(rhs, method), (t * self).inv(method=method) * t * rhs) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (t * self).inv(method=method) * t * rhs        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ solve_least_squares : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b295e0a30877e49  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a8d83346fe595a5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.SparseRepMatrix.solve_least_squares","kind":"method","src_hash":"fa804725f1223393","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve_least_squares(rhs)","rhs":"return the least-square fit to the data","over":{"base":"Any"},"name":"solve_least_squares_correct"},"guarantee":"return the least-square fit to the data","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.sparse.SparseRepMatrix.solve_least_squares_correct","statement":"Path(solve_least_squares(x), return the least-square fit to the data)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b295e0a30877e49"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.SparseRepMatrix.solve_least_squares","kind":"method","src_hash":"fa804725f1223393","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve_least_squares(rhs, method)","rhs":"(t * self).inv(method=method) * t * rhs","over":{"base":"Any"},"name":"solve_least_squares_correct"},"guarantee":"returns (t * self).inv(method=method) * t * rhs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.sparse.SparseRepMatrix.solve_least_squares_correct","statement":"Path(solve_least_squares(x), returns (t * self).inv(method=method) * t * rhs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a8d83346fe595a5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(t * self).inv(method=method) * t * rhs","pure":false,"effects":{"effect_type":"reads_state","reads":["self.T"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def solve_least_squares(self, rhs, method='LDL'):
         """Return the least-square fit to the data.
 
@@ -566,16 +639,23 @@ class SparseRepMatrix(RepMatrix):
         return (t*self).inv(method=method)*t*rhs
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(solve(rhs), id) over Any                              ║
+# ║ Path(solve(rhs, method), id) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: not self.is_square                        ║
+# ║   fiber[case_1]: not (not self.is_square) => self.inv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ solve : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f528cbcccf0b3bf1   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.SparseRepMatrix.solve","kind":"method","src_hash":"3540e980fb0b493e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve(rhs)","rhs":"return solution to self*soln = rhs using given inversion method","over":{"base":"Any"},"name":"solve_correct","kind":"composition"},"guarantee":"return solution to self*soln = rhs using given inversion method","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"inv","by":"library_axiom"},{"fn":"multiply","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f528cbcccf0b3bf1"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.SparseRepMatrix.solve","kind":"method","src_hash":"3540e980fb0b493e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve(rhs, method)","rhs":"<unspecified:solve>","over":{"base":"Any"},"name":"solve_correct","kind":"composition"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"inv","by":"library_axiom"},{"fn":"multiply","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f528cbcccf0b3bf1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"not self.is_square","ensures":[],"decidability":"library"},{"name":"case_1","guard":"not (not self.is_square)","ensures":["result == self.inv(method=method).multiply(rhs)"],"decidability":"library","returns_expr":"self.inv(method=method).multiply(rhs)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.cols","self.inv","self.is_square","self.rows"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def solve(self, rhs, method='LDL'):
         """Return solution to self*soln = rhs using given inversion method.
 
@@ -594,86 +674,122 @@ class SparseRepMatrix(RepMatrix):
     CL = property(col_list, None, None, "Alternate faster representation")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(liupc(), liupc produces the expected output) over Any ║
+# ║ Path(liupc(), _liupc(self)) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _liupc(self)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ liupc : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f2a7afb7a0df1454           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.SparseRepMatrix.liupc","kind":"method","src_hash":"99dc6e255de8f43a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"liupc()","rhs":"liupc produces the expected output","over":{"base":"Any"},"name":"liupc_correct"},"guarantee":"liupc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2a7afb7a0df1454"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.SparseRepMatrix.liupc","kind":"method","src_hash":"99dc6e255de8f43a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"liupc()","rhs":"_liupc(self)","over":{"base":"Any"},"name":"liupc_correct"},"guarantee":"returns _liupc(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2a7afb7a0df1454","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_liupc(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def liupc(self):
         return _liupc(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(row_structure_symbolic_cholesky(), row_structure_symbolic_cholesky produces the expected output) over Any ║
+# ║ Path(row_structure_symbolic_cholesky(), _row_structure_symbolic_cholesky(self)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _row_structure_symbolic_cholesky(self)         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ row_structure_symbolic_cholesky : Any → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 49861bce36a9dd25           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.SparseRepMatrix.row_structure_symbolic_cholesky","kind":"method","src_hash":"d9685d3facdb9563","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"row_structure_symbolic_cholesky()","rhs":"row_structure_symbolic_cholesky produces the expected output","over":{"base":"Any"},"name":"row_structure_symbolic_cholesky_correct"},"guarantee":"row_structure_symbolic_cholesky produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"49861bce36a9dd25"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.SparseRepMatrix.row_structure_symbolic_cholesky","kind":"method","src_hash":"d9685d3facdb9563","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"row_structure_symbolic_cholesky()","rhs":"_row_structure_symbolic_cholesky(self)","over":{"base":"Any"},"name":"row_structure_symbolic_cholesky_correct"},"guarantee":"returns _row_structure_symbolic_cholesky(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"49861bce36a9dd25","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_row_structure_symbolic_cholesky(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def row_structure_symbolic_cholesky(self):
         return _row_structure_symbolic_cholesky(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cholesky(her), cholesky produces the expected output) over Any ║
+# ║ Path(cholesky(hermitian), _cholesky_sparse(self, hermitian=hermitian)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _cholesky_sparse(self, hermitian=hermitian)    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cholesky : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 23d6c02a5fb810cf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.SparseRepMatrix.cholesky","kind":"method","src_hash":"f74269eb59fa196f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cholesky(her)","rhs":"cholesky produces the expected output","over":{"base":"Any"},"name":"cholesky_correct"},"guarantee":"cholesky produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"23d6c02a5fb810cf"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.SparseRepMatrix.cholesky","kind":"method","src_hash":"f74269eb59fa196f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cholesky(hermitian)","rhs":"_cholesky_sparse(self, hermitian=hermitian)","over":{"base":"Any"},"name":"cholesky_correct"},"guarantee":"returns _cholesky_sparse(self, hermitian=hermitian)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"23d6c02a5fb810cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_cholesky_sparse(self, hermitian=hermitian)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cholesky(self, hermitian=True):
         return _cholesky_sparse(self, hermitian=hermitian)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(LDLdecomposition(her), LDLdecomposition produces the expected output) over Any ║
+# ║ Path(LDLdecomposition(hermitian), _LDLdecomposition_sparse(self, hermitian=hermitian)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _LDLdecomposition_sparse(self, hermitian=...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ LDLdecomposition : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a360eb905ea04858           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.SparseRepMatrix.LDLdecomposition","kind":"method","src_hash":"d885102c9962ad9b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LDLdecomposition(her)","rhs":"LDLdecomposition produces the expected output","over":{"base":"Any"},"name":"LDLdecomposition_correct"},"guarantee":"LDLdecomposition produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a360eb905ea04858"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.SparseRepMatrix.LDLdecomposition","kind":"method","src_hash":"d885102c9962ad9b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LDLdecomposition(hermitian)","rhs":"_LDLdecomposition_sparse(self, hermitian=hermitian)","over":{"base":"Any"},"name":"LDLdecomposition_correct"},"guarantee":"returns _LDLdecomposition_sparse(self, hermitian=hermitian)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a360eb905ea04858","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_LDLdecomposition_sparse(self, hermitian=hermitian)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def LDLdecomposition(self, hermitian=True):
         return _LDLdecomposition_sparse(self, hermitian=hermitian)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lower_triangular_solve(rhs), lower_triangular_solve produces the expected output) over Any ║
+# ║ Path(lower_triangular_solve(rhs), _lower_triangular_solve_sparse(self, rhs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _lower_triangular_solve_sparse(self, rhs)      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lower_triangular_solve : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3b35fd2c16124953           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.SparseRepMatrix.lower_triangular_solve","kind":"method","src_hash":"8d9cf16be32fcd39","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lower_triangular_solve(rhs)","rhs":"lower_triangular_solve produces the expected output","over":{"base":"Any"},"name":"lower_triangular_solve_correct"},"guarantee":"lower_triangular_solve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3b35fd2c16124953"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.SparseRepMatrix.lower_triangular_solve","kind":"method","src_hash":"8d9cf16be32fcd39","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lower_triangular_solve(rhs)","rhs":"_lower_triangular_solve_sparse(self, rhs)","over":{"base":"Any"},"name":"lower_triangular_solve_correct"},"guarantee":"returns _lower_triangular_solve_sparse(self, rhs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3b35fd2c16124953","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_lower_triangular_solve_sparse(self, rhs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lower_triangular_solve(self, rhs):
         return _lower_triangular_solve_sparse(self, rhs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(upper_triangular_solve(rhs), upper_triangular_solve produces the expected output) over Any ║
+# ║ Path(upper_triangular_solve(rhs), _upper_triangular_solve_sparse(self, rhs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _upper_triangular_solve_sparse(self, rhs)      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ upper_triangular_solve : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1476e41051ae71d2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.SparseRepMatrix.upper_triangular_solve","kind":"method","src_hash":"993e1eeae56832e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"upper_triangular_solve(rhs)","rhs":"upper_triangular_solve produces the expected output","over":{"base":"Any"},"name":"upper_triangular_solve_correct"},"guarantee":"upper_triangular_solve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1476e41051ae71d2"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.SparseRepMatrix.upper_triangular_solve","kind":"method","src_hash":"993e1eeae56832e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"upper_triangular_solve(rhs)","rhs":"_upper_triangular_solve_sparse(self, rhs)","over":{"base":"Any"},"name":"upper_triangular_solve_correct"},"guarantee":"returns _upper_triangular_solve_sparse(self, rhs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1476e41051ae71d2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_upper_triangular_solve_sparse(self, rhs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def upper_triangular_solve(self, rhs):
         return _upper_triangular_solve_sparse(self, rhs)
 
@@ -688,28 +804,41 @@ class SparseRepMatrix(RepMatrix):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MutableSparseMatrix(*args), correctly constructs a MutableSparseMatrix instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ MutableSparseMatrix : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SparseRepMatrix)              ║
+# ║   ensures:  isinstance(self, MutableRepMatrix)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ MutableSparseMatrix : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81c2787a42813d08  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.MutableSparseMatrix","kind":"class","src_hash":"5209e59d208468ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MutableSparseMatrix(*args)","rhs":"correctly constructs a MutableSparseMatrix instance","over":{"base":"Any"},"name":"MutableSparseMatrix_class_invariant"},"guarantee":"correctly constructs a MutableSparseMatrix instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81c2787a42813d08"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.MutableSparseMatrix","kind":"class","src_hash":"5209e59d208468ce","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SparseRepMatrix) and isinstance(self, MutableRepMatrix)"},"spec":{"lhs":"MutableSparseMatrix(*args)","rhs":"correctly constructs a MutableSparseMatrix instance","over":{"base":"Any"},"name":"MutableSparseMatrix_class_invariant"},"guarantee":"isinstance(self, SparseRepMatrix); isinstance(self, MutableRepMatrix)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81c2787a42813d08","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SparseRepMatrix)","isinstance(self, MutableRepMatrix)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function MutableSparseMatrix not found in source"]}}
 class MutableSparseMatrix(SparseRepMatrix, MutableRepMatrix):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_new(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_new(cls, *args, **kwargs), cls._fromrep(rep)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls._fromrep(rep)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _new : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0b7a814a5ea3bad  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52822dde5c3d7b04  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.MutableSparseMatrix._new","kind":"classmethod","src_hash":"566448196248d01c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_new(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_new_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.sparse.MutableSparseMatrix._new_correct","statement":"Path(_new(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0b7a814a5ea3bad"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.sparse.MutableSparseMatrix._new","kind":"classmethod","src_hash":"566448196248d01c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_new(cls, *args, **kwargs)","rhs":"cls._fromrep(rep)","over":{"base":"Any"},"name":"_new_correct"},"guarantee":"returns cls._fromrep(rep)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.sparse.MutableSparseMatrix._new_correct","statement":"Path(_new(x), returns cls._fromrep(rep))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52822dde5c3d7b04","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls._fromrep(rep)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._fromrep","cls._handle_creation_inputs","cls._smat_to_DomainMatrix"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _new(cls, *args, **kwargs):
         rows, cols, smat = cls._handle_creation_inputs(*args, **kwargs)
 

@@ -131,16 +131,22 @@ combinations_lang_compiler = [
 ]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(try_run(com), run a series of commands and only return true if all ran fine) over Any ║
+# ║ Path(try_run(commands), <unspecified:try_run>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ try_run : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1100d05043a599c0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_codegen.try_run","kind":"function","src_hash":"0d942ec5efa963bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"try_run(com)","rhs":"run a series of commands and only return true if all ran fine","over":{"base":"Any"},"name":"try_run_correct"},"guarantee":"run a series of commands and only return true if all ran fine","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_codegen.try_run_correct","statement":"Path(try_run(x), run a series of commands and only return true if all ran fine)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1100d05043a599c0"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_codegen.try_run","kind":"function","src_hash":"0d942ec5efa963bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"try_run(commands)","rhs":"<unspecified:try_run>","over":{"base":"Any"},"name":"try_run_correct"},"guarantee":"run a series of commands and only return true if all ran fine","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_codegen.try_run_correct","statement":"Path(try_run(x), run a series of commands and only return true if all ran fine)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1100d05043a599c0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","io_operations":["open"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def try_run(commands):
     """Run a series of commands and only return True if all ran fine."""
     if IS_WASM:
@@ -155,16 +161,27 @@ def try_run(commands):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(run_test(lab), a driver for the codegen tests) over Any ║
+# ║ Path(run_test(label, routines, numerical_tests), language in main_template and language in numerical_test_template and compiled and executed and len(test_strings) == old_len_test_strings + 1) over {Any | not (clean not in ('always', 'success', 'never')) and hasattr(language, 'upper') and hasattr(language, 'startswith')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ run_test : Any → {Any | language in main_template and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (clean not in ('always', 'success', '...   ║
+# ║   requires: hasattr(language, 'upper')                     ║
+# ║   requires: hasattr(language, 'startswith')                ║
+# ║   ensures:  language in main_template                      ║
+# ║   ensures:  language in numerical_test_template            ║
+# ║   ensures:  compiled                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ run_test : {Any | not (clean not in ('always', 'succe...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b39559bca567d87  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d888289e58eac52  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_codegen.run_test","kind":"function","src_hash":"c3ab14be97f00e92","in":{"base":"Any"},"out":{"base":"Any","pred":"language in main_template and language in numerical_test_template and compiled and executed"},"spec":{"lhs":"run_test(lab)","rhs":"a driver for the codegen tests","over":{"base":"Any"},"name":"run_test_correct"},"guarantee":"a driver for the codegen tests","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_codegen.run_test_correct","statement":"Path(run_test(x), a driver for the codegen tests)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b39559bca567d87"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_codegen.run_test","kind":"function","src_hash":"c3ab14be97f00e92","in":{"base":"Any","pred":"not (clean not in ('always', 'success', 'never')) and hasattr(language, 'upper') and hasattr(language, 'startswith')"},"out":{"base":"Any","pred":"result satisfies: language in main_template and language in numerical_test_template and compiled and executed and len(test_strings) == old_len_test_strings + 1"},"spec":{"lhs":"run_test(label, routines, numerical_tests)","rhs":"language in main_template and language in numerical_test_template and compiled and executed and len(test_strings) == old_len_test_strings + 1","over":{"base":"Any","pred":"not (clean not in ('always', 'success', 'never')) and hasattr(language, 'upper') and hasattr(language, 'startswith')"},"name":"run_test_correct"},"guarantee":"language in main_template; language in numerical_test_template; compiled","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_codegen.run_test_correct","statement":"Path(run_test(x), language in main_template; language in numerical_test_template; compiled)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d888289e58eac52","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (clean not in ('always', 'success', 'never'))","hasattr(language, 'upper')","hasattr(language, 'startswith')"],"ensures":["language in main_template","language in numerical_test_template","compiled","executed","len(test_strings) == old_len_test_strings + 1"],"pure":false,"effects":{"effect_type":"io","reads":["language.startswith","language.upper"],"calls_mutating":["code_gen.write","os.remove","test_strings.append"],"raises":["NotImplementedError","ValueError"],"io_operations":["code_gen.write","print"]},"state_contract":{"modifies":["code_gen.*","os.*","test_strings.*"],"old_bindings":{"old_len_test_strings":"len(test_strings)"},"post_ensures":["len(test_strings) == old_len_test_strings + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def run_test(label, routines, numerical_tests, language, commands, friendly=True):
     """A driver for the codegen tests.
 
@@ -261,16 +278,22 @@ def run_test(label, routines, numerical_tests, language, commands, friendly=True
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fortranize_double_constants(cod), id) over Any        ║
+# ║ Path(fortranize_double_constants(code_string), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fortranize_double_constants : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | eded4935458a48d3   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_codegen.fortranize_double_constants","kind":"function","src_hash":"345d5e02e1657959","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fortranize_double_constants(cod)","rhs":"replaces every literal float with literal doubles","over":{"base":"Any"},"name":"fortranize_double_constants_correct","kind":"composition"},"guarantee":"replaces every literal float with literal doubles","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sub","by":"library_axiom"},{"fn":"group","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eded4935458a48d3"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_codegen.fortranize_double_constants","kind":"function","src_hash":"345d5e02e1657959","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fortranize_double_constants(code_string)","rhs":"<unspecified:fortranize_double_constants>","over":{"base":"Any"},"name":"fortranize_double_constants_correct","kind":"composition"},"guarantee":"replaces every literal float with literal doubles","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sub","by":"library_axiom"},{"fn":"group","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eded4935458a48d3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def fortranize_double_constants(code_string):
     """
     Replaces every literal float with literal doubles
@@ -292,16 +315,22 @@ def fortranize_double_constants(code_string):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_feasible(lan), is_feasible produces the expected output) over Any ║
+# ║ Path(is_feasible(language, commands), <unspecified:is_feasible>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_feasible : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8fb395c34c62c31f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_codegen.is_feasible","kind":"function","src_hash":"46ee51b6d9668320","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_feasible(lan)","rhs":"is_feasible produces the expected output","over":{"base":"Any"},"name":"is_feasible_correct"},"guarantee":"is_feasible produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_codegen.is_feasible_correct","statement":"Path(is_feasible(x), is_feasible produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fb395c34c62c31f"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_codegen.is_feasible","kind":"function","src_hash":"46ee51b6d9668320","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_feasible(language, commands)","rhs":"<unspecified:is_feasible>","over":{"base":"Any"},"name":"is_feasible_correct"},"guarantee":"is_feasible produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_codegen.is_feasible_correct","statement":"Path(is_feasible(x), is_feasible produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fb395c34c62c31f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def is_feasible(language, commands):
     # This test should always work, otherwise the compiler is not present.
     routine = make_routine("test", x)
@@ -328,80 +357,110 @@ for lang, compiler in combinations_lang_compiler:
 # We test all language-compiler combinations, just to report what is skipped
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_C89_cc(), test_C89_cc produces the expected output) over Any ║
+# ║ Path(test_C89_cc(), <unspecified:test_C89_cc>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_C89_cc : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d4ba938bd8bf6b02  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_codegen.test_C89_cc","kind":"function","src_hash":"f1dbd3fccfa9ae37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_C89_cc()","rhs":"test_C89_cc produces the expected output","over":{"base":"Any"},"name":"test_C89_cc_correct"},"guarantee":"test_C89_cc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_codegen.test_C89_cc_correct","statement":"Path(test_C89_cc(x), test_C89_cc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4ba938bd8bf6b02"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_codegen.test_C89_cc","kind":"function","src_hash":"f1dbd3fccfa9ae37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_C89_cc()","rhs":"<unspecified:test_C89_cc>","over":{"base":"Any"},"name":"test_C89_cc_correct"},"guarantee":"test_C89_cc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_codegen.test_C89_cc_correct","statement":"Path(test_C89_cc(x), test_C89_cc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4ba938bd8bf6b02","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_C89_cc():
     if ("C89", 'cc') in invalid_lang_compilers:
         skip("`cc' command didn't work as expected (C89)")
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_C99_cc(), test_C99_cc produces the expected output) over Any ║
+# ║ Path(test_C99_cc(), <unspecified:test_C99_cc>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_C99_cc : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 218fefa4774ffb50  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_codegen.test_C99_cc","kind":"function","src_hash":"82f5320e71e62f31","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_C99_cc()","rhs":"test_C99_cc produces the expected output","over":{"base":"Any"},"name":"test_C99_cc_correct"},"guarantee":"test_C99_cc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_codegen.test_C99_cc_correct","statement":"Path(test_C99_cc(x), test_C99_cc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"218fefa4774ffb50"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_codegen.test_C99_cc","kind":"function","src_hash":"82f5320e71e62f31","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_C99_cc()","rhs":"<unspecified:test_C99_cc>","over":{"base":"Any"},"name":"test_C99_cc_correct"},"guarantee":"test_C99_cc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_codegen.test_C99_cc_correct","statement":"Path(test_C99_cc(x), test_C99_cc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"218fefa4774ffb50","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_C99_cc():
     if ("C99", 'cc') in invalid_lang_compilers:
         skip("`cc' command didn't work as expected (C99)")
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_F95_ifort(), test_F95_ifort produces the expected output) over Any ║
+# ║ Path(test_F95_ifort(), <unspecified:test_F95_ifort>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_F95_ifort : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad43702895078296  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_codegen.test_F95_ifort","kind":"function","src_hash":"5224117f0addff61","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_F95_ifort()","rhs":"test_F95_ifort produces the expected output","over":{"base":"Any"},"name":"test_F95_ifort_correct"},"guarantee":"test_F95_ifort produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_codegen.test_F95_ifort_correct","statement":"Path(test_F95_ifort(x), test_F95_ifort produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad43702895078296"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_codegen.test_F95_ifort","kind":"function","src_hash":"5224117f0addff61","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_F95_ifort()","rhs":"<unspecified:test_F95_ifort>","over":{"base":"Any"},"name":"test_F95_ifort_correct"},"guarantee":"test_F95_ifort produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_codegen.test_F95_ifort_correct","statement":"Path(test_F95_ifort(x), test_F95_ifort produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad43702895078296","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_F95_ifort():
     if ("F95", 'ifort') in invalid_lang_compilers:
         skip("`ifort' command didn't work as expected")
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_F95_gfortran(), test_F95_gfortran produces the expected output) over Any ║
+# ║ Path(test_F95_gfortran(), <unspecified:test_F95_gfortran>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_F95_gfortran : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 868e7132932551cc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_codegen.test_F95_gfortran","kind":"function","src_hash":"990fd4ba32713fce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_F95_gfortran()","rhs":"test_F95_gfortran produces the expected output","over":{"base":"Any"},"name":"test_F95_gfortran_correct"},"guarantee":"test_F95_gfortran produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_codegen.test_F95_gfortran_correct","statement":"Path(test_F95_gfortran(x), test_F95_gfortran produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"868e7132932551cc"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_codegen.test_F95_gfortran","kind":"function","src_hash":"990fd4ba32713fce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_F95_gfortran()","rhs":"<unspecified:test_F95_gfortran>","over":{"base":"Any"},"name":"test_F95_gfortran_correct"},"guarantee":"test_F95_gfortran produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_codegen.test_F95_gfortran_correct","statement":"Path(test_F95_gfortran(x), test_F95_gfortran produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"868e7132932551cc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_F95_gfortran():
     if ("F95", 'gfortran') in invalid_lang_compilers:
         skip("`gfortran' command didn't work as expected")
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_F95_g95(), test_F95_g95 produces the expected output) over Any ║
+# ║ Path(test_F95_g95(), <unspecified:test_F95_g95>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_F95_g95 : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fd440a4a25be53df  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_codegen.test_F95_g95","kind":"function","src_hash":"336b1f0c7469e38e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_F95_g95()","rhs":"test_F95_g95 produces the expected output","over":{"base":"Any"},"name":"test_F95_g95_correct"},"guarantee":"test_F95_g95 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_codegen.test_F95_g95_correct","statement":"Path(test_F95_g95(x), test_F95_g95 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd440a4a25be53df"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_codegen.test_F95_g95","kind":"function","src_hash":"336b1f0c7469e38e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_F95_g95()","rhs":"<unspecified:test_F95_g95>","over":{"base":"Any"},"name":"test_F95_g95_correct"},"guarantee":"test_F95_g95 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_codegen.test_F95_g95_correct","statement":"Path(test_F95_g95(x), test_F95_g95 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd440a4a25be53df","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_F95_g95():
     if ("F95", 'g95') in invalid_lang_compilers:
         skip("`g95' command didn't work as expected")
@@ -410,16 +469,22 @@ def test_F95_g95():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_basic_codegen(), test_basic_codegen produces the expected output) over Any ║
+# ║ Path(test_basic_codegen(), <unspecified:test_basic_codegen>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_basic_codegen : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d4ce90004f73e801  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_codegen.test_basic_codegen","kind":"function","src_hash":"138393f0ae9b8b0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_basic_codegen()","rhs":"test_basic_codegen produces the expected output","over":{"base":"Any"},"name":"test_basic_codegen_correct"},"guarantee":"test_basic_codegen produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_codegen.test_basic_codegen_correct","statement":"Path(test_basic_codegen(x), test_basic_codegen produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4ce90004f73e801"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_codegen.test_basic_codegen","kind":"function","src_hash":"138393f0ae9b8b0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_basic_codegen()","rhs":"<unspecified:test_basic_codegen>","over":{"base":"Any"},"name":"test_basic_codegen_correct"},"guarantee":"test_basic_codegen produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_codegen.test_basic_codegen_correct","statement":"Path(test_basic_codegen(x), test_basic_codegen produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4ce90004f73e801","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_basic_codegen():
     numerical_tests = [
         ("test", (1.0, 6.0, 3.0), 21.0, 1e-15),
@@ -431,16 +496,22 @@ def test_basic_codegen():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_intrinsic_math1_codegen(), test_intrinsic_math1_codegen produces the expected output) over Any ║
+# ║ Path(test_intrinsic_math1_codegen(), <unspecified:test_intrinsic_math1_codegen>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_intrinsic_math1_codegen : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3835410cba422b98  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_codegen.test_intrinsic_math1_codegen","kind":"function","src_hash":"330129f83b635c5c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_intrinsic_math1_codegen()","rhs":"test_intrinsic_math1_codegen produces the expected output","over":{"base":"Any"},"name":"test_intrinsic_math1_codegen_correct"},"guarantee":"test_intrinsic_math1_codegen produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_codegen.test_intrinsic_math1_codegen_correct","statement":"Path(test_intrinsic_math1_codegen(x), test_intrinsic_math1_codegen produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3835410cba422b98"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_codegen.test_intrinsic_math1_codegen","kind":"function","src_hash":"330129f83b635c5c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_intrinsic_math1_codegen()","rhs":"<unspecified:test_intrinsic_math1_codegen>","over":{"base":"Any"},"name":"test_intrinsic_math1_codegen_correct"},"guarantee":"test_intrinsic_math1_codegen produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_codegen.test_intrinsic_math1_codegen_correct","statement":"Path(test_intrinsic_math1_codegen(x), test_intrinsic_math1_codegen produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3835410cba422b98","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_intrinsic_math1_codegen():
     # not included: log10
     from sympy.core.evalf import N
@@ -480,16 +551,22 @@ def test_intrinsic_math1_codegen():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_instrinsic_math2_codegen(), test_instrinsic_math2_codegen produces the expected output) over Any ║
+# ║ Path(test_instrinsic_math2_codegen(), <unspecified:test_instrinsic_math2_codegen>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_instrinsic_math2_codegen : Any → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 600569e6d2883512  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_codegen.test_instrinsic_math2_codegen","kind":"function","src_hash":"565d7593d47bdff4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_instrinsic_math2_codegen()","rhs":"test_instrinsic_math2_codegen produces the expected output","over":{"base":"Any"},"name":"test_instrinsic_math2_codegen_correct"},"guarantee":"test_instrinsic_math2_codegen produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_codegen.test_instrinsic_math2_codegen_correct","statement":"Path(test_instrinsic_math2_codegen(x), test_instrinsic_math2_codegen produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"600569e6d2883512"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_codegen.test_instrinsic_math2_codegen","kind":"function","src_hash":"565d7593d47bdff4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_instrinsic_math2_codegen()","rhs":"<unspecified:test_instrinsic_math2_codegen>","over":{"base":"Any"},"name":"test_instrinsic_math2_codegen_correct"},"guarantee":"test_instrinsic_math2_codegen produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_codegen.test_instrinsic_math2_codegen_correct","statement":"Path(test_instrinsic_math2_codegen(x), test_instrinsic_math2_codegen produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"600569e6d2883512","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_instrinsic_math2_codegen():
     # not included: frexp, ldexp, modf, fmod
     from sympy.core.evalf import N
@@ -508,16 +585,22 @@ def test_instrinsic_math2_codegen():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_complicated_codegen(), test_complicated_codegen produces the expected output) over Any ║
+# ║ Path(test_complicated_codegen(), <unspecified:test_complicated_codegen>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_complicated_codegen : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 48e1611a69154dcb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_codegen.test_complicated_codegen","kind":"function","src_hash":"b2f176005dadfd9c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_complicated_codegen()","rhs":"test_complicated_codegen produces the expected output","over":{"base":"Any"},"name":"test_complicated_codegen_correct"},"guarantee":"test_complicated_codegen produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_codegen.test_complicated_codegen_correct","statement":"Path(test_complicated_codegen(x), test_complicated_codegen produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"48e1611a69154dcb"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_codegen.test_complicated_codegen","kind":"function","src_hash":"b2f176005dadfd9c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_complicated_codegen()","rhs":"<unspecified:test_complicated_codegen>","over":{"base":"Any"},"name":"test_complicated_codegen_correct"},"guarantee":"test_complicated_codegen produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_codegen.test_complicated_codegen_correct","statement":"Path(test_complicated_codegen(x), test_complicated_codegen produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"48e1611a69154dcb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_complicated_codegen():
     from sympy.core.evalf import N
     from sympy.functions.elementary.trigonometric import (cos, sin, tan)

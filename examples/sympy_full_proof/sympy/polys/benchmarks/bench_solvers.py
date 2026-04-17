@@ -34,16 +34,22 @@ from sympy.polys.solvers import solve_lin_sys
 R_165, uk_0, uk_1, uk_2, uk_3, uk_4, uk_5, uk_6, uk_7, uk_8, uk_9, uk_10, uk_11, uk_12, uk_13, uk_14, uk_15, uk_16, uk_17, uk_18, uk_19, uk_20, uk_21, uk_22, uk_23, uk_24, uk_25, uk_26, uk_27, uk_28, uk_29, uk_30, uk_31, uk_32, uk_33, uk_34, uk_35, uk_36, uk_37, uk_38, uk_39, uk_40, uk_41, uk_42, uk_43, uk_44, uk_45, uk_46, uk_47, uk_48, uk_49, uk_50, uk_51, uk_52, uk_53, uk_54, uk_55, uk_56, uk_57, uk_58, uk_59, uk_60, uk_61, uk_62, uk_63, uk_64, uk_65, uk_66, uk_67, uk_68, uk_69, uk_70, uk_71, uk_72, uk_73, uk_74, uk_75, uk_76, uk_77, uk_78, uk_79, uk_80, uk_81, uk_82, uk_83, uk_84, uk_85, uk_86, uk_87, uk_88, uk_89, uk_90, uk_91, uk_92, uk_93, uk_94, uk_95, uk_96, uk_97, uk_98, uk_99, uk_100, uk_101, uk_102, uk_103, uk_104, uk_105, uk_106, uk_107, uk_108, uk_109, uk_110, uk_111, uk_112, uk_113, uk_114, uk_115, uk_116, uk_117, uk_118, uk_119, uk_120, uk_121, uk_122, uk_123, uk_124, uk_125, uk_126, uk_127, uk_128, uk_129, uk_130, uk_131, uk_132, uk_133, uk_134, uk_135, uk_136, uk_137, uk_138, uk_139, uk_140, uk_141, uk_142, uk_143, uk_144, uk_145, uk_146, uk_147, uk_148, uk_149, uk_150, uk_151, uk_152, uk_153, uk_154, uk_155, uk_156, uk_157, uk_158, uk_159, uk_160, uk_161, uk_162, uk_163, uk_164 = ring("uk_:165", QQ)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eqs_165x165(), eqs_165x165 produces the expected output) over Any ║
+# ║ Path(eqs_165x165(), <unspecified:eqs_165x165>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eqs_165x165 : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 169.9ms                       ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b70bbae7a7e35e28  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_solvers.eqs_165x165","kind":"function","src_hash":"647127557f6bc188","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eqs_165x165()","rhs":"eqs_165x165 produces the expected output","over":{"base":"Any"},"name":"eqs_165x165_correct"},"guarantee":"eqs_165x165 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_solvers.eqs_165x165_correct","statement":"Path(eqs_165x165(x), eqs_165x165 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b70bbae7a7e35e28"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_solvers.eqs_165x165","kind":"function","src_hash":"647127557f6bc188","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eqs_165x165()","rhs":"<unspecified:eqs_165x165>","over":{"base":"Any"},"name":"eqs_165x165_correct"},"guarantee":"eqs_165x165 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_solvers.eqs_165x165_correct","statement":"Path(eqs_165x165(x), eqs_165x165 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b70bbae7a7e35e28","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":169.9,"verdict_class":"assumed","binding":true}}
 def eqs_165x165():
     return [
         uk_0 + 50719*uk_1 + 2789545*uk_10 + 411400*uk_100 + 1683000*uk_101 + 166375*uk_103 + 680625*uk_104 + 2784375*uk_106 + 729*uk_109 + 456471*uk_11 + 4131*uk_110 + 11016*uk_111 + 4455*uk_112 + 18225*uk_113 + 23409*uk_115 + 62424*uk_116 + 25245*uk_117 + 103275*uk_118 + 2586669*uk_12 + 166464*uk_120 + 67320*uk_121 + 275400*uk_122 + 27225*uk_124 + 111375*uk_125 + 455625*uk_127 + 6897784*uk_13 + 132651*uk_130 + 353736*uk_131 + 143055*uk_132 + 585225*uk_133 + 943296*uk_135 + 381480*uk_136 + 1560600*uk_137 + 154275*uk_139 + 2789545*uk_14 + 631125*uk_140 + 2581875*uk_142 + 2515456*uk_145 + 1017280*uk_146 + 4161600*uk_147 + 411400*uk_149 + 11411775*uk_15 + 1683000*uk_150 + 6885000*uk_152 + 166375*uk_155 + 680625*uk_156 + 2784375*uk_158 + 11390625*uk_161 + 3025*uk_17 + 495*uk_18 + 2805*uk_19 + 55*uk_2 + 7480*uk_20 + 3025*uk_21 + 12375*uk_22 + 81*uk_24 + 459*uk_25 + 1224*uk_26 + 495*uk_27 + 2025*uk_28 + 9*uk_3 + 2601*uk_30 + 6936*uk_31 + 2805*uk_32 + 11475*uk_33 + 18496*uk_35 + 7480*uk_36 + 30600*uk_37 + 3025*uk_39 + 51*uk_4 + 12375*uk_40 + 50625*uk_42 + 130470415844959*uk_45 + 141482932855*uk_46 + 23151752649*uk_47 + 131193265011*uk_48 + 349848706696*uk_49 + 136*uk_5 + 141482932855*uk_50 + 578793816225*uk_51 + 153424975*uk_53 + 25105905*uk_54 + 142266795*uk_55 + 379378120*uk_56 + 153424975*uk_57 + 627647625*uk_58 + 55*uk_6 + 4108239*uk_60 + 23280021*uk_61 + 62080056*uk_62 + 25105905*uk_63 + 102705975*uk_64 + 131920119*uk_66 + 351786984*uk_67 + 142266795*uk_68 + 582000525*uk_69 + 225*uk_7 + 938098624*uk_71 + 379378120*uk_72 + 1552001400*uk_73 + 153424975*uk_75 + 627647625*uk_76 + 2567649375*uk_78 + 166375*uk_81 + 27225*uk_82 + 154275*uk_83 + 411400*uk_84 + 166375*uk_85 + 680625*uk_86 + 4455*uk_88 + 25245*uk_89 + 2572416961*uk_9 + 67320*uk_90 + 27225*uk_91 + 111375*uk_92 + 143055*uk_94 + 381480*uk_95 + 154275*uk_96 + 631125*uk_97 + 1017280*uk_99,
@@ -214,16 +220,22 @@ def eqs_165x165():
     ]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sol_165x165(), sol_165x165 produces the expected output) over Any ║
+# ║ Path(sol_165x165(), <unspecified:sol_165x165>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sol_165x165 : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 3.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38477c5ed31554df  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_solvers.sol_165x165","kind":"function","src_hash":"6783d964764d3071","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sol_165x165()","rhs":"sol_165x165 produces the expected output","over":{"base":"Any"},"name":"sol_165x165_correct"},"guarantee":"sol_165x165 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_solvers.sol_165x165_correct","statement":"Path(sol_165x165(x), sol_165x165 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38477c5ed31554df"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_solvers.sol_165x165","kind":"function","src_hash":"6783d964764d3071","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sol_165x165()","rhs":"<unspecified:sol_165x165>","over":{"base":"Any"},"name":"sol_165x165_correct"},"guarantee":"sol_165x165 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_solvers.sol_165x165_correct","statement":"Path(sol_165x165(x), sol_165x165 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38477c5ed31554df","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.6,"verdict_class":"assumed","binding":true}}
 def sol_165x165():
     return {
         uk_0: -QQ(295441,1683)*uk_2 - QQ(175799,1683)*uk_7 + QQ(2401696807,1)*uk_9 - QQ(9606787228,1683)*uk_10 + QQ(9606787228,1683)*uk_15 - QQ(29030443,1683)*uk_17 - QQ(5965893,187)*uk_22 + QQ(262901,99)*uk_42 + QQ(235539209256104,1)*uk_45 - QQ(232597130667529,1683)*uk_46 + QQ(1364372733998209,1683)*uk_51 - QQ(1133600892904,1683)*uk_53 - QQ(172922170104,187)*uk_58 + QQ(249776467928,99)*uk_78 - QQ(2401889209,1683)*uk_81 - QQ(636292759,187)*uk_86 - QQ(1034157281,187)*uk_106 + QQ(10558824289,1683)*uk_161,
@@ -279,31 +291,45 @@ def sol_165x165():
     }
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(time_eqs_165x165(), time_eqs_165x165 produces the expected output) over Any ║
+# ║ Path(time_eqs_165x165(), <unspecified:time_eqs_165x165>) over {Any | not (len(eqs_165x165()) != 165)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ time_eqs_165x165 : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (len(eqs_165x165()) != 165)                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ time_eqs_165x165 : {Any | not (len(eqs_165x165()) != ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b78eaa482d7145d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_solvers.time_eqs_165x165","kind":"function","src_hash":"52b41c4d197580f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"time_eqs_165x165()","rhs":"time_eqs_165x165 produces the expected output","over":{"base":"Any"},"name":"time_eqs_165x165_correct"},"guarantee":"time_eqs_165x165 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_solvers.time_eqs_165x165_correct","statement":"Path(time_eqs_165x165(x), time_eqs_165x165 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b78eaa482d7145d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_solvers.time_eqs_165x165","kind":"function","src_hash":"52b41c4d197580f9","in":{"base":"Any","pred":"not (len(eqs_165x165()) != 165)"},"out":{"base":"Any"},"spec":{"lhs":"time_eqs_165x165()","rhs":"<unspecified:time_eqs_165x165>","over":{"base":"Any","pred":"not (len(eqs_165x165()) != 165)"},"name":"time_eqs_165x165_correct"},"guarantee":"time_eqs_165x165 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_solvers.time_eqs_165x165_correct","statement":"Path(time_eqs_165x165(x), time_eqs_165x165 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b78eaa482d7145d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (len(eqs_165x165()) != 165)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def time_eqs_165x165():
     if len(eqs_165x165()) != 165:
         raise ValueError("length should be 165")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(time_solve_lin_sys_165x165(), time_solve_lin_sys_165x165 produces the expected output) over Any ║
+# ║ Path(time_solve_lin_sys_165x165(), <unspecified:time_solve_lin_sys_165x165>) over {Any | not (sol != sol_165x165())} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ time_solve_lin_sys_165x165 : Any → Any                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (sol != sol_165x165())                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ time_solve_lin_sys_165x165 : {Any | not (sol != sol_1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 50de633a04915d92  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_solvers.time_solve_lin_sys_165x165","kind":"function","src_hash":"ffa7a0710c1b53dc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"time_solve_lin_sys_165x165()","rhs":"time_solve_lin_sys_165x165 produces the expected output","over":{"base":"Any"},"name":"time_solve_lin_sys_165x165_correct"},"guarantee":"time_solve_lin_sys_165x165 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_solvers.time_solve_lin_sys_165x165_correct","statement":"Path(time_solve_lin_sys_165x165(x), time_solve_lin_sys_165x165 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50de633a04915d92"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_solvers.time_solve_lin_sys_165x165","kind":"function","src_hash":"ffa7a0710c1b53dc","in":{"base":"Any","pred":"not (sol != sol_165x165())"},"out":{"base":"Any"},"spec":{"lhs":"time_solve_lin_sys_165x165()","rhs":"<unspecified:time_solve_lin_sys_165x165>","over":{"base":"Any","pred":"not (sol != sol_165x165())"},"name":"time_solve_lin_sys_165x165_correct"},"guarantee":"time_solve_lin_sys_165x165 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_solvers.time_solve_lin_sys_165x165_correct","statement":"Path(time_solve_lin_sys_165x165(x), time_solve_lin_sys_165x165 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50de633a04915d92","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (sol != sol_165x165())"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def time_solve_lin_sys_165x165():
     eqs = eqs_165x165()
     sol = solve_lin_sys(eqs, R_165)
@@ -311,16 +337,23 @@ def time_solve_lin_sys_165x165():
         raise ValueError("Value should be equal")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(time_verify_sol_165x165(), time_verify_sol_165x165 produces the expected output) over Any ║
+# ║ Path(time_verify_sol_165x165(), <unspecified:time_verify_sol_165x165>) over {Any | all((zero == 0 for zero in zeros))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ time_verify_sol_165x165 : Any → Any                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: all((zero == 0 for zero in zeros))             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ time_verify_sol_165x165 : {Any | all((zero == 0 for z...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 411928e932b5c2fc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_solvers.time_verify_sol_165x165","kind":"function","src_hash":"bc68ad3d11a70a4f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"time_verify_sol_165x165()","rhs":"time_verify_sol_165x165 produces the expected output","over":{"base":"Any"},"name":"time_verify_sol_165x165_correct"},"guarantee":"time_verify_sol_165x165 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_solvers.time_verify_sol_165x165_correct","statement":"Path(time_verify_sol_165x165(x), time_verify_sol_165x165 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"411928e932b5c2fc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_solvers.time_verify_sol_165x165","kind":"function","src_hash":"bc68ad3d11a70a4f","in":{"base":"Any","pred":"all((zero == 0 for zero in zeros))"},"out":{"base":"Any"},"spec":{"lhs":"time_verify_sol_165x165()","rhs":"<unspecified:time_verify_sol_165x165>","over":{"base":"Any","pred":"all((zero == 0 for zero in zeros))"},"name":"time_verify_sol_165x165_correct"},"guarantee":"time_verify_sol_165x165 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_solvers.time_verify_sol_165x165_correct","statement":"Path(time_verify_sol_165x165(x), time_verify_sol_165x165 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"411928e932b5c2fc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["all((zero == 0 for zero in zeros))"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def time_verify_sol_165x165():
     eqs = eqs_165x165()
     sol = sol_165x165()
@@ -329,16 +362,22 @@ def time_verify_sol_165x165():
         raise ValueError("All should be 0")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(time_to_expr_eqs_165x165(), time_to_expr_eqs_165x165 produces the expected output) over Any ║
+# ║ Path(time_to_expr_eqs_165x165(), [R_165.from_expr(eq.as_expr()) for eq in eqs] == eqs) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ time_to_expr_eqs_165x165 : Any → {Any | [R_165.from_e...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  [R_165.from_expr(eq.as_expr()) for eq in ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ time_to_expr_eqs_165x165 : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a4f94c5a622731f7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea606b1b1fe4fc9c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_solvers.time_to_expr_eqs_165x165","kind":"function","src_hash":"c82b18d637b70ac6","in":{"base":"Any"},"out":{"base":"Any","pred":"[R_165.from_expr(eq.as_expr()) for eq in eqs] == eqs"},"spec":{"lhs":"time_to_expr_eqs_165x165()","rhs":"time_to_expr_eqs_165x165 produces the expected output","over":{"base":"Any"},"name":"time_to_expr_eqs_165x165_correct"},"guarantee":"time_to_expr_eqs_165x165 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_solvers.time_to_expr_eqs_165x165_correct","statement":"Path(time_to_expr_eqs_165x165(x), time_to_expr_eqs_165x165 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4f94c5a622731f7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_solvers.time_to_expr_eqs_165x165","kind":"function","src_hash":"c82b18d637b70ac6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: [R_165.from_expr(eq.as_expr()) for eq in eqs] == eqs"},"spec":{"lhs":"time_to_expr_eqs_165x165()","rhs":"[R_165.from_expr(eq.as_expr()) for eq in eqs] == eqs","over":{"base":"Any"},"name":"time_to_expr_eqs_165x165_correct"},"guarantee":"[R_165.from_expr(eq.as_expr()) for eq in eqs] == eqs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_solvers.time_to_expr_eqs_165x165_correct","statement":"Path(time_to_expr_eqs_165x165(x), [R_165.from_expr(eq.as_expr()) for eq in eqs] == eqs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea606b1b1fe4fc9c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["[R_165.from_expr(eq.as_expr()) for eq in eqs] == eqs"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def time_to_expr_eqs_165x165():
     eqs = eqs_165x165()
     assert [ R_165.from_expr(eq.as_expr()) for eq in eqs ] == eqs
@@ -348,16 +387,22 @@ F_abc, a, b, c = field("a,b,c", ZZ)
 R_49, k1, k2, k3, k4, k5, k6, k7, k8, k9, k10, k11, k12, k13, k14, k15, k16, k17, k18, k19, k20, k21, k22, k23, k24, k25, k26, k27, k28, k29, k30, k31, k32, k33, k34, k35, k36, k37, k38, k39, k40, k41, k42, k43, k44, k45, k46, k47, k48, k49 = ring("k1:50", F_abc)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eqs_189x49(), eqs_189x49 produces the expected output) over Any ║
+# ║ Path(eqs_189x49(), <unspecified:eqs_189x49>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eqs_189x49 : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 23596b9951145a67  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_solvers.eqs_189x49","kind":"function","src_hash":"b962e0de01dc249c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eqs_189x49()","rhs":"eqs_189x49 produces the expected output","over":{"base":"Any"},"name":"eqs_189x49_correct"},"guarantee":"eqs_189x49 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_solvers.eqs_189x49_correct","statement":"Path(eqs_189x49(x), eqs_189x49 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23596b9951145a67"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_solvers.eqs_189x49","kind":"function","src_hash":"b962e0de01dc249c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eqs_189x49()","rhs":"<unspecified:eqs_189x49>","over":{"base":"Any"},"name":"eqs_189x49_correct"},"guarantee":"eqs_189x49 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_solvers.eqs_189x49_correct","statement":"Path(eqs_189x49(x), eqs_189x49 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23596b9951145a67","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.4,"verdict_class":"assumed","binding":true}}
 def eqs_189x49():
     return [
         -b*k8/a+c*k8/a,
@@ -552,16 +597,22 @@ def eqs_189x49():
     ]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sol_189x49(), sol_189x49 produces the expected output) over Any ║
+# ║ Path(sol_189x49(), <unspecified:sol_189x49>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sol_189x49 : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5b4f8ff2d06bd44  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_solvers.sol_189x49","kind":"function","src_hash":"39e84dd17fe90865","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sol_189x49()","rhs":"sol_189x49 produces the expected output","over":{"base":"Any"},"name":"sol_189x49_correct"},"guarantee":"sol_189x49 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_solvers.sol_189x49_correct","statement":"Path(sol_189x49(x), sol_189x49 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5b4f8ff2d06bd44"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_solvers.sol_189x49","kind":"function","src_hash":"39e84dd17fe90865","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sol_189x49()","rhs":"<unspecified:sol_189x49>","over":{"base":"Any"},"name":"sol_189x49_correct"},"guarantee":"sol_189x49 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_solvers.sol_189x49_correct","statement":"Path(sol_189x49(x), sol_189x49 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5b4f8ff2d06bd44","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def sol_189x49():
     return {
         k49: 0, k48: 0, k47: 0, k46: 0, k45: 0, k44: 0, k41: 0, k40: 0,
@@ -577,31 +628,45 @@ def sol_189x49():
     }
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(time_eqs_189x49(), time_eqs_189x49 produces the expected output) over Any ║
+# ║ Path(time_eqs_189x49(), <unspecified:time_eqs_189x49>) over {Any | not (len(eqs_189x49()) != 189)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ time_eqs_189x49 : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (len(eqs_189x49()) != 189)                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ time_eqs_189x49 : {Any | not (len(eqs_189x49()) != 18...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 41cfeb3ee12fb8d6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_solvers.time_eqs_189x49","kind":"function","src_hash":"e7ce3bc37f937013","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"time_eqs_189x49()","rhs":"time_eqs_189x49 produces the expected output","over":{"base":"Any"},"name":"time_eqs_189x49_correct"},"guarantee":"time_eqs_189x49 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_solvers.time_eqs_189x49_correct","statement":"Path(time_eqs_189x49(x), time_eqs_189x49 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41cfeb3ee12fb8d6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_solvers.time_eqs_189x49","kind":"function","src_hash":"e7ce3bc37f937013","in":{"base":"Any","pred":"not (len(eqs_189x49()) != 189)"},"out":{"base":"Any"},"spec":{"lhs":"time_eqs_189x49()","rhs":"<unspecified:time_eqs_189x49>","over":{"base":"Any","pred":"not (len(eqs_189x49()) != 189)"},"name":"time_eqs_189x49_correct"},"guarantee":"time_eqs_189x49 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_solvers.time_eqs_189x49_correct","statement":"Path(time_eqs_189x49(x), time_eqs_189x49 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41cfeb3ee12fb8d6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (len(eqs_189x49()) != 189)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def time_eqs_189x49():
     if len(eqs_189x49()) != 189:
         raise ValueError("Length should be equal to 189")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(time_solve_lin_sys_189x49(), time_solve_lin_sys_189x49 produces the expected output) over Any ║
+# ║ Path(time_solve_lin_sys_189x49(), <unspecified:time_solve_lin_sys_189x49>) over {Any | not (sol != sol_189x49())} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ time_solve_lin_sys_189x49 : Any → Any                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (sol != sol_189x49())                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ time_solve_lin_sys_189x49 : {Any | not (sol != sol_18...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 39625541470b5a4e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_solvers.time_solve_lin_sys_189x49","kind":"function","src_hash":"1fc386b22e96bdc0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"time_solve_lin_sys_189x49()","rhs":"time_solve_lin_sys_189x49 produces the expected output","over":{"base":"Any"},"name":"time_solve_lin_sys_189x49_correct"},"guarantee":"time_solve_lin_sys_189x49 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_solvers.time_solve_lin_sys_189x49_correct","statement":"Path(time_solve_lin_sys_189x49(x), time_solve_lin_sys_189x49 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39625541470b5a4e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_solvers.time_solve_lin_sys_189x49","kind":"function","src_hash":"1fc386b22e96bdc0","in":{"base":"Any","pred":"not (sol != sol_189x49())"},"out":{"base":"Any"},"spec":{"lhs":"time_solve_lin_sys_189x49()","rhs":"<unspecified:time_solve_lin_sys_189x49>","over":{"base":"Any","pred":"not (sol != sol_189x49())"},"name":"time_solve_lin_sys_189x49_correct"},"guarantee":"time_solve_lin_sys_189x49 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_solvers.time_solve_lin_sys_189x49_correct","statement":"Path(time_solve_lin_sys_189x49(x), time_solve_lin_sys_189x49 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39625541470b5a4e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (sol != sol_189x49())"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def time_solve_lin_sys_189x49():
     eqs = eqs_189x49()
     sol = solve_lin_sys(eqs, R_49)
@@ -609,16 +674,22 @@ def time_solve_lin_sys_189x49():
         raise ValueError("Values should be equal")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(time_verify_sol_189x49(), time_verify_sol_189x49 produces the expected output) over Any ║
+# ║ Path(time_verify_sol_189x49(), all((zero == 0 for zero in zeros))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ time_verify_sol_189x49 : Any → {Any | all((zero == 0 ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  all((zero == 0 for zero in zeros))             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ time_verify_sol_189x49 : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3599e3e3fb691a86  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d6ac7a4e6e461bb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_solvers.time_verify_sol_189x49","kind":"function","src_hash":"0a8093c3a6ef482e","in":{"base":"Any"},"out":{"base":"Any","pred":"all((zero == 0 for zero in zeros))"},"spec":{"lhs":"time_verify_sol_189x49()","rhs":"time_verify_sol_189x49 produces the expected output","over":{"base":"Any"},"name":"time_verify_sol_189x49_correct"},"guarantee":"time_verify_sol_189x49 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_solvers.time_verify_sol_189x49_correct","statement":"Path(time_verify_sol_189x49(x), time_verify_sol_189x49 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3599e3e3fb691a86"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_solvers.time_verify_sol_189x49","kind":"function","src_hash":"0a8093c3a6ef482e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: all((zero == 0 for zero in zeros))"},"spec":{"lhs":"time_verify_sol_189x49()","rhs":"all((zero == 0 for zero in zeros))","over":{"base":"Any"},"name":"time_verify_sol_189x49_correct"},"guarantee":"all((zero == 0 for zero in zeros))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_solvers.time_verify_sol_189x49_correct","statement":"Path(time_verify_sol_189x49(x), all((zero == 0 for zero in zeros)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d6ac7a4e6e461bb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["all((zero == 0 for zero in zeros))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def time_verify_sol_189x49():
     eqs = eqs_189x49()
     sol = sol_189x49()
@@ -626,16 +697,22 @@ def time_verify_sol_189x49():
     assert all(zero == 0 for zero in zeros)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(time_to_expr_eqs_189x49(), time_to_expr_eqs_189x49 produces the expected output) over Any ║
+# ║ Path(time_to_expr_eqs_189x49(), [R_49.from_expr(eq.as_expr()) for eq in eqs] == eqs) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ time_to_expr_eqs_189x49 : Any → {Any | [R_49.from_exp...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  [R_49.from_expr(eq.as_expr()) for eq in e...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ time_to_expr_eqs_189x49 : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b7e4197572c83aa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e32d75d7e3fd6584  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_solvers.time_to_expr_eqs_189x49","kind":"function","src_hash":"4e3ce3491cdb8440","in":{"base":"Any"},"out":{"base":"Any","pred":"[R_49.from_expr(eq.as_expr()) for eq in eqs] == eqs"},"spec":{"lhs":"time_to_expr_eqs_189x49()","rhs":"time_to_expr_eqs_189x49 produces the expected output","over":{"base":"Any"},"name":"time_to_expr_eqs_189x49_correct"},"guarantee":"time_to_expr_eqs_189x49 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_solvers.time_to_expr_eqs_189x49_correct","statement":"Path(time_to_expr_eqs_189x49(x), time_to_expr_eqs_189x49 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b7e4197572c83aa"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_solvers.time_to_expr_eqs_189x49","kind":"function","src_hash":"4e3ce3491cdb8440","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: [R_49.from_expr(eq.as_expr()) for eq in eqs] == eqs"},"spec":{"lhs":"time_to_expr_eqs_189x49()","rhs":"[R_49.from_expr(eq.as_expr()) for eq in eqs] == eqs","over":{"base":"Any"},"name":"time_to_expr_eqs_189x49_correct"},"guarantee":"[R_49.from_expr(eq.as_expr()) for eq in eqs] == eqs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_solvers.time_to_expr_eqs_189x49_correct","statement":"Path(time_to_expr_eqs_189x49(x), [R_49.from_expr(eq.as_expr()) for eq in eqs] == eqs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e32d75d7e3fd6584","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["[R_49.from_expr(eq.as_expr()) for eq in eqs] == eqs"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def time_to_expr_eqs_189x49():
     eqs = eqs_189x49()
     assert [ R_49.from_expr(eq.as_expr()) for eq in eqs ] == eqs
@@ -646,16 +723,22 @@ F_a5_5, a_11, a_12, a_13, a_14, a_21, a_22, a_23, a_24, a_31, a_32, a_33, a_34, 
 R_8, x0, x1, x2, x3, x4, x5, x6, x7 = ring("x:8", F_a5_5)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eqs_10x8(), eqs_10x8 produces the expected output) over Any ║
+# ║ Path(eqs_10x8(), <unspecified:eqs_10x8>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eqs_10x8 : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 322674c51e4c2ff9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_solvers.eqs_10x8","kind":"function","src_hash":"4f5e89328ab9f5ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eqs_10x8()","rhs":"eqs_10x8 produces the expected output","over":{"base":"Any"},"name":"eqs_10x8_correct"},"guarantee":"eqs_10x8 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_solvers.eqs_10x8_correct","statement":"Path(eqs_10x8(x), eqs_10x8 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"322674c51e4c2ff9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_solvers.eqs_10x8","kind":"function","src_hash":"4f5e89328ab9f5ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eqs_10x8()","rhs":"<unspecified:eqs_10x8>","over":{"base":"Any"},"name":"eqs_10x8_correct"},"guarantee":"eqs_10x8 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_solvers.eqs_10x8_correct","statement":"Path(eqs_10x8(x), eqs_10x8 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"322674c51e4c2ff9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"assumed","binding":true}}
 def eqs_10x8():
     return [
         (a_33*a_34 + a_33*a_44 + a_43*a_44)*x3 + (a_33*a_34 + a_33*a_44 + a_43*a_44)*x4 + (a_12*a_34 + a_12*a_44 + a_22*a_34 + a_22*a_44)*x5 + (a_12*a_44 + a_22*a_44)*x6 + (a_12*a_33 + a_22*a_33)*x7 - a_12*a_33 - a_12*a_43 - a_22*a_33 - a_22*a_43,
@@ -671,16 +754,22 @@ def eqs_10x8():
     ]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sol_10x8(), sol_10x8 produces the expected output) over Any ║
+# ║ Path(sol_10x8(), {x0: -a_21 / a_12 * x4, x1: a_21 / a_12 * x4, x2: 0, x3: -x4, x5: a_43 / a_34, x6: -a_43 / a_34, x7: 1}) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  {x0: -a_21 / a_12 * x4, x1: a_21 / a_12 *...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sol_10x8 : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e28453b333b3ab6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5ce095f3c0be4cf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_solvers.sol_10x8","kind":"function","src_hash":"036377679c8bc874","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sol_10x8()","rhs":"sol_10x8 produces the expected output","over":{"base":"Any"},"name":"sol_10x8_correct"},"guarantee":"sol_10x8 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_solvers.sol_10x8_correct","statement":"Path(sol_10x8(x), sol_10x8 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e28453b333b3ab6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_solvers.sol_10x8","kind":"function","src_hash":"036377679c8bc874","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sol_10x8()","rhs":"{x0: -a_21 / a_12 * x4, x1: a_21 / a_12 * x4, x2: 0, x3: -x4, x5: a_43 / a_34, x6: -a_43 / a_34, x7: 1}","over":{"base":"Any"},"name":"sol_10x8_correct"},"guarantee":"returns {x0: -a_21 / a_12 * x4, x1: a_21 / a_12 * x4, x2: 0, x3: -x4, x5: a_43 / a_34, x6: -a_43 / a_34, x7: 1}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_solvers.sol_10x8_correct","statement":"Path(sol_10x8(x), returns {x0: -a_21 / a_12 * x4, x1: a_21 / a_12 * x4, x2: 0, x3: -x4, x5: a_43 / a_34, x6: -a_43 / a_34, x7: 1})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5ce095f3c0be4cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"{x0: -a_21 / a_12 * x4, x1: a_21 / a_12 * x4, x2: 0, x3: -x4, x5: a_43 / a_34, x6: -a_43 / a_34, x7: 1}","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def sol_10x8():
     return {
         x0: -a_21/a_12*x4,
@@ -693,31 +782,45 @@ def sol_10x8():
     }
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(time_eqs_10x8(), time_eqs_10x8 produces the expected output) over Any ║
+# ║ Path(time_eqs_10x8(), <unspecified:time_eqs_10x8>) over {Any | not (len(eqs_10x8()) != 10)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ time_eqs_10x8 : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (len(eqs_10x8()) != 10)                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ time_eqs_10x8 : {Any | not (len(eqs_10x8()) != 10)} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8191770e4c3c439  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_solvers.time_eqs_10x8","kind":"function","src_hash":"fb75c687dfb1d7fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"time_eqs_10x8()","rhs":"time_eqs_10x8 produces the expected output","over":{"base":"Any"},"name":"time_eqs_10x8_correct"},"guarantee":"time_eqs_10x8 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_solvers.time_eqs_10x8_correct","statement":"Path(time_eqs_10x8(x), time_eqs_10x8 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8191770e4c3c439"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_solvers.time_eqs_10x8","kind":"function","src_hash":"fb75c687dfb1d7fb","in":{"base":"Any","pred":"not (len(eqs_10x8()) != 10)"},"out":{"base":"Any"},"spec":{"lhs":"time_eqs_10x8()","rhs":"<unspecified:time_eqs_10x8>","over":{"base":"Any","pred":"not (len(eqs_10x8()) != 10)"},"name":"time_eqs_10x8_correct"},"guarantee":"time_eqs_10x8 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_solvers.time_eqs_10x8_correct","statement":"Path(time_eqs_10x8(x), time_eqs_10x8 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8191770e4c3c439","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (len(eqs_10x8()) != 10)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def time_eqs_10x8():
     if len(eqs_10x8()) != 10:
         raise ValueError("Value should be equal to 10")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(time_solve_lin_sys_10x8(), time_solve_lin_sys_10x8 produces the expected output) over Any ║
+# ║ Path(time_solve_lin_sys_10x8(), <unspecified:time_solve_lin_sys_10x8>) over {Any | not (sol != sol_10x8())} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ time_solve_lin_sys_10x8 : Any → Any                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (sol != sol_10x8())                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ time_solve_lin_sys_10x8 : {Any | not (sol != sol_10x8...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed40e3508f917a27  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_solvers.time_solve_lin_sys_10x8","kind":"function","src_hash":"781a84686fd35cea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"time_solve_lin_sys_10x8()","rhs":"time_solve_lin_sys_10x8 produces the expected output","over":{"base":"Any"},"name":"time_solve_lin_sys_10x8_correct"},"guarantee":"time_solve_lin_sys_10x8 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_solvers.time_solve_lin_sys_10x8_correct","statement":"Path(time_solve_lin_sys_10x8(x), time_solve_lin_sys_10x8 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed40e3508f917a27"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_solvers.time_solve_lin_sys_10x8","kind":"function","src_hash":"781a84686fd35cea","in":{"base":"Any","pred":"not (sol != sol_10x8())"},"out":{"base":"Any"},"spec":{"lhs":"time_solve_lin_sys_10x8()","rhs":"<unspecified:time_solve_lin_sys_10x8>","over":{"base":"Any","pred":"not (sol != sol_10x8())"},"name":"time_solve_lin_sys_10x8_correct"},"guarantee":"time_solve_lin_sys_10x8 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_solvers.time_solve_lin_sys_10x8_correct","statement":"Path(time_solve_lin_sys_10x8(x), time_solve_lin_sys_10x8 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed40e3508f917a27","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (sol != sol_10x8())"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def time_solve_lin_sys_10x8():
     eqs = eqs_10x8()
     sol = solve_lin_sys(eqs, R_8)
@@ -725,16 +828,23 @@ def time_solve_lin_sys_10x8():
         raise ValueError("Values should be equal")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(time_verify_sol_10x8(), time_verify_sol_10x8 produces the expected output) over Any ║
+# ║ Path(time_verify_sol_10x8(), <unspecified:time_verify_sol_10x8>) over {Any | all((zero == 0 for zero in zeros))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ time_verify_sol_10x8 : Any → Any                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: all((zero == 0 for zero in zeros))             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ time_verify_sol_10x8 : {Any | all((zero == 0 for zero...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9b487f94796c390  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_solvers.time_verify_sol_10x8","kind":"function","src_hash":"d4534513578ad18f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"time_verify_sol_10x8()","rhs":"time_verify_sol_10x8 produces the expected output","over":{"base":"Any"},"name":"time_verify_sol_10x8_correct"},"guarantee":"time_verify_sol_10x8 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_solvers.time_verify_sol_10x8_correct","statement":"Path(time_verify_sol_10x8(x), time_verify_sol_10x8 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9b487f94796c390"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_solvers.time_verify_sol_10x8","kind":"function","src_hash":"d4534513578ad18f","in":{"base":"Any","pred":"all((zero == 0 for zero in zeros))"},"out":{"base":"Any"},"spec":{"lhs":"time_verify_sol_10x8()","rhs":"<unspecified:time_verify_sol_10x8>","over":{"base":"Any","pred":"all((zero == 0 for zero in zeros))"},"name":"time_verify_sol_10x8_correct"},"guarantee":"time_verify_sol_10x8 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_solvers.time_verify_sol_10x8_correct","statement":"Path(time_verify_sol_10x8(x), time_verify_sol_10x8 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9b487f94796c390","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["all((zero == 0 for zero in zeros))"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def time_verify_sol_10x8():
     eqs = eqs_10x8()
     sol = sol_10x8()
@@ -743,16 +853,22 @@ def time_verify_sol_10x8():
         raise ValueError("All values in zero should be 0")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(time_to_expr_eqs_10x8(), time_to_expr_eqs_10x8 produces the expected output) over Any ║
+# ║ Path(time_to_expr_eqs_10x8(), [R_8.from_expr(eq.as_expr()) for eq in eqs] == eqs) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ time_to_expr_eqs_10x8 : Any → {Any | [R_8.from_expr(e...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  [R_8.from_expr(eq.as_expr()) for eq in eq...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ time_to_expr_eqs_10x8 : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 357149d5376bf12c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 71b13031ddec84a1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_solvers.time_to_expr_eqs_10x8","kind":"function","src_hash":"7cf9ac7f5041bf35","in":{"base":"Any"},"out":{"base":"Any","pred":"[R_8.from_expr(eq.as_expr()) for eq in eqs] == eqs"},"spec":{"lhs":"time_to_expr_eqs_10x8()","rhs":"time_to_expr_eqs_10x8 produces the expected output","over":{"base":"Any"},"name":"time_to_expr_eqs_10x8_correct"},"guarantee":"time_to_expr_eqs_10x8 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_solvers.time_to_expr_eqs_10x8_correct","statement":"Path(time_to_expr_eqs_10x8(x), time_to_expr_eqs_10x8 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"357149d5376bf12c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_solvers.time_to_expr_eqs_10x8","kind":"function","src_hash":"7cf9ac7f5041bf35","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: [R_8.from_expr(eq.as_expr()) for eq in eqs] == eqs"},"spec":{"lhs":"time_to_expr_eqs_10x8()","rhs":"[R_8.from_expr(eq.as_expr()) for eq in eqs] == eqs","over":{"base":"Any"},"name":"time_to_expr_eqs_10x8_correct"},"guarantee":"[R_8.from_expr(eq.as_expr()) for eq in eqs] == eqs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_solvers.time_to_expr_eqs_10x8_correct","statement":"Path(time_to_expr_eqs_10x8(x), [R_8.from_expr(eq.as_expr()) for eq in eqs] == eqs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71b13031ddec84a1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["[R_8.from_expr(eq.as_expr()) for eq in eqs] == eqs"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def time_to_expr_eqs_10x8():
     eqs = eqs_10x8()
     assert [ R_8.from_expr(eq.as_expr()) for eq in eqs ] == eqs

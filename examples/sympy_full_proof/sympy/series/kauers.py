@@ -16,16 +16,24 @@
 # ════════════════════════════════════════════════════════════════════
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(finite_diff(exp), takes as input a polynomial expression and the variable used to construct it and returns the difference between function's value when the input is incremented to 1 and the original function value) over Any ║
+# ║ Path(finite_diff(expression, variable, increment), expression2 - expression) over {Any | hasattr(expression, 'expand') and hasattr(expression, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ finite_diff : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expression, 'expand')                  ║
+# ║   requires: hasattr(expression, 'subs')                    ║
+# ║   returns:  expression2 - expression                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ finite_diff : {Any | hasattr(expression, 'expand') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1672d438aba13bd7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b3a4bc75dd1cd46  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.kauers.finite_diff","kind":"function","src_hash":"b718de8aaa3a70c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"finite_diff(exp)","rhs":"takes as input a polynomial expression and the variable used to construct it and returns the difference between function's value when the input is incremented to 1 and the original function value","over":{"base":"Any"},"name":"finite_diff_correct"},"guarantee":"takes as input a polynomial expression and the variable used to construct it and returns the difference between function's value when the input is incremented to 1 and the original function value","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.kauers.finite_diff_correct","statement":"Path(finite_diff(x), takes as input a polynomial expression and the variable used to construct it and returns the difference between function's value when the input is incremented to 1 and the original function value)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1672d438aba13bd7"}
+# @cctt_verify {"v":2,"sym":"sympy.series.kauers.finite_diff","kind":"function","src_hash":"b718de8aaa3a70c4","in":{"base":"Any","pred":"hasattr(expression, 'expand') and hasattr(expression, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"finite_diff(expression, variable, increment)","rhs":"expression2 - expression","over":{"base":"Any","pred":"hasattr(expression, 'expand') and hasattr(expression, 'subs')"},"name":"finite_diff_correct"},"guarantee":"returns expression2 - expression","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.kauers.finite_diff_correct","statement":"Path(finite_diff(x), returns expression2 - expression)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b3a4bc75dd1cd46","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expression, 'expand')","hasattr(expression, 'subs')"],"returns_expr":"expression2 - expression","pure":false,"effects":{"effect_type":"reads_state","reads":["expression.expand","expression.subs"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def finite_diff(expression, variable, increment=1):
     """
     Takes as input a polynomial expression and the variable used to construct
@@ -53,16 +61,24 @@ def finite_diff(expression, variable, increment=1):
     return expression2 - expression
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(finite_diff_kauers(sum), id) over Any                 ║
+# ║ Path(finite_diff_kauers(sum), id) over {Any | hasattr(sum, 'function') and hasattr(sum, 'limits')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ finite_diff_kauers : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(sum, 'function')                       ║
+# ║   requires: hasattr(sum, 'limits')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ finite_diff_kauers : {Any | hasattr(sum, 'function') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 88f6f445fe955019   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.kauers.finite_diff_kauers","kind":"function","src_hash":"cdc616cd292ba1cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"finite_diff_kauers(sum)","rhs":"takes as input a sum instance and returns the difference between the sum with the upper index incremented by 1 and the original sum","over":{"base":"Any"},"name":"finite_diff_kauers_correct","kind":"composition"},"guarantee":"takes as input a sum instance and returns the difference between the sum with the upper index incremented by 1 and the original sum","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"S","by":"library_axiom"},{"fn":"S","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88f6f445fe955019"}
+# @cctt_verify {"v":2,"sym":"sympy.series.kauers.finite_diff_kauers","kind":"function","src_hash":"cdc616cd292ba1cd","in":{"base":"Any","pred":"hasattr(sum, 'function') and hasattr(sum, 'limits')"},"out":{"base":"Any"},"spec":{"lhs":"finite_diff_kauers(sum)","rhs":"<unspecified:finite_diff_kauers>","over":{"base":"Any","pred":"hasattr(sum, 'function') and hasattr(sum, 'limits')"},"name":"finite_diff_kauers_correct","kind":"composition"},"guarantee":"takes as input a sum instance and returns the difference between the sum with the upper index incremented by 1 and the original sum","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"S","by":"library_axiom"},{"fn":"S","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88f6f445fe955019","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(sum, 'function')","hasattr(sum, 'limits')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["sum.function","sum.limits"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def finite_diff_kauers(sum):
     """
     Takes as input a Sum instance and returns the difference between the sum

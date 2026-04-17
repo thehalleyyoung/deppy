@@ -19,16 +19,23 @@ from sympy.core.sympify import sympify
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(series(exp), series expansion of expr around point `x = x0`) over Any ║
+# ║ Path(series(expr, x, x0), expr.series(x, x0, n, dir)) over {Any | hasattr(expr, 'series')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ series : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'series')                        ║
+# ║   returns:  expr.series(x, x0, n, dir)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ series : {Any | hasattr(expr, 'series')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 246a135f0162166f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a477cf7265b8660  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.series.series","kind":"function","src_hash":"8fdfae0e049768da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"series(exp)","rhs":"series expansion of expr around point `x = x0`","over":{"base":"Any"},"name":"series_correct"},"guarantee":"series expansion of expr around point `x = x0`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.series.series_correct","statement":"Path(series(x), series expansion of expr around point `x = x0`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"246a135f0162166f"}
+# @cctt_verify {"v":2,"sym":"sympy.series.series.series","kind":"function","src_hash":"8fdfae0e049768da","in":{"base":"Any","pred":"hasattr(expr, 'series')"},"out":{"base":"Any"},"spec":{"lhs":"series(expr, x, x0)","rhs":"expr.series(x, x0, n, dir)","over":{"base":"Any","pred":"hasattr(expr, 'series')"},"name":"series_correct"},"guarantee":"returns expr.series(x, x0, n, dir)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.series.series_correct","statement":"Path(series(x), returns expr.series(x, x0, n, dir))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a477cf7265b8660","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'series')"],"returns_expr":"expr.series(x, x0, n, dir)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.series"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def series(expr, x=None, x0=0, n=6, dir="+"):
     """Series expansion of expr around point `x = x0`.
 

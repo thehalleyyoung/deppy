@@ -27,16 +27,22 @@ _units = ['s', 'ms', '\N{GREEK SMALL LETTER MU}s', 'ns']
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timed(fun), adaptively measure execution time of a function) over Any ║
+# ║ Path(timed(func, setup, limit), (number, time, time * _scales[order], _units[order])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (number, time, time * _scales[order], _un...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timed : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb94a3ed09081fa4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 038b10073cdf8c85  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.timeutils.timed","kind":"function","src_hash":"0b631204b3d250a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timed(fun)","rhs":"adaptively measure execution time of a function","over":{"base":"Any"},"name":"timed_correct"},"guarantee":"adaptively measure execution time of a function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.timeutils.timed_correct","statement":"Path(timed(x), adaptively measure execution time of a function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb94a3ed09081fa4"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.timeutils.timed","kind":"function","src_hash":"0b631204b3d250a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timed(func, setup, limit)","rhs":"(number, time, time * _scales[order], _units[order])","over":{"base":"Any"},"name":"timed_correct"},"guarantee":"returns (number, time, time * _scales[order], _units[order])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.timeutils.timed_correct","statement":"Path(timed(x), returns (number, time, time * _scales[order], _units[order]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"038b10073cdf8c85","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(number, time, time * _scales[order], _units[order])","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def timed(func, setup="pass", limit=None):
     """Adaptively measure execution time of a function. """
     timer = timeit.Timer(func, setup=setup)
@@ -63,16 +69,22 @@ def timed(func, setup="pass", limit=None):
 # Code for doing inline timings of recursive algorithms.
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__do_timings(), internal helper behaves correctly) over Any ║
+# ║ Path(__do_timings(), set(res)) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  set(res)                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __do_timings : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4dee75ac8961c8c8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.timeutils.__do_timings","kind":"function","src_hash":"1d23fa12f3422a34","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__do_timings()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__do_timings_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4dee75ac8961c8c8"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.timeutils.__do_timings","kind":"function","src_hash":"1d23fa12f3422a34","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__do_timings()","rhs":"set(res)","over":{"base":"Any"},"name":"__do_timings_correct"},"guarantee":"returns set(res)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4dee75ac8961c8c8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"set(res)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def __do_timings():
     import os
     res = os.getenv('SYMPY_TIMINGS', '')
@@ -84,16 +96,22 @@ _timestack = None
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_timestack(sta), internal helper behaves correctly) over Any ║
+# ║ Path(_print_timestack(stack, level), # HINT: _print_timestack may be idempotent: _print_timestack(_print_timestack(x)) == _print_timestack(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_timestack : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: _print_timestack may be idempoten...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_timestack : Any → {Any | result satisfies: # H...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e95dbcaddc252ee5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b7fc4a9aeb43972  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.timeutils._print_timestack","kind":"function","src_hash":"26eeb00dad5158c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_timestack(sta)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_timestack_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.timeutils._print_timestack_correct","statement":"Path(_print_timestack(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e95dbcaddc252ee5"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.timeutils._print_timestack","kind":"function","src_hash":"26eeb00dad5158c1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: _print_timestack may be idempotent: _print_timestack(_print_timestack(x)) == _print_timestack(x)"},"spec":{"lhs":"_print_timestack(stack, level)","rhs":"# HINT: _print_timestack may be idempotent: _print_timestack(_print_timestack(x)) == _print_timestack(x)","over":{"base":"Any"},"name":"_print_timestack_correct"},"guarantee":"# HINT: _print_timestack may be idempotent: _print_timestack(_print_timestack(x)) == _print_timestack(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.timeutils._print_timestack_correct","statement":"Path(_print_timestack(x), # HINT: _print_timestack may be idempotent: _print_timestack(_print_timestack(x)) == _print_timestack(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b7fc4a9aeb43972","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: _print_timestack may be idempotent: _print_timestack(_print_timestack(x)) == _print_timestack(x)"],"pure":false,"effects":{"effect_type":"io","io_operations":["print"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _print_timestack(stack, level=1):
     print('-'*level, '%.2f %s%s' % (stack[2], stack[0], stack[3]))
     for s in stack[1]:
@@ -101,16 +119,22 @@ def _print_timestack(stack, level=1):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timethis(nam), timethis produces the expected output) over Any ║
+# ║ Path(timethis(name), <unspecified:timethis>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timethis : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aff0c7b3176982e9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.timeutils.timethis","kind":"function","src_hash":"9e109751cf61ef6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timethis(nam)","rhs":"timethis produces the expected output","over":{"base":"Any"},"name":"timethis_correct"},"guarantee":"timethis produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.timeutils.timethis_correct","statement":"Path(timethis(x), timethis produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aff0c7b3176982e9"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.timeutils.timethis","kind":"function","src_hash":"9e109751cf61ef6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timethis(name)","rhs":"<unspecified:timethis>","over":{"base":"Any"},"name":"timethis_correct"},"guarantee":"timethis produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.timeutils.timethis_correct","statement":"Path(timethis(x), timethis produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aff0c7b3176982e9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"nondeterministic","globals_read":["_timestack"],"globals_written":["_timestack"],"nondeterministic_sources":["time"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def timethis(name):
     def decorator(func):
         if name not in _do_timings:

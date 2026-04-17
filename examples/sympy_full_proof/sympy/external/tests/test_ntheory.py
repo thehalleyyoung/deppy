@@ -26,16 +26,24 @@ from sympy.testing.pytest import raises
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bit_scan1(), test_bit_scan1 produces the expected output) over Any ║
+# ║ Path(test_bit_scan1(), bit_scan1(0) is None and bit_scan1(1) == 0 and bit_scan1(-1) == 0 and bit_scan1(2) == 1 and bit_scan1(7) == 0 and bit_scan1(-7) == 0 and bit_scan1(1 << 1000001) == 1000001 and bit_scan1((1 << 273956) * 7 ** 37) == 273956) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bit_scan1 : Any → {Any | bit_scan1(0) is None an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  bit_scan1(0) is None                           ║
+# ║   ensures:  bit_scan1(1) == 0                              ║
+# ║   ensures:  bit_scan1(-1) == 0                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bit_scan1 : Any → {Any | result satisfies: bit_s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 73d57b6b7a6f8ba5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5fbe74a0779a15ee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_ntheory.test_bit_scan1","kind":"function","src_hash":"f6c976fe3171662b","in":{"base":"Any"},"out":{"base":"Any","pred":"bit_scan1(0) is None and bit_scan1(1) == 0 and bit_scan1(-1) == 0 and bit_scan1(2) == 1 and bit_scan1(7) == 0 and bit_scan1(-7) == 0 and bit_scan1(1 << 1000001) == 1000001 and bit_scan1((1 << 273956) * 7 ** 37) == 273956 and bit_scan1(1 << i) == i and bit_scan1((1 << i) * 31337) == i and bit_scan1(n) == i and bit_scan1(-big) == bit_scan1(big)"},"spec":{"lhs":"test_bit_scan1()","rhs":"test_bit_scan1 produces the expected output","over":{"base":"Any"},"name":"test_bit_scan1_correct"},"guarantee":"test_bit_scan1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_ntheory.test_bit_scan1_correct","statement":"Path(test_bit_scan1(x), test_bit_scan1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73d57b6b7a6f8ba5"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_ntheory.test_bit_scan1","kind":"function","src_hash":"f6c976fe3171662b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: bit_scan1(0) is None and bit_scan1(1) == 0 and bit_scan1(-1) == 0 and bit_scan1(2) == 1 and bit_scan1(7) == 0 and bit_scan1(-7) == 0 and bit_scan1(1 << 1000001) == 1000001 and bit_scan1((1 << 273956) * 7 ** 37) == 273956"},"spec":{"lhs":"test_bit_scan1()","rhs":"bit_scan1(0) is None and bit_scan1(1) == 0 and bit_scan1(-1) == 0 and bit_scan1(2) == 1 and bit_scan1(7) == 0 and bit_scan1(-7) == 0 and bit_scan1(1 << 1000001) == 1000001 and bit_scan1((1 << 273956) * 7 ** 37) == 273956","over":{"base":"Any"},"name":"test_bit_scan1_correct"},"guarantee":"bit_scan1(0) is None; bit_scan1(1) == 0; bit_scan1(-1) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_ntheory.test_bit_scan1_correct","statement":"Path(test_bit_scan1(x), bit_scan1(0) is None; bit_scan1(1) == 0; bit_scan1(-1) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5fbe74a0779a15ee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["bit_scan1(0) is None","bit_scan1(1) == 0","bit_scan1(-1) == 0","bit_scan1(2) == 1","bit_scan1(7) == 0","bit_scan1(-7) == 0","bit_scan1(1 << 1000001) == 1000001","bit_scan1((1 << 273956) * 7 ** 37) == 273956"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_bit_scan1():
     assert bit_scan1(0) is None
     assert bit_scan1(1) == 0
@@ -58,16 +66,24 @@ def test_bit_scan1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bit_scan0(), test_bit_scan0 produces the expected output) over Any ║
+# ║ Path(test_bit_scan0(), bit_scan0(-1) is None and bit_scan0(0) == 0 and bit_scan0(1) == 1 and bit_scan0(-2) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bit_scan0 : Any → {Any | bit_scan0(-1) is None a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  bit_scan0(-1) is None                          ║
+# ║   ensures:  bit_scan0(0) == 0                              ║
+# ║   ensures:  bit_scan0(1) == 1                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bit_scan0 : Any → {Any | result satisfies: bit_s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d4fda8550cc90201  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa6efdaba02953f9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_ntheory.test_bit_scan0","kind":"function","src_hash":"e9c535e545b45e73","in":{"base":"Any"},"out":{"base":"Any","pred":"bit_scan0(-1) is None and bit_scan0(0) == 0 and bit_scan0(1) == 1 and bit_scan0(-2) == 0"},"spec":{"lhs":"test_bit_scan0()","rhs":"test_bit_scan0 produces the expected output","over":{"base":"Any"},"name":"test_bit_scan0_correct"},"guarantee":"test_bit_scan0 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_ntheory.test_bit_scan0_correct","statement":"Path(test_bit_scan0(x), test_bit_scan0 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4fda8550cc90201"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_ntheory.test_bit_scan0","kind":"function","src_hash":"e9c535e545b45e73","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: bit_scan0(-1) is None and bit_scan0(0) == 0 and bit_scan0(1) == 1 and bit_scan0(-2) == 0"},"spec":{"lhs":"test_bit_scan0()","rhs":"bit_scan0(-1) is None and bit_scan0(0) == 0 and bit_scan0(1) == 1 and bit_scan0(-2) == 0","over":{"base":"Any"},"name":"test_bit_scan0_correct"},"guarantee":"bit_scan0(-1) is None; bit_scan0(0) == 0; bit_scan0(1) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_ntheory.test_bit_scan0_correct","statement":"Path(test_bit_scan0(x), bit_scan0(-1) is None; bit_scan0(0) == 0; bit_scan0(1) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa6efdaba02953f9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["bit_scan0(-1) is None","bit_scan0(0) == 0","bit_scan0(1) == 1","bit_scan0(-2) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_bit_scan0():
     assert bit_scan0(-1) is None
     assert bit_scan0(0) == 0
@@ -76,16 +92,22 @@ def test_bit_scan0():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_remove(), test_remove produces the expected output) over Any ║
+# ║ Path(test_remove(), remove(0, 3) == (0, 0)) over Any       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_remove : Any → {Any | remove(0, 3) == (0, 0) and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  remove(0, 3) == (0, 0)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_remove : Any → {Any | result satisfies: remove(0...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f9cbe25fc35b87b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e883217c9e2c281  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_ntheory.test_remove","kind":"function","src_hash":"fcfcd0a258cadfb3","in":{"base":"Any"},"out":{"base":"Any","pred":"remove(0, 3) == (0, 0) and remove(z * f ** y, f) == (z, y)"},"spec":{"lhs":"test_remove()","rhs":"test_remove produces the expected output","over":{"base":"Any"},"name":"test_remove_correct"},"guarantee":"test_remove produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_ntheory.test_remove_correct","statement":"Path(test_remove(x), test_remove produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f9cbe25fc35b87b"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_ntheory.test_remove","kind":"function","src_hash":"fcfcd0a258cadfb3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: remove(0, 3) == (0, 0)"},"spec":{"lhs":"test_remove()","rhs":"remove(0, 3) == (0, 0)","over":{"base":"Any"},"name":"test_remove_correct"},"guarantee":"remove(0, 3) == (0, 0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_ntheory.test_remove_correct","statement":"Path(test_remove(x), remove(0, 3) == (0, 0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e883217c9e2c281","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["remove(0, 3) == (0, 0)"],"pure":false,"effects":{"effect_type":"io","io_operations":["remove"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_remove():
     raises(ValueError, lambda: remove(1, 1))
     assert remove(0, 3) == (0, 0)
@@ -96,16 +118,24 @@ def test_remove():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gcdext(), test_gcdext produces the expected output) over Any ║
+# ║ Path(test_gcdext(), gcdext(0, 0) == (0, 0, 0) and gcdext(3, 0) == (3, 1, 0) and gcdext(0, 4) == (4, 0, 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gcdext : Any → {Any | gcdext(0, 0) == (0, 0, 0) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gcdext(0, 0) == (0, 0, 0)                      ║
+# ║   ensures:  gcdext(3, 0) == (3, 1, 0)                      ║
+# ║   ensures:  gcdext(0, 4) == (4, 0, 1)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gcdext : Any → {Any | result satisfies: gcdext(0...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e8d9108f19ede6dd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0464f8a4ba7d4e80  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_ntheory.test_gcdext","kind":"function","src_hash":"08c5ebef574f431b","in":{"base":"Any"},"out":{"base":"Any","pred":"gcdext(0, 0) == (0, 0, 0) and gcdext(3, 0) == (3, 1, 0) and gcdext(0, 4) == (4, 0, 1) and gcdext(n, 1) == gcdext(-n, 1) == (1, 0, 1) and gcdext(n, -1) == gcdext(-n, -1) == (1, 0, -1) and gcdext(n, n) == gcdext(-n, n) == (n, 0, 1) and gcdext(n, -n) == gcdext(-n, -n) == (n, 0, -1) and gcdext(1, n) == gcdext(1, -n) == (1, 1, 0) and gcdext(-1, n) == gcdext(-1, -n) == (1, -1, 0) and g == a * x + b * y == 1"},"spec":{"lhs":"test_gcdext()","rhs":"test_gcdext produces the expected output","over":{"base":"Any"},"name":"test_gcdext_correct"},"guarantee":"test_gcdext produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_ntheory.test_gcdext_correct","statement":"Path(test_gcdext(x), test_gcdext produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8d9108f19ede6dd"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_ntheory.test_gcdext","kind":"function","src_hash":"08c5ebef574f431b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gcdext(0, 0) == (0, 0, 0) and gcdext(3, 0) == (3, 1, 0) and gcdext(0, 4) == (4, 0, 1)"},"spec":{"lhs":"test_gcdext()","rhs":"gcdext(0, 0) == (0, 0, 0) and gcdext(3, 0) == (3, 1, 0) and gcdext(0, 4) == (4, 0, 1)","over":{"base":"Any"},"name":"test_gcdext_correct"},"guarantee":"gcdext(0, 0) == (0, 0, 0); gcdext(3, 0) == (3, 1, 0); gcdext(0, 4) == (4, 0, 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_ntheory.test_gcdext_correct","statement":"Path(test_gcdext(x), gcdext(0, 0) == (0, 0, 0); gcdext(3, 0) == (3, 1, 0); gcdext(0, 4) == (4, 0, 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0464f8a4ba7d4e80","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gcdext(0, 0) == (0, 0, 0)","gcdext(3, 0) == (3, 1, 0)","gcdext(0, 4) == (4, 0, 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_gcdext():
     assert gcdext(0, 0) == (0, 0, 0)
     assert gcdext(3, 0) == (3, 1, 0)
@@ -127,16 +157,24 @@ def test_gcdext():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_fermat_prp(), test_is_fermat_prp produces the expected output) over Any ║
+# ║ Path(test_is_fermat_prp(), not is_fermat_prp(1, 3) and is_fermat_prp(2, 4) and is_fermat_prp(3, 2) and is_fermat_prp(11, 3) and is_fermat_prp(2 ** 31 - 1, 5)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_fermat_prp : Any → {Any | not is_fermat_prp(1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not is_fermat_prp(1, 3)                        ║
+# ║   ensures:  is_fermat_prp(2, 4)                            ║
+# ║   ensures:  is_fermat_prp(3, 2)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_fermat_prp : Any → {Any | result satisfies: n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a77144a52e75c91b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd7b17f663da03a1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_ntheory.test_is_fermat_prp","kind":"function","src_hash":"0a487e128b9845f7","in":{"base":"Any"},"out":{"base":"Any","pred":"not is_fermat_prp(1, 3) and is_fermat_prp(2, 4) and is_fermat_prp(3, 2) and is_fermat_prp(11, 3) and is_fermat_prp(2 ** 31 - 1, 5) and is_fermat_prp(n, 2) and is_fermat_prp(n, 4)"},"spec":{"lhs":"test_is_fermat_prp()","rhs":"test_is_fermat_prp produces the expected output","over":{"base":"Any"},"name":"test_is_fermat_prp_correct"},"guarantee":"test_is_fermat_prp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_ntheory.test_is_fermat_prp_correct","statement":"Path(test_is_fermat_prp(x), test_is_fermat_prp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a77144a52e75c91b"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_ntheory.test_is_fermat_prp","kind":"function","src_hash":"0a487e128b9845f7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: not is_fermat_prp(1, 3) and is_fermat_prp(2, 4) and is_fermat_prp(3, 2) and is_fermat_prp(11, 3) and is_fermat_prp(2 ** 31 - 1, 5)"},"spec":{"lhs":"test_is_fermat_prp()","rhs":"not is_fermat_prp(1, 3) and is_fermat_prp(2, 4) and is_fermat_prp(3, 2) and is_fermat_prp(11, 3) and is_fermat_prp(2 ** 31 - 1, 5)","over":{"base":"Any"},"name":"test_is_fermat_prp_correct"},"guarantee":"not is_fermat_prp(1, 3); is_fermat_prp(2, 4); is_fermat_prp(3, 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_ntheory.test_is_fermat_prp_correct","statement":"Path(test_is_fermat_prp(x), not is_fermat_prp(1, 3); is_fermat_prp(2, 4); is_fermat_prp(3, 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd7b17f663da03a1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not is_fermat_prp(1, 3)","is_fermat_prp(2, 4)","is_fermat_prp(3, 2)","is_fermat_prp(11, 3)","is_fermat_prp(2 ** 31 - 1, 5)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_is_fermat_prp():
     # invalid input
     raises(ValueError, lambda: is_fermat_prp(0, 10))
@@ -165,16 +203,24 @@ def test_is_fermat_prp():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_euler_prp(), test_is_euler_prp produces the expected output) over Any ║
+# ║ Path(test_is_euler_prp(), not is_euler_prp(1, 3) and is_euler_prp(2, 4) and is_euler_prp(3, 2) and is_euler_prp(11, 3) and is_euler_prp(2 ** 31 - 1, 5)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_euler_prp : Any → {Any | not is_euler_prp(1, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not is_euler_prp(1, 3)                         ║
+# ║   ensures:  is_euler_prp(2, 4)                             ║
+# ║   ensures:  is_euler_prp(3, 2)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_euler_prp : Any → {Any | result satisfies: no...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e2affb243556115  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f340c72f4b86e6f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_ntheory.test_is_euler_prp","kind":"function","src_hash":"e2473315c64b1c73","in":{"base":"Any"},"out":{"base":"Any","pred":"not is_euler_prp(1, 3) and is_euler_prp(2, 4) and is_euler_prp(3, 2) and is_euler_prp(11, 3) and is_euler_prp(2 ** 31 - 1, 5) and is_euler_prp(n, 2) and is_euler_prp(n, 3)"},"spec":{"lhs":"test_is_euler_prp()","rhs":"test_is_euler_prp produces the expected output","over":{"base":"Any"},"name":"test_is_euler_prp_correct"},"guarantee":"test_is_euler_prp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_ntheory.test_is_euler_prp_correct","statement":"Path(test_is_euler_prp(x), test_is_euler_prp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e2affb243556115"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_ntheory.test_is_euler_prp","kind":"function","src_hash":"e2473315c64b1c73","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: not is_euler_prp(1, 3) and is_euler_prp(2, 4) and is_euler_prp(3, 2) and is_euler_prp(11, 3) and is_euler_prp(2 ** 31 - 1, 5)"},"spec":{"lhs":"test_is_euler_prp()","rhs":"not is_euler_prp(1, 3) and is_euler_prp(2, 4) and is_euler_prp(3, 2) and is_euler_prp(11, 3) and is_euler_prp(2 ** 31 - 1, 5)","over":{"base":"Any"},"name":"test_is_euler_prp_correct"},"guarantee":"not is_euler_prp(1, 3); is_euler_prp(2, 4); is_euler_prp(3, 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_ntheory.test_is_euler_prp_correct","statement":"Path(test_is_euler_prp(x), not is_euler_prp(1, 3); is_euler_prp(2, 4); is_euler_prp(3, 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f340c72f4b86e6f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not is_euler_prp(1, 3)","is_euler_prp(2, 4)","is_euler_prp(3, 2)","is_euler_prp(11, 3)","is_euler_prp(2 ** 31 - 1, 5)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_is_euler_prp():
     # invalid input
     raises(ValueError, lambda: is_euler_prp(0, 10))
@@ -203,16 +249,24 @@ def test_is_euler_prp():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_strong_prp(), test_is_strong_prp produces the expected output) over Any ║
+# ║ Path(test_is_strong_prp(), not is_strong_prp(1, 3) and is_strong_prp(2, 4) and is_strong_prp(3, 2) and is_strong_prp(11, 3) and is_strong_prp(2 ** 31 - 1, 5)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_strong_prp : Any → {Any | not is_strong_prp(1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not is_strong_prp(1, 3)                        ║
+# ║   ensures:  is_strong_prp(2, 4)                            ║
+# ║   ensures:  is_strong_prp(3, 2)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_strong_prp : Any → {Any | result satisfies: n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d8d77eb11152e04  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a626721c5751e38b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_ntheory.test_is_strong_prp","kind":"function","src_hash":"3099fc968b4232ff","in":{"base":"Any"},"out":{"base":"Any","pred":"not is_strong_prp(1, 3) and is_strong_prp(2, 4) and is_strong_prp(3, 2) and is_strong_prp(11, 3) and is_strong_prp(2 ** 31 - 1, 5) and is_strong_prp(n, 2) and is_strong_prp(n, 3)"},"spec":{"lhs":"test_is_strong_prp()","rhs":"test_is_strong_prp produces the expected output","over":{"base":"Any"},"name":"test_is_strong_prp_correct"},"guarantee":"test_is_strong_prp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_ntheory.test_is_strong_prp_correct","statement":"Path(test_is_strong_prp(x), test_is_strong_prp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d8d77eb11152e04"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_ntheory.test_is_strong_prp","kind":"function","src_hash":"3099fc968b4232ff","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: not is_strong_prp(1, 3) and is_strong_prp(2, 4) and is_strong_prp(3, 2) and is_strong_prp(11, 3) and is_strong_prp(2 ** 31 - 1, 5)"},"spec":{"lhs":"test_is_strong_prp()","rhs":"not is_strong_prp(1, 3) and is_strong_prp(2, 4) and is_strong_prp(3, 2) and is_strong_prp(11, 3) and is_strong_prp(2 ** 31 - 1, 5)","over":{"base":"Any"},"name":"test_is_strong_prp_correct"},"guarantee":"not is_strong_prp(1, 3); is_strong_prp(2, 4); is_strong_prp(3, 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_ntheory.test_is_strong_prp_correct","statement":"Path(test_is_strong_prp(x), not is_strong_prp(1, 3); is_strong_prp(2, 4); is_strong_prp(3, 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a626721c5751e38b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not is_strong_prp(1, 3)","is_strong_prp(2, 4)","is_strong_prp(3, 2)","is_strong_prp(11, 3)","is_strong_prp(2 ** 31 - 1, 5)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_is_strong_prp():
     # invalid input
     raises(ValueError, lambda: is_strong_prp(0, 10))
@@ -241,16 +295,22 @@ def test_is_strong_prp():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lucas_sequence(), test_lucas_sequence produces the expected output) over Any ║
+# ║ Path(test_lucas_sequence(), <unspecified:test_lucas_sequence>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_lucas_sequence : Any → {Any | U == us[k] % n and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 282a7c6e4d9b372f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_ntheory.test_lucas_sequence","kind":"function","src_hash":"5cec25076ca04f85","in":{"base":"Any"},"out":{"base":"Any","pred":"U == us[k] % n and V == vs[k] % n and pow(Q, k, n) == Qk"},"spec":{"lhs":"test_lucas_sequence()","rhs":"test_lucas_sequence produces the expected output","over":{"base":"Any"},"name":"test_lucas_sequence_correct"},"guarantee":"test_lucas_sequence produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_ntheory.test_lucas_sequence_correct","statement":"Path(test_lucas_sequence(x), test_lucas_sequence produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"282a7c6e4d9b372f"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_ntheory.test_lucas_sequence","kind":"function","src_hash":"5cec25076ca04f85","in":{"base":"Any"},"out":{"base":"Any","pred":"U == us[k] % n and V == vs[k] % n and pow(Q, k, n) == Qk"},"spec":{"lhs":"test_lucas_sequence()","rhs":"<unspecified:test_lucas_sequence>","over":{"base":"Any"},"name":"test_lucas_sequence_correct"},"guarantee":"test_lucas_sequence produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_ntheory.test_lucas_sequence_correct","statement":"Path(test_lucas_sequence(x), test_lucas_sequence produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"282a7c6e4d9b372f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_lucas_sequence():
     def lucas_u(P, Q, length):
         array = [0] * length
@@ -284,16 +344,24 @@ def test_lucas_sequence():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_fibonacci_prp(), test_is_fibonacci_prp produces the expected output) over Any ║
+# ║ Path(test_is_fibonacci_prp(), not is_fibonacci_prp(1, 3, 1) and is_fibonacci_prp(2, 5, 1) and is_fibonacci_prp(3, 6, -1) and is_fibonacci_prp(11, 7, 1) and is_fibonacci_prp(2 ** 31 - 1, 8, -1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_fibonacci_prp : Any → {Any | not is_fibonacci...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not is_fibonacci_prp(1, 3, 1)                  ║
+# ║   ensures:  is_fibonacci_prp(2, 5, 1)                      ║
+# ║   ensures:  is_fibonacci_prp(3, 6, -1)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_fibonacci_prp : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54b8d60bae3f708e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3396be11772f25c1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_ntheory.test_is_fibonacci_prp","kind":"function","src_hash":"72ef181c72ce9e7a","in":{"base":"Any"},"out":{"base":"Any","pred":"not is_fibonacci_prp(1, 3, 1) and is_fibonacci_prp(2, 5, 1) and is_fibonacci_prp(3, 6, -1) and is_fibonacci_prp(11, 7, 1) and is_fibonacci_prp(2 ** 31 - 1, 8, -1) and is_fibonacci_prp(n, 1, -1)"},"spec":{"lhs":"test_is_fibonacci_prp()","rhs":"test_is_fibonacci_prp produces the expected output","over":{"base":"Any"},"name":"test_is_fibonacci_prp_correct"},"guarantee":"test_is_fibonacci_prp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_ntheory.test_is_fibonacci_prp_correct","statement":"Path(test_is_fibonacci_prp(x), test_is_fibonacci_prp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54b8d60bae3f708e"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_ntheory.test_is_fibonacci_prp","kind":"function","src_hash":"72ef181c72ce9e7a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: not is_fibonacci_prp(1, 3, 1) and is_fibonacci_prp(2, 5, 1) and is_fibonacci_prp(3, 6, -1) and is_fibonacci_prp(11, 7, 1) and is_fibonacci_prp(2 ** 31 - 1, 8, -1)"},"spec":{"lhs":"test_is_fibonacci_prp()","rhs":"not is_fibonacci_prp(1, 3, 1) and is_fibonacci_prp(2, 5, 1) and is_fibonacci_prp(3, 6, -1) and is_fibonacci_prp(11, 7, 1) and is_fibonacci_prp(2 ** 31 - 1, 8, -1)","over":{"base":"Any"},"name":"test_is_fibonacci_prp_correct"},"guarantee":"not is_fibonacci_prp(1, 3, 1); is_fibonacci_prp(2, 5, 1); is_fibonacci_prp(3, 6, -1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_ntheory.test_is_fibonacci_prp_correct","statement":"Path(test_is_fibonacci_prp(x), not is_fibonacci_prp(1, 3, 1); is_fibonacci_prp(2, 5, 1); is_fibonacci_prp(3, 6, -1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3396be11772f25c1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not is_fibonacci_prp(1, 3, 1)","is_fibonacci_prp(2, 5, 1)","is_fibonacci_prp(3, 6, -1)","is_fibonacci_prp(11, 7, 1)","is_fibonacci_prp(2 ** 31 - 1, 8, -1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_is_fibonacci_prp():
     # invalid input
     raises(ValueError, lambda: is_fibonacci_prp(3, 2, 1))
@@ -318,16 +386,24 @@ def test_is_fibonacci_prp():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_lucas_prp(), test_is_lucas_prp produces the expected output) over Any ║
+# ║ Path(test_is_lucas_prp(), not is_lucas_prp(1, 3, 1) and is_lucas_prp(2, 5, 2) and is_lucas_prp(3, 6, -1) and is_lucas_prp(11, 7, 5) and is_lucas_prp(2 ** 31 - 1, 8, -3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_lucas_prp : Any → {Any | not is_lucas_prp(1, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not is_lucas_prp(1, 3, 1)                      ║
+# ║   ensures:  is_lucas_prp(2, 5, 2)                          ║
+# ║   ensures:  is_lucas_prp(3, 6, -1)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_lucas_prp : Any → {Any | result satisfies: no...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 46c856aae085e197  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 184028254dabcd25  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_ntheory.test_is_lucas_prp","kind":"function","src_hash":"11c012aca7ff8cdd","in":{"base":"Any"},"out":{"base":"Any","pred":"not is_lucas_prp(1, 3, 1) and is_lucas_prp(2, 5, 2) and is_lucas_prp(3, 6, -1) and is_lucas_prp(11, 7, 5) and is_lucas_prp(2 ** 31 - 1, 8, -3) and is_lucas_prp(n, 1, -1)"},"spec":{"lhs":"test_is_lucas_prp()","rhs":"test_is_lucas_prp produces the expected output","over":{"base":"Any"},"name":"test_is_lucas_prp_correct"},"guarantee":"test_is_lucas_prp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_ntheory.test_is_lucas_prp_correct","statement":"Path(test_is_lucas_prp(x), test_is_lucas_prp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46c856aae085e197"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_ntheory.test_is_lucas_prp","kind":"function","src_hash":"11c012aca7ff8cdd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: not is_lucas_prp(1, 3, 1) and is_lucas_prp(2, 5, 2) and is_lucas_prp(3, 6, -1) and is_lucas_prp(11, 7, 5) and is_lucas_prp(2 ** 31 - 1, 8, -3)"},"spec":{"lhs":"test_is_lucas_prp()","rhs":"not is_lucas_prp(1, 3, 1) and is_lucas_prp(2, 5, 2) and is_lucas_prp(3, 6, -1) and is_lucas_prp(11, 7, 5) and is_lucas_prp(2 ** 31 - 1, 8, -3)","over":{"base":"Any"},"name":"test_is_lucas_prp_correct"},"guarantee":"not is_lucas_prp(1, 3, 1); is_lucas_prp(2, 5, 2); is_lucas_prp(3, 6, -1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_ntheory.test_is_lucas_prp_correct","statement":"Path(test_is_lucas_prp(x), not is_lucas_prp(1, 3, 1); is_lucas_prp(2, 5, 2); is_lucas_prp(3, 6, -1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"184028254dabcd25","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not is_lucas_prp(1, 3, 1)","is_lucas_prp(2, 5, 2)","is_lucas_prp(3, 6, -1)","is_lucas_prp(11, 7, 5)","is_lucas_prp(2 ** 31 - 1, 8, -3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_is_lucas_prp():
     # invalid input
     raises(ValueError, lambda: is_lucas_prp(3, 2, 1))
@@ -351,16 +427,24 @@ def test_is_lucas_prp():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_selfridge_prp(), test_is_selfridge_prp produces the expected output) over Any ║
+# ║ Path(test_is_selfridge_prp(), not is_selfridge_prp(1) and is_selfridge_prp(2) and is_selfridge_prp(3) and is_selfridge_prp(11) and is_selfridge_prp(2 ** 31 - 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_selfridge_prp : Any → {Any | not is_selfridge...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not is_selfridge_prp(1)                        ║
+# ║   ensures:  is_selfridge_prp(2)                            ║
+# ║   ensures:  is_selfridge_prp(3)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_selfridge_prp : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 631406da26686717  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af6886897885f114  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_ntheory.test_is_selfridge_prp","kind":"function","src_hash":"ba2675197fb15611","in":{"base":"Any"},"out":{"base":"Any","pred":"not is_selfridge_prp(1) and is_selfridge_prp(2) and is_selfridge_prp(3) and is_selfridge_prp(11) and is_selfridge_prp(2 ** 31 - 1) and is_selfridge_prp(n)"},"spec":{"lhs":"test_is_selfridge_prp()","rhs":"test_is_selfridge_prp produces the expected output","over":{"base":"Any"},"name":"test_is_selfridge_prp_correct"},"guarantee":"test_is_selfridge_prp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_ntheory.test_is_selfridge_prp_correct","statement":"Path(test_is_selfridge_prp(x), test_is_selfridge_prp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"631406da26686717"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_ntheory.test_is_selfridge_prp","kind":"function","src_hash":"ba2675197fb15611","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: not is_selfridge_prp(1) and is_selfridge_prp(2) and is_selfridge_prp(3) and is_selfridge_prp(11) and is_selfridge_prp(2 ** 31 - 1)"},"spec":{"lhs":"test_is_selfridge_prp()","rhs":"not is_selfridge_prp(1) and is_selfridge_prp(2) and is_selfridge_prp(3) and is_selfridge_prp(11) and is_selfridge_prp(2 ** 31 - 1)","over":{"base":"Any"},"name":"test_is_selfridge_prp_correct"},"guarantee":"not is_selfridge_prp(1); is_selfridge_prp(2); is_selfridge_prp(3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_ntheory.test_is_selfridge_prp_correct","statement":"Path(test_is_selfridge_prp(x), not is_selfridge_prp(1); is_selfridge_prp(2); is_selfridge_prp(3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af6886897885f114","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not is_selfridge_prp(1)","is_selfridge_prp(2)","is_selfridge_prp(3)","is_selfridge_prp(11)","is_selfridge_prp(2 ** 31 - 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_is_selfridge_prp():
     # invalid input
     raises(ValueError, lambda: is_selfridge_prp(0))
@@ -382,16 +466,24 @@ def test_is_selfridge_prp():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_strong_lucas_prp(), test_is_strong_lucas_prp produces the expected output) over Any ║
+# ║ Path(test_is_strong_lucas_prp(), not is_strong_lucas_prp(1, 3, 1) and is_strong_lucas_prp(2, 5, 2) and is_strong_lucas_prp(3, 6, -1) and is_strong_lucas_prp(11, 7, 5) and is_strong_lucas_prp(2 ** 31 - 1, 8, -3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_strong_lucas_prp : Any → {Any | not is_strong...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not is_strong_lucas_prp(1, 3, 1)               ║
+# ║   ensures:  is_strong_lucas_prp(2, 5, 2)                   ║
+# ║   ensures:  is_strong_lucas_prp(3, 6, -1)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_strong_lucas_prp : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2dd06a5019c31110  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9e40cffd1636c4e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_ntheory.test_is_strong_lucas_prp","kind":"function","src_hash":"d639050508f75683","in":{"base":"Any"},"out":{"base":"Any","pred":"not is_strong_lucas_prp(1, 3, 1) and is_strong_lucas_prp(2, 5, 2) and is_strong_lucas_prp(3, 6, -1) and is_strong_lucas_prp(11, 7, 5) and is_strong_lucas_prp(2 ** 31 - 1, 8, -3)"},"spec":{"lhs":"test_is_strong_lucas_prp()","rhs":"test_is_strong_lucas_prp produces the expected output","over":{"base":"Any"},"name":"test_is_strong_lucas_prp_correct"},"guarantee":"test_is_strong_lucas_prp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_ntheory.test_is_strong_lucas_prp_correct","statement":"Path(test_is_strong_lucas_prp(x), test_is_strong_lucas_prp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2dd06a5019c31110"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_ntheory.test_is_strong_lucas_prp","kind":"function","src_hash":"d639050508f75683","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: not is_strong_lucas_prp(1, 3, 1) and is_strong_lucas_prp(2, 5, 2) and is_strong_lucas_prp(3, 6, -1) and is_strong_lucas_prp(11, 7, 5) and is_strong_lucas_prp(2 ** 31 - 1, 8, -3)"},"spec":{"lhs":"test_is_strong_lucas_prp()","rhs":"not is_strong_lucas_prp(1, 3, 1) and is_strong_lucas_prp(2, 5, 2) and is_strong_lucas_prp(3, 6, -1) and is_strong_lucas_prp(11, 7, 5) and is_strong_lucas_prp(2 ** 31 - 1, 8, -3)","over":{"base":"Any"},"name":"test_is_strong_lucas_prp_correct"},"guarantee":"not is_strong_lucas_prp(1, 3, 1); is_strong_lucas_prp(2, 5, 2); is_strong_lucas_prp(3, 6, -1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_ntheory.test_is_strong_lucas_prp_correct","statement":"Path(test_is_strong_lucas_prp(x), not is_strong_lucas_prp(1, 3, 1); is_strong_lucas_prp(2, 5, 2); is_strong_lucas_prp(3, 6, -1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9e40cffd1636c4e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not is_strong_lucas_prp(1, 3, 1)","is_strong_lucas_prp(2, 5, 2)","is_strong_lucas_prp(3, 6, -1)","is_strong_lucas_prp(11, 7, 5)","is_strong_lucas_prp(2 ** 31 - 1, 8, -3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_is_strong_lucas_prp():
     # invalid input
     raises(ValueError, lambda: is_strong_lucas_prp(3, 2, 1))
@@ -409,16 +501,24 @@ def test_is_strong_lucas_prp():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_strong_selfridge_prp(), test_is_strong_selfridge_prp produces the expected output) over Any ║
+# ║ Path(test_is_strong_selfridge_prp(), not is_strong_selfridge_prp(1) and is_strong_selfridge_prp(2) and is_strong_selfridge_prp(3) and is_strong_selfridge_prp(11) and is_strong_selfridge_prp(2 ** 31 - 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_strong_selfridge_prp : Any → {Any | not is_st...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not is_strong_selfridge_prp(1)                 ║
+# ║   ensures:  is_strong_selfridge_prp(2)                     ║
+# ║   ensures:  is_strong_selfridge_prp(3)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_strong_selfridge_prp : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e9315f54363b950  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d654e0b620db3133  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_ntheory.test_is_strong_selfridge_prp","kind":"function","src_hash":"026ba65de9bcd6ec","in":{"base":"Any"},"out":{"base":"Any","pred":"not is_strong_selfridge_prp(1) and is_strong_selfridge_prp(2) and is_strong_selfridge_prp(3) and is_strong_selfridge_prp(11) and is_strong_selfridge_prp(2 ** 31 - 1) and is_strong_selfridge_prp(n)"},"spec":{"lhs":"test_is_strong_selfridge_prp()","rhs":"test_is_strong_selfridge_prp produces the expected output","over":{"base":"Any"},"name":"test_is_strong_selfridge_prp_correct"},"guarantee":"test_is_strong_selfridge_prp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_ntheory.test_is_strong_selfridge_prp_correct","statement":"Path(test_is_strong_selfridge_prp(x), test_is_strong_selfridge_prp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e9315f54363b950"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_ntheory.test_is_strong_selfridge_prp","kind":"function","src_hash":"026ba65de9bcd6ec","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: not is_strong_selfridge_prp(1) and is_strong_selfridge_prp(2) and is_strong_selfridge_prp(3) and is_strong_selfridge_prp(11) and is_strong_selfridge_prp(2 ** 31 - 1)"},"spec":{"lhs":"test_is_strong_selfridge_prp()","rhs":"not is_strong_selfridge_prp(1) and is_strong_selfridge_prp(2) and is_strong_selfridge_prp(3) and is_strong_selfridge_prp(11) and is_strong_selfridge_prp(2 ** 31 - 1)","over":{"base":"Any"},"name":"test_is_strong_selfridge_prp_correct"},"guarantee":"not is_strong_selfridge_prp(1); is_strong_selfridge_prp(2); is_strong_selfridge_prp(3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_ntheory.test_is_strong_selfridge_prp_correct","statement":"Path(test_is_strong_selfridge_prp(x), not is_strong_selfridge_prp(1); is_strong_selfridge_prp(2); is_strong_selfridge_prp(3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d654e0b620db3133","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not is_strong_selfridge_prp(1)","is_strong_selfridge_prp(2)","is_strong_selfridge_prp(3)","is_strong_selfridge_prp(11)","is_strong_selfridge_prp(2 ** 31 - 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_is_strong_selfridge_prp():
     # invalid input
     raises(ValueError, lambda: is_strong_selfridge_prp(0))
@@ -440,16 +540,24 @@ def test_is_strong_selfridge_prp():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_bpsw_prp(), test_is_bpsw_prp produces the expected output) over Any ║
+# ║ Path(test_is_bpsw_prp(), not is_bpsw_prp(1) and is_bpsw_prp(2) and is_bpsw_prp(3) and is_bpsw_prp(11) and is_bpsw_prp(2 ** 31 - 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_bpsw_prp : Any → {Any | not is_bpsw_prp(1) an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not is_bpsw_prp(1)                             ║
+# ║   ensures:  is_bpsw_prp(2)                                 ║
+# ║   ensures:  is_bpsw_prp(3)                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_bpsw_prp : Any → {Any | result satisfies: not...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95ddd585c1efc9ad  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | afe77ea6f8b9cdd7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_ntheory.test_is_bpsw_prp","kind":"function","src_hash":"7dd460368318c355","in":{"base":"Any"},"out":{"base":"Any","pred":"not is_bpsw_prp(1) and is_bpsw_prp(2) and is_bpsw_prp(3) and is_bpsw_prp(11) and is_bpsw_prp(2 ** 31 - 1)"},"spec":{"lhs":"test_is_bpsw_prp()","rhs":"test_is_bpsw_prp produces the expected output","over":{"base":"Any"},"name":"test_is_bpsw_prp_correct"},"guarantee":"test_is_bpsw_prp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_ntheory.test_is_bpsw_prp_correct","statement":"Path(test_is_bpsw_prp(x), test_is_bpsw_prp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95ddd585c1efc9ad"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_ntheory.test_is_bpsw_prp","kind":"function","src_hash":"7dd460368318c355","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: not is_bpsw_prp(1) and is_bpsw_prp(2) and is_bpsw_prp(3) and is_bpsw_prp(11) and is_bpsw_prp(2 ** 31 - 1)"},"spec":{"lhs":"test_is_bpsw_prp()","rhs":"not is_bpsw_prp(1) and is_bpsw_prp(2) and is_bpsw_prp(3) and is_bpsw_prp(11) and is_bpsw_prp(2 ** 31 - 1)","over":{"base":"Any"},"name":"test_is_bpsw_prp_correct"},"guarantee":"not is_bpsw_prp(1); is_bpsw_prp(2); is_bpsw_prp(3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_ntheory.test_is_bpsw_prp_correct","statement":"Path(test_is_bpsw_prp(x), not is_bpsw_prp(1); is_bpsw_prp(2); is_bpsw_prp(3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afe77ea6f8b9cdd7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not is_bpsw_prp(1)","is_bpsw_prp(2)","is_bpsw_prp(3)","is_bpsw_prp(11)","is_bpsw_prp(2 ** 31 - 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_is_bpsw_prp():
     # invalid input
     raises(ValueError, lambda: is_bpsw_prp(0))
@@ -465,16 +573,24 @@ def test_is_bpsw_prp():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_strong_bpsw_prp(), test_is_strong_bpsw_prp produces the expected output) over Any ║
+# ║ Path(test_is_strong_bpsw_prp(), not is_strong_bpsw_prp(1) and is_strong_bpsw_prp(2) and is_strong_bpsw_prp(3) and is_strong_bpsw_prp(11) and is_strong_bpsw_prp(2 ** 31 - 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_strong_bpsw_prp : Any → {Any | not is_strong_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not is_strong_bpsw_prp(1)                      ║
+# ║   ensures:  is_strong_bpsw_prp(2)                          ║
+# ║   ensures:  is_strong_bpsw_prp(3)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_strong_bpsw_prp : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0630c8fc55d212be  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ed34a04a9ab5986  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_ntheory.test_is_strong_bpsw_prp","kind":"function","src_hash":"1acea1cd00f7914a","in":{"base":"Any"},"out":{"base":"Any","pred":"not is_strong_bpsw_prp(1) and is_strong_bpsw_prp(2) and is_strong_bpsw_prp(3) and is_strong_bpsw_prp(11) and is_strong_bpsw_prp(2 ** 31 - 1)"},"spec":{"lhs":"test_is_strong_bpsw_prp()","rhs":"test_is_strong_bpsw_prp produces the expected output","over":{"base":"Any"},"name":"test_is_strong_bpsw_prp_correct"},"guarantee":"test_is_strong_bpsw_prp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_ntheory.test_is_strong_bpsw_prp_correct","statement":"Path(test_is_strong_bpsw_prp(x), test_is_strong_bpsw_prp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0630c8fc55d212be"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_ntheory.test_is_strong_bpsw_prp","kind":"function","src_hash":"1acea1cd00f7914a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: not is_strong_bpsw_prp(1) and is_strong_bpsw_prp(2) and is_strong_bpsw_prp(3) and is_strong_bpsw_prp(11) and is_strong_bpsw_prp(2 ** 31 - 1)"},"spec":{"lhs":"test_is_strong_bpsw_prp()","rhs":"not is_strong_bpsw_prp(1) and is_strong_bpsw_prp(2) and is_strong_bpsw_prp(3) and is_strong_bpsw_prp(11) and is_strong_bpsw_prp(2 ** 31 - 1)","over":{"base":"Any"},"name":"test_is_strong_bpsw_prp_correct"},"guarantee":"not is_strong_bpsw_prp(1); is_strong_bpsw_prp(2); is_strong_bpsw_prp(3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_ntheory.test_is_strong_bpsw_prp_correct","statement":"Path(test_is_strong_bpsw_prp(x), not is_strong_bpsw_prp(1); is_strong_bpsw_prp(2); is_strong_bpsw_prp(3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ed34a04a9ab5986","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not is_strong_bpsw_prp(1)","is_strong_bpsw_prp(2)","is_strong_bpsw_prp(3)","is_strong_bpsw_prp(11)","is_strong_bpsw_prp(2 ** 31 - 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_is_strong_bpsw_prp():
     # invalid input
     raises(ValueError, lambda: is_strong_bpsw_prp(0))

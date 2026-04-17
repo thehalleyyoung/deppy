@@ -24,16 +24,25 @@ from mpmath import mp
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_evalf(fun), numerical methods for numerical integration along a given set of points in the complex plane) over Any ║
+# ║ Path(_evalf(func, points, derivatives), len(sol) == old_len_sol + 1) over {Any | hasattr(func, 'annihilator') and hasattr(func, 'y0') and hasattr(func, 'x0')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _evalf : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(func, 'annihilator')                   ║
+# ║   requires: hasattr(func, 'y0')                            ║
+# ║   requires: hasattr(func, 'x0')                            ║
+# ║   ensures:  len(sol) == old_len_sol + 1                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _evalf : {Any | hasattr(func, 'annihilator') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b714f4c384881c03  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ee1cff90cf537fd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.numerical._evalf","kind":"function","src_hash":"618dba1d278b42ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_evalf(fun)","rhs":"numerical methods for numerical integration along a given set of points in the complex plane","over":{"base":"Any"},"name":"_evalf_correct"},"guarantee":"numerical methods for numerical integration along a given set of points in the complex plane","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.numerical._evalf_correct","statement":"Path(_evalf(x), numerical methods for numerical integration along a given set of points in the complex plane)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b714f4c384881c03"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.numerical._evalf","kind":"function","src_hash":"618dba1d278b42ee","in":{"base":"Any","pred":"hasattr(func, 'annihilator') and hasattr(func, 'y0') and hasattr(func, 'x0')"},"out":{"base":"Any","pred":"result satisfies: len(sol) == old_len_sol + 1"},"spec":{"lhs":"_evalf(func, points, derivatives)","rhs":"len(sol) == old_len_sol + 1","over":{"base":"Any","pred":"hasattr(func, 'annihilator') and hasattr(func, 'y0') and hasattr(func, 'x0')"},"name":"_evalf_correct"},"guarantee":"len(sol) == old_len_sol + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.numerical._evalf_correct","statement":"Path(_evalf(x), len(sol) == old_len_sol + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ee1cff90cf537fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(func, 'annihilator')","hasattr(func, 'y0')","hasattr(func, 'x0')"],"ensures":["len(sol) == old_len_sol + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["func.annihilator","func.x0","func.y0"],"calls_mutating":["sol.append"],"raises":["TypeError"]},"state_contract":{"modifies":["sol.*"],"old_bindings":{"old_len_sol":"len(sol)"},"post_ensures":["len(sol) == old_len_sol + 1"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _evalf(func, points, derivatives=False, method='RK4'):
     """
     Numerical methods for numerical integration along a given set of
@@ -69,16 +78,22 @@ def _evalf(func, points, derivatives=False, method='RK4'):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_euler(red), euler's method for numerical integration. from x0 to x1 with initial values given at x0 as vector y0) over Any ║
+# ║ Path(_euler(red, x0, x1), [y_0[i] + h * f_0[i] for i in range(a)]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [y_0[i] + h * f_0[i] for i in range(a)]        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _euler : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a1befe9590b8c2e6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 559931f1868b2163  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.numerical._euler","kind":"function","src_hash":"df2912455f15bfbf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_euler(red)","rhs":"euler's method for numerical integration. from x0 to x1 with initial values given at x0 as vector y0","over":{"base":"Any"},"name":"_euler_correct"},"guarantee":"euler's method for numerical integration. from x0 to x1 with initial values given at x0 as vector y0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.numerical._euler_correct","statement":"Path(_euler(x), euler's method for numerical integration. from x0 to x1 with initial values given at x0 as vector y0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1befe9590b8c2e6"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.numerical._euler","kind":"function","src_hash":"df2912455f15bfbf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_euler(red, x0, x1)","rhs":"[y_0[i] + h * f_0[i] for i in range(a)]","over":{"base":"Any"},"name":"_euler_correct"},"guarantee":"returns [y_0[i] + h * f_0[i] for i in range(a)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.numerical._euler_correct","statement":"Path(_euler(x), returns [y_0[i] + h * f_0[i] for i in range(a)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"559931f1868b2163","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[y_0[i] + h * f_0[i] for i in range(a)]","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _euler(red, x0, x1, y0, a):
     """
     Euler's method for numerical integration.
@@ -100,16 +115,22 @@ def _euler(red, x0, x1, y0, a):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rk4(red), runge-kutta 4th order numerical method) over Any ║
+# ║ Path(_rk4(red, x0, x1), [y_0[i] + h * (f_0[i] + 2 * f_1[i] + 2 * f_2[i] + f_3[i]) / 6 for i in range(a)]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [y_0[i] + h * (f_0[i] + 2 * f_1[i] + 2 * ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _rk4 : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5210c685af22cbb8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9908d7f0faf16070  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.numerical._rk4","kind":"function","src_hash":"29ea65b14d2d1e96","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rk4(red)","rhs":"runge-kutta 4th order numerical method","over":{"base":"Any"},"name":"_rk4_correct"},"guarantee":"runge-kutta 4th order numerical method","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.numerical._rk4_correct","statement":"Path(_rk4(x), runge-kutta 4th order numerical method)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5210c685af22cbb8"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.numerical._rk4","kind":"function","src_hash":"29ea65b14d2d1e96","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rk4(red, x0, x1)","rhs":"[y_0[i] + h * (f_0[i] + 2 * f_1[i] + 2 * f_2[i] + f_3[i]) / 6 for i in range(a)]","over":{"base":"Any"},"name":"_rk4_correct"},"guarantee":"returns [y_0[i] + h * (f_0[i] + 2 * f_1[i] + 2 * f_2[i] + f_3[i]) / 6 for i in range(a)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.numerical._rk4_correct","statement":"Path(_rk4(x), returns [y_0[i] + h * (f_0[i] + 2 * f_1[i] + 2 * f_2[i] + f_3[i]) / 6 for i in range(a)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9908d7f0faf16070","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[y_0[i] + h * (f_0[i] + 2 * f_1[i] + 2 * f_2[i] + f_3[i]) / 6 for i in range(a)]","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def _rk4(red, x0, x1, y0, a):
     """
     Runge-Kutta 4th order numerical method.

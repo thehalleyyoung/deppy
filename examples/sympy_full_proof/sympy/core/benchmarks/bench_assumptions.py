@@ -22,30 +22,42 @@ i3 = Integer(3)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_x_is_integer(), timeit_x_is_integer produces the expected output) over Any ║
+# ║ Path(timeit_x_is_integer(), <unspecified:timeit_x_is_integer>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_x_is_integer : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2fe29fbe7de6bd89  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_assumptions.timeit_x_is_integer","kind":"function","src_hash":"1584194517b515fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_x_is_integer()","rhs":"timeit_x_is_integer produces the expected output","over":{"base":"Any"},"name":"timeit_x_is_integer_correct"},"guarantee":"timeit_x_is_integer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_assumptions.timeit_x_is_integer_correct","statement":"Path(timeit_x_is_integer(x), timeit_x_is_integer produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fe29fbe7de6bd89"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_assumptions.timeit_x_is_integer","kind":"function","src_hash":"1584194517b515fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_x_is_integer()","rhs":"<unspecified:timeit_x_is_integer>","over":{"base":"Any"},"name":"timeit_x_is_integer_correct"},"guarantee":"timeit_x_is_integer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_assumptions.timeit_x_is_integer_correct","statement":"Path(timeit_x_is_integer(x), timeit_x_is_integer produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fe29fbe7de6bd89","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_x_is_integer():
     x.is_integer
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_Integer_is_irrational(), timeit_Integer_is_irrational produces the expected output) over Any ║
+# ║ Path(timeit_Integer_is_irrational(), <unspecified:timeit_Integer_is_irrational>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_Integer_is_irrational : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 21228aa02cb03c72  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_assumptions.timeit_Integer_is_irrational","kind":"function","src_hash":"50e67116c7fa5807","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Integer_is_irrational()","rhs":"timeit_Integer_is_irrational produces the expected output","over":{"base":"Any"},"name":"timeit_Integer_is_irrational_correct"},"guarantee":"timeit_Integer_is_irrational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_assumptions.timeit_Integer_is_irrational_correct","statement":"Path(timeit_Integer_is_irrational(x), timeit_Integer_is_irrational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21228aa02cb03c72"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_assumptions.timeit_Integer_is_irrational","kind":"function","src_hash":"50e67116c7fa5807","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Integer_is_irrational()","rhs":"<unspecified:timeit_Integer_is_irrational>","over":{"base":"Any"},"name":"timeit_Integer_is_irrational_correct"},"guarantee":"timeit_Integer_is_irrational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_assumptions.timeit_Integer_is_irrational_correct","statement":"Path(timeit_Integer_is_irrational(x), timeit_Integer_is_irrational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21228aa02cb03c72","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_Integer_is_irrational():
     i3.is_irrational

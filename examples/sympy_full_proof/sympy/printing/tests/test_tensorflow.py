@@ -60,7 +60,11 @@ if tf is not None:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_compare_tensorflow_matrix(var), internal helper behaves correctly) over {Any | isinstance(e, MatrixBase)} ║
+# ║ Path(_compare_tensorflow_matrix(variables, expr, use_float), <unspecified:_compare_tensorflow_matrix>) over {Any | isinstance(e, MatrixBase) and hasattr(expr, 'subs')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'subs')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _compare_tensorflow_matrix : {Any | isinstance(e, Mat...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -72,9 +76,12 @@ if tf is not None:
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 036ded9f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_tensorflow._compare_tensorflow_matrix","kind":"function","src_hash":"bc00cd308bccf12c","in":{"base":"Any","pred":"isinstance(e, MatrixBase)"},"out":{"base":"Any","pred":"(r == e).all() and all((abs(a - b) < 10 ** (-(4 - int(log(abs(a), 10)))) for a, b in zip(r, e)))"},"spec":{"lhs":"_compare_tensorflow_matrix(var)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(e, MatrixBase)"},"name":"_compare_tensorflow_matrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"MatrixBase","pred":"isinstance(e, MatrixBase)","path":{"lhs":"_compare_tensorflow_matrix(x)","rhs":"internal helper behaves correctly","over":{"base":"MatrixBase","pred":"isinstance(e, MatrixBase)"},"name":"_compare_tensorflow_matrix_MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_tensorflow._compare_tensorflow_matrix_MatrixBase_correct","statement":"_compare_tensorflow_matrix satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"036ded9f17442821"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_tensorflow._compare_tensorflow_matrix","kind":"function","src_hash":"bc00cd308bccf12c","in":{"base":"Any","pred":"isinstance(e, MatrixBase) and hasattr(expr, 'subs')"},"out":{"base":"Any","pred":"(r == e).all() and all((abs(a - b) < 10 ** (-(4 - int(log(abs(a), 10)))) for a, b in zip(r, e)))"},"spec":{"lhs":"_compare_tensorflow_matrix(variables, expr, use_float)","rhs":"<unspecified:_compare_tensorflow_matrix>","over":{"base":"Any","pred":"isinstance(e, MatrixBase) and hasattr(expr, 'subs')"},"name":"_compare_tensorflow_matrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"MatrixBase","pred":"isinstance(e, MatrixBase)","path":{"lhs":"_compare_tensorflow_matrix(x)","rhs":"internal helper behaves correctly","over":{"base":"MatrixBase","pred":"isinstance(e, MatrixBase)"},"name":"_compare_tensorflow_matrix_MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_tensorflow._compare_tensorflow_matrix_MatrixBase_correct","statement":"_compare_tensorflow_matrix satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"036ded9f17442821","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'subs')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.subs"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(e, MatrixBase)'}, fibers={'MatrixBase'})"]}}
 def _compare_tensorflow_matrix(variables, expr, use_float=False):
     f = lambdify(variables, expr, 'tensorflow')
     if not use_float:
@@ -108,7 +115,11 @@ def _compare_tensorflow_matrix(variables, expr, use_float=False):
 # Creating a custom inverse test.
 # See https://github.com/sympy/sympy/issues/18469
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_compare_tensorflow_matrix_inverse(var), internal helper behaves correctly) over {Any | isinstance(e, MatrixBase)} ║
+# ║ Path(_compare_tensorflow_matrix_inverse(variables, expr, use_float), <unspecified:_compare_tensorflow_matrix_inverse>) over {Any | isinstance(e, MatrixBase) and hasattr(expr, 'subs')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'subs')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _compare_tensorflow_matrix_inverse : {Any | isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -120,9 +131,12 @@ def _compare_tensorflow_matrix(variables, expr, use_float=False):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 22203798...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_tensorflow._compare_tensorflow_matrix_inverse","kind":"function","src_hash":"faadf390345a8164","in":{"base":"Any","pred":"isinstance(e, MatrixBase)"},"out":{"base":"Any","pred":"(r == e).all() and all((abs(a - b) < 10 ** (-(4 - int(log(abs(a), 10)))) for a, b in zip(r, e)))"},"spec":{"lhs":"_compare_tensorflow_matrix_inverse(var)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(e, MatrixBase)"},"name":"_compare_tensorflow_matrix_inverse_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"MatrixBase","pred":"isinstance(e, MatrixBase)","path":{"lhs":"_compare_tensorflow_matrix_inverse(x)","rhs":"internal helper behaves correctly","over":{"base":"MatrixBase","pred":"isinstance(e, MatrixBase)"},"name":"_compare_tensorflow_matrix_inverse_MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_tensorflow._compare_tensorflow_matrix_inverse_MatrixBase_correct","statement":"_compare_tensorflow_matrix_inverse satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"22203798b76feefc"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_tensorflow._compare_tensorflow_matrix_inverse","kind":"function","src_hash":"faadf390345a8164","in":{"base":"Any","pred":"isinstance(e, MatrixBase) and hasattr(expr, 'subs')"},"out":{"base":"Any","pred":"(r == e).all() and all((abs(a - b) < 10 ** (-(4 - int(log(abs(a), 10)))) for a, b in zip(r, e)))"},"spec":{"lhs":"_compare_tensorflow_matrix_inverse(variables, expr, use_float)","rhs":"<unspecified:_compare_tensorflow_matrix_inverse>","over":{"base":"Any","pred":"isinstance(e, MatrixBase) and hasattr(expr, 'subs')"},"name":"_compare_tensorflow_matrix_inverse_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"MatrixBase","pred":"isinstance(e, MatrixBase)","path":{"lhs":"_compare_tensorflow_matrix_inverse(x)","rhs":"internal helper behaves correctly","over":{"base":"MatrixBase","pred":"isinstance(e, MatrixBase)"},"name":"_compare_tensorflow_matrix_inverse_MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_tensorflow._compare_tensorflow_matrix_inverse_MatrixBase_correct","statement":"_compare_tensorflow_matrix_inverse satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"22203798b76feefc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'subs')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.subs"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(e, MatrixBase)'}, fibers={'MatrixBase'})"]}}
 def _compare_tensorflow_matrix_inverse(variables, expr, use_float=False):
     f = lambdify(variables, expr, 'tensorflow')
     if not use_float:
@@ -154,16 +168,23 @@ def _compare_tensorflow_matrix_inverse(variables, expr, use_float=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_compare_tensorflow_matrix_scalar(var), internal helper behaves correctly) over Any ║
+# ║ Path(_compare_tensorflow_matrix_scalar(variables, expr), abs(r - e) < 10 ** (-6)) over {Any | hasattr(expr, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _compare_tensorflow_matrix_scalar : Any → {Any | abs(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'subs')                          ║
+# ║   ensures:  abs(r - e) < 10 ** (-6)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _compare_tensorflow_matrix_scalar : {Any | hasattr(ex...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea61ea8b91a10f7c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fd620930491cab9d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_tensorflow._compare_tensorflow_matrix_scalar","kind":"function","src_hash":"def323ff5f5f1984","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(r - e) < 10 ** (-6)"},"spec":{"lhs":"_compare_tensorflow_matrix_scalar(var)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_compare_tensorflow_matrix_scalar_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_tensorflow._compare_tensorflow_matrix_scalar_correct","statement":"Path(_compare_tensorflow_matrix_scalar(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea61ea8b91a10f7c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_tensorflow._compare_tensorflow_matrix_scalar","kind":"function","src_hash":"def323ff5f5f1984","in":{"base":"Any","pred":"hasattr(expr, 'subs')"},"out":{"base":"Any","pred":"result satisfies: abs(r - e) < 10 ** (-6)"},"spec":{"lhs":"_compare_tensorflow_matrix_scalar(variables, expr)","rhs":"abs(r - e) < 10 ** (-6)","over":{"base":"Any","pred":"hasattr(expr, 'subs')"},"name":"_compare_tensorflow_matrix_scalar_correct"},"guarantee":"abs(r - e) < 10 ** (-6)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_tensorflow._compare_tensorflow_matrix_scalar_correct","statement":"Path(_compare_tensorflow_matrix_scalar(x), abs(r - e) < 10 ** (-6))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd620930491cab9d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'subs')"],"ensures":["abs(r - e) < 10 ** (-6)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.subs"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _compare_tensorflow_matrix_scalar(variables, expr):
     f = lambdify(variables, expr, 'tensorflow')
     random_matrices = [
@@ -182,16 +203,23 @@ def _compare_tensorflow_matrix_scalar(variables, expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_compare_tensorflow_scalar(var), internal helper behaves correctly) over Any ║
+# ║ Path(_compare_tensorflow_scalar(variables, expr, rng), abs(r - e) < 10 ** (-6)) over {Any | hasattr(expr, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _compare_tensorflow_scalar : Any → {Any | abs(r - e) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'subs')                          ║
+# ║   ensures:  abs(r - e) < 10 ** (-6)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _compare_tensorflow_scalar : {Any | hasattr(expr, 'su...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 614e7e41dc9b1db3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d3bd7e6700bde88  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_tensorflow._compare_tensorflow_scalar","kind":"function","src_hash":"2bcf8e11748fd169","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(r - e) < 10 ** (-6)"},"spec":{"lhs":"_compare_tensorflow_scalar(var)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_compare_tensorflow_scalar_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_tensorflow._compare_tensorflow_scalar_correct","statement":"Path(_compare_tensorflow_scalar(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"614e7e41dc9b1db3"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_tensorflow._compare_tensorflow_scalar","kind":"function","src_hash":"2bcf8e11748fd169","in":{"base":"Any","pred":"hasattr(expr, 'subs')"},"out":{"base":"Any","pred":"result satisfies: abs(r - e) < 10 ** (-6)"},"spec":{"lhs":"_compare_tensorflow_scalar(variables, expr, rng)","rhs":"abs(r - e) < 10 ** (-6)","over":{"base":"Any","pred":"hasattr(expr, 'subs')"},"name":"_compare_tensorflow_scalar_correct"},"guarantee":"abs(r - e) < 10 ** (-6)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_tensorflow._compare_tensorflow_scalar_correct","statement":"Path(_compare_tensorflow_scalar(x), abs(r - e) < 10 ** (-6))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d3bd7e6700bde88","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'subs')"],"ensures":["abs(r - e) < 10 ** (-6)"],"pure":false,"effects":{"effect_type":"nondeterministic","reads":["expr.subs"],"nondeterministic_sources":["random.randint"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _compare_tensorflow_scalar(
     variables, expr, rng=lambda: random.randint(0, 10)):
     f = lambdify(variables, expr, 'tensorflow')
@@ -209,16 +237,23 @@ def _compare_tensorflow_scalar(
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_compare_tensorflow_relational(var), internal helper behaves correctly) over Any ║
+# ║ Path(_compare_tensorflow_relational(variables, expr, rng), r == e) over {Any | hasattr(expr, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _compare_tensorflow_relational : Any → {Any | r == e}      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'subs')                          ║
+# ║   ensures:  r == e                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _compare_tensorflow_relational : {Any | hasattr(expr,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0bea397c51a33732  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0f6b6e9f53c776d3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_tensorflow._compare_tensorflow_relational","kind":"function","src_hash":"ce851f8b05b72736","in":{"base":"Any"},"out":{"base":"Any","pred":"r == e"},"spec":{"lhs":"_compare_tensorflow_relational(var)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_compare_tensorflow_relational_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_tensorflow._compare_tensorflow_relational_correct","statement":"Path(_compare_tensorflow_relational(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0bea397c51a33732"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_tensorflow._compare_tensorflow_relational","kind":"function","src_hash":"ce851f8b05b72736","in":{"base":"Any","pred":"hasattr(expr, 'subs')"},"out":{"base":"Any","pred":"result satisfies: r == e"},"spec":{"lhs":"_compare_tensorflow_relational(variables, expr, rng)","rhs":"r == e","over":{"base":"Any","pred":"hasattr(expr, 'subs')"},"name":"_compare_tensorflow_relational_correct"},"guarantee":"r == e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_tensorflow._compare_tensorflow_relational_correct","statement":"Path(_compare_tensorflow_relational(x), r == e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f6b6e9f53c776d3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'subs')"],"ensures":["r == e"],"pure":false,"effects":{"effect_type":"nondeterministic","reads":["expr.subs"],"nondeterministic_sources":["random.randint"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _compare_tensorflow_relational(
     variables, expr, rng=lambda: random.randint(0, 10)):
     f = lambdify(variables, expr, 'tensorflow')
@@ -236,16 +271,23 @@ def _compare_tensorflow_relational(
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tensorflow_printing(), test_tensorflow_printing produces the expected output) over Any ║
+# ║ Path(test_tensorflow_printing(), tensorflow_code(eye(3)) == 'tensorflow.constant([[1, 0, 0], [0, 1, 0], [0, 0, 1]])' and tensorflow_code(expr) == 'tensorflow.Variable([[x, tensorflow.math.sin(y)], [tensorflow.math.exp(z), -t]])') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_tensorflow_printing : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  tensorflow_code(eye(3)) == 'tensorflow.co...   ║
+# ║   ensures:  tensorflow_code(expr) == 'tensorflow.Vari...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_tensorflow_printing : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 700277ac031b4b93  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ef7f8b2b37fa498  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_tensorflow.test_tensorflow_printing","kind":"function","src_hash":"f51d4a536d1f5290","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_tensorflow_printing()","rhs":"test_tensorflow_printing produces the expected output","over":{"base":"Any"},"name":"test_tensorflow_printing_correct"},"guarantee":"test_tensorflow_printing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_tensorflow.test_tensorflow_printing_correct","statement":"Path(test_tensorflow_printing(x), test_tensorflow_printing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"700277ac031b4b93"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_tensorflow.test_tensorflow_printing","kind":"function","src_hash":"f51d4a536d1f5290","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: tensorflow_code(eye(3)) == 'tensorflow.constant([[1, 0, 0], [0, 1, 0], [0, 0, 1]])' and tensorflow_code(expr) == 'tensorflow.Variable([[x, tensorflow.math.sin(y)], [tensorflow.math.exp(z), -t]])'"},"spec":{"lhs":"test_tensorflow_printing()","rhs":"tensorflow_code(eye(3)) == 'tensorflow.constant([[1, 0, 0], [0, 1, 0], [0, 0, 1]])' and tensorflow_code(expr) == 'tensorflow.Variable([[x, tensorflow.math.sin(y)], [tensorflow.math.exp(z), -t]])'","over":{"base":"Any"},"name":"test_tensorflow_printing_correct"},"guarantee":"tensorflow_code(eye(3)) == 'tensorflow.constant([[1, 0, 0], [0, 1, 0], [0, 0, 1]])'; tensorflow_code(expr) == 'tensorflow.Variable([[x, tensorflow.math.sin(y)], [tensorflow.math.exp(z), -t]])'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_tensorflow.test_tensorflow_printing_correct","statement":"Path(test_tensorflow_printing(x), tensorflow_code(eye(3)) == 'tensorflow.constant([[1, 0, 0], [0, 1, 0], [0, 0, 1]])'; tensorflow_code(expr) == 'tensorflow.Variable([[x, tensorflow.math.sin(y)], [tensorflow.math.exp(z), -t]])')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ef7f8b2b37fa498","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["tensorflow_code(eye(3)) == 'tensorflow.constant([[1, 0, 0], [0, 1, 0], [0, 0, 1]])'","tensorflow_code(expr) == 'tensorflow.Variable([[x, tensorflow.math.sin(y)], [tensorflow.math.exp(z), -t]])'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_tensorflow_printing():
     assert tensorflow_code(eye(3)) == \
         "tensorflow.constant([[1, 0, 0], [0, 1, 0], [0, 0, 1]])"
@@ -261,16 +303,24 @@ def test_tensorflow_printing():
 # See https://github.com/sympy/sympy/issues/18469
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tensorflow_math(), test_tensorflow_math produces the expected output) over Any ║
+# ║ Path(test_tensorflow_math(), tensorflow_code(expr) == 'tensorflow.math.abs(x)' and tensorflow_code(expr) == 'tensorflow.math.sign(x)' and tensorflow_code(expr) == 'tensorflow.math.ceil(x)' and tensorflow_code(expr) == 'tensorflow.math.floor(x)' and tensorflow_code(expr) == 'tensorflow.math.exp(x)' and tensorflow_code(expr) == 'tensorflow.math.sqrt(x)' and tensorflow_code(expr) == 'tensorflow.math.pow(x, 4)' and tensorflow_code(expr) == 'tensorflow.math.cos(x)' and tensorflow_code(expr) == 'tensorflow.math.acos(x)' and tensorflow_code(expr) == 'tensorflow.math.sin(x)' and tensorflow_code(expr) == 'tensorflow.math.asin(x)' and tensorflow_code(expr) == 'tensorflow.math.tan(x)' and tensorflow_code(expr) == 'tensorflow.math.atan(x)' and tensorflow_code(expr) == 'tensorflow.math.atan2(y, x)' and tensorflow_code(expr) == 'tensorflow.math.cosh(x)' and tensorflow_code(expr) == 'tensorflow.math.acosh(x)' and tensorflow_code(expr) == 'tensorflow.math.sinh(x)' and tensorflow_code(expr) == 'tensorflow.math.asinh(x)' and tensorflow_code(expr) == 'tensorflow.math.tanh(x)' and tensorflow_code(expr) == 'tensorflow.math.atanh(x)' and tensorflow_code(expr) == 'tensorflow.math.erf(x)' and tensorflow_code(expr) == 'tensorflow.math.lgamma(x)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_tensorflow_math : Any → {Any | tensorflow_code(e...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  tensorflow_code(expr) == 'tensorflow.math...   ║
+# ║   ensures:  tensorflow_code(expr) == 'tensorflow.math...   ║
+# ║   ensures:  tensorflow_code(expr) == 'tensorflow.math...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_tensorflow_math : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d336f11458388c4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1e7605f74196ba6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_tensorflow.test_tensorflow_math","kind":"function","src_hash":"1bbd4f1db4b98cd3","in":{"base":"Any"},"out":{"base":"Any","pred":"tensorflow_code(expr) == 'tensorflow.math.abs(x)' and tensorflow_code(expr) == 'tensorflow.math.sign(x)' and tensorflow_code(expr) == 'tensorflow.math.ceil(x)' and tensorflow_code(expr) == 'tensorflow.math.floor(x)' and tensorflow_code(expr) == 'tensorflow.math.exp(x)' and tensorflow_code(expr) == 'tensorflow.math.sqrt(x)' and tensorflow_code(expr) == 'tensorflow.math.pow(x, 4)' and tensorflow_code(expr) == 'tensorflow.math.cos(x)' and tensorflow_code(expr) == 'tensorflow.math.acos(x)' and tensorflow_code(expr) == 'tensorflow.math.sin(x)' and tensorflow_code(expr) == 'tensorflow.math.asin(x)' and tensorflow_code(expr) == 'tensorflow.math.tan(x)' and tensorflow_code(expr) == 'tensorflow.math.atan(x)' and tensorflow_code(expr) == 'tensorflow.math.atan2(y, x)' and tensorflow_code(expr) == 'tensorflow.math.cosh(x)' and tensorflow_code(expr) == 'tensorflow.math.acosh(x)' and tensorflow_code(expr) == 'tensorflow.math.sinh(x)' and tensorflow_code(expr) == 'tensorflow.math.asinh(x)' and tensorflow_code(expr) == 'tensorflow.math.tanh(x)' and tensorflow_code(expr) == 'tensorflow.math.atanh(x)' and tensorflow_code(expr) == 'tensorflow.math.erf(x)' and tensorflow_code(expr) == 'tensorflow.math.lgamma(x)'"},"spec":{"lhs":"test_tensorflow_math()","rhs":"test_tensorflow_math produces the expected output","over":{"base":"Any"},"name":"test_tensorflow_math_correct"},"guarantee":"test_tensorflow_math produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_tensorflow.test_tensorflow_math_correct","statement":"Path(test_tensorflow_math(x), test_tensorflow_math produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d336f11458388c4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_tensorflow.test_tensorflow_math","kind":"function","src_hash":"1bbd4f1db4b98cd3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: tensorflow_code(expr) == 'tensorflow.math.abs(x)' and tensorflow_code(expr) == 'tensorflow.math.sign(x)' and tensorflow_code(expr) == 'tensorflow.math.ceil(x)' and tensorflow_code(expr) == 'tensorflow.math.floor(x)' and tensorflow_code(expr) == 'tensorflow.math.exp(x)' and tensorflow_code(expr) == 'tensorflow.math.sqrt(x)' and tensorflow_code(expr) == 'tensorflow.math.pow(x, 4)' and tensorflow_code(expr) == 'tensorflow.math.cos(x)' and tensorflow_code(expr) == 'tensorflow.math.acos(x)' and tensorflow_code(expr) == 'tensorflow.math.sin(x)' and tensorflow_code(expr) == 'tensorflow.math.asin(x)' and tensorflow_code(expr) == 'tensorflow.math.tan(x)' and tensorflow_code(expr) == 'tensorflow.math.atan(x)' and tensorflow_code(expr) == 'tensorflow.math.atan2(y, x)' and tensorflow_code(expr) == 'tensorflow.math.cosh(x)' and tensorflow_code(expr) == 'tensorflow.math.acosh(x)' and tensorflow_code(expr) == 'tensorflow.math.sinh(x)' and tensorflow_code(expr) == 'tensorflow.math.asinh(x)' and tensorflow_code(expr) == 'tensorflow.math.tanh(x)' and tensorflow_code(expr) == 'tensorflow.math.atanh(x)' and tensorflow_code(expr) == 'tensorflow.math.erf(x)' and tensorflow_code(expr) == 'tensorflow.math.lgamma(x)'"},"spec":{"lhs":"test_tensorflow_math()","rhs":"tensorflow_code(expr) == 'tensorflow.math.abs(x)' and tensorflow_code(expr) == 'tensorflow.math.sign(x)' and tensorflow_code(expr) == 'tensorflow.math.ceil(x)' and tensorflow_code(expr) == 'tensorflow.math.floor(x)' and tensorflow_code(expr) == 'tensorflow.math.exp(x)' and tensorflow_code(expr) == 'tensorflow.math.sqrt(x)' and tensorflow_code(expr) == 'tensorflow.math.pow(x, 4)' and tensorflow_code(expr) == 'tensorflow.math.cos(x)' and tensorflow_code(expr) == 'tensorflow.math.acos(x)' and tensorflow_code(expr) == 'tensorflow.math.sin(x)' and tensorflow_code(expr) == 'tensorflow.math.asin(x)' and tensorflow_code(expr) == 'tensorflow.math.tan(x)' and tensorflow_code(expr) == 'tensorflow.math.atan(x)' and tensorflow_code(expr) == 'tensorflow.math.atan2(y, x)' and tensorflow_code(expr) == 'tensorflow.math.cosh(x)' and tensorflow_code(expr) == 'tensorflow.math.acosh(x)' and tensorflow_code(expr) == 'tensorflow.math.sinh(x)' and tensorflow_code(expr) == 'tensorflow.math.asinh(x)' and tensorflow_code(expr) == 'tensorflow.math.tanh(x)' and tensorflow_code(expr) == 'tensorflow.math.atanh(x)' and tensorflow_code(expr) == 'tensorflow.math.erf(x)' and tensorflow_code(expr) == 'tensorflow.math.lgamma(x)'","over":{"base":"Any"},"name":"test_tensorflow_math_correct"},"guarantee":"tensorflow_code(expr) == 'tensorflow.math.abs(x)'; tensorflow_code(expr) == 'tensorflow.math.sign(x)'; tensorflow_code(expr) == 'tensorflow.math.ceil(x)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_tensorflow.test_tensorflow_math_correct","statement":"Path(test_tensorflow_math(x), tensorflow_code(expr) == 'tensorflow.math.abs(x)'; tensorflow_code(expr) == 'tensorflow.math.sign(x)'; tensorflow_code(expr) == 'tensorflow.math.ceil(x)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1e7605f74196ba6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["tensorflow_code(expr) == 'tensorflow.math.abs(x)'","tensorflow_code(expr) == 'tensorflow.math.sign(x)'","tensorflow_code(expr) == 'tensorflow.math.ceil(x)'","tensorflow_code(expr) == 'tensorflow.math.floor(x)'","tensorflow_code(expr) == 'tensorflow.math.exp(x)'","tensorflow_code(expr) == 'tensorflow.math.sqrt(x)'","tensorflow_code(expr) == 'tensorflow.math.pow(x, 4)'","tensorflow_code(expr) == 'tensorflow.math.cos(x)'","tensorflow_code(expr) == 'tensorflow.math.acos(x)'","tensorflow_code(expr) == 'tensorflow.math.sin(x)'","tensorflow_code(expr) == 'tensorflow.math.asin(x)'","tensorflow_code(expr) == 'tensorflow.math.tan(x)'","tensorflow_code(expr) == 'tensorflow.math.atan(x)'","tensorflow_code(expr) == 'tensorflow.math.atan2(y, x)'","tensorflow_code(expr) == 'tensorflow.math.cosh(x)'","tensorflow_code(expr) == 'tensorflow.math.acosh(x)'","tensorflow_code(expr) == 'tensorflow.math.sinh(x)'","tensorflow_code(expr) == 'tensorflow.math.asinh(x)'","tensorflow_code(expr) == 'tensorflow.math.tanh(x)'","tensorflow_code(expr) == 'tensorflow.math.atanh(x)'","tensorflow_code(expr) == 'tensorflow.math.erf(x)'","tensorflow_code(expr) == 'tensorflow.math.lgamma(x)'"],"pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["random.random","random.uniform"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def test_tensorflow_math():
     if not tf:
         skip("TensorFlow not installed")
@@ -368,16 +418,24 @@ def test_tensorflow_math():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tensorflow_complexes(), test_tensorflow_complexes produces the expected output) over Any ║
+# ║ Path(test_tensorflow_complexes(), tensorflow_code(re(x)) == 'tensorflow.math.real(x)' and tensorflow_code(im(x)) == 'tensorflow.math.imag(x)' and tensorflow_code(arg(x)) == 'tensorflow.math.angle(x)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_tensorflow_complexes : Any → {Any | tensorflow_c...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  tensorflow_code(re(x)) == 'tensorflow.mat...   ║
+# ║   ensures:  tensorflow_code(im(x)) == 'tensorflow.mat...   ║
+# ║   ensures:  tensorflow_code(arg(x)) == 'tensorflow.ma...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_tensorflow_complexes : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d55f1899a8dc39a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cbcd6d797c86558a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_tensorflow.test_tensorflow_complexes","kind":"function","src_hash":"64977365a88b653e","in":{"base":"Any"},"out":{"base":"Any","pred":"tensorflow_code(re(x)) == 'tensorflow.math.real(x)' and tensorflow_code(im(x)) == 'tensorflow.math.imag(x)' and tensorflow_code(arg(x)) == 'tensorflow.math.angle(x)'"},"spec":{"lhs":"test_tensorflow_complexes()","rhs":"test_tensorflow_complexes produces the expected output","over":{"base":"Any"},"name":"test_tensorflow_complexes_correct"},"guarantee":"test_tensorflow_complexes produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_tensorflow.test_tensorflow_complexes_correct","statement":"Path(test_tensorflow_complexes(x), test_tensorflow_complexes produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d55f1899a8dc39a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_tensorflow.test_tensorflow_complexes","kind":"function","src_hash":"64977365a88b653e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: tensorflow_code(re(x)) == 'tensorflow.math.real(x)' and tensorflow_code(im(x)) == 'tensorflow.math.imag(x)' and tensorflow_code(arg(x)) == 'tensorflow.math.angle(x)'"},"spec":{"lhs":"test_tensorflow_complexes()","rhs":"tensorflow_code(re(x)) == 'tensorflow.math.real(x)' and tensorflow_code(im(x)) == 'tensorflow.math.imag(x)' and tensorflow_code(arg(x)) == 'tensorflow.math.angle(x)'","over":{"base":"Any"},"name":"test_tensorflow_complexes_correct"},"guarantee":"tensorflow_code(re(x)) == 'tensorflow.math.real(x)'; tensorflow_code(im(x)) == 'tensorflow.math.imag(x)'; tensorflow_code(arg(x)) == 'tensorflow.math.angle(x)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_tensorflow.test_tensorflow_complexes_correct","statement":"Path(test_tensorflow_complexes(x), tensorflow_code(re(x)) == 'tensorflow.math.real(x)'; tensorflow_code(im(x)) == 'tensorflow.math.imag(x)'; tensorflow_code(arg(x)) == 'tensorflow.math.angle(x)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cbcd6d797c86558a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["tensorflow_code(re(x)) == 'tensorflow.math.real(x)'","tensorflow_code(im(x)) == 'tensorflow.math.imag(x)'","tensorflow_code(arg(x)) == 'tensorflow.math.angle(x)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_tensorflow_complexes():
     assert tensorflow_code(re(x)) == "tensorflow.math.real(x)"
     assert tensorflow_code(im(x)) == "tensorflow.math.imag(x)"
@@ -385,16 +443,24 @@ def test_tensorflow_complexes():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tensorflow_relational(), test_tensorflow_relational produces the expected output) over Any ║
+# ║ Path(test_tensorflow_relational(), tensorflow_code(expr) == 'tensorflow.math.equal(x, y)' and tensorflow_code(expr) == 'tensorflow.math.not_equal(x, y)' and tensorflow_code(expr) == 'tensorflow.math.greater_equal(x, y)' and tensorflow_code(expr) == 'tensorflow.math.greater(x, y)' and tensorflow_code(expr) == 'tensorflow.math.less_equal(x, y)' and tensorflow_code(expr) == 'tensorflow.math.less(x, y)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_tensorflow_relational : Any → {Any | tensorflow_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  tensorflow_code(expr) == 'tensorflow.math...   ║
+# ║   ensures:  tensorflow_code(expr) == 'tensorflow.math...   ║
+# ║   ensures:  tensorflow_code(expr) == 'tensorflow.math...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_tensorflow_relational : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 29f6fc1f9a3501ed  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc70273d1454b742  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_tensorflow.test_tensorflow_relational","kind":"function","src_hash":"13b5f78f65a77871","in":{"base":"Any"},"out":{"base":"Any","pred":"tensorflow_code(expr) == 'tensorflow.math.equal(x, y)' and tensorflow_code(expr) == 'tensorflow.math.not_equal(x, y)' and tensorflow_code(expr) == 'tensorflow.math.greater_equal(x, y)' and tensorflow_code(expr) == 'tensorflow.math.greater(x, y)' and tensorflow_code(expr) == 'tensorflow.math.less_equal(x, y)' and tensorflow_code(expr) == 'tensorflow.math.less(x, y)'"},"spec":{"lhs":"test_tensorflow_relational()","rhs":"test_tensorflow_relational produces the expected output","over":{"base":"Any"},"name":"test_tensorflow_relational_correct"},"guarantee":"test_tensorflow_relational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_tensorflow.test_tensorflow_relational_correct","statement":"Path(test_tensorflow_relational(x), test_tensorflow_relational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29f6fc1f9a3501ed"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_tensorflow.test_tensorflow_relational","kind":"function","src_hash":"13b5f78f65a77871","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: tensorflow_code(expr) == 'tensorflow.math.equal(x, y)' and tensorflow_code(expr) == 'tensorflow.math.not_equal(x, y)' and tensorflow_code(expr) == 'tensorflow.math.greater_equal(x, y)' and tensorflow_code(expr) == 'tensorflow.math.greater(x, y)' and tensorflow_code(expr) == 'tensorflow.math.less_equal(x, y)' and tensorflow_code(expr) == 'tensorflow.math.less(x, y)'"},"spec":{"lhs":"test_tensorflow_relational()","rhs":"tensorflow_code(expr) == 'tensorflow.math.equal(x, y)' and tensorflow_code(expr) == 'tensorflow.math.not_equal(x, y)' and tensorflow_code(expr) == 'tensorflow.math.greater_equal(x, y)' and tensorflow_code(expr) == 'tensorflow.math.greater(x, y)' and tensorflow_code(expr) == 'tensorflow.math.less_equal(x, y)' and tensorflow_code(expr) == 'tensorflow.math.less(x, y)'","over":{"base":"Any"},"name":"test_tensorflow_relational_correct"},"guarantee":"tensorflow_code(expr) == 'tensorflow.math.equal(x, y)'; tensorflow_code(expr) == 'tensorflow.math.not_equal(x, y)'; tensorflow_code(expr) == 'tensorflow.math.greater_equal(x, y)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_tensorflow.test_tensorflow_relational_correct","statement":"Path(test_tensorflow_relational(x), tensorflow_code(expr) == 'tensorflow.math.equal(x, y)'; tensorflow_code(expr) == 'tensorflow.math.not_equal(x, y)'; tensorflow_code(expr) == 'tensorflow.math.greater_equal(x, y)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc70273d1454b742","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["tensorflow_code(expr) == 'tensorflow.math.equal(x, y)'","tensorflow_code(expr) == 'tensorflow.math.not_equal(x, y)'","tensorflow_code(expr) == 'tensorflow.math.greater_equal(x, y)'","tensorflow_code(expr) == 'tensorflow.math.greater(x, y)'","tensorflow_code(expr) == 'tensorflow.math.less_equal(x, y)'","tensorflow_code(expr) == 'tensorflow.math.less(x, y)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_tensorflow_relational():
     if not tf:
         skip("TensorFlow not installed")
@@ -428,16 +494,24 @@ def test_tensorflow_relational():
 # See https://github.com/sympy/sympy/issues/18469
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tensorflow_matrices(), test_tensorflow_matrices produces the expected output) over Any ║
+# ║ Path(test_tensorflow_matrices(), tensorflow_code(expr) == 'M' and tensorflow_code(expr) == 'tensorflow.math.add(M, N)' and tensorflow_code(expr) == 'tensorflow.linalg.matmul(M, N)' and tensorflow_code(expr) == 'tensorflow.math.multiply(M, N)' and tensorflow_code(expr) == 'tensorflow.linalg.matmul(tensorflow.linalg.matmul(tensorflow.linalg.matmul(M, N), P), Q)' and tensorflow_code(expr) == 'tensorflow.linalg.matmul(tensorflow.linalg.matmul(M, M), M)' and tensorflow_code(expr) == 'tensorflow.linalg.trace(M)' and tensorflow_code(expr) == 'tensorflow.linalg.det(M)' and tensorflow_code(expr) == 'tensorflow.linalg.inv(M)' and tensorflow_code(expr, tensorflow_version='1.14') == 'tensorflow.linalg.matrix_transpose(M)' and tensorflow_code(expr, tensorflow_version='1.13') == 'tensorflow.matrix_transpose(M)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_tensorflow_matrices : Any → {Any | tensorflow_co...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  tensorflow_code(expr) == 'M'                   ║
+# ║   ensures:  tensorflow_code(expr) == 'tensorflow.math...   ║
+# ║   ensures:  tensorflow_code(expr) == 'tensorflow.lina...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_tensorflow_matrices : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc56fad570908852  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a892140230f6eab4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_tensorflow.test_tensorflow_matrices","kind":"function","src_hash":"aa85b4e154dfa1c4","in":{"base":"Any"},"out":{"base":"Any","pred":"tensorflow_code(expr) == 'M' and tensorflow_code(expr) == 'tensorflow.math.add(M, N)' and tensorflow_code(expr) == 'tensorflow.linalg.matmul(M, N)' and tensorflow_code(expr) == 'tensorflow.math.multiply(M, N)' and tensorflow_code(expr) == 'tensorflow.linalg.trace(M)' and tensorflow_code(expr) == 'tensorflow.linalg.det(M)' and tensorflow_code(expr) == 'tensorflow.linalg.inv(M)'"},"spec":{"lhs":"test_tensorflow_matrices()","rhs":"test_tensorflow_matrices produces the expected output","over":{"base":"Any"},"name":"test_tensorflow_matrices_correct"},"guarantee":"test_tensorflow_matrices produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_tensorflow.test_tensorflow_matrices_correct","statement":"Path(test_tensorflow_matrices(x), test_tensorflow_matrices produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc56fad570908852"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_tensorflow.test_tensorflow_matrices","kind":"function","src_hash":"aa85b4e154dfa1c4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: tensorflow_code(expr) == 'M' and tensorflow_code(expr) == 'tensorflow.math.add(M, N)' and tensorflow_code(expr) == 'tensorflow.linalg.matmul(M, N)' and tensorflow_code(expr) == 'tensorflow.math.multiply(M, N)' and tensorflow_code(expr) == 'tensorflow.linalg.matmul(tensorflow.linalg.matmul(tensorflow.linalg.matmul(M, N), P), Q)' and tensorflow_code(expr) == 'tensorflow.linalg.matmul(tensorflow.linalg.matmul(M, M), M)' and tensorflow_code(expr) == 'tensorflow.linalg.trace(M)' and tensorflow_code(expr) == 'tensorflow.linalg.det(M)' and tensorflow_code(expr) == 'tensorflow.linalg.inv(M)' and tensorflow_code(expr, tensorflow_version='1.14') == 'tensorflow.linalg.matrix_transpose(M)' and tensorflow_code(expr, tensorflow_version='1.13') == 'tensorflow.matrix_transpose(M)'"},"spec":{"lhs":"test_tensorflow_matrices()","rhs":"tensorflow_code(expr) == 'M' and tensorflow_code(expr) == 'tensorflow.math.add(M, N)' and tensorflow_code(expr) == 'tensorflow.linalg.matmul(M, N)' and tensorflow_code(expr) == 'tensorflow.math.multiply(M, N)' and tensorflow_code(expr) == 'tensorflow.linalg.matmul(tensorflow.linalg.matmul(tensorflow.linalg.matmul(M, N), P), Q)' and tensorflow_code(expr) == 'tensorflow.linalg.matmul(tensorflow.linalg.matmul(M, M), M)' and tensorflow_code(expr) == 'tensorflow.linalg.trace(M)' and tensorflow_code(expr) == 'tensorflow.linalg.det(M)' and tensorflow_code(expr) == 'tensorflow.linalg.inv(M)' and tensorflow_code(expr, tensorflow_version='1.14') == 'tensorflow.linalg.matrix_transpose(M)' and tensorflow_code(expr, tensorflow_version='1.13') == 'tensorflow.matrix_transpose(M)'","over":{"base":"Any"},"name":"test_tensorflow_matrices_correct"},"guarantee":"tensorflow_code(expr) == 'M'; tensorflow_code(expr) == 'tensorflow.math.add(M, N)'; tensorflow_code(expr) == 'tensorflow.linalg.matmul(M, N)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_tensorflow.test_tensorflow_matrices_correct","statement":"Path(test_tensorflow_matrices(x), tensorflow_code(expr) == 'M'; tensorflow_code(expr) == 'tensorflow.math.add(M, N)'; tensorflow_code(expr) == 'tensorflow.linalg.matmul(M, N)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a892140230f6eab4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["tensorflow_code(expr) == 'M'","tensorflow_code(expr) == 'tensorflow.math.add(M, N)'","tensorflow_code(expr) == 'tensorflow.linalg.matmul(M, N)'","tensorflow_code(expr) == 'tensorflow.math.multiply(M, N)'","tensorflow_code(expr) == 'tensorflow.linalg.matmul(tensorflow.linalg.matmul(tensorflow.linalg.matmul(M, N), P), Q)'","tensorflow_code(expr) == 'tensorflow.linalg.matmul(tensorflow.linalg.matmul(M, M), M)'","tensorflow_code(expr) == 'tensorflow.linalg.trace(M)'","tensorflow_code(expr) == 'tensorflow.linalg.det(M)'","tensorflow_code(expr) == 'tensorflow.linalg.inv(M)'","tensorflow_code(expr, tensorflow_version='1.14') == 'tensorflow.linalg.matrix_transpose(M)'","tensorflow_code(expr, tensorflow_version='1.13') == 'tensorflow.matrix_transpose(M)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_tensorflow_matrices():
     if not tf:
         skip("TensorFlow not installed")
@@ -492,16 +566,22 @@ def test_tensorflow_matrices():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_codegen_einsum(), test_codegen_einsum produces the expected output) over Any ║
+# ║ Path(test_codegen_einsum(), <unspecified:test_codegen_einsum>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_codegen_einsum : Any → {Any | (y == c).all()}         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da1fdb6c9e5f3bad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_tensorflow.test_codegen_einsum","kind":"function","src_hash":"851a77ee8454525b","in":{"base":"Any"},"out":{"base":"Any","pred":"(y == c).all()"},"spec":{"lhs":"test_codegen_einsum()","rhs":"test_codegen_einsum produces the expected output","over":{"base":"Any"},"name":"test_codegen_einsum_correct"},"guarantee":"test_codegen_einsum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_tensorflow.test_codegen_einsum_correct","statement":"Path(test_codegen_einsum(x), test_codegen_einsum produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da1fdb6c9e5f3bad"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_tensorflow.test_codegen_einsum","kind":"function","src_hash":"851a77ee8454525b","in":{"base":"Any"},"out":{"base":"Any","pred":"(y == c).all()"},"spec":{"lhs":"test_codegen_einsum()","rhs":"<unspecified:test_codegen_einsum>","over":{"base":"Any"},"name":"test_codegen_einsum_correct"},"guarantee":"test_codegen_einsum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_tensorflow.test_codegen_einsum_correct","statement":"Path(test_codegen_einsum(x), test_codegen_einsum produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da1fdb6c9e5f3bad","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_codegen_einsum():
     if not tf:
         skip("TensorFlow not installed")
@@ -524,16 +604,22 @@ def test_codegen_einsum():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_codegen_extra(), test_codegen_extra produces the expected output) over Any ║
+# ║ Path(test_codegen_extra(), <unspecified:test_codegen_extra>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_codegen_extra : Any → {Any | tensorflow_code(cg)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 60cde9380cbd52c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_tensorflow.test_codegen_extra","kind":"function","src_hash":"83972e196bcc1ee7","in":{"base":"Any"},"out":{"base":"Any","pred":"tensorflow_code(cg) == 'tensorflow.linalg.einsum(\"ab,cd\", M, N)' and (y == c).all() and tensorflow_code(cg) == 'tensorflow.math.add(M, N)' and (y == c).all() and tensorflow_code(cg) == 'tensorflow.math.add(tensorflow.math.add(M, N), P)' and (y == c).all() and (y == c).all() and tensorflow_code(cg) == 'tensorflow.transpose(M, [1, 0])' and (y == c).all() and (y == c).all() and tensorflow_code(cg) == 'tensorflow.linalg.einsum(\"ab,bc->acb\", M, N)' and (y == c).all()"},"spec":{"lhs":"test_codegen_extra()","rhs":"test_codegen_extra produces the expected output","over":{"base":"Any"},"name":"test_codegen_extra_correct"},"guarantee":"test_codegen_extra produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_tensorflow.test_codegen_extra_correct","statement":"Path(test_codegen_extra(x), test_codegen_extra produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60cde9380cbd52c2"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_tensorflow.test_codegen_extra","kind":"function","src_hash":"83972e196bcc1ee7","in":{"base":"Any"},"out":{"base":"Any","pred":"tensorflow_code(cg) == 'tensorflow.linalg.einsum(\"ab,cd\", M, N)' and (y == c).all() and tensorflow_code(cg) == 'tensorflow.math.add(M, N)' and (y == c).all() and tensorflow_code(cg) == 'tensorflow.math.add(tensorflow.math.add(M, N), P)' and (y == c).all() and (y == c).all() and tensorflow_code(cg) == 'tensorflow.transpose(M, [1, 0])' and (y == c).all() and (y == c).all() and tensorflow_code(cg) == 'tensorflow.linalg.einsum(\"ab,bc->acb\", M, N)' and (y == c).all()"},"spec":{"lhs":"test_codegen_extra()","rhs":"<unspecified:test_codegen_extra>","over":{"base":"Any"},"name":"test_codegen_extra_correct"},"guarantee":"test_codegen_extra produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_tensorflow.test_codegen_extra_correct","statement":"Path(test_codegen_extra(x), test_codegen_extra produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60cde9380cbd52c2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_codegen_extra():
     if not tf:
         skip("TensorFlow not installed")
@@ -609,16 +695,24 @@ def test_codegen_extra():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MatrixElement_printing(), test_MatrixElement_printing produces the expected output) over Any ║
+# ║ Path(test_MatrixElement_printing(), tensorflow_code(A[0, 0]) == 'A[0, 0]' and tensorflow_code(3 * A[0, 0]) == '3*A[0, 0]' and tensorflow_code(F) == '(tensorflow.math.add((-1)*B, A))[0, 0]') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_MatrixElement_printing : Any → {Any | tensorflow...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  tensorflow_code(A[0, 0]) == 'A[0, 0]'          ║
+# ║   ensures:  tensorflow_code(3 * A[0, 0]) == '3*A[0, 0]'    ║
+# ║   ensures:  tensorflow_code(F) == '(tensorflow.math.a...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_MatrixElement_printing : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5901d4437be840fd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2707ea24f4367de1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_tensorflow.test_MatrixElement_printing","kind":"function","src_hash":"84918cf96f0a9e54","in":{"base":"Any"},"out":{"base":"Any","pred":"tensorflow_code(A[0, 0]) == 'A[0, 0]' and tensorflow_code(3 * A[0, 0]) == '3*A[0, 0]' and tensorflow_code(F) == '(tensorflow.math.add((-1)*B, A))[0, 0]'"},"spec":{"lhs":"test_MatrixElement_printing()","rhs":"test_MatrixElement_printing produces the expected output","over":{"base":"Any"},"name":"test_MatrixElement_printing_correct"},"guarantee":"test_MatrixElement_printing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_tensorflow.test_MatrixElement_printing_correct","statement":"Path(test_MatrixElement_printing(x), test_MatrixElement_printing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5901d4437be840fd"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_tensorflow.test_MatrixElement_printing","kind":"function","src_hash":"84918cf96f0a9e54","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: tensorflow_code(A[0, 0]) == 'A[0, 0]' and tensorflow_code(3 * A[0, 0]) == '3*A[0, 0]' and tensorflow_code(F) == '(tensorflow.math.add((-1)*B, A))[0, 0]'"},"spec":{"lhs":"test_MatrixElement_printing()","rhs":"tensorflow_code(A[0, 0]) == 'A[0, 0]' and tensorflow_code(3 * A[0, 0]) == '3*A[0, 0]' and tensorflow_code(F) == '(tensorflow.math.add((-1)*B, A))[0, 0]'","over":{"base":"Any"},"name":"test_MatrixElement_printing_correct"},"guarantee":"tensorflow_code(A[0, 0]) == 'A[0, 0]'; tensorflow_code(3 * A[0, 0]) == '3*A[0, 0]'; tensorflow_code(F) == '(tensorflow.math.add((-1)*B, A))[0, 0]'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_tensorflow.test_MatrixElement_printing_correct","statement":"Path(test_MatrixElement_printing(x), tensorflow_code(A[0, 0]) == 'A[0, 0]'; tensorflow_code(3 * A[0, 0]) == '3*A[0, 0]'; tensorflow_code(F) == '(tensorflow.math.add((-1)*B, A))[0, 0]')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2707ea24f4367de1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["tensorflow_code(A[0, 0]) == 'A[0, 0]'","tensorflow_code(3 * A[0, 0]) == '3*A[0, 0]'","tensorflow_code(F) == '(tensorflow.math.add((-1)*B, A))[0, 0]'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_MatrixElement_printing():
     A = MatrixSymbol("A", 1, 3)
     B = MatrixSymbol("B", 1, 3)
@@ -632,32 +726,44 @@ def test_MatrixElement_printing():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tensorflow_Derivative(), test_tensorflow_Derivative produces the expected output) over Any ║
+# ║ Path(test_tensorflow_Derivative(), tensorflow_code(expr) == 'tensorflow.gradients(tensorflow.math.sin(x), x)[0]') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_tensorflow_Derivative : Any → {Any | tensorflow_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  tensorflow_code(expr) == 'tensorflow.grad...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_tensorflow_Derivative : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 099ef35591d502c6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f197d42b0c8d0453  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_tensorflow.test_tensorflow_Derivative","kind":"function","src_hash":"436f82d0e54f62ab","in":{"base":"Any"},"out":{"base":"Any","pred":"tensorflow_code(expr) == 'tensorflow.gradients(tensorflow.math.sin(x), x)[0]'"},"spec":{"lhs":"test_tensorflow_Derivative()","rhs":"test_tensorflow_Derivative produces the expected output","over":{"base":"Any"},"name":"test_tensorflow_Derivative_correct"},"guarantee":"test_tensorflow_Derivative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_tensorflow.test_tensorflow_Derivative_correct","statement":"Path(test_tensorflow_Derivative(x), test_tensorflow_Derivative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"099ef35591d502c6"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_tensorflow.test_tensorflow_Derivative","kind":"function","src_hash":"436f82d0e54f62ab","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: tensorflow_code(expr) == 'tensorflow.gradients(tensorflow.math.sin(x), x)[0]'"},"spec":{"lhs":"test_tensorflow_Derivative()","rhs":"tensorflow_code(expr) == 'tensorflow.gradients(tensorflow.math.sin(x), x)[0]'","over":{"base":"Any"},"name":"test_tensorflow_Derivative_correct"},"guarantee":"tensorflow_code(expr) == 'tensorflow.gradients(tensorflow.math.sin(x), x)[0]'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_tensorflow.test_tensorflow_Derivative_correct","statement":"Path(test_tensorflow_Derivative(x), tensorflow_code(expr) == 'tensorflow.gradients(tensorflow.math.sin(x), x)[0]')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f197d42b0c8d0453","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["tensorflow_code(expr) == 'tensorflow.gradients(tensorflow.math.sin(x), x)[0]'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_tensorflow_Derivative():
     expr = Derivative(sin(x), x)
     assert tensorflow_code(expr) == \
         "tensorflow.gradients(tensorflow.math.sin(x), x)[0]"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tensorflow_isnan_isinf(), test_tensorflow_isnan_isinf produces the expected output) over Any ║
+# ║ Path(test_tensorflow_isnan_isinf(), tensorflow_code(expression) == expected_printed_code) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_tensorflow_isnan_isinf : Any → {Any | tensorflow...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  tensorflow_code(expression) == expected_p...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_tensorflow_isnan_isinf : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6f25a21e131f12b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c0ec5fa520829ee0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_tensorflow.test_tensorflow_isnan_isinf","kind":"function","src_hash":"6fbf8ad8ede93b04","in":{"base":"Any"},"out":{"base":"Any","pred":"tensorflow_code(expression) == expected_printed_code and tensorflow_code(expression) == expected_printed_code and (_output == _expected).numpy().all() and (_output == _expected).numpy().all()"},"spec":{"lhs":"test_tensorflow_isnan_isinf()","rhs":"test_tensorflow_isnan_isinf produces the expected output","over":{"base":"Any"},"name":"test_tensorflow_isnan_isinf_correct"},"guarantee":"test_tensorflow_isnan_isinf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_tensorflow.test_tensorflow_isnan_isinf_correct","statement":"Path(test_tensorflow_isnan_isinf(x), test_tensorflow_isnan_isinf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6f25a21e131f12b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_tensorflow.test_tensorflow_isnan_isinf","kind":"function","src_hash":"6fbf8ad8ede93b04","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: tensorflow_code(expression) == expected_printed_code"},"spec":{"lhs":"test_tensorflow_isnan_isinf()","rhs":"tensorflow_code(expression) == expected_printed_code","over":{"base":"Any"},"name":"test_tensorflow_isnan_isinf_correct"},"guarantee":"tensorflow_code(expression) == expected_printed_code","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_tensorflow.test_tensorflow_isnan_isinf_correct","statement":"Path(test_tensorflow_isnan_isinf(x), tensorflow_code(expression) == expected_printed_code)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c0ec5fa520829ee0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["tensorflow_code(expression) == expected_printed_code"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_tensorflow_isnan_isinf():
     if not tf:
         skip("TensorFlow not installed")

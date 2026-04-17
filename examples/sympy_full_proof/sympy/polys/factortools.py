@@ -103,16 +103,23 @@ else:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_trial_division(f, ), determine multiplicities of factors for a univariate polynomial using trial division) over Any ║
+# ║ Path(dup_trial_division(f, factors, K), _sort_factors(result)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_trial_division : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(result) == old_len_result + 1              ║
+# ║   returns:  _sort_factors(result)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_trial_division : Any → {Any | result satisfies: r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9594a9979fa4570c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e4e2fa34d5b22244  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dup_trial_division","kind":"function","src_hash":"7341460d0370c2db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_trial_division(f, )","rhs":"determine multiplicities of factors for a univariate polynomial using trial division","over":{"base":"Any"},"name":"dup_trial_division_correct"},"guarantee":"determine multiplicities of factors for a univariate polynomial using trial division","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dup_trial_division_correct","statement":"Path(dup_trial_division(x), determine multiplicities of factors for a univariate polynomial using trial division)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9594a9979fa4570c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dup_trial_division","kind":"function","src_hash":"7341460d0370c2db","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (_sort_factors(result))"},"spec":{"lhs":"dup_trial_division(f, factors, K)","rhs":"_sort_factors(result)","over":{"base":"Any"},"name":"dup_trial_division_correct"},"guarantee":"returns _sort_factors(result); len(result) == old_len_result + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dup_trial_division_correct","statement":"Path(dup_trial_division(x), returns _sort_factors(result); len(result) == old_len_result + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4e2fa34d5b22244","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(result) == old_len_result + 1"],"returns_expr":"_sort_factors(result)","pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["result.append"],"raises":["RuntimeError"]},"state_contract":{"modifies":["result.*"],"old_bindings":{"old_len_result":"len(result)"},"post_ensures":["len(result) == old_len_result + 1"],"exceptional_post":{"RuntimeError":["isinstance(raised, RuntimeError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_trial_division(f, factors, K):
     """
     Determine multiplicities of factors for a univariate polynomial
@@ -142,16 +149,23 @@ def dup_trial_division(f, factors, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_trial_division(f, ), determine multiplicities of factors for a multivariate polynomial using trial division) over Any ║
+# ║ Path(dmp_trial_division(f, factors, u), _sort_factors(result)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_trial_division : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(result) == old_len_result + 1              ║
+# ║   returns:  _sort_factors(result)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_trial_division : Any → {Any | result satisfies: r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb6044ebfa5217bb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b76bafd405cc666  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dmp_trial_division","kind":"function","src_hash":"576b2e9e3accc388","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_trial_division(f, )","rhs":"determine multiplicities of factors for a multivariate polynomial using trial division","over":{"base":"Any"},"name":"dmp_trial_division_correct"},"guarantee":"determine multiplicities of factors for a multivariate polynomial using trial division","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dmp_trial_division_correct","statement":"Path(dmp_trial_division(x), determine multiplicities of factors for a multivariate polynomial using trial division)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb6044ebfa5217bb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dmp_trial_division","kind":"function","src_hash":"576b2e9e3accc388","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (_sort_factors(result))"},"spec":{"lhs":"dmp_trial_division(f, factors, u)","rhs":"_sort_factors(result)","over":{"base":"Any"},"name":"dmp_trial_division_correct"},"guarantee":"returns _sort_factors(result); len(result) == old_len_result + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dmp_trial_division_correct","statement":"Path(dmp_trial_division(x), returns _sort_factors(result); len(result) == old_len_result + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b76bafd405cc666","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(result) == old_len_result + 1"],"returns_expr":"_sort_factors(result)","pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["result.append"],"raises":["RuntimeError"]},"state_contract":{"modifies":["result.*"],"old_bindings":{"old_len_result":"len(result)"},"post_ensures":["len(result) == old_len_result + 1"],"exceptional_post":{"RuntimeError":["isinstance(raised, RuntimeError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dmp_trial_division(f, factors, u, K):
     """
     Determine multiplicities of factors for a multivariate polynomial
@@ -181,16 +195,24 @@ def dmp_trial_division(f, factors, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_zz_mignotte_bound(f, ), the knuth-cohen variant of mignotte bound for univariate polynomials in ``k[x]``) over Any ║
+# ║ Path(dup_zz_mignotte_bound(f, K), <unspecified:dup_zz_mignotte_bound>) over {Any | hasattr(K, 'sqrt') and hasattr(K, 'abs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_zz_mignotte_bound : Any → Any                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'sqrt')                             ║
+# ║   requires: hasattr(K, 'abs')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_zz_mignotte_bound : {Any | hasattr(K, 'sqrt') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d5dc102c72901e7a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dup_zz_mignotte_bound","kind":"function","src_hash":"026469c2f94b30d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_mignotte_bound(f, )","rhs":"the knuth-cohen variant of mignotte bound for univariate polynomials in ``k[x]``","over":{"base":"Any"},"name":"dup_zz_mignotte_bound_correct"},"guarantee":"the knuth-cohen variant of mignotte bound for univariate polynomials in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dup_zz_mignotte_bound_correct","statement":"Path(dup_zz_mignotte_bound(x), the knuth-cohen variant of mignotte bound for univariate polynomials in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5dc102c72901e7a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dup_zz_mignotte_bound","kind":"function","src_hash":"026469c2f94b30d2","in":{"base":"Any","pred":"hasattr(K, 'sqrt') and hasattr(K, 'abs')"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_mignotte_bound(f, K)","rhs":"<unspecified:dup_zz_mignotte_bound>","over":{"base":"Any","pred":"hasattr(K, 'sqrt') and hasattr(K, 'abs')"},"name":"dup_zz_mignotte_bound_correct"},"guarantee":"the knuth-cohen variant of mignotte bound for univariate polynomials in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dup_zz_mignotte_bound_correct","statement":"Path(dup_zz_mignotte_bound(x), the knuth-cohen variant of mignotte bound for univariate polynomials in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5dc102c72901e7a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'sqrt')","hasattr(K, 'abs')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.abs","K.sqrt"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def dup_zz_mignotte_bound(f, K):
     """
     The Knuth-Cohen variant of Mignotte bound for
@@ -252,16 +274,23 @@ def dup_zz_mignotte_bound(f, K):
     return bound
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_zz_mignotte_bound(f, ), id) over Any              ║
+# ║ Path(dmp_zz_mignotte_bound(f, u, K), id) over {Any | hasattr(K, 'sqrt')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_zz_mignotte_bound : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'sqrt')                             ║
+# ║   returns:  K.sqrt(K(n + 1)) * 2 ** n * a * b              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_zz_mignotte_bound : {Any | hasattr(K, 'sqrt')} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4f7eefc3b03486cf   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dmp_zz_mignotte_bound","kind":"function","src_hash":"0d1a946eb096ae61","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_mignotte_bound(f, )","rhs":"mignotte bound for multivariate polynomials in `k[x]`","over":{"base":"Any"},"name":"dmp_zz_mignotte_bound_correct","kind":"composition"},"guarantee":"mignotte bound for multivariate polynomials in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"K","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f7eefc3b03486cf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dmp_zz_mignotte_bound","kind":"function","src_hash":"0d1a946eb096ae61","in":{"base":"Any","pred":"hasattr(K, 'sqrt')"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_mignotte_bound(f, u, K)","rhs":"K.sqrt(K(n + 1)) * 2 ** n * a * b","over":{"base":"Any","pred":"hasattr(K, 'sqrt')"},"name":"dmp_zz_mignotte_bound_correct","kind":"composition"},"guarantee":"returns K.sqrt(K(n + 1)) * 2 ** n * a * b","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"K","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f7eefc3b03486cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'sqrt')"],"returns_expr":"K.sqrt(K(n + 1)) * 2 ** n * a * b","pure":false,"effects":{"effect_type":"reads_state","reads":["K.sqrt"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dmp_zz_mignotte_bound(f, u, K):
     """Mignotte bound for multivariate polynomials in `K[X]`. """
     a = dmp_max_norm(f, u, K)
@@ -272,16 +301,22 @@ def dmp_zz_mignotte_bound(f, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_zz_hensel_step(m, ), one step in hensel lifting in `z[x]`) over Any ║
+# ║ Path(dup_zz_hensel_step(m, f, g), (G, H, S, T)) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (G, H, S, T)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_zz_hensel_step : Any → {Any | result satisfies: :}     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | acea160df74e098f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 21534499ed1a8b03  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dup_zz_hensel_step","kind":"function","src_hash":"7ba317ae20aa5ab6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: :"},"spec":{"lhs":"dup_zz_hensel_step(m, )","rhs":"one step in hensel lifting in `z[x]`","over":{"base":"Any"},"name":"dup_zz_hensel_step_correct"},"guarantee":"one step in hensel lifting in `z[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dup_zz_hensel_step_correct","statement":"Path(dup_zz_hensel_step(x), one step in hensel lifting in `z[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"acea160df74e098f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dup_zz_hensel_step","kind":"function","src_hash":"7ba317ae20aa5ab6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: :"},"spec":{"lhs":"dup_zz_hensel_step(m, f, g)","rhs":"(G, H, S, T)","over":{"base":"Any"},"name":"dup_zz_hensel_step_correct"},"guarantee":"returns (G, H, S, T)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dup_zz_hensel_step_correct","statement":"Path(dup_zz_hensel_step(x), returns (G, H, S, T))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21534499ed1a8b03","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(G, H, S, T)","pure":false,"effects":{"effect_type":"reads_state","reads":["K.one"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def dup_zz_hensel_step(m, f, g, h, s, t, K):
     """
     One step in Hensel lifting in `Z[x]`.
@@ -340,16 +375,23 @@ def dup_zz_hensel_step(m, f, g, h, s, t, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_zz_hensel_lift(p, ), multifactor hensel lifting in `z[x]`) over Any ║
+# ║ Path(dup_zz_hensel_lift(p, f, f_list), # HINT: dup_zz_hensel_lift may be idempotent: dup_zz_hensel_lift(dup_zz_hensel_lift(x)) == dup_zz_hensel_lift(x)) over {Any | hasattr(K, 'gcdex')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_zz_hensel_lift : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'gcdex')                            ║
+# ║   ensures:  # HINT: dup_zz_hensel_lift may be idempot...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_zz_hensel_lift : {Any | hasattr(K, 'gcdex')} → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0152e4dbe389eab  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 457a5e2225589dac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dup_zz_hensel_lift","kind":"function","src_hash":"cf82ff3ed0052192","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_hensel_lift(p, )","rhs":"multifactor hensel lifting in `z[x]`","over":{"base":"Any"},"name":"dup_zz_hensel_lift_correct"},"guarantee":"multifactor hensel lifting in `z[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dup_zz_hensel_lift_correct","statement":"Path(dup_zz_hensel_lift(x), multifactor hensel lifting in `z[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0152e4dbe389eab"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dup_zz_hensel_lift","kind":"function","src_hash":"cf82ff3ed0052192","in":{"base":"Any","pred":"hasattr(K, 'gcdex')"},"out":{"base":"Any","pred":"result satisfies: # HINT: dup_zz_hensel_lift may be idempotent: dup_zz_hensel_lift(dup_zz_hensel_lift(x)) == dup_zz_hensel_lift(x)"},"spec":{"lhs":"dup_zz_hensel_lift(p, f, f_list)","rhs":"# HINT: dup_zz_hensel_lift may be idempotent: dup_zz_hensel_lift(dup_zz_hensel_lift(x)) == dup_zz_hensel_lift(x)","over":{"base":"Any","pred":"hasattr(K, 'gcdex')"},"name":"dup_zz_hensel_lift_correct"},"guarantee":"# HINT: dup_zz_hensel_lift may be idempotent: dup_zz_hensel_lift(dup_zz_hensel_lift(x)) == dup_zz_hensel_lift(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dup_zz_hensel_lift_correct","statement":"Path(dup_zz_hensel_lift(x), # HINT: dup_zz_hensel_lift may be idempotent: dup_zz_hensel_lift(dup_zz_hensel_lift(x)) == dup_zz_hensel_lift(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"457a5e2225589dac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'gcdex')"],"ensures":["# HINT: dup_zz_hensel_lift may be idempotent: dup_zz_hensel_lift(dup_zz_hensel_lift(x)) == dup_zz_hensel_lift(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.gcdex"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def dup_zz_hensel_lift(p, f, f_list, l, K):
     r"""
     Multifactor Hensel lifting in `Z[x]`.
@@ -408,16 +450,22 @@ def dup_zz_hensel_lift(p, f, f_list, l, K):
         + dup_zz_hensel_lift(p, h, f_list[k:], l, K)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_test_pl(fc,), internal helper behaves correctly) over Any ║
+# ║ Path(_test_pl(fc, q, pl), <unspecified:_test_pl>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _test_pl : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e3c2117ca6979e65  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.factortools._test_pl","kind":"function","src_hash":"af34f2d362d9ea89","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_test_pl(fc,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_test_pl_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools._test_pl_correct","statement":"Path(_test_pl(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3c2117ca6979e65"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.factortools._test_pl","kind":"function","src_hash":"af34f2d362d9ea89","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_test_pl(fc, q, pl)","rhs":"<unspecified:_test_pl>","over":{"base":"Any"},"name":"_test_pl_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools._test_pl_correct","statement":"Path(_test_pl(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3c2117ca6979e65","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _test_pl(fc, q, pl):
     if q > pl // 2:
         q = q - pl
@@ -426,16 +474,24 @@ def _test_pl(fc, q, pl):
     return fc % q == 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_zz_zassenhaus(f, ), factor primitive square-free polynomials in `z[x]`) over Any ║
+# ║ Path(dup_zz_zassenhaus(f, K), <unspecified:dup_zz_zassenhaus>) over {Any | hasattr(K, 'convert') and hasattr(K, 'sqrt')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_zz_zassenhaus : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'convert')                          ║
+# ║   requires: hasattr(K, 'sqrt')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_zz_zassenhaus : {Any | hasattr(K, 'convert') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e1b188d7ddca7bc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dup_zz_zassenhaus","kind":"function","src_hash":"f6d6a82db44a338b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_zassenhaus(f, )","rhs":"factor primitive square-free polynomials in `z[x]`","over":{"base":"Any"},"name":"dup_zz_zassenhaus_correct"},"guarantee":"factor primitive square-free polynomials in `z[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dup_zz_zassenhaus_correct","statement":"Path(dup_zz_zassenhaus(x), factor primitive square-free polynomials in `z[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e1b188d7ddca7bc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dup_zz_zassenhaus","kind":"function","src_hash":"f6d6a82db44a338b","in":{"base":"Any","pred":"hasattr(K, 'convert') and hasattr(K, 'sqrt')"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_zassenhaus(f, K)","rhs":"<unspecified:dup_zz_zassenhaus>","over":{"base":"Any","pred":"hasattr(K, 'convert') and hasattr(K, 'sqrt')"},"name":"dup_zz_zassenhaus_correct"},"guarantee":"factor primitive square-free polynomials in `z[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dup_zz_zassenhaus_correct","statement":"Path(dup_zz_zassenhaus(x), factor primitive square-free polynomials in `z[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e1b188d7ddca7bc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'convert')","hasattr(K, 'sqrt')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def dup_zz_zassenhaus(f, K):
     """Factor primitive square-free polynomials in `Z[x]`. """
     n = dup_degree(f)
@@ -542,16 +598,22 @@ def dup_zz_zassenhaus(f, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_zz_irreducible_p(f, ), test irreducibility using eisenstein's criterion) over Any ║
+# ║ Path(dup_zz_irreducible_p(f, K), True) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_zz_irreducible_p : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa3c208ffc82c616  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e1325274250b7c8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dup_zz_irreducible_p","kind":"function","src_hash":"fe073960062def14","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_irreducible_p(f, )","rhs":"test irreducibility using eisenstein's criterion","over":{"base":"Any"},"name":"dup_zz_irreducible_p_correct"},"guarantee":"test irreducibility using eisenstein's criterion","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dup_zz_irreducible_p_correct","statement":"Path(dup_zz_irreducible_p(x), test irreducibility using eisenstein's criterion)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa3c208ffc82c616"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dup_zz_irreducible_p","kind":"function","src_hash":"fe073960062def14","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_irreducible_p(f, K)","rhs":"True","over":{"base":"Any"},"name":"dup_zz_irreducible_p_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dup_zz_irreducible_p_correct","statement":"Path(dup_zz_irreducible_p(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e1325274250b7c8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_zz_irreducible_p(f, K):
     """Test irreducibility using Eisenstein's criterion. """
     lc = dup_LC(f, K)
@@ -569,16 +631,26 @@ def dup_zz_irreducible_p(f, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_cyclotomic_p(f, ), efficiently test if ``f`` is a cyclotomic polynomial) over Any ║
+# ║ Path(dup_cyclotomic_p(f, K, irreducible), <unspecified:dup_cyclotomic_p>) over {Any | hasattr(K, 'is_QQ') and hasattr(K, 'is_negative') and hasattr(K, 'is_ZZ') and hasattr(K, 'one') and hasattr(K, 'get_ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_cyclotomic_p : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'is_QQ')                            ║
+# ║   requires: hasattr(K, 'is_negative')                      ║
+# ║   requires: hasattr(K, 'is_ZZ')                            ║
+# ║   fiber[case_0]: K.is_QQ                                   ║
+# ║   fiber[case_1]: not K.is_ZZ => False                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_cyclotomic_p : {Any | hasattr(K, 'is_QQ') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d2554225dbf277fc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dedb4ba7d7ee307d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dup_cyclotomic_p","kind":"function","src_hash":"546cc764388f6826","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_cyclotomic_p(f, )","rhs":"efficiently test if ``f`` is a cyclotomic polynomial","over":{"base":"Any"},"name":"dup_cyclotomic_p_correct"},"guarantee":"efficiently test if ``f`` is a cyclotomic polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dup_cyclotomic_p_correct","statement":"Path(dup_cyclotomic_p(x), efficiently test if ``f`` is a cyclotomic polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d2554225dbf277fc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dup_cyclotomic_p","kind":"function","src_hash":"546cc764388f6826","in":{"base":"Any","pred":"hasattr(K, 'is_QQ') and hasattr(K, 'is_negative') and hasattr(K, 'is_ZZ') and hasattr(K, 'one') and hasattr(K, 'get_ring')"},"out":{"base":"Any"},"spec":{"lhs":"dup_cyclotomic_p(f, K, irreducible)","rhs":"<unspecified:dup_cyclotomic_p>","over":{"base":"Any","pred":"hasattr(K, 'is_QQ') and hasattr(K, 'is_negative') and hasattr(K, 'is_ZZ') and hasattr(K, 'one') and hasattr(K, 'get_ring')"},"name":"dup_cyclotomic_p_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dup_cyclotomic_p_correct","statement":"Path(dup_cyclotomic_p(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dedb4ba7d7ee307d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'is_QQ')","hasattr(K, 'is_negative')","hasattr(K, 'is_ZZ')","hasattr(K, 'one')","hasattr(K, 'get_ring')"],"fibers":[{"name":"case_0","guard":"K.is_QQ","ensures":[],"decidability":"library"},{"name":"case_1","guard":"not K.is_ZZ","ensures":["result == False"],"decidability":"library","returns_expr":"False"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def dup_cyclotomic_p(f, K, irreducible=False):
     """
     Efficiently test if ``f`` is a cyclotomic polynomial.
@@ -663,16 +735,23 @@ def dup_cyclotomic_p(f, K, irreducible=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_zz_cyclotomic_poly(n, ), efficiently generate n-th cyclotomic polynomial) over Any ║
+# ║ Path(dup_zz_cyclotomic_poly(n, K), <unspecified:dup_zz_cyclotomic_poly>) over {Any | hasattr(K, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_zz_cyclotomic_poly : Any → Any                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_zz_cyclotomic_poly : {Any | hasattr(K, 'one')} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81a23ab350400f89  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dup_zz_cyclotomic_poly","kind":"function","src_hash":"4e92bdc60bde6eaa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_cyclotomic_poly(n, )","rhs":"efficiently generate n-th cyclotomic polynomial","over":{"base":"Any"},"name":"dup_zz_cyclotomic_poly_correct"},"guarantee":"efficiently generate n-th cyclotomic polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dup_zz_cyclotomic_poly_correct","statement":"Path(dup_zz_cyclotomic_poly(x), efficiently generate n-th cyclotomic polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81a23ab350400f89"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dup_zz_cyclotomic_poly","kind":"function","src_hash":"4e92bdc60bde6eaa","in":{"base":"Any","pred":"hasattr(K, 'one')"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_cyclotomic_poly(n, K)","rhs":"<unspecified:dup_zz_cyclotomic_poly>","over":{"base":"Any","pred":"hasattr(K, 'one')"},"name":"dup_zz_cyclotomic_poly_correct"},"guarantee":"efficiently generate n-th cyclotomic polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dup_zz_cyclotomic_poly_correct","statement":"Path(dup_zz_cyclotomic_poly(x), efficiently generate n-th cyclotomic polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81a23ab350400f89","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'one')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.one"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_zz_cyclotomic_poly(n, K):
     """Efficiently generate n-th cyclotomic polynomial. """
     from sympy.ntheory import factorint
@@ -686,16 +765,23 @@ def dup_zz_cyclotomic_poly(n, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dup_cyclotomic_decompose(n, ), internal helper behaves correctly) over Any ║
+# ║ Path(_dup_cyclotomic_decompose(n, K), <unspecified:_dup_cyclotomic_decompose>) over {Any | hasattr(K, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _dup_cyclotomic_decompose : Any → Any                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _dup_cyclotomic_decompose : {Any | hasattr(K, 'one')}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d5eda5e9084d53d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.factortools._dup_cyclotomic_decompose","kind":"function","src_hash":"9be196af282d6a90","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dup_cyclotomic_decompose(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_dup_cyclotomic_decompose_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools._dup_cyclotomic_decompose_correct","statement":"Path(_dup_cyclotomic_decompose(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d5eda5e9084d53d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.factortools._dup_cyclotomic_decompose","kind":"function","src_hash":"9be196af282d6a90","in":{"base":"Any","pred":"hasattr(K, 'one')"},"out":{"base":"Any"},"spec":{"lhs":"_dup_cyclotomic_decompose(n, K)","rhs":"<unspecified:_dup_cyclotomic_decompose>","over":{"base":"Any","pred":"hasattr(K, 'one')"},"name":"_dup_cyclotomic_decompose_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools._dup_cyclotomic_decompose_correct","statement":"Path(_dup_cyclotomic_decompose(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d5eda5e9084d53d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'one')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _dup_cyclotomic_decompose(n, K):
     from sympy.ntheory import factorint
 
@@ -713,16 +799,23 @@ def _dup_cyclotomic_decompose(n, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_zz_cyclotomic_factor(f, ), efficiently factor polynomials `x**n - 1` and `x**n + 1` in `z[x]`) over Any ║
+# ║ Path(dup_zz_cyclotomic_factor(f, K), <unspecified:dup_zz_cyclotomic_factor>) over {Any | hasattr(K, 'is_one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_zz_cyclotomic_factor : Any → Any                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'is_one')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_zz_cyclotomic_factor : {Any | hasattr(K, 'is_one'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 85a44be9acf215ea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dup_zz_cyclotomic_factor","kind":"function","src_hash":"9a73d4015ca5f775","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_cyclotomic_factor(f, )","rhs":"efficiently factor polynomials `x**n - 1` and `x**n + 1` in `z[x]`","over":{"base":"Any"},"name":"dup_zz_cyclotomic_factor_correct"},"guarantee":"efficiently factor polynomials `x**n - 1` and `x**n + 1` in `z[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dup_zz_cyclotomic_factor_correct","statement":"Path(dup_zz_cyclotomic_factor(x), efficiently factor polynomials `x**n - 1` and `x**n + 1` in `z[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85a44be9acf215ea"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dup_zz_cyclotomic_factor","kind":"function","src_hash":"9a73d4015ca5f775","in":{"base":"Any","pred":"hasattr(K, 'is_one')"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_cyclotomic_factor(f, K)","rhs":"<unspecified:dup_zz_cyclotomic_factor>","over":{"base":"Any","pred":"hasattr(K, 'is_one')"},"name":"dup_zz_cyclotomic_factor_correct"},"guarantee":"efficiently factor polynomials `x**n - 1` and `x**n + 1` in `z[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dup_zz_cyclotomic_factor_correct","statement":"Path(dup_zz_cyclotomic_factor(x), efficiently factor polynomials `x**n - 1` and `x**n + 1` in `z[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85a44be9acf215ea","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'is_one')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def dup_zz_cyclotomic_factor(f, K):
     """
     Efficiently factor polynomials `x**n - 1` and `x**n + 1` in `Z[x]`.
@@ -768,16 +861,22 @@ def dup_zz_cyclotomic_factor(f, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_zz_factor_sqf(f, ), factor square-free (non-primitive) polynomials in `z[x]`) over Any ║
+# ║ Path(dup_zz_factor_sqf(f, K), <unspecified:dup_zz_factor_sqf>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_zz_factor_sqf : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 873344f7e85f7711  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dup_zz_factor_sqf","kind":"function","src_hash":"12d338d644510d3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_factor_sqf(f, )","rhs":"factor square-free (non-primitive) polynomials in `z[x]`","over":{"base":"Any"},"name":"dup_zz_factor_sqf_correct"},"guarantee":"factor square-free (non-primitive) polynomials in `z[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dup_zz_factor_sqf_correct","statement":"Path(dup_zz_factor_sqf(x), factor square-free (non-primitive) polynomials in `z[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"873344f7e85f7711"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dup_zz_factor_sqf","kind":"function","src_hash":"12d338d644510d3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_factor_sqf(f, K)","rhs":"<unspecified:dup_zz_factor_sqf>","over":{"base":"Any"},"name":"dup_zz_factor_sqf_correct"},"guarantee":"factor square-free (non-primitive) polynomials in `z[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dup_zz_factor_sqf_correct","statement":"Path(dup_zz_factor_sqf(x), factor square-free (non-primitive) polynomials in `z[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"873344f7e85f7711","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def dup_zz_factor_sqf(f, K):
     """Factor square-free (non-primitive) polynomials in `Z[x]`. """
     cont, g = dup_primitive(f, K)
@@ -808,16 +907,22 @@ def dup_zz_factor_sqf(f, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_zz_factor(f, ), factor (non square-free) polynomials in `z[x]`) over Any ║
+# ║ Path(dup_zz_factor(f, K), <unspecified:dup_zz_factor>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_zz_factor : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81b2a20614398553  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dup_zz_factor","kind":"function","src_hash":"851cc2fdac400ca0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_factor(f, )","rhs":"factor (non square-free) polynomials in `z[x]`","over":{"base":"Any"},"name":"dup_zz_factor_correct"},"guarantee":"factor (non square-free) polynomials in `z[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dup_zz_factor_correct","statement":"Path(dup_zz_factor(x), factor (non square-free) polynomials in `z[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81b2a20614398553"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dup_zz_factor","kind":"function","src_hash":"851cc2fdac400ca0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_factor(f, K)","rhs":"<unspecified:dup_zz_factor>","over":{"base":"Any"},"name":"dup_zz_factor_correct"},"guarantee":"factor (non square-free) polynomials in `z[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dup_zz_factor_correct","statement":"Path(dup_zz_factor(x), factor (non square-free) polynomials in `z[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81b2a20614398553","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def dup_zz_factor(f, K):
     """
     Factor (non square-free) polynomials in `Z[x]`.
@@ -903,16 +1008,24 @@ def dup_zz_factor(f, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_zz_wang_non_divisors(E, ), wang/eez: compute a set of valid divisors) over Any ║
+# ║ Path(dmp_zz_wang_non_divisors(E, cs, ct), <unspecified:dmp_zz_wang_non_divisors>) over {Any | hasattr(K, 'is_one') and hasattr(K, 'gcd')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_zz_wang_non_divisors : Any → Any                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'is_one')                           ║
+# ║   requires: hasattr(K, 'gcd')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_zz_wang_non_divisors : {Any | hasattr(K, 'is_one'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 140e88c7dfb6d92a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dmp_zz_wang_non_divisors","kind":"function","src_hash":"ee5f5bdad6930795","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_wang_non_divisors(E, )","rhs":"wang/eez: compute a set of valid divisors","over":{"base":"Any"},"name":"dmp_zz_wang_non_divisors_correct"},"guarantee":"wang/eez: compute a set of valid divisors","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dmp_zz_wang_non_divisors_correct","statement":"Path(dmp_zz_wang_non_divisors(x), wang/eez: compute a set of valid divisors)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"140e88c7dfb6d92a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dmp_zz_wang_non_divisors","kind":"function","src_hash":"ee5f5bdad6930795","in":{"base":"Any","pred":"hasattr(K, 'is_one') and hasattr(K, 'gcd')"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_wang_non_divisors(E, cs, ct)","rhs":"<unspecified:dmp_zz_wang_non_divisors>","over":{"base":"Any","pred":"hasattr(K, 'is_one') and hasattr(K, 'gcd')"},"name":"dmp_zz_wang_non_divisors_correct"},"guarantee":"wang/eez: compute a set of valid divisors","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dmp_zz_wang_non_divisors_correct","statement":"Path(dmp_zz_wang_non_divisors(x), wang/eez: compute a set of valid divisors)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"140e88c7dfb6d92a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'is_one')","hasattr(K, 'gcd')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dmp_zz_wang_non_divisors(E, cs, ct, K):
     """Wang/EEZ: Compute a set of valid divisors.  """
     result = [ cs*ct ]
@@ -934,16 +1047,24 @@ def dmp_zz_wang_non_divisors(E, cs, ct, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_zz_wang_test_points(f, ), wang/eez: test evaluation points for suitability) over Any ║
+# ║ Path(dmp_zz_wang_test_points(f, T, ct), (c, h, E)) over {Any | dmp_eval_tail(dmp_LC(f, K), A, u - 1, K) and dup_sqf_p(g, K)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_zz_wang_test_points : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: dmp_eval_tail(dmp_LC(f, K), A, u - 1, K)       ║
+# ║   requires: dup_sqf_p(g, K)                                ║
+# ║   returns:  (c, h, E)                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_zz_wang_test_points : {Any | dmp_eval_tail(dmp_LC...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99434806269a7555  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f89ca04d5910603  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dmp_zz_wang_test_points","kind":"function","src_hash":"8939107ca50b3eab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_wang_test_points(f, )","rhs":"wang/eez: test evaluation points for suitability","over":{"base":"Any"},"name":"dmp_zz_wang_test_points_correct"},"guarantee":"wang/eez: test evaluation points for suitability","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dmp_zz_wang_test_points_correct","statement":"Path(dmp_zz_wang_test_points(x), wang/eez: test evaluation points for suitability)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99434806269a7555"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dmp_zz_wang_test_points","kind":"function","src_hash":"8939107ca50b3eab","in":{"base":"Any","pred":"dmp_eval_tail(dmp_LC(f, K), A, u - 1, K) and dup_sqf_p(g, K)"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_wang_test_points(f, T, ct)","rhs":"(c, h, E)","over":{"base":"Any","pred":"dmp_eval_tail(dmp_LC(f, K), A, u - 1, K) and dup_sqf_p(g, K)"},"name":"dmp_zz_wang_test_points_correct"},"guarantee":"returns (c, h, E)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dmp_zz_wang_test_points_correct","statement":"Path(dmp_zz_wang_test_points(x), returns (c, h, E))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f89ca04d5910603","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["dmp_eval_tail(dmp_LC(f, K), A, u - 1, K)","dup_sqf_p(g, K)"],"returns_expr":"(c, h, E)","pure":false,"effects":{"effect_type":"reads_state","reads":["K.is_negative"],"raises":["EvaluationFailed"]},"state_contract":{"exceptional_post":{"EvaluationFailed":["isinstance(raised, EvaluationFailed)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def dmp_zz_wang_test_points(f, T, ct, A, u, K):
     """Wang/EEZ: Test evaluation points for suitability. """
     if not dmp_eval_tail(dmp_LC(f, K), A, u - 1, K):
@@ -971,16 +1092,25 @@ def dmp_zz_wang_test_points(f, T, ct, A, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_zz_wang_lead_coeffs(f, ), wang/eez: compute correct leading coefficients) over Any ║
+# ║ Path(dmp_zz_wang_lead_coeffs(f, T, cs), len(C) == old_len_C + 1 and len(CC) == old_len_CC + 1 and len(CCC) == old_len_CCC + 1 and len(HH) == old_len_HH + 1 and len(HHH) == old_len_HHH + 1) over {Any | all(J)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_zz_wang_lead_coeffs : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: all(J)                                         ║
+# ║   ensures:  len(C) == old_len_C + 1                        ║
+# ║   ensures:  len(CC) == old_len_CC + 1                      ║
+# ║   ensures:  len(CCC) == old_len_CCC + 1                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_zz_wang_lead_coeffs : {Any | all(J)} → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 278d455ffbcd07b5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 39dd2a41526f6089  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dmp_zz_wang_lead_coeffs","kind":"function","src_hash":"ed1f295569bea29e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_wang_lead_coeffs(f, )","rhs":"wang/eez: compute correct leading coefficients","over":{"base":"Any"},"name":"dmp_zz_wang_lead_coeffs_correct"},"guarantee":"wang/eez: compute correct leading coefficients","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dmp_zz_wang_lead_coeffs_correct","statement":"Path(dmp_zz_wang_lead_coeffs(x), wang/eez: compute correct leading coefficients)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"278d455ffbcd07b5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dmp_zz_wang_lead_coeffs","kind":"function","src_hash":"ed1f295569bea29e","in":{"base":"Any","pred":"all(J)"},"out":{"base":"Any","pred":"result satisfies: len(C) == old_len_C + 1 and len(CC) == old_len_CC + 1 and len(CCC) == old_len_CCC + 1 and len(HH) == old_len_HH + 1 and len(HHH) == old_len_HHH + 1"},"spec":{"lhs":"dmp_zz_wang_lead_coeffs(f, T, cs)","rhs":"len(C) == old_len_C + 1 and len(CC) == old_len_CC + 1 and len(CCC) == old_len_CCC + 1 and len(HH) == old_len_HH + 1 and len(HHH) == old_len_HHH + 1","over":{"base":"Any","pred":"all(J)"},"name":"dmp_zz_wang_lead_coeffs_correct"},"guarantee":"len(C) == old_len_C + 1; len(CC) == old_len_CC + 1; len(CCC) == old_len_CCC + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dmp_zz_wang_lead_coeffs_correct","statement":"Path(dmp_zz_wang_lead_coeffs(x), len(C) == old_len_C + 1; len(CC) == old_len_CC + 1; len(CCC) == old_len_CCC + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39dd2a41526f6089","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["all(J)"],"ensures":["len(C) == old_len_C + 1","len(CC) == old_len_CC + 1","len(CCC) == old_len_CCC + 1","len(HH) == old_len_HH + 1","len(HHH) == old_len_HHH + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.gcd","K.is_one"],"calls_mutating":["C.append","CC.append","CCC.append","HH.append","HHH.append"],"raises":["ExtraneousFactors"]},"state_contract":{"modifies":["C.*","CC.*","CCC.*","HH.*","HHH.*"],"old_bindings":{"old_len_C":"len(C)","old_len_CC":"len(CC)","old_len_CCC":"len(CCC)","old_len_HH":"len(HH)","old_len_HHH":"len(HHH)"},"post_ensures":["len(C) == old_len_C + 1","len(CC) == old_len_CC + 1","len(CCC) == old_len_CCC + 1","len(HH) == old_len_HH + 1","len(HHH) == old_len_HHH + 1"],"exceptional_post":{"ExtraneousFactors":["isinstance(raised, ExtraneousFactors)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def dmp_zz_wang_lead_coeffs(f, T, cs, E, H, A, u, K):
     """Wang/EEZ: Compute correct leading coefficients. """
     C, J, v = [], [0]*len(E), u - 1
@@ -1036,16 +1166,22 @@ def dmp_zz_wang_lead_coeffs(f, T, cs, E, H, A, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_zz_diophantine(F, ), wang/eez: solve univariate diophantine equations) over Any ║
+# ║ Path(dup_zz_diophantine(F, m, p), <unspecified:dup_zz_diophantine>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_zz_diophantine : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5cf5de85ac79f8af  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dup_zz_diophantine","kind":"function","src_hash":"c52e0e925bbaeee6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_diophantine(F, )","rhs":"wang/eez: solve univariate diophantine equations","over":{"base":"Any"},"name":"dup_zz_diophantine_correct"},"guarantee":"wang/eez: solve univariate diophantine equations","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dup_zz_diophantine_correct","statement":"Path(dup_zz_diophantine(x), wang/eez: solve univariate diophantine equations)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5cf5de85ac79f8af"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dup_zz_diophantine","kind":"function","src_hash":"c52e0e925bbaeee6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_diophantine(F, m, p)","rhs":"<unspecified:dup_zz_diophantine>","over":{"base":"Any"},"name":"dup_zz_diophantine_correct"},"guarantee":"wang/eez: solve univariate diophantine equations","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dup_zz_diophantine_correct","statement":"Path(dup_zz_diophantine(x), wang/eez: solve univariate diophantine equations)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5cf5de85ac79f8af","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def dup_zz_diophantine(F, m, p, K):
     """Wang/EEZ: Solve univariate Diophantine equations. """
     if len(F) == 2:
@@ -1095,16 +1231,22 @@ def dup_zz_diophantine(F, m, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_zz_diophantine(F, ), wang/eez: solve multivariate diophantine equations) over Any ║
+# ║ Path(dmp_zz_diophantine(F, c, A), # HINT: dmp_zz_diophantine may be idempotent: dmp_zz_diophantine(dmp_zz_diophantine(x)) == dmp_zz_diophantine(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_zz_diophantine : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: dmp_zz_diophantine may be idempot...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_zz_diophantine : Any → {Any | result satisfies: #...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b285e652d73133e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de3192ceec84cb5a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dmp_zz_diophantine","kind":"function","src_hash":"d3d26ad76e7f60c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_diophantine(F, )","rhs":"wang/eez: solve multivariate diophantine equations","over":{"base":"Any"},"name":"dmp_zz_diophantine_correct"},"guarantee":"wang/eez: solve multivariate diophantine equations","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dmp_zz_diophantine_correct","statement":"Path(dmp_zz_diophantine(x), wang/eez: solve multivariate diophantine equations)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b285e652d73133e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dmp_zz_diophantine","kind":"function","src_hash":"d3d26ad76e7f60c1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: dmp_zz_diophantine may be idempotent: dmp_zz_diophantine(dmp_zz_diophantine(x)) == dmp_zz_diophantine(x)"},"spec":{"lhs":"dmp_zz_diophantine(F, c, A)","rhs":"# HINT: dmp_zz_diophantine may be idempotent: dmp_zz_diophantine(dmp_zz_diophantine(x)) == dmp_zz_diophantine(x)","over":{"base":"Any"},"name":"dmp_zz_diophantine_correct"},"guarantee":"# HINT: dmp_zz_diophantine may be idempotent: dmp_zz_diophantine(dmp_zz_diophantine(x)) == dmp_zz_diophantine(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dmp_zz_diophantine_correct","statement":"Path(dmp_zz_diophantine(x), # HINT: dmp_zz_diophantine may be idempotent: dmp_zz_diophantine(dmp_zz_diophantine(x)) == dmp_zz_diophantine(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de3192ceec84cb5a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: dmp_zz_diophantine may be idempotent: dmp_zz_diophantine(dmp_zz_diophantine(x)) == dmp_zz_diophantine(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def dmp_zz_diophantine(F, c, A, d, p, u, K):
     """Wang/EEZ: Solve multivariate Diophantine equations. """
     if not A:
@@ -1174,16 +1316,23 @@ def dmp_zz_diophantine(F, c, A, d, p, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_zz_wang_hensel_lifting(f, ), wang/eez: parallel hensel lifting algorithm) over Any ║
+# ║ Path(dmp_zz_wang_hensel_lifting(f, H, LC), <unspecified:dmp_zz_wang_hensel_lifting>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: dmp_expand(H, u, K) != f                  ║
+# ║   fiber[case_1]: not (dmp_expand(H, u, K) != f) => H       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_zz_wang_hensel_lifting : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bf36d5ee1d838c4e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3504cd77508df75d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dmp_zz_wang_hensel_lifting","kind":"function","src_hash":"b678dcfc0c17503c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_wang_hensel_lifting(f, )","rhs":"wang/eez: parallel hensel lifting algorithm","over":{"base":"Any"},"name":"dmp_zz_wang_hensel_lifting_correct"},"guarantee":"wang/eez: parallel hensel lifting algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dmp_zz_wang_hensel_lifting_correct","statement":"Path(dmp_zz_wang_hensel_lifting(x), wang/eez: parallel hensel lifting algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf36d5ee1d838c4e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dmp_zz_wang_hensel_lifting","kind":"function","src_hash":"b678dcfc0c17503c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_wang_hensel_lifting(f, H, LC)","rhs":"<unspecified:dmp_zz_wang_hensel_lifting>","over":{"base":"Any"},"name":"dmp_zz_wang_hensel_lifting_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dmp_zz_wang_hensel_lifting_correct","statement":"Path(dmp_zz_wang_hensel_lifting(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3504cd77508df75d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"dmp_expand(H, u, K) != f","ensures":[],"decidability":"z3"},{"name":"case_1","guard":"not (dmp_expand(H, u, K) != f)","ensures":["result == H"],"decidability":"z3","returns_expr":"H"}],"pure":false,"effects":{"effect_type":"mutates_args","reads":["K.factorial","K.one"],"writes":["H[*]"],"calls_mutating":["S.insert"],"raises":["ExtraneousFactors"]},"state_contract":{"modifies":["H[*]","S.*"],"old_bindings":{"old_H_star":"H[*]"},"exceptional_post":{"ExtraneousFactors":["isinstance(raised, ExtraneousFactors)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def dmp_zz_wang_hensel_lifting(f, H, LC, A, p, u, K):
     """Wang/EEZ: Parallel Hensel lifting algorithm. """
     S, n, v = [f], len(A), u - 1
@@ -1237,16 +1386,25 @@ def dmp_zz_wang_hensel_lifting(f, H, LC, A, p, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_zz_wang(f, ), factor primitive square-free polynomials in `z[x]`) over Any ║
+# ║ Path(dmp_zz_wang(f, u, K), len(configs) == old_len_configs + 1 and len(result) == old_len_result + 1) over {Any | hasattr(K, 'is_negative') and hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_zz_wang : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'is_negative')                      ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   ensures:  len(configs) == old_len_configs + 1            ║
+# ║   ensures:  len(result) == old_len_result + 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_zz_wang : {Any | hasattr(K, 'is_negative') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 36404da246b45913  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c12eb93b7449d664  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dmp_zz_wang","kind":"function","src_hash":"e5c9eee63e5691f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_wang(f, )","rhs":"factor primitive square-free polynomials in `z[x]`","over":{"base":"Any"},"name":"dmp_zz_wang_correct"},"guarantee":"factor primitive square-free polynomials in `z[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dmp_zz_wang_correct","statement":"Path(dmp_zz_wang(x), factor primitive square-free polynomials in `z[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36404da246b45913"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dmp_zz_wang","kind":"function","src_hash":"e5c9eee63e5691f4","in":{"base":"Any","pred":"hasattr(K, 'is_negative') and hasattr(K, 'zero')"},"out":{"base":"Any","pred":"result satisfies: len(configs) == old_len_configs + 1 and len(result) == old_len_result + 1"},"spec":{"lhs":"dmp_zz_wang(f, u, K)","rhs":"len(configs) == old_len_configs + 1 and len(result) == old_len_result + 1","over":{"base":"Any","pred":"hasattr(K, 'is_negative') and hasattr(K, 'zero')"},"name":"dmp_zz_wang_correct"},"guarantee":"len(configs) == old_len_configs + 1; len(result) == old_len_result + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dmp_zz_wang_correct","statement":"Path(dmp_zz_wang(x), len(configs) == old_len_configs + 1; len(result) == old_len_result + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c12eb93b7449d664","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'is_negative')","hasattr(K, 'zero')"],"ensures":["len(configs) == old_len_configs + 1","len(result) == old_len_result + 1"],"pure":false,"effects":{"effect_type":"nondeterministic","reads":["K.is_negative","K.zero"],"calls_mutating":["configs.append","history.add","result.append"],"raises":["ExtraneousFactors"],"catches":["EvaluationFailed","ExtraneousFactors"],"nondeterministic_sources":["randint"]},"state_contract":{"modifies":["configs.*","history.*","result.*"],"old_bindings":{"old_len_configs":"len(configs)","old_len_result":"len(result)"},"post_ensures":["len(configs) == old_len_configs + 1","len(result) == old_len_result + 1"],"exceptional_post":{"ExtraneousFactors":["isinstance(raised, ExtraneousFactors)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def dmp_zz_wang(f, u, K, mod=None, seed=None):
     r"""
     Factor primitive square-free polynomials in `Z[X]`.
@@ -1390,16 +1548,23 @@ def dmp_zz_wang(f, u, K, mod=None, seed=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_zz_factor(f, ), factor (non square-free) polynomials in `z[x]`) over Any ║
+# ║ Path(dmp_zz_factor(f, u, K), # HINT: dmp_zz_factor may be idempotent: dmp_zz_factor(dmp_zz_factor(x)) == dmp_zz_factor(x)) over {Any | hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_zz_factor : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   ensures:  # HINT: dmp_zz_factor may be idempotent: ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_zz_factor : {Any | hasattr(K, 'zero')} → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4948ed32979e527b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ebb9c01340fa513f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dmp_zz_factor","kind":"function","src_hash":"f1eb88f6fae1a247","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_factor(f, )","rhs":"factor (non square-free) polynomials in `z[x]`","over":{"base":"Any"},"name":"dmp_zz_factor_correct"},"guarantee":"factor (non square-free) polynomials in `z[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dmp_zz_factor_correct","statement":"Path(dmp_zz_factor(x), factor (non square-free) polynomials in `z[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4948ed32979e527b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dmp_zz_factor","kind":"function","src_hash":"f1eb88f6fae1a247","in":{"base":"Any","pred":"hasattr(K, 'zero')"},"out":{"base":"Any","pred":"result satisfies: # HINT: dmp_zz_factor may be idempotent: dmp_zz_factor(dmp_zz_factor(x)) == dmp_zz_factor(x)"},"spec":{"lhs":"dmp_zz_factor(f, u, K)","rhs":"# HINT: dmp_zz_factor may be idempotent: dmp_zz_factor(dmp_zz_factor(x)) == dmp_zz_factor(x)","over":{"base":"Any","pred":"hasattr(K, 'zero')"},"name":"dmp_zz_factor_correct"},"guarantee":"# HINT: dmp_zz_factor may be idempotent: dmp_zz_factor(dmp_zz_factor(x)) == dmp_zz_factor(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dmp_zz_factor_correct","statement":"Path(dmp_zz_factor(x), # HINT: dmp_zz_factor may be idempotent: dmp_zz_factor(dmp_zz_factor(x)) == dmp_zz_factor(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ebb9c01340fa513f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'zero')"],"ensures":["# HINT: dmp_zz_factor may be idempotent: dmp_zz_factor(dmp_zz_factor(x)) == dmp_zz_factor(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def dmp_zz_factor(f, u, K):
     r"""
     Factor (non square-free) polynomials in `Z[X]`.
@@ -1468,16 +1633,24 @@ def dmp_zz_factor(f, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_qq_i_factor(f, ), factor univariate polynomials into irreducibles in `qq_i[x]`) over Any ║
+# ║ Path(dup_qq_i_factor(f, K0), (coeff, factors)) over {Any | hasattr(K0, 'as_AlgebraicField') and hasattr(K0, 'convert')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_qq_i_factor : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K0, 'as_AlgebraicField')               ║
+# ║   requires: hasattr(K0, 'convert')                         ║
+# ║   returns:  (coeff, factors)                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_qq_i_factor : {Any | hasattr(K0, 'as_AlgebraicFie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d56f3677160c6cb6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | afad7c16306b61a4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dup_qq_i_factor","kind":"function","src_hash":"5ef033460d1d52cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_qq_i_factor(f, )","rhs":"factor univariate polynomials into irreducibles in `qq_i[x]`","over":{"base":"Any"},"name":"dup_qq_i_factor_correct"},"guarantee":"factor univariate polynomials into irreducibles in `qq_i[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dup_qq_i_factor_correct","statement":"Path(dup_qq_i_factor(x), factor univariate polynomials into irreducibles in `qq_i[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d56f3677160c6cb6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dup_qq_i_factor","kind":"function","src_hash":"5ef033460d1d52cd","in":{"base":"Any","pred":"hasattr(K0, 'as_AlgebraicField') and hasattr(K0, 'convert')"},"out":{"base":"Any"},"spec":{"lhs":"dup_qq_i_factor(f, K0)","rhs":"(coeff, factors)","over":{"base":"Any","pred":"hasattr(K0, 'as_AlgebraicField') and hasattr(K0, 'convert')"},"name":"dup_qq_i_factor_correct"},"guarantee":"returns (coeff, factors)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dup_qq_i_factor_correct","statement":"Path(dup_qq_i_factor(x), returns (coeff, factors))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afad7c16306b61a4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K0, 'as_AlgebraicField')","hasattr(K0, 'convert')"],"returns_expr":"(coeff, factors)","pure":false,"effects":{"effect_type":"reads_state","reads":["K0.as_AlgebraicField","K0.convert"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_qq_i_factor(f, K0):
     """Factor univariate polynomials into irreducibles in `QQ_I[x]`. """
     # Factor in QQ<I>
@@ -1490,16 +1663,24 @@ def dup_qq_i_factor(f, K0):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_zz_i_factor(f, ), factor univariate polynomials into irreducibles in `zz_i[x]`) over Any ║
+# ║ Path(dup_zz_i_factor(f, K0), (coeff, factors)) over {Any | hasattr(K0, 'get_field') and hasattr(K0, 'convert')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_zz_i_factor : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K0, 'get_field')                       ║
+# ║   requires: hasattr(K0, 'convert')                         ║
+# ║   returns:  (coeff, factors)                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_zz_i_factor : {Any | hasattr(K0, 'get_field') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ca011f0e295cac2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d7febe4bb06e89e5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dup_zz_i_factor","kind":"function","src_hash":"8aa8b1c45e9b50c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_i_factor(f, )","rhs":"factor univariate polynomials into irreducibles in `zz_i[x]`","over":{"base":"Any"},"name":"dup_zz_i_factor_correct"},"guarantee":"factor univariate polynomials into irreducibles in `zz_i[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dup_zz_i_factor_correct","statement":"Path(dup_zz_i_factor(x), factor univariate polynomials into irreducibles in `zz_i[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ca011f0e295cac2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dup_zz_i_factor","kind":"function","src_hash":"8aa8b1c45e9b50c6","in":{"base":"Any","pred":"hasattr(K0, 'get_field') and hasattr(K0, 'convert')"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_i_factor(f, K0)","rhs":"(coeff, factors)","over":{"base":"Any","pred":"hasattr(K0, 'get_field') and hasattr(K0, 'convert')"},"name":"dup_zz_i_factor_correct"},"guarantee":"returns (coeff, factors)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dup_zz_i_factor_correct","statement":"Path(dup_zz_i_factor(x), returns (coeff, factors))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7febe4bb06e89e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K0, 'get_field')","hasattr(K0, 'convert')"],"returns_expr":"(coeff, factors)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def dup_zz_i_factor(f, K0):
     """Factor univariate polynomials into irreducibles in `ZZ_I[x]`. """
     # First factor in QQ_I
@@ -1523,16 +1704,24 @@ def dup_zz_i_factor(f, K0):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_qq_i_factor(f, ), factor multivariate polynomials into irreducibles in `qq_i[x]`) over Any ║
+# ║ Path(dmp_qq_i_factor(f, u, K0), (coeff, factors)) over {Any | hasattr(K0, 'as_AlgebraicField') and hasattr(K0, 'convert')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_qq_i_factor : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K0, 'as_AlgebraicField')               ║
+# ║   requires: hasattr(K0, 'convert')                         ║
+# ║   returns:  (coeff, factors)                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_qq_i_factor : {Any | hasattr(K0, 'as_AlgebraicFie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7061a4aa13970a88  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 40604eb3c4fd329d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dmp_qq_i_factor","kind":"function","src_hash":"f3b285bcc3ce6357","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_qq_i_factor(f, )","rhs":"factor multivariate polynomials into irreducibles in `qq_i[x]`","over":{"base":"Any"},"name":"dmp_qq_i_factor_correct"},"guarantee":"factor multivariate polynomials into irreducibles in `qq_i[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dmp_qq_i_factor_correct","statement":"Path(dmp_qq_i_factor(x), factor multivariate polynomials into irreducibles in `qq_i[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7061a4aa13970a88"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dmp_qq_i_factor","kind":"function","src_hash":"f3b285bcc3ce6357","in":{"base":"Any","pred":"hasattr(K0, 'as_AlgebraicField') and hasattr(K0, 'convert')"},"out":{"base":"Any"},"spec":{"lhs":"dmp_qq_i_factor(f, u, K0)","rhs":"(coeff, factors)","over":{"base":"Any","pred":"hasattr(K0, 'as_AlgebraicField') and hasattr(K0, 'convert')"},"name":"dmp_qq_i_factor_correct"},"guarantee":"returns (coeff, factors)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dmp_qq_i_factor_correct","statement":"Path(dmp_qq_i_factor(x), returns (coeff, factors))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40604eb3c4fd329d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K0, 'as_AlgebraicField')","hasattr(K0, 'convert')"],"returns_expr":"(coeff, factors)","pure":false,"effects":{"effect_type":"reads_state","reads":["K0.as_AlgebraicField","K0.convert"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dmp_qq_i_factor(f, u, K0):
     """Factor multivariate polynomials into irreducibles in `QQ_I[X]`. """
     # Factor in QQ<I>
@@ -1545,16 +1734,24 @@ def dmp_qq_i_factor(f, u, K0):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_zz_i_factor(f, ), factor multivariate polynomials into irreducibles in `zz_i[x]`) over Any ║
+# ║ Path(dmp_zz_i_factor(f, u, K0), (coeff, factors)) over {Any | hasattr(K0, 'get_field') and hasattr(K0, 'convert')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_zz_i_factor : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K0, 'get_field')                       ║
+# ║   requires: hasattr(K0, 'convert')                         ║
+# ║   returns:  (coeff, factors)                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_zz_i_factor : {Any | hasattr(K0, 'get_field') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 48c9403a2abd04ba  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f729e3dc9cf7e04  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dmp_zz_i_factor","kind":"function","src_hash":"69a8eca95d5bec96","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_i_factor(f, )","rhs":"factor multivariate polynomials into irreducibles in `zz_i[x]`","over":{"base":"Any"},"name":"dmp_zz_i_factor_correct"},"guarantee":"factor multivariate polynomials into irreducibles in `zz_i[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dmp_zz_i_factor_correct","statement":"Path(dmp_zz_i_factor(x), factor multivariate polynomials into irreducibles in `zz_i[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"48c9403a2abd04ba"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dmp_zz_i_factor","kind":"function","src_hash":"69a8eca95d5bec96","in":{"base":"Any","pred":"hasattr(K0, 'get_field') and hasattr(K0, 'convert')"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_i_factor(f, u, K0)","rhs":"(coeff, factors)","over":{"base":"Any","pred":"hasattr(K0, 'get_field') and hasattr(K0, 'convert')"},"name":"dmp_zz_i_factor_correct"},"guarantee":"returns (coeff, factors)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dmp_zz_i_factor_correct","statement":"Path(dmp_zz_i_factor(x), returns (coeff, factors))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f729e3dc9cf7e04","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K0, 'get_field')","hasattr(K0, 'convert')"],"returns_expr":"(coeff, factors)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def dmp_zz_i_factor(f, u, K0):
     """Factor multivariate polynomials into irreducibles in `ZZ_I[X]`. """
     # First factor in QQ_I
@@ -1578,16 +1775,24 @@ def dmp_zz_i_factor(f, u, K0):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_ext_factor(f, ), factor univariate polynomials over algebraic number fields) over Any ║
+# ║ Path(dup_ext_factor(f, K), <unspecified:dup_ext_factor>) over {Any | hasattr(K, 'dom') and hasattr(K, 'unit')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_ext_factor : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'dom')                              ║
+# ║   requires: hasattr(K, 'unit')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_ext_factor : {Any | hasattr(K, 'dom') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5090cebf3b23f96f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dup_ext_factor","kind":"function","src_hash":"b67f02ddb64181f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_ext_factor(f, )","rhs":"factor univariate polynomials over algebraic number fields","over":{"base":"Any"},"name":"dup_ext_factor_correct"},"guarantee":"factor univariate polynomials over algebraic number fields","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dup_ext_factor_correct","statement":"Path(dup_ext_factor(x), factor univariate polynomials over algebraic number fields)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5090cebf3b23f96f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dup_ext_factor","kind":"function","src_hash":"b67f02ddb64181f4","in":{"base":"Any","pred":"hasattr(K, 'dom') and hasattr(K, 'unit')"},"out":{"base":"Any"},"spec":{"lhs":"dup_ext_factor(f, K)","rhs":"<unspecified:dup_ext_factor>","over":{"base":"Any","pred":"hasattr(K, 'dom') and hasattr(K, 'unit')"},"name":"dup_ext_factor_correct"},"guarantee":"factor univariate polynomials over algebraic number fields","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dup_ext_factor_correct","statement":"Path(dup_ext_factor(x), factor univariate polynomials over algebraic number fields)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5090cebf3b23f96f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'dom')","hasattr(K, 'unit')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.dom","K.unit"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def dup_ext_factor(f, K):
     r"""Factor univariate polynomials over algebraic number fields.
 
@@ -1687,16 +1892,24 @@ def dup_ext_factor(f, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_ext_factor(f, ), factor multivariate polynomials over algebraic number fields) over Any ║
+# ║ Path(dmp_ext_factor(f, u, K), <unspecified:dmp_ext_factor>) over {Any | hasattr(K, 'dom') and hasattr(K, 'unit')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_ext_factor : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'dom')                              ║
+# ║   requires: hasattr(K, 'unit')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_ext_factor : {Any | hasattr(K, 'dom') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db45c6cf26586f02  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dmp_ext_factor","kind":"function","src_hash":"9f89a3612efc2993","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_ext_factor(f, )","rhs":"factor multivariate polynomials over algebraic number fields","over":{"base":"Any"},"name":"dmp_ext_factor_correct"},"guarantee":"factor multivariate polynomials over algebraic number fields","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dmp_ext_factor_correct","statement":"Path(dmp_ext_factor(x), factor multivariate polynomials over algebraic number fields)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db45c6cf26586f02"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dmp_ext_factor","kind":"function","src_hash":"9f89a3612efc2993","in":{"base":"Any","pred":"hasattr(K, 'dom') and hasattr(K, 'unit')"},"out":{"base":"Any"},"spec":{"lhs":"dmp_ext_factor(f, u, K)","rhs":"<unspecified:dmp_ext_factor>","over":{"base":"Any","pred":"hasattr(K, 'dom') and hasattr(K, 'unit')"},"name":"dmp_ext_factor_correct"},"guarantee":"factor multivariate polynomials over algebraic number fields","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dmp_ext_factor_correct","statement":"Path(dmp_ext_factor(x), factor multivariate polynomials over algebraic number fields)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db45c6cf26586f02","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'dom')","hasattr(K, 'unit')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.dom","K.unit"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def dmp_ext_factor(f, u, K):
     r"""Factor multivariate polynomials over algebraic number fields.
 
@@ -1776,16 +1989,25 @@ def dmp_ext_factor(f, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_gf_factor(f, ), factor univariate polynomials over finite fields) over Any ║
+# ║ Path(dup_gf_factor(f, K), (K.convert(coeff, K.dom), factors)) over {Any | hasattr(K, 'dom') and hasattr(K, 'mod') and hasattr(K, 'convert')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_gf_factor : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'dom')                              ║
+# ║   requires: hasattr(K, 'mod')                              ║
+# ║   requires: hasattr(K, 'convert')                          ║
+# ║   returns:  (K.convert(coeff, K.dom), factors)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_gf_factor : {Any | hasattr(K, 'dom') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3be4cb469e99d23  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f0b8fd59db84e19  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dup_gf_factor","kind":"function","src_hash":"d31720fafd050a23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_gf_factor(f, )","rhs":"factor univariate polynomials over finite fields","over":{"base":"Any"},"name":"dup_gf_factor_correct"},"guarantee":"factor univariate polynomials over finite fields","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dup_gf_factor_correct","statement":"Path(dup_gf_factor(x), factor univariate polynomials over finite fields)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3be4cb469e99d23"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dup_gf_factor","kind":"function","src_hash":"d31720fafd050a23","in":{"base":"Any","pred":"hasattr(K, 'dom') and hasattr(K, 'mod') and hasattr(K, 'convert')"},"out":{"base":"Any"},"spec":{"lhs":"dup_gf_factor(f, K)","rhs":"(K.convert(coeff, K.dom), factors)","over":{"base":"Any","pred":"hasattr(K, 'dom') and hasattr(K, 'mod') and hasattr(K, 'convert')"},"name":"dup_gf_factor_correct"},"guarantee":"returns (K.convert(coeff, K.dom), factors)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dup_gf_factor_correct","statement":"Path(dup_gf_factor(x), returns (K.convert(coeff, K.dom), factors))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f0b8fd59db84e19","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'dom')","hasattr(K, 'mod')","hasattr(K, 'convert')"],"returns_expr":"(K.convert(coeff, K.dom), factors)","pure":false,"effects":{"effect_type":"reads_state","reads":["K.convert","K.dom","K.mod"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_gf_factor(f, K):
     """Factor univariate polynomials over finite fields. """
     f = dup_convert(f, K, K.dom)
@@ -1799,32 +2021,47 @@ def dup_gf_factor(f, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_gf_factor(f, ), factor multivariate polynomials over finite fields) over Any ║
+# ║ Path(dmp_gf_factor(f, u, K), <unspecified:dmp_gf_factor>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_gf_factor : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 77067af38504c5bd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dmp_gf_factor","kind":"function","src_hash":"d3b63f3c6057fc4d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_gf_factor(f, )","rhs":"factor multivariate polynomials over finite fields","over":{"base":"Any"},"name":"dmp_gf_factor_correct"},"guarantee":"factor multivariate polynomials over finite fields","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"77067af38504c5bd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dmp_gf_factor","kind":"function","src_hash":"d3b63f3c6057fc4d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_gf_factor(f, u, K)","rhs":"<unspecified:dmp_gf_factor>","over":{"base":"Any"},"name":"dmp_gf_factor_correct"},"guarantee":"factor multivariate polynomials over finite fields","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"77067af38504c5bd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def dmp_gf_factor(f, u, K):
     """Factor multivariate polynomials over finite fields. """
     raise NotImplementedError('multivariate polynomials over finite fields')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_factor_list(f, ), factor univariate polynomials into irreducibles in `k[x]`) over Any ║
+# ║ Path(dup_factor_list(f, K0), (coeff * cont, _sort_factors(factors))) over {Any | hasattr(K0, 'is_FiniteField') and hasattr(K0, 'is_Algebraic') and hasattr(K0, 'is_GaussianRing') and hasattr(K0, 'is_GaussianField') and hasattr(K0, 'is_Field') and hasattr(K0, 'one') and hasattr(K0, 'zero') and hasattr(K0, 'is_Exact') and hasattr(K0, 'get_ring') and hasattr(K0, 'convert') and hasattr(K0, 'quo') and hasattr(K0, 'get_exact') and hasattr(K0, 'mul') and hasattr(K0, 'pow')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_factor_list : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K0, 'is_FiniteField')                  ║
+# ║   requires: hasattr(K0, 'is_Algebraic')                    ║
+# ║   requires: hasattr(K0, 'is_GaussianRing')                 ║
+# ║   returns:  (coeff * cont, _sort_factors(factors))         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_factor_list : {Any | hasattr(K0, 'is_FiniteField'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83b90b6dc5d32eef  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a3454fc4dee3438  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dup_factor_list","kind":"function","src_hash":"266bf5e2fa1fc044","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_factor_list(f, )","rhs":"factor univariate polynomials into irreducibles in `k[x]`","over":{"base":"Any"},"name":"dup_factor_list_correct"},"guarantee":"factor univariate polynomials into irreducibles in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dup_factor_list_correct","statement":"Path(dup_factor_list(x), factor univariate polynomials into irreducibles in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83b90b6dc5d32eef"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dup_factor_list","kind":"function","src_hash":"266bf5e2fa1fc044","in":{"base":"Any","pred":"hasattr(K0, 'is_FiniteField') and hasattr(K0, 'is_Algebraic') and hasattr(K0, 'is_GaussianRing') and hasattr(K0, 'is_GaussianField') and hasattr(K0, 'is_Field') and hasattr(K0, 'one') and hasattr(K0, 'zero') and hasattr(K0, 'is_Exact') and hasattr(K0, 'get_ring') and hasattr(K0, 'convert') and hasattr(K0, 'quo') and hasattr(K0, 'get_exact') and hasattr(K0, 'mul') and hasattr(K0, 'pow')"},"out":{"base":"Any"},"spec":{"lhs":"dup_factor_list(f, K0)","rhs":"(coeff * cont, _sort_factors(factors))","over":{"base":"Any","pred":"hasattr(K0, 'is_FiniteField') and hasattr(K0, 'is_Algebraic') and hasattr(K0, 'is_GaussianRing') and hasattr(K0, 'is_GaussianField') and hasattr(K0, 'is_Field') and hasattr(K0, 'one') and hasattr(K0, 'zero') and hasattr(K0, 'is_Exact') and hasattr(K0, 'get_ring') and hasattr(K0, 'convert') and hasattr(K0, 'quo') and hasattr(K0, 'get_exact') and hasattr(K0, 'mul') and hasattr(K0, 'pow')"},"name":"dup_factor_list_correct"},"guarantee":"returns (coeff * cont, _sort_factors(factors))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dup_factor_list_correct","statement":"Path(dup_factor_list(x), returns (coeff * cont, _sort_factors(factors)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a3454fc4dee3438","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K0, 'is_FiniteField')","hasattr(K0, 'is_Algebraic')","hasattr(K0, 'is_GaussianRing')","hasattr(K0, 'is_GaussianField')","hasattr(K0, 'is_Field')","hasattr(K0, 'one')","hasattr(K0, 'zero')","hasattr(K0, 'is_Exact')","hasattr(K0, 'get_ring')","hasattr(K0, 'convert')","hasattr(K0, 'quo')","hasattr(K0, 'get_exact')","hasattr(K0, 'mul')","hasattr(K0, 'pow')"],"returns_expr":"(coeff * cont, _sort_factors(factors))","pure":false,"effects":{"effect_type":"reads_state","reads":["K0.convert","K0.get_exact","K0.get_ring","K0.is_Algebraic","K0.is_Exact","K0.is_Field","K0.is_FiniteField","K0.is_GaussianField","K0.is_GaussianRing","K0.mul","K0.one","K0.pow","K0.quo","K0.zero"],"calls_mutating":["factors.insert"],"raises":["DomainError"]},"state_contract":{"modifies":["factors.*"],"exceptional_post":{"DomainError":["isinstance(raised, DomainError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def dup_factor_list(f, K0):
     """Factor univariate polynomials into irreducibles in `K[x]`. """
     j, f = dup_terms_gcd(f, K0)
@@ -1892,16 +2129,25 @@ def dup_factor_list(f, K0):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_factor_list_include(f, ), factor univariate polynomials into irreducibles in `k[x]`) over Any ║
+# ║ Path(dup_factor_list_include(f, K), result == ([(dup_strip([coeff]), 1)] if not factors else [(g, factors[0][1])] + factors[1:]) and result == [(dup_strip([coeff]), 1)] or result == [(g, factors[0][1])] + factors[1:]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_factor_list_include : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ([(dup_strip([coeff]), 1)] if n...   ║
+# ║   ensures:  result == [(dup_strip([coeff]), 1)] or re...   ║
+# ║   fiber[case_0]: not factors => [(dup_strip([coeff]),...   ║
+# ║   fiber[case_1]: not (not factors) => [(g, factors[0]...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_factor_list_include : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 89356250313007e1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 63a123b35d5b6282  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dup_factor_list_include","kind":"function","src_hash":"77f5bef5db721c4b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_factor_list_include(f, )","rhs":"factor univariate polynomials into irreducibles in `k[x]`","over":{"base":"Any"},"name":"dup_factor_list_include_correct"},"guarantee":"factor univariate polynomials into irreducibles in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dup_factor_list_include_correct","statement":"Path(dup_factor_list_include(x), factor univariate polynomials into irreducibles in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89356250313007e1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dup_factor_list_include","kind":"function","src_hash":"77f5bef5db721c4b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ([(dup_strip([coeff]), 1)] if not factors else [(g, factors[0][1])] + factors[1:]) and result == [(dup_strip([coeff]), 1)] or result == [(g, factors[0][1])] + factors[1:]"},"spec":{"lhs":"dup_factor_list_include(f, K)","rhs":"result == ([(dup_strip([coeff]), 1)] if not factors else [(g, factors[0][1])] + factors[1:]) and result == [(dup_strip([coeff]), 1)] or result == [(g, factors[0][1])] + factors[1:]","over":{"base":"Any"},"name":"dup_factor_list_include_correct"},"guarantee":"result == ([(dup_strip([coeff]), 1)] if not factors else [(g, factors[0][1])] + factors[1:]); result == [(dup_strip([coeff]), 1)] or result == [(g, factors[0][1])] + factors[1:]; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dup_factor_list_include_correct","statement":"Path(dup_factor_list_include(x), result == ([(dup_strip([coeff]), 1)] if not factors else [(g, factors[0][1])] + factors[1:]); result == [(dup_strip([coeff]), 1)] or result == [(g, factors[0][1])] + factors[1:]; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"63a123b35d5b6282","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ([(dup_strip([coeff]), 1)] if not factors else [(g, factors[0][1])] + factors[1:])","result == [(dup_strip([coeff]), 1)] or result == [(g, factors[0][1])] + factors[1:]"],"fibers":[{"name":"case_0","guard":"not factors","ensures":["result == [(dup_strip([coeff]), 1)]"],"decidability":"library","returns_expr":"[(dup_strip([coeff]), 1)]"},{"name":"case_1","guard":"not (not factors)","ensures":["result == [(g, factors[0][1])] + factors[1:]"],"decidability":"library","returns_expr":"[(g, factors[0][1])] + factors[1:]"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_factor_list_include(f, K):
     """Factor univariate polynomials into irreducibles in `K[x]`. """
     coeff, factors = dup_factor_list(f, K)
@@ -1914,16 +2160,25 @@ def dup_factor_list_include(f, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_factor_list(f, ), factor multivariate polynomials into irreducibles in `k[x]`) over Any ║
+# ║ Path(dmp_factor_list(f, u, K0), # HINT: dmp_factor_list may be idempotent: dmp_factor_list(dmp_factor_list(x)) == dmp_factor_list(x)) over {Any | hasattr(K0, 'is_FiniteField') and hasattr(K0, 'is_Algebraic') and hasattr(K0, 'is_GaussianRing') and hasattr(K0, 'one') and hasattr(K0, 'is_GaussianField') and hasattr(K0, 'is_Field') and hasattr(K0, 'is_Exact') and hasattr(K0, 'get_ring') and hasattr(K0, 'convert') and hasattr(K0, 'quo') and hasattr(K0, 'get_exact') and hasattr(K0, 'mul') and hasattr(K0, 'pow')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_factor_list : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K0, 'is_FiniteField')                  ║
+# ║   requires: hasattr(K0, 'is_Algebraic')                    ║
+# ║   requires: hasattr(K0, 'is_GaussianRing')                 ║
+# ║   ensures:  # HINT: dmp_factor_list may be idempotent...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_factor_list : {Any | hasattr(K0, 'is_FiniteField'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 165890e8d05ab487  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 02b58f52fae54ec4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dmp_factor_list","kind":"function","src_hash":"028ec65e62281598","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_factor_list(f, )","rhs":"factor multivariate polynomials into irreducibles in `k[x]`","over":{"base":"Any"},"name":"dmp_factor_list_correct"},"guarantee":"factor multivariate polynomials into irreducibles in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dmp_factor_list_correct","statement":"Path(dmp_factor_list(x), factor multivariate polynomials into irreducibles in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"165890e8d05ab487"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dmp_factor_list","kind":"function","src_hash":"028ec65e62281598","in":{"base":"Any","pred":"hasattr(K0, 'is_FiniteField') and hasattr(K0, 'is_Algebraic') and hasattr(K0, 'is_GaussianRing') and hasattr(K0, 'one') and hasattr(K0, 'is_GaussianField') and hasattr(K0, 'is_Field') and hasattr(K0, 'is_Exact') and hasattr(K0, 'get_ring') and hasattr(K0, 'convert') and hasattr(K0, 'quo') and hasattr(K0, 'get_exact') and hasattr(K0, 'mul') and hasattr(K0, 'pow')"},"out":{"base":"Any","pred":"result satisfies: # HINT: dmp_factor_list may be idempotent: dmp_factor_list(dmp_factor_list(x)) == dmp_factor_list(x)"},"spec":{"lhs":"dmp_factor_list(f, u, K0)","rhs":"# HINT: dmp_factor_list may be idempotent: dmp_factor_list(dmp_factor_list(x)) == dmp_factor_list(x)","over":{"base":"Any","pred":"hasattr(K0, 'is_FiniteField') and hasattr(K0, 'is_Algebraic') and hasattr(K0, 'is_GaussianRing') and hasattr(K0, 'one') and hasattr(K0, 'is_GaussianField') and hasattr(K0, 'is_Field') and hasattr(K0, 'is_Exact') and hasattr(K0, 'get_ring') and hasattr(K0, 'convert') and hasattr(K0, 'quo') and hasattr(K0, 'get_exact') and hasattr(K0, 'mul') and hasattr(K0, 'pow')"},"name":"dmp_factor_list_correct"},"guarantee":"# HINT: dmp_factor_list may be idempotent: dmp_factor_list(dmp_factor_list(x)) == dmp_factor_list(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dmp_factor_list_correct","statement":"Path(dmp_factor_list(x), # HINT: dmp_factor_list may be idempotent: dmp_factor_list(dmp_factor_list(x)) == dmp_factor_list(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"02b58f52fae54ec4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K0, 'is_FiniteField')","hasattr(K0, 'is_Algebraic')","hasattr(K0, 'is_GaussianRing')","hasattr(K0, 'one')","hasattr(K0, 'is_GaussianField')","hasattr(K0, 'is_Field')","hasattr(K0, 'is_Exact')","hasattr(K0, 'get_ring')","hasattr(K0, 'convert')","hasattr(K0, 'quo')","hasattr(K0, 'get_exact')","hasattr(K0, 'mul')","hasattr(K0, 'pow')"],"ensures":["# HINT: dmp_factor_list may be idempotent: dmp_factor_list(dmp_factor_list(x)) == dmp_factor_list(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K0.convert","K0.get_exact","K0.get_ring","K0.is_Algebraic","K0.is_Exact","K0.is_Field","K0.is_FiniteField","K0.is_GaussianField","K0.is_GaussianRing","K0.mul","K0.one","K0.pow","K0.quo"],"calls_mutating":["factors.insert"],"raises":["DomainError"]},"state_contract":{"modifies":["factors.*"],"exceptional_post":{"DomainError":["isinstance(raised, DomainError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def dmp_factor_list(f, u, K0):
     """Factor multivariate polynomials into irreducibles in `K[X]`. """
     if not u:
@@ -2002,16 +2257,22 @@ def dmp_factor_list(f, u, K0):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_factor_list_include(f, ), factor multivariate polynomials into irreducibles in `k[x]`) over Any ║
+# ║ Path(dmp_factor_list_include(f, u, K), <unspecified:dmp_factor_list_include>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_factor_list_include : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d2f9ca32b72ad383  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dmp_factor_list_include","kind":"function","src_hash":"579a7537057ad614","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_factor_list_include(f, )","rhs":"factor multivariate polynomials into irreducibles in `k[x]`","over":{"base":"Any"},"name":"dmp_factor_list_include_correct"},"guarantee":"factor multivariate polynomials into irreducibles in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dmp_factor_list_include_correct","statement":"Path(dmp_factor_list_include(x), factor multivariate polynomials into irreducibles in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d2f9ca32b72ad383"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dmp_factor_list_include","kind":"function","src_hash":"579a7537057ad614","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_factor_list_include(f, u, K)","rhs":"<unspecified:dmp_factor_list_include>","over":{"base":"Any"},"name":"dmp_factor_list_include_correct"},"guarantee":"factor multivariate polynomials into irreducibles in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dmp_factor_list_include_correct","statement":"Path(dmp_factor_list_include(x), factor multivariate polynomials into irreducibles in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d2f9ca32b72ad383","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dmp_factor_list_include(f, u, K):
     """Factor multivariate polynomials into irreducibles in `K[X]`. """
     if not u:
@@ -2027,16 +2288,22 @@ def dmp_factor_list_include(f, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_irreducible_p(f, ), returns ``true`` if a univariate polynomial ``f`` has no factors over its domain) over Any ║
+# ║ Path(dup_irreducible_p(f, K), dmp_irreducible_p(f, 0, K)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dmp_irreducible_p(f, 0, K)                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_irreducible_p : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0d61741d8e6ed7d2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dup_irreducible_p","kind":"function","src_hash":"f4628bd429663363","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_irreducible_p(f, )","rhs":"returns ``true`` if a univariate polynomial ``f`` has no factors over its domain","over":{"base":"Any"},"name":"dup_irreducible_p_correct"},"guarantee":"returns ``true`` if a univariate polynomial ``f`` has no factors over its domain","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0d61741d8e6ed7d2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dup_irreducible_p","kind":"function","src_hash":"f4628bd429663363","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_irreducible_p(f, K)","rhs":"dmp_irreducible_p(f, 0, K)","over":{"base":"Any"},"name":"dup_irreducible_p_correct"},"guarantee":"returns dmp_irreducible_p(f, 0, K)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0d61741d8e6ed7d2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dmp_irreducible_p(f, 0, K)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def dup_irreducible_p(f, K):
     """
     Returns ``True`` if a univariate polynomial ``f`` has no factors
@@ -2046,16 +2313,26 @@ def dup_irreducible_p(f, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_irreducible_p(f, ), returns ``true`` if a multivariate polynomial ``f`` has no factors over its domain) over Any ║
+# ║ Path(dmp_irreducible_p(f, u, K), result == (True if not factors else False if len(factors) > 1 else k == 1) and result == True or result == False or result == k == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_irreducible_p : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (True if not factors else False...   ║
+# ║   ensures:  result == True or result == False or resu...   ║
+# ║   fiber[case_0]: not factors => True                       ║
+# ║   fiber[case_1]: len(factors) > 1 => False                 ║
+# ║   fiber[case_2]: not (not factors) and not (len(facto...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_irreducible_p : Any → {Any | result satisfies: re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 31f380f7fd5ba891  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2aaec6eda162d587  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dmp_irreducible_p","kind":"function","src_hash":"1bf508503f6306c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_irreducible_p(f, )","rhs":"returns ``true`` if a multivariate polynomial ``f`` has no factors over its domain","over":{"base":"Any"},"name":"dmp_irreducible_p_correct"},"guarantee":"returns ``true`` if a multivariate polynomial ``f`` has no factors over its domain","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dmp_irreducible_p_correct","statement":"Path(dmp_irreducible_p(x), returns ``true`` if a multivariate polynomial ``f`` has no factors over its domain)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31f380f7fd5ba891"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.factortools.dmp_irreducible_p","kind":"function","src_hash":"1bf508503f6306c7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (True if not factors else False if len(factors) > 1 else k == 1) and result == True or result == False or result == k == 1"},"spec":{"lhs":"dmp_irreducible_p(f, u, K)","rhs":"result == (True if not factors else False if len(factors) > 1 else k == 1) and result == True or result == False or result == k == 1","over":{"base":"Any"},"name":"dmp_irreducible_p_correct"},"guarantee":"result == (True if not factors else False if len(factors) > 1 else k == 1); result == True or result == False or result == k == 1; 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.factortools.dmp_irreducible_p_correct","statement":"Path(dmp_irreducible_p(x), result == (True if not factors else False if len(factors) > 1 else k == 1); result == True or result == False or result == k == 1; 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2aaec6eda162d587","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (True if not factors else False if len(factors) > 1 else k == 1)","result == True or result == False or result == k == 1"],"fibers":[{"name":"case_0","guard":"not factors","ensures":["result == True"],"decidability":"library","returns_expr":"True"},{"name":"case_1","guard":"len(factors) > 1","ensures":["result == False"],"decidability":"z3","returns_expr":"False"},{"name":"case_2","guard":"not (not factors) and not (len(factors) > 1)","ensures":["result == k == 1"],"decidability":"z3","returns_expr":"k == 1"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dmp_irreducible_p(f, u, K):
     """
     Returns ``True`` if a multivariate polynomial ``f`` has no factors

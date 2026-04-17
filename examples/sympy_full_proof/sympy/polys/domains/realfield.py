@@ -31,16 +31,23 @@ from mpmath.libmp import to_rational as _mpmath_to_rational
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_rational(s, ), to_rational produces the expected output) over Any ║
+# ║ Path(to_rational(s, max_denom, limit), <unspecified:to_rational>) over {Any | hasattr(s, '_mpf_')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ to_rational : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(s, '_mpf_')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ to_rational : {Any | hasattr(s, '_mpf_')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 14786fe838a33e91  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.to_rational","kind":"function","src_hash":"6480ee2b6d20b741","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_rational(s, )","rhs":"to_rational produces the expected output","over":{"base":"Any"},"name":"to_rational_correct"},"guarantee":"to_rational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.realfield.to_rational_correct","statement":"Path(to_rational(x), to_rational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14786fe838a33e91"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.to_rational","kind":"function","src_hash":"6480ee2b6d20b741","in":{"base":"Any","pred":"hasattr(s, '_mpf_')"},"out":{"base":"Any"},"spec":{"lhs":"to_rational(s, max_denom, limit)","rhs":"<unspecified:to_rational>","over":{"base":"Any","pred":"hasattr(s, '_mpf_')"},"name":"to_rational_correct"},"guarantee":"to_rational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.realfield.to_rational_correct","statement":"Path(to_rational(x), to_rational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14786fe838a33e91","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(s, '_mpf_')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["s._mpf_"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def to_rational(s, max_denom, limit=True):
 
     p, q = _mpmath_to_rational(s._mpf_)
@@ -83,14 +90,22 @@ def to_rational(s, max_denom, limit=True):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a RealField instance) preserved by RealField(*args) over {Any | isinstance(arg, SYMPY_INTS) and isinstance(other, RealField)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Field)                        ║
+# ║   ensures:  isinstance(self, CharacteristicZero)           ║
+# ║   ensures:  isinstance(self, SimpleDomain)                 ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ RealField : {Any | isinstance(arg, SYMPY_INTS) and is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | befc8b3b1e45352d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField","kind":"class","src_hash":"5d5568617d0c0bcd","in":{"base":"Any","pred":"isinstance(arg, SYMPY_INTS) and isinstance(other, RealField)"},"out":{"base":"Any"},"spec":{"lhs":"RealField(*args)","rhs":"correctly constructs a RealField instance","over":{"base":"Any","pred":"isinstance(arg, SYMPY_INTS) and isinstance(other, RealField)"},"name":"RealField_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a RealField instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_context') and hasattr(self, '_dtype') and hasattr(self, 'zero') and hasattr(self, 'one') and hasattr(self, '_max_denom') and hasattr(self, '_tolerance')","kind":"class","induction":"structural on _context, _dtype, zero, one"}],"methods_preserving":["has_default_precision","precision","dps","tolerance","__init__","tp","dtype","__eq__","__hash__","to_sympy","from_sympy","from_ZZ","from_ZZ_python","from_ZZ_gmpy","from_QQ","from_QQ_python","from_QQ_gmpy","from_AlgebraicField","from_RealField","from_ComplexField","to_rational","get_ring","get_exact","gcd","lcm","almosteq","is_square","exsqrt"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"befc8b3b1e45352d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField","kind":"class","src_hash":"5d5568617d0c0bcd","in":{"base":"Any","pred":"isinstance(arg, SYMPY_INTS) and isinstance(other, RealField)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Field) and isinstance(self, CharacteristicZero) and isinstance(self, SimpleDomain)"},"spec":{"lhs":"RealField(*args)","rhs":"correctly constructs a RealField instance","over":{"base":"Any","pred":"isinstance(arg, SYMPY_INTS) and isinstance(other, RealField)"},"name":"RealField_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Field); isinstance(self, CharacteristicZero); isinstance(self, SimpleDomain); preserves 6 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_context') and hasattr(self, '_dtype') and hasattr(self, 'zero') and hasattr(self, 'one') and hasattr(self, '_max_denom') and hasattr(self, '_tolerance')","kind":"class","induction":"structural on _context, _dtype, zero, one"}],"methods_preserving":["has_default_precision","precision","dps","tolerance","__init__","tp","dtype","__eq__","__hash__","to_sympy","from_sympy","from_ZZ","from_ZZ_python","from_ZZ_gmpy","from_QQ","from_QQ_python","from_QQ_gmpy","from_AlgebraicField","from_RealField","from_ComplexField","to_rational","get_ring","get_exact","gcd","lcm","almosteq","is_square","exsqrt"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"befc8b3b1e45352d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Field)","isinstance(self, CharacteristicZero)","isinstance(self, SimpleDomain)"],"invariants":["hasattr(self, '_context')","hasattr(self, '_dtype')","hasattr(self, 'zero')","hasattr(self, 'one')","hasattr(self, '_max_denom')","hasattr(self, '_tolerance')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function RealField not found in source"]}}
 class RealField(Field, CharacteristicZero, SimpleDomain):
     """Real numbers up to the given precision. """
 
@@ -109,75 +124,105 @@ class RealField(Field, CharacteristicZero, SimpleDomain):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(has_default_precision(), returns the has_default_precision attribute) over Any ║
+# ║ Path(has_default_precision(), self.precision == self._default_precision) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.precision == self._default_precision      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ has_default_precision : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4f2b9093258d05bc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.has_default_precision","kind":"property","src_hash":"a6adfe6144907594","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"has_default_precision()","rhs":"returns the has_default_precision attribute","over":{"base":"Any"},"name":"has_default_precision_correct"},"guarantee":"returns the has_default_precision attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4f2b9093258d05bc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.has_default_precision","kind":"property","src_hash":"a6adfe6144907594","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"has_default_precision()","rhs":"self.precision == self._default_precision","over":{"base":"Any"},"name":"has_default_precision_correct"},"guarantee":"returns self.precision == self._default_precision","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4f2b9093258d05bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.precision == self._default_precision","pure":false,"effects":{"effect_type":"reads_state","reads":["self._default_precision","self.precision"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def has_default_precision(self):
         return self.precision == self._default_precision
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(precision(), returns the precision attribute) over Any ║
+# ║ Path(precision(), self._context.prec) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._context.prec                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ precision : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7f0c54685ff440c4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.precision","kind":"property","src_hash":"9e877f5631bd9af2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"precision()","rhs":"returns the precision attribute","over":{"base":"Any"},"name":"precision_correct"},"guarantee":"returns the precision attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7f0c54685ff440c4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.precision","kind":"property","src_hash":"9e877f5631bd9af2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"precision()","rhs":"self._context.prec","over":{"base":"Any"},"name":"precision_correct"},"guarantee":"returns self._context.prec","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7f0c54685ff440c4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._context.prec","pure":false,"effects":{"effect_type":"reads_state","reads":["self._context"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def precision(self):
         return self._context.prec
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dps(), returns the dps attribute) over Any            ║
+# ║ Path(dps(), self._context.dps) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._context.dps                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dps : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f7918e3c0a9b67ce           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.dps","kind":"property","src_hash":"37cd1a05ff3d8dbf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dps()","rhs":"returns the dps attribute","over":{"base":"Any"},"name":"dps_correct"},"guarantee":"returns the dps attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f7918e3c0a9b67ce"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.dps","kind":"property","src_hash":"37cd1a05ff3d8dbf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dps()","rhs":"self._context.dps","over":{"base":"Any"},"name":"dps_correct"},"guarantee":"returns self._context.dps","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f7918e3c0a9b67ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._context.dps","pure":false,"effects":{"effect_type":"reads_state","reads":["self._context"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dps(self):
         return self._context.dps
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tolerance(), returns the tolerance attribute) over Any ║
+# ║ Path(tolerance(), self._tolerance) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._tolerance                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ tolerance : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 08783472512c6cb6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.tolerance","kind":"property","src_hash":"aee2c2366103395c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tolerance()","rhs":"returns the tolerance attribute","over":{"base":"Any"},"name":"tolerance_correct"},"guarantee":"returns the tolerance attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"08783472512c6cb6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.tolerance","kind":"property","src_hash":"aee2c2366103395c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tolerance()","rhs":"self._tolerance","over":{"base":"Any"},"name":"tolerance_correct"},"guarantee":"returns self._tolerance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"08783472512c6cb6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._tolerance","pure":false,"effects":{"effect_type":"reads_state","reads":["self._tolerance"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def tolerance(self):
         return self._tolerance
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(pre), initializes the instance correctly) over Any ║
+# ║ Path(__init__(prec, dps, tol), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 565ea44efcc28340           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.__init__","kind":"method","src_hash":"d3492246e0156969","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(pre)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"565ea44efcc28340"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.__init__","kind":"method","src_hash":"d3492246e0156969","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(prec, dps, tol)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"565ea44efcc28340","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._default_precision","self._max_denom","self.dtype","self.one"],"writes":["self._context","self._dtype","self._max_denom","self._tolerance","self.one","self.zero"],"raises":["TypeError"]},"state_contract":{"modifies":["self._context","self._dtype","self._max_denom","self._tolerance","self.one","self.zero"],"old_bindings":{"old_self__context":"self._context","old_self__dtype":"self._dtype","old_self__max_denom":"self._max_denom","old_self__tolerance":"self._tolerance","old_self_one":"self.one","old_self_zero":"self.zero"},"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, prec=None, dps=None, tol=None):
         # XXX: The tol parameter is ignored but is kept for now for backwards
         # compatibility.
@@ -206,16 +251,22 @@ class RealField(Field, CharacteristicZero, SimpleDomain):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tp(), returns the tp attribute) over Any              ║
+# ║ Path(tp(), self._dtype) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._dtype                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ tp : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b28bef1bd3a2a9ba           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.tp","kind":"property","src_hash":"b9e283095f2b95a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tp()","rhs":"returns the tp attribute","over":{"base":"Any"},"name":"tp_correct"},"guarantee":"returns the tp attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b28bef1bd3a2a9ba"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.tp","kind":"property","src_hash":"b9e283095f2b95a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tp()","rhs":"self._dtype","over":{"base":"Any"},"name":"tp_correct"},"guarantee":"returns self._dtype","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b28bef1bd3a2a9ba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._dtype","pure":false,"effects":{"effect_type":"reads_state","reads":["self._dtype"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def tp(self):
         # XXX: Domain treats tp as an alias of dtype. Here we need to two
         # separate things: dtype is a callable to make/convert instances.
@@ -224,16 +275,22 @@ class RealField(Field, CharacteristicZero, SimpleDomain):
         return self._dtype
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dtype(arg), dtype produces the expected output) over Any ║
+# ║ Path(dtype(arg), self._dtype(arg)) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._dtype(arg)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dtype : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2b2070b37e6f8cb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f6ad0467f114719  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.dtype","kind":"method","src_hash":"f9a4ebb280cde76f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dtype(arg)","rhs":"dtype produces the expected output","over":{"base":"Any"},"name":"dtype_correct"},"guarantee":"dtype produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.realfield.RealField.dtype_correct","statement":"Path(dtype(x), dtype produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2b2070b37e6f8cb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.dtype","kind":"method","src_hash":"f9a4ebb280cde76f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dtype(arg)","rhs":"self._dtype(arg)","over":{"base":"Any"},"name":"dtype_correct"},"guarantee":"returns self._dtype(arg)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.realfield.RealField.dtype_correct","statement":"Path(dtype(x), returns self._dtype(arg))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f6ad0467f114719","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._dtype(arg)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._dtype"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dtype(self, arg):
         # XXX: This is needed because mpmath does not recognise fmpz.
         # It might be better to add conversion routines to mpmath and if that
@@ -243,59 +300,86 @@ class RealField(Field, CharacteristicZero, SimpleDomain):
         return self._dtype(arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), isinstance(other, RealField) and self.precision == other.precision) over {Any | hasattr(other, 'precision')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'precision')                    ║
+# ║   returns:  isinstance(other, RealField) and self.pre...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'precision')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fae82c0d88f58299           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.__eq__","kind":"method","src_hash":"70563cc991331cc3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fae82c0d88f58299"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.__eq__","kind":"method","src_hash":"70563cc991331cc3","in":{"base":"Any","pred":"hasattr(other, 'precision')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"isinstance(other, RealField) and self.precision == other.precision","over":{"base":"Any","pred":"hasattr(other, 'precision')"},"name":"__eq___correct"},"guarantee":"returns isinstance(other, RealField) and self.precision == other.precision","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fae82c0d88f58299","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'precision')"],"returns_expr":"isinstance(other, RealField) and self.precision == other.precision","pure":false,"effects":{"effect_type":"reads_state","reads":["other.precision","self.precision"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         return isinstance(other, RealField) and self.precision == other.precision
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), hash((self.__class__.__name__, self._dtype, self.precision))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hash((self.__class__.__name__, self._dtyp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e1d1e2c08a1121e5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.__hash__","kind":"method","src_hash":"511145f7d0943809","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e1d1e2c08a1121e5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.__hash__","kind":"method","src_hash":"511145f7d0943809","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"hash((self.__class__.__name__, self._dtype, self.precision))","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns hash((self.__class__.__name__, self._dtype, self.precision))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e1d1e2c08a1121e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hash((self.__class__.__name__, self._dtype, self.precision))","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self._dtype","self.precision"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         return hash((self.__class__.__name__, self._dtype, self.precision))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_sympy(ele), convert ``element`` to sympy number) over Any ║
+# ║ Path(to_sympy(element), Float(element, self.dps)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Float(element, self.dps)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_sympy : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 96d6d4d14f1af7e8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.to_sympy","kind":"method","src_hash":"b0a8365d22bb4463","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_sympy(ele)","rhs":"convert ``element`` to sympy number","over":{"base":"Any"},"name":"to_sympy_correct"},"guarantee":"convert ``element`` to sympy number","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"96d6d4d14f1af7e8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.to_sympy","kind":"method","src_hash":"b0a8365d22bb4463","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_sympy(element)","rhs":"Float(element, self.dps)","over":{"base":"Any"},"name":"to_sympy_correct"},"guarantee":"returns Float(element, self.dps)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"96d6d4d14f1af7e8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Float(element, self.dps)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dps"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_sympy(self, element):
         """Convert ``element`` to SymPy number. """
         return Float(element, self.dps)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_sympy(exp), convert sympy's number to ``dtype``) over Any ║
+# ║ Path(from_sympy(expr), <unspecified:from_sympy>) over {Any | hasattr(expr, 'evalf')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_sympy : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'evalf')                         ║
+# ║   fiber[case_0]: number.is_Number => self.dtype(number)    ║
+# ║   fiber[case_1]: not (number.is_Number)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_sympy : {Any | hasattr(expr, 'evalf')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 47bb3414b765e4ba  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d7305d70b6c81d2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.from_sympy","kind":"method","src_hash":"f6bc167abc3011e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_sympy(exp)","rhs":"convert sympy's number to ``dtype``","over":{"base":"Any"},"name":"from_sympy_correct"},"guarantee":"convert sympy's number to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.realfield.RealField.from_sympy_correct","statement":"Path(from_sympy(x), convert sympy's number to ``dtype``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47bb3414b765e4ba"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.from_sympy","kind":"method","src_hash":"f6bc167abc3011e0","in":{"base":"Any","pred":"hasattr(expr, 'evalf')"},"out":{"base":"Any"},"spec":{"lhs":"from_sympy(expr)","rhs":"<unspecified:from_sympy>","over":{"base":"Any","pred":"hasattr(expr, 'evalf')"},"name":"from_sympy_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.realfield.RealField.from_sympy_correct","statement":"Path(from_sympy(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d7305d70b6c81d2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'evalf')"],"fibers":[{"name":"case_0","guard":"number.is_Number","ensures":["result == self.dtype(number)"],"decidability":"library","returns_expr":"self.dtype(number)"},{"name":"case_1","guard":"not (number.is_Number)","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.evalf","self.dps","self.dtype"],"raises":["CoercionFailed"]},"state_contract":{"exceptional_post":{"CoercionFailed":["isinstance(raised, CoercionFailed)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_sympy(self, expr):
         """Convert SymPy's number to ``dtype``. """
         number = expr.evalf(n=self.dps)
@@ -306,44 +390,62 @@ class RealField(Field, CharacteristicZero, SimpleDomain):
             raise CoercionFailed("expected real number, got %s" % expr)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_ZZ(ele), from_ZZ produces the expected output) over Any ║
+# ║ Path(from_ZZ(element, base), self.dtype(element)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.dtype(element)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_ZZ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | eb956b26496c9b09           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.from_ZZ","kind":"method","src_hash":"1b0d7775be0da97a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ(ele)","rhs":"from_ZZ produces the expected output","over":{"base":"Any"},"name":"from_ZZ_correct"},"guarantee":"from_ZZ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eb956b26496c9b09"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.from_ZZ","kind":"method","src_hash":"1b0d7775be0da97a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ(element, base)","rhs":"self.dtype(element)","over":{"base":"Any"},"name":"from_ZZ_correct"},"guarantee":"returns self.dtype(element)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eb956b26496c9b09","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.dtype(element)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dtype"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_ZZ(self, element, base):
         return self.dtype(element)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_ZZ_python(ele), from_ZZ_python produces the expected output) over Any ║
+# ║ Path(from_ZZ_python(element, base), self.dtype(element)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.dtype(element)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_ZZ_python : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a5df233b025a6382           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.from_ZZ_python","kind":"method","src_hash":"6f5ad1a1eef4d2e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ_python(ele)","rhs":"from_ZZ_python produces the expected output","over":{"base":"Any"},"name":"from_ZZ_python_correct"},"guarantee":"from_ZZ_python produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a5df233b025a6382"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.from_ZZ_python","kind":"method","src_hash":"6f5ad1a1eef4d2e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ_python(element, base)","rhs":"self.dtype(element)","over":{"base":"Any"},"name":"from_ZZ_python_correct"},"guarantee":"returns self.dtype(element)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a5df233b025a6382","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.dtype(element)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dtype"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_ZZ_python(self, element, base):
         return self.dtype(element)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_ZZ_gmpy(ele), from_ZZ_gmpy produces the expected output) over Any ║
+# ║ Path(from_ZZ_gmpy(element, base), self.dtype(int(element))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.dtype(int(element))                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_ZZ_gmpy : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7b48304da482ef5c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.from_ZZ_gmpy","kind":"method","src_hash":"88ef4c25c3fb0cee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ_gmpy(ele)","rhs":"from_ZZ_gmpy produces the expected output","over":{"base":"Any"},"name":"from_ZZ_gmpy_correct"},"guarantee":"from_ZZ_gmpy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7b48304da482ef5c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.from_ZZ_gmpy","kind":"method","src_hash":"88ef4c25c3fb0cee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ_gmpy(element, base)","rhs":"self.dtype(int(element))","over":{"base":"Any"},"name":"from_ZZ_gmpy_correct"},"guarantee":"returns self.dtype(int(element))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7b48304da482ef5c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.dtype(int(element))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dtype"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_ZZ_gmpy(self, element, base):
         return self.dtype(int(element))
 
@@ -352,207 +454,301 @@ class RealField(Field, CharacteristicZero, SimpleDomain):
     # do so then the calls to int here could be removed.
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_QQ(ele), from_QQ produces the expected output) over Any ║
+# ║ Path(from_QQ(element, base), self.dtype(element.numerator) / int(element.denominator)) over {Any | hasattr(element, 'numerator') and hasattr(element, 'denominator')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_QQ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(element, 'numerator')                  ║
+# ║   requires: hasattr(element, 'denominator')                ║
+# ║   returns:  self.dtype(element.numerator) / int(eleme...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_QQ : {Any | hasattr(element, 'numerator') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cc190a0f764ad3ab           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.from_QQ","kind":"method","src_hash":"2088c8138127eef1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ(ele)","rhs":"from_QQ produces the expected output","over":{"base":"Any"},"name":"from_QQ_correct"},"guarantee":"from_QQ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc190a0f764ad3ab"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.from_QQ","kind":"method","src_hash":"2088c8138127eef1","in":{"base":"Any","pred":"hasattr(element, 'numerator') and hasattr(element, 'denominator')"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ(element, base)","rhs":"self.dtype(element.numerator) / int(element.denominator)","over":{"base":"Any","pred":"hasattr(element, 'numerator') and hasattr(element, 'denominator')"},"name":"from_QQ_correct"},"guarantee":"returns self.dtype(element.numerator) / int(element.denominator)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc190a0f764ad3ab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(element, 'numerator')","hasattr(element, 'denominator')"],"returns_expr":"self.dtype(element.numerator) / int(element.denominator)","pure":false,"effects":{"effect_type":"reads_state","reads":["element.denominator","element.numerator","self.dtype"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_QQ(self, element, base):
         return self.dtype(element.numerator) / int(element.denominator)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_QQ_python(ele), from_QQ_python produces the expected output) over Any ║
+# ║ Path(from_QQ_python(element, base), self.dtype(element.numerator) / int(element.denominator)) over {Any | hasattr(element, 'numerator') and hasattr(element, 'denominator')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_QQ_python : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(element, 'numerator')                  ║
+# ║   requires: hasattr(element, 'denominator')                ║
+# ║   returns:  self.dtype(element.numerator) / int(eleme...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_QQ_python : {Any | hasattr(element, 'numerator')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 60fb358b8394d6f4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.from_QQ_python","kind":"method","src_hash":"28b5b3c97efaafea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ_python(ele)","rhs":"from_QQ_python produces the expected output","over":{"base":"Any"},"name":"from_QQ_python_correct"},"guarantee":"from_QQ_python produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"60fb358b8394d6f4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.from_QQ_python","kind":"method","src_hash":"28b5b3c97efaafea","in":{"base":"Any","pred":"hasattr(element, 'numerator') and hasattr(element, 'denominator')"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ_python(element, base)","rhs":"self.dtype(element.numerator) / int(element.denominator)","over":{"base":"Any","pred":"hasattr(element, 'numerator') and hasattr(element, 'denominator')"},"name":"from_QQ_python_correct"},"guarantee":"returns self.dtype(element.numerator) / int(element.denominator)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"60fb358b8394d6f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(element, 'numerator')","hasattr(element, 'denominator')"],"returns_expr":"self.dtype(element.numerator) / int(element.denominator)","pure":false,"effects":{"effect_type":"reads_state","reads":["element.denominator","element.numerator","self.dtype"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_QQ_python(self, element, base):
         return self.dtype(element.numerator) / int(element.denominator)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_QQ_gmpy(ele), from_QQ_gmpy produces the expected output) over Any ║
+# ║ Path(from_QQ_gmpy(element, base), self.dtype(int(element.numerator)) / int(element.denominator)) over {Any | hasattr(element, 'denominator') and hasattr(element, 'numerator')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_QQ_gmpy : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(element, 'denominator')                ║
+# ║   requires: hasattr(element, 'numerator')                  ║
+# ║   returns:  self.dtype(int(element.numerator)) / int(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_QQ_gmpy : {Any | hasattr(element, 'denominator')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d003b345dccb5d62           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.from_QQ_gmpy","kind":"method","src_hash":"1db8f3d58062c771","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ_gmpy(ele)","rhs":"from_QQ_gmpy produces the expected output","over":{"base":"Any"},"name":"from_QQ_gmpy_correct"},"guarantee":"from_QQ_gmpy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d003b345dccb5d62"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.from_QQ_gmpy","kind":"method","src_hash":"1db8f3d58062c771","in":{"base":"Any","pred":"hasattr(element, 'denominator') and hasattr(element, 'numerator')"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ_gmpy(element, base)","rhs":"self.dtype(int(element.numerator)) / int(element.denominator)","over":{"base":"Any","pred":"hasattr(element, 'denominator') and hasattr(element, 'numerator')"},"name":"from_QQ_gmpy_correct"},"guarantee":"returns self.dtype(int(element.numerator)) / int(element.denominator)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d003b345dccb5d62","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(element, 'denominator')","hasattr(element, 'numerator')"],"returns_expr":"self.dtype(int(element.numerator)) / int(element.denominator)","pure":false,"effects":{"effect_type":"reads_state","reads":["element.denominator","element.numerator","self.dtype"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_QQ_gmpy(self, element, base):
         return self.dtype(int(element.numerator)) / int(element.denominator)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_AlgebraicField(ele), from_AlgebraicField produces the expected output) over Any ║
+# ║ Path(from_AlgebraicField(element, base), self.from_sympy(base.to_sympy(element).evalf(self.dps))) over {Any | hasattr(base, 'to_sympy')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_AlgebraicField : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(base, 'to_sympy')                      ║
+# ║   returns:  self.from_sympy(base.to_sympy(element).ev...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_AlgebraicField : {Any | hasattr(base, 'to_sympy'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bdf9e16db3411b97           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.from_AlgebraicField","kind":"method","src_hash":"a9d9f3b541fbaeb4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_AlgebraicField(ele)","rhs":"from_AlgebraicField produces the expected output","over":{"base":"Any"},"name":"from_AlgebraicField_correct"},"guarantee":"from_AlgebraicField produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bdf9e16db3411b97"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.from_AlgebraicField","kind":"method","src_hash":"a9d9f3b541fbaeb4","in":{"base":"Any","pred":"hasattr(base, 'to_sympy')"},"out":{"base":"Any"},"spec":{"lhs":"from_AlgebraicField(element, base)","rhs":"self.from_sympy(base.to_sympy(element).evalf(self.dps))","over":{"base":"Any","pred":"hasattr(base, 'to_sympy')"},"name":"from_AlgebraicField_correct"},"guarantee":"returns self.from_sympy(base.to_sympy(element).evalf(self.dps))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bdf9e16db3411b97","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(base, 'to_sympy')"],"returns_expr":"self.from_sympy(base.to_sympy(element).evalf(self.dps))","pure":false,"effects":{"effect_type":"reads_state","reads":["base.to_sympy","self.dps","self.from_sympy"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_AlgebraicField(self, element, base):
         return self.from_sympy(base.to_sympy(element).evalf(self.dps))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_RealField(ele), from_RealField produces the expected output) over Any ║
+# ║ Path(from_RealField(element, base), self.dtype(element)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.dtype(element)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_RealField : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fd7ff1bcbd7276ee           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.from_RealField","kind":"method","src_hash":"60fb4af6af36a537","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_RealField(ele)","rhs":"from_RealField produces the expected output","over":{"base":"Any"},"name":"from_RealField_correct"},"guarantee":"from_RealField produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fd7ff1bcbd7276ee"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.from_RealField","kind":"method","src_hash":"60fb4af6af36a537","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_RealField(element, base)","rhs":"self.dtype(element)","over":{"base":"Any"},"name":"from_RealField_correct"},"guarantee":"returns self.dtype(element)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fd7ff1bcbd7276ee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.dtype(element)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dtype"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_RealField(self, element, base):
         return self.dtype(element)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_ComplexField(ele), from_ComplexField produces the expected output) over Any ║
+# ║ Path(from_ComplexField(element, base), self.dtype(element.real)) over {Any | hasattr(element, 'imag') and hasattr(element, 'real')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_ComplexField : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(element, 'imag')                       ║
+# ║   requires: hasattr(element, 'real')                       ║
+# ║   returns:  self.dtype(element.real)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_ComplexField : {Any | hasattr(element, 'imag') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0a5b148af0418f4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 464b4a5fde9cbed3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.from_ComplexField","kind":"method","src_hash":"c900d50a3954ee01","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ComplexField(ele)","rhs":"from_ComplexField produces the expected output","over":{"base":"Any"},"name":"from_ComplexField_correct"},"guarantee":"from_ComplexField produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.realfield.RealField.from_ComplexField_correct","statement":"Path(from_ComplexField(x), from_ComplexField produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0a5b148af0418f4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.from_ComplexField","kind":"method","src_hash":"c900d50a3954ee01","in":{"base":"Any","pred":"hasattr(element, 'imag') and hasattr(element, 'real')"},"out":{"base":"Any"},"spec":{"lhs":"from_ComplexField(element, base)","rhs":"self.dtype(element.real)","over":{"base":"Any","pred":"hasattr(element, 'imag') and hasattr(element, 'real')"},"name":"from_ComplexField_correct"},"guarantee":"returns self.dtype(element.real)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.realfield.RealField.from_ComplexField_correct","statement":"Path(from_ComplexField(x), returns self.dtype(element.real))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"464b4a5fde9cbed3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(element, 'imag')","hasattr(element, 'real')"],"returns_expr":"self.dtype(element.real)","pure":false,"effects":{"effect_type":"reads_state","reads":["element.imag","element.real","self.dtype"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_ComplexField(self, element, base):
         if not element.imag:
             return self.dtype(element.real)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_rational(ele), convert a real number to rational number) over Any ║
+# ║ Path(to_rational(element, limit), to_rational(element, self._max_denom, limit=limit)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  to_rational(element, self._max_denom, lim...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_rational : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 074f529a6f30356c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.to_rational","kind":"method","src_hash":"0f64a53f31418a5f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_rational(ele)","rhs":"convert a real number to rational number","over":{"base":"Any"},"name":"to_rational_correct"},"guarantee":"convert a real number to rational number","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"074f529a6f30356c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.to_rational","kind":"method","src_hash":"0f64a53f31418a5f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_rational(element, limit)","rhs":"to_rational(element, self._max_denom, limit=limit)","over":{"base":"Any"},"name":"to_rational_correct"},"guarantee":"returns to_rational(element, self._max_denom, limit=limit)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"074f529a6f30356c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"to_rational(element, self._max_denom, limit=limit)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._max_denom"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_rational(self, element, limit=True):
         """Convert a real number to rational number. """
         return to_rational(element, self._max_denom, limit=limit)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_ring(), returns a ring associated with ``self``) over Any ║
+# ║ Path(get_ring(), self) over Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_ring : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == self                                 ║
+# ║   returns:  self                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_ring : Any → {Any | result satisfies: result == (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5f206bf16dc3e359           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.get_ring","kind":"method","src_hash":"98b5c5983e6f5a36","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_ring()","rhs":"returns a ring associated with ``self``","over":{"base":"Any"},"name":"get_ring_correct"},"guarantee":"returns a ring associated with ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5f206bf16dc3e359"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.get_ring","kind":"method","src_hash":"98b5c5983e6f5a36","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self)"},"spec":{"lhs":"get_ring()","rhs":"self","over":{"base":"Any"},"name":"get_ring_correct"},"guarantee":"returns self; result == self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5f206bf16dc3e359","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == self"],"returns_expr":"self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_ring(self):
         """Returns a ring associated with ``self``. """
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_exact(), returns an exact domain associated with ``self``) over Any ║
+# ║ Path(get_exact(), <unspecified:get_exact>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_exact : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64f8ce7364abf2fc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.get_exact","kind":"method","src_hash":"07ab330e887239d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_exact()","rhs":"returns an exact domain associated with ``self``","over":{"base":"Any"},"name":"get_exact_correct"},"guarantee":"returns an exact domain associated with ``self``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.realfield.RealField.get_exact_correct","statement":"Path(get_exact(x), returns an exact domain associated with ``self``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64f8ce7364abf2fc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.get_exact","kind":"method","src_hash":"07ab330e887239d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_exact()","rhs":"<unspecified:get_exact>","over":{"base":"Any"},"name":"get_exact_correct"},"guarantee":"returns an exact domain associated with ``self``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.realfield.RealField.get_exact_correct","statement":"Path(get_exact(x), returns an exact domain associated with ``self``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64f8ce7364abf2fc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_exact(self):
         """Returns an exact domain associated with ``self``. """
         from sympy.polys.domains import QQ
         return QQ
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gcd(a, ), returns gcd of ``a`` and ``b``) over Any    ║
+# ║ Path(gcd(a, b), self.one) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.one                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gcd : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0407a06bfc1fa91c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.gcd","kind":"method","src_hash":"4269c7c670071b88","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gcd(a, )","rhs":"returns gcd of ``a`` and ``b``","over":{"base":"Any"},"name":"gcd_correct"},"guarantee":"returns gcd of ``a`` and ``b``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0407a06bfc1fa91c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.gcd","kind":"method","src_hash":"4269c7c670071b88","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gcd(a, b)","rhs":"self.one","over":{"base":"Any"},"name":"gcd_correct"},"guarantee":"returns self.one","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0407a06bfc1fa91c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.one","pure":false,"effects":{"effect_type":"reads_state","reads":["self.one"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gcd(self, a, b):
         """Returns GCD of ``a`` and ``b``. """
         return self.one
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lcm(a, ), returns lcm of ``a`` and ``b``) over Any    ║
+# ║ Path(lcm(a, b), a * b) over Any                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  a * b                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lcm : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6f174d2c0eacade7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.lcm","kind":"method","src_hash":"50d02a3e32102e41","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lcm(a, )","rhs":"returns lcm of ``a`` and ``b``","over":{"base":"Any"},"name":"lcm_correct"},"guarantee":"returns lcm of ``a`` and ``b``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6f174d2c0eacade7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.lcm","kind":"method","src_hash":"50d02a3e32102e41","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lcm(a, b)","rhs":"a * b","over":{"base":"Any"},"name":"lcm_correct"},"guarantee":"returns a * b","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6f174d2c0eacade7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"a * b","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lcm(self, a, b):
         """Returns LCM of ``a`` and ``b``. """
         return a*b
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(almosteq(a, ), check if ``a`` and ``b`` are almost equal) over Any ║
+# ║ Path(almosteq(a, b, tolerance), self._context.almosteq(a, b, tolerance)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._context.almosteq(a, b, tolerance)        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ almosteq : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 81b9f40354a08cef           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.almosteq","kind":"method","src_hash":"82f6ce6c3d7ba53c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"almosteq(a, )","rhs":"check if ``a`` and ``b`` are almost equal","over":{"base":"Any"},"name":"almosteq_correct"},"guarantee":"check if ``a`` and ``b`` are almost equal","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"81b9f40354a08cef"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.almosteq","kind":"method","src_hash":"82f6ce6c3d7ba53c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"almosteq(a, b, tolerance)","rhs":"self._context.almosteq(a, b, tolerance)","over":{"base":"Any"},"name":"almosteq_correct"},"guarantee":"returns self._context.almosteq(a, b, tolerance)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"81b9f40354a08cef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._context.almosteq(a, b, tolerance)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._context"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def almosteq(self, a, b, tolerance=None):
         """Check if ``a`` and ``b`` are almost equal. """
         return self._context.almosteq(a, b, tolerance)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_square(a), returns ``true`` if ``a >= 0`` and ``false`` otherwise) over Any ║
+# ║ Path(is_square(a), a >= 0) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  a >= 0                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_square : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 78c802f7d4577d01           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.is_square","kind":"method","src_hash":"61d09135f77bd96d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_square(a)","rhs":"returns ``true`` if ``a >= 0`` and ``false`` otherwise","over":{"base":"Any"},"name":"is_square_correct"},"guarantee":"returns ``true`` if ``a >= 0`` and ``false`` otherwise","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"78c802f7d4577d01"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.is_square","kind":"method","src_hash":"61d09135f77bd96d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_square(a)","rhs":"a >= 0","over":{"base":"Any"},"name":"is_square_correct"},"guarantee":"returns a >= 0","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"78c802f7d4577d01","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"a >= 0","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_square(self, a):
         """Returns ``True`` if ``a >= 0`` and ``False`` otherwise. """
         return a >= 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(exsqrt(a), non-negative square root for ``a >= 0`` and ``none`` otherwise) over Any ║
+# ║ Path(exsqrt(a), a ** 0.5 if a >= 0 else None) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  a ** 0.5 if a >= 0 else None                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ exsqrt : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a75e5dbddca93e54           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.exsqrt","kind":"method","src_hash":"8587d0d4e2afb08c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exsqrt(a)","rhs":"non-negative square root for ``a >= 0`` and ``none`` otherwise","over":{"base":"Any"},"name":"exsqrt_correct"},"guarantee":"non-negative square root for ``a >= 0`` and ``none`` otherwise","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a75e5dbddca93e54"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.realfield.RealField.exsqrt","kind":"method","src_hash":"8587d0d4e2afb08c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exsqrt(a)","rhs":"a ** 0.5 if a >= 0 else None","over":{"base":"Any"},"name":"exsqrt_correct"},"guarantee":"returns a ** 0.5 if a >= 0 else None","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a75e5dbddca93e54","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"a ** 0.5 if a >= 0 else None","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def exsqrt(self, a):
         """Non-negative square root for ``a >= 0`` and ``None`` otherwise.
 
